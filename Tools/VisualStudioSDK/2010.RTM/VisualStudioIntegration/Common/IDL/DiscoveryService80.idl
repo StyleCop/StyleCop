@@ -1,0 +1,67 @@
+//--------------------------------------------------------------------------
+// Microsoft Visual Studio
+//
+// Copyright (c) 1994-2003 Microsoft Corporation 
+// All rights reserved
+//
+//
+// DiscoveryService80.idl
+//
+//---------------------------------------------------------------------------
+
+#ifndef INTEROPLIB
+
+import "ocidl.idl";
+import "oleidl.idl";
+import "discoveryservice.idl";
+#endif
+
+interface IDiscoveryResult2;
+interface IDiscoveryClientResult;
+interface IDiscoveryClientResultCollection;
+
+
+[
+    object,
+    pointer_default(unique),
+    uuid(9947783D-B173-4fd9-8E6E-91482CF9E239)
+]
+interface IDiscoveryResult2 : IUnknown
+{
+    HRESULT DownloadServiceDocument(
+          [in] BSTR bstrDestinationPath,
+          [in] BSTR bstrDiscomapFileName,
+          [out, retval] IDiscoveryClientResultCollection **ppIDiscoveryClientResultCollection);
+}
+
+
+
+[
+    object,
+    pointer_default(unique),
+    uuid(FC5E8B09-FF17-4da6-BA39-EB8DFC314BC1)
+]
+interface IDiscoveryClientResult : IUnknown
+{
+    HRESULT GetFileName([out, retval] BSTR * pbstrFilename);
+
+    HRESULT GetReferenceTypeName([out, retval] BSTR * pbstrReferenceTypeName);
+
+    HRESULT GetUrl([out, retval] BSTR * pbstrUrl);
+}
+
+
+[
+    object,
+    pointer_default(unique),
+    uuid(BCEB2C6C-E0D1-4fa5-8DDC-977D68E8D50B)
+]
+interface IDiscoveryClientResultCollection : IUnknown
+{
+    HRESULT GetResultCount([out, retval] int *pCount);
+
+    HRESULT GetResult(
+          [in] int pIndex, 
+          [out, retval] IDiscoveryClientResult **ppIDiscoveryClientResult);
+}
+

@@ -1,0 +1,160 @@
+// DiscoveryService idl
+import "ocidl.idl";
+import "oleidl.idl";
+
+interface IVsDiscoveryService;
+interface IDiscoverUrlCallBack;
+interface IDiscoveryInfo;
+interface IDiscoveryInfoItem;
+interface IDiscoveryReferenceInfo;
+interface IServiceReferenceInfo;
+interface ISchemaReferenceInfo;
+interface IUpdateWebReferenceService;
+interface IDiscoveryResult;
+interface IReferenceInfo;
+interface IDiscoverySession;
+
+
+
+cpp_quote("#define DISCOVERY_E_PROXYSETTINGINVALID MAKE_HRESULT(SEVERITY_ERROR, FACILITY_ITF, 0x600)")
+
+enum tagDiscoveryNodeType
+{
+    DiscoveryReferenceInfo  = 1,
+    ServiceReferenceInfo    = 2,
+    SchemaReferenceInfo     = 3,
+    UnrecognizedReference   = 4
+};
+typedef enum tagDiscoveryNodeType DiscoveryNodeType;
+
+[
+    object,
+    pointer_default(unique),
+    uuid(B9A32C80-B14D-4ae3-A955-5CBC3E7FAB10)
+]
+interface IVsDiscoveryService: IUnknown
+{
+    // Create a discovery session.
+    // The session object contains credential cache.  Upon releasing the object, it will be GC.
+    //
+    HRESULT CreateDiscoverySession([out, retval] IDiscoverySession **pSessionObject);
+
+}
+cpp_quote("#define SID_SVsDiscoveryService IID_IVsDiscoveryService")
+
+[
+    object,
+    pointer_default(unique),
+    uuid(0EEA651C-B208-4ede-96CE-5194F4DC4E4A)
+]
+interface IDiscoverUrlCallBack : IUnknown 
+{
+    HRESULT NotifyDiscoverComplete([in] int cookie,
+                                   [in] IDiscoveryResult *pIDiscoveryResult);
+}
+
+
+[
+    object,
+    pointer_default(unique),
+    uuid(B9A32C91-B14D-4ae3-A955-5CBC3E75FCA5)
+]
+interface IDiscoveryResult : IUnknown 
+{
+
+    // Get the XML of document specified in DiscoverUrl().
+    HRESULT GetRawXml([out, retval] BSTR *pbstrXml);
+
+    // Get the XML of document specified in this url.
+    // This url could point to SDL, XSD, disco, and other file type.
+    HRESULT GetDocumentXml([in] BSTR url, [out, retval] BSTR *pbstrXml);
+
+    HRESULT GetReferenceCount([out, retval] int *pCount);
+
+    HRESULT GetReferenceInfo([in] int pIndex, 
+                             [out, retval] IReferenceInfo **ppIReferenceInfo);
+
+
+    HRESULT GetDiscoverySession([out, retval] IDiscoverySession **discoverySession );
+
+    HRESULT GetUrl([out, retval] BSTR *pbstrUrl);
+
+    // DiscoverUrlAsync() caches the result of the discovery.
+    // To download the files created by last discovery, call AddWebReference().
+    //
+    // 
+    // Parameter:
+    //  webSiteItem - project item where all project item should go.
+    //  destinationPath - folder where the files will be stored.
+    //
+    HRESULT AddWebReference([in] IUnknown* punkWebReferenceFolder, [in] BSTR bstrDestinationPath);
+
+    HRESULT AddWebReferenceTo([in] IUnknown* punkWebReferenceFolder, [in] BSTR bstrDestinationPath, [in] BSTR bstrDiscomapFilename);
+}
+
+[
+    object,
+    pointer_default(unique),
+    uuid(B9A32C92-B14D-4ae3-A955-5CBC3E75FCA5)
+]
+interface IReferenceInfo: IUnknown
+{
+    HRESULT GetNodeType([out, retval] DiscoveryNodeType *pType);
+
+    HRESULT GetUrl([out, retval] BSTR* ppbstrUrl);
+}
+
+
+[
+    object,
+    pointer_default(unique),
+    uuid(B9A32C92-B14D-4ae3-A955-5CBC3E75FCA8)
+]
+interface ISchemaReferenceInfo: IUnknown
+{
+    HRESULT GetTargetNamespace([out, retval] BSTR * pbstrRef);
+}
+
+[
+    object, 
+	pointer_default(unique),
+    uuid("D622FE99-2087-4d78-8B49-7B46460475FD")
+]
+interface IDiscoverySession : IUnknown
+{
+    HRESULT DiscoverUrl([in] BSTR pbstrUrl,
+                        [out, retval] IDiscoveryResult **pIDiscoveryResult);
+
+    // Return Value: Cookie, passed to CancelDiscoverUrl().
+    // Parameter:
+    //      callBack - a callback interface.  Interface contains a function in this format:
+    //                 void callBack(IdiscoverResult discoveryResult);
+    HRESULT DiscoverUrlAsync ([in] BSTR url, 
+                              [in] IDiscoverUrlCallBack *pDiscoverUrlCallBack,
+                              [out, retval] int *cookie);
+
+
+    // Cancel a discover process.  It doesn't kill the thread, just ignore the result.
+    HRESULT CancelDiscoverUrl([in] int cookie);
+
+    // If NotifyDiscoverComplete(cookie, NULL) pass in a NULL.  Client should call this
+    // method to retrieve the exception.
+    //
+    // Return Value:
+    // S_OK = No error info available.  It means the error info has erased.
+    //			   To prevent this from happening, call GetDiscoveryError() in your NotifyDiscoverComplete().
+    // Other = This method will throw the exception caught in discovery,
+    //         so HRESULT won't be S_OK.
+    //
+    HRESULT GetDiscoverError([in] int cookie);
+
+    // UpdateWebReference is similar to AddWebReference.
+    // However, UpdateWebReference discards the result of DiscoverUrlAsync(),
+    // do a web discovery itself, and add web reference.
+    // In short, UpdateWebRefernece = DiscoverUrlAsync() + AddWebReference().
+    //
+    HRESULT UpdateWebReference(
+        [in] IUnknown* punkWebReferenceFolder,    // ProjectItem of Folder containing web reference
+        [in] BSTR bstrUrl,                        // URL of the discovery service
+        [in] BSTR bstrDestinationPath);           // Destination path to do updates to.
+}

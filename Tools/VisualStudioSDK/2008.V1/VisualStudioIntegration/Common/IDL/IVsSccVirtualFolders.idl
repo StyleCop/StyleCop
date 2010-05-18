@@ -1,0 +1,70 @@
+/*----------------------------------------------------------------------
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+@doc
+@module IVsSccVirtualFolders.idl | Interface for enumerating the virtual folders within a project 
+
+@owner Source Control Integration Team
+----------------------------------------------------------------------*/
+
+#if !defined(CTC_INVOKED) && !defined(RGS_INVOKED)
+
+	// Includes -------------------------------------------------------------------
+#ifndef INTEROPLIB
+
+	import "oaidl.idl";
+	import "ocidl.idl";
+	import "vsshell.idl";
+
+#endif
+
+	// Types and Constants --------------------------------------------------------
+	//	None.
+
+	// Globals --------------------------------------------------------------------
+	//	None.
+
+	// Interfaces -----------------------------------------------------------------
+
+	/*----------------------------------------------------------------------------- 
+	Name: IVsSccVirtualFolders 
+
+	@interface IVsSccVirtualFolders  | Interface for enumerating the virtual folders within a project 
+
+	@owner Source Control Integration Team
+
+	@base public | IUnknown 
+	-----------------------------------------------------------------------------*/
+	[
+		object,
+		uuid(53544C4D-0ADC-4F55-BD82-7E8383C02CFB),
+		helpstring("IVsSccVirtualFolders"),
+		pointer_default(unique)
+	]
+	interface IVsSccVirtualFolders : IUnknown
+	{
+		/////////////////////////////////////////////////////////////////////
+		// GetVirtualFolders
+		/////////////////////////////////////////////////////////////////////
+		// Called to discover the virtual folders under the specified hierarchy node.
+		// For instance, in a localhost web project this function can return IIS virtual roots  
+		HRESULT GetVirtualFolders
+		(
+			[in] VSITEMID itemid,				// Node in project hierarchy
+			[out] CALPOLESTR *pCaStringsOut		// Returns the virtual folders under the specified hierarchy node
+		);
+
+		/////////////////////////////////////////////////////////////////////
+		// IsItemChildOfVirtualFolder
+		/////////////////////////////////////////////////////////////////////
+		// Checks whether the specified item is a child of a virtual folder
+		HRESULT IsItemChildOfVirtualFolder
+		(
+			[in] LPCOLESTR pszItemName,			// The specified item name
+			[out] VARIANT_BOOL * pfResult		// Whether the item is a file or subfolder child of a virtual folder
+		);
+	};
+
+#elif defined(RGS_INVOKED)
+#elif defined(CTC_INVOKED)
+#endif

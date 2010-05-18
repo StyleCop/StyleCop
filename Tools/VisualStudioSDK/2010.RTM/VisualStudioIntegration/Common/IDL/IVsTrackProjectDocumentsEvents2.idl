@@ -1,0 +1,417 @@
+/*-----------------------------------------------------------------------------
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+@doc
+@module IVsTrackProjectDocumentsEvents2.idl - Interface to receive document events |
+
+The point of the SVsTrackProjectDocuments is to bottleneck certain
+shell events. The alternative design would be to have all
+IVsTrackProjectDocumentsEventsSink open/close project events and QI the
+hierarchies for IVsTrackProjectDocumentsEventsSource. Instead, packages can
+Advise with the service at SetSite time. The alternative would let packages
+be selective about who they registered with, where this design gives you
+all or none of the sources.
+
+@owner Source Control Integration Team
+-----------------------------------------------------------------------------*/
+#if !defined(CTC_INVOKED) && !defined(RGS_INVOKED)
+
+cpp_quote("#pragma once")
+
+//----------------------------
+// Includes
+//----------------------------
+#include "SCGuids.h"
+
+//----------------------------
+// Imports
+//----------------------------
+#ifndef INTEROPLIB
+
+import "oaidl.idl";
+import "vsshell.idl";
+
+#endif
+
+/*-----------------------------------------------------------------------------
+Enum: VSQUERYADDFILEFLAGS
+
+@enum Flags associated with QueryAdd
+-----------------------------------------------------------------------------*/
+typedef enum tagVSQUERYADDFILEFLAGS
+{
+	VSQUERYADDFILEFLAGS_NoFlags = 0,
+	VSQUERYADDFILEFLAGS_IsSpecialFile = 1, // "Special" file i.e. an invisible file associated with another file in the project
+	VSQUERYADDFILEFLAGS_IsNestedProjectFile = 2 // Nested project (file) i.e. the file sitting on the root node of a nested project
+} VSQUERYADDFILEFLAGS;
+
+/*-----------------------------------------------------------------------------
+Enum: VSQUERYADDFILERESULTS
+
+@enum Flags associated with QueryAdd
+-----------------------------------------------------------------------------*/
+typedef enum tagVSQUERYADDFILERESULTS
+{
+	VSQUERYADDFILERESULTS_AddOK = 0,
+	VSQUERYADDFILERESULTS_AddNotOK = 1
+} VSQUERYADDFILERESULTS;
+
+/*-----------------------------------------------------------------------------
+Enum: VSADDFILEFLAGS
+
+@enum Flags associated with QueryAdd, OnAfterAdd
+-----------------------------------------------------------------------------*/
+typedef enum tagVSADDFILEFLAGS
+{
+	VSADDFILEFLAGS_NoFlags = 0,
+	VSADDFILEFLAGS_AddToSourceControlDoneExternally = 1, // File has already been added to source control
+	VSADDFILEFLAGS_IsSpecialFile = 2, // "Special" file i.e. an invisible file associated with another file in the project
+	VSADDFILEFLAGS_IsNestedProjectFile = 4 // Nested project (file) i.e. the file sitting on the root node of a nested project
+} VSADDFILEFLAGS;
+
+/*-----------------------------------------------------------------------------
+Enum: VSQUERYADDDIRECTORYFLAGS
+
+@enum Flags associated with QueryAddDirectory
+-----------------------------------------------------------------------------*/
+typedef enum tagVSQUERYADDDIRECTORYFLAGS
+{
+	VSQUERYADDDIRECTORYFLAGS_padding // no flags yet
+} VSQUERYADDDIRECTORYFLAGS;
+
+/*-----------------------------------------------------------------------------
+Enum: VSQUERYADDDIRECTORYRESULTS
+
+@enum Flags associated with QueryAddDirectory
+-----------------------------------------------------------------------------*/
+typedef enum tagVSQUERYADDDIRECTORYRESULTS
+{
+	VSQUERYADDDIRECTORYRESULTS_AddOK = 0,
+	VSQUERYADDDIRECTORYRESULTS_AddNotOK = 1
+} VSQUERYADDDIRECTORYRESULTS;
+
+/*-----------------------------------------------------------------------------
+Enum: VSADDDIRECTORYFLAGS
+
+@enum Flags associated with QueryAddDirectory
+-----------------------------------------------------------------------------*/
+typedef enum tagVSADDDIRECTORYFLAGS
+{
+	VSADDDIRECTORYFLAGS_NoFlags = 0,
+	VSADDDIRECTORYFLAGS_AddToSourceControlDoneExternally = 1 // Dir has already been added to source control
+} VSADDDIRECTORYFLAGS;
+
+/*-----------------------------------------------------------------------------
+Enum: VSQUERYREMOVEFILEFLAGS
+
+@enum Flags associated with QueryRemove
+-----------------------------------------------------------------------------*/
+typedef enum VSQUERYREMOVEFILEFLAGS
+{
+	VSQUERYREMOVEFILEFLAGS_NoFlags = 0,
+	VSQUERYREMOVEFILEFLAGS_IsSpecialFile = 1, // "Special" file i.e. an invisible file associated with another file in the project
+	VSQUERYREMOVEFILEFLAGS_IsNestedProjectFile = 2 // Nested project (file) i.e. the file sitting on the root node of a nested project
+} VSQUERYREMOVEFILEFLAGS;
+
+/*-----------------------------------------------------------------------------
+Enum: VSQUERYREMOVEFILERESULTS
+
+@enum Flags associated with QueryRemove
+-----------------------------------------------------------------------------*/
+typedef enum tagVSQUERYREMOVEFILERESULTS
+{
+	VSQUERYREMOVEFILERESULTS_RemoveOK = 0,
+	VSQUERYREMOVEFILERESULTS_RemoveNotOK = 1
+} VSQUERYREMOVEFILERESULTS;
+
+/*-----------------------------------------------------------------------------
+Enum: VSREMOVEFILEFLAGS
+
+@enum Flags associated with OnAfterRemove
+-----------------------------------------------------------------------------*/
+typedef enum tagVSREMOVEFILEFLAGS
+{
+	VSREMOVEFILEFLAGS_NoFlags = 0,
+	VSREMOVEFILEFLAGS_IsDirectoryBased = 1,
+	VSREMOVEFILEFLAGS_RemoveFromSourceControlDoneExternally = 2, // Already been removed from source control
+	VSREMOVEFILEFLAGS_IsSpecialFile = 4, // "Special" file i.e. an invisible file associated with another file in the project
+	VSREMOVEFILEFLAGS_IsNestedProjectFile = 8 // Nested project (file) i.e. the file sitting on the root node of a nested project
+} VSREMOVEFILEFLAGS;
+
+/*-----------------------------------------------------------------------------
+Enum: VSQUERYREMOVEDIRECTORYFLAGS
+
+@enum Flags associated with QueryRemoveDirectory
+-----------------------------------------------------------------------------*/
+typedef enum tagVSQUERYREMOVEDIRECTORYFLAGS
+{
+	VSQUERYREMOVEDIRECTORYFLAGS_padding // no flags yet
+} VSQUERYREMOVEDIRECTORYFLAGS;
+
+/*-----------------------------------------------------------------------------
+Enum: VSQUERYREMOVEDIRECTORYRESULTS
+
+@enum Flags associated with QueryRemoveDirectory
+-----------------------------------------------------------------------------*/
+typedef enum tagVSQUERYREMOVEDIRECTORYRESULTS
+{
+	VSQUERYREMOVEDIRECTORYRESULTS_RemoveOK = 0,
+	VSQUERYREMOVEDIRECTORYRESULTS_RemoveNotOK = 1
+} VSQUERYREMOVEDIRECTORYRESULTS;
+
+/*-----------------------------------------------------------------------------
+Enum: VSREMOVEDIRECTORYFLAGS
+
+@enum Flags associated with OnAfterRemoveDirectory
+-----------------------------------------------------------------------------*/
+typedef enum VSREMOVEDIRECTORYFLAGS
+{
+	VSREMOVEDIRECTORYFLAGS_NoFlags = 0,
+	VSREMOVEDIRECTORYFLAGS_IsDirectoryBased = 1,
+	VSREMOVEDIRECTORYFLAGS_RemoveFromSourceControlDoneExternally = 2 // Dir has already been removed from source control
+} VSREMOVEDIRECTORYFLAGS;
+
+/*-----------------------------------------------------------------------------
+Enum: VSQUERYRENAMEFILEFLAGS
+
+@enum Flags associated with QueryAdd
+-----------------------------------------------------------------------------*/
+typedef enum VSQUERYRENAMEFILEFLAGS
+{
+	VSQUERYRENAMEFILEFLAGS_NoFlags = 0,
+	VSQUERYRENAMEFILEFLAGS_IsSpecialFile = 1, // "Special" file i.e. an invisible file associated with another file in the project
+	VSQUERYRENAMEFILEFLAGS_IsNestedProjectFile = 2, // Nested project (file) i.e. the file sitting on the root node of a nested project
+	VSQUERYRENAMEFILEFLAGS_Directory = 0x00000020 // Rename refers to a disk directory, not a file
+} VSQUERYRENAMEFILEFLAGS;
+
+/*-----------------------------------------------------------------------------
+Enum: VSQUERYRENAMEFILERESULTS
+
+@enum Flags associated with QueryAdd
+-----------------------------------------------------------------------------*/
+typedef enum tagVSQUERYRENAMEFILERESULTS
+{
+	VSQUERYRENAMEFILERESULTS_RenameOK = 0,
+	VSQUERYRENAMEFILERESULTS_RenameNotOK = 1
+} VSQUERYRENAMEFILERESULTS;
+
+/*-----------------------------------------------------------------------------
+Enum: VSRENAMEFILEFLAGS
+
+@enum Flags associated with QueryAdd
+-----------------------------------------------------------------------------*/
+typedef enum tagVSRENAMEFILEFLAGS
+{
+	VSRENAMEFILEFLAGS_NoFlags = 0,	
+// REVIEW what about if we are under automation?
+	VSRENAMEFILEFLAGS_FromShellCommand		= 0x00000001,
+	VSRENAMEFILEFLAGS_FromScc				= 0x00000002,
+	VSRENAMEFILEFLAGS_FromFileChange		= 0x00000004,
+// REVIEW these last two might be redundant. Each implies not the other.
+	VSRENAMEFILEFLAGS_WasQueried			= 0x00000008,
+	VSRENAMEFILEFLAGS_AlreadyOnDisk			= 0x00000010,
+	VSRENAMEFILEFLAGS_Directory				= 0x00000020, // Rename refers to a disk directory, not a file
+	VSRENAMEFILEFLAGS_RenameInSourceControlDoneExternally = 0x00000040, // Already been renamed in source control
+	VSRENAMEFILEFLAGS_IsSpecialFile			= 0x00000080, // "Special" file i.e. an invisible file associated with another file in the project
+	VSRENAMEFILEFLAGS_IsNestedProjectFile	= 0x00000100, // Nested project (file) i.e. the file sitting on the root node of a nested project
+	VSRENAMEFILEFLAGS_ALL					= 0x000001FF,
+	VSRENAMEFILEFLAGS_INVALID				= 0xFFFFFE00
+} VSRENAMEFILEFLAGS;
+
+/*-----------------------------------------------------------------------------
+Enum: VSQUERYRENAMEDIRECTORYFLAGS
+
+@enum Flags associated with QueryAdd
+-----------------------------------------------------------------------------*/
+typedef enum tagVSQUERYRENAMEDIRECTORYFLAGS
+{
+	VSQUERYRENAMEDIRECTORYFLAGS_padding // no flags yet
+} VSQUERYRENAMEDIRECTORYFLAGS;
+
+/*-----------------------------------------------------------------------------
+Enum: VSQUERYRENAMEDIRECTORYRESULTS
+
+@enum Flags associated with QueryAdd
+-----------------------------------------------------------------------------*/
+typedef enum tagVSQUERYRENAMEDIRECTORYRESULTS
+{
+	VSQUERYRENAMEDIRECTORYRESULTS_RenameOK = 0,
+	VSQUERYRENAMEDIRECTORYRESULTS_RenameNotOK = 1
+} VSQUERYRENAMEDIRECTORYRESULTS;
+
+/*-----------------------------------------------------------------------------
+Enum: VSRENAMEDIRECTORYFLAGS
+
+@enum Flags associated with QueryAdd
+-----------------------------------------------------------------------------*/
+typedef enum tagVSRENAMEDIRECTORYFLAGS
+{
+	VSRENAMEDIRECTORYFLAGS_NoFlags = 0,
+	VSRENAMEDIRECTORYFLAGS_RenameInSourceControlDoneExternally = 1 // Already been renamed in source control
+} VSRENAMEDIRECTORYFLAGS;
+
+/*-----------------------------------------------------------------------------
+Interface: IVsTrackProjectDocumentsEvents2
+
+Projects use this service to receive events that happen on files and folders
+
+Before adding, renaming, or deleting a file or directory, the project must call
+the appropriate TrackProjectDocuments2 method in order to check whether this
+operation is allowed.  When the operation is completion, the project must
+notify the TrackProjectDocuments2 service, so that appropriate notifications
+can be sent out.
+
+This interface sinks these events.  When the project issues the calls to
+TrackProjectDocuments2, the service passes the notifications and queries
+on to the sinks.
+
+The parameters to these functions generally consist of: 
+(Note all arrays have an associated parameter that is the size of that array.)
+
+a) The relevant IVsProject, or array of IVsProject pointers
+
+b) Flags regarding the operation taking place
+
+c) Array of documents, sorted by project.  If there is only one project, then the
+ordering of files does not matter.  If there is more than one project, the
+files must be grouped by their associated projects.
+
+d) Array of "first indices".  These indices relate the array of projects to the
+array of documents.  Their is one "first index" for each project, which points
+to the first file in the array of documents that is controled by that project.
+Since the array of documents is sorted by projects, all the indices greater than
+one first index, and less than the next first index belong to a given project.
+For example:
+Projects: 0) VisualBasic_Project 1) MFC_Project 2) FoxProProject
+Indices:  0) 0                   5              8
+Documents: 0) a 1) b 2) c 3) d 4) e 5) f 6) g 7) h 8)i 9) j 10) k 11) l
+
+Documents a,b,c,d,e  belong to VisualBasic_project.
+Documents f,g,h      belong to MFC_Project
+Documents i, j, k, l belong to FoxProProject
+
+e) Result flags: Is this operation allowed?
+
+@base public | IUnknown
+
+@hung scm2
+-----------------------------------------------------------------------------*/
+[ uuid(uuid_IVsTrackProjectDocumentsEvents2) ]
+interface IVsTrackProjectDocumentsEvents2 : IUnknown
+{
+	// no batching
+	HRESULT OnQueryAddFiles(
+		[in] IVsProject *pProject,
+		[in] int cFiles,
+		[in, size_is(cFiles)] const LPCOLESTR rgpszMkDocuments[],
+		[in, size_is(cFiles)] const VSQUERYADDFILEFLAGS rgFlags[],
+		[out] VSQUERYADDFILERESULTS *pSummaryResult,
+		[out, size_is(cFiles)] VSQUERYADDFILERESULTS rgResults[]);
+
+	HRESULT OnAfterAddFilesEx(
+		[in] int cProjects,
+		[in] int cFiles,
+		[in, size_is(cProjects)] IVsProject *rgpProjects[],
+		[in, size_is(cProjects)] const int rgFirstIndices[],
+		[in, size_is(cFiles)] const LPCOLESTR rgpszMkDocuments[],
+		[in, size_is(cFiles)] const VSADDFILEFLAGS rgFlags[]);
+
+	HRESULT OnAfterAddDirectoriesEx(
+		[in] int cProjects,
+		[in] int cDirectories,
+		[in, size_is(cProjects)] IVsProject *rgpProjects[],
+		[in, size_is(cProjects)] const int rgFirstIndices[],
+		[in, size_is(cDirectories)] const LPCOLESTR rgpszMkDocuments[],
+		[in, size_is(cDirectories)] const VSADDDIRECTORYFLAGS rgFlags[]);
+
+	HRESULT OnAfterRemoveFiles(
+		[in] int cProjects,
+		[in] int cFiles,
+		[in, size_is(cProjects)] IVsProject *rgpProjects[],
+		[in, size_is(cProjects)] const int rgFirstIndices[],
+		[in, size_is(cFiles)] const LPCOLESTR rgpszMkDocuments[],
+		[in, size_is(cFiles)] const VSREMOVEFILEFLAGS rgFlags[]);
+
+	HRESULT OnAfterRemoveDirectories(
+		[in] int cProjects,
+		[in] int cDirectories,
+		[in, size_is(cProjects)] IVsProject *rgpProjects[],
+		[in, size_is(cProjects)] const int rgFirstIndices[],
+		[in, size_is(cDirectories)] const LPCOLESTR rgpszMkDocuments[],
+		[in, size_is(cDirectories)] const VSREMOVEDIRECTORYFLAGS rgFlags[]);
+
+	// no batching
+	HRESULT OnQueryRenameFiles(
+		[in] IVsProject *pProject,
+		[in] int cFiles,
+		[in, size_is(cFiles)] const LPCOLESTR rgszMkOldNames[],
+		[in, size_is(cFiles)] const LPCOLESTR rgszMkNewNames[],
+		[in, size_is(cFiles)] const VSQUERYRENAMEFILEFLAGS rgflags[],
+		[out] VSQUERYRENAMEFILERESULTS *pSummaryResult,
+		[out, size_is(cFiles)] VSQUERYRENAMEFILERESULTS rgResults[]);
+
+	HRESULT OnAfterRenameFiles(
+		[in] int cProjects,
+		[in] int cFiles,
+		[in, size_is(cProjects)] IVsProject *rgpProjects[],
+		[in, size_is(cProjects)] const int rgFirstIndices[],
+		[in, size_is(cFiles)] const LPCOLESTR rgszMkOldNames[],
+		[in, size_is(cFiles)] const LPCOLESTR rgszMkNewNames[],
+		[in, size_is(cFiles)] const VSRENAMEFILEFLAGS rgflags[]);
+
+	// no batching
+	HRESULT OnQueryRenameDirectories(
+		[in] IVsProject *pProject,
+		[in] int cDirs,
+		[in, size_is(cDirs)] const LPCOLESTR rgszMkOldNames[],
+		[in, size_is(cDirs)] const LPCOLESTR rgszMkNewNames[],
+		[in, size_is(cDirs)] const VSQUERYRENAMEDIRECTORYFLAGS rgflags[],
+		[out] VSQUERYRENAMEDIRECTORYRESULTS *pSummaryResult,
+		[out, size_is(cDirs)] VSQUERYRENAMEDIRECTORYRESULTS rgResults[]);
+
+	HRESULT OnAfterRenameDirectories(
+		[in] int cProjects,
+		[in] int cDirs,
+		[in, size_is(cProjects)] IVsProject *rgpProjects[],
+		[in, size_is(cProjects)] const int rgFirstIndices[],
+		[in, size_is(cDirs)] const LPCOLESTR rgszMkOldNames[],
+		[in, size_is(cDirs)] const LPCOLESTR rgszMkNewNames[],
+		[in, size_is(cDirs)] const VSRENAMEDIRECTORYFLAGS rgflags[]);
+
+	// no batching
+	HRESULT OnQueryAddDirectories(
+		[in] IVsProject *pProject,
+		[in] int cDirectories,
+		[in, size_is(cDirectories)] const LPCOLESTR rgpszMkDocuments[],
+		[in, size_is(cDirectories)] const VSQUERYADDDIRECTORYFLAGS rgFlags[],
+		[out] VSQUERYADDDIRECTORYRESULTS *pSummaryResult,
+		[out, size_is(cDirectories)] VSQUERYADDDIRECTORYRESULTS rgResults[]);
+
+	// no batching
+	HRESULT OnQueryRemoveFiles(
+		[in] IVsProject *pProject,
+		[in] int cFiles,
+		[in, size_is(cFiles)] const LPCOLESTR rgpszMkDocuments[],
+		[in, size_is(cFiles)] const VSQUERYREMOVEFILEFLAGS rgFlags[],
+		[out] VSQUERYREMOVEFILERESULTS *pSummaryResult,
+		[out, size_is(cFiles)] VSQUERYREMOVEFILERESULTS rgResults[]);
+
+	// no batching
+	HRESULT OnQueryRemoveDirectories(
+		[in] IVsProject *pProject,
+		[in] int cDirectories,
+		[in, size_is(cDirectories)] const LPCOLESTR rgpszMkDocuments[],
+		[in, size_is(cDirectories)] const VSQUERYREMOVEDIRECTORYFLAGS rgFlags[],
+		[out] VSQUERYREMOVEDIRECTORYRESULTS *pSummaryResult,
+		[out, size_is(cDirectories)] VSQUERYREMOVEDIRECTORYRESULTS rgResults[]);
+
+	HRESULT OnAfterSccStatusChanged(
+		[in] int cProjects,
+		[in] int cFiles,
+		[in, size_is(cProjects)] IVsProject *rgpProjects[],
+		[in, size_is(cProjects)] const int rgFirstIndices[],
+		[in, size_is(cFiles)] const LPCOLESTR rgpszMkDocuments[],
+		[in, size_is(cFiles)] const DWORD rgdwSccStatus[]);
+};
+
+#endif

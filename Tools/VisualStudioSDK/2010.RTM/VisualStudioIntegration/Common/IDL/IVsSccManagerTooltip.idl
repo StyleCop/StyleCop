@@ -1,0 +1,40 @@
+/*-----------------------------------------------------------------------------
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+@doc
+@module IVSSCCMANAGERTOOLTIP.IDL - Interface for SCC tooltips |
+-----------------------------------------------------------------------------*/
+
+
+// Includes -------------------------------------------------------------------
+
+#ifndef INTEROPLIB
+
+import "objidl.idl";
+import "vsshell.idl";
+
+#endif 
+
+#include "VseeGuids.h"
+
+/*-----------------------------------------------------------------------------
+Name: IVsSccManagerTooltip
+
+@class IVsSccManagerTooltip |
+
+This interface is intended to provide access to SCC data to construct the
+tooltip text in the solution explorer.
+
+@base public | IUnknown
+
+-----------------------------------------------------------------------------*/
+[ uuid(uuid_IVsSccManagerTooltip) ]
+interface IVsSccManagerTooltip : IUnknown
+{
+	HRESULT GetGlyphTipText
+	(
+		[in] IVsHierarchy *phierHierarchy,
+		[in] VSITEMID itemidNode,
+		[out, retval] BSTR *pbstrTooltipText
+	);
+}

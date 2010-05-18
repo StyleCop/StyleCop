@@ -1,0 +1,258 @@
+//--------------------------------------------------------------------------
+// Microsoft Visual Studio
+//
+// Copyright (c) 1994-1999 Microsoft Corporation
+// All rights reserved
+//
+//
+// enumpkg.idl
+//
+//---------------------------------------------------------------------------
+
+#ifndef INTEROPLIB
+
+import "oaidl.idl";
+import "ocidl.idl";
+import "vsshell.idl";
+import "discoveryservice.idl";
+#endif
+
+// What type of enumeration do we want?
+enum CompEnum
+{
+    CompEnumType_COM2 = 100,
+    CompEnumType_COMPlus,
+    CompEnumType_AssemblyPaths,
+};
+
+
+//----------------------------------------------------------------------
+// IVsAddWebReferenceDlg - puts up the Add Web Reference dialog allowing
+// the user to pick a web reference url - which is returned by the dialog.
+//----------------------------------------------------------------------
+[
+    uuid(BD71396F-39C6-4e3f-BBA2-79CE33A8B302),
+    version(1.0)
+]
+interface  IVsAddWebReferenceDlg: IUnknown
+{
+    HRESULT AddWebReferenceDlg(
+                [out] BSTR* pbstrWebReferenceUrl,
+                [out] BOOL* pfCancelled);
+
+};
+
+//----------------------------------------------------------------------
+// IVsAddWebReferenceDlg2 - Same as above, except it allow the user to
+// enter a default name for the web service.
+//----------------------------------------------------------------------
+[
+    uuid(FE037B96-A8D1-4961-A3F3-E969094BA978),
+    version(1.0)
+]
+interface  IVsAddWebReferenceDlg2: IUnknown
+{
+    HRESULT AddWebReferenceDlg(
+                [in]  IDiscoverySession* pDiscoverySession,	// Session to use. Can be NULL.
+                [out] BSTR* pbstrWebReferenceUrl,
+                [out] BSTR* pbstrWebReferenceName,
+                [out] IDiscoveryResult** ppIDiscoveryResult,    // IDiscoveryResult from which you can call AddWebReference(). You can pass NULL if you don't need this
+                [out] BOOL* pfCancelled);
+
+};
+cpp_quote("#define SID_SVsAddWebReferenceDlg IID_IVsAddWebReferenceDlg")
+
+////////////////////////////////////////////////////////////////////////////
+// Enumeration interface
+
+[
+    uuid(9a04b730-656c-11d3-85fc-00c04f6123b3),
+    helpstring("IEnumComponents interface"),
+    pointer_default(unique)
+]
+interface IEnumComponents : IUnknown
+{
+    HRESULT Next([in] ULONG celt,
+                 [out, size_is(celt), length_is(*pceltFetched)] VSCOMPONENTSELECTORDATA* rgelt,
+                 [out] ULONG *pceltFetched);
+
+    HRESULT Skip([in] ULONG celt);
+    HRESULT Reset();
+    HRESULT Clone([out] IEnumComponents **ppIEnumComponents);
+};
+
+[
+    uuid(45bd8e74-6727-11d3-8600-00c04f6123b3),
+    helpstring("IVsComponentSelectorData interface"),
+    pointer_default(unique)
+]
+interface IVsComponentSelectorData : IUnknown
+{
+    HRESULT GetData([out] VSCOMPONENTSELECTORDATA* pData);
+};
+
+////////////////////////////////////////////////////////////////////////////
+// Interface supported by the service object
+
+[
+    uuid(332cedee-6610-11d3-85fd-00c04f6123b3),
+    helpstring("IVsComponentEnumeratorFactory Interface"),
+    pointer_default(unique)
+]
+interface IVsComponentEnumeratorFactory : IUnknown
+{
+    HRESULT GetComponents([in] BSTR bstrMachineName, [in] LONG lEnumType, [in] BOOL bForceRefresh, [out] IEnumComponents** pEnumerator);
+};
+
+////////////////////////////////////////////////////////////////////////////
+// Interface supported by the service object
+// Adds the ability to pass in path info.
+[
+    uuid(64F6B8C1-3DEC-4606-8C8C-651A7E26A3DE),
+    helpstring("IVsComponentEnumeratorFactory2 Interface"),
+    pointer_default(unique)
+]
+interface IVsComponentEnumeratorFactory2: IVsComponentEnumeratorFactory
+{
+    // Vsa added an implemenation where vtOptions can be a VT_BSTR containing
+    // a semi-colon delimited path list.  Component picker will then only display
+    // the specified paths.  This implementation only exists for an lEnumType of
+    // CompEnumType_AssemblyPaths so you will need to add implemenation if you
+    // want to use this for anything else.
+    HRESULT GetComponentsOfPath([in] BSTR bstrMachineName, [in] LONG lEnumType, [in] BOOL bForceRefresh, [in] BSTR bstrPath, [out] IEnumComponents** pEnumerator);
+};
+
+////////////////////////////////////////////////////////////////////////////
+// Interfaces supported by the actual objects that enumerate the
+// COM2/COM+ components on a machine
+
+[
+    uuid(4df7bba0-660f-11d3-85fd-00c04f6123b3),
+    helpstring("IVsProvideComponentEnumeration interface"),
+    pointer_default(unique),
+    dual
+]
+interface IVsProvideComponentEnumeration : IDispatch
+{
+    HRESULT WriteXMLToFile([in] BSTR bstrDesiredFile, [out] BSTR* pbstrActualFile);
+};
+
+
+///////////////////////////////////////////////////////////////////////////
+// TypeLib
+
+[
+    uuid(39e3ed68-6610-11d3-85fd-00c04f6123b3),
+    version(1.0),
+    helpstring("Visual Studio CcomponentServices 1.0 Type Library")
+]
+library CompServicesLib
+{
+    importlib("stdole32.tlb");
+    importlib("stdole2.tlb");
+
+    [
+        uuid(588205e0-66e0-11d3-8600-00c04f6123b3),
+        helpstring("Component Enumerator Package")
+    ]
+    coclass CCompServicesPackage
+    {
+        [default] interface IVsPackage;
+    };
+
+    [
+        uuid(3129723e-660f-11d3-85fd-00c04f6123b3),
+        helpstring("COM2 Component Enumerator")
+    ]
+    coclass CCom2Enumerator
+    {
+        [default] interface IVsProvideComponentEnumeration;
+    }
+
+    [
+        uuid(f5bd4a64-67a2-11d3-8600-00c04f6123b3),
+        helpstring("COM+ Component Enumerator")
+    ]
+    coclass CComPlusEnumerator
+    {
+        [default] interface IVsProvideComponentEnumeration;
+    }
+
+};
+
+// SID_SCompEnumService -- {33a24090-6565-11d3-85fc-00c04f6123b3}
+cpp_quote("const IID SID_SCompEnumService = { 0x33a24090, 0x6565, 0x11d3, 0x85, 0xfc, 0x00, 0xc0, 0x4f, 0x61, 0x23, 0xb3 }; ")
+
+/////////////////////////////////////////////////////////////////////////
+// IVsTypeLibraryWrapperCallback
+
+[
+    uuid(AFF2B95E-229B-4A14-A422-E99452AD2F8C),
+    hidden,
+    restricted
+]
+interface IVsTypeLibraryWrapperCallback : IUnknown
+{
+    HRESULT GetAssembly([in] LPCOLESTR wszFusionName,
+                        [out,retval] BSTR* pbstrPath);
+
+    HRESULT GetComClassic([in] TLIBATTR* pTypeLibAttr,
+                          [in] LPCOLESTR wszWrapperTool,
+                          [out] BOOL* pDelaySigned,
+                          [out] BSTR* pbstrWrapperTool,
+                          [out,retval] BSTR* pbstrPath);
+
+    HRESULT GetComClassicByTypeLibName([in] LPCOLESTR wszTypeLibName,
+                                       [out] TLIBATTR* pTypeLibAttr,
+                                       [out] BOOL* pDelaySigned,
+                                       [out] BSTR* pbstrWrapperTool,
+                                       [out,retval] BSTR* pbstrPath);
+}
+
+////////////////////////////////////////////////////////////////////////
+// IVsTypeLibraryWrapper
+
+[
+    uuid(E6065B70-C9B6-4636-80F5-1CF92D7ECE5B),
+    hidden,
+    restricted
+]
+interface IVsTypeLibraryWrapper : IUnknown
+{
+    HRESULT WrapTypeLibrary([in] TLIBATTR* pTypeLibToWrap,
+                            [in] LPCOLESTR wszDestinationDirectory,
+                            [in] LPCOLESTR wszKeyFile,
+                            [in] LPCOLESTR wszKeyContainer,
+                            [in] BOOL bDelaySign,
+                            [in] IVsTypeLibraryWrapperCallback* pCallback,
+                            [out] BSTR** rgbstrWrapperPaths,
+                            [out] TLIBATTR** rgWrappedTypeLibs,
+                            [out] BOOL** rgbGenerated,
+                            [out] BSTR** rgbstrWrapperTools,
+                            [out] ULONG* pcWrappedTypeLibs);
+
+    HRESULT GetMainWrapperFilename([in] TLIBATTR* pTypeLibToWrap,
+                                   [out,retval] BSTR* pbstrFileName);
+
+    HRESULT NeedsRegeneration([in] TLIBATTR* pTypeLibToWrap,
+                              [in] LPCOLESTR wszKeyFile,
+                              [in] LPCOLESTR wszKeyContainerName,
+                              [in] BOOL bDelaySign,
+                              [in] BOOL bCurrentlyDelaySigned,
+                              [in] LPCOLESTR wszExistingWrapperFilename,
+                              [out,retval] BOOL* pbNeedsRegeneration);
+
+    HRESULT GetMainWrapperFriendlyName([in] TLIBATTR* pTypeLibToWrap,
+                                       [out,retval] BSTR* pbstrFileName);
+}
+
+////////////////////////////////////////////////////////////////////////
+// CoClass declaration for the Primary Interop Assembly wrapper
+
+[
+    uuid(0c075ae9-42ac-4bef-87a1-85c1bfed9f1f)
+]
+coclass VSPIAImporter
+{
+    [default] interface IVsTypeLibraryWrapper;
+}

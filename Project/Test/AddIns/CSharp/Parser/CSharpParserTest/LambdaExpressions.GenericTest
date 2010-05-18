@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<GenericTest name="lambdaexpressions" storage="c:\depot\stylecop\v4.3\test\addins\csharp\parser\csharpparsertest\lambdaexpressions.generictest" id="0d96c934-f4b4-45a0-9ff5-ff5afbb9f597" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Css projectStructure="" iteration="" />
+  <Description>Executes external testing system with specified parameters.</Description>
+  <Owners>
+    <Owner name="" />
+  </Owners>
+  <Command filename="%TestBin%\StyleCopTestHarness.exe" arguments="/testname:LambdaExpressions /i:&quot;%TestDeploymentDir%&quot; /o:&quot;%TestOutputDirectory%&quot; /testroot:%TestLocation%" workingDirectory="%TestOutputDirectory%" />
+  <SummaryXmlFile enabled="true" path="%TestOutputDirectory%\LambdaExpressionsResults.xml" />
+</GenericTest>

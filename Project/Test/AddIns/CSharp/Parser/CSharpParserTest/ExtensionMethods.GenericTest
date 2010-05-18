@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<GenericTest name="extensionmethods" storage="c:\depot\stylecop\v4.3\test\addins\csharp\parser\csharpparsertest\extensionmethods.generictest" id="0660bb31-8477-4316-b1da-d35761e26a46" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Css projectStructure="" iteration="" />
+  <Description>Executes external testing system with specified parameters.</Description>
+  <Owners>
+    <Owner name="" />
+  </Owners>
+  <Execution id="6507513b-bcb6-4f06-a109-17e5edb913d6" />
+  <Command filename="%TestBin%\StyleCopTestHarness.exe" arguments="/testname:ExtensionMethods /i:&quot;%TestDeploymentDir%&quot; /o:&quot;%TestOutputDirectory%&quot; /testroot:%TestLocation%" workingDirectory="%TestOutputDirectory%" />
+  <SummaryXmlFile enabled="true" path="%TestOutputDirectory%\ExtensionMethodsResults.xml" />
+</GenericTest>

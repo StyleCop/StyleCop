@@ -1,0 +1,50 @@
+/****************************************************************************
+*  The VSSHELL Interfaces
+*  Copyright (c) 2001-2002, Microsoft Corporation, All Rights Reserved
+*  Information Contained Herein Is Proprietary and Confidential.
+****************************************************************************/
+
+#ifndef INTEROPLIB
+
+// Imports - all imports should go here (inside the ifndef)
+import "textfind2.idl";
+
+#endif
+
+/****************************************************************************
+********    IMPORTANT!!   *********
+
+All guids for interfaces and co-creatable objects in this file should be defined
+in textmgruuids.h
+
+****************************************************************************/
+#include "textmgruuids.h"
+
+//================================================================
+// IVsFindCancelDialog
+/*
+This interface will launch a modeless dialog on the background thread
+which allows for users to cancel out of a find/replace operation.
+
+First, users need to call LaunchDialog() to launch the dialog.  To query the dialog regularly 
+and see whether users want to cancel call QueryDialog().
+
+Lastly, users need to dismiss the dialog by calling CloseDialog()
+
+However, most of the time it only makes sense to launch this dialog if find is occuring on the foreground thread, because
+if the search takes a long time it will appear as if the application hung.  Users may want to differentiate functionality in 
+LaunchDialog/QueryDialog/CloseDialog if find is already occuring on the background thread.
+*/
+[
+  uuid(uuid_IVsFindCancelDialog2),
+  version(1.0),
+  pointer_default(unique)
+]
+interface IVsFindCancelDialog2 : IUnknown
+{
+  // HRESULT LaunchDialog();
+  // HRESULT QueryDialog( [out] BOOL * pfCancel );
+  // HRESULT CloseDialog();
+  HRESULT DialogAlreadyLaunched( [out] BOOL * pfLaunched );
+};
+

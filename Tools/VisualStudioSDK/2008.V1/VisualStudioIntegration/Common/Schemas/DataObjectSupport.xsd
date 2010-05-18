@@ -1,0 +1,888 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+<copyright file="DataObjectSupport.xsd" company="Microsoft">
+	Copyright (c) Microsoft Corporation.  All rights reserved.
+</copyright>
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0"
+	xmlns:dos="http://schemas.microsoft.com/VisualStudio/2007/07/Data/DataObjectSupport"
+	targetNamespace="http://schemas.microsoft.com/VisualStudio/2007/07/Data/DataObjectSupport"
+ 	elementFormDefault="qualified">
+	<xs:annotation>
+		<xs:documentation>
+			The Data Object Support XML file allows a DDEX provider to define the
+			structure of their data source in terms of a set of objects.  This
+			definition does not represent the actual data on the data source (e.g.
+			the rows in a table), nor does it represent the structure of data on the
+			data source (e.g. the list of tables).  It abstracts one level further
+			to represent the structure of the structure of data on the data source.
+			For example, it does not define that a table column has name "id" and
+			type "integer" but rather it defines that there exists a type called
+			"table column" that has properties "name" and "type".  The resulting
+			definitions allow upstream data designers to represent and design
+			the structure of data sources.
+		</xs:documentation>
+	</xs:annotation>
+	<xs:element name="DataObjectSupport" type="dos:DataObjectSupportType" />
+	<xs:complexType name="DataObjectSupportType">
+		<xs:annotation>
+			<xs:documentation>
+				Represents the root element in the file.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Import" type="dos:ImportType" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="Define" type="dos:DefineType" minOccurs="0" maxOccurs="unbounded" />
+			<xs:choice minOccurs="0">
+				<xs:element name="Types" type="dos:TypesType" />
+				<xs:element name="TypesRef" type="dos:InsertType" />
+			</xs:choice>
+			<xs:choice minOccurs="0">
+				<xs:element name="MappedTypes" type="dos:MappedTypesType" />
+				<xs:element name="MappedTypesRef" type="dos:InsertType" />
+			</xs:choice>
+		</xs:sequence>
+		<xs:anyAttribute namespace="##other" processContents="lax" />
+	</xs:complexType>
+	<xs:complexType name="ImportType">
+		<xs:annotation>
+			<xs:documentation>
+				Imports definitions from another data object support source.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="name" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>
+					Specifies a name that identifies the source to import.  This name
+					will be passed to the provider's IVsDataSupportImportResolver.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:anyAttribute namespace="##other" processContents="lax" />
+	</xs:complexType>
+	<xs:complexType name="DefineType">
+		<xs:annotation>
+			<xs:documentation>
+				Defines a shareable fragment of data object support.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="Types" type="dos:TypesType" minOccurs="0" />
+			<xs:element name="RootType" type="dos:RootTypeType" minOccurs="0" />
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="Type" type="dos:TypeType" />
+				<xs:element name="TypeRef" type="dos:InsertType" />
+				<xs:element name="TypeListRef" type="dos:InsertType" />
+			</xs:choice>
+			<xs:element name="Identifier" type="dos:IdentifierType" />
+			<xs:choice maxOccurs="unbounded">
+				<xs:element name="IdentifierPart" type="dos:IdentifierPartType" />
+				<xs:element name="IdentifierPartRef" type="dos:InsertType" />
+				<xs:element name="IdentifierPartListRef" type="dos:InsertType" />
+			</xs:choice>
+			<xs:element name="Properties" type="dos:PropertiesType" minOccurs="0" />
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="Property" type="dos:PropertyType" />
+				<xs:element name="PropertyRef" type="dos:InsertType" />
+				<xs:element name="PropertyListRef" type="dos:InsertType" />
+			</xs:choice>
+			<xs:element name="Services" type="dos:ServicesType" minOccurs="0" />
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="Service" type="dos:ServiceType" />
+				<xs:element name="ServiceRef" type="dos:InsertType" />
+				<xs:element name="ServiceListRef" type="dos:InsertType" />
+			</xs:choice>
+			<xs:element name="MappedTypes" type="dos:MappedTypesType" minOccurs="0" />
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="MappedType" type="dos:MappedTypeType" />
+				<xs:element name="MappedTypeRef" type="dos:InsertType" />
+				<xs:element name="MappedTypeListRef" type="dos:InsertType" />
+			</xs:choice>
+			<xs:element name="Selection" type="dos:SelectionType" />
+			<xs:element name="SubstitutionValues" type="dos:SubstitutionValuesType" minOccurs="0" />
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="SubstitutionValue" type="dos:SubstitutionValueType" />
+				<xs:element name="SubstitutionValueRef" type="dos:InsertType" />
+				<xs:element name="SubstitutionValueListRef" type="dos:InsertType" />
+			</xs:choice>
+			<xs:element name="MappedIdentifier" type="dos:MappedIdentifierType" minOccurs="0" />
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="MappedIdentifierPart" type="dos:MappedIdentifierPartType" />
+				<xs:element name="MappedIdentifierPartRef" type="dos:InsertType" />
+				<xs:element name="MappedIdentifierPartListRef" type="dos:InsertType" />
+			</xs:choice>
+			<xs:element name="MappedProperties" type="dos:MappedPropertiesType" minOccurs="0" />
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="MappedProperty" type="dos:MappedPropertyType" />
+				<xs:element name="MappedPropertyRef" type="dos:InsertType" />
+				<xs:element name="MappedPropertyListRef" type="dos:InsertType" />
+			</xs:choice>
+			<xs:element name="Conversion" type="dos:MappedTypeMemberConversionType" minOccurs="0" />
+			<xs:element name="Parameters" type="dos:ParametersType" minOccurs="0" maxOccurs="unbounded" />
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="Parameter" type="dos:ParameterType" />
+				<xs:element name="ParameterRef" type="dos:InsertType" />
+				<xs:element name="ParameterListRef" type="dos:InsertType" />
+			</xs:choice>
+		</xs:choice>
+		<xs:attribute name="name" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>
+					Specifies the name of this definition.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="parameters" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>
+					Specifies the parameters expected by this definition.  Parameters
+					give a way to transform the contents of a define based on inputs
+					from the inserting element.  A parameter value is a string that can be
+					substituted in attribute or element values using the format "$(name)".
+					The format of this attribute is a comma-delimited list of parameter
+					names.  These names can only contain letters or digits.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:anyAttribute namespace="##other" processContents="lax" />
+	</xs:complexType>
+	<xs:complexType name="InsertType">
+		<xs:annotation>
+			<xs:documentation>
+				Inserts definitions in place of this element.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="name" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>
+					Specifies the name of the definition to insert.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="arguments" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>
+					Specifies the arguments to pass to the definition as a comma-
+					delimited list of strings.  If a value contains a comma, the comma
+					can be embedded in the value by specifying a double comma (",,").
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:anyAttribute namespace="##other" processContents="lax" />
+	</xs:complexType>
+	<xs:complexType name="TypesType">
+		<xs:annotation>
+			<xs:documentation>
+				Represents the list of object types that define the structure of the
+				data source in terms of a set of objects.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:choice minOccurs="0">
+				<xs:element name="RootType" type="dos:RootTypeType" />
+				<xs:element name="RootTypeRef" type="dos:InsertType" />
+			</xs:choice>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="Type" type="dos:TypeType" />
+				<xs:element name="TypeRef" type="dos:InsertType" />
+				<xs:element name="TypeListRef" type="dos:InsertType" />
+			</xs:choice>
+		</xs:sequence>
+		<xs:anyAttribute namespace="##other" processContents="lax" />
+	</xs:complexType>
+	<xs:complexType name="RootTypeType">
+		<xs:annotation>
+			<xs:documentation>
+				Represents the definition of the root object type.  A root object type
+				has no identifier and there is only ever one instance of the type.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="dos:CommonTypeElements" />
+		</xs:sequence>
+		<xs:anyAttribute namespace="##other" processContents="lax" />
+	</xs:complexType>
+	<xs:complexType name="TypeType">
+		<xs:annotation>
+			<xs:documentation>
+				Represents the definition of an object type.  Each instance of a type
+				must have a unique identifier composed of one or more identifier parts
+				in order to distinguish it from all other instances.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="dos:VersionableElementType">
+				<xs:sequence>
+					<xs:choice>
+						<xs:element name="Identifier" type="dos:IdentifierType" />
+						<xs:element name="IdentifierRef" type="dos:InsertType" />
+					</xs:choice>
+					<xs:group ref="dos:CommonTypeElements" />
+				</xs:sequence>
+				<xs:attribute name="name" type="xs:string" use="required">
+					<xs:annotation>
+						<xs:documentation>
+							Specifies the name of the type.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="nameProperty" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>
+							Specifies the name of a property defined on the type that
+							represents the unqualified name of instances of the type.  If
+							unspecified, a property called "Name" will be chosen if it
+							exists, otherwise instances of the type are considered nameless.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="preferredOrdering" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>
+							Specifies the preferred ordering for collections of instances
+							of the type.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:anyAttribute namespace="##other" processContents="lax" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="IdentifierType">
+		<xs:annotation>
+			<xs:documentation>
+				Represents the definition of an identifier of an object type by
+				indicating a set of identifier parts that when combined together in
+				the given order, uniquely identify each instance of the object type.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:choice maxOccurs="unbounded">
+			<xs:element name="Part" type="dos:IdentifierPartType" />
+			<xs:element name="PartRef" type="dos:InsertType" />
+			<xs:element name="PartListRef" type="dos:InsertType" />
+		</xs:choice>
+		<xs:anyAttribute namespace="##other" processContents="lax" />
+	</xs:complexType>
+	<xs:complexType name="IdentifierPartType">
+		<xs:annotation>
+			<xs:documentation>
+				Represents the definition of an identifier part of an object type.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="dos:TypeMemberType">
+				<xs:anyAttribute namespace="##other" processContents="lax" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:group name="CommonTypeElements">
+		<xs:sequence>
+			<xs:choice minOccurs="0">
+				<xs:element name="Properties" type="dos:PropertiesType" />
+				<xs:element name="PropertiesRef" type="dos:InsertType" />
+			</xs:choice>
+			<xs:choice minOccurs="0">
+				<xs:element name="Services" type="dos:ServicesType" />
+				<xs:element name="ServicesRef" type="dos:InsertType" />
+			</xs:choice>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="PropertiesType">
+		<xs:annotation>
+			<xs:documentation>
+				Represents the definition of the properties of an object type.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:choice maxOccurs="unbounded">
+			<xs:element name="Property" type="dos:PropertyType" />
+			<xs:element name="PropertyRef" type="dos:InsertType" />
+			<xs:element name="PropertyListRef" type="dos:InsertType" />
+		</xs:choice>
+		<xs:anyAttribute namespace="##other" processContents="lax" />
+	</xs:complexType>
+	<xs:complexType name="PropertyType">
+		<xs:annotation>
+			<xs:documentation>
+				Represents the definition of a property of an object type.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="dos:TypeMemberType">
+				<xs:attribute name="isIdentifierPart" type="xs:boolean" default="false">
+					<xs:annotation>
+						<xs:documentation>
+							Specifies a value indicating if the property inherits its
+							characteristics from an identifier part with the same name.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:anyAttribute namespace="##other" processContents="lax" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="TypeMemberType" abstract="true">
+		<xs:annotation>
+			<xs:documentation>
+				Represents the definition of a member of an object type.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="dos:VersionableElementType">
+				<xs:attribute name="name" type="xs:string" use="required">
+					<xs:annotation>
+						<xs:documentation>
+							Specifies the name of the member.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="type" type="xs:string" default="System.String">
+					<xs:annotation>
+						<xs:documentation>
+							Specifies the type of the member as a standard .NET framework
+							type.  The default is "System.String".
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:anyAttribute namespace="##other" processContents="lax" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ServicesType">
+		<xs:annotation>
+			<xs:documentation>
+				Represents the definition of any services for an object type.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="Service" type="dos:ServiceType" />
+			<xs:element name="ServiceRef" type="dos:InsertType" />
+			<xs:element name="ServiceListRef" type="dos:InsertType" />
+		</xs:choice>
+		<xs:anyAttribute namespace="##other" processContents="lax" />
+	</xs:complexType>
+	<xs:complexType name="ServiceType">
+		<xs:annotation>
+			<xs:documentation>
+				Represents the definition of a service for an object type by mapping a
+				service type name to an implementation of the service.  This may be a
+				type specific service, or it may be a specialization of a more general
+				service.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="dos:VersionableElementType">
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="Parameters" type="dos:ParametersType" />
+					<xs:element name="ParametersRef" type="dos:InsertType" />
+				</xs:choice>
+				<xs:attribute name="type" type="xs:string" use="required">
+					<xs:annotation>
+						<xs:documentation>
+							Specifies the name of the service type.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="implementationType" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>
+							Specifies the implementation of the service as a string that can
+							be resolved by the provider's object factory GetType() method.
+							If unspecified, the provider must supply a global implementation
+							as a service on their IVsDataConnectionSupport implementation.
+							If parameters are specified, it is expected that the
+							implementation would also implement IVsDataSupportObject.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:anyAttribute namespace="##other" processContents="lax" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="MappedTypesType">
+		<xs:annotation>
+			<xs:documentation>
+				Represents the list of mapped object types (well known object types)
+				that are exposed by the data source.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="MappedType" type="dos:MappedTypeType" />
+			<xs:element name="MappedTypeRef" type="dos:InsertType" />
+			<xs:element name="MappedTypeListRef" type="dos:InsertType" />
+		</xs:choice>
+		<xs:anyAttribute namespace="##other" processContents="lax" />
+	</xs:complexType>
+	<xs:complexType name="MappedTypeType">
+		<xs:annotation>
+			<xs:documentation>
+				Represents the support for a mapped object type, which describes how a
+				mapped object type computes its members in terms of the members of a
+				data source specific type.  If there is a one-to-many mapping from
+				mapped object type to data source specific type, multiple MappedType
+				elements with the same name may be specified for each supporting data
+				source specific type.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="dos:VersionableElementType">
+				<xs:sequence>
+					<xs:choice>
+						<xs:element name="Selection" type="dos:SelectionType" />
+						<xs:element name="SelectionRef" type="dos:InsertType" />
+					</xs:choice>
+					<xs:choice minOccurs="0">
+						<xs:element name="Identifier" type="dos:MappedIdentifierType" />
+						<xs:element name="IdentifierRef" type="dos:InsertType" />
+					</xs:choice>
+					<xs:choice minOccurs="0">
+						<xs:element name="Properties" type="dos:MappedPropertiesType" />
+						<xs:element name="PropertiesRef" type="dos:InsertType" />
+					</xs:choice>
+				</xs:sequence>
+				<xs:attribute name="name" type="xs:string" use="required">
+					<xs:annotation>
+						<xs:documentation>
+							Specifies the name of the mapped type.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="underlyingType" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>
+							Specifies the name of the underlying data source specific type
+							from which this mapped object type will retrieve its members.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:anyAttribute namespace="##other" processContents="lax" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SelectionType">
+		<xs:annotation>
+			<xs:documentation>
+				Represents the mapping of a mapped object selector call to the data
+				source specific selection that returns the appropriate set of objects.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:choice minOccurs="0">
+			<xs:element name="SubstitutionValues" type="dos:SubstitutionValuesType" />
+			<xs:element name="SubstitutionValuesRef" type="dos:InsertType" />
+		</xs:choice>
+		<xs:attribute name="restrictions" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>
+					Specifies the data source specific restrictions that are based on the
+					restrictions passed to the mapped object selector call and/or any
+					substitution values.  Mapped restrictions are specified using '{Name}'
+					and substitution values are specified using '{n}' where n is the zero-
+					based index of the substitution value in the defined list.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="filter" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>
+					Specifies the data source specific filter that is based on the
+					restrictions passed to the mapped object selector call and/or any
+					substitution values.  Mapped restrictions are specified using '{Name}'
+					and substitution values are specified using '{n}' where n is the zero-
+					based index of the substitution value in the defined list.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="ordering" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>
+					Specifies the data source specific ordering that is required to be
+					passed data source specific selection in order to ensure the returned
+					objects are ordered according to the mapped object type requirement.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:anyAttribute namespace="##other" processContents="lax" />
+	</xs:complexType>
+	<xs:complexType name="SubstitutionValuesType">
+		<xs:annotation>
+			<xs:documentation>
+				Represents a set of values computed from restrictions passed to the
+				mapped object selector call that may be substituted in the data source
+				specific specification of restrictions and filter.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="SubstitutionValue" type="dos:SubstitutionValueType" />
+			<xs:element name="SubstitutionValueRef" type="dos:InsertType" />
+			<xs:element name="SubstitutionValueListRef" type="dos:InsertType" />
+		</xs:choice>
+		<xs:anyAttribute namespace="##other" processContents="lax" />
+	</xs:complexType>
+	<xs:complexType name="SubstitutionValueType">
+		<xs:annotation>
+			<xs:documentation>
+				Represents a value computed from restrictions passed to the mapped
+				object selector call that may be substituted in the data source
+				specification of restrictions and filter.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:choice minOccurs="0">
+			<xs:element name="Conversion" type="dos:MappedTypeMemberConversionType" />
+			<xs:element name="ConversionRef" type="dos:InsertType" />
+		</xs:choice>
+		<xs:attribute name="mappedRestriction" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>
+					Specifies the name of the mapped restriction from which this
+					substitution value will retrieve its value.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="mappedRestrictions" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>
+					Specifies the name of the mapped restrictions from which this
+					substitution value will retrieve its value, as a comma-delimited list
+					of restriction names.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:anyAttribute namespace="##other" processContents="lax" />
+	</xs:complexType>
+	<xs:complexType name="MappedIdentifierType">
+		<xs:annotation>
+			<xs:documentation>
+				Represents the mapping for an identifier of a mapped object type to the
+				data source specific type members that provide the identifier.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="Part" type="dos:MappedIdentifierPartType" />
+			<xs:element name="PartRef" type="dos:InsertType" />
+			<xs:element name="PartListRef" type="dos:InsertType" />
+		</xs:choice>
+		<xs:anyAttribute namespace="##other" processContents="lax" />
+	</xs:complexType>
+	<xs:complexType name="MappedIdentifierPartType">
+		<xs:annotation>
+			<xs:documentation>
+				Represents the mapping for an identifier part of a mapped object type to
+				the data source specific type member or members that provide the value
+				of the identifier part.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="dos:MappedTypeMemberType">
+				<xs:anyAttribute namespace="##other" processContents="lax" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="MappedPropertiesType">
+		<xs:annotation>
+			<xs:documentation>
+				Represents the mapping for properties of a mapped object type to the
+				data source specific type members that provide the properties.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="Property" type="dos:MappedPropertyType" />
+			<xs:element name="PropertyRef" type="dos:InsertType" />
+			<xs:element name="PropertyListRef" type="dos:InsertType" />
+		</xs:choice>
+		<xs:anyAttribute namespace="##other" processContents="lax" />
+	</xs:complexType>
+	<xs:complexType name="MappedPropertyType">
+		<xs:annotation>
+			<xs:documentation>
+				Represents the mapping for a property of a mapped object type to the
+				data source specific type member or members that provide the value of
+				the property.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="dos:MappedTypeMemberType">
+				<xs:attribute name="isIdentifierPart" type="xs:boolean" default="false">
+					<xs:annotation>
+						<xs:documentation>
+							Specifies a value indicating if the property inherits its
+							characteristics from an identifier part with the same name.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:anyAttribute namespace="##other" processContents="lax" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="MappedTypeMemberType" abstract="true">
+		<xs:annotation>
+			<xs:documentation>
+				Represents the definition of a member of a mapped object type.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="dos:VersionableElementType">
+				<xs:choice minOccurs="0">
+					<xs:element name="Conversion" type="dos:MappedTypeMemberConversionType" />
+					<xs:element name="ConversionRef" type="dos:InsertType" />
+				</xs:choice>
+				<xs:attribute name="name" type="xs:string" use="required">
+					<xs:annotation>
+						<xs:documentation>
+							Specifies the name of the member.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="underlyingMember" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>
+							Specifies the name of the underlying data source specific type
+							member from which this mapped object type member will retrieve
+							its value.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="underlyingMembers" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>
+							Specifies the name of the underlying data source specific type
+							members from which this mapped object type member will retrieve
+							its value, as a comma-delimited list of member names.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:anyAttribute namespace="##other" processContents="lax" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="MappedTypeMemberConversionType">
+		<xs:annotation>
+			<xs:documentation>
+				Represents the conversion of a data source specific member or members
+				to a member of a mapped object type as a set of steps.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="Split" type="dos:MappedTypeMemberSplitType" />
+				<xs:element name="Match" type="dos:MappedTypeMemberMatchType" />
+				<xs:element name="Replace" type="dos:MappedTypeMemberReplaceType" />
+				<xs:element name="Calculate" type="dos:MappedTypeMemberCalculateType" />
+				<xs:element name="Format" type="dos:MappedTypeMemberFormatType" />
+				<xs:element name="ChangeType" type="dos:MappedTypeMemberChangeTypeType" />
+			</xs:choice>
+			<xs:element name="CallMapper" type="dos:MappedTypeMemberCallMapperType" minOccurs="0" />
+		</xs:sequence>
+		<xs:anyAttribute namespace="##other" processContents="lax" />
+	</xs:complexType>
+	<xs:complexType name="MappedTypeMemberSplitType">
+		<xs:annotation>
+			<xs:documentation>
+				Represents a conversion step that splits the string representation of
+				the value around strings matched by the specified regular expression.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="regex" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>
+					Specifies the regular expression to use.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:anyAttribute namespace="##other" processContents="lax" />
+	</xs:complexType>
+	<xs:complexType name="MappedTypeMemberMatchType">
+		<xs:annotation>
+			<xs:documentation>
+				Represents a conversion step that searches the string representation of
+				the value for all occurrences of the string matched by the specified
+				regular expression.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="regex" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>
+					Specifies the regular expression to use.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:anyAttribute namespace="##other" processContents="lax" />
+	</xs:complexType>
+	<xs:complexType name="MappedTypeMemberReplaceType">
+		<xs:annotation>
+			<xs:documentation>
+				Represents a conversion step that searches the string representation of
+				the value for all occurrences of the string matched by the specified
+				regular expression and applies the specified replacement pattern to
+				each match.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="regex" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>
+					Specifies the regular expression to use.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="replacement" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>
+					Specifies the replacement string to use.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:anyAttribute namespace="##other" processContents="lax" />
+	</xs:complexType>
+	<xs:complexType name="MappedTypeMemberCalculateType">
+		<xs:annotation>
+			<xs:documentation>
+				Represents a conversion step that calculates a result by evaluating the
+				specified expression.  References to values involved in the conversion
+				are specified using {0}, {1}, etc.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="expr" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>
+					Specifies the expression to evaluate.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="exprType" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>
+					Specifies the type of the expression.  This is required because of
+					limitations in how the expression evaluator works.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:anyAttribute namespace="##other" processContents="lax" />
+	</xs:complexType>
+	<xs:complexType name="MappedTypeMemberFormatType">
+		<xs:annotation>
+			<xs:documentation>
+				Represents a conversion step that format values involved in the
+				conversion into a single string using a standard format string.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="string" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>
+					Specifies the format string to use.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:anyAttribute namespace="##other" processContents="lax" />
+	</xs:complexType>
+	<xs:complexType name="MappedTypeMemberChangeTypeType">
+		<xs:annotation>
+			<xs:documentation>
+				Represents a conversion step that changes the type of the value.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="type" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>
+					Specifies the type to convert to as a standard .NET framework type.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:anyAttribute namespace="##other" processContents="lax" />
+	</xs:complexType>
+	<xs:complexType name="MappedTypeMemberCallMapperType">
+		<xs:annotation>
+			<xs:documentation>
+				Represents a conversion step that calls a object concept mapper
+				implementation to produce the value of the mapped member.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="Parameters" type="dos:ParametersType" />
+			<xs:element name="ParametersRef" type="dos:InsertType" />
+		</xs:choice>
+		<xs:attribute name="implementationType" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>
+					Specifies the implementation of the concept mapper as a string that
+					can be resolved by the provider's object factory GetType() method.
+					If unspecified, the provider must supply a global implementation
+					as a service on their IVsDataConnectionSupport implementation.
+					If parameters are specified, it is expected that the
+					implementation would also implement IVsDataSupportObject.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:anyAttribute namespace="##other" processContents="lax" />
+	</xs:complexType>
+	<xs:complexType name="ParametersType">
+		<xs:annotation>
+			<xs:documentation>
+				Represents a set of parameters that can be passed to a method on an
+				implementation.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="Parameter" type="dos:ParameterType" />
+			<xs:element name="ParameterRef" type="dos:InsertType" />
+			<xs:element name="ParameterListRef" type="dos:InsertType" />
+		</xs:choice>
+		<xs:attribute name="method" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>
+					Specifies the method on the service to which these parameters apply.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:anyAttribute namespace="##other" processContents="lax" />
+	</xs:complexType>
+	<xs:complexType name="ParameterType">
+		<xs:annotation>
+			<xs:documentation>
+				Represents a parameter that can be passed to an implementation.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="Parameter" type="dos:ParameterType" />
+			<xs:element name="ParameterRef" type="dos:InsertType" />
+			<xs:element name="ParameterListRef" type="dos:InsertType" />
+		</xs:choice>
+		<xs:attribute name="type" type="xs:string" default="System.String">
+			<xs:annotation>
+				<xs:documentation>
+					Specifies the type of the parameter value as a standard .NET
+					framework type.  The default is "System.String".
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="value" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>
+					Specifies the value of the parameter as a string that can be
+					changed into the type specified by the type attribute.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:anyAttribute namespace="##other" processContents="lax" />
+	</xs:complexType>
+	<xs:complexType name="VersionableElementType" abstract="true">
+		<xs:annotation>
+			<xs:documentation>
+				Represents elements that can be versioned by specifying a minimum
+				and maximum source version to which the element applies.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="minSourceVersion" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>
+					Specifies the minimum source version required for this element.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="maxSourceVersion" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>
+					Specifies the maximum source version supported by this element.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:anyAttribute namespace="##other" processContents="lax" />
+	</xs:complexType>
+</xs:schema>

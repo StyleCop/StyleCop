@@ -1,0 +1,265 @@
+/****************************************************************************
+* vslangproj2.idl
+*
+* Sources the typelib that needs to be exposed to clients.
+* Exposes the CATID's of the extensibility Project & ProjectItem object.
+* Exposes the diff CATID's for the diff packages for the browse objects.
+* Exposes the browse object interfaces
+* Exposes the interfaces of the package specific extensibility project object.
+*****************************************************************************/
+
+import "oaidl.idl";
+
+// done because the .idl file does not understand namespaces but these interfaces are in a namespace in the header file.
+cpp_quote("#include \"dte.h\"")
+cpp_quote("#ifdef FORCE_EXPLICIT_DTE_NAMESPACE")
+cpp_quote("#define DTE VxDTE::DTE")
+cpp_quote("#define Project VxDTE::Project")
+cpp_quote("#define ProjectItem VxDTE::ProjectItem")
+cpp_quote("#endif")
+
+
+cpp_quote("#define VBProjectProperties2 ProjectProperties2")
+cpp_quote("#define VBProjectConfigProperties2 ProjectConfigurationProperties2")
+cpp_quote("#define IID_VBProjectProperties2 IID_ProjectProperties2")
+cpp_quote("#define IID_VBProjectConfigProperties2 IID_ProjectConfigurationProperties2")
+
+
+// this list includes config and project properties.
+// if you add new properties, please add config props in the config section and
+// project props in the project section.
+enum
+{
+    VBPROJPROPID_NoStdLib      = 10066,
+    VBPROJPROPID_PreBuildEvent = 10076,
+    VBPROJPROPID_PostBuildEvent,
+    VBPROJPROPID_RunPostBuildEvent,
+    VBPROJPROPID_NoWarn,
+    VBPROJPROPID_AspnetVersion
+};
+
+// This lists reference properties
+enum
+{
+    DISPID_Reference_RuntimeVersion = 100
+};
+
+// Interface definitions
+cpp_quote("#define VBProjectProperties2 ProjectProperties2")
+cpp_quote("#define VBProjectConfigProperties2 ProjectConfigurationProperties2")
+cpp_quote("#define IID_VBProjectProperties2 IID_ProjectProperties2")
+cpp_quote("#define IID_VBProjectConfigProperties2 IID_ProjectConfigurationProperties2")
+
+// corresp string in module "PrjConstants" is prjCATIDVJSharpFileBrowseObject
+cpp_quote("DEFINE_GUID(CATID_VJSharpFileProps, 0xe6fdf869, 0xf3d1, 0x11d4, 0x85, 0x76, 0x00, 0x02, 0xa5, 0x16, 0xec, 0xe8);")
+ 
+// corresp string in module "PrjConstants" is prjCATIDVJSharpFolderBrowseObject
+cpp_quote("DEFINE_GUID(CATID_VJSharpFolderProps, 0xe6fdf86a, 0xf3d1, 0x11d4, 0x85, 0x76, 0x00, 0x02, 0xa5, 0x16, 0xec, 0xe8);")
+
+
+cpp_quote("#define VSLANGPROJ2_VER_MAJ    7")
+cpp_quote("#define VSLANGPROJ2_VER_MIN    1")
+#define VSLANGPROJ_VER        7.1
+
+
+[
+    uuid(7c0c4d36-0fa7-4840-b27c-166f91bc9e57),
+    helpstring("Microsoft Visual Studio .NET Project Model (7.1)"),
+    version(VSLANGPROJ_VER)
+]
+library VSLangProj2
+{
+    importlib("stdole32.tlb");
+    importlib("stdole2.tlb");
+    importlib("dte.tlb");
+    importlib("vslangproj.tlb");
+
+    cpp_quote("// Enum values of project properties")
+// *******************************************************************
+// NOTE:  ALL ENUMS BELOW MUST START WITH 0 or greater.
+// NO ENUMS CAN BE NEGATIVE.  See \vb\src\vbprj\proppgs.cpp
+// and \vb\src\vbbuild\vbprojprop.cpp.
+//
+// Note 2:  If any enums are changed, change the loading
+// order of internationalized strings in \vb\src\vbprj\proppgs.cpp
+// as well.  In general, make sure that all m_rgstrXXXX arrays are
+// initialized such that m_rgstrXXXX[<enum_value>] actually makes
+// sense for the enum value in question.
+// *******************************************************************
+
+    typedef [uuid(48dec64c-7b34-4495-9c2d-2e4e7ca31d53)]
+    enum pkgCompare
+    {
+        pkgCompareBinary,
+        pkgCompareText,
+    } pkgCompare;
+    cpp_quote("#define pkgCompareMin  pkgCompareBinary")
+    cpp_quote("#define pkgCompareMax  pkgCompareText")
+
+    typedef [uuid(06954624-6a04-4edd-9254-b86fd55d56ef)]
+    enum pkgOptionExplicit
+    {
+        pkgOptionExplicitOff,
+        pkgOptionExplicitOn,
+    } pkgOptionExplicit;
+    cpp_quote("#define pkgOptionExplicitMin  pkgOptionExplicitOff")
+    cpp_quote("#define pkgOptionExplicitMax  pkgOptionExplicitOn")
+
+    typedef [uuid(51a0b77a-9b73-487f-88a0-14b6892e3e19)]
+    enum pkgOptionStrict
+    {
+        pkgOptionStrictOff,
+        pkgOptionStrictOn,
+    } pkgOptionStrict;
+    cpp_quote("#define pkgOptionStrictMin  pkgOptionStrictOff")
+    cpp_quote("#define pkgOptionStrictMax  pkgOptionStrictOn")
+
+    [
+        dual,
+        oleautomation,
+        object,
+        uuid(4e42424e-d013-4716-a7d3-47141b70432c)
+    ]
+    interface VBPackageSettings : IDispatch
+    {
+        [propget, id(1), helpstring("Option Explicit On by default")]
+        HRESULT OptionExplicit([out, retval]pkgOptionExplicit *pOptionExplicit);
+        [propput, id(1), helpstring("Option Explicit On by default")]
+        HRESULT OptionExplicit([in]pkgOptionExplicit optionExplicit); 
+
+        [propget, id(2), helpstring("Option compare")]
+        HRESULT OptionCompare([out, retval]pkgCompare *pOptionCompare);
+        [propput, id(2), helpstring("Option compare")]
+        HRESULT OptionCompare([in]pkgCompare optionCompare);
+
+        [propget, id(3), helpstring("Option Strict On by default")]
+        HRESULT OptionStrict([out, retval]pkgOptionStrict *pOptionStrict);
+        [propput, id(3), helpstring("Option Strict On by default")]
+        HRESULT OptionStrict([in]pkgOptionStrict optionStrict);
+    }
+
+    // 
+    // ProjectConfigurationProperties2
+    //
+    [
+        uuid(3CDAA65D-1E9D-11d4-B203-00C04F79CACB),
+        helpstring("Project configuration properties 2"),
+        pointer_default(unique),
+        dual
+    ]
+    interface ProjectConfigurationProperties2 : ProjectConfigurationProperties
+    {
+        // suppress specific warnings
+        [propget, id( VBPROJPROPID_NoWarn )]
+        HRESULT NoWarn( [out, retval] BSTR* pbstrWarnings );
+        [propput, id( VBPROJPROPID_NoWarn )]
+        HRESULT NoWarn( [in] BSTR bstrWarnings );
+
+        // do not use mscorlib
+        [propget, id( VBPROJPROPID_NoStdLib )]
+        HRESULT NoStdLib( [out, retval] VARIANT_BOOL* pbNoStdLib );
+        [propput, id( VBPROJPROPID_NoStdLib )]
+        HRESULT NoStdLib( [in] VARIANT_BOOL bNoStdLib );
+	};
+    
+    typedef [uuid(A9DEC9CC-C687-49ca-9316-DB1B4FAE61BF)]
+    enum prjRunPostBuildEvent
+    {
+        prjRunPostBuildEventAlways,
+        prjRunPostBuildEventOnBuildSuccess,
+        prjRunPostBuildEventOnOutputUpdated,
+    } prjRunPostBuildEvent;
+    cpp_quote("#define prjRunPostBuildEventMin prjRunPostBuildEventAlways")
+    cpp_quote("#define prjRunPostBuildEventMax prjRunPostBuildEventOnOutputUpdated")
+
+    // 
+    // ProjectProperties2
+    // 
+    [
+        uuid(3CDAA65E-1E9D-11d4-B212-00C04F79CACB),
+        helpstring("Project properties 2"),
+        pointer_default(unique),
+        dual
+    ]
+    interface ProjectProperties2 : ProjectProperties
+    {
+
+        [propget, id(VBPROJPROPID_PreBuildEvent), helpstring("Pre-build event")]
+        HRESULT PreBuildEvent([out, retval]BSTR *pbstrOut);
+        [propput, id(VBPROJPROPID_PreBuildEvent), helpstring("Pre-build event")]
+        HRESULT PreBuildEvent([in]BSTR bstrIn);
+
+        [propget, id(VBPROJPROPID_PostBuildEvent), helpstring("Post-build event")]
+        HRESULT PostBuildEvent([out, retval]BSTR *pbstrOut);
+        [propput, id(VBPROJPROPID_PostBuildEvent), helpstring("Post-build event")]
+        HRESULT PostBuildEvent([in]BSTR bstrIn);
+
+        [propget, id(VBPROJPROPID_RunPostBuildEvent), helpstring("Run post-build event")]
+        HRESULT RunPostBuildEvent([out, retval]prjRunPostBuildEvent *pOut);
+        [propput, id(VBPROJPROPID_RunPostBuildEvent), helpstring("Run post-build event")]
+        HRESULT RunPostBuildEvent([in]prjRunPostBuildEvent run);
+
+        [propget, id(VBPROJPROPID_AspnetVersion), helpstring("Version of ASP.NET on target web server")]
+        HRESULT AspnetVersion([out, retval]BSTR *pOut);
+    };
+
+    [ uuid(74b81dca-3ed3-4f22-8e15-35532f832a32) ]
+    module PrjKind2
+    {
+	    [helpstring("SDE VB Projects/Project automation object kind")]          
+        const LPSTR prjKindSDEVBProject =                        "{CB4CE8C6-1BDB-4dc7-A4D3-65A1999772F8}";
+
+        [helpstring("SDE CSharp Projects/Project automation object kind")]
+        const LPSTR prjKindSDECSharpProject =                     "{20D4826A-C6FA-45db-90F4-C717570B9F32}";
+
+        [helpstring("Visual J# Projects/Project automation object kind")]
+        const LPSTR prjKindVJSharpProject = "{E6FDF86B-F3D1-11D4-8576-0002A516ECE8}";
+    }
+
+    [ uuid(34d3c327-833a-4bb5-a509-aad9ca7a0b07) ]
+    module PrjBrowseObjectCATID2
+    {
+
+         [helpstring("Visual J# Project browse object CATID")]
+         const LPSTR prjCATIDVJSharpProjectBrowseObject = "{E6FDF86C-F3D1-11D4-8576-0002A516ECE8}";
+
+        // {E6FDF86D-F3D1-11D4-8576-0002A516ECE8}
+        [helpstring("Visual J# Project config browse object CATID")]
+        const LPSTR prjCATIDVJSharpProjectConfigBrowseObject = "{E6FDF86D-F3D1-11D4-8576-0002A516ECE8}";
+
+        [helpstring("Visual J# File browse object CATID")]
+        const LPSTR prjCATIDVJSharpFileBrowseObject =          "{E6FDF869-F3D1-11D4-8576-0002A516ECE8}";
+
+        [helpstring("Visual J# Folder browse object CATID")]
+        const LPSTR prjCATIDVJSharpFolderBrowseObject =        "{E6FDF86A-F3D1-11D4-8576-0002A516ECE8}";
+
+        [helpstring("Visual J# Reference browse object CATID")]
+        const LPSTR prjCATIDVJSharpReferenceBrowseObject =    "{E6FDF86E-F3D1-11D4-8576-0002A516ECE8}";
+        
+        [helpstring("Visual J# config CATID")]
+        const LPSTR prjCATIDVJSharpConfig =     "{E6FDF8C8-F3D1-11D4-8576-0002A516ECE8}";
+    }
+
+    // If some read-write properties are made read-only please make related changes in the 
+    // IsPropertyReadOnly method of the browse object.
+    [
+        dual,
+        oleautomation,
+        object,
+        uuid(4FFF24C5-5644-4A47-A48A-B74C3F1F8FC8)
+    ]
+    interface Reference2 : Reference
+    {
+        [id(DISPID_Reference_RuntimeVersion), propget, helpstring("Runtime Version")]
+        HRESULT RuntimeVersion([out,retval] BSTR* pbstrVersion);
+    };
+};
+
+
+cpp_quote("#ifdef FORCE_EXPLICIT_DTE_NAMESPACE")
+cpp_quote("#undef DTE")
+cpp_quote("#undef Project")
+cpp_quote("#undef ProjectItem")
+cpp_quote("#endif")
+
+

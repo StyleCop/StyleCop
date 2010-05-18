@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<project name="ui" default="custom.inc" xmlns="http://nant.sf.net/release/0.85-rc3/nant.xsd">
+  <description>
+    Copyright (c) Microsoft Corporation.  All rights reserved.
+
+    CustomDialogSet.build - Builds the custom dialog set .wixlib
+  </description>
+
+  <!--
+  //////////////////////////////////////////////////////////////////////////////////////////////////
+  // Properties
+  //////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+
+  <!-- Include the global build properties -->
+  <include buildfile="..\..\..\..\wix.include" unless="${property::exists('wix.properties.defined')}" />
+  <include buildfile="..\..\..\..\src\ui\ui.build" />
+
+  <!--
+  //////////////////////////////////////////////////////////////////////////////////////////////////
+  // Targets
+  //////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+
+  <!-- Build -->
+  <target name="custom.build" description="Peforms a full rebuild (clean then build)" depends="custom.clean, custom.inc" />
+
+  <!-- Clean -->
+  <target name="custom.clean" description="Cleans the build">
+    <delete failonerror="false">
+      <fileset basedir="${dir.target.wix}">
+        <include name="CustomDialogSet.wixlib" />
+      </fileset>
+    </delete>
+  </target>
+
+  <!-- Inc -->
+  <target name="custom.inc" description="Performs an incremental build" depends="makeDirs">
+    <loadtasks assembly="${file.nanttasks}" />
+    <candle out="${dir.build.ui}\" warningsaserrors="true">
+      <sources>
+        <include name="CustomDialogSet.wxs" />
+        <include name="CustomDlg.wxs" />
+      </sources>
+    </candle>
+    <lit out="${dir.target.wix}\CustomDialogSet.wixlib" warningsaserrors="true">
+      <sources basedir="${dir.build.ui}">
+        <include name="BrowseDlg.wixobj" />
+        <include name="CancelDlg.wixobj" />
+        <include name="Common.wixobj" />
+        <include name="CustomizeDlg.wixobj" />
+        <include name="DiskCostDlg.wixobj" />
+        <include name="ErrorDlg.wixobj" />
+        <include name="ExitDialog.wixobj" />
+        <include name="FatalError.wixobj" />
+        <include name="FilesInUse.wixobj" />
+        <include name="LicenseAgreementDlg.wixobj" />
+        <include name="MaintenanceTypeDlg.wixobj" />
+        <include name="MaintenanceWelcomeDlg.wixobj" />
+        <include name="OutOfDiskDlg.wixobj" />
+        <include name="OutOfRbDiskDlg.wixobj" />
+        <include name="PrepareDlg.wixobj" />
+        <include name="ProgressDlg.wixobj" />
+        <include name="ResumeDlg.wixobj" />
+        <include name="SetupTypeDlg.wixobj" />
+        <include name="UserExit.wixobj" />
+        <include name="VerifyReadyDlg.wixobj" />
+        <include name="VerifyRemoveDlg.wixobj" />
+        <include name="VerifyRepairDlg.wixobj" />
+        <include name="WaitForCostingDlg.wixobj" />
+        <include name="WelcomeDlg.wixobj" />
+        <include name="WelcomeEulaDlg.wixobj" />
+
+        <include name="CustomDlg.wixobj" />
+        <include name="CustomDialogSet.wixobj" />
+      </sources>
+    </lit>
+  </target>
+</project>

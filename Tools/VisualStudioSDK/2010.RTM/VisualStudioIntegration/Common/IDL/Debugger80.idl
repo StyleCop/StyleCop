@@ -1,0 +1,399 @@
+//-------------------------------------------------------------------------------------------------
+// Debugger80.idl
+//-------------------------------------------------------------------------------------------------
+// This file contains interface and object definitions for support of the V8.0 extended
+// debugging Automation model.
+//-------------------------------------------------------------------------------------------------
+// Copyright (c) 1988-2003, Microsoft Corporation
+//		       All Rights Reserved
+//-------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
+
+interface Debugger2;
+interface Process2;
+interface Breakpoint2;
+interface Engine;
+interface Transport;
+interface Engines;
+interface Transports; 
+
+
+// IMPORTANT: Please note that the automation implementation in the debugger depends on the fact  
+// that the enumerations defined in this file are all 1-based.
+typedef [uuid(4232C43A-589B-44bc-8931-ED79C6A7CA2B)] enum dbgMinidumpOption
+{
+    dbgMinidumpNormal = 1,
+    dbgMinidumpFull
+} dbgMinidumpOption;
+
+typedef [uuid(ECD94EEC-EBF9-45B2-B072-1624241C7C0B)] enum dbgEventReason2
+{
+    dbgEventReason2None = 1,             // Must start at 1, otherwise mapping of internal 
+    dbgEventReason2Go,                   // debugger events to these automation events could break.
+    dbgEventReason2AttachProgram,
+    dbgEventReason2DetachProgram,
+    dbgEventReason2LaunchProgram,
+    dbgEventReason2EndProgram,
+    dbgEventReason2StopDebugging,
+    dbgEventReason2Step,
+    dbgEventReason2Breakpoint,
+    dbgEventReason2ExceptionThrown,
+    dbgEventReason2ExceptionNotHandled,
+    dbgEventReason2UserBreak,
+    dbgEventReason2ContextSwitch,
+    dbgEventReason2Evaluation,
+    dbgEventReason2UnwindFromException
+} dbgEventReason2;
+
+//---------------------------------------------------------------------------------------------
+// Debugger2
+//---------------------------------------------------------------------------------------------
+[
+    uuid(8B5E2BFD-4642-4efe-8AF4-0B2DA9AAA23C),
+    dual, 
+    HELP(vsextDebugDebugger2Obj),
+    version(1.0)
+]
+interface Debugger2 : Debugger
+{
+    [id(1001), HELP(vsextDebugDebugger2WriteMinidumpFunc)]
+	HRESULT WriteMinidump([in]BSTR FileName, [in] dbgMinidumpOption Option);
+
+    [id(1003), HELP(vsextDebugDebugger2GetProcessesFunc)]
+    HRESULT GetProcesses([in] Transport* pTransport, [in] BSTR TransportQualifier, [out, retval] Processes** Processes);
+
+	[id(1004), HELP(vsextDebugDebuggerGetExpression2Func)]
+    HRESULT GetExpression2([in] BSTR ExpressionText, [in, optional, defaultvalue(0)] VARIANT_BOOL UseAutoExpandRules, [in, optional, defaultvalue(0)] VARIANT_BOOL TreatAsStatement, [in, defaultvalue(-1)] long Timeout, [out, retval] Expression** Expression);
+
+    [id(1101), propget, HELP(vsextDebugDebugger2TransportsProp)]
+    HRESULT Transports([out, retval] Transports** Transports);
+};
+
+//---------------------------------------------------------------------------------------------
+// Process2
+//---------------------------------------------------------------------------------------------
+[
+    uuid(95AC1923-6EAA-427c-B43E-6274A8CA6C95),
+    dual, 
+    HELP(vsextDebugProcess2Obj),
+    version(1.0)
+]
+interface Process2 : Process
+{
+    [id(1001), HELP(vsextDebugProcess2Attach2Func)]
+    HRESULT Attach2([in, defaultvalue(""), optional] VARIANT Engines);    // Single BSTR or safearray of BSTRs or Engine objects.
+
+    [id(1100), propget, HELP(vsextDebugProcess2TransportProp)]
+    HRESULT Transport([out, retval] Transport** Transport);	
+
+    [id(1102), propget, HELP(vsextDebugProcess2TransportQualifierProp)]
+    HRESULT TransportQualifier([out,retval] BSTR* TransportQualifier);
+
+    [id(1103), propget, HELP(vsextDebugProcess2ThreadsProp)]
+    HRESULT Threads([out, retval] Threads** Threads);
+
+    [id(1104), propget, HELP(vsextDebugProcess2IsBeingDebuggedProp)]
+    HRESULT IsBeingDebugged([out, retval] VARIANT_BOOL *IsBeingDebugged);
+
+    [id(1105), propget, HELP(vsextDebugProcess2UserName)]
+    HRESULT UserName([out, retval] BSTR* UserName);
+};
+
+//---------------------------------------------------------------------------------------------
+// Breakpoint2
+//---------------------------------------------------------------------------------------------
+[
+    uuid(FBC8D85A-E449-4cb3-B026-F7808DEB7792),
+    dual, 
+    HELP(vsextDebugBreakpoint2Obj),
+    version(1.0)
+]
+interface Breakpoint2 : Breakpoint
+{
+    [id(1100), propget, HELP(vsextDebugBreakpoint2ProcessProp)]
+    HRESULT Process([out, retval] Process2** ppProcess);
+
+    [id(1102), propget, HELP(vsextDebugBreakpoint2BreakWhenHitProp)]
+    HRESULT BreakWhenHit([out, retval] VARIANT_BOOL* BreakWhenHit);
+    [id(1102), propput, HELP(vsextDebugBreakpoint2BreakWhenHitProp)]
+    HRESULT BreakWhenHit([in] VARIANT_BOOL BreakWhenHit);
+
+    [id(1103), propget, HELP(vsextDebugBreakpoint2MessageProp)]
+    HRESULT Message([out, retval] BSTR* Message);
+    [id(1103), propput, HELP(vsextDebugBreakpoint2MessageProp)]
+    HRESULT Message([in] BSTR Message);
+
+    [id(1105), propget, HELP(vsextDebugBreakpoint2MacroProp)]
+    HRESULT Macro([out, retval] BSTR* Macro);
+    [id(1105), propput, HELP(vsextDebugBreakpoint2MacroProp)]
+    HRESULT Macro([in] BSTR Macro);
+
+    [id(1107), propget, HELP(vsextDebugBreakpoint2FilterByProp)]
+    HRESULT FilterBy([out, retval] BSTR* FilterBy);
+    [id(1107), propput, HELP(vsextDebugBreakpoint2FilterByProp)]
+    HRESULT FilterBy([in] BSTR FilterBy);
+};
+
+//---------------------------------------------------------------------------------------------
+// Engine
+//---------------------------------------------------------------------------------------------
+[
+    uuid(8CEA6D39-EBEE-4de9-B282-B5CECE9C9861),
+    dual, 
+    HELP(vsextDebugEngineObj),
+    version(1.0)
+]
+interface Engine : IDispatch
+{
+    [id(100), propget, HELP(vsextDebugEngineNameProp)]
+    HRESULT Name([out, retval] BSTR* Name);
+
+    [id(101), propget, HELP(vsextDebugEngineIDProp)]
+    HRESULT ID([out, retval] BSTR* ID);
+
+    [id(102), propget, HELP(vsextDebugEngineAttachResult)]
+    HRESULT AttachResult([out, retval] HRESULT* Result);
+
+    [id(200), propget, HELP(vsproDTEProperty)] 
+    HRESULT DTE ([out, retval] DTE** DTE);
+
+    [id(201), propget, HELP(vsproParentProperty)]
+    HRESULT Parent([out, retval] Transport** Transport);
+
+    [id(202), propget, HELP(vsproCollectionProperty)]
+    HRESULT Collection([out, retval] Engines** Engines);
+};
+
+//---------------------------------------------------------------------------------------------
+// Transport
+//---------------------------------------------------------------------------------------------
+[
+    uuid(C977EAED-9E6C-4122-9D28-9D5EAE2BDC33),
+    dual, 
+    HELP(vsextDebugTransportObj),
+    version(1.0)
+]
+interface Transport : IDispatch
+{
+    [id(100), propget, HELP(vsextDebugTransportNameProp)]
+    HRESULT Name([out, retval] BSTR* Name);
+
+    [id(101), propget, HELP(vsextDebugTransportIDProp)]
+    HRESULT ID([out, retval] BSTR* ID);
+
+    [id(102), propget, HELP(vsextDebugTransportEnginesProp)]
+    HRESULT Engines([out, retval] Engines** Engines);
+
+    [id(200), propget, HELP(vsproDTEProperty)] 
+    HRESULT DTE ([out, retval] DTE** DTE);
+
+    [id(201), propget, HELP(vsproParentProperty)]
+    HRESULT Parent([out, retval] Debugger2** Debugger);
+
+    [id(202), propget, HELP(vsproCollectionProperty)]
+    HRESULT Collection([out, retval] Transports** Transports);
+};
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// Collection Declarations
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+//---------------------------------------------------------------------------------------------
+// Engines
+//---------------------------------------------------------------------------------------------
+[
+    uuid(9F998C5E-549E-4c74-9FD8-B3A93D85A248),
+    dual, 
+    HELP(vsextDebugEnginesObj),
+    version(1.0)
+]
+interface Engines : IDispatch
+{
+    [id(DISPID_VALUE), HELP(vsextItemMethod)]
+    HRESULT Item([in] VARIANT Index, [out, retval] Engine** Engine);
+
+    [id(DISPID_NEWENUM), restricted]
+    HRESULT _NewEnum([out, retval] IUnknown** Enumerator);
+
+    [id(1), propget, HELP(vsproDTEProperty)] 
+    HRESULT DTE ([out, retval] DTE** DTEObject);
+        
+    [id(2), propget, HELP(vsproParentProperty)] 
+    HRESULT Parent([out, retval] Debugger** Debugger);
+
+    [id(3), propget, HELP(vsproCountProperty)]
+    HRESULT Count([out, retval] long* Count);
+};
+
+//---------------------------------------------------------------------------------------------
+// Transports
+//---------------------------------------------------------------------------------------------
+[
+    uuid(EA47C3D9-FD41-4402-BDC6-7F07D0C8E3FC),
+    dual, 
+    HELP(vsextDebugTransportsObj),
+    version(1.0)
+]
+interface Transports : IDispatch
+{
+    [id(DISPID_VALUE), HELP(vsextItemMethod)]
+    HRESULT Item([in] VARIANT Index, [out, retval] Transport** Transport);
+
+    [id(DISPID_NEWENUM), restricted]
+    HRESULT _NewEnum([out, retval] IUnknown** Enumerator);
+
+    [id(1), propget, HELP(vsproDTEProperty)] 
+    HRESULT DTE ([out, retval] DTE** DTEObject);
+        
+    [id(2), propget, HELP(vsproParentProperty)] 
+    HRESULT Parent([out, retval] Debugger** Debugger);
+
+    [id(3), propget, HELP(vsproCountProperty)]
+    HRESULT Count([out, retval] long* Count);
+};
+
+interface DebuggerEvents2;
+typedef [uuid(0c57dfec-8424-4c1a-a43c-ea7922446232), HELP(vsextDebugProcessState)] enum dbgProcessState
+{
+	dbgProcessStateRun = 1,
+	dbgProcessStateStop
+} dbgProcessState;
+
+
+typedef [uuid(f8305f32-f656-4353-a49b-6bb20c6fd263), HELP(vsextDebugProcessState)] enum dbgExpressionEvaluationState
+{
+	dbgExpressionEvaluationStateStart =1,
+	dbgExpressionEvaluationStateStop
+} dbgExpressionEvaluationState;
+
+
+
+
+
+//---------------------------------------------------------------------------------------------
+// _dispDebuggerProcessEvents
+//---------------------------------------------------------------------------------------------
+[
+    uuid(7d04c01d-bb7a-47e8-92eb-e914cd61366b),
+    version(1.0)
+]
+dispinterface _dispDebuggerProcessEvents
+{
+
+    properties:
+    methods:    // Events
+    [id(1), HELP(vsextDebugOnProcessStateChangedEvent)]
+    void OnProcessStateChanged([in]Process* NewProcess, [in] dbgProcessState processState);
+
+
+};
+
+//---------------------------------------------------------------------------------------------
+// _DebuggerProcessEventsRoot
+//---------------------------------------------------------------------------------------------
+[ 
+    uuid(c2eb9070-38b3-404d-bed8-2d5f5d971df5), 
+    dual, 
+    object,
+    hidden,
+    version(1.0)
+]
+interface _DebuggerProcessEventsRoot : IDispatch
+{
+    [id(1), propget, hidden] 
+    HRESULT _stdcall DebuggerProcessEvents([out, retval] IDispatch**disp);
+};
+
+
+//---------------------------------------------------------------------------------------------
+// _DebuggerProcessEvents
+//---------------------------------------------------------------------------------------------
+[
+    uuid(ce9ddba3-b23b-4c53-bb3e-5471659289d1),
+    oleautomation,
+    odl,
+    HELP(vsextDebuggerProcessEventsObj)
+]
+interface _DebuggerProcessEvents : IDispatch
+{
+};
+
+
+//---------------------------------------------------------------------------------------------
+// DebuggerProcessEvents
+//---------------------------------------------------------------------------------------------
+[ 
+    uuid(d14b8b85-e4a8-42f8-b486-8a14dc74adeb), 
+    HELP(vsextDebuggerProcessEventsObj)
+]
+coclass DebuggerProcessEvents 
+{
+    [default] interface _DebuggerProcessEvents;
+    [source] dispinterface _dispDebuggerProcessEvents;     // [source] Indicates we're the source of
+                                                    // events, and that this class will implement
+                                                    // IConnectionPointContainer.
+};
+
+//---------------------------------------------------------------------------------------------
+// _dispDebuggerExpressionEvaluationEvents
+//---------------------------------------------------------------------------------------------
+[
+    uuid(73ffa13f-ad72-4154-be77-d4288f2e4fc5),
+    version(1.0)
+]
+dispinterface _dispDebuggerExpressionEvaluationEvents
+{
+
+    properties:
+    methods:    // Events
+	[id(1), HELP(vsextDebugOnExpressionEvaluationEvent)]
+	void OnExpressionEvaluation([in] Process * pProcess, [in] Thread* Thread, [in] dbgExpressionEvaluationState evaluationState);
+
+
+};
+
+
+//---------------------------------------------------------------------------------------------
+// _DebuggerExpressionEvaluationEvents
+//---------------------------------------------------------------------------------------------
+[
+    uuid(6973a466-e09c-4195-9ae8-07b7aaff7d85),
+    oleautomation,
+    odl,
+    HELP(vsextDebuggerExpressionEvaluation2Obj)
+]
+interface _DebuggerExpressionEvaluationEvents : IDispatch
+{
+};
+
+//---------------------------------------------------------------------------------------------
+// _DebuggerExpressionEvaluationorEventsRoot
+//---------------------------------------------------------------------------------------------
+[ 
+    uuid(45ae9835-6090-4cca-97e0-5ea9a5608fbe), 
+    dual, 
+    object,
+    hidden,
+    version(1.0)
+]
+interface _DebuggerExpressionEvaluationEventsRoot : IDispatch
+{
+    [id(1), propget, hidden] 
+    HRESULT _stdcall DebuggerExpressionEvaluationEvents([out, retval] IDispatch**disp);
+};
+
+
+//---------------------------------------------------------------------------------------------
+// DebuggerExpressionEvaluationEvents
+//---------------------------------------------------------------------------------------------
+[ 
+    uuid(1aa6b3e4-42f7-4396-80fa-76728d1b824c),
+    HELP(vsextDebuggerExpressionEvaluation2Obj)
+]
+coclass DebuggerExpressionEvaluationEvents 
+{
+    [default] interface _DebuggerExpressionEvaluationEvents;
+    [source] dispinterface _dispDebuggerExpressionEvaluationEvents;     // [source] Indicates we're the source of
+                                                    // events, and that this class will implement
+                                                    // IConnectionPointContainer.
+};

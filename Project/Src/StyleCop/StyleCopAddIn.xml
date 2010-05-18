@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SourceAnalyzer>
+  <Properties>
+    <BooleanProperty
+      Name="Enabled"
+      DefaultValue="true" 
+      FriendlyName="Enabled"
+      Description="Indicates whether the add-in is enabled."
+      DisplaySettings="False"
+    />
+  </Properties>
+</SourceAnalyzer>
+

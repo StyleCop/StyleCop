@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<doc>
+	<assembly>
+		<name>Microsoft.TeamFoundation.Common</name>
+	</assembly>
+	<members>
+		<member name="N:Microsoft.TeamFoundation">
+			<summary>The <see cref="Microsoft.TeamFoundation"></see> namespace </summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.Artifact">
+			<summary>Creates a new <see cref="T:Microsoft.TeamFoundation.Artifact"></see> object and provides details about the object.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Artifact.#ctor">
+			<summary>Constructs a new <see cref="T:Microsoft.TeamFoundation.Artifact"></see> object.</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.ArtifactId">
+			<summary>Defines detailed identifying information about an artifact object so that other API methods can gain access to the artifact object.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.ArtifactId.#ctor">
+			<summary>Constructs a new instance of the <see cref="T:Microsoft.TeamFoundation.ArtifactId"></see> class.</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.ArtifactLink">
+			<summary>Creates and describes links between artifacts.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.ArtifactLink.#ctor">
+			<summary>Creates a new <see cref="T:Microsoft.TeamFoundation.ArtifactLink"></see> object.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.ArtifactLinkIds.NoOutboundLink">
+			<summary>Contains the string, "No Outbound Link."</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.ArtifactLinkIds.VersionedItem">
+			<summary>Contains the string, "Source Code File."</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.ExtendedAttribute">
+			<summary>Holds extended attribute data.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.ExtendedAttribute.#ctor">
+			<summary>Creates and initializes a new <see cref="T:Microsoft.TeamFoundation.ExtendedAttribute"></see> object.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.FilterType.ArtifactType">
+			<summary>Filter by the <see cref="T:Microsoft.TeamFoundation.Server.ArtifactType"></see> string.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.FilterType.LinkType">
+			<summary>Filter by the <see cref="T:Microsoft.TeamFoundation.Server.LinkType"></see> string.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.FilterType.ToolType">
+			<summary>Filter by the tool type string.</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.ILinking">
+			<summary>Defines methods for client-side artifact linking.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.ILinking.GetArtifactUrl(System.String)">
+			<summary>Retrieves an addressable URL for the specified artifact.</summary>
+			<returns>A URL.</returns>
+			<param name="uri">The Uri to convert into a URL.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.ILinking.GetArtifactUrlExternal(System.String)">
+			<summary>Retrieves an addressable URL for the specified artifact.</summary>
+			<returns>A URL.</returns>
+			<param name="uri">The Uri to convert into a URL.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.ILinking.GetReferencingArtifacts(System.String[],Microsoft.TeamFoundation.LinkFilter[])">
+			<summary>Retrieves an array of artifact objects that reference or link to one or more of the input artifact URIs, restricted by the criteria in the filters parameter.</summary>
+			<returns>An array of artifact objects that reference or link to one or more of the input artifact URIs, restricted to the criteria in the filters parameter</returns>
+			<param name="uriList">Array of artifact IDs.</param>
+			<param name="filters">Filters that limit the return values to those that meet the filter's criteria.</param>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.ILinkingConsumer">
+			<summary>Defines a method to retrieve a list of artifact objects that reference or link to one or more of the artifacts identified in an input list of artifact URIs.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.ILinkingConsumer.GetReferencingArtifacts(System.String[])">
+			<summary>Returns an array of all <see cref="T:Microsoft.TeamFoundation.Artifact"></see> objects that reference or link to one or more of the input <see cref="P:Microsoft.TeamFoundation.VersionControl.Client.Item.ArtifactUri"></see>s.</summary>
+			<returns>The return value is an array of all <see cref="T:Microsoft.TeamFoundation.Artifact"></see> objects that reference or link to one or more of the input <see cref="P:Microsoft.TeamFoundation.VersionControl.Client.Item.ArtifactUri"></see>s.</returns>
+			<param name="artifactUriList">Array of artifact IDs in URI format.</param>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.ILinkingProvider">
+			<summary>Defines a method that enables a caller to navigate to and display an <see cref="T:Microsoft.TeamFoundation.Artifact"></see> without any knowledge of the <see cref="T:Microsoft.TeamFoundation.Artifact"></see> or the <see cref="T:Microsoft.TeamFoundation.Artifact"></see>’s type.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.ILinkingProvider.GetArtifacts(System.String[])">
+			<summary>Returns an array of artifact objects that complies with the Team Foundation Generic Artifact Display Schema.</summary>
+			<returns>An array of artifact objects that complies with the Team Foundation Generic Artifact Display Schema (GAS).When an artifact for which an ID appears in the artifactUris cannot be returned, its corresponding element in the returned artifact array is set to null.</returns>
+			<param name="artifactUris">Array of artifact Ids.</param>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.LinkFilter">
+			<summary>Filters query method results.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.LinkFilter.#ctor">
+			<summary>Creates a new <see cref="T:Microsoft.TeamFoundation.LinkFilter"></see> object.</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.LinkingServiceName">
+			<summary>Defines the linking service as a consumer service or a provider service.</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.LinkingUtilities">
+			<summary>Defines a set of linking utilities.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.LinkingUtilities.DecodeUri(System.String)">
+			<summary>Returns a structure that identifies each part of the CLS-compliant URI</summary>
+			<returns>A <see cref="T:Microsoft.TeamFoundation.ArtifactId"></see> structure.</returns>
+			<param name="uri">A string that complies with Visual Studio Team Foundation Server URI rules</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.LinkingUtilities.EncodeUri(Microsoft.TeamFoundation.ArtifactId)">
+			<summary>Returns a string that complies with URL rules.</summary>
+			<param name="artifactId">URI artifact to encode as a URL.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.LinkingUtilities.GetArtifactUri(System.String)">
+			<summary>Returns an Artifact URI for the given artifact URL.</summary>
+			<returns>Artifact URI for the given artifact URL.</returns>
+			<param name="artifactUrl">Artifact URL to convert to a URI</param>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.OutboundLink">
+			<summary>Holds the details on outbound links.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.OutboundLink.#ctor">
+			<summary>Creates a new <see cref="T:Microsoft.TeamFoundation.OutboundLink"></see> object.</summary>
+		</member>
+	</members>
+</doc>

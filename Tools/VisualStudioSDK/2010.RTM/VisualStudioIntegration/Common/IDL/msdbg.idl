@@ -1,0 +1,5678 @@
+// msdbg.idl : Microsoft Debug API
+
+// notes:
+//
+// - define AD7_NO_LIB to exclude library statement
+// - define AD7_NO_ENC to exclude ENC interfaces
+
+import "ocidl.idl";
+import "oleidl.idl";
+
+// magic to stop the generated header containing platform- and compiler- specific types such as INT_PTR
+cpp_quote("#ifndef _BASETSD_H_")
+#include "basetsd.h"
+cpp_quote("#endif // _BASETSD_H_")
+
+#ifdef VS_IDL_BUILD
+// Just to get rup
+#include "version.h"
+#endif
+
+const DWORD MSDBG_VERSION = 7126;
+
+// Use uuid_constant to keep the specified guid constant. This is a note that this guid must be kept constant.
+#define uuid_constant uuid
+
+// Use uuid_jdate to embed the jdate in the GUID
+#define uuid_jdate(first, jdate, last) uuid_constant(first-jdate-last)
+
+#ifdef BUILDING_DEBUGGGER_IDL_MAKEAPI
+#include "ad7.hrc.idl"
+#endif
+
+interface IDebugCoreServer2;
+interface IDebugCoreServer3;
+interface IDebugPortSupplier2;
+interface IDebugPort2;
+interface IDebugPortNotify2;
+interface IDebugPortRequest2;
+interface IDebugSession2;
+interface IDebugSession3;
+interface IDebugEngine2;
+interface IDebugEngine3;
+interface IDebugEventCallback2;
+interface IDebugEvent2;
+interface IDebugProcess2;
+interface IDebugProgram2;
+interface IDebugProgramNode2;
+interface IDebugThread2;
+interface IDebugThread3;
+interface IDebugLogicalThread2;
+interface IDebugStackFrame2;
+interface IDebugMemoryContext2;
+interface IDebugCodeContext2;
+interface IDebugMemoryBytes2;
+interface IDebugDisassemblyStream2;
+interface IDebugDocumentContext2;
+interface IDebugExpressionContext2;
+interface IDebugBreakpointRequest2;
+interface IDebugBreakpointResolution2;
+interface IDebugBoundBreakpoint2;
+interface IDebugPendingBreakpoint2;
+interface IDebugErrorBreakpoint2;
+interface IDebugExpression2;
+interface IDebugModule2;
+interface IDebugModule3;
+interface IDebugDocument2;
+interface IDebugDocumentText2;
+interface IDebugDocumentPosition2;
+interface IDebugFunctionPosition2;
+interface IDebugDocumentTextEvents2;
+interface IDebugSimpleProperty2;
+interface IDebugMDMUtil2_V7;
+interface IDebugReference2;
+interface IDebugProperty2;
+interface IDebugExceptionCallback2;
+interface IEnumDebugProcesses2;
+interface IEnumDebugPrograms2;
+interface IEnumDebugThreads2;
+interface IEnumDebugStackFrames2;
+interface IEnumDebugCodeContexts2;
+interface IEnumDebugBoundBreakpoints2;
+interface IEnumDebugPendingBreakpoints2;
+interface IEnumDebugErrorBreakpoints2;
+interface IEnumDebugExceptionInfo2;
+interface IEnumDebugFrameInfo2;
+interface IEnumDebugFrameInfoFilter2;
+interface IEnumDebugMachines2__deprecated;
+interface IEnumCodePaths2;
+interface IEnumDebugModules2;
+interface IEnumDebugPortSuppliers2;
+interface IEnumDebugPorts2;
+interface IEnumDebugReferenceInfo2;
+interface IEnumDebugPropertyInfo2;
+
+interface IDebugProgramPublisher2;
+interface IDebugProgramProvider2;
+interface IDebugProviderProgramNode2;
+
+#ifndef MIDL_PASS
+#define CONST const
+#else
+#define CONST
+#endif
+
+#ifdef AD7_NO_ENC
+#define IDebugENCUpdate IUnknown
+#else
+import "enc.idl";
+#endif
+
+#define IDebugMachine2_V7 IDebugCoreServer2
+
+cpp_quote("extern GUID guidVBLang;")
+cpp_quote("extern GUID guidVBScriptLang;")
+cpp_quote("extern GUID guidJScriptLang;")
+cpp_quote("extern GUID guidCLang;")
+cpp_quote("extern GUID guidCPPLang;")
+cpp_quote("extern GUID guidSQLLang;")
+cpp_quote("extern GUID guidScriptLang;")
+cpp_quote("extern GUID guidSafeCLang;")
+cpp_quote("extern GUID guidJSharpLang;")
+cpp_quote("extern GUID guidManagedCLang;")
+cpp_quote("extern GUID guidManagedCPPLang;")
+cpp_quote("extern GUID guidCausalityBreakpointLang;")
+cpp_quote("extern GUID guidFortranLang;")
+cpp_quote("extern GUID guidMethodIdLang;")
+cpp_quote("extern GUID guidClientScriptLang;")
+
+cpp_quote("extern GUID guidScriptEng;")
+cpp_quote("extern GUID guidSQLEng;")
+cpp_quote("extern GUID guidCOMPlusNativeEng;")
+cpp_quote("extern GUID guidCOMPlusOnlyEng;")
+cpp_quote("extern GUID guidNativeOnlyEng;")
+cpp_quote("extern GUID guidMsOrclEng;")
+cpp_quote("extern GUID guidEmbeddedCLREng;")
+cpp_quote("extern GUID guidSQLEng2;")
+cpp_quote("extern GUID guidCOMPlusSQLLocalEng;")
+cpp_quote("extern GUID guidCOMPlusSQLRemoteEng;")
+cpp_quote("extern GUID guidSilverlightEng;")
+cpp_quote("extern GUID GUID_WorkflowDebugEngine;")
+cpp_quote("extern GUID guidMACSilverlightEng;")
+
+cpp_quote("extern GUID guidMicrosoftVendor;")
+
+// Port suppliers
+cpp_quote("extern GUID guidLocalPortSupplier;")
+cpp_quote("extern GUID guidNativePortSupplier;")
+cpp_quote("extern GUID guidNativePipePortSupplier;")
+cpp_quote("extern GUID guidEmbeddedCLRPortSupplier;")
+
+// IDebugProperty2 GUID filters
+cpp_quote("extern GUID guidFilterLocals;")
+cpp_quote("extern GUID guidFilterAllLocals;")
+cpp_quote("extern GUID guidFilterArgs;")
+cpp_quote("extern GUID guidFilterLocalsPlusArgs;")
+cpp_quote("extern GUID guidFilterAllLocalsPlusArgs;")
+cpp_quote("extern GUID guidFilterRegisters;")
+cpp_quote("extern GUID guidFilterThis;")
+cpp_quote("extern GUID guidFilterAutoRegisters;")
+
+// GUIDs for GetExtendedInfo
+cpp_quote("// GUIDs for GetExtendedInfo")
+cpp_quote("extern GUID guidDocument;")
+// TODO: remove this one once everyone implements IDebugProperty2::GetMemoryContext
+cpp_quote("extern GUID guidCodeContext;")
+cpp_quote("extern GUID guidCustomViewerSupported;")
+cpp_quote("extern GUID guidSimpleGridViewer;")
+
+cpp_quote("extern GUID guidExtendedInfoSlot;")
+cpp_quote("extern GUID guidExtendedInfoSignature;")
+
+// Document checksum algorithms
+cpp_quote("extern GUID guidSourceHashMD5;")
+cpp_quote("extern GUID guidSourceHashSHA1;")
+
+// Other GUIDs
+cpp_quote("extern GUID guidMDANotification;")
+
+enum enum_GETNAME_TYPE
+{
+	GN_NAME,				// Gets the (as friendly as possible) name of the document or context
+	GN_FILENAME,			// Gets the full path file name (drive+path+filename+ext or as much as possible) of the document or context
+	GN_BASENAME,			// Gets the basename+ext part of the file name
+	GN_MONIKERNAME,			// Gets the unique, monikerized name of the document or context
+	GN_URL,					// Gets the URL name of the document or context
+	GN_TITLE,				// Gets the title of the document if possible.
+	GN_STARTPAGEURL,		// Gets the start page URL for processes -- used for XSP/ATL Server debugging
+};
+typedef DWORD GETNAME_TYPE;
+
+enum enum_TEXT_POSITION_MAX
+{
+	TEXT_POSITION_MAX_LINE		= 0xffffffff,
+	TEXT_POSITION_MAX_COLUMN	= 0xffffffff,
+};
+
+typedef struct _tagTEXT_POSITION
+{
+	DWORD dwLine;
+	DWORD dwColumn;
+} TEXT_POSITION;
+
+typedef struct tagBSTR_ARRAY
+{
+	DWORD dwCount;
+	[size_is(dwCount)] BSTR *Members;
+} BSTR_ARRAY;
+
+typedef struct tagCONST_GUID_ARRAY
+{
+	DWORD dwCount;
+	[size_is(dwCount)] CONST GUID *Members;
+} CONST_GUID_ARRAY;
+
+typedef struct tagGUID_ARRAY
+{
+	DWORD dwCount;
+	[size_is(dwCount)] GUID *Members;
+} GUID_ARRAY;
+
+
+// ------------------------------------------------------------------
+// IDebugCoreServer2
+[
+	object,
+	uuid(17bf8fa3-4c5a-49a3-b2f8-5942e1ea287e),
+	pointer_default(unique)
+]
+interface IDebugCoreServer2: IUnknown
+{
+	enum enum_MACHINE_INFO_FLAGS
+	{
+		MCIFLAG_TERMINAL_SERVICES_AVAILABLE	= 0x00000001,
+	};
+	typedef DWORD MACHINE_INFO_FLAGS;
+
+	enum enum_MACHINE_INFO_FIELDS
+	{
+		MCIF_NAME			= 0x00000001,
+		MCIF_FLAGS			= 0x00000002,
+
+		MCIF_ALL			= 0x00000003,
+	};
+	typedef DWORD MACHINE_INFO_FIELDS;
+
+	typedef struct tagMACHINE_INFO
+	{
+		// Valid fields
+		MACHINE_INFO_FIELDS	Fields;
+		// Machine name
+		BSTR				bstrName;
+		// Flags
+		MACHINE_INFO_FLAGS	Flags;
+	} MACHINE_INFO;
+
+	HRESULT GetMachineInfo(
+		[in] MACHINE_INFO_FIELDS Fields,
+		[out] MACHINE_INFO* pMachineInfo);
+
+	HRESULT GetMachineName(
+		[out] BSTR* pbstrName);
+
+	// Get a port supplier that exists on this machine
+	HRESULT GetPortSupplier(
+		[in] REFGUID guidPortSupplier,
+		[out] IDebugPortSupplier2** ppPortSupplier);
+
+	// Get a port that already exists on this machine
+	HRESULT GetPort(
+		[in] REFGUID guidPort,
+		[out] IDebugPort2** ppPort);
+
+	// Enum all the ports on this machine
+	HRESULT EnumPorts(
+		[out] IEnumDebugPorts2** ppEnum);
+
+	// Enum all the port suppliers on this machine
+	HRESULT EnumPortSuppliers(
+		[out] IEnumDebugPortSuppliers2** ppEnum);
+
+	HRESULT GetMachineUtilities_V7(
+		[out] IDebugMDMUtil2_V7 ** ppUtil);
+};
+
+[
+	object,
+	uuid(12c1180e-c257-4485-9800-af484b699713),
+	pointer_default(unique)
+]
+interface IDebugCoreServer3: IDebugCoreServer2
+{
+	typedef enum tagCONNECTION_PROTOCOL
+	{
+		CONNECTION_NONE = 0,
+		CONNECTION_UNKNOWN = 1,
+		CONNECTION_LOCAL = 2,
+		CONNECTION_PIPE = 3,
+		CONNECTION_TCPIP = 4,
+		CONNECTION_HTTP = 5,
+		CONNECTION_OTHER = 6
+	} CONNECTION_PROTOCOL;
+
+	HRESULT GetServerName(
+		[out] BSTR *pbstrName);
+
+	HRESULT GetServerFriendlyName(
+		[out] BSTR *pbstrName);		
+
+	HRESULT EnableAutoAttach(
+		[in, size_is(celtSpecificEngines), ptr] GUID* rgguidSpecificEngines,
+		[in] DWORD celtSpecificEngines,
+		[in, ptr] LPCOLESTR pszStartPageUrl,
+		[out] BSTR* pbstrSessionId);
+
+	HRESULT DiagnoseWebDebuggingError(
+		[in, ptr] LPCWSTR pszUrl);
+
+	HRESULT CreateInstanceInServer(
+		[in, ptr] LPCWSTR szDll,
+		[in] WORD wLangId,
+		[in] REFCLSID clsidObject,
+		[in] REFIID riid,
+		[out, iid_is(riid)] void **ppvObject);
+
+	HRESULT QueryIsLocal(
+		);
+
+	HRESULT GetConnectionProtocol(
+		[out] CONNECTION_PROTOCOL *pProtocol);
+
+	HRESULT DisableAutoAttach(
+		);
+};
+
+// ------------------------------------------------------------------
+// IDebugMachine2_V7
+//
+// This interface has been renamed since more than one remote debugging
+// host (msvsmon) can be running on a machine
+cpp_quote("#define IDebugMachine2_V7 IDebugCoreServer2")
+cpp_quote("#define IID_IDebugMachine2_V7 IID_IDebugCoreServer2")
+
+// ------------------------------------------------------------------
+// IDebugMachineEx2_V7
+// This interface was added after the Office 10 Fork
+[
+	object,
+	uuid(ae27b230-a0bf-47ff-a2d1-22c29a178eac),
+	pointer_default(unique)
+]
+interface IDebugMachineEx2_V7: IUnknown
+{
+	HRESULT EnableAutoAttachOnProgramCreate(
+		[in] LPCWSTR pszProcessNames,   // process names seperated by semicolons ex: "foo.exe;bar.exe;bigname.exe"
+		[in] REFGUID guidEngine,        // auto attach when 'guidEngine' is added to the process, use GUID_NULL for 'any engine'
+		[in] LPCWSTR pszSessionId,      // session id to attach to
+		[out] DWORD* pdwCookie);        // cookie returned that is used to call 'DisableAutoAttachOnEvent'
+
+	HRESULT DisableAutoAttachOnEvent(
+		[in] DWORD dwCookie);
+
+	// Get a port supplier that exists on this machine
+	HRESULT GetPortSupplierEx(
+		[in] LPCOLESTR wstrRegistryRoot,
+		[in] REFGUID guidPortSupplier,
+		[out] IDebugPortSupplier2** ppPortSupplier);
+
+	// Get a port that already exists on this machine
+	HRESULT GetPortEx(
+		[in] LPCOLESTR wstrRegistryRoot,
+		[in] REFGUID guidPort,
+		[out] IDebugPort2** ppPort);
+
+	// Enum all the ports on this machine
+	HRESULT EnumPortsEx(
+		[in] LPCOLESTR wstrRegistryRoot,
+		[out] IEnumDebugPorts2** ppEnum);
+
+	// Enum all the port suppliers on this machine
+	HRESULT EnumPortSuppliersEx(
+		[in] LPCOLESTR wstrRegistryRoot,
+		[out] IEnumDebugPortSuppliers2** ppEnum);
+};
+
+// --------------------------------------------------------
+// IDebugPortSupplier2
+
+[
+	object,
+	uuid(53f68191-7b2f-4f14-8e55-40b1b6e5df66),
+	pointer_default(unique)
+]
+interface IDebugPortSupplier2: IUnknown
+{
+	HRESULT GetPortSupplierName(
+		[out] BSTR* pbstrName);
+
+	HRESULT GetPortSupplierId(
+		[out] GUID* pguidPortSupplier);
+
+	// Get a port from this port supplier
+	HRESULT GetPort(
+		[in] REFGUID guidPort,
+		[out] IDebugPort2** ppPort);
+
+	// Enum the ports that already exist
+	HRESULT EnumPorts(
+		[out] IEnumDebugPorts2** ppEnum);
+
+	// Does this port supplier support adding new ports? S_OK == yes; S_FALSE == no
+	HRESULT CanAddPort(void);
+
+	// Add a port
+	HRESULT AddPort(
+		[in] IDebugPortRequest2* pRequest,
+		[out] IDebugPort2** ppPort);
+
+	// Remove a port
+	HRESULT RemovePort(
+		[in] IDebugPort2* pPort);
+};
+
+// --------------------------------------------------------
+// IDebugPortSupplier3
+[
+	object,
+	uuid(5b5eec44-51aa-4210-b84f-1938b8576d8d),
+	pointer_default(unique)
+]
+interface IDebugPortSupplier3: IDebugPortSupplier2
+{
+	// Can the port supplier remember new ports? S_OK == yes; S_FALSE == no
+	HRESULT CanPersistPorts();
+	
+	// Enum the ports that the SDM remembered for the port supplier
+	HRESULT EnumPersistedPorts(
+		[in] BSTR_ARRAY PortNames,
+		[out] IEnumDebugPorts2** ppEnum);
+};
+
+// --------------------------------------------------------
+// IDebugPortPicker
+[
+	object,
+	uuid(8d6eed60-2737-4425-b38a-490ef273acbb),
+	pointer_default(unique)
+]
+interface IDebugPortPicker: IUnknown
+{
+	// SetSite() will be called before any other methods are called
+	HRESULT SetSite([in] IServiceProvider * pSP);
+
+	// Display a dialog that allows the user to select a port.
+	// A return value of S_FALSE (or a return value of S_OK with the
+	// BSTR set to NULL) indicates that the user canceled the dialog.
+	HRESULT DisplayPortPicker(
+		[in] HWND hwndParentDialog,
+		[out] BSTR* pbstrPortId);
+};
+
+
+// --------------------------------------------------------
+// IDebugPortSupplierDescription2
+[
+	object,
+	uuid(d0785faa-91d7-4ca2-a302-6555487719f7),
+	pointer_default(unique)
+]
+interface IDebugPortSupplierDescription2: IUnknown
+{
+	enum enum_PORT_SUPPLIER_DESCRIPTION_FLAGS
+	{
+		PSDFLAG_SHOW_WARNING_ICON	= 0x00000001
+	};
+	typedef DWORD PORT_SUPPLIER_DESCRIPTION_FLAGS;
+
+	// Get an extended description of the port supplier
+	HRESULT GetDescription(
+		[out] PORT_SUPPLIER_DESCRIPTION_FLAGS *pdwFlags,
+		[out] BSTR *pbstrText
+		);
+};
+
+// --------------------------------------------------------
+// IDebugPort2
+
+[
+	object,
+	uuid(79293cc8-d9d9-43f5-97ad-0bcc5a688776),
+	pointer_default(unique)
+]
+interface IDebugPort2: IUnknown
+{
+	enum enum_AD_PROCESS_ID
+	{
+		AD_PROCESS_ID_SYSTEM,
+		AD_PROCESS_ID_GUID
+	};
+	typedef DWORD AD_PROCESS_ID_TYPE;
+	typedef union _AD_PROCESS_ID switch (AD_PROCESS_ID_TYPE ProcessIdType) ProcessId
+	{
+		case AD_PROCESS_ID_SYSTEM:
+			DWORD dwProcessId;
+		case AD_PROCESS_ID_GUID:
+			GUID guidProcessId;
+		default:
+			DWORD dwUnused;
+	} AD_PROCESS_ID;
+
+	HRESULT GetPortName(
+		[out] BSTR* pbstrName);
+
+	HRESULT GetPortId(
+		[out] GUID* pguidPort);
+
+	// Get the request used to create this port (if available)
+	HRESULT GetPortRequest(
+		[out] IDebugPortRequest2** ppRequest);
+
+	// Get the port supplier that supplied this port
+	HRESULT GetPortSupplier(
+		[out] IDebugPortSupplier2** ppSupplier);
+
+	// Get an IDebugProcess2 for a PID running on this port
+	HRESULT GetProcess(
+		[in] AD_PROCESS_ID ProcessId,
+		[out] IDebugProcess2** ppProcess);
+
+	// Enum all the processes running on this port
+	HRESULT EnumProcesses(
+		[out] IEnumDebugProcesses2** ppEnum);
+};
+
+
+// --------------------------------------------------------
+// IDebugDefaultPort2
+
+[
+	object,
+	uuid(302f0f55-1ede-4777-9b38-115e1f229d56),
+	pointer_default(unique)
+]
+interface IDebugDefaultPort2: IDebugPort2
+{
+	HRESULT GetPortNotify(
+		[out] IDebugPortNotify2 **ppPortNotify);
+
+	HRESULT GetServer(
+		[out] IDebugCoreServer3 **ppServer);
+
+	HRESULT QueryIsLocal(
+		);
+};
+
+// --------------------------------------------------------
+// IDebugWindowsComputerPort2
+
+[
+	object,
+	uuid(5fbb8ed3-ecdb-412a-bfa3-3a54beb5b2d1),
+	pointer_default(unique)
+]
+interface IDebugWindowsComputerPort2: IUnknown
+{
+	typedef struct tagCOMPUTER_INFO
+	{
+		// PROCESSOR_ARCHITECTURE_INTEL (0), PROCESSOR_ARCHITECTURE_IA64 (6), or PROCESSOR_ARCHITECTURE_AMD64 (9)
+		WORD wProcessorArchitecture; 
+		// See MSDN. Important value is VER_SUITE_TERMINAL
+		WORD wSuiteMask;
+		// { platform id -- 1 for 9x, 2 for NT, major version, minor version, service pack major }
+		DWORD dwOperatingSystemVersion;
+	} COMPUTER_INFO;
+
+	HRESULT GetComputerInfo(
+		[out] COMPUTER_INFO * pInfo);
+};
+
+// --------------------------------------------------------
+// IDebugPortRequest2
+[
+	object,
+	uuid(8d36beb8-9bfe-47dd-a11b-7ba1de18e449),
+	pointer_default(unique)
+]
+interface IDebugPortRequest2: IUnknown
+{
+	HRESULT GetPortName(
+		[out] BSTR* pbstrPortName);
+};
+
+// ------------------------------------------------------------------
+// IDebugPortNotify2
+[
+	object,
+	uuid(fb8d2032-2858-414c-83d9-f732664e0c7a),
+	pointer_default(unique)
+]
+interface IDebugPortNotify2: IUnknown
+{
+	HRESULT AddProgramNode(
+		[in] IDebugProgramNode2* pProgramNode);
+
+	HRESULT RemoveProgramNode(
+		[in] IDebugProgramNode2* pProgramNode);
+};
+
+// ------------------------------------------------------------------
+// IDebugPortEvents2
+[
+	object,
+	uuid(564fa275-12e1-4b5f-8316-4d79bcef7246),
+	pointer_default(unique)
+]
+interface IDebugPortEvents2: IUnknown
+{
+	HRESULT Event(
+		[in] IDebugCoreServer2* pServer,
+		[in] IDebugPort2* pPort,
+		[in] IDebugProcess2* pProcess,
+		[in] IDebugProgram2* pProgram,
+		[in] IDebugEvent2* pEvent,
+		[in] REFIID riidEvent);
+};
+
+// ------------------------------------------------------------------
+// IDebugMDMUtil2_V7
+[
+    object,
+    uuid(f3062547-43d8-4dc2-b18e-e1460ff2c422),
+    pointer_default(unique)
+]
+interface IDebugMDMUtil2_V7 : IUnknown
+{
+	// For the following methods guidEngine specifies the debug engine the
+	// call applies to. Use GUID_NULL to specify all engines.
+
+	// Add or remove a process that the VM should NOT ever debug
+	// (i.e. DON'T use the debugger interpreter loop for a specified process).
+	HRESULT AddPIDToIgnore(
+		[in] REFGUID guidEngine,
+		[in] DWORD dwPid);
+	HRESULT RemovePIDToIgnore(
+		[in] REFGUID guidEngine,
+		[in] DWORD dwPid);
+
+	// Add or remove a process that the VM should debug
+	// (i.e. DO use the debugger interpreter loop for a specified process).
+	HRESULT AddPIDToDebug(
+		[in] REFGUID guidEngine,
+		[in] DWORD dwPid);
+	HRESULT RemovePIDToDebug(
+		[in] REFGUID guidEngine,
+		[in] DWORD dwPid);
+
+    typedef DWORD DYNDEBUGFLAGS;
+	enum enum_DYNDEBUGFLAGS
+	{
+		DYNDEBUG_ATTACH	   = 1,
+		DYNDEBUG_JIT	   = 2,
+        DYNDEBUG_REMOTEJIT = 4
+	};
+
+    // Access to dynamic debugging flags (JIT, attach, ...).
+    // Settings are  on a per Engine basis for the entire machine.
+	// Users of these two APIs should always call GetDynamicDebuggingFlags,
+	//   set or clear specific bits, then call SetDynamicDebuggingFlags
+    HRESULT SetDynamicDebuggingFlags(
+        [in] REFGUID guidEngine,
+        [in] DYNDEBUGFLAGS dwFlags);
+    HRESULT GetDynamicDebuggingFlags(
+        [in] REFGUID guidEngine,
+        [out] DYNDEBUGFLAGS *pdwFlags);
+
+	// Set the clsid as the default JIT Server
+    HRESULT SetDefaultJITServer(
+        [in] REFCLSID clsidJITServer);
+    // Retrieve the default JIT Server (CLSID_NULL if there isn't one)
+    HRESULT GetDefaultJITServer(
+        [out] CLSID *pClsidJITServer);
+    // Register debug engines for a JIT debugger.
+    // arrRemoteFlags may be NULL if remote JIT is not supported for any engine.
+    // arrguidEngines and arrRemoteFlags are ignored if fRegister is FALSE.
+    HRESULT RegisterJITDebugEngines(
+        [in] REFCLSID clsidJITServer,
+        [in,size_is(celtEngs)] GUID *arrguidEngines,
+        [in,ptr,size_is(celtEngs)] BOOL *arrRemoteFlags,
+        [in] DWORD celtEngs,
+        [in] BOOL fRegister);
+
+    const DWORD S_UNKNOWN = 0x3;
+
+	// Should the VM use the debugger loop for this pid?
+	HRESULT CanDebugPID(
+		[in] REFGUID guidEngine,
+		[in] DWORD pid);
+}
+
+[
+	object,
+	uuid(af598dea-ce92-443b-a0b5-9992ff660bc4),
+	pointer_default(unique)
+]
+interface IDebugMDMUtil3_V7 : IDebugMDMUtil2_V7
+{
+	enum
+	{
+		WEB_DEBUG_ASP_NET				= 0x0001,
+	};
+	typedef DWORD WEB_DEBUG_TYPE;
+
+	HRESULT DiagnoseScriptDebuggingError(
+		[in] DWORD dwDebuggeeProcessId);
+
+	HRESULT DiagnoseWebDebuggingError(
+		[in] WEB_DEBUG_TYPE dwWebType,
+		[in, ptr] LPCWSTR pszUrl);
+
+	HRESULT DiagnoseASPDebugging(
+		[in, ptr] LPCWSTR szASPUserAccount
+		);
+};
+
+// ------------------------------------------------------------------
+// IDebugSession2
+[
+	object,
+	uuid(8948300f-8bd5-4728-a1d8-83d172295a9d),
+	pointer_default(unique)
+]
+interface IDebugSession2: IUnknown
+{
+	enum enum_LAUNCH_FLAGS
+	{
+		// Launch the process for debugging
+		LAUNCH_DEBUG			= 0x0000,
+		// Launch the process without debugging it
+		LAUNCH_NODEBUG			= 0x0001,
+        // Launch the process with EnC enabled.
+        LAUNCH_ENABLE_ENC       = 0x0002,
+        // Launch the process and merge the environment
+        LAUNCH_MERGE_ENV        = 0x0004
+	};
+	typedef DWORD LAUNCH_FLAGS;
+
+	enum enum_EXCEPTION_STATE
+	{
+		EXCEPTION_NONE								= 0x0000,
+		EXCEPTION_STOP_FIRST_CHANCE					= 0x0001,
+		EXCEPTION_STOP_SECOND_CHANCE				= 0x0002,
+		EXCEPTION_STOP_USER_FIRST_CHANCE            = 0x0010,
+		EXCEPTION_STOP_USER_UNCAUGHT                = 0x0020,
+
+		// These are no longer used:
+		EXCEPTION_STOP_FIRST_CHANCE_USE_PARENT		= 0x0004,
+		EXCEPTION_STOP_SECOND_CHANCE_USE_PARENT		= 0x0008,
+		EXCEPTION_STOP_USER_FIRST_CHANCE_USE_PARENT = 0x0040,
+		EXCEPTION_STOP_USER_UNCAUGHT_USE_PARENT     = 0x0080,
+
+		EXCEPTION_STOP_ALL                          = 0x00FF,
+
+		EXCEPTION_CANNOT_BE_CONTINUED				= 0x0100,
+
+		// the following flags are for exception types only
+		EXCEPTION_CODE_SUPPORTED                    = 0x1000,
+		EXCEPTION_CODE_DISPLAY_IN_HEX               = 0x2000,
+		EXCEPTION_JUST_MY_CODE_SUPPORTED            = 0x4000,
+        EXCEPTION_MANAGED_DEBUG_ASSISTANT           = 0x8000,
+	};
+	typedef DWORD EXCEPTION_STATE;
+
+	typedef struct tagEXCEPTION_INFO
+	{
+		IDebugProgram2* pProgram;
+		BSTR bstrProgramName;
+		BSTR bstrExceptionName;
+		DWORD dwCode;
+		EXCEPTION_STATE dwState;
+		// Either guidLang or guidEng
+		GUID guidType;
+	} EXCEPTION_INFO;
+
+	enum enum_STOPPING_MODEL
+	{
+		STOPPING_MODEL_STOP_ALL	= 0x0001,
+		STOPPING_MODEL_STOP_ONE	= 0x0002,
+	};
+	typedef DWORD STOPPING_MODEL;
+
+    HRESULT GetName(
+		[out] BSTR* pbstrName);
+
+	HRESULT SetName(
+		[in] LPCOLESTR pszName);
+
+	HRESULT EnumProcesses(
+		[out] IEnumDebugProcesses2** ppEnum);
+
+	HRESULT Launch(
+		[in, ptr] LPCOLESTR pszMachine,
+		[in] IDebugPort2* pPort,
+		[in, ptr] LPCOLESTR pszExe,
+		[in, ptr] LPCOLESTR pszArgs,
+		[in, ptr] LPCOLESTR pszDir,
+		[in, ptr] BSTR bstrEnv,
+		[in, ptr] LPCOLESTR pszOptions,
+		[in] LAUNCH_FLAGS dwLaunchFlags,
+		[in] DWORD hStdInput,
+		[in] DWORD hStdOutput,
+		[in] DWORD hStdError,
+		[in] REFGUID guidLaunchingEngine,
+		[in] IDebugEventCallback2* pCallback,
+		[in, size_is(celtSpecificEngines)] GUID* rgguidSpecificEngines,
+		[in] DWORD celtSpecificEngines,
+		[out] IDebugProcess2** ppProcess);
+
+	HRESULT RegisterJITServer(
+		[in] REFCLSID clsidJITServer);
+
+	HRESULT Terminate(
+		[in] BOOL fForce);
+
+	HRESULT Detach(void);
+
+	HRESULT CauseBreak(void);
+
+	HRESULT CreatePendingBreakpoint(
+		[in] IDebugBreakpointRequest2* pBPRequest,
+		[out] IDebugPendingBreakpoint2** ppPendingBP);
+
+	HRESULT EnumPendingBreakpoints(
+		[in] IDebugProgram2* pProgram,
+		[in, ptr] LPCOLESTR pszProgram,
+		[out] IEnumDebugPendingBreakpoints2** ppEnumBPs);
+
+	HRESULT EnumMachines__deprecated(
+		[out] IEnumDebugMachines2__deprecated ** ppEnum);
+
+	HRESULT ConnectToServer(
+		[in, ptr] LPCOLESTR szServerName,
+		[out] IDebugCoreServer2** ppServer);
+
+	HRESULT DisconnectServer(
+		[in] IDebugCoreServer2* pServer);
+
+	HRESULT ShutdownSession(void);
+
+    HRESULT EnumCodeContexts(
+		[in] IDebugProgram2* pProgram,
+        [in] IDebugDocumentPosition2* pDocPos,
+        [out] IEnumDebugCodeContexts2 **ppEnum);
+
+	HRESULT SetException(
+		[in] EXCEPTION_INFO* pException);
+
+    HRESULT EnumSetExceptions(
+		[in] IDebugProgram2* pProgram,
+		[in, ptr] LPCOLESTR pszProgram,
+		// Either guidLang or guidEng
+		[in] REFGUID guidType,
+        [out] IEnumDebugExceptionInfo2** ppEnum);
+
+	HRESULT RemoveSetException(
+		[in] EXCEPTION_INFO* pException);
+
+	HRESULT RemoveAllSetExceptions(
+		// Either guidLang or guidEng
+		[in] REFGUID guidType);
+
+	// The top-level default exceptions are pseudo-exceptions that describe the
+	// default exception handling behavior for a given language or runtime architecture.
+	// Example: "C++": EXCEPTION_STOP_SECOND_CHANCE
+	// EXCEPTION_STOP_FIRST_CHANCE_USE_PARENT and EXCEPTION_STOP_SECOND_CHANCE_USE_PARENT
+	// are invalid for these top-level pseudo-exceptions.
+	HRESULT EnumDefaultExceptions(
+		[in, ptr] EXCEPTION_INFO* pParentException,
+		[out] IEnumDebugExceptionInfo2** ppEnum);
+
+	HRESULT GetENCUpdate(
+		[in] IDebugProgram2* pProgram,
+		[out] IDebugENCUpdate** ppUpdate);
+
+    HRESULT SetLocale(
+        [in] WORD wLangID);
+
+	HRESULT SetRegistryRoot(
+		[in, ptr] LPCOLESTR pszRegistryRoot);
+
+	HRESULT IsAlive(void);
+
+    HRESULT ClearAllSessionThreadStackFrames(void);
+
+	HRESULT __deprecated_GetSessionId(
+		[in] IDebugEventCallback2* pCallback,
+		[in, size_is(celtSpecificEngines), ptr] GUID* rgguidSpecificEngines,
+		[in] DWORD celtSpecificEngines,
+		[in, ptr] LPCOLESTR pszStartPageUrl,
+		[out] BSTR* pbstrSessionId);
+
+	HRESULT SetEngineMetric(
+		[in] REFGUID guidEngine,
+		[in] LPCOLESTR pszMetric,
+		[in] VARIANT varValue);
+
+	HRESULT SetStoppingModel(
+		[in] STOPPING_MODEL dwStoppingModel);
+
+	HRESULT GetStoppingModel(
+		[out] STOPPING_MODEL* pdwStoppingModel);
+
+	HRESULT __deprecated_RegisterSessionWithServer(
+		[in] LPCOLESTR pwszServerName);
+};
+
+
+// Support for JustMyCode
+typedef struct _JMC_CODE_SPEC
+{
+	BOOL fIsUserCode;           // TRUE implies "user" code
+	BSTR bstrModuleName;        // name of module
+} JMC_CODE_SPEC;
+    
+// ------------------------------------------------------------------
+// IDebugSession3
+[
+	object,
+	uuid(BBF74DB9-39D5-406e-8BC3-3BA9DD34C02E),
+	pointer_default(unique)
+]
+interface IDebugSession3 : IDebugSession2
+{
+	typedef enum
+	{
+		CONNECT_LOCAL,
+		CONNECT_ATTACH,
+		CONNECT_LAUNCH,
+		CONNECT_WEB_AUTO_ATTACH,
+		CONNECT_SQL_AUTO_ATTACH,
+		CONNECT_CAUSALITY,
+		CONNECT_DIAGNOSE_WEB_ERROR
+	} CONNECT_REASON;
+
+	enum enum_SESSION_FEATURES
+	{
+		FEATURE_REMOTE_DEBUGGING = 0x1,
+		FEATURE_CAUSALITY = 0x2
+	};
+	typedef DWORD SESSION_FEATURES;
+
+	typedef DWORD LOAD_SYMBOLS_FLAGS;
+
+	// szSymbolSearchPath uses the unicode delimiting character to seperate
+	// search paths.
+	HRESULT SetSymbolPath(
+		[in, ptr] LPCOLESTR szSymbolSearchPath,
+		[in, ptr] LPCOLESTR szSymbolCachePath,
+		[in] LOAD_SYMBOLS_FLAGS Flags);
+
+	// Load symbols for all modules that do not have them Returns S_OK if at
+	// least one module loaded symbols returns S_FALSE if no modules loaded symbols.
+	HRESULT LoadSymbols();
+
+	HRESULT RegisterCallback(
+		[in] IDebugEventCallback2* pCallback);
+
+	HRESULT ConnectToServerEx(
+		[in, ptr] LPCOLESTR szServerName,
+		[in] CONNECT_REASON ConnectReason,
+		[out] IDebugCoreServer3** ppServer);
+
+	// Pass on the JustMyCode info to the engines
+	HRESULT SetJustMyCodeState(
+		[in] BOOL fUpdate,                                  // TRUE = update; FALSE = reset (ignore everything sent earlier)
+		[in] DWORD dwModules,                               // count
+		[in, size_is(dwModules), ptr] JMC_CODE_SPEC* rgJMCSpec); // array of info about modules
+
+	// Get the most recently used server names
+	HRESULT GetRecentServerNames(
+		[out] BSTR_ARRAY *pServers);
+
+	// Set how many server names should be remembered
+	HRESULT SetMaxRecentServerNames(
+		[in] DWORD dwNewMax);
+
+	HRESULT InitializeFeatures(
+		[in] SESSION_FEATURES EnabledFeatures
+		);
+
+	HRESULT SetAllExceptions(
+		[in] EXCEPTION_STATE dwState
+		);
+
+	// return E_FAIL if we are breaking on specific exceptions
+	HRESULT GetStateForAllExceptions(
+		[out] EXCEPTION_STATE *pdwState
+		);
+
+	HRESULT AddExceptionCallback(
+		[in] EXCEPTION_INFO* pException,
+		[in] IDebugExceptionCallback2 *pCallback
+		);
+
+	HRESULT RemoveExceptionCallback(
+		[in] EXCEPTION_INFO* pException,
+		[in] IDebugExceptionCallback2 *pCallback
+		);
+
+	HRESULT BlockingShutdownSession(
+		[in] DWORD dwTimeout
+		);
+};
+
+// ------------------------------------------------------------------
+// IDebugEngine2
+[
+	object,
+	uuid(ba105b52-12f1-4038-ae64-d95785874c47),
+	pointer_default(unique)
+]
+interface IDebugEngine2: IUnknown
+{
+	enum enum_ATTACH_REASON
+	{
+		// Attaching because we launched the process
+		// (prog create and thread create can be stopping events; send entry point, not attach complete)
+		ATTACH_REASON_LAUNCH	= 0x0001,
+		// Attaching because the user requested an attach
+		// (prog create and thread create cannot be stopping events; send attach complete)
+		ATTACH_REASON_USER		= 0x0002,
+		// Attaching because we're already debugging the process
+		// (prog create and thread create can be stopping events; send attach complete)
+		ATTACH_REASON_AUTO		= 0x0003,
+	};
+	typedef DWORD ATTACH_REASON;
+
+	HRESULT EnumPrograms(
+		[out] IEnumDebugPrograms2** ppEnum);
+
+	HRESULT Attach(
+		[in, size_is(celtPrograms), length_is(celtPrograms)] IDebugProgram2** rgpPrograms,
+		[in, size_is(celtPrograms), length_is(celtPrograms)] IDebugProgramNode2** rgpProgramNodes,
+		[in] DWORD celtPrograms,
+		[in] IDebugEventCallback2* pCallback,
+		[in] ATTACH_REASON dwReason);
+
+	HRESULT CreatePendingBreakpoint(
+		[in] IDebugBreakpointRequest2* pBPRequest,
+		[out] IDebugPendingBreakpoint2** ppPendingBP);
+
+	HRESULT SetException(
+		[in] EXCEPTION_INFO* pException);
+
+	HRESULT RemoveSetException(
+		[in] EXCEPTION_INFO* pException);
+
+	HRESULT RemoveAllSetExceptions(
+		// Either guidlang or guidEng
+		[in] REFGUID guidType);
+
+	HRESULT GetEngineId(
+		[out] GUID *pguidEngine);
+
+	HRESULT DestroyProgram(
+		[in] IDebugProgram2* pProgram);
+
+	HRESULT ContinueFromSynchronousEvent(
+		[in] IDebugEvent2* pEvent);
+
+	HRESULT SetLocale(
+		[in] WORD wLangID);
+
+	HRESULT SetRegistryRoot(
+		[in, ptr] LPCOLESTR pszRegistryRoot);
+
+	HRESULT SetMetric(
+		[in] LPCOLESTR pszMetric,
+		[in] VARIANT varValue);
+
+	// These methods were added after the Office fork
+	HRESULT CauseBreak(void);
+};
+
+// ------------------------------------------------------------------
+// IDebugEngineLaunch2
+[
+	object,
+	uuid(c7c1462f-9736-466c-b2c1-b6b2dedbf4a7),
+	pointer_default(unique)
+]
+interface IDebugEngineLaunch2: IUnknown
+{
+	HRESULT LaunchSuspended(
+		[in, ptr] LPCOLESTR pszServer,
+		[in] IDebugPort2* pPort,
+		[in, ptr] LPCOLESTR pszExe,
+		[in, ptr] LPCOLESTR pszArgs,
+		[in, ptr] LPCOLESTR pszDir,
+		[in, ptr] BSTR bstrEnv,
+		[in, ptr] LPCOLESTR pszOptions,
+		[in] LAUNCH_FLAGS dwLaunchFlags,
+		[in] DWORD hStdInput,
+		[in] DWORD hStdOutput,
+		[in] DWORD hStdError,
+		[in] IDebugEventCallback2* pCallback,
+		[out] IDebugProcess2 **ppProcess);
+
+	HRESULT ResumeProcess(
+	[in] IDebugProcess2* pProcess);
+
+	HRESULT CanTerminateProcess(
+		[in] IDebugProcess2* pProcess);
+
+	HRESULT TerminateProcess(
+		[in] IDebugProcess2* pProcess);
+};
+
+// ------------------------------------------------------------------
+// IDebugEngine3
+[
+	object,
+	uuid(A60384F6-3712-4cb3-BC46-81E6402FEE99),
+	pointer_default(unique)
+]
+interface IDebugEngine3: IDebugEngine2
+{
+	// szSymbolSearchPath uses the unicode delimiting character to seperate
+	// search paths.
+	HRESULT SetSymbolPath(
+		[in] LPCOLESTR szSymbolSearchPath,
+		[in] LPCOLESTR szSymbolCachePath,
+		[in] LOAD_SYMBOLS_FLAGS Flags);
+
+	// Load symbols for all modules that do not have any Returns S_OK if at
+	// least one module loaded symbols returns S_FALSE if no modules loaded symbols.
+	HRESULT LoadSymbols();
+
+	// Pass on the JustMyCode info to the engines
+	HRESULT SetJustMyCodeState(
+		[in] BOOL fUpdate,                                      // TRUE = update; FALSE = reset (ignore everything sent earlier)
+		[in] DWORD dwModules,                                   // count
+		[in, size_is(dwModules), ptr] JMC_CODE_SPEC* rgJMCSpec); // array of info about modules
+
+	// Pass the guid of the engine from the METRICs.
+	HRESULT SetEngineGuid(
+		[in] GUID *guidEngine);
+
+	HRESULT SetAllExceptions(
+		[in] EXCEPTION_STATE dwState);
+}
+
+// ------------------------------------------------------------------
+// IDebugEventCallback2
+[
+	object,
+	uuid(ade2eeb9-fc85-4f5b-b5d9-d431b4aac31a),
+	pointer_default(unique)
+]
+interface IDebugEventCallback2: IUnknown
+{
+	enum enum_EVENTATTRIBUTES
+	{
+		// The event is asynchronous; no reply is necessary
+		EVENT_ASYNCHRONOUS	= 0x0000,
+		// The event is synchronous; reply via IDebugEngine2::ContinueFromSynchronousEvent
+		EVENT_SYNCHRONOUS	= 0x0001,
+		// The event is stopping; reply via IDebugThread2::ContinueFromStoppingEvent
+		EVENT_STOPPING		= 0x0002,
+		EVENT_ASYNC_STOP	= 0x0002,		// (not currently supported)
+		EVENT_SYNC_STOP		= 0x0003,
+		// The event is sent immediately and synchronously to the IDE
+		// (even if the IDE is currently handling an event)
+		EVENT_IMMEDIATE		= 0x0004,
+		// The event is for expression evaluation
+		EVENT_EXPRESSION_EVALUATION = 0x0008
+	};
+	typedef DWORD EVENTATTRIBUTES;
+
+	HRESULT Event(
+		[in] IDebugEngine2* pEngine,
+		[in] IDebugProcess2* pProcess,
+		[in] IDebugProgram2* pProgram,
+		[in] IDebugThread2* pThread,
+		[in] IDebugEvent2* pEvent,
+		[in] REFIID riidEvent,
+		[in] DWORD dwAttrib);
+};
+
+// ------------------------------------------------------------------
+// IDebugSettingsCallback2
+
+[
+	object,
+	uuid(050b1813-91db-47a0-8987-fc55bdd6362b),
+	pointer_default(unique)
+]
+interface IDebugSettingsCallback2: IUnknown
+{
+	HRESULT GetMetricGuid(
+		[in] LPCWSTR pszType,
+		[in] REFGUID guidSection,
+		[in] LPCWSTR pszMetric,
+		[out] GUID* pguidValue
+		);
+
+	HRESULT GetMetricDword(
+		[in] LPCWSTR pszType,
+		[in] REFGUID guidSection,
+		[in] LPCWSTR pszMetric,
+		[out] DWORD* pdwValue
+		);
+
+	HRESULT GetEEMetricString(
+		[in] REFGUID guidLang,
+		[in] REFGUID guidVendor,
+		[in] LPCWSTR pszMetric,
+		[out] BSTR* pbstrValue
+		);
+
+	HRESULT GetEEMetricGuid(
+		[in] REFGUID guidLang,
+		[in] REFGUID guidVendor,
+		[in] LPCWSTR pszMetric,
+		[out] GUID* pguidValue
+		);
+
+	HRESULT GetEEMetricFile(
+		[in] REFGUID guidLang,
+		[in] REFGUID guidVendor,
+		[in] LPCWSTR pszMetric,
+		[out] BSTR* pbstrValue
+		);
+		
+	HRESULT EnumEEs(
+		[in] DWORD celtBuffer,
+		[in, out, ptr, size_is(celtBuffer), length_is(*pceltEEs)] GUID* rgguidLang,
+		[in, out, ptr, size_is(celtBuffer), length_is(*pceltEEs)] GUID* rgguidVendor,
+		[in, out] DWORD* pceltEEs
+		);
+
+    HRESULT GetEEMetricDword(
+        [in] REFGUID guidLang,
+        [in] REFGUID guidVendor,
+        [in] LPCWSTR pszMetric,
+        [out] DWORD* pdwValue
+        );
+
+    HRESULT GetEELocalObject(
+        [in] REFGUID guidLang,
+        [in] REFGUID guidVendor,
+        [in] LPCWSTR pszMetric,
+        [out] IUnknown ** ppUnk
+    );
+
+	HRESULT GetMetricString(
+		[in] LPCWSTR pszType,
+		[in] REFGUID guidSection,
+		[in] LPCWSTR pszMetric,
+		[out] BSTR* pbstrValue
+		);
+};
+
+// ------------------------------------------------------------------
+// IDebugEvent2
+[
+	object,
+	uuid(423238d6-da42-4989-96fb-6bba26e72e09),
+	pointer_default(unique)
+]
+interface IDebugEvent2: IUnknown
+{
+	HRESULT GetAttributes(
+		[out] DWORD* pdwAttrib);
+};
+
+// ------------------------------------------------------------------
+// IDebugSessionCreateEvent2
+[
+	object,
+	uuid(2c2b15b7-fc6d-45b3-9622-29665d964a76),
+	pointer_default(unique)
+]
+interface IDebugSessionCreateEvent2: IUnknown
+{
+};
+
+// ------------------------------------------------------------------
+// IDebugSessionDestroyEvent2
+[
+	object,
+	uuid(f199b2c2-88fe-4c5d-a0fd-aa046b0dc0dc),
+	pointer_default(unique)
+]
+interface IDebugSessionDestroyEvent2: IUnknown
+{
+};
+
+// ------------------------------------------------------------------
+// IDebugEngineCreateEvent2
+[
+	object,
+	uuid(fe5b734c-759d-4e59-ab04-f103343bdd06),
+	pointer_default(unique)
+]
+interface IDebugEngineCreateEvent2: IUnknown
+{
+	HRESULT GetEngine(
+		[out] IDebugEngine2 **pEngine);
+};
+
+// ------------------------------------------------------------------
+// IDebugProcessCreateEvent2
+[
+	object,
+	uuid(bac3780f-04da-4726-901c-ba6a4633e1ca),
+	pointer_default(unique)
+]
+interface IDebugProcessCreateEvent2: IUnknown
+{
+};
+
+// ------------------------------------------------------------------
+// IDebugProcessDestroyEvent2
+[
+	object,
+	uuid(3e2a0832-17e1-4886-8c0e-204da242995f),
+	pointer_default(unique)
+]
+interface IDebugProcessDestroyEvent2: IUnknown
+{
+};
+
+// ------------------------------------------------------------------
+// IDebugProgramCreateEvent2
+[
+	object,
+	uuid(96cd11ee-ecd4-4e89-957e-b5d496fc4139),
+	pointer_default(unique)
+]
+interface IDebugProgramCreateEvent2: IUnknown
+{
+};
+
+// ------------------------------------------------------------------
+// IDebugProgramDestroyEvent2
+[
+	object,
+	uuid(e147e9e3-6440-4073-a7b7-a65592c714b5),
+	pointer_default(unique)
+]
+interface IDebugProgramDestroyEvent2: IUnknown
+{
+	HRESULT GetExitCode(
+		[out] DWORD* pdwExit);
+};
+
+// ------------------------------------------------------------------
+// IDebugProgramDestroyEventFlags2
+[
+	object,
+	uuid(7e072bee-24e7-43eb-9bce-06402c70e018),
+	pointer_default(unique)
+]
+interface IDebugProgramDestroyEventFlags2: IUnknown
+{
+	enum enum_PROGRAM_DESTROY_FLAGS
+	{
+		// continue debugging even if no programs are left
+		PROGRAM_DESTROY_CONTINUE_DEBUGGING = 0x1
+	};
+	typedef DWORD PROGRAM_DESTROY_FLAGS;
+
+	HRESULT GetFlags(
+		[out] PROGRAM_DESTROY_FLAGS* pdwFlags);
+}
+
+
+// ------------------------------------------------------------------
+// IDebugThreadCreateEvent2
+[
+	object,
+	uuid(2090ccfc-70c5-491d-a5e8-bad2dd9ee3ea),
+	pointer_default(unique)
+]
+interface IDebugThreadCreateEvent2: IUnknown
+{
+};
+
+// ------------------------------------------------------------------
+// IDebugThreadDestroyEvent2
+[
+	object,
+	uuid(2c3b7532-a36f-4a6e-9072-49be649b8541),
+	pointer_default(unique)
+]
+interface IDebugThreadDestroyEvent2: IUnknown
+{
+	HRESULT GetExitCode(
+		[out] DWORD* pdwExit);
+};
+
+// ------------------------------------------------------------------
+// IDebugLoadCompleteEvent2
+[
+    object,
+    uuid(b1844850-1349-45d4-9f12-495212f5eb0b),
+    pointer_default(unique)
+]
+interface IDebugLoadCompleteEvent2: IUnknown
+{
+};
+
+// ------------------------------------------------------------------
+// IDebugEntryPointEvent2
+[
+	object,
+	uuid(e8414a3e-1642-48ec-829e-5f4040e16da9),
+	pointer_default(unique)
+]
+interface IDebugEntryPointEvent2: IUnknown
+{
+};
+
+// ------------------------------------------------------------------
+// IDebugStepCompleteEvent2
+[
+	object,
+	uuid(0f7f24c1-74d9-4ea6-a3ea-7edb2d81441d),
+	pointer_default(unique)
+]
+interface IDebugStepCompleteEvent2: IUnknown
+{
+};
+
+// ------------------------------------------------------------------
+// IDebugCanStopEvent2
+[
+	object,
+	uuid(b5b0d747-d4d2-4e2d-872d-74da22037826),
+	pointer_default(unique)
+]
+interface IDebugCanStopEvent2: IUnknown
+{
+	enum enum_CANSTOP_REASON
+	{
+		CANSTOP_ENTRYPOINT  = 0x0000,
+		CANSTOP_STEPIN      = 0x0001
+	};
+	typedef DWORD CANSTOP_REASON;
+
+    HRESULT GetReason(
+        [out] CANSTOP_REASON *pcr);
+
+	HRESULT CanStop(
+		[in] BOOL fCanStop);
+
+	HRESULT GetDocumentContext(
+		[out] IDebugDocumentContext2 **ppDocCxt);
+
+	HRESULT GetCodeContext(
+		[out] IDebugCodeContext2** ppCodeContext);
+};
+
+// ------------------------------------------------------------------
+// IDebugBreakEvent2
+[
+	object,
+	uuid(c7405d1d-e24b-44e0-b707-d8a5a4e1641b),
+	pointer_default(unique)
+]
+interface IDebugBreakEvent2: IUnknown
+{
+};
+
+// ------------------------------------------------------------------
+// IDebugBreakpointEvent2
+[
+	object,
+	uuid(501c1e21-c557-48b8-ba30-a1eab0bc4a74),
+	pointer_default(unique)
+]
+interface IDebugBreakpointEvent2: IUnknown
+{
+	HRESULT EnumBreakpoints(
+		[out] IEnumDebugBoundBreakpoints2** ppEnum);
+};
+
+// ------------------------------------------------------------------
+// IDebugExceptionEvent2
+[
+	object,
+	uuid(51a94113-8788-4a54-ae15-08b74ff922d0),
+	pointer_default(unique)
+]
+interface IDebugExceptionEvent2: IUnknown
+{
+	HRESULT GetException(
+		[out] EXCEPTION_INFO* pExceptionInfo);
+
+	HRESULT GetExceptionDescription(
+		[out] BSTR* pbstrDescription);
+
+	HRESULT CanPassToDebuggee(void);
+
+	HRESULT PassToDebuggee(
+		[in] BOOL fPass);
+};
+
+// based on EXCEPTION_RECORD only Win32/64-agnostic
+typedef struct _NATIVE_EXCEPTION_INFO
+{
+	DWORD ExceptionCode;
+	DWORD ExceptionFlags;
+	DWORD NumberOfParameters;
+	UINT64 ExceptionInformation[15 /*EXCEPTION_MAXIMUM_PARAMETERS*/];
+} NATIVE_EXCEPTION_INFO;
+
+// ------------------------------------------------------------------
+// IDebugNativeExceptionInfo
+//
+// Not an event as such, but QI-able from an IDebugExceptionEvent2
+// to get more information
+[
+	object,
+	uuid(3d320710-06c0-437b-a55f-826f48cc7ee7),
+	pointer_default(unique)
+]
+interface IDebugNativeExceptionInfo: IUnknown
+{
+	HRESULT GetNativeException(
+		[out] NATIVE_EXCEPTION_INFO* pExceptionInfo);
+};
+
+// ------------------------------------------------------------------
+// IDebugManagedExceptionInfo2
+//
+// Not an event as such, but QI-able from an IDebugExceptionEvent2
+// to get more information
+[
+	object,
+	uuid(d288564a-edb2-4214-8690-ff9a82870379),
+	pointer_default(unique)
+]
+interface IDebugManagedExceptionInfo2: IUnknown
+{
+	enum tagEXCEPTION_BOUNDARY_TYPE
+	{ 
+		EXCEPTION_BOUNDARY_NONE, 
+		EXCEPTION_BOUNDARY_APPDOMAIN, 
+		EXCEPTION_BOUNDARY_UNMANAGED, 
+	};
+
+	typedef enum tagEXCEPTION_BOUNDARY_TYPE EXCEPTION_BOUNDARY_TYPE;
+
+    HRESULT GetExceptionMessage(
+		[out] BSTR* pbstrExceptionMessage);
+
+	HRESULT GetExceptionBoundaryType(
+		[out] EXCEPTION_BOUNDARY_TYPE *pType);			
+};
+
+// ------------------------------------------------------------------
+// IDebugOutputStringEvent2
+[
+	object,
+	uuid(569c4bb1-7b82-46fc-ae28-4536ddad753e),
+	pointer_default(unique)
+]
+interface IDebugOutputStringEvent2: IUnknown
+{
+	HRESULT GetString(
+		[out] BSTR* pbstrString);
+};
+
+// ------------------------------------------------------------------
+// IDebugModuleLoadEvent2
+[
+	object,
+	uuid(989db083-0d7c-40d1-a9d9-921bf611a4b2),
+	pointer_default(unique)
+]
+interface IDebugModuleLoadEvent2: IUnknown
+{
+	HRESULT GetModule(
+		[out] IDebugModule2** pModule,
+		// Optional message that describes the event
+		[in, out] BSTR* pbstrDebugMessage,
+		// Set to TRUE if the module's loading; FALSE if unloading
+		[in, out] BOOL* pbLoad);
+};
+
+// ------------------------------------------------------------------
+// IDebugSymbolSearchEvent2
+[
+	object,
+	uuid(638F7C54-C160-4c7b-B2D0-E0337BC61F8C),
+	pointer_default(unique)
+]
+interface IDebugSymbolSearchEvent2: IUnknown
+{
+	enum enum_MODULE_INFO_FLAGS
+	{
+		MIF_SYMBOLS_LOADED      = 0x0001,
+	};
+	typedef DWORD MODULE_INFO_FLAGS;
+
+	// Notify the package that an attempt was made to load symbols
+	// for pModule
+	HRESULT GetSymbolSearchInfo(
+		[out] IDebugModule3** pModule,
+		// Optional message that describes the event
+		[in, out] BSTR* pbstrDebugMessage,
+		// Flag denoting if symbols were loaded
+		[out] MODULE_INFO_FLAGS* pdwModuleInfoFlags);
+};
+
+// ------------------------------------------------------------------
+// 
+// IDebugBeforeSymbolSearchEvent2
+[
+	object,
+	uuid(B15C8149-2B81-40ae-9388-62FA276AE14C),
+	pointer_default(unique)
+]
+interface IDebugBeforeSymbolSearchEvent2: IUnknown
+{
+	HRESULT GetModuleName(
+		[out] BSTR* pbstrModuleName
+		);
+};
+
+// ------------------------------------------------------------------
+// IDebugPropertyCreateEvent2
+[
+	object,
+	uuid(ded6d613-a3db-4e35-bb5b-a92391133f03),
+	pointer_default(unique)
+]
+interface IDebugPropertyCreateEvent2: IUnknown
+{
+	HRESULT GetDebugProperty(
+		[out] IDebugProperty2** ppProperty);
+};
+
+// ------------------------------------------------------------------
+// IDebugPropertyDestroyEvent2
+[
+	object,
+	uuid(f3765f18-f395-4b8c-8e95-dcb3fe8e7ec8),
+	pointer_default(unique)
+]
+interface IDebugPropertyDestroyEvent2: IUnknown
+{
+	HRESULT GetDebugProperty(
+		[out] IDebugProperty2** ppProperty);
+};
+
+// ------------------------------------------------------------------
+// IDebugBreakpointBoundEvent2
+
+[
+	object,
+	uuid(1dddb704-cf99-4b8a-b746-dabb01dd13a0),
+	pointer_default(unique)
+]
+interface IDebugBreakpointBoundEvent2: IUnknown
+{
+	HRESULT GetPendingBreakpoint(
+		[out] IDebugPendingBreakpoint2** ppPendingBP);
+
+	HRESULT EnumBoundBreakpoints(
+		[out] IEnumDebugBoundBreakpoints2** ppEnum);
+};
+
+// ------------------------------------------------------------------
+// IDebugBreakpointUnboundEvent2
+
+[
+	object,
+	uuid(78d1db4f-c557-4dc5-a2dd-5369d21b1c8c),
+	pointer_default(unique)
+]
+interface IDebugBreakpointUnboundEvent2: IUnknown
+{
+	enum enum_BP_UNBOUND_REASON
+	{
+		BPUR_UNKNOWN			= 0x0001,
+		BPUR_CODE_UNLOADED		= 0x0002,
+		// BPUR_BREAKPOINT_REBIND means the breakpoint is being unbound
+		// because it is being rebound to a different location. (For example,
+		// this can happen after an ENC when the breakpoint moves, or if this
+		// breakpoint was originally bound with a less than perfect file
+		// name match.) Generally, the IDE will discard any persisted information
+		// about this breakpoint.
+		BPUR_BREAKPOINT_REBIND	= 0x0003,
+        // BPUR_BREAKPOINT_ERROR means that the breakpoint was deemed to be in error
+        // after it was bound.  This will happen for managed bps whose condition is
+        // not valid.
+        BPUR_BREAKPOINT_ERROR   = 0x0004
+	};
+	typedef DWORD BP_UNBOUND_REASON;
+
+	HRESULT GetBreakpoint(
+		[out] IDebugBoundBreakpoint2** ppBP);
+
+    HRESULT GetReason(
+		[out] BP_UNBOUND_REASON* pdwUnboundReason);
+};
+
+// ------------------------------------------------------------------
+// IDebugBreakpointErrorEvent2
+
+[
+	object,
+	uuid(abb0ca42-f82b-4622-84e4-6903ae90f210),
+	pointer_default(unique)
+]
+interface IDebugBreakpointErrorEvent2: IUnknown
+{
+	HRESULT GetErrorBreakpoint(
+		[out] IDebugErrorBreakpoint2** ppErrorBP);
+};
+
+// ------------------------------------------------------------------
+// IDebugExpressionEvaluationCompleteEvent2
+[
+	object,
+	uuid(c0e13a85-238a-4800-8315-d947c960a843),
+	pointer_default(unique)
+]
+interface IDebugExpressionEvaluationCompleteEvent2 : IUnknown
+{
+	HRESULT GetExpression(
+		[out] IDebugExpression2** ppExpr);
+
+	HRESULT GetResult(
+		[out] IDebugProperty2** ppResult);
+};
+
+// ------------------------------------------------------------------
+// IDebugReturnValueEvent2
+[
+	object,
+	uuid(0da4d4cc-2d0b-410f-8d5d-b6b73a5d35d8),
+	pointer_default(unique)
+]
+interface IDebugReturnValueEvent2: IUnknown
+{
+	HRESULT	GetReturnValue(
+		[out] IDebugProperty2** ppReturnValue);
+};
+
+
+// ------------------------------------------------------------------
+// IDebugNoSymbolsEvent2
+[
+	object,
+	uuid(3ad4fb48-647e-4b03-9c1e-52754e80c880),
+	pointer_default(unique)
+]
+interface IDebugNoSymbolsEvent2: IUnknown
+{
+};
+
+// ------------------------------------------------------------------
+// IDebugProgramNameChangedEvent2
+[
+	object,
+	uuid(e05c2dfd-59d5-46d3-a71c-5d07665d85af),
+	pointer_default(unique)
+]
+interface IDebugProgramNameChangedEvent2: IUnknown
+{
+};
+
+// ------------------------------------------------------------------
+// IDebugThreadNameChangedEvent2
+[
+	object,
+	uuid(1ef4ef78-2c44-4b7a-8473-8f4357611729),
+	pointer_default(unique)
+]
+interface IDebugThreadNameChangedEvent2: IUnknown
+{
+};
+
+// ------------------------------------------------------------------
+// IDebugMessageEvent2
+[
+	object,
+	uuid(3bdb28cf-dbd2-4d24-af03-01072b67eb9e),
+	pointer_default(unique)
+]
+interface IDebugMessageEvent2: IUnknown
+{
+    enum enum_MESSAGETYPE
+    {
+        // the following values indicate the how to display the message
+        MT_OUTPUTSTRING      = 0x00000001, // output a message to the Output window
+        MT_MESSAGEBOX        = 0x00000002, // display a message box 
+        MT_TYPE_MASK         = 0x000000FF,
+
+        // the following values provides reasons for the message
+        MT_REASON_EXCEPTION  = 0x00000100,
+        MT_REASON_TRACEPOINT = 0x00000200,
+        MT_REASON_MASK       = 0x0000FF00,
+    };
+    typedef DWORD MESSAGETYPE;
+
+	HRESULT GetMessage(
+		[out] MESSAGETYPE* pMessageType,
+		[out] BSTR* pbstrMessage,
+		// Use the MB_* constants
+		[out] DWORD* pdwType,
+		[out] BSTR* pbstrHelpFileName,
+		[out] DWORD* pdwHelpId);
+
+	HRESULT SetResponse(
+		[in] DWORD dwResponse);
+
+};
+
+// ------------------------------------------------------------------
+// IDebugErrorEvent2
+[
+	object,
+	uuid(fdb7a36c-8c53-41da-a337-8bd86b14d5cb),
+	pointer_default(unique)
+]
+interface IDebugErrorEvent2: IUnknown
+{
+	// Note: format should be of the form:
+	//    "Unable to stand on my head. %1"
+	HRESULT GetErrorMessage(
+		[out] MESSAGETYPE* pMessageType,
+		[out] BSTR* pbstrErrorFormat,
+		[out] HRESULT* phrErrorReason,
+		// Use the MB_* constants
+		[out] DWORD* pdwType,
+		[out] BSTR* pbstrHelpFileName,
+		[out] DWORD* pdwHelpId);
+};
+
+
+// ------------------------------------------------------------------
+// IDebugActivateDocumentEvent2
+[
+	object,
+	uuid(58f36c3d-7d07-4eba-a041-62f63e188037),
+	pointer_default(unique)
+]
+interface IDebugActivateDocumentEvent2: IUnknown
+{
+	HRESULT GetDocument(
+		[out] IDebugDocument2** ppDoc);
+
+	HRESULT GetDocumentContext(
+		[out] IDebugDocumentContext2** ppDocContext);
+};
+
+// ------------------------------------------------------------------
+// IDebugInterceptExceptionCompleteEvent2
+[
+	object,
+	uuid(44FCEACA-7F56-4d2c-A637-60052B1B9CBE),
+	pointer_default(unique)
+]
+interface IDebugInterceptExceptionCompleteEvent2: IUnknown
+{
+	HRESULT GetInterceptCookie(
+		[out] UINT64* pqwCookie);
+};
+
+// ------------------------------------------------------------------
+// IDebugAttachCompleteEvent2
+[
+	object,
+	uuid(fe1fd9ea-6413-4183-a67d-588870014e97),
+	pointer_default(unique)
+]
+interface IDebugAttachCompleteEvent2: IUnknown
+{
+};
+
+// ------------------------------------------------------------------
+// IDebugFuncEvalAbortedEvent2
+[
+	object,
+	uuid(3f3be369-0b78-4511-91e5-08f9fc5cae0d),
+	pointer_default(unique)
+]
+interface IDebugFuncEvalAbortedEvent2: IUnknown
+{
+	enum tagFUNC_EVAL_ABORT_RESULT
+	{
+		ABORT_SUCCEEDED = 0,
+		RUDE_ABORT_SUCCEEDED = 1,
+		ABORT_FAILED = 2,
+		ABORT_HUNG = 3,
+		PROCESS_TERMINATED = 4
+	};
+
+	typedef enum tagFUNC_EVAL_ABORT_RESULT FUNC_EVAL_ABORT_RESULT;
+
+	HRESULT GetAbortResult(
+		[out] FUNC_EVAL_ABORT_RESULT* pResult);
+
+	HRESULT GetFunctionName(
+		[out] BSTR* pbstrFunctionName);
+};
+
+// ------------------------------------------------------------------
+// IDebugStopCompleteEvent2
+[
+	object,
+	uuid(3dca9dcd-fb09-4af1-a926-45f293d48b2d),
+	pointer_default(unique)
+]
+interface IDebugStopCompleteEvent2: IUnknown
+{
+};
+
+enum tagEncUnavailableReason
+{
+    ENCUN_NONE,
+    ENCUN_INTEROP,
+    ENCUN_SQLCLR,
+    ENCUN_MINIDUMP,
+    ENCUN_EMBEDDED,
+    ENCUN_ATTACH,
+    ENCUN_WIN64,
+    ENCUN_STOPONEMODE,
+    ENCUN_MODULENOTLOADED,
+    ENCUN_MODULERELOADED,
+    ENCUN_INRUNMODE,
+    ENCUN_NOTBUILT,
+    ENCUN_REMOTE,
+    ENCUN_SILVERLIGHT
+  
+};
+typedef enum tagEncUnavailableReason EncUnavailableReason;
+
+// The VSdebug Package implements this interface.
+[
+	object,
+	uuid(347C45E1-5C42-4e0e-9E15-DEFF9CFC7841),
+	pointer_default(unique)
+]
+interface IDebugEncNotify : IUnknown
+{
+	// This method allows the ENCManager to tell the package that ENC
+	// is not available as soon as it can be determined rather than waiting for a call from the package.
+	HRESULT NotifyEncIsUnavailable(
+		[in] EncUnavailableReason reason,
+		[in] BOOL fEditWasApplied);
+
+	// This method allows the Lang Serice to Notify the package that the Current Statement 
+	// must be updated due to an edit.
+	HRESULT NotifyEncUpdateCurrentStatement();
+
+	// This method allows the Lang Service to Notify the package that an edit was attempted
+	// when the debuggee is in a state that cannot accept changes.
+	HRESULT NotifyEncEditAttemptedAtInvalidStopState();
+
+	// This allows the Lang Service or project to tell the package that it prevented
+	// an edit from occuring.
+	// The package is responsible for asking the ENC manager why ENC would not be 
+	// allowed at this point.
+	HRESULT NotifyEncEditDisallowedByProject(
+		[in] IUnknown* pProject);
+}
+
+// ------------------------------------------------------------------
+// IDebugSessionEvent2 - implemented by all SDM events (such as session
+// create/destroy)
+[
+	object,
+	uuid(fd1a378c-f117-4f43-917c-dadca1308606),
+	pointer_default(unique)
+]
+interface IDebugSessionEvent2: IUnknown
+{
+	HRESULT GetSession(
+		[out] IDebugSession2 **ppSession);
+};
+
+// ------------------------------------------------------------------
+// IDebugProcess2
+[
+	object,
+	uuid(43286fea-6997-4543-803e-60a20c473de5),
+	pointer_default(unique)
+]
+interface IDebugProcess2: IUnknown
+{
+	enum enum_PROCESS_INFO_FLAGS
+	{
+		PIFLAG_SYSTEM_PROCESS		= 0x00000001,
+		PIFLAG_DEBUGGER_ATTACHED	= 0x00000002,
+		// The flags below are only valid in VS8 and above
+		// and are only set when PIFLAG_DEBUGGER_ATTACHED
+		// is set.
+		PIFLAG_PROCESS_STOPPED		= 0x00000004,
+		PIFLAG_PROCESS_RUNNING		= 0x00000008,
+	};
+	typedef DWORD PROCESS_INFO_FLAGS;
+
+	enum enum_PROCESS_INFO_FIELDS
+	{
+		PIF_FILE_NAME				= 0x00000001,
+		PIF_BASE_NAME				= 0x00000002,
+		PIF_TITLE					= 0x00000004,
+		PIF_PROCESS_ID				= 0x00000008,
+		PIF_SESSION_ID				= 0x00000010,
+		PIF_ATTACHED_SESSION_NAME	= 0x00000020,
+		PIF_CREATION_TIME			= 0x00000040,
+		PIF_FLAGS					= 0x00000080,
+
+		PIF_ALL						= 0x000000ff,
+	};
+	typedef DWORD PROCESS_INFO_FIELDS;
+
+	typedef struct tagPROCESS_INFO
+	{
+		// Valid fields
+		PROCESS_INFO_FIELDS	Fields;
+		// Full path+file name+extension; equivalent to calling GetName(GN_FILENAME, ...)
+		BSTR				bstrFileName;
+		// File name+extension; equivalent to calling GetName(GN_BASENAME, ...)
+		BSTR				bstrBaseName;
+		// Title (if one exists); equivalent to calling GetName(GN_TITLE, ...)
+		BSTR				bstrTitle;
+		// Process id; equivalent to calling GetPhysicalProcessId
+		AD_PROCESS_ID		ProcessId;
+		// Session id: the system session that this process is running in
+		DWORD				dwSessionId;
+		// Attached session name (if one exists); equivalent to calling GetAttachedSessionName
+		BSTR				bstrAttachedSessionName;
+		// Time the process was created
+		FILETIME			CreationTime;
+		// Flags
+		PROCESS_INFO_FLAGS	Flags;
+	} PROCESS_INFO;
+
+	HRESULT GetInfo(
+		[in] PROCESS_INFO_FIELDS Fields,
+		[out] PROCESS_INFO* pProcessInfo);
+
+	HRESULT EnumPrograms(
+		[out] IEnumDebugPrograms2** ppEnum);
+
+	HRESULT GetName(
+		[in] GETNAME_TYPE gnType,
+		[out] BSTR* pbstrName);
+
+	HRESULT GetServer(
+		[out] IDebugCoreServer2** ppServer);
+
+	HRESULT Terminate(void);
+
+	HRESULT Attach(
+		[in] IDebugEventCallback2* pCallback,
+		[in, size_is(celtSpecificEngines)] GUID* rgguidSpecificEngines,
+		[in] DWORD celtSpecificEngines,
+		[out, size_is(celtSpecificEngines), length_is(celtSpecificEngines)] HRESULT* rghrEngineAttach);
+
+	HRESULT CanDetach(void);
+
+	HRESULT Detach(void);
+
+	HRESULT GetPhysicalProcessId(
+		[out] AD_PROCESS_ID* pProcessId);
+
+	HRESULT GetProcessId(
+		[out] GUID* pguidProcessId);
+
+	HRESULT GetAttachedSessionName(
+		[out] BSTR* pbstrSessionName);
+
+	// Get a list of threads in this process (no duplicates)
+	HRESULT EnumThreads(
+		[out] IEnumDebugThreads2** ppEnum);
+
+	HRESULT CauseBreak(void);
+
+	HRESULT GetPort(
+		[out] IDebugPort2** ppPort);
+};
+
+[
+	object,
+	uuid(83ab1712-18a6-47a1-8da6-8c7b0f96092e),
+	pointer_default(unique)
+]
+interface IDebugProcess3: IDebugProcess2
+{
+	enum enum_STEPKIND
+	{
+		STEP_INTO,
+		STEP_OVER,
+		STEP_OUT,
+		STEP_BACKWARDS
+	};
+	typedef DWORD STEPKIND;
+
+	enum enum_STEPUNIT
+	{
+		STEP_STATEMENT,
+		STEP_LINE,
+		STEP_INSTRUCTION,
+	};
+	typedef DWORD STEPUNIT;
+
+	enum enum_DEBUG_REASON
+	{
+		DEBUG_REASON_ERROR,
+		DEBUG_REASON_USER_LAUNCHED,
+		DEBUG_REASON_USER_ATTACHED,
+		DEBUG_REASON_AUTO_ATTACHED,
+		DEBUG_REASON_CAUSALITY
+	};
+	typedef DWORD DEBUG_REASON;
+
+	// Execute the process. The thread is given so that the debugger
+	// knows which thread the user is viewing when executing.
+	HRESULT Execute(
+		[in] IDebugThread2* pThread);
+
+	// Continue the process in whatever state is was previously in. If
+	// the process was stepping, then continue the step; otherwise,
+	// continue execution.
+	HRESULT Continue(
+		[in] IDebugThread2* pThread);
+
+	// Step the process. The thread specified is stepped and all other
+	// threads in the process run.
+	HRESULT Step(
+		[in] IDebugThread2* pThread,
+		[in] STEPKIND sk,
+		[in] STEPUNIT step);
+
+	HRESULT GetDebugReason(
+		[out] DEBUG_REASON *pReason);
+
+	// Provide a way to indicate the HostingProcessLanguage so that the managed
+	// debug engine can preload the right EE.
+	HRESULT SetHostingProcessLanguage([in] REFGUID guidLang);
+	HRESULT GetHostingProcessLanguage([out] GUID* pguidLang);
+
+	// Provide a mechanism for the Package to explicitly disable ENC.
+	// EncUnavailableReason is defined in enc.idl
+	HRESULT DisableENC(
+		[in]EncUnavailableReason reason);
+	HRESULT GetENCAvailableState(
+		[out]EncUnavailableReason* preason);
+
+	HRESULT GetEngineFilter(
+		[out] GUID_ARRAY *pEngineArray);
+};
+
+[
+	object,
+	uuid(fca0c35c-4c02-432b-88f7-eb277be2ba55),
+	pointer_default(unique)
+]
+interface IDebugProcessSecurity2: IUnknown
+{
+	HRESULT QueryCanSafelyAttach(
+		);
+
+	HRESULT GetUserName(
+		[out] BSTR *pbstrUserName
+		);
+};
+
+// ------------------------------------------------------------------
+// IDebugProgram2
+[
+	object,
+	uuid(69d172ef-f2c4-44e1-89f7-c86231e706e9),
+	pointer_default(unique)
+]
+interface IDebugProgram2: IUnknown
+{
+	enum enum_DISASSEMBLY_STREAM_SCOPE
+	{
+		DSS_HUGE		= 0x10000000,
+		// Get the disasm for the function contained by the code context
+		DSS_FUNCTION	= 0x0001,		
+		// Get the disasm for the module contained by the code context
+		DSS_MODULE		= (DSS_HUGE) | 0x0002,
+		// Get the disasm for the entire address space
+		DSS_ALL			= (DSS_HUGE) | 0x0003
+	};
+	typedef DWORD DISASSEMBLY_STREAM_SCOPE;
+
+	enum enum_DUMPTYPE
+	{
+		// "mini" dump of the program state
+		DUMP_MINIDUMP,
+		// full dump of the program state
+		DUMP_FULLDUMP,
+	};
+	typedef DWORD DUMPTYPE;
+
+	typedef struct tagCODE_PATH
+	{
+		BSTR bstrName;
+		IDebugCodeContext2* pCode;
+	} CODE_PATH;
+
+    HRESULT EnumThreads(
+		[out] IEnumDebugThreads2** ppEnum);
+
+	HRESULT GetName(
+		[out] BSTR* pbstrName);
+
+	HRESULT GetProcess(
+		[out] IDebugProcess2** ppProcess);
+
+	HRESULT Terminate(void);
+
+	HRESULT Attach(
+		[in] IDebugEventCallback2* pCallback);
+
+	HRESULT CanDetach(void);
+
+	HRESULT Detach(void);
+
+	HRESULT GetProgramId(
+		[out] GUID* pguidProgramId);
+
+	HRESULT GetDebugProperty(
+		[out] IDebugProperty2** ppProperty);
+
+	// To execute during an expression evaluation, use IDebugProcess3::
+	// Execute. Execution during expression evaluation requires
+	// a thread so that the correct expression evaluation can be continued.
+	HRESULT Execute(void);
+
+    // Continue, preserving state
+    HRESULT Continue(
+        [in] IDebugThread2* pThread);
+
+	HRESULT Step(
+		[in] IDebugThread2* pThread,
+		[in] STEPKIND sk,
+		[in] STEPUNIT step);
+
+	HRESULT CauseBreak(void);
+
+	HRESULT GetEngineInfo(
+		[out] BSTR* pbstrEngine,
+		[out] GUID* pguidEngine);
+
+	HRESULT EnumCodeContexts(
+        [in] IDebugDocumentPosition2* pDocPos,
+		[out] IEnumDebugCodeContexts2** ppEnum);
+
+	HRESULT GetMemoryBytes(
+		[out] IDebugMemoryBytes2** ppMemoryBytes);
+
+	HRESULT GetDisassemblyStream(
+		[in] DISASSEMBLY_STREAM_SCOPE dwScope,
+		[in] IDebugCodeContext2* pCodeContext,
+		[out] IDebugDisassemblyStream2** ppDisassemblyStream);
+
+	HRESULT EnumModules(
+		[out] IEnumDebugModules2** ppEnum);
+
+	HRESULT GetENCUpdate(
+		[out] IDebugENCUpdate** ppUpdate);
+
+	HRESULT EnumCodePaths(
+		[in, ptr] LPCOLESTR pszHint,
+		[in] IDebugCodeContext2* pStart,
+		[in] IDebugStackFrame2* pFrame,
+		[in] BOOL fSource,
+		[out] IEnumCodePaths2** ppEnum,
+		[out] IDebugCodeContext2** ppSafety);
+
+	HRESULT WriteDump(
+		[in] DUMPTYPE DumpType,
+		[in] LPCOLESTR pszDumpUrl
+		);
+
+};
+
+// ------------------------------------------------------------------
+// IDebugProgram3
+[
+	object,
+	uuid(7CF3EC7F-AC62-4cd6-BB30-39A464CB52CB),
+	pointer_default(unique)
+]
+interface IDebugProgram3: IDebugProgram2
+{
+	// Execute the program. The thread is given so that the debugger
+	// knows which thread the user is viewing when executing.
+	HRESULT ExecuteOnThread(
+		[in] IDebugThread2* pThread);
+};
+
+// ------------------------------------------------------------------
+// IDebugEngineProgram2
+[
+	object,
+	uuid(7ce3e768-654d-4ba7-8d95-cdaac642b141),
+	pointer_default(unique)
+]
+interface IDebugEngineProgram2: IUnknown
+{
+	enum enum_WATCHFOREVAL
+	{
+		// the program being notified is the leaf program (it owns the leaf frame)
+		WATCHFOREVAL_LEAF_PROGRAM = 0x10000000
+	};
+
+	// Stop all threads running in this program
+	HRESULT Stop(void);
+
+    HRESULT WatchForThreadStep(
+		[in] IDebugProgram2* pOriginatingProgram,
+        [in] DWORD dwTid,
+        [in] BOOL fWatch,
+        [in] DWORD dwFrame);
+
+	HRESULT WatchForExpressionEvaluationOnThread(
+		[in] IDebugProgram2* pOriginatingProgram,
+		[in] DWORD dwTid,
+		[in] DWORD dwEvalFlags,
+		// pExprCallback must be NULL in V8 and above
+		[in] IDebugEventCallback2* pExprCallback,
+		[in] BOOL fWatch);
+};
+
+// ------------------------------------------------------------------
+// IDebugProgramHost2
+[
+	object,
+	uuid(c99d588f-778c-44fe-8b2e-40124a738891),
+	pointer_default(unique)
+]
+interface IDebugProgramHost2: IUnknown
+{
+	HRESULT GetHostName(
+        [in] DWORD dwType,
+		[out] BSTR* pbstrHostName);
+
+	HRESULT GetHostId(
+		[out] AD_PROCESS_ID* pProcessId);
+
+	HRESULT GetHostMachineName(
+		[out] BSTR* pbstrHostMachineName);
+};
+
+// ------------------------------------------------------------------
+// IDebugProgramNode2
+[
+	object,
+	uuid(426e255c-f1ce-4d02-a931-f9a254bf7f0f),
+	pointer_default(unique)
+]
+interface IDebugProgramNode2: IUnknown
+{
+	enum enum_GETHOSTNAME_TYPE
+	{
+		GHN_FRIENDLY_NAME,	// Gets friendly name of the host
+		GHN_FILE_NAME,		// Gets the file name of the host
+	};
+	typedef DWORD GETHOSTNAME_TYPE;
+
+	HRESULT GetProgramName(
+		[out] BSTR* pbstrProgramName);
+
+	HRESULT GetHostName(
+		[in] GETHOSTNAME_TYPE dwHostNameType,
+		[out] BSTR* pbstrHostName);
+
+	HRESULT GetHostPid(
+		[out] AD_PROCESS_ID* pHostProcessId);
+
+	// method is no longer used, and does not need to be implemented
+	HRESULT GetHostMachineName_V7(
+		[out] BSTR* pbstrHostMachineName);
+
+	// method is no longer used, and should not be implemented
+	HRESULT Attach_V7(
+		[in] IDebugProgram2* pMDMProgram,
+		[in] IDebugEventCallback2* pCallback,
+		[in] DWORD dwReason);
+
+	HRESULT GetEngineInfo(
+		[out] BSTR* pbstrEngine,
+		[out] GUID* pguidEngine);
+
+	// method is no longer used, and should not be implemented
+	HRESULT DetachDebugger_V7(void);
+};
+
+[
+	object,
+	uuid(73faa608-5f87-4d2b-9551-8440b1cbf54c),
+	pointer_default(unique)
+]
+interface IDebugProgramNodeAttach2: IUnknown
+{
+	// This is the whidbey replacement for IDebugProgramNode2::Attach.
+	// This gives a program node a chance to say that it doesn't want
+	// to be debugged, and to know the program id on the port
+	// supplier program
+	HRESULT OnAttach(
+		[in] REFGUID guidProgramId);
+};
+
+// ------------------------------------------------------------------
+// IDebugProgramEngines2
+//
+// IDebugProgramEngines2 is implemented by program nodes to indicate
+// all the possible DEs that can debug this program. Once a DE is
+// chosen (via some UI) that choice is registered by calling SetEngine.
+// This engine will then be the engine returned by
+// IDebugProgramNode::GetEngineInfo.
+[
+	object,
+	uuid(fda24a6b-b142-447d-bbbc-8654a3d84f80),
+	pointer_default(unique)
+]
+interface IDebugProgramEngines2: IUnknown
+{
+	// In order to determine how many engines there are, call once
+	// with celtBuffer set to 0 and rgguidEngines set to NULL. This
+	// function will return HRESULT_FROM_WIN32(ERROR_INSUFFICIENT_BUFFER)
+	// anytime the buffer is too small and *pceltEngines will contain
+	// the necessary size of the buffer.
+	HRESULT EnumPossibleEngines(
+		[in] DWORD celtBuffer,
+		[in, out, ptr, size_is(celtBuffer), length_is(*pceltEngines)] GUID* rgguidEngines,
+		[in, out] DWORD* pceltEngines);
+
+	// Tell the program/program node which engine to use for debugging this program
+	HRESULT SetEngine(
+		[in] REFGUID guidEngine);
+};
+
+// ------------------------------------------------------------------
+// IDebugCOMPlusProgramNode2
+[
+	object,
+	uuid(d6f7d3d0-506a-448f-8702-46eb2745e4fc),
+	pointer_default(unique)
+]
+interface IDebugCOMPlusProgramNode2: IUnknown
+{
+	HRESULT GetAppDomainId(
+		[out] ULONG32* pul32Id);
+};
+
+// ------------------------------------------------------------------
+// IDebugSQLCLRProgramNode2
+[
+	object,
+	uuid(F617DFCB-0045-4024-837B-7ACAD8F4D67B),
+	pointer_default(unique)
+]
+interface IDebugSQLCLRProgramNode2: IUnknown
+{
+	HRESULT GetConnectionId(
+		[out] DWORD* pdwId);
+};
+
+// ------------------------------------------------------------------
+// IDebugThread2
+[
+	object,
+	uuid(d5168050-a57a-465c-bea9-974f405eba13),
+	pointer_default(unique)
+]
+interface IDebugThread2: IUnknown
+{
+	enum enum_THREADSTATE
+	{
+		// The thread is running
+		THREADSTATE_RUNNING		= 0x0001,
+		// The thread is stopped because of a breakpoint
+		THREADSTATE_STOPPED		= 0x0002,
+		// The thread has been created, but is not yet running code
+		THREADSTATE_FRESH		= 0x0003,
+		// The thread is dead
+		THREADSTATE_DEAD		= 0x0004,
+		// The thread is frozen (no execution can be performed)
+		THREADSTATE_FROZEN		= 0x0005,
+	};
+	typedef DWORD THREADSTATE;
+
+	enum enum_THREADPROPERTY_FIELDS
+	{
+		TPF_ID				= 0x0001,
+		TPF_SUSPENDCOUNT	= 0x0002,
+		TPF_STATE			= 0x0004,
+		TPF_PRIORITY		= 0x0008,
+		TPF_NAME			= 0x0010,
+		TPF_LOCATION		= 0x0020,
+
+		TPF_ALLFIELDS		= 0xffffffff,
+	};
+	typedef DWORD THREADPROPERTY_FIELDS;
+
+    typedef struct _tagTHREADPROPERTIES
+    {
+		THREADPROPERTY_FIELDS dwFields;
+        DWORD dwThreadId;
+        DWORD dwSuspendCount;
+		DWORD dwThreadState;
+        BSTR bstrPriority;
+        BSTR bstrName;
+		BSTR bstrLocation;
+    } THREADPROPERTIES;
+
+	// If adding a new flag be sure to check bit is not already in use. Bit usage isn't ordered.
+	enum enum_FRAMEINFO_FLAGS
+	{
+		// FRAMEINFO fields
+		FIF_FUNCNAME	        	= 0x00000001,
+		FIF_RETURNTYPE	        	= 0x00000002,
+		FIF_ARGS		        	= 0x00000004,
+		FIF_LANGUAGE	        	= 0x00000008,
+		FIF_MODULE		        	= 0x00000010, // The name of the module (m_bstrModule)
+		FIF_STACKRANGE	         	= 0x00000020,
+		FIF_FRAME		        	= 0x00000040,
+		FIF_DEBUGINFO	        	= 0x00000080,
+		FIF_STALECODE	        	= 0x00000100,
+		FIF_FLAGS			        = 0x00000200,
+		FIF_DEBUG_MODULEP           = 0x00000400, // the IDebugModule2* for this frame. (m_pModule)
+
+		// Function name formatting
+
+		// Fill in the m_bstrFuncName field as a single string using all the flags specified below
+        // Specifying FIF_FUNCNAME | FIF_FUNCNAME_FORMAT | FIF_FUNCNAME_RETURNTYPE | FIF_FUNCNAME_ARGS | FIF_FUNCNAME_ARGS_TYPE | FIF_FUNCNAME_ARGS_NAMES | FIF_FUNCNAME_ARGS_VALUES
+        // Results in: int CFoo::foo(int x = 1, int y = 2)
+
+		FIF_FUNCNAME_FORMAT         = 0x00001000,
+        // Add the return type to the formatted function name
+		FIF_FUNCNAME_RETURNTYPE     = 0x00002000,
+        // Add the args to the formatted function name
+		FIF_FUNCNAME_ARGS           = 0x00004000,
+        // Add the language to the formatted function name
+		FIF_FUNCNAME_LANGUAGE       = 0x00008000,
+		// Add the module name to the formatted function name
+		FIF_FUNCNAME_MODULE         = 0x00010000,
+		// Add the number of lines to the end of the function name
+		FIF_FUNCNAME_LINES          = 0x00020000,
+		// Add the bytes offset to the end of the function name
+		FIF_FUNCNAME_OFFSET         = 0x00040000,
+
+        // Function name argument formatting
+
+		// Format the args in the formatted function name (example: (x = 3, y = 4))
+		FIF_FUNCNAME_ARGS_TYPES		= 0x00100000,
+		FIF_FUNCNAME_ARGS_NAMES		= 0x00200000,
+		FIF_FUNCNAME_ARGS_VALUES	= 0x00400000,
+
+        FIF_FUNCNAME_ARGS_ALL       = 0x00700000,
+
+        // Argument formatting (in m_bstrArgs)
+        FIF_ARGS_TYPES              = 0x01000000,
+        FIF_ARGS_NAMES              = 0x02000000,
+        FIF_ARGS_VALUES             = 0x04000000,
+
+        FIF_ARGS_ALL                = 0x07000000,
+
+		// If a client wants to be able to manipulate each arg separately,
+		// set the FIF_ARGS_NOFORMAT and each FIF_ARGS_* flag will cause a
+		// null-termianted string to be added to m_bstrArgs.
+		// m_bstrArgs will then contain a series of null-terminated strings--
+		// one string per flag per arg. For example, if the name and value
+		// flag are set and there are two args x and y, the string would be
+		// "x<null char>3<null char>y<null char>4<null char>".
+		FIF_ARGS_NOFORMAT       	= 0x08000000,
+
+		// For argument values, set FIF_ARGS_NO_FUNC_EVAL to turn off
+		// function (property) evaluation when retrieving argument values.
+		// This applies to whether arguments are being formatted in
+		// the function name string or in m_bstrArgs.  See also 
+        // FIF_ARGS_NO_TOSTRING.
+		FIF_ARGS_NO_FUNC_EVAL		= 0x10000000,
+
+		// Have the engine to filter user code frames. (Perf)
+		FIF_FILTER_NON_USER_CODE    = 0x20000000,
+
+        // Do not allow ToString() func-evals when returning function arguments.
+        FIF_ARGS_NO_TOSTRING        = 0x40000000,
+
+	// frame info should be gotten from the hosted app-domain
+	// rather than the hosting process.
+	FIF_DESIGN_TIME_EXPR_EVAL   = 0x80000000,
+
+		// Include all frames
+		FIF_FILTER_INCLUDE_ALL     = 0x00080000
+	};
+	typedef DWORD FRAMEINFO_FLAGS;
+
+    enum enum_FRAMEINFO_FLAGS_VALUES
+    {
+		FIFV_ANNOTATEDFRAME = 0x00000001,
+        FIFV_NON_USER_CODE  = 0x00000002,
+        FIFV_CANINTERCEPT_EXCEPTION = 0x00000004,
+        FIFV_FUNCEVALFRAME = 0x00000008,
+    };
+
+    typedef DWORD FRAMEINFO_FLAGS_VALUES;
+
+	typedef struct tagFRAMEINFO
+	{
+		FRAMEINFO_FLAGS			m_dwValidFields;	// which FRAMEINFO fields were successfully initialized
+		BSTR					m_bstrFuncName;		// function name
+		BSTR					m_bstrReturnType;	// function return type
+		BSTR					m_bstrArgs;			// function arguments (
+		BSTR					m_bstrLanguage;		// language name
+		BSTR					m_bstrModule;		// module name (i.e. "msvcrt.dll" or "Test.class")
+		UINT64					m_addrMin;			// minimum physical stack address
+		UINT64					m_addrMax;			// maximum physical stack address
+		IDebugStackFrame2*		m_pFrame;			// IDebugStackFrame2 object corresponding to this stack frame
+		IDebugModule2*			m_pModule;			// Module this frame is in.
+		BOOL                    m_fHasDebugInfo;    // TRUE if there is debug information in that frame.
+		BOOL					m_fStaleCode;		// TRUE if frame corresponds to stale code
+		DWORD					m_dwFlags;	        // Flags
+	} FRAMEINFO;
+
+	HRESULT EnumFrameInfo(
+		[in]  FRAMEINFO_FLAGS dwFieldSpec,
+		[in]  UINT nRadix,
+		[out] IEnumDebugFrameInfo2** ppEnum);
+
+	HRESULT GetName(
+		[out] BSTR* pbstrName);
+
+	HRESULT SetThreadName(
+		[in] LPCOLESTR pszName);
+
+	HRESULT GetProgram(
+		[out] IDebugProgram2** ppProgram);
+
+    HRESULT CanSetNextStatement(
+		[in] IDebugStackFrame2* pStackFrame,
+		[in] IDebugCodeContext2* pCodeContext);
+
+	HRESULT SetNextStatement (
+		[in] IDebugStackFrame2* pStackFrame,
+		[in] IDebugCodeContext2* pCodeContext);
+
+	HRESULT GetThreadId(
+		[out] DWORD* pdwThreadId);
+
+    HRESULT Suspend(
+        [out] DWORD *pdwSuspendCount);
+
+    HRESULT Resume(
+        [out] DWORD *pdwSuspendCount);
+
+    HRESULT GetThreadProperties(
+		[in] THREADPROPERTY_FIELDS dwFields,
+        [out] THREADPROPERTIES *ptp);
+
+	HRESULT GetLogicalThread(
+		[in] IDebugStackFrame2* pStackFrame,
+		[out] IDebugLogicalThread2 **ppLogicalThread);
+};
+
+// ------------------------------------------------------------------
+// IDebugLogicalThread2
+// {95E4AC61-D37E-4fce-B6C6-C05A80AB946A}
+// DEFINE_GUID(<<name>>,
+// 0x95e4ac61, 0xd37e, 0x4fce, 0xb6, 0xc6, 0xc0, 0x5a, 0x80, 0xab, 0x94, 0x6a);
+[
+	object,
+	uuid(88d2f75b-d329-4e03-9b75-201f7782d8bd),
+	pointer_default(unique)
+]
+interface IDebugLogicalThread2 : IUnknown
+{
+	HRESULT EnumFrameInfo
+	(
+		[in]  FRAMEINFO_FLAGS dwFieldSpec,
+		[in]  UINT nRadix,
+		[out] IEnumDebugFrameInfo2** ppEnum
+	);
+};
+
+// ------------------------------------------------------------------
+// IDebugThread3
+// {43D24196-0000-467f-8C6B-9C006922D02F}
+[
+	object,
+	uuid(43D24196-0000-467f-8C6B-9C006922D02F),
+	pointer_default(unique)
+]
+interface IDebugThread3 : IDebugThread2
+{
+	// Returns S_OK if there is a current exception, S_FALSE if there isn't.
+	HRESULT IsCurrentException(void);
+
+	// Determines If the leaf frame will remap immeadiately after an apply.
+	// It cannot determine if the IP is in a finally clause.  The user
+	// must also query IDebugENC2::IsLeafRemapPossible to handle that.
+	HRESULT CanRemapLeafFrame();
+	
+	// Force the leaf frame to remap.  Will only succeed if CanRemapLeafFrame
+	// would return S_OK.
+	HRESULT RemapLeafFrame();
+};
+
+// Place holder for when we add execution control methods to the thread
+#if 0
+// ------------------------------------------------------------------
+// IDebugEngineThread2
+[
+	object,
+	uuid(2c2c9a62-96cd-4d5f-839e-7002dc55504b),
+	pointer_default(unique)
+]
+interface IDebugEngineThread2: IUnknown
+{
+};
+#endif
+
+// -----------------------------------------------------------------------
+// IDebugProperty2 and IDebugReference2 attributes
+
+cpp_quote("#define DBG_ATTRIB_NONE					0x0000000000000000")
+cpp_quote("#define DBG_ATTRIB_ALL					0xffffffffffffffff")
+
+// Attributes about the object itself
+
+// The reference/property is expandable
+cpp_quote("#define DBG_ATTRIB_OBJ_IS_EXPANDABLE		0x0000000000000001")
+
+// This property indicates that an id for this object has been created.
+cpp_quote("#define DBG_ATTRIB_OBJ_HAS_ID            0x0000000000000002")
+// This property indicates that an id for this object can be created.
+cpp_quote("#define DBG_ATTRIB_OBJ_CAN_HAVE_ID            0x0000000000000004")
+
+// Attributes about the value of the object
+
+// The value of this reference/property is read only
+cpp_quote("#define DBG_ATTRIB_VALUE_READONLY		0x0000000000000010")
+// The value is an error
+cpp_quote("#define DBG_ATTRIB_VALUE_ERROR			0x0000000000000020")
+// The evaluation caused a side effect
+cpp_quote("#define DBG_ATTRIB_VALUE_SIDE_EFFECT		0x0000000000000040")
+// This property is really a container of overloads
+cpp_quote("#define DBG_ATTRIB_OVERLOADED_CONTAINER	0x0000000000000080")
+// This property is a boolean value
+cpp_quote("#define DBG_ATTRIB_VALUE_BOOLEAN			0x0000000000000100")
+// If DBG_ATTRIB_VALUE_BOOLEAN is set,
+// then this flag indicates whether the boolean value is true or false
+cpp_quote("#define DBG_ATTRIB_VALUE_BOOLEAN_TRUE	0x0000000000000200")
+// The value for this property is invalid (i.e. has no value)
+cpp_quote("#define DBG_ATTRIB_VALUE_INVALID			0x0000000000000400")
+// The value for this property is NAT (not a thing)
+cpp_quote("#define DBG_ATTRIB_VALUE_NAT				0x0000000000000800")
+// The value for this property has possibly been autoexpanded
+cpp_quote("#define DBG_ATTRIB_VALUE_AUTOEXPANDED	0x0000000000001000")
+// This property indicates an evaluation timed-out
+cpp_quote("#define DBG_ATTRIB_VALUE_TIMEOUT     	0x0000000000002000")
+// This property indicates that this property can be represented by a raw string
+cpp_quote("#define DBG_ATTRIB_VALUE_RAW_STRING      0x0000000000004000")
+// This property indicates that this property has a custom viewer
+cpp_quote("#define DBG_ATTRIB_VALUE_CUSTOM_VIEWER   0x0000000000008000")
+
+// Attributes that describe field access control
+cpp_quote("#define DBG_ATTRIB_ACCESS_NONE			0x0000000000010000")
+cpp_quote("#define DBG_ATTRIB_ACCESS_PUBLIC			0x0000000000020000")
+cpp_quote("#define DBG_ATTRIB_ACCESS_PRIVATE		0x0000000000040000")
+cpp_quote("#define DBG_ATTRIB_ACCESS_PROTECTED		0x0000000000080000")
+cpp_quote("#define DBG_ATTRIB_ACCESS_FINAL			0x0000000000100000")
+
+cpp_quote("#define DBG_ATTRIB_ACCESS_ALL			0x00000000001f0000")
+
+// Attributes that describe storage types
+cpp_quote("#define DBG_ATTRIB_STORAGE_NONE			0x0000000001000000")
+cpp_quote("#define DBG_ATTRIB_STORAGE_GLOBAL		0x0000000002000000")
+cpp_quote("#define DBG_ATTRIB_STORAGE_STATIC		0x0000000004000000")
+cpp_quote("#define DBG_ATTRIB_STORAGE_REGISTER		0x0000000008000000")
+
+cpp_quote("#define DBG_ATTRIB_STORAGE_ALL			0x000000000f000000")
+
+// Attributes that describe type modifiers
+cpp_quote("#define DBG_ATTRIB_TYPE_NONE				0x0000000100000000")
+cpp_quote("#define DBG_ATTRIB_TYPE_VIRTUAL			0x0000000200000000")
+cpp_quote("#define DBG_ATTRIB_TYPE_CONSTANT			0x0000000400000000")
+cpp_quote("#define DBG_ATTRIB_TYPE_SYNCHRONIZED		0x0000000800000000")
+cpp_quote("#define DBG_ATTRIB_TYPE_VOLATILE			0x0000001000000000")
+
+cpp_quote("#define DBG_ATTRIB_TYPE_ALL				0x0000001f00000000")
+
+// Attributes that describe the IDebugProperty2 type
+cpp_quote("#define DBG_ATTRIB_DATA					0x0000010000000000")
+cpp_quote("#define DBG_ATTRIB_METHOD				0x0000020000000000")
+cpp_quote("#define DBG_ATTRIB_PROPERTY				0x0000040000000000")
+cpp_quote("#define DBG_ATTRIB_CLASS					0x0000080000000000")
+cpp_quote("#define DBG_ATTRIB_BASECLASS				0x0000100000000000")
+cpp_quote("#define DBG_ATTRIB_INTERFACE				0x0000200000000000")
+cpp_quote("#define DBG_ATTRIB_INNERCLASS			0x0000400000000000")
+cpp_quote("#define DBG_ATTRIB_MOSTDERIVEDCLASS		0x0000800000000000")
+
+cpp_quote("#define DBG_ATTRIB_CHILD_ALL				0x0000ff0000000000")
+
+cpp_quote("#define DBG_ATTRIB_MULTI_CUSTOM_VIEWERS  0x0001000000000000")
+cpp_quote("#define DBG_ATTRIB_EVENT                 0x0002000000000000")
+
+
+typedef UINT64 DBG_ATTRIB_FLAGS;
+
+// -----------------------------------------------------------------------
+// IDebugProperty2
+
+enum enum_DEBUGPROP_INFO_FLAGS
+{
+	DEBUGPROP_INFO_FULLNAME					= 0x00000001,
+	DEBUGPROP_INFO_NAME						= 0x00000002,
+	DEBUGPROP_INFO_TYPE						= 0x00000004,
+	DEBUGPROP_INFO_VALUE					= 0x00000008,
+	DEBUGPROP_INFO_ATTRIB					= 0x00000010,
+	DEBUGPROP_INFO_PROP						= 0x00000020,
+
+	DEBUGPROP_INFO_VALUE_AUTOEXPAND			= 0x00010000,
+	DEBUGPROP_INFO_NOFUNCEVAL				= 0x00020000,   // Tell EE not to perform ANY type of func-eval.
+	DEBUGPROP_INFO_VALUE_RAW				= 0x00040000,   // Tell EE not to return any beautified values or members.
+	DEBUGPROP_INFO_VALUE_NO_TOSTRING		= 0x00080000,   // Tell EE not to return any special synthesized values (ToString() for instance).
+	DEBUGPROP_INFO_NO_NONPUBLIC_MEMBERS		= 0x00100000,   // Tell EE to return non-public members for non-user objects.
+
+	DEBUGPROP_INFO_NONE					= 0x00000000,
+	DEBUGPROP_INFO_STANDARD				= DEBUGPROP_INFO_ATTRIB | DEBUGPROP_INFO_NAME | DEBUGPROP_INFO_TYPE | DEBUGPROP_INFO_VALUE,
+	DEBUGPROP_INFO_ALL					= 0xffffffff
+};
+typedef DWORD DEBUGPROP_INFO_FLAGS;
+
+typedef struct tagDEBUG_PROPERTY_INFO
+{
+	DEBUGPROP_INFO_FLAGS	dwFields;
+	BSTR					bstrFullName;
+	BSTR					bstrName;
+	BSTR					bstrType;
+	BSTR					bstrValue;
+	IDebugProperty2*		pProperty;
+	DBG_ATTRIB_FLAGS		dwAttrib;
+} DEBUG_PROPERTY_INFO;
+
+typedef struct tagDEBUG_CUSTOM_VIEWER
+{
+    DWORD dwID;                 // An ID to differentiate multiple viewers implemented by one guid.
+    BSTR bstrMenuName;          // The text that will appear in the drop-down menu.
+    BSTR bstrDescription;       // A description of the Custom Viewer (NULL if not used)
+    GUID guidLang;              // Language of the providing EE
+    GUID guidVendor;            // Vendor of the providing EE
+    BSTR bstrMetric;            // metric under which viewer CLSID is stored
+} DEBUG_CUSTOM_VIEWER;
+
+[
+	object,
+	uuid(a7ee3e7e-2dd2-4ad7-9697-f4aae3427762),
+	pointer_default(unique)
+]
+interface IDebugProperty2: IUnknown
+{
+	// Get the DEBUG_PROPERTY_INFO that describes this property
+	HRESULT GetPropertyInfo(
+		[in] DEBUGPROP_INFO_FLAGS dwFields,
+		[in] DWORD dwRadix,
+		[in] DWORD dwTimeout,
+		[in, ptr, size_is(dwArgCount), length_is(dwArgCount)] IDebugReference2** rgpArgs,
+		[in] DWORD dwArgCount,
+		[out] DEBUG_PROPERTY_INFO* pPropertyInfo);
+
+	// Set the value of this property
+	HRESULT SetValueAsString(
+		[in] LPCOLESTR pszValue,
+		[in] DWORD dwRadix,
+		[in] DWORD dwTimeout);
+
+	// Set the value of this property
+	HRESULT SetValueAsReference(
+		[in, ptr, size_is(dwArgCount), length_is(dwArgCount)] IDebugReference2** rgpArgs,
+		[in] DWORD dwArgCount,
+		[in] IDebugReference2* pValue,
+		[in] DWORD dwTimeout);
+
+	// Enum the children of this property
+	HRESULT EnumChildren(
+		[in] DEBUGPROP_INFO_FLAGS dwFields,
+		[in] DWORD dwRadix,
+		[in] REFGUID guidFilter,
+		[in] DBG_ATTRIB_FLAGS dwAttribFilter,
+		[in, ptr] LPCOLESTR pszNameFilter,
+		[in] DWORD dwTimeout,
+		[out] IEnumDebugPropertyInfo2** ppEnum);
+
+	// Get the parent of this property
+	HRESULT GetParent(
+		[out] IDebugProperty2** ppParent);
+
+	// Get the property that describes the derived most property of this property
+	HRESULT GetDerivedMostProperty(
+		[out] IDebugProperty2** ppDerivedMost);
+
+	// Get the memory bytes that contains this property
+	HRESULT GetMemoryBytes(
+		[out] IDebugMemoryBytes2** ppMemoryBytes);
+
+	// Get a memory context for this property within the memory bytes returned by GetMemoryBytes
+	HRESULT GetMemoryContext(
+		[out] IDebugMemoryContext2** ppMemory);
+
+	// Get the size (in bytes) of this property
+	HRESULT GetSize(
+		[out] DWORD* pdwSize);
+
+	// Get a reference for this property
+	HRESULT GetReference(
+		[out] IDebugReference2** ppReference);
+
+	// Get extended info for this property
+	HRESULT GetExtendedInfo(
+		[in] REFGUID guidExtendedInfo,
+		[out] VARIANT* pExtendedInfo);
+};
+
+
+// Note: This interface is new in 8.0. It is a way for the shell to tell the SDM
+// that an IDebugProperty is no longer used. This isn't important for an appartment
+// model shell, but is important for a free threaded shell
+#pragma warning(push)
+#pragma warning(disable:28718)
+[
+	object,
+	uuid(72ff2712-0bc3-4308-a99d-26ac7ec68c5f),
+	pointer_default(unique)
+]
+interface IDebugSessionProperty2: IDebugProperty3
+{
+	HRESULT Close();
+	HRESULT GetThread(
+		[out] IDebugThread3** ppThread);
+};
+#pragma warning(pop)
+
+// Note: this interface is new in 8.0. Debug engines should implement this interface
+// if they need WatchForExpressionEval called in order to destroy an IDebugProperty
+[
+	object,
+	uuid(852c7d42-794f-43cd-a18f-cd40e83e67cd),
+	pointer_default(unique)
+]
+interface IDebugPropertyClose2: IDebugProperty2
+{
+	HRESULT Close();
+};
+
+#pragma warning(push)
+#pragma warning(disable:28718)
+[
+	object,
+	uuid(94E1E004-0672-423d-AD62-78783DEF1E76),
+	pointer_default(unique)
+]
+interface IDebugProperty3: IDebugProperty2
+{
+	// How long is the underlying string (in chars)? (excludes terminating byte)
+	HRESULT GetStringCharLength( [out] ULONG *pLen );
+
+	// Get the actual string contents (excludes terminating byte)
+	HRESULT GetStringChars(
+		[in] ULONG buflen,
+		[out, size_is(buflen), length_is(*pceltFetched)] WCHAR *rgString,
+		[out] ULONG *pceltFetched
+	);
+
+    // created the id for this object
+    HRESULT CreateObjectID();
+
+    // destroy the id for this object
+    HRESULT DestroyObjectID();
+
+    // Support for custom visualizers
+    HRESULT GetCustomViewerCount([out] ULONG* pcelt);
+    HRESULT GetCustomViewerList([in] ULONG celtSkip, [in] ULONG celtRequested, [out, size_is(celtRequested),length_is(*pceltFetched)] DEBUG_CUSTOM_VIEWER* rgViewers, [out] ULONG* pceltFetched);
+
+    // Set the value of this property
+	HRESULT SetValueAsStringWithError(
+		[in] LPCOLESTR pszValue,
+		[in] DWORD dwRadix,
+		[in] DWORD dwTimeout,
+        [out] BSTR * errorString);
+};
+#pragma warning(pop)
+
+// Note: This interface is new in 8.0.  It is a way for the shell to be able to
+//       show a grid of data from an expression.
+[
+	object,
+	uuid(411F3E08-E6B1-4789-AB29-755C52E52AC4),
+	pointer_default(unique)
+]
+interface IDebugDataGrid : IUnknown
+{
+	HRESULT GetGridInfo(
+		[out] ULONG *pX,
+		[out] ULONG *pY,
+		[out] BSTR *bpstrTitle
+		);
+
+	HRESULT GetGridPropertyInfo(
+		ULONG x,
+		ULONG y,
+		ULONG celtX,
+		ULONG celtY,
+		ULONG celtXtimesY,
+		DEBUGPROP_INFO_FLAGS dwFields,
+		DWORD dwRadix,
+		[out, size_is(celtXtimesY), length_is(*pceltFetched)] DEBUG_PROPERTY_INFO* rgelt,
+		[out] ULONG* pceltFetched
+		);
+
+};
+
+// Note: This interface is new in 8.0. Only the SDM needs to implement it
+// It is for the shell to ensure extended property evaluation works correctly
+// when multiple engines are involved, and to extract a raw interface from a wrapped one
+[
+	object,
+	uuid(7031886B-61D2-4cb5-B909-00386090733B),
+	pointer_default(unique)
+]
+interface IDebugPropertySafetyWrapper: IUnknown
+{
+	HRESULT BeforePropertyCall();
+	HRESULT AfterPropertyCall();
+	HRESULT GetRawProperty( [out] IDebugProperty3** ppProperty);
+}
+
+// -----------------------------------------------------------------------
+// IDebugReference2
+
+enum enum_REFERENCE_TYPE
+{
+	// Weak reference
+	REF_TYPE_WEAK						= 0x0001,
+	// Strong reference
+	REF_TYPE_STRONG						= 0x0002,
+};
+typedef DWORD REFERENCE_TYPE;
+
+enum enum_DEBUGREF_INFO_FLAGS
+{
+	DEBUGREF_INFO_NAME					= 0x00000001,
+	DEBUGREF_INFO_TYPE					= 0x00000002,
+	DEBUGREF_INFO_VALUE					= 0x00000004,
+	DEBUGREF_INFO_ATTRIB				= 0x00000008,
+	DEBUGREF_INFO_REFTYPE				= 0x00000010,
+	DEBUGREF_INFO_REF					= 0x00000020,
+
+	DEBUGREF_INFO_VALUE_AUTOEXPAND		= 0x00010000,
+
+	DEBUGREF_INFO_NONE					= 0x00000000,
+	DEBUGREF_INFO_ALL					= 0xffffffff
+};
+typedef DWORD DEBUGREF_INFO_FLAGS;
+
+typedef struct tagDEBUG_REFERENCE_INFO
+{
+	DEBUGREF_INFO_FLAGS		dwFields;
+	BSTR					bstrName;
+	BSTR					bstrType;
+	BSTR					bstrValue;
+	DBG_ATTRIB_FLAGS		dwAttrib;
+	REFERENCE_TYPE			dwRefType;
+	IDebugReference2*		pReference;
+} DEBUG_REFERENCE_INFO;
+
+[
+	object,
+	uuid(10b793ac-0c47-4679-8454-adb36f29f802),
+	pointer_default(unique)
+]
+interface IDebugReference2: IUnknown
+{
+	enum enum_REFERENCE_COMPARE
+	{
+		REF_COMPARE_EQUAL				= 0x0001,
+		REF_COMPARE_LESS_THAN			= 0x0002,
+		REF_COMPARE_GREATER_THAN		= 0x0003,
+	};
+	typedef DWORD REFERENCE_COMPARE;
+
+
+    // Get the DEBUG_REFERENCE_INFO that describes this reference
+	HRESULT GetReferenceInfo(
+		[in] DEBUGREF_INFO_FLAGS dwFields,
+		[in] DWORD dwRadix,
+		[in] DWORD dwTimeout,
+		[in, size_is(dwArgCount), length_is(dwArgCount)] IDebugReference2** rgpArgs,
+		[in] DWORD dwArgCount,
+		[out] DEBUG_REFERENCE_INFO* pReferenceInfo);
+
+	// Set the value of this reference
+	HRESULT SetValueAsString(
+		[in] LPCOLESTR pszValue,
+		[in] DWORD dwRadix,
+		[in] DWORD dwTimeout);
+
+	// Set the value of this reference
+	HRESULT SetValueAsReference(
+		[in, size_is(dwArgCount), length_is(dwArgCount)] IDebugReference2** rgpArgs,
+		[in] DWORD dwArgCount,
+		[in] IDebugReference2* pValue,
+		[in] DWORD dwTimeout);
+
+	// Enum the children of this reference
+	HRESULT EnumChildren(
+		[in] DEBUGREF_INFO_FLAGS dwFields,
+		[in] DWORD dwRadix,
+		[in] DBG_ATTRIB_FLAGS dwAttribFilter,
+		[in, ptr] LPCOLESTR pszNameFilter,
+		[in] DWORD dwTimeout,
+		[out] IEnumDebugReferenceInfo2** ppEnum);
+
+	// Get the parent of this reference
+	HRESULT GetParent(
+		[out] IDebugReference2** ppParent);
+
+	// Get the reference that describes the derived most reference of this reference
+	HRESULT GetDerivedMostReference(
+		[out] IDebugReference2** ppDerivedMost);
+
+	// Get the memory bytes that contains this reference
+	HRESULT GetMemoryBytes(
+		[out] IDebugMemoryBytes2** ppMemoryBytes);
+
+	// Get a memory context for this reference within the memory bytes returned by GetMemoryBytes
+	HRESULT GetMemoryContext(
+		[out] IDebugMemoryContext2** ppMemory);
+
+	// Get the size (in bytes) of this reference
+	HRESULT GetSize(
+		[out] DWORD* pdwSize);
+
+	// Set the reference type (weak or strong)
+	HRESULT SetReferenceType(
+		[in] REFERENCE_TYPE dwRefType);
+
+	// Compare this reference with the one given in the matter given
+	// result = this cwCompare pReference
+	HRESULT Compare(
+		[in] REFERENCE_COMPARE dwCompare,
+		[in] IDebugReference2* pReference);
+};
+
+// ------------------------------------------------------------------
+// IDebugStackFrame2
+[
+	object,
+	uuid(1412926f-5dd6-4e58-b648-e1c63e013d51),
+	pointer_default(unique)
+]
+interface IDebugStackFrame2: IUnknown
+{
+	HRESULT GetCodeContext(
+		[out] IDebugCodeContext2** ppCodeCxt);
+
+	HRESULT GetDocumentContext(
+		[out] IDebugDocumentContext2** ppCxt);
+
+	HRESULT GetName(
+		[out] BSTR* pbstrName);
+
+	HRESULT GetInfo(
+		[in]  FRAMEINFO_FLAGS dwFieldSpec,
+		[in]  UINT nRadix,
+		[out] FRAMEINFO* pFrameInfo);
+
+	// Returns a machine dependent representation of the range of physical addresses
+	// associated with this stack frame. This is used by the process debug manager to sort
+	// the stack frames from multiple script engines. By convention, stacks grow down and,
+	// as such, on architectures where stacks grow up the addresses should be
+	// twos-complemented.
+	// NOTE: This implementation will not work for cross-process or cross-machine stacks
+	HRESULT GetPhysicalStackRange(
+		[out] UINT64* paddrMin,
+		[out] UINT64* paddrMax);
+
+	HRESULT GetExpressionContext(
+		[out] IDebugExpressionContext2** ppExprCxt);
+
+	HRESULT GetLanguageInfo(
+		[in, out, ptr] BSTR* pbstrLanguage,
+		[in, out, ptr] GUID* pguidLanguage);
+
+	HRESULT GetDebugProperty(
+		[out] IDebugProperty2** ppProperty);
+
+	// PERF API - Get the count of locals as well as the enumerator
+	// This API may not be supported by all LEs, so if it fails, use the generic
+	// approach through GetDebugProperty.  However, if this API is supported it
+	// may save a few cross-process calls
+	HRESULT EnumProperties(
+		[in] DEBUGPROP_INFO_FLAGS dwFields,
+		[in] UINT nRadix,
+		[in] REFGUID guidFilter,
+		[in] DWORD dwTimeout,
+		[out] ULONG* pcelt,
+		[out] IEnumDebugPropertyInfo2** ppEnum);
+
+	HRESULT GetThread(
+		[out] IDebugThread2** ppThread);
+};
+
+// ------------------------------------------------------------------
+// IDebugStackFrame3
+// An extension of IDebugStackFrame2 for new debugger features
+// supported in VS version 8.
+[
+	object,
+	uuid(60DE844B-38B1-4d87-AFE1-8CF49677D3B0),
+	pointer_default(unique)
+]
+interface IDebugStackFrame3: IDebugStackFrame2
+{
+	enum enum_INTERCEPT_EXCEPTION_ACTION
+	{
+		IEA_INTERCEPT			= 0x0001,
+		// Cancelling an intercept is not supported in VS8
+		IEA_CANCEL_INTERCEPT	= 0x0000,
+	};
+	typedef DWORD INTERCEPT_EXCEPTION_ACTION;
+
+	// Install a temporary exception handler at this
+	// frame that will "handle" the current
+	// exception on the next call to Execute, Continue,
+	// or Step. Specific behavior varies by the debug engine/
+	// platform/runtime environment. Once the exception
+	// is "handled" by the temporary handler, an
+	// IDebugInterceptExceptionCompleteEvent2 will be sent.
+	// This function is not supported by all debug engines.
+	HRESULT InterceptCurrentException(
+		[in] INTERCEPT_EXCEPTION_ACTION dwFlags,
+		[out] UINT64* pqwCookie);
+
+	// Returns the code context representing the location
+	// if a stack unwind is done. Note that this doesn't imply 
+	// that a stack unwind can be done to this frame.
+	// This method isn't supported by all engines currently.
+	HRESULT GetUnwindCodeContext(
+		[out] IDebugCodeContext2 **ppCodeContext);	
+};
+
+// ------------------------------------------------------------------
+// IDebugMemoryContext2
+
+[
+	object,
+	uuid(1ab276dd-f27b-4445-825d-5df0b4a04a3a),
+	pointer_default(unique)
+]
+interface IDebugMemoryContext2: IUnknown
+{
+	enum enum_CONTEXT_COMPARE
+	{
+		CONTEXT_EQUAL					= 0x0001,
+		CONTEXT_LESS_THAN				= 0x0002,
+		CONTEXT_GREATER_THAN			= 0x0003,
+		CONTEXT_LESS_THAN_OR_EQUAL		= 0x0004,
+		CONTEXT_GREATER_THAN_OR_EQUAL	= 0x0005,
+		CONTEXT_SAME_SCOPE				= 0x0006,
+		CONTEXT_SAME_FUNCTION			= 0x0007,
+		CONTEXT_SAME_MODULE				= 0x0008,
+		CONTEXT_SAME_PROCESS			= 0x0009,
+	};
+	typedef DWORD CONTEXT_COMPARE;
+
+	enum enum_CONTEXT_INFO_FIELDS
+	{
+		CIF_MODULEURL		= 0x00000001,
+		CIF_FUNCTION		= 0x00000002,
+		CIF_FUNCTIONOFFSET	= 0x00000004,
+		CIF_ADDRESS			= 0x00000008,
+		CIF_ADDRESSOFFSET	= 0x00000010,
+        CIF_ADDRESSABSOLUTE = 0x00000020,
+		
+		CIF_ALLFIELDS		= 0x0000003f,
+	};
+	typedef DWORD CONTEXT_INFO_FIELDS;
+
+	typedef struct _tagCONTEXT_INFO
+	{
+		CONTEXT_INFO_FIELDS dwFields;
+		BSTR bstrModuleUrl;
+		BSTR bstrFunction;
+		TEXT_POSITION posFunctionOffset;
+		BSTR bstrAddress;
+		BSTR bstrAddressOffset;
+        BSTR bstrAddressAbsolute;
+	} CONTEXT_INFO;
+
+	HRESULT GetName(
+		[out] BSTR* pbstrName);
+
+	HRESULT GetInfo(
+		[in] CONTEXT_INFO_FIELDS dwFields,
+		[out] CONTEXT_INFO* pInfo);
+
+	HRESULT Add(
+		[in] UINT64 dwCount,
+		[out] IDebugMemoryContext2** ppMemCxt);
+
+	HRESULT Subtract(
+		[in] UINT64 dwCount,
+		[out] IDebugMemoryContext2** ppMemCxt);
+
+	HRESULT Compare(
+		[in] CONTEXT_COMPARE compare,
+		[in, size_is(dwMemoryContextSetLen), length_is(dwMemoryContextSetLen)] IDebugMemoryContext2** rgpMemoryContextSet,
+		[in] DWORD dwMemoryContextSetLen,
+		[out] DWORD* pdwMemoryContext);
+};
+
+// ------------------------------------------------------------------
+// IDebugCodeContext2
+[
+	object,
+	uuid(ac17b76b-2b09-419a-ad5f-7d7402da8875),
+	pointer_default(unique)
+]
+interface IDebugCodeContext2: IDebugMemoryContext2
+{
+	HRESULT GetDocumentContext(
+		[out] IDebugDocumentContext2 **ppSrcCxt);
+
+	HRESULT GetLanguageInfo(
+		[in, out, ptr] BSTR* pbstrLanguage,
+		[in, out, ptr] GUID* pguidLanguage);
+};
+
+// ------------------------------------------------------------------
+// IDebugCodeContext3
+//
+// QI from IDebugCodeContext2
+[
+	object,
+	uuid(17c106b9-0925-42f5-ae32-1fc019649c10),
+	pointer_default(unique)
+]
+interface IDebugCodeContext3: IDebugCodeContext2
+{
+	HRESULT GetModule(
+		[out] IDebugModule2** ppModule);
+
+	HRESULT GetProcess(
+		[out] IDebugProcess2** ppProcess);
+
+};
+
+// ------------------------------------------------------------------
+// IDebugMemoryBytes2
+
+[
+	object,
+	uuid(925837d1-3aa1-451a-b7fe-cc04bb42cfb8),
+	pointer_default(unique)
+]
+interface IDebugMemoryBytes2: IUnknown
+{
+	HRESULT ReadAt(
+		[in] IDebugMemoryContext2* pStartContext,
+		[in] DWORD dwCount,
+		[out, size_is(dwCount), length_is(*pdwRead)] BYTE* rgbMemory,
+		[out] DWORD* pdwRead,
+		[in, out, ptr] DWORD* pdwUnreadable);
+
+	HRESULT WriteAt(
+		[in] IDebugMemoryContext2* pStartContext,
+		[in] DWORD dwCount,
+		[in, size_is(dwCount), length_is(dwCount)] BYTE* rgbMemory);
+
+	HRESULT GetSize(
+		[out] UINT64* pqwSize);
+};
+
+// ------------------------------------------------------------------
+// IDebugDisassemblyStream2
+
+[
+	object,
+	uuid(e5b017fe-dfb0-411c-8266-7c64d6f519f8),
+	pointer_default(unique)
+]
+interface IDebugDisassemblyStream2: IUnknown
+{
+	enum enum_DISASSEMBLY_STREAM_FIELDS
+	{
+		DSF_ADDRESS             = 0x00000001,
+		DSF_ADDRESSOFFSET       = 0x00000002,
+		DSF_CODEBYTES           = 0x00000004,
+		DSF_OPCODE              = 0x00000008,
+		DSF_OPERANDS            = 0x00000010,
+		DSF_SYMBOL              = 0x00000020,
+		DSF_CODELOCATIONID      = 0x00000040,
+		DSF_POSITION            = 0x00000080,
+		DSF_DOCUMENTURL         = 0x00000100,
+		DSF_BYTEOFFSET          = 0x00000200,
+		DSF_FLAGS               = 0x00000400,
+
+		// Use DSF_OPERANDS_SYMBOLS to include symbol names in the bstrOperands field
+		DSF_OPERANDS_SYMBOLS    = 0x00010000,
+
+		DSF_ALL                 = 0x000107ff,
+	};
+	typedef DWORD DISASSEMBLY_STREAM_FIELDS;
+
+	enum enum_DISASSEMBLY_FLAGS
+	{
+		// Indicates this instruction is in a different document than the previous one
+		DF_DOCUMENTCHANGE               = 0x00000001,
+		// Indicates this instruction will not be exuecuted
+		DF_DISABLED                     = 0x00000002,
+		// Indicates this instruction is one of the next instructions to be executed
+		// (there may be more than one)
+		DF_INSTRUCTION_ACTIVE           = 0x00000004,
+		// Indicates this instruction is really data (not code)
+		DF_DATA                         = 0x00000008,
+		// Indicates this instruction has source
+		DF_HASSOURCE                    = 0x00000010,
+        // Indicates that bstrDocumentUrl contains checksum data
+        DF_DOCUMENT_CHECKSUM            = 0x00000020
+	};
+	typedef DWORD DISASSEMBLY_FLAGS;
+
+	typedef struct tagDisassemblyData
+	{
+		// Indicates which fields are valid
+		DISASSEMBLY_STREAM_FIELDS dwFields;
+		// The address for this instruction
+		BSTR bstrAddress;
+		// The address as an offset from some starting point (usually function)
+		BSTR bstrAddressOffset;
+		// The code bytes for this instruction
+		BSTR bstrCodeBytes;
+		// The opcode for this instruction
+		BSTR bstrOpcode;
+		// The operands for this instruction
+		BSTR bstrOperands;
+		// The symbol name, if any, associated with this address (public symbol, label, etc.)
+		BSTR bstrSymbol;
+		// Code location identifier (uCodeLocationId) for this line of disasm.
+		// They have these properties.
+		// 1. Unique within the disasm stream
+		// 2. Ordered in the same way as addresses (iff DisasmLine1.CodeContext.Address >
+		//    DisasmLine2.CodeContext.Address then DisasmLine1.uCodeLocationId >
+		//    DisasmLine2.uCodeLocationId)
+		// 3. As a consequense of #2, IDs should always increase as one go down the DisasmData array
+		UINT64 uCodeLocationId;
+		TEXT_POSITION posBeg;
+		TEXT_POSITION posEnd;
+		// For text documents that can be repesented as filenames:
+		//    bstrDocumentUrl is filled in with the file://filename where the source can be found.
+		// For text documents that cannot be repesented as filenames:
+		//    bstrDocumentUrl is a unique identifier for the document. The debug engine
+		//    must implement 'IDebugDisassemblyStream2::GetDocument'
+		// For non-text documents:
+		//    bstrDocumentUrl should be left as NULL. A doc context can be obtained from the code
+		//    context
+		// For Both:
+		//    Note that if bstrDocumentUrl is the same as the bstrDocumentUrl in the previous
+		//    DisassemblyData array element, then bstrDocumentUrl should be NULL, otherwise,
+		//    bstrDocumentUrl should not be NULL (if it is requested) and DF_DOCUMENTCHANGE should be set
+        //
+        // If the DF_DOCUMENT_CHECKSUM flag is set, this indicates that the document checksum is stored
+        // in bstrDocumentUrl after the NULL as a guid indicating the checksum algorithm, 
+        // followed by a DWORD indicating the number of bytes of checksum data, 
+        // followed by the array of bytes denoting the checksum value.
+		BSTR bstrDocumentUrl;
+		// The number of bytes this instruction is from the beginning of the line
+		DWORD dwByteOffset;
+		// Flags
+		DISASSEMBLY_FLAGS dwFlags;
+	} DisassemblyData;
+
+	enum enum_SEEK_START
+	{
+		SEEK_START_BEGIN        = 0x0001,
+		SEEK_START_END          = 0x0002,
+		SEEK_START_CURRENT      = 0x0003,
+		SEEK_START_CODECONTEXT  = 0x0004,
+                SEEK_START_CODELOCID    = 0x0005
+	};
+	typedef DWORD SEEK_START;
+
+	HRESULT Read(
+		// Set dwInstruction to 0 for !DSS_HUGE address spaces to read the entire address space
+		[in] DWORD dwInstructions,
+		[in] DISASSEMBLY_STREAM_FIELDS dwFields,
+		[out] DWORD* pdwInstructionsRead,
+		[out, size_is(dwInstructions), length_is(*pdwInstructionsRead)] DisassemblyData* prgDisassembly);
+
+	HRESULT Seek(
+		[in] SEEK_START dwSeekStart,
+		[in] IDebugCodeContext2* pCodeContext,
+		[in] UINT64 uCodeLocationId,
+		[in] INT64 iInstructions);
+
+	// If the code context is outside the scope of code contexts which can be
+	// disassembled by this stream, but is still a valid code context. then
+	// *puCodeLocationId should be zero, and the return value is E_CODE_CONTEXT_OUT_OF_SCOPE
+	HRESULT GetCodeLocationId(
+		[in] IDebugCodeContext2* pCodeContext,
+		[out] UINT64* puCodeLocationId);
+
+	HRESULT GetCodeContext(
+		[in] UINT64 uCodeLocationId,
+		[out] IDebugCodeContext2** ppCodeContext);
+
+	HRESULT GetCurrentLocation(
+		[out] UINT64* puCodeLocationId);		
+
+	// implemented by engines that have text documents, but where bstrDocumentUrl
+	// can not be passed as a filename
+	HRESULT GetDocument(
+		[in] BSTR bstrDocumentUrl,
+		[out] IDebugDocument2** ppDocument);
+
+	HRESULT GetScope(
+		[out] DISASSEMBLY_STREAM_SCOPE* pdwScope);
+
+	HRESULT GetSize(
+		[out] UINT64 *pnSize);
+};
+
+
+// ------------------------------------------------------------------
+// IDebugDocumentContext2
+[
+	object,
+	uuid(931516ad-b600-419c-88fc-dcf5183b5fa9),
+	pointer_default(unique)
+]
+interface IDebugDocumentContext2: IUnknown
+{
+	enum enum_DOCCONTEXT_COMPARE
+	{
+		DOCCONTEXT_EQUAL			= 0x0001,
+		DOCCONTEXT_LESS_THAN		= 0x0002,
+		DOCCONTEXT_GREATER_THAN		= 0x0003,
+		DOCCONTEXT_SAME_DOCUMENT	= 0x0004,
+	};
+	typedef DWORD DOCCONTEXT_COMPARE;
+
+
+	HRESULT GetDocument(
+		[out] IDebugDocument2 **ppDocument);
+
+	HRESULT GetName(
+		[in] GETNAME_TYPE gnType,
+		[out] BSTR *pbstrFileName);
+
+	HRESULT EnumCodeContexts(
+		[out] IEnumDebugCodeContexts2 **ppEnumCodeCxts);
+
+	HRESULT GetLanguageInfo(
+		[in, out, ptr] BSTR* pbstrLanguage,
+		[in, out, ptr] GUID* pguidLanguage);
+
+	HRESULT GetStatementRange(
+		[in, out, ptr] TEXT_POSITION* pBegPosition,
+		[in, out, ptr] TEXT_POSITION* pEndPosition);
+
+	HRESULT GetSourceRange(
+		[in, out, ptr] TEXT_POSITION* pBegPosition,
+		[in, out, ptr] TEXT_POSITION* pEndPosition);
+
+	HRESULT Compare(
+		[in] DOCCONTEXT_COMPARE compare,
+		[in, size_is(dwDocContextSetLen), length_is(dwDocContextSetLen)] IDebugDocumentContext2** rgpDocContextSet,
+		[in] DWORD dwDocContextSetLen,
+		[out] DWORD* pdwDocContext);
+
+	HRESULT Seek(
+		[in] int nCount,
+		[out] IDebugDocumentContext2** ppDocContext);
+};
+
+// ------------------------------------------------------------------
+// IDebugDocumentChecksum2
+// Get this via QI from an IDebugDocumentContext2.
+//
+[
+	object,
+	uuid(c1c74db7-a3a7-40a2-a279-a63ba756b8b0),
+	pointer_default(unique)
+]
+interface IDebugDocumentChecksum2: IUnknown
+{
+	HRESULT GetChecksumAndAlgorithmId(
+		[out] GUID* pRetVal,
+		[in] ULONG cMaxBytes,
+		[out, length_is(*pcNumBytes), size_is(cMaxBytes)] BYTE* pChecksum,
+		[out] ULONG* pcNumBytes
+		);
+
+};
+
+
+// ------------------------------------------------------------------
+// IDebugENCDocumentContextUpdate
+//
+// Get this via QI from an IDebugDocumentContext2.
+[
+	object,
+	uuid(F5637291-D779-4580-A82C-0D523E7FDCF0),
+	pointer_default(unique)
+]
+interface IDebugENCDocumentContextUpdate: IUnknown
+{
+	HRESULT UpdateDocumentContext(
+		[in] IDebugCodeContext2* pContext,
+		[in] IDebugDocumentContext2* pDocContext);
+
+	HRESULT UpdateStatementPosition(
+		[in] TEXT_POSITION posBegStatement,
+		[in] TEXT_POSITION posEndStatement);
+}
+
+// ------------------------------------------------------------------
+// IDebugExpressionContext2
+[
+	object,
+	uuid(37a44580-d5fc-473e-a048-21702ebfc466),
+	pointer_default(unique)
+]
+interface IDebugExpressionContext2: IUnknown
+{
+	enum enum_PARSEFLAGS
+	{
+		// the expression is an expression (not a statement)
+		PARSE_EXPRESSION		= 0x0001,
+		// the expression might contain function name/parameter signatures, and
+		// the expression is to be parsed [and later evaluated] as an address
+		PARSE_FUNCTION_AS_ADDRESS = 0x0002,
+        // design-time parsing for design-time expression evaluation
+        PARSE_DESIGN_TIME_EXPR_EVAL  = 0x1000
+	};
+	typedef DWORD PARSEFLAGS;
+
+	// Get the name of the expression context. The name is the description
+	// of this expression context. It is usually something that can be parsed
+	// by an expression evaluator that refers to this exact expression context.
+	// For C++, the name is "{ function-name, source-file-name, module-file-name }"
+	HRESULT GetName(
+		[out] BSTR* pbstrName);
+
+	HRESULT ParseText(
+		[in] LPCOLESTR pszCode,
+		[in] PARSEFLAGS dwFlags,
+		[in] UINT nRadix,
+		[out] IDebugExpression2** ppExpr,
+		[out] BSTR* pbstrError,
+		[out] UINT* pichError);
+};
+
+// ------------------------------------------------------------------
+// Breakpoint types
+
+enum enum_BP_TYPE
+{
+	BPT_NONE				= 0x0000,
+	BPT_CODE				= 0x0001,
+	BPT_DATA				= 0x0002,
+	BPT_SPECIAL				= 0x0003,
+};
+typedef DWORD BP_TYPE;
+
+// ------------------------------------------------------------------
+// Breakpoint request stuff
+
+enum enum_BP_LOCATION_TYPE
+{
+	BPLT_NONE				= 0x00000000,
+	BPLT_FILE_LINE			= 0x00010000,
+	BPLT_FUNC_OFFSET		= 0x00020000,
+	BPLT_CONTEXT			= 0x00030000,
+	BPLT_STRING				= 0x00040000,
+	BPLT_ADDRESS			= 0x00050000,
+	BPLT_RESOLUTION			= 0x00060000,
+
+	BPLT_CODE_FILE_LINE		= BPT_CODE | BPLT_FILE_LINE,
+	BPLT_CODE_FUNC_OFFSET	= BPT_CODE | BPLT_FUNC_OFFSET,
+	BPLT_CODE_CONTEXT		= BPT_CODE | BPLT_CONTEXT,
+	BPLT_CODE_STRING		= BPT_CODE | BPLT_STRING,
+	BPLT_CODE_ADDRESS		= BPT_CODE | BPLT_ADDRESS,
+	BPLT_DATA_STRING		= BPT_DATA | BPLT_STRING,
+
+	BPLT_TYPE_MASK			= 0x0000FFFF,
+	BPLT_LOCATION_TYPE_MASK	= 0xFFFF0000
+};
+typedef DWORD BP_LOCATION_TYPE;
+
+typedef struct _BP_LOCATION_CODE_FILE_LINE
+{
+	BSTR bstrContext;
+	IDebugDocumentPosition2* pDocPos;
+} BP_LOCATION_CODE_FILE_LINE;
+
+typedef struct _BP_LOCATION_CODE_FUNC_OFFSET
+{
+	BSTR bstrContext;
+	IDebugFunctionPosition2* pFuncPos;
+} BP_LOCATION_CODE_FUNC_OFFSET;
+
+typedef struct _BP_LOCATION_CODE_CONTEXT
+{
+	IDebugCodeContext2*	pCodeContext;
+} BP_LOCATION_CODE_CONTEXT;
+
+typedef struct _BP_LOCATION_CODE_STRING
+{
+	BSTR bstrContext;
+	BSTR bstrCodeExpr;
+} BP_LOCATION_CODE_STRING;
+
+typedef struct _BP_LOCATION_CODE_ADDRESS
+{
+	BSTR bstrContext;
+	BSTR bstrModuleUrl;
+	BSTR bstrFunction;
+	BSTR bstrAddress;
+} BP_LOCATION_CODE_ADDRESS;
+
+typedef struct _BP_LOCATION_DATA_STRING
+{
+	IDebugThread2* pThread;
+	BSTR bstrContext;
+	BSTR bstrDataExpr;
+	DWORD dwNumElements;
+} BP_LOCATION_DATA_STRING;
+
+typedef struct _BP_LOCATION_RESOLUTION
+{
+	IDebugBreakpointResolution2 *pResolution;
+} BP_LOCATION_RESOLUTION;
+
+typedef union _BP_LOCATION switch (BP_LOCATION_TYPE bpLocationType) bpLocation
+{
+	case BPLT_CODE_FILE_LINE:
+		BP_LOCATION_CODE_FILE_LINE bplocCodeFileLine;
+
+	case BPLT_CODE_FUNC_OFFSET:
+		BP_LOCATION_CODE_FUNC_OFFSET bplocCodeFuncOffset;
+
+	case BPLT_CODE_CONTEXT:
+		BP_LOCATION_CODE_CONTEXT bplocCodeContext;
+
+	case BPLT_CODE_STRING:
+		BP_LOCATION_CODE_STRING bplocCodeString;
+
+	case BPLT_CODE_ADDRESS:
+		BP_LOCATION_CODE_ADDRESS bplocCodeAddress;
+
+	case BPLT_DATA_STRING:
+		BP_LOCATION_DATA_STRING bplocDataString;
+
+	case BPLT_RESOLUTION:
+		BP_LOCATION_RESOLUTION bplocResolution;
+
+	default:
+		DWORD unused;
+} BP_LOCATION;
+
+enum enum_BP_PASSCOUNT_STYLE
+{
+	BP_PASSCOUNT_NONE				= 0x0000,
+	BP_PASSCOUNT_EQUAL				= 0x0001,
+	BP_PASSCOUNT_EQUAL_OR_GREATER	= 0x0002,
+	BP_PASSCOUNT_MOD				= 0x0003,
+};
+typedef DWORD BP_PASSCOUNT_STYLE;
+
+typedef struct _BP_PASSCOUNT
+{
+	DWORD dwPassCount;
+	BP_PASSCOUNT_STYLE stylePassCount;
+} BP_PASSCOUNT;
+
+enum enum_BP_COND_STYLE
+{
+	BP_COND_NONE					= 0x0000,
+	BP_COND_WHEN_TRUE				= 0x0001,
+	BP_COND_WHEN_CHANGED			= 0x0002,
+};
+typedef DWORD BP_COND_STYLE;
+
+typedef struct _BP_CONDITION
+{
+	IDebugThread2* pThread;
+	BP_COND_STYLE styleCondition;
+	BSTR bstrContext;
+	BSTR bstrCondition;
+	UINT nRadix;
+} BP_CONDITION;
+
+enum enum_BP_FLAGS
+{
+	BP_FLAG_NONE					= 0x0000,
+	BP_FLAG_MAP_DOCPOSITION			= 0x0001,
+
+	// BP_FLAG_DONT_STOP is used to indicate the
+	// breakpoint should be processed bt the debug engine,
+	// but that the debug engine ultimately shouldn't stop
+	// there (i.e. an IDebugBreakpointEvent2 should not be 
+	// send.  This flag is designed to be used primarily with
+	// tracepoints.
+	BP_FLAG_DONT_STOP               = 0x0002,
+};
+typedef DWORD BP_FLAGS;
+
+enum enum_BPREQI_FIELDS
+{
+	BPREQI_BPLOCATION				= 0x0001,
+	BPREQI_LANGUAGE					= 0x0002,
+	BPREQI_PROGRAM					= 0x0004,
+	BPREQI_PROGRAMNAME				= 0x0008,
+	BPREQI_THREAD					= 0x0010,
+	BPREQI_THREADNAME				= 0x0020,
+	BPREQI_PASSCOUNT				= 0x0040,
+	BPREQI_CONDITION				= 0x0080,
+	BPREQI_FLAGS					= 0x0100,
+	BPREQI_ALLOLDFIELDS             = 0x01ff,
+	
+	// Flags below this point belong to BP_REQUEST_INFO2
+	BPREQI_VENDOR                   = 0x0200,
+	BPREQI_CONSTRAINT               = 0x0400,
+	BPREQI_TRACEPOINT               = 0x0800,
+
+
+
+	BPREQI_ALLFIELDS				= 0x0fff,
+};
+typedef DWORD BPREQI_FIELDS;
+
+typedef struct _BP_REQUEST_INFO
+{
+	BPREQI_FIELDS dwFields;
+	GUID guidLanguage;
+	BP_LOCATION bpLocation;
+	IDebugProgram2* pProgram;
+	BSTR bstrProgramName;
+	IDebugThread2* pThread;
+	BSTR bstrThreadName;
+	BP_CONDITION bpCondition;
+	BP_PASSCOUNT bpPassCount;
+	BP_FLAGS dwFlags;
+} BP_REQUEST_INFO;
+
+typedef struct _BP_REQUEST_INFO2
+{
+	BPREQI_FIELDS dwFields;
+	GUID guidLanguage;
+	BP_LOCATION bpLocation;
+	IDebugProgram2* pProgram;
+	BSTR bstrProgramName;
+	IDebugThread2* pThread;
+	BSTR bstrThreadName;
+	BP_CONDITION bpCondition;
+	BP_PASSCOUNT bpPassCount;
+	BP_FLAGS dwFlags;
+
+	// guidVector may be NULL while guidLanguage is non-NULL
+	// This means use all matching languages, regardless of vendor
+	// for beining this breakpoint.
+	GUID guidVendor;
+	// The constraint associated with this breakpoint (may be NULL)
+	BSTR bstrConstraint;
+	// The tracepoint associated with this breakpoint (may be NULL)
+	BSTR bstrTracepoint;
+} BP_REQUEST_INFO2;
+
+// ------------------------------------------------------------------
+// IDebugBreakpointRequest2
+
+[
+	object,
+	uuid(6015fd18-8257-4df3-ac42-f074dedd4cbd),
+	pointer_default(unique)
+]
+interface IDebugBreakpointRequest2 : IUnknown
+{
+	HRESULT GetLocationType(
+		[out] BP_LOCATION_TYPE* pBPLocationType);
+
+	HRESULT GetRequestInfo(
+		[in] BPREQI_FIELDS dwFields,
+		[out] BP_REQUEST_INFO* pBPRequestInfo);
+};
+
+typedef struct tagCHECKSUM_DATA
+{
+	DWORD ByteCount;
+	[size_is(ByteCount)] BYTE* pBytes;
+} CHECKSUM_DATA;
+
+// ------------------------------------------------------------------
+// IDebugBreakpointChecksumRequest2
+//
+// Get this via QI from an IDebugBreakpointRequest2.
+[
+	object,
+	uuid(0EA91CF7-8542-4780-8D6B-7BD686CD2471),
+	pointer_default(unique)
+]
+interface IDebugBreakpointChecksumRequest2 : IUnknown
+{
+    // get the checksum based on the specified algorithm
+    // pChecksumData->pBytes is allocated by the callee, and should be freed by the caller with CoTaskMemFree
+    HRESULT GetChecksum([in] REFGUID guidAlgorithm, [out] CHECKSUM_DATA* pChecksumData);
+
+    HRESULT IsChecksumEnabled([out] BOOL* pfChecksumEnabled);
+};
+
+
+
+// ------------------------------------------------------------------
+// IDebugBreakpointRequest3
+
+[
+	object,
+	uuid(5C18A5FE-7150-4e66-8246-27BFB0E7BFD9),
+	pointer_default(unique)
+]
+
+
+interface IDebugBreakpointRequest3 : IDebugBreakpointRequest2
+{
+	HRESULT GetRequestInfo2(
+		[in]  BPREQI_FIELDS dwFields,
+		[out] BP_REQUEST_INFO2 * bBPRequestInfo);
+};
+
+// ------------------------------------------------------------------
+// Breakpoint resolution stuff
+
+typedef struct _BP_RESOLUTION_CODE
+{
+	IDebugCodeContext2*	pCodeContext;
+} BP_RESOLUTION_CODE;
+
+enum enum_BP_RES_DATA_FLAGS
+{
+	// The data breakpoint is being emulated
+	// (rather than done via hardware)
+	BP_RES_DATA_EMULATED		= 0x0001,
+};
+typedef DWORD BP_RES_DATA_FLAGS;
+
+typedef struct _BP_RESOLUTION_DATA
+{
+	BSTR bstrDataExpr;
+	BSTR bstrFunc;
+	BSTR bstrImage;
+	BP_RES_DATA_FLAGS dwFlags;
+} BP_RESOLUTION_DATA;
+	
+typedef union _BP_RESOLUTION_LOCATION switch (BP_TYPE bpType) bpResLocation
+{
+	case BPT_CODE:
+		BP_RESOLUTION_CODE bpresCode;
+
+	case BPT_DATA:
+		BP_RESOLUTION_DATA bpresData;
+
+	default:
+		int	unused;
+} BP_RESOLUTION_LOCATION;
+
+enum enum_BPRESI_FIELDS
+{
+	BPRESI_BPRESLOCATION	= 0x0001,
+	BPRESI_PROGRAM			= 0x0002,
+	BPRESI_THREAD			= 0x0004,
+
+	BPRESI_ALLFIELDS		= 0xffffffff,
+};
+typedef DWORD BPRESI_FIELDS;
+
+typedef struct _BP_RESOLUTION_INFO
+{
+	BPRESI_FIELDS dwFields;
+	BP_RESOLUTION_LOCATION bpResLocation;
+	IDebugProgram2* pProgram;
+	IDebugThread2* pThread;
+} BP_RESOLUTION_INFO;
+
+// ------------------------------------------------------------------
+// IDebugBreakpointResolution2
+
+[
+	object,
+	uuid(b7e66f28-035a-401a-afc7-2e300bd29711),
+	pointer_default(unique)
+]
+interface IDebugBreakpointResolution2 : IUnknown
+{
+	HRESULT GetBreakpointType(
+		[out] BP_TYPE* pBPType);
+		
+	HRESULT GetResolutionInfo(
+		[in] BPRESI_FIELDS dwFields,
+		[out] BP_RESOLUTION_INFO* pBPResolutionInfo);
+};
+
+// ------------------------------------------------------------------
+// Error breakpoint stuff
+
+enum enum_BP_ERROR_TYPE
+{
+    BPET_NONE               = 0x00000000,
+
+    BPET_TYPE_WARNING       = 0x00000001,
+    BPET_TYPE_ERROR         = 0x00000002,
+
+    BPET_SEV_HIGH           = 0x0F000000,
+    BPET_SEV_GENERAL        = 0x07000000,
+    BPET_SEV_LOW            = 0x01000000,
+
+    BPET_TYPE_MASK          = 0x0000ffff,
+    BPET_SEV_MASK           = 0xffff0000,
+
+    // Use these contants for describing general warnings and errors
+    BPET_GENERAL_WARNING    = BPET_SEV_GENERAL | BPET_TYPE_WARNING,
+    BPET_GENERAL_ERROR      = BPET_SEV_GENERAL | BPET_TYPE_ERROR,
+
+    BPET_ALL				= 0xffffffff,
+};
+typedef DWORD BP_ERROR_TYPE;
+
+enum enum_BPERESI_FIELDS
+{
+    BPERESI_BPRESLOCATION   = 0x0001,
+    BPERESI_PROGRAM         = 0x0002,
+    BPERESI_THREAD          = 0x0004,
+    BPERESI_MESSAGE         = 0x0008,
+    BPERESI_TYPE            = 0x0010,
+
+    BPERESI_ALLFIELDS       = 0xffffffff,
+};
+typedef DWORD BPERESI_FIELDS;
+
+typedef struct _BP_ERROR_RESOLUTION_INFO
+{
+	BPERESI_FIELDS dwFields;
+	BP_RESOLUTION_LOCATION bpResLocation;
+	IDebugProgram2* pProgram;
+	IDebugThread2* pThread;
+	BSTR bstrMessage;
+	BP_ERROR_TYPE dwType;
+} BP_ERROR_RESOLUTION_INFO;
+
+// ------------------------------------------------------------------
+// IDebugErrorBreakpointResolution2
+
+[
+	object,
+	uuid(603aedf8-9575-4d30-b8ca-124d1c98ebd8),
+	pointer_default(unique)
+]
+interface IDebugErrorBreakpointResolution2: IUnknown
+{
+	HRESULT GetBreakpointType(
+		[out] BP_TYPE* pBPType);
+		
+	HRESULT GetResolutionInfo(
+		[in] BPERESI_FIELDS dwFields,
+		[out] BP_ERROR_RESOLUTION_INFO* pErrorResolutionInfo);
+};
+
+// ------------------------------------------------------------------
+// IDebugBoundBreakpoint2
+
+[
+	object,
+	uuid(d533d975-3f32-4876-abd0-6d37fda563e7),
+	pointer_default(unique)
+]
+interface IDebugBoundBreakpoint2: IUnknown
+{
+	enum enum_BP_STATE
+	{
+		BPS_NONE		= 0x0000,
+		BPS_DELETED		= 0x0001,
+		BPS_DISABLED	= 0x0002,
+		BPS_ENABLED		= 0x0003,
+	};
+	typedef DWORD BP_STATE;
+
+	HRESULT GetPendingBreakpoint(
+		[out] IDebugPendingBreakpoint2** ppPendingBreakpoint);
+
+	HRESULT GetState(
+		[out] BP_STATE* pState);
+
+	HRESULT GetHitCount(
+		[out] DWORD* pdwHitCount);
+
+	HRESULT GetBreakpointResolution(
+		[out] IDebugBreakpointResolution2** ppBPResolution);
+
+	HRESULT Enable(
+		[in] BOOL fEnable);
+
+	HRESULT SetHitCount(
+		[in] DWORD dwHitCount);
+
+	HRESULT SetCondition(
+		[in] BP_CONDITION bpCondition);
+
+	HRESULT SetPassCount(
+		[in] BP_PASSCOUNT bpPassCount);
+
+	HRESULT Delete(void);
+};
+
+// ------------------------------------------------------------------
+// IDebugBoundBreakpoint3
+
+[
+	object,
+	uuid(60f49115-ce92-4f96-8d0a-81cccae4ab77),
+	pointer_default(unique)
+]
+interface IDebugBoundBreakpoint3: IUnknown
+{
+	HRESULT SetTracepoint(
+		[in] LPCOLESTR bpBstrTracepoint, 
+        [in] BP_FLAGS bpFlags    // only BP_FLAG_DONT_STOP is supported
+        );
+};
+
+// ------------------------------------------------------------------
+// IDebugPendingBreakpoint2
+
+[
+	object,
+	uuid(6e215ef3-e44c-44d1-b7ba-b2401f7dc23d),
+	pointer_default(unique)
+]
+interface IDebugPendingBreakpoint2: IUnknown
+{
+	enum enum_PENDING_BP_STATE
+	{
+		PBPS_NONE			= 0x0000,
+		PBPS_DELETED		= 0x0001,
+		PBPS_DISABLED		= 0x0002,
+		PBPS_ENABLED		= 0x0003,
+	};
+	typedef DWORD PENDING_BP_STATE;
+	enum enum_PENDING_BP_STATE_FLAGS
+	{
+		PBPSF_NONE			= 0x0000,
+		PBPSF_VIRTUALIZED	= 0x0001,
+	};
+	typedef DWORD PENDING_BP_STATE_FLAGS;
+
+	typedef struct _tagPENDING_BP_STATE_INFO
+	{
+		PENDING_BP_STATE state;
+		PENDING_BP_STATE_FLAGS flags;
+	} PENDING_BP_STATE_INFO;
+
+	HRESULT CanBind(
+		[out] IEnumDebugErrorBreakpoints2** ppErrorEnum);
+
+	HRESULT Bind(void);
+
+	HRESULT GetState(
+		[out] PENDING_BP_STATE_INFO* pState);
+
+	HRESULT GetBreakpointRequest(
+		[out] IDebugBreakpointRequest2** ppBPRequest);
+
+	HRESULT Virtualize(
+		[in] BOOL fVirtualize);
+
+	HRESULT Enable(
+		[in] BOOL fEnable);
+
+	HRESULT SetCondition(
+		[in] BP_CONDITION bpCondition);
+
+	HRESULT SetPassCount(
+		[in] BP_PASSCOUNT bpPassCount);
+
+	HRESULT EnumBoundBreakpoints(
+		[out] IEnumDebugBoundBreakpoints2** ppEnum);
+
+	HRESULT EnumErrorBreakpoints(
+		[in] BP_ERROR_TYPE bpErrorType,
+		[out] IEnumDebugErrorBreakpoints2** ppEnum);
+
+	HRESULT Delete(void);
+};
+
+// ------------------------------------------------------------------
+// IDebugPendingBreakpoint3
+
+[
+	object,
+	uuid(96643d32-2624-479a-9f1a-25d02030dd3b),
+	pointer_default(unique)
+]
+interface IDebugPendingBreakpoint3: IDebugPendingBreakpoint2
+{
+	HRESULT GetErrorResolutionInfo(
+		[in] BPERESI_FIELDS dwFields,
+		[out] BP_ERROR_RESOLUTION_INFO* pErrorResolutionInfo);
+};
+
+// ------------------------------------------------------------------
+// IDebugErrorBreakpoint2
+
+[
+	object,
+	uuid(74570ef7-2486-4089-800c-56e3829b5ca4),
+	pointer_default(unique)
+]
+interface IDebugErrorBreakpoint2: IUnknown
+{
+	HRESULT GetPendingBreakpoint(
+		[out] IDebugPendingBreakpoint2** ppPendingBreakpoint);
+
+	HRESULT GetBreakpointResolution(
+		[out] IDebugErrorBreakpointResolution2** ppErrorResolution);
+};
+
+// ------------------------------------------------------------------
+// IDebugExpression2
+[
+	object,
+	uuid(f7473fd0-7f75-478d-8d85-a485204e7a2d),
+	pointer_default(unique)
+]
+interface IDebugExpression2: IUnknown
+{
+	enum enum_EVALFLAGS
+	{
+		// the return value is interesting
+		EVAL_RETURNVALUE			= 0x0002,
+		// don't allow side effects
+		EVAL_NOSIDEEFFECTS			= 0x0004,
+		// stop on breakpoints
+		EVAL_ALLOWBPS				= 0x0008,
+		// allow error reporting to the host
+		EVAL_ALLOWERRORREPORT		= 0x0010,
+		// evaluate any functions as address (instead of invoking the function)
+		EVAL_FUNCTION_AS_ADDRESS	= 0x0040,
+		// don't allow function/property evaluation
+		EVAL_NOFUNCEVAL				= 0x0080,
+		// don't allow events
+		EVAL_NOEVENTS				= 0x1000,
+        // design-time expression evaluation
+        EVAL_DESIGN_TIME_EXPR_EVAL  = 0x2000,
+		// Allow implicit variable creation
+		EVAL_ALLOW_IMPLICIT_VARS	= 0x4000
+	};
+	typedef DWORD EVALFLAGS;
+
+	HRESULT EvaluateAsync(
+		[in] EVALFLAGS dwFlags,
+		// pExprCallback must be NULL in V8 and above
+		[in] IDebugEventCallback2* pExprCallback);
+
+	HRESULT Abort(void);
+
+	HRESULT EvaluateSync(
+		[in] EVALFLAGS dwFlags,
+		[in] DWORD dwTimeout,
+		// pExprCallback must be NULL in V8 and above
+		[in] IDebugEventCallback2* pExprCallback,
+		[out] IDebugProperty2** ppResult);
+};
+
+// ------------------------------------------------------------------
+// IDebugModule2
+[
+	object,
+	uuid(0fc1cd9a-b912-405c-a04c-43ce02cd7df2),
+	pointer_default(unique)
+]
+interface IDebugModule2: IUnknown
+{
+	enum enum_MODULE_FLAGS
+	{
+		MODULE_FLAG_NONE		= 0x0000,
+		MODULE_FLAG_SYSTEM		= 0x0001,
+		MODULE_FLAG_SYMBOLS		= 0x0002,
+		MODULE_FLAG_64BIT		= 0x0004,
+		 
+		//
+		// If the engine knows a module about optimizations it needs to set
+		// either of these flags, if it does not the module window will assume
+		// it does not
+		//
+		 
+		MODULE_FLAG_OPTIMIZED	= 0x0008,
+		MODULE_FLAG_UNOPTIMIZED	= 0x0010
+	};
+	typedef DWORD MODULE_FLAGS;
+
+	enum enum_MODULE_INFO_FIELDS
+	{
+		MIF_NONE				= 0x0000,
+		MIF_NAME				= 0x0001,
+		MIF_URL					= 0x0002,
+		MIF_VERSION				= 0x0004,
+		MIF_DEBUGMESSAGE		= 0x0008,
+		MIF_LOADADDRESS			= 0x0010,
+		MIF_PREFFEREDADDRESS	= 0x0020,
+		MIF_SIZE				= 0x0040,
+		MIF_LOADORDER			= 0x0080,
+		MIF_TIMESTAMP			= 0x0100,
+		MIF_URLSYMBOLLOCATION	= 0x0200,
+		MIF_FLAGS				= 0x0400,
+
+		MIF_ALLFIELDS			= 0x07ff,
+	};
+	typedef DWORD MODULE_INFO_FIELDS;
+
+	typedef struct _tagMODULE_INFO
+	{
+		MODULE_INFO_FIELDS dwValidFields;
+		BSTR m_bstrName;
+		BSTR m_bstrUrl;
+		BSTR m_bstrVersion;
+		BSTR m_bstrDebugMessage;
+		UINT64 m_addrLoadAddress;
+		UINT64 m_addrPreferredLoadAddress;
+		DWORD m_dwSize;
+		DWORD m_dwLoadOrder;
+		FILETIME m_TimeStamp;
+		BSTR m_bstrUrlSymbolLocation;
+		MODULE_FLAGS m_dwModuleFlags;
+	} MODULE_INFO;
+
+	HRESULT GetInfo(
+		[in] MODULE_INFO_FIELDS dwFields,
+		[out] MODULE_INFO* pInfo);
+	
+	HRESULT ReloadSymbols_Deprecated(
+		[in, ptr] LPCOLESTR pszUrlToSymbols,
+		[out] BSTR* pbstrDebugMessage);
+};
+
+// ------------------------------------------------------------------
+// IDebugModule3
+[
+	object,
+	uuid(245F9D6A-E550-404d-82F1-FDB68281607A),
+	pointer_default(unique)
+]
+interface IDebugModule3: IDebugModule2
+{
+	enum enum_SYMBOL_SEARCH_INFO_FIELDS
+	{
+		SSIF_NONE				= 0x0000,
+		SSIF_VERBOSE_SEARCH_INFO= 0x0001
+	};
+	typedef DWORD SYMBOL_SEARCH_INFO_FIELDS;
+
+	typedef struct _tagSYMBOL_SEARCH_INFO
+	{
+		// Details of where symbols were searched for and the result
+		SYMBOL_SEARCH_INFO_FIELDS dwValidFields;
+		BSTR bstrVerboseSearchInfo;
+	} MODULE_SYMBOL_SEARCH_INFO;
+
+	HRESULT GetSymbolInfo(
+		[in] SYMBOL_SEARCH_INFO_FIELDS dwFields,
+		[out] MODULE_SYMBOL_SEARCH_INFO* pInfo);
+	
+	// LoadSymbols will use the current symbol path to search for
+	// symbols.  The updated IDebugModule3 is sent in an IDebugSymbolSearchEvent2
+	HRESULT LoadSymbols();
+
+	// Returns whether module is user or not
+	HRESULT IsUserCode(
+		[out] BOOL *pfUser);
+
+	// Sets user status of module
+	HRESULT SetJustMyCodeState(
+		[in] BOOL fIsUserCode);			
+}
+
+//
+// IDebugSourceServerModule
+//
+// QI from IDebugModule2 
+//
+[
+	object,
+	uuid(492e5541-215b-4f67-ad73-20f48614912e),
+	pointer_default(unique)
+]
+interface IDebugSourceServerModule : IUnknown
+{
+ 	// returns the source server data for the module
+	// caller should free using CoTaskMemFree()
+	HRESULT GetSourceServerData(
+			[out] ULONG* pDataByteCount, 
+			[out, size_is (, *pDataByteCount)] BYTE** ppData); 
+
+
+}
+
+
+
+
+// ------------------------------------------------------------------
+// IDebugModuleManaged
+[
+	object,
+	uuid(232397F8-B232-479d-B1BB-2F044C70A0F9),
+	pointer_default(unique)
+]
+interface IDebugModuleManaged: IUnknown
+{
+	HRESULT GetMvid(
+		[out] GUID* mvid);
+};
+
+// ------------------------------------------------------------------
+// IDebugDocument2
+[
+	object,
+	uuid(1606dd73-5d5f-405c-b4f4-ce32baba2501),
+	pointer_default(unique)
+]
+interface IDebugDocument2: IUnknown
+{
+	HRESULT GetName(
+		[in] GETNAME_TYPE gnType,
+		[out] BSTR* pbstrFileName);
+
+	HRESULT GetDocumentClassId(
+		[out] CLSID* pclsid);
+};
+
+// ------------------------------------------------------------------
+// IDebugDocumentText2
+#pragma warning(push)
+#pragma warning(disable:28718)
+[
+	object,
+	uuid(4b0645aa-08ef-4cb9-adb9-0395d6edad35),
+	pointer_default(unique)
+]
+interface IDebugDocumentText2: IDebugDocument2
+{
+	HRESULT GetSize(
+		[in, out, ptr] ULONG* pcNumLines,
+		[in, out, ptr] ULONG* pcNumChars);
+
+	HRESULT GetText(
+		[in] TEXT_POSITION pos,
+		[in] ULONG cMaxChars,
+		[out, length_is(*pcNumChars), size_is(cMaxChars)] WCHAR* pText,
+		[out] ULONG* pcNumChars);
+};
+#pragma warning(pop)
+
+// ------------------------------------------------------------------
+// IDebugDocumentPosition2
+[
+	object,
+	uuid(bdde0eee-3b8d-4c82-b529-33f16b42832e),
+	pointer_default(unique)
+]
+interface IDebugDocumentPosition2: IUnknown
+{
+	HRESULT GetFileName(
+		[out] BSTR* pbstrFileName);
+
+	HRESULT GetDocument(
+		[out] IDebugDocument2** ppDoc);
+
+	HRESULT IsPositionInDocument(
+		[in] IDebugDocument2* pDoc);
+
+	HRESULT GetRange(
+		[in, out, ptr] TEXT_POSITION* pBegPosition,
+		[in, out, ptr] TEXT_POSITION* pEndPosition);
+};
+
+// ------------------------------------------------------------------
+// IDebugDocumentPositionOffset2
+[
+	object,
+	uuid(037edd0f-8551-4f7f-8ca0-04d9e29f532d),
+	pointer_default(unique)
+]
+interface IDebugDocumentPositionOffset2: IUnknown
+{
+	HRESULT GetRange(
+		[in, out, ptr] DWORD* pdwBegOffset,
+		[in, out, ptr] DWORD* pdwEndOffset);
+};
+
+// ------------------------------------------------------------------
+// IDebugFunctionPosition2
+
+[
+	object,
+	uuid(1ede3b4b-35e7-4b97-8133-02845d600174),
+	pointer_default(unique)
+]
+interface IDebugFunctionPosition2: IUnknown
+{
+	HRESULT GetFunctionName(
+		[out] BSTR* pbstrFunctionName);
+
+	HRESULT GetOffset(
+		[in, out, ptr] TEXT_POSITION* pPosition);
+};
+
+// ------------------------------------------------------------------
+// IDebugDocumentTextEvents2
+[
+	object,
+	uuid(33ec72e3-002f-4966-b91c-5ce2f7ba5124),
+	pointer_default(unique)
+]
+interface IDebugDocumentTextEvents2: IUnknown
+{
+	// TEXT_DOC_ATTR
+	//
+	// Describes the attributes of the document
+	typedef DWORD TEXT_DOC_ATTR_2;
+	// Indicates that the document is read-only.
+	const TEXT_DOC_ATTR_2 TEXT_DOC_ATTR_READONLY_2 = 0x00000001;
+
+	HRESULT onDestroy(void);
+
+	HRESULT onInsertText(
+		[in] TEXT_POSITION pos,
+		[in] DWORD dwNumToInsert);
+
+	HRESULT onRemoveText(
+		[in] TEXT_POSITION pos,
+		[in] DWORD dwNumToRemove);
+
+	HRESULT onReplaceText(
+		[in] TEXT_POSITION pos,
+		[in] DWORD dwNumToReplace);
+
+	HRESULT onUpdateTextAttributes(
+		[in] TEXT_POSITION pos,
+		[in] DWORD dwNumToUpdate);
+
+	HRESULT onUpdateDocumentAttributes(
+		[in] TEXT_DOC_ATTR_2 textdocattr);
+};
+
+// ------------------------------------------------------------------
+// IDebugQueryEngine2
+
+[
+	object,
+	uuid(c989adc9-f305-4ef5-8ca2-20898e8d0e28),
+	pointer_default(unique)
+]
+interface IDebugQueryEngine2: IUnknown
+{
+	HRESULT GetEngineInterface(
+		[out] IUnknown** ppUnk);
+};
+
+
+
+//-------------------------------------------------------------------
+// IEEHostServices
+[
+	object,
+	uuid(BB7BE481-DA8F-4b9e-89CB-0A8DDE6BC5D7),
+	pointer_default(unique)
+]
+interface IEEHostServices: IUnknown
+{
+	HRESULT GetHostValue(
+		[in] LPCOLESTR valueCatagory, 
+		[in] LPCOLESTR valueKind, 
+		[out] VARIANT * result);
+	HRESULT SetHostValue(
+		[in] LPCOLESTR valueCatagory, 
+		[in] LPCOLESTR valueKind,
+		[in] VARIANT newValue);
+
+};
+
+
+
+//-------------------------------------------------------------------
+// IDebugCustomViewer
+[
+	object,
+	uuid(6306E526-9E02-4696-BFF9-48338A27F8AF),
+	pointer_default(unique)
+]
+interface IDebugCustomViewer: IUnknown
+{
+	HRESULT DisplayValue(
+		[in] HWND hwnd,                         // Parent window.
+        [in] DWORD dwID,                        // ID for custom viewers that support more than one type.
+        [in] IUnknown * pHostServices,
+		[in] IDebugProperty3* pDebugProperty);  // IDebugProperty3 to be displayed.
+};
+
+
+    [
+        object,
+        uuid(DCF1F227-EC51-4680-8722-C8796A5F3483),
+        pointer_default(unique)
+    ]
+    interface IEEDataStorage: IUnknown
+    {
+        HRESULT GetSize([out] ULONG * size);
+        HRESULT GetData([in] ULONG dataSize, [out] ULONG * sizeGotten, [out, size_is(dataSize), length_is(*sizeGotten)] BYTE * data);
+    };
+
+    [
+        object,
+        uuid(579919D2-1B10-4584-969C-3E065BD3E22D),
+        pointer_default(unique)
+    ]
+    interface IPropertyProxyEESide: IUnknown
+    {
+        enum enum_ASSEMBLYLOCRESOLUTION
+        {
+            ALR_NAME = 0x0,
+            ALR_USERDIR = 0x1,
+            ALR_SHAREDDIR = 0x2,
+            ALR_REMOTEDIR = 0x4,
+            ALR_ERROR = 0x8,
+            ALR_BYTES = 0x10,
+        };
+        typedef DWORD ASSEMBLYLOCRESOLUTION;
+
+        enum enum_GETASSEMBLY
+        {
+            GA_BYTES = 0x1 ,
+            GA_PDBBYTES = 0x2,
+            GA_NAME = 0x4,
+            GA_FLAGS = 0x8,
+        };
+        typedef DWORD GETASSEMBLY;
+
+        HRESULT InitSourceDataProvider([out] IEEDataStorage ** dataOut);
+        HRESULT GetManagedViewerCreationData ([out] BSTR * assemName, [out] IEEDataStorage ** assemBytes, [out] IEEDataStorage ** assemPdb, [out] BSTR * className, [out] ASSEMBLYLOCRESOLUTION * alr, [out] BOOL * replacementOk);
+        HRESULT GetInitialData([out] IEEDataStorage ** dataOut);
+        HRESULT CreateReplacementObject([in] IEEDataStorage * dataIn, [out] IEEDataStorage ** dataOut);
+        HRESULT InPlaceUpdateObject([in] IEEDataStorage * dataIn, [out] IEEDataStorage ** dataOut);
+        HRESULT ResolveAssemblyReference([in] LPCOLESTR assemName, [in] GETASSEMBLY flags, [out] IEEDataStorage ** assemBytes, [out] IEEDataStorage ** assemPdb, [out] BSTR * assemLocation, [out] ASSEMBLYLOCRESOLUTION * alr);
+    };
+
+    [
+        object,
+        uuid(30E6C90E-757E-48cf-8DB8-20B061AFBBAE),
+        pointer_default(unique)
+    ]
+    interface IPropertyProxyProvider: IUnknown
+    {
+        HRESULT GetPropertyProxy([in] DWORD dwID, [out] IPropertyProxyEESide ** proxy);
+    };
+
+    [
+        object,
+        uuid(5968D43D-D21E-437c-9C71-77C52C3E287A),
+        pointer_default(unique)
+    ]
+    interface IManagedViewerHost: IUnknown
+    {
+        HRESULT CreateViewer([in] ULONG hwnd, [in] IUnknown * hostServices, [in] IPropertyProxyEESide * property);
+    };
+
+    [
+        object,
+        uuid(44F8F85F-5514-49a3-8173-6F9C9F1C4832),
+        pointer_default(unique)
+    ]
+    interface IEELocalObject: IUnknown
+    {
+        HRESULT SetCallback(IDebugSettingsCallback2 * pCallback);
+    };
+
+    [
+        object,
+        uuid(6F1A544C-E69E-4a52-9EA1-25C897B05BEF),
+        pointer_default(unique)
+    ]
+    interface IEEAssemblyRefResolveComparer : IUnknown
+    {
+        HRESULT CompareRef([in] DWORD cookieFirst, [in] DWORD cookieSecond, [in] DWORD cookieTarget, [out] BOOL * firstIsBetter);
+    };
+
+    [
+        object,
+        uuid(AAD20A0E-9CD9-40ab-91B9-3C1943562C84),
+        pointer_default(unique)
+    ]
+    interface IEEAssemblyRef : IUnknown
+    {
+        HRESULT GetName([out] BSTR * bstr);
+        HRESULT GetVersion([out] USHORT * major, [out] USHORT * minor, [out] USHORT * build, [out] USHORT * revision);
+        HRESULT GetCulture([out] BSTR * bstr);
+        HRESULT GetPublicKey([out] BSTR * key);
+    };
+
+    [
+        object,
+        uuid(4A3BCDE5-5F66-4cc8-9FA0-14275CCEE688),
+        pointer_default(unique)
+    ]
+    interface IEEHelperObject: IUnknown
+    {
+
+        enum enum_ASSEMBLYFLAGS
+        {
+            ASMF_USERDIR = 0x1,
+            ASMF_SHAREDDIR = 0x2,
+        };
+        typedef DWORD ASSEMBLYFLAGS;
+
+        HRESULT InitCache(IEEAssemblyRefResolveComparer * pResolver);
+
+        HRESULT GetTargetClass([in]LPCOLESTR name, [in] DWORD assemblyCookie, [out] DWORD * cookie, [out] ULONG * valueAttrCount, [out] ULONG * viewerAttrCount, [out] ULONG * visualizerAttrCount);
+        HRESULT GetTargetAssembly([in]LPCOLESTR name, [out] DWORD * cookie);
+
+        HRESULT GetAssembly([in] DWORD assemblyCookie, GETASSEMBLY flags, [out] ASSEMBLYFLAGS * flagsOut, [out] BSTR * name, [out] IEEDataStorage ** assemBytes, [out] IEEDataStorage ** pdbBytes);
+
+        HRESULT GetHostAssembly(GETASSEMBLY flags, [out] IEEDataStorage ** assemBytes, [out] IEEDataStorage ** pdbBytes);
+
+        HRESULT GetValueAttributeProps([in] DWORD classCookie, [in] ULONG ordinal, [out] BSTR * targetedAssembly, [out] DWORD * assemLocation, [out] BSTR * name, [out] BSTR * value, [out] BSTR * type);
+        HRESULT GetViewerAttributeProps([in] DWORD classCookie, [in] ULONG ordinal, [out] BSTR * targetedAssembly, [out] DWORD * assemLocation, [out] BSTR * className, [out] DWORD * classAssemLocation);
+        HRESULT GetVisualizerAttributeProps([in] DWORD classCookie, [in] ULONG ordinal, [out] BSTR * targetedAssembly, [out] DWORD * assemLocation, [out] BSTR * displayClassName, [out] DWORD * displayClassAssemLocation, [out] BSTR * proxyClassName, [out] DWORD * proxyClassAssemLocation, [out] BSTR * description, [out] ULONG * uiType);
+        HRESULT GetAssemblyRefForCookie([in] DWORD cookie, [out] IEEAssemblyRef ** ppAssemRef);
+    };
+
+
+
+
+// ------------------------------------------------------------------
+// IDebugExceptionCallback2
+[
+	object,
+	uuid(6f5cfda4-47d3-4a90-a882-14427237bcee),
+	pointer_default(unique)
+]
+interface IDebugExceptionCallback2: IUnknown
+{
+	// S_OK indicates that we should stop
+	HRESULT QueryStopOnException(
+		[in] IDebugProcess2* pProcess,
+		[in] IDebugProgram2* pProgram,
+		[in] IDebugThread2* pThread,
+		[in] IDebugExceptionEvent2* pEvent);
+};
+
+// ------------------------------------------------------------------
+// IEnumDebugProcesses2
+[
+	object,
+	uuid(96c74ef4-185d-4f9a-8a43-4d2723758e0a),
+	pointer_default(unique)
+]
+interface IEnumDebugProcesses2: IUnknown
+{
+	HRESULT Next(
+		[in] ULONG celt,
+		[out, size_is(celt), length_is(*pceltFetched)] IDebugProcess2** rgelt,
+		[in, out] ULONG* pceltFetched);
+
+	HRESULT Skip(
+		[in] ULONG celt);
+
+	HRESULT Reset(void);
+
+	HRESULT Clone(
+		[out] IEnumDebugProcesses2** ppEnum);
+
+	HRESULT GetCount(
+		[out] ULONG* pcelt);
+};
+
+// ------------------------------------------------------------------
+// IEnumDebugPrograms2
+[
+	object,
+	uuid(8d14bca6-34ce-4efe-ac7e-0abc61dadb20),
+	pointer_default(unique)
+]
+interface IEnumDebugPrograms2: IUnknown
+{
+	HRESULT Next(
+		[in] ULONG celt,
+		[out, size_is(celt), length_is(*pceltFetched)] IDebugProgram2** rgelt,
+		[in, out] ULONG* pceltFetched);
+
+	HRESULT Skip(
+		[in] ULONG celt);
+
+	HRESULT Reset(void);
+
+	HRESULT Clone(
+		[out] IEnumDebugPrograms2** ppEnum);
+
+	HRESULT GetCount(
+		[out] ULONG* pcelt);
+};
+
+// ------------------------------------------------------------------
+// IEnumDebugThreads2
+[
+	object,
+	uuid(0d30dc12-c4f8-433d-9fcc-9ff117e5e5f4),
+	pointer_default(unique)
+]
+interface IEnumDebugThreads2: IUnknown
+{
+	HRESULT Next(
+		[in] ULONG celt,
+		[out, size_is(celt), length_is(*pceltFetched)] IDebugThread2** rgelt,
+		[in, out] ULONG* pceltFetched);
+
+	HRESULT Skip(
+		[in] ULONG celt);
+
+	HRESULT Reset(void);
+
+	HRESULT Clone(
+		[out] IEnumDebugThreads2** ppEnum);
+
+	HRESULT GetCount(
+		[out] ULONG* pcelt);
+};
+
+// ------------------------------------------------------------------
+// IEnumDebugStackFrames2
+[
+	object,
+	uuid(cd39102b-4b69-4495-8f29-e0b25c4a8855),
+	pointer_default(unique)
+]
+interface IEnumDebugStackFrames2: IUnknown
+{
+	HRESULT Next(
+		[in] ULONG celt,
+		[out, size_is(celt), length_is(*pceltFetched)] IDebugStackFrame2** rgelt,
+		[in, out] ULONG* pceltFetched);
+
+	HRESULT Skip(
+		[in] ULONG celt);
+
+	HRESULT Reset(void);
+
+	HRESULT Clone(
+		[out] IEnumDebugStackFrames2** ppEnum);
+
+	HRESULT GetCount(
+		[out] ULONG* pcelt);
+
+	HRESULT GetIndex(
+		[in] IDebugStackFrame2* pStackFrame,
+		[in, out] ULONG* pIndex);
+};
+
+// ------------------------------------------------------------------
+// IEnumDebugCodeContexts2
+[
+	object,
+	uuid(ad47a80b-eda7-459e-af82-647cc9fbaa50),
+	pointer_default(unique)
+]
+interface IEnumDebugCodeContexts2: IUnknown
+{
+	HRESULT Next(
+		[in] ULONG celt,
+		[out, size_is(celt), length_is(*pceltFetched)] IDebugCodeContext2** rgelt,
+		[in, out] ULONG* pceltFetched);
+
+	HRESULT Skip(
+		[in] ULONG celt);
+
+	HRESULT Reset(void);
+
+	HRESULT Clone(
+		[out] IEnumDebugCodeContexts2** ppEnum);
+
+	HRESULT GetCount(
+		[out] ULONG* pcelt);
+};
+
+// ------------------------------------------------------------------
+// IEnumDebugBoundBreakpoints2
+
+[
+	object,
+	uuid(0f6b37e0-fcfe-44d9-9112-394ca9b92114),
+	pointer_default(unique)
+]
+interface IEnumDebugBoundBreakpoints2: IUnknown
+{
+	HRESULT Next(
+		[in] ULONG celt,
+		[out, size_is(celt), length_is(*pceltFetched)] IDebugBoundBreakpoint2** rgelt,
+		[in, out] ULONG* pceltFetched);
+
+	HRESULT Skip(
+		[in] ULONG celt);
+
+	HRESULT Reset(void);
+
+	HRESULT Clone(
+		[out] IEnumDebugBoundBreakpoints2** ppEnum);
+
+	HRESULT GetCount(
+		[out] ULONG* pcelt);
+};
+
+// ------------------------------------------------------------------
+// IEnumDebugPendingBreakpoints2
+
+[
+	object,
+	uuid(70d2dc1e-4dcc-4786-a072-9a3b600c216b),
+	pointer_default(unique)
+]
+interface IEnumDebugPendingBreakpoints2: IUnknown
+{
+	HRESULT Next(
+		[in] ULONG celt,
+		[out, size_is(celt), length_is(*pceltFetched)] IDebugPendingBreakpoint2** rgelt,
+		[in, out] ULONG* pceltFetched);
+
+	HRESULT Skip(
+		[in] ULONG celt);
+
+	HRESULT Reset(void);
+
+	HRESULT Clone(
+		[out] IEnumDebugPendingBreakpoints2** ppEnum);
+
+	HRESULT GetCount(
+		[out] ULONG* pcelt);
+};
+
+// ------------------------------------------------------------------
+// IEnumDebugErrorBreakpoints2
+
+[
+	object,
+	uuid(e158f5aa-31fe-491b-a9f6-cff934b03a01),
+	pointer_default(unique)
+]
+interface IEnumDebugErrorBreakpoints2: IUnknown
+{
+	HRESULT Next(
+		[in] ULONG celt,
+		[out, size_is(celt), length_is(*pceltFetched)] IDebugErrorBreakpoint2** rgelt,
+		[in, out] ULONG* pceltFetched);
+
+	HRESULT Skip(
+		[in] ULONG celt);
+
+	HRESULT Reset(void);
+
+	HRESULT Clone(
+		[out] IEnumDebugErrorBreakpoints2** ppEnum);
+
+	HRESULT GetCount(
+		[out] ULONG* pcelt);
+};
+
+// ------------------------------------------------------------------
+// IEnumDebugMachines2__deprecated
+[
+	object,
+	uuid(61d986ec-1eac-46b6-90ff-402a008f15d1),
+	pointer_default(unique)
+]
+interface IEnumDebugMachines2__deprecated : IUnknown
+{
+	HRESULT Next(
+		[in] ULONG celt,
+		[out, size_is(celt), length_is(*pceltFetched)] IDebugCoreServer2** rgelt,
+		[in, out] ULONG *pceltFetched);
+
+	HRESULT Skip(
+		[in] ULONG celt);
+
+	HRESULT Reset(void);
+
+	HRESULT Clone(
+		[out] IEnumDebugMachines2__deprecated **ppEnum);
+
+	HRESULT GetCount(
+		[out] ULONG *pcelt);
+};
+
+cpp_quote("#define EnumMachines_V7 EnumMachines__deprecated")
+cpp_quote("#define IEnumDebugMachines2_V7 IEnumDebugMachines2__deprecated")
+cpp_quote("#define IID_IEnumDebugMachines2_V7 IID_IEnumDebugMachines2__deprecated")
+
+// ------------------------------------------------------------------
+// IEnumDebugExceptionInfo2
+[
+	object,
+	uuid(8e4bbd34-a2f4-41ef-87b5-c563b4ad6ee7),
+	pointer_default(unique)
+]
+interface IEnumDebugExceptionInfo2 : IUnknown
+{
+    HRESULT Next(
+        [in] ULONG celt,
+		[out, size_is(celt), length_is(*pceltFetched)] EXCEPTION_INFO* rgelt,
+		[in, out] ULONG *pceltFetched);
+
+	HRESULT Skip(
+		[in] ULONG celt);
+
+	HRESULT Reset(void);
+
+	HRESULT Clone(
+		[out] IEnumDebugExceptionInfo2** ppEnum);
+
+	HRESULT GetCount(
+		[out] ULONG* pcelt);
+};
+
+// ------------------------------------------------------------------
+// IEnumDebugFrameInfo2
+[
+	object,
+	uuid(98bbba48-4c4d-4fff-8340-6097bec9c894),
+	pointer_default(unique)
+]
+interface IEnumDebugFrameInfo2 : IUnknown
+{
+    HRESULT Next(
+        [in] ULONG celt,
+		[out, size_is(celt), length_is(*pceltFetched)] FRAMEINFO* rgelt,
+		[in, out] ULONG *pceltFetched);
+
+	HRESULT Skip(
+		[in] ULONG celt);
+
+	HRESULT Reset(void);
+
+	HRESULT Clone(
+		[out] IEnumDebugFrameInfo2** ppEnum);
+
+	HRESULT GetCount(
+		[out] ULONG* pcelt);
+};
+
+[
+	object,
+	uuid(ef7262c4-4a01-42a0-8658-932667b27555),
+	pointer_default(unique)
+]
+interface IEnumDebugSessionFrameInfo2 : IEnumDebugFrameInfo2
+{
+	typedef enum enum_SESSION_CACHE_PRIORITY
+	{
+		NORMAL_CACHE_PRIORITY = 0,
+		HIGH_CACHE_PRIORITY = 1
+	} SESSION_CACHE_PRIORITY;
+
+	HRESULT SetCachePriority(
+		[in] SESSION_CACHE_PRIORITY cachePriority);
+};
+		
+
+// ------------------------------------------------------------------
+// IEnumDebugFrameInfoFilter2
+[
+	object,
+	uuid(6CD4FB40-F954-44e0-B8A5-A614481E0831),
+	pointer_default(unique)
+]
+interface IEnumDebugFrameInfoFilter2: IEnumDebugFrameInfo2
+{
+    HRESULT CanFilter(
+        [out] BOOL *pfCanFilter);
+
+    HRESULT IsFiltered(
+        [out] BOOL *pfIsFiltered);
+}
+
+
+// ------------------------------------------------------------------
+// IEnumCodePaths2
+[
+	object,
+	uuid(9b13f80d-cfc6-4b78-81ef-1f7cc33f7639),
+	pointer_default(unique)
+]
+interface IEnumCodePaths2: IUnknown
+{
+    HRESULT Next(
+        [in] ULONG celt,
+		[out, size_is(celt), length_is(*pceltFetched)] CODE_PATH* rgelt,
+		[in, out] ULONG *pceltFetched);
+
+	HRESULT Skip(
+		[in] ULONG celt);
+
+	HRESULT Reset(void);
+
+	HRESULT Clone(
+		[out] IEnumCodePaths2** ppEnum);
+
+	HRESULT GetCount(
+		[out] ULONG* pcelt);
+};
+
+// ------------------------------------------------------------------
+// IEnumDebugModules2
+[
+	object,
+	uuid(4c4a2835-682e-4ce1-aebc-1e6b3a165b44),
+	pointer_default(unique)
+]
+interface IEnumDebugModules2: IUnknown
+{
+    HRESULT Next(
+        [in] ULONG celt,
+		[out, size_is(celt), length_is(*pceltFetched)] IDebugModule2** rgelt,
+		[in, out] ULONG* pceltFetched);
+
+	HRESULT Skip(
+		[in] ULONG celt);
+
+	HRESULT Reset(void);
+
+	HRESULT Clone(
+		[out] IEnumDebugModules2** ppEnum);
+
+	HRESULT GetCount(
+		[out] ULONG* pcelt);
+};
+
+// ------------------------------------------------------------------
+// IEnumDebugPortSuppliers2
+[
+	object,
+	uuid(59c9dc99-3eff-4ff3-b201-98acd01b0d87),
+	pointer_default(unique)
+]
+interface IEnumDebugPortSuppliers2 : IUnknown
+{
+	HRESULT Next(
+		[in] ULONG celt,
+		[out, size_is(celt), length_is(*pceltFetched)] IDebugPortSupplier2** rgelt,
+		[in, out] ULONG* pceltFetched);
+
+	HRESULT Skip(
+		[in] ULONG celt);
+
+	HRESULT Reset(void);
+
+	HRESULT Clone(
+		[out] IEnumDebugPortSuppliers2** ppEnum);
+
+	HRESULT GetCount(
+		[out] ULONG* pcelt);
+};
+
+// ------------------------------------------------------------------
+// IEnumDebugPorts2
+[
+	object,
+	uuid(bc827c5e-99ae-4ac8-83ad-2ea5c2034333),
+	pointer_default(unique)
+]
+interface IEnumDebugPorts2 : IUnknown
+{
+	HRESULT Next(
+		[in] ULONG celt,
+		[out, size_is(celt), length_is(*pceltFetched)] IDebugPort2** rgelt,
+		[in, out] ULONG* pceltFetched);
+
+	HRESULT Skip(
+		[in] ULONG celt);
+
+	HRESULT Reset(void);
+
+	HRESULT Clone(
+		[out] IEnumDebugPorts2** ppEnum);
+
+	HRESULT GetCount(
+		[out] ULONG* pcelt);
+};
+
+// ------------------------------------------------------------------
+// IEnumDebugPropertyInfo2
+[
+	object,
+	uuid(6c7072c3-3ac4-408f-a680-fc5a2f96903e),
+	pointer_default(unique)
+]
+interface IEnumDebugPropertyInfo2: IUnknown
+{
+    HRESULT Next(
+        [in] ULONG celt,
+		[out, size_is(celt), length_is(*pceltFetched)] DEBUG_PROPERTY_INFO* rgelt,
+		[out] ULONG* pceltFetched);
+
+	HRESULT Skip(
+		[in] ULONG celt);
+
+	HRESULT Reset(void);
+
+	HRESULT Clone(
+		[out] IEnumDebugPropertyInfo2** ppEnum);
+
+	HRESULT GetCount(
+		[out] ULONG* pcelt);
+};
+
+// ------------------------------------------------------------------
+// IEnumDebugReferenceInfo2
+[
+	object,
+	uuid(e459dd12-864f-4aaa-abc1-dcecbc267f04),
+	pointer_default(unique)
+]
+interface IEnumDebugReferenceInfo2: IUnknown
+{
+    HRESULT Next(
+        [in] ULONG celt,
+		[out, size_is(celt), length_is(*pceltFetched)] DEBUG_REFERENCE_INFO* rgelt,
+		[out] ULONG* pceltFetched);
+
+	HRESULT Skip(
+		[in] ULONG celt);
+
+	HRESULT Reset(void);
+
+	HRESULT Clone(
+		[out] IEnumDebugReferenceInfo2** ppEnum);
+
+	HRESULT GetCount(
+		[out] ULONG* pcelt);
+};
+
+
+// ------------------------------------------------------------------
+// IDebugProcessQueryProperties
+//   Extension interface implemented by IDebugProcess2 implementors.
+//   Enable querying the information about the execution environment
+//   of a process.
+//
+[
+	object,
+	uuid(230A0071-62EF-4cae-AAC0-8988C37024BF),
+	pointer_default(unique)
+]
+interface IDebugProcessQueryProperties: IUnknown
+{
+	//
+	// Definition of the property queried.
+	// The definition here is closely related to what's defined
+	// in toolhrt.h.
+	//
+	enum enum_PROCESS_PROPERTY_TYPE
+	{
+		// Return the command line as a VT_BSTR
+		PROCESS_PROPERTY_COMMAND_LINE = 1,
+
+		// Return the current directory as a VT_BSTR
+		PROCESS_PROPERTY_CURRENT_DIRECTORY = 2,
+
+		// Return the environment variavles as a VT_BSTR.
+		// The format is:
+		//   NAME1=VALUE1'\0'
+		//   NAME2=VALUE2'\0'
+		//   ...
+		//   '\0'
+		PROCESS_PROPERTY_ENVIRONMENT_VARIABLES = 3
+	};
+	typedef DWORD PROCESS_PROPERTY_TYPE;
+
+	HRESULT QueryProperty(
+		[in] PROCESS_PROPERTY_TYPE dwPropType,
+		[out] VARIANT *pvarPropValue);
+
+    HRESULT QueryProperties(
+        [in] ULONG celt,
+		[in, size_is(celt)] PROCESS_PROPERTY_TYPE *rgdwPropTypes,
+		[out, size_is(celt)] VARIANT *rgtPropValues);
+};
+
+// ------------------------------------------------------------------
+// IDebugRemoteServer2 -- interface to an instance of msvsmon
+[
+	object,
+	uuid(3d3ce5c4-1508-4711-a5eb-f848f6e10072),
+	pointer_default(unique)
+]
+interface IDebugRemoteServer2: IUnknown
+{
+	enum enum_ENUMERATED_PROCESS_FLAGS
+	{
+		EPFLAG_SHOW_SECURITY_WARNING = 0x01,
+		EPFLAG_SYSTEM_PROCESS        = 0x02
+	};
+	typedef DWORD ENUMERATED_PROCESS_FLAGS;
+
+	enum enum_REMOTE_PROCESS_FLAGS
+	{
+		// ENUMERATED_PROCESS_FLAGS can also be passed here
+
+		RPFLAG_DEBUGGER_ATTACH       = 0x100,
+		RPFLAG_SQL_LOADED            = 0x200,
+		RPFLAG_CLR_LOADED            = 0x400,
+		RPFLAG_PROCESS_WOW64         = 0x800,
+	};
+	typedef DWORD REMOTE_PROCESS_FLAGS;
+
+	enum enum_REMOTE_PROCESS_INFO_FIELDS
+	{
+		RPIF_TITLE                   = 0x01,
+		RPIF_MODULE_PATH             = 0x02,
+		RPIF_COMMAND_LINE            = 0x04,
+		RPIF_CURRENT_DIRECTORY       = 0x08,
+		RPIF_ENVIRONMENT_VARIABLES   = 0x10,
+		RPIF_USER_NAME               = 0x20,
+		RPIF_SESSION_ID              = 0x40,
+		RPIF_ENUMERATED_FLAGS        = 0x80,
+		RPIF_DEBUGGER_PRESENT_FLAGS  = 0x100,
+		RPIF_PROGRAM_TYPE_FLAGS      = 0x200
+	};
+	typedef DWORD REMOTE_PROCESS_INFO_FIELDS;
+
+	typedef struct tagREMOTE_PROCESS_INFO
+	{
+		REMOTE_PROCESS_INFO_FIELDS Fields;
+		BSTR bstrTitle;
+		BSTR bstrModulePath;
+		BSTR bstrCommandLine;
+		BSTR bstrCurrentDirectory;
+		BSTR bstrEnvironmentVariables;
+		BSTR bstrUserName;
+		DWORD dwSessionId;
+		REMOTE_PROCESS_FLAGS Flags;
+	} REMOTE_PROCESS_INFO;
+
+	typedef struct tagENUMERATED_PROCESS
+	{
+		DWORD dwProcessId;
+		DWORD dwSessionId;
+		BSTR bstrUserName;
+		ENUMERATED_PROCESS_FLAGS dwProcessFlags;
+	} ENUMERATED_PROCESS;
+
+	typedef struct tagENUMERATED_PROCESS_ARRAY
+	{
+		DWORD dwCount;
+		[size_is(dwCount)] ENUMERATED_PROCESS *Members;
+	} ENUMERATED_PROCESS_ARRAY;
+
+	typedef struct tagPROCESS_LAUNCH_INFO
+	{
+		LPCOLESTR pszExe;
+		[ptr] LPCOLESTR pszArgs;
+		[ptr] LPCOLESTR pszDir;
+		[ptr] BSTR bstrEnv;
+		BOOL fLaunchSuspended;
+	} PROCESS_LAUNCH_INFO;
+
+	typedef struct tagWATCH_COOKIE {
+		UINT64 val;
+	} WATCH_COOKIE;
+
+	typedef struct tagRESUME_COOKIE {
+		UINT64 val;
+	} RESUME_COOKIE;
+
+	HRESULT GetRemoteServerName(
+		[out] BSTR *pbstrName);
+
+	HRESULT GetRemoteComputerInfo(
+		[out] COMPUTER_INFO * pInfo
+		);
+
+	HRESULT EnumRemoteProcesses(
+		[out] ENUMERATED_PROCESS_ARRAY * pProcessArray
+		);
+
+	HRESULT GetRemoteProcessInfo(
+		[in] DWORD dwProcessId,
+		[in] REMOTE_PROCESS_INFO_FIELDS Fields,
+		[out] REMOTE_PROCESS_INFO *pInfo
+		);
+
+	HRESULT CreateRemoteInstance(
+		[in, ptr] LPCWSTR szDll,
+		[in] WORD wLangId,
+		[in] REFCLSID clsidObject,
+		[in] REFIID riid,
+		[out, iid_is(riid)] void **ppvObject);
+
+	HRESULT WatchForRemoteProcessDestroy(
+		[in] IDebugPortEvents2 *pCallback,
+		[in] IDebugProcess2 *pProcess,
+		[out] WATCH_COOKIE *pWatchCookie);
+
+	HRESULT CloseRemoteWatchCookie(
+		[in] WATCH_COOKIE WatchCookie
+		);
+
+	HRESULT TerminateRemoteProcess(
+		[in] DWORD dwProcessId
+		);
+
+	HRESULT LaunchRemoteProcess(
+		[in] PROCESS_LAUNCH_INFO LaunchInfo,
+		[out] DWORD * pdwProcessId,
+		[out] RESUME_COOKIE * pResumeCookie);
+
+	HRESULT CloseRemoteResumeCookie(
+		[in] RESUME_COOKIE ResumeCookie);
+
+	HRESULT DiagnoseRemoteWebDebuggingError(
+		[in,ptr] LPCWSTR szUrl);
+};
+
+// ------------------------------------------------------------------
+// IDebugRemoteServerFactory2 - Implemented on Win9x by Msvsmon
+[
+	object,
+	uuid(4a5af829-ca32-4b01-aae4-4c53d260e75c),
+	pointer_default(unique)
+]
+interface IDebugRemoteServerFactory2: IUnknown
+{
+	HRESULT CreateServer(
+		[in] IDebugSession2 *pSession,
+		[out] IDebugRemoteServer2 **ppRemoteServer
+		);
+};
+
+// ------------------------------------------------------------------
+// IDebugProgramPublisher2 - Implemented by pdm.dll (coclass ProgramPublisher).
+// This allows a script or third party program node to be published. These
+// program nodes are then accessable from a debugger process using IDebugProgramProvider2
+[
+	object,
+	uuid(a3dddf26-7792-4544-a9a4-d4dfb11cd8f3),
+	pointer_default(unique)
+]
+interface IDebugProgramPublisher2 : IUnknown
+{
+	HRESULT PublishProgramNode(
+		[in]  IDebugProgramNode2 *pProgramNode);
+
+	HRESULT UnpublishProgramNode(
+		[in]  IDebugProgramNode2 *pProgramNode);
+
+	HRESULT PublishProgram(
+		[in]  CONST_GUID_ARRAY Engines,
+		[in, ptr] LPCOLESTR szFriendlyName,
+		[in]  IUnknown *pDebuggeeInterface
+		);
+
+	HRESULT UnpublishProgram(
+		[in]  IUnknown *pDebuggeeInterface
+		);
+
+	HRESULT SetDebuggerPresent(
+		[in]  BOOL fDebuggerPresent
+		);
+};
+
+// ------------------------------------------------------------------
+// IDebugProgramProvider2 - implemented by a 3rd party engine or by pdm.dll
+// (coclass DebugProgramProvider). This allows the sdm to obtain program
+// nodes for a running process.
+[
+	object,
+	uuid(1959530a-8e53-4e09-ad11-1b7334811cad),
+	pointer_default(unique)
+]
+interface IDebugProgramProvider2 : IUnknown
+{
+	enum enum_PROVIDER_FLAGS
+	{
+		PFLAG_NONE                     = 0x00,    // no flags
+		PFLAG_REMOTE_PORT              = 0x01,    // asking for programs on a different machine then devenv
+		PFLAG_DEBUGGEE                 = 0x02,    // the process is curently being debugged by this devenv
+		PFLAG_ATTACHED_TO_DEBUGGEE     = 0x04,    // devenv is attached to the process (didn't launch it)
+		PFLAG_REASON_WATCH             = 0x08,    // we are starting to watch for events
+		PFLAG_GET_PROGRAM_NODES        = 0x10,    // want the 'ProgramNodes' field
+		PFLAG_GET_IS_DEBUGGER_PRESENT  = 0x20     // want the 'fIsDebuggerPresent' field
+	};
+	typedef DWORD PROVIDER_FLAGS;
+
+
+	enum enum_PROVIDER_FIELDS
+	{
+		PFIELD_PROGRAM_NODES           = 0x01,
+		PFIELD_IS_DEBUGGER_PRESENT     = 0x02
+	};
+	typedef DWORD PROVIDER_FIELDS;
+
+
+	typedef struct tagPROGRAM_NODE_ARRAY
+	{
+		DWORD dwCount;
+		[size_is(dwCount)] IDebugProgramNode2 ** Members;
+	} PROGRAM_NODE_ARRAY;
+
+
+	typedef struct tagPROVIDER_PROCESS_DATA
+	{
+		PROVIDER_FIELDS      Fields;
+		PROGRAM_NODE_ARRAY   ProgramNodes;
+		BOOL                 fIsDebuggerPresent;
+	} PROVIDER_PROCESS_DATA;
+
+	HRESULT GetProviderProcessData(
+		[in]  PROVIDER_FLAGS Flags,
+		[in]  IDebugDefaultPort2 *pPort,
+		[in]  AD_PROCESS_ID processId,
+		[in]  CONST_GUID_ARRAY EngineFilter,
+		[out] PROVIDER_PROCESS_DATA *pProcess);
+
+	HRESULT GetProviderProgramNode(
+		[in]  PROVIDER_FLAGS Flags,
+		[in]  IDebugDefaultPort2 *pPort,
+		[in]  AD_PROCESS_ID processId,
+		[in]  REFGUID guidEngine,
+		[in]  UINT64 programId,
+		[out] IDebugProgramNode2 **ppProgramNode);
+
+	HRESULT WatchForProviderEvents(
+		[in]  PROVIDER_FLAGS Flags,
+		[in]  IDebugDefaultPort2 *pPort,
+		[in]  AD_PROCESS_ID processId,
+		[in]  CONST_GUID_ARRAY EngineFilter,
+		[in]  REFGUID guidLaunchingEngine,
+		[in]  IDebugPortNotify2 *pEventCallback);
+
+	HRESULT SetLocale(
+		[in] WORD wLangID);
+};
+
+// ------------------------------------------------------------------
+// IDebugProviderProgramNode2 - implemented by a 3rd party engine or by pdm.dll.
+// This interface is implemented in pdm.dll in the debugger process. It allows
+// an engine to retieve an interface from the program node running in the debuggee
+// process.
+[
+	object,
+	uuid(afdba726-047a-4b83-b8c7-d812fe9caa5c),
+	pointer_default(unique)
+]
+interface IDebugProviderProgramNode2 : IUnknown
+{
+	HRESULT UnmarshalDebuggeeInterface(
+		[in] REFIID riid,
+		[out, iid_is(riid)] void **ppvObject);
+};
+
+// IDebugFirewallConfigurationCallback2 - implemented by vsdebug, and the SDM (port object). 
+// This will determine if the Windows Firewall is blocking DCOM, and then take an 
+// appropriate action
+[
+	object,
+	uuid(ba3288db-224a-4fd6-a37e-64e7abe9c4a1),
+	pointer_default(unique)
+]
+interface IDebugFirewallConfigurationCallback2: IUnknown
+{
+	// Try and configure the firewall (if neccessary) so that the debugger can
+	// act as a DCOM server. 
+	// Possible return values are S_OK and E_FIREWALL_USER_CANCLED
+	HRESULT EnsureDCOMUnblocked();
+};
+
+// This informs the UI before we do an unsafe attach. This allows the UI to prompt
+// the user to decide if the attach should proceed
+[
+	object,
+	uuid(a19e7faf-cb6f-43ba-ac16-bde9823d6dd1),
+	pointer_default(unique)
+]
+interface IDebugAttachSecurityCallback2: IUnknown
+{
+	HRESULT OnUnsafeAttach([in] IDebugProcess2 *pProcess);
+};
+
+// ------------------------------------------------------------------
+
+#ifndef AD7_NO_LIB
+[
+	uuid(d191c0d7-4c8b-4a15-a7b3-862dcd8daefb)
+]
+library AD2Lib
+{
+	importlib("stdole2.tlb");
+
+	[ uuid(5eb7d9f7-af21-400e-a2c4-7fd6396f8641) ]
+	coclass SDMServer
+	{
+		[default] interface IDebugSession2;
+	};
+
+	cpp_quote("#ifdef DEBUG")
+	cpp_quote("#define MsMachineDebugManager_V7 MsMachineDebugManager_V7_DEBUG")
+	cpp_quote("#define CLSID_MsMachineDebugManager_V7 CLSID_MsMachineDebugManager_V7_DEBUG")
+	cpp_quote("#else")
+	cpp_quote("#define MsMachineDebugManager_V7 MsMachineDebugManager_V7_RETAIL")
+	cpp_quote("#define CLSID_MsMachineDebugManager_V7 CLSID_MsMachineDebugManager_V7_RETAIL")
+	cpp_quote("#endif")
+
+	[ uuid(73b25ffd-f501-437b-8b11-7f0de383964f) ]
+	coclass MsMachineDebugManager_V7_RETAIL
+	{
+		[default] interface IDebugMachine2_V7;
+	};
+
+	[ uuid(05e1b201-493d-4678-bbcb-18d9caf5c0a9) ]
+	coclass MsMachineDebugManager_V7_DEBUG
+	{
+		[default] interface IDebugMachine2_V7;
+	};
+
+	cpp_quote("#ifdef DEBUG")
+	cpp_quote("#define MDMUtilServer_V7 MDMUtilServer_V7_DEBUG")
+	cpp_quote("#define CLSID_MDMUtilServer_V7 CLSID_MDMUtilServer_V7_DEBUG")
+	cpp_quote("#else")
+	cpp_quote("#define MDMUtilServer_V7 MDMUtilServer_V7_RETAIL")
+	cpp_quote("#define CLSID_MDMUtilServer_V7 CLSID_MDMUtilServer_V7_RETAIL")
+	cpp_quote("#endif")
+
+	[ uuid(b20e899d-b079-479d-a4dc-10f758d9cd9a) ]
+	coclass MDMUtilServer_V7_RETAIL
+	{
+		[default] interface IDebugMDMUtil2_V7;
+	};
+
+	[ uuid(89370a13-3977-4e7d-aea0-0a9751ae596b) ]
+	coclass MDMUtilServer_V7_DEBUG
+	{
+		[default] interface IDebugMDMUtil2_V7;
+	};
+
+	[
+		uuid(d04d550d-1ea8-4e37-830e-700fea447688)
+	]
+	coclass ProgramPublisher
+	{
+		[default] interface IDebugProgramPublisher2;
+	};
+
+	[
+		uuid(170ec3fc-4e80-40ab-a85a-55900c7c70de)
+	]
+	coclass MsProgramProvider
+	{
+		[default] interface IDebugProgramProvider2;
+	};
+};
+#endif

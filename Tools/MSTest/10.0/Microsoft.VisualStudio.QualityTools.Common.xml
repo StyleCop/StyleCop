@@ -1,0 +1,1852 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<doc>
+  <assembly>
+    <name>Microsoft.VisualStudio.QualityTools.Common</name>
+  </assembly>
+  <members>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.AspNetDevelopmentServer"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.AspNetDevelopmentServer.#ctor(System.String,System.String,System.String)">
+      <param name="name"></param>
+      <param name="pathToWebApp"></param>
+      <param name="webAppRoot"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.AspNetDevelopmentServer.Load(System.Xml.XmlElement,Microsoft.VisualStudio.TestTools.Common.Xml.XmlTestStoreParameters)">
+      <param name="element"></param>
+      <param name="parameters"></param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.AspNetDevelopmentServer.Name"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.AspNetDevelopmentServer.PathToWebApp"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.AspNetDevelopmentServer.Save(System.Xml.XmlElement,Microsoft.VisualStudio.TestTools.Common.Xml.XmlTestStoreParameters)">
+      <param name="element"></param>
+      <param name="parameters"></param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.AspNetDevelopmentServer.WebAppRoot"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.ComputerInfo"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.ComputerInfo.#ctor"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.ComputerInfo.#ctor(System.String)">
+      <param name="computerName"></param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.ComputerInfo.ComputerName"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.DebugEngine"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.DebugEngine.Original">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.DebugEngine.Managed">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.DebugEngine.ManagedAndNative">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.DebugEngine.Native">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.DebugEngine.Custom">
+      <summary />
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.DebugEventHandler">
+      <param name="result"></param>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.DebugOperationResult"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.DebugOperationResult.ErrorMessage"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.DebugOperationResult.Succeeded"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.DebugRequestMessage"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.DebugRequestMessage.#ctor(System.Guid,Microsoft.VisualStudio.TestTools.Common.DebugTargetInfo)">
+      <param name="runId"></param>
+      <param name="targetInfo"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.DebugRequestMessage.#ctor(System.Guid,Microsoft.VisualStudio.TestTools.Common.DebugTargetInfo,Microsoft.VisualStudio.TestTools.Common.DebugEventHandler)">
+      <param name="runId"></param>
+      <param name="targetInfo"></param>
+      <param name="debugEventHandler"></param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.DebugRequestMessage.DebugEventHandler"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.DebugRequestMessage.TargetInfo"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.DebugTargetInfo"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.DebugTargetInfo.#ctor"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.DebugTargetInfo.DebugEngine"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.DebugTargetInfo.DebugEngineGuid"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.DebugTargetInfo.PortName"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.DebugTargetInfo.PortSupplier"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.DebugTargetInfo.ProcessId"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.DebugTargetInfo.Qualifier"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.DeploymentItem"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.DeploymentItem.#ctor(System.String)">
+      <param name="path"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.DeploymentItem.#ctor(System.String,System.String)">
+      <param name="path"></param>
+      <param name="relativeOutputDirectory"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.DeploymentItem.CheckDeploymentItem(System.String,System.String,System.String@)">
+      <param name="path"></param>
+      <param name="outputDirectory"></param>
+      <param name="errorMessage"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.DeploymentItem.Equals(System.Object)">
+      <param name="other"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.DeploymentItem.GetHashCode"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.DeploymentItem.Load(System.Xml.XmlElement,Microsoft.VisualStudio.TestTools.Common.Xml.XmlTestStoreParameters)"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.DeploymentItem.OutputDirectory"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.DeploymentItem.Path"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.DeploymentItem.PrepareToPersist"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.DeploymentItem.RecoverFromPersistence"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.DeploymentItem.Save(System.Xml.XmlElement,Microsoft.VisualStudio.TestTools.Common.Xml.XmlTestStoreParameters)"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.DeploymentItem.ToString"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.DeploymentItemCollection"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.DeploymentItemCollection.#ctor"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.DeploymentItemCollection.#ctor(Microsoft.VisualStudio.TestTools.Common.DeploymentItemCollection)">
+      <param name="other"></param>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.EqtBaseCollection`1">
+      <typeparam name="T"></typeparam>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.EqtBaseCollection`1.#ctor"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.EqtBaseCollection`1.#ctor(Microsoft.VisualStudio.TestTools.Common.EqtBaseCollection{`0})">
+      <param name="other"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.EqtBaseCollection`1.#ctor(System.Collections.IEqualityComparer)">
+      <param name="comparer"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.EqtBaseCollection`1.Add(`0)">
+      <param name="item"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.EqtBaseCollection`1.Clear"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.EqtBaseCollection`1.Clone"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.EqtBaseCollection`1.Contains(`0)">
+      <param name="item"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.EqtBaseCollection`1.CopyTo(`0[],System.Int32)">
+      <param name="array"></param>
+      <param name="index"></param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.EqtBaseCollection`1.Count"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.EqtBaseCollection`1.GetEnumerator"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.EqtBaseCollection`1.IsReadOnly"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.EqtBaseCollection`1.Load(System.Xml.XmlElement,Microsoft.VisualStudio.TestTools.Common.Xml.XmlTestStoreParameters)"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.EqtBaseCollection`1.m_container"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.EqtBaseCollection`1.Remove(`0)">
+      <param name="item"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.EqtBaseCollection`1.Save(System.Xml.XmlElement,Microsoft.VisualStudio.TestTools.Common.Xml.XmlTestStoreParameters)"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.EqtBaseCollection`1.System#Collections#Generic#IEnumerable{T}#GetEnumerator"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.EqtTextWriterTraceListener"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.EqtTextWriterTraceListener.#ctor(System.String)">
+      <param name="fileName"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.EqtTextWriterTraceListener.#ctor(System.String,System.String)">
+      <param name="fileName"></param>
+      <param name="name"></param>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.GroupingPropertyAttribute"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.GroupingPropertyAttribute.#ctor"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.HelpKeywords"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.HelpKeywords.#ctor"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.HelpKeywords.DeleteOldRunsDialog"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.HelpKeywords.GenericTestArguments"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.HelpKeywords.GenericTestEnvironmentVariables"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.HelpKeywords.GenericTestFileName"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.HelpKeywords.GenericTestMaximumDuration"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.HelpKeywords.GenericTestRedirectStandardOutputAndError"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.HelpKeywords.GenericTestSummaryXmlFileName"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.HelpKeywords.GenericTestUseSummaryXmlFile"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.HelpKeywords.GenericTestWorkingDirectory"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.HelpKeywords.ImportCategoryDialog"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.HelpKeywords.OrderedTestContinueAfterFailure"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.HelpKeywords.TestElementAgentRestrictions"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.HelpKeywords.TestElementCssIteration"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.HelpKeywords.TestElementCssProjectStructure"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.HelpKeywords.TestElementDeploymentItems"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.HelpKeywords.TestElementDescription"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.HelpKeywords.TestElementEnabled"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.HelpKeywords.TestElementErrorMessageForNonRunnable"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.HelpKeywords.TestElementHumanReadableId"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.HelpKeywords.TestElementName"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.HelpKeywords.TestElementOwner"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.HelpKeywords.TestElementPriority"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.HelpKeywords.TestElementProjectName"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.HelpKeywords.TestElementProjectRelativePath"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.HelpKeywords.TestElementSolutionName"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.HelpKeywords.TestElementStorage"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.HelpKeywords.TestElementTestType"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.HelpKeywords.TestElementTimeout"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.HelpKeywords.TestElementWorkitemAssociations"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.HelpKeywords.UnitTestClassName"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.HelpKeywords.UnitTestDataAccessMethod"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.HelpKeywords.UnitTestDataConnectionString"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.HelpKeywords.UnitTestDataProviderName"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.HelpKeywords.UnitTestDataTableName"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.HelpKeywords.UnitTestFullyQualifiedClassName"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.HelpKeywords.UnitTestNamespace"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.HostRunConfigurationData"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.HostRunConfigurationData.#ctor"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.HostRunConfigurationData.Clone"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.HostRunConfigurationData.CurrentHostType"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.HostRunConfigurationData.Item(System.String)">
+      <param name="hostType"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.HostRunConfigurationData.Load(System.Xml.XmlElement,Microsoft.VisualStudio.TestTools.Common.Xml.XmlTestStoreParameters)"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.HostRunConfigurationData.Save(System.Xml.XmlElement,Microsoft.VisualStudio.TestTools.Common.Xml.XmlTestStoreParameters)"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.IAspNetDevelopmentServerTest"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.IAspNetDevelopmentServerTest.AspNetDevelopmentServers"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.IDataSourceBindingData"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.IDataSourceBindingData.DataConnectionString"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.IDataSourceBindingData.DataProviderName"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.IDataSourceBindingData.DataTableName"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.IDataSourceBindingData.TestElement"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.IFastVisiblePropertyProvider"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.IFastVisiblePropertyProvider.FillDataRow(System.Data.DataRow)">
+      <param name="row"></param>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.IFileProvider"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.IFileProvider.GetFilePaths"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.IHostedTest">
+      <summary>A test type that implements the IHostedTest interface or inherits from a class that implements the IHostedTest interface can be hosted by a host adapter. Custom test types are usually derived from the TestElement class, and the TestElement class implements the IHostedTest interface. Consequently, any test type that derives from TestElement can be hosted by a host adapter. </summary>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.IHostedTest.HostType">
+      <summary>The IHostedTest.HostType string identifies a host. Testers can use this string in the HostType attribute on a custom test to specify a host in which to run that test. </summary>
+      <returns>The <see cref="T:System.String" /> that contains the name of the type of host in which the test should run. To indicate the default test host, this property returns null or an empty string. </returns>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.IHostSpecificRunConfigurationData"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.IntTimeSpanConverter"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.IntTimeSpanConverter.#ctor"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.IntTimeSpanConverter.CanConvertFrom(System.ComponentModel.ITypeDescriptorContext,System.Type)">
+      <param name="context"></param>
+      <param name="sourceType"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.IntTimeSpanConverter.ConvertFrom(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.Object)">
+      <param name="context"></param>
+      <param name="culture"></param>
+      <param name="value"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.IntTimeSpanConverter.ConvertTo(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.Object,System.Type)">
+      <param name="context"></param>
+      <param name="culture"></param>
+      <param name="value"></param>
+      <param name="destinationType"></param>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.IPersistable"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.IPersistable.PrepareToPersist"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.IPersistable.RecoverFromPersistence"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.ITestAggregation"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.ITestAggregation.Add(Microsoft.VisualStudio.TestTools.Common.Link)">
+      <param name="link"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.ITestAggregation.Clear"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.ITestAggregation.Elements"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.ITestAggregation.Links"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.ITestAggregation.Remove(Microsoft.VisualStudio.TestTools.Common.Link)">
+      <param name="link"></param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.ITestAggregation.VisibleLinks"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.ITestElement"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.ITestElement.AbortRunOnAgentFailure"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.ITestElement.Adapter"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.ITestElement.AgentAttributes"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.ITestElement.AssignIsRunnable(System.Boolean,System.String)">
+      <param name="runnable"></param>
+      <param name="errorMessage"></param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.ITestElement.CanBeAggregated"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.ITestElement.CategoryId"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.ITestElement.ControllerPlugin"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.ITestElement.Copy"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.ITestElement.CreatedByUI"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.ITestElement.CssIteration"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.ITestElement.CssProjectStructure"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.ITestElement.DeploymentItems"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.ITestElement.Description"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.ITestElement.Enabled"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.ITestElement.ErrorMessageForNonRunnable"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.ITestElement.ExecutionId"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.ITestElement.Groups"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.ITestElement.HumanReadableId"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.ITestElement.Id"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.ITestElement.IsAutomated"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.ITestElement.IsGroupable"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.ITestElement.IsModified"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.ITestElement.IsRunnable"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.ITestElement.IsRunOnRestart"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.ITestElement.Link"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.ITestElement.Name"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.ITestElement.Owner"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.ITestElement.ParentExecId"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.ITestElement.Priority"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.ITestElement.ProjectData"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.ITestElement.ProjectName"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.ITestElement.ProjectRelativePath"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.ITestElement.Properties"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.ITestElement.ReadOnly"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.ITestElement.SolutionName"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.ITestElement.SourceFileName"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.ITestElement.Storage"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.ITestElement.TestType"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.ITestElement.Timeout"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.ITestElement.UserData"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.ITestElement.WorkItemIds"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.ITestElementResultTestPropertyProvider"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.ITestElementResultTestPropertyProvider.FillDataRow(System.Data.DataRow,System.String)">
+      <param name="row"></param>
+      <param name="columnPrefix"></param>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.ITestList"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.ITestList.AddTest(Microsoft.VisualStudio.TestTools.Common.ITestElement)">
+      <param name="test"></param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.ITestList.CanChangeTestLists"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.ITestList.CanChangeTests"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.ITestList.CreateChildList(System.String)">
+      <param name="name"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.ITestList.DeleteChildList(Microsoft.VisualStudio.TestTools.Common.ITestList)">
+      <param name="childList"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.ITestList.GetChildLists"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.ITestList.GetMissingTests"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.ITestList.GetTests"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.ITestList.MoveChildList(Microsoft.VisualStudio.TestTools.Common.ITestList,Microsoft.VisualStudio.TestTools.Common.ITestList)">
+      <param name="childList"></param>
+      <param name="destination"></param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.ITestList.Name"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.ITestList.ReadOnly"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.ITestList.RemoveTest(Microsoft.VisualStudio.TestTools.Common.ITestElement)">
+      <param name="test"></param>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.ITestTypeSpecificRunConfigurationData"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.ITestTypeSpecificRunConfigurationData.RunConfigurationInformation"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.ITip"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.ITip.BeforeRemoveTestRun(System.Guid)">
+      <param name="runId"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.ITip.Load(System.String,Microsoft.VisualStudio.TestTools.Common.ProjectData,Microsoft.VisualStudio.TestTools.Common.IWarningHandler)">
+      <param name="location"></param>
+      <param name="projectData"></param>
+      <param name="warningHandler"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.ITip.MergeResults(Microsoft.VisualStudio.TestTools.Common.TestResult,Microsoft.VisualStudio.TestTools.Common.TestResultMessage)">
+      <param name="inMemory"></param>
+      <param name="fromTheWire"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.ITip.Reset"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.ITip.Save(Microsoft.VisualStudio.TestTools.Common.ITestElement[],System.String,Microsoft.VisualStudio.TestTools.Common.ProjectData)">
+      <param name="tests"></param>
+      <param name="location"></param>
+      <param name="projectData"></param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.ITip.TestType"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.ITip.Unload(System.String,Microsoft.VisualStudio.TestTools.Common.IWarningHandler)">
+      <param name="location"></param>
+      <param name="warningHandler"></param>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.ITmi"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.ITmi.ActiveTestRunConfigurationId"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.ITmi.AddManagedTestStorage(System.Object,System.String)">
+      <param name="manager"></param>
+      <param name="storagePath"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.ITmi.AddManagedTestStorage(System.Object,System.String,Microsoft.VisualStudio.TestTools.Common.TestType)"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.ITmi.AddOrUpdateTests(System.Collections.ICollection)">
+      <param name="tests"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.ITmi.AddTest(Microsoft.VisualStudio.TestTools.Common.ITestElement)">
+      <param name="test"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.ITmi.AddTests(System.Collections.ICollection)">
+      <param name="tests"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.ITmi.ClearManagedTestStorage(System.Object)">
+      <param name="manager"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.ITmi.FindTipForTestType(Microsoft.VisualStudio.TestTools.Common.TestType)">
+      <param name="type"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.ITmi.GetTest(Microsoft.VisualStudio.TestTools.Common.TestId)">
+      <param name="testId"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.ITmi.GetTestLists"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.ITmi.GetTestListsForResults(Microsoft.VisualStudio.TestTools.Common.TestRun)">
+      <param name="run"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.ITmi.GetTestResults(Microsoft.VisualStudio.TestTools.Common.TestRun)">
+      <param name="run"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.ITmi.GetTestResults(Microsoft.VisualStudio.TestTools.Common.TestRun,Microsoft.VisualStudio.TestTools.Common.ITestElement)">
+      <param name="run"></param>
+      <param name="test"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.ITmi.GetTestRun(System.Guid)">
+      <param name="runId"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.ITmi.GetTestRunConfiguration(Microsoft.VisualStudio.TestTools.Common.TestRunConfigurationId)"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.ITmi.GetTestRunConfigurations"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.ITmi.GetTestRuns"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.ITmi.GetTests"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.ITmi.GetTestsNotInAnyTestList"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.ITmi.GetTestsNotInAnyTestList(Microsoft.VisualStudio.TestTools.Common.TestRun)">
+      <param name="run"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.ITmi.ReleaseTest(Microsoft.VisualStudio.TestTools.Common.TestId)">
+      <param name="id"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.ITmi.ReleaseTests(System.Collections.ICollection)">
+      <param name="tests"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.ITmi.ReleaseTests(System.String)">
+      <param name="location"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.ITmi.SaveTest(Microsoft.VisualStudio.TestTools.Common.TestId)">
+      <param name="testId"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.ITmi.UpdateTest(Microsoft.VisualStudio.TestTools.Common.ITestElement)">
+      <param name="test"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.ITmi.UpdateTests(System.Collections.ICollection)">
+      <param name="tests"></param>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.IVerifiable"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.IVerifiable.IsValid"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.IVisiblePropertyProvider"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.IVisiblePropertyProvider.VisibleProperties"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.IWarningHandler"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.IWarningHandler.Write(System.Object,Microsoft.VisualStudio.TestTools.Common.WarningEventArgs)">
+      <param name="sender"></param>
+      <param name="ea"></param>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.KnownExecutionAppKeys"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.KnownExecutionAppKeys.AgentDeploymentTimeout"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.KnownExecutionAppKeys.AgentExecutionTimeout"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.KnownExecutionAppKeys.AgentId"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.KnownExecutionAppKeys.AgentLoadDistributor"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.KnownExecutionAppKeys.AgentName"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.KnownExecutionAppKeys.AgentProcessPort"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.KnownExecutionAppKeys.AgentServicePort"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.KnownExecutionAppKeys.AgentSyncTimeout"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.KnownExecutionAppKeys.AgentWeighting"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.KnownExecutionAppKeys.BatFileTimeout"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.KnownExecutionAppKeys.ControllerComputerName"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.KnownExecutionAppKeys.ControllerJobSpooling"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.KnownExecutionAppKeys.ControllerName"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.KnownExecutionAppKeys.ControllerServicePort"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.KnownExecutionAppKeys.CreateTraceListener"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.KnownExecutionAppKeys.ExecutionEnvironment"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.KnownExecutionAppKeys.IdleTimeToDisconnect"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.KnownExecutionAppKeys.LogSizeLimitInMegs"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.KnownExecutionAppKeys.RunDeploymentLifetime"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.KnownExecutionAppKeys.StopTestRunTimeout"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.KnownExecutionAppKeys.SyncTestTimeout"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.KnownExecutionAppKeys.TestDeploymentDir"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.KnownExecutionAppKeys.TestDir"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.KnownExecutionAppKeys.TestLocation"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.KnownExecutionAppKeys.TestLogsDir"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.KnownExecutionAppKeys.TestOutputDirectory"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.KnownExecutionAppKeys.TotalAgents"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.KnownExecutionAppKeys.WorkingDirectory"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.Link"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.Link.#ctor(System.Guid,System.String,System.String,System.Type)">
+      <param name="id"></param>
+      <param name="name"></param>
+      <param name="storage"></param>
+      <param name="type"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.Link.#ctor(System.Guid,System.String,System.String,System.Type,System.Boolean)">
+      <param name="id"></param>
+      <param name="name"></param>
+      <param name="storage"></param>
+      <param name="type"></param>
+      <param name="enabled"></param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.Link.Enabled"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.Link.Equals(System.Object)">
+      <param name="other"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.Link.GetHashCode"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.Link.Id"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.Link.IsSame(Microsoft.VisualStudio.TestTools.Common.Link)">
+      <param name="other"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.Link.Load(System.Xml.XmlElement,Microsoft.VisualStudio.TestTools.Common.Xml.XmlTestStoreParameters)"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.Link.Name"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.Link.Save(System.Xml.XmlElement,Microsoft.VisualStudio.TestTools.Common.Xml.XmlTestStoreParameters)"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.Link.Storage"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.Link.ToString"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.Link.Type"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.Link.VisibleProperties"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.LocalizedDescriptionAttribute"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.LocalizedDescriptionAttribute.#ctor(System.Type,System.String)">
+      <param name="resourceType"></param>
+      <param name="resourceId"></param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.LocalizedDescriptionAttribute.Description"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.LocalizedDescriptionAttribute.ResourceId"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.LocalizedDescriptionAttribute.ResourceType"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.NameValue"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.NameValue.#ctor"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.NameValue.#ctor(Microsoft.VisualStudio.TestTools.Common.NameValue)">
+      <param name="other"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.NameValue.#ctor(System.String,System.String)">
+      <param name="name"></param>
+      <param name="value"></param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.NameValue.Name"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.NameValue.ToString"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.NameValue.Value"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.NonPersistableAttribute"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.NonPersistableAttribute.#ctor"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.PersistenceElementNameAttribute"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.PersistenceElementNameAttribute.#ctor(System.String)">
+      <param name="name"></param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.PersistenceElementNameAttribute.Name"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.ProjectData"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.ProjectData.#ctor(System.Guid,System.String,System.String,System.String)">
+      <param name="projectId"></param>
+      <param name="solutionName"></param>
+      <param name="projectName"></param>
+      <param name="projectRelativePath"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.ProjectData.Equals(System.Object)">
+      <param name="obj"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.ProjectData.GetHashCode"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.ProjectData.ProjectId"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.ProjectData.ProjectName"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.ProjectData.ProjectRelativePath"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.ProjectData.SolutionName"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.ProjectData.ToString"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.PropertyConverterType"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.PropertyConverterType.NoTypeConverter">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.PropertyConverterType.DataTableTypeConverter">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.PropertyConverterType.ProjectStructureConverter">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.PropertyConverterType.IterationConverter">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.PropertyConverterType.WorkItemListConverter">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.PropertyConverterType.TimeoutConverter">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.PropertyConverterType.HostTypeConverter">
+      <summary />
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.PropertyEditorType"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.PropertyEditorType.NoEditor">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.PropertyEditorType.CssProjectStructurePicker">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.PropertyEditorType.CssIterationPicker">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.PropertyEditorType.WorkItemsPicker">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.PropertyEditorType.DataConnectionPicker">
+      <summary />
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.PropertyWindowAttribute"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.PropertyWindowAttribute.#ctor"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.PropertyWindowAttribute.#ctor(Microsoft.VisualStudio.TestTools.Common.PropertyConverterType)">
+      <param name="converterType"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.PropertyWindowAttribute.#ctor(Microsoft.VisualStudio.TestTools.Common.PropertyEditorType)">
+      <param name="editorType"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.PropertyWindowAttribute.#ctor(Microsoft.VisualStudio.TestTools.Common.PropertyEditorType,Microsoft.VisualStudio.TestTools.Common.PropertyConverterType)">
+      <param name="editorType"></param>
+      <param name="converterType"></param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.PropertyWindowAttribute.ConverterType"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.PropertyWindowAttribute.EditorType"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.RunInfo"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.RunInfo.#ctor(System.String,System.Exception,System.String,Microsoft.VisualStudio.TestTools.Common.TestOutcome)"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.RunInfo.AgentMachine"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.RunInfo.ComputerInfo"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.RunInfo.Exception"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.RunInfo.IsPass"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.RunInfo.Load(System.Xml.XmlElement,Microsoft.VisualStudio.TestTools.Common.Xml.XmlTestStoreParameters)"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.RunInfo.Outcome"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.RunInfo.OutcomeText"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.RunInfo.Save(System.Xml.XmlElement,Microsoft.VisualStudio.TestTools.Common.Xml.XmlTestStoreParameters)"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.RunInfo.Text"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.RunInfo.TextHashCode"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.RunInfo.Timestamp"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.RunOutputTestResultMessage"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.RunOutputTestResultMessage.#ctor(System.Guid)">
+      <param name="runId"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.RunOutputTestResultMessage.Clone"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.RunOutputTestResultMessage.DebugTrace"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.RunOutputTestResultMessage.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.RunOutputTestResultMessage.StdErr"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.RunOutputTestResultMessage.StdOut"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.RunResultAndStatistics"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.RunResultAndStatistics.AddRunInfo(System.String,System.Exception,System.String,Microsoft.VisualStudio.TestTools.Common.TestOutcome)"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.RunResultAndStatistics.Clone"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.RunResultAndStatistics.DebugTrace"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.RunResultAndStatistics.ExecutedTestCount"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.RunResultAndStatistics.FailedTestCount"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.RunResultAndStatistics.HasPassed"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.RunResultAndStatistics.IsPartialRun"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.RunResultAndStatistics.IsValid"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.RunResultAndStatistics.Item(Microsoft.VisualStudio.TestTools.Common.TestOutcome)">
+      <param name="outcome"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.RunResultAndStatistics.Load(System.Xml.XmlElement,Microsoft.VisualStudio.TestTools.Common.Xml.XmlTestStoreParameters)"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.RunResultAndStatistics.Outcome"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.RunResultAndStatistics.OutcomeText"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.RunResultAndStatistics.PassedTestCount"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.RunResultAndStatistics.RunInfoList"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.RunResultAndStatistics.Save(System.Xml.XmlElement,Microsoft.VisualStudio.TestTools.Common.Xml.XmlTestStoreParameters)"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.RunResultAndStatistics.StdErr"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.RunResultAndStatistics.StdOut"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.RunResultAndStatistics.ToString"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.RunResultAndStatistics.TotalTestCount"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.RunState"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.RunState.Uninitialized">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.RunState.Queuing">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.RunState.Deploying">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.RunState.Deployed">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.RunState.Queued">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.RunState.Starting">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.RunState.Started">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.RunState.Running">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.RunState.Pausing">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.RunState.Paused">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.RunState.Resuming">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.RunState.Timeout">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.RunState.Stopping">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.RunState.Stopped">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.RunState.Aborting">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.RunState.Aborted">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.RunState.Completing">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.RunState.CompletingCleanup">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.RunState.Completed">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.RunState.Disposed">
+      <summary />
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.RunStateEvent"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.RunStateEvent.#ctor"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.RunStateEvent.#ctor(System.Guid,Microsoft.VisualStudio.TestTools.Common.RunState,System.String)">
+      <param name="runId"></param>
+      <param name="newState"></param>
+      <param name="computer"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.RunStateEvent.#ctor(System.Guid,Microsoft.VisualStudio.TestTools.Common.RunState,System.String,System.DateTime)">
+      <param name="runId"></param>
+      <param name="newState"></param>
+      <param name="computer"></param>
+      <param name="timestamp"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.RunStateEvent.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+      <param name="info"></param>
+      <param name="context"></param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.RunStateEvent.Computer"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.RunStateEvent.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+      <param name="info"></param>
+      <param name="context"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.RunStateEvent.IsValid"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.RunStateEvent.NewState"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.RunStateEvent.RunId"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.RunStateEvent.Timestamp"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.RunStateEvent.ToString"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.TestAggregation"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestAggregation.#ctor"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestAggregation.#ctor(Microsoft.VisualStudio.TestTools.Common.TestAggregation)">
+      <param name="copy"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestAggregation.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestAggregation.#ctor(System.String,System.String)">
+      <param name="name"></param>
+      <param name="description"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestAggregation.Add(Microsoft.VisualStudio.TestTools.Common.Link)">
+      <param name="link"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestAggregation.Clear"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestAggregation.Elements"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestAggregation.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestAggregation.Links"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestAggregation.Load(System.Xml.XmlElement,Microsoft.VisualStudio.TestTools.Common.Xml.XmlTestStoreParameters)"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestAggregation.m_links"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestAggregation.MakeLinksRelative(System.String)">
+      <param name="rootPath"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestAggregation.Remove(Microsoft.VisualStudio.TestTools.Common.Link)">
+      <param name="link"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestAggregation.Save(System.Xml.XmlElement,Microsoft.VisualStudio.TestTools.Common.Xml.XmlTestStoreParameters)"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestAggregation.SynchronizedStart"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestAggregation.VisibleLinks"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.TestCaseManagementDisplayNameAttribute"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestCaseManagementDisplayNameAttribute.#ctor(System.Type,System.String)">
+      <param name="resourceType"></param>
+      <param name="resourceId"></param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestCaseManagementDisplayNameAttribute.DisplayName"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestCaseManagementDisplayNameAttribute.ResourceId"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestCaseManagementDisplayNameAttribute.ResourceType"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.TestCategoryId"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestCategoryId.#ctor"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestCategoryId.#ctor(System.Guid)">
+      <param name="id"></param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestCategoryId.AllItems"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestCategoryId.Categories"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestCategoryId.Empty"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestCategoryId.Equals(System.Object)">
+      <param name="other"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestCategoryId.GetHashCode"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestCategoryId.Id"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestCategoryId.Root"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestCategoryId.ToString"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestCategoryId.Uncategorized"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.TestElement"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestElement.#ctor"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestElement.#ctor(Microsoft.VisualStudio.TestTools.Common.TestElement)">
+      <param name="copy"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestElement.#ctor(Microsoft.VisualStudio.TestTools.Common.TestId,System.String,System.String)">
+      <param name="id"></param>
+      <param name="name"></param>
+      <param name="description"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestElement.#ctor(Microsoft.VisualStudio.TestTools.Common.TestId,System.String,System.String,System.String)">
+      <param name="id"></param>
+      <param name="name"></param>
+      <param name="description"></param>
+      <param name="storage"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestElement.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestElement.#ctor(System.String,System.String)">
+      <param name="name"></param>
+      <param name="description"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestElement.#ctor(System.String,System.String,System.String)">
+      <param name="name"></param>
+      <param name="description"></param>
+      <param name="storage"></param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestElement.AbortRunOnAgentFailure"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestElement.Adapter"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestElement.AgentAttributes"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestElement.AssignIsRunnable(System.Boolean,System.String)">
+      <param name="runnable"></param>
+      <param name="errorMessage"></param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestElement.CanBeAggregated"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestElement.CanBeAggregatedPropertyName"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestElement.CategoryId"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestElement.Clone"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestElement.ControllerPlugin"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestElement.Copy"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestElement.CreatedByUI"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestElement.CreatedByUIPropertyName"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestElement.CssIteration"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestElement.CssIterationPropertyName"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestElement.CssProjectStructure"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestElement.CssProjectStructurePropertyName"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestElement.DeploymentItems"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestElement.DeploymentItemsEditable"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestElement.DeploymentItemSeparator"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestElement.Description"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestElement.DescriptionPropertyName"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestElement.Enabled"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestElement.EnabledPropertyName"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestElement.EnabledPropName"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestElement.Equals(System.Object)">
+      <param name="other"></param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestElement.ErrorMessageForNonRunnable"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestElement.ErrorMessageForNonRunnablePropertyName"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestElement.ExecutionId"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestElement.FillDataRow(System.Data.DataRow,System.String)">
+      <param name="row"></param>
+      <param name="columnPrefix"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestElement.GetDeploymentItemsFromEditableItems(System.String[])">
+      <param name="editableItems"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestElement.GetEditableItemsFromDeploymentItems(Microsoft.VisualStudio.TestTools.Common.DeploymentItemCollection)">
+      <param name="deploymentItems"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestElement.GetHashCode"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestElement.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestElement.Groups"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestElement.HostData"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestElement.HostType"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestElement.HostTypePropertyName"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestElement.HumanReadableId"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestElement.HumanReadableIdPropertyName"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestElement.Id"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestElement.InfiniteTimeout"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestElement.IsAutomated"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestElement.IsAutomatedPropertyName"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestElement.IsGroupable"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestElement.IsLoadTestCandidate"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestElement.IsModified"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestElement.IsRunnable"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestElement.IsRunnablePropertyName"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestElement.IsRunOnRestart"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestElement.IsValid"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestElement.Link"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestElement.Load(System.Xml.XmlElement,Microsoft.VisualStudio.TestTools.Common.Xml.XmlTestStoreParameters)"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestElement.m_abortRunOnAgentFailure"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestElement.m_agentAttributes"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestElement.m_cssIteration"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestElement.m_cssProjectStructure"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestElement.m_deploymentItems"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestElement.m_description"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestElement.m_enabled"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestElement.m_executionId"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestElement.m_hostData"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestElement.m_hostType"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestElement.m_id"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestElement.m_isGroupable"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestElement.m_isRunOnRestart"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestElement.m_name"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestElement.m_nonRunnableReason"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestElement.m_owner"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestElement.m_parentExecutionId"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestElement.m_priority"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestElement.m_projectData"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestElement.m_properties"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestElement.m_storage"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestElement.m_timeout"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestElement.m_userData"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestElement.m_workItemIds"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestElement.Name"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestElement.NamePropertyName"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestElement.ObjectColumnName"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestElement.Owner"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestElement.OwnerPropertyName"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestElement.ParentExecId"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestElement.Priority"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestElement.PriorityPropertyName"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestElement.ProjectData"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestElement.ProjectDataPropertyName"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestElement.ProjectName"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestElement.ProjectNamePropertyName"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestElement.ProjectRelativePath"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestElement.ProjectRelativePathPropertyName"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestElement.Properties"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestElement.ReadOnly"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestElement.Save(System.Xml.XmlElement,Microsoft.VisualStudio.TestTools.Common.Xml.XmlTestStoreParameters)"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestElement.SolutionName"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestElement.SolutionNamePropertyName"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestElement.SourceFileName"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestElement.SourceFileNamePropertyName"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestElement.Storage"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestElement.StoragePropertyName"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestElement.TestIdString"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestElement.TestType"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestElement.TestTypeName"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestElement.TestTypePropertyName"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestElement.Timeout"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestElement.TimeoutVisible"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestElement.TimeoutVisiblePropertyName"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestElement.ToString"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestElement.UserData"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestElement.VisibleProperties"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestElement.WorkItemIds"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestElement.WorkItemIdsViewable"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestElement.WorkItemIdsViewablePropertyName"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.TestExecId"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestExecId.#ctor"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestExecId.#ctor(System.Guid)">
+      <param name="id"></param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestExecId.Empty"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestExecId.Equals(System.Object)">
+      <param name="obj"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestExecId.GetHashCode"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestExecId.Id"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestExecId.ToString"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.TestExecutionTraceInformation"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestExecutionTraceInformation.#ctor"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestExecutionTraceInformation.#ctor(System.String)">
+      <param name="trace"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestExecutionTraceInformation.AppendTrace(System.String)">
+      <param name="trace"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestExecutionTraceInformation.Clone"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestExecutionTraceInformation.Equals(System.Object)"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestExecutionTraceInformation.GetHashCode"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestExecutionTraceInformation.Load(System.Xml.XmlElement,Microsoft.VisualStudio.TestTools.Common.Xml.XmlTestStoreParameters)"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestExecutionTraceInformation.Message"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestExecutionTraceInformation.Save(System.Xml.XmlElement,Microsoft.VisualStudio.TestTools.Common.Xml.XmlTestStoreParameters)"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestExecutionTraceInformation.ToString"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.TestId"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestId.#ctor"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestId.#ctor(System.Guid)">
+      <param name="id"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestId.CompareTo(System.Object)">
+      <param name="other"></param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestId.Empty"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestId.Equals(System.Object)">
+      <param name="other"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestId.GetHashCode"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestId.Id"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestId.op_Equality(Microsoft.VisualStudio.TestTools.Common.TestId,Microsoft.VisualStudio.TestTools.Common.TestId)">
+      <param name="left"></param>
+      <param name="right"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestId.op_GreaterThan(Microsoft.VisualStudio.TestTools.Common.TestId,Microsoft.VisualStudio.TestTools.Common.TestId)">
+      <param name="left"></param>
+      <param name="right"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestId.op_Inequality(Microsoft.VisualStudio.TestTools.Common.TestId,Microsoft.VisualStudio.TestTools.Common.TestId)">
+      <param name="left"></param>
+      <param name="right"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestId.op_LessThan(Microsoft.VisualStudio.TestTools.Common.TestId,Microsoft.VisualStudio.TestTools.Common.TestId)">
+      <param name="left"></param>
+      <param name="right"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestId.ToString"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.TestMessage"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestMessage.#ctor"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestMessage.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+      <param name="info"></param>
+      <param name="context"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestMessage.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+      <param name="info"></param>
+      <param name="context"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestMessage.IsValid"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.TestMessageKind"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestMessageKind.Panic">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestMessageKind.Result">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestMessageKind.FileCopy">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestMessageKind.RunInfo">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestMessageKind.RunStateChanged">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestMessageKind.RunOutput">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestMessageKind.Debug">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestMessageKind.Heartbeat">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestMessageKind.TextMessage">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestMessageKind.TestStart">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestMessageKind.TestEnd">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestMessageKind.RunAbort">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestMessageKind.RunStart">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestMessageKind.RunEnd">
+      <summary />
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.TestOutcome"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestOutcome.Error">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestOutcome.Failed">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestOutcome.Timeout">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestOutcome.Aborted">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestOutcome.Inconclusive">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestOutcome.PassedButRunAborted">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestOutcome.NotRunnable">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestOutcome.NotExecuted">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestOutcome.Disconnected">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestOutcome.Warning">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestOutcome.Passed">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestOutcome.Completed">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestOutcome.InProgress">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestOutcome.Pending">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestOutcome.Min">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestOutcome.Max">
+      <summary />
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.TestOutcomeHelper"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestOutcomeHelper.GetAggregationOutcome(Microsoft.VisualStudio.TestTools.Common.TestResult[])">
+      <param name="results"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestOutcomeHelper.IsAbort(Microsoft.VisualStudio.TestTools.Common.TestOutcome)">
+      <param name="outcome"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestOutcomeHelper.IsFail(Microsoft.VisualStudio.TestTools.Common.TestOutcome)">
+      <param name="outcome"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestOutcomeHelper.IsPass(Microsoft.VisualStudio.TestTools.Common.TestOutcome)">
+      <param name="outcome"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestOutcomeHelper.IsTerminal(Microsoft.VisualStudio.TestTools.Common.TestOutcome)">
+      <param name="outcome"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestOutcomeHelper.Localize(Microsoft.VisualStudio.TestTools.Common.TestOutcome)">
+      <param name="outcome"></param>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.TestResult"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResult.#ctor"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResult.#ctor(Microsoft.VisualStudio.TestTools.Common.ComputerInfo,System.Guid,Microsoft.VisualStudio.TestTools.Common.ITestElement)">
+      <param name="computerInfo"></param>
+      <param name="runId"></param>
+      <param name="test"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResult.#ctor(Microsoft.VisualStudio.TestTools.Common.TestResult)">
+      <param name="copy"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResult.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResult.#ctor(System.String,System.Guid,Microsoft.VisualStudio.TestTools.Common.ITestElement)"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResult.AddTextMessage(System.String)">
+      <param name="text"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResult.Clone"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestResult.ComputerNamePropertyName"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestResult.DebugTrace"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestResult.DebugTracePropertyName"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestResult.DisplayTextPropertyName"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestResult.DurationPropertyName"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestResult.EndTimePropertyName"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestResult.ErrorInfo"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestResult.ErrorMessage"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestResult.ErrorMessagePropertyName"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestResult.ErrorStackTrace"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestResult.ErrorStackTracePropertyName"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResult.FillDataRow(System.Data.DataRow)">
+      <param name="row"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResult.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestResult.HasPassed"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestResult.HasPassedPropertyName"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResult.Load(System.Xml.XmlElement,Microsoft.VisualStudio.TestTools.Common.Xml.XmlTestStoreParameters)"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestResult.LongTextPropertyName"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestResult.m_categoryId"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestResult.m_debugTrace"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestResult.m_errorInfo"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestResult.m_outcome"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestResult.m_stdErr"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestResult.m_stdOut"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestResult.m_textMessages"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestResult.m_timerResults"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestResult.m_traceInfo"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestResult.m_workItemIds"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestResult.ObjectColumnName"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestResult.Outcome"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestResult.OutcomePropertyName"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestResult.OutcomeText"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestResult.OutcomeTextPropertyName"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResult.Save(System.Xml.XmlElement,Microsoft.VisualStudio.TestTools.Common.Xml.XmlTestStoreParameters)"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestResult.StartTimePropertyName"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestResult.StdErr"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestResult.StdErrPropertyName"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestResult.StdOut"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestResult.StdOutPropertyName"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestResult.StoragePropertyName"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestResult.Test"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestResult.TestCategoryId"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestResult.TestCategoryIdString"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestResult.TestDescription"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestResult.TestNamePropertyName"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestResult.TestTypePropertyName"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestResult.TextMessages"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestResult.TimerResults"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResult.ToString"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestResult.TraceInfo"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestResult.TraceInfoPropertyName"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestResult.WorkItemIds"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.TestResultAggregation"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResultAggregation.#ctor"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResultAggregation.#ctor(Microsoft.VisualStudio.TestTools.Common.ComputerInfo,System.Guid,Microsoft.VisualStudio.TestTools.Common.ITestElement)">
+      <param name="computerInfo"></param>
+      <param name="runId"></param>
+      <param name="test"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResultAggregation.#ctor(Microsoft.VisualStudio.TestTools.Common.ComputerInfo,System.Guid,Microsoft.VisualStudio.TestTools.Common.ITestElement,Microsoft.VisualStudio.TestTools.Common.TestOutcome,Microsoft.VisualStudio.TestTools.Common.TestResultCounter,Microsoft.VisualStudio.TestTools.Common.TestResult[])">
+      <param name="computerInfo"></param>
+      <param name="runId"></param>
+      <param name="test"></param>
+      <param name="outcome"></param>
+      <param name="counters"></param>
+      <param name="innerResults"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResultAggregation.#ctor(Microsoft.VisualStudio.TestTools.Common.ComputerInfo,System.Guid,Microsoft.VisualStudio.TestTools.Common.ITestElement,Microsoft.VisualStudio.TestTools.Common.TestOutcome,Microsoft.VisualStudio.TestTools.Common.TestResultCounter,Microsoft.VisualStudio.TestTools.Common.TestResult[],System.Int32)">
+      <param name="computerInfo"></param>
+      <param name="runId"></param>
+      <param name="test"></param>
+      <param name="outcome"></param>
+      <param name="counters"></param>
+      <param name="innerResults"></param>
+      <param name="currentTestIndex"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResultAggregation.#ctor(Microsoft.VisualStudio.TestTools.Common.TestResult)">
+      <param name="result"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResultAggregation.#ctor(Microsoft.VisualStudio.TestTools.Common.TestResultAggregation)">
+      <param name="other"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResultAggregation.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResultAggregation.#ctor(System.String,System.Guid,Microsoft.VisualStudio.TestTools.Common.ITestElement)"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResultAggregation.#ctor(System.String,System.Guid,Microsoft.VisualStudio.TestTools.Common.ITestElement,Microsoft.VisualStudio.TestTools.Common.TestOutcome,Microsoft.VisualStudio.TestTools.Common.TestResultCounter,Microsoft.VisualStudio.TestTools.Common.TestResult[])"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResultAggregation.#ctor(System.String,System.Guid,Microsoft.VisualStudio.TestTools.Common.ITestElement,Microsoft.VisualStudio.TestTools.Common.TestOutcome,Microsoft.VisualStudio.TestTools.Common.TestResultCounter,Microsoft.VisualStudio.TestTools.Common.TestResult[],System.Int32)"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResultAggregation.Clone"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestResultAggregation.Counters"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestResultAggregation.CurrentTestIndex"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestResultAggregation.DisplayText"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestResultAggregation.FailedCount"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestResultAggregation.FailedCountPropertyName"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResultAggregation.FillDataRow(System.Data.DataRow)">
+      <param name="row"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResultAggregation.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestResultAggregation.InnerResults"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResultAggregation.Load(System.Xml.XmlElement,Microsoft.VisualStudio.TestTools.Common.Xml.XmlTestStoreParameters)"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestResultAggregation.m_counters"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestResultAggregation.m_innerResults"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResultAggregation.Save(System.Xml.XmlElement,Microsoft.VisualStudio.TestTools.Common.Xml.XmlTestStoreParameters)"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.TestResultBase"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResultBase.#ctor"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResultBase.#ctor(Microsoft.VisualStudio.TestTools.Common.TestResultBase)">
+      <param name="other"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResultBase.#ctor(System.Guid,System.Guid)">
+      <param name="runId"></param>
+      <param name="execId"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResultBase.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+      <param name="info"></param>
+      <param name="context"></param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestResultBase.ExecId"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResultBase.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+      <param name="info"></param>
+      <param name="context"></param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestResultBase.IsRunLevel"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResultBase.IsValid"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestResultBase.RunId"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.TestResultCounter"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResultCounter.#ctor(Microsoft.VisualStudio.TestTools.Common.TestResultCounter)">
+      <param name="other"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResultCounter.#ctor(System.Int32)">
+      <param name="total"></param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestResultCounter.Item(Microsoft.VisualStudio.TestTools.Common.TestOutcome)">
+      <param name="index"></param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestResultCounter.Length"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResultCounter.Load(System.Xml.XmlElement,Microsoft.VisualStudio.TestTools.Common.Xml.XmlTestStoreParameters)"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResultCounter.Save(System.Xml.XmlElement,Microsoft.VisualStudio.TestTools.Common.Xml.XmlTestStoreParameters)"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestResultCounter.Total"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.TestResultErrorInfo"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResultErrorInfo.#ctor(System.String)">
+      <param name="message"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResultErrorInfo.Clone"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResultErrorInfo.Load(System.Xml.XmlElement,Microsoft.VisualStudio.TestTools.Common.Xml.XmlTestStoreParameters)"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestResultErrorInfo.Message"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResultErrorInfo.Save(System.Xml.XmlElement,Microsoft.VisualStudio.TestTools.Common.Xml.XmlTestStoreParameters)"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestResultErrorInfo.StackTrace"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.TestResultId"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResultId.#ctor(System.Guid,Microsoft.VisualStudio.TestTools.Common.TestExecId,Microsoft.VisualStudio.TestTools.Common.TestExecId,Microsoft.VisualStudio.TestTools.Common.TestId)">
+      <param name="runId"></param>
+      <param name="executionId"></param>
+      <param name="parentExecutionId"></param>
+      <param name="testId"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResultId.#ctor(System.String,System.String,System.String,System.String)">
+      <param name="runId"></param>
+      <param name="executionId"></param>
+      <param name="parentExecutionId"></param>
+      <param name="testId"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResultId.Equals(System.Object)">
+      <param name="obj"></param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestResultId.ExecutionId"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestResultId.ExecutionIdString"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResultId.GetHashCode"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestResultId.IsRootLevel"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestResultId.IsRunLevel"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResultId.IsValid"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResultId.Load(System.Xml.XmlElement,Microsoft.VisualStudio.TestTools.Common.Xml.XmlTestStoreParameters)"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestResultId.ParentExecId"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestResultId.ParentExecIdString"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestResultId.RunId"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestResultId.RunIdString"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResultId.RunLevelId(System.Guid)">
+      <param name="runId"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResultId.Save(System.Xml.XmlElement,Microsoft.VisualStudio.TestTools.Common.Xml.XmlTestStoreParameters)"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestResultId.TestId"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestResultId.TestIdString"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResultId.ToString"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.TestResultMessage"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResultMessage.#ctor"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResultMessage.#ctor(Microsoft.VisualStudio.TestTools.Common.ComputerInfo,System.Guid,Microsoft.VisualStudio.TestTools.Common.ITestElement,Microsoft.VisualStudio.TestTools.Common.TestMessageKind)">
+      <param name="computerInfo"></param>
+      <param name="runId"></param>
+      <param name="test"></param>
+      <param name="kind"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResultMessage.#ctor(Microsoft.VisualStudio.TestTools.Common.ComputerInfo,System.Guid,Microsoft.VisualStudio.TestTools.Common.TestMessageKind)">
+      <param name="computerInfo"></param>
+      <param name="runId"></param>
+      <param name="kind"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResultMessage.#ctor(Microsoft.VisualStudio.TestTools.Common.TestResultMessage)">
+      <param name="copy"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResultMessage.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResultMessage.#ctor(System.String,System.Guid,Microsoft.VisualStudio.TestTools.Common.ITestElement,Microsoft.VisualStudio.TestTools.Common.TestMessageKind)"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResultMessage.#ctor(System.String,System.Guid,Microsoft.VisualStudio.TestTools.Common.TestMessageKind)"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResultMessage.Clone"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestResultMessage.ComputerName"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestResultMessage.DisplayText"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestResultMessage.Duration"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestResultMessage.EndTime"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResultMessage.Equals(System.Object)">
+      <param name="obj"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResultMessage.GetHashCode"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResultMessage.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestResultMessage.Id"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestResultMessage.IsRunLevel"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResultMessage.IsValid"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResultMessage.Load(System.Xml.XmlElement,Microsoft.VisualStudio.TestTools.Common.Xml.XmlTestStoreParameters)"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestResultMessage.LoadTestAgentNames"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestResultMessage.LongText"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestResultMessage.m_duration"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestResultMessage.m_endTime"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestResultMessage.m_exception"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestResultMessage.m_id"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestResultMessage.m_messageKind"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestResultMessage.m_spoolMessage"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestResultMessage.m_startTime"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestResultMessage.m_testName"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestResultMessage.m_testType"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestResultMessage.MessageKind"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResultMessage.Save(System.Xml.XmlElement,Microsoft.VisualStudio.TestTools.Common.Xml.XmlTestStoreParameters)"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestResultMessage.SpoolMessage"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestResultMessage.StartTime"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestResultMessage.Storage"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestResultMessage.SystemException"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestResultMessage.TestName"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestResultMessage.TestType"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestResultMessage.ToString"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestResultMessage.VisibleProperties"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.TestRun"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestRun.AutoSaveResults"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestRun.BuildFlavor"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestRun.BuildPlatform"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestRun.Clone"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestRun.ContainsManualTest"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestRun.CountTestCases"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestRun.Created"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestRun.Equals(System.Object)">
+      <param name="obj"></param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestRun.Finished"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestRun.GetHashCode"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestRun.GetInnerTests(Microsoft.VisualStudio.TestTools.Common.TestExecId)">
+      <param name="executionId"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestRun.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestRun.GetResultFilesDirectory(Microsoft.VisualStudio.TestTools.Common.TestResult)">
+      <param name="result"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestRun.GetTestElement(Microsoft.VisualStudio.TestTools.Common.TestExecId)">
+      <param name="executionId"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestRun.GetTestElement(Microsoft.VisualStudio.TestTools.Common.TestExecId,Microsoft.VisualStudio.TestTools.Common.TestId)">
+      <param name="parentExecutionId"></param>
+      <param name="innerTestId"></param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestRun.Id"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestRun.IdString"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestRun.IsValid"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestRun.Load(System.Xml.XmlElement,Microsoft.VisualStudio.TestTools.Common.Xml.XmlTestStoreParameters)"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestRun.Name"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestRun.PrepareToPersist"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestRun.Queued"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestRun.RecoverFromPersistence"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestRun.Result"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestRun.ResultFileName"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestRun.ResultFilePath"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestRun.RunConfiguration"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestRun.RunUser"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestRun.Save(System.Xml.XmlElement,Microsoft.VisualStudio.TestTools.Common.Xml.XmlTestStoreParameters)"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestRun.Started"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestRun.Tests"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestRun.ToString"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestRun.UserData"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestRun.VisibleProperties"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.TestRunConfiguration"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestRunConfiguration.#ctor(System.String,System.String)">
+      <param name="name"></param>
+      <param name="storage"></param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestRunConfiguration.AbortRunOnError"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestRunConfiguration.AgentNotRespondingTimeout"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestRunConfiguration.AgentProperties"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestRunConfiguration.ApartmentState"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestRunConfiguration.BucketSize"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestRunConfiguration.CleanupCommand"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestRunConfiguration.Clone"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestRunConfiguration.DefaultDeploymentRootDirectory"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestRunConfiguration.DefaultRelativePathRoot"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestRunConfiguration.DefaultUserDeploymentRootDirectory"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestRunConfiguration.DeploymentItems"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestRunConfiguration.DeploymentRootDirectory"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestRunConfiguration.DeploymentTimeout"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestRunConfiguration.Description"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestRunConfiguration.Equals(System.Object)">
+      <param name="other"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestRunConfiguration.GetHashCode"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestRunConfiguration.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestRunConfiguration.GetTestElementTimeout(Microsoft.VisualStudio.TestTools.Common.ITestElement)">
+      <param name="test"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestRunConfiguration.GetTestTypeSpecificData(Microsoft.VisualStudio.TestTools.Common.TestType)">
+      <param name="testType"></param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestRunConfiguration.HostData"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestRunConfiguration.Id"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestRunConfiguration.IsCodeCoverageEnabled"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestRunConfiguration.IsDeploymentEnabled"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestRunConfiguration.IsExecutedOutOfProc"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestRunConfiguration.IsExecutedRemotely"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestRunConfiguration.IsExecutedUnderDebugger"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestRunConfiguration.IsValid"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestRunConfiguration.Load(System.Xml.XmlElement,Microsoft.VisualStudio.TestTools.Common.Xml.XmlTestStoreParameters)"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestRunConfiguration.Name"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestRunConfiguration.RelativePathRootDirectory"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestRunConfiguration.RunDeploymentInDirectory"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestRunConfiguration.RunDeploymentOutDirectory"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestRunConfiguration.RunTimeout"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestRunConfiguration.Save(System.Xml.XmlElement,Microsoft.VisualStudio.TestTools.Common.Xml.XmlTestStoreParameters)"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestRunConfiguration.SetTestTypeSpecificData(Microsoft.VisualStudio.TestTools.Common.TestType,Microsoft.VisualStudio.TestTools.Common.ITestTypeSpecificRunConfigurationData)">
+      <param name="testType"></param>
+      <param name="data"></param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestRunConfiguration.SetupCommand"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestRunConfiguration.SkipUnhostableTests"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestRunConfiguration.Storage"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestRunConfiguration.TestTimeout"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestRunConfiguration.ToString"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestRunConfiguration.UseDefaultDeploymentRootDirectory"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestRunConfiguration.UserDeploymentRootDirectory"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestRunConfiguration.VisibleProperties"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.TestRunConfigurationId"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestRunConfigurationId.#ctor"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestRunConfigurationId.#ctor(System.Guid)">
+      <param name="id"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestRunConfigurationId.Equals(System.Object)">
+      <param name="other"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestRunConfigurationId.GetHashCode"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestRunConfigurationId.Id"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestRunConfigurationId.ToString"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.TestRunTextResultMessage"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestRunTextResultMessage.#ctor(Microsoft.VisualStudio.TestTools.Common.ComputerInfo,System.Guid,System.String,Microsoft.VisualStudio.TestTools.Common.TestMessageKind)">
+      <param name="computerInfo"></param>
+      <param name="runId"></param>
+      <param name="messageText"></param>
+      <param name="messageKind"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestRunTextResultMessage.#ctor(System.Guid,System.String)">
+      <param name="runId"></param>
+      <param name="messageText"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestRunTextResultMessage.#ctor(System.Guid,System.String,System.Exception)">
+      <param name="runId"></param>
+      <param name="messageText"></param>
+      <param name="exception"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestRunTextResultMessage.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestRunTextResultMessage.#ctor(System.String,System.Guid,System.String,Microsoft.VisualStudio.TestTools.Common.TestMessageKind)"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestRunTextResultMessage.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestRunTextResultMessage.Outcome"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestRunTextResultMessage.OutcomeText"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestRunTextResultMessage.Text"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.TestState"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestState.Uninitialized">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestState.Starting">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestState.Started">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestState.Running">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestState.Pausing">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestState.Paused">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestState.Resuming">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestState.Timeout">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestState.Stopping">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestState.Aborting">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestState.Completing">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestState.Completed">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TestState.Disposed">
+      <summary />
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.TestStateEvent"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestStateEvent.#ctor"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestStateEvent.#ctor(System.Guid,System.Guid,Microsoft.VisualStudio.TestTools.Common.TestState)">
+      <param name="runId"></param>
+      <param name="execId"></param>
+      <param name="newState"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestStateEvent.#ctor(System.Guid,System.Guid,Microsoft.VisualStudio.TestTools.Common.TestState,System.DateTime)">
+      <param name="runId"></param>
+      <param name="execId"></param>
+      <param name="newState"></param>
+      <param name="timestamp"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestStateEvent.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+      <param name="info"></param>
+      <param name="context"></param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestStateEvent.ExecId"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestStateEvent.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+      <param name="info"></param>
+      <param name="context"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestStateEvent.IsValid"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestStateEvent.NewState"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestStateEvent.RunId"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestStateEvent.Timestamp"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestStateEvent.ToString"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.TestType"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestType.#ctor(System.Guid)">
+      <param name="id"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestType.Equals(System.Object)">
+      <param name="obj"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestType.GetHashCode"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TestType.Id"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestType.Load(System.Xml.XmlElement,Microsoft.VisualStudio.TestTools.Common.Xml.XmlTestStoreParameters)"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestType.Save(System.Xml.XmlElement,Microsoft.VisualStudio.TestTools.Common.Xml.XmlTestStoreParameters)"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TestType.ToString"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.TextTestResultMessage"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TextTestResultMessage.#ctor(System.Guid,Microsoft.VisualStudio.TestTools.Common.ITestElement,System.String)">
+      <param name="runId"></param>
+      <param name="test"></param>
+      <param name="messageText"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TextTestResultMessage.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TextTestResultMessage.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TextTestResultMessage.Text"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TextTestResultMessage.ToString"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.TimerResult"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TimerResult.#ctor"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TimerResult.#ctor(System.String)">
+      <param name="name"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TimerResult.Clone"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TimerResult.Duration"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TimerResult.EndTime"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TimerResult.Load(System.Xml.XmlElement,Microsoft.VisualStudio.TestTools.Common.Xml.XmlTestStoreParameters)"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TimerResult.m_duration"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TimerResult.m_name"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.TimerResult.m_startTime"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TimerResult.Name"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.TimerResult.Save(System.Xml.XmlElement,Microsoft.VisualStudio.TestTools.Common.Xml.XmlTestStoreParameters)"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.TimerResult.StartTime"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.Tip"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.Tip.#ctor"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.Tip.BeforeRemoveTestRun(System.Guid)">
+      <param name="runId"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.Tip.Dispose"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.Tip.Load(System.String,Microsoft.VisualStudio.TestTools.Common.ProjectData,Microsoft.VisualStudio.TestTools.Common.IWarningHandler)">
+      <param name="location"></param>
+      <param name="projectData"></param>
+      <param name="warningHandler"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.Tip.MergeResults(Microsoft.VisualStudio.TestTools.Common.TestResult,Microsoft.VisualStudio.TestTools.Common.TestResultMessage)">
+      <param name="inMemory"></param>
+      <param name="fromTheWire"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.Tip.Reset"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.Tip.Save(Microsoft.VisualStudio.TestTools.Common.ITestElement[],System.String,Microsoft.VisualStudio.TestTools.Common.ProjectData)">
+      <param name="tests"></param>
+      <param name="location"></param>
+      <param name="projectData"></param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.Tip.TestType"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.Tip.Unload(System.String,Microsoft.VisualStudio.TestTools.Common.IWarningHandler)">
+      <param name="location"></param>
+      <param name="warningHandler"></param>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.UserVisiblePropertyAttribute"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.UserVisiblePropertyAttribute.#ctor(System.String)">
+      <param name="id"></param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.UserVisiblePropertyAttribute.Guid"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.UserVisiblePropertyAttribute.Id"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.VisiblePropertyAttribute"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.VisiblePropertyAttribute.#ctor"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.WarningEventArgs"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.WarningEventArgs.#ctor(System.String)">
+      <param name="warning"></param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.WarningEventArgs.Warning"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.WebServerType"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.WebServerType.None">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.WebServerType.Iis">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Common.WebServerType.WebDev">
+      <summary />
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.XmlTestReader"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.XmlTestReader.#ctor"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.XmlTestReader.Read(System.String)">
+      <param name="location"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.XmlTestReader.ReadTestRunSummary(System.String)">
+      <param name="location"></param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.XmlTestReader.WriteVerboseTraceInfo"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.XmlTestWriter"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.XmlTestWriter.#ctor"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.XmlTestWriter.Write(System.String,System.Object[])">
+      <param name="destination"></param>
+      <param name="tests"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.XmlTestWriter.Write(System.String,System.Object[],System.Xml.Formatting)"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.Xml.IXmlTestStore"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.Xml.IXmlTestStore.Load(System.Xml.XmlElement,Microsoft.VisualStudio.TestTools.Common.Xml.XmlTestStoreParameters)">
+      <param name="element"></param>
+      <param name="parameters"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.Xml.IXmlTestStore.Save(System.Xml.XmlElement,Microsoft.VisualStudio.TestTools.Common.Xml.XmlTestStoreParameters)">
+      <param name="element"></param>
+      <param name="parameters"></param>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.Xml.IXmlTestStoreCustom"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.Xml.IXmlTestStoreCustom.ElementName"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Common.Xml.IXmlTestStoreCustom.NamespaceUri"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Common.Xml.XmlTestStoreParameters"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Common.Xml.XmlTestStoreParameters.GetParameters"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Exceptions.CommandException"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Exceptions.CommandException.#ctor"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Exceptions.CommandException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+      <param name="info"></param>
+      <param name="context"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Exceptions.CommandException.#ctor(System.String)">
+      <param name="msg"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Exceptions.CommandException.#ctor(System.String,System.Exception)">
+      <param name="msg"></param>
+      <param name="inner"></param>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Exceptions.CorruptedResultException"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Exceptions.CorruptedResultException.#ctor"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Exceptions.CorruptedResultException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+      <param name="info"></param>
+      <param name="context"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Exceptions.CorruptedResultException.#ctor(System.String)">
+      <param name="msg"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Exceptions.CorruptedResultException.#ctor(System.String,System.Exception)">
+      <param name="msg"></param>
+      <param name="inner"></param>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Exceptions.DuplicateIdException"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Exceptions.DuplicateIdException.#ctor"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Exceptions.DuplicateIdException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+      <param name="info"></param>
+      <param name="context"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Exceptions.DuplicateIdException.#ctor(System.String)">
+      <param name="msg"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Exceptions.DuplicateIdException.#ctor(System.String,System.Exception)">
+      <param name="msg"></param>
+      <param name="inner"></param>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Exceptions.EqtDataException"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Exceptions.EqtDataException.#ctor"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Exceptions.EqtDataException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+      <param name="info"></param>
+      <param name="context"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Exceptions.EqtDataException.#ctor(System.String)">
+      <param name="msg"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Exceptions.EqtDataException.#ctor(System.String,System.Exception)">
+      <param name="msg"></param>
+      <param name="inner"></param>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Exceptions.EqtException"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Exceptions.EqtException.#ctor"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Exceptions.EqtException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+      <param name="info"></param>
+      <param name="context"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Exceptions.EqtException.#ctor(System.String)">
+      <param name="message"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Exceptions.EqtException.#ctor(System.String,System.Exception)">
+      <param name="message"></param>
+      <param name="innerException"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Exceptions.EqtException.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+      <param name="info"></param>
+      <param name="context"></param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Exceptions.EqtException.Message"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Exceptions.ErrorReadingStorageException"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Exceptions.ErrorReadingStorageException.#ctor"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Exceptions.ErrorReadingStorageException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+      <param name="info"></param>
+      <param name="context"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Exceptions.ErrorReadingStorageException.#ctor(System.String)">
+      <param name="msg"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Exceptions.ErrorReadingStorageException.#ctor(System.String,System.Exception)">
+      <param name="msg"></param>
+      <param name="inner"></param>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Exceptions.FailedToInstantiateTypeException"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Exceptions.FailedToInstantiateTypeException.#ctor"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Exceptions.FailedToInstantiateTypeException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+      <param name="info"></param>
+      <param name="context"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Exceptions.FailedToInstantiateTypeException.#ctor(System.String)">
+      <param name="msg"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Exceptions.FailedToInstantiateTypeException.#ctor(System.String,System.Exception)">
+      <param name="msg"></param>
+      <param name="inner"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Exceptions.FailedToInstantiateTypeException.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+      <param name="info"></param>
+      <param name="context"></param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Exceptions.FailedToInstantiateTypeException.Type"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Exceptions.IdNotFoundException"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Exceptions.IdNotFoundException.#ctor"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Exceptions.IdNotFoundException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+      <param name="info"></param>
+      <param name="context"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Exceptions.IdNotFoundException.#ctor(System.String)">
+      <param name="msg"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Exceptions.IdNotFoundException.#ctor(System.String,System.Exception)">
+      <param name="msg"></param>
+      <param name="inner"></param>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Exceptions.InternalException"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Exceptions.InternalException.#ctor"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Exceptions.InternalException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+      <param name="info"></param>
+      <param name="context"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Exceptions.InternalException.#ctor(System.String)">
+      <param name="msg"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Exceptions.InternalException.#ctor(System.String,System.Exception)">
+      <param name="msg"></param>
+      <param name="inner"></param>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Exceptions.InvalidDataInStorageException"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Exceptions.InvalidDataInStorageException.#ctor"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Exceptions.InvalidDataInStorageException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+      <param name="info"></param>
+      <param name="context"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Exceptions.InvalidDataInStorageException.#ctor(System.String)">
+      <param name="msg"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Exceptions.InvalidDataInStorageException.#ctor(System.String,System.Exception)">
+      <param name="msg"></param>
+      <param name="inner"></param>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Exceptions.InvalidTestObjectException"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Exceptions.InvalidTestObjectException.#ctor"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Exceptions.InvalidTestObjectException.#ctor(System.Object)">
+      <param name="obj"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Exceptions.InvalidTestObjectException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+      <param name="info"></param>
+      <param name="context"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Exceptions.InvalidTestObjectException.#ctor(System.String)">
+      <param name="msg"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Exceptions.InvalidTestObjectException.#ctor(System.String,System.Exception)">
+      <param name="msg"></param>
+      <param name="inner"></param>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Exceptions.SaveNotSupportedException"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Exceptions.SaveNotSupportedException.#ctor"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Exceptions.SaveNotSupportedException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+      <param name="info"></param>
+      <param name="context"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Exceptions.SaveNotSupportedException.#ctor(System.String)">
+      <param name="msg"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Exceptions.SaveNotSupportedException.#ctor(System.String,System.Exception)">
+      <param name="msg"></param>
+      <param name="inner"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Exceptions.SaveNotSupportedException.#ctor(System.Type)">
+      <param name="type"></param>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Exceptions.StorageNotAccessibleException"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Exceptions.StorageNotAccessibleException.#ctor"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Exceptions.StorageNotAccessibleException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+      <param name="info"></param>
+      <param name="context"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Exceptions.StorageNotAccessibleException.#ctor(System.String)">
+      <param name="msg"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Exceptions.StorageNotAccessibleException.#ctor(System.String,System.Exception)">
+      <param name="msg"></param>
+      <param name="inner"></param>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Exceptions.WrongResultTypeException"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Exceptions.WrongResultTypeException.#ctor"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Exceptions.WrongResultTypeException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+      <param name="info"></param>
+      <param name="context"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Exceptions.WrongResultTypeException.#ctor(System.String)">
+      <param name="msg"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Exceptions.WrongResultTypeException.#ctor(System.String,System.Exception)">
+      <param name="msg"></param>
+      <param name="inner"></param>
+    </member>
+  </members>
+</doc>

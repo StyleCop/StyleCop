@@ -1,0 +1,62 @@
+General_MissingService=The service '{0}' must be installed for this feature to work.  Ensure that this service is available.
+General_InvalidType=Expected object of type {0}.
+General_UnsupportedValue=Unsupported value: {0}.
+General_ExpectedNonEmptyString=Expected string that is not empty.
+General_ObjectDisposed=Method called on a disposed object of type {0}.
+General_ArraySizeShouldBeAtLeast1=Expecting an array of size greater than zero.
+
+Attributes_ExtensionNeedsDot=To register the {0} file extension, you must prefix the extension with a '.'.
+Attributes_InvalidFactoryType=The factoryType must be of one of those type: Type, Guid, string (representing a Guid).
+Attributes_ProductNameNotSpecified=No Product Name was specified.  To register as an Installed Product, a Product Name is required.
+Attributes_NoPrjForEditorFactoryNotify=No project guid provided, but it is needed to register the extension for EditorFactoryNotify.
+Attributes_UnknownDockingStyle=Unknown docking style: {0}.
+Attributes_UnknownPosition=Unknown relative position: {0}.
+
+Flavor_FailedToGetService=Failed to retrieve service {0}.
+
+Package_InvalidServiceInstance=The service instance must derive from or implement {0}.
+Package_DuplicateService=The service {0} already exists in the service container.
+Package_SiteAlreadySet=A site has already been set on package {0}.
+Package_PageNotDialogPage=The page class {0} must derive from DialogPage.
+Package_PageCtorMissing=The page type {0} does not offer an empty constructor.
+Package_BadDialogPageType=The dialog page type {0} does not derive from DialogPage.
+Package_PageMissingInterface=The page type {0} does not implement {1}.
+Package_BadOptionName=The solution option name {0} is invalid.  It cannot contain '.', '/' or other special characters.
+Package_OptionNameUsed=The solution option name {0} is already used by this package.
+Package_MissingService=The package requires that service '{0}' be installed.  Ensure that this service is available.
+Package_InvalidInstanceID=Instance ID {0} is invalid.
+Package_InvalidToolWindowClass=CreateToolWindow only creates Tool Windows derived from ToolWindowPane.
+
+Reg_NotifyAutoLoad=Autoload package:         {0}
+Reg_NotifyPackage=Package:          {0} {1}
+Reg_NotifyService=Service:          {0}
+Reg_NotifyMenuResource=Menu:             {0}, {1}
+Reg_NotifyExtender=Extender:         {0}, {1}
+Reg_NotifyToolResource=ToolWindow:       {0}, {1}
+Reg_NotifyToolVisibility=Tool Visibility:  {0}, {1}
+Reg_NotifyOptionPage=Option Page:      {0}\\{1}
+Reg_NotifyToolboxPage=Toolbox Page:     {0}
+Reg_NotifyCreateObject=Creatable Object: {0}
+Reg_NotifyEditorFactory=Editor Factory:   {0}
+Reg_NotifyProjectFactory=Project Factory:  {0}
+Reg_NotifyProjectItems=Project Items:    {0}
+Reg_NotifyEditorView=Logical View:     {0}
+Reg_NotifyKeyBinding=Key Binding: {0}, {1}
+Reg_NotifyEditorExtension=Editor Extension: {0}, {1}
+Reg_NotifyLanguageCodeExpansion=Language Code Expansion: {0}
+Reg_NotifyLanguageExtension=Language Extension: {0}, {1}
+Reg_NotifyLanguageOptionPage=Language Option Page: {0}, {1}
+Reg_NotifyLanguageOptionCategory=LanguageOptionCategory: {0}, {1}
+Reg_NotifyLanguageService=Language Service: {0}, {1}
+Reg_NotifyLoadKey=LoadKey:          {0} {1}\r\n                  Version {2}\r\n                  Edition Required: {3}
+Reg_NotifyToolboxItem=Toolbox Items:    Version {0} (Formats: {1})
+Reg_NotifyToolboxItemConfiguration=Toolbox Config:   {0}
+Reg_NotifyToolboxItemFilter=                   Filter: {0}
+Reg_NotifyInstalledProduct=Installed Product:   {0}, Version {1}
+Reg_NotifyInstalledProductInterface=Installed Product:   Using IVsInstalledProduct interface
+
+Reg_ErrorIncompatibleParametersTypes=Parameters {0} and {1} have incompatible types
+
+ToolWindow_TooLateToAddToolbar=Toolbar cannot be added after the Frame is created.\nAdd the ToolBar in the ToolWindow constructor.
+ToolWindow_TooLateToAddTool=toolClsid cannot be added after the Frame is created.\nAdd the toolClsid in the ToolWindow constructor.
+ToolWindow_PackageOnlySetByCreator=The package property of the tool window should only be set by the creator of the tool window.

@@ -1,0 +1,387 @@
+//=--------------------------------------------------------------------------=
+// VSManaged.IDL
+//=--------------------------------------------------------------------------=
+// This contains a set of interfaces through which the Common Language Runtime
+// form designer architecture and Visual Studio communicate.
+//
+//
+
+// in order to limit our exposure to "header bleed"
+// and not require us to have all the VS headers and
+// build system, we define URTBUILD, which indicates
+// we are building within the common language runtime.  If URTBUILD is
+// defined we stub a lot of interfaces to be IUnknown.
+//
+
+#ifdef URTBUILD
+#define IVsHierarchy        IUnknown
+#define IServiceProvider    IUnknown
+#define VSITEMID            int
+#define READONLYSTATUS      int
+#define HWND                int
+#else
+import "servprov.idl";
+import "vsshell.idl";
+#endif
+
+#ifndef __midl
+    #define VARIANT_BOOL boolean
+#endif
+
+interface IVSMDCodeDomProvider;
+
+enum __VSHPROPID_ASPX
+{
+	VSHPROPID_ProjAspxLanguage			= 5000,	// BSTR Value for 'Language' attribute to be written in .aspx file
+	VSHPROPID_ProjAspxCodeBehindExt		= 5001,	// BSTR file extension for code-behind file for .aspx file
+	VSHPROPID_ProjAspxAutoEventWireup	= 5002	// BSTR Value for 'AutoEventWireup' attribute to be written in .aspx file
+};
+
+//=--------------------------------------------------------------------------=
+// VSManagedDesigner
+//=--------------------------------------------------------------------------=
+// The main library
+//
+[
+uuid(74946836-37A0-11d2-A273-00C04F8EF4FF),
+version(1.0),
+custom(0f21f359-ab84-41e8-9a78-36d110e6d2f9, "Microsoft.VisualStudio.Designer.Interfaces"),
+helpstring("Visual Studio Managed Designer Hosting Library")
+]
+library VSManagedDesigner
+{
+    importlib("stdole2.tlb");
+
+
+    //=----------------------------------------------------------------------=
+    // IVSMDCodeDomCreator
+    //=----------------------------------------------------------------------=
+    // This is an interface that can be used to create a CodeDom provider
+    // based on a hieararchy and itemid.  Visual Studio uses this to create
+    // CodeDom providers that are based on the Visual Studio CodeModel.
+    // This may be accessed by querying for the service 
+    // SID_SVSMDDesignerService and asking for this interface.
+    [
+    object,
+    uuid(4CC03BF7-4D89-4198-8E4D-17E217CA07B2)
+    ]
+    interface IVSMDCodeDomCreator : IUnknown 
+    {
+        HRESULT CreateCodeDomProvider([in] IVsHierarchy *pHier, [in]VSITEMID itemid, [out, retval]IVSMDCodeDomProvider **ppProvider);
+    };
+    
+
+    //=----------------------------------------------------------------------=
+    // IVSMDCodeDomProvider
+    //=----------------------------------------------------------------------=
+    // This is an interface that provides access to a CodeDomProvider object
+    // through native code.  Designer loaders may use this if their loading
+    // engine relies on the CodeDom.  As a service, this may be queried
+    // from the service provider returned from IVsProject::GetItemContext.
+    //
+    [
+    object,
+    uuid(73E59688-C7C4-4a85-AF64-A538754784C5)
+    ]
+    interface IVSMDCodeDomProvider : IUnknown 
+    {
+        [propget]
+        HRESULT CodeDomProvider([out, retval] IDispatch **ppProvider);
+    };
+    cpp_quote("#define SID_SVSMDCodeDomProvider IID_IVSMDCodeDomProvider")
+
+
+    //=----------------------------------------------------------------------=
+    // IVSMDDesigner
+    //=----------------------------------------------------------------------=
+    // This is an instance of a managed form designer.  The view that this instance
+    // provides can be passed in as the view to CreateDocumentWindow.
+    //
+    [
+    object,
+    uuid(7494682A-37A0-11d2-A273-00C04F8EF4FF)
+    ]
+    interface IVSMDDesigner : IUnknown 
+    {
+        // Returns the command ID guid for the designer.  
+        //
+        [propget] 
+        HRESULT CommandGuid([out, retval] GUID *pguidCmdId);
+        
+        // Returns the view for this designer.  This is typically an IVsWindowPane or
+        // a doc object.  Whatever it is, it can be hosted by the shell.
+        //
+        [propget] 
+        HRESULT View([out, retval] IUnknown **pView);
+
+        // Returns the selection container the designer is using to propagate
+        // selection information.  You may QI this interface for ISelectionContainer.
+        //
+        [propget] 
+        HRESULT SelectionContainer([out, retval] IUnknown **ppSelCon);
+
+        // This should be called before the designer is destroyed.  If you are
+        // using the view returned from GetView, closing the window pane within
+        // the view will also call Dispose(), so you don't have to.
+        //
+        HRESULT Dispose();
+
+        // This causes the designer to flush any lazy changes it has made to 
+        // the text buffer.  If there are no changes to flush this does nothing.
+        // If you are using a standard designer-provided view, our view 
+        // implements IVsWindowPaneCommit and calls this on your behalf.  If
+        // you are implementing your own view by having your designer specify
+        // the view technology of "PassThrough", you should call this by
+        // implementing IVsWindowPaneCommit yourself.
+        //
+        HRESULT Flush();
+    
+        // Returns the HRESULT of the last load error, should one exist.
+        //
+        HRESULT GetLoadError();
+    };
+
+
+    //=----------------------------------------------------------------------=
+    // IVSMDDesignerLoader
+    //=----------------------------------------------------------------------=
+    // This interface may be implemented on a designer loader to provide a VS
+    // specific way to initialize it.  All designer loaders we provide
+    // to VS implement this interface.
+    //
+    [
+    object,
+    uuid(74946834-37A0-11d2-A273-00C04F8EF4FF)
+    ]
+    interface IVSMDDesignerLoader : IUnknown
+    {
+        // Disposes this loader.  The only time you need to call this method is if designer creation 
+        // failed.  Otherwise, the designer maintains ownership of the loader and is responsible for
+        // destroying it.
+        //
+        HRESULT Dispose();
+
+        // Retrieves the editor caption for the design surface.  The loader is responsible for everything
+        // related to buffers, so it is in charge of maintaining the editor caption.
+        //
+        HRESULT GetEditorCaption([in] READONLYSTATUS status, [out, retval] BSTR *pbstrCaption);
+
+        // Initializes the loader.  This associates it with a doc data and itemid.
+        //
+        HRESULT Initialize([in] IServiceProvider *pSp, [in] IVsHierarchy *pHier, [in] VSITEMID itemid, [in] IUnknown *pDocData);
+
+        // Sets the base editor caption.  This defaults to [Design], since most views will use
+        // this loader for a design view.
+        //
+        HRESULT SetBaseEditorCaption([in] LPCOLESTR pwszCaption);
+    };
+
+
+    //=----------------------------------------------------------------------=
+    // IVSMDDesignerService / SVSMDDesignerService
+    //=----------------------------------------------------------------------=
+    // This service provides VS shell support for managed form designers.
+    //
+    [
+    object,
+    uuid(74946829-37A0-11d2-A273-00C04F8EF4FF)
+    ]
+    interface IVSMDDesignerService : IUnknown
+    {
+        // Retrieves the name of the metadata attribute we will use to determine if a class supports design
+        // view.  Compilers typically call this to tell the project system if a particular file can be shown
+        // in a designer.  This is much more efficient than attempting to creat a designer and failing.
+        //
+        [propget]
+        HRESULT DesignViewAttribute([out, retval] BSTR *pbstrAttribute);
+
+        // Creates a designer based on the contents of the given designer loader.
+        //
+        HRESULT CreateDesigner([in] IServiceProvider *pSp, [in] IUnknown *pDesignerLoader, [out, retval] IVSMDDesigner **ppDesigner);
+
+        // Creates a designer based on the designer of the given component class.  The designer will 
+        // will provide a UI only and will not have any persistence mechanism.
+        //
+        HRESULT CreateDesignerForClass([in] IServiceProvider *pSp, [in] LPCOLESTR pwszComponentClass, [out, retval] IVSMDDesigner **ppDesigner);
+
+        // Creates an uninitialized designer loader.  The caller must initialize the loader before
+        // it can be used.  Loaders are typically initialized by calling Initialize on IVSMDDesignerLoader.
+        //
+        HRESULT CreateDesignerLoader([in] LPCOLESTR pwszCodeStreamClass, [out, retval] IUnknown **ppCodeStream);
+
+        // Given a filename, this will look into the registry to find a registered designer loader for that file
+        // extension.  It will return S_FALSE if it was unable to find a match.  The designer loader registry entry
+        // must be under the Languages subkey of the registry and is a REG_SZ value with the name "DesignerLoaderClass".
+        //
+        HRESULT GetDesignerLoaderClassForFile([in] LPCOLESTR pwszFileName, [out, retval] BSTR* pbstrDesignerLoaderClass);
+
+        // Registers the given attribute value for the given file.  This value is the result of the compiler
+        // searching the value passed to the constructor of the "DesignerCategoryAttribute".  If no such attribute
+        // is found, the compiler will pass NULL into the pwszAttribute value below.  The value for dwClass is a
+        // number indicating the index of the class.  The only requirement is that it be unique for each class and
+        // be in increasing value for each class declared in the file.  Typical implementations of this may
+        // either return the line number on which the class is defined or a "class count" value.
+        //
+        HRESULT RegisterDesignViewAttribute([in] IVsHierarchy* pHier, [in] VSITEMID itemid, [in] int dwClass, [in] LPOLESTR pwszAttributeValue);
+
+    };
+    cpp_quote("#define SID_SVSMDDesignerService IID_IVSMDDesignerService")
+
+
+    typedef enum _PROPERTYGRIDSORT
+    {
+        PGSORT_NOSORT = 0,
+        PGSORT_ALPHABETICAL = 1,
+        PGSORT_CATEGORIZED = 2
+    } PROPERTYGRIDSORT;
+
+
+    typedef enum _PROPERTYGRIDOPTION
+    {
+        PGOPT_HOTCOMMANDS = 0,        // VARIANT_BOOL
+        PGOPT_HELP = 1,               // VARIANT_BOOL
+        PGOPT_TOOLBAR = 2             // VARIANT_BOOL
+    } PROPERTYGRIDOPTION;
+
+
+    //=----------------------------------------------------------------------=
+    // IVSMDPropertyGrid
+    //=----------------------------------------------------------------------=
+    // This interface defines a "tear off" properties window.  Tear off grids
+    // are mini property browsers that can be hosted in dialog boxes or other
+    // windows.  To use a tear off grid, just QI for IVsWindowPane to get 
+    // the window, and hand the sheet a selection container for it to browse.
+    // You will be responsible for updating the selection container if you
+    // change the contents of the selection without the grid knowing.
+    [
+    object,
+    uuid(74946837-37A0-11d2-A273-00C04F8EF4FF)
+    ]
+    interface IVSMDPropertyGrid : IUnknown 
+    {
+        // Returns the current visible state of the hotcommands window
+        //
+        [propget]
+        HRESULT CommandsVisible([out,retval]VARIANT_BOOL* pfVisible);
+
+        // returns the top-level hwnd for the grid window
+        //
+        [propget]
+        HRESULT Handle([out,retval]HWND* phwnd);        
+
+        // the sort order of the properties window
+        //
+        [propget]
+        HRESULT GridSort([out, retval]PROPERTYGRIDSORT *pSort);
+
+        // the sort order of the properties window
+        //
+        [propput]
+        HRESULT GridSort([in]PROPERTYGRIDSORT sort);
+
+        // Returns the name of the currently selected property.
+        //
+        [propget]
+        HRESULT SelectedPropertyName([out,retval]BSTR* pbstrName);
+        
+        // Call this to destroy the properties window.
+        //
+        HRESULT Dispose();
+
+        // Returns the value of the given option
+        //
+        HRESULT GetOption([in]PROPERTYGRIDOPTION option, [out,retval]VARIANT* pvtOption);
+
+        // causes the grid to requery it's currently selected objects and refresh
+        // their properties
+        //
+        HRESULT Refresh();
+
+        // Returns the value of the given option
+        //
+        HRESULT SetOption([in]PROPERTYGRIDOPTION option, [in]VARIANT vtOption);
+
+        // sets objects for the grid to browse
+        //
+#if URTBUILD
+        HRESULT SetSelectedObjects(int cObjects, [in] IntPtr ppUnk);
+#else
+        HRESULT SetSelectedObjects(int cObjects, [in, size_is(cObjects)]IUnknown ** ppUnk);
+#endif // URTBUILD
+    };
+    
+
+    //=----------------------------------------------------------------------=
+    // IVSMDPropertyBrowser / SVSMDPropertyBrowser
+    //=----------------------------------------------------------------------=
+    // This provides access to the designer properties window service.  This
+    // service provides the global shell properties window.  In addition, it
+    // also provides a way to create "tear off" property grids that can
+    // be independently manipulated.
+    //
+    // The global properties window can be accessed by querying for
+    // SVSMDPropertyBrowser but passing IVsWindowPane as your interface.
+    //
+    [
+    object,
+    uuid(74946810-37A0-11d2-A273-00C04F8EF4FF)
+    ]
+    interface IVSMDPropertyBrowser : IUnknown 
+    {
+        // the resource ID of the glpyh the properties window should use 
+        // as its tool window icon.
+        //
+        [propget]
+        HRESULT WindowGlyphResourceID([out, retval]DWORD* pdwResID);
+
+        // Creates a tear off properties window.  You must populate this
+        // grid with data yourself.
+        //
+        HRESULT CreatePropertyGrid([out, retval] IVSMDPropertyGrid **ppGrid);
+
+        // Refreshes the properties window.
+        //
+        HRESULT Refresh();
+    };
+    cpp_quote("#define SID_SVSMDPropertyBrowser IID_IVSMDPropertyBrowser")
+
+
+    //=----------------------------------------------------------------------=
+    // IVSMDPerPropertyBrowsing
+    //=----------------------------------------------------------------------=
+    // This interface allows native COM objects to specify managed attributes
+    // on values.  It can be used to expose the richer functionality of
+    // managed objects as COM objects.
+    //
+    [
+    object,
+    uuid(7494683C-37A0-11d2-A273-00C04F8EF4FF),
+    pointer_default(unique)
+    ]
+    interface IVSMDPerPropertyBrowsing : IUnknown{
+
+        // Gets the list of attributes for the object.
+        // dispid - the dispid of the property to retrieve attributes
+        //
+        // pceltAttrs - the number of attribute type names in pbstrTypeNames
+        //
+        // pbstrTypeName - attribute type names, such as System.ComponentModel.BrowsableAttribute, or 
+        //				   System.ComponentModel.DescriptionAttribute.  This can be the name of any type that
+        //				   derives from System.Attribute.  The array is callee allocated
+        //				   and will be callee freed using CoTaskMemFree.  Strings themselves will be freed with SysFreeString
+        //				   It can also be a static instance name such as System.ComponentModel.BrowsableAttribute.No, which
+        //				   will cause the initializer value to be ignored.
+        //
+        // pVarAttrValues - An array of variants to be used to initialize the given attributes.  If the attributes have a 
+        //					a ctor that takes a parameter, the give attiribute will be used to iniitalize the attribute.  If the initializer 
+        //					is NULL, VT_EMPTY or VT_NULL, the default ctor will be called.  Variants will be caller freed individually
+        //				    using variant clear then CoTaskMemFree on the array itself.
+        //					
+        [id(1), helpstring("Specifies Common Language Runtime attributes to apply to this property")]
+        HRESULT GetPropertyAttributes(DISPID dispid, 
+                                      [out]UINT* pceltAttrs,  
+                                      [out, size_is(,*pceltAttrs)]BSTR** ppbstrTypeNames, 
+                                      [out,size_is(,*pceltAttrs)]VARIANT** ppvarAttrValues);          
+    }
+};
+

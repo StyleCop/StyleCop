@@ -1,0 +1,92 @@
+/*-----------------------------------------------------------------------------
+Copyright (c) Microsoft Corporation.  All rights reserved.
+-----------------------------------------------------------------------------*/
+#if !defined(CTC_INVOKED) && !defined(RGS_INVOKED)
+cpp_quote("#pragma once")
+
+
+//----------------------------
+// Imports
+//----------------------------
+#ifndef INTEROPLIB
+
+import "oaidl.idl";
+import "IVsTrackProjectRetargetingEvents.idl";
+
+#endif
+
+
+/*-----------------------------------------------------------------------------
+ Interface: IVsSetTargetFrameworkWorkerCallback
+
+ This is the worker interface that the TrackProjectRetargeting service calls back
+ to allow the project system to write the re-targeting information into the 
+ project file 
+-----------------------------------------------------------------------------*/
+[uuid(52B20422-91B2-4fb9-97FE-90D6FA334741) ]
+interface IVsSetTargetFrameworkWorkerCallback : IUnknown
+{
+	HRESULT UpdateTargetFramework(
+		[in] IVsHierarchy * pHier,
+		[in] LPCWSTR currentTargetFramework,
+		[in] LPCWSTR newTargetFramework
+		);
+};
+
+
+/*-----------------------------------------------------------------------------
+Interface: IVsTrackProjectRetargeting
+
+The interface to TrackProjectRetargeting service. This is a  global service that
+tracks project re-targeting attempts and broadcasts events to all subscribers 
+related to various stages of the re-targeting operation. The normal situation is
+to call with reloadProject set to true. If reloadProject is false, the expectation
+is that the calling project is ready to deal with the new framework version 
+without a reload.
+-----------------------------------------------------------------------------*/
+[uuid(D991BC9B-9C68-447f-A3A7-95962AD75DD2) ]
+interface IVsTrackProjectRetargeting : IUnknown
+{
+	HRESULT OnSetTargetFramework(
+		[in] IVsHierarchy * pHier,
+		[in] LPCWSTR currentTargetFramework,
+		[in] LPCWSTR newTargetFramework,
+		[in] IVsSetTargetFrameworkWorkerCallback * pWorkerCallback,
+		[in] VARIANT_BOOL reloadProject 
+		);
+	
+	HRESULT AdviseTrackProjectRetargetingEvents(
+		[in] IVsTrackProjectRetargetingEvents *pEventSink,
+		[out] VSCOOKIE *pdwCookie);
+
+	HRESULT UnadviseTrackProjectRetargetingEvents(
+		[in] VSCOOKIE dwCookie);
+
+	HRESULT AdviseTrackBatchRetargetingEvents(
+		[in] IVsTrackBatchRetargetingEvents *pEventSink,
+		[out] VSCOOKIE *pdwCookie);
+
+	HRESULT UnadviseTrackBatchRetargetingEvents(
+		[in] VSCOOKIE dwCookie);
+
+
+	HRESULT BeginRetargetingBatch();
+
+	HRESULT BatchRetargetProject(
+		[in] IVsHierarchy * pHier,
+		[in] LPCWSTR newTargetFramework,
+		[in] VARIANT_BOOL unloadProjectIfErrorOrCancel 
+		);
+
+	HRESULT EndRetargetingBatch();
+};
+
+///////////////////////////////////////////////////////////
+//
+// SID_SVsTrackProjectRetargeting Defined
+//
+[uuid (530462A8-1ECB-4f7f-979E-A0237FEA12C3)]
+interface SVsTrackProjectRetargeting : IUnknown {};
+cpp_quote("#define SID_SVsTrackProjectRetargeting IID_SVsTrackProjectRetargeting")
+
+#endif

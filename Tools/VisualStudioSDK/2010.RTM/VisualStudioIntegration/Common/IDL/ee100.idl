@@ -1,0 +1,45 @@
+// ee100.idl : Microsoft Debug EE API
+
+import "ocidl.idl";
+import "oleidl.idl";
+
+// Function Evaluation return codes
+cpp_quote("#define E_EVAL_ILLEGAL_SIDE_EFFECT            	MAKE_HRESULT(1, FACILITY_ITF, 0x0019)")
+cpp_quote("#define S_EVAL_THREADSLIP_REQUIRED            	MAKE_HRESULT(0, FACILITY_ITF, 0x0020)")
+cpp_quote("#define E_EVAL_INTERPRETER_ERROR                 MAKE_HRESULT(1, FACILITY_ITF, 0x0021)") //interpreter failed to interpret the code being eval'd.
+cpp_quote("#define E_EVAL_FUNCEVAL_IN_MINIDUMP              MAKE_HRESULT(1, FACILITY_ITF, 0x0022)") //func-eval in minidump debugging with IL interpreter disabled.
+
+[   object,
+    uuid(00ca5803-6adc-49b3-adcb-a2b538b5665e),
+    pointer_default(unique)
+]
+interface IDebugBinderDirect100 : IUnknown
+{
+    //Allows the engine to provide a custom error message for HRESULT's where the EE doesn't have a built-in message for.
+    HRESULT GetErrorMessage(HRESULT hrError, [out] BSTR* pbstrError);
+
+    HRESULT IsDump([out] BOOL* pfDump);
+}
+
+[
+    object,
+    uuid(643CD3D4-043D-410C-8201-7E83C8918A91),
+    pointer_default(unique)
+]
+interface IDebugExpressionEvaluator100 : IUnknown
+{
+    HRESULT SetAttachedCLRMajorMinorVersion
+    (
+        [in] BSTR bstrCLRVersion
+    );        
+
+    //Notifies an EE that a func-eval is about to be performed.
+    //Remarks:
+    // - This notification gets sent to all EE's, not just EE that is initiating the func-eval.  The idea is to give the EE's a chance
+    //      to flush its state (clean up stale ICorDebugValue objects when another EE initiates a func-eval).
+    // - This notification gets sent after the eval is set up, but before the debuggee gets continued, so any ICDValue objects cached
+    //      from before are still valid.
+    // - This notification gets sent only on func-evals that execute inside the debuggee.  It does not get sent on interpreted func-evals.
+    // - The returned HRESULT is ignored; it is not possible for an EE to veto the func-eval by this notification.
+    HRESULT NotifyFuncEval();
+}

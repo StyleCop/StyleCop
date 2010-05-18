@@ -1,0 +1,265 @@
+//+---------------------------------------------------------------------------
+//
+//  Microsoft Windows
+//  Copyright (C) Microsoft Corporation, 1992 - 1997.
+//
+//  File:       Objext.idl
+//-----------------------------------------------------------------------------
+
+// imports
+#ifndef INTEROPLIB
+
+import "designer.idl";
+
+#endif
+
+cpp_quote("//+-------------------------------------------------------------------------")
+cpp_quote("//")
+cpp_quote("//  Microsoft Windows")
+cpp_quote("//  Copyright 1995 - 1997 Microsoft Corporation. All Rights Reserved.")
+cpp_quote("//")
+cpp_quote("//  File: objext.h")
+cpp_quote("//")
+cpp_quote("//--------------------------------------------------------------------------")
+
+
+cpp_quote("#ifndef _OBJEXT_H_")
+cpp_quote("#define _OBJEXT_H_")
+
+//IProfferService is moved to a different file to keep
+//its IID separate, as it is also defined in the inetsdk
+//which can cause multiply defined symbols
+
+cpp_quote("#include \"proffserv.h\"")
+
+typedef DWORD ACTFLAG;
+cpp_quote("#define ACT_DEFAULT 0x00000000")
+cpp_quote("#define ACT_SHOW    0x00000001")
+
+[
+	object,
+	local,
+	uuid(94A0F6F1-10BC-11d0-8D09-00A0C90F2732),
+    pointer_default(unique)
+]
+interface IDocumentSite : IUnknown
+{
+	HRESULT SetSite([in] IServiceProvider* pSite);
+	HRESULT GetSite([out] IServiceProvider** ppSite);
+	HRESULT GetCompiler( [in] REFIID iid, [out] void** ppvObj);
+	HRESULT ActivateObject(ACTFLAG dwFlags);
+	HRESULT IsObjectShowable();
+};
+
+cpp_quote("#define IClassDesigner IDocumentSite")
+cpp_quote("#define IID_IClassDesigner IID_IDocumentSite")
+
+[
+	object,
+	local,
+	uuid(61D4A8A1-2C90-11d2-ADE4-00C04F98F417),
+    pointer_default(unique)
+]
+interface IDocumentSite2 : IDocumentSite
+{
+	HRESULT GetObject( [out] IDispatch** ppDisp);
+};
+
+[
+	object,
+	local,
+	uuid(6d5140d0-7436-11ce-8034-00aa006009fa),
+    pointer_default(unique)
+]
+interface IRequireClasses : IUnknown
+{
+	HRESULT CountRequiredClasses( [out] ULONG* pCount);
+	HRESULT GetRequiredClasses( [in] ULONG index, CLSID* pclsid);
+};
+
+[
+	object,
+	local,
+	uuid(6d5140d4-7436-11ce-8034-00aa006009fa),
+    pointer_default(unique)
+]
+interface ILicensedClassManager : IUnknown
+{
+	 HRESULT OnChangeInRequiredClasses( [in] IRequireClasses* pirc);
+};
+
+cpp_quote("#define SID_SLicensedClassManager IID_ILicensedClassManager")
+
+[
+	object,
+	local,
+	uuid(6d5140d6-7436-11ce-8034-00aa006009fa),
+    pointer_default(unique)
+]
+interface IExtendedTypeLib : IUnknown
+{
+	HRESULT CreateExtendedTypeLib(
+					[in] LPCOLESTR lpstrCtrlLibFileName,
+					[in] LPCOLESTR lpstrLibNamePrepend,
+					[in] ITypeInfo* ptinfoExtender,
+					[in] DWORD dwReserved,
+					[in] DWORD dwFlags,
+					[in] LPCOLESTR lpstrDirectoryName,
+					[out] ITypeLib** pptLib);
+
+	HRESULT AddRefExtendedTypeLib(
+					[in] LPCOLESTR lpstrCtrlLibFileName,
+					[in] LPCOLESTR lpstrLibNamePrepend,
+					[in] ITypeInfo* ptinfoExtender,
+					[in] DWORD dwReserved,
+					[in] DWORD dwFlags,
+					[in] LPCOLESTR lpstrDirectoryName,
+					[out] ITypeLib** pptLib);
+
+	HRESULT AddRefExtendedTypeLibOfClsid(
+					[in] REFCLSID rclsidControl,
+					[in] LPCOLESTR lpstrLibNamePrepend,
+					[in] ITypeInfo* ptinfoExtender,
+					[in] DWORD dwReserved,
+					[in] DWORD dwFlags,
+					[in] LPCOLESTR lpstrDirectoryName,
+					[out] ITypeInfo** pptinfo);
+
+	HRESULT SetExtenderInfo(
+					[in] LPCOLESTR lpstrDirectoryName,
+					[in] ITypeInfo *ptinfoExtender,
+					[in] DWORD dwReserved);
+};
+
+cpp_quote("#define SID_SExtendedTypeLib IID_IExtendedTypeLib")
+
+[
+	object,
+	local,
+	uuid(6d5140d3-7436-11ce-8034-00aa006009fa),
+    pointer_default(unique)
+]
+interface ILocalRegistry : IUnknown
+{
+	HRESULT CreateInstance(
+				[in] CLSID clsid,
+				[in] IUnknown* punkOuter,
+				[in] REFIID riid,
+				[in] DWORD dwFlags,
+				[out] void** ppvObj);
+
+	HRESULT GetTypeLibOfClsid(
+				[in] CLSID clsid,
+				[out] ITypeLib** pptlib);
+
+	HRESULT GetClassObjectOfClsid(
+				[in] REFCLSID clsid,
+				[in] DWORD dwFlags,
+				[in] LPVOID lpReserved,
+				[in] REFIID riid,
+				[in] void** ppvClassObject);
+};
+
+[
+	object,
+	local,
+	uuid(77BB19B0-0462-11d1-AAF6-00A0C9055A90),
+    pointer_default(unique)
+]
+interface ILocalRegistry2 : ILocalRegistry
+{
+	HRESULT GetLocalRegistryRoot( [out] BSTR* pbstrRoot);
+};
+
+[
+	object,
+	local,
+	uuid(1B01F13F-ABEE-4761-91AF-76CE6B4C9E7A),
+	pointer_default(unique)
+]
+interface ILocalRegistry3 : ILocalRegistry2
+{
+	HRESULT CreateManagedInstance(
+				[in] LPCWSTR codeBase,
+				[in] LPCWSTR assemblyName,
+				[in] LPCWSTR typeName,
+				[in] REFIID riid,
+				[out] void** ppvObj);
+
+	HRESULT GetClassObjectOfManagedClass(
+				[in] LPCWSTR codeBase,
+				[in] LPCWSTR assemblyName,
+				[in] LPCWSTR typeName,
+				[in] REFIID riid,
+				[out] void** ppvClassObject);
+};
+
+
+cpp_quote("#define SID_SLocalRegistry IID_ILocalRegistry")
+
+[
+	object,
+	local,
+	uuid(759d0500-d979-11ce-84ec-00aa00614f3e),
+    pointer_default(unique)
+]
+interface IUIElement : IUnknown
+{
+	HRESULT Show();
+	HRESULT Hide();
+	HRESULT IsVisible();
+};
+
+typedef int PROPCAT;
+
+[
+	object,
+	local,
+	uuid(4D07FC10-F931-11ce-B001-00AA006884E5),
+    pointer_default(unique)
+]
+interface ICategorizeProperties : IUnknown
+{
+	HRESULT MapPropertyToCategory([in] DISPID dispid, [out] PROPCAT* ppropcat);
+	HRESULT GetCategoryName([in] PROPCAT propcat, [in] LCID lcid, [out] BSTR* pbstrName);
+};
+
+typedef ICategorizeProperties* LPCATEGORIZEPROPERTIES;
+
+cpp_quote("#define PROPCAT_Nil -1")
+cpp_quote("#define PROPCAT_Misc -2")
+cpp_quote("#define PROPCAT_Font -3")
+cpp_quote("#define PROPCAT_Position -4")
+cpp_quote("#define PROPCAT_Appearance -5")
+cpp_quote("#define PROPCAT_Behavior -6")
+cpp_quote("#define PROPCAT_Data -7")
+cpp_quote("#define PROPCAT_List -8")
+cpp_quote("#define PROPCAT_Text -9")
+cpp_quote("#define PROPCAT_Scale -10")
+cpp_quote("#define PROPCAT_DDE -11")
+
+cpp_quote("#define HELPINFO_WHATS_THIS_MODE_ON     1")	
+
+[
+	object,
+	local,
+	uuid(6d5140c8-7436-11ce-8034-00aa006009fa),
+    pointer_default(unique)
+]		
+interface IHelp : IUnknown
+{
+	HRESULT GetHelpFile([out] BSTR* pbstr);
+	HRESULT GetHelpInfo([out] DWORD* pdwHelpInfo);
+	HRESULT ShowHelp(
+					[in] LPOLESTR szHelp,
+					[in] UINT fuCommand,
+					[in] DWORD dwHelpContext);
+};
+
+// The Service Identifier (SID) for Help is different
+// than the IID, so we can't do a simple define here.
+// The following line will get the symbol declared. It is defined
+// in objextid.c which is built into vsguids.lib. If you link that
+// lib the symbol will be defined.
+cpp_quote("EXTERN_C const IID SID_SHelp;")
+cpp_quote("#endif")

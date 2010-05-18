@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<GenericTest name="methodparameters" storage="c:\depot\stylecop\v4.3\test\addins\csharp\analyzers\csharpanalyzerstest\methodparameters.generictest" id="05880ad0-b73d-4b13-a0e8-7bf90b23d7e3" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Css projectStructure="" iteration="" />
+  <Description>Executes external testing system with specified parameters.</Description>
+  <Owners>
+    <Owner name="" />
+  </Owners>
+  <Execution id="fe2148a0-b47d-49c4-a32f-0ce719baa93a" />
+  <Command filename="%TestBin%\StyleCopTestHarness.exe" arguments="/testname:MethodParameters /i:&quot;%TestDeploymentDir%&quot; /o:&quot;%TestOutputDirectory%&quot; /testroot:%TestLocation%" workingDirectory="%TestOutputDirectory%" />
+  <SummaryXmlFile enabled="true" path="%TestOutputDirectory%\MethodParametersResults.xml" />
+</GenericTest>

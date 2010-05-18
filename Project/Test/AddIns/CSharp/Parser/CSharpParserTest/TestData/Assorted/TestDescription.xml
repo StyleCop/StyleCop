@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<StyleCopTestDescription TestName="Assorted">
+  <Test Name="ValidElements">
+    <TestCodeFile TestObjectModel="true">Assorted.cs</TestCodeFile>
+    <Settings>
+      <Analyzers>
+        <Analyzer AnalyzerId="MS.StyleCop.CSharpParserTest.CsParserDump">
+          <Rules>
+            <Rule Name="CsParserDumpRule">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+  </Test>
+</StyleCopTestDescription>

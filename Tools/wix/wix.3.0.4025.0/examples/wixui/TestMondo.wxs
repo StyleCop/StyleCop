@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (c) Microsoft Corporation.  All rights reserved.
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Product Id="*" UpgradeCode="PUT-GUID-HERE" Manufacturer="Microsoft Corporation" Language="1033" Name="WiX Common Dialogs Test (Mondo)" Version="1.0">
+
+        <Package Keywords="Installer" InstallerVersion="200" Platforms="Intel" Languages="1033" SummaryCodepage="1252" Compressed="yes" />
+
+        <Media Id="1" Cabinet="test.cab" EmbedCab="yes" DiskPrompt="Disk 1" />
+        <Property Id="DiskPrompt">1</Property>
+
+        <UIRef Id="WixUI" />
+
+        <Directory Id="TARGETDIR" Name="SourceDir">
+            <Directory Id="ProgramFilesFolder" Name="PFiles">
+                <Directory Id="EXAMPLEDIR" Name="Example Directory">
+                    <Directory Id="LangDir" Name="1033">
+                        <Component Id="ExampleComponent" Guid="PUT-GUID-HERE" DiskId="1">
+                            <File Id="ExampleFile" Name="example.txt" Source="example.txt">
+                                <Shortcut Id="ExampleShortcut" Directory="ProgramMenuFolder" Name="Example Shortcut" Description="Shortcut to example.txt" />
+                            </File>
+                        </Component>
+                        <Component Id="ExampleComponent2" Guid="PUT-GUID-HERE" DiskId="1">
+                            <File Id="ExampleFile2" Name="example2.txt" Source="example.txt" />
+                        </Component>
+                        <Component Id="ExampleComponent3" Guid="PUT-GUID-HERE" DiskId="1">
+                            <File Id="ExampleFile3" Name="example3.txt" Source="example.txt" />
+                        </Component>
+                    </Directory>
+                </Directory>
+            </Directory>
+            <Directory Id="ProgramMenuFolder" Name="ProgMenu" />
+        </Directory>
+
+        <Feature Id="ExampleFeature" Title="Example Feature" Description="This is a feature description; it appears in the box to the right of the feature tree." Level="1" ConfigurableDirectory="EXAMPLEDIR">
+            <ComponentRef Id="ExampleComponent" />
+        </Feature>
+        <Feature Id="ExampleFeature2" Title="Example-Redux Feature" Description="This is a second feature description; it appears in the box to the right of the feature tree." Level="1" ConfigurableDirectory="EXAMPLEDIR" Display="expand">
+            <ComponentRef Id="ExampleComponent2" />
+            <Feature Id="ExampleFeature3" Title="Example-Redux Subfeature" Description="This is a third feature description; it appears in the box to the right of the feature tree." Level="1" ConfigurableDirectory="EXAMPLEDIR">
+                <ComponentRef Id="ExampleComponent3" />
+            </Feature>
+        </Feature>
+    </Product>
+</Wix>

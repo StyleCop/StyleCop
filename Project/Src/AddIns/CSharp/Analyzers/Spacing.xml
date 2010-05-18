@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SourceAnalyzer Name="Spacing">
+  <Description>
+    Validates the spacing of keywords and symbols.
+  </Description>
+  <Rules>
+    <Rule Name="KeywordsMustBeSpacedCorrectly">
+      <Context>The spacing around the keyword '{0}' is invalid.</Context>
+    </Rule>
+    <Rule Name="CommasAndSemicolonsMustBeSpacedCorrectly">
+      <Context>Invalid spacing around the comma or semicolon.</Context>
+    </Rule>
+    <Rule Name="SymbolsMustBeSpacedCorrectly">
+      <Context>The spacing around the symbol '{0}' is invalid.</Context>
+    </Rule>
+    <Rule Name="DocumentationLinesMustBeginWithSingleSpace">
+      <Context>The Xml header line must start with a single space.</Context>
+    </Rule>
+    <Rule Name="SingleLineCommentsMustBeginWithSingleSpace">
+      <Context>The comment must start with a single space. To ignore this error when commenting out a line of code, begin the comment with '////' rather than '//'.</Context>
+    </Rule>
+    <Rule Name="PreprocessorKeywordsMustNotBePrecededBySpace">
+      <Context>The preprocessor type keyword must not be preceded by a space.</Context>
+    </Rule>
+    <Rule Name="OperatorKeywordMustBeFollowedBySpace">
+      <Context>The operator keyword must be followed by a space.</Context>
+    </Rule>
+    <Rule Name="OpeningParenthesisMustBeSpacedCorrectly">
+      <Context>Invalid spacing around the opening parenthesis.</Context>
+    </Rule>
+    <Rule Name="ClosingParenthesisMustBeSpacedCorrectly">
+      <Context>Invalid spacing around the closing parenthesis.</Context>
+    </Rule>
+    <Rule Name="OpeningSquareBracketsMustBeSpacedCorrectly">
+      <Context>Invalid spacing around the opening square bracket.</Context>
+    </Rule>
+    <Rule Name="ClosingSquareBracketsMustBeSpacedCorrectly">
+      <Context>Invalid spacing around the closing square bracket.</Context>
+    </Rule>
+    <Rule Name="OpeningCurlyBracketsMustBeSpacedCorrectly">
+      <Context>Invalid spacing around the opening curly bracket.</Context>
+    </Rule>
+    <Rule Name="ClosingCurlyBracketsMustBeSpacedCorrectly">
+      <Context>Invalid spacing around the closing curly bracket.</Context>
+    </Rule>
+    <Rule Name="OpeningGenericBracketsMustBeSpacedCorrectly">
+      <Context>Invalid spacing around the opening generic bracket.</Context>
+    </Rule>
+    <Rule Name="ClosingGenericBracketsMustBeSpacedCorrectly">
+      <Context>Invalid spacing around the closing generic bracket.</Context>
+    </Rule>
+    <Rule Name="OpeningAttributeBracketsMustBeSpacedCorrectly">
+      <Context>Invalid spacing around the opening attribute bracket.</Context>
+    </Rule>
+    <Rule Name="ClosingAttributeBracketsMustBeSpacedCorrectly">
+      <Context>Invalid spacing around the closing attribute bracket.</Context>
+    </Rule>
+    <Rule Name="NullableTypeSumbolsMustNotBePrecededBySpace">
+      <Context>A nullable type symbol should not be preceded by white space.</Context>
+    </Rule>
+    <Rule Name="MemberAccessSymbolsMustBeSpacedCorrectly">
+      <Context>Invalid spacing around the member access symbol.</Context>
+    </Rule>
+    <Rule Name="IncrementDecrementSymbolsMustBeSpacedCorrectly">
+      <Context>Invalid spacing around the increment or decrement symbol.</Context>
+    </Rule>
+    <Rule Name="NegativeSignsMustBeSpacedCorrectly">
+      <Context>Invalid spacing around the negative sign.</Context>
+    </Rule>
+    <Rule Name="PositiveSignsMustBeSpacedCorrectly">
+      <Context>Invalid spacing around the positive sign.</Context>
+    </Rule>
+    <Rule Name="DereferenceAndAccessOfSymbolsMustBeSpacedCorrectly">
+      <Context>Invalid spacing around the dereference or address-of symbol.</Context>
+    </Rule>
+    <Rule Name="ColonsMustBeSpacedCorrectly">
+      <Context>Invalid spacing around the colon.</Context>
+    </Rule>
+    <Rule Name="CodeMustNotContainMultipleWhitespaceInARow">
+      <Context>The code contains multiple spaces in a row. Only one space is needed.</Context>
+    </Rule>
+    <Rule Name="CodeMustNotContainSpaceAfterNewKeywordInImplicitlyTypedArrayAllocation">
+      <Context>There should be no space between the new keyword and the opening square bracket in an implicitly typed array allocation.</Context>
+    </Rule>
+    <Rule Name="TabsMustNotBeUsed">
+      <Context>Tabs are not allowed. Use spaces instead.</Context>
+    </Rule>
+  </Rules>
+</SourceAnalyzer>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Include>
+  <?ifdef WixVersionLong ?>
+    <?undef WixVersionLong?>
+  <?endif?>
+  <?define WixVersionLong = "4.4.0.9" ?>
+  <?ifdef WixVersionShort ?>
+    <?undef WixVersionShort?>
+  <?endif?>
+  <?define WixVersionShort = "4.4" ?>
+</Include>

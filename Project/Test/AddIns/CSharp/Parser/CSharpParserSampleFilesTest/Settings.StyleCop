@@ -1,0 +1,9 @@
+<StyleCopSettings Version="4.3">
+  <Analyzers>
+    <Analyzer AnalyzerId="Microsoft.SourceAnalysis.Internal.ParamCheck">
+      <AnalyzerSettings>
+        <BooleanProperty Name="Enabled">False</BooleanProperty>
+      </AnalyzerSettings>
+    </Analyzer>
+  </Analyzers>
+</StyleCopSettings>

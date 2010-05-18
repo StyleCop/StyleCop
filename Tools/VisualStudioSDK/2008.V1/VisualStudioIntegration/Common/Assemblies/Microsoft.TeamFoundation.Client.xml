@@ -1,0 +1,158 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<doc>
+	<assembly>
+		<name>Microsoft.TeamFoundation.Client</name>
+	</assembly>
+	<members>
+		<member name="N:Microsoft.TeamFoundation.Client">
+			<summary>Client methods for Team Foundation.</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.Client.CredentialsChangedEventArgs">
+			<summary>This event is raised when the <see cref="T:Microsoft.TeamFoundation.Client.TeamFoundationServer"></see>'s credentials change.</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.Client.CredentialsChangedEventHandler">
+			<summary>This event is raised when the <see cref="T:Microsoft.TeamFoundation.Client.TeamFoundationServer"></see>'s credentials change.</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.Client.IArtifactProvider">
+			<summary>Retrieves an Artifact document in the generalized artifact document form.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Client.IArtifactProvider.GetArtifactDocument(System.Uri)">
+			<summary>Returns an XML document that contains the details of the artifact.</summary>
+			<param name="artifactUri">The single artifact Uri to retrieve.</param>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.Client.ICredentialsProvider">
+			<summary>This interface is used by authentication failure handling in the Team Foundation objects.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Client.ICredentialsProvider.GetCredentials(System.Uri,System.Net.ICredentials)">
+			<summary>Returns the <see cref="T:Microsoft.TeamFoundation.Client.ICredentials"></see> to use when authenticating with the server.</summary>
+			<param name="failedCredentials">The credentials that failed to authenticate. May be null, default credentials which return an empty string for user names, a <see cref="T:System.Net.CredentialCache"></see> object, or a <see cref="T:System.Net.NetworkCredential"></see> object.  CredUIPromptForCredentialshttp://go.microsoft.com/fwlink/?LinkId=57594 functions can use the failed credentials to populate the user name box in the dialog box.</param>
+			<param name="uri">The Uri of the server.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Client.ICredentialsProvider.NotifyCredentialsAuthenticated(System.Uri)">
+			<summary>This method is called by the Team Foundationobjects if the credentials supplied by <see cref="M:Microsoft.TeamFoundation.Client.ICredentialsProvider.GetCredentials(System.Uri,System.Net.ICredentials)"></see> were successfully authenticated by the server.</summary>
+			<param name="uri">The Uri of the server.</param>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.Client.RegisteredServers">
+			<summary>Manages the list of registered servers in the system registry.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Client.RegisteredServers.AddServer(Microsoft.TeamFoundation.Client.TeamFoundationServer)">
+			<summary>Adds a server to the registered servers list.</summary>
+			<param name="tfs"><see cref="T:Microsoft.TeamFoundation.Client.TeamFoundationServer"></see> to be added.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Client.RegisteredServers.AddServer(System.String,System.String)">
+			<summary>Adds a server to the registered servers list.</summary>
+			<param name="serverUrl">URL of the server.</param>
+			<param name="serverFriendlyName">Friendly name of the server.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Client.RegisteredServers.GetServerNames">
+			<summary>Retrieves a list of authorized servers defined in the registry.</summary>
+			<returns>An array of friendly names of the servers.</returns>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Client.RegisteredServers.GetServers">
+			<summary>Returns an array of <see cref="T:Microsoft.TeamFoundation.Client.TeamFoundationServer"></see> instances for all registered servers.</summary>
+			<returns>An array of <see cref="T:Microsoft.TeamFoundation.Client.TeamFoundationServer"></see> instances.</returns>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Client.RegisteredServers.RemoveServer(System.String)">
+			<summary>Removes a server from the registered list.</summary>
+			<param name="serverFriendlyName">The friendly name of the server.</param>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.Client.TeamFoundationServer">
+			<summary>A <see cref="T:Microsoft.TeamFoundation.Client.TeamFoundationServer"></see> object is the core object on a Team Foundation server. The server's <see cref="T:Microsoft.TeamFoundation.Client.TeamFoundationServer"></see> object abstracts the common infrastructure and acts as a class factory for Team Foundation Build components.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Client.TeamFoundationServer.#ctor(System.String)">
+			<param name="name">The name or URL of the server.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Client.TeamFoundationServer.#ctor(System.String,System.Net.ICredentials)">
+			<param name="credentials">Used to authenticate the user.</param>
+			<param name="name">The name or URL of the server.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Client.TeamFoundationServer.#ctor(System.String,Microsoft.TeamFoundation.Client.ICredentialsProvider)">
+			<param name="credentialsProvider">If not null, used to get credentials if the specified credentials fail.</param>
+			<param name="name">The name or URL of the server.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Client.TeamFoundationServer.#ctor(System.String,System.Net.ICredentials,Microsoft.TeamFoundation.Client.ICredentialsProvider)">
+			<param name="credentialsProvider">If not null, used to get credentials if the specified credentials fail.</param>
+			<param name="credentials">Used to authenticate the user.</param>
+			<param name="name">The name or URL of the server.</param>
+		</member>
+		<member name="E:Microsoft.TeamFoundation.Client.TeamFoundationServer.CredentialsChanged">
+			<summary>Occurs when the <see cref="T:Microsoft.TeamFoundation.Client.TeamFoundationServer"></see> object's credentials change.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Client.TeamFoundationServer.Authenticate">
+			<summary>Authenticates with the server.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Client.TeamFoundationServer.Dispose">
+			<summary>Notifies interested objects of disposal and disposes this object.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Client.TeamFoundationServer.EnsureAuthenticated">
+			<summary>Authenticates the connection if not previously authenticated.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Client.TeamFoundationServer.Equals(System.Object)">
+			<summary>Returns true if the specified object is equal to the <see cref="T:Microsoft.TeamFoundation.Client.TeamFoundationServer"></see> object on the current Team Foundation server; otherwise false.</summary>
+			<returns>true if the specified object is equal to this Team Foundation Server; otherwise false.</returns>
+			<param name="obj">Object for comparison.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Client.TeamFoundationServer.GetService(System.Type)">
+			<summary>Returns an instance of the specified service. Returns null if the service could not be found.</summary>
+			<param name="serviceType">The type of service to retrieve.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Client.TeamFoundationServer.op_Equality(Microsoft.TeamFoundation.Client.TeamFoundationServer,Microsoft.TeamFoundation.Client.TeamFoundationServer)">
+			<summary>Returns true if the URIs of the specified Team Foundation servers are identical; otherwise, returns false.</summary>
+			<returns>true if the URIs of the specified Team Foundation servers are identical; otherwise, false.</returns>
+			<param name="tfs2">The second <see cref="T:Microsoft.TeamFoundation.Client.TeamFoundationServer"></see>.object.</param>
+			<param name="tfs1">The first <see cref="T:Microsoft.TeamFoundation.Client.TeamFoundationServer"></see> object.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Client.TeamFoundationServer.op_Inequality(Microsoft.TeamFoundation.Client.TeamFoundationServer,Microsoft.TeamFoundation.Client.TeamFoundationServer)">
+			<summary>Returns true if the URIs of the specified Team Foundation servers are not identical; otherwise, returns false.</summary>
+			<returns>true if the URIs of the specified Team Foundation servers are not identical; otherwise, false.</returns>
+			<param name="tfs2">The second <see cref="T:Microsoft.TeamFoundation.Client.TeamFoundationServer"></see> object.</param>
+			<param name="tfs1">The first <see cref="T:Microsoft.TeamFoundation.Client.TeamFoundationServer"></see> object.</param>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.Client.TeamFoundationServer.AuthenticatedUserDisplayName">
+			<summary>Gets the authenticated user's <see cref="P:Microsoft.TeamFoundation.Server.Identity.DisplayName"></see>.</summary>
+			<returns>The authenticated user <see cref="P:Microsoft.TeamFoundation.Server.Identity.DisplayName"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.Client.TeamFoundationServer.AuthenticatedUserIdentity">
+			<summary>Gets the authenticated user's identity.</summary>
+			<returns>The authenticated user Identity.</returns>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.Client.TeamFoundationServer.AuthenticatedUserName">
+			<summary>Gets the authenticated user name.</summary>
+			<returns>The authenticated user name.</returns>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.Client.TeamFoundationServer.HasAuthenticated">
+			<summary>Gets the flag that confirms if this object has successfully authenticated.</summary>
+			<returns>true if this object has successfully authenticated; otherwise false.</returns>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.Client.TeamFoundationServerFactory">
+			<summary>Used to get an instance of a <see cref="T:Microsoft.TeamFoundation.Client.TeamFoundationServer"></see> object.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Client.TeamFoundationServerFactory.GetServer(System.String)">
+			<summary>Gets a <see cref="T:Microsoft.TeamFoundation.Client.TeamFoundationServer"></see> object.</summary>
+			<param name="name">The name or URL of the server.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Client.TeamFoundationServerFactory.GetServer(System.String,Microsoft.TeamFoundation.Client.ICredentialsProvider)">
+			<summary>Gets a <see cref="T:Microsoft.TeamFoundation.Client.TeamFoundationServer"></see> object.</summary>
+			<param name="fallbackCredentialsProvider">The UI credentials provider to use if the environment does not already supply one.</param>
+			<param name="name">The name or URL of the server.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Client.UICredentialsProvider.Microsoft.TeamFoundation.Client.ICredentialsProvider.GetCredentials(System.Uri,System.Net.ICredentials)">
+			<returns>The <see cref="dialog box.osoft.TeamFoundation.Client.ICredentials"></see> to use when authenticating with the server.</returns>
+			<param name="failedCredentials">The credentials that did not authenticate. May be null, default credentials (which return empty string for user name), a <see cref="T:System.Net.CredentialCache"></see> object, or a <see cref="T:System.Net.NetworkCredential"></see> object.  Functions like CredUIPromptForCredentialshttp://go.microsoft.com/fwlink/?LinkId=57594 can use the failed credentials to populate the user name box in the dialog box.</param>
+			<param name="uri">The Uri of the server.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Client.UICredentialsProvider.Microsoft.TeamFoundation.Client.ICredentialsProvider.NotifyCredentialsAuthenticated(System.Uri)">
+			<param name="uri">The Uri of the server.</param>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.Client.WebServiceCallList">
+			<summary>This class maintains a list of <see cref="T:Microsoft.TeamFoundation.Client.WebServiceCall"></see>s.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Client.WebServiceCallList.AddTime(System.String,System.Int32)">
+			<summary>Adds or replaces a <see cref="T:Microsoft.TeamFoundation.Client.WebServiceCall"></see> entry to the <see cref="T:Microsoft.TeamFoundation.Client.WebServiceCallList"></see>.</summary>
+			<param name="webServiceName">Name of the web service to add.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Client.WebServiceStatList.AddTime(System.String,System.Int32)">
+			<summary>Adds time to the <see cref="T:Microsoft.TeamFoundation.Client.WebServiceStats"></see> for the given webServiceName.</summary>
+		</member>
+	</members>
+</doc>

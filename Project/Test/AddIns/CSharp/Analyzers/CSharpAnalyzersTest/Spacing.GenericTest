@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<GenericTest name="Spacing" storage="c:\depot\stylecop\main\test\addins\csharp\analyzers\csharpanalyzerstest\spacing.generictest" id="659aa34f-f286-4ad7-822e-8056a85f12c2" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Description>Executes external testing system with specified parameters.</Description>
+  <Execution id="29050e36-cb96-4e14-82e3-84f185708754" />
+  <Command filename="%TestBin%\StyleCopTestHarness.exe" arguments="/testname:Spacing /i:&quot;%TestDeploymentDir%&quot; /o:&quot;%TestOutputDirectory%&quot; /testroot:%TestLocation%" workingDirectory="%TestOutputDirectory%" />
+  <SummaryXmlFile enabled="true" path="%TestOutputDirectory%\SpacingResults.xml" />
+</GenericTest>

@@ -1,0 +1,249 @@
+// CustomFind.idl
+//
+// Custom defined Find interfaces
+//
+// Copyright 1998-2000 Microsoft Corporation.  All Rights Reserved.
+//
+//================================================================
+/*
+Notes:
+    This serves a similar purpose of IVsFindScope in TextFind.idl
+    Here packages can define their own dialog to browse scopes, and perform
+    their own Find and Replace.
+*/
+
+//import "oaidl.idl";
+import "textfind.idl";
+
+//
+// interface catalog
+//
+interface IVsRegisterCustomFindScope;
+interface IVsCustomFindScope;
+interface IVsCustomFindScopeLookIn;
+interface IVsCustomFindScopeSearch;
+interface IVsCustomFindScopeNotify;
+
+
+//============================================================================
+// enum value of status of Find In Files operation.
+// It is used in IVsCustomFindScopeSearch::GetStatus for current running, or
+// in IVsCustomFindScopeNotify::Notify at end of a Find In Files operation
+// After implementation returns notification code,
+// next status code should be idle.
+//----------------------------------------------------------------------------
+enum __VSCUSTOMFINDSTATUS
+{
+    CFR_IDLE,       // no Find In Files is running, status
+    CFR_RUNNING,    // Find In Files is running, status
+    CFR_COMPLETE,   // Find In Files has completed, status/notification
+    CFR_CANCEL,     // Find In Files is cancelled, status/notification
+    CFR_ERROR       // Error Launching Find In Files, status/notification
+};
+typedef DWORD VSCUSTOMFINDSTATUS;
+
+
+//============================================================================
+// Stuct used on IVsCustomFindScopeLookIn::Browse() to pass display string, tooltip string,
+// and search scope, between Find In Files dialog and Look In dialog.
+// Note:
+//  pbstrDisplay can't be NULL or empty.
+//  If pbstrTooltip or varCanonicalScope is not available, pbstrDisplay is used.
+//  If later search will be done by Shell's default search engine, the search scope must
+//  be a semi-colon deliminated string.
+//----------------------------------------------------------------------------
+typedef struct _VSBROWSESCOPE
+{
+    // Scope string to display in the Look in combo.
+    BSTR    bstrDisplay;
+    // Scope string to display in tooltip.
+    BSTR    bstrTooltip;
+    // Canonical search scope
+    VARIANT varCanonicalScope;
+} VSBROWSESCOPEW, *PVSBROWSESCOPEW;
+
+
+//============================================================================
+//  IVsRegisterCustomFindScope
+//
+//  Register a custom service for Find in Files.
+//
+//  To use custom Look In dialog, or perform custom Find In Files, package must register
+//  itself as a custom Find Service via this interface.
+//  
+//  Implemented by the shell.
+//----------------------------------------------------------------------------
+[
+uuid(72F08BD4-412B-4f54-8B7C-02997C483981),
+version(1.0),
+pointer_default(unique)
+]
+interface IVsRegisterCustomFindScope : IUnknown
+{
+    // register Find Scope Service with VS Shell
+    HRESULT RegisterCustomFindScope(
+        // SID of this service
+        [in] REFGUID guidSID,
+        // Service name
+        [in] LPCOLESTR pszName,
+        // find options this Service supports
+        [in] VSFINDOPTIONS grfEnabledOptions,
+        // cookie for unregistering
+        [out] DWORD_PTR *pdwCookie);
+
+    // Unregister
+    HRESULT UnRegisterCustomFindScope(
+        // cookie from RegisterFindScope
+        [in] DWORD_PTR dwCookie);
+};
+
+//============================================================================
+//  IVsCustomFindScope
+//
+//  Package's own Find In Files service. With this service a package
+//  can define it's own Look In dialog, or performs it's own Find In Files.
+//
+//  Your custom service must be registered with the shell using the shell's 
+//  IVsRegisterCustomFindScope service.
+//
+//  - The 'Look in subfolders' check box is applied to the query.
+//  - The filters selected in the 'File types' combo box apply to the query.
+//
+//  If a package performs Find In Files itself, it needs to be able to dump
+//  result into Shell's result window.
+//
+//----------------------------------------------------------------------------
+[
+uuid(51066B51-499A-419b-A7B3-18C1DB46EB95),
+version(1.0),
+pointer_default(unique)
+]
+interface IVsCustomFindScope : IUnknown
+{
+    // Get package's custom Look In dialog. If this returns E_NOTIMPL,
+    // Shell uses default file system Look In dialog.
+    HRESULT GetCustomFindScopeLookIn(
+        // return value, see struct comment
+        [out,retval] IVsCustomFindScopeLookIn **ppFindLookIn);
+
+    // Get package's custom Find In Files. If this returns E_NOTIMPL,
+    // Shell performs default file system Find In Files.
+    HRESULT GetCustomFindScopeSearch(
+        [out,retval] IVsCustomFindScopeSearch **ppBatchFind);
+};
+
+
+//============================================================================
+//  IVsCustomFindScopeLookIn
+//
+//  Package's own Look In dialog.
+//
+//  Your custom service must be registered with the shell using the shell's 
+//  IVsRegisterBatchFindService service.
+//
+//  Note:
+//  Browse() does not return until user dismisses the custom browse dialog.
+//  The display name will be in editbox of Lookin Combo, and move into MRU later.
+//  When called, pBrowseScope contains information of root scope for the browse dialog.
+//  If the scope is empty or NULL, display name is an user typed string so it can be invalid.
+//  If user cancels the dialog, this function should return S_FALSE.
+//  In that case other data is ignored.
+//----------------------------------------------------------------------------
+[
+uuid(B82E262A-A6A4-407f-B562-42785C2C61FC),
+version(1.0),
+pointer_default(unique)
+]
+interface IVsCustomFindScopeLookIn : IUnknown
+{
+    // Launch package's Look In dialog.
+    HRESULT Browse(
+        // root of Look In dialog/return value
+        // see struct comment and comment above
+        [in,out] PVSBROWSESCOPEW pBrowseScope);
+};
+
+
+//============================================================================
+//  IVsCustomFindScopeSearch
+//
+//  Perform a custom Find In Files. 
+//
+//  Your custom service must be registered with the shell using the shell's 
+//  IVsRegisterBatchFindService service.
+//
+//  - It takes the form of a semicolon-delimited list of canonical names.
+//  - Individual items on the list may be quoted.
+//  - The 'Look in subfolders' check box is applied to the query.
+//  - The filters selected in the 'File types' combo box apply to the query.
+//
+//  There is no mechanism to override the user's subfolders selection. If you need 
+//  greater control over recursive file enumeration, you must provide a filename 
+//  enumerator. 
+//  It is recommended to service to perform Find in different thread if possible.
+//----------------------------------------------------------------------------
+[
+uuid(BC70E6DE-4B40-438f-8F83-AFE1CC6AB101),
+version(1.0),
+pointer_default(unique)
+]
+interface IVsCustomFindScopeSearch : IUnknown
+{
+    // Perform a Find In Files
+    HRESULT Find(
+        // Scope
+        [in] VSBROWSESCOPEW VsBrowseScope,
+        // pattern
+        [in] LPCOLESTR pszFind,
+        // filter
+        [in] LPCOLESTR pszFilter,
+        // find options
+        [in] VSFINDOPTIONS grfOptions,
+        // notify object for package to notify termination of find
+        [in] IVsCustomFindScopeNotify *pBatchFindNotify);
+
+    // Perform a Replace In Files
+    HRESULT Replace(
+        // Scope
+        [in] VSBROWSESCOPEW VsBrowseScope,
+        // pattern
+        [in] LPCOLESTR pszFind,
+        // replace with pattern
+        [in] LPCOLESTR pszReplace,
+        // filter
+        [in] LPCOLESTR pszFilter,
+        // find options
+        [in] VSFINDOPTIONS grfOptions,
+        // notify object for package to notify termination of find
+        [in] IVsCustomFindScopeNotify *pBatchFindNotify);
+
+    // current status of Find In Files
+    HRESULT GetStatus(
+        // status string to show in status bar. Can be NULL.
+        [out] BSTR *pbstrStatus,
+        // status flag
+        [out,retval] VSCUSTOMFINDSTATUS *pdwStatus);
+
+    // Cancel Batch Find. Won't return until the cancelation is completed.
+    HRESULT Cancel(void);
+};
+
+//============================================================================
+//  IVsCustomFindScopeNotify
+//
+//  Notify Shell when a Find In Files is finished.
+//
+//  Implemented by the shell.
+//----------------------------------------------------------------------------
+[
+uuid(169B2F24-BB17-40d8-AE2A-13B651B610CA),
+version(1.0),
+pointer_default(unique)
+]
+interface IVsCustomFindScopeNotify : IUnknown
+{
+    // return status flag of ending Find In Files operation to Shell.
+    HRESULT Notify(
+        // status flag. see enum comment
+        [in] VSCUSTOMFINDSTATUS grfStatus);
+};

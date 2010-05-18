@@ -1,0 +1,153 @@
+﻿<StyleCopCsParserObjectModel>
+  <Element Name="Root" Type="DocumentRoot">
+    <Element Name="Class1" Type="Class">
+      <Element Name="Event1" Type="Event" />
+      <Element Name="Event2" Type="Event">
+        <Element Name="add" Type="Accessor" />
+      </Element>
+      <Element Name="Event3" Type="Event">
+        <Element Name="remove" Type="Accessor" />
+      </Element>
+      <Element Name="Event4" Type="Event">
+        <Element Name="add" Type="Accessor" />
+        <Element Name="remove" Type="Accessor" />
+      </Element>
+      <Element Name="Event5" Type="Event" />
+      <Element Name="Event6" Type="Event" />
+      <Element Name="Event7" Type="Event">
+        <Element Name="add" Type="Accessor">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="int" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="x" Type="LiteralExpression" />
+                <Expression Text="2" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+        </Element>
+        <Element Name="remove" Type="Accessor">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="int" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="y" Type="LiteralExpression" />
+                <Expression Text="3" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+        </Element>
+      </Element>
+    </Element>
+    <Element Name="Class3" Type="Class">
+      <Element Name="Event1" Type="Event" />
+      <Element Name="Event2" Type="Event" />
+      <Element Name="Event3" Type="Event" />
+      <Element Name="Event4" Type="Event" />
+      <Element Name="Event5" Type="Event" />
+      <Element Name="Event6" Type="Event" />
+    </Element>
+    <Element Name="Class4" Type="Class">
+      <Element Name="Event1" Type="Event" />
+      <Element Name="Event2" Type="Event" />
+      <Element Name="Event3" Type="Event" />
+      <Element Name="Event4" Type="Event" />
+      <Element Name="Event5" Type="Event" />
+      <Element Name="Event6" Type="Event" />
+      <Element Name="Event7" Type="Event" />
+      <Element Name="Event8" Type="Event">
+        <Element Name="add" Type="Accessor">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="short" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="y" Type="LiteralExpression" />
+                <Expression Text="2" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="ReturnStatement">
+            <Expression Type="UnsafeAccessExpression">
+              <Expression Text="x" Type="LiteralExpression" />
+            </Expression>
+          </Statement>
+        </Element>
+        <Element Name="remove" Type="Accessor">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="short" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="y" Type="LiteralExpression" />
+                <Expression Text="2" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="ReturnStatement">
+            <Expression Type="UnsafeAccessExpression">
+              <Expression Text="x" Type="LiteralExpression" />
+            </Expression>
+          </Statement>
+        </Element>
+      </Element>
+    </Element>
+    <Element Name="UnsafeClass" Type="Class">
+      <Element Name="Event1" Type="Event">
+        <Element Name="add" Type="Accessor">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="short" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="y" Type="LiteralExpression" />
+                <Expression Text="2" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="ReturnStatement">
+            <Expression Type="UnsafeAccessExpression">
+              <Expression Text="x" Type="LiteralExpression" />
+            </Expression>
+          </Statement>
+        </Element>
+        <Element Name="remove" Type="Accessor">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="short" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="y" Type="LiteralExpression" />
+                <Expression Text="2" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="ReturnStatement">
+            <Expression Type="UnsafeAccessExpression">
+              <Expression Text="x" Type="LiteralExpression" />
+            </Expression>
+          </Statement>
+        </Element>
+      </Element>
+    </Element>
+    <Element Name="Class5" Type="Class">
+      <Element Name="Event1" Type="Event">
+        <Element Name="add" Type="Accessor" />
+        <Element Name="remove" Type="Accessor" />
+      </Element>
+      <Element Name="Event2" Type="Event">
+        <Element Name="add" Type="Accessor" />
+        <Element Name="remove" Type="Accessor" />
+      </Element>
+      <Element Name="Event3" Type="Event">
+        <Element Name="add" Type="Accessor" />
+        <Element Name="remove" Type="Accessor" />
+      </Element>
+    </Element>
+    <Element Name="Struct1" Type="Struct">
+      <Element Name="Event1" Type="Event">
+        <Element Name="add" Type="Accessor" />
+        <Element Name="remove" Type="Accessor" />
+      </Element>
+    </Element>
+    <Element Name="Interface1" Type="Interface">
+      <Element Name="Event1" Type="Event" />
+    </Element>
+  </Element>
+</StyleCopCsParserObjectModel>

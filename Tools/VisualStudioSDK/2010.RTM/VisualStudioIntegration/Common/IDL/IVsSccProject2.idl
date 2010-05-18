@@ -1,0 +1,155 @@
+/*-----------------------------------------------------------------------------
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+@doc
+@module VSSCCPRJ.IDL - Interface for source-controlled projects |
+
+Projects or hierarchies that want to be under source code control must implement 
+this interface so that they can exchange information with the source-control 
+package.
+
+@owner Source Control Integration Team
+-----------------------------------------------------------------------------*/
+
+//----------------------------
+// Includes
+//----------------------------
+#include "SCGuids.h"
+
+//----------------------------
+// Imports
+//----------------------------
+#ifndef INTEROPLIB
+
+import "objidl.idl";
+import "vsshell.idl";
+
+#endif
+//----------------------------
+// Enumerated types
+//----------------------------
+
+/*-----------------------------------------------------------------------------
+Enum: VsSccFilesFlags
+
+@enum Flags associated with SCC files on each hierarchy node
+-----------------------------------------------------------------------------*/
+enum tagVsSccFilesFlags
+{
+	SFF_NoFlags = 0,			// No special files associated with this node
+	SFF_HasSpecialFiles = 1		// Special files are associated with this node
+};
+typedef DWORD VsSccFilesFlags;
+
+/*-----------------------------------------------------------------------------
+Enum: VsSccSpecialFilesFlags
+
+@enum Flags associated with special SCC files on each hierarchy node
+-----------------------------------------------------------------------------*/
+enum tagVsSccSpecialFilesFlags
+{
+	SSFF_NoFlags = 0
+};
+typedef DWORD VsSccSpecialFilesFlags;
+
+/*-----------------------------------------------------------------------------
+Interface: IVsSccProject2
+
+This interface is implemented by all projects or hierarchies that wish to be 
+under source-control.
+
+@base public | IUnknown
+
+@hung scp2
+-----------------------------------------------------------------------------*/
+[ uuid(uuid_IVsSccProject2) ]
+interface IVsSccProject2 : IUnknown
+{
+	/////////////////////////////////////////////////////////////////////
+	// SccGlyphChanged
+	/////////////////////////////////////////////////////////////////////
+	// Called by the source-control package to inform the project of changes to 
+	// the SCC glyph on various nodes -- the glyphs are denoted by the shell's icon 
+	// index (i.e. VsStateIcon enumeration).
+	// 
+	// This method can also be called with cAffectedNodes == 0, which indicates
+	// that the glyph(s) on some file(s), somewhere in the project, changed. In
+	// this case all the array pointers will be NULL. The project must act as if
+	// every glyph on every node has potentially changed.  The project should call 
+	// IVsSccManager2::GetSccGlyph on the SVsSccManager service to retrieve the glyphs 
+	// for its files. 
+	//
+	// NOTE: the source control status per file/node is also passed as an
+	// annotation; however, projects are encouraged to NOT use these status
+	// bits, and to only look at the glyphs.
+	//
+	HRESULT SccGlyphChanged
+	(
+		[in] int cAffectedNodes,
+		[in, size_is(cAffectedNodes)] const VSITEMID rgitemidAffectedNodes[],
+		[in, size_is(cAffectedNodes)] const VsStateIcon rgsiNewGlyphs[],
+		[in, size_is(cAffectedNodes)] const DWORD rgdwNewSccStatus[]
+	);
+
+	/////////////////////////////////////////////////////////////////////
+	// SetSccLocation
+	/////////////////////////////////////////////////////////////////////
+	// Called by the source-control package to inform the project of its source-control
+	// settings -- this information is used to identify the source-control provider for the
+	// project, figure out the mapping between the server and disk location
+	// of the project, etc.
+	//
+	// These location settings should be stored in the project file.  When the project
+	// is opened, use these settings to register the project with the source-control package.
+	//
+	HRESULT SetSccLocation
+	(
+		[in] LPCOLESTR pszSccProjectName,	// opaque to project
+		[in] LPCOLESTR pszSccAuxPath,		// opaque to project
+		[in] LPCOLESTR pszSccLocalPath,		// opaque to project
+		[in] LPCOLESTR pszSccProvider		// opaque to project
+	);
+
+	/////////////////////////////////////////////////////////////////////
+	// GetSccFiles
+	/////////////////////////////////////////////////////////////////////
+	// Called to discover the source-controllable files associated with a node in
+	// the project hierarchy.
+	//
+	// If project returns E_NOTIMPL, IVsProject::GetMkDocument will be called to
+	// discover the file associated with the node.  If all project nodes refer to
+	// a single file, and there are no special files, then a project can safely
+	// always return E_NOTIMPL.
+	//
+	// If SFF_HasSpecialFiles is set for any of the files associated with the
+	// node, GetSccSpecialFiles will be called for those files.
+	//
+	HRESULT GetSccFiles
+	(
+		[in] VSITEMID itemid,				// Node in project hierarchy
+		[out] CALPOLESTR *pCaStringsOut,	// Files associated with node
+		[out] CADWORD *pCaFlagsOut			// Flags per file
+	);
+
+	/////////////////////////////////////////////////////////////////////
+	// GetSccSpecialFiles
+	/////////////////////////////////////////////////////////////////////
+	// Called to discover special/hidden files associated with a file on a node
+	// in the project hierarchy.  This is called when GetSccFiles returns
+	// that a node is SFF_HasSpecialFiles.
+	//
+	// If there are no special files, project can return E_NOTIMPL (or E_FAIL if
+	// it never expects to be called on this method).
+	//
+	// NOTE: this method is normally only called if a project indicates via
+	// GetSccFiles that a file has special files associated with it. If the
+	// project subsequently returns E_NOTIMPL, that would be a bit weird...
+	//
+	HRESULT GetSccSpecialFiles
+	(
+		[in] VSITEMID itemid,				// node in project hierarchy
+		[in] LPCOLESTR pszSccFile,			// one of the files associated with the node
+		[out] CALPOLESTR *pCaStringsOut,	// special files associated with above file
+		[out] CADWORD *pCaFlagsOut			// flags per special file
+	);
+};

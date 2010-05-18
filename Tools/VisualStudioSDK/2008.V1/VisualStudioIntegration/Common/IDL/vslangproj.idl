@@ -1,0 +1,1620 @@
+/****************************************************************************
+* vslangproj.idl
+*
+* Sources the typelib that needs to be exposed to clients.
+* Exposes the CATID's of the extensibility Project & ProjectItem object.
+* Exposes the diff CATID's for the diff packages for the browse objects.
+* Exposes the browse object interfaces
+* Exposes the interfaces of the package specific extensibility project object.
+*****************************************************************************/
+
+import "oaidl.idl";
+
+// done because the .idl file does not understand namespaces but these interfaces are in a namespace in the header file.
+cpp_quote("#include \"dte.h\"")
+cpp_quote("#ifdef FORCE_EXPLICIT_DTE_NAMESPACE")
+cpp_quote("#define DTE VxDTE::DTE")
+cpp_quote("#define Project VxDTE::Project")
+cpp_quote("#define ProjectItem VxDTE::ProjectItem")
+cpp_quote("#endif")
+
+interface References;
+
+
+#define MEMID_Name            (0x80010000)  // as defined by controls spec.
+
+
+cpp_quote("#define VBFileProperties FileProperties")
+cpp_quote("#define VBFolderProperties FolderProperties")
+cpp_quote("#define VBProjectProperties ProjectProperties")
+cpp_quote("#define VBProjectConfigProperties ProjectConfigurationProperties")
+cpp_quote("#define IID_VBFileProperties IID_FileProperties")
+cpp_quote("#define IID_VBFolderProperties IID_FolderProperties")
+cpp_quote("#define IID_VBProjectProperties IID_ProjectProperties")
+cpp_quote("#define IID_VBProjectConfigProperties IID_ProjectConfigurationProperties")
+
+// vb code model CATIDs 
+cpp_quote("extern const __declspec(selectany) GUID CATID_VBCodeFunction = {")
+cpp_quote("    0xc28e28ca,")
+cpp_quote("    0xe6dc,")
+cpp_quote("    0x446f,")
+cpp_quote("    {0xbe, 0x1a, 0xd4, 0x96, 0xbe, 0xf8, 0x34, 0x0}")
+cpp_quote("  };")
+
+cpp_quote("extern const __declspec(selectany) GUID CATID_VBCodeClass = {")
+cpp_quote("    0xc28e28ca,")
+cpp_quote("    0xe6dc,")
+cpp_quote("    0x446f,")
+cpp_quote("    {0xbe, 0x1a, 0xd4, 0x96, 0xbe, 0xf8, 0x34, 0x1}")
+cpp_quote("  };")
+
+cpp_quote("extern const __declspec(selectany) GUID CATID_VBCodeDelegate = {")
+cpp_quote("    0xc28e28ca,")
+cpp_quote("    0xe6dc,")
+cpp_quote("    0x446f,")
+cpp_quote("    {0xbe, 0x1a, 0xd4, 0x96, 0xbe, 0xf8, 0x34, 0x2}")
+cpp_quote("  };")
+
+cpp_quote("extern const __declspec(selectany) GUID CATID_VBCodeVariable = {")
+cpp_quote("    0xc28e28ca,")
+cpp_quote("    0xe6dc,")
+cpp_quote("    0x446f,")
+cpp_quote("    {0xbe, 0x1a, 0xd4, 0x96, 0xbe, 0xf8, 0x34, 0x3}")
+cpp_quote("  };")
+
+cpp_quote("extern const __declspec(selectany) GUID CATID_VBCodeProperty = {")
+cpp_quote("    0xc28e28ca,")
+cpp_quote("    0xe6dc,")
+cpp_quote("    0x446f,")
+cpp_quote("    {0xbe, 0x1a, 0xd4, 0x96, 0xbe, 0xf8, 0x34, 0x4}")
+cpp_quote("  };")
+
+cpp_quote("extern const __declspec(selectany) GUID CATID_VBCodeParameter = {")
+cpp_quote("    0xc28e28ca,")
+cpp_quote("    0xe6dc,")
+cpp_quote("    0x446f,")
+cpp_quote("    {0xbe, 0x1a, 0xd4, 0x96, 0xbe, 0xf8, 0x34, 0x5}")
+cpp_quote("  };")
+
+cpp_quote("extern const __declspec(selectany) GUID CATID_VBCodeInterface = {")
+cpp_quote("    0xc28e28ca,")
+cpp_quote("    0xe6dc,")
+cpp_quote("    0x446f,")
+cpp_quote("    {0xbe, 0x1a, 0xd4, 0x96, 0xbe, 0xf8, 0x34, 0x6}")
+cpp_quote("  };")
+
+cpp_quote("extern const __declspec(selectany) GUID CATID_VBCodeStruct = {")
+cpp_quote("    0xc28e28ca,")
+cpp_quote("    0xe6dc,")
+cpp_quote("    0x446f,")
+cpp_quote("    {0xbe, 0x1a, 0xd4, 0x96, 0xbe, 0xf8, 0x34, 0x7}")
+cpp_quote("  };")
+
+cpp_quote("extern const __declspec(selectany) GUID CATID_VBCodeEnum = {")
+cpp_quote("    0xc28e28ca,")
+cpp_quote("    0xe6dc,")
+cpp_quote("    0x446f,")
+cpp_quote("    {0xbe, 0x1a, 0xd4, 0x96, 0xbe, 0xf8, 0x34, 0x8}")
+cpp_quote("  };")
+
+cpp_quote("extern const __declspec(selectany) GUID CATID_VBCodeNamespace = {")
+cpp_quote("    0xc28e28ca,")
+cpp_quote("    0xe6dc,")
+cpp_quote("    0x446f,")
+cpp_quote("    {0xbe, 0x1a, 0xd4, 0x96, 0xbe, 0xf8, 0x34, 0x9}")
+cpp_quote("  };")
+
+cpp_quote("extern const __declspec(selectany) GUID CATID_VBCodeAttribute = {")
+cpp_quote("    0xc28e28ca,")
+cpp_quote("    0xe6dc,")
+cpp_quote("    0x446f,")
+cpp_quote("    {0xbe, 0x1a, 0xd4, 0x96, 0xbe, 0xf8, 0x34, 0xa}")
+cpp_quote("  };")
+
+// this list includes config and project properties.
+// if you add new properties, please add config props in the config section and
+// project props in the project section.
+enum
+{
+    VBPROJPROPID__First = 10000,
+    // = 10001
+    VBPROJPROPID_DebugSymbols,
+    VBPROJPROPID_StartArguments,
+    VBPROJPROPID_StartAction,
+    VBPROJPROPID_OutputPath,
+    VBPROJPROPID_DefineConstants,
+    VBPROJPROPID_StartProgram,
+    VBPROJPROPID_StartWorkingDirectory,
+    VBPROJPROPID_StartURL,
+    VBPROJPROPID_OutputFileName,
+    VBPROJPROPID_IntermediatePath,
+    // = 10011
+    VBPROJPROPID_ApplicationIcon,
+    VBPROJPROPID_WebServer,
+    VBPROJPROPID_AssemblyName,
+    VBPROJPROPID_Unused1,
+    VBPROJPROPID_StartupObject,
+    VBPROJPROPID_OutputType,
+    VBPROJPROPID_WebServerVersion,
+    VBPROJPROPID_ServerExtensionsVersion,
+    VBPROJPROPID_LinkRepair,
+    VBPROJPROPID_OfflineURL,
+    // = 10021
+    VBPROJPROPID_DefaultClientScript,
+    VBPROJPROPID_DefaultTargetSchema,
+    VBPROJPROPID_DefaultHTMLPageLayout,
+    VBPROJPROPID_ProjectFolder,
+    VBPROJPROPID_ProjectURL,
+    VBPROJPROPID_FileName,
+    VBPROJPROPID_FullPath,
+    VBPROJPROPID_LocalPath,
+    VBPROJPROPID_URL,
+    VBPROJPROPID_Extender,
+    // = 10031
+    VBPROJPROPID_ExtenderNames,
+    VBPROJPROPID_ExtenderCATID,
+    VBPROJPROPID_ActiveConfigurationSettings,
+    VBPROJPROPID_AbsoluteProjectDirectory,
+    VBPROJPROPID__Project,
+    VBPROJPROPID_DefineDebug,
+    VBPROJPROPID_DefineTrace,
+    VBPROJPROPID_StartPage,
+    VBPROJPROPID_StartWithIE,
+    VBPROJPROPID_EnableASPDebugging,
+    // = 10041
+    VBPROJPROPID_EnableASPXDebugging,
+    VBPROJPROPID_RootNamespace,
+    VBPROJPROPID_AssemblyOriginatorKeyMode,
+    VBPROJPROPID_AssemblyOriginatorKeyFile,
+    VBPROJPROPID_AssemblyKeyContainerName,
+    VBPROJPROPID_DelaySign,
+    VBPROJPROPID_FileSharePath,
+    VBPROJPROPID_ActiveFileSharePath,
+    VBPROJPROPID_WebAccessMethod,
+    VBPROJPROPID_ActiveWebAccessMethod,
+    // = 10051
+    VBPROJPROPID_OptionStrict,
+    VBPROJPROPID_WarningLevel,
+    VBPROJPROPID_TreatWarningsAsErrors,
+    VBPROJPROPID_RemoveIntegerChecks,
+    VBPROJPROPID_BaseAddress,
+    VBPROJPROPID_ReferencePath,
+    VBPROJPROPID_EnableUnmanagedDebugging,
+    VBPROJPROPID_EnableSQLServerDebugging,
+    VBPROJPROPID_OptionExplicit,
+    VBPROJPROPID_OptionCompare,
+    // = 10061
+
+//C# only, except VBPROJPROPID_Optimize
+    VBPROJPROPID_AllowUnsafeBlocks,
+    VBPROJPROPID_CheckForOverflowUnderflow,
+    VBPROJPROPID_DocumentationFile,
+    VBPROJPROPID_Optimize,
+    VBPROJPROPID_IncrementalBuild,
+    VBPROJPROPID_NoStandardLibraries,
+    VBPROJPROPID_ProjectType,
+    VBPROJPROPID_DefaultNamespace,
+    VBPROJPROPID_FileAlignment,
+    VBPROJPROPID_DisableWarnings,
+
+    // = 10071
+    VBAPROJPROPID_ProjectName,   // VBA only property
+    VBPROJPROPID_RegisterForComInterop,
+    VBPROJPROPID_ConfigurationOverrideFile,
+    VBPROJPROPID_RemoteDebugEnabled,
+    VBPROJPROPID_RemoteDebugMachine,
+
+    // 10076 and greater are in vslangproj2.idl
+};
+
+
+enum 
+{
+     DISPID_VBFile_FileName = DISPID_VALUE
+    ,DISPID_VBFile_Extension
+    ,DISPID_VBFile_Filesize
+    ,DISPID_VBFile_LocalPath
+    ,DISPID_VBFile_FullPath
+    ,DISPID_VBFile_URL
+    ,DISPID_VBFile_HTMLTitle
+    ,DISPID_VBFile_Author
+    ,DISPID_VBFile_DateCreated
+    ,DISPID_VBFile_DateModified
+    ,DISPID_VBFile_ModifiedBy
+    ,DISPID_VBFile_SubType
+    ,DISPID_VBFile_Extender
+    ,DISPID_VBFile_ExtenderNames
+    ,DISPID_VBFile_ExtenderCATID
+    ,DISPID_VBFile_BuildAction
+    ,DISPID_VBFile_CustomTool 
+    ,DISPID_VBFile_CustomToolNamespace
+    ,DISPID_VBFile_CustomToolOutput
+    ,DISPID_VBFile_IsCustomToolOutput
+    ,DISPID_VBFile_IsDependentFile
+    ,DISPID_VBFile_IsLink
+    ,DISPID_VBFile_IsDesignTimeBuildInput
+};
+
+
+enum 
+{
+     DISPID_VBFolder_FileName = 1,
+     DISPID_VBFolder_LocalPath,
+     DISPID_VBFolder_FullPath,
+     DISPID_VBFolder_URL,
+     DISPID_VBFolder_Extender,
+     DISPID_VBFolder_ExtenderNames,
+     DISPID_VBFolder_ExtenderCATID,
+     DISPID_VBFolder_WebReference,
+     DISPID_VBFolder_DefaultNamespace,
+     DISPID_VBFolder_UrlBehavior
+};
+
+enum 
+{
+     DISPID_Reference_DTE = 1,
+     DISPID_Reference_Collection,
+     DISPID_Reference_ContainingProject,
+     DISPID_Reference_Remove,
+     DISPID_Reference_Name,
+     DISPID_Reference_Type,
+     DISPID_Reference_Identity,
+     DISPID_Reference_Path,
+     DISPID_Reference_Description,
+     DISPID_Reference_Culture,  
+     DISPID_Reference_MajorVersion,
+     DISPID_Reference_MinorVersion,
+     DISPID_Reference_RevisionNumber,
+     DISPID_Reference_BuildNumber,
+     DISPID_Reference_StrongName,
+     DISPID_Reference_SourceProject,
+     DISPID_Reference_CopyLocal,
+     DISPID_Reference_Extender,
+     DISPID_Reference_ExtenderNames,
+     DISPID_Reference_ExtenderCATID,
+     DISPID_Reference_PublicKeyToken,
+     DISPID_Reference_Version,
+
+     // Future properties should be defined in VSLangProj2.IDL.
+};
+
+cpp_quote("#define prjOutputTypeUnknown  ((prjOutputType)-1) ")
+
+
+typedef enum tagProjectReferencesEvent
+{
+    RefsEvt_RefAdded = 1, 
+    RefsEvt_RefRemoved, 
+    RefsEvt_RefChanged
+} ProjectReferencesEvent;
+
+
+
+cpp_quote("DEFINE_GUID(CLSID_CVsExtProjectReferences,        0x89c537a6, 0xad15, 0x4a0f, 0xaa, 0x56, 0xe8, 0x17, 0x54, 0xd3, 0xf3, 0xa4);")
+
+cpp_quote("#define VSLANGPROJ_VER_MAJ    7")
+cpp_quote("#define VSLANGPROJ_VER_MIN    0")
+
+#define VSLANGPROJ_VER        7.0
+
+
+[
+    uuid(49A1950E-3E35-4595-8CB9-920C64C44D67),
+    helpstring("Microsoft Visual Studio .NET VB and C# Project Model"),
+    version(VSLANGPROJ_VER)
+]
+library VSLangProj
+{
+    importlib("stdole32.tlb");
+    importlib("stdole2.tlb");
+    importlib("dte.tlb");
+
+
+    /*****************************************  IMPORTANT  **********************************************************
+       
+       - IF YOU NEED TO CHANGE THE FOLLOWING GUIDS, ALSO UPDATE THEIR CORRESPONDING STRING VERSIONS IN THE 
+         MODULES JUST BELOW THESE.
+        
+       - PLEASE DO NOT USE THE GUIDS(DEFINED BELOW USING DEFINE_GUID) IN YOUR CODE AS GUIDS. USE THE STRING 
+         VERSIONS IN THE MODULES FOLLOWING THESE, INSTEAD. THESE DEFINE_GUID's MAY BE REMOVED IN THE FUTURE.
+
+    *****************************************************************************************************************/
+    cpp_quote("// CATID's for automation extension of extensibility objects ")
+    cpp_quote("// These are not diff for diff packages since the user can determine ")
+    cpp_quote("// the pkg from Project.Kind.")
+
+    // corresp string in module "PrjConstants" is prjCATIDProject.
+    cpp_quote("DEFINE_GUID(CATID_ExtPrj,            0x610d4614, 0xd0d5, 0x11d2, 0x85, 0x99, 0x00, 0x60, 0x97, 0xc6, 0x8e, 0x81);")
+    
+    // corresp string in module "PrjConstants" is prjCATIDProjectItem
+    cpp_quote("DEFINE_GUID(CATID_ExtPrjItem,        0x610d4615, 0xd0d5, 0x11d2, 0x85, 0x99, 0x00, 0x60, 0x97, 0xc6, 0x8e, 0x81);")
+
+
+
+    cpp_quote("// CATID's for automation extension of browse objects")
+    
+    // corresp string in modu "PrjConstants" is prjCATIDVBProjectBrowseObject
+    cpp_quote("DEFINE_GUID(CATID_VBPrjProps,        0xe0fdc879, 0xc32a, 0x4751, 0xa3, 0xd3, 0xb, 0x38, 0x24, 0xbd, 0x57, 0x5f);")
+    
+    // corresp string in module "PrjConstants" is prjCATIDVBFileBrowseObject
+    cpp_quote("DEFINE_GUID(CATID_VBFileProps,        0xea5bd05d, 0x3c72, 0x40a5, 0x95, 0xa0, 0x28, 0xa2, 0x77, 0x33, 0x11, 0xca);")
+    
+    // corresp string in module "PrjConstants" is prjCATIDVBFolderBrowseObject
+    cpp_quote("DEFINE_GUID(CATID_VBFolderProps,        0x932dc619, 0x2eaa, 0x4192, 0xb7, 0xe6, 0x3d, 0x15, 0xad, 0x31, 0xdf, 0x49);")
+    
+    // corresp string in module "PrjConstants" is prjCATIDVBReferenceBrowseObject
+    cpp_quote("DEFINE_GUID(CATID_VBRefProps,        0x2289b812, 0x8191, 0x4e81, 0xb7, 0xb3, 0x17, 0x40, 0x45, 0xab, 0xc, 0xb5);")
+    
+    
+    // corresp string in module "PrjConstants" is prjCATIDCSharpFileBrowseObject
+    cpp_quote("DEFINE_GUID(CATID_CSharpFileProps,    0x8d58e6af, 0xed4e, 0x48b0, 0x8c, 0x7b, 0xc7, 0x4e, 0xf0, 0x73, 0x54, 0x51);")
+    
+    // corresp string in module "PrjConstants" is prjCATIDCSharpFolderBrowseObject
+    cpp_quote("DEFINE_GUID(CATID_CSharpFolderProps,    0x914fe278, 0x54a, 0x45db, 0xbf, 0x9e, 0x5f, 0x22, 0x48, 0x4c, 0xc8, 0x4c);")
+
+    // corresp string in module "PrjConstants" is prjCATIDVBAFileBrowseObject
+    cpp_quote("DEFINE_GUID(CATID_VBAFileProps,        0xac2912b2, 0x50ed, 0x4e62, 0x8d, 0xff, 0x42, 0x9b, 0x4b, 0x88, 0xfc, 0x9e);")
+    
+    // corresp string in module "PrjConstants" is prjCATIDVBAFolderBrowseObject
+    cpp_quote("DEFINE_GUID(CATID_VBAFolderProps,    0x79231b36, 0x6213, 0x481d, 0xaa, 0x7d, 0xf, 0x93, 0x1e, 0x8f, 0x2c, 0xf9);")
+
+    [ uuid(10CFE8EA-278E-46DB-A818-0E2D2A3DA182)] 
+    module PrjKind
+    {
+        // Idl file does not compile when these are taken as LPTSTR's, so taking LPSTR's here.
+
+        // Automation Project(s) Kinds'.
+        [helpstring("VB Projects/Project automation object kind")]          
+        const LPSTR prjKindVBProject =                         "{F184B08F-C81C-45F6-A57F-5ABD9991F28F}";
+        
+        [helpstring("CSharp Projects/Project automation object kind")]
+        const LPSTR prjKindCSharpProject =                     "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}";
+
+        [helpstring("VSA Projects/Project automation object kind")]        
+        const LPSTR prjKindVSAProject =                        "{13B7A3EE-4614-11D3-9BC7-00C04F79DE25}";
+
+		[helpstring("Venus Projects/Project automation object kind")]          
+        const LPSTR prjKindVenusProject =                      "{E24C65DC-7377-472b-9ABA-BC803B73C61A}";
+	}
+
+
+    [ uuid(0C96047C-1AFC-436a-96C9-A944241D5FAF)] 
+    module PrjCATID
+    {
+        // Automation Project and ProjectItem CATIDs'
+        [helpstring("Project automation object CATID")]          
+        const LPSTR prjCATIDProject =                          "{610D4614-D0D5-11D2-8599-006097C68E81}";
+
+        [helpstring("ProjectItem automation object CATID")]          
+        const LPSTR prjCATIDProjectItem =                      "{610D4615-D0D5-11D2-8599-006097C68E81}";
+    }
+
+
+    [ uuid(36FE55BE-6A2F-4746-9084-DAF238BD3FC6)] 
+    module PrjBrowseObjectCATID
+    {
+        // Project browse object CATIDs'.
+        [helpstring("VB Project browse object CATID")]          
+        const LPSTR prjCATIDVBProjectBrowseObject =            "{E0FDC879-C32A-4751-A3D3-0B3824BD575F}";     
+        
+        // (0x4ef9f003, 0xde95, 0x4d60, 0x96, 0xb0, 0x21, 0x29, 0x79, 0xf2, 0xa8, 0x57);
+        [helpstring("CSharp Project browse object CATID")]
+        const LPSTR prjCATIDCSharpProjectBrowseObject =        "{4EF9F003-DE95-4d60-96B0-212979F2A857}";
+
+        // Project config browse object CATIDs'.
+        // (0x67f8dd11, 0x14eb, 0x489b, 0x87, 0xf0, 0xf0, 0x1c, 0x52, 0xaf, 0x38, 0x70);
+        [helpstring("VB Project config browse object CATID")]          
+        const LPSTR prjCATIDVBProjectConfigBrowseObject =            "{67F8DD11-14EB-489b-87F0-F01C52AF3870}";
+        
+        // (0xa12ce10a, 0x227f, 0x4963, 0xad, 0xb6, 0x3a, 0x43, 0x38, 0x85, 0x13, 0xca);
+        [helpstring("CSharp Project config browse object CATID")]
+        const LPSTR prjCATIDCSharpProjectConfigBrowseObject =        "{A12CE10A-227F-4963-ADB6-3A43388513CA}";
+
+        // File browse object CATIDs'.
+        [helpstring("VB File browse object CATID")]          
+        const LPSTR prjCATIDVBFileBrowseObject =               "{EA5BD05D-3C72-40A5-95A0-28A2773311CA}";
+        
+        [helpstring("CSharp File browse object CATID")]
+        const LPSTR prjCATIDCSharpFileBrowseObject =           "{8D58E6AF-ED4E-48B0-8C7B-C74EF0735451}";
+
+        [helpstring("VSA File browse object CATID")]        
+        const LPSTR prjCATIDVSAFileBrowseObject =              "{AC2912B2-50ED-4E62-8DFF-429B4B88FC9E}";
+
+
+        // Folder browse object CATIDs'.
+        [helpstring("VB Folder browse object CATID")]          
+        const LPSTR prjCATIDVBFolderBrowseObject =             "{932DC619-2EAA-4192-B7E6-3D15AD31DF49}";
+        
+        [helpstring("CSharp Folder browse object CATID")]
+        const LPSTR prjCATIDCSharpFolderBrowseObject =         "{914FE278-054A-45DB-BF9E-5F22484CC84C}";
+
+        [helpstring("VSA Folder browse object CATID")]        
+        const LPSTR prjCATIDVSAFolderBrowseObject =            "{79231B36-6213-481D-AA7D-0F931E8F2CF9}";
+
+
+        // Reference browse object CATIDs'.
+        [helpstring("VB Reference browse object CATID")]          
+        const LPSTR prjCATIDVBReferenceBrowseObject =         "{2289B812-8191-4e81-B7B3-174045AB0CB5}";
+        
+        // (0x2f0fa3b8, 0xc855, 0x4a4e, 0x95, 0xa5, 0xcb, 0x45, 0xc6, 0x7d, 0x6c, 0x27);
+        [helpstring("CSharp Reference browse object CATID")]
+        const LPSTR prjCATIDCSharpReferenceBrowseObject =     "{2F0FA3B8-C855-4a4e-95A5-CB45C67D6C27}";
+
+        // (0x4e018d0e, 0x1143, 0x47d6, 0xa1, 0x39, 0x68, 0xd0, 0x1e, 0x39, 0xbf, 0x5f);
+        [helpstring("VSA Reference browse object CATID")]        
+        const LPSTR prjCATIDVSAReferenceBrowseObject =        "{4E018D0E-1143-47d6-A139-68D01E39BF5F}";
+    
+        
+        // (0x5a30a635, 0xba6, 0x468f, 0xa1, 0xc6, 0x95, 0x2d, 0xa6, 0x1d, 0xb0, 0xb);
+        [helpstring("VB config CATID")]        
+        const LPSTR prjCATIDVBConfig=           "{5A30A635-0BA6-468f-A1C6-952DA61DB00B}";
+
+        //(0x89fb23f7, 0xe591, 0x4a2f, 0x8e, 0xf, 0x64, 0xc0, 0x52, 0x2f, 0xcf, 0x77)
+        [helpstring("CSharp config CATID")]        
+        const LPSTR prjCATIDCSharpConfig=       "{89FB23F7-E591-4a2f-8E0F-64C0522FCF77}";
+
+        //(0x1aa19227, 0x163b, 0x42fd, 0x87, 0xcc, 0xf5, 0xe7, 0x8d, 0xab, 0xf5, 0x2b);
+        [helpstring("VSA config CATID")]        
+        const LPSTR prjCATIDVSAConfig=          "{1AA19227-163B-42fd-87CC-F5E78DABF52B}";
+    
+    }
+
+
+    cpp_quote("// Enum values of project properties")
+// *******************************************************************
+// NOTE:  ALL ENUMS BELOW MUST START WITH 0 or greater.
+// NO ENUMS CAN BE NEGATIVE.  See \vb\src\vbprj\proppgs.cpp
+// and \vb\src\vbbuild\vbprojprop.cpp.
+//
+// Note 2:  If any enums are changed, change the loading
+// order of internationalized strings in \vb\src\vbprj\proppgs.cpp
+// as well.  In general, make sure that all m_rgstrXXXX arrays are
+// initialized such that m_rgstrXXXX[<enum_value>] actually makes
+// sense for the enum value in question.
+// *******************************************************************
+
+    // VBPROJPROPID_StartAction
+    typedef [uuid(504876A3-4B7D-4932-B1D7-E91129D4AEBF)]
+    enum prjStartAction
+    {
+        prjStartActionProject,
+        prjStartActionProgram,
+        prjStartActionURL,
+        prjStartActionNone,
+    } prjStartAction;
+    cpp_quote("#define prjStartActionMin  prjStartActionProject")
+    cpp_quote("#define prjStartActionMax  prjStartActionNone")
+
+    // VBPROJPROPID_OutputType
+    typedef [uuid(FB309311-8F09-41e7-8347-68F5A079592D)]
+    enum prjOutputType
+    {
+        prjOutputTypeWinExe,
+        prjOutputTypeExe,
+        prjOutputTypeLibrary
+    } prjOutputType;
+    cpp_quote("#define prjOutputTypeMin prjOutputTypeWinExe")
+    cpp_quote("#define prjOutputTypeMax prjOutputTypeLibrary")
+
+    // VBPROJPROPID_DefaultClientScript,
+    // VBPROJPROPID_DefaultServerScript,
+    typedef [uuid(D760C0E8-311E-45eb-B06C-033F8CC1E5EC)]
+    enum prjScriptLanguage
+    {
+        prjScriptLanguageJScript = 0,   // NOTE:  Changing this will require a template/script change in common.js for AddDefaultServerScriptToWizard()
+        prjScriptLanguageVBScript = 1,  // NOTE:  Changing this will require a template/script change in common.js for AddDefaultServerScriptToWizard()
+    } prjScriptLanguage;
+    cpp_quote("#define prjScriptLanguageMin prjScriptLanguageJScript")
+    cpp_quote("#define prjScriptLanguageMax prjScriptLanguageVBScript")
+
+    // VBPROJPROPID_DefaultTargetSchema
+    typedef [uuid(B743460B-B3A1-40dc-9A0C-19ECCB63650E)]
+    enum prjTargetSchema
+    {
+        prjTargetSchemaIE32Nav30,
+        prjTargetSchemaIE50,
+        prjTargetSchemaNav40,
+    } prjTargetSchema;
+    cpp_quote("#define prjTargetSchemaHTML32 prjTargetSchemaIE32Nav30")
+    cpp_quote("#define prjTargetSchemaHTML40 prjTargetSchemaIE50")
+    cpp_quote("#define prjTargetSchemaNetscape40 prjTargetSchemaNav40")
+    cpp_quote("#define prjTargetSchemaMin  prjTargetSchemaIE32Nav30")
+    cpp_quote("#define prjTargetSchemaMax  prjTargetSchemaNav40")
+
+    // VBPROJPROPID_DefaultHTMLPageLayout
+    typedef [uuid(8821C6DB-40B9-4584-B3F1-28336B36A23D)]
+    enum prjHTMLPageLayout
+    {
+        prjHTMLPageLayoutFlow,
+        prjHTMLPageLayoutGrid,
+    } prjHTMLPageLayout;
+    cpp_quote("#define prjHTMLPageLayoutLinear prjHTMLPageLayoutFlow")
+    cpp_quote("#define prjHTMLPageLayoutMin  prjHTMLPageLayoutFlow")
+    cpp_quote("#define prjHTMLPageLayoutMax  prjHTMLPageLayoutGrid")
+
+    typedef [uuid(02720598-3E01-4721-ADAF-E2937BD6C645)]
+    enum prjOriginatorKeyMode
+    {
+        prjOriginatorKeyModeNone,
+        prjOriginatorKeyModeFile,
+        prjOriginatorKeyModeContainer,
+    } prjOriginatorKeyMode;
+    cpp_quote("#define prjOriginatorKeyModeMin  prjOriginatorKeyModeNone")
+    cpp_quote("#define prjOriginatorKeyModeMax  prjOriginatorKeyModeContainer")
+
+    typedef [uuid(88A4C7D7-2587-4cc3-ADAC-993896B5D094)]
+    enum prjWebAccessMethod
+    {
+        prjWebAccessMethodFileShare,
+        prjWebAccessMethodFrontPage,
+    } prjWebAccessMethod;
+    cpp_quote("#define prjWebAccessMethodMin  prjWebAccessMethodFileShare")
+    cpp_quote("#define prjWebAccessMethodMax  prjWebAccessMethodFrontPage")
+
+    typedef [uuid(31DDDF62-1891-4870-8DF5-00D9028826DF)]
+    enum prjWarningLevel
+    {
+        prjWarningLevel0,
+        prjWarningLevel1,
+        prjWarningLevel2,
+        prjWarningLevel3,
+        prjWarningLevel4,
+    } prjWarningLevel;
+    cpp_quote("#define prjWarningLevelMin  prjWarningLevel0")
+    cpp_quote("#define prjWarningLevelMax  prjWarningLevel4")
+
+    typedef [uuid(5B50016F-F7CC-4687-A1DA-3F234F7620EE)]
+    enum prjProjectType
+    {
+        prjProjectTypeLocal,
+        prjProjectTypeWeb
+    } prjProjectType;
+    cpp_quote("#define prjProjectTypeMin  prjProjectTypeLocal")
+    cpp_quote("#define prjProjectTypeMax  prjProjectTypeWeb")
+
+    // If you change the types here, please make sure to change string->BuildAction
+    // and BuildAction->string conversion code in vsproject\langbuild\langcompiler.cpp 
+    typedef [uuid(D399129C-23CC-4301-81B0-5A60DC52E67D)]
+    enum prjBuildAction
+    {
+         prjBuildActionNone               = 0,
+         prjBuildActionCompile            = 1,
+         prjBuildActionContent            = 2,
+         prjBuildActionEmbeddedResource   = 3
+    } prjBuildAction;
+
+    cpp_quote("#define prjBuildActionMin  prjBuildActionNone")
+    cpp_quote("#define prjBuildActionMax  prjBuildActionCustom")
+
+    // VBPROJPROPID_OptionCompare
+    typedef [uuid(EBDA8DD4-E450-452a-9FF5-7970904DEA7F)]
+    enum prjCompare
+    {
+        prjCompareBinary,
+        prjCompareText,
+    } prjCompare;
+    cpp_quote("#define prjCompareMin  prjCompareBinary")
+    cpp_quote("#define prjCompareMax  prjCompareText")
+
+    // VBPROJPROPID_OptionExplicit
+    typedef [uuid(95DCFABC-145D-498d-A454-47F33D47139C)]
+    enum prjOptionExplicit
+    {
+        prjOptionExplicitOff,
+        prjOptionExplicitOn,
+    } prjOptionExplicit;
+    cpp_quote("#define prjOptionExplicitMin  prjOptionExplicitOff")
+    cpp_quote("#define prjOptionExplicitMax  prjOptionExplicitOn")
+
+    // VBPROJPROPID_OptionStrict
+    typedef [uuid(CE6AA0FD-6CCD-4601-A730-FA75219862C3)]
+    enum prjOptionStrict
+    {
+        prjOptionStrictOff,
+        prjOptionStrictOn,
+    } prjOptionStrict;
+    cpp_quote("#define prjOptionStrictMin  prjOptionStrictOff")
+    cpp_quote("#define prjOptionStrictMax  prjOptionStrictOn")
+
+    // DISPID_VBFolder_WebRefUrlBehavior
+    typedef [uuid(1FE01DDF-C760-4307-8A40-0D023AEAFF07)]
+    enum webrefUrlBehavior
+    {
+        webrefUrlBehaviorStatic,
+        webrefUrlBehaviorDynamic,
+    } webrefUrlBehavior;
+
+    // 
+    // ProjectConfigurationProperties
+    //
+    [
+        uuid(3CDAA65D-1E9D-11d3-B202-00C04F79CACB),
+        helpstring("Project configuration properties"),
+        pointer_default(unique),
+        dual
+    ]
+    interface ProjectConfigurationProperties : IDispatch
+    {
+        // Used internally by the shell to get the name for the object 
+        [propget, id(MEMID_Name), helpstring("Name"), hidden]
+        HRESULT __id([out, retval] BSTR* pbstrName);
+
+        [propget, id(VBPROJPROPID_DebugSymbols), helpstring("Generate symbol info")]
+        HRESULT DebugSymbols([out, retval]VARIANT_BOOL *pbGenerate);
+        [propput, id(VBPROJPROPID_DebugSymbols), helpstring("Generate symbol info")]
+        HRESULT DebugSymbols([in]VARIANT_BOOL bGenerate);
+
+
+        [propget, id(VBPROJPROPID_DefineDebug), helpstring("Define _DEBUG constant to active configuration name")]
+        HRESULT DefineDebug([out, retval]VARIANT_BOOL *pbDefineDebug);
+        [propput, id(VBPROJPROPID_DefineDebug), helpstring("Define _DEBUG constant to active configuration name")]
+        HRESULT DefineDebug([in]VARIANT_BOOL bDefineDebug);
+
+        [propget, id(VBPROJPROPID_DefineTrace), helpstring("Define _TRACE constant to active configuration name")]
+        HRESULT DefineTrace([out, retval]VARIANT_BOOL *pbDefineTrace);
+        [propput, id(VBPROJPROPID_DefineTrace), helpstring("Define _TRACE constant to active configuration name")]
+        HRESULT DefineTrace([in]VARIANT_BOOL bDefineTrace);
+
+        [propget, id(VBPROJPROPID_OutputPath), helpstring("Output path")]
+        HRESULT OutputPath([out, retval]BSTR *pbstrOutputPath);
+        [propput, id(VBPROJPROPID_OutputPath), helpstring("Output path")]
+        HRESULT OutputPath([in]BSTR bstrOutputPath);
+
+        [propget, id(VBPROJPROPID_IntermediatePath), helpstring("Temporary Output path")]
+        HRESULT IntermediatePath([out, retval]BSTR *pbstrIntermediatePath);
+        [propput, id(VBPROJPROPID_IntermediatePath), helpstring("Temporary Output path"), hidden]
+        HRESULT IntermediatePath([in]BSTR bstrIntermediatePath);
+
+        [propget, id(VBPROJPROPID_DefineConstants), helpstring("Define conditional compilation constants")]
+        HRESULT DefineConstants([out, retval]BSTR *pbstrDefineConstants);
+        [propput, id(VBPROJPROPID_DefineConstants), helpstring("Define conditional compilation constants")]
+        HRESULT DefineConstants([in]BSTR bstrDefineConstants);
+
+        [propget, id(VBPROJPROPID_RemoveIntegerChecks), helpstring("Remove integer overflow checks")]
+        HRESULT RemoveIntegerChecks([out, retval]VARIANT_BOOL *pbRemoveIntegerChecks);
+        [propput, id(VBPROJPROPID_RemoveIntegerChecks), helpstring("Remove integer overflow checks")]
+        HRESULT RemoveIntegerChecks([in]VARIANT_BOOL bRemoveIntegerChecks);
+
+        [propget, id(VBPROJPROPID_BaseAddress), helpstring("Dll base address")]
+        HRESULT BaseAddress([out, retval]DWORD *pdwBaseAddress);
+        [propput, id(VBPROJPROPID_BaseAddress), helpstring("Dll base address")]
+        HRESULT BaseAddress([in]DWORD dwBaseAddress);
+
+        // C# only
+        [propget, id(VBPROJPROPID_AllowUnsafeBlocks), helpstring("Allow unsafe code blocks")]
+        HRESULT AllowUnsafeBlocks([out, retval]VARIANT_BOOL *pbUnsafe);
+        [propput, id(VBPROJPROPID_AllowUnsafeBlocks), helpstring("Allow unsafe code blocks")]
+        HRESULT AllowUnsafeBlocks([in]VARIANT_BOOL bUnsafe);
+
+        // C# only
+        [propget, id(VBPROJPROPID_CheckForOverflowUnderflow), helpstring("Check for overflow underflow")]
+        HRESULT CheckForOverflowUnderflow([out, retval]VARIANT_BOOL *pbCheckForOverflowUnderflow);
+        [propput, id(VBPROJPROPID_CheckForOverflowUnderflow), helpstring("Check for overflow underflow")]
+        HRESULT CheckForOverflowUnderflow([in]VARIANT_BOOL bCheckForOverflowUnderflow);
+
+        // C# only
+        [propget, id(VBPROJPROPID_DocumentationFile), helpstring("Documentation file")]
+        HRESULT DocumentationFile([out, retval] BSTR* pbstrDocumentationFile);
+        [propput, id(VBPROJPROPID_DocumentationFile), helpstring("Documentation file")]
+        HRESULT DocumentationFile([in] BSTR bstrDocumentationFile);
+
+        // C# only
+        [propget, id(VBPROJPROPID_Optimize), helpstring("Optimize code")]
+        HRESULT Optimize([out, retval]VARIANT_BOOL *pbOptimize);
+        [propput, id(VBPROJPROPID_Optimize), helpstring("Optimize code")]
+        HRESULT Optimize([in]VARIANT_BOOL bCheckForOverflowUnderflow);
+
+        // C# only
+        [propget, id(VBPROJPROPID_IncrementalBuild), helpstring("Allow incremental Build")]
+        HRESULT IncrementalBuild([out, retval]VARIANT_BOOL *pbIncrementalBuild);
+        [propput, id(VBPROJPROPID_IncrementalBuild), helpstring("Allow incremental Build")]
+        HRESULT IncrementalBuild([in]VARIANT_BOOL bIncrementalBuild);
+
+        [propget, id(VBPROJPROPID_StartProgram), helpstring("Start Application")]
+        HRESULT StartProgram([out, retval]BSTR* pbstrStartProgram);
+        [propput, id(VBPROJPROPID_StartProgram), helpstring("Start Application")]
+        HRESULT StartProgram([in]BSTR bstrStartProgram);
+
+        [propget, id(VBPROJPROPID_StartWorkingDirectory), helpstring("Start Application Path")]
+        HRESULT StartWorkingDirectory([out, retval]BSTR *pbstrStartWorkingDirectory);
+        [propput, id(VBPROJPROPID_StartWorkingDirectory), helpstring("Start Application Path")]
+        HRESULT StartWorkingDirectory([in]BSTR bstrStartWorkingDirectory);
+        
+        [propget, id(VBPROJPROPID_StartURL), helpstring("Start URL")]
+        HRESULT StartURL([out, retval]BSTR *pbstrStartURL);
+        [propput, id(VBPROJPROPID_StartURL), helpstring("Start URL")]
+        HRESULT StartURL([in]BSTR bstrStartURL);
+
+        [propget, id(VBPROJPROPID_StartPage), helpstring("Start Page")]
+        HRESULT StartPage([out, retval]BSTR *pbstrStartPage);
+        [propput, id(VBPROJPROPID_StartPage), helpstring("Start Page")]
+        HRESULT StartPage([in]BSTR bstrStartPage);
+
+        [propget, id(VBPROJPROPID_StartArguments), helpstring("Start command line arguments")]
+        HRESULT StartArguments([out, retval]BSTR *pbstrStartArguments);
+        [propput, id(VBPROJPROPID_StartArguments), helpstring("Start command line arguments")]
+        HRESULT StartArguments([in]BSTR bstrStartArguments);
+
+        [propget, id(VBPROJPROPID_StartWithIE), helpstring("Use default browser")]
+        HRESULT StartWithIE([out, retval]VARIANT_BOOL *pbStartWithIE);
+        [propput, id(VBPROJPROPID_StartWithIE), helpstring("Use default browser")]
+        HRESULT StartWithIE([in]VARIANT_BOOL bStartWithIE);
+
+        [propget, id(VBPROJPROPID_EnableASPDebugging), helpstring("Enable ASP Debugging")]
+        HRESULT EnableASPDebugging([out, retval]VARIANT_BOOL *pbEnableASPDebugging);
+        [propput, id(VBPROJPROPID_EnableASPDebugging), helpstring("Enable ASP Debugging")]
+        HRESULT EnableASPDebugging([in]VARIANT_BOOL bEnableASPDebugging);
+
+        [propget, id(VBPROJPROPID_EnableASPXDebugging), helpstring("Enable ASP+ Debugging")]
+        HRESULT EnableASPXDebugging([out, retval]VARIANT_BOOL *pbEnableASPXDebugging);
+        [propput, id(VBPROJPROPID_EnableASPXDebugging), helpstring("Enable ASP+ Debugging")]
+        HRESULT EnableASPXDebugging([in]VARIANT_BOOL bEnableASPXDebugging);
+
+        [propget, id(VBPROJPROPID_EnableUnmanagedDebugging), helpstring("Enable Unmanaged Debugging")]
+        HRESULT EnableUnmanagedDebugging([out, retval]VARIANT_BOOL *pbEnableUnmanagedDebugging);
+        [propput, id(VBPROJPROPID_EnableUnmanagedDebugging), helpstring("Enable Unmanaged Debugging")]
+        HRESULT EnableUnmanagedDebugging([in]VARIANT_BOOL bEnableUnmanagedDebugging);
+
+        [propget, id(VBPROJPROPID_StartAction), helpstring("Debug start mode")]
+        HRESULT StartAction([out, retval]prjStartAction *pdebugStartMode);
+        [propput, id(VBPROJPROPID_StartAction), helpstring("Debug start mode")]
+        HRESULT StartAction([in]prjStartAction debugStartMode);
+        
+        [propget, id(VBPROJPROPID_Extender), nonbrowsable, helpstring("Extender"), hidden]
+        HRESULT Extender([in] BSTR ExtenderName, [out, retval] IDispatch **Extender);
+
+        [propget, id(VBPROJPROPID_ExtenderNames), nonbrowsable, helpstring("ExtenderNames"), hidden] 
+        HRESULT ExtenderNames([out, retval] VARIANT *ExtenderNames);
+
+        [propget, id(VBPROJPROPID_ExtenderCATID), nonbrowsable, helpstring("ExtenderCATID"), hidden]
+        HRESULT ExtenderCATID ([out, retval] BSTR *pRetval);    
+
+        [propget, id(VBPROJPROPID_WarningLevel), helpstring("Warning level")]
+        HRESULT WarningLevel([out, retval]prjWarningLevel *pWarningLeve);
+        [propput, id(VBPROJPROPID_WarningLevel), helpstring("Warning level")]
+        HRESULT WarningLevel([in]prjWarningLevel warningLevel);
+
+        [propget, id(VBPROJPROPID_TreatWarningsAsErrors), helpstring("Treat warnings as error")]
+        HRESULT TreatWarningsAsErrors([out, retval]VARIANT_BOOL *pWarningAsError);
+        [propput, id(VBPROJPROPID_TreatWarningsAsErrors), helpstring("Treat warnings as error")]
+        HRESULT TreatWarningsAsErrors([in]VARIANT_BOOL warningAsError);
+
+        [propget, id(VBPROJPROPID_EnableSQLServerDebugging), helpstring("Enable SQLServer Debugging")]
+        HRESULT EnableSQLServerDebugging([out, retval]VARIANT_BOOL *pbEnableSQLServerDebugging);
+        [propput, id(VBPROJPROPID_EnableSQLServerDebugging), helpstring("Enable SQLServer Debugging")]
+        HRESULT EnableSQLServerDebugging([in]VARIANT_BOOL bEnableSQLServerDebugging);
+
+        [propget, id(VBPROJPROPID_FileAlignment), helpstring("Dll base address")]
+        HRESULT FileAlignment([out, retval]DWORD *pdwFileAlignment);
+        [propput, id(VBPROJPROPID_FileAlignment), helpstring("Dll base address")]
+        HRESULT FileAlignment([in]DWORD dwFileAlignment);
+
+        [propget, id(VBPROJPROPID_RegisterForComInterop), helpstring("Register for COM interop")]
+        HRESULT RegisterForComInterop([out, retval]VARIANT_BOOL *pVal);
+        [propput, id(VBPROJPROPID_RegisterForComInterop), helpstring("Register for COM interop")]
+        HRESULT RegisterForComInterop([in]VARIANT_BOOL val);
+
+        [propget, id(VBPROJPROPID_ConfigurationOverrideFile), helpstring("Configuration Override File")]
+        HRESULT ConfigurationOverrideFile([out, retval]BSTR *pbstrConfigFile);
+        [propput, id(VBPROJPROPID_ConfigurationOverrideFile), helpstring("Configuration Override File")]
+        HRESULT ConfigurationOverrideFile([in]BSTR bstrConfigFile);
+
+        [propget, id(VBPROJPROPID_RemoteDebugEnabled), helpstring("Remote Debug Enabled")]
+        HRESULT RemoteDebugEnabled([out, retval]VARIANT_BOOL *pbEnableRemoteLaunch);
+        [propput, id(VBPROJPROPID_RemoteDebugEnabled), helpstring("Remote Debug Enabled")]
+        HRESULT RemoteDebugEnabled([in]VARIANT_BOOL bEnableRemoteLaunch);
+
+        [propget, id(VBPROJPROPID_RemoteDebugMachine), helpstring("Remote Debug Machine")]
+        HRESULT RemoteDebugMachine([out, retval]BSTR *pbstrRemoteLaunchMach);
+        [propput, id(VBPROJPROPID_RemoteDebugMachine), helpstring("Remote Debug Machine")]
+        HRESULT RemoteDebugMachine([in]BSTR bstrRemoteLaunchMach);
+    };
+
+    // 
+    // ProjectProperties
+    // 
+    // If some read-write properties are made read-only please make related changes in the IsPropertyReadOnly method of the browse object.
+    [
+        uuid(3CDAA65E-1E9D-11d3-B202-00C04F79CACB),
+        helpstring("Project properties"),
+        pointer_default(unique),
+        dual
+    ]
+    interface ProjectProperties : IDispatch
+    {
+        // Used internally by the shell to get the name for the object 
+        [propget, id(MEMID_Name), helpstring("Name"), hidden]
+        HRESULT __id([out, retval] BSTR* pbstrName);
+
+        // Get to IID_CVbProject
+        [propget, id(VBPROJPROPID__Project), hidden]
+        HRESULT __project([out, retval] IUnknown** ppUnk);
+
+        [propget, id(VBPROJPROPID_StartupObject), helpstring("Startup object")]
+        HRESULT StartupObject([out, retval]BSTR *pbstrStartupObject);
+        [propput, id(VBPROJPROPID_StartupObject), helpstring("Startup object")]
+        HRESULT StartupObject([in]BSTR bstrStartupObject);
+
+        [propget, id(VBPROJPROPID_OutputType), helpstring("Project type")]
+        HRESULT OutputType([out, retval]prjOutputType *pOutputType);
+        [propput, id(VBPROJPROPID_OutputType), helpstring("Project type")]
+        HRESULT OutputType([in]prjOutputType outputType);
+
+        [propget, id(VBPROJPROPID_RootNamespace), helpstring("Root NameSpace")]
+        HRESULT RootNamespace([out, retval]BSTR *pbstrRootNamespace);
+        [propput, id(VBPROJPROPID_RootNamespace), helpstring("Root NameSpace")]
+        HRESULT RootNamespace([in]BSTR bstrRootNamespace);
+
+        [propget, id(VBPROJPROPID_AssemblyName), helpstring("Assembly name")]
+        HRESULT AssemblyName([out, retval]BSTR *pbstrAssemblyName);
+        [propput, id(VBPROJPROPID_AssemblyName), helpstring("Assembly name")]
+        HRESULT AssemblyName([in]BSTR bstrAssemblyName);
+
+        [propget, id(VBPROJPROPID_AssemblyOriginatorKeyFile), helpstring("Assembly Originator Key File")]
+        HRESULT AssemblyOriginatorKeyFile([out, retval]BSTR *pbstrOriginatorKeyFile);
+        [propput, id(VBPROJPROPID_AssemblyOriginatorKeyFile), helpstring("Assembly Originator Key File")]
+        HRESULT AssemblyOriginatorKeyFile([in]BSTR bstrOriginatorKeyFile);
+
+        [propget, id(VBPROJPROPID_AssemblyKeyContainerName), helpstring("Assembly Key Container Name")]
+        HRESULT AssemblyKeyContainerName([out, retval]BSTR *pbstrKeyContainerName);
+        [propput, id(VBPROJPROPID_AssemblyKeyContainerName), helpstring("Assembly Key Container Name")]
+        HRESULT AssemblyKeyContainerName([in]BSTR bstrKeyContainerName);
+
+        [propget, id(VBPROJPROPID_AssemblyOriginatorKeyMode), helpstring("Originator Key mode")]
+        HRESULT AssemblyOriginatorKeyMode([out, retval]prjOriginatorKeyMode *pOriginatorKeyMode);
+        [propput, id(VBPROJPROPID_AssemblyOriginatorKeyMode), helpstring("Originator Key mode")]
+        HRESULT AssemblyOriginatorKeyMode([in]prjOriginatorKeyMode originatorKeyMode);
+
+        [propget, id(VBPROJPROPID_DelaySign), helpstring("Delay Sign")]
+        HRESULT DelaySign([out, retval]VARIANT_BOOL *pbDelaySign);
+        [propput, id(VBPROJPROPID_DelaySign), helpstring("Delay Sign")]
+        HRESULT DelaySign([in]VARIANT_BOOL bDelaySign);
+
+        [propget, id(VBPROJPROPID_WebServer), helpstring("Web server")]
+        HRESULT WebServer([out, retval]BSTR *pbstrWebServer);
+
+        [propget, id(VBPROJPROPID_WebServerVersion), helpstring("Server version")]
+        HRESULT WebServerVersion([out, retval]BSTR *pbstrWebServerVersion);
+
+        [propget, id(VBPROJPROPID_ServerExtensionsVersion), helpstring("Extensions version")]
+        HRESULT ServerExtensionsVersion([out, retval]BSTR *pbstrServerExtensionsVersion);
+
+        [propget, id(VBPROJPROPID_LinkRepair), helpstring("Link repair")]
+        HRESULT LinkRepair([out, retval]VARIANT_BOOL *pLinkRepair);
+        [propput, id(VBPROJPROPID_LinkRepair), helpstring("Link repair")]
+        HRESULT LinkRepair([in]VARIANT_BOOL linkRepair);
+
+        [propget, id(VBPROJPROPID_OfflineURL), helpstring("Offline VRoot")]
+        HRESULT OfflineURL([out, retval]BSTR *pbstrOfflineURL);
+
+        [propget, id(VBPROJPROPID_FileSharePath), helpstring("UNC path of project folder")]
+        HRESULT FileSharePath([out, retval]BSTR *pbstrFileSharePath);
+        [propput, id(VBPROJPROPID_FileSharePath), helpstring("UNC path of project folder")]
+        HRESULT FileSharePath([in]BSTR bstrFileSharePath);
+
+        [propget, id(VBPROJPROPID_ActiveFileSharePath), helpstring("Active UNC path of project folder")]
+        HRESULT ActiveFileSharePath([out, retval]BSTR *pbstrFileSharePath);
+
+        [propget, id(VBPROJPROPID_WebAccessMethod), helpstring("Web access method")]
+        HRESULT WebAccessMethod([out, retval]prjWebAccessMethod *pWebAccessMethod);
+        [propput, id(VBPROJPROPID_WebAccessMethod), helpstring("Web access method")]
+        HRESULT WebAccessMethod([in]prjWebAccessMethod authoringAccessMethod);
+
+        [propget, id(VBPROJPROPID_ActiveWebAccessMethod),  nonbrowsable, helpstring("Active Web access method"), hidden]
+        HRESULT ActiveWebAccessMethod([out, retval]prjWebAccessMethod *pActiveWebAccessMethod);
+
+        [propget, id(VBPROJPROPID_DefaultClientScript), helpstring("Default client script language")]
+        HRESULT DefaultClientScript([out, retval]prjScriptLanguage *pScriptLanguage);
+        [propput, id(VBPROJPROPID_DefaultClientScript), helpstring("Default client script language")]
+        HRESULT DefaultClientScript([in]prjScriptLanguage scriptLanguage);
+
+        [propget, id(VBPROJPROPID_DefaultTargetSchema), helpstring("Default HTML platform")]
+        HRESULT DefaultTargetSchema([out, retval]prjTargetSchema *pTargetSchema);
+        [propput, id(VBPROJPROPID_DefaultTargetSchema), helpstring("Default HTML platform")]
+        HRESULT DefaultTargetSchema([in]prjTargetSchema htmlPlatform);
+
+        [propget, id(VBPROJPROPID_DefaultHTMLPageLayout), helpstring("Default HTML page layout")]
+        HRESULT DefaultHTMLPageLayout([out, retval]prjHTMLPageLayout *pHTMLPageLayout);
+        [propput, id(VBPROJPROPID_DefaultHTMLPageLayout), helpstring("Default HTML page layout")]
+        HRESULT DefaultHTMLPageLayout([in]prjHTMLPageLayout htmlPageLayout);
+
+        [propget, id(VBPROJPROPID_FileName), helpstring("Project filename")]
+        HRESULT FileName([out, retval]BSTR* pbstrFileName);
+        [propput, id(VBPROJPROPID_FileName), helpstring("Project filename")]
+        HRESULT FileName([in]BSTR bstrFileName);
+
+        //Misc. This property is readonly, no propput necessary!
+        [propget, id(VBPROJPROPID_FullPath), helpstring("Project filename full path")]
+        HRESULT FullPath([out, retval]BSTR* pbstrFullPath);
+
+        //Misc. This property is readonly, no propput necessary!
+        [propget, id(VBPROJPROPID_LocalPath), helpstring("Project filename local cache path")]
+        HRESULT LocalPath([out, retval] BSTR* pbstrLocalPath);
+
+        //Misc. This property is readonly, no propput necessary!
+        [propget, id(VBPROJPROPID_URL), helpstring("URL")]
+        HRESULT URL([out, retval] BSTR* pbstrURL);
+
+        [propget, id(VBPROJPROPID_ActiveConfigurationSettings), nonbrowsable, helpstring("Active Configuration Settings"), hidden]
+        HRESULT ActiveConfigurationSettings([out, retval] ProjectConfigurationProperties **ppVBProjConfigProps);
+
+        [propget, id(VBPROJPROPID_Extender), nonbrowsable, helpstring("Extender"), hidden]
+        HRESULT Extender([in] BSTR ExtenderName, [out, retval] IDispatch **Extender);
+
+        [propget, id(VBPROJPROPID_ExtenderNames), nonbrowsable, helpstring("ExtenderNames"), hidden] 
+        HRESULT ExtenderNames([out, retval] VARIANT *ExtenderNames);
+
+        [propget, id(VBPROJPROPID_ExtenderCATID), nonbrowsable, helpstring("ExtenderCATID"), hidden]
+        HRESULT ExtenderCATID ([out, retval] BSTR *pRetval);
+
+        [propget, id(VBPROJPROPID_ApplicationIcon), helpstring("Application Icon")]
+        HRESULT ApplicationIcon([out, retval] BSTR* pbstrApplicationIcon);
+        [propput, id(VBPROJPROPID_ApplicationIcon), helpstring("Application Icon")]
+        HRESULT ApplicationIcon([in] BSTR bstrApplicationIcon);
+
+        // VB only
+        [propget, id(VBPROJPROPID_OptionStrict), helpstring("Option Strict On by default")]
+        HRESULT OptionStrict([out, retval]prjOptionStrict *pOptionStrict);
+        [propput, id(VBPROJPROPID_OptionStrict), helpstring("Option Strict On by default")]
+        HRESULT OptionStrict([in]prjOptionStrict optionStrict);
+
+        [propget, id(VBPROJPROPID_ReferencePath), helpstring("References resolution path")]
+        HRESULT ReferencePath([out, retval]BSTR *pbstrReferencePath);
+        [propput, id(VBPROJPROPID_ReferencePath), helpstring("References resolution path")]
+        HRESULT ReferencePath([in]BSTR bstrReferencePath);
+
+        [propget, id(VBPROJPROPID_OutputFileName), helpstring("Output file name")]
+        HRESULT OutputFileName([out, retval]BSTR *pbstrOutputFileName);
+
+        [propget, id(VBPROJPROPID_AbsoluteProjectDirectory), helpstring("Project directory"), hidden]
+        HRESULT AbsoluteProjectDirectory([out, retval] BSTR* pbstrDir);
+
+        // VB only
+        [propget, id(VBPROJPROPID_OptionExplicit), helpstring("Option Explicit On by default")]
+        HRESULT OptionExplicit([out, retval]prjOptionExplicit *pOptionExplicit);
+        [propput, id(VBPROJPROPID_OptionExplicit), helpstring("Option Explicit On by default")]
+        HRESULT OptionExplicit([in]prjOptionExplicit optionExplicit);
+
+        // VB only
+        [propget, id(VBPROJPROPID_OptionCompare), helpstring("Option compare")]
+        HRESULT OptionCompare([out, retval]prjCompare *pOptionCompare);
+        [propput, id(VBPROJPROPID_OptionCompare), helpstring("Option compare")]
+        HRESULT OptionCompare([in]prjCompare optionCompare);
+
+        [propget, id(VBPROJPROPID_ProjectType), helpstring("Project type")]
+        HRESULT ProjectType([out, retval]prjProjectType* pProjectType);
+
+        [propget, id(VBPROJPROPID_DefaultNamespace), helpstring("Default NameSpace")]
+        HRESULT DefaultNamespace([out, retval]BSTR *pbstrRootNamespace);
+        [propput, id(VBPROJPROPID_DefaultNamespace), helpstring("Default NameSpace")]
+        HRESULT DefaultNamespace([in]BSTR bstrRootNamespace);
+    };
+
+
+//----------------------------------------------------------------------
+// FileProperties interface -- replacement for IDispWebFile
+//----------------------------------------------------------------------
+// If some read-write properties are made read-only please make related changes in the IsPropertyReadOnly method of filenode. 
+[
+    object,
+    uuid(516BD64E-51C0-11D3-85CF-00C04F6123B3),
+    dual,
+    helpstring("FileProperties Interface"),
+    hidden,
+    local
+]
+interface FileProperties : IDispatch
+{
+    // Used internally by the shell to get the name for the object 
+    [propget, id(MEMID_Name), helpstring("Name"), hidden]
+    HRESULT __id([out, retval] BSTR* pbstrName);
+
+    [propget, id(DISPID_VBFile_FileName), helpstring("File name")]
+    HRESULT FileName ([out, retval]BSTR* pbstrName);
+    [propput, id(DISPID_VBFile_FileName), helpstring("File name")]
+    HRESULT FileName ([in]BSTR bstrName);
+
+    [propget, id(DISPID_VBFile_Extension), helpstring("File extension")]
+    HRESULT Extension ([out, retval]BSTR* pbstrExtension);
+
+    [propget, id(DISPID_VBFile_Filesize), helpstring("File size")]
+    HRESULT Filesize ([out, retval]unsigned long* pdwSize);
+
+    [propget, id(DISPID_VBFile_LocalPath), helpstring("Local path")]
+    HRESULT LocalPath ([out, retval]BSTR* pbstrLocalPath);
+
+    [propget, id(DISPID_VBFile_FullPath), helpstring("Full path")]
+    HRESULT FullPath ([out, retval]BSTR* pbstrFullPath); 
+
+    [propget, id(DISPID_VBFile_URL), helpstring("URL")]
+    HRESULT URL ([out, retval]BSTR* pbstrURL);
+
+    [propget, id(DISPID_VBFile_HTMLTitle), helpstring("HTML title")]
+    HRESULT HTMLTitle ([out, retval]BSTR* pbstrTitle);
+
+    [propget, id(DISPID_VBFile_Author), helpstring("Author")]
+    HRESULT Author ([out, retval]BSTR* pbstrTitle);
+
+    [propget, id(DISPID_VBFile_DateCreated), helpstring("Date created")]
+    HRESULT DateCreated([out, retval]BSTR* pbstrDateCreated);
+
+    [propget, id(DISPID_VBFile_DateModified), helpstring("Date modified")]
+    HRESULT DateModified([out, retval]BSTR* pbstrDateCreated);
+
+    [propget, id(DISPID_VBFile_ModifiedBy), helpstring("Modified by")]
+    HRESULT ModifiedBy([out, retval]BSTR* pbstrDateCreated);
+
+    [propget, id(DISPID_VBFile_SubType), nonbrowsable]
+    HRESULT SubType ([out, retval]BSTR* pbstrSubType);
+    [propput, id(DISPID_VBFile_SubType), nonbrowsable]
+    HRESULT SubType ([in]BSTR bstrSubType);    
+
+    [id(DISPID_VBFile_Extender), propget, nonbrowsable, helpstring("Extender"), hidden]
+    HRESULT Extender([in] BSTR ExtenderName, [out, retval] IDispatch **Extender);
+
+    [id(DISPID_VBFile_ExtenderNames), propget, nonbrowsable, helpstring("ExtenderNames"), hidden] 
+    HRESULT ExtenderNames([out, retval] VARIANT *ExtenderNames);
+
+    [id(DISPID_VBFile_ExtenderCATID), propget, nonbrowsable, helpstring("ExtenderCATID"), hidden]
+    HRESULT ExtenderCATID ([out, retval] BSTR *pRetval);
+
+    [propget, id(DISPID_VBFile_BuildAction), helpstring("Build action")]
+    HRESULT BuildAction([out, retval]prjBuildAction* pbuildAction);
+    [propput, id(DISPID_VBFile_BuildAction), helpstring("Build action")]
+    HRESULT BuildAction([in]prjBuildAction buildAction);
+
+    [propget, id(DISPID_VBFile_CustomTool), helpstring("CustomTool ProgID")]
+    HRESULT CustomTool([out, retval]BSTR* pbstrCustomTool);
+    [propput, id(DISPID_VBFile_CustomTool), helpstring("CustomTool ProgID")]
+    HRESULT CustomTool([in]BSTR bstrCustomTool); 
+
+    [propget, id(DISPID_VBFile_CustomToolNamespace), helpstring("Custom tool namespace")]
+    HRESULT CustomToolNamespace([out, retval]BSTR* pbstrCustomToolNamespace);
+    [propput, id(DISPID_VBFile_CustomToolNamespace), helpstring("Custom tool namespace")]
+    HRESULT CustomToolNamespace([in]BSTR bstrCustomToolNamespace);
+
+    [propget, id(DISPID_VBFile_CustomToolOutput), nonbrowsable, helpstring("Custom tool output filename")]
+    HRESULT CustomToolOutput([out, retval]BSTR *pbstrCustomToolOutput);
+
+    [propget, id(DISPID_VBFile_IsCustomToolOutput), nonbrowsable, helpstring("Is an output of a custom tool")]
+    HRESULT IsCustomToolOutput([out, retval]VARIANT_BOOL *pbIsCustomToolOutput);
+
+    [propget, id(DISPID_VBFile_IsDependentFile), nonbrowsable, helpstring("Is a dependent file")]
+    HRESULT IsDependentFile([out, retval]VARIANT_BOOL *pbIsDepedentFile);
+
+    [propget, id(DISPID_VBFile_IsLink), nonbrowsable, helpstring("Is a linked file")]
+    HRESULT IsLink([out, retval]VARIANT_BOOL *pbIsLinkFile);
+
+    [propget, id(DISPID_VBFile_IsDesignTimeBuildInput), nonbrowsable, helpstring("Is a design time build input file")]
+    HRESULT IsDesignTimeBuildInput([out, retval]VARIANT_BOOL *pbIsDesignTimeBuildInput);
+
+};
+
+
+
+//----------------------------------------------------------------------
+// FolderProperties -- replacement for IDispWebFolder properties
+//----------------------------------------------------------------------
+// If some read-write properties are made read-only please make related changes in the IsPropertyReadOnly method of foldernode. 
+[
+    object,
+    uuid(8E4AA768-51E1-11D3-85CF-00C04F6123B3),
+    dual,
+    helpstring("FolderProperties Interface"),
+    pointer_default(unique),
+    hidden,
+    local
+]
+interface FolderProperties : IDispatch
+{
+    // Used internally by the shell to get the name for the object 
+    [propget, id(MEMID_Name), helpstring("Name"), hidden]
+    HRESULT __id([out, retval] BSTR* pbstrName);
+
+    [propget, id(DISPID_VBFolder_FileName), helpstring("File name")]
+    HRESULT FileName ([out, retval]BSTR *pbstrName);    
+    [propput, id(DISPID_VBFolder_FileName), helpstring("File name")]
+    HRESULT FileName ([in]BSTR bstrName);
+
+    [propget, id(DISPID_VBFolder_LocalPath), helpstring("Local path")]
+    HRESULT LocalPath ([out, retval]BSTR* pbstrLocalPath);
+
+    [propget, id(DISPID_VBFolder_FullPath), helpstring("Full path")]
+    HRESULT FullPath ([out, retval]BSTR* pbstrFullPath); 
+
+    [propget, id(DISPID_VBFolder_URL), helpstring("URL")]
+    HRESULT URL ([out, retval]BSTR* pbstrURL);
+
+    [propget, id(DISPID_VBFolder_Extender), nonbrowsable, helpstring("Extender"), hidden]
+    HRESULT Extender([in] BSTR ExtenderName, [out, retval] IDispatch **Extender);
+
+    [propget, id(DISPID_VBFolder_ExtenderNames), nonbrowsable, helpstring("ExtenderNames"), hidden] 
+    HRESULT ExtenderNames([out, retval] VARIANT *ExtenderNames);
+
+    [propget, id(DISPID_VBFolder_ExtenderCATID), nonbrowsable, helpstring("ExtenderCATID"), hidden]
+    HRESULT ExtenderCATID ([out, retval] BSTR *pRetval);
+    
+    [propget, id(DISPID_VBFolder_WebReference), helpstring("Web reference url")]
+    HRESULT WebReference ([out, retval]BSTR *pbstrWebReferenceUrl);    
+    [propput, id(DISPID_VBFolder_WebReference), helpstring("Web reference url")]
+    HRESULT WebReference ([in]BSTR bstrWebReferenceUrl);
+
+    [propget, id(DISPID_VBFolder_DefaultNamespace), nonbrowsable, helpstring("Namespace")]
+    HRESULT DefaultNamespace([out, retval] BSTR* pbstrNamespace);
+
+    [propget, id(DISPID_VBFolder_UrlBehavior), helpstring("Web reference URL behavior")]
+    HRESULT UrlBehavior([out, retval]webrefUrlBehavior* pUrlBehavior);    
+    [propput, id(DISPID_VBFolder_UrlBehavior), helpstring("Web reference URL behavior")]
+    HRESULT UrlBehavior([in]webrefUrlBehavior urlBehavior);
+};
+
+
+    typedef [ uuid(B21668EF-29F1-425d-85D7-118CB838C362)]
+    enum prjReferenceType 
+    {
+        prjReferenceTypeAssembly,
+        prjReferenceTypeActiveX
+    } prjReferenceType;
+
+    
+// If some read-write properties are made read-only please make related changes in the IsPropertyReadOnly method of the browse object.
+    [
+        dual,
+        oleautomation,
+        object,
+        uuid(35D6FB50-35B6-4c81-B91C-3930B0D95386)
+    ]
+    interface Reference : IDispatch
+    {
+        [id(DISPID_Reference_DTE), propget, helpstring("DTE")]
+        HRESULT DTE([out, retval] DTE **ppDTE);
+
+        [id(DISPID_Reference_Collection), propget, helpstring("Collection")]
+        HRESULT Collection([out, retval] References **ppProjectReferences);
+
+        [id(DISPID_Reference_ContainingProject), propget, helpstring("Containing Project")]
+        HRESULT ContainingProject([out, retval] Project **ppProject);
+
+        [id(DISPID_Reference_Remove), helpstring("Remove")]
+        HRESULT Remove();
+
+        [id(DISPID_Reference_Name), propget, helpstring("Name")]
+        HRESULT Name([out, retval] BSTR *pbstrName);
+
+        [id(DISPID_Reference_Type), propget, helpstring("Type")]
+        HRESULT Type([out, retval] prjReferenceType *pType);
+
+        [id(DISPID_Reference_Identity), propget, helpstring("Identity")]
+        HRESULT Identity([out, retval] BSTR *pbstrIdentity);
+
+        [id(DISPID_Reference_Path), propget, helpstring("Path")]
+        HRESULT Path([out, retval] BSTR *pbstrPath);
+
+        [id(DISPID_Reference_Description), propget, helpstring("Description")]
+        HRESULT Description([out, retval] BSTR *pbstrDesc);
+
+        [id(DISPID_Reference_Culture), propget, helpstring("Culture")]
+        HRESULT Culture([out, retval] BSTR *pbstrCulture);
+
+        [id(DISPID_Reference_MajorVersion), propget, helpstring("Major Version")]
+        HRESULT MajorVersion([out, retval] long *plMajorVer);
+
+        [id(DISPID_Reference_MinorVersion), propget, helpstring("Minor Version")]
+        HRESULT MinorVersion([out, retval] long *plMinorVer);
+
+        [id(DISPID_Reference_RevisionNumber), propget, helpstring("Revision Version")]
+        HRESULT RevisionNumber([out, retval] long *plRevNo);
+
+        [id(DISPID_Reference_BuildNumber), propget, helpstring("Build Number")]
+        HRESULT BuildNumber([out, retval] long *plBuildNo);
+
+        [id(DISPID_Reference_StrongName), propget, helpstring("Strong Name")]
+        HRESULT StrongName([out, retval] VARIANT_BOOL *pfStrongName);
+
+        [id(DISPID_Reference_SourceProject), propget, helpstring("Source Project")]
+        HRESULT SourceProject([out, retval] Project **ppProject);
+
+        [id(DISPID_Reference_CopyLocal), propget, helpstring("Copy Local")]
+        HRESULT CopyLocal([out, retval] VARIANT_BOOL *pbCopyLocal);
+
+        [id(DISPID_Reference_CopyLocal), propput, helpstring("Copy Local")]
+        HRESULT CopyLocal([in] VARIANT_BOOL bCopyLocal);
+
+        [id(DISPID_Reference_Extender), propget, nonbrowsable, hidden, helpstring("Extender")]
+        HRESULT Extender([in] BSTR ExtenderName, [out, retval] IDispatch **Extender);
+
+        [id(DISPID_Reference_ExtenderNames), propget, nonbrowsable, hidden, helpstring("ExtenderNames")] 
+        HRESULT ExtenderNames([out, retval] VARIANT *ExtenderNames);
+
+        [id(DISPID_Reference_ExtenderCATID), propget, nonbrowsable, hidden, helpstring("ExtenderCATID")]
+        HRESULT ExtenderCATID ([out, retval] BSTR *pRetval);
+
+        [id(DISPID_Reference_PublicKeyToken), propget, nonbrowsable, hidden, helpstring("Public Key Token")]
+        HRESULT PublicKeyToken ([out, retval] BSTR *pbstrPublicKeyToken);
+
+        [id(DISPID_Reference_Version), propget, helpstring("Version")]
+        HRESULT Version([out, retval] BSTR *pbstrVersion);
+    };
+
+
+    [
+        dual,
+        oleautomation,
+        object,
+        uuid(B8758EE4-0553-4bc9-8432-440449D35C14)
+    ]
+    interface References : IDispatch
+    {
+        [id(1), propget, helpstring("DTE")]
+        HRESULT DTE([out, retval] DTE **ppDTE);
+
+        [id(2), propget, helpstring("Parent")]
+        HRESULT Parent([out, retval] IDispatch **ppdispParent);
+
+        [id(3), propget, helpstring("Containing Project")]
+        HRESULT ContainingProject([out, retval] Project **ppProject);
+
+        [id(4), propget, helpstring("Count")]
+        HRESULT Count([out, retval] long *plCount);
+
+        // Default (value) property/method
+        [id(DISPID_VALUE), helpstring("Item")]
+        HRESULT Item([in] VARIANT index, [out, retval] Reference **ppProjectReference);
+
+        [restricted, id(DISPID_NEWENUM)]
+        HRESULT _NewEnum([out, retval] IUnknown **ppiuReturn);
+
+        [id(5), helpstring("Find")]
+        HRESULT Find([in] BSTR bstrIdentity, [out, retval] Reference **ppProjectReference);
+
+        [id(6), helpstring("Add")]
+        HRESULT Add([in] BSTR bstrPath, [out, retval] Reference **ppProjectReference);
+
+        [id(7), helpstring("AddActiveX")]
+        HRESULT AddActiveX([in] BSTR bstrTypeLibGuid, [in, defaultvalue(0)] long lMajorVer, [in, defaultvalue(0)] long lMinorVer, 
+            [in, defaultvalue(0)] long lLocaleId, [in, defaultvalue("")] BSTR bstrWrapperTool, [out, retval] Reference **ppProjectReference);
+
+        [id(8), helpstring("AddProject")]
+        HRESULT AddProject([in] Project *pProject, [out, retval] Reference **ppProjectReference);
+
+    }
+
+
+
+    [ uuid(1CF40C9E-D548-4b45-AD0F-3D7843F62BBB), dual, object ]
+    interface _ReferencesEvents : IDispatch
+    {
+
+    };
+
+
+    [ uuid(287EB27C-0F8B-4d2d-8E82-A9CA50B6766E) ]
+    dispinterface _dispReferencesEvents
+    {
+        properties:
+        methods: 
+            [id(1)]   void ReferenceAdded  ([in] Reference *pReference);
+            [id(2)]   void ReferenceRemoved([in] Reference *pReference);
+            [id(3)]   void ReferenceChanged([in] Reference *pReference);
+    };
+
+
+    [ uuid(1CDB29FE-33B7-4392-9742-D9415D3408FE) ]
+    coclass ReferencesEvents
+    {
+        [default] interface _ReferencesEvents;
+        [source] dispinterface _dispReferencesEvents;
+    };
+
+
+
+    [
+        dual,
+        oleautomation,
+        object,
+        uuid(C711E2B7-3C58-4C37-9359-705208A890AE)
+    ]
+    interface BuildManager : IDispatch
+    {
+        [id(1), propget, helpstring("DTE")]
+        HRESULT DTE([out, retval] DTE **ppDTE);
+
+        [id(2), propget, helpstring("Parent")]
+        HRESULT Parent([out, retval] IDispatch **ppdispParent);
+
+        [id(3), propget, helpstring("Containing Project")]
+        HRESULT ContainingProject([out, retval] Project **ppProject);
+
+        [id(4), propget, helpstring("DesignTime Output Monikers")]
+        HRESULT DesignTimeOutputMonikers([out, retval] VARIANT* pvarMonikers); 
+
+        [id(5), helpstring("Build DesignTime Output")]
+        HRESULT BuildDesignTimeOutput([in] BSTR bstrOutputMoniker, [out, retval] BSTR* pbstrXMLFormat);
+    }
+
+
+
+    [ uuid(5F4AAE42-BC94-401d-9213-B8A8B9E553DE), dual, object ]
+    interface _BuildManagerEvents : IDispatch
+    {
+
+    };
+
+
+    [ uuid(828914F7-1D81-4f5c-83CE-37819D7EE759) ]
+    dispinterface _dispBuildManagerEvents
+    {
+        properties:
+        methods: 
+            [id(1)]   void DesignTimeOutputDirty  ([in] BSTR bstrOutputMoniker);
+            [id(2)]   void DesignTimeOutputDeleted([in] BSTR bstrOutputMoniker);
+    };
+
+
+    [ uuid(66923B02-677B-4920-A319-F8925A0BA8A8) ]
+    coclass BuildManagerEvents
+    {
+        [default] interface _BuildManagerEvents;
+        [source] dispinterface _dispBuildManagerEvents;
+    };
+
+
+    [
+        dual,
+        oleautomation,
+        object,
+        uuid(642789F9-210D-4574-96FD-5A653451E216)
+    ]
+    interface Imports : IDispatch
+    {
+        [id(1), propget, helpstring("DTE")]
+        HRESULT DTE([out, retval] DTE **ppDTE);
+
+        [id(2), propget, helpstring("Parent")]
+        HRESULT Parent([out, retval] IDispatch **ppdispParent);
+
+        [id(3), propget, helpstring("Containing Project")]
+        HRESULT ContainingProject([out, retval] Project **ppProject);
+
+        [id(4), propget, helpstring("Count")]
+        HRESULT Count([out, retval] long *plCount);
+
+        // Default (value) property/method
+        [id(DISPID_VALUE), helpstring("Item")]
+        HRESULT Item([in] long lIndex, [out, retval] BSTR *pbstrImport);
+
+        [id(5), helpstring("Add")]
+        HRESULT Add([in] BSTR bstrImport);
+
+        [id(6), helpstring("Remove")]
+        HRESULT Remove([in] VARIANT index);
+
+        [restricted, id(DISPID_NEWENUM)]
+        HRESULT _NewEnum([out, retval] IUnknown **ppiuReturn);
+    }
+
+
+    [ uuid(037AD859-7A75-4cf3-8A38-83D6E045FEE3), dual, object ]
+    interface _ImportsEvents : IDispatch
+    {
+
+    };
+
+
+    [ uuid(40806CEA-ABAB-4887-A356-D8869C28A6E6) ]
+    dispinterface _dispImportsEvents
+    {
+        properties:
+        methods: 
+            [id(1)]   void ImportAdded  ([in] BSTR bstrImport);
+            [id(2)]   void ImportRemoved([in] BSTR bstrImport);
+    };
+
+
+    [ uuid(AC779606-837C-444f-B8FA-A69805B59976) ]
+    coclass ImportsEvents
+    {
+        [default] interface _ImportsEvents;
+        [source] dispinterface _dispImportsEvents;
+    };
+
+
+    [
+        dual,
+        oleautomation,
+        object,
+        uuid(F8B92546-F1A2-4066-92F6-FDF2E691A50C)
+    ]
+    interface VSProjectEvents : IDispatch
+    {
+        [id(1), propget, helpstring("ReferencesEvents")] 
+        HRESULT ReferencesEvents([out, retval] ReferencesEvents **ppRefsEvents);
+
+        [id(2), propget, helpstring("BuildManagerEvents")] 
+        HRESULT BuildManagerEvents([out, retval] BuildManagerEvents **ppBuildMgrEvents);
+
+        [id(3), propget, helpstring("ImportsEvents")] 
+        HRESULT ImportsEvents([out, retval] ImportsEvents **ppImportsEvents);
+    }
+
+
+    typedef [ uuid(5DE9F309-E701-44d1-8068-1860738C0084)]
+    enum prjCopyProjectOption
+    {
+        prjRunFiles,
+        prjProjectFiles,
+        prjAllFiles
+    } prjCopyProjectOption;
+
+
+    typedef 
+    [ 
+        uuid(F111445E-A9ED-4d12-9A0E-738F5F995F10), 
+        hidden
+    ]
+    enum prjExecCommand 
+    {
+        prjExecCommandHandleInvalidStartupObject,
+    } prjExecCommand;
+
+    
+    [
+        dual,
+        oleautomation,
+        object,
+        uuid(2CFB826F-F6BF-480d-A546-95A0381CC411)
+    ]
+    interface VSProject : IDispatch
+    {
+        [id(1), propget, helpstring("References")] 
+        HRESULT References([out, retval] References **ppRefs);
+
+        [id(2), propget, helpstring("Build Manager")] 
+        HRESULT BuildManager([out, retval] BuildManager **ppBuildMgr);
+
+        [id(3), propget, helpstring("DTE")]
+        HRESULT DTE([out, retval] DTE **ppDTE);
+
+        [id(4), propget, helpstring("Project")]
+        HRESULT Project([out, retval] Project **ppProject);
+
+        [id(5), helpstring("Create WebReferences folder")]
+        HRESULT CreateWebReferencesFolder([out, retval] ProjectItem **ppProjectItem);
+
+        [id(6), propget, helpstring("WebReferences folder")] 
+        HRESULT WebReferencesFolder([out, retval] ProjectItem **ppProjectItem);
+
+        [id(7), helpstring("Add WebReference")]
+        HRESULT AddWebReference([in] BSTR bstrUrl, [out, retval] ProjectItem **ppProjectItem);
+
+        [id(8), propget, helpstring("TemplatePath")]
+        HRESULT TemplatePath([out, retval] BSTR *pbstrTemplatePath);
+
+        [id(9), helpstring("Refresh")]
+        HRESULT Refresh();
+
+        [id(10), propget, helpstring("WorkOffline")]
+        HRESULT WorkOffline([out, retval] VARIANT_BOOL *pbWorkOffline);
+
+        [id(10), propput, helpstring("WorkOffline")]
+        HRESULT WorkOffline([in] VARIANT_BOOL bWorkOffline);
+
+        [id(11), propget, helpstring("Imports")] 
+        HRESULT Imports([out, retval] Imports **ppImports);
+
+        [id(12), propget, helpstring("Events")] 
+        HRESULT Events([out, retval] VSProjectEvents **ppEvents);
+
+        [id(13), helpstring("CopyProject")]
+        HRESULT CopyProject([in] BSTR bstrDestFolder, [in] BSTR bstrDestUNCPath, [in] prjCopyProjectOption copyProjectOption, [in] BSTR bstrUsername, [in] BSTR bstrPassword);
+
+        [id(14), helpstring("Exec"), hidden]
+        HRESULT Exec([in] prjExecCommand command, BOOL bSuppressUI, [in] VARIANT varIn, [out] VARIANT* pVarOut);
+        
+        [id(15), helpstring("GenerateKeyPairFiles")]
+        HRESULT GenerateKeyPairFiles([in] BSTR strPublicPrivateFile, [in, defaultvalue(NULL)] BSTR strPublicOnlyFile);
+
+        [id(16), helpstring("GetUniqueFilename")]
+        HRESULT GetUniqueFilename([in] IDispatch *pDispatch, [in] BSTR bstrRoot, [in] BSTR bstrDesiredExt,  [out,retval] BSTR *pbstrFileName);
+    }
+
+
+
+
+    [
+        dual,
+        oleautomation,
+        object,
+        uuid(89FF44C6-979D-49b6-AF56-EC9509001DE4)
+    ]
+    interface VSProjectItem : IDispatch
+    {
+        [id(1), propget, helpstring("DTE")]
+        HRESULT DTE([out, retval] DTE **ppDTE);
+
+        [id(2), propget, helpstring("ProjectItem")]
+        HRESULT ProjectItem([out, retval] ProjectItem **ppProjectItem);
+
+        [id(3), propget, helpstring("Containing Project")]
+        HRESULT ContainingProject([out, retval] Project **ppProject);
+
+        [id(4), helpstring("Run CustomTool")]
+        HRESULT RunCustomTool();
+    }
+    
+    cpp_quote("#define SID_SVSProjectItem IID_ProjectItem")
+
+
+//----------------------------------------------------------------------
+// Web settings dialog Interface
+//----------------------------------------------------------------------
+
+    typedef [uuid(316A5305-224A-4580-91EA-5C62AFEC07FF)]
+    enum tagWebPrjAuthoringAccess
+    {
+        webPrjAuthoringAccess_FileShare   = 1,  // Fileshare  access
+        webPrjAuthoringAccess_FrontPage   = 2,  // Frontpage access
+    } webPrjAuthoringAccess; 
+
+    [
+        dual,
+        oleautomation,
+        object,
+        uuid(8FA8D496-CAF1-40b3-BC58-5FC877FEFEA7)
+    ]
+    interface WebSettings : IDispatch
+    {
+        // properties:
+        [id(1), propget, helpstring("Default Authoring Access")]
+        HRESULT AuthoringAccess([out, retval] webPrjAuthoringAccess* pAccessMethod);
+        
+        [id(1), propput, helpstring("Default Authoring Access")]
+        HRESULT AuthoringAccess([in] webPrjAuthoringAccess AccessMethod);
+
+        [id(2), propget, helpstring("Repair Links")]
+        HRESULT RepairLinks([out, retval] VARIANT_BOOL* pbRepairLinks);
+        
+        [id(2), propput, helpstring("Repair Links")]
+        HRESULT RepairLinks([in] VARIANT_BOOL bRepairLinks);
+
+        [id(3), propget, helpstring("Web Project Cache Directory")]
+        HRESULT WebProjectCacheDirectory([out, retval] BSTR* pbstrDirectory);
+
+        [id(3), propput, helpstring("Web Project Cache Directory")]
+        HRESULT WebProjectCacheDirectory([in] BSTR bstrDirectory);
+
+        // methods:
+        [id(4), helpstring("Resets the Web Project Cache Directory to the default")]
+        HRESULT SetDefaultWebProjectCacheDirectory();
+    }
+};
+
+//----------------------------------------------------------------------
+// IVSWebReferenceDynamicProperties
+//----------------------------------------------------------------------
+    [
+        object,
+        uuid(C65A2F92-B350-4b0f-9BC6-B00E24BC8B9D)
+    ]
+    interface IVSWebReferenceDynamicProperties : IUnknown
+    {
+        [id(1), helpstring("Get dynamic property for URL")]
+        HRESULT GetDynamicPropertyName([in] LPCWSTR pszWebServiceName, [out, retval] BSTR* pbstrPropertyName);
+
+        [id(2), helpstring("Set dynamic property")]
+        HRESULT SetDynamicProperty([in] LPCWSTR pszUrl, [in] LPCWSTR pszPropertyName);
+
+        [id(3), helpstring("Supports dynamic properties")]
+        HRESULT SupportsDynamicProperties([out, retval] VARIANT_BOOL* pbSupportsDynamicProperties);
+    }
+    
+    cpp_quote("#define SID_SVSWebReferenceDynamicProperties IID_IVSWebReferenceDynamicProperties")
+
+
+cpp_quote("#ifdef FORCE_EXPLICIT_DTE_NAMESPACE")
+cpp_quote("#undef DTE")
+cpp_quote("#undef Project")
+cpp_quote("#undef ProjectItem")
+cpp_quote("#endif")
+
+

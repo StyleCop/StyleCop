@@ -1,0 +1,218 @@
+//+---------------------------------------------------------------------------
+//
+//  Microsoft Windows
+//  Copyright (C) Microsoft Corporation, 1992 - 1997.
+//
+//  File:       designer.idl
+//
+//  Contents:   ActiveX[tm] Designer interface description
+//
+//  Classes:
+//
+//  Functions:
+//
+//  History:    03-04-97	Created
+//
+//----------------------------------------------------------------------------
+
+// imports
+#ifndef INTEROPLIB
+
+import "oleidl.idl";
+import "servprov.idl";
+import "oaidl.idl";
+import "ocidl.idl";
+
+#endif
+
+cpp_quote("//+-------------------------------------------------------------------------")
+cpp_quote("//")
+cpp_quote("//  Microsoft Windows")
+cpp_quote("//  Copyright 1995 - 1997 Microsoft Corporation. All Rights Reserved.")
+cpp_quote("//")
+cpp_quote("//  File: designer.h")
+cpp_quote("//")
+cpp_quote("//--------------------------------------------------------------------------")
+
+//+---------------------------------------------------------------------------
+//
+//  Copyright (C) Microsoft Corporation, 1995 - 1996.
+//
+//  Contents:  ActiveX[tm] Designer interface definition
+//
+//----------------------------------------------------------------------------
+
+cpp_quote("#ifndef _DESIGNER_H_")
+cpp_quote("#define _DESIGNER_H_")
+
+cpp_quote("extern const __declspec(selectany) GUID CATID_Designer = {0x4eb304d0, 0x7555, 0x11cf, 0xa0, 0xc2, 0x00, 0xaa, 0x00, 0x62, 0xbe, 0x57};")
+
+[
+        object,
+	local,
+	uuid(51aae3e0-7486-11cf-a0C2-00aa0062be57),
+        pointer_default(unique)
+]
+
+
+interface IActiveDesigner : IUnknown
+{
+    typedef [unique] IActiveDesigner *LPACTIVEDESIGNER;
+
+    HRESULT GetRuntimeClassID(
+                [out] CLSID * pclsid);
+
+    HRESULT GetRuntimeMiscStatusFlags(
+                [out] DWORD * pdwMiscFlags);
+
+    HRESULT QueryPersistenceInterface(
+                [in] REFIID riidPersist);
+
+    HRESULT SaveRuntimeState(
+                [in] REFIID riidPersist, 
+                [in] REFIID riidObjStgMed, 
+                [in] void * pObjStgMed);
+
+    HRESULT GetExtensibilityObject(
+                [out] IDispatch ** ppvObjOut);
+}
+
+
+[
+        object,
+	local,
+	uuid(6d5140c4-7436-11ce-8034-00aa006009fa),
+        pointer_default(unique)
+]
+
+
+interface ICodeNavigate : IUnknown
+{
+    typedef [unique] ICodeNavigate *LPCODENAVIGATE;
+
+    HRESULT DisplayDefaultEventHandler(
+                [in] LPCOLESTR lpstrObjectName);
+}
+
+cpp_quote("#define SID_SCodeNavigate IID_ICodeNavigate")
+
+[
+  object,
+	local,
+	uuid(2702ad60-3459-11d1-88fd-00a0c9110049),
+  pointer_default(unique)
+]
+interface ICodeNavigate2 : ICodeNavigate
+{
+    // *** ICodeNavigate2 methods ***
+    HRESULT DisplayEventHandler([in] LPCOLESTR lpstrObjectName, [in] LPCOLESTR lpstrEventName);
+}
+
+cpp_quote("#define GETOBJS_ALL         1")
+cpp_quote("#define GETOBJS_SELECTED    2")
+
+cpp_quote("#define SELOBJS_ACTIVATE_WINDOW   1")
+
+[
+        object,
+	local,
+	uuid(6d5140c6-7436-11ce-8034-00aa006009fa),
+        pointer_default(unique)
+]
+
+
+interface ISelectionContainer : IUnknown
+{
+    typedef [unique] ISelectionContainer *LPSELECTIONCONTAINER;
+
+    HRESULT CountObjects(
+                [in] DWORD dwFlags, 
+                [out] ULONG * pc);
+
+    HRESULT GetObjects(
+                [in] DWORD dwFlags, 
+                [in] ULONG cObjects,
+                [out, size_is(cObjects)] IUnknown ** apUnkObjects);
+
+    HRESULT SelectObjects(
+                [in] ULONG cSelect,
+                [in, size_is(cSelect)] IUnknown ** apUnkSelect,
+                [in] DWORD dwFlags);
+}
+
+
+[
+        object,
+	local,
+	uuid(6d5140c5-7436-11ce-8034-00aa006009fa),
+        pointer_default(unique)
+]
+
+
+interface ITrackSelection : IUnknown
+{
+    typedef [unique] ITrackSelection *LPTRACKSELECTION;
+
+    HRESULT OnSelectChange(
+                 [in] ISelectionContainer * pSC);
+}
+
+cpp_quote("#define SID_STrackSelection IID_ITrackSelection")
+
+
+cpp_quote("#define CONTROLTYPELIB       (0x00000001)")
+
+[
+        object,
+	local,
+	uuid(718cc500-0a76-11cf-8045-00aa006009fa),
+        pointer_default(unique)
+]
+
+
+interface IProfferTypeLib : IUnknown
+{
+    typedef [unique] IProfferTypeLib *LPPROFFERTYPELIB;
+
+    HRESULT ProfferTypeLib(
+                 [in] REFGUID guidTypeLib,
+                 [in] UINT uVerMaj,
+                 [in] UINT uVerMin,
+                 [in] DWORD dwFlags);
+}
+
+cpp_quote("#define SID_SProfferTypeLib IID_IProfferTypeLib")
+
+
+[
+        object,
+	local,
+	uuid(468cfb80-b4f9-11cf-80dd-00aa00614895),
+        pointer_default(unique)
+]
+
+
+interface IProvideDynamicClassInfo : IProvideClassInfo
+{
+    typedef [unique] IProvideDynamicClassInfo *LPPROVIDEDYNAMICCLASSINFO;
+
+    HRESULT GetDynamicClassInfo(
+                 [out] ITypeInfo ** ppTI, 
+                 [out] DWORD_PTR * pdwCookie);
+
+    HRESULT FreezeShape(void);
+}
+
+
+cpp_quote("extern const __declspec(selectany) GUID SID_SApplicationObject = {0x0c539790, 0x12e4, 0x11cf, 0xb6, 0x61, 0x00, 0xaa, 0x00, 0x4c, 0xd6, 0xd8};")
+
+[
+        uuid(A575C060-5B17-11d1-AB3E-00A0C9055A90)
+]
+interface IExtendedObject : IUnknown
+{
+    HRESULT GetInnerObject([in] REFIID iid, [out, iid_is(iid)] void ** ppvObject);
+}
+
+
+cpp_quote("#endif")

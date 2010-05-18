@@ -1,0 +1,117 @@
+﻿<StyleCopCsParserObjectModel>
+  <Element Name="Root" Type="DocumentRoot">
+    <Element Name="Class1" Type="Class">
+      <Element Name="Class1" Type="Constructor" />
+      <Element Name="Class1" Type="Constructor" />
+      <Element Name="Class1" Type="Constructor" />
+      <Element Name="Class1" Type="Constructor" />
+      <Element Name="Class1" Type="Constructor">
+        <Statement Type="ExpressionStatement">
+          <Expression Type="AssignmentExpression">
+            <Expression Text="x" Type="LiteralExpression" />
+            <Expression Text="0" Type="LiteralExpression" />
+          </Expression>
+        </Statement>
+      </Element>
+    </Element>
+    <Element Name="Class2" Type="Class">
+      <Element Name="Class2" Type="Constructor">
+        <Statement Type="ConstructorInitializerStatement">
+          <Expression Type="MethodInvocationExpression">
+            <Expression Text="this" Type="LiteralExpression" />
+          </Expression>
+        </Statement>
+      </Element>
+      <Element Name="Class2" Type="Constructor">
+        <Statement Type="ConstructorInitializerStatement">
+          <Expression Type="MethodInvocationExpression">
+            <Expression Text="base" Type="LiteralExpression" />
+          </Expression>
+        </Statement>
+      </Element>
+      <Element Name="Class2" Type="Constructor">
+        <Statement Type="ConstructorInitializerStatement">
+          <Expression Type="MethodInvocationExpression">
+            <Expression Text="this" Type="LiteralExpression" />
+            <Expression Type="MemberAccessExpression">
+              <Expression Text="Something" Type="LiteralExpression" />
+              <Expression Text="Value" Type="LiteralExpression" />
+            </Expression>
+            <Expression Text="2" Type="LiteralExpression" />
+            <Expression Text="&quot;string&quot;" Type="LiteralExpression" />
+          </Expression>
+        </Statement>
+      </Element>
+      <Element Name="Class2" Type="Constructor">
+        <Statement Type="ConstructorInitializerStatement">
+          <Expression Type="MethodInvocationExpression">
+            <Expression Text="base" Type="LiteralExpression" />
+            <Expression Text="32" Type="LiteralExpression" />
+            <Expression Text="true" Type="LiteralExpression" />
+            <Expression Text="false" Type="LiteralExpression" />
+          </Expression>
+        </Statement>
+      </Element>
+    </Element>
+    <Element Name="Class3" Type="Class">
+      <Element Name="Class3" Type="Constructor" />
+      <Element Name="Class3" Type="Constructor" />
+      <Element Name="Class3" Type="Constructor" />
+      <Element Name="Class3" Type="Constructor" />
+      <Element Name="Class3" Type="Constructor" />
+      <Element Name="Class3" Type="Constructor" />
+    </Element>
+    <Element Name="Class4" Type="Class">
+      <Element Name="Class4" Type="Constructor">
+        <Statement Type="VariableDeclarationStatement">
+          <Expression Type="VariableDeclarationExpression">
+            <Expression Text="short" Type="LiteralExpression" />
+            <Expression Type="VariableDeclaratorExpression">
+              <Expression Text="y" Type="LiteralExpression" />
+              <Expression Text="2" Type="LiteralExpression" />
+            </Expression>
+          </Expression>
+        </Statement>
+        <Statement Type="ExpressionStatement">
+          <Expression Type="AssignmentExpression">
+            <Expression Type="UnsafeAccessExpression">
+              <Expression Text="y" Type="LiteralExpression" />
+            </Expression>
+            <Expression Text="4" Type="LiteralExpression" />
+          </Expression>
+        </Statement>
+      </Element>
+      <Element Name="Class4" Type="Constructor" />
+      <Element Name="Class4" Type="Constructor" />
+    </Element>
+    <Element Name="UnsafeClass" Type="Class">
+      <Element Name="UnsafeClass" Type="Constructor">
+        <Statement Type="VariableDeclarationStatement">
+          <Expression Type="VariableDeclarationExpression">
+            <Expression Text="short" Type="LiteralExpression" />
+            <Expression Type="VariableDeclaratorExpression">
+              <Expression Text="y" Type="LiteralExpression" />
+              <Expression Text="2" Type="LiteralExpression" />
+            </Expression>
+          </Expression>
+        </Statement>
+        <Statement Type="ExpressionStatement">
+          <Expression Type="AssignmentExpression">
+            <Expression Type="UnsafeAccessExpression">
+              <Expression Text="y" Type="LiteralExpression" />
+            </Expression>
+            <Expression Text="4" Type="LiteralExpression" />
+          </Expression>
+        </Statement>
+      </Element>
+    </Element>
+    <Element Name="Class5" Type="Class">
+      <Element Name="Class5" Type="Constructor" />
+      <Element Name="Class5" Type="Constructor" />
+      <Element Name="Class5" Type="Constructor" />
+    </Element>
+    <Element Name="Struct1" Type="Struct">
+      <Element Name="Struct1" Type="Constructor" />
+    </Element>
+  </Element>
+</StyleCopCsParserObjectModel>

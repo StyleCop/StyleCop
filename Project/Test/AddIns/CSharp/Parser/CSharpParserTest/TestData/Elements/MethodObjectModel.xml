@@ -1,0 +1,263 @@
+﻿<StyleCopCsParserObjectModel>
+  <Element Name="Root" Type="DocumentRoot">
+    <Element Name="Class1" Type="Class">
+      <Element Name="Method1" Type="Method" />
+      <Element Name="Method2" Type="Method" />
+      <Element Name="Method3" Type="Method" />
+      <Element Name="Method4" Type="Method" />
+      <Element Name="Method5" Type="Method" />
+      <Element Name="Method6" Type="Method" />
+      <Element Name="Method7&lt;T&gt;" Type="Method" />
+      <Element Name="Method8&lt;T,S&gt;" Type="Method" />
+      <Element Name="Method9" Type="Method">
+        <Statement Type="ReturnStatement">
+          <Expression Text="2" Type="LiteralExpression" />
+        </Statement>
+      </Element>
+      <Element Name="Method10" Type="Method">
+        <Statement Type="ReturnStatement">
+          <Expression Text="null" Type="LiteralExpression" />
+        </Statement>
+      </Element>
+    </Element>
+    <Element Name="Class2" Type="Class">
+      <Element Name="MethodWithTypeConstraint1&lt;T&gt;" Type="Method">
+        <Statement Type="ReturnStatement">
+          <Expression Text="true" Type="LiteralExpression" />
+        </Statement>
+      </Element>
+      <Element Name="MethodWithTypeConstraint2&lt;T&gt;" Type="Method">
+        <Statement Type="ReturnStatement">
+          <Expression Text="false" Type="LiteralExpression" />
+        </Statement>
+      </Element>
+      <Element Name="MethodWithTypeConstraint3&lt;T&gt;" Type="Method" />
+      <Element Name="MethodWithTypeConstraint4&lt;T,S&gt;" Type="Method" />
+    </Element>
+    <Element Name="Class3" Type="Class">
+      <Element Name="MethodWithAccessModifier1" Type="Method" />
+      <Element Name="MethodWithAccessModifier2" Type="Method" />
+      <Element Name="MethodWithAccessModifier3" Type="Method" />
+      <Element Name="MethodWithAccessModifier4" Type="Method" />
+      <Element Name="MethodWithAccessModifier5" Type="Method" />
+      <Element Name="MethodWithAccessModifier6" Type="Method" />
+    </Element>
+    <Element Name="Class4" Type="Class">
+      <Element Name="MethodWithNewModifier1" Type="Method" />
+      <Element Name="MethodWithUnsafeModifier2" Type="Method">
+        <Statement Type="VariableDeclarationStatement">
+          <Expression Type="VariableDeclarationExpression">
+            <Expression Text="short" Type="LiteralExpression" />
+            <Expression Type="VariableDeclaratorExpression">
+              <Expression Text="y" Type="LiteralExpression" />
+              <Expression Text="2" Type="LiteralExpression" />
+            </Expression>
+          </Expression>
+        </Statement>
+        <Statement Type="ReturnStatement">
+          <Expression Type="UnsafeAccessExpression">
+            <Expression Text="x" Type="LiteralExpression" />
+          </Expression>
+        </Statement>
+      </Element>
+      <Element Name="MethodWithStaticModifier" Type="Method" />
+      <Element Name="MethodWithVirtualModifier" Type="Method" />
+      <Element Name="MethodWithSealedModifier" Type="Method">
+        <Statement Type="ReturnStatement">
+          <Expression Text="@&quot;hello&quot;" Type="LiteralExpression" />
+        </Statement>
+      </Element>
+      <Element Name="MethodWithOverrideModifier" Type="Method" />
+      <Element Name="MethodWithAbstractModifier" Type="Method" />
+      <Element Name="MethodWithExternModifier" Type="Method" />
+      <Element Name="MethodWithPartialModifier" Type="Method" />
+    </Element>
+    <Element Name="UnsafeClass" Type="Class">
+      <Element Name="MethodWithUnsafeModifier2" Type="Method">
+        <Statement Type="VariableDeclarationStatement">
+          <Expression Type="VariableDeclarationExpression">
+            <Expression Text="short" Type="LiteralExpression" />
+            <Expression Type="VariableDeclaratorExpression">
+              <Expression Text="y" Type="LiteralExpression" />
+              <Expression Text="2" Type="LiteralExpression" />
+            </Expression>
+          </Expression>
+        </Statement>
+        <Statement Type="ReturnStatement">
+          <Expression Type="UnsafeAccessExpression">
+            <Expression Text="x" Type="LiteralExpression" />
+          </Expression>
+        </Statement>
+      </Element>
+    </Element>
+    <Element Name="Class5" Type="Class">
+      <Element Name="MethodWithAttributes" Type="Method" />
+      <Element Name="MethodWithHeader" Type="Method" />
+      <Element Name="MethodWithHeaderAndAttributes" Type="Method" />
+    </Element>
+    <Element Name="Struct1" Type="Struct">
+      <Element Name="Method1" Type="Method">
+        <Statement Type="ReturnStatement">
+          <Expression Text="2" Type="LiteralExpression" />
+        </Statement>
+      </Element>
+    </Element>
+    <Element Name="Interface1" Type="Interface">
+      <Element Name="Method1" Type="Method" />
+    </Element>
+    <Element Name="Class6" Type="Class">
+      <Element Name="operator +" Type="Method">
+        <Statement Type="ReturnStatement">
+          <Expression Text="null" Type="LiteralExpression" />
+        </Statement>
+      </Element>
+      <Element Name="operator -" Type="Method">
+        <Statement Type="ReturnStatement">
+          <Expression Text="null" Type="LiteralExpression" />
+        </Statement>
+      </Element>
+      <Element Name="operator !" Type="Method">
+        <Statement Type="ReturnStatement">
+          <Expression Text="null" Type="LiteralExpression" />
+        </Statement>
+      </Element>
+      <Element Name="operator ~" Type="Method">
+        <Statement Type="ReturnStatement">
+          <Expression Text="null" Type="LiteralExpression" />
+        </Statement>
+      </Element>
+      <Element Name="operator ++" Type="Method">
+        <Statement Type="ReturnStatement">
+          <Expression Text="null" Type="LiteralExpression" />
+        </Statement>
+      </Element>
+      <Element Name="operator --" Type="Method">
+        <Statement Type="ReturnStatement">
+          <Expression Text="null" Type="LiteralExpression" />
+        </Statement>
+      </Element>
+      <Element Name="operator true" Type="Method">
+        <Statement Type="ReturnStatement">
+          <Expression Text="null" Type="LiteralExpression" />
+        </Statement>
+      </Element>
+      <Element Name="operator false" Type="Method">
+        <Statement Type="ReturnStatement">
+          <Expression Text="null" Type="LiteralExpression" />
+        </Statement>
+      </Element>
+      <Element Name="operator +" Type="Method">
+        <Statement Type="ReturnStatement">
+          <Expression Text="null" Type="LiteralExpression" />
+        </Statement>
+      </Element>
+      <Element Name="operator -" Type="Method">
+        <Statement Type="ReturnStatement">
+          <Expression Text="null" Type="LiteralExpression" />
+        </Statement>
+      </Element>
+      <Element Name="operator *" Type="Method">
+        <Statement Type="ReturnStatement">
+          <Expression Text="null" Type="LiteralExpression" />
+        </Statement>
+      </Element>
+      <Element Name="operator /" Type="Method">
+        <Statement Type="ReturnStatement">
+          <Expression Text="null" Type="LiteralExpression" />
+        </Statement>
+      </Element>
+      <Element Name="operator %" Type="Method">
+        <Statement Type="ReturnStatement">
+          <Expression Text="null" Type="LiteralExpression" />
+        </Statement>
+      </Element>
+      <Element Name="operator &amp;" Type="Method">
+        <Statement Type="ReturnStatement">
+          <Expression Text="null" Type="LiteralExpression" />
+        </Statement>
+      </Element>
+      <Element Name="operator |" Type="Method">
+        <Statement Type="ReturnStatement">
+          <Expression Text="null" Type="LiteralExpression" />
+        </Statement>
+      </Element>
+      <Element Name="operator ^" Type="Method">
+        <Statement Type="ReturnStatement">
+          <Expression Text="null" Type="LiteralExpression" />
+        </Statement>
+      </Element>
+      <Element Name="operator &lt;&lt;" Type="Method">
+        <Statement Type="ReturnStatement">
+          <Expression Text="null" Type="LiteralExpression" />
+        </Statement>
+      </Element>
+      <Element Name="operator &gt;&gt;" Type="Method">
+        <Statement Type="ReturnStatement">
+          <Expression Text="null" Type="LiteralExpression" />
+        </Statement>
+      </Element>
+      <Element Name="operator ==" Type="Method">
+        <Statement Type="ReturnStatement">
+          <Expression Text="null" Type="LiteralExpression" />
+        </Statement>
+      </Element>
+      <Element Name="operator !=" Type="Method">
+        <Statement Type="ReturnStatement">
+          <Expression Text="null" Type="LiteralExpression" />
+        </Statement>
+      </Element>
+      <Element Name="operator &gt;" Type="Method">
+        <Statement Type="ReturnStatement">
+          <Expression Text="null" Type="LiteralExpression" />
+        </Statement>
+      </Element>
+      <Element Name="operator &lt;" Type="Method">
+        <Statement Type="ReturnStatement">
+          <Expression Text="null" Type="LiteralExpression" />
+        </Statement>
+      </Element>
+      <Element Name="operator &gt;=" Type="Method">
+        <Statement Type="ReturnStatement">
+          <Expression Text="null" Type="LiteralExpression" />
+        </Statement>
+      </Element>
+      <Element Name="operator &lt;=" Type="Method">
+        <Statement Type="ReturnStatement">
+          <Expression Text="null" Type="LiteralExpression" />
+        </Statement>
+      </Element>
+      <Element Name="operator Class6" Type="Method">
+        <Statement Type="ReturnStatement">
+          <Expression Text="null" Type="LiteralExpression" />
+        </Statement>
+      </Element>
+      <Element Name="operator Class6" Type="Method">
+        <Statement Type="ReturnStatement">
+          <Expression Text="null" Type="LiteralExpression" />
+        </Statement>
+      </Element>
+    </Element>
+    <Element Name="Class7" Type="Class">
+      <Element Name="operator +" Type="Method" />
+      <Element Name="operator *" Type="Method" />
+      <Element Name="operator Class7" Type="Method" />
+    </Element>
+    <Element Name="Class8&lt;T,S&gt;" Type="Class">
+      <Element Name="operator +" Type="Method">
+        <Statement Type="ReturnStatement">
+          <Expression Text="null" Type="LiteralExpression" />
+        </Statement>
+      </Element>
+      <Element Name="operator *" Type="Method">
+        <Statement Type="ReturnStatement">
+          <Expression Text="null" Type="LiteralExpression" />
+        </Statement>
+      </Element>
+      <Element Name="operator Class8" Type="Method">
+        <Statement Type="ReturnStatement">
+          <Expression Text="null" Type="LiteralExpression" />
+        </Statement>
+      </Element>
+    </Element>
+  </Element>
+</StyleCopCsParserObjectModel>

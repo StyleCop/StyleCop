@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <SummaryOnly>
+    <summary>
+      This is a sample summary.
+    </summary>
+  </SummaryOnly>
+  <NameParameter>
+    <param name="name">The name of the item.</param>
+  </NameParameter>
+  <TypeParameter>
+    <param name="type">The type of the item.</param>
+  </TypeParameter>
+  <TwoParameters>
+    <param name="name">The name of the item.</param>
+    <param name="type">The type of the item.</param>
+  </TwoParameters>
+  <FullMethodHeader>
+    <summary>
+      This is a sample summary.
+    </summary>
+    <param name="name">The name of the item.</param>
+    <param name="type">The type of the item.</param>
+    <returns>Returns a value.</returns>
+  </FullMethodHeader>
+  <EmptySummary>
+    <summary></summary>
+  </EmptySummary>
+  <LowerCaseSummary>
+    <summary>starts with a lower case letter.</summary>
+  </LowerCaseSummary>
+  <Param1>
+    <param name="param1">Param1 and Param2 have identical text.</param>
+  </Param1>
+  <Param2>
+    <param name="param2">Param1 and Param2 have identical text.</param>
+  </Param2>
+</root>

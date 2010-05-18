@@ -1,0 +1,142 @@
+#ifndef INTEROPLIB // the shell IA provides all necessary imports that are configured for managed interop
+
+import "oaidl.idl";
+import "ocidl.idl";
+import "vsshell.idl";
+
+#endif
+
+//--------------------------------------------------------------------------
+// Microsoft WEB.NET
+//
+// Contains all the interface definitions relating to WebService references
+//
+//
+// Design Summary:
+//
+//  IVsWebService           A web service being proffered by a project system such as Venus
+//  IVsWebServiceProvider   Each project proffering web services has 1 Web Service Provider
+//  IVsWebServiceManager    Shell service for locating the provider for a specific web reference
+//
+//
+// Copyright (C) 1996-2003 Microsoft Corporation,
+// All rights reserved
+//
+//
+// IVsWebServices.idl
+//---------------------------------------------------------------------------
+
+#ifndef INTEROPLIB // included in the shell IA which has its own library block
+
+[
+    uuid(92E05D02-F2A6-409e-8F84-54F732E13596),
+    version(1.0),
+    helpstring("Microsoft Development Environment WebServices")
+]
+library VsWebServices
+{
+
+#endif
+
+    interface IVsWebServiceProvider;
+    interface IVsWebService;
+
+    //----------------------------------------------------------------------------
+    // IVsWebServiceEvents
+    // 
+    // Events possible on a WebService
+    //----------------------------------------------------------------------------
+    [
+        uuid(F20AB4A1-4BA3-4842-AC78-2550669F751A),
+        version(1.0),
+        pointer_default(unique)
+    ]
+    interface IVsWebServiceEvents : IUnknown
+    {
+        HRESULT OnRemoved([in] LPCOLESTR pszOldURL);                               // called when a web service is removed
+        HRESULT OnRenamed([in] LPCOLESTR pszOldURL, [in] LPCOLESTR pszNewURL);// called when a web service is renamed
+        HRESULT OnChanged([in] IVsWebService *pIVsWebReference);                // called when a web service has been edited, after this event the web reference to this service should be refreshed
+    };
+
+
+    //----------------------------------------------------------------------------
+    // IVsWebService
+    // 
+    // Represents a single web service
+    //----------------------------------------------------------------------------
+    [
+        uuid(D02603F6-BDB0-410c-9BA8-9E34E5FF4BEC),
+        helpstring("IVsWebService interface"),
+        pointer_default(unique)
+    ]
+    interface IVsWebService : IUnknown
+    {
+        HRESULT Url([out, retval] BSTR *bstrUrl);                            // The URL for this service, note that this URL may be different than the URL used to find it and maybe different after calling Launch
+        HRESULT AppRelativeUrl([out, retval] BSTR *bstrAppUrl);            // This is the app relative path to the service ~/MyService.asmx
+        HRESULT GetProvider([out, retval] IVsWebServiceProvider **ppIVsWebServiceProvider);
+        HRESULT AdviseWebServiceEvents([in] IVsWebServiceEvents *pEvents, [out, retval] VSCOOKIE *pdwCookie); // register callback for web service events
+        HRESULT UnadviseWebServiceEvents([in] VSCOOKIE dwCookie);                                             // un-register the callback
+    };
+
+    //----------------------------------------------------------------------------
+    // IVsWebServiceProviderEvents
+    // 
+    // Events possible on a WebService
+    //----------------------------------------------------------------------------
+    [
+        uuid(8170CB5A-D602-4886-A990-8260A5928133),
+        version(1.0),
+        pointer_default(unique)
+    ]
+    interface IVsWebServiceProviderEvents : IUnknown
+    {
+        HRESULT OnAdded([in] IVsWebService *pIVsWebReference);                  // called when a new web service is added
+        HRESULT OnRemoved([in] LPCOLESTR pszURL);                               // called when a web service is removed
+    };
+
+    //----------------------------------------------------------------------------
+    // IVsWebServices
+    // 
+    // Collection of WebServices provided by a website and/or project
+    // This collection can be gotten from the DTE Project.Object
+    //----------------------------------------------------------------------------
+    [
+        uuid(4DB4E7D3-5550-41ae-A612-3D28CD0C52A8),
+        helpstring("IEnumWebServiceProvider interface"),
+        pointer_default(unique)
+    ]
+    interface IEnumWebServices  : IUnknown
+    {
+        HRESULT Next([in]   ULONG celt, [out, size_is(celt), length_is(*pceltFetched)] IVsWebService **rgelt, [out] ULONG *pceltFetched);
+        HRESULT Skip([in]   ULONG celt);
+        HRESULT Reset(void);
+        HRESULT Clone([out] IEnumWebServices   **ppenum);
+    };
+
+    //----------------------------------------------------------------------------
+    // IVsWebServiceProvider
+    // 
+    // This collection can be gotten from the DTE Project.Object
+    //----------------------------------------------------------------------------
+    [
+        uuid(C736666C-6970-4ae7-9B1F-5C0407A30556),
+        helpstring("IVsWebServiceProvider interface"),
+        pointer_default(unique)
+    ]
+    interface IVsWebServiceProvider  : IUnknown
+    {
+        HRESULT WebServices ([out, retval] IEnumWebServices **ppIEnumWebServices);                  // collection of all web services for this provider
+        HRESULT GetWebService([in] LPCOLESTR pszUrl, [out, retval] IVsWebService **ppIVsWebService);          // returns the IVsWebService for a given url
+        HRESULT StartServer();                                                                                     // Used to launch the service if necessary, before (re)discovering the wsdl
+        HRESULT AdviseWebServiceProviderEvents([in] IVsWebServiceProviderEvents *pEvents, [out, retval] VSCOOKIE *pdwCookie); // register callback for web service events
+        HRESULT UnadviseWebServiceProviderEvents([in] VSCOOKIE dwCookie);                                             // un-register the callback
+        HRESULT EnsureServerRunning([out, retval] BSTR *pbstrUrl);
+        HRESULT ApplicationUrl([out, retval] BSTR *pbstrUrl);
+    };
+
+#ifndef INTEROPLIB
+
+};
+
+#endif
+

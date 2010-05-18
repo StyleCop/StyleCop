@@ -1,0 +1,375 @@
+/****************************************************************************
+*  The vslangproj Interfaces
+*  Copyright (c) Microsoft Corporation, All Rights Reserved
+****************************************************************************/
+
+/****************************************************************************
+* vslangproj100.idl
+*
+* Sources the typelib that needs to be exposed to clients.
+* Exposes the CATID's of the extensibility Project & ProjectItem object.
+* Exposes the diff CATID's for the diff packages for the browse objects.
+* Exposes the browse object interfaces
+* Exposes the interfaces of the package specific extensibility project object.
+*****************************************************************************/
+#ifndef INTEROPLIB
+import "oaidl.idl";
+
+
+// Interface definitions
+cpp_quote("#define VSLANGPROJ100_VER_MAJ   10")
+cpp_quote("#define VSLANGPROJ100_VER_MIN    0")
+
+#define VSLANGPROJ_VER        10.0
+
+[
+    uuid(790899ed-e28c-4003-a8c3-71bb7f6ad8aa),
+    helpstring("Microsoft Visual Studio Project Model (10.0)"),
+    version(VSLANGPROJ_VER)
+]
+library VSLangProj100
+{
+#endif // INTEROPLIB
+
+
+    importlib("stdole32.tlb");
+    importlib("stdole2.tlb");
+    importlib("vslangproj.tlb");
+    importlib("vslangproj2.tlb");
+    importlib("vslangproj80.tlb");
+    importlib("vslangproj90.tlb");
+
+    // this list includes config and project properties.
+    // if you add new properties, please add config props in the config section and
+    // project props in the project section.
+    enum VsProjPropId100
+    {
+        /********************************************** defined in vslangproj.idl
+        VBPROJPROPID__First = 10000,
+        // = 10001
+        VBPROJPROPID_DebugSymbols,
+        VBPROJPROPID_StartArguments,
+        VBPROJPROPID_StartAction,
+        VBPROJPROPID_OutputPath,
+        VBPROJPROPID_DefineConstants,
+        VBPROJPROPID_StartProgram,
+        VBPROJPROPID_StartWorkingDirectory,
+        VBPROJPROPID_StartURL,
+        VBPROJPROPID_OutputFileName,
+        VBPROJPROPID_IntermediatePath,
+        // = 10011
+        VBPROJPROPID_ApplicationIcon,
+        VBPROJPROPID_WebServer,
+        VBPROJPROPID_AssemblyName,
+        VBPROJPROPID_Unused1,
+        VBPROJPROPID_StartupObject,
+        VBPROJPROPID_OutputType,
+        VBPROJPROPID_WebServerVersion,
+        VBPROJPROPID_ServerExtensionsVersion,
+        VBPROJPROPID_LinkRepair,
+        VBPROJPROPID_OfflineURL,
+        // = 10021
+        VBPROJPROPID_DefaultClientScript,
+        VBPROJPROPID_DefaultTargetSchema,
+        VBPROJPROPID_DefaultHTMLPageLayout,
+        VBPROJPROPID_ProjectFolder,
+        VBPROJPROPID_ProjectURL,
+        VBPROJPROPID_FileName,
+        VBPROJPROPID_FullPath,
+        VBPROJPROPID_LocalPath,
+        VBPROJPROPID_URL,
+        VBPROJPROPID_Extender,
+        // = 10031
+        VBPROJPROPID_ExtenderNames,
+        VBPROJPROPID_ExtenderCATID,
+        VBPROJPROPID_ActiveConfigurationSettings,
+        VBPROJPROPID_AbsoluteProjectDirectory,
+        VBPROJPROPID__Project,
+        VBPROJPROPID_DefineDebug,
+        VBPROJPROPID_DefineTrace,
+        VBPROJPROPID_StartPage,
+        VBPROJPROPID_StartWithIE,
+        VBPROJPROPID_EnableASPDebugging,
+        // = 10041
+        VBPROJPROPID_EnableASPXDebugging,
+        VBPROJPROPID_RootNamespace,
+        VBPROJPROPID_AssemblyOriginatorKeyMode,
+        VBPROJPROPID_AssemblyOriginatorKeyFile,
+        VBPROJPROPID_AssemblyKeyContainerName,
+        VBPROJPROPID_DelaySign,
+        VBPROJPROPID_FileSharePath,
+        VBPROJPROPID_ActiveFileSharePath,
+        VBPROJPROPID_WebAccessMethod,
+        VBPROJPROPID_ActiveWebAccessMethod,
+        // = 10051
+        VBPROJPROPID_OptionStrict,
+        VBPROJPROPID_WarningLevel,
+        VBPROJPROPID_TreatWarningsAsErrors,
+        VBPROJPROPID_RemoveIntegerChecks,
+        VBPROJPROPID_BaseAddress,
+        VBPROJPROPID_ReferencePath,
+        VBPROJPROPID_EnableUnmanagedDebugging,
+        VBPROJPROPID_EnableSQLServerDebugging,
+        VBPROJPROPID_OptionExplicit,
+        VBPROJPROPID_OptionCompare,
+        // = 10061
+        //C# only, except VBPROJPROPID_Optimize
+        VBPROJPROPID_AllowUnsafeBlocks,
+        VBPROJPROPID_CheckForOverflowUnderflow,
+        VBPROJPROPID_DocumentationFile,
+        VBPROJPROPID_Optimize,
+        VBPROJPROPID_IncrementalBuild,
+        VBPROJPROPID_NoStandardLibraries,
+        VBPROJPROPID_ProjectType,
+        VBPROJPROPID_DefaultNamespace,
+        VBPROJPROPID_FileAlignment,
+        VBPROJPROPID_DisableWarnings,
+        // = 10071
+        VBAPROJPROPID_ProjectName,   // VBA only property
+        VBPROJPROPID_RegisterForComInterop,
+        VBPROJPROPID_ConfigurationOverrideFile,
+        VBPROJPROPID_RemoteDebugEnabled,
+        VBPROJPROPID_RemoteDebugMachine,
+        ********************************************** defined in vslangproj2.idl
+        VBPROJPROPID_NoStdLib      = 10066,
+        VBPROJPROPID_PreBuildEvent = 10076,
+        VBPROJPROPID_PostBuildEvent,
+        VBPROJPROPID_RunPostBuildEvent,
+        VBPROJPROPID_NoWarn,
+        VBPROJPROPID_AspnetVersion
+        ********************************************** defined in vslangproj80.idl
+        VBPROJPROPID_DebugInfo                      =  10106,
+        VBPROJPROPID_PlatformTarget                 =  10109,
+        VBPROJPROPID_UseVSHostingProcess            =  10110,
+        VBPROJPROPID_GenerateSerializationAssemblies=  10111,
+        // Property IDs used for CodeAnalysis integration.  Intentionally leaving a hole
+        // in the numbering scheme here to avoid having to change the numbers
+        // every time we integrate from Main to Lab26
+        VBPROJPROPID_RunCodeAnalysis                       =  12200,
+        VBPROJPROPID_CodeAnalysisLogFile                   =  12201,
+        VBPROJPROPID_CodeAnalysisRuleAssemblies            =  12202,
+        VBPROJPROPID_CodeAnalysisRules                     =  12203,
+        VBPROJPROPID_CodeAnalysisInputAssembly             =  12204,
+        VBPROJPROPID_CodeAnalysisSpellCheckLanguages       =  12205,
+        VBPROJPROPID_CodeAnalysisUseTypeNameInSuppression  =  12206,
+        VBPROJPROPID_CodeAnalysisModuleSuppressionsFile    =  12207,
+        // This lists project properties
+        VBPROJPROPID_InstanceType                   =  12100,
+        VBPROJPROPID_ShutdownMode                   =  12101,
+        VBPROJPROPID_AssemblyTitle                  =  12102,
+        VBPROJPROPID_AssemblyDescription            =  12103,
+        VBPROJPROPID_AssemblyCompany                =  12104,
+        VBPROJPROPID_AssemblyProduct                =  12105,
+        VBPROJPROPID_AssemblyCopyright              =  12106,
+        VBPROJPROPID_AssemblyTrademark              =  12107,
+        VBPROJPROPID_AssemblyType                   =  12108,
+        VBPROJPROPID_TypeComplianceDiagnostics      =  12109,
+        VBPROJPROPID_CompatibilityChecks            =  12110,
+        VBPROJPROPID_CompatibleAssembly             =  12111,
+        VBPROJPROPID_Win32ResourceFile              =  12112,
+        VBPROJPROPID_AssemblyOriginatorKeyFileType  =  12114,
+        VBPROJPROPID_AssemblyKeyProviderName        =  12115,
+        VBPROJPROPID_AssemblyVersion                =  12116,
+        VBPROJPROPID_AssemblyFileVersion            =  12117,
+        VBPROJPROPID_SecureDebugURL                 =  12118,
+        VBPROJPROPID_GenerateManifests              =  12119,
+        VBPROJPROPID_EnableSecurityDebugging        =  12120,
+        VBPROJPROPID_TreatSpecificWarningsAsErrors  =  12121,
+        VBPROJPROPID_Publish                        =  12122,
+        VBPROJPROPID_ComVisible                     =  12123,
+        VBPROJPROPID_AssemblyGuid                   =  12124,
+        VBPROJPROPID_NeutralResourcesLanguage       =  12125,
+        VBPROJPROPID_SignAssembly                   =  12126,
+        VBPROJPROPID_TargetZone                     =  12127,
+        VBPROJPROPID_ExcludedPermissions            =  12128,
+        VBPROJPROPID_ManifestCertificateThumbprint  =  12129,
+        VBPROJPROPID_ManifestKeyFile                =  12130,
+        VBPROJPROPID_ManifestTimestampUrl           =  12131,
+        VBPROJPROPID_SignManifests                  =  12132
+
+        ***********************************************  defined in vslangproj90.idl
+        VBPROJPROPID_TargetFramework                =  12200,
+        VBPROJPROPID_ApplicationManifest            =  12201,
+
+        ***********************************************/
+        
+        VBPROJPROPID_TargetFrameworkMoniker         =  12202,
+
+
+        /********************************************** defined in vslangproj90.idl
+        VBPROJPROPID_CodeAnalysisIgnoreGeneratedCode       =  15208,
+        VBPROJPROPID_CodeAnalysisOverrideRuleVisibilities  =  15209,
+        VBPROJPROPID_CodeAnalysisCulture                   =  15210,
+        VBPROJPROPID_CodeAnalysisDictionaries              =  15211,
+        ***********************************************/
+        VBPROJPROPID_CodeAnalysisRuleSet                   =  15212,
+        VBPROJPROPID_CodeAnalysisRuleSetDirectories        =  15213,
+        VBPROJPROPID_CodeAnalysisIgnoreBuiltInRuleSets     =  15214,
+        VBPROJPROPID_CodeAnalysisRuleDirectories           =  15215,
+        VBPROJPROPID_CodeAnalysisIgnoreBuiltInRules        =  15216,
+        VBPROJPROPID_CodeAnalysisFailOnMissingRules        =  15217,
+    };
+
+    // This lists reference properties
+    enum  VsProjReferencePropId100
+    {
+        /* ***********************************************  defined in vslangproj80.idl
+        DISPID_Reference_SpecificVersion = 120,
+        DISPID_Reference_SubType = 121,
+        DISPID_Reference_Isolated = 122,
+        DISPID_Reference_Aliases = 123,
+        DISPID_Reference_RefType = 124,
+        DISPID_Reference_AutoReferenced = 125,
+        DISPID_Reference_Resolved = 126,
+        ***********************************************/
+        
+        DISPID_Reference_EmbedInteropTypes = 127,
+    };
+
+    // VB specific properties
+    enum  VBProjPropId100
+    {
+        VBPROJPROPID_LanguageVersion                  =  16101,
+    };
+
+    // VBProjectProperties6.  Note, properties which are retrieved through language code model
+    // are marked as NonBrowsable for performance reasons.
+    [
+        uuid(7d84f860-7e2a-42c4-9a70-455b8238dd66),
+        helpstring("VB Project properties 6"),
+        pointer_default(unique),
+        dual
+    ]
+    interface VBProjectProperties6 : VBProjectProperties4
+    {
+        [propget, nonbrowsable, id(VBPROJPROPID_TargetFrameworkMoniker), helpstring("Target Framework Moniker")]
+        HRESULT TargetFrameworkMoniker([out, retval] BSTR *pbstrTargetFrameworkMoniker);
+        [propput, nonbrowsable, id(VBPROJPROPID_TargetFrameworkMoniker), helpstring("Target Framework Moniker")]
+        HRESULT TargetFrameworkMoniker([in] BSTR bstrTargetFrameworkMoniker);
+
+        [propget, id(VBPROJPROPID_LanguageVersion), helpstring("Language Version")]
+        HRESULT LanguageVersion([out, retval] BSTR *pbstrLanguageVersion);
+        [propput, id(VBPROJPROPID_LanguageVersion), helpstring("Language Version")]
+        HRESULT LanguageVersion([in] BSTR LanguageVersion);
+    }
+
+    //
+    // VBProjectConfigurationProperties5
+    //
+    [
+        uuid(08624013-5567-494a-afe9-a4d1499e50b9),
+        helpstring("VB Project configuration properties 5"),
+        pointer_default(unique),
+        dual
+    ]
+    interface VBProjectConfigurationProperties5 : VBProjectConfigurationProperties4
+    {
+        // The Rule Set file which contains the list of rules to run
+        [propget, id(VBPROJPROPID_CodeAnalysisRuleSet), helpstring("The path to a file which contains the list of rules to run.")]
+        HRESULT CodeAnalysisRuleSet([out, retval] BSTR* pbstrRuleSet);
+        [propput, id(VBPROJPROPID_CodeAnalysisRuleSet), helpstring("The path to a file which contains the list of rules to run.")]
+        HRESULT CodeAnalysisRuleSet([in] BSTR bstrRuleSet);
+
+        [propget, id(VBPROJPROPID_CodeAnalysisRuleSetDirectories), helpstring("Directories in which to search for rule set files.")]
+        HRESULT CodeAnalysisRuleSetDirectories([out, retval] BSTR* pbstrRuleSetDirectories);
+        [propput, id(VBPROJPROPID_CodeAnalysisRuleSetDirectories), helpstring("Directories in which to search for rule set files.")]
+        HRESULT CodeAnalysisRuleSetDirectories([in] BSTR bstrRuleSetDirectories);
+
+        [propget, id(VBPROJPROPID_CodeAnalysisIgnoreBuiltInRuleSets), helpstring("Ignore the default Code Analysis rule set directories.")]
+        HRESULT CodeAnalysisIgnoreBuiltInRuleSets([out, retval] VARIANT_BOOL* pbIgnoreBuiltInRuleSets);
+        [propput, id(VBPROJPROPID_CodeAnalysisIgnoreBuiltInRuleSets), helpstring("Ignore the default Code Analysis rule set directories.")]
+        HRESULT CodeAnalysisIgnoreBuiltInRuleSets([in] VARIANT_BOOL IgnoreBuiltInRuleSets);
+
+        [propget, id(VBPROJPROPID_CodeAnalysisRuleDirectories), helpstring("Directories in which to search for rules specified in rule set files.")]
+        HRESULT CodeAnalysisRuleDirectories([out, retval] BSTR* pbstrRuleDirectories);
+        [propput, id(VBPROJPROPID_CodeAnalysisRuleDirectories), helpstring("Directories in which to search for rules specified in rule set files.")]
+        HRESULT CodeAnalysisRuleDirectories([in] BSTR bstrRuleDirectories);
+
+        [propget, id(VBPROJPROPID_CodeAnalysisIgnoreBuiltInRules), helpstring("Ignore the default Code Analysis rule directories.")]
+        HRESULT CodeAnalysisIgnoreBuiltInRules([out, retval] VARIANT_BOOL* pbIgnoreBuiltInRules);
+        [propput, id(VBPROJPROPID_CodeAnalysisIgnoreBuiltInRules), helpstring("Ignore the default Code Analysis rule directories.")]
+        HRESULT CodeAnalysisIgnoreBuiltInRules([in] VARIANT_BOOL IgnoreBuiltInRules);
+
+        [propget, id(VBPROJPROPID_CodeAnalysisFailOnMissingRules), helpstring("Causes analysis to fail if any rule or rule set is missing.")]
+        HRESULT CodeAnalysisFailOnMissingRules([out, retval] VARIANT_BOOL* pbFailOnMissingRules);
+        [propput, id(VBPROJPROPID_CodeAnalysisFailOnMissingRules), helpstring("Causes analysis to fail if any rule or rule set is missing.")]
+        HRESULT CodeAnalysisFailOnMissingRules([in] VARIANT_BOOL FailOnMissingRules);
+    }
+    
+    // CSharpProjectProperties6.  Note, properties which are retrieved through language code model
+    // are marked as NonBrowsable for performance reasons.
+    [
+        uuid(531d3661-c9ce-4618-bdb4-466a4e4072c9),
+        helpstring("CSharp Project properties 6"),
+        pointer_default(unique),
+        dual
+    ]
+    interface CSharpProjectProperties6 : CSharpProjectProperties4
+    {
+        [propget, nonbrowsable, id(VBPROJPROPID_TargetFrameworkMoniker), helpstring("Target Framework Moniker")]
+        HRESULT TargetFrameworkMoniker([out, retval] BSTR *pbstrTargetFrameworkMoniker);
+        [propput, nonbrowsable, id(VBPROJPROPID_TargetFrameworkMoniker), helpstring("Target Framework Moniker")]
+        HRESULT TargetFrameworkMoniker([in] BSTR bstrTargetFrameworkMoniker);
+    }
+
+    //
+    // CSharpProjectConfigurationProperties5
+    //
+    [
+        uuid(c379af13-6c05-4a91-a3bf-4c61999174b4),
+        helpstring("CSharp Project configuration properties 5"),
+        pointer_default(unique),
+        dual
+    ]
+    interface CSharpProjectConfigurationProperties5 : CSharpProjectConfigurationProperties4
+    {
+        // The Rule Set file which contains the list of rules to run
+        [propget, id(VBPROJPROPID_CodeAnalysisRuleSet), helpstring("The path to a file which contains the list of rules to run.")]
+        HRESULT CodeAnalysisRuleSet([out, retval] BSTR* pbstrRuleSet);
+        [propput, id(VBPROJPROPID_CodeAnalysisRuleSet), helpstring("The path to a file which contains the list of rules to run.")]
+        HRESULT CodeAnalysisRuleSet([in] BSTR bstrRuleSet);
+
+        [propget, id(VBPROJPROPID_CodeAnalysisRuleSetDirectories), helpstring("Directories in which to search for rule set files.")]
+        HRESULT CodeAnalysisRuleSetDirectories([out, retval] BSTR* pbstrRuleSetDirectories);
+        [propput, id(VBPROJPROPID_CodeAnalysisRuleSetDirectories), helpstring("Directories in which to search for rule set files.")]
+        HRESULT CodeAnalysisRuleSetDirectories([in] BSTR bstrRuleSetDirectories);
+
+        [propget, id(VBPROJPROPID_CodeAnalysisIgnoreBuiltInRuleSets), helpstring("Ignore the default Code Analysis rule set directories.")]
+        HRESULT CodeAnalysisIgnoreBuiltInRuleSets([out, retval] VARIANT_BOOL* pbIgnoreBuiltInRuleSets);
+        [propput, id(VBPROJPROPID_CodeAnalysisIgnoreBuiltInRuleSets), helpstring("Ignore the default Code Analysis rule set directories.")]
+        HRESULT CodeAnalysisIgnoreBuiltInRuleSets([in] VARIANT_BOOL IgnoreBuiltInRuleSets);
+
+        [propget, id(VBPROJPROPID_CodeAnalysisRuleDirectories), helpstring("Directories in which to search for rules specified in rule set files.")]
+        HRESULT CodeAnalysisRuleDirectories([out, retval] BSTR* pbstrRuleDirectories);
+        [propput, id(VBPROJPROPID_CodeAnalysisRuleDirectories), helpstring("Directories in which to search for rules specified in rule set files.")]
+        HRESULT CodeAnalysisRuleDirectories([in] BSTR bstrRuleDirectories);
+
+        [propget, id(VBPROJPROPID_CodeAnalysisIgnoreBuiltInRules), helpstring("Ignore the default Code Analysis rule directories.")]
+        HRESULT CodeAnalysisIgnoreBuiltInRules([out, retval] VARIANT_BOOL* pbIgnoreBuiltInRules);
+        [propput, id(VBPROJPROPID_CodeAnalysisIgnoreBuiltInRules), helpstring("Ignore the default Code Analysis rule directories.")]
+        HRESULT CodeAnalysisIgnoreBuiltInRules([in] VARIANT_BOOL IgnoreBuiltInRules);
+
+        [propget, id(VBPROJPROPID_CodeAnalysisFailOnMissingRules), helpstring("Causes analysis to fail if any rule or rule set is missing.")]
+        HRESULT CodeAnalysisFailOnMissingRules([out, retval] VARIANT_BOOL* pbFailOnMissingRules);
+        [propput, id(VBPROJPROPID_CodeAnalysisFailOnMissingRules), helpstring("Causes analysis to fail if any rule or rule set is missing.")]
+        HRESULT CodeAnalysisFailOnMissingRules([in] VARIANT_BOOL FailOnMissingRules);
+    }
+
+   
+    [
+        dual,
+        oleautomation,
+        object,
+        uuid(f71b6036-80f1-4f08-bc59-b5d92865f629)
+    ]
+    interface Reference4 : Reference3
+    {
+        [id(DISPID_Reference_EmbedInteropTypes), propget, helpstring("Embed interop types from the reference into the target assembly")]
+        HRESULT EmbedInteropTypes([out, retval] VARIANT_BOOL *pbEmbedInteropTypes);
+        [id(DISPID_Reference_EmbedInteropTypes), propput, helpstring("Embed interop types from the reference into the target assembly")]
+        HRESULT EmbedInteropTypes([in] VARIANT_BOOL bEmbedInteropTypes);
+    };
+
+#ifndef INTEROPLIB
+}
+#endif

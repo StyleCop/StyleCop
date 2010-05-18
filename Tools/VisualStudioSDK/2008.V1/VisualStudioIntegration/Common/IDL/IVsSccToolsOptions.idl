@@ -1,0 +1,111 @@
+/*------------------------------------------------------------------------------ 
+Copyright (c) Microsoft Corporation.  All rights reserved. 
+ 
+@doc 
+ 
+@module IVsSccToolsOptions The IDL File describing the SCC Tools Options service |
+IDL source for SCC Tools Options sertvice and interface.
+
+
+@owner  Microsoft Corporation, Visual Studio Core Team 
+------------------------------------------------------------------------------*/
+
+#if !defined(CTC_INVOKED) && !defined(RGS_INVOKED)
+
+cpp_quote("#pragma once")
+
+/*
+The method for using the SCC Tools Options service and interface is shown in this example code fragment:
+
+	  // Get the SCC Tools Options interface from the SID_SVsSccToolsOptions SCC Tools Options Service
+	  IVsSccToolsOptions *pstoIVsSccToolsOptions = NULL;
+	  HRESULT hr = CGlobalServiceProvider::HrQueryService(SID_SVsSccToolsOptions,IID_IVsSccToolsOptions, (void **)&pstoIVsSccToolsOptions);
+	  VSASSERT(SUCCEEDED(hr), "Unable to find the SID_SVsSccToolsOptions Source Code Control tools options service");
+	  if ( SUCCEEDED(hr) )
+	  {
+		...
+
+		  // Call the SCC Tools Option interface to set the new value of the flag
+		  pstoIVsSccToolsOptions->SetSccToolsOption(ksctoAllowReadOnlyFilesNotUnderSccToBeEdited,varfAllowReadOnlyFilesNotUnderSccToBeEdited);
+	  }
+
+*/
+
+//------------------------------------------------------------------------------
+// Imports
+#ifndef INTEROPLIB
+
+import "oaidl.idl";
+
+#endif
+
+#include "VseeGuids.h"
+
+//------------------------------------------------------------------------------
+// Forward declarations
+
+//------------------------------------------------------------------------------
+// Enumerations
+
+// SCC Tools Options enumerations.
+
+typedef
+[
+	helpstring("SccToolsOptions")
+]
+enum __SccToolsOptionsEnum
+{
+	[helpstring("ksctofAllowReadOnlyFilesNotUnderSccToBeEdited")]	ksctoAllowReadOnlyFilesNotUnderSccToBeEdited = 1,
+	[helpstring("ksctoLast")]	ksctoLast = ksctoAllowReadOnlyFilesNotUnderSccToBeEdited,
+	[helpstring("ksctoBad")]	ksctoBad = ksctoLast+1
+} SccToolsOptionsEnum;
+
+//------------------------------------------------------------------------------
+
+////////////////////////////////////////////////////////////////////////////
+// The SCC Tools Options interface allows us to set and get tools options
+// values relating to Source Code Control or Query Edit Query Save
+////////////////////////////////////////////////////////////////////////////
+[ uuid(uuid_IVsSccToolsOptions) ]
+interface IVsSccToolsOptions : IUnknown
+{
+	// @cmember Set the specified SCC tools option
+	HRESULT SetSccToolsOption
+	(
+		[in]			SccToolsOptionsEnum		sctoOptionToBeSet,	// @parm [in] Enumeration for SCC Tools Option value we want to set
+		[in]			VARIANT	varValueToBeSet						// @parm [in] If TRUE we will allow editing of readonly files not under Source Code Control
+	);
+
+	// @cmember Get the specified SCC tools option
+	HRESULT GetSccToolsOption
+	(
+		[in]			SccToolsOptionsEnum		sctoOptionToBeSet,	// @parm [in] Enumeration for SCC Tools Option value we want to get
+		[out,retval]	VARIANT	*pvarValueToGet						// @parm [out] If this is set to TRUE we will allow editing of readonly files not under Source Code Control
+	);
+
+};
+
+//------------------------------------------------------------------------------
+
+////////////////////////////////////////////////////////////////////////////
+// CLSIDs and Service IDs that don;t get defined in the generated .h file
+////////////////////////////////////////////////////////////////////////////
+
+// Service ID for the SCC Tools Options service
+[uuid (uuid_SVsSccToolsOptions)]
+interface SVsSccToolsOptions : IUnknown {};
+cpp_quote("#define SID_SVsSccToolsOptions IID_SVsSccToolsOptions")
+
+//------------------------------------------------------------------------------
+
+#elif defined(RGS_INVOKED)
+
+#define CHAR_SID_SVsSccToolsOptions '{53544C4D-304B-4d82-AD93-074816C1A0E5}'
+#define SID_SVsSccToolsOptions {53544C4D-304B-4d82-AD93-074816C1A0E5}
+//------------------------------------------------------------------------------
+
+#elif defined(CTC_INVOKED)
+
+	//;
+
+#endif

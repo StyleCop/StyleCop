@@ -1,0 +1,56 @@
+﻿<StyleCopCsParserObjectModel>
+  <Element Name="Root" Type="DocumentRoot">
+    <Element Name="Class1" Type="Class" />
+    <Element Name="Class2&lt;T&gt;" Type="Class" />
+    <Element Name="Class3&lt;T,S&gt;" Type="Class" />
+    <Element Name="Class4&lt;T&gt;" Type="Class" />
+    <Element Name="Class5&lt;T&gt;" Type="Class" />
+    <Element Name="Class6&lt;T&gt;" Type="Class" />
+    <Element Name="Class7&lt;T&gt;" Type="Class" />
+    <Element Name="Class8&lt;T&gt;" Type="Class" />
+    <Element Name="Class9&lt;T,U,V&gt;" Type="Class" />
+    <Element Name="Class10&lt;T,U,V&gt;" Type="Class" />
+    <Element Name="Class11&lt;T,U,V&gt;" Type="Class" />
+    <Element Name="Class12" Type="Class" />
+    <Element Name="Class13" Type="Class" />
+    <Element Name="Class14" Type="Class" />
+    <Element Name="Class15&lt;T&gt;" Type="Class" />
+    <Element Name="Class16&lt;T&gt;" Type="Class" />
+    <Element Name="Class17" Type="Class" />
+    <Element Name="" Type="EmptyElement" />
+    <Element Name="NestedClass1" Type="Class">
+      <Element Name="NestedClass2" Type="Class">
+        <Element Name="NestedClass3" Type="Class">
+          <Element Name="NestedClass4" Type="Class">
+            <Element Name="NestedClass5" Type="Class">
+              <Element Name="NestedClass6&lt;T&gt;" Type="Class" />
+            </Element>
+          </Element>
+        </Element>
+      </Element>
+    </Element>
+    <Element Name="ClassWithAccessModifier1" Type="Class" />
+    <Element Name="ClassWithAccessModifier2" Type="Class" />
+    <Element Name="ClassWithAccessModifier3" Type="Class" />
+    <Element Name="ClassWithAccessModifier4" Type="Class" />
+    <Element Name="ClassWithAccessModifier5" Type="Class" />
+    <Element Name="ClassWithAccessModifier6" Type="Class" />
+    <Element Name="ClassWithModifier1" Type="Class">
+      <Element Name="SubClass" Type="Class" />
+    </Element>
+    <Element Name="ClassWithModifier2" Type="Class" />
+    <Element Name="ClassWithModifier3" Type="Class" />
+    <Element Name="ClassWithModifier4" Type="Class" />
+    <Element Name="ClassWithModifier5" Type="Class" />
+    <Element Name="PartialClass1" Type="Class" />
+    <Element Name="PartialClass2" Type="Class" />
+    <Element Name="PartialClass3" Type="Class" />
+    <Element Name="PartialClass2" Type="Class" />
+    <Element Name="ClassWithAttributes" Type="Class" />
+    <Element Name="ClassWithHeader" Type="Class" />
+    <Element Name="ClassWithHeaderAndAttributes" Type="Class" />
+    <Element Name="UnsafeClass" Type="Class">
+      <Element Name="Method1" Type="Method" />
+    </Element>
+  </Element>
+</StyleCopCsParserObjectModel>

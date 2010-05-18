@@ -1,0 +1,80 @@
+///////////////////////////////////////////////////////////
+//
+// uilocal.idl - This file describes the UI Locale service and interfaces
+//
+/****************************************************************************
+ *  Copyright (c) 1997-1998, Microsoft Corporation, All Rights Reserved
+ ****************************************************************************/
+
+///////////////////////////////////////////////////////////
+//
+// Imports
+//
+#ifndef INTEROPLIB
+
+import "oleidl.idl";
+
+#endif
+
+
+//----------------------------------------------------------------------------
+//	interface IUIHostLocale
+//----------------------------------------------------------------------------
+cpp_quote("#if 0")
+typedef struct _LOGFONTW
+{
+    LONG      lfHeight;
+    LONG      lfWidth;
+    LONG      lfEscapement;
+    LONG      lfOrientation;
+    LONG      lfWeight;
+    BYTE      lfItalic;
+    BYTE      lfUnderline;
+    BYTE      lfStrikeOut;
+    BYTE      lfCharSet;
+    BYTE      lfOutPrecision;
+    BYTE      lfClipPrecision;
+    BYTE      lfQuality;
+    BYTE      lfPitchAndFamily;
+    WCHAR     lfFaceName[32];	// LF_FACESIZE == 32
+} UIDLGLOGFONT;
+cpp_quote("#else")
+cpp_quote("#define UIDLGLOGFONT LOGFONTW")
+cpp_quote("#endif")
+
+[
+uuid(2C2EA031-02BE-11d1-8C85-00C04FC2AA89),
+version(1.0)
+]
+interface IUIHostLocale : IUnknown 
+{
+	HRESULT GetUILocale([out, retval] LCID *plcid);
+	HRESULT GetDialogFont([out] UIDLGLOGFONT *plogfont);
+};
+
+//----------------------------------------------------------------------------
+//	interface IUIHostLocale2
+//----------------------------------------------------------------------------
+[
+uuid(2C2EA032-02BE-11d1-8C85-00C04FC2AA89),
+version(1.0)
+]
+interface IUIHostLocale2 : IUIHostLocale 
+{
+    HRESULT LoadUILibrary([in] LPCOLESTR lpstrPath, 
+						  [in] LPCOLESTR lpstrDllName, 
+						  [in] DWORD dwExFlags, 
+						  [out, retval] DWORD_PTR *phinstOut);
+
+    HRESULT MungeDialogFont([in] DWORD dwSize, 
+							[in, size_is(dwSize)] const BYTE *pDlgTemplate, 
+							[out] BYTE **ppDlgTemplateOut);
+    HRESULT LoadDialog([in] DWORD_PTR hMod, 
+					   [in] DWORD dwDlgResId,	// Named dialogs NOT supported
+					   [out] BYTE **ppDlgTemplate);
+    HRESULT GetUILibraryFileName([in] LPCOLESTR lpstrPath, 
+						  [in] LPCOLESTR lpstrDllName,
+						  [out, retval] BSTR *pbstrOut);
+};
+
+cpp_quote("#define SID_SUIHostLocale IID_IUIHostLocale")

@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <!--Import the settings-->
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.20313</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{BE89E20A-DAC5-4A2F-97FE-A1CE6922EC94}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Microsoft.VisualStudio.Shell.RegistrationAttributes.UnitTests</RootNamespace>
+    <AssemblyName>RegistrationAttributes.UnitTests</AssemblyName>
+    <OutputPath Condition="'$(OutputPath)'!=''">$(VSSDK_SUITEBIN)</OutputPath>
+    <WarningLevel>4</WarningLevel>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath Condition="'$(OutputPath)'==''">bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath Condition="'$(OutputPath)'==''">bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.VisualStudio.OLE.Interop" />
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
+    <Reference Include="Microsoft.VisualStudio.Shell.9.0" />
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop" />
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.8.0" />
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.9.0" />
+    <Reference Include="Microsoft.VSSDK.UnitTestLibrary" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <PropertyGroup>
+    <CommonRegAttributes>..\</CommonRegAttributes>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\ProvideAppCommandLineAttribute.cs">
+      <Link>RegistrationAttributes\ProvideAppCommandLineAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\SolutionPersistenceRegistrationAttribute.cs">
+      <Link>RegistrationAttributes\SolutionPersistenceRegistrationAttribute.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tests\AppCommandLineAttributeTest.cs" />
+    <Compile Include="Tests\AttributeCommonTest.cs" />
+    <Compile Include="Tests\CodeGeneratorRegistrationAttributeTest.cs" />
+    <Compile Include="Tests\ComponentPickerPropertyPageAttributeTest.cs" />
+    <Compile Include="Tests\SingleFileGeneratorAttributeTest.cs" />
+    <Compile Include="$(CommonRegAttributes)\CodeGeneratorRegistrationAttribute.cs">
+      <Link>RegistrationAttributes\CodeGeneratorRegistrationAttribute.cs</Link>
+      <Visible>true</Visible>
+    </Compile>
+    <Compile Include="$(CommonRegAttributes)\ComponentPickerPropertyPageAttribute.cs">
+      <Link>RegistrationAttributes\ComponentPickerPropertyPageAttribute.cs</Link>
+      <Visible>true</Visible>
+    </Compile>
+    <Compile Include="Tests\SolutionPersistenceRegistrationAttributeTest.cs" />
+    <Compile Include="$(CommonRegAttributes)\EditorFactoryNotifyForProjectAttribute.cs">
+      <Link>RegistrationAttributes\EditorFactoryNotifyForProjectAttribute.cs</Link>
+      <Visible>true</Visible>
+    </Compile>
+    <Compile Include="$(CommonRegAttributes)\SingleFileGeneratorSupportRegistrationAttribute.cs">
+      <Link>RegistrationAttributes\SingleFileGeneratorSupportRegistrationAttribute.cs</Link>
+      <Visible>true</Visible>
+    </Compile>
+    <Compile Include="Tests\EditorFactoryNotifyForProjectAttributeTest.cs" />
+    <Compile Include="Tests\MockRegistrationContext.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
+</Project>

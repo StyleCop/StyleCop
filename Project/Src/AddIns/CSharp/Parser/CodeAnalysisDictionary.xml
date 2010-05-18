@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Dictionary>
+  <Words>
+    <Recognized>
+      <Word>Casted</Word>
+      <Word>declarator</Word>
+      <Word>Declarators</Word>
+      <Word>Elif</Word>
+      <Word>Endif</Word>
+      <Word>Foreach</Word>
+      <Word>Goto</Word>
+      <Word>Multi</Word>
+      <Word>MultiLineComment</Word>
+      <Word>Params</Word>
+      <Word>Readonly</Word>
+      <Word>Sizeof</Word>
+      <Word>Stackalloc</Word>
+      <Word>Typeof</Word>
+      <Word>Whitespace</Word>
+    </Recognized>
+  </Words>
+</Dictionary>

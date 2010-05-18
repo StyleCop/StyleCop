@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (c) Microsoft Corporation.  All rights reserved.
+
+    shortcut.wxs - small example that installs a single file, with a shortcut in the start menu for it.
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Product Id="*" Name="WixShortcutProduct" Language="1033" Version="0.0.0.0" Manufacturer="Microsoft Corporation">
+        <Package Description="Installs a test shortcut." Comments="Tests installation of a shortcut." InstallerVersion="200" Compressed="yes" />
+
+        <Media Id="1" Cabinet="product.cab" EmbedCab="yes" />
+
+        <Directory Id="TARGETDIR" Name="SourceDir">
+            <Directory Id="ProgramFilesFolder" Name="PFiles">
+                <Directory Id="WixShortcutProductDirectory" Name="Test Directory">
+                    <Component Id="WixShortcutProductComponent" Guid="PUT-GUID-HERE" DiskId="1">
+                        <File Id="WixShortcutProductFile" Name="simple.txt" Source="bin\simple.txt">
+                            <Shortcut Id="WixShortcutProductShortcut" Directory="ProgramMenuFolder" Name="Test Shortcut" Description="Shortcut to simple.txt" Advertise="yes" />
+                        </File>
+                    </Component>
+                </Directory>
+            </Directory>
+            <Directory Id="ProgramMenuFolder" Name="ProgMenu" />
+        </Directory>
+
+        <Feature Id="WixShortcutProductFeature" Title="Wix Example Shortcut" Level="1">
+            <ComponentRef Id="WixShortcutProductComponent" />
+        </Feature>
+    </Product>
+</Wix>

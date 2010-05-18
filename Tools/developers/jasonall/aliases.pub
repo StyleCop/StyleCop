@@ -1,0 +1,12 @@
+..		cd ..
+root		cd /d %PROJECTROOT%\$*
+home		cd /d %PROJECTROOT%\src\
+vssdk           cd /d %VSSDKBUILD%
+cstest 		cd /d %PROJECTROOT%\src\Test\AddIns\CSharp\Analyzers\CSharpAnalyzersTest
+cs		cd /d %PROJECTROOT%\src\AddIns\CSharp
+csa		cd /d %PROJECTROOT%\src\AddIns\CSharp\Analyzers
+csp		cd /d %PROJECTROOT%\src\AddIns\CSharp\Parser
+sa		cd /d %PROJECTROOT%\src\SourceAnalysis
+e		pushd %PROJECTROOT%\src&sd edit ...&cd /d %PROJECTROOT%\test&sd edit ...&popd
+n		notepad $*
+tf		tf.exe $* /login:snd\jasonall_cp

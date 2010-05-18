@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<GenericTest name="linespacing" storage="c:\depot\stylecop\v4.3\test\addins\csharp\analyzers\csharpanalyzerstest\linespacing.generictest" id="60b44b6c-d52c-4953-b3eb-87b8119864ed" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Css projectStructure="" iteration="" />
+  <Description>Executes external testing system with specified parameters.</Description>
+  <Owners>
+    <Owner name="" />
+  </Owners>
+  <Execution id="280defb6-ab82-41d7-8f02-b511ff1a4b1f" />
+  <Command filename="%TestBin%\StyleCopTestHarness.exe" arguments="/testname:LineSpacing /i:&quot;%TestDeploymentDir%&quot; /o:&quot;%TestOutputDirectory%&quot; /testroot:%TestLocation%" workingDirectory="%TestOutputDirectory%" />
+  <SummaryXmlFile enabled="true" path="%TestOutputDirectory%\LineSpacingResults.xml" />
+</GenericTest>

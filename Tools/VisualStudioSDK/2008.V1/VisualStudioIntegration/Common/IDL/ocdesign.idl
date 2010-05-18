@@ -1,0 +1,287 @@
+/****************************************************************************
+ *  The OCDESIGN Interfaces
+ *  Copyright (c) 1997-1998, Microsoft Corporation, All Rights Reserved
+ ****************************************************************************/
+
+#ifndef INTEROPLIB
+// imports
+import "oleidl.idl";
+import "oaidl.idl";
+import "ocidl.idl";
+#endif
+
+// forward declares
+interface IBuilderWizardManager;
+interface IProvidePropertyBuilder;
+interface IPerPropertyBrowsing;
+interface IPerPropertyBrowsing2;
+interface IPropertyPageUndoString;
+interface IProvideRuntimeHTML;
+interface IProvideAltHTML;
+
+// {FD6FEBA0-24AC-11d1-AB1B-00A0C9055A90}
+cpp_quote("DEFINE_GUID(IID_IUseImmediateCommitPropertyPages, 0xfd6feba0, 0x24ac, 0x11d1, 0xab, 0x1b, 0x0, 0xa0, 0xc9, 0x5, 0x5a, 0x90);")
+
+///////////////////////////////////////////////////////////////////////////////
+// IBuilderWizardManager Component Categories
+///////////////////////////////////////////////////////////////////////////////
+// CATID_HTMLBuilder (HTML builder signature)
+// 1. IDispatch  - Application object
+// 2. long       - hwndPromptOwner 
+// 3. IUnknown   - IServiceProvider
+// 4. long       - Width
+// 5. long       - Height
+// 6. BSTR       - ParameterString
+// 7. IDispatch  - Container
+// 8. [OUT] BSTR - HTMLString
+// 
+// {73CEF3D4-AE85-11cf-A406-00AA00C00940}
+cpp_quote("DEFINE_GUID(CATID_HTMLBuilder, 0x73cef3d4, 0xae85, 0x11cf, 0xa4, 0x6, 0x0, 0xaa, 0x0, 0xc0, 0x9, 0x40);")
+
+///////////////////////////////////////////////////////////////////////////////
+// CATID_ObjectBuilder (activeX control builder signature)
+// 1. IDispatch        - Application object
+// 2. long             - hwndPromptOwner 
+// 3. [IN/OUT] VARIANT - current property value, new property value
+// 
+// {73CEF3D5-AE85-11cf-A406-00AA00C00940}
+cpp_quote("DEFINE_GUID(CATID_ObjectBuilder, 0x73cef3d5, 0xae85, 0x11cf, 0xa4, 0x6, 0x0, 0xaa, 0x0, 0xc0, 0x9, 0x40);")
+
+///////////////////////////////////////////////////////////////////////////////
+// CATID_PropertyBuilder (activeX control property builder signature)
+// 
+// {73CEF3D6-AE85-11cf-A406-00AA00C00940}
+cpp_quote("DEFINE_GUID(CATID_PropertyBuilder, 0x73cef3d6, 0xae85, 0x11cf, 0xa4, 0x6, 0x0, 0xaa, 0x0, 0xc0, 0x9, 0x40);")
+
+///////////////////////////////////////////////////////////////////////////////
+// CATID_URLBuilder (URL builder signature)
+// 1.  IDispatch        - Application object
+// 2.  long             - hwndPromptOwner 
+// 3.  IUnknown         - IServiceProvider
+// 4.  [IN/OUT] VARIANT - current/new url value
+// 5.  BSTR             - base url
+// 6.  BSTR             - additional filters
+// 7.  BSTR             - custom title
+// 8.  [IN/OUT] VARIANT - target frame value
+// 9.  [IN/OUT] long    - flags
+// 10. [OUT]    bool    - return value
+// 
+// {73CEF3D9-AE85-11cf-A406-00AA00C00940}
+cpp_quote("DEFINE_GUID(CATID_URLBuilder, 0x73cef3d9, 0xae85, 0x11cf, 0xa4, 0x6, 0x0, 0xaa, 0x0, 0xc0, 0x9, 0x40);")
+
+///////////////////////////////////////////////////////////////////////////////
+// CATID_ColorBuilder (activeX control color builder signature)
+// 1. IDispatch        - Application object
+// 2. long             - hwndPromptOwner 
+// 3. [IN/OUT] VARIANT - current color, new color value
+// 
+// {73CEF3DA-AE85-11cf-A406-00AA00C00940}
+cpp_quote("DEFINE_GUID(CATID_ColorBuilder, 0x73cef3da, 0xae85, 0x11cf, 0xa4, 0x6, 0x0, 0xaa, 0x0, 0xc0, 0x9, 0x40);")
+
+///////////////////////////////////////////////////////////////////////////////
+// CATID_FontBuilder (activeX control font builder signature)
+// 1. IDispatch        - Application object
+// 2. long             - hwndPromptOwner 
+// 3. [IN/OUT] VARIANT - (IDispatch) current color, new color value
+// 
+// {73CEF3DB-AE85-11cf-A406-00AA00C00940}
+cpp_quote("DEFINE_GUID(CATID_FontBuilder, 0x73cef3db, 0xae85, 0x11cf, 0xa4, 0x6, 0x0, 0xaa, 0x0, 0xc0, 0x9, 0x40);")
+
+// {73CEF3DE-AE85-11cf-A406-00AA00C00940}
+cpp_quote("DEFINE_GUID(CATID_ActiveXControlBuilder, 0x73cef3de, 0xae85, 0x11cf, 0xa4, 0x6, 0x0, 0xaa, 0x0, 0xc0, 0x9, 0x40);")
+
+///////////////////////////////////////////////////////////////////////////////
+// CATID_ScriptBuilder (script builder signature)
+// 1. BSTR - Default Language.
+// 2. long - HKey of the Application
+// 
+// {73CEF3DF-AE85-11cf-A406-00AA00C00940}
+cpp_quote("DEFINE_GUID(CATID_ScriptBuilder, 0x73cef3df, 0xae85, 0x11cf, 0xa4, 0x6, 0x0, 0xaa, 0x0, 0xc0, 0x9, 0x40);")
+
+///////////////////////////////////////////////////////////////////////////////
+// CATID_PictureBuilder (activeX control picture builder signature)
+// 1. IDispatch        - Application object
+// 2. long             - hwndPromptOwner 
+// 3. [IN/OUT] VARIANT - (IDispatch) current picture, new picture value
+// 
+// {73CEF3E0-AE85-11cf-A406-00AA00C00940}
+cpp_quote("DEFINE_GUID(CATID_PictureBuilder, 0x73cef3e0, 0xae85, 0x11cf, 0xa4, 0x6, 0x0, 0xaa, 0x0, 0xc0, 0x9, 0x40);")
+
+///////////////////////////////////////////////////////////////////////////////
+// IBuilderWizardManager Interface
+// 
+// {95FC88C2-9FCB-11cf-A405-00AA00C00940}
+cpp_quote("DEFINE_GUID(SID_SBuilderWizardManager, 0x95fc88c2, 0x9fcb, 0x11cf, 0xa4, 0x5, 0x0, 0xaa, 0x0, 0xc0, 0x9, 0x40);")
+cpp_quote("DEFINE_GUID(SID_IBuilderWizardManager, 0x95fc88c2, 0x9fcb, 0x11cf, 0xa4, 0x5, 0x0, 0xaa, 0x0, 0xc0, 0x9, 0x40);")
+
+  //----------------------------------------------------------------------------
+  // IBuilderWizardManager
+  //----------------------------------------------------------------------------
+
+  typedef enum tagBLDPROMPTOPT
+  {
+    BLDPROMPTOPT_PROMPTIFMULTIPLE = 0,
+    BLDPROMPTOPT_PROMPTALWAYS     = 1,
+    BLDPROMPTOPT_PROMPTNEVER      = 2,
+  } BLDPROMPTOPT;
+
+  typedef enum tagBLDGETOPT
+  {
+    BLDGETOPT_FAUTOMAPGUID         = 0x00000001,
+    BLDGETOPT_FAUTOMAPENABLEPROMPT = 0x00000002,
+    BLDGETOPT_FAUTOMAPPROMPTALWAYS = 0x00000004,
+    BLDGETOPT_FOBJECTBUILDER       = 0x00000008,
+    BLDGETOPT_FNOINTRINSICS        = 0x80000000,
+  } BLDGETFLAGS;
+
+  [
+  object,
+  uuid(95FC88C3-9FCB-11cf-A405-00AA00C00940),
+  version(1.0),
+  pointer_default(unique)
+  ]
+  interface IBuilderWizardManager : IUnknown
+  { 
+    HRESULT DoesBuilderExist([in] REFGUID rguidBuilder);
+    HRESULT MapObjectToBuilderCLSID([in] REFCLSID rclsidObject,
+                                    [in] DWORD dwPromptOpt,
+                                    [in] HWND hwndPromptOwner,
+                                    [out] CLSID *pclsidBuilder);
+    HRESULT MapBuilderCATIDToCLSID([in] REFGUID rguidBuilder,
+                                   [in] DWORD dwPromptOpt,
+                                   [in] HWND hwndPromptOwner,
+                                   [out] CLSID *pclsidBuilder);
+    HRESULT GetBuilder([in] REFGUID rguidBuilder,
+                       [in] DWORD grfGetOpt,
+                       [in] HWND hwndPromptOwner,
+                       [out] IDispatch **ppdispApp,
+                       [out] HWND *pwndBuilderOwner,
+                       [in] REFIID riidBuilder,
+                       [out] IUnknown **ppunkBuilder);
+    HRESULT EnableModeless([in] BOOL fEnable);
+  }
+
+  //----------------------------------------------------------------------------
+  // IProvidePropertyBuilder
+  //----------------------------------------------------------------------------
+
+  typedef enum tagCTLBLDTYPE
+  {
+    CTLBLDTYPE_FSTDPROPBUILDER   = 0x1,
+    CTLBLDTYPE_FINTERNALBUILDER  = 0x2,
+    CTLBLDTYPE_FEDITSOBJDIRECTLY = 0x4,
+  } CTLBLDTYPE;
+
+  [
+  uuid(33C0C1D8-33CF-11d3-BFF2-00C04F990235),
+  version(1.0),
+  pointer_default(unique)
+  ]
+  interface IProvidePropertyBuilder : IUnknown
+  {
+    HRESULT MapPropertyToBuilder([in] LONG dispid,
+                                 [in,out] LONG *pdwCtlBldType,
+                                 [in,out] BSTR *pbstrGuidBldr,
+                                 [out,retval] VARIANT_BOOL *pfRetVal);
+    HRESULT ExecuteBuilder([in] LONG dispid,
+                           [in] BSTR bstrGuidBldr,
+                           [in] IDispatch *pdispApp,
+                           [in] LONG_PTR hwndBldrOwner,
+                           [in,out] VARIANT *pvarValue,
+                           [out,retval] VARIANT_BOOL *pfRetVal);
+  }
+
+  //----------------------------------------------------------------------------
+  // IPerPropertyBrowsing2
+  //----------------------------------------------------------------------------
+
+  [
+  uuid(33C0C1DA-33CF-11d3-BFF2-00C04F990235),
+  version(1.0),
+  pointer_default(unique)
+  ]
+  interface IPerPropertyBrowsing2 : IUnknown
+  {
+    HRESULT MapPropertyToBuilder([in] DISPID dispid,
+                                 [out] GUID *pguidBuilder,
+                                 [out] DWORD *pdwType);
+    HRESULT ExecuteBuilder([in] DISPID dispid,
+                           [in] REFGUID rguidBuilder,
+                           [in] IDispatch *pdispApp,
+                           [in] HWND hwndBuilderOwner,
+                           [in,out] VARIANT *pvarValue);
+  }
+
+  //----------------------------------------------------------------------------
+  // IPropertyPageUndoString
+  //----------------------------------------------------------------------------
+
+  [
+  uuid(33C0C1DB-33CF-11d3-BFF2-00C04F990235),
+  version(1.0),
+  pointer_default(unique)
+  ]
+  interface IPropertyPageUndoString : IUnknown
+  {
+    HRESULT GetUndoString([out] LPOLESTR *ppszUndo);
+  }
+
+  //----------------------------------------------------------------------------
+  // IProvideRuntimeHTML
+  //----------------------------------------------------------------------------
+
+  [
+  uuid(33C0C1DC-33CF-11d3-BFF2-00C04F990235),
+  version(1.0),
+  pointer_default(unique)
+  ]
+  interface IProvideRuntimeHTML : IUnknown
+  {
+    HRESULT GetRuntimeHTML([out,retval] BSTR *pstrRuntimeHTML);
+  }
+
+  //----------------------------------------------------------------------------
+  // IProvideAltHTML
+  //----------------------------------------------------------------------------
+
+  [
+  uuid(33C0C1DD-33CF-11d3-BFF2-00C04F990235),
+  version(1.0),
+  pointer_default(unique)
+  ]
+  interface IProvideAltHTML : IUnknown
+  {
+    HRESULT GetAltHTML([out,retval] BSTR *pstrAltHTML);
+    HRESULT IsAltHTMLEditable([out,retval] boolean *pfIsEditable);
+  }
+
+  cpp_quote("DEFINE_GUID(IID_IPersistHTMLStream, 0x56223fe3, 0xd397, 0x11cf, 0xa4, 0x2e, 0x0, 0xaa, 0x0, 0xc0, 0x9, 0x40);")
+  cpp_quote("DEFINE_GUID(IID_IPersistAltHTMLStream, 0x56223fe4, 0xd397, 0x11cf, 0xa4, 0x2e, 0x0, 0xaa, 0x0, 0xc0, 0x9, 0x40);")
+
+
+#ifndef INTEROPLIB
+
+//----------------------------------------------------------------------------
+// OCDesign library
+//----------------------------------------------------------------------------
+[
+uuid(33C0C1DF-33CF-11d3-BFF2-00C04F990235),
+version(1.0),
+helpstring("OCDesign Library")
+]
+library OCDesign
+{
+	enum tagCTLBLDTYPE;
+	enum tagBLDGETOPT;
+	enum tagBLDPROMPTOPT;
+
+	interface IBuilderWizardManager;
+	interface IProvidePropertyBuilder;
+	interface IPerPropertyBrowsing;
+	interface IPerPropertyBrowsing2;
+	interface IPropertyPageUndoString;
+	interface IProvideRuntimeHTML;
+	interface IProvideAltHTML;
+};
+
+#endif

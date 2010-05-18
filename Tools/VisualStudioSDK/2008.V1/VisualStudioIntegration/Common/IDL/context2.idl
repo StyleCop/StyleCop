@@ -1,0 +1,51 @@
+/*
+ *  CONTEXT.IDL
+ *
+ *  This IDL file defines the interface to the context tracking
+ *  and retrieval services and objects.
+ *
+ */
+
+#ifndef INTEROPLIB
+
+import "oleidl.idl";
+import "vsshell.idl";
+import "context.idl";
+
+#endif
+
+#include "contextuuids.h"
+
+/****************************************************************************
+  ********    IMPORTANT!!   *********
+
+All guids for interfaces and co-creatable objects in this file should be defined
+in contextuuids.h
+
+****************************************************************************/
+
+
+enum __VSUSERCONTEXTEXPORTTEXTFLAGS
+{
+  VSUC_ETFlags_None             = 0x00000000, // typical/default
+  VSUC_ETFlags_StandardXML      = 0x00000001, // Use the standard XML format
+  VSUC_ETFlags_IncludeChildren  = 0x00000010  // Include the subcontexts
+};
+typedef DWORD VSUSERCONTEXTEXPORTTEXTFLAGS;
+
+//---------------------------------------------------------------------------
+// IVsUserContext2
+//---------------------------------------------------------------------------
+
+[
+    uuid(uuid_IVsUserContextExport),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsUserContextExport : IUnknown
+{
+    HRESULT GetUserContextAsText(VSUSERCONTEXTEXPORTTEXTFLAGS dwFlags, BSTR bstrOptions, BSTR *pbstrKeywords, BSTR *pbstrAttributes);
+    HRESULT GetUserContextAsSafeArray(VSUSERCONTEXTEXPORTTEXTFLAGS dwFlags, BSTR bstrF1Keyword, SAFEARRAY(VARIANT)* ppKeywords, SAFEARRAY(VARIANT)* ppAttributes);
+    HRESULT CreateSubcontextsFromSafeArrays(IVsMonitorUserContext *pMUC, SAFEARRAY(VARIANT) pKeywords, SAFEARRAY(VARIANT) pAttributes);
+};
+

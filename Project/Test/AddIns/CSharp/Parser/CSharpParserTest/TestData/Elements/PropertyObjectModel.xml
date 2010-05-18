@@ -1,0 +1,228 @@
+﻿<StyleCopCsParserObjectModel>
+  <Element Name="Root" Type="DocumentRoot">
+    <Element Name="Class1" Type="Class">
+      <Element Name="Property1" Type="Property">
+        <Element Name="get" Type="Accessor">
+          <Statement Type="ReturnStatement">
+            <Expression Text="true" Type="LiteralExpression" />
+          </Statement>
+        </Element>
+      </Element>
+      <Element Name="Property2" Type="Property">
+        <Element Name="set" Type="Accessor" />
+      </Element>
+      <Element Name="Property3" Type="Property">
+        <Element Name="get" Type="Accessor">
+          <Statement Type="ReturnStatement">
+            <Expression Text="false" Type="LiteralExpression" />
+          </Statement>
+        </Element>
+        <Element Name="set" Type="Accessor">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="int" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="x" Type="LiteralExpression" />
+                <Expression Text="value" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+        </Element>
+      </Element>
+    </Element>
+    <Element Name="Class3" Type="Class">
+      <Element Name="PropertyWithAccessModifier1" Type="Property">
+        <Element Name="get" Type="Accessor">
+          <Statement Type="ReturnStatement">
+            <Expression Text="true" Type="LiteralExpression" />
+          </Statement>
+        </Element>
+      </Element>
+      <Element Name="PropertyWithAccessModifier2" Type="Property">
+        <Element Name="get" Type="Accessor">
+          <Statement Type="ReturnStatement">
+            <Expression Text="true" Type="LiteralExpression" />
+          </Statement>
+        </Element>
+      </Element>
+      <Element Name="PropertyWithAccessModifier3" Type="Property">
+        <Element Name="get" Type="Accessor">
+          <Statement Type="ReturnStatement">
+            <Expression Text="true" Type="LiteralExpression" />
+          </Statement>
+        </Element>
+      </Element>
+      <Element Name="PropertyWithAccessModifier4" Type="Property">
+        <Element Name="get" Type="Accessor">
+          <Statement Type="ReturnStatement">
+            <Expression Text="true" Type="LiteralExpression" />
+          </Statement>
+        </Element>
+      </Element>
+      <Element Name="PropertyWithAccessModifier5" Type="Property">
+        <Element Name="get" Type="Accessor">
+          <Statement Type="ReturnStatement">
+            <Expression Text="true" Type="LiteralExpression" />
+          </Statement>
+        </Element>
+      </Element>
+      <Element Name="PropertyWithAccessModifier6" Type="Property">
+        <Element Name="get" Type="Accessor">
+          <Statement Type="ReturnStatement">
+            <Expression Text="true" Type="LiteralExpression" />
+          </Statement>
+        </Element>
+      </Element>
+      <Element Name="PropertyWithAccessModifier7" Type="Property">
+        <Element Name="get" Type="Accessor">
+          <Statement Type="ReturnStatement">
+            <Expression Text="true" Type="LiteralExpression" />
+          </Statement>
+        </Element>
+        <Element Name="set" Type="Accessor" />
+      </Element>
+      <Element Name="PropertyWithAccessModifier8" Type="Property">
+        <Element Name="get" Type="Accessor">
+          <Statement Type="ReturnStatement">
+            <Expression Text="true" Type="LiteralExpression" />
+          </Statement>
+        </Element>
+        <Element Name="set" Type="Accessor" />
+      </Element>
+      <Element Name="PropertyWithAccessModifier9" Type="Property">
+        <Element Name="get" Type="Accessor">
+          <Statement Type="ReturnStatement">
+            <Expression Text="true" Type="LiteralExpression" />
+          </Statement>
+        </Element>
+        <Element Name="set" Type="Accessor" />
+      </Element>
+      <Element Name="PropertyWithAccessModifier10" Type="Property">
+        <Element Name="get" Type="Accessor">
+          <Statement Type="ReturnStatement">
+            <Expression Text="true" Type="LiteralExpression" />
+          </Statement>
+        </Element>
+        <Element Name="set" Type="Accessor" />
+      </Element>
+      <Element Name="PropertyWithAccessModifier11" Type="Property">
+        <Element Name="get" Type="Accessor">
+          <Statement Type="ReturnStatement">
+            <Expression Text="true" Type="LiteralExpression" />
+          </Statement>
+        </Element>
+        <Element Name="set" Type="Accessor" />
+      </Element>
+    </Element>
+    <Element Name="Class4" Type="Class">
+      <Element Name="PropertyWithNewModifier" Type="Property">
+        <Element Name="get" Type="Accessor">
+          <Statement Type="ReturnStatement">
+            <Expression Text="true" Type="LiteralExpression" />
+          </Statement>
+        </Element>
+      </Element>
+      <Element Name="PropertyWithUnsafeModifier2" Type="Property">
+        <Element Name="get" Type="Accessor">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="short" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="y" Type="LiteralExpression" />
+                <Expression Text="2" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="ReturnStatement">
+            <Expression Type="UnsafeAccessExpression">
+              <Expression Text="x" Type="LiteralExpression" />
+            </Expression>
+          </Statement>
+        </Element>
+      </Element>
+      <Element Name="PropertyWithStaticModifier" Type="Property">
+        <Element Name="set" Type="Accessor" />
+      </Element>
+      <Element Name="PropertyWithVirtualModifier" Type="Property">
+        <Element Name="get" Type="Accessor">
+          <Statement Type="ReturnStatement">
+            <Expression Text="&quot;&quot;" Type="LiteralExpression" />
+          </Statement>
+        </Element>
+      </Element>
+      <Element Name="PropertyWithSealedModifier" Type="Property">
+        <Element Name="get" Type="Accessor">
+          <Statement Type="ReturnStatement">
+            <Expression Text="@&quot;hello&quot;" Type="LiteralExpression" />
+          </Statement>
+        </Element>
+      </Element>
+      <Element Name="PropertyWithOverrideModifier" Type="Property">
+        <Element Name="set" Type="Accessor" />
+      </Element>
+      <Element Name="PropertyWithAbstractModifier" Type="Property">
+        <Element Name="get" Type="Accessor" />
+        <Element Name="set" Type="Accessor" />
+      </Element>
+      <Element Name="PropertyWithExternModifier" Type="Property">
+        <Element Name="set" Type="Accessor" />
+        <Element Name="get" Type="Accessor" />
+      </Element>
+    </Element>
+    <Element Name="UnsafeClass" Type="Class">
+      <Element Name="PropertyWithUnsafeModifier2" Type="Property">
+        <Element Name="get" Type="Accessor">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="short" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="y" Type="LiteralExpression" />
+                <Expression Text="2" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="ReturnStatement">
+            <Expression Type="UnsafeAccessExpression">
+              <Expression Text="x" Type="LiteralExpression" />
+            </Expression>
+          </Statement>
+        </Element>
+      </Element>
+    </Element>
+    <Element Name="Class5" Type="Class">
+      <Element Name="PropertyWithAttributes" Type="Property">
+        <Element Name="get" Type="Accessor">
+          <Statement Type="ReturnStatement">
+            <Expression Text="false" Type="LiteralExpression" />
+          </Statement>
+        </Element>
+        <Element Name="set" Type="Accessor" />
+      </Element>
+      <Element Name="PropertyWithHeader" Type="Property">
+        <Element Name="get" Type="Accessor">
+          <Statement Type="ReturnStatement">
+            <Expression Text="true" Type="LiteralExpression" />
+          </Statement>
+        </Element>
+      </Element>
+      <Element Name="PropertyWithHeaderAndAttributes" Type="Property">
+        <Element Name="set" Type="Accessor" />
+      </Element>
+    </Element>
+    <Element Name="Struct1" Type="Struct">
+      <Element Name="Property1" Type="Property">
+        <Element Name="get" Type="Accessor">
+          <Statement Type="ReturnStatement">
+            <Expression Text="2" Type="LiteralExpression" />
+          </Statement>
+        </Element>
+      </Element>
+    </Element>
+    <Element Name="Interface1" Type="Interface">
+      <Element Name="Property1" Type="Property">
+        <Element Name="set" Type="Accessor" />
+        <Element Name="get" Type="Accessor" />
+      </Element>
+    </Element>
+  </Element>
+</StyleCopCsParserObjectModel>

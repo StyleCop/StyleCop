@@ -1,0 +1,44 @@
+﻿<StyleCopCsParserObjectModel>
+  <Element Name="Root" Type="DocumentRoot">
+    <Element Name="Struct1" Type="Struct" />
+    <Element Name="Struct2&lt;T&gt;" Type="Struct" />
+    <Element Name="Struct3&lt;T,S&gt;" Type="Struct" />
+    <Element Name="Struct4&lt;T&gt;" Type="Struct" />
+    <Element Name="Struct5&lt;T&gt;" Type="Struct" />
+    <Element Name="Struct6&lt;T&gt;" Type="Struct" />
+    <Element Name="Struct7&lt;T&gt;" Type="Struct" />
+    <Element Name="Struct8&lt;T&gt;" Type="Struct" />
+    <Element Name="Struct9&lt;T,U,V&gt;" Type="Struct" />
+    <Element Name="Struct10&lt;T,U,V&gt;" Type="Struct" />
+    <Element Name="Struct11&lt;T,U,V&gt;" Type="Struct" />
+    <Element Name="Struct12" Type="Struct" />
+    <Element Name="Struct13" Type="Struct" />
+    <Element Name="Struct14" Type="Struct" />
+    <Element Name="Struct15&lt;T&gt;" Type="Struct" />
+    <Element Name="Struct16&lt;T&gt;" Type="Struct" />
+    <Element Name="Struct17" Type="Struct" />
+    <Element Name="" Type="EmptyElement" />
+    <Element Name="ClassWithNestedStruct1" Type="Class">
+      <Element Name="NestedStruct1" Type="Struct" />
+    </Element>
+    <Element Name="StructWithAccessModifier1" Type="Struct" />
+    <Element Name="StructWithAccessModifier2" Type="Struct" />
+    <Element Name="StructWithAccessModifier3" Type="Struct" />
+    <Element Name="StructWithAccessModifier4" Type="Struct" />
+    <Element Name="StructWithAccessModifier5" Type="Struct" />
+    <Element Name="StructWithAccessModifier6" Type="Struct" />
+    <Element Name="ClassWithNestedStruct2" Type="Class">
+      <Element Name="StructWithModifier1" Type="Struct" />
+    </Element>
+    <Element Name="PartialStruct1" Type="Struct" />
+    <Element Name="PartialStruct2" Type="Struct" />
+    <Element Name="PartialStruct3" Type="Struct" />
+    <Element Name="PartialStruct2" Type="Struct" />
+    <Element Name="StructWithAttributes" Type="Struct" />
+    <Element Name="StructWithHeader" Type="Struct" />
+    <Element Name="StructWithHeaderAndAttributes" Type="Struct" />
+    <Element Name="UnsafeStruct" Type="Struct">
+      <Element Name="Method1" Type="Method" />
+    </Element>
+  </Element>
+</StyleCopCsParserObjectModel>

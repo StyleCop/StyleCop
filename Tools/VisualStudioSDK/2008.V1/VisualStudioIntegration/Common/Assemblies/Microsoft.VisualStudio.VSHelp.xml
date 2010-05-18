@@ -1,0 +1,330 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<doc>
+  <assembly>
+    <name>Microsoft.VisualStudio.VSHelp</name>
+  </assembly>
+  <members>
+    <member name="T:Microsoft.VisualStudio.VSHelp.DExploreAppObj">
+      <summary>Deprecated. Use <see cref="T:Microsoft.VisualStudio.VSHelp80.Help2" /> instead.</summary>
+    </member>
+    <member name="T:Microsoft.VisualStudio.VSHelp.DExploreAppObjClass">
+      <summary>Deprecated. Use <see cref="T:Microsoft.VisualStudio.VSHelp80.Help2" /> instead.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp.DExploreAppObjClass.#ctor">
+      <summary>Microsoft Internal Use Only.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp.DExploreAppObjClass.add_OnCollectionChanged(Microsoft.VisualStudio.VSHelp.IVsHelpEvents_OnCollectionChangedEventHandler)">
+      <summary>Microsoft Internal Use Only.</summary>
+      <param name="A_1">Do not use.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp.DExploreAppObjClass.add_OnFilterChanged(Microsoft.VisualStudio.VSHelp.IVsHelpEvents_OnFilterChangedEventHandler)">
+      <summary>Microsoft Internal Use Only.</summary>
+      <param name="A_1">Do not use.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp.DExploreAppObjClass.CanShowFilterUI">
+      <summary>Deprecated. Use <see cref="M:Microsoft.VisualStudio.VSHelp80.Help2.CanShowFilterUI" /> instead.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp.DExploreAppObjClass.CanSyncContents(System.String)">
+      <summary>Deprecated. Use <see cref="M:Microsoft.VisualStudio.VSHelp80.Help2.CanSyncContents(System.String)" /> instead.</summary>
+      <param name="bstrURL">A string that contains the URL.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp.DExploreAppObjClass.Close">
+      <summary>Deprecated. Use <see cref="M:Microsoft.VisualStudio.VSHelp80.Help2.Close" /> instead.</summary>
+    </member>
+    <member name="P:Microsoft.VisualStudio.VSHelp.DExploreAppObjClass.Collection">
+      <summary>Deprecated. Use <see cref="P:Microsoft.VisualStudio.VSHelp80.Help2.Collection" /> instead.</summary>
+      <returns>Do not use.</returns>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp.DExploreAppObjClass.Contents">
+      <summary>Deprecated. Use <see cref="M:Microsoft.VisualStudio.VSHelp80.Help2.Contents" /> instead.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp.DExploreAppObjClass.DisplayTopicFrom_OLD_Help(System.String,System.UInt32)">
+      <summary>Deprecated. Use <see cref="M:Microsoft.VisualStudio.VSHelp80.Help2.DisplayTopicFrom_OLD_Help(System.String,System.UInt32)" /> instead.</summary>
+      <param name="bstrFile">Full path to the .chm or .hlp file.</param>
+      <param name="Id">Context ID to find and display the Help topic.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp.DExploreAppObjClass.DisplayTopicFromF1Keyword(System.String)">
+      <summary>Deprecated. Use <see cref="M:Microsoft.VisualStudio.VSHelp80.Help2.DisplayTopicFromF1Keyword(System.String)" /> instead.</summary>
+      <param name="pszKeyword">F1 keyword provided for the dialog box.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp.DExploreAppObjClass.DisplayTopicFromId(System.String,System.UInt32)">
+      <summary>Deprecated. Use <see cref="M:Microsoft.VisualStudio.VSHelp.DExploreAppObjClass.DisplayTopicFromId(System.String,System.UInt32)" /> instead.</summary>
+      <param name="bstrFile">String that contains the keyword.</param>
+      <param name="Id">Context Help ID.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp.DExploreAppObjClass.DisplayTopicFromKeyword(System.String)">
+      <summary>Deprecated. Use <see cref="M:Microsoft.VisualStudio.VSHelp80.Help2.DisplayTopicFromKeyword(System.String)" /> instead.</summary>
+      <param name="pszKeyword">K-keyword index of the Help topic to find and display.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp.DExploreAppObjClass.DisplayTopicFromURL(System.String)">
+      <summary>Deprecated. Use <see cref="M:Microsoft.VisualStudio.VSHelp80.Help2.DisplayTopicFromURL(System.String)" /> instead.</summary>
+      <param name="pszURL">A string that contains the URL.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp.DExploreAppObjClass.DisplayTopicFromURLEx(System.String,Microsoft.VisualStudio.VSHelp.IVsHelpTopicShowEvents)">
+      <summary>Deprecated. Use <see cref="M:Microsoft.VisualStudio.VSHelp80.Help2.DisplayTopicFromURLEx(System.String,Microsoft.VisualStudio.VSHelp.IVsHelpTopicShowEvents)" /> instead.</summary>
+      <param name="pszURL">A string that contains the URL.</param>
+      <param name="pIVsHelpTopicShowEvents">A IVsHelpTopicShowEvents object.</param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.VSHelp.DExploreAppObjClass.Filter">
+      <summary>Gets or sets the collection filter.</summary>
+      <returns>Returns a string containing the filter name.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.VSHelp.DExploreAppObjClass.FilterQuery">
+      <summary>Returns the filter query string for the current Help collection filter.</summary>
+      <returns>A string that contains the query string for the current filter.</returns>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp.DExploreAppObjClass.FilterUI">
+      <summary>Deprecated. Use <see cref="M:Microsoft.VisualStudio.VSHelp80.Help2.FilterUI" /> instead.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp.DExploreAppObjClass.GetNextTopic(System.String)">
+      <summary>Deprecated. Use <see cref="M:Microsoft.VisualStudio.VSHelp80.Help2.GetNextTopic(System.String)" /> instead.</summary>
+      <returns>A string that contains the URL of the text topic in the table of contents.</returns>
+      <param name="bstrURL">A string containing the URL.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp.DExploreAppObjClass.GetObject(System.String,System.String)">
+      <summary>Deprecated. Use <see cref="M:Microsoft.VisualStudio.VSHelp80.Help2.GetObject(System.String,System.String)" /> instead.</summary>
+      <returns>Returns a help object.</returns>
+      <param name="bstrMoniker">do not use</param>
+      <param name="bstrOptions">do not use</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp.DExploreAppObjClass.GetPrevTopic(System.String)">
+      <summary>Deprecated. Use <see cref="M:Microsoft.VisualStudio.VSHelp80.Help2.GetPrevTopic(System.String)" /> instead.</summary>
+      <returns>Returns a string that contains the URL of the previous topic in the table of contents.</returns>
+      <param name="bstrURL">A string containing the URL.</param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.VSHelp.DExploreAppObjClass.Help">
+      <summary>Deprecated. Use <see cref="P:Microsoft.VisualStudio.VSHelp80.Help2.Help" /> instead.</summary>
+      <returns>Object that represents the Help object.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.VSHelp.DExploreAppObjClass.HelpOwner">
+      <summary>Deprecated. Use <see cref="P:Microsoft.VisualStudio.VSHelp80.Help2.HelpOwner" /> instead.</summary>
+      <returns>A <see cref="T:Microsoft.VisualStudio.VSHelp.IVsHelpOwner" /> value that represents the Help owner.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.VSHelp.DExploreAppObjClass.HxSession">
+      <summary>Deprecated. Use <see cref="P:Microsoft.VisualStudio.VSHelp80.Help2.HxSession" /> instead.</summary>
+      <returns>Do not use.</returns>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp.DExploreAppObjClass.Index">
+      <summary>Deprecated. Use <see cref="M:Microsoft.VisualStudio.VSHelp80.Help2.Index" /> instead.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp.DExploreAppObjClass.IndexResults">
+      <summary>Deprecated. Use <see cref="M:Microsoft.VisualStudio.VSHelp80.Help2.IndexResults" /> instead.</summary>
+    </member>
+    <member name="E:Microsoft.VisualStudio.VSHelp.DExploreAppObjClass.OnCollectionChanged">
+      <summary>Microsoft Internal Use Only.</summary>
+    </member>
+    <member name="E:Microsoft.VisualStudio.VSHelp.DExploreAppObjClass.OnFilterChanged">
+      <summary>Microsoft Internal Use Only.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp.DExploreAppObjClass.remove_OnCollectionChanged(Microsoft.VisualStudio.VSHelp.IVsHelpEvents_OnCollectionChangedEventHandler)">
+      <summary>Microsoft Internal Use Only.</summary>
+      <param name="A_1">Do not use.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp.DExploreAppObjClass.remove_OnFilterChanged(Microsoft.VisualStudio.VSHelp.IVsHelpEvents_OnFilterChangedEventHandler)">
+      <summary>Microsoft Internal Use Only.</summary>
+      <param name="A_1">Do not use.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp.DExploreAppObjClass.Search">
+      <summary>Deprecated. Use <see cref="M:Microsoft.VisualStudio.VSHelp80.Help2.Search" /> instead.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp.DExploreAppObjClass.SearchResults">
+      <summary>Deprecated. Use <see cref="M:Microsoft.VisualStudio.VSHelp80.Help2.SearchResults" /> instead.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp.DExploreAppObjClass.SetCollection(System.String,System.String)">
+      <summary>Deprecated. Use <see cref="M:Microsoft.VisualStudio.VSHelp80.Help2.SetCollection(System.String,System.String)" /> instead.</summary>
+      <param name="bstrCollection">Namespace of the Help collection</param>
+      <param name="bstrFilter">Name of filter. Use an empty string for no filtering.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp.DExploreAppObjClass.SyncContents(System.String)">
+      <summary>Deprecated. Use <see cref="M:Microsoft.VisualStudio.VSHelp80.Help2.SyncContents(System.String)" /> instead.</summary>
+      <param name="bstrURL">A string containing the URL.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp.DExploreAppObjClass.SyncIndex(System.String,System.Int32)">
+      <summary>Deprecated. Use <see cref="M:Microsoft.VisualStudio.VSHelp80.Help2.SyncIndex(System.String,System.Int32)" /> instead.</summary>
+      <param name="bstrKeyword">A string containing the K-keyword.</param>
+      <param name="fShow">Set to force the Index window to open.</param>
+    </member>
+    <member name="T:Microsoft.VisualStudio.VSHelp.Help">
+      <summary>Dual interface used to provide F1 Help from a modal or non-modal dialog box.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp.Help.CanShowFilterUI">
+      <summary>Do not use.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp.Help.CanSyncContents(System.String)">
+      <summary>Determines if a URL can be synchronized to or not.</summary>
+      <param name="bstrURL">A string containing the URL.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp.Help.Close">
+      <summary>Closes the Microsoft Document Explorer window and all of its pages.</summary>
+    </member>
+    <member name="P:Microsoft.VisualStudio.VSHelp.Help.Collection">
+      <summary>Returns the name of the current collection loaded.</summary>
+      <returns>Do not use.</returns>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp.Help.Contents">
+      <summary>Selects the Contents navigation window and opens it if it is closed.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp.Help.DisplayTopicFrom_OLD_Help(System.String,System.UInt32)">
+      <summary>Provides support for .chm and .hlp files.</summary>
+      <param name="bstrFile">Full path to the .chm or .hlp file.</param>
+      <param name="Id">Context ID to find and display the help topic.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp.Help.DisplayTopicFromF1Keyword(System.String)">
+      <summary>Provides F1 Help for a modal or non-modal dialog box.</summary>
+      <param name="pszKeyword">F1 keyword provided for the dialog box.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp.Help.DisplayTopicFromId(System.String,System.UInt32)">
+      <summary>Finds and displays the first topic defined by the supplied F1 keyword and context help ID.</summary>
+      <param name="bstrFile">String containing the keyword.</param>
+      <param name="Id">Context Help ID.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp.Help.DisplayTopicFromKeyword(System.String)">
+      <summary>Performs a lookup by using the K-keyword index.</summary>
+      <param name="pszKeyword">K-keyword index of the Help topic to find and display.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp.Help.DisplayTopicFromURL(System.String)">
+      <summary>Displays a help topic specified by the URL in Document Explorer.</summary>
+      <param name="pszURL">A string containing the URL.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp.Help.DisplayTopicFromURLEx(System.String,Microsoft.VisualStudio.VSHelp.IVsHelpTopicShowEvents)">
+      <summary>Displays a help topic in Document Explorer and triggers a specified event after the topic has been loaded.</summary>
+      <param name="pszURL">String containing an URL address that is compatible with Internet Explorer.</param>
+      <param name="pIVsHelpTopicShowEvents">A IVsHelpTopicShowEvents object.</param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.VSHelp.Help.Filter">
+      <summary>Gets or sets the collection filter.</summary>
+      <returns>Returns a string containing the filter name.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.VSHelp.Help.FilterQuery">
+      <summary>Returns the filter query string for the current Help collection filter.</summary>
+      <returns>A string containing the query string for the current filter.</returns>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp.Help.FilterUI">
+      <summary>Displays the user interface to create, edit, or delete filters.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp.Help.GetNextTopic(System.String)">
+      <summary>Given a URL returns the next URL in the table of contents.</summary>
+      <returns>A string containing the URL of the text topic in the table of contents.</returns>
+      <param name="bstrURL">String containing the URL of the current topic that is compatible with Internet Explorer.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp.Help.GetObject(System.String,System.String)">
+      <summary>Microsoft Internal Use Only.</summary>
+      <returns>Returns a help object.</returns>
+      <param name="bstrMoniker">do not use</param>
+      <param name="bstrOptions">do not use</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp.Help.GetPrevTopic(System.String)">
+      <summary>Given a URL returns the previous URL in the table of contents.</summary>
+      <returns>Returns a string containing the URL of the previous topic in the table of contents.</returns>
+      <param name="bstrURL">String containing the URL of the current topic that is compatible with Internet Explorer.</param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.VSHelp.Help.Help">
+      <summary>Used for compatibility with <see cref="T:EnvDTE80.DTE2" />, when used as Windows.External, Help2 object returns itself.</summary>
+      <returns>Object representing the Help object.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.VSHelp.Help.HelpOwner">
+      <summary>Gets or sets the help owner.</summary>
+      <returns>A <see cref="T:Microsoft.VisualStudio.VSHelp.IVsHelpOwner" /> value representing the help owner.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.VSHelp.Help.HxSession">
+      <summary>Returns the HxSession object.</summary>
+      <returns>Do not use.</returns>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp.Help.Index">
+      <summary>Selects the Index window.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp.Help.IndexResults">
+      <summary>Selects the Index Results window.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp.Help.Search">
+      <summary>Selects the Search dialog box.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp.Help.SearchResults">
+      <summary>Selects the Search Results window.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp.Help.SetCollection(System.String,System.String)">
+      <summary>Loads a Help collection into Document Explorer.</summary>
+      <param name="bstrCollection">Namespace of the Help collection</param>
+      <param name="bstrFilter">Name of filter. Use an empty string for no filtering.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp.Help.SyncContents(System.String)">
+      <summary>Synchronizes the table of contents to the supplied URL.</summary>
+      <param name="bstrURL">String containing the URL of the current topic that is compatible with Internet Explorer.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp.Help.SyncIndex(System.String,System.Int32)">
+      <summary>Looks up the topic specifies by the K-keyword but does not display the topic in Document Explorer, unless specified.</summary>
+      <param name="bstrKeyword">A string containing the K-keyword.</param>
+      <param name="fShow">Set to force the Index window to open.</param>
+    </member>
+    <member name="T:Microsoft.VisualStudio.VSHelp.IVsHelpEvents">
+      <summary>Supports filter and collection change events.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp.IVsHelpEvents.OnCollectionChanged(System.String,System.String)">
+      <summary>Called when the Help collection changes.</summary>
+      <param name="bstrNewCollection">String containing the name of the new collection.</param>
+      <param name="bstrNewFilter">String containing the name of the filter to be applied to the Help collection.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp.IVsHelpEvents.OnFilterChanged(System.String)">
+      <summary>Called when the filter applied to the Help collection changes.</summary>
+      <param name="bstrNewFilter">String containing the name of the filter to be applied to the Help collection.</param>
+    </member>
+    <member name="T:Microsoft.VisualStudio.VSHelp.IVsHelpEvents_Event">
+      <summary>Supports filter and collection change events.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp.IVsHelpEvents_Event.add_OnCollectionChanged(Microsoft.VisualStudio.VSHelp.IVsHelpEvents_OnCollectionChangedEventHandler)">
+      <summary>Microsoft Internal Use Only.</summary>
+      <param name="A_1"> </param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp.IVsHelpEvents_Event.add_OnFilterChanged(Microsoft.VisualStudio.VSHelp.IVsHelpEvents_OnFilterChangedEventHandler)">
+      <summary>Microsoft Internal Use Only.</summary>
+      <param name="A_1"> </param>
+    </member>
+    <member name="E:Microsoft.VisualStudio.VSHelp.IVsHelpEvents_Event.OnCollectionChanged">
+      <summary>Called when the Help collection changes.</summary>
+    </member>
+    <member name="E:Microsoft.VisualStudio.VSHelp.IVsHelpEvents_Event.OnFilterChanged">
+      <summary>Called when the filter applied to the Help collection changes.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp.IVsHelpEvents_Event.remove_OnCollectionChanged(Microsoft.VisualStudio.VSHelp.IVsHelpEvents_OnCollectionChangedEventHandler)">
+      <summary>Microsoft Internal Use Only.</summary>
+      <param name="A_1"> </param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp.IVsHelpEvents_Event.remove_OnFilterChanged(Microsoft.VisualStudio.VSHelp.IVsHelpEvents_OnFilterChangedEventHandler)">
+      <summary>Microsoft Internal Use Only.</summary>
+      <param name="A_1"> </param>
+    </member>
+    <member name="T:Microsoft.VisualStudio.VSHelp.IVsHelpEvents_OnCollectionChangedEventHandler">
+      <summary>Microsoft Internal Use Only.</summary>
+      <param name="bstrNewCollection"> </param>
+      <param name="bstrNewFilter"> </param>
+    </member>
+    <member name="T:Microsoft.VisualStudio.VSHelp.IVsHelpEvents_OnFilterChangedEventHandler">
+      <summary>Microsoft Internal Use Only.</summary>
+      <param name="bstrNewFilter"> </param>
+    </member>
+    <member name="T:Microsoft.VisualStudio.VSHelp.IVsHelpOwner">
+      <summary>Provides information about the Help owner.</summary>
+    </member>
+    <member name="P:Microsoft.VisualStudio.VSHelp.IVsHelpOwner.AutomationObject">
+      <summary>Returns an external window DTE object.</summary>
+      <returns>Returns a <see cref="T:EnvDTE80.DTE2" /> object.</returns>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp.IVsHelpOwner.BringHelpToTop(System.Int32)">
+      <summary>Brings the external Help viewer to the foreground.</summary>
+      <param name="hwndHelpApp">Handle to the Help window.</param>
+    </member>
+    <member name="T:Microsoft.VisualStudio.VSHelp.IVsHelpTopicShowEvents">
+      <summary>Provides support for help topic show events.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp.IVsHelpTopicShowEvents.OnBeforeTopicShow(System.String,System.Object)">
+      <summary>Called before the help topic is displayed.</summary>
+      <param name="bstrURL">String containing the URL of the help topic.</param>
+      <param name="pWB">Web browser object.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp.IVsHelpTopicShowEvents.OnTopicShowComplete(System.String,System.Object)">
+      <summary>Called after the help topic is displayed.</summary>
+      <param name="bstrURL">String containing the URL of the help topic.</param>
+      <param name="pWB">Web browser object.</param>
+    </member>
+  </members>
+</doc>

@@ -1,0 +1,174 @@
+/*-----------------------------------------------------------------------------
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+Module IVsTrackProjectDocuments80.idl - Track Project Documents service interfaces used to broadcast document events|
+
+The point of the SVsTrackProjectDocuments is to bottleneck certain
+shell events. Packages can Advise with the service at SetSite time.
+
+See also IVsTrackProjectDocuments2.idl
+
+Owner: Source Control Integration Team
+-----------------------------------------------------------------------------*/
+
+#if !defined(CTC_INVOKED) && !defined(RGS_INVOKED)
+cpp_quote("#pragma once")
+
+//----------------------------
+// Includes
+//----------------------------
+#include "SCGuids.h"
+
+//----------------------------
+// Imports
+//----------------------------
+#ifndef INTEROPLIB
+// Imports - all imports should go here (inside the ifndef)
+import "oaidl.idl";
+import "IVsTrackProjectDocuments2.idl";
+import "IVsTrackProjectDocumentsEvents80.idl";
+
+#endif
+
+/*-----------------------------------------------------------------------------
+Interface: IVsTrackProjectDocuments3
+
+This interface is implemented by the Environment. It can be retrieved
+via QueryInterface on the SID_SVsTrackProjectDocuments service object.
+Project systems will call these methods to cause IVsTrackProjectDocumentEvents
+to be fired to the many clients that try to keep track of changes to the 
+contents of a project.
+
+See IVsTrackProjectDocumentsEvents2.idl and IVsTrackProjectDocumentsEvents80.idl 
+for the definition of the flags used by this interface.
+
+@base public | IUnknown
+-----------------------------------------------------------------------------*/
+[ uuid(uuid_IVsTrackProjectDocuments3) ]
+interface IVsTrackProjectDocuments3 : IUnknown
+{
+	// These events enable batch handling of a group of OnQueryRenameXXX, 
+	// OnQueryRemoveXXX, or OnQueryAddXXX events. For example, this batching
+	// can be used by a SCC provider to offer a single checkout prompt 
+	// dialog even when a subfolder tree of files is moved or deleted.
+	// A project system must guarantee to balance each call to BeginQueryBatch
+	// with either a call to EndQueryBatch or CancelQueryBatch. CancelQueryBatch
+	// should be called if one of the individual OnQuery calls returned NotOK.
+	// EndQueryBatch should be called if none of the individual OnQuery calls
+	// were vetoed. This call to EndQueryBatch will return a final OK/NotOK
+	// decision. The call pattern of these methods should look something like 
+	// the following:
+	//		BeginQueryBatch();
+	//		QueryFolderRename(pFolderNode, strOldPath, strNewPath, &fRenameCanCont);
+	//		if (fRenameCanCont)
+	//			EndQueryBatch(&fRenameCanCont);
+	//		else
+	//			CancelQueryBatch();
+	//
+	// where assume QueryFolderRename is an internal project helper function
+	// that causes a series of item level OnQueryRenameFile events to be fired.
+	// Note: Batching nests.
+	HRESULT	BeginQueryBatch(void);
+	HRESULT	EndQueryBatch([out,	retval]	BOOL *pfActionOK);
+	HRESULT	CancelQueryBatch(void);
+
+	// This OnQueryAddFilesEx is an extension of the original OnQueryAddFiles 
+	// method which passes both the path to the original source files being
+	// added as well as the path of resultant files newly added to the project.
+	// This method is usefull for directory based project systems which often
+	// make a copy of the file being added to the project to a new location 
+	// within the project directory. Clients that manage a coordinated set 
+	// of files can use this information to find the other related source files 
+	// that may need to be added as well (e.g. form/report files with 
+	// associated code behind/resource files).
+	HRESULT OnQueryAddFilesEx(
+		[in] IVsProject *pProject,
+		[in] int cFiles,
+		[in, size_is(cFiles)] const LPCOLESTR rgpszNewMkDocuments[],
+		[in, size_is(cFiles)] const LPCOLESTR rgpszSrcMkDocuments[],
+		[in, size_is(cFiles)] const VSQUERYADDFILEFLAGS rgFlags[],
+		[out] VSQUERYADDFILERESULTS *pSummaryResult,
+		[out, size_is(cFiles)] VSQUERYADDFILERESULTS rgResults[]);
+
+	// Hands[Off/On]Files is called to tell all parties that may hold files locked
+	// to release the files so that they may be operated on by the caller. These
+	// methods can be called with files that are members of projects as well as with
+	// files that are not members of projects. HandsOffFiles should be called on any 
+	// file that someone needs to read to, write to, rename or delete. The 
+	// "grfRequiredAccess" parameter indicates the access permissions required by the 
+	// caller. If a party holding a lock on a file allows the requested permissions, 
+	// then no releasing of their lock is required. Multiple parties are allowed to
+	// hold ReadAccess on a file simultaneously, but only one party may hold WriteAccess 
+	// or DeleteAccess at a time. A holder of a shared read lock on a file that does
+	// not deny writing to the file does not have to release the file if someone 
+	// requests WriteAccess, but if the caller requires DeleteAccess in order to rename
+	// or delete a file, then all locks must be released. This parameter lets lock holders 
+	// optimize how they manage their locks.
+	//
+	// For example, a proper project system should call this with files it manages as 
+	// part of its build operation:
+	//     1. it should request HANDSOFFMODE_ReadAccess for all source files
+	//     2. it should request HANDSOFFMODE_FullAccess for all output files
+	// This would tell all parties to release the files that the project wants to 
+	// access as part of a build operation including anyone that would block the
+	// project from reading its source files or regenerating its output files. 
+	// Similarly, the Source Code Control (SCC) integration VSPackage will call this
+	// prior to retrieving new copies of files from the SCC server. A well behaved
+	// project system would call this for all save, copy, rename, move, and delete 
+	// operations. HandsOffFiles should be called after all calls to OnQueryXXX have 
+	// returned that the operation is OK to proceed.
+	//
+	// HandsOnFiles will not always be called, e.g. in scenarios where files are
+	// deleted, renamed or moved it will not be called. Normally HandsOnFiles will
+	// only be called in scenarios where contents of files are modified in place or
+	// contents of files are read or copied. HandsOnFiles must always be called
+	// to terminate an Async operation.
+	//
+	// Sync vs. Async Operations: Normally the request for access to a file is for
+	// a synchronous operation that completes before execution returns to the main
+	// message loop of the IDE. In some cases access to files is needed for an 
+	// asynchronous operation which returns to the main message loop and continues 
+	// for an extended period of time. A classic scenario for this is the Solution/Project
+	// Build operation. The Build operation is asynchronous; the user may work
+	// while the build operation is proceeding. To indicate that HandsOffFiles is 
+	// is required for an asynchronous operation, HANDSOFFMODE_AsyncOperation should 
+	// be or-ed together with the Access flags required. When this flag is specified,
+	// then the caller is making a guarantee that HandsOnFiles will be called to 
+	// indicate the end of the Async operation. 
+	// For example, well behaved clients that hold build output files open, will let go 
+	// of the file(s) when HandsOffFiles is called and track the state that an 
+	// AsyncOperation is in effect. They will avoid opening the file(s) again until 
+	// HandsOnFiles is called. Otherwise, they would interfere with the Build operation. 
+	// They should treat this as an E_ACCESSDENIED situation even though in reality the 
+	// file might not be locked in the file system.
+	//
+	// NOTE: if HandsOffFiles returned an error, then you should not call HandsOnFiles.
+	//
+	// NOTE: incompatible HANDSOFFMODE_AsyncOperations do not nest. A call to 
+	// IVsTrackProjectDocuments3:: HandsOffFiles will return E_ACCESSDENIED if there 
+	// already is a pending incompatible AsyncOperation. There can be multiple
+	// nested Async ReadAccess operations but WriteAccess and DeleteAccess operations
+	// are not allowed to be nested. Thus Async ReadAccess operations must be refcounted.
+	//
+	// NOTE: The IVsTrackProjectDocuments3:: HandsOffFiles event is cancelable by 
+	// returning an error HRESULT (normally E_ACCESSDENIED) and setting a useful error
+	// message via a call to ::SetErrorInfo. The E_NOTIMPL error code is treated 
+	// as if the event sink does not exist and does not block the HandsOff operation.
+	// Any client that refuses to honor the request to HandsOff will end up blocking
+	// the desired operation from succeeding. If one event sink returns an error 
+	// then all sinks that were previously called for HandsOffFiles will be called with
+	// HandsOnFiles.
+
+	HRESULT HandsOffFiles(
+		[in] HANDSOFFMODE grfRequiredAccess,
+		[in] int cFiles,
+		[in, size_is(cFiles)] const LPCOLESTR rgpszMkDocuments[]
+	);
+
+	HRESULT	HandsOnFiles(
+		[in] int cFiles,
+		[in, size_is(cFiles)] const LPCOLESTR rgpszMkDocuments[]
+	);
+};
+
+#endif

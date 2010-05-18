@@ -1,0 +1,50 @@
+/****************************************************************************
+ *  The VSSplash Interfaces
+ *  Copyright (c) 1999, Microsoft Corporation, All Rights Reserved
+ *  Information Contained Herein Is Proprietary and Confidential.
+ *  
+ *  This file (vssplash.idl) is the version made available to some outside
+ *  package partners to allow them to put their icon in the installed products
+ *  in the splash screen as well as plug into the about box.
+ *
+ *  To show up in the splash screen or the about box you need to have an entry
+ *  in HKLM\Software\Microsoft\VisualStudio\7.0\InstalledProducts.  Your registry
+ *  key under InstalledProducts ought to be your product name with no spaces
+ *  (i.e. VisualC++).
+ *
+ *  Although you can plug into the about box by simply putting the appropriate
+ *  entries into the registry, since everybody in the splash screen presumably
+ *  also wants to be in the about box, it made sense to add an about box
+ *  properties to this interface.  
+ ****************************************************************************/
+import "oaidl.idl";
+import "ocidl.idl";
+
+//This is the recommended size for the splash screen bitmaps.  This should
+//include your icon and the text.  Bmps of different sizes will be centered
+//in the 88x70 rect.  Bitmaps should have a background of 0x0000fe00 (one
+//off of the standard green, so you can use the standard green in your
+//bmp if you want)
+//Bitmaps should be no more than 256 colors.
+//You will only see your bitmap on the splash screen after you've done
+//a devenv /setup
+cpp_quote("#define VS_SPLASH_BMP_HEIGHT 70")
+cpp_quote("#define VS_SPLASH_BMP_WIDTH 88")
+
+[
+uuid(098FCA58-5F42-11d3-8BDC-00C04F8EC28C),
+version(1.0),
+pointer_default(unique)
+]
+interface IVsInstalledProduct : IUnknown
+{
+  [propget] HRESULT IdBmpSplash([out, retval] UINT *pIdBmp);
+  [propget] HRESULT OfficialName([out, retval] BSTR *pbstrName);
+
+  //if you are a Microsoft product installed with Visual Studio, ignore ProductID,
+  //the about box will pull it from the registry
+  [propget] HRESULT ProductID([out, retval] BSTR *pbstrPID);
+
+  [propget] HRESULT ProductDetails([out, retval] BSTR *pbstrProductDetails);
+  [propget] HRESULT IdIcoLogoForAboutbox([out, retval] UINT *pIdIco);
+}

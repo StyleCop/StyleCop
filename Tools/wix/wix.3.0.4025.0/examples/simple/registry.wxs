@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (c) Microsoft Corporation.  All rights reserved.
+
+    registry.wxs - small example that installs a single registry key.
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Product Id="*" Name="WixRegistryExample" Language="1033" Version="0.0.0.0" Manufacturer="Microsoft Corporation">
+        <Package Description="Installs a test registry key." Comments="Tests installation of a single registry key." InstallerVersion="200" Compressed="yes" />
+
+        <Media Id="1" Cabinet="product.cab" EmbedCab="yes" />
+
+        <Directory Id="TARGETDIR" Name="SourceDir">
+            <Component Id="WixExampleProductKey" Guid="PUT-GUID-HERE">
+                <RegistryValue Id="WixExampleProductRegistryKey" Root="HKLM" Key="SOFTWARE\WixExample" Name="ExampleKey" Type="integer" Value="1" Action="write" />
+            </Component>
+        </Directory>
+
+        <Feature Id="WixExampleProductKeyFeature" Title="Wix Example Product Key" Level="1">
+            <ComponentRef Id="WixExampleProductKey" />
+        </Feature>
+    </Product>
+</Wix>

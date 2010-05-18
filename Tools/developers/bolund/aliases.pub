@@ -1,0 +1,9 @@
+..          cd ..
+root        pushd %PROJECTROOT%\$*
+home        pushd %PROJECTROOT%\src\
+wx          pushd %PROJECTROOT%\src\WixSetup\
+priv        pushd "%SDROOT%\tools\developers\%USERNAME%"
+vs          devenv.exe $*
+wack        del "%APPDATA%\Microsoft\VisualStudio\*.prf" /s /q
+regpkg      %VsSDKToolsPath%\regpkg.exe $*
+ResetHive   %SDROOT%\tools\ResetVs90ExpHive.bat $*

@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 10
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ErrorAndExceptionHandling", "ErrorAndExceptionHandling.vcxproj", "{2989337D-8C28-4979-BDC2-7E9262E932AC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2989337D-8C28-4979-BDC2-7E9262E932AC}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2989337D-8C28-4979-BDC2-7E9262E932AC}.Debug|Win32.Build.0 = Debug|Win32
+		{2989337D-8C28-4979-BDC2-7E9262E932AC}.Release|Win32.ActiveCfg = Release|Win32
+		{2989337D-8C28-4979-BDC2-7E9262E932AC}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

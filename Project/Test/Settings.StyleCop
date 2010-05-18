@@ -1,0 +1,29 @@
+<SourceAnalysisSettings Version="4.2">
+  <Analyzers>
+    <Analyzer AnalyzerId="Microsoft.SourceAnalysis.Internal.ParamCheck">
+      <Rules>
+        <Rule Name="OutParametersMustNotBeVerified">
+          <RuleSettings>
+            <BooleanProperty Name="Enabled">False</BooleanProperty>
+          </RuleSettings>
+        </Rule>
+        <Rule Name="ParametersMustBeVerified">
+          <RuleSettings>
+            <BooleanProperty Name="Enabled">False</BooleanProperty>
+          </RuleSettings>
+        </Rule>
+        <Rule Name="PrivateMethodsMustUseAsserts">
+          <RuleSettings>
+            <BooleanProperty Name="Enabled">False</BooleanProperty>
+          </RuleSettings>
+        </Rule>
+        <Rule Name="PublicMethodsMustUseRequires">
+          <RuleSettings>
+            <BooleanProperty Name="Enabled">False</BooleanProperty>
+          </RuleSettings>
+        </Rule>
+      </Rules>
+      <AnalyzerSettings />
+    </Analyzer>
+  </Analyzers>
+</SourceAnalysisSettings>

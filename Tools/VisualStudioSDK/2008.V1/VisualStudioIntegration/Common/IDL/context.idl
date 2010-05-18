@@ -1,0 +1,455 @@
+/*
+ *  CONTEXT.IDL
+ *
+ *  This IDL file defines the interface to the context tracking
+ *  and retrieval services and objects.
+ *
+ */
+
+#ifndef INTEROPLIB
+
+import "oleidl.idl";
+import "servprov.idl";
+import "oaidl.idl";
+import "ocidl.idl";
+
+#endif
+
+#include "contextuuids.h"
+
+/****************************************************************************
+  ********    IMPORTANT!!   *********
+
+All guids for interfaces and co-creatable objects in this file should be defined
+in contextuuids.h
+
+****************************************************************************/
+
+
+interface IVsUserContext;
+interface IVsUserContextUpdate;
+interface IVsUserContextItemCollection;
+interface IVsUserContextItem;
+interface IVsUserContextItemEvents;
+interface IVsMonitorUserContext;
+interface IVsUserContextItemProvider;
+
+typedef DWORD_PTR VSCOOKIE;
+
+// REVIEW: is anybody using these?
+typedef DWORD_PTR VSCONTEXTUPDATECOOKIE;
+typedef DWORD_PTR VSSUBCONTEXTCOOKIE;
+typedef DWORD_PTR VSINFOPROVIDERCOOKIE;
+
+// priorities for subcontexts
+//
+// IMPORTANT: keep these values in increments of 100
+//
+typedef enum tagVsUserContextPriority
+{
+  VSUC_Priority_None        = 0,      // typical/default
+  VSUC_Priority_Ambient     = 100,    // ambient keyword
+  VSUC_Priority_State       = 200,    // cmd ui ctx
+  VSUC_Priority_Project     = 300,    // hierarchy
+  VSUC_Priority_ProjectItem = 400,    // hierarchy item
+  VSUC_Priority_Window      = 500,    // SEID_UserContext
+  VSUC_Priority_Selection   = 600,    // selection container
+  VSUC_Priority_MarkerSel   = 700,    // selection container
+  VSUC_Priority_Enterprise  = 800,    // keyword for enterprise templates to target
+  VSUC_Priority_WindowFrame = 900,    // to be used by tool windows that do not want to overwrite 
+                                      // SEID_UserContext, but want their context to appear at the 
+                                      // top of the RL window   //V7-49265
+  VSUC_Priority_ToolWndSel  = 1000,    // for selection in a toolwindow
+  VSUC_Priority_Highest     = 1100     // just a placeholder, make sure it's the highest
+} VSUSERCONTEXTPRIORITY;
+
+typedef enum tagVsUserContextAttributeUsage
+{
+  VSUC_Usage_Filter   = 0,
+  VSUC_Usage_Lookup   = 1, // Used for keywords which will draw links in the CW
+  VSUC_Usage_LookupF1 = 2, // Used for kwds which will draw links in the CW and 
+                           //      will be used to find F1 topics
+  //New attribute types to allow for case sensitive lookups from the VC editor
+  VSUC_Usage_Lookup_CaseSensitive   = 3, // Used for keywords which will draw links in the CW
+  VSUC_Usage_LookupF1_CaseSensitive = 4, // Used for kwds which will draw links in the CW and 
+                                         //      will be used to find F1 topics
+} VSUSERCONTEXTATTRIBUTEUSAGE;
+
+/* IVSUserContext
+ *
+ * This interface is implemented by a library object that client
+ * applications and components use to store and track context.
+ */
+[
+uuid(uuid_IVsUserContext),
+object,
+version(1.0)
+]
+interface IVsUserContext : IUnknown
+{
+  HRESULT AddAttribute(
+              [in] VSUSERCONTEXTATTRIBUTEUSAGE usage,
+              [in] LPCOLESTR szName,
+              [in] LPCOLESTR szValue);
+
+  HRESULT RemoveAttribute(
+              [in] LPCOLESTR szName,
+              [in] LPCOLESTR szValue);
+
+  HRESULT AddSubcontext(
+              [in] IVsUserContext * pSubCtx,
+              [in] int lPriority,
+              [out, retval] VSCOOKIE * pdwCookie);
+
+  HRESULT RemoveSubcontext(
+              [in] VSCOOKIE dwcookie);
+
+  HRESULT CountAttributes(
+              [in] LPCOLESTR pszName,
+              [in] BOOL fIncludeChildren,
+              [out, retval] int * pc);  
+
+  HRESULT GetAttribute(
+              [in] int iAttribute,
+              [in] LPCOLESTR pszName,
+              [in] BOOL fIncludeChildren,
+              [out] BSTR * pbstrName,
+              [out, retval] BSTR * pbstrValue);
+
+  HRESULT CountSubcontexts(
+              [out, retval] int * pc);
+
+  HRESULT GetSubcontext(
+              [in] int i,
+              [out, retval] IVsUserContext ** ppSubCtx);
+
+  HRESULT IsDirty(
+              [out, retval] BOOL * pfDirty);
+
+  HRESULT SetDirty(
+              [in] BOOL fDirty);
+
+  HRESULT Update();
+
+  HRESULT AdviseUpdate(
+              [in] IVsUserContextUpdate * pUpdate, 
+              [out, retval] VSCOOKIE * pdwCookie);
+
+  HRESULT UnadviseUpdate(
+              [in] VSCOOKIE dwCookie);
+
+  HRESULT GetAttrUsage(
+              [in] int index,
+			  [in] BOOL fIncludeChildren,
+              [out, retval] VSUSERCONTEXTATTRIBUTEUSAGE * pUsage);
+
+  HRESULT RemoveAllSubcontext();
+
+  HRESULT GetPriority(
+              [out, retval] int *lPriority);
+
+  HRESULT RemoveAttributeIncludeChildren(
+              [in] LPCOLESTR szName,
+              [in] LPCOLESTR szValue);
+
+  HRESULT GetAttributePri(
+              [in] int iAttribute,
+              [in] LPCOLESTR pszName,
+              [in] BOOL fIncludeChildren,
+              [out] int *piPriority,
+              [out] BSTR * pbstrName,
+              [out, retval] BSTR * pbstrValue);
+};
+
+/* IVsUserContextUpdate
+ *
+ * This interface is implemented by context providers which
+ * need to update dirty contexts before a retrieval.
+ */
+[
+uuid(uuid_IVsUserContextUpdate),
+object,
+version(1.0)
+]
+interface IVsUserContextUpdate : IUnknown
+{
+  HRESULT UpdateUserContext(
+              [in] IVsUserContext * pCtx, 
+              [in] VSCOOKIE dwCookie); //This parameter is currently unused.
+};
+
+[
+uuid(uuid_IVsProvideUserContext),
+object,
+version(1.0)
+]
+interface IVsProvideUserContext : IUnknown
+{
+  HRESULT GetUserContext([out, retval] IVsUserContext ** ppctx);
+};
+
+[
+uuid(uuid_IVsProvideUserContextForObject),
+object,
+version(1.0)
+]
+interface IVsProvideUserContextForObject : IUnknown
+{
+  HRESULT GetObjectContext([in] IUnknown * punk, [out, retval] IVsUserContext ** ppctx);
+};
+
+[
+uuid(uuid_IVsUserContextItemCollection),
+object,
+version(1.0)
+]
+interface IVsUserContextItemCollection : IUnknown
+{
+  [propget, id(DISPID_VALUE)]
+  HRESULT Item(
+              [in] VARIANT index, 
+              [out,retval] IVsUserContextItem ** ppItem);
+  
+  [propget, id(DISPID_NEWENUM)]
+  HRESULT _NewEnum(
+              [out, retval] IUnknown ** pEnum);
+  
+  [propget]
+  HRESULT Count(
+              [out, retval] long * pCount);
+  
+  [propget]
+  HRESULT ItemAt(
+              [in] long index, 
+              [out, retval] IVsUserContextItem ** ppItem);
+};
+
+[
+uuid(uuid_IVsUserContextItem),
+object,
+version(1.0)
+]
+interface IVsUserContextItem : IUnknown
+{
+  [propget]
+  HRESULT Name([out, retval] BSTR * pbstrName);
+  
+  [propget]
+  HRESULT Command([out, retval] BSTR * pbstrCommand);
+  
+  HRESULT CountAttributes(
+              [in] LPCOLESTR pszAttrName,
+              [out, retval] int * pc);
+  
+  HRESULT GetAttribute(
+              [in] LPCOLESTR pszAttrName,
+              [in] int index,
+              [out, optional] BSTR * pbstrName,
+              [out, optional, retval] BSTR * pbstrValue);
+};
+
+typedef enum tagAttrValueType
+{
+  VSHAL_Real = 0,
+  VSHAL_Display = 1
+} ATTRVALUETYPE;
+
+[
+uuid(uuid_IVsHelpAttributeList),
+object,
+version(1.0)
+]
+interface IVsHelpAttributeList : IUnknown
+{
+  HRESULT GetAttributeName(
+              [out] BSTR *bstrName);
+
+  HRESULT GetCount(
+              [out] int *pCount);
+
+  HRESULT UpdateAttributeStatus(
+              [in]  BOOL *afActive);
+
+  HRESULT GetAttributeStatusVal(
+              [in]  BSTR bstrValue,
+              [in]  ATTRVALUETYPE type,
+              [out] BOOL *pfActive);
+
+  HRESULT GetAttributeStatusIndex(
+              [in]  int index,
+              [out] BOOL *pfActive);
+
+  HRESULT GetAttributeValue(
+              [in]  int index,
+              [in]  ATTRVALUETYPE type,
+              [out] BSTR *pbstrValue);
+};
+
+
+// pass this value for pszTargetAttr to FindTargetItems to
+// use the highest priority F1 keyword for the context.
+//
+cpp_quote("#define VSUC_CURRENT_F1 ((LPCOLESTR)1)")
+
+[
+uuid(uuid_IVsMonitorUserContext),
+object,
+version(1.0)
+]
+interface IVsMonitorUserContext : IUnknown
+{
+  HRESULT SetSite(
+              [in] IServiceProvider * pSP);
+  
+  HRESULT get_ApplicationContext(
+              [out, retval] IVsUserContext ** ppContext);
+  
+  HRESULT put_ApplicationContext(
+              [in] IVsUserContext * pContext);
+  
+  HRESULT CreateEmptyContext(
+              [out, retval] IVsUserContext ** ppContext);
+  
+  HRESULT GetContextItems(
+              [out] IVsUserContextItemCollection ** pplist);
+  
+  HRESULT FindTargetItems(
+              [in] LPCOLESTR pszTargetAttr,
+              [in] LPCOLESTR pszTargetAttrValue,
+              [out] IVsUserContextItemCollection ** ppList,
+			  [out] BOOL *pfF1Kwd);
+  
+  HRESULT RegisterItemProvider(
+              [in] IVsUserContextItemProvider * pProvider,
+              [out, retval] VSCOOKIE * pdwCookie);
+  
+  HRESULT UnregisterItemProvider(
+              [in] VSCOOKIE dwCookie);
+  
+  HRESULT AdviseContextItemEvents(
+              [in] IVsUserContextItemEvents * pEvents,
+              [out, retval] VSCOOKIE * pdwCookie);
+  
+  HRESULT UnadviseContextItemEvent(
+              [in] VSCOOKIE dwCookie);
+
+  HRESULT GetNextCtxBagAttr(
+	      [out] BSTR * pbstrAttrName,
+	      [out] BSTR * pbstrAttrVal);
+
+  HRESULT ResetNextCtxBagAttr();
+
+  HRESULT GetPrevAttrCache(
+		  [out] BSTR ** pbstrCacheArray,
+		  [out] int ** pnCurrNumStored,
+		  [out] int * pnMaxNumStored);
+
+  HRESULT GetNextCtxBag(
+	      [out] BSTR * pbstrAttrName,
+	      [out] BSTR * pbstrAttrVal);
+
+  HRESULT IsIdleAvailable(
+		  [out] BOOL * pfIdleAvail);
+  
+  HRESULT SetTopicTypeFilter(
+		  [in] IVsHelpAttributeList *pTopicTypeList);
+
+  HRESULT GetF1Kwd(
+          [out] BSTR * pbstrKwd,
+		  [out] BOOL * fF1Kwd);
+
+  HRESULT IsF1Lookup(
+          [out] BOOL * fF1Lookup);
+};
+
+enum _VSCIPPROPID
+{
+  VSCIPPROPID_NIL         = -1,
+  VSCIPPROPID_LookupType  = 100,  // 0 to use keyword, 1 to use PAL
+  VSCIPPROPID_Customize   = 200   // return IVsUserContextCustomize
+};
+
+typedef LONG VSCIPPROPID;
+
+[
+uuid(uuid_IVsUserContextItemProvider),
+object,
+version(1.0)
+]
+interface IVsUserContextItemProvider : IUnknown
+{
+  HRESULT GetProperty(
+              [in] VSCIPPROPID property,
+              [out, retval] VARIANT * pvar);
+
+  HRESULT SetProperty(
+              [in] VSCIPPROPID property,
+              [in] VARIANT var);
+
+  HRESULT KeywordLookup(
+              [in] LPCOLESTR pwzTargetAttr,
+              [in] LPCOLESTR pwzTargetAttrValue,
+              [out] IVsUserContextItemCollection ** ppList,
+              [in] IVsMonitorUserContext* pCMUC,
+			  [in] BOOL fCheckIdle,
+			  [in] BOOL fContinueInterrupt);
+
+  HRESULT PackedAttributeLookup(
+              [in] LPCOLESTR pwzRequired,
+              [in] LPCOLESTR pwzScope,
+              [out] IVsUserContextItemCollection ** ppList);
+
+  HRESULT LookupEnabled(
+              [out] BOOL *pfLookupEnabled);
+};
+
+enum _LIMITTOPICSOURCE
+{
+  CCW_LimKwd_SelOnly    = 0, //Only use keywords from the topmost active context bag
+  CCW_LimKwd_NoAmbient  = 1, //Use all keywords except Ambient
+  CCW_LimKwd_All        = 2,  //Use all keywords (default)
+  CCW_LimKwd_Last       = 3
+};
+typedef LONG LIMITTOPICSOURCE;
+
+[
+uuid(uuid_IVsUserContextCustomize),
+object,
+version(1.0)
+]
+interface IVsUserContextCustomize : IUnknown
+{
+  HRESULT GetLimitKeywordSource(
+              [out, retval] LONG *pLimKwdSrc);
+};
+
+[
+uuid(uuid_IVsUserContextItemEvents),
+version(1.0)
+]
+interface IVsUserContextItemEvents : IUnknown
+{
+  HRESULT OnUserContextItemsAvailable(
+              [in] IVsUserContextItemCollection * pList);
+};
+
+[
+uuid(uuid_lib_VsContext),
+version(1.0)
+]
+library VsContext
+{
+  [
+  uuid(uuid_coclass_VsContextClass),
+  version(1.0)
+  ]
+  coclass VsContextClass
+  {
+    [default] interface IVsMonitorUserContext;
+  }
+}
+
+cpp_quote("#define SID_SVsMonitorUserContext IID_IVsMonitorUserContext")
+cpp_quote("#define HH_1x_ATTR L\"HtmlHelp_1.X_LookupInfo\"")
+cpp_quote("#define KWD_GUID L\"KWD_GUID\"")
+cpp_quote("#define KEYWORD_CS L\"KEYWORD_CS\"")

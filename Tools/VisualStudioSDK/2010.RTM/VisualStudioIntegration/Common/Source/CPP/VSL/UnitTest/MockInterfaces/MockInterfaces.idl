@@ -1,0 +1,82 @@
+/***************************************************************************
+
+Copyright (c) Microsoft Corporation. All rights reserved.
+This code is licensed under the Visual Studio SDK license terms.
+THIS CODE IS PROVIDED *AS IS* WITHOUT WARRANTY OF
+ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY
+IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR
+PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
+
+This code is a part of the Visual Studio Library.
+
+***************************************************************************/
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	object,
+	uuid(9A1CBDB8-501B-4B95-B61F-735B15016DD6),
+	nonextensible,
+	helpstring("ISimple Interface"),
+	pointer_default(unique)
+]
+interface ISimple : IUnknown
+{
+};
+
+[
+	object,
+	uuid(17F9EDBE-348D-4d2c-A2AA-4C8ECA379B6B),
+	nonextensible,
+	helpstring("ISimple2 Interface"),
+	pointer_default(unique)
+]
+interface ISimple2 : ISimple
+{
+};
+
+[
+	object,
+	uuid(01BF0EDA-13C7-4ebd-BF8C-BA16F8037E95),
+	nonextensible,
+	helpstring("ISimple3 Interface"),
+	pointer_default(unique)
+]
+interface ISimple3 : ISimple
+{
+};
+
+[
+	object,
+	uuid(150F6CD6-FD89-4d44-83A4-3AE2835E5699),
+	nonextensible,
+	helpstring("I2Methods Interface"),
+	pointer_default(unique)
+]
+interface I2Methods : IUnknown
+{
+	HRESULT Method1();
+	HRESULT Method2();
+};
+
+[
+	uuid(5D82F339-48C1-4F75-8EE9-6DC2ADF70654),
+	version(1.0),
+	helpstring("VSL Mock Intefaces 1.0 Type Library")
+]
+library TestInterfacesLib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(1D7FC4B4-E7F6-4A25-9F8F-5192C3BE3E4F),
+		control,
+		helpstring("Simple Class")
+	]
+	coclass Simple
+	{
+		[default] interface ISimple;
+		interface ISimple2;
+		interface I2Methods;
+	};
+};

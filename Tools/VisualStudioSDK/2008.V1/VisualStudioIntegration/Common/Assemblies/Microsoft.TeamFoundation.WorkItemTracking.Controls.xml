@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<doc>
+	<assembly>
+		<name>Microsoft.TeamFoundation.WorkItemTracking.Controls</name>
+	</assembly>
+	<members>
+		<member name="E:Microsoft.TeamFoundation.WorkItemTracking.Controls.DisplayFieldCollection.Changed">
+			<summary>Occurs when the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Controls.DisplayFieldCollection"></see> changes.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Controls.DisplayFieldCollection.AddRange(Microsoft.TeamFoundation.WorkItemTracking.Controls.DisplayField[])">
+			<summary>Adds an array of <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Controls.DisplayField"></see> objects to the collection.</summary>
+			<param name="items">The array of <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Controls.DisplayField"></see> objects.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Controls.DisplayFieldCollection.Clear">
+			<summary>Clears the contents of the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Controls.DisplayFieldCollection"></see>.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Controls.DisplayFieldCollection.Insert(System.Int32,Microsoft.TeamFoundation.WorkItemTracking.Controls.DisplayField)">
+			<summary>Inserts <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Controls.DisplayField"></see> the in the specified location in the collection.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Controls.DisplayFieldCollection.Remove(Microsoft.TeamFoundation.WorkItemTracking.Controls.DisplayField)">
+			<summary>Removes the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Controls.DisplayField"></see> from the collection.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Controls.DisplayFieldCollection.RemoveAt(System.Int32)">
+			<summary>Removes the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Controls.DisplayField"></see> at the specified location.</summary>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.WorkItemTracking.Controls.DisplayFieldCollection.Item(System.Int32)">
+			<summary>Gets or sets a <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Controls.DisplayField"></see> from a <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Controls.DisplayFieldCollection"></see> at the given index.</summary>
+			<exception cref="ArgumentOutOfRangeException">Thrown if index is out of range.</exception>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.WorkItemTracking.Controls.DisplayFieldCollection.Item(System.String)">
+			<summary>Gets or sets a <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Controls.DisplayField"></see> from a <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Controls.DisplayFieldCollection"></see> at the given fieldName.</summary>
+			<returns>Returns the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Controls.DisplayField"></see> at the specified fieldName. Returns null if fieldName is not found in the collection.</returns>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Controls.IDialogControl">
+			<summary>Interface for controls that will be hosted in a Links dialog box.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Controls.IDialogControl.Initialize(Microsoft.TeamFoundation.WorkItemTracking.Controls.IDialogControlHost,Microsoft.TeamFoundation.WorkItemTracking.Controls.DisplayMode,Microsoft.TeamFoundation.WorkItemTracking.Client.Link)">
+			<summary>Initializes the control with the host and mode. Also initializes the existing link if the dialog box is in edit mode.</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Controls.IDialogControlHost">
+			<summary>The form to add and edit links must implement this interface, which is then passed to child link controls.</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Controls.IWorkItemControl">
+			<summary>Defines the interface for a <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see> control. This interface also contains a collection class for creating a list of these controls.</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Controls.LinksControl">
+			<summary>Control for managing <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see> links.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Controls.LinksControl.OnAdd">
+			<summary>Invokes the Add dialog box.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Controls.LinksControl.OnDatasourceSet">
+			<summary>Adds items when <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see> is set.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Controls.LinksControl.OnEdit">
+			<summary>Invokes the Edit dialog box.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Controls.LinksControl.OnOpen">
+			<summary>Activates the selected items.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Controls.LinksControl.OnRemove">
+			<summary>Deletes the selected items.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Controls.LinksControl.OnResize(System.EventArgs)">
+			<summary>Resizes columns.</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Controls.LinksControl.LinkItem">
+			<summary>Extends <see cref="T:System.Windows.Forms.ListViewItem"></see> to store <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Link"></see>s and add few operations.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Controls.LinksControl.LinkItem.DisplayInBrowser(System.String)">
+			<summary>Opens the provided URL in a new Internet Explorer window, and delegates security checks to Internet Explorer.</summary>
+			<param name="url">URL to open in Internet Explorer.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Controls.LinksControl.LinkItem.ExecuteLink(System.String,System.IServiceProvider,System.String)">
+			<summary>Executes the default action on the current <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Link"></see>.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Controls.LinksControl.LinkItem.ExecuteLinkOutsideVsip(System.String,System.String)">
+			<summary>Uses external addressability to execute a <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Link"></see> when the user operates outside the Visual Studio environment</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Controls.LinksControlBase">
+			<summary>Base control for link and attachment controls.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Controls.LinksControlBase.EnableControls">
+			<summary>Enables or disables controls, depending on current state.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Controls.LinksControlBase.OnBeforeUpdateDatasource(System.EventArgs)">
+			<summary>Override this method in a derived class to handle the OnBeforeUpdateDatasource event.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Controls.LinksControlBase.ResizeColumns(System.Int32)">
+			<summary>Resizes the name column when the control is resized.</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Controls.ResultOptions">
+			<summary>This class encapsulates the two basic elements of the Result Options; the list of <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Controls.DisplayField"></see>s, and the list of <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Controls.SortField"></see>s.</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Controls.WorkItemFormControl">
+			<summary>A Windows Forms control that is used to view or change a single work item.</summary>
+		</member>
+		<member name="E:Microsoft.TeamFoundation.WorkItemTracking.Controls.WorkItemFormControl.ContextMenuPopup">
+			<summary>Occurs when the right mouse button is clicked.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Controls.WorkItemFormControl.Copy">
+			<summary>Copies the contents of the active control to the clipboard.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Controls.WorkItemFormControl.Cut">
+			<summary>Cuts the contents from the active control and puts the contents onto the clipboard.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Controls.WorkItemFormControl.HandleFirstFieldError(System.String)">
+			<summary>Sets the focus to the first field that has an error and shows the error message.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Controls.WorkItemFormControl.Paste">
+			<summary>Pastes the contents of the clipboard onto the active control.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Controls.WorkItemFormControl.RenderView">
+			<summary>Renders the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see> view.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Controls.WorkItemFormControl.RenderView(System.Boolean)">
+			<summary>Renders the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see> view.</summary>
+			<param name="force">true to force the control to be rendered; otherwise false.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Controls.WorkItemFormControl.ShowAllFieldErrors(System.String,System.Int32)">
+			<summary>Sets the focus to the first field that has an error and shows the error message.</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Controls.WorkItemResultGrid">
+			<summary>This class uses a <see cref="T:System.Windows.Forms.DataGridView"></see> to display a <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemCollection"></see> from a <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Controls.ResultOptions"></see> object.</summary>
+		</member>
+		<member name="E:Microsoft.TeamFoundation.WorkItemTracking.Controls.WorkItemResultGrid.ContextMenuPopup">
+			<summary>Occurs when the user requests the context menu.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Controls.WorkItemResultGrid.LoadFromWiql(Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemStore,System.String)">
+			<param name="store">The <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemStore"></see> to query.</param>
+			<param name="wiql">WIQL query string.</param>
+			<exception cref="ArgumentNullException">Thrown when store is null.</exception>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Controls.WorkItemResultGrid.UpdateWidths(Microsoft.TeamFoundation.WorkItemTracking.Controls.DisplayFieldCollection)">
+			<summary>Sets the column widths for all fields in the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Controls.DisplayFieldCollection"></see>, according to the Width property for each <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Controls.DisplayField"></see>.</summary>
+		</member>
+	</members>
+</doc>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (c) Microsoft Corporation.  All rights reserved.
+
+    Module.MSM - example source code for Merge Module from "Getting Started" in help
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Module Id="TestModule" Language="1033" Version="1.0.0.0">
+        <Package Id="87654321-4321-4321-4321-210987654321" Description="My first Merge Module" Comments="This is my first attempt at creating a Windows Installer Merge Module" Manufacturer="Microsoft Corporation" InstallerVersion="200" />
+
+        <Directory Id="TARGETDIR" Name="SourceDir">
+            <Directory Id="MyModuleDirectory" Name=".">
+                <Component Id="MyModuleComponent" Guid="87654321-4321-4321-4321-110987654321">
+                    <File Id="readme2" Name="readme2.txt" Source="readme2.txt" />
+                </Component>
+            </Directory>
+        </Directory>
+    </Module>
+</Wix>
+
+ 

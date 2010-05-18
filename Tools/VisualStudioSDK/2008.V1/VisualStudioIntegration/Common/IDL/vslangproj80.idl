@@ -1,0 +1,749 @@
+/****************************************************************************
+* vslangproj80.idl
+*
+* Sources the typelib that needs to be exposed to clients.
+* Exposes the CATID's of the extensibility Project & ProjectItem object.
+* Exposes the diff CATID's for the diff packages for the browse objects.
+* Exposes the browse object interfaces
+* Exposes the interfaces of the package specific extensibility project object.
+*****************************************************************************/
+#ifndef INTEROPLIB
+import "oaidl.idl";
+
+
+// Interface definitions
+cpp_quote("#define CSharpProjectProperties3 ProjectProperties3")
+cpp_quote("#define IID_CSharpProjectProperties3 IID_ProjectProperties3")
+
+cpp_quote("#define VJSharpProjectProperties3 ProjectProperties3")
+cpp_quote("#define IID_VJSharpProjectProperties3 IID_ProjectProperties3")
+
+// Interface definitions
+cpp_quote("#define VSLANGPROJ80_VER_MAJ    8")
+cpp_quote("#define VSLANGPROJ80_VER_MIN    0")
+
+[
+    uuid(307953C0-7973-490a-A4A7-25999E023BE8),
+    helpstring("Microsoft Visual Studio Project Model (8.0)"),
+    version(8.0)
+]
+library VSLangProj80
+{
+#endif // INTEROPLIB
+
+
+    importlib("stdole32.tlb");
+    importlib("stdole2.tlb");
+    importlib("vslangproj.tlb");
+    importlib("vslangproj2.tlb");
+
+    // this list includes config and project properties.
+    // if you add new properties, please add config props in the config section and
+    // project props in the project section.
+
+    // This lists project config properties
+    enum VsProjPropId80
+    {
+        VBPROJPROPID_DebugInfo                      =  10106,
+        VBPROJPROPID_PlatformTarget                 =  10109,
+        VBPROJPROPID_UseVSHostingProcess            =  10110,
+        VBPROJPROPID_GenerateSerializationAssemblies=  10111,
+
+	// Property IDs used for CodeAnalysis integration.  Intentionally leaving a hole
+	// in the numbering scheme here to avoid having to change the numbers
+	// every time we integrate from Main to Lab26
+	VBPROJPROPID_RunCodeAnalysis                       =  12200,
+	VBPROJPROPID_CodeAnalysisLogFile                   =  12201,
+	VBPROJPROPID_CodeAnalysisRuleAssemblies            =  12202,
+	VBPROJPROPID_CodeAnalysisRules                     =  12203,
+	VBPROJPROPID_CodeAnalysisInputAssembly             =  12204,
+	VBPROJPROPID_CodeAnalysisSpellCheckLanguages       =  12205,
+	VBPROJPROPID_CodeAnalysisUseTypeNameInSuppression  =  12206,
+	VBPROJPROPID_CodeAnalysisModuleSuppressionsFile    =  12207,
+	
+    // This lists project properties
+
+        VBPROJPROPID_InstanceType                   =  12100,
+        VBPROJPROPID_ShutdownMode                   =  12101,
+        VBPROJPROPID_AssemblyTitle                  =  12102,
+        VBPROJPROPID_AssemblyDescription            =  12103,
+        VBPROJPROPID_AssemblyCompany                =  12104,
+        VBPROJPROPID_AssemblyProduct                =  12105,
+        VBPROJPROPID_AssemblyCopyright              =  12106,
+        VBPROJPROPID_AssemblyTrademark              =  12107,
+        VBPROJPROPID_AssemblyType                   =  12108,
+        VBPROJPROPID_TypeComplianceDiagnostics      =  12109,
+        VBPROJPROPID_CompatibilityChecks            =  12110,
+        VBPROJPROPID_CompatibleAssembly             =  12111,
+        VBPROJPROPID_Win32ResourceFile              =  12112,
+        VBPROJPROPID_AssemblyOriginatorKeyFileType  =  12114,
+        VBPROJPROPID_AssemblyKeyProviderName        =  12115,
+        VBPROJPROPID_AssemblyVersion                =  12116,
+        VBPROJPROPID_AssemblyFileVersion            =  12117,
+        VBPROJPROPID_SecureDebugURL                 =  12118,
+        VBPROJPROPID_GenerateManifests              =  12119,
+        VBPROJPROPID_EnableSecurityDebugging        =  12120,
+        VBPROJPROPID_TreatSpecificWarningsAsErrors  =  12121,
+        VBPROJPROPID_Publish                        =  12122,
+        VBPROJPROPID_ComVisible                     =  12123,
+        VBPROJPROPID_AssemblyGuid                   =  12124,
+        VBPROJPROPID_NeutralResourcesLanguage       =  12125,
+        VBPROJPROPID_SignAssembly                   =  12126,
+        VBPROJPROPID_TargetZone                     =  12127,
+        VBPROJPROPID_ExcludedPermissions            =  12128,
+        VBPROJPROPID_ManifestCertificateThumbprint  =  12129,
+        VBPROJPROPID_ManifestKeyFile                =  12130,
+        VBPROJPROPID_ManifestTimestampUrl           =  12131,
+        VBPROJPROPID_SignManifests                  =  12132
+    };
+
+
+    enum  VsProjFolderPropId80
+    {
+        DISPID_VBFolder_WebReferenceInterface = 11
+    };
+
+    // This lists reference properties
+    enum  VsProjReferencePropId80
+    {
+        DISPID_Reference_SpecificVersion = 120,
+        DISPID_Reference_SubType = 121,
+        DISPID_Reference_Isolated = 122,
+        DISPID_Reference_Aliases = 123,
+        DISPID_Reference_RefType = 124,
+        DISPID_Reference_AutoReferenced = 125,
+        DISPID_Reference_Resolved = 126,
+    };
+    // FileProperties2
+    enum VsProjFilePropId80
+    {
+
+        DISPID_VBFile_CopyToOutputDirectory = DISPID_VALUE + 100,
+        DISPID_VBFile_ItemType = DISPID_VALUE + 101,
+        DISPID_VBFile_IsSharedDesignTimeBuildInput = DISPID_VALUE + 102
+    };
+
+    // CSharp specific configuration properties
+    enum CSharpProjPropId
+    {
+        CSPROJPROPID_TreatSpecificWarningsAsErrors  =  13102,
+        CSPROJPROPID_LanguageVersion                =  13104,
+        CSPROJPROPID_ErrorReport                    =  13105
+    };
+
+
+    // VB specific common properties
+    enum  VBProjPropId
+    {
+        VBPROJPROPID_MyApplication                  =  14101,
+        VBPROJPROPID_MyType                         =  14102
+    };
+
+
+    // JSharp specific configuration properties
+    enum JSharpProjPropId
+    {
+        JSPROJPROPID_CodePage           = 15101,
+        JSPROJPROPID_JCPA               = 15102,
+        JSPROJPROPID_DisableLangXtns    = 15103,
+        JSPROJPROPID_SecureScoping      = 15104,
+    };
+
+
+    enum __PROJECTREFERENCETYPE
+    {
+        PROJREFTYPE_ASSEMBLY = 1,
+        PROJREFTYPE_ACTIVEX  = 2,
+        PROJREFTYPE_NATIVE   = 3,
+    };
+    typedef DWORD PROJECTREFERENCETYPE;
+
+    // The strong name key file format
+    enum _prjOriginatorKeyFileType
+    {
+        prjOriginatorKeyFileTypeSNK = 1,
+        prjOriginatorKeyFileTypePFX = 2
+    };
+    typedef DWORD prjOriginatorKeyFileType;
+
+
+    enum __COPYTOOUTPUTSTATE
+    {
+        COPYTOOUTPUTSTATE_Never                = 0,
+        COPYTOOUTPUTSTATE_Always               = 1,
+        COPYTOOUTPUTSTATE_PreserveNewestFile   = 2,
+    };
+    typedef DWORD COPYTOOUTPUTSTATE;
+
+
+
+    //
+    // ProjectConfigurationProperties3
+    //
+    [
+        uuid(9918DAB5-FC67-4cd4-B352-2F3FA1E2BD08),
+        helpstring("Project configuration properties 3"),
+        pointer_default(unique),
+        dual
+    ]
+    interface ProjectConfigurationProperties3 : ProjectConfigurationProperties2
+    {
+        // Debugging info type
+        [propget, id(VBPROJPROPID_DebugInfo), helpstring("Debugging info type")]
+        HRESULT DebugInfo([out, retval] BSTR *pbstrDebugInfo);
+        [propput, id(VBPROJPROPID_DebugInfo), helpstring("Debugging info type")]
+        HRESULT DebugInfo([in] BSTR DebugInfo);
+
+        [propget, id(VBPROJPROPID_PlatformTarget), helpstring("Platform target")]
+        HRESULT PlatformTarget([out, retval] BSTR *pbstrPlatformTarget);
+        [propput, id(VBPROJPROPID_PlatformTarget), helpstring("Platform target")]
+        HRESULT PlatformTarget([in] BSTR PlatformTarget);
+
+        // Treat specific warnings as errors
+        [propget, id(VBPROJPROPID_TreatSpecificWarningsAsErrors), helpstring("Treat specific warnings as errors")]
+        HRESULT TreatSpecificWarningsAsErrors([out, retval] BSTR *pbstrWarningsAsErrors);
+        [propput, id(VBPROJPROPID_TreatSpecificWarningsAsErrors), helpstring("Treat specific warnings as errors")]
+        HRESULT TreatSpecificWarningsAsErrors([in] BSTR WarningsAsErrors);
+
+        // run Code Analysis on output assembly
+        [propget, id(VBPROJPROPID_RunCodeAnalysis), helpstring("Run Code Analysis on output assembly")]
+        HRESULT RunCodeAnalysis([out, retval] VARIANT_BOOL* pbRunCodeAnalysis);
+        [propput, id(VBPROJPROPID_RunCodeAnalysis), helpstring("Run Code Analysis on output assembly")]
+        HRESULT RunCodeAnalysis([in] VARIANT_BOOL RunCodeAnalysis);
+
+        // path to CodeAnalysis output log
+        [propget, id(VBPROJPROPID_CodeAnalysisLogFile), helpstring("Path to Code Analysis output log")]
+        HRESULT CodeAnalysisLogFile([out, retval] BSTR* pbstrCodeAnalysisLogFile);
+        [propput, id(VBPROJPROPID_CodeAnalysisLogFile), helpstring("Path to Code Analysis output log")]
+        HRESULT CodeAnalysisLogFile([in] BSTR CodeAnalysisLogFile);
+
+        // CodeAnalysis rule assemblies to run
+        [propget, id(VBPROJPROPID_CodeAnalysisRuleAssemblies), helpstring("List of Code Analysis rule assemblies to run")]
+        HRESULT CodeAnalysisRuleAssemblies([out, retval] BSTR* pbstrCodeAnalysisRuleAssemblies);
+        [propput, id(VBPROJPROPID_CodeAnalysisRuleAssemblies), helpstring("List of Code Analysis rule assemblies to run")]
+        HRESULT CodeAnalysisRuleAssemblies([in] BSTR CodeAnalysisRuleAssemblies);
+
+        // path to Assemblies for CodeAnalysis to analyze
+        [propget, id(VBPROJPROPID_CodeAnalysisInputAssembly), helpstring("The path to the assemblies on which to run Code Analysis")]
+        HRESULT CodeAnalysisInputAssembly([out, retval] BSTR* pbstrCodeAnalysisInputAssembly);
+        [propput, id(VBPROJPROPID_CodeAnalysisInputAssembly), helpstring("The path to the assemblies on which to run Code Analysis")]
+        HRESULT CodeAnalysisInputAssembly([in] BSTR CodeAnalysisInputAssembly);
+
+        // CodeAnalysis rules to run
+        [propget, id(VBPROJPROPID_CodeAnalysisRules), helpstring("The Code Analysis rules to run")]
+        HRESULT CodeAnalysisRules([out, retval] BSTR* pbstrCodeAnalysisRules);
+        [propput, id(VBPROJPROPID_CodeAnalysisRules), helpstring("The Code Analysis rules to run")]
+        HRESULT CodeAnalysisRules([in] BSTR CodeAnalysisRules);
+
+        // languages to be used by Code Analysis's spellchecker 
+        [propget, id(VBPROJPROPID_CodeAnalysisSpellCheckLanguages), helpstring("Languages to be used by Code Analysis spellchecker")]
+        HRESULT CodeAnalysisSpellCheckLanguages([out, retval] BSTR* pbstrCodeAnalysisSpellCheckLanguages);
+        [propput, id(VBPROJPROPID_CodeAnalysisSpellCheckLanguages), helpstring("Languages to be used by Code Analysis spellchecker")]
+        HRESULT CodeAnalysisSpellCheckLanguages([in] BSTR CodeAnalysisSpellCheckLanguages);
+
+        // use rule type name when emitting a SuppressMessage attribute from CodeAnalysis
+        [propget, id(VBPROJPROPID_CodeAnalysisUseTypeNameInSuppression), helpstring("Use rule type name when emitting a SuppressMessage attribute from Code Analysis")]
+        HRESULT CodeAnalysisUseTypeNameInSuppression([out, retval] VARIANT_BOOL* bUseTypeNameInSuppression);
+        [propput, id(VBPROJPROPID_CodeAnalysisUseTypeNameInSuppression), helpstring("Use rule type name when emitting a SuppressMessage attribute from Code Analysis")]
+        HRESULT CodeAnalysisUseTypeNameInSuppression([in] VARIANT_BOOL UseTypeNameInSuppression);
+
+        // file to be used by CodeAnalysis to store module suppressions 
+        [propget, id(VBPROJPROPID_CodeAnalysisModuleSuppressionsFile), helpstring("File to be used by Code Analysis to store module suppressions")]
+        HRESULT CodeAnalysisModuleSuppressionsFile([out, retval] BSTR* pbstrCodeAnalysisModuleSuppressionsFile);
+        [propput, id(VBPROJPROPID_CodeAnalysisModuleSuppressionsFile), helpstring("File to be used by Code Analysis to store module suppressions")]
+        HRESULT CodeAnalysisModuleSuppressionsFile([in] BSTR CodeAnalysisModuleSuppressionsFile);
+
+        // Use the hosting process
+        [propget, id(VBPROJPROPID_UseVSHostingProcess), helpstring("Use the hosting process")]
+        HRESULT UseVSHostingProcess([out, retval] VARIANT_BOOL *pbUseVSHostingProcess);
+        [propput, id(VBPROJPROPID_UseVSHostingProcess), helpstring("Use the hosting process")]
+        HRESULT UseVSHostingProcess([in] VARIANT_BOOL UseVSHostingProcess);
+
+        typedef [uuid(DEBB3D21-A024-410e-AA3B-1ABC31625EB7)]
+        enum sgenGenerationOption
+        {
+             sgenGenerationOption_Off = 0
+            ,sgenGenerationOption_On = 1
+            ,sgenGenerationOption_Auto = 2
+        } sgenGenerationOption;
+
+        cpp_quote("#define sgenGenerationOptionMin  sgenGenerationOption_Off")
+        cpp_quote("#define sgenGenerationOptionMax  sgenGenerationOption_Auto")
+
+        // Generate Serialization Assemblies during build after assembly is generated
+        [propget, id(VBPROJPROPID_GenerateSerializationAssemblies), helpstring("Generate serialization assemblies during build after assembly is generated")]
+        HRESULT GenerateSerializationAssemblies([out, retval] sgenGenerationOption *pSgenGenerationOption);
+        [propput, id(VBPROJPROPID_GenerateSerializationAssemblies), helpstring("Generate serialization assemblies during build after assembly is generated")]
+        HRESULT GenerateSerializationAssemblies([in] sgenGenerationOption SgenGenerationOption);
+    }
+
+    //Web Reference Events - this is a requirement for Whitehorse.
+    [ uuid(33BD7FEF-EEB4-412a-A4C1-9FBFF6F57067), dual, object ]
+    interface _VSLangProjWebReferencesEvents : IDispatch
+    {
+    };
+
+
+    [ uuid(9AAD53A9-32CB-4d84-97A7-B4AFA94F5878) ]
+    dispinterface _dispVSLangProjWebReferencesEvents
+    {
+        properties:
+        methods:
+            [id(1)]   void OnAfterWebReferenceAdded     ([in] IDispatch *pDispatch);
+            [id(2)]   void OnBeforeWebReferenceRemoved  ([in] IDispatch *pDispatch);
+            [id(3)]   void OnWebReferenceChanged        ([in] IDispatch *pDispatch);
+    };
+
+
+    [ uuid(2DF4B0DE-579D-46b2-9D6E-88AF01E08FB0) ]
+    coclass VSLangProjWebReferencesEvents
+    {
+        [default] interface _VSLangProjWebReferencesEvents;
+        [default, source] dispinterface _dispVSLangProjWebReferencesEvents;
+    };
+
+     [
+        dual,
+        oleautomation,
+        object,
+        uuid(6DCBC5A7-37BF-461c-958F-A81DA10D242E)
+    ]
+    interface VSProjectEvents2 : VSProjectEvents
+    {
+        [id(4), propget, helpstring("VSLangProjWebReferencesEvents interface")]
+        HRESULT VSLangProjWebReferencesEvents([out, retval] VSLangProjWebReferencesEvents **ppVSLangProjWebReferencesEvents);
+    }
+
+
+    //
+    // VSProject2
+    //
+    [
+        dual,
+        oleautomation,
+        object,
+        uuid(B1042570-25C6-424a-B58B-56FA83AA828A)
+    ]
+    interface VSProject2 : VSProject
+    {
+        [id(17), propget, helpstring("PublishManager object")]
+        HRESULT PublishManager([out, retval] IDispatch **ppPublishManager);
+        [id(18), propget, helpstring("Events2 interface")]
+        HRESULT Events2([out, retval] VSProjectEvents2 **ppEvents);
+   }
+
+
+    //
+    // ProjectProperties3.  Note, properties which are retrieved through language code model 
+    // are marked as NonBrowsable for performance reasons.
+    //
+    [
+        uuid(7C9D1773-F1F3-447c-AF1A-218E5E2C2F7F),
+        helpstring("Project properties 3"),
+        pointer_default(unique),
+        dual
+    ]
+    interface ProjectProperties3 : ProjectProperties2
+    {
+        [propget, nonbrowsable, id(VBPROJPROPID_AssemblyTitle), helpstring("Assembly Title")]
+        HRESULT Title([out, retval] BSTR *pbstrTitle);
+        [propput, nonbrowsable, id(VBPROJPROPID_AssemblyTitle), helpstring("Assembly Title")]
+        HRESULT Title([in] BSTR Title);
+
+        [propget, nonbrowsable, id(VBPROJPROPID_AssemblyDescription), helpstring("Assembly Description")]
+        HRESULT Description([out, retval] BSTR *pbstrDescription);
+        [propput, nonbrowsable, id(VBPROJPROPID_AssemblyDescription), helpstring("Assembly Description")]
+        HRESULT Description([in] BSTR Description);
+
+        [propget, nonbrowsable, id(VBPROJPROPID_AssemblyCompany), helpstring("Assembly Company")]
+        HRESULT Company([out, retval] BSTR *pbstrCompany);
+        [propput, nonbrowsable, id(VBPROJPROPID_AssemblyCompany), helpstring("Assembly Company")]
+        HRESULT Company([in] BSTR Company);
+
+        [propget, nonbrowsable, id(VBPROJPROPID_AssemblyProduct), helpstring("Assembly Product")]
+        HRESULT Product([out, retval] BSTR *pbstrProduct);
+        [propput, nonbrowsable, id(VBPROJPROPID_AssemblyProduct), helpstring("Assembly Product")]
+        HRESULT Product([in] BSTR Product);
+
+        [propget, nonbrowsable, id(VBPROJPROPID_AssemblyCopyright), helpstring("Assembly Copyright")]
+        HRESULT Copyright([out, retval] BSTR *pbstrCopyright);
+        [propput, nonbrowsable, id(VBPROJPROPID_AssemblyCopyright), helpstring("Assembly Copyright")]
+        HRESULT Copyright([in] BSTR Copyright);
+
+        [propget, nonbrowsable, id(VBPROJPROPID_AssemblyTrademark), helpstring("Assembly Trademark")]
+        HRESULT Trademark([out, retval] BSTR *pbstrTrademark);
+        [propput, nonbrowsable, id(VBPROJPROPID_AssemblyTrademark), helpstring("Assembly Trademark")]
+        HRESULT Trademark([in] BSTR Trademark);
+
+        typedef [uuid(355354DE-E2F0-45d5-9632-4823655C9C95)]
+        enum prjAssemblyType
+        {
+             prjAssemblyType_Library = 0
+            ,prjAssemblyType_Platform = 1
+        } prjAssemblyType;
+
+        cpp_quote("#define prjAssemblyTypeMin  prjAssemblyType_Library")
+        cpp_quote("#define prjAssemblyTypeMax  prjAssemblyType_Platform")
+
+        [propget, id(VBPROJPROPID_AssemblyType), helpstring("Assembly Type")]
+        HRESULT AssemblyType([out, retval] prjAssemblyType *pAssemblyType);
+        [propput, id(VBPROJPROPID_AssemblyType), helpstring("Assembly Type")]
+        HRESULT AssemblyType([in] prjAssemblyType AssemblyType);
+
+        [propget, id(VBPROJPROPID_TypeComplianceDiagnostics), helpstring("Type compliance diagnostics")]
+        HRESULT TypeComplianceDiagnostics([out, retval] VARIANT_BOOL *pbTypeComplianceDiagnostics);
+        [propput, id(VBPROJPROPID_TypeComplianceDiagnostics), helpstring("Type compliance diagnostics")]
+        HRESULT TypeComplianceDiagnostics([in] VARIANT_BOOL TypeComplianceDiagnostics);
+
+        // Win32 resource file
+        [propget, id(VBPROJPROPID_Win32ResourceFile), helpstring("Win32 resource file")]
+        HRESULT Win32ResourceFile([out, retval] BSTR *pbstrW32ResourceFile);
+        [propput, id(VBPROJPROPID_Win32ResourceFile), helpstring("Win32 resource file")]
+        HRESULT Win32ResourceFile([in] BSTR Win32ResourceFile);
+
+        [propget, id(VBPROJPROPID_AssemblyKeyProviderName), helpstring("Assembly Key Provider Name")]
+        HRESULT AssemblyKeyProviderName([out, retval] BSTR *pbstrKeyProviderName);
+        [propput, id(VBPROJPROPID_AssemblyKeyProviderName), helpstring("Assembly Key Provider Name")]
+        HRESULT AssemblyKeyProviderName([in] BSTR KeyProviderName);
+
+        [propget, id(VBPROJPROPID_AssemblyOriginatorKeyFileType), helpstring("Assembly Key Originator Key File Type")]
+        HRESULT AssemblyOriginatorKeyFileType([out, retval] DWORD *pdwOriginatorKeyFileType);
+        [propput, id(VBPROJPROPID_AssemblyOriginatorKeyFileType), helpstring("Assembly Key Originator Key File Type")]
+        HRESULT AssemblyOriginatorKeyFileType([in] DWORD OriginatorKeyFileType);
+
+        [propget, nonbrowsable, id(VBPROJPROPID_AssemblyVersion), helpstring("Assembly Version")]
+        HRESULT AssemblyVersion([out, retval] BSTR *pbstrAssemblyVersion);
+        [propput, nonbrowsable, id(VBPROJPROPID_AssemblyVersion), helpstring("Assembly Version")]
+        HRESULT AssemblyVersion([in] BSTR AssemblyVersion);
+
+        [propget, nonbrowsable, id(VBPROJPROPID_AssemblyFileVersion), helpstring("Win32 File Version")]
+        HRESULT AssemblyFileVersion([out, retval] BSTR *pbstrAssemblyFileVersion);
+        [propput, nonbrowsable, id(VBPROJPROPID_AssemblyFileVersion), helpstring("Win32 File Version")]
+        HRESULT AssemblyFileVersion([in] BSTR AssemblyFileVersion);
+
+        [propget, id(VBPROJPROPID_GenerateManifests), helpstring("Generate manifests")]
+        HRESULT GenerateManifests([out, retval] VARIANT_BOOL *pbGenerateManifests);
+        [propput, id(VBPROJPROPID_GenerateManifests), helpstring("Generate manifests")]
+        HRESULT GenerateManifests([in] VARIANT_BOOL GenerateManifests);
+
+        [propget, id(VBPROJPROPID_EnableSecurityDebugging), helpstring("Enable security debugging")]
+        HRESULT EnableSecurityDebugging([out, retval] VARIANT_BOOL *pbEnableSecurityDebugging);
+        [propput, id(VBPROJPROPID_EnableSecurityDebugging), helpstring("Enable security debugging")]
+        HRESULT EnableSecurityDebugging([in] VARIANT_BOOL EnableSecurityDebugging);
+
+        // URL for secure debug
+        [propget, id(VBPROJPROPID_SecureDebugURL), helpstring("URL for secure debug")]
+        HRESULT DebugSecurityZoneURL([out, retval] BSTR *pbstrSecurityURL);
+        [propput, id(VBPROJPROPID_SecureDebugURL), helpstring("URL for secure debug")]
+        HRESULT DebugSecurityZoneURL([in] BSTR SecurityURL);
+
+        [propget, nonbrowsable, id(VBPROJPROPID_Publish), helpstring("Publish")]
+        HRESULT Publish([out, retval] IDispatch **ppdispPublish);
+
+        [propget, nonbrowsable, id(VBPROJPROPID_ComVisible), helpstring("COM Visible")]
+        HRESULT ComVisible([out, retval] VARIANT_BOOL *pbComVisible);
+        [propput, nonbrowsable, id(VBPROJPROPID_ComVisible), helpstring("COM Visible")]
+        HRESULT ComVisible([in] VARIANT_BOOL ComVisible);
+
+        [propget, nonbrowsable, id(VBPROJPROPID_AssemblyGuid), helpstring("AssemblyGuid")]
+        HRESULT AssemblyGuid([out, retval] BSTR *pbstrAssemblyGuid);
+        [propput, nonbrowsable, id(VBPROJPROPID_AssemblyGuid), helpstring("AssemblyGuid")]
+        HRESULT AssemblyGuid([in] BSTR AssemblyGuid);
+
+        [propget, nonbrowsable, id(VBPROJPROPID_NeutralResourcesLanguage), helpstring("NeutralResourcesLanguage")]
+        HRESULT NeutralResourcesLanguage([out, retval] BSTR *pbstrNeutralResourcesLanguage);
+        [propput, nonbrowsable, id(VBPROJPROPID_NeutralResourcesLanguage), helpstring("NeutralResourcesLanguage")]
+        HRESULT NeutralResourcesLanguage([in] BSTR NeutralResourcesLanguage);
+
+        [propget, id(VBPROJPROPID_SignAssembly), helpstring("SignAssembly")]
+        HRESULT SignAssembly([out, retval] VARIANT_BOOL *pbSignAssembly);
+        [propput, id(VBPROJPROPID_SignAssembly), helpstring("SignAssembly")]
+        HRESULT SignAssembly([in] VARIANT_BOOL SignAssembly);
+
+        [propget, id(VBPROJPROPID_SignManifests), helpstring("SignManifests")]
+        HRESULT SignManifests([out, retval] VARIANT_BOOL *pbSignManifests);
+        [propput, id(VBPROJPROPID_SignManifests), helpstring("SignManifests")]
+        HRESULT SignManifests([in] VARIANT_BOOL bSignManifests);
+
+        [propget, id(VBPROJPROPID_TargetZone), helpstring("TargetZone")]
+        HRESULT TargetZone([out, retval] BSTR *pbstrTargetZone);
+        [propput, id(VBPROJPROPID_TargetZone), helpstring("TargetZone")]
+        HRESULT TargetZone([in] BSTR TargetZone);
+
+        [propget, id(VBPROJPROPID_ExcludedPermissions), helpstring("ExcludedPermissions")]
+        HRESULT ExcludedPermissions([out, retval] BSTR* pbstrExcludedPermissions);
+        [propput, id(VBPROJPROPID_ExcludedPermissions), helpstring("ExcludedPermissions")]
+        HRESULT ExcludedPermissions([in] BSTR ExcludedPermissions);
+
+        [propget, id(VBPROJPROPID_ManifestCertificateThumbprint), helpstring("ManifestCertificateThumbprint")]
+        HRESULT ManifestCertificateThumbprint([out, retval] BSTR* pbstrManifestCertificateThumbprint);
+        [propput, id(VBPROJPROPID_ManifestCertificateThumbprint), helpstring("ManifestCertificateThumbprint")]
+        HRESULT ManifestCertificateThumbprint([in] BSTR ManifestCertificateThumbprint);
+
+        [propget, id(VBPROJPROPID_ManifestKeyFile), helpstring("ManifestKeyFile")]
+        HRESULT ManifestKeyFile([out, retval] BSTR* pbstrManifestKeyFile);
+        [propput, id(VBPROJPROPID_ManifestKeyFile), helpstring("ManifestKeyFile")]
+        HRESULT ManifestKeyFile([in] BSTR ManifestKeyFile);
+
+        [propget, id(VBPROJPROPID_ManifestTimestampUrl), helpstring("ManifestTimestampUrl")]
+        HRESULT ManifestTimestampUrl([out, retval] BSTR* pbstrManifestTimestampUrl);
+        [propput, id(VBPROJPROPID_ManifestTimestampUrl), helpstring("ManifestTimestampUrl")]
+        HRESULT ManifestTimestampUrl([in] BSTR ManifestTimestampUrl);
+    }
+
+    //
+    // VBProjectProperties3
+    //
+    [
+        uuid(A93BFE7B-CFDA-471D-93C6-1747D0B06E8E),
+        helpstring("VB Project properties 3"),
+        pointer_default(unique),
+        dual
+    ]
+    interface VBProjectProperties3 : ProjectProperties3
+    {
+        [propget, nonbrowsable, id(VBPROJPROPID_MyApplication), helpstring("MyApplication")]
+        HRESULT MyApplication([out, retval] IDispatch **ppdispMyApplication);
+
+        [propget, id(VBPROJPROPID_MyType), helpstring("MyType")]
+        HRESULT MyType([out, retval] BSTR *pbstrMyType);
+        [propput, id(VBPROJPROPID_MyType), helpstring("MyType")]
+        HRESULT MyType([in] BSTR MyType);
+    }
+
+    //
+    // CSharpProjectConfigurationProperties3
+    //
+    [
+        uuid(F25C9AD7-E371-414d-82A0-24E8BBC25C99),
+        helpstring("CSharp Project configuration properties 3"),
+        pointer_default(unique),
+        dual
+    ]
+    interface CSharpProjectConfigurationProperties3 : ProjectConfigurationProperties3
+    {
+        // Language Version mode
+        [propget, id(CSPROJPROPID_LanguageVersion), helpstring("Language Version mode")]
+        HRESULT LanguageVersion([out, retval] BSTR *pbstrLanguageVersion);
+        [propput, id(CSPROJPROPID_LanguageVersion), helpstring("Language Version mode")]
+        HRESULT LanguageVersion([in] BSTR LanguageVersion);
+
+        // How to handle internal compile errors
+        [propget, id(CSPROJPROPID_ErrorReport), helpstring("How to handle internal compile errors")]
+        HRESULT ErrorReport([out, retval] BSTR *pbstrErrorReport);
+        [propput, id(CSPROJPROPID_ErrorReport), helpstring("How to handle internal compile errors")]
+        HRESULT ErrorReport([in] BSTR ErrorReport);
+    }
+
+    [
+        dual,
+        oleautomation,
+        object,
+        uuid(5021602E-2025-4299-88D2-0A92E8B41ADF)
+    ]
+    interface Reference3 : Reference2
+    {
+        [id(DISPID_Reference_SpecificVersion), propget, helpstring("Using specific version of assembly")]
+        HRESULT SpecificVersion([out, retval] VARIANT_BOOL *pbSpecificVersion);
+        [id(DISPID_Reference_SpecificVersion), propput, helpstring("Using specific version of assembly")]
+        HRESULT SpecificVersion([in] VARIANT_BOOL SpecificVersion);
+
+        [id(DISPID_Reference_SubType), propget, helpstring("Reference subtype")]
+        HRESULT SubType([out, retval] BSTR *pbstrSubType);
+        [id(DISPID_Reference_SubType), propput, helpstring("Reference subtype")]
+        HRESULT SubType([in] BSTR SubType);
+
+        [id(DISPID_Reference_Isolated), propget, helpstring("Reference is isolated to this application")]
+        HRESULT Isolated([out, retval] VARIANT_BOOL *pbIsolated);
+        [id(DISPID_Reference_Isolated), propput, helpstring("Reference is isolated to this application")]
+        HRESULT Isolated([in] VARIANT_BOOL Isolated);
+
+        [id(DISPID_Reference_Aliases), propget, helpstring("Aliases applied to reference")]
+        HRESULT Aliases([out, retval] BSTR *pbstrAliases);
+        [id(DISPID_Reference_Aliases), propput, helpstring("Aliases applied to reference")]
+        HRESULT Aliases([in] BSTR Aliases);
+
+        [id(DISPID_Reference_RefType), propget, helpstring("Reference type")]
+        HRESULT RefType([out, retval] PROJECTREFERENCETYPE *pProjRefType);
+
+        [id(DISPID_Reference_AutoReferenced), propget, helpstring("Auto referenced")]
+        HRESULT AutoReferenced([out, retval] VARIANT_BOOL *pbAutoReferenced);
+
+        [id(DISPID_Reference_Resolved), propget, helpstring("Reference has resolved to a path")]
+        HRESULT Resolved([out, retval] VARIANT_BOOL *pbResolved);
+    };
+
+    //
+    // JSharpProjectConfigurationProperties3
+    //
+    [
+        uuid(3600DDB7-34C2-4CED-9337-5B266CC0A169),
+        helpstring("JSharp Project configuration properties 3"),
+        pointer_default(unique),
+        dual
+    ]
+    interface JSharpProjectConfigurationProperties3 : ProjectConfigurationProperties3
+    {
+        // /codepage        : valid LCID                : Configuration Properties/Advanced
+        [propget, id(JSPROJPROPID_CodePage), helpstring("Specify Code Page for Source Code Files")]
+        HRESULT CodePage([out, retval] BSTR* pbstrCodePage);
+        [propput, id(JSPROJPROPID_CodePage), helpstring("Specify Code Page for Source Code Files")]
+        HRESULT CodePage([in] BSTR CodePage);
+
+        // /jcpa            : valid file name           : Configuration Properties/Advanced
+        [propget, id(JSPROJPROPID_JCPA), helpstring("Associate Java-Language/COM Packages")]
+        HRESULT JCPA([out, retval] BSTR* pbstrJCPA);
+        [propput, id(JSPROJPROPID_JCPA), helpstring("Associate Java-Language/COM Packages")]
+        HRESULT JCPA([in] BSTR JCPA);
+
+        typedef [uuid(3600DDB6-34C2-4CED-9337-5B266CC0A169)]
+        enum prjDisableLangXtns
+        {
+            prjDisableLangXtnsNone      = 0,
+            prjDisableLangXtnsNET,
+            prjDisableLangXtnsAll,
+        } prjDisableLangXtns;
+
+        cpp_quote("#define prjDisableLangXtnsMin        prjDisableLangXtnsNone")
+        cpp_quote("#define prjDisableLangXtnsMax        prjDisableLangXtnsAll")
+
+        // /x               : all/.net                  : Configuration Properties/Build/Code Generation
+        [propget, id(JSPROJPROPID_DisableLangXtns), helpstring("Disable Language Extensions")]
+        HRESULT DisableLangXtns([out, retval] prjDisableLangXtns *pDisableLangXtns);
+        [propput, id(JSPROJPROPID_DisableLangXtns), helpstring("Disable Language Extensions")]
+        HRESULT DisableLangXtns([in] prjDisableLangXtns DisableLangXtns);
+
+        // /securescoping   : true/false                : Common Properties/General/Application
+        [propget, id(JSPROJPROPID_SecureScoping), helpstring("Make Package-Scoped Members Inaccessible Outside Assembly")]
+        HRESULT SecureScoping([out, retval] VARIANT_BOOL *pbSecureScoping);
+        [propput, id(JSPROJPROPID_SecureScoping), helpstring("Make Package-Scoped Members Inaccessible Outside Assembly")]
+        HRESULT SecureScoping([in] VARIANT_BOOL bSecureScoping);
+    };
+
+    //----------------------------------------------------------------------
+    // FolderProperties2 -- Extension of FolderProperties
+    //----------------------------------------------------------------------
+    [
+        object,
+        uuid(2ACA2576-0738-466f-845F-16062ED8D1BC),
+        dual,
+        helpstring("FolderProperties2 Interface"),
+        pointer_default(unique),
+        local
+    ]
+    interface FolderProperties2 : FolderProperties
+    {
+        [propget, id(DISPID_VBFolder_WebReferenceInterface), helpstring("Web Reference Interface")]
+        HRESULT WebReferenceInterface([out, retval] IUnknown **ppWebReference);
+    };
+
+
+    //
+    // FileProperties2
+    //
+
+    [
+        uuid(41BE8D4D-F235-46d4-B9F8-C6D6459D503C),
+        helpstring("FileProperties2 Interface"),
+        pointer_default(unique),
+        dual
+    ]
+    interface FileProperties2 : FileProperties
+    {
+        [propget, id(DISPID_VBFile_CopyToOutputDirectory), helpstring("Copy to output directory")]
+        HRESULT CopyToOutputDirectory([out, retval] COPYTOOUTPUTSTATE *pCopy);
+        [propput, id(DISPID_VBFile_CopyToOutputDirectory), helpstring("Copy to output directory")]
+        HRESULT CopyToOutputDirectory([in] COPYTOOUTPUTSTATE Copy);
+
+        [propget, id(DISPID_VBFile_ItemType), helpstring("Build item type")]
+        HRESULT ItemType([out, retval] BSTR *pbstrItemType);
+        [propput, id(DISPID_VBFile_ItemType), helpstring("Build item type")]
+        HRESULT ItemType([in] BSTR ItemType);
+
+        [propget, id(DISPID_VBFile_IsSharedDesignTimeBuildInput), helpstring("Is shared design time build input")]
+        HRESULT IsSharedDesignTimeBuildInput([out, retval] VARIANT_BOOL *pbIsSharedDesignTimeBuildInput);
+    };
+
+    //----------------------------------------------------------------------
+    // IVSApplicationSettings
+    //----------------------------------------------------------------------
+    [
+        object,
+        uuid(CC5B9866-BD93-4aff-8D61-C73ED3BB77D0)
+    ]
+    interface IVsApplicationSettings : IUnknown
+    {
+        [id(1), helpstring("Get AppSettings object name and property name")]
+        HRESULT GetPropertyInfo([in] LPCWSTR pszWebServiceName,
+                                [out] BSTR* pbstrAppSettingsObjectName,
+                                [out] BSTR* pbstrPropertyName);
+
+        [id(2), helpstring("gets the application settings property expression")]
+        HRESULT GetAppSettingsPropertyExpression([in] LPCWSTR pszAppSettingsObjectName,
+                                                 [in] LPCWSTR pszPropertyName,
+                                                 [out, retval] IUnknown **ppUnkExpression);
+
+        [id(3), helpstring("Sets application settings property value, adding it if not already present")]
+        HRESULT EnsureWebServiceUrlPropertyExpression([in] LPCWSTR pszAppSettingsObjectName,
+                                                    [in] LPCWSTR pszPropertyName,
+                                                    [in] VARIANT varPropertyValue,
+                                                    [out, retval] IUnknown **ppUnkExpression);
+
+        [id(4), helpstring("Set AppSettings object name and property name")]
+        HRESULT SetPropertyInfo([in] LPCWSTR pszAppSettingsObjectName,
+                                [in] LPCWSTR pszPropertyName);
+	};
+
+    cpp_quote("#define SID_SVsApplicationSettings IID_IVsApplicationSettings")
+
+
+    //----------------------------------------------------------------------
+    // IVSWebReferenceDynamicProperties
+    //----------------------------------------------------------------------
+    [
+        object,
+        uuid(C65A2F92-B350-4b0f-9BC6-B00E24BC8B9D)
+    ]
+    interface SVSWebReferenceDynamicProperties : IUnknown
+    {
+    }
+
+    //----------------------------------------------------------------------
+    // IVSWebReferenceDynamicProperties2
+    //----------------------------------------------------------------------
+    [
+        object,
+        uuid(E4311E4C-0819-404b-B0D9-F5F44716ECEC),
+        helpstring("JWeb references dynamic properties"),
+        pointer_default(unique),
+        dual
+
+    ]
+    interface IVSWebReferenceDynamicProperties2 : IDispatch
+    {
+        [id(1), helpstring("Get dynamic property for URL")]
+        HRESULT GetDynamicPropertyName([in] LPCWSTR pszWebServiceName, [out, retval] BSTR* pbstrPropertyName);
+
+        [id(2), helpstring("Set dynamic property")]
+        HRESULT SetDynamicProperty([in] LPCWSTR pszUrl, [in] LPCWSTR pszPropertyName);
+
+        [id(3), helpstring("Supports dynamic properties")]
+        HRESULT SupportsDynamicProperties([out, retval] VARIANT_BOOL* pbSupportsDynamicProperties);
+    }
+
+    [ uuid(0fecb64a-8779-4a7b-b7cd-226dd6531fb1), dllname(""), helpstring("Context guids.") ]
+    module vsContextGuids
+    {
+        const LPSTR vsContextGuidVCSProject            = "{FAE04EC1-301F-11D3-BF4B-00C04F79EFBC}";
+        const LPSTR vsContextGuidVCSEditor             = "{694DD9B6-B865-4C5B-AD85-86356E9C88DC}";
+
+        const LPSTR vsContextGuidVBProject             = "{164B10B9-B200-11D0-8C61-00A0C91E29D5}";
+        const LPSTR vsContextGuidVBEditor              = "{E34ACDC0-BAAE-11D0-88BF-00A0C9110049}";
+
+        const LPSTR vsContextGuidVJSProject            = "{E6FDF8B0-F3D1-11D4-8576-0002A516ECE8}";
+        const LPSTR vsContextGuidVJSEditor             = "{E6FDF88A-F3D1-11D4-8576-0002A516ECE8}";
+    }
+
+#ifndef INTEROPLIB
+}
+#endif

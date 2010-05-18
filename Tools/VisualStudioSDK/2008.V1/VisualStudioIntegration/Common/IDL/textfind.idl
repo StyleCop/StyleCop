@@ -1,0 +1,851 @@
+// textfind.idl
+//
+// New Text Find interfaces
+//
+// Copyright 1998-2000 Microsoft Corporation.  All Rights Reserved.
+//
+//================================================================
+/*
+Notes:
+
+*/
+
+//
+// interface catalog
+//
+interface IVsFindHelper;
+interface IVsFindTarget;
+interface IVsFinder;                // Knows how to find stuff in IVsTextImage and strings
+interface IVsTextSpanSet;
+interface IVsFindScope;
+interface IVsRegisterFindScope;
+interface IVsHighlight;
+
+#ifndef INTEROPLIB
+
+import "vsshell.idl";
+
+#endif
+//import "textmgr.idl";
+
+//================================================================
+// Enums
+enum __VSFINDOPTIONS
+{
+    FR_OptionMask          =   0x00000FFF, // ---- Options -----------------------------
+    FR_MatchCase           =   0x00000001, // Match case
+    FR_WholeWord           =   0x00000002, // Match whole words
+    FR_Hidden              =   0x00000004, // Hidden text
+    FR_Backwards           =   0x00000008, // Search in reverse
+    FR_Selection           =   0x00000010, // Search selection only
+    FR_Block               =   0x00000020, // Current procedure/block
+	FR_KeepCase            =   0x00000040, // Keep case
+    FR_SubFolders          =   0x00000100, // Subfolders
+    FR_KeepOpen            =   0x00000200, // Keep modified files open
+	FR_NameOnly            =   0x00000400, // Display filename only
+
+    FR_SyntaxMask          =   0x00003000, // ---- Syntax (bitset for capabilities) ----
+    FR_Plain               =   0x00000000, // Match exact string
+    FR_Wildcard            =   0x00001000, // Match Wildcards
+    FR_RegExpr             =   0x00002000, // Match regular expressions
+
+    FR_TargetMask          =   0x00070000, // ---- Targets (exclusive: not bits) -------
+    FR_Document            =   0x00010000, // Search Current document
+    FR_OpenDocuments       =   0x00020000, // Search Open documents
+    FR_Files               =   0x00030000, // Find in Files
+    FR_Project             =   0x00040000, // Find in Project
+    FR_Solution            =   0x00050000, // Find in Solution
+
+    FR_ActionMask          =   0x00F80000, // ---- Actions (bitset for capabilities) ---
+    FR_MarkAll             =   0x00080000,
+    FR_Find                =   0x00100000, // Find next
+    FR_FindAll             =   0x00200000, // Find all (bulk find)
+    FR_Replace             =   0x00400000, // Replace
+    FR_ReplaceAll          =   0x00800000, // Replace all
+
+    FR_InternalMask        =   0x7F000000, // ---- Internal ops: no UI -----------------
+    FR_ResetPosition       =   0x01000000, // New find
+    FR_FromStart           =   0x02000000, // Search from beginning of doc
+    FR_OneMatchPerLine     =   0x04000000, // Return only one match per line (bulk find)
+    FR_Report              =   0x08000000, // Generate a results list
+    FR_SelectionDefault    =   0x10000000, // GetCapabilities: force selection
+
+    FR_NoFind              =   0x80000000, // suppress find
+
+    // Common options for all targets
+    FR_CommonOptions       = (FR_MatchCase|FR_WholeWord|FR_Hidden|FR_KeepCase),
+
+    // Options for single documents
+    FR_DocOptionSet        = (FR_CommonOptions|FR_Backwards|FR_Selection|FR_Block),
+
+    // Options for multifile targets
+    FR_FIFOptionSet        = (FR_CommonOptions|FR_SubFolders|FR_KeepOpen|FR_NameOnly),
+
+    // Option bits for all targets
+    FR_OptionSet           = (FR_DocOptionSet|FR_FIFOptionSet),
+
+    // Set of possible syntax options
+    FR_SyntaxSet           = (FR_Plain|FR_Wildcard|FR_RegExpr),
+
+    FR_Capabilities        = (FR_OptionSet|FR_SyntaxSet|FR_ActionMask|FR_SelectionDefault),
+
+    FR_All                 =   0x7FFFFFFF, // ------------------------------------------
+    FR_None                =   0x00000000,
+    // backward compatability aliases
+    FR_Procedure           =   FR_Block,
+    FR_Pattern             =   FR_Wildcard
+};
+typedef DWORD VSFINDOPTIONS;
+
+//----------------------------------------------------------------
+// Regex HRESULTS
+// Can be returned from IVsFinder and IVsFindHelper methods.
+//
+// This must be kept in sync with VS regex.h.
+//
+#ifndef __RE_E_DEFINED__ // Don't collide with regex.h if it's being used
+cpp_quote("#ifndef __RE_E_DEFINED__")
+cpp_quote("#define __RE_E_DEFINED__")
+
+//                     Failure  | FACILITY_ITF << 16 | Code
+#define RE_ERROR(x) (0x80000000 | 0x00040000         | (x))
+
+enum RE_ERRORS {
+  RE_E_INTERNALERROR          = RE_ERROR(0x0001), // internal error (e.g. undefined opcode)
+  RE_E_SYNTAXERROR            = RE_ERROR(0x0002), // syntax error in expression    
+  RE_E_STACKOVERFLOW          = RE_ERROR(0x0003), // evaluation stack overflow
+  RE_E_MISSINGARG             = RE_ERROR(0x0004), // missing argument in syntax
+  RE_E_POWERARGOUTOFRANGE     = RE_ERROR(0x0005), // ^n power closure argument out of range
+  RE_E_ESCAPEMISSINGARG       = RE_ERROR(0x0006), // \ or \x or \u missing valid argument
+  RE_E_SPECIALUNKNOWN         = RE_ERROR(0x0007), // :x unknown x
+  RE_E_TAGOUTOFRANGE          = RE_ERROR(0x0008), // \n n out of range
+  RE_E_SETMISSINGCLOSE        = RE_ERROR(0x0009), // [] missing ]
+  RE_E_TAGMISSINGCLOSE        = RE_ERROR(0x000a), // {} missing }
+  RE_E_TOOMANYTAGS            = RE_ERROR(0x000b), // {} too many tagged expressions
+  RE_E_EMPTYSET               = RE_ERROR(0x000c), // [] empty set 
+  RE_E_GROUPMISSINGCLOSE      = RE_ERROR(0x000d), // () missing ) 
+  RE_E_REPLACETEXT            = RE_ERROR(0x000e), // Unable to create replacement text
+};
+
+
+#undef RE_ERROR
+cpp_quote("#endif // __RE_E_DEFINED__")
+#endif // RE error codes defined
+
+// These values indicate that a buffer boundary begins or ends
+// a line, without actual line break characters in the buffer.
+// Used for line-oriented regular expressions.  (Buffer boundaries
+// are always word boundaries.)
+//
+enum __VSFINDBUFFERFLAGS
+{
+  VSFB_StartOfLine          =   0x0001,
+  VSFB_EndOfLine            =   0x0002,
+
+  // deprecated compatability names 
+  FINDBUFFER_StartOfLine    =   0x0001, // buffer starts a line
+  FINDBUFFER_EndOfLine      =   0x0002  // buffer ends a line
+};
+typedef DWORD VSFINDBUFFERFLAGS;
+
+// These values denote where the results of a bulk find operation go
+//
+enum __VSFINDRESULTLOC
+{
+  VSFRL_FindResultList1     = 1,
+  VSFRL_FindResultList2     = 2,
+
+  // deprecated compatability names 
+  FINDREPLACE_RESULTLOC_ResultsList1	= 1,
+  FINDREPLACE_RESULTLOC_ResultsList2	= 2
+};
+typedef DWORD VSFINDRESULTLOC;
+
+// These values indicate the result of a find or replace
+// Some of these are used only internally by the find manager.
+//
+enum __VSFINDRESULT
+{
+  VSFR_NotFound              = 0,
+  VSFR_Found                 = 1,
+  VSFR_Replaced              = 2,
+  VSFR_EndOfDoc              = 3, // passed the end of the document
+  VSFR_EndOfSearch           = 4, // reached the starting point
+  VSFR_FindInFiles           = 5, // started a background find in files
+  VSFR_NoTarget              = 6, // no document
+  VSFR_Error                 = 7, // some disastrous error
+  VSFR_AndInterrupt          = 0x40000000, // stopped w/ ESC/CANCEL
+  VSFR_AndReplace            = 0x80000000, // combined with Found or NotFound
+  VSFR_FLAGMASK              = 0xFF000000,
+
+  // The FINDREPLACE_RESULT_ names are for compatability only and deprecated.
+  // Use the VSFR_ names in all new code.
+  FINDREPLACE_RESULT_Failed           = 0,
+  FINDREPLACE_RESULT_Found            = 1,
+  FINDREPLACE_RESULT_Replaced         = 2,
+  FINDREPLACE_RESULT_EndOfDoc         = 3,
+  FINDREPLACE_RESULT_EndOfSearch      = 4,
+  FINDREPLACE_RESULT_FindInFiles      = 5
+};
+typedef DWORD VSFINDRESULT;
+
+
+enum __VSFINDPOS {
+    VSFP_Start              = 0x00000001,   // Where search initially began/begins
+    VSFP_Current            = 0x00000002,   // Where search currently is
+    VSFP_Wrapped            = 0x00010000,   // Is Find wrapped?
+    VSFP_ResetCounts        = 0x00020000    // Reset counters?
+};
+typedef DWORD VSFINDPOS;
+
+enum __VSFINDSTATE {
+    VSFS_Error              = 0x10000000, // broken
+    VSFS_Empty              = 0x00000000, // not initialized
+    VSFS_Start              = 0x00000001, // initialized, and no action taken
+    VSFS_Found              = 0x00000002, // initialized and last action found 
+    VSFS_NotFound           = 0x00000003, // initialized and last action not found
+    VSFS_Wrapped            = 0x00010000  // wrapped around end of doc
+};
+typedef DWORD VSFINDSTATE;
+
+cpp_quote("")
+cpp_quote("// Helper macros for looking at find state")
+cpp_quote("//")
+cpp_quote("#define VSFS_IsFound(fs) (VSFS_Found == (fs & 0xf))")
+cpp_quote("#define VSFS_IsWrapped(fs) (VSFS_Wrapped & fs)")
+cpp_quote("")
+
+enum __VSFINDERROR {
+    VSFE_Syntax             = -4,   // syntax error in expression
+    VSFE_NotSupported       = -3,   // not supported
+    VSFE_NotInitialized     = -2,   // not initialized
+    VSFE_Failure            = -1,   // broken
+    VSFE_NoError            =  0
+};
+typedef DWORD VSFINDERROR;
+
+enum __VSFINDHOW {
+    VSFH_Ambient            = 0x00000000,   // use ambient/default options
+    VSFH_Wrap               = 0x00000001,   // wrap around image boundary
+    VSFH_TryMatch           = 0x10000000,   // try match at span: don't change state (current match span, tags)
+    VSFH_SetMatch           = 0x20000000    // try match at span: set match span and tags
+};
+typedef DWORD VSFINDHOW;
+
+// Target properties
+//
+// All properties are optional.
+//
+// VSFTPROPID_IsDiskFile is currently not used
+//
+// VSFTPROPID_BlockName is queried for even if GetCapabilities 
+// does not include FR_Block, since the availability of a block
+// can change during the lifetime of the target.
+//
+enum __VSFTPROPID {
+    VSFTPROPID_DocName                      = 0,  // VT_BSTR      Full path of filename/persistence moniker
+    VSFTPROPID_IsDiskFile                   = 1,  // VT_BOOL      VARIANT_TRUE if object is file on disk
+    VSFTPROPID_BlockName                    = 2,  // VT_BSTR      Name of current block
+    VSFTPROPID_InitialPattern               = 3,  // VT_BSTR      Seed Find pattern - selection within single line
+    VSFTPROPID_InitialPatternAggressive     = 4,  // VT_BSTR      Seed Find pattern - as above, or text near caret if no selection
+    VSFTPROPID_WindowFrame                  = 5,  // VT_UNKNOWN   IVsWindowFrame
+};
+typedef DWORD VSFTPROPID;
+
+// Target notifications for IVsFindTarget::NotifyFindTarget()
+/*
+Here are some suggestions for how the notifications are used by a target.
+
+VSFTNOTIFY_CURRENT     A target can highlight the current find hit, if any.
+
+VSFTNOTIFY_NOTCURRENT  A target can un-highlight the current find hit, if any.
+
+VSFTNOTIFY_STARTFIND   The target should complete any pending changes that 
+                       could alter the text. e.g. forces a line commit in VB.
+
+VSFTNOTIFY_ENDFIND     The target should commit all changes since the find started.
+                       e.g. forces a line commit in VB.
+*/
+enum __VSFTNOTIFY {
+  VSFTNOTIFY_CURRENT              = 0,  // This target has become the current target
+  VSFTNOTIFY_NOTCURRENT           = 1,  // This target is no longer the current target
+  VSFTNOTIFY_STARTFIND            = 2,  // A find/replace operation is about to start
+  VSFTNOTIFY_ENDFIND              = 3,  // The find/replace operation is complete
+};
+typedef DWORD VSFTNOTIFY;
+
+//================================================================
+// Library
+//================================================================
+#ifndef INTEROPLIB
+[
+    uuid(D8052AA0-C06A-11d2-936C-D714766E8B50)
+]
+library TextFind
+{
+#endif
+//================================================================
+// IVsTextSpanSet
+//
+// When attached to a text image, sinks change events to track 
+// changes in the text image.
+// 
+// You can attach either IVsTextImage or IVsTextLines.
+// Instances available throught the shell's global service provider.
+//
+[
+    uuid(E6BBDFD0-C06A-11d2-936C-D714766E8B50),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsTextSpanSet : IUnknown
+{
+    HRESULT AttachTextImage ([in] IUnknown * pText);
+    HRESULT Detach          (void);
+
+    HRESULT SuspendTracking (void); // stop tracking without unadvising change events
+    HRESULT ResumeTracking  (void); // resume tracking
+
+    HRESULT Add         ([in] LONG cel, [in, size_is(cel)] const TextSpan * pSpan);
+    HRESULT GetCount    ([out, retval] LONG * pcel);
+    HRESULT GetAt       ([in] LONG iEl, [out, retval] TextSpan * pSpan);
+    HRESULT RemoveAll   (void); 
+    HRESULT Sort        ([in] DWORD SortOptions);  // Must be 0 (default sort). No options currently defined.
+    HRESULT AddFromEnum ([in] IVsEnumTextSpans *pEnum);
+};
+cpp_quote("#define SID_SVsTextSpanSet IID_IVsTextSpanSet")
+
+//================================================================
+// IVsFinder
+/*
+Supercedes IVsFindReplaceHelper
+Implemented by the shell.
+
+Instances available throught the shell's global service provider.
+
+To acquire a text image:
+
+- QI a shell's text buffer for an IVsTextImage. 
+
+- Use the text image implementations available through TxFactory.h.
+
+
+To search an image using the finder:
+
+- AttachTextImage the image to search.
+
+- Init with the search pattern and options.
+
+- SetScope (optional) to limit the search to a subset of the image.
+  This can be a number of non-contiguous regions of the image.
+
+- SetPosition to set the starting and/or current positions and the 
+  wrapped state of search.
+
+- Find. 
+
+The finder has no knowledge of hidden text (FR_Hidden). Searching only 
+non-hidden text must be implemented by setting a span set of the visible
+regions. 
+
+"Try match": Means to test for a match at the specified position 
+without scanning.
+
+To get a match set or a regex tag set after a find, you must pass 
+VSFH_SetMatch. If you do not need a match set or tag set, it is more 
+efficient to NOT pass VSFH_SetMatch.
+
+*******************************************************************/
+[
+    uuid(D0C79C30-C06A-11d2-936C-D714766E8B50),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsFinder : IUnknown
+{
+    HRESULT AttachTextImage ([in] IUnknown * pTextImage); // IVsTextImage, maybe IVsTextLines
+    HRESULT Detach          (void);
+
+    // Restrict search to the span set: NULL to search entire image.
+    // It is an error to set a scope when there is no attached image.
+    HRESULT SetScope        ([in] IVsTextSpanSet * pSpanScope); 
+
+    // Init - sets the find string, compiling it for the appropriate matching type
+    // Set fReinit = TRUE when you know you have a different pattern and want to bypass
+    // the pattern cache.
+    HRESULT Init (
+        [in]            DWORD           grfOptions,         // VSFINDOPTIONS
+        [in]            LPCOLESTR       pszFindPattern,     // search pattern
+        [in]            BOOL            fReinit,            // don't check cache
+        [out, retval]   VSFINDERROR *   pResult             // ok?
+        );
+
+    // Set search positions
+    //
+    // fp   VSFP_Start              Where search initially began
+    //      VSFP_Current            Current position
+    //      VSFP_Wrapped            OR with VSFP_Current to indicate that Find has wrapped
+    //      VSFP_ResetCounts        Clear match counter
+    //
+    //      Use VSFP_Start|VSFP_Current to set both positions to the same point.
+    //
+    // ta   TextAddress of position
+    //
+    HRESULT SetPosition ([in] VSFINDPOS fp, [in] TextAddress ta);
+
+    // Find
+    HRESULT Find (
+        [in]            VSFINDHOW       grfFindHow, // instructions for the search (NOT Find options like case)
+        [in, out]       TextSpan *      ptsMatch,   // extent of text
+        [out, retval]   VSFINDSTATE *   pgrfResult  // result flags
+        );
+
+    HRESULT GetMatch        ([out, retval] TextSpan * pts);            // Current match (does not require VSFH_SetMatch on Find)
+    HRESULT GetMatchedSpans ([out, retval] IVsTextSpanSet ** ppSpans); // Bulk find list (requires VSFH_SetMatch on Find)
+    HRESULT GetTaggedSpans  ([out, retval] IVsTextSpanSet ** ppTags);  // Regex tagged expressions (requires VSFH_SetMatch on Find)
+
+    HRESULT GetState        (
+        [out]           LONG *          pcFound, 
+        [out]           VSFINDERROR *   pResult,
+        [out, retval]   VSFINDSTATE *   pState 
+        );
+};
+
+//================================================================
+// IVsFindHelper
+/*
+Passed to IVsFindTarget::Find and IVsFindTarget::Replace.  If you
+want to support wildcards, regex, or whole word, you should use the
+helper to do your string matching so that all the options and behavior
+work consistently with the VS editor.
+
+If necessary, computed replacement text is returned in pbstrReplaceText.
+Computed replacement text is necessary in the following conditions:
+
+1) FR_Regexpr, FR_Replace, options are specified and tags or character 
+   escapes appear in pszReplace.
+
+2) FR_KeepCase option is specified.
+
+The shell's IVsFinder objects support IVsFindHelper.
+
+*/
+[
+  uuid(BB02E777-EC3E-479f-980E-8E36B9617DCA),
+  version(1.0),
+  pointer_default(unique)
+]
+interface IVsFindHelper : IUnknown
+{
+  HRESULT FindInText (
+    [in] LPCOLESTR                    pszFind,            // Find pattern
+    [in] LPCOLESTR                    pszReplace,         // Replace pattern
+    [in] VSFINDOPTIONS                grfFindOptions,     // Find options (case, regex, Find/Replace action, etc.)
+    [in] VSFINDBUFFERFLAGS            grfBufferFlags,     // Flags about edges of pchText
+    [in] ULONG                        cchText,            // Size of text, in Unicode characters
+    [in,size_is(cchText)] LPCOLESTR   pchText,            // Text to search in
+    [out] ULONG *                     piFound,            // Index of match
+    [out] ULONG *                     pcchFound,          // Length of match
+    [out] BSTR  *                     pbstrReplaceText,   // Computed replacement text, if necessary
+    [out,retval] BOOL  *              pfFound             // Was it found?
+    );
+};
+
+//================================================================
+// IVsFindTarget
+/* Supercedes IVsFindReplaceTarget
+
+Implement this interface to support find in your window or document.
+
+The shell's IVsTextView implements IVsFindTarget.
+
+For implementors:
+
+For the shell to know what is the current target, and to find the
+targets for All Open Documents, an implementer of IVsFindTarget must:
+
+1)  Implement IVsFindTarget on one of the objects returned by the 
+    frame properties VSFPROPID_DocView or VSFPROPID_DocData.
+
+GetCapabilities must explicitly set all options, syntax, and actions 
+that are supported.
+
+To force Find in Selection on, return both FR_Selection and FR_SelectionDefault.
+FR_SelectionDefault should be set for large or line-spanning selections, and 
+not set for small selections.
+
+Targets that do not have the notion of hidden text should always claim 
+support for FR_Hidden and simply ignore the flag if it is passed. This 
+allows Find in open documents to work uniformly. In other words,
+Hidden text is an ignorable or 'don't care' case for targets that do
+not have the notion of hidden text, or are unable to support it.
+
+If you claim support for FR_Wildcard or FR_RegExpr, you should implement 
+the same syntax and semantics as the shell. This can be achieved by using 
+IVsFinder, IVsFindHelper, or the VS internal libraries to perform 
+the matching. If you do not support the same syntax, the helper menus on
+the dialogs won't be usable for your target.
+
+*/
+[
+    uuid(DE89D360-C06A-11d2-936C-D714766E8B50),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsFindTarget : IUnknown
+{
+  HRESULT GetCapabilities ([out, custom(DE89D360-C06A-11d2-936C-D714766E8B50,"optional")] BOOL *          pfImage,     // supports GetSearchImage
+                           [out] VSFINDOPTIONS * pgrfOptions  // supported options, syntax, and actions
+                          );
+
+  [custom(DE89D360-C06A-11d2-936C-D714766E8B50, "preservesig")]
+  HRESULT GetProperty ([in] VSFTPROPID propid, [out, retval] VARIANT *pvar);
+
+  // Target implements either GetSearchImage or Find and Replace
+  HRESULT GetSearchImage (
+      [in]            VSFINDOPTIONS       grfOptions, 
+      [out, custom(DE89D360-C06A-11d2-936C-D714766E8B50,"optional")]           IVsTextSpanSet **   ppSpans, 
+      [out, retval]   IVsTextImage **     ppTextImage
+      );
+
+  // Used only when GetSearchImage not implemented
+  HRESULT Find(   [in] LPCOLESTR                  pszSearch,
+                  [in] VSFINDOPTIONS              grfOptions,
+                  [in] BOOL                       fResetStartPoint,
+                  [in] IVsFindHelper *            pHelper,
+                  [out, retval] VSFINDRESULT *    pResult
+                  );
+
+  HRESULT Replace([in] LPCOLESTR                  pszSearch,
+                  [in] LPCOLESTR                  pszReplace,
+                  [in] VSFINDOPTIONS              grfOptions,
+                  [in] BOOL                       fResetStartPoint,
+                  [in] IVsFindHelper *            pHelper,
+                  [out, retval] BOOL *            pfReplaced
+                  );
+
+  [custom(DE89D360-C06A-11d2-936C-D714766E8B50, "preservesig")]
+  HRESULT GetMatchRect        ([out, retval] PRECT prc);      // screen coordinates of match
+  HRESULT NavigateTo          ([in] const TextSpan * pts);    // if pts NULL, activate
+
+  [custom(DE89D360-C06A-11d2-936C-D714766E8B50, "preservesig")]
+  HRESULT GetCurrentSpan      ([out, retval] TextSpan * pts); // current caret or selection
+
+  // Find state is an opaque object held on behalf of the find engine.
+  //
+  HRESULT SetFindState        ([in] IUnknown * punk);
+  HRESULT GetFindState        ([out, retval] IUnknown **ppunk);
+
+  HRESULT NotifyFindTarget    ([in] VSFTNOTIFY notification);
+
+  // For non-image targets, Mark all is implemented by calling
+  // Find with FR_MarkAll set in rgfOptions.
+  // Image targets that support Mark All support the MarkSpan method.
+  HRESULT MarkSpan            ([in] const TextSpan * pts);
+
+/*************************************************************
+    A C++ class in VS can use a smart pointer, or use the following 
+    code to manage the find state
+
+// Declare the following member
+    IUnknown * m_pUnkFindState;
+
+// In constructor's member-initialization-list:
+    m_pUnkFindState(NULL)
+
+// In destructor or ATL FinalRelease():
+    if (m_pUnkFindState)
+    {
+        m_pUnkFindState->Release();
+        m_pUnkFindState = NULL;
+    }
+
+//
+// method implementations
+//
+HRESULT MyClass::SetFindState (IUnknown * punk)
+{
+    if (m_pUnkFindState)
+    {
+        m_pUnkFindState->Release();
+        m_pUnkFindState = NULL;
+    }
+    if (punk)
+    {
+        punk->AddRef();
+        m_pUnkFindState = punk;
+    }
+    return S_OK;
+}
+
+HRESULT MyClass::GetFindState (IUnknown **ppunk)
+{
+    *ppunk = m_pUnkFindState;
+    if (m_pUnkFindState)
+        m_pUnkFindState->AddRef();
+    return S_OK;
+}
+
+*************************************************************/
+
+};
+
+//============================================================================
+//  IVsFindScope
+//
+//  Defines a custom scope that can be chosen in the Find in Files, Look in 
+//  combo box. 
+//
+//  Implemented by packages that want to extend the scopes available for Find in Files.
+//
+//  Your custom scope must be registered with the shell using the shell's 
+//  IVsRegisterFindScope service.
+//
+//  A scope can be either a simple find-in-files query string or a filename enumerator.
+//
+//  A query string is basically to what the user can type in the 'Look in' combo:
+//
+//  - It takes the form of a semicolon-delimited list of folders and filenames.
+//  - Individual items on the list may be quoted.
+//  - The 'Look in subfolders' check box is applied to the query.
+//  - The filters selected in the 'File types' combo box apply to the query.
+//
+//  There is no mechanism to override the user's subfolders selection. If you need 
+//  greater control over recursive file enumeration, you must provide a filename 
+//  enumerator. 
+//
+//  To execute a Find, the Find manager asks first for a query string, and if that 
+//  fails, it asks for a string enumerator that is expected to return a sequence of
+//  filenames. A scope should implement GetQueryString or EnumFileNames; never both.
+//
+//  The user's 'File types' extension filters are applied to all types of scopes.
+//
+//----------------------------------------------------------------------------
+[
+    uuid(0FE9496A-129C-40ee-99D8-7705A6283518),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsFindScope : IUnknown
+{
+  // REQUIRED: Name displayed in Find UI
+  HRESULT GetUIName      ([out,retval] BSTR * pbsName);  
+
+  // Implement only one of GetQuery or EnumFilenames.
+
+  // Get query string
+  // Relative (or unspecified) paths in the query are resolved against bstrBaseDirectory.
+  // If bstrBaseDirectory is NULL, the Find manager's default base is used.
+  HRESULT GetQuery       ([out]        BSTR * pbstrBaseDirectory,
+                          [out,retval] BSTR * pbstrQuery );
+
+  // Enumerate filenames (full path only)
+  HRESULT EnumFilenames  ([out,retval] IEnumString **ppEnumString); 
+
+#if 0  // Not Implemented
+  // Enumerate IVsFindTargets
+  HRESULT EnumFindTargets([out,retval] IEnumFindTargets **ppEnumFindTargets); 
+#endif // Not Implemented
+
+};
+
+#if 0 //Not Implemented
+[
+    uuid(F8FCBB30-C06A-11d2-936C-D714766E8B50),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IEnumFindTargets : IUnknown
+{
+    HRESULT Next(
+        [in] ULONG celt,
+        [out, size_is(celt), length_is(*pCeltFetched)] IVsFindTarget ** rgTargets,
+        [out] ULONG * pCeltFetched
+        );
+    HRESULT Skip ([in] ULONG celt);
+    HRESULT Reset();
+    HRESULT Clone([out] IEnumFindTargets ** ppEnum);
+};
+#endif // Not Implemented
+
+
+//============================================================================
+//  IVsRegisterFindScope
+//  Register a find scope for Find in Files.
+//  Implemented by the shell.
+//----------------------------------------------------------------------------
+[
+uuid(08363D65-C178-4484-A293-D148173DD750),
+version(1.0),
+pointer_default(unique)
+]
+interface IVsRegisterFindScope : IUnknown
+{
+  HRESULT RegisterFindScope   ([in] IVsFindScope * pScope, [out] DWORD_PTR * pdwCookie);
+  HRESULT UnRegisterFindScope ([in] DWORD_PTR dwCookie);
+};
+
+cpp_quote("#define SID_SVsRegisterFindScope IID_IVsRegisterFindScope")
+
+
+//============================================================================
+/*  IVsHighlight
+    Implemented by IVsWindowFrame objects
+
+    Used by a dialog that wants to move itself to reveal the selection/highlight.
+
+    Used to be used by Find/Replace, which now uses IVsFindTarget::GetMatchRect()
+*/
+[
+  uuid(22212CD2-83FF-11d2-92E6-005345000000),
+  version(1.0),
+  pointer_default(unique)
+]
+interface IVsHighlight : IUnknown
+{
+  // prc is SCREEN coordinates of highlight or selection
+  HRESULT GetHighlightRect([out] RECT * prc);
+}
+
+
+//============================================================================
+/* IVsTextImageUtilities
+
+Service implemented by the shell. Use QueryService to obtain it.
+
+This service provides:
+- Utilities for loading and saving text files.
+
+For information on VSTFF, see textmgr.idl and txfmt.h.
+
+For information on how VSTFF is used for text file I/O, see the LTI_FLAGS
+comments in \vs\src\common\inc\txfmt.h.  VSTFF is identical to LTI_FLAGS.
+LTI_FLAGS are used in UniLib so it can be used independently from the VS
+interfaces.
+
+*/
+[
+    uuid (C5557BAA-B685-46dc-AF46-C16BFDE8FAB7),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsTextImageUtilities : IUnknown
+{
+  // If you don't have a regex find/replace with tags, pTags can be NULL.
+  // If you have pTags, pMatch can be NULL
+  HRESULT GetReplaceText (
+    [in] VSFINDOPTIONS    grfOptions, // find options
+    [in] LPCOLESTR        pszReplace, // replace string
+    [in] IVsTextImage *   pText,      // text image containing find hit
+    [in] const TextSpan * pMatch,     // Find match 
+    [in] IVsTextSpanSet * pTags,      // optional - Set of text spans describing the match (IVsFinder::GetTaggedSpans)
+    [out, retval] BSTR *  pbstrComputedText  // replace string
+    );
+
+  HRESULT LoadTextFile (
+    [in] LPCOLESTR                      pszFilename,    // file name
+    [in] VSTFF                          vstffIn,        // Instructions for format, detection
+    [out] VSTFF *                       pvstffOut,      // format used
+    [out, retval] BSTR *                pbstr           // text of file
+    );
+
+  HRESULT LoadTextImageFromFile (
+    [in] LPCOLESTR                      pszFilename,
+    [in] IVsTextImage *                 pImage,
+    [in] VSTFF                          vstffIn,
+    [out, retval] VSTFF *               pvstffOut
+    );
+
+  HRESULT SaveTextImageToFile (
+    [in] LPCOLESTR                      pszFilename,
+    [in] IVsTextImage *                 pImage,
+    [in] VSTFF                          vstffIn,
+    [out, retval] VSTFF *               pvstffOut
+    );
+
+  HRESULT GetTextFormat (
+    [in] VSTFF                          vstffIn,  // instructions
+    [in] DWORD                          cbData,   // data
+    [in, size_is(cbData)] const BYTE *  pData,
+    [out, retval] VSTFF *               pvstffOut // result format
+    );
+
+  HRESULT LoadTextImageFromMemory (
+    [in] IVsTextImage *                 pImage,
+    [in] VSTFF                          vstffIn,
+    [in] DWORD                          cbData,
+    [in,size_is(cbData)] const BYTE *   pData,
+    [out, retval] VSTFF *               pvstffOut
+    );
+
+  HRESULT SaveTextImageToMemory   (
+    [in] IVsTextImage *                                     pImage,
+    [in] VSTFF                                              vstffIn,
+    [in] DWORD                                              cbData, 
+    [out, size_is(cbData), length_is(*pcbWritten)] BYTE *   pData, 
+    [out] DWORD *                                           pcbWritten,
+    [out] VSTFF *                                           pvstffOut
+    );
+
+    //$CONSIDER: IVsTextImage load/save via IStream
+};
+cpp_quote("#define SID_SVsTextImageUtilities IID_IVsTextImageUtilities")
+
+//============================================================================
+// coclasses
+
+    ////////////////////////////////////////////////////////////////////////////
+    // VsFinder coclass
+    ////////////////////////////////////////////////////////////////////////////
+    [
+        uuid(9F842E53-E27B-426f-AE69-8F075770C6F3),
+		helpstring("VsFinder Class")
+    ]
+    coclass VsFinder
+    {
+        interface IVsFinder;
+    };
+
+    ////////////////////////////////////////////////////////////////////////////
+    // VsTextSpanSet coclass
+    ////////////////////////////////////////////////////////////////////////////
+    [
+        uuid(31A81214-5A9F-4532-ACD0-3204A9AB5D08),
+		helpstring("VsTextSpanSet Class")
+    ]
+    coclass VsTextSpanSet
+    {
+        interface IVsTextSpanSet;
+    };
+
+    ////////////////////////////////////////////////////////////////////////////
+    // VsTextImage coclass
+    ////////////////////////////////////////////////////////////////////////////
+    [
+        uuid(66B88230-2363-4992-B740-B0450A6F51CA),
+		helpstring("VsTextImage Class")
+    ]
+    coclass VsTextImage
+    {
+        interface IVsTextImage;
+    };
+
+#ifndef INTEROPLIB
+}; // library TextFind
+#endif
+
+// Find/Replace in open documents tool window (dialog) AKA 'small' Find
+// {CF2DDC32-8CAD-11d2-9302-005345000000}
+cpp_quote("const GUID GUID_FindReplace   = { 0xcf2ddc32, 0x8cad, 0x11d2, { 0x93, 0x2, 0x0, 0x53, 0x45, 0x0, 0x0, 0x0 } };")
+
+// Find in Files
+// {E830EC50-C2B5-11d2-9375-0080C747D9A0}
+cpp_quote("const GUID GUID_FindAdvanced = { 0xe830ec50, 0xc2b5, 0x11d2, { 0x93, 0x75, 0x0, 0x80, 0xc7, 0x47, 0xd9, 0xa0 } };")
+
+// Text Find result list windows
+// {0F887920-C2B6-11d2-9375-0080C747D9A0}
+cpp_quote("const GUID GUID_FindResults1  = { 0xf887920, 0xc2b6, 0x11d2, { 0x93, 0x75, 0x0, 0x80, 0xc7, 0x47, 0xd9, 0xa0 } };")
+
+// {0F887921-C2B6-11d2-9375-0080C747D9A0}
+cpp_quote("const GUID GUID_FindResults2  = { 0xf887921, 0xc2b6, 0x11d2, { 0x93, 0x75, 0x0, 0x80, 0xc7, 0x47, 0xd9, 0xa0 } };")
+

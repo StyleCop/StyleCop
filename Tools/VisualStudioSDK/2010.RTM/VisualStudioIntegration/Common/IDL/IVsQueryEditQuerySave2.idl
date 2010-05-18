@@ -1,0 +1,400 @@
+/*-----------------------------------------------------------------------------
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+@doc
+@module IVsQueryEditQuerySave2.idl - Query Edit and Query Save service |
+
+This service is called immediately before a document is edited for the
+first time, and immediately before a document is saved.
+
+This allows the source-control package to ensure that the file is checked-
+out at the correct time.  Editors are required to call QueryEdit before
+dirtying a file, and QuerySave before saving it.
+
+@owner Source Control Integration Team
+-----------------------------------------------------------------------------*/
+
+#if !defined(CTC_INVOKED) && !defined(RGS_INVOKED)
+cpp_quote("#pragma once")
+
+//----------------------------
+// Includes
+//----------------------------
+#include "SCGuids.h"
+
+//----------------------------
+// Imports
+//----------------------------
+import "oaidl.idl";
+
+
+/*-----------------------------------------------------------------------------
+Enum: VSQueryEditFlags
+
+@enum Conditions for the QueryEdit
+-----------------------------------------------------------------------------*/
+enum tagVSQueryEditFlags
+{
+    QEF_AllowInMemoryEdits    = 0, // In-memory edits are allowed
+	QEF_ForceInMemoryEdits    = 1, // In-memory edits are allowed regardless
+	QEF_DisallowInMemoryEdits = 2, // In-memory edits are disallowed regardless
+	QEF_SilentMode            = 4, // No UI is put up, but silent operations may be performed to make files editable
+	QEF_ImplicitEdit          = 8, // Use this flag carefully: this flag disables the cancel button on the checkout dialog; the cancel action is interpreted as the user choice for allowing in memory editing
+	QEF_ReportOnly            = 16,// No UI is put up, and no action is taken; return values indicate if an edit would be allowed, modulo user interaction, option settings and external conditions
+	QEF_NoReload              = 32,// Disallow edit if it would cause a reload to occur
+	QEF_ForceEdit_NoPrompting = 64 // Perform operations to make files editable, regardless of option settings, and without user interaction
+	// QEF_NextFlag = 128
+};
+typedef DWORD VSQueryEditFlags;
+
+/*-----------------------------------------------------------------------------
+Enum: VSQueryEditResult
+
+@enum Results of the QueryEdit
+-----------------------------------------------------------------------------*/
+enum tagVSQueryEditResult
+{
+	QER_EditOK              = 0,
+	QER_NoEdit_UserCanceled = 1,// Edit has been disallowed
+	QER_EditNotOK           = 1 // Edit has been disallowed - more consistent synonym
+};
+typedef DWORD VSQueryEditResult; // These are not bit flags. This typedef is wrong.
+
+/*-----------------------------------------------------------------------------
+Enum: VSQueryEditResultFlags
+
+@enum Detailed results of the QueryEdit
+-----------------------------------------------------------------------------*/
+enum tagVSQueryEditResultFlags
+{
+	QER_MaybeCheckedout          = 1,  // Files checked-out to edit
+	QER_MaybeChanged             = 2,  // Files changed on check-out
+	QER_InMemoryEdit             = 4,  // Ok to edit files in-memory
+	QER_InMemoryEditNotAllowed   = 8,  // Edit denied b/c in-memory edit not allowed
+	QER_NoisyCheckoutRequired    = 16, // Silent mode operation does not permit UI
+	QER_NoisyPromptRequired      = 16, // Silent mode operation does not permit UI - more consistent synonym
+	QER_CheckoutCanceledOrFailed = 32, // Edit not allowed b/c checkout failed
+	QER_EditNotPossible          = 64, // Edit will never be allowed b/c of current option settings or external conditions
+	QER_ReadOnlyNotUnderScc      = 128,// Edit not allowed because file is read-only on disk
+	QER_ReadOnlyUnderScc         = 256 // Edit not allowed because file is read-only and under source control (probably checked in)
+	// QER_NextFlag = 512
+};
+typedef DWORD VSQueryEditResultFlags;
+
+/*-----------------------------------------------------------------------------
+Enum: VSQuerySaveFlags
+
+@enum Conditions for the QuerySave
+-----------------------------------------------------------------------------*/
+enum tagVSQuerySaveFlags
+{
+	QSF_DefaultOperation = 0,// Normal operation: put up UI if necessary
+	QSF_SilentMode       = 1 // No UI is put up
+};
+typedef DWORD VSQuerySaveFlags;
+
+/*-----------------------------------------------------------------------------
+Enum: VSQuerySaveResult
+
+@enum Results of the QuerySave
+-----------------------------------------------------------------------------*/
+enum tagVSQuerySaveResult
+{
+	QSR_SaveOK                     = 0, // Ok to do save
+	QSR_NoSave_UserCanceled        = 1, // User canceled
+	QSR_NoSave_Cancel              = 1, // User canceled - more consistent synonym
+	QSR_ForceSaveAs                = 2, // Force save as (can't save original filename)
+	QSR_NoSave_Continue            = 3, // Can't save
+	QSR_NoSave_NoisyPromptRequired = 4, // Require UI before save - only used in silent mode
+};
+typedef DWORD VSQuerySaveResult; // These are not bit flags. This typedef is wrong.
+
+/*-----------------------------------------------------------------------------
+Enum: VSQEQSFlags
+
+@enum Further flags for QueryEdit and QuerySave
+
+VSQEQS_FileInfo is an optimization. It indicates that the members of the corresponding 
+VSQEQS_FILE_ATTRIBUTE_DATA are valid and saves a call to FindFirstFileA (or GetFileAttributesExW on NT).
+A caller can use this if it has "recent" file information, else SVsQueryEditQuerySave will acquire the 
+information. This also buys a great possibility of working with nonfiles, such as stored procedures, but
+that possibility has not yet been completely reviewed.
+
+The other two flags are deprecated and have no effect.
+-----------------------------------------------------------------------------*/
+enum tagVSQEQSFlags
+{
+    VSQEQS_FileInfo      = 0x00000001,	// Specifies whether the attributes are valid
+	VSQEQS_AllowCheckout = 0x00000002,  // Deprecated flag - ignored
+ 	VSQEQS_NoSaveAs      = 0x00000004	// Deprecated flag - ignored
+};
+typedef DWORD VSQEQSFlags;
+
+/*-----------------------------------------------------------------------------
+Struct: VSQEQS_FILE_ATTRIBUTE_DATA
+
+@struct File attributes data | Struct with the file attributes data
+
+Similar to WIN32_FILE_ATTRIBUTE_DATA, which is not in wtypes.idl, so not easy to use here.
+This is used in combination with the VSQEQS_FileInfo flag above, to avoid the QueryEdit service
+from having to find the file on disk.
+-----------------------------------------------------------------------------*/
+typedef struct
+{
+    DWORD    dwFileAttributes;
+    FILETIME ftLastWriteTime;
+    DWORD    nFileSizeHigh;
+    DWORD    nFileSizeLow;
+} VSQEQS_FILE_ATTRIBUTE_DATA;
+
+
+/*-----------------------------------------------------------------------------
+Interface: IVsQueryEditQuerySave2
+
+Editors use this interface to notify the source-control package when a file is
+about to be edited for the first time, and when a file is about to be saved.
+
+The two methods QueryEdit and QuerySave are used to notify the source-control
+package of these respective events.  
+
+QuerySaves can be batched using BeginQuerySaveBatch and EndQuerySaveBatch.
+
+DeclareReloadableFile and DeclareUnreloadableFile are used to inform the 
+source-control package about whether the editor is capable of reloading the
+particular file.  These are unnecessary if the document supports IVsPersistDocData
+or IVsPersistDocData2.
+
+OnAfterSaveUnreloadableFile is called by the shell for non-reloadable files.
+
+@base public | IUnknown
+
+@hung qeqs2
+-----------------------------------------------------------------------------*/
+[ uuid(uuid_IVsQueryEditQuerySave2) ]
+interface IVsQueryEditQuerySave2 : IUnknown
+{
+	////////////////////////////////////////////////////////////////////////////////
+	// QueryEditFiles
+	////////////////////////////////////////////////////////////////////////////////
+	//
+	// This is called when a file is about to be edited.
+	// 
+	// Editors should call this method upon the first edit in a nondirty document.
+	// The term "Editors" includes anything that changes the content of a project file.
+	// Anything that changes the contents of the solution file can call IVsSolution::QueryEditSolution,
+	// which will call this.
+	//
+	// The return value in pfEditCanceled indicates if it is ok for editing to continue.
+	//
+	// 1) If a file is not read-only and not under source control, QER_EditOK is trivially returned.
+	//
+	// 2) If a file is read-only, not under source control, and rgfQueryEdit does not include QEF_AllowInMemoryEdits,
+	// QER_EditCancelled is quietly returned and the edit should not be committed to the in memory doc data.
+	// If we are in noisy mode, we will prompt the user to attrib the file read-write.
+	//
+	// 2) If a file is read-only, not under source control, and rgfQueryEdit does include QEF_AllowInMemoryEdits,
+	// QER_EditOK is quietly returned. Perhaps the user should be warned (messagebox or beep) before continuing.
+	// It is important that this case eventually lead to a QuerySaveFiles call, as should all file saves.
+	// Otherwise the file will never be checked-out.
+	//
+	// 3) If a file is read-only and under source control, the user is given the choice of checking out the
+	// file or not. If they do checkout the file, QER_EditOK is returned, else QER_EditCancelled is returned.
+	// This case is a little more complicated if the source-control provider does not support
+	// checkout-local-version, taking into account "reloadability" and if the user has the latest version 
+	// of the file already, and, to some extent QEF_AllowInMemoryEdits. 
+	//
+	//////////////// Editors, reloadability, and checkout
+	// If a file is checked out (#3), it might also change on disk. These facts are hinted at in the
+	// *prgfMoreInfo return value.
+	//
+	// Editors will fall into a few classes.
+	// Some watch files changes; some do not. Some know when their documents become dirty; some do not.
+	//
+	// The best editors will watch file changes, call QueryEdit, and notice these return values.
+	// If the return values indicate the file changed, the editor will quietly reload its data and ignore the
+	// next file change (it may be able to suspend/resume the watch instead.) [The policy quiet reload
+	// upon checkout is not entirely in shared code.]
+	//
+	// Some editors will not well know precisely when they become dirty, and won't call
+	// QueryEditFiles directly. QueryEditFiles will be called on their behalf
+	// when they notice they are dirty at idle time (the shell must know this to draw the "dirty start" and
+	// an rdt event is broadcast). This represents a bug in your editor. QueryEdit will assert in this 
+	// scenario. Also, at this time we disable the cancel button, since the user is already committed to
+	// the edit. When this happens, the caller of QueryEditFiles will have a
+	// IVsPersistDocData. If *prgfMoreInfo indicates a reload is prudent, the QEF caller will call
+	// IVsPersistDocData::ReloadDocData, telling it to ignore the next file change as well. If it isn't
+	// watching file changes, it will ignore that detail. If it can't reload its data, it will return
+	// E_NOTIMPL and the QEF caller will put up a msgbox advising the user to manually close and reopen
+	// the document. If the user ignores this advise, they will be in a not great state.		
+	//
+	HRESULT QueryEditFiles
+	(
+		[in] VSQueryEditFlags rgfQueryEdit,										// In-memory edit allowed? Silent mode?
+		[in] int cFiles,														// File count
+		[in, size_is(cFiles)] const LPCOLESTR rgpszMkDocuments[],				// File to process
+		[in, size_is(cFiles)] const VSQEQSFlags rgrgf[],						// Valid file attributes?
+		[in, size_is(cFiles)] const VSQEQS_FILE_ATTRIBUTE_DATA rgFileInfo[],	// File attributes
+		[out] VSQueryEditResult *pfEditVerdict,									// Proceed with edit or cancel
+		[out] VSQueryEditResultFlags *prgfMoreInfo								// Result:
+																				// 1) if any files checked out
+																				// 2) if any files changed on check-out
+																				// 3) if any files being edited in memory
+																				// 4) if in-memory edit not allowed
+																				// 5) if noisy checkout required (in silent mode only)
+																				// 6) if checkout canceled/failed
+	);
+
+	////////////////////////////////////////////////////////////////////////////////
+	// QuerySaveFiles
+	////////////////////////////////////////////////////////////////////////////////
+	//
+	// Call this before saving anything to disk. 
+	//
+	// It will handle read-only files and checked in files in a uniform way and returns:
+	//
+	// 1) QSR_SaveOK: go ahead and save (the file should not be read-only at this point).
+	// 2) QSR_ForceSaveAs: QuerySaveFile has not put up saveas dialog, but is either quietly telling you to
+	//	  do so, or the the user has actually been prompted and selected "save as". If you are editing
+	//    a conventional file, you are encouraged to use GetSaveFileName at this point.
+	// 3) QSR_NoSave_UserCanceled: The user was notified the file is readonly and has elected to
+	//    either just not save or cancel the containing operation. The choice depends on BeginQuerySaveBatch/EndQuerySaveBatch.
+	// If the caller is trying to save multiple files, it need not know the the batching state and the
+	// difference between "no" and "cancel"; it should continue to call QuerySaveFile for each individual file,
+	// and if the user selected cancel, QSR_NoSave_UserCanceled will be quietly returned until the
+	// batching state reaches zero.
+	//
+	// The QuerySave may need to issue a check-out command in order to ensure that the file is writable,
+	// for example if the file was edited in memory.  For a source-control provider that provider 
+	// checkout-local-version, this is a safe operation.  For a source-control provider that does not, 
+	// the check-out cannot be done without data loss.  Therefore a save-as is the only solution.
+	HRESULT QuerySaveFiles
+	(
+		[in] VSQuerySaveFlags rgfQuerySave,										// Silent mode?
+		[in] int cFiles,														// File count
+		[in, size_is(cFiles)] const LPCOLESTR rgpszMkDocuments[],				// File to process
+		[in, size_is(cFiles)] const VSQEQSFlags rgrgf[],						// Valid file attributes?
+		[in, size_is(cFiles)] const VSQEQS_FILE_ATTRIBUTE_DATA rgFileInfo[],	// File attributes
+		[out, retval] VSQuerySaveResult *pdwQSResult							// Result:
+																				// 1) Proceed with save
+																				// 2) Don't save
+																				// 3) Save as
+																				// 4) Cancel save
+																				// 5) Cancel save b/c need to prompt (in silent mode only)
+	);
+
+	////////////////////////////////////////////////////////////////////////////////
+	// QuerySaveFile
+	////////////////////////////////////////////////////////////////////////////////
+	// Issues a QuerySave (as above) for a single file. 
+	// See QuerySaveFiles for more details.
+	//
+	HRESULT QuerySaveFile
+	(
+		[in] LPCOLESTR pszMkDocument,						// Document that wants to be saved
+		[in] VSQEQSFlags rgf,								// Valid file attributes?
+		[in] const VSQEQS_FILE_ATTRIBUTE_DATA *pFileInfo,	// File attributes
+		[out, retval] VSQuerySaveResult *pdwQSResult		// Result (see above)
+	);
+
+	////////////////////////////////////////////////////////////////////////////////
+	// DeclareReloadableFile
+	////////////////////////////////////////////////////////////////////////////////
+	// This is called to ensure the QueryEdit and QuerySave know that a file is reloadable.
+	// Either this must be called by the project/solution/editor to ensure that this service knows that
+	// the file is reloadable, OR (the recommended case), IVsPersistDocData should specify this by
+	// returning TRUE from IVsPersistDocData::IsReloadableDocData.  
+	// A file is by default assumed to be not reloadable in the absence of this interface.
+	//
+	HRESULT DeclareReloadableFile
+	(
+		[in] LPCOLESTR pszMkDocument,
+		[in] VSQEQSFlags rgf,
+		[in] const VSQEQS_FILE_ATTRIBUTE_DATA* pFileInfo
+	);
+
+	////////////////////////////////////////////////////////////////////////////////
+	// DeclareUnreloadableFile
+	////////////////////////////////////////////////////////////////////////////////
+	// This is called to ensure the QueryEdit and QuerySave know that a file is not reloadable.
+	// Either this must be called by the project/solution/editor to ensure that this service knows that
+	// the file is not reloadable, OR (the recommended case), IVsPersistDocData should specify this by
+	// returning FALSE from IVsPersistDocData::IsReloadableDocData.  
+	// A file is by default assumed to be not reloadable in the absence of this interface.
+	//
+	HRESULT DeclareUnreloadableFile
+	(
+		[in] LPCOLESTR pszMkDocument,
+		[in] VSQEQSFlags rgf,
+		[in] const VSQEQS_FILE_ATTRIBUTE_DATA* pFileInfo
+	);
+
+	////////////////////////////////////////////////////////////////////////////////
+	// OnAfterSaveUnreloadableFile
+	////////////////////////////////////////////////////////////////////////////////
+	// Normally when a file is reloaded, the QueryEditQuerySave service sinks the
+	// Running Document Table events, and notes that the file has been changed.  This ensures that
+	// QuerySave operates correctly.
+	// For a non-reloadable document, there will be no Running Document Table event signaling
+	// that the file has changed (i.e. been saved).  Therefore the project or solution controlling
+	// the document must call this method, so that the QueryEditQuerySave service can continue
+	// to track the file.  
+	//
+	// This poorly-named method is also useful when you've found a way to touch/modify a file
+	// without going through the running doc table at all [independent of whether the file is reloadable
+	// or not. If you're getting a 'conflicting modification detected' dialog, and you touched a file (for 
+	// example because a modal-dlg-wizard ran), then this is how to tell the system that the modification
+	// was expected.
+	//
+	HRESULT OnAfterSaveUnreloadableFile
+	(
+		[in] LPCOLESTR pszMkDocument,
+		[in] VSQEQSFlags rgf,
+		[in] const VSQEQS_FILE_ATTRIBUTE_DATA* pFileInfo
+	);
+
+	////////////////////////////////////////////////////////////////////////////////
+	// IsReloadable
+	////////////////////////////////////////////////////////////////////////////////
+	// Returns the QueryEditQuerySave service's understanding of whether this file is reloadable.
+	// This is determined either by using IVsPersistDocData::IsReloadableDocData, if the interface
+	// is supported, or by any calls that have previously been made to DeclareReloadableFile or
+	// DeclareUnReloadableFile.
+	//
+	HRESULT IsReloadable
+	(
+		[in] LPCOLESTR pszMkDocument,
+		[out, retval] BOOL *pbResult
+	);
+		
+	////////////////////////////////////////////////////////////////////////////////
+	// BeginQuerySaveBatch
+	////////////////////////////////////////////////////////////////////////////////
+	// Begin batch operation
+	//
+	// If we are batching our calls to QuerySave, then we allow a user to only respond once
+	// to certain prompts for all querys in the batch.  For example, if the user cancels the
+	// operation, we will not prompt them any further until the batch is complete.
+	//
+	// Note that this is not a 'transaction' system.
+	//
+	HRESULT BeginQuerySaveBatch();
+	
+	////////////////////////////////////////////////////////////////////////////////
+	// EndQuerySaveBatch
+	////////////////////////////////////////////////////////////////////////////////
+	// End batch operation
+	//
+	// See BeginQuerySaveBatch for further batching information.
+	//
+	// Note that this is not a 'transaction' system.
+	//
+	HRESULT EndQuerySaveBatch();
+};
+
+/////////////////////////////////////////////////////////////////////////////
+
+[ uuid(uuid_SVsQueryEditQuerySave) ]
+interface SVsQueryEditQuerySave : IUnknown  {};
+cpp_quote("#define SID_SVsQueryEditQuerySave IID_SVsQueryEditQuerySave")
+
+#endif

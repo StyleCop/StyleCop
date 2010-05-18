@@ -1,0 +1,51 @@
+<stylecopresultscache>
+  <version>10</version>
+  <project key="285890659">
+    <configuration>CODE_ANALYSIS;DEBUG;TRACE</configuration>
+  </project>
+  <sourcecode name="AssemblyVersion.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>05/12/2010 09:35:58</timestamp>
+      <milliseconds>46</milliseconds>
+    </settings>
+    <timestamp>05/12/2010 09:39:15</timestamp>
+    <milliseconds>808</milliseconds>
+    <violations />
+  </sourcecode>
+  <sourcecode name="AssemblyInfo.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>05/12/2010 09:35:58</timestamp>
+      <milliseconds>46</milliseconds>
+    </settings>
+    <timestamp>05/12/2010 09:35:58</timestamp>
+    <milliseconds>101</milliseconds>
+    <violations />
+  </sourcecode>
+  <sourcecode name="Program.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>05/12/2010 09:35:58</timestamp>
+      <milliseconds>46</milliseconds>
+    </settings>
+    <timestamp>05/12/2010 09:35:58</timestamp>
+    <milliseconds>44</milliseconds>
+    <violations />
+  </sourcecode>
+  <sourcecode name="Resources.Designer.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>05/12/2010 09:35:58</timestamp>
+      <milliseconds>46</milliseconds>
+    </settings>
+    <timestamp>05/12/2010 09:35:58</timestamp>
+    <milliseconds>102</milliseconds>
+    <violations />
+  </sourcecode>
+  <sourcecode name="Settings.Designer.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>05/12/2010 09:35:58</timestamp>
+      <milliseconds>46</milliseconds>
+    </settings>
+    <timestamp>05/12/2010 09:35:58</timestamp>
+    <milliseconds>120</milliseconds>
+    <violations />
+  </sourcecode>
+</stylecopresultscache>

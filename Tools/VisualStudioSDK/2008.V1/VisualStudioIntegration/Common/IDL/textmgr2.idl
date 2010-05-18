@@ -1,0 +1,1766 @@
+/****************************************************************************
+*  The TEXTMGR Interfaces
+*  Copyright (c) 2001-2002, Microsoft Corporation, All Rights Reserved
+****************************************************************************/
+
+#ifndef INTEROPLIB
+
+// Imports - all imports should go here (inside the ifndef)
+import "IVsQueryEditQuerySave2.idl";
+import "IVsQueryEditQuerySave80.idl";
+import "msxml.idl";
+import "context.idl";
+import "textmgr.idl";
+
+#endif
+
+/****************************************************************************
+********    IMPORTANT!!   *********
+
+All guids for interfaces and co-creatable objects in this file should be defined
+in textmgruuids.h
+
+****************************************************************************/
+#include "textmgruuids.h"
+
+//#include "shared.idh"
+#ifndef INTEROPLIB
+typedef long ViewCol;       // a view column; may include virtual space
+typedef long CharIndex;     // an offset into a buffer line; never includes virtual space
+typedef __int64 TEXTADDR;   // Raw text address type.
+#endif
+
+/****************************************************************************
+/****************************************************************************
+/****************************************************************************
+/****************************************************************************/
+
+/****************************************************************************
+PLEASE READ THE FOLLOWING NOTES:
+
+***** Note on enumerators and bitwise flags passed as parameters:
+
+When a parameter must be exactly one of a set of values (a true enumerator),
+the values should be defined and used as follows:
+
+typedef enum __VSSAMPLETYPE
+{
+ST_THISTYPE     = 0,   // first value should be zero or one, except
+ST_THATTYPE     = 1,   // in special cases, and following values
+ST_THEOTHERTYPE = 2,   // should use consecutive numbers
+} VSSAMPLETYPE;
+
+interface IVsSample : IUnknown
+{
+HRESULT SampleMethod([in] VSSAMPLETYPE stType);
+}
+
+When a parameter must be exactly one of a set of values (a true enumerator),
+and is considered a PROPID, the values should be defined and used as follows:
+
+enum __VSSAMPLEPROPID
+{
+VSSAMPPROPID_LAST     = -7000,  // first value should be a unique
+VSSAMPPROPID_This     = -7000,  // number not used by any other
+VSSAMPPROPID_That     = -7001,  // PROPID, and following values
+VSSAMPPROPID_FIRST    = -7001,  // should use consecutive numbers
+};
+typedef LONG VSSAMPLEPROPID;
+
+interface IVsSample : IUnknown
+{
+HRESULT GetProperty([in] VSSAMPLEPROPID propid, [out] VARIANT *pvar);
+HRESULT SetProperty([in] VSSAMPLEPROPID propid, [in] VARIANT var);
+}
+
+When a parameter can be none of or a combination of values (bitwise),
+the values should be defined and used as follows:
+
+enum __VSSAMPLEOPTS
+{
+SO_THISOPTION     = 0x00000001,   // first value should be one,
+SO_THATOPTION     = 0x00000002,   // following values should use
+SO_THEOTHEROPTION = 0x00000004,   // consecutive powers of two
+};
+typedef DWORD VSSAMPLEOPTS;
+
+interface IVsSample : IUnknown
+{
+HRESULT SampleMethod([in] VSSAMPLEOPTS grfOptions);
+}
+
+***** Defining properties
+
+Define properties as follows:
+
+interface IVsSample : IUnknown
+{
+HRESULT get_Foo([out] BSTR *pbstrFoo);
+HRESULT put_Foo([in] BSTR bstrFoo);
+}
+
+DO NOT use [propget], [propput] or [propputref] to define properties!!!
+
+***** Array typed args
+
+Pass array type arguments (both in and out) using [] and size_is when the corresponding
+size argument is present. You must have the array size as an argument for interop to
+work correctly.
+
+interface IVsSample : IUnknown
+{
+HRESULT MethodPassesInArray([in] int cItems, [in, size_is(cItems)] int prgiItems[]);
+}
+
+DO NOT use [in] int piItems[].
+
+
+****************************************************************************/
+
+#define FACILITY_ITF2                     4  // from winerror.h
+#define TIP_FACILITY2 (FACILITY_ITF2)
+#define TIP_SUCCESS2(x) ((TIP_FACILITY2 << 16) /* facility bits */ | (x) /* plus the error code */)
+enum TipSuccesses2
+{
+    //TIP_S_ONLYIFNOMARKER      =TIP_SUCCESS(0x4001)   // Defined in textmgr.idl
+    TIP_S_NODEFAULTTIP      =TIP_SUCCESS2(0x5001)
+};
+////////////////////////////////////////////////////////////////////////////
+// LINESTYLE enum
+////////////////////////////////////////////////////////////////////////////
+typedef enum _LINESTYLE2
+{
+    // commented out values defined in textmgr.idl
+    //LI_NONE         = 0,    // no line at all
+    //LI_SOLID        = 1,    // solid - only valid for MV_BORDER markers
+    //LI_SQUIGGLY     = 2,    // squiggly - only valid for MV_LINE markers
+    //LI_HATCH        = 3,    // hatch pattern - only valid for MV_BORDER markers
+    //LI_DOTTED       = 4,     // 50% gray dither (dotted when 1 pixel) - only valid for MV_BORDER markers
+    LI_SMARTTAGFACT     = 5,
+    LI_SMARTTAGFACTSIDE = 6,
+    LI_SMARTTAGEPHEM    = 7,
+    LI_SMARTTAGEPHEMSIDE  = 8
+} LINESTYLE2;
+
+//commented out values defined in _markerbehaviorflags in textmgr.idl
+typedef enum _markerbehaviorflags2
+{
+    //MB_DEFAULT              = 0x00000000,   // default stream behavior
+    //MB_LINESPAN             = 0x00000001,   // a marker that always adjusts itself to span a line at a time
+    //MB_LEFTEDGE_LEFTTRACK   = 0x00000002,
+    //MB_RIGHTEDGE_RIGHTTRACK = 0x00000004,
+    //MB_MULTILINESPAN        = 0x00000008,
+    MB_DONT_DELETE_IF_ZEROLEN = 0x00000010,
+    MB_INHERIT_FOREGROUND     = 0x00000020,   // Marker leaves foreground color unchanged, inheriting from whatever is "behind" it
+    MB_INHERIT_BACKGROUND     = 0x00000040,   // Marker leaves background color unchanged, inheriting from whatever is "behind" it
+    MB_VIEW_SPECIFIC          = 0x00000080,   // Marker only shows up in certain views
+    /*
+    MB_TRACK_ON_RELOAD forces a marker to track every edit as a replace, ignoring any reload semantics.
+    In other words, IVsTextLines::ReloadLines() will have the same effect as IVsTextLines::ReplaceLines()
+    for markers with this style set.  Do not use this unless you have markers that need to guarantee that
+    they're tracking in response to OnChangeLineText() events.  (You should not specify this style unless
+    you're doing something special and have contacted the VS text editor team about it.)
+    */
+    //MB_TRACK_EDIT_ON_RELOAD = 0x00000100
+} MARKERBEHAVIORFLAGS2;
+/*
+GLDE_FLAGS enum
+
+Used as params to GetLineDataEx
+*/
+typedef enum _GLDE_FLAGS2
+{
+    //gldeDefault         =   0x00000000,    // default behavior: whole line, no attributes, regular locking
+    //gldeSubset          =   0x00000001,    // get info only for line subset defined by iStartIndex & iEndIndex (does what GetLineSubsetData did)
+    //gldeColorizerState  =   0x00000002,    // NO LONGER USED!!!
+    //gldeSyntaxAttr      =   0x00000004,    // return syntax coloring attributes (as GetLineData2 did) and colorizer state
+    //gldeMarkerAttr      =   0x00000008,    // return marker coloring attributes plus other attributes
+    //gldeFullAttr        =   gldeSyntaxAttr | gldeMarkerAttr,
+    //gldeNoReadLock      =   0x00000010,
+    //gldeNoWidgetMargin  =   0x00000020,   // means there's no widget margin, so appropriate markers can color text
+    gldeUsePaintView      = 0x00000040      // the global pointer to the view being painted is set and can be used
+    // in particular, IVsTextLines::GetLineData()/GetLineDataEx() will use
+    // the view's data to exclude any marker the view chooses to exclude.
+} GLDE_FLAGS2;
+
+////////////////////////////////////////////////////////////////////////////
+// MARKERVISUAL2 enum
+////////////////////////////////////////////////////////////////////////////
+typedef enum _MARKERVISUAL2
+{
+    //MV_GLYPH                    = 0x00000001, // can show a glyph in the widget margin
+    //MV_COLOR_ALWAYS             = 0x00000002, // always does body text coloring
+    //MV_COLOR_LINE_IF_NO_MARGIN  = 0x00000004, // does body text coloring if there's no widget margin
+    //MV_LINE                     = 0x00000008, // means the marker is ONLY a line adornment & doesn't otherwise affect coloring; implies a squiggly for v7; unrelated to MB_LINESPAN
+    //MV_TIP_FOR_BODY             = 0x00000010, // whether a tip should be shown for the body of the marker text
+    //MV_TIP_FOR_GLYPH            = 0x00000020, // whether a tip should be shown the widget margin
+    //MV_SEL_MARGIN_GLYPH         = 0x00000040, // like MV_GLYPH but indicates that the glyph lives in the selection margin, not the normal widget margin
+
+    ///*
+    //        MV_FORCE_INVISIBLE forces the marker to be invisible; if you need to toggle a marker between being visible & invisible,
+    //        this is faster than using IVsTextMarker::SetType().
+    //*/
+    //MV_FORCE_INVISIBLE          = 0x00000080,
+
+    ///*
+    //    MV_BORDER indicates that a box is drawn around the marked text.
+    //*/
+    //MV_BORDER                   = 0x00000100,
+
+    ///*
+    //    MV_GLYPH_HOVER_CURSOR indicates that the client wants a callback (via their client interface) to set
+    //    the mouse cursor when the user hovers the mouse over the glyph.
+    //*/
+    //MV_GLYPH_HOVER_CURSOR       = 0x00000200,
+
+    ///*
+    //    MV_DRAGGABLE_GLYPH indicates that a glyph can be dragged in a drag/drop operation.
+    //*/
+    //MV_DRAGGABLE_GLYPH          = 0x00000400,
+
+    //// MV_MULTILINE_GLYPH indicates that a glyph spans multiple lines.
+    //MV_MULTILINE_GLYPH          = 0x00000800,
+
+    //// MV_CONTEXT_CONTRIBUTION_FOR_BODY indicates that the body of a marker wants to contribute context,
+    //// and thus its client can be queried for IVsUserContextUpdate.
+    //MV_CONTEXT_CONTRIBUTION_FOR_BODY = 0x00001000,
+
+    // MV_COLOR_SPAN_IF_ZERO_LENGTH indicates that a marker should paint as a solid bar if the textspan is zerolength.  This shouldn't be used for
+    // markers such as squigglies since it will only be this solid bar
+    //MV_COLOR_SPAN_IF_ZERO_LENGTH    = 0x00002000,
+
+    MV_SMARTTAG                 = 0x00004000,
+    MV_TRACK                    = 0x00008000,
+    MV_ROUNDEDBORDER            = 0x00010000,
+    MV_BOLDTEXT                 = 0x00020000,   //Draw foreground text in boldface
+    MV_DISALLOWBGCHANGE         = 0x00040000,   // Indicates that background color is not customizable
+    MV_DISALLOWFGCHANGE         = 0x00080000,   // Indicates that foreground color is not customizable
+    MV_FORCE_CLOSEST_IF_HIDDEN  = 0x00100000,   // Forces a MB_MULTILINESPAN or MB_LINESPAN marker to paint to the closest viewable location on the line.  Has no meaning if the marker is not MV_BORDER
+    MV_SELECT_WHOLE_LINE        = 0x00200000    // Forces a MB_MULTILINESPAN or MB_LINESPAN marker to paint a full line even if part of the marker is hidden.  Has no meaning if the marker is not MV_BORDER
+} MARKERVISUAL2;
+
+////////////////////////////////////////////////////////////////////////////
+// _ChangeCommitGestureFlags2 enum
+//      Extensions to the _ChangeCommitGestureFlags enumeration.
+//
+//      CCG_REFORMAT    Major changes have occurred in the file
+////////////////////////////////////////////////////////////////////////////
+typedef enum _ChangeCommitGestureFlags2
+{
+    //CCG_SAVE                        = 0x0001,
+    //CCG_MULTILINE_CHANGE            = 0x0002,
+    //CCG_CARET_ON_NEW_BUFFER_LINE    = 0x0010,
+    //CCG_MASS_REPLACE                = 0x0008,
+    //CCG_ENTER_COMMAND               = 0x0010,
+    //CCG_FIND_STARTING               = 0x0020,
+    //CCG_LOST_FOCUS                  = 0x0040,
+    //CCG_DESTRUCTIVEACTION           = 0x0080,
+    //CCG_PROGRAMMATIC_CHANGE         = 0x1000
+
+    CCG_REFORMAT                      = 0x0100
+
+    //Note that CCG_PROGRAMMATIC_CHANGE         = 0x1000
+    //So do not use this bit when extending this enumeration
+
+} ChangeCommitGestureFlags2;
+
+////////////////////////////////////////////////////////////////////////////
+// LinkedTransactionFlags enum
+////////////////////////////////////////////////////////////////////////////
+typedef enum _LinkedTransactionFlags2
+{
+    // mdtDefault                  = 0x0, // non-strict transaction
+    // mdtStrict                   = 0x1, // strict transaction
+    mdtGlobal                      = 0x2  // Global (closed file capable) strict transaction
+} LinkedTransactionFlags2;
+
+// The definitions of FACILITY_ITF2 (above), BUFFER_FACILITY2 and BUFFER_ERROR2 are copied from from textmgr.idl
+#define BUFFER_FACILITY2 (FACILITY_ITF2)
+#define BUFFER_ERROR2(x) (0x80000000 /* failure bit */ | (BUFFER_FACILITY2 << 16) /* facility bits */ | (x) /* plus the error code */)
+
+enum TextBufferErrors2
+{
+//	// BUFFER_E_READONLY: the buffer has been marked as read-only
+//	BUFFER_E_READONLY			= BUFFER_ERROR(0x1001),
+//
+//	// BUFFER_E_READONLY_REGION: a region has been marked as read-only
+//	BUFFER_E_READONLY_REGION	= BUFFER_ERROR(0x1002),
+//
+//	// BUFFER_E_TIMEOUT: timed out waiting for access
+//	BUFFER_E_TIMEOUT			= BUFFER_ERROR(0x1003),
+//
+//	// BUFFER_E_LOCKED: the buffer was locked for writing
+//	BUFFER_E_LOCKED				= BUFFER_ERROR(0x1004),
+//
+//	// BUFFER_E_SCC_READONLY: the file backing the buffer is under source code control and checked in
+//	BUFFER_E_SCC_READONLY	    = BUFFER_ERROR(0x1005),
+//
+//	// BUFFER_E_DEST_TOO_SMALL: the memory block passed in was too small
+//	BUFFER_E_DEST_TOO_SMALL		= BUFFER_ERROR(0x1006),
+//
+//	// MARKER_E_INVALIDATED: you're trying to manipulate an invalid marker
+//	MARKER_E_INVALIDATED		= BUFFER_ERROR(0x1007),
+//
+//	// MARKER_E_BUFFERDESTROYED: you're trying to manipulate a markers whose buffer has been destroyed
+//	MARKER_E_BUFFERDESTROYED	= BUFFER_ERROR(0x1008),
+
+    // BUFFER_E_RELOAD_OCCURRED: the operation failed because the buffer text was reloaded from file
+    BUFFER_E_RELOAD_OCCURRED	= BUFFER_ERROR2(0x1009)
+};
+
+/////////////////////////////////////////////////////////////////////////
+// TipWindowFlags enum
+/////////////////////////////////////////////////////////////////////////
+typedef enum _TipWindowFlags2
+{
+    //UTW_CONTEXTCHANGED      = 0x0001,       // Context stream is different
+    //UTW_CONTENTCHANGED      = 0x0002,       // Data displayed in window has changed (size will be re-queried)
+    //UTW_DISMISS             = 0x0004,       // Tip window should be dismissed
+    UTW_TIMER               = 0x0008,
+    UTW_EXPANDED            = 0x0010
+} TipWindowFlags2;
+
+typedef enum _MarkerCommandValues2
+{
+    //mcvFirstContextMenuCommand   = 0x000,
+    //mcvLastContextMenuCommand    = 0x009,
+    //mcvGlyphSingleClickCommand   = 0x101, // fired for a _single_ click on the glyph (if one exists)
+    //mcvBodyDoubleClickCommand    = 0x102, // fired for a _double_ click on the body text
+    //mcvGlyphDoubleClickCommand   = 0x103  // fired for a _double_ click on the glyph (if one exists)
+    mcvRightClickCommand   = 0x104  // fired for a right click on the widget margin
+} MarkerCommandValues2;
+interface IVsBufferExtraFiles;
+interface IVsSmartTagTipWindow;
+interface IVsExpansionSession;
+interface IVsExpansionManager;
+
+
+cpp_quote("#define SID_SVsExpansionManager CLSID_VsExpansionManager")
+//--------------------------------------------------------------------------
+// GUID_VsBufferExtraFiles  VT_UNKNOWN
+// 
+// {FD494BF6-1167-4635-A20C-5C24B2D7B33D}
+cpp_quote("extern const __declspec(selectany) GUID GUID_VsBufferExtraFiles = { 0xfd494bf6, 0x1167, 0x4635, { 0xa2, 0xc, 0x5c, 0x24, 0xb2, 0xd7, 0xb3, 0x3d }};")
+
+//--------------------------------------------------------------------------
+// GUID_VsBufferFileReload  VT_BOOL
+// 
+// {80D2B881-81A3-4f0b-BCF0-70A0054E672F}
+cpp_quote("extern const __declspec(selectany) GUID GUID_VsBufferFileReload = { 0x80d2b881, 0x81a3, 0x4f0b, { 0xbc, 0xf0, 0x70, 0xa0, 0x5, 0x4e, 0x67, 0x2f }};")
+
+//--------------------------------------------------------------------------
+// GUID_VsInitEncodingDialogFromUserData  VT_BOOL
+// 
+// {C2382D84-6650-4386-860F-248ECB222FC1}
+cpp_quote("extern const __declspec(selectany) GUID GUID_VsInitEncodingDialogFromUserData = { 0xc2382d84, 0x6650, 0x4386, { 0x86, 0xf, 0x24, 0x8e, 0xcb, 0x22, 0x2f, 0xc1 }};")
+
+
+
+
+
+#ifndef INTEROPLIB
+[
+    uuid(uuid_lib_TextManagerInternal2),
+    version(1.0)
+]
+library TextManagerInternal2
+{
+
+#endif
+
+    ////////////////////////////////////////////////////////////////////////////
+    // VsExpansionManager coclass
+    ////////////////////////////////////////////////////////////////////////////
+    [
+        uuid(uuid_coclass_VsExpansionManager),
+        helpstring("VsExpansionManager Class")
+    ]
+    coclass VsExpansionManager
+    {
+        interface IVsExpansionManager;
+    };
+    ////////////////////////////////////////////////////////////////////////////
+    // VsExpansionPackage coclass
+    ////////////////////////////////////////////////////////////////////////////
+    [
+        uuid(uuid_coclass_VsExpansionPackage),
+        helpstring("VsExpansionPackage Class")
+    ]
+    coclass VsExpansionPackage
+    {
+        interface IVsExpansionManager;
+    };
+
+    [
+        uuid(uuid_IVsBufferExtraFiles )
+    ]
+    interface IVsBufferExtraFiles : IUnknown
+    {
+        HRESULT GetQueryEditFilesDocuments(
+            [in] IVsTextBuffer *pBuffer,        //Base buffer,
+            [out] BSTR* bstrMkDocuments);       //A ';' separated list of files to process (which should, explicitly,
+                                                //include the current file.
+    };
+
+#define MAX_FILE_TYPE 24
+
+    typedef struct _LANGPREFERENCES2
+    {
+        //---------------------------------------------------------------------------------------------
+        // The following members are copied from the original LANGPREFERENCES struct.  To maintain
+        // compatibility, their size, meaning, and order must not be modified.
+
+        CHAR szFileType[MAX_FILE_TYPE];         // file type: "HTML"
+
+        // Things some language services don't support
+        unsigned fShowCompletion;               // set statement completion through UI?
+        unsigned fShowSmartIndent;              // set smart indent option through UI?
+
+        // advanced statement builder setting
+        unsigned fHideAdvancedAutoListMembers;  // hide advanced members (irrelevant if !fAutoListMembers)
+
+        // tab settings
+        unsigned uTabSize;                      // limit of MAX_EDITOR_TAB_SIZE
+        unsigned uIndentSize;                   // limit of MAX_EDITOR_TAB_SIZE
+        unsigned fInsertTabs;                   // insert tab chars or just spaces?
+
+        // indent settings
+        vsIndentStyle IndentStyle;              // none/block/smart
+
+        // statement builder settings
+        unsigned fAutoListMembers;              // bring up a proposed list of members on the fly?
+        unsigned fAutoListParams;               // bring up a proposed list of params on the fly?
+
+        // selection settings
+        unsigned fVirtualSpace;                 // virtual space navigation/selection?
+
+        // display settings
+        unsigned fWordWrap;                     // Word wrap
+        unsigned fTwoWayTreeview;               // show tree view?
+        unsigned fHotURLs;                      // Single click URL navigation?
+        unsigned fDropdownBar;                  // Should language services support the dropdown/nav bar?
+        unsigned fLineNumbers;                  // Show line numbers in the selection margin?
+
+        GUID guidLang;                          // language service
+
+        //---------------------------------------------------------------------------------------------
+        // End of copy of original LANGPREFERENCES struct.  New members must be added below this point.
+
+        unsigned fWordWrapGlyphs;               // Should a glyph be shown to indicate a wrapped line?
+        unsigned fCutCopyBlanks;               // cut/copy blanks on blank line
+
+    } LANGPREFERENCES2;
+
+    typedef struct _FRAMEPREFERENCES2
+    {
+        //---------------------------------------------------------------------------------------------
+        // The following members are copied from the original FRAMEPREFERENCES struct.  To maintain
+        // compatibility, their size, meaning, and order must not be modified.
+
+        // settings for the frame (MDI child)
+        unsigned fHorzScrollbar;             // should frame display horz scrollbar for views
+        unsigned fVertScrollbar;             // should frame display vert scrollbar for views?
+
+        //---------------------------------------------------------------------------------------------
+        // End of copy of original FRAMEPREFERENCES struct.  New members must be added below this point.
+
+    } FRAMEPREFERENCES2;
+
+    typedef struct _VIEWPREFERENCES2
+    {
+        //---------------------------------------------------------------------------------------------
+        // The following members are copied from the original VIEWPREFERENCES struct.  To maintain
+        // compatibility, their size, meaning, and order must not be modified.
+
+        // settings for text views
+        unsigned fVisibleWhitespace;         // show spaces/tabs etc?
+        unsigned fSelectionMargin;           // display selection margin?
+        unsigned fAutoDelimiterHighlight;    // allow automatic delimiter highlighting?
+        unsigned fGoToAnchorAfterEscape;     // go to anchor after escape?
+        unsigned fDragDropEditing;           // drag/drop editing?
+        unsigned fUndoCaretMovements;        // include caret movements and text selections in undo list?
+        unsigned fOvertype;                  // overtype/insert? - NOT persisted
+        unsigned fDragDropMove;              // whether we allow drag/drop moves
+        unsigned fWidgetMargin;              // show widget margin?
+        //---------------------------------------------------------------------------------------------
+        // End of copy of original VIEWPREFERENCES struct.  New members must be added below this point.
+
+        // Setting fUserReadOnly to true overrides setting fDragDropEditing and fDragDropMove to true
+        unsigned fReadOnly;                  // whether read only
+        unsigned fActiveInModalState;        // whether active in a modal state
+
+        unsigned fClientDragDropFeedback;
+        unsigned fTrackChanges;
+        unsigned uCompletorSize;             
+        unsigned fDetectUTF8;
+        long     lEditorEmulation;
+    } VIEWPREFERENCES2;
+
+    typedef struct _FONTCOLORPREFERENCES2
+    {
+        //---------------------------------------------------------------------------------------------
+        // The following members are copied from the original FONTCOLORPREFERENCES struct.  To maintain
+        // compatibility, their size, meaning, and order must not be modified.
+
+        /*
+        If pguidColorService is NULL, it means that the caller doesn't have any color information to provide.
+        If *pguidColorService is DEFAULT_FILE_TYPE, it represents the base color table build with the stock
+        colorable item provider.
+        Note that pguidColorService is always set to either NULL or to point to a valid GUID by the allocator
+        of the FONTCOLORPREFERENCES struct.
+        */
+#ifdef PROXYSTUB_BUILD
+        // This struct is used as [out] param by some methods, so it can not have const members.
+        [size_is(1)]       GUID		*pguidColorService; // the CLSID of an IVsProvideColorableItems implementor
+#else
+        [size_is(1)] const GUID		*pguidColorService; // the CLSID of an IVsProvideColorableItems implementor
+#endif
+        /*
+        pColorTable is a COM pointer to the color table for the colorable item provider indicated by *pguidColorService.
+        Note that this object will be created as a result of this call if it hadn't been created already.
+        This pointer is guaranteed to be valid if the FONTCOLORPREFERENCES struct is an in param to a function, but
+        naturally if you want to hold onto it beyond that you must AddRef (and later Release) it.
+        */
+        IUnknown *pColorTable;
+
+        /*
+        hViewFont represents the fonts that are to be used by text views.
+        */
+        HFONT hRegularViewFont;
+        HFONT hBoldViewFont;
+
+        /*
+        When IVsTextManagerEvents::OnUserPreferencesChanged is fired, the recipient of the event should check
+        these values.  The recipient should only react to the change event if its own category GUIDs match
+        those of the FONTCOLORPREFERENCES struct.
+        */
+#ifdef PROXYSTUB_BUILD
+       [size_is(1)]       GUID      *pguidFontCategory;
+       [size_is(1)]       GUID      *pguidColorCategory;
+#else
+       [size_is(1)] const GUID      *pguidFontCategory;
+       [size_is(1)] const GUID      *pguidColorCategory;
+#endif 
+        //---------------------------------------------------------------------------------------------
+        // End of copy of original FONTCOLORPREFERENCES struct.  New members must be added below this point.
+
+    } FONTCOLORPREFERENCES2;
+
+    ////////////////////////////////////////////////////////////////////////////
+    // MARKERTYPE enum
+    //
+    // These represent the pre-registered set of markers.
+    //
+    ////////////////////////////////////////////////////////////////////////////
+    typedef enum _markertype2
+    {                                                                           //  Priority
+        //MARKER_INVISIBLE = 0,             // Invisible marker                     100 
+        // NOTE: Invisible markers are invisible to the user. They do not make text invisible.
+        // They are fine for general use; they are NOT for internal editor team use only.
+        //  Ignore the warning in textmgr.idl.
+        //MARKER_READONLY,                  // Read-only                            0  // lower pri for performance reasons
+        //MARKER_SHORTCUT,                  // Task list shortcut                   199
+        //MARKER_BOOKMARK,                  // Generic bookmark/tag                 200
+
+        //MARKER_COMPILE_ERROR,             // Compile error                        600
+        //MARKER_CODESENSE_ERROR,           // CodeSense error                      700
+        //MARKER_OTHER_ERROR,               // 3rd Party tool error                 750
+
+
+        //MARKER_REGION_COLLAPSED,          // A collapsible region is collapsed    801
+        //MARKER_REGION_EXPANDED,           // A collapsible region is expanded     800
+
+        //MARKER_LIST_LOCATION,             // Current location from result list
+
+        //DEF_MARKER_COUNT, // this should be at the end to define the number of markers (old end count for compatibility)
+
+        MARKER_WARNING = 11,                  // Warning                              780
+
+        MARKER_SPAN_MAPPING,             // buffer coordination span mapping marker (WARNING: internal editor team use ONLY!!!)
+
+        MARKER_REGION_COLLAPSED_NOGLYPH, // A collapsible region is collapsed, with no glyph drawn
+        MARKER_REGION_EXPANDED_NOGLYPH,  // A collapsible region is expanded, with no glyph drawn
+
+        MARKER_EXSTENCIL,                // Extensil support                     790
+        MARKER_EXSTENCIL_SELECTED,       // Extensil support                     790
+
+        MARKER_SMARTTAG_NONVIS,          // Invisible smart tag marker           
+        MARKER_SMARTTAG_VIS,             // Visible smart tag marker            810
+
+        MARKER_TRACK_NONSAVE,
+        MARKER_TRACK_SAVE,
+        MARKER_BOOKMARK_DISABLED,        // Generic bookmark/tag                 200
+        MARKER_TRACK_PLACEHOLDER,        // Invisible placeholder used to allow concatenation of adjacent track changes markers  
+        MARKER_SMARTTAG_FACTOID,
+        MARKER_SMARTTAG_EPHEMERAL,
+        MARKER_BRACE_MATCHING, 
+        MARKER_EXSTENCIL_ENDMARKER,
+        MARKER_CODEDEFWIN_BACKGROUND,
+        MARKER_CODEDEFWIN_SELECTION,
+        MARKER_HIGHLIGHT_PATH,          
+        MARKER_BRACE_MATCHING_BOLD,
+        MARKER_REFACTORING_BACKGROUND,  // Background marker for the refactoring window
+        MARKER_EXSTENCIL_DEPFIELD,      // Line marker around a code snippet dependent field
+        MARKER_REFACTORING_FIELD,       // Marker that highlights the item being refactored
+        MARKER_REFACTORING_DEPFIELD,    // Marker that highlights other items that will be refactored
+        DEF_MARKER_COUNT_NEW            // this should be at the end to define the number of markers
+
+    } MARKERTYPE2;
+
+    typedef enum _hidden_region_behavior2
+    {
+        //hrbClientControlled         = 0x0,
+        //hrbEditorControlled         = 0x1,
+        hrbClientDrawn              = 0x2, // client will draw the collapsed region banner, only valid for collapsed regions
+        hrbNoUserControls           = 0x4  // user controls (+/- glyph and banner dbl-click) will be disabled, only valid for collapsed regions
+    } HIDDEN_REGION_BEHAVIOR2;
+
+
+    typedef enum _VSTFF2 { // VS Text File Format 2
+        // VSTFF_SIGNATURE      = 0x00010000,   // file signature (Byte Order Mark, UTF-8 sig.)
+        // VSTFF_DETECT         = 0x01000000,   // extra analysis to detect encoding
+        // VSTFF_HTML           = 0x02000000,   // HTML
+        // VSTFF_XML            = 0x04000000,   // XML
+        // VSTFF_BINARY         = 0x08000000,   // binary handling
+        // VSTFF_CPMASK         = 0x0000FFFF,   // mask for the codepage portion of VSTFF
+        // VSTFF_FLAGSMASK      = 0xFFFF0000    // mask for the flags portion of VSTFF
+        VSTFF_NOUTF8_NOSIG      = 0x10000000,   // turn off auto-detection of UTF8 w/o sig.
+        VSTFF_KEEPANSI          = 0x20000000    // if text appears to be ANSI, don't convert
+    } VSTFF2;
+
+    ////////////////////////////////////////////////////////////////////////////
+    // VIEWFRAMETYPE flags
+    //
+    // Passed to IVsTextManager2::GetActiveView2() and
+    // IVsTextManager2::NavigateToLineAndColumn2() to specify the view
+    // frame types to include in determining the active view
+    //
+    ////////////////////////////////////////////////////////////////////////////
+    enum _VIEWFRAMETYPE
+    {
+        vftAny          = 0x0,
+        vftCodeWindow   = 0x1,
+        vftToolWindow   = 0x2
+    };
+    typedef DWORD   VIEWFRAMETYPE ;
+
+    ////////////////////////////////////////////////////////////////////////////
+    // IVsTextManager2 interface
+    ////////////////////////////////////////////////////////////////////////////
+    [
+        uuid(uuid_IVsTextManager2)
+    ]
+    interface IVsTextManager2 : IUnknown
+    {
+        // These two methods are the preferred means for interacting with SCC.
+        // GetMultipleBufferSccStatus determines whether a file is under SCC
+        HRESULT GetBufferSccStatus3(
+            [in]  IVsTextBuffer *pBuffer, 
+            [in,string]  LPCOLESTR pszFileName,
+            [out] BOOL *pbCheckoutSucceeded,    // whether the file is unmodifiable (e.g. it's under SCC & checked in)
+            [out] int *piStatusFlags);          // may be NULL; returns add'l status flags; this is the VSQueryEditResult returned from IVsQueryEditQuerySave::QueryEditFiles
+
+        // AttemptToCheckOutMultipleBuffersFromScc tries to check a file out of SCC
+        HRESULT AttemptToCheckOutBufferFromScc3(
+            [in]  IVsTextBuffer *pBuffer, 
+            [in,string]  LPCOLESTR pszFileName,
+            [in]  DWORD dwQueryEditFlags,
+            [out] BOOL *pbCheckoutSucceeded,    // whether the file is unmodifiable (e.g. it's under SCC & checked in)
+            [out] int *piStatusFlags);          // may be NULL; returns add'l status flags; this is the VSQueryEditResult returned from IVsQueryEditQuerySave::QueryEditFiles
+
+        // For the LANGPREFERENCES member, specify the language in question by setting 
+        // pLangPrefs->guidLang to the language SID.
+        [local]  HRESULT GetUserPreferences2(
+            [out]     VIEWPREFERENCES2      * pViewPrefs,  // struct is caller-allocated
+            [out]     FRAMEPREFERENCES2     * pFramePrefs, // struct is caller-allocated
+            [in, out] LANGPREFERENCES2      * pLangPrefs,  // struct is caller-allocated
+            [in, out] FONTCOLORPREFERENCES2 * pColorPrefs);
+
+        [local]  HRESULT SetUserPreferences2(
+            [in] const VIEWPREFERENCES2      * pViewPrefs,
+            [in] const FRAMEPREFERENCES2     * pFramePrefs,
+            [in] const LANGPREFERENCES2      * pLangPrefs,
+            [in] const FONTCOLORPREFERENCES2 * pColorPrefs);
+
+        HRESULT ResetColorableItems([in] GUID guidLang);
+        HRESULT GetExpansionManager([out] IVsExpansionManager **pExpansionManager);
+        HRESULT GetActiveView2(
+            [in] BOOL fMustHaveFocus,
+            [in] IVsTextBuffer *pBuffer,
+            [in] VIEWFRAMETYPE grfIncludeViewFrameType,
+            [out] IVsTextView **ppView);
+        HRESULT NavigateToPosition2(
+            [in] IVsTextBuffer* pBuffer,
+            [in] REFGUID guidDocViewType,
+            [in] long iPos, 
+            [in] long iLen, 
+            [in] VIEWFRAMETYPE grfIncludeViewFrameType);
+        HRESULT NavigateToLineAndColumn2(
+            [in] IVsTextBuffer* pBuffer,
+            [in] REFGUID guidDocViewType,
+            [in] long iStartRow,
+            [in] CharIndex iStartIndex,
+            [in] long iEndRow,
+            [in] CharIndex iEndIndex,
+            [in] VIEWFRAMETYPE grfIncludeViewFrameType);
+
+        HRESULT FireReplaceAllInFilesBegin();
+        HRESULT FireReplaceAllInFilesEnd();
+
+    };
+    [
+        uuid (uuid_IVsInsertionUI)
+    ]
+    interface IVsInsertionUI : IUnknown
+    {
+        HRESULT GetWindowHandle([out] HWND *hwnd);
+        HRESULT Hide();
+    }
+    ////////////////////////////////////////////////////////////////////////////
+    // IVsTextViewEx interface
+    ////////////////////////////////////////////////////////////////////////////
+    [
+        uuid(uuid_IVsTextViewEx)
+    ]
+    interface IVsTextViewEx : IUnknown
+    {
+        HRESULT     SetHoverWaitTimer();
+        HRESULT     PersistOutliningState();
+        HRESULT     UpdateSmartTagWindow([in] IVsSmartTagTipWindow * pSmartTagWnd, [in] DWORD dwFlags);
+        HRESULT     GetSmartTagRect([out]RECT *rcSmartTag);
+        //For insertion UI of the expansions
+        //all inputs call be Null.  Default completions character is '>'.  Default for guidLang is langSvc of file
+        HRESULT     InvokeInsertionUI([in]IVsCompletionSet *pCompSet, [in] BSTR bstrPrefixText, [in] BSTR bstrCompletionChar, [out] IVsInsertionUI **pInsertionUI);
+        //This will be QI'd for IVsWindowFrame
+        HRESULT     GetWindowFrame([out]IUnknown ** ppFrame);
+        HRESULT     IsCompletorWindowActive();
+        // Find the cluster range info given the line number and index of current character
+        HRESULT     GetClusterRange([in]long iLine, [in]INT iDisplayCol, [out]INT *picCharacter, [out]INT *piStartCol, [out]INT *piEndCol);
+        HRESULT     SetIgnoreMarkerTypes([in]long iCountMarkerTypes, [in]DWORD *rgIgnoreMarkerTypes);
+        HRESULT     AppendViewOnlyMarkerTypes([in]unsigned int iCountViewMarkerOnly, [in]const DWORD *rgViewMarkerOnly);
+        HRESULT     RemoveViewOnlyMarkerTypes([in]unsigned int iCountViewMarkerOnly, [in]const DWORD *rgViewMarkerOnly);
+        HRESULT     SetBackgroundColorIndex([in]long iBackgroundIndex);
+        HRESULT     IsExpansionUIActive();
+        // This method returns whether the view is read only.
+        // A return value of S_OK indicates the view is read only.
+        // A return value of S_FALSE indicates the view is not read only.
+        HRESULT     IsReadOnly();
+
+    };
+
+    /////////////////////////////////////////////////////////////////////////
+    // TextViewInitFlags2 enum
+    /////////////////////////////////////////////////////////////////////////
+    typedef enum _TextViewInitFlags2
+    {
+        // Taken from TextViewInitFlags in textmgr.idl
+        //VIF_DEFAULT                   = 0x00000000,   // no view-owned scrollbars, and no forced settings
+        //VIF_SET_WIDGET_MARGIN         = 0x00000001,   // use the widget margin setting from the VIEWPREFERENCES struct
+        //VIF_SET_SELECTION_MARGIN      = 0x00000002,   // use the selection margin setting from the VIEWPREFERENCES struct
+        //VIF_SET_VIRTUAL_SPACE         = 0x00000004,   // use the virtual space setting from the VIEWPREFERENCES struct
+        //VIF_SET_INDENT_MODE           = 0x00000008,   // use the autoindent suppression setting from the VIEWPREFERENCES struct
+        //VIF_SET_STREAM_SEL_MODE       = 0x00000010,   // OBSOLETE
+        //VIF_SET_VISIBLE_WHITESPACE    = 0x00000020,   // use visible whitespace setting
+        //VIF_SET_OVERTYPE              = 0x00000040,   // use overtype mode setting
+        //VIF_SET_DRAGDROPMOVE          = 0x00000080,   // use dd move setting
+        //VIF_SET_HOTURLS               = 0x00000100,   // use the Hot URLs setting
+        //VIF_HSCROLL                   = 0x00100000,   // WS_HSCROLL; indicates that the view should have a horizontal scrollbar
+        //VIF_VSCROLL                   = 0x00200000,   // WS_VSCROLL; indicates that the view should have a vertical scrollbar
+        //VIF_UPDATE_STATUS_BAR         = 0x00400000,   // tells view to update status bar
+
+        VIF_READONLY                    = 0x00000200,   // indicates view should be read only
+        VIF_ACTIVEINMODALSTATE          = 0x00000400,   // indicates view should be read only active in modal state (allows commands even when shell is in a modal state)
+        VIF_SUPPRESS_STATUS_BAR_UPDATE  = 0x00000800,   // tells the view to supress status bar updates
+        VIF_SUPPRESSTRACKCHANGES        = 0x00001000,   // indicates view should suppress track changes (view will not ask buffer to track changes)
+        VIF_SUPPRESSBORDER              = 0x00002000,   // indicates view should suppress drawing border (intended for use when view is hosted in a dialog, for example)
+        VIF_SUPPRESSTRACKGOBACK         = 0x00004000,   // indicates view should suppress go back tracking (intended for use when view is hosted in a tool window, for example)
+    } TextViewInitFlags2;
+
+    enum _HighlightMatchingBraceFlags
+    {
+        HMB_SUPPRESS_STATUS_BAR_UPDATE  = 0x00000001,    // tells the view to supress status bar updates
+        HMB_USERECTANGLEBRACES          = 0x00000002     // use rectangles to highlight matching braces instead of bold
+    };
+
+    typedef DWORD HIGHLIGHTMATCHINGBRACEFLAGS;
+
+    ////////////////////////////////////////////////////////////////////////////
+    // IVsCodeWindowEx interface
+    ////////////////////////////////////////////////////////////////////////////
+    enum _codewindowbehaviorflags
+    {
+        CWB_DEFAULT             = 0x00000000,
+        CWB_DISABLEDROPDOWNBAR  = 0x00000001,
+        CWB_DISABLESPLITTER     = 0x00000002,
+    };
+    typedef DWORD CODEWINDOWBEHAVIORFLAGS;
+    [
+        uuid(uuid_IVsCodeWindowEx)
+    ]
+    interface IVsCodeWindowEx : IUnknown
+    {
+        // This method is used to customize some of the behavior of a code window
+        // It can be used to make the code window read only, to hide/disable the
+        // dropdown bar and the splitter, and to provide and auxilliary user
+        // context.  It should be called before IVsCodeWindow::SetBuffer().
+        HRESULT Initialize(
+            [in] CODEWINDOWBEHAVIORFLAGS        grfCodeWindowBehaviorFlags,
+            [in] VSUSERCONTEXTATTRIBUTEUSAGE    usageAuxUserContext,
+            [in] LPCOLESTR                      szNameAuxUserContext,
+            [in] LPCOLESTR                      szValueAuxUserContext,
+            [in] DWORD                          InitViewFlags,
+            [in] const INITVIEW                 *pInitView);
+        // This method returns whether the code window is read only.
+        // A return value of S_OK indicates the code window is read only.
+        // A return value of S_FALSE indicates the code window is not read only.
+        HRESULT IsReadOnly();
+    };
+
+    ////////////////////////////////////////////////////////////////////////////
+    // IVsTextManagerEvents2 interface
+    ////////////////////////////////////////////////////////////////////////////
+    [
+        uuid(uuid_IVsTextManagerEvents2)
+    ]
+    interface IVsTextManagerEvents2 : IUnknown
+    {
+        // Fired when a new marker type is registered
+        HRESULT OnRegisterMarkerType ([in] long iMarkerType);
+
+        // Fired when views are [un]registered
+        HRESULT OnRegisterView ([in] IVsTextView *pView);
+        HRESULT OnUnregisterView ([in] IVsTextView *pView);
+
+        // Fired when the user's global preferences have changed
+        [local]  HRESULT OnUserPreferencesChanged2([in] const VIEWPREFERENCES2  * pViewPrefs,
+            [in] const FRAMEPREFERENCES2 * pFramePrefs,
+            [in] const LANGPREFERENCES2  * pLangPrefs,
+            [in] const FONTCOLORPREFERENCES2 * pColorPrefs);
+
+        // Fired when the a Replace All in Files operation has begun and ended
+        HRESULT OnReplaceAllInFilesBegin();
+        HRESULT OnReplaceAllInFilesEnd();
+    };
+
+    ////////////////////////////////////////////////////////////////////////////
+    // IVsFileExtensionMappingEvents interface
+    ////////////////////////////////////////////////////////////////////////////
+    [
+        uuid(uuid_IVsFileExtensionMappingEvents)
+    ]
+    interface IVsFileExtensionMappingEvents : IUnknown
+    {
+        HRESULT OnFileExtensionsReset(void);
+    };
+
+    ////////////////////////////////////////////////////////////////////////////
+    // IVsAutoOutlining interface
+    ////////////////////////////////////////////////////////////////////////////
+    [
+        uuid(uuid_IVsAutoOutliningClient)
+    ]
+    interface IVsAutoOutliningClient : IUnknown
+    {
+        HRESULT QueryWaitForAutoOutliningCallback([out] BOOL *fWait);
+    };
+
+
+
+    ////////////////////////////////////////////////////////////////////////////
+    // IVsTextLineMarkerEx
+    ////////////////////////////////////////////////////////////////////////////
+    [
+        uuid(uuid_IVsTextLineMarkerEx)
+    ]
+    interface IVsTextLineMarkerEx : IUnknown
+    {
+        HRESULT GetClientData([out] DWORD_PTR *pdwData); // returns the dwClient DWORD associated with the marker
+        HRESULT SetClientData([in] DWORD_PTR dwData);    // changes the dwClient DWORD associated with the marker
+    };
+
+
+    /////////////////////////////////////////////////////////////////////////////////
+    // IVsTextMarkerClientAdvanced interface
+    //
+    // Receives callbacks from a marker.
+    /////////////////////////////////////////////////////////////////////////////////
+    [
+        uuid(uuid_IVsTextMarkerClientAdvanced)
+    ]
+    interface IVsTextMarkerClientAdvanced : IUnknown
+    {        
+        // Tells you that text on the same line as the marker has changed
+        HRESULT    OnMarkerTextChanged([in] IVsTextMarker* pMarker);
+    };
+
+
+    /////////////////////////////////////////////////////////////////////////////////
+    // IVsTextMarkerClientEx interface
+    //
+    // Receives callbacks from a marker.
+    /////////////////////////////////////////////////////////////////////////////////
+    [
+        uuid(uuid_IVsTextMarkerClientEx)
+    ]
+    interface IVsTextMarkerClientEx : IUnknown
+    {
+        // MarkerInvalidated is called when the text of a marker is deleted via a user action, but
+        // not when the buffer is closed; OnBeforeBufferClose is called in that case.
+        HRESULT    MarkerInvalidated(IVsTextLines *pBuffer, IVsTextMarker *pMarker);
+        HRESULT    OnHoverOverMarker([in] IVsTextView *pView, [in] IVsTextMarker* pMarker, [in] BOOL fShowUI);
+    };
+
+
+    [
+        uuid(uuid_IVsDropdownBarClientEx)
+    ]
+    interface IVsDropdownBarClientEx : IUnknown
+    {
+        // called to get the indent level for a particular item
+        HRESULT GetEntryIndent([in] long iCombo, [in] long iIndex, [out] ULONG *pIndent);
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////
+    // NewHiddenRegionEx interface
+    //
+    // Used to specify new hidden regions when using IVsHiddenTextSessionEx
+    /////////////////////////////////////////////////////////////////////////////////
+    typedef struct _tag_NewHiddenRegionEx
+    {
+        //////////////////////////////////////////
+        // original NewHiddenRegion fields
+        //////////////////////////////////////////
+
+        // These members reflect permanent properties of the hidden region
+        long            iType;          // see HIDDEN_REGION_TYPE enum
+        DWORD           dwBehavior;     // ORing of HIDDEN_REGION_BEHAVIOR enum values
+
+        // These members reflect changeable properties of the hidden region
+        DWORD           dwState;        // State bits (e.g. expand/collapse state) -- see HIDDEN_REGION_STATE enum
+
+        TextSpan        tsHiddenText;   // Span of hidden text
+
+        // pszBanner is ignored unless hrbClientControlled is specified for dwBehavior
+        LPCWSTR         pszBanner;      // Banner; NOTE: text hiding mgr will alloc a new string
+        DWORD_PTR       dwClient;       // Opaque client-defined information (e.g. array index or ptr to retrieve internal data)
+
+        //////////////////////////////////////////
+        // new NewHiddenRegionEx fields
+        //////////////////////////////////////////
+
+        // pBannerAttr is ignored unless hrbColorBanner is specified in dwFlags. When
+        // IVsHiddenTextSessionEx::AddHiddenRegionsEx() is called, the core editor will
+        // make a copy of pBannerAttr (if not NULL), leaving the caller to free this.
+        DWORD           dwLength;       // Must match the length of bstrBanner (but needed as
+                                        // its own member so MIDL can marshal pBannerAttr)
+        [size_is(dwLength)] ULONG* pBannerAttr;    // Banner attributes (same as colorizer attributes)
+    } NewHiddenRegionEx;
+
+    /////////////////////////////////////////////////////////////////////////////////
+    // IVsHiddenRegionEx interface
+    //
+    // New Hidden region interface to allow access of "Ex" properties
+    /////////////////////////////////////////////////////////////////////////////////
+    [
+        uuid(uuid_IVsHiddenRegionEx)
+    ]
+    interface IVsHiddenRegionEx : IUnknown
+    {
+        // fills a ULONG array with the banner's color attributes.
+        HRESULT GetBannerAttr([in] DWORD dwLength, [out, size_is(dwLength)]ULONG *pColorAttr);
+
+        // sets banner attributes. Core editor will copy this, so caller must free after calling
+        HRESULT SetBannerAttr([in] DWORD dwLength, [in, size_is(dwLength)]ULONG *pColorAttr);
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////
+    // IVsHiddenTextClientEx interface
+    //
+    // New Hidden text client to support client drawing of glyphs
+    /////////////////////////////////////////////////////////////////////////////////
+    [
+        uuid(uuid_IVsHiddenTextClientEx)
+    ]
+    interface IVsHiddenTextClientEx : IUnknown
+    {
+        // called by core editor to determine how much space to set aside for banner glyph
+        // NOTE: will only be called if hrbClientDrawn is specified in the region's flags
+        HRESULT GetBannerGlyphWidth([in]long iPixSpaceWidth, [out] long *pGlyphPix);
+
+        // called by core editor to tell client to draw a glyph
+        // NOTE: will only be called if hrbClientDrawn is specified in the region's flags
+        HRESULT DrawBannerGlyph(
+            [in] IVsHiddenRegion *pHidReg,
+            [in] DWORD dwFlags, // currently unused
+            [in] HDC hdc, 
+            [in] RECT *pRect);
+    };
+
+    /////////////////////////////////////////////////////////////////////////////////
+    // IVsHiddenTextSessionEx interface
+    //
+    // New Hidden text session to allow adding of regions with "Ex" properties
+    /////////////////////////////////////////////////////////////////////////////////
+    [
+        uuid(uuid_IVsHiddenTextSessionEx)
+    ]
+    interface IVsHiddenTextSessionEx : IUnknown
+    {
+        HRESULT AddHiddenRegionsEx(
+            [in] DWORD dwUpdateFlags,  // ORing of CHANGE_HIDDEN_REGION_FLAGS enum
+            [in] long cRegions, 
+            [in, size_is(cRegions)] NewHiddenRegionEx *rgHidReg,
+            [out] IVsEnumHiddenRegions **ppEnum);
+    };
+
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // AtomicTextProvider flags
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    typedef enum _AtomicTextProviderFlags
+    {
+        atpDefault              = 0x0000,       // Provides no text attributes or glyph drawing
+        atpGlyph                = 0x0001,       // Draws a glyph
+        atpTextAttributes       = 0x0002       // Provides text attributes
+    } AtomicTextProviderFlags;
+
+    /////////////////////////////////////////////////////////////////////////////////
+    // IVsAtomicTextProvider interface
+    //
+    // Used to supply 
+    /////////////////////////////////////////////////////////////////////////////////
+    [
+        uuid(uuid_IVsAtomicTextProvider)
+    ]
+    interface IVsAtomicTextProvider : IUnknown
+    {
+        HRESULT GetAtomFlags([out] DWORD *pdwFlags);
+        HRESULT GetAtomAttributes([in] DWORD dwLength, [out, size_is(dwLength)]ULONG *pColorAttr);
+        HRESULT GetAtomGlyphWidth([in] long iPixSpaceWidth, [out] long *pGlyphPix);
+
+        HRESULT DrawAtomGlyph(
+            [in] DWORD dwFlags, // current unused
+            [in] HDC hdc,
+            [in] RECT *pRect);
+    };
+
+    /////////////////////////////////////////////////////////////////////////////////
+    // IVsCompletionSetEx interface
+    /////////////////////////////////////////////////////////////////////////////////
+    [
+        uuid(uuid_IVsCompletionSetEx)
+    ]
+    interface IVsCompletionSetEx : IUnknown
+    {
+        // Return colors describing the forground and background of selected item.  Reutrn S_FALSE for defaults
+        HRESULT     GetCompletionItemColor ([in] long iIndex, [out] COLORREF *dwFGColor, [out] COLORREF *dwBGColor);
+        // Return S_FALSE if there is no filter
+        HRESULT     GetFilterLevel([out] long *iFilterLevel);
+        HRESULT     IncreaseFilterLevel([in] long iSelectedItem);
+        HRESULT     DecreaseFilterLevel([in] long iSelectedItem);
+
+        //Compare the 1st lCharactersToCompare characters of two completor items in a language specific way,
+        //      *plResult <  0  if bstrSoFar comes before bstrOther
+        //      *plResult == 0  if bstrSoFar is equivalent to bstrOther
+        //      *plResult >  0  if bstrSoFar comes after bstrOther
+        //If the returned HR is FAILED(), then use the default comparison
+        HRESULT     CompareItems([in]const BSTR bstrSoFar, [in]const BSTR bstrOther, [in]long lCharactersToCompare, [out]long* plResult);
+
+        HRESULT     OnCommitComplete();
+    };
+
+
+    /////////////////////////////////////////////////////////////////////////////////
+    // temporary IVsCompletionSetBuilder interface
+    /////////////////////////////////////////////////////////////////////////////////
+    [
+        uuid(uuid_IVsCompletionSetBuilder)
+    ]
+    interface IVsCompletionSetBuilder : IUnknown
+    {
+        HRESULT     GetBuilderCount(long* piCount); // shouldn't be bigger than 3
+        HRESULT     GetBuilderDisplayText([in] long iIndex, [out] BSTR* pbstrText, [out, optional] long *piGlyph);
+        HRESULT     GetBuilderDescriptionText ([in] long iIndex, [out] BSTR *pbstrDescription);
+        HRESULT     GetBuilderImageList ([out] HANDLE *phImages);
+        HRESULT     OnBuilderCommit ([in] long iIndex);
+
+        // foreground/background selection
+        HRESULT     GetBuilderItemColor ([in] long iIndex, [out] COLORREF *dwFGColor, [out] COLORREF *dwBGColor);
+    };
+
+    ////////////////////////////////////////////////////////////////////////////
+    // SMARTTAGSIZEDATA structure
+    ////////////////////////////////////////////////////////////////////////////
+    typedef struct _smarttagsizedata
+    {
+        SIZE                size;
+    } SMARTTAGSIZEDATA;
+
+    typedef enum _ST_IMAGEINDEX
+    {
+        ST_DEFAULTIMAGE = 0,
+        ST_ERROR   = 1,
+        ST_REFACTOR = 2
+    }ST_IMAGEINDEX;
+
+    /////////////////////////////////////////////////////////////////////////
+    // IVsSmartTagData interface
+    /////////////////////////////////////////////////////////////////////////
+    [
+        uuid(uuid_IVsSmartTagData)
+    ]
+    interface IVsSmartTagData : IUnknown
+    {
+        HRESULT         GetImageIndex([out] long *piIndex);
+        // GetContextMenuInfo returns S_FALSE if OnInvocation should be called for non-context menu UIs.
+        [custom(uuid_IVsSmartTagData, "preservesig")]
+        HRESULT         GetContextMenuInfo ([out] GUID *guidID, [out]long *nMenuID, [out]IOleCommandTarget **pCmdTarget);
+        HRESULT         GetContextStream ([out] long *piPos, [out] long *piLength);
+        HRESULT         OnDismiss (void);
+        HRESULT         OnInvocation (void);
+        HRESULT         UpdateView (void);
+        HRESULT         GetTimerInterval([out] long *piTime);
+        HRESULT         IsLeftJustified([out] BOOL* pfIsLeftJustified);
+        [custom(uuid_IVsSmartTagData, "preservesig")]
+        HRESULT         GetTipText([out]BSTR *pbstrTipText);
+    };
+
+
+    [
+        uuid(uuid_IVsSmartTagTipWindow)
+    ]
+    interface IVsSmartTagTipWindow : IUnknown
+    {
+        // Return the context stream (the position and length of text in the
+        // buffer that should not be obscured by the tip window, but to which
+        // the content of the tip is related).
+        HRESULT     GetContextStream ([out] long *piPos, [out] long *piLength);
+
+        // Get the size preferences for this tip window.  Note that implementations
+        // should be written to handle cases where the size preference they
+        // return here are not what they are given for real estate in which to
+        // display content.  (i.e., it may not be possible to provide the
+        // tip window in the requested size).  prcCtxBounds represents the bounding
+        // rectangle of the tip's context should the implementation be interested.
+        // (This rectangle is provided in screen coordinates).
+        HRESULT     GetSizePreferences ([in] const RECT *prcCtxBounds, [out] SMARTTAGSIZEDATA *pSizeData);
+
+        // Paint the tip window.
+        HRESULT     Paint ([in] HDC hdc, [in] const RECT *prc, [in]COLORREF pColor, [in]COLORREF pColorText, [in]BOOL fSel);
+
+        // The window is being dismissed by the view.
+        HRESULT     Dismiss (void);
+
+        // Event handler for the tip window
+        HRESULT     WndProc ([in] HWND hwnd, [in] UINT iMsg, [in] WPARAM wParam, [in] LPARAM lParam, LRESULT* pLResult);
+
+        HRESULT     SetSmartTagData ([in] IVsSmartTagData *pSmartTagData);
+    };
+    ////////////////////////////////////////////////////////////////////////////
+    // VsSmartTagTipWindow coclass
+    ////////////////////////////////////////////////////////////////////////////
+    [
+        uuid(uuid_coclass_VsSmartTagTipWindow),
+        helpstring("VsSmartTagTipWindow Class")
+    ]
+    coclass VsSmartTagTipWindow
+    {
+        interface IVsSmartTagTipWindow;
+    };
+    [
+        uuid(uuid_IVsMethodDataEx)
+    ]
+    interface IVsMethodDataEx : IUnknown
+    {
+        HRESULT GetCopyTipText([in] long iMethod, [out] BSTR* pbstrTipText);
+    };
+
+    // IVsLanguageClipboardOpsEx
+    //
+    // Optional interface implemented languages that need access to the 
+    // underlying TextBuffer to make decisions of whether to handle 
+    // clipboard and drag/drop operations. 
+    // This interface is retrieved from the Language service via a call to
+    // QueryService(guidLanguageService, IID_IVsLanguageClipboardOpsEx).
+    // Languages which make decisions of whether the drop operation can occur
+    // dynamically based on the location of the drop location should implement 
+    // IVsLanguageDragDropOps interface. IVsLanguageClipboardOpsEx interface
+    // is used in any case for clipboard operations because Paste decisions
+    // must be made independent of any location within the buffer.
+    [
+        uuid(uuid_IVsLanguageClipboardOpsEx)
+    ]
+    interface IVsLanguageClipboardOpsEx : IUnknown
+    {
+        //----------------------------------------------------------------
+        // Does this data object contain data you can render into text?
+        // This method superceeds the original IVsLanguageClipboardOps:: 
+        // IsTextData method; IsTextDataEx will be called instead if implemented.
+        // This method is called for clipboard operations as well as 
+        // drag/drop operations as long as IVsLanguageDragDropOps is not
+        // implemented. If IVsLanguageDragDropOps is implemented then
+        // IVsLanguageDragDropOps::DragEnter is called instead for drag
+        // operations.
+        //----------------------------------------------------------------
+        HRESULT IsTextDataEx(
+            [in] IDataObject *pDO, [in] IVsTextLines *pBuffer, [out] BOOL *pfIsTextData);
+
+    };
+    // IVsLanguageDragDropOps
+    //
+    // Optional interface implemented languages that need to dynamically handle 
+    // enabling of drag/drop operations based on the potential location of the drop. 
+    // This interface is retrieved from the Language service via a call to
+    // QueryService(guidLanguageService, IID_IVsLanguageDragDropOps).
+    // Languages which can make decisions of whether the drop operation can occur
+    // independent of the drop location can simply implement either
+    // IVsLanguageClipboardOps::IsTextData or IVsLanguageClipboardOps[Ex]::IsTextData[Ex].
+    [
+        uuid(uuid_IVsLanguageDragDropOps)
+    ]
+    interface IVsLanguageDragDropOps : IUnknown
+    {
+        //----------------------------------------------------------------
+        // Do any setup/caching required to quickly execute the
+        // IsTextDataAtLocation() call below.
+        //
+        // This method is called the first time the drag operation enters
+        // (IDropTarget::DragEnter) the given text editor's view.
+        //
+        // DragCleanup() will always be called when the drag is
+        // completed/aborted/etc.
+        //----------------------------------------------------------------
+        HRESULT DragSetup(
+            [in] IDataObject *pDO, [in] IVsTextLines *pBuffer, [out] BOOL *pfDocumentContainsTextData);
+
+        //----------------------------------------------------------------
+        // Does the data object passed to DragSetup() contain data you can 
+        // render into text for the TextBuffer at the specified location?
+        // This method is called on every mouse move (IDropTarget::DragOver).
+        //
+        // DragSetup() must have been called before calling this method.
+        //----------------------------------------------------------------
+        HRESULT IsTextDataAtLocation(
+            [in] IVsTextLines *pBuffer, [in] long iLine, [in] long iCol, [out] BOOL *pfIsTextDataValidAtLoc);
+
+        //----------------------------------------------------------------
+        // Cleanup any state cached in the call to DragSetup. If DragSetup()
+        // was called, then this method must be called when the drag operation
+        // is completed (either by user performing Drop, user
+        // cancelling the Drag/Drop operation, or the mouse leaving the 
+        // text editor's window). 
+        //----------------------------------------------------------------
+        HRESULT DragCleanup([in] IVsTextLines *pBuffer);
+    };
+
+    ////////////////////////////////////////////////////////////////////////////
+    // Language Common Block Query Flags
+    ////////////////////////////////////////////////////////////////////////////
+    typedef enum _commonlanguageblock
+    {                                                       
+        CLB_TRY_BLOCK,                   
+        CLB_EXCEPTION_BLOCK,       //like catch block in VB, except in C++, and etc.
+        CLB_FINAL_BLOCK     
+    } COMMONLANGUAGEBLOCK;
+
+    ////////////////////////////////////////////////////////////////////////////
+    // IVsLanguageDebugInfo2 interface
+    ////////////////////////////////////////////////////////////////////////////
+    [
+        uuid(uuid_IVsLanguageDebugInfo2)
+    ]
+    interface IVsLanguageDebugInfo2 : IUnknown
+    {
+        //This method is used by our exception helper.
+        //They need to know which common language  
+        //block containing a break pointer.
+        HRESULT QueryCommonLanguageBlock(
+            [in]  IVsTextBuffer *pBuffer, //code buffer containing a break point
+            [in]  long iLine,             //line for a break point
+            [in]  long iCol,              //column for a break point           
+            [in]  DWORD dwFlag,           //common language block being queried. see LANGUAGECOMMONBLOCK
+            [out] BOOL *pfInBlock);       //true if iLine and iCol is inside common language block;otherwise, false;
+        // Validate the given position as a place to set an instruction point.If the
+        // location is valid, and pCodeSpan is non-NULL, the span is filled in
+        // with the extent of the statement at which execution would stop.  If
+        // the position is known to not contain code, this will return S_FALSE.
+        // If this function fails, the instructionpoint will get lost so the language
+        // service have to provide the valid code span for an executable statement in
+        // either current line or previous line or next line
+        HRESULT ValidateInstructionpointLocation(
+            [in]  IVsTextBuffer *pBuffer, //code buffer containing an instruction point(IP)   
+            [in]  long iLine,             //line for the existing IP
+            [in]  long iCol,              //column for the existing IP
+            [out] TextSpan *pCodeSpan);   //new IP code span
+
+        //This method is used by our exception helper.
+        //They need to know the catch line span containing the break point. (VS 2005 bug #175905)
+        HRESULT QueryCatchLineSpan(
+            [in]  IVsTextBuffer *pBuffer,       //code buffer containing a break point
+            [in]  long iLine,                   //line for a break point
+            [in]  long iCol,                    //column for a break point
+            [out] BOOL *pfIsInCatch,
+            [out] TextSpan *ptsCatchLine);      //buffer text span for the catch statement;
+    };
+
+
+    enum _ExpansionFunctionType
+    {
+        eft_List,
+        eft_Value
+    };
+    typedef DWORD ExpansionFunctionType;
+
+    [
+        uuid(uuid_IVsExpansionFunction)
+    ]
+    interface IVsExpansionFunction : IUnknown
+    {
+        HRESULT   GetFunctionType([out]ExpansionFunctionType *pFuncType);
+
+        // GetListCount - returns the number of items in the list for a list function
+        HRESULT GetListCount([out] long *iCount);
+
+        // GetListText - returns the text for item at specified index for a list function
+        HRESULT GetListText([in]long iIndex, [out]BSTR* pbstrText);
+
+        // GetDefaultValue - returns the default string to insert before any template editing has happened
+        HRESULT GetDefaultValue([out]BSTR *bstrValue, [out] BOOL *fHasDefaultValue);
+
+        // FieldChanged - called when another field in the template is changed. bstrField indicates
+        // the name of the field changed. function will return true if this field change will
+        // cause the function to generate new text, at which point GetCurrentValue will be called
+        HRESULT FieldChanged([in]BSTR bstrField, [out] BOOL *fRequeryFunction);
+
+        // GetCurrentValue - called to get the current value of a value function
+        HRESULT GetCurrentValue([out]BSTR *bstrValue, [out] BOOL *fHasCurrentValue);
+
+        // release any information held on to by the function
+        HRESULT ReleaseFunction();
+    };
+    [
+        uuid(uuid_IVsExpansionClient)
+    ]
+    interface IVsExpansionClient : IUnknown
+    {
+        //lang svc must parse the function xml node
+        HRESULT GetExpansionFunction([in]IXMLDOMNode* xmlFunctionNode, [in] BSTR bstrFieldName, [out] IVsExpansionFunction **pFunc);
+        HRESULT FormatSpan([in]IVsTextLines *pBuffer,[in]TextSpan *ts);
+        HRESULT EndExpansion();
+        // Array of BSTR's.
+        HRESULT IsValidType([in]IVsTextLines *pBuffer,[in]TextSpan *ts,[in, size_is(iCountTypes)]BSTR* rgTypes, [in] int iCountTypes, [out] BOOL* pfIsValidType);
+        HRESULT IsValidKind([in]IVsTextLines *pBuffer,[in]TextSpan *ts,[in]BSTR bstrKind, [out] BOOL* pfIsValidKind);
+        //Called for any preprocessing
+        HRESULT OnBeforeInsertion(IVsExpansionSession *pSession);
+        HRESULT OnAfterInsertion(IVsExpansionSession *pSession);
+        HRESULT PositionCaretForEditing([in]IVsTextLines *pBuffer, [in]TextSpan *ts);
+        HRESULT OnItemChosen([in] BSTR pszTitle, [in] BSTR pszPath);
+    };
+    typedef struct _VsExpansion
+    {
+        BSTR  path;
+        BSTR  title;
+        BSTR  shortcut;
+        BSTR  description;
+    }VsExpansion;
+    [
+        uuid(uuid_IVsExpansionEnumeration)
+    ]
+    interface IVsExpansionEnumeration : IUnknown
+    {
+        HRESULT     Next (ULONG celt, [out, size_is(celt), length_is(*pceltFetched)] VsExpansion **rgelt, [out]ULONG *pceltFetched);
+        HRESULT     Reset ();
+        HRESULT     GetCount ([out]ULONG *pCount);
+    };
+
+    enum _ExpansionToken
+    {
+        ET_MyDocs      = 1,   
+        ET_InstallRoot = 2
+    };
+    typedef DWORD ExpansionToken;
+
+
+    [
+        uuid(uuid_IVsExpansionManager)
+    ]
+    interface IVsExpansionManager : IUnknown
+    {
+        HRESULT     EnumerateExpansions([in]GUID guidLang, [in] BOOL fShortCutOnly,[in, size_is(iCountTypes)] BSTR *bstrTypes, [in] long iCountTypes, [in] BOOL fIncludeNULLType, [in] BOOL fIncludeDuplicates, [out] IVsExpansionEnumeration **pEnum);
+        HRESULT     InvokeInsertionUI([in] IVsTextView *pView, [in]IVsExpansionClient *pClient, [in]GUID guidLang, [in, size_is(iCountTypes)] BSTR *bstrTypes, [in] long iCountTypes, [in] BOOL fIncludeNULLType, [in, size_is(iCountKinds)] BSTR *bstrKinds, [in] long iCountKinds, [in] BOOL fIncludeNULLKind, [in] BSTR bstrPrefixText, [in] BSTR bstrCompletionChar);
+        HRESULT     GetExpansionByShortcut([in]IVsExpansionClient *pClient,[in]GUID guidLang, [in,string] LPOLESTR szShortcut, [in]IVsTextView *pView, [in]TextSpan *pts, [in]BOOL fShowUI, [out]BSTR *pszExpansionPath, [out]BSTR *pszTitle);
+        HRESULT     GetTokenPath([in]ExpansionToken token, [out] BSTR *pbstrPath);
+        HRESULT		GetSnippetShortCutKeybindingState([out] BOOL *fBound);
+    };
+
+    [
+        uuid(uuid_IVsExpansion)
+    ]
+    interface IVsExpansion : IUnknown
+    {
+        //Guid can be null.  This is for the case of Venus to specify the language service.  Default will be lang service of file
+        HRESULT     InsertExpansion([in] TextSpan tsContext, [in] TextSpan tsInsertPos, [in]IVsExpansionClient *pExpansionClient, [in]GUID guidLang, [out] IVsExpansionSession **pSession);
+        //Guid can be null.  This is for the case of Venus to specify the language service.  Default will be lang service of file
+        //If path is Null, we choose first one we find or show disabmiguation UI based on in parameter
+        HRESULT     InsertNamedExpansion([in]BSTR bstrTitle, [in] BSTR bstrPath, [in] TextSpan tsInsertPos, [in]IVsExpansionClient *pExpansionClient, [in]GUID guidLang, [in] BOOL fShowDisambiguationUI, [out] IVsExpansionSession **pSession);
+        HRESULT     InsertSpecificExpansion([in]IXMLDOMNode *pSnippet, [in] TextSpan tsInsertPos, [in]IVsExpansionClient *pExpansionClient, [in]GUID guidLang, [in] BSTR pszRelativePath, [out] IVsExpansionSession **pSession);
+    };
+    [
+        uuid(uuid_IVsExpansionSession)
+    ]
+    interface IVsExpansionSession : IUnknown
+    {
+        HRESULT     EndCurrentExpansion([in]BOOL fLeaveCaret);
+        HRESULT     GoToNextExpansionField([in]BOOL fCommitIfLast);
+        HRESULT     GoToPreviousExpansionField();
+        HRESULT     GetFieldValue([in]BSTR bstrFieldName, [out]BSTR *pbstrValue);
+        HRESULT     SetFieldDefault([in] BSTR bstrFieldName, [in] BSTR bstrNewValue);
+        HRESULT     GetFieldSpan([in] BSTR bstrField, [out]TextSpan *ptsSpan);
+        // if bstrNode == NULL, I'll hand back the header node itself
+        HRESULT     GetHeaderNode([in] BSTR bstrNode, [out] IXMLDOMNode **pNode);
+        // specifying a bstrNode here will look for id == bstrNode and hand back the node of either the literal or object
+        // if bstrNode == NULL, I'll hand back the declaration node itself
+        HRESULT     GetDeclarationNode([in] BSTR bstrNode, [out] IXMLDOMNode **pNode);
+        // if bstrNode == NULL, I'll hand back the snippet node itself
+        HRESULT     GetSnippetNode([in] BSTR bstrNode, [out] IXMLDOMNode **pNode);
+        HRESULT     GetSnippetSpan([out]TextSpan *pts);
+        HRESULT     SetEndSpan([in]TextSpan ts);
+        HRESULT     GetEndSpan([out] TextSpan *pts);
+    }
+
+    /////////////////////////////////////////////////////////////////////////
+    // IVsMethodTipWindow2 interface
+    /////////////////////////////////////////////////////////////////////////
+    [
+        uuid(uuid_IVsMethodTipWindow2)
+    ]
+    interface IVsMethodTipWindow2 : IUnknown
+    {
+        HRESULT     NextMethod ([out] BOOL* pfSuccess);
+        HRESULT     PrevMethod ([out] BOOL* pfSuccess);
+        HRESULT     GetOverloadCount (long* piCount);
+    };
+
+    [
+        uuid(uuid_IVsIntellisenseOptions)
+    ]
+    interface IVsIntellisenseOptions : IUnknown
+    {
+        HRESULT SetCompletorSize([in] long uSize);
+        HRESULT GetCompletorSize([out] long *uSize);
+    };
+
+    [
+        uuid(uuid_IVsColorizer2)
+    ]
+    interface IVsColorizer2 : IUnknown
+    {
+        HRESULT        BeginColorization();
+        HRESULT        EndColorization();
+    }
+    [
+        uuid(uuid_IVsExpansionEvents)
+    ]
+    interface IVsExpansionEvents : IUnknown
+    {
+        HRESULT OnAfterSnippetsUpdate();
+        HRESULT OnAfterSnippetsKeyBindingChange([in]DWORD dwCmdGuid, [in]DWORD dwCmdId, [in]BOOL fBound);
+    };
+
+    /////////////////////////////////////////////////////////////////////////////////
+    // IVsLanguageLineIndent interface
+    //
+    // Intended for use by emulators, e.g. Emacs and Brief, to determine the number
+    // of "spaces" that should be added to the beginning of the specified line
+    /////////////////////////////////////////////////////////////////////////////////
+    [
+        uuid(uuid_IVsLanguageLineIndent)
+    ]
+    interface IVsLanguageLineIndent : IUnknown
+    {
+        // called by core editor emulations to determine how many "spaces" to add at the start of a line
+        HRESULT GetIndentPosition([in] IVsTextLayer *pBaseLayer, [in]long BaseBufferLineIndex, [out] long *pIndentPosition);
+    };
+
+    /////////////////////////////////////////////////////////////////////////////////
+    // IVsQueryUndoUnit interface
+    //
+    // Intended for use by undo manager in linked transaction situations
+    // so that it can recursively query undo units _before_ they do any action
+    // to see if they know in advance that the user is going to block the action.
+    // That way we can avoid having to try and roll back linked actions
+    /////////////////////////////////////////////////////////////////////////////////
+    [
+        uuid(uuid_IVsQueryUndoUnit)
+    ]
+    interface IVsQueryUndoUnit : IUnknown
+    {
+        // called by core editor emulations to determine how many "spaces" to add at the start of a line
+        HRESULT ActionWouldBeAborted([out] BOOL *pbWouldBeAborted);
+    };
+
+    /////////////////////////////////////////////////////////////////////////////////
+    // IVsQueryUndoManager interface
+    //
+    // It is not recommended to call certain undo manager functions, such as Enable
+    // if there is a global, linked undo action open. This interface allows discovery
+    // of whether there is such a transaction in progress.
+    /////////////////////////////////////////////////////////////////////////////////
+    [
+        uuid(uuid_IVsQueryUndoManager)
+    ]
+    interface IVsQueryUndoManager : IUnknown
+    {
+        // Determine if a linked/global undo transaction is currently open
+        HRESULT IsLinkedTransactionOpen([out] BOOL *pbTransactionIsOpen);
+    };
+
+
+    // Temporary guids till these are eventually put in corsym.idl
+    // {406ea660-64cf-4c82-b6f0-42d48172a799}
+    // {ff1816ec-aa5e-4d10-87f7-6f4963833460}
+    cpp_quote("EXTERN_GUID(Vs_guidSourceHashMD5, 0x406ea660, 0x64cf, 0x4c82, 0xb6, 0xf0, 0x42, 0xd4, 0x81, 0x72, 0xa7, 0x99);")
+        cpp_quote("EXTERN_GUID(Vs_guidSourceHashSHA1, 0xff1816ec, 0xaa5e, 0x4d10, 0x87, 0xf7, 0x6f, 0x49, 0x63, 0x83, 0x34, 0x60);")
+
+
+        ////////////////////////////////////////////////////////////////////////////
+        // IPersistFileCheckSum interface
+        //
+        // Calculate the CheckSum for the File representation of this Document or
+        // TextBuffer as if it were saved to disk in its current state with the
+        // currently specified user save file format settings (e.g. UTF8, Unicode, 
+        // etc.). Obviously the file is not actually written and the dirty state of 
+        // the document is not modified by this operation.
+        // This interface can be implemented by any Document. In particular the
+        // IVsTextBuffer (Core Text Editor) object implements this interface. 
+        //
+        // When the passed in buffer is insufficient,
+        //   If the passed in buffer size i.e. cbBufferSize is non-zero, then this
+        //   function returns an E_INVALIDARG hresult. But if the passed in buffer
+        //   size is zero, then it returns success. In both cases, the required buffer
+        //   size is return via pcbActualSize.
+        //
+        // For MD5 algorithm, the maximum required buffer size required is 16 bytes
+        // For SHA1 algorithm, the maximum required buffer size is 20 bytes
+        ////////////////////////////////////////////////////////////////////////////
+        [
+            uuid(uuid_IPersistFileCheckSum)
+        ]
+    interface IPersistFileCheckSum : IUnknown
+    {
+        HRESULT CalculateCheckSum(
+            [in] REFGUID guidCheckSumAlgorithm,           // GUID representing the algorithm to use
+            [in] DWORD cbBufferSize,                      // Buffer size passed in
+            [out, size_is(cbBufferSize)] BYTE *pbHash,    // Buffer into which the checksum is written
+            [out] DWORD *pcbActualSize);                  // Buffer size required
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    // IVsCodePageSelection interface
+    ////////////////////////////////////////////////////////////////////////////
+
+    //This interface is only to be used by the buffer to select an encoding for opening a file
+    [
+        uuid(uuid_IVsCodePageSelection)
+    ]
+    interface IVsCodePageSelection : IUnknown
+    {
+        HRESULT ShowEncodingDialog([in] LPCOLESTR pszFileName, [in] IVsUserData *pUserData);
+    };
+
+    ////////////////////////////////////////////////////////////////////////////
+    // IVsHiColorItem interface
+    ////////////////////////////////////////////////////////////////////////////
+
+    // Values returned from IVsHiColorItem.GetColorData.
+    enum __tagVSCOLORDATA
+    {
+        CD_FOREGROUND = 0,
+        CD_BACKGROUND = 1,
+        CD_LINECOLOR  = 2,
+    };
+    typedef LONG VSCOLORDATA;
+
+    ////////////////////////////////////////////////////////////////////////////
+    // EOLTYPE2 -- identifies the thing that terminated a given line
+    ////////////////////////////////////////////////////////////////////////////
+    enum _EOLTYPE2
+    {
+        //eolCRLF = 0,        // MS-DOS \r\n carriage-return/linefeed
+        //eolCR,              // Mac    \r
+        //eolLF,              // Unix   \n
+        //eolUNI_LINESEP,     // Unicode line separator
+        //eolUNI_PARASEP,     // Unicode paragraph separator
+        //eolEOF,             // End of file
+        //eolNONE,            // Artificial ending point (e.g. word-wrapped line)
+        eolUNI_NEL = 7,       // Unicode next line separartor - Was MAX_EOLTYPES
+        MAX_EOLTYPES2
+    };
+    typedef DWORD EOLTYPE2;
+
+    [
+        uuid(uuid_IVsTextLines2)
+    ]
+    interface IVsTextLines2 : IUnknown
+    {
+        HRESULT GetEolTypeEx([in] const LINEDATAEX* pld, [out] DWORD* piEolType);
+        HRESULT GetEolLengthEx([in] const LINEDATAEX* pld, [out] unsigned int* piEolType);
+        HRESULT GetEolTextEx([in] const LINEDATAEX* pld, [out] BSTR* pbstrEolText);
+    };
+
+    [
+        uuid(uuid_IVsTextLayer2)
+    ]
+    interface IVsTextLayer2 : IUnknown
+    {
+        HRESULT GetEolTypeEx([in] const LINEDATAEX* pld, [out] DWORD* piEolType);
+        HRESULT GetEolLengthEx([in] const LINEDATAEX* pld, [out] unsigned int* piEolType);
+        HRESULT GetEolTextEx([in] const LINEDATAEX* pld, [out] BSTR* pbstrEolText);
+    };
+
+    [
+        uuid(uuid_IVsTextImage2)
+    ]
+    interface IVsTextImage2 : IUnknown
+    {
+        HRESULT GetEolTypeEx([in] const LINEDATAEX* pld, [out] DWORD* piEolType);
+        HRESULT GetEolLengthEx([in] const LINEDATAEX* pld, [out] unsigned int* piEolType);
+        HRESULT GetEolTextEx([in] const LINEDATAEX* pld, [out] BSTR* pbstrEolText);
+    };
+
+    [
+        uuid(uuid_IVsTextStorage2)
+    ]
+    interface IVsTextStorage2 : IUnknown
+    {
+        HRESULT GetEolTypeEx([in] const LINEDATAEX* pld, [out] DWORD* piEolType);
+        HRESULT GetEolLengthEx([in] const LINEDATAEX* pld, [out] unsigned int* piEolType);
+        HRESULT GetEolTextEx([in] const LINEDATAEX* pld, [out] BSTR* pbstrEolText);
+
+        //This function gets a "version" cookie on the data. This starts at 0 and is incremented
+        //everytime the data in the text storage is changed. It should provide a quick and dirty
+        //test to determine whether the text storage's contents have changed, though it may produce
+        //false positives (e.g. replacing "a" with "a" and the version number is still incremented).
+        HRESULT GetVersionCookie([out] DWORD* pdwVersionCookie);
+    };
+
+    // This interface allows colorable UI elements to return their attributes in hi-color rather than
+    // being restricted to a COLORINDEX value.  It may be implemented by implementors of
+    // IVsColorableItem, IVsTextMarkerType, or IVsPackageDefinedTextMarkerType who wish to supply
+    // hi-color attributes as their defaults.
+    [
+        uuid(uuid_IVsHiColorItem)
+    ]
+    interface IVsHiColorItem : IUnknown
+    {
+        HRESULT GetColorData([in] VSCOLORDATA cdElement, [out] COLORREF* pcrColor);
+    };
+
+    [
+        uuid(uuid_IVsTextBufferEx)
+    ]
+    interface IVsTextBufferEx : IUnknown
+    {
+        //Are changes in this buffer being tracked (if changes are being tracked
+        //*pfIsTracking will be set to TRUE even if track changes are being suppressed
+        //by the call below)
+        HRESULT GetTrackChanges([out]BOOL* pfIsTracking);
+
+        //If this is set to true, new changes in the buffer will not be tracked
+        //(but the earlier track change markers will not be deleted). You must
+        //manually set this to false to resume tracking changes.
+        HRESULT SetTrackChangesSuppression([in]BOOL fSupress);
+
+    };
+
+    //---------------------------------------------------------------------------
+    // IVsReadOnlyViewNotification
+    //---------------------------------------------------------------------------
+    // Implemented by a language service that wants to put up UI when editing commands are executed in a read-only view
+    // Interface retrieved by QI from IVsTextViewFilter on the language service's command filter.
+    // For example, a language might want to put up UI telling the user why a view is temporarily read-only
+    // 
+    [
+        uuid(uuid_IVsReadOnlyViewNotification)
+    ]
+    interface IVsReadOnlyViewNotification : IUnknown
+    {
+        HRESULT OnDisabledEditingCommand([unique][in]const GUID * pguidCmdGuid, [in]DWORD dwCmdId);
+    };
+
+    // Use this to override the default behavior of a text view's MSAA implementation (by setting
+    // the VSEDITPROPID_ViewGeneral_AccessibilityStateOverride property of the view).
+    [
+        uuid(uuid_IVsOverrideTextViewAccessibilityState)
+    ]
+    interface IVsOverrideTextViewAccessibilityState : IUnknown
+    {
+        // Gets the flags to override in the accessibility state.  The bits set in *pdwMask will be
+        // the bits changed; the corresponding bits in *pdwFlags will be their new values.
+        HRESULT GetOverrides([out] DWORD* pdwMask, [out] DWORD* pdwFlags);
+    }
+
+    enum __VSEDITPROPID2
+    {
+        /********************************************** defined in textmgr.idl
+        // boundary member
+        VSEDITPROPID_LAST                                 = -0x00000001,
+
+        // composite meta-property that sets an entire class of properties
+        VSEDITPROPID_ViewComposite_AllCodeWindowDefaults  = -0x00010001,   // BOOL   must be TRUE; inits settings to code window defaults
+
+        // These are special properties that apply to a given view instance.
+
+        // Other specific view behaviors
+        VSEDITPROPID_ViewGeneral_FontCategory               = -0x00012005,   // BSTR   category from which to load font info
+        VSEDITPROPID_ViewGeneral_ColorCategory              = -0x00012006,   // BSTR   category from which to load color info
+
+        // These are properties for view behaviors that normally apply to all views.
+        VSEDITPROPID_ViewGlobalOpt_VisibleWhitespace      = -0x00020001,   // BOOL   show spaces/tabs etc?
+        VSEDITPROPID_ViewGlobalOpt_Overtype               = -0x00020002,   // BOOL   overtype/insert? - NOT persisted
+        VSEDITPROPID_ViewGlobalOpt_SelectionMargin        = -0x00020003,   // BOOL   display selection margin?
+        VSEDITPROPID_ViewGlobalOpt_AutoScrollCaretOnTextEntry = -0x00020010,  //BOOL    wether the caret scrolls or not based on the last line of the buffer
+
+        // These are properties for view behaviors that normally apply per language.
+        VSEDITPROPID_ViewLangOpt_WordWrap              = -0x00030001,   // BOOL   word wrap on?
+        VSEDITPROPID_ViewLangOpt_VirtualSpace          = -0x00030006,   // BOOL   virtual space navigation/selection?
+        VSEDITPROPID_ViewLangOpt_RawTextDisplay        = -0x00030009,   // BOOL   text is displayed in raw mode: no bidi layout, shaping, or combining
+
+        // These are properties for behaviors that apply to all editor MDI frame windows (code windows).
+        VSEDITPROPID_FrameOpt_SuppressResizeWidget       = -0x00050003,   // BOOL   should frame have a resize widget?
+ 
+        // These are properties that describe other info about language services
+        VSEDITPROPID_ProgLang_DebuggerLanguages        = -0x00060003,   // UNK    QI for IVsEnumGUID for the associated debugger languages
+        VSEDITPROPID_ProgLang_SuppressMultipleCodeWindows = -0x00060006,   // BOOL   whether the Window.NewWindow command should be disabled
+        VSEDITPROPID_ProgLang_SupportCF_HTML           = -0x00060008,   // BOOL   whether the language service supports the CF_HTML clipboard format
+
+        // boundary member
+        VSEDITPROPID_FIRST                          = -0x7FFFFFFF
+        **********************************************/ 
+
+        VSEDITPROPID_ViewGeneral_AccessibilityStateOverride = -0x00012007,    // UNK: QI for IVsOverrideTextViewAccessibilityState
+    };
+    typedef LONG VSEDITPROPID2;
+    // This interface allows a language service to tell the buffer coordinator to clip the text span
+    // to a valid span in the secondary buffer
+    [
+        uuid(uuid_IVSCanCoordinatorClipTextSpan)
+    ]
+    interface IVsCanCoordinatorClipTextSpan : IUnknown
+    {
+        //Should the buffer coordinator clip a text span to a valid span in the secondary buffer?
+        HRESULT ShouldClipSpanToValidSpanInSecondaryBuffer(
+            [in] const IVsTextLines *pPrimaryBuffer, 
+            [in] const IVsTextLines *pSecondaryBuffer, 
+            [in] const TextSpan *ptsTextSpanInPrimaryBuffer, 
+            [out] BOOL * pfShouldClipTextSpan);
+    };
+
+#ifndef INTEROPLIB
+
+};
+
+#endif
+
+

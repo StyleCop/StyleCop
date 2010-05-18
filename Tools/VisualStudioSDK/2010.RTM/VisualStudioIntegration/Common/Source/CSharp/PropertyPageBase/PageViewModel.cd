@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Font Name="Tahoma" Size="8.25" />
+  <Class Name="PropertyPageBase.PageView">
+    <Position X="3" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>PageView.cs</FileName>
+      <HashCode>AAAAAAAAAOAAAQAAAQAgAEACBAABAASAAEEAEAAAAAA=</HashCode>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="m_propertyControlMap" />
+      <Property Name="PropertyControlTable" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="PropertyPageBase.PropertyControlMap">
+    <Position X="3.25" Y="5" Width="2" />
+    <TypeIdentifier>
+      <FileName>PropertyControlMap.cs</FileName>
+      <HashCode>gAABAAAAAAAAAQAAAAAAAEQAAAIAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="m_pageViewSite" />
+      <Field Name="m_propertyControlTable" />
+      <Field Name="m_propertyPageUI" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="PropertyPageBase.PropertyControlTable">
+    <Position X="0.5" Y="2.5" Width="2.25" />
+    <TypeIdentifier>
+      <FileName>PropertyControlTable.cs</FileName>
+      <HashCode>AAIAAAIAAAAAAAAABCAgBAAAAAgAAAAAAAEAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="PropertyPageBase.IPageView">
+    <Position X="6.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>IPageView.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAQAAAQAAAAAAAAABAASAAEAAEAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="PropertyPageBase.IPageViewSite">
+    <Position X="8.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>IPageViewSite.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAgAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="PropertyPageBase.IPropertyPageUI">
+    <Position X="5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>IPropertyPageUI.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAgAAACAAAAAAAAAAEAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Delegate Name="PropertyPageBase.UserEditCompleteHandler">
+    <Position X="5.25" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>UserEditCompleteHandler.cs</FileName>
+      <HashCode>AAAAAAAAAACAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Delegate>
+</ClassDiagram>

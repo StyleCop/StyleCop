@@ -1,0 +1,67 @@
+﻿<StyleCopCsParserObjectModel>
+  <Element Name="Root" Type="DocumentRoot">
+    <Element Name="Class1" Type="Class">
+      <Element Name="~Class1" Type="Destructor" />
+    </Element>
+    <Element Name="Class2" Type="Class">
+      <Element Name="~Class2" Type="Destructor">
+        <Statement Type="VariableDeclarationStatement">
+          <Expression Type="VariableDeclarationExpression">
+            <Expression Text="short" Type="LiteralExpression" />
+            <Expression Type="VariableDeclaratorExpression">
+              <Expression Text="y" Type="LiteralExpression" />
+              <Expression Text="2" Type="LiteralExpression" />
+            </Expression>
+          </Expression>
+        </Statement>
+        <Statement Type="ExpressionStatement">
+          <Expression Type="AssignmentExpression">
+            <Expression Type="UnsafeAccessExpression">
+              <Expression Text="y" Type="LiteralExpression" />
+            </Expression>
+            <Expression Text="4" Type="LiteralExpression" />
+          </Expression>
+        </Statement>
+      </Element>
+    </Element>
+    <Element Name="Class3" Type="Class">
+      <Element Name="~Class3" Type="Destructor">
+        <Statement Type="VariableDeclarationStatement">
+          <Expression Type="VariableDeclarationExpression">
+            <Expression Text="short" Type="LiteralExpression" />
+            <Expression Type="VariableDeclaratorExpression">
+              <Expression Text="y" Type="LiteralExpression" />
+              <Expression Text="2" Type="LiteralExpression" />
+            </Expression>
+          </Expression>
+        </Statement>
+        <Statement Type="ExpressionStatement">
+          <Expression Type="AssignmentExpression">
+            <Expression Type="UnsafeAccessExpression">
+              <Expression Text="y" Type="LiteralExpression" />
+            </Expression>
+            <Expression Text="4" Type="LiteralExpression" />
+          </Expression>
+        </Statement>
+      </Element>
+    </Element>
+    <Element Name="Class4" Type="Class">
+      <Element Name="~Class4" Type="Destructor" />
+    </Element>
+    <Element Name="Class5" Type="Class">
+      <Element Name="~Class5" Type="Destructor" />
+    </Element>
+    <Element Name="Class6" Type="Class">
+      <Element Name="~Class6" Type="Destructor" />
+    </Element>
+    <Element Name="Class7" Type="Class">
+      <Element Name="~Class7" Type="Destructor" />
+    </Element>
+    <Element Name="Class8" Type="Class">
+      <Element Name="~Class8" Type="Destructor" />
+    </Element>
+    <Element Name="Struct1" Type="Struct">
+      <Element Name="~Struct1" Type="Destructor" />
+    </Element>
+  </Element>
+</StyleCopCsParserObjectModel>

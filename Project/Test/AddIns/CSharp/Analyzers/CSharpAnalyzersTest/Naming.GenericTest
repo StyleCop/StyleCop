@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<GenericTest name="naming" storage="c:\depot\stylecop\v4.3\test\addins\csharp\analyzers\csharpanalyzerstest\naming.generictest" id="d4683f15-34f1-4e55-a80a-8ba4e22ab75c" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Css projectStructure="" iteration="" />
+  <Description>Executes external testing system with specified parameters.</Description>
+  <Owners>
+    <Owner name="" />
+  </Owners>
+  <Execution id="3382f16d-45e9-417a-9668-89e4990cb173" />
+  <Command filename="%TestBin%\StyleCopTestHarness.exe" arguments="/testname:Naming /i:&quot;%TestDeploymentDir%&quot; /o:&quot;%TestOutputDirectory%&quot; /testroot:%TestLocation%" workingDirectory="%TestOutputDirectory%" />
+  <SummaryXmlFile enabled="true" path="%TestOutputDirectory%\NamingResults.xml" />
+</GenericTest>

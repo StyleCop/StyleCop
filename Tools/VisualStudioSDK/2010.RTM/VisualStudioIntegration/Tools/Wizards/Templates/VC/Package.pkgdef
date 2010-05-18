@@ -1,0 +1,63 @@
+[$RootKey$\Packages\{%PackageGuid%}]
+@="%ProjectName% Package"
+"InprocServer32"="$PackageFolder$\%ProjectName%.dll"
+"CompanyName"="%CompanyName%"
+"ProductName"="%PackageName%"
+"ProductVersion"="%PackageVersion%"
+
+[$RootKey$\Packages\{%PackageGuid%}\SatelliteDll]
+"DllName"="%ProjectName%UI.dll"
+"Path"="$PackageFolder$"
+
+[$RootKey$\Menus]
+"{%PackageGuid%}"=", 1000, 1"
+
+[$RootKey$\InstalledProducts\%ProjectName%]
+@="#100"
+"Package"="{%PackageGuid%}"
+"ProductDetails"="#102"
+"LogoID"="#400"
+"PID"="Unknown Product ID"
+"UseInterface"=dword:00000000
+
+%ToolWindowItemStart%
+[$RootKey$\ToolWindows\{%ToolGuid%}]
+@="{%PackageGuid%}"
+"Name"="%ToolWindowName%"
+"Float"="100,100,300,400"
+"Orientation"="Right"
+"Style"="Float"
+"Window"="{4A9B7E51-AA16-11D0-A8C5-00A0C921A4D2}"
+//The GUID above is the TaskList GUID. You can replace it with any tool 
+//  window GUID to have the new window dock to that tool window.
+%ToolWindowItemEnd%
+
+%EditorStart%
+[$RootKey$\Editors\{%FactoryGuid%}]
+@="%EditorName%"
+"Package"="{%PackageGuid%}"
+"DisplayName"="%EditorName%"
+"ExcludeDefTextEditor"=dword:00000001
+"AcceptBinaryFiles"=dword:00000000
+
+//The GUID in the below registry entry is the GUID for the text 
+//  logical view, and can be changed to the view that is appropriate
+//  for your editor.
+[$RootKey$\Editors\{%FactoryGuid%}\LogicalViews]
+"{7651A703-06E5-11D1-8EBD-00A0C90F26EA}"=""
+
+[$RootKey$\Editors\{%FactoryGuid%}\Extensions]
+"%Extension%"=dword:00000032
+
+[$RootKey$\KeyBindingTables\{%DocumentGuid%}]
+@="#1"
+"AllowNavKeyBinding"=dword:00000000
+"Package"="{%PackageGuid%}"
+
+//The first GUID below is the GUID for the Miscellaneous Files project type, and can be changed
+//  to the GUID of any other project you wish.
+[$RootKey$\Projects\{A2FE74E1-B743-11d0-AE1A-00A0C90FFFC3}\AddItemTemplates\TemplateDirs\{%PackageGuid%}\/1]
+@="#100"
+"TemplatesDir"="$PackageFolder$\Templates"
+"SortPriority"=dword:00004E20
+%EditorEnd%

@@ -1,0 +1,1020 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<doc>
+	<assembly>
+		<name>Microsoft.TeamFoundation</name>
+	</assembly>
+	<members>
+		<member name="T:Microsoft.TeamFoundation.PluginCatalog">
+			<summary>Creates and holds plug-in catalog data.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.PluginCatalog.#ctor">
+			<summary>Creates and initializes a new <see cref="T:Microsoft.TeamFoundation.PluginCatalog"></see> object.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.PluginCatalog.includeDisabled">
+			<summary>Includes or excludes disabled plug-ins.</summary>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.PluginCatalog.Item(System.String)">
+			<summary>String-based indexer to the <see cref="T:Microsoft.TeamFoundation.PluginCatalog"></see>.</summary>
+			<param name="categoryName">Category name string-based indexer to access in the <see cref="T:Microsoft.TeamFoundation.PluginCatalog"></see>.</param>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.PluginCategory">
+			<summary>Contains plug-in category information.</summary>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.PluginCategory.Item(System.String)">
+			<param name="pluginId">Indexer to the <see cref="T:Microsoft.TeamFoundation.PluginCategory"></see>.</param>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.PluginRecord">
+			<summary>Holds descriptive and identifying information about the plug-in, provides a way to turn the plug-in on and off, and provides a mechanism for passing XML to the plug-in.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.PluginRecord.#ctor(System.String,System.String,System.Guid,System.String,System.Boolean,System.Xml.XmlNode)">
+			<param name="pluginData">XML passed to the plug-in during plug-in initialization. The plug-in determines how this XML is used.</param>
+			<param name="I d">ID string for the plug-in.</param>
+			<param name="guid">GUID of the plug-in.</param>
+			<param name="enabled">Boolean value that turns the plug-in on or off.</param>
+			<param name="name">Display name for the plug-in.</param>
+			<param name="description">Description of what the plug-in does.</param>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.StandardPluginCatalogFactory">
+			<summary>Contains the standard plug-in catalog factory.</summary>
+		</member>
+		<member name="N:Microsoft.TeamFoundation.Adapter">
+			<summary>Provides adapters.</summary>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.Adapter.DimensionMember.DimensionName">
+			<returns>Returns the DimensionName string.</returns>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.Adapter.FactEntry">
+			<summary>Abstract class for a fact entry</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Adapter.FactEntry.#ctor">
+			<summary>Initializes a new <see cref="T:Microsoft.TeamFoundation.Adapter.FactEntry"></see>.</summary>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.Adapter.FactLinkEntry.FactLinkName">
+			<returns>Returns the FactLinkName string.</returns>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.Adapter.IDataStore">
+			<summary>This service is used by adapters to save data into the <see cref="F:Microsoft.TeamFoundation.ToolNames.Warehouse"></see> store.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Adapter.IDataStore.CreateDimensionMember(System.String)">
+			<summary>Creates a new <see cref="T:Microsoft.TeamFoundation.Adapter.DimensionMember"></see> object.</summary>
+			<param name="dimensionName">The name of the dimension.</param>
+			<exception cref="NotConnected">The datastore is not connected</exception>
+			<exception cref="InvalidDimensionName">dimensionName is not a valid dimension.</exception>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Adapter.IDataStore.CreateFactEntry(System.String)">
+			<summary>Creates a new <see cref="T:Microsoft.TeamFoundation.Adapter.FactEntry"></see> object.</summary>
+			<param name="factName">The name of the fact table.</param>
+			<exception cref="NotConnected">The datastore is not connected.</exception>
+			<exception cref="InvalidFactName">factName is not a valid fact table.</exception>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Adapter.IDataStore.DimensionMemberExists(Microsoft.TeamFoundation.Adapter.DimensionMember)">
+			<summary>Determines if a given <see cref="T:Microsoft.TeamFoundation.Adapter.DimensionMember"></see> is present in the <see cref="T:Microsoft.TeamFoundation.Warehouse.Dimension"></see>.</summary>
+			<returns>true if the given <see cref="T:Microsoft.TeamFoundation.Adapter.DimensionMember"></see> is present in the <see cref="T:Microsoft.TeamFoundation.Warehouse.Dimension"></see>; otherwise false.</returns>
+			<param name="dimensionMember">The <see cref="T:Microsoft.TeamFoundation.Adapter.DimensionMember"></see> to be validated.</param>
+			<exception cref="NotConnected">The datastore is not connected.</exception>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Adapter.IDataStore.GetLastFactTrackingId(System.String)">
+			<summary>Returns the last <see cref="P:Microsoft.TeamFoundation.Adapter.FactEntry.TrackingId"></see> entered for the fact table.</summary>
+			<param name="factName">The name of the fact table.</param>
+			<exception cref="NotConnected">The datastore is not connected.</exception>
+			<exception cref="InvalidFactName">factName is not a valid fact table.</exception>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Adapter.IDataStore.LogEvent(Microsoft.TeamFoundation.Adapter.AdapterEventLevel,System.String)">
+			<summary>Logs events to the event log.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Adapter.IDataStore.RemoveFactLinkEntry(Microsoft.TeamFoundation.Adapter.FactLinkEntry)">
+			<summary>Removes a <see cref="T:Microsoft.TeamFoundation.Adapter.FactLinkEntry"></see> from the data store.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Adapter.IDataStore.RollbackTransaction">
+			<summary>Rolls back the current transaction.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Adapter.IDataStore.SaveDimensionMember(Microsoft.TeamFoundation.Adapter.DimensionMember)">
+			<summary>Saves a <see cref="T:Microsoft.TeamFoundation.Adapter.DimensionMember"></see> into the data store.</summary>
+			<param name="dimensionMember">The <see cref="T:Microsoft.TeamFoundation.Adapter.DimensionMember"></see> to be saved.</param>
+			<exception cref="NotConnected">The datastore is not connected.</exception>
+			<exception cref="FailSaved">The dimensionMember was not successfully saved.</exception>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Adapter.IDataStore.SaveFactEntry(Microsoft.TeamFoundation.Adapter.FactEntry,System.Boolean)">
+			<summary>Saves a <see cref="T:Microsoft.TeamFoundation.Adapter.FactEntry"></see> into the data store.</summary>
+			<param name="entry">The <see cref="T:Microsoft.TeamFoundation.Adapter.FactEntry"></see> to be saved.</param>
+			<param name="allowUpdate">If true, the save may result in updating an existing row.</param>
+			<exception cref="NotConnected">The datastore is not connected.</exception>
+			<exception cref="FailSaved">The <see cref="T:Microsoft.TeamFoundation.Adapter.FactEntry"></see> was not successfully saved.</exception>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Adapter.IDataStore.SaveFactLinkEntry(Microsoft.TeamFoundation.Adapter.FactLinkEntry)">
+			<summary>Saves a <see cref="T:Microsoft.TeamFoundation.Adapter.FactLinkEntry"></see> to the data store.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Adapter.IDataStore.SetAreaPath">
+			<summary>Sets the area path.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Adapter.IDataStore.SetIterationPath">
+			<summary>Sets the iteration path.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Adapter.IDataStore.SetProperty(System.String,System.String)">
+			<summary>This method is used to add and modify properties.</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.Adapter.IWarehouseAdapter">
+			<summary>The warehouse service periodically calls each of the warehouse adapters by using the IWarehouseAdapter interface. The adapters pull data from the operational store, transform it as necessary, and write it to the warehouse through the warehouse object model.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Adapter.IWarehouseAdapter.Initialize(Microsoft.TeamFoundation.Adapter.IDataStore)">
+			<summary>Initializes the data store to prepare the data store for changes.</summary>
+			<param name="ds">The <see cref="T:Microsoft.TeamFoundation.Adapter.IDataStore"></see> to initialize.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Adapter.IWarehouseAdapter.MakeDataChanges">
+			<summary>Used to add new data to the warehouse.</summary>
+			<returns>Returns a <see cref="T:Microsoft.TeamFoundation.Adapter.DataChangesResult"></see> that indicates the result of the attempt to change the data.</returns>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Adapter.IWarehouseAdapter.MakeSchemaChanges">
+			<summary>Allows adapters to update the warehouse schema.</summary>
+			<returns>Returns a <see cref="T:Microsoft.TeamFoundation.Adapter.SchemaChangesResult"></see> that indicates the result of the attempt to change the schema.</returns>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Adapter.IWarehouseAdapter.RequestStop">
+			<summary>Tries to stop the <see cref="T:Microsoft.TeamFoundation.Adapter.IWarehouseAdapter"></see> in an orderly fashion in the event the service is taken down. Adapters must be able to pick up from where they left off the next time they are called.</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.Adapter.SchemaChangesResult">
+			<summary>An enumeration to return the result of attempts to change the schema.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.Adapter.SchemaChangesResult.ChangesComplete">
+			<summary>Schema changes have been made.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.Adapter.SchemaChangesResult.NoChanges">
+			<summary>No schema changes were required by the adapter.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.Adapter.SchemaChangesResult.StopRequested">
+			<summary>The adapter has been requested to stop.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Client.TeamProjectDeleter.#ctor(Microsoft.TeamFoundation.Client.TeamFoundationServer,System.String,System.Boolean)">
+			<param name="force">If true, <see cref="T:Microsoft.TeamFoundation.Client.TeamProjectDeleter"></see> will try to delete everything that can be deleted. <see cref="T:Microsoft.TeamFoundation.Client.TeamProjectDeleter"></see> will not throw exceptions if it cannot delete any one part of the project, but will continue trying to delete individual components.</param>
+		</member>
+		<member name="E:Microsoft.TeamFoundation.Client.TeamProjectDeleter.DeleteComponentEvent">
+			<summary>Event raised every time a major component is successfully deleted.</summary>
+		</member>
+		<member name="E:Microsoft.TeamFoundation.Client.TeamProjectDeleter.StatusEvent">
+			<summary>Event raised every time the status changes.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Client.TeamProjectDeleter.Delete">
+			<summary>Tries to delete the team project. Throws an exception if it cannot.</summary>
+			<exception cref="T:System.ArgumentException">Thrown if the project is null or empty.</exception>
+			<exception cref="DeletionException">Thrown if trying to delete a project that has no unique domain, if it is unable to connect with the data store, or if the project was not found.</exception>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.Proxy.DomainProjectPicker.DefaultSelectedProjects">
+			<returns>The list of servers and their corresponding projects to select when a server is chosen. The key of the selected list is the URL of a server and the value is an array of project URIs to select for that server.</returns>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.Proxy.DomainProjectPicker.SelectedProjects">
+			<returns>The list of projects selected in this dialog box.</returns>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.Proxy.DomainProjectPicker.SelectedServer">
+			<returns>The server selected in this dialog box.</returns>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.Proxy.DomainProjectPickerMode.AllowProjectSelect">
+			<summary>Requires <see cref="F:Microsoft.TeamFoundation.Proxy.DomainProjectPickerMode.AllowMultiSelect"></see>.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.Proxy.DomainProjectPickerMode.DisableServerSelect">
+			<summary>Must provide <see cref="P:Microsoft.TeamFoundation.Proxy.DomainProjectPicker.SelectedServer"></see>.</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.Server.AccessControlEntry">
+			<summary>Specifies access rights for a trustee (user, group, or computer) to perform application-specific implementations of common tasks.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.AccessControlEntry.#ctor">
+			<summary>Initializes a new instance of the <see cref="T:Microsoft.TeamFoundation.Server.AccessControlEntry"></see> class than specifies neither a trustee nor set or rights to apply.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.AccessControlEntry.#ctor(System.String,System.String,System.Boolean)">
+			<summary>Initializes a new instance of the <see cref="T:Microsoft.TeamFoundation.Server.AccessControlEntry"></see> class.</summary>
+			<param name="sid">Identity that is granted or denied the permission</param>
+			<param name="deny">Set to True for ACEs that deny access. Set to False for ACEs that allow access.</param>
+			<param name="actionId">An action defined by the class to which the object belongs</param>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.Server.AccessControlEntry.ActionId">
+			<summary>An identifier associated with an action defined by the class to which the object belongs.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.Server.AccessControlEntry.Deny">
+			<summary>Specifies whether a permission is granted or denied.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.Server.AccessControlEntry.Sid">
+			<summary>Identity that is granted or denied the permission.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.AccessControlEntry.Clone">
+			<summary>Returns a duplicate of the current Initializes a new instance of the <see cref="T:Microsoft.TeamFoundation.Server.AccessControlEntry"></see> instance.</summary>
+			<returns>A Parameter that is an exact duplicate of the current one.</returns>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.AccessControlEntry.Equals(System.Object)">
+			<param name="obj">The object to compare with the current Object.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.ApplicationEvent.#ctor">
+			<summary>Creates a new instance of the <see cref="T:Microsoft.TeamFoundation.Server.ApplicationEvent"></see>.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.ApplicationEvent.GetTypeName(System.String)">
+			<param name="theEvent">The event whose name is to be returned.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.ApplicationEvent.Serialize(System.Object)">
+			<param name="theEvent">The event to serialize.</param>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.Server.ApplicationGroupProperty.Description">
+			<summary>A string that briefly summarizes an application group. </summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.Server.ApplicationGroupProperty.Name">
+			<summary>The name associated with a specific application group property.</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.Server.ApplicationGroupSpecialType">
+			<summary>The special application group types are automatically created and have implicit rights associated with them. </summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.Server.ApplicationGroupSpecialType.AdministrativeApplicationGroup">
+			<summary>Automatically created application group type for entities having implicit administrative rights.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.Server.ApplicationGroupSpecialType.EveryoneApplicationGroup">
+			<summary>Special application group for Team Foundation valid users</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.Server.ApplicationGroupSpecialType.Generic">
+			<summary>An application group not associated with special behaviors of the other built-in groups.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.Server.ApplicationGroupSpecialType.LicenseesApplicationGroup">
+			<summary>Special application group for management of licenses.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.Server.ApplicationGroupSpecialType.ServiceApplicationGroup">
+			<summary>Special application group for service accounts.</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.Server.ArtifactType">
+			<summary>An ArtifactType is the type of artifact that a tool maintains. A tool only supplies an artifact type if the type is immutable. Artifact types are registered by a tool at installation time.</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.Server.ChangeType">
+			<summary>Specifies constants that specify how an artifact has changed.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.Server.ChangeType.Add">
+			<summary>Indicates that the artifact has been added</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.Server.ChangeType.Change">
+			<summary>Indicates that the artifact has been changed</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.Server.ChangeType.Delete">
+			<summary>Indicates that the artifact has been deleted</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.Server.ChangeType.NoChange">
+			<summary>Indicates that no change has been made to the artifact</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.Server.DataChangedEvent">
+			<summary>Provides data for the <see cref="T:Microsoft.TeamFoundation.Server.DataChangedEvent"></see> event, which is fired when any Identity, ACL, or Classification node is added, removed, modified, or deleted.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.DataChangedEvent.#ctor">
+			<summary>Initializes a new instance of the <see cref="T:Microsoft.TeamFoundation.Server.DataChangedEvent"></see> event.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.DataChangedEvent.#ctor(System.String,System.Int32)">
+			<summary>Initializes a new instance of the <see cref="T:Microsoft.TeamFoundation.Server.DataChangedEvent"></see> event, based on a specified artifact. </summary>
+			<param name="sequence_id">The sequence identifier of the artifact that has changed.</param>
+			<param name="data_type">The type of the artifact that has changed.</param>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.Server.DataChangedEvent.DataType">
+			<summary>Specifies the type of an artifact.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.Server.DataChangedEvent.SeqId">
+			<summary>And identifier that specifies an instance of an artifact in a sequence.</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.Server.DeliveryPreference">
+			<summary>Represents how event notifications are to be delivered.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.DeliveryPreference.#ctor">
+			<summary>Initializes a new instance of the <see cref="T:Microsoft.TeamFoundation.Server.DeliveryPreference"></see> class.</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.Server.DeliverySchedule">
+			<summary>The time interval over which event notifications are queued for delivery.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.Server.DeliverySchedule.Daily">
+			<summary>Event notifications are delivered on a daily basis.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.Server.DeliverySchedule.Immediate">
+			<summary>Event notifications are delivered immediately after they are fired.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.Server.DeliverySchedule.Weekly">
+			<summary>Event notifications are delivered on a weekly basis.</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.Server.DeliveryType">
+			<summary>The message format to be used for event notifications</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.Server.DeliveryType.EmailHtml">
+			<summary>Notifications are delivered in HTML-formatted e-mail messages.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.Server.DeliveryType.EmailPlaintext">
+			<summary>Notifications are delivered in plain text e-mail messages.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.Server.DeliveryType.Soap">
+			<summary>Notifications are delivered using a web service pointed to by a SOAP URI.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.EventType.#ctor">
+			<summary>Initializes a new instance of the <see cref="T:Microsoft.TeamFoundation.Server.EventType"></see> class.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.EventType.#ctor(System.String,System.String)">
+			<summary>Initializes a new instance of the <see cref="T:Microsoft.TeamFoundation.Server.EventType"></see> class, based on a specified name and schema.</summary>
+			<param name="name">The name of the EventType.</param>
+			<param name="schema">An XML schema that describes the EventType type.</param>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.Server.EventType.Name">
+			<summary>Gets or sets the name of the new event type.</summary>
+			<returns>The name of an event type.</returns>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.Server.EventType.Schema">
+			<summary>Gets or sets the schema associated with an event type.</summary>
+			<returns>The path to a schema that is associated with the event type.</returns>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.Server.IAuthorizationService">
+			<summary>Defines the authorization service for Team Foundation Server.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.IAuthorizationService.AddAccessControlEntry(System.String,Microsoft.TeamFoundation.Server.AccessControlEntry)">
+			<summary>Adds an ACE to an object's ACL.</summary>
+			<param name="ace">The access control entry to be added.</param>
+			<param name="objectId">The unique object identifier supplied by the caller. A URI (for artifacts) or a GUID (for all other objects) is recommended.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.IAuthorizationService.CheckPermission(System.String,System.String)">
+			<summary>Checks for permission to execute actions on objects</summary>
+			<param name="actionId">The action for which the specified entity is requesting permission.</param>
+			<param name="objectId">The unique object identifier supplied by the caller. A URI (for artifacts) or a GUID (for all other objects) is recommended.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.IAuthorizationService.GetChangedAccessControlEntries(System.Int32)">
+			<summary>Returns all changes to ACEs in the security service following a specified sequence ID.</summary>
+			<returns>An XML element listing all changes.</returns>
+			<param name="sequence_id">Sequence identifier of the entity whose access has changed.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.IAuthorizationService.GetObjectClass(System.String)">
+			<summary>Returns the name of the class to which the object belongs.</summary>
+			<param name="objectId">The unique object identifier supplied by the caller. A URI (for artifacts) or a GUID (for all other objects) is recommended.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.IAuthorizationService.IsPermitted(System.String,System.String,System.String[])">
+			<summary>Checks for permissions to execute an action on an object in a specified security context.</summary>
+			<returns>This method returns True if permission is granted, and False if permission is not granted.</returns>
+			<param name="userSid">The security context in which to request permissions.</param>
+			<param name="actionId">The action for which permissions are to be checked.</param>
+			<param name="objectId">The unique object identifier supplied by the caller. A URI (for artifacts) or a GUID (for all other objects) is recommended.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.IAuthorizationService.IsPermitted(System.String,System.String[],System.String)">
+			<summary>Checks for permissions to execute an action on an object in a specified security context.</summary>
+			<returns>This method returns True if permission is granted, and False if permission is not granted.</returns>
+			<param name="userSid">The security context in which to request permissions.</param>
+			<param name="actionId">The action for which permissions are to be checked.</param>
+			<param name="objectId">The unique object identifier supplied by the caller. A URI (for artifacts) or a GUID (for all other objects) is recommended.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.IAuthorizationService.IsPermitted(System.String[],System.String,System.String)">
+			<summary>Test whether a user or entity has permission to perform a given action on a given resource.</summary>
+			<param name="userSid">The user requesting permissions.</param>
+			<param name="actionId">The action for which permissions are to be checked.</param>
+			<param name="objectId">The unique object identifier supplied by the caller. A URI (for artifacts) or a GUID (for all other objects) is recommended.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.IAuthorizationService.ListLocalizedActionNames(System.String,System.String[])">
+			<summary>Returns natural-language action names for a set of actions for a class.</summary>
+			<returns>An array of localized friendly names associated with the actions.</returns>
+			<param name="objectClassId">The name of one of the registered object classes, for which the actions are defined.</param>
+			<param name="actionId">The action for which a localized name is to be returned.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.IAuthorizationService.ListObjectClassActions(System.String)">
+			<summary>Lists the actions defined for a specified class.</summary>
+			<returns>An array containing the IDs of the actions defined for object class objectClassId.</returns>
+			<param name="objectClassId">The name of one of the registered object classes.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.IAuthorizationService.ReadAccessControlList(System.String)">
+			<summary>Reads an ACE from the ACL on a securable object.</summary>
+			<param name="objectId">The unique object identifier supplied by the caller. A URI (for artifacts) or a GUID (for all other objects) is recommended.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.IAuthorizationService.ReadAccessControlLists(System.String[])">
+			<summary>Reads the ACLs on a securable object.</summary>
+			<returns>Returns the access control lists associated with the specified objects, including inherited ACEs.</returns>
+			<param name="objectId">The unique object identifier supplied by the caller. A URI (for artifacts) or a GUID (for all other objects) is recommended.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.IAuthorizationService.RegisterObject(System.String,System.String,System.String,System.String)">
+			<summary>Registers a securable object in the authorization repository.</summary>
+			<param name="objectClassId">The name of one of the registered object classes.</param>
+			<param name="projectUri">The project scope with which the object is associated. If this is null, the object is scoped globally to the server.</param>
+			<param name="parentObjectId">The parent of the object to be registered.</param>
+			<param name="objectId">The unique object identifier supplied by the caller. A URI (for artifacts) or a GUID (for all other objects) is recommended.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.IAuthorizationService.RemoveAccessControlEntry(System.String,Microsoft.TeamFoundation.Server.AccessControlEntry)">
+			<summary>Removes an ACE from an object's ACL.</summary>
+			<param name="ace">The ACE to be removed.</param>
+			<param name="objectId">The unique object identifier supplied by the caller. A URI (for artifacts) or a GUID (for all other objects) is recommended.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.IAuthorizationService.ReplaceAccessControlList(System.String,Microsoft.TeamFoundation.Server.AccessControlEntry[])">
+			<summary>Replaces an existing ACE on an object with the supplied one.</summary>
+			<param name="objectId">The unique object identifier supplied by the caller. A URI (for artifacts) or a GUID (for all other objects) is recommended.</param>
+			<param name="acl">The ACE that will replace the previous ACE.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.IAuthorizationService.ResetInheritance(System.String,System.String)">
+			<summary>Sets up an inheritance relationship between an object and a parent object.</summary>
+			<param name="parentObjectId">The identifier of the parent object.</param>
+			<param name="objectId">The unique object identifier supplied by the caller. A URI (for artifacts) or a GUID (for all other objects) is recommended.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.IAuthorizationService.UnregisterObject(System.String)">
+			<summary>Removes authorization repository entries for the specified object</summary>
+			<param name="objectId">The unique object identifier supplied by the caller.</param>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.Server.ICommonStructureService">
+			<summary>Defines a classification service.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.ICommonStructureService.ClearProjectInfoCache">
+			<summary>Clears the project information cache.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.ICommonStructureService.CreateNode(System.String,System.String)">
+			<summary>Creates a new node in a classification service structure.</summary>
+			<returns>A string value containing the URI of the created node.</returns>
+			<param name="parentNodeUri">The URI of the node which will be the parent of the new node.</param>
+			<param name="nodeName">Name of the node to create. If the parent already has a node with this name, then the new node will not be created.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.ICommonStructureService.CreateProject(System.String,System.Xml.XmlElement)">
+			<summary>Creates a new project context.</summary>
+			<returns>A string value containing the URI of the new project.</returns>
+			<param name="structure">The definitions of the structures for the project. </param>
+			<param name="projectName">Name of the project context</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.ICommonStructureService.DeleteBranches(System.String[],System.String)">
+			<summary>Deletes one or more branches</summary>
+			<param name="reclassifyUri">The URI of the node to which artifacts are reclassified</param>
+			<param name="nodeUris">The URIs of the nodes that are the roots of the branches to be deleted</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.ICommonStructureService.DeleteProject(System.String)">
+			<summary>Deletes a project context and the associated structures</summary>
+			<param name="projectUri">The URI of the project context to delete</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.ICommonStructureService.GetChangedNodes(System.Int32)">
+			<summary>Gets the set of changed nodes with an ID greater than a specified ID.</summary>
+			<param name="startSequenceId">The lowest allowable ID.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.ICommonStructureService.GetDeletedNodesXml(System.String,System.DateTime)">
+			<summary>Gets a set of nodes deleted from a project since a certain time as XML.</summary>
+			<returns>An XMLElement containing the definition of the structure.</returns>
+			<param name="since">Get all deleted nodes since this time</param>
+			<param name="projectUri">The name of the project</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.ICommonStructureService.GetNode(System.String)">
+			<summary>Gets a NodeInfo structure using a node URI</summary>
+			<returns>A NodeInfo value containing the node information structure.</returns>
+			<param name="nodeUri">The URI of the node to be obtained</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.ICommonStructureService.GetNodeFromPath(System.String)">
+			<summary>Gets a NodeInfo structure using a node pathname.</summary>
+			<returns>A NodeInfo value containing the node information structure.</returns>
+			<param name="nodePath">The URI of the node to be obtained</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.ICommonStructureService.GetNodesXml(System.String[],System.Boolean)">
+			<summary>Gets a set of nodes as XML, including its properties and optionally its children</summary>
+			<returns>An XmlElement containing the definition of the structure.</returns>
+			<param name="childNodes">If True, the entire branches below the specified node are returned</param>
+			<param name="nodeUris">The URIs of the nodes to be obtained</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.ICommonStructureService.GetProject(System.String)">
+			<returns>A ProjectInfo value containing the project information structure.</returns>
+			<param name="projectUri">The URI of the project to be obtained</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.ICommonStructureService.GetProjectFromName(System.String)">
+			<summary>Gets a ProjectInfo structure using a project name</summary>
+			<returns>A ProjectInfo object containing the project information structure.</returns>
+			<param name="projectName">The name of the project to be obtained</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.ICommonStructureService.GetProjectProperties(System.String,System.String@,System.String@,System.Int32@,Microsoft.TeamFoundation.Server.ProjectProperty[]@)">
+			<summary>Gets the current properties for a project.</summary>
+			<param name="templateId">Identifier for the project template</param>
+			<param name="state">State of the project (New, WellFormed, orDeleting)</param>
+			<param name="projectUri">URI of the project from which the structure is to be obtained </param>
+			<param name="name">Name of the project</param>
+			<param name="properties">Array of ProjectProperty values for the project</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.ICommonStructureService.ImportBranch(System.Xml.XmlElement,System.String)">
+			<summary>Imports a structure into CSS as a new branch in an existing structure</summary>
+			<param name="parentNodeUri">The URI of the node under which the branch is to be created</param>
+			<param name="structure">The XML element that contains the structure definition</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.ICommonStructureService.ListProjects">
+			<summary>Returns the list of project URIs</summary>
+			<returns>An array of ProjectInfo objects containing project URIs</returns>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.ICommonStructureService.ListStructures(System.String)">
+			<summary>Lists the structures in a project</summary>
+			<returns>An array of NodeInfo objects containing the URI of the root node of the structure.</returns>
+			<param name="projectUri">URI of the project from which the structure is to be obtained</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.ICommonStructureService.MoveBranch(System.String,System.String)">
+			<summary>Moves a node, along with the entire branch below the node, to a new position in the hierarchy</summary>
+			<param name="newParentNodeUri">The URI of the new parent</param>
+			<param name="nodeUri">The URI of the node to be moved</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.ICommonStructureService.RenameNode(System.String,System.String)">
+			<summary>Renames the specified node.</summary>
+			<param name="newNodeName">The new name of the node</param>
+			<param name="nodeUri">The URI of the node to rename</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.ICommonStructureService.ReorderNode(System.String,System.Int32)">
+			<summary>Moves a node to a new position in the order of nodes within its parent</summary>
+			<param name="moveBy">The number of places to move. Negative numbers indicate upwards movement and positive numbers indicate downward movement. If moveby would indicate a position further than one end or the other, then the node is moved to that end.</param>
+			<param name="nodeUri">The URI of the node to be moved</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.ICommonStructureService.UpdateProjectProperties(System.String,System.String,Microsoft.TeamFoundation.Server.ProjectProperty[])">
+			<param name="state">A ProjectState value indicating the state of the project (New, WellFormed, or Deleting)</param>
+			<param name="projectUri">The project to be updated</param>
+			<param name="properties">The array of properties for the project</param>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.Server.Identity">
+			<summary>An Identity structure represents a user, group, or Team Foundation Server application group, along with some of their attributes.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.Identity.#ctor">
+			<summary>Initializes a new instance of the <see cref="T:Microsoft.TeamFoundation.Server.Identity"></see> class.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.Identity.CompareTo(System.Object)">
+			<summary>Compares this identity to the specified identity</summary>
+			<param name="obj">An identity to compare</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.Identity.Equals(System.Object)">
+			<param name="obj">An identity to compare for equality</param>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.Server.Identity.AccountName">
+			<summary>Gets or sets the account name of an identity.</summary>
+			<returns>A string value containing the account name of the identity.</returns>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.Server.Identity.Deleted">
+			<summary>Gets or sets a value indication whether the identity has been deleted</summary>
+			<returns>A boolean value True if the identity has been deleted or False if not.</returns>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.Server.Identity.Description">
+			<summary>Gets or sets a description of the identity</summary>
+			<returns>A string value containing a description of the identity.</returns>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.Server.Identity.DisplayName">
+			<summary>Gets or set a display name for the identity</summary>
+			<returns>A string value with a friendly name associated with the identity.</returns>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.Server.Identity.DistinguishedName">
+			<summary>A distinguished name in LDAP form for the identity</summary>
+			<returns>A string containing the distinguished name of the identity</returns>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.Server.Identity.MailAddress">
+			<summary>Gets or sets the e-mail address of the identity</summary>
+			<returns>A string containing the e-mail address.</returns>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.Server.Identity.MemberOf">
+			<summary>Gets or sets an array of application groups an identity belongs to</summary>
+			<returns>An array of strings containing the group names. If the identity does not belong to any groups then null is returned.</returns>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.Server.Identity.Members">
+			<summary>Gets or sets an array of identities that are members of a group</summary>
+			<returns>An array of strings containing the identities belonging to the group</returns>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.Server.Identity.SecurityGroup">
+			<summary>Indicates whether an identity is a member of a security group.</summary>
+			<returns>A boolean value indicating whether the identity is a member of a security group.</returns>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.Server.Identity.Sid">
+			<summary>Gets or sets the SID associated with an identity</summary>
+			<returns>A string containing the identity SID</returns>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.Server.Identity.SpecialType">
+			<summary>Gets or sets the special type of an application group</summary>
+			<returns>An ApplicationGroupSpecialType object indicating the special type of the application group.</returns>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.Server.Identity.Type">
+			<summary>Gets or sets the type of an identity</summary>
+			<returns>An IdentityType object containing the type of the identity.</returns>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.Server.IdentityType">
+			<summary>Represents different types of identity</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.Server.IdentityType.ApplicationGroup">
+			<summary>An Application Group is defined by a Team Foundation Server, and only has meaning within this context.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.Server.IdentityType.InvalidIdentity">
+			<summary>An identity for which a SID or distinguished name is not obtainable.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.Server.IdentityType.NonCachedIdentity">
+			<summary>An identity which is not in the GSS cache.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.Server.IdentityType.UnknownIdentityType">
+			<summary>An identity that is an AD object, having a SID and distinguished name, but is neither a user nor a group. A computer is an example of this type.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.Server.IdentityType.WindowsGroup">
+			<summary>A Windows Group defined on the local computer's SAM, or an AD user.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.Server.IdentityType.WindowsUser">
+			<summary>A Windows User defined on the local computer's SAM, or an AD user.</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.Server.IEventService">
+			<summary>Provides support for event subscriptions.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.IEventService.EventSubscriptions(System.String)">
+			<summary>Looks up the events to which a user has subscribed.</summary>
+			<returns>An array of <see cref="T:Microsoft.TeamFoundation.Server.Subscription"></see> objects representing the user's subscriptions.</returns>
+			<param name="userID">The SID that represents the user.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.IEventService.EventSubscriptions(System.String,System.String)">
+			<summary>Looks up the events to which a user has subscribed.</summary>
+			<returns>An array of <see cref="T:Microsoft.TeamFoundation.Server.Subscription"></see> objects representing the user's subscriptions.</returns>
+			<param name="userId">The SID that represents the user.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.IEventService.SubscribeEvent(System.String,System.String,System.String,Microsoft.TeamFoundation.Server.DeliveryPreference)">
+			<summary>Adds a user subscription to an event.</summary>
+			<returns>A unique identifier representing the SubscriptionId for the subscription.</returns>
+			<param name="preferences">A <see cref="T:Microsoft.TeamFoundation.Server.DeliveryPreference"></see> structure describing how an event notification is to be delivered.</param>
+			<param name="eventType">The fully qualified name of the event type to which the user is subscribing.</param>
+			<param name="filterExpression">A string describing how to filter instances of the event type. Only events that match the filter are delivered.</param>
+			<param name="userID">The SID representing the user.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.IEventService.SubscribeEvent(System.String,System.String,System.String,Microsoft.TeamFoundation.Server.DeliveryPreference,System.String)">
+			<summary>Adds a user subscription to an event.</summary>
+			<returns>A unique identifier representing the SubscriptionId for the subscription.</returns>
+			<param name="preferences">A <see cref="T:Microsoft.TeamFoundation.Server.DeliveryPreference"></see> structure describing how an event notification is to be delivered.</param>
+			<param name="eventType">The fully qualified name of the event type to which the user is subscribing.</param>
+			<param name="userId">The SID representing the user.</param>
+			<param name="filterExpression">A string describing how to filter instances of the event type. Only events that match the filter are delivered.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.IGroupSecurityService.AddMemberToApplicationGroup(System.String,System.String)">
+			<summary>Add a member to an application group</summary>
+			<param name="groupSid">The application group to which the new member will be added.</param>
+			<param name="identitySid">The member to add to the application group.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.IGroupSecurityService.CreateApplicationGroup(System.String,System.String,System.String)">
+			<summary>Creates a new application group</summary>
+			<returns>A string value containing the SID of the new application group.</returns>
+			<param name="groupDescription">(optional) Description of the group.</param>
+			<param name="groupName">Name of the application group.</param>
+			<param name="projectUri">URI for the project to which the application group is scoped, or null or empty for a group with server scope.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.IGroupSecurityService.DeleteApplicationGroup(System.String)">
+			<summary>Deletes an application group</summary>
+			<param name="groupSid">SID of the application group to be deleted.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.IGroupSecurityService.GetChangedIdentities(System.Int32)">
+			<summary>Returns all changes to an identity subsequent to a specified sequence identifier.</summary>
+			<returns>A string in XML form listing the identity changes.</returns>
+			<param name="sequence_id">The sequence_id at which to start the list of changes, or 0 or lower for all changes.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.IGroupSecurityService.IsIdentityCached(Microsoft.TeamFoundation.Server.SearchFactor,System.String)">
+			<summary>Checks if an identity is in the Group Security Service cache.</summary>
+			<returns>Returns True if the identity is cached, and False if not.</returns>
+			<param name="factor">A member of the T:Microsoft.TeamFoundation.Server.SearchFactor enumeration that specifies the value by which to search.</param>
+			<param name="factorValue">Specifies the value to match for the search criteria.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.IGroupSecurityService.IsMember(System.String,System.String)">
+			<summary>Checks if an identity is a member of an application group.</summary>
+			<param name="groupSid">SID associated with the application group in which to search for the identity</param>
+			<param name="identitySid">SID of the identity for which to search</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.IGroupSecurityService.ListApplicationGroups(System.String)">
+			<summary>Lists all application groups in a team project.</summary>
+			<returns>An array of Identity objects listing application groups.</returns>
+			<param name="projectUri">The project for which to list groups</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.IGroupSecurityService.ReadIdentities(Microsoft.TeamFoundation.Server.SearchFactor,System.String[],Microsoft.TeamFoundation.Server.QueryMembership)">
+			<summary>Lists identities on a Team Foundation Server</summary>
+			<returns>An array of Identity values</returns>
+			<param name="factor">A member of the T:Microsoft.TeamFoundation.Server.SearchFactor enumeration that specifies the value by which to search.</param>
+			<param name="factorValue">Specifies the value to match for the search criteria.</param>
+			<param name="queryMembership">A member of the T:Microsoft.TeamFoundation.Server.QueryMembership enumeration that specifies the level of detail about the identity's members.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.IGroupSecurityService.ReadIdentity(Microsoft.TeamFoundation.Server.SearchFactor,System.String,Microsoft.TeamFoundation.Server.QueryMembership)">
+			<summary>Searches for a specific identity on a Team Foundation Server</summary>
+			<returns>An Identity object representing the identity.</returns>
+			<param name="factor">A member of the T:Microsoft.TeamFoundation.Server.SearchFactor enumeration that specifies the value by which to search.</param>
+			<param name="factorValue">Specifies the value to match for the search criteria.</param>
+			<param name="queryMembership">A member of the T:Microsoft.TeamFoundation.Server.QueryMembership enumeration that specifies the level of detail about the identity's members.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.IGroupSecurityService.ReadIdentityFromSource(Microsoft.TeamFoundation.Server.SearchFactor,System.String)">
+			<summary>Searches for a specific identity on a Team Foundation Server, bypassing the cache</summary>
+			<returns>An Identity object representing the identity.</returns>
+			<param name="factor">A member of the T:Microsoft.TeamFoundation.Server.SearchFactor enumeration that specifies the value by which to search.</param>
+			<param name="factorValue">Specifies the value to match for the search criteria.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.IGroupSecurityService.RemoveMemberFromApplicationGroup(System.String,System.String)">
+			<summary>Removes an identity from an application group</summary>
+			<param name="groupSid">The application group from which to remove the identity</param>
+			<param name="identitySid">The identity to remove</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.IGroupSecurityService.UpdateApplicationGroup(System.String,Microsoft.TeamFoundation.Server.ApplicationGroupProperty,System.String)">
+			<summary>Changes properties of an application group</summary>
+			<param name="groupSid">SID of the application group to be changed</param>
+			<param name="property">The property to be changed</param>
+			<param name="newValue">The new value for the property</param>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.Server.IRegistration">
+			<summary>Provides support for registration</summary>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.Server.IRegistration.InstanceClientCacheDirectory">
+			<summary>Gets the path used to cache data from a server</summary>
+			<returns>The path to the cache directory.</returns>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.Server.IRegistration.InstanceId">
+			<summary>Gets the identifier for a registration instance.</summary>
+			<returns>The identifier for the registration instance.</returns>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.Server.ISubscriber">
+			<summary>Provides functionality for notifying subscribers.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.ISubscriber.ProcessEvent(Microsoft.TeamFoundation.Server.BaseNotificationEvent)">
+			<summary>Processes an event to which the subscriber has subscribed.</summary>
+			<param name="notificationObject">The event to be processed.</param>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.Server.ISubscriber.SubscriberName">
+			<summary>Gets or sets the subscriber name.</summary>
+			<returns>The subscriber name.</returns>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.Server.LinkType">
+			<summary>Describes the purpose of links of a type.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.LinkType.#ctor">
+			<summary>Creates an new instance of the <see cref="T:Microsoft.TeamFoundation.Server.LinkType"></see> class.</summary>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.Server.LinkType.LinkName">
+			<summary>Gets or sets the name of a link type.</summary>
+			<returns>A string containing the name of the link</returns>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.Server.LinkType.SinkArtifactType">
+			<summary>Gets or sets the type of artifact that the sink consumes</summary>
+			<returns>A string containing the artifact type</returns>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.Server.LinkType.SinkTool">
+			<summary>Gets or sets the tool that holds references to artifacts consumed by the link</summary>
+			<returns>A string containing the ??? of the tool</returns>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.Server.LinkType.SourceArtifactType">
+			<summary>Gets of sets the type of artifact that the source provides</summary>
+			<returns>A string containing the artifact type</returns>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.Server.LinkType.SourceTool">
+			<summary>Gets or sets the tool that holds references to artifacts provided by the link</summary>
+			<returns>A string containing the ??? of the tool</returns>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.Server.NodeInfo">
+			<summary>Contains information on a project node</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.NodeInfo.#ctor">
+			<summary>Creates a new instance of the <see cref="T:Microsoft.TeamFoundation.Server.NodeInfo"></see> class</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.NodeInfo.#ctor(System.String,System.String,System.String,Microsoft.TeamFoundation.Server.Property[],System.String,System.String,System.String)">
+			<summary>Creates a new instance of the <see cref="T:Microsoft.TeamFoundation.Server.NodeInfo"></see> class, based on information about the node</summary>
+			<param name="structureType">Structure type associated with the node location, such as ProjectModelHierarchy/ProjectLifeCycle</param>
+			<param name="path">Path of the node in the project, including the project name</param>
+			<param name="projectUri">Project URI of the node</param>
+			<param name="name">Name of the node</param>
+			<param name="parentUri">URI of the parent node. This is empty if the node is the root node</param>
+			<param name="uri">URI of the node</param>
+			<param name="properties">List of properties supported by the node</param>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.Server.NodeInfo.Name">
+			<summary>The name of the node</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.Server.NodeInfo.ParentUri">
+			<summary>URI of the parent node</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.Server.NodeInfo.Path">
+			<summary>Path of the node in the project, including the project name</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.Server.NodeInfo.ProjectUri">
+			<summary>Project URI of the node</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.Server.NodeInfo.Properties">
+			<summary>List of the properties supported by the node</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.Server.NodeInfo.StructureType">
+			<summary>Structure type associated with the node location</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.Server.NodeInfo.Uri">
+			<summary>URI of the node</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.Notification.#ctor">
+			<summary>Creates a new instance of the <see cref="T:Microsoft.TeamFoundation.Server.Notification"></see> class</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.Notification.#ctor(Microsoft.TeamFoundation.Server.Scope)">
+			<summary>Creates a new instance of the <see cref="T:Microsoft.TeamFoundation.Server.Notification"></see> class with a specified scope</summary>
+			<param name="level">A <see cref="P:Microsoft.TeamFoundation.Server.Notification.Scope"></see> object indicating the scope of the notification</param>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.Server.Notification.Scope">
+			<summary>Gets or sets the scope of a notification</summary>
+			<returns>A <see cref="P:Microsoft.TeamFoundation.Server.Notification.Scope"></see> object indicating the scope of the notification.</returns>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.Server.NotificationType">
+			<summary>Indicates the type for a notification</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.Server.NotificationType.DecisionPoint">
+			<summary>The publisher expects a return value from each subscriber, possibly altering control flow within the publisher.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.Server.NotificationType.Notification">
+			<summary>The publisher does not expect a return value and the publication serves as a notification of the occurrence of an event.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.OutboundLinkType.#ctor">
+			<summary>Creates a new instance of a <see cref="T:Microsoft.TeamFoundation.Server.OutboundLinkType"></see> class</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.OutboundLinkType.#ctor(System.String,System.String,System.String)">
+			<summary>Creates a new instance of a <see cref="T:Microsoft.TeamFoundation.Server.OutboundLinkType"></see> class</summary>
+			<param name="targetArtifactTypeName">The type of artifact consumed by this link type</param>
+			<param name="targetArtifactTypeTool">The tool which consumes artifacts linked with this link type</param>
+			<param name="name">The name of the link type</param>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.Server.OutboundLinkType.TargetArtifactTypeName">
+			<summary>The type of artifact consumed by the link type</summary>
+			<returns>A string value containing the link type name</returns>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.ProjectInfo.#ctor">
+			<summary>Creates a new instance of a <see cref="T:Microsoft.TeamFoundation.Server.ProjectInfo"></see> class</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.ProjectInfo.#ctor(System.String,System.String,Microsoft.TeamFoundation.Server.ProjectState)">
+			<summary>Creates a new instance of a <see cref="T:Microsoft.TeamFoundation.Server.ProjectInfo"></see> class</summary>
+			<param name="status">A T:Microsoft.TeamFoundation.Server.ProjectState value indicating the status of the project</param>
+			<param name="name">The name of the project</param>
+			<param name="uri">The project URI</param>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.Server.ProjectInfo.Name">
+			<summary>The name of the project</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.Server.ProjectInfo.Status">
+			<summary>The status of the project</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.Server.ProjectInfo.Uri">
+			<summary>The URI of the project</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.ProjectInfo.Equals(System.Object)">
+			<param name="that">The project to be compared</param>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.Server.ProjectProperty">
+			<summary>Represents a single property in a Team Foundation project</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.ProjectProperty.#ctor">
+			<summary>Creates a new instance of the T:Microsoft.TeamFoundation.Server.ProjectProperty class</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.ProjectProperty.#ctor(System.String,System.String)">
+			<summary>Initializes a new instance of the T:Microsoft.TeamFoundation.Server.ProjectProperty class with the specified property name and value.</summary>
+			<param name="name">The property name.</param>
+			<param name="v">The property value.</param>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.Server.ProjectProperty.Name">
+			<summary>Gets or sets the property name.</summary>
+			<returns>The string that represents the property name.</returns>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.Server.ProjectProperty.Value">
+			<summary>Gets or sets the property value.</summary>
+			<returns>The string that represents the property value.</returns>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.Server.ProjectState">
+			<summary>Specifies constants that define the state of a project</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.Server.ProjectState.Deleting">
+			<summary>The project is being deleted.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.Server.ProjectState.New">
+			<summary>The project is new.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.Server.ProjectState.WellFormed">
+			<summary>The project is well-formed.</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.Server.Property">
+			<summary>Represents a single property on a Team Foundation server.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.Property.#ctor">
+			<summary>Creates a new instance of a <see cref="T:Microsoft.TeamFoundation.Server.Property"></see> class.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.Property.#ctor(System.String,System.String)">
+			<summary>Initializes a new instance of a <see cref="T:Microsoft.TeamFoundation.Server.Property"></see> class with the specified name and value.</summary>
+			<param name="propValue">The property value.</param>
+			<param name="name">The property name.</param>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.Server.Property.Name">
+			<summary>The property name.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.Server.Property.Value">
+			<summary>The property value.</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.Server.PropertyChanged">
+			<summary>Represents an instance of a changed property</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.PropertyChanged.#ctor">
+			<summary>Creates a new instance of a <see cref="T:Microsoft.TeamFoundation.Server.PropertyChanged"></see> class.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.PropertyChanged.#ctor(System.String,System.String,System.String)">
+			<summary>Initializes a new instance of a <see cref="T:Microsoft.TeamFoundation.Server.PropertyChanged"></see> class with the specified name and values.</summary>
+			<param name="oldValue">The previous value of the property.</param>
+			<param name="name">The name of the changed property.</param>
+			<param name="newValue">The new value of the property.</param>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.Server.PropertyChanged.Name">
+			<summary>Gets or sets the name of the changed property</summary>
+			<returns>The name of the property.</returns>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.Server.PropertyChanged.NewValue">
+			<summary>Gets or sets the new value of the changed property</summary>
+			<returns>The new value of the property</returns>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.Server.PropertyChanged.OldValue">
+			<summary>Gets or sets the old value of the changed property</summary>
+			<returns>The previous value of the property</returns>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.Server.QueryMembership">
+			<summary>Specifies the constants that specify the level of detail returned in a query</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.Server.QueryMembership.Direct">
+			<summary>Each Identity includes its direct members. However, these member identities will contain null members.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.Server.QueryMembership.Expanded">
+			<summary>Each returned identity includes its direct members. Each of these member identities contain their direct member identities, and so on.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.Server.QueryMembership.None">
+			<summary>No information about membership is returned, and corresponding properties are set to null.</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.Server.RegistrationEntry">
+			<summary>Represents an entry in the registry</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.RegistrationEntry.#ctor">
+			<summary>Creates a new instance of a <see cref="T:Microsoft.TeamFoundation.Server.RegistrationEntry"></see> class</summary>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.Server.RegistrationEntry.ArtifactTypes">
+			<summary>Gets or sets a collection of the ArtifactType registration entries.</summary>
+			<returns>An array of the registered artifact types.</returns>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.Server.RegistrationEntry.ChangeType">
+			<summary>Gets or sets the ChangeType attribute describing the type of entry change.</summary>
+			<returns>A ChangeType containing the change type of the registration entry.</returns>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.Server.RegistrationEntry.Databases">
+			<summary>Gets or sets a collection of databases in a registration entry.</summary>
+			<returns>An array containing T:Microsoft.TeamFoundation.Server.Database entries.</returns>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.Server.RegistrationEntry.EventTypes">
+			<summary>Gets or sets a collection of EventTypes in a registration entry.</summary>
+			<returns>An array of T:Microsoft.TeamFoundation.Server.EventType entries.</returns>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.Server.RegistrationEntry.RegistrationExtendedAttributes">
+			<summary>Gets or sets a collection on extended attributes in a registration entry.</summary>
+			<returns>An array of T:Microsoft.TeamFoundation.Server.RegistrationExtendedAttribute entries.</returns>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.Server.RegistrationEntry.ServiceInterfaces">
+			<summary>Gets or sets a collection of service interfaces in a registration entry.</summary>
+			<returns>An array of T:Microsoft.TeamFoundation.Server.ServiceInterface entries.</returns>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.Server.RegistrationEntry.Type">
+			<summary>Gets or sets the type of a registration entry.</summary>
+			<returns>The type of the registration entry.</returns>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.Server.Scope">
+			<summary>Specifies constants that define the scope of an object.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.Server.Scope.Internal">
+			<summary>The object has internal scope only.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.Server.Scope.InternalExternal">
+			<summary>The object has internal and external scope.</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.Server.SearchFactor">
+			<summary>Specifies an attribute of an identity to be used in a search.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.Server.SearchFactor.AccountName">
+			<summary>Logon name (for Windows identities) or an application group name, possibly qualified by domain name, such as AdventureWorks\JAaberg, ProjectURI\groupname, or GUID\groupname.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.Server.SearchFactor.AdministrativeApplicationGroup">
+			<summary>An administrative application group.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.Server.SearchFactor.DistinguishedName">
+			<summary>A LDAP escaped distinguished name, optionally prepended by LDAP://.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.Server.SearchFactor.EveryoneApplicationGroup">
+			<summary>The Team Foundation Server Everyone application group.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.Server.SearchFactor.ServiceApplicationGroup">
+			<summary>The service application group.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.Server.SearchFactor.Sid">
+			<summary>Contains a SID</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.Server.Subscriber">
+			<summary>Represents a Subscriber</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.Server.Subscription">
+			<summary>Represents a subscription</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.Subscription.#ctor">
+			<summary>Creates a new instance of a <see cref="T:Microsoft.TeamFoundation.Server.Subscription"></see> class.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.Server.Subscription.ToString">
+			<summary>Returns the string that represents the subscription.</summary>
+			<returns>The string that represents the subscription.</returns>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.Server.Subscription.ConditionString">
+			<summary>Gets or sets the string representing a condition in a subscription.</summary>
+			<returns>The condition expression in a subscription.</returns>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.Server.Subscription.DeliveryPreference">
+			<summary>Gets or sets the method by which notifications are delivered.</summary>
+			<returns>The <see cref="T:Microsoft.TeamFoundation.Server.DeliveryPreference"></see> of the subscription.</returns>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.Server.Subscription.Device">
+			<summary>Gets or sets the device of the subscription</summary>
+			<returns>The subscription device.</returns>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.Server.Subscription.EventType">
+			<summary>Gets or sets the EventType attribute for the subscription.</summary>
+			<returns>The type of the subscription.</returns>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.Server.Subscription.ID">
+			<summary>Gets or sets the identifier associated with the subscription.</summary>
+			<returns>The ID of the subscription.</returns>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.Server.Subscription.Subscriber">
+			<summary>Gets or sets the identity subscribed to a subscription.</summary>
+			<returns>The subscriber to the subscription.</returns>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.Server.Subscription.Tag">
+			<summary>Gets or sets the value of a subscription tag.</summary>
+			<returns>The subscription tag.</returns>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.Warehouse.Field">
+			<summary>Represents a warehouse dimension attribute.</summary>
+		</member>
+	</members>
+</doc>

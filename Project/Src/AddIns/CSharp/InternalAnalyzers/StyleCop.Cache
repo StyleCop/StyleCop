@@ -1,0 +1,51 @@
+<stylecopresultscache>
+  <version>10</version>
+  <project key="-1077442025">
+    <configuration>CODE_ANALYSIS;DEBUG;TRACE</configuration>
+  </project>
+  <sourcecode name="AssemblyVersion.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>05/12/2010 09:35:53</timestamp>
+      <milliseconds>459</milliseconds>
+    </settings>
+    <timestamp>05/12/2010 09:39:15</timestamp>
+    <milliseconds>808</milliseconds>
+    <violations />
+  </sourcecode>
+  <sourcecode name="AssemblyInfo.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>05/12/2010 09:35:53</timestamp>
+      <milliseconds>459</milliseconds>
+    </settings>
+    <timestamp>05/12/2010 09:35:55</timestamp>
+    <milliseconds>59</milliseconds>
+    <violations />
+  </sourcecode>
+  <sourcecode name="ParamTokens.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>05/12/2010 09:35:53</timestamp>
+      <milliseconds>459</milliseconds>
+    </settings>
+    <timestamp>05/12/2010 09:35:55</timestamp>
+    <milliseconds>30</milliseconds>
+    <violations />
+  </sourcecode>
+  <sourcecode name="Rules.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>05/12/2010 09:35:53</timestamp>
+      <milliseconds>459</milliseconds>
+    </settings>
+    <timestamp>05/12/2010 09:35:55</timestamp>
+    <milliseconds>54</milliseconds>
+    <violations />
+  </sourcecode>
+  <sourcecode name="ParamCheck.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>05/12/2010 09:35:53</timestamp>
+      <milliseconds>459</milliseconds>
+    </settings>
+    <timestamp>05/12/2010 09:35:55</timestamp>
+    <milliseconds>13</milliseconds>
+    <violations />
+  </sourcecode>
+</stylecopresultscache>

@@ -1,0 +1,112 @@
+/****************************************************************************
+*  The TEXTMGR90 Interfaces
+*  Copyright (c) 2001-2006, Microsoft Corporation, All Rights Reserved
+****************************************************************************/
+
+#ifndef INTEROPLIB
+
+// Imports - all imports should go here (inside the ifndef)
+import "oaidl.idl";
+import "ocidl.idl";
+
+#endif
+
+/****************************************************************************
+********    IMPORTANT!!   *********
+
+All guids for interfaces and co-creatable objects in this file should be defined
+in textmgruuids.h
+
+****************************************************************************/
+#include "..\inc\textmgruuids.h"
+
+interface IVsLanguageDebugInfoRemap;
+
+[
+        uuid(uuid_lib_TextManager90),
+        version(1.0)
+]
+library TextMgr90
+{
+    importlib("stdole2.tlb");
+
+    //-----------------------------------------------------------------------------
+    // IVsLanguageDebugInfoRemap
+    // Allows a language service to remap a pending breakpoint from one location
+    // to another. pUserBreakpointRequest and  ppMappedBreakpointRequest must
+    // both implement IDebugBreakpointRequest2 and IDebugBreakpointRequest3 from
+    // msdbg.idl
+    //-----------------------------------------------------------------------------
+    [
+	    object,
+	    uuid(uuid_IVsLanguageDebugInfoRemap),
+	    pointer_default(unique),
+            local
+    ]
+    interface IVsLanguageDebugInfoRemap : IUnknown
+    {
+        HRESULT RemapBreakpoint([in] IUnknown* pUserBreakpointRequest, [out]IUnknown** ppMappedBreakpointRequest);  
+    };
+
+    // New data object hints used by htmled. You can find the existing data object hints DATA_OBJECT_RENDER_HINT in textmgr.idl.
+    typedef enum _tag_DATA_OBJECT_RENDER_HINT90
+    {
+        //DORH_DEFAULT             = 0x0000, // no information available
+        //DORH_MOVE_IN_SAME_DOC    = 0x0001, // rendering was a move in the same document
+        //DORH_DROP                = 0x0002, // a general drag/drop operation (includes drag/drop from toolbox as well as DORH_MOVE_IN_SAME_DOC)
+        //DORH_CLIPBOARD           = 0x0004, // a general paste from the system clipboard (e.g. ctrl+V)
+        //DORH_TOOLBOX             = 0x0008, // the user double-clicked an item from the toolbox
+        //DORH_PREVIEW             = 0x0010, // a tentative preview (e.g. doing ctrl+shift+V to cycle through the clipboard -- don't do anything slow in this case!)
+        DORH_COPY_IN_SAME_DOC	 = 0x0020  // rendering was a move in the same document
+    } DATA_OBJECT_RENDER_HINT90;
+
+
+    //commented out values defined in _markerbehaviorflags[2] in textmgr[2].idl
+    typedef enum _markerbehaviorflags3
+    {
+        //MB_DEFAULT              = 0x00000000,   // default stream behavior
+        //MB_LINESPAN             = 0x00000001,   // a marker that always adjusts itself to span a line at a time
+        //MB_LEFTEDGE_LEFTTRACK   = 0x00000002,
+        //MB_RIGHTEDGE_RIGHTTRACK = 0x00000004,
+        //MB_MULTILINESPAN        = 0x00000008,
+        //MB_DONT_DELETE_IF_ZEROLEN = 0x00000010,
+        //MB_INHERIT_FOREGROUND     = 0x00000020,   // Marker leaves foreground color unchanged, inheriting from whatever is "behind" it
+        //MB_INHERIT_BACKGROUND     = 0x00000040,   // Marker leaves background color unchanged, inheriting from whatever is "behind" it
+        //MB_VIEW_SPECIFIC          = 0x00000080,   // Marker only shows up in certain views
+        MB_HIDE_IN_FONTCOLOR_TEXTEDITOR_CATEGORY = 0x00000200 // Marker is not shown in "Text Editor" category of Fonts & Colors dialog.
+        /*
+        MB_TRACK_ON_RELOAD forces a marker to track every edit as a replace, ignoring any reload semantics.
+        In other words, IVsTextLines::ReloadLines() will have the same effect as IVsTextLines::ReplaceLines()
+        for markers with this style set.  Do not use this unless you have markers that need to guarantee that
+        they're tracking in response to OnChangeLineText() events.  (You should not specify this style unless
+        you're doing something special and have contacted the VS text editor team about it.)
+        */
+        //MB_TRACK_EDIT_ON_RELOAD = 0x00000100
+    } MARKERBEHAVIORFLAGS3;
+
+    // Colorable items (objects that implement IVsColorableItem) can optionally
+    // implement this to prevent themselves from appearing in the "Text Editor"
+    // category in the Fonts & Colors dialog.  This is necessary if another
+    // category lists them explicitly and you want them to be modified there instead.
+    [
+      uuid(uuid_IVsHiddenColorableItemInTextEditorCategory),
+      version(1.0),
+      pointer_default(unique)
+    ]
+    interface IVsHiddenColorableItemInTextEditorCategory : IUnknown
+    {
+    };
+
+    // Existing flags (from textmgr.idl) are listed, but commented out.
+    typedef enum _CompletionStatusFlags2
+    {
+        // CSF_* flags are returned from IVsCompletionSet::GetFlags
+        //CSF_CUSTOMMATCHING      = 0x0004,       // Use ICompletionSet::GetBestMatch() to manage selection
+        //CSF_CUSTOMCOMMIT        = 0x0008,       // Use ICompletionSet::OnCommit() to commit completions
+        //CSF_HAVEDESCRIPTIONS    = 0x0010,       // ICompletionSet::GetDescriptionText will provide text for at least some of the entries
+        //CSF_INITIALEXTENTKNOWN  = 0x0020,       // Use ICompletionSet::GetInitialExtent to determine initial word extent
+        //CSF_NOCASEMATCHING      = 0x0040,       // Don't apply case sensitive matching
+        //CSF_NOCASEUNIQUENESS    = 0x0080,       // Don't apply case as well as character matching to determine uniqueness (for word completion)
+        CSF_DONTSELECTONTAB       = 0x0100        // After tab press, *don't* force fSelected to true when calling IVsCompletionSet::OnCommit()
+    } UpdateCompletionFlags2;
+};

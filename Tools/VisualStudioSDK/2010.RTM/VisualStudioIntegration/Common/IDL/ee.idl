@@ -1,0 +1,979 @@
+// ee.idl : Microsoft Debug EE API
+
+// notes:
+//
+// - define AD7_NO_AD7_IMPORTS to exclude all AD7 imports
+
+import "ocidl.idl";
+import "oleidl.idl";
+#ifndef AD7_NO_AD7_IMPORTS
+import "msdbg.idl";
+import "sh.idl";
+#endif
+
+interface IDebugExpressionEvaluator;
+interface IDebugExpressionEvaluator2;
+interface IDebugObject;
+interface IDebugArrayObject;
+interface IDebugArrayObject2;
+interface IDebugFunctionObject;
+interface IDebugManagedObject;
+interface IDebugVariantObject;
+interface IDebugBinder;
+interface IDebugBinderDirect;
+interface IDebugParsedExpression;
+interface IEnumDebugObjects;
+interface IDebugAlias;
+interface IDebugIDECallback;
+
+// Function Evaluation return codes
+cpp_quote("#define S_EVAL_EXCEPTION                 	MAKE_HRESULT(0, FACILITY_ITF, 0x0002)")
+cpp_quote("#define S_EVAL_ABORTED                   	MAKE_HRESULT(0, FACILITY_ITF, 0x0003)")
+cpp_quote("#define S_EVAL_TIMEDOUT                  	MAKE_HRESULT(0, FACILITY_ITF, 0x0004)")
+cpp_quote("#define S_EVAL_NO_RESULT                 	MAKE_HRESULT(0, FACILITY_ITF, 0x0005)")
+cpp_quote("#define S_EVAL_THREAD_SUSPENDED          	MAKE_HRESULT(0, FACILITY_ITF, 0x0006)")
+cpp_quote("#define S_EVAL_THREAD_SLEEP_WAIT_JOIN    	MAKE_HRESULT(0, FACILITY_ITF, 0x0007)")
+cpp_quote("#define S_EVAL_BAD_THREAD_STATE          	MAKE_HRESULT(0, FACILITY_ITF, 0x0008)")
+cpp_quote("#define S_EVAL_THREAD_NOT_STARTED        	MAKE_HRESULT(0, FACILITY_ITF, 0x0009)")
+cpp_quote("#define S_EVAL_BAD_START_POINT           	MAKE_HRESULT(0, FACILITY_ITF, 0x000A)")
+cpp_quote("#define E_STATIC_VAR_NOT_AVAILABLE       	MAKE_HRESULT(0, FACILITY_ITF, 0x000B)")
+cpp_quote("#define S_EVAL_WEB_METHOD                	MAKE_HRESULT(0, FACILITY_ITF, 0x000C)")
+cpp_quote("#define S_EVAL_STOP_REQUESTED            	MAKE_HRESULT(0, FACILITY_ITF, 0x000D)")
+cpp_quote("#define S_EVAL_SUSPEND_REQUESTED         	MAKE_HRESULT(0, FACILITY_ITF, 0x000E)")
+cpp_quote("#define S_EVAL_UNSCHEDULED_FIBER         	MAKE_HRESULT(0, FACILITY_ITF, 0x000F)")
+cpp_quote("#define E_EVAL_NOT_SUPPORTED_IN_CLR      	MAKE_HRESULT(1, FACILITY_ITF, 0x0010)")
+cpp_quote("#define E_EVAL_OBJECT_ID_NOT_FOUND       	MAKE_HRESULT(1, FACILITY_ITF, 0x0011)")
+cpp_quote("#define E_EVAL_DIFFERENT_APPIDS          	MAKE_HRESULT(1, FACILITY_ITF, 0x0012)")
+cpp_quote("#define E_EVAL_MODULE_NOT_FOUND_IN_APPID 	MAKE_HRESULT(1, FACILITY_ITF, 0x0013)")
+cpp_quote("#define E_EVAL_OVERFLOW_HAS_OCCURRED     	MAKE_HRESULT(1, FACILITY_ITF, 0x0014)")
+cpp_quote("#define E_EVAL_NULL_REFERENCE            	MAKE_HRESULT(1, FACILITY_ITF, 0x0015)")
+cpp_quote("#define S_EVAL_ENC_OUTDATED              	MAKE_HRESULT(0, FACILITY_ITF, 0x0016)")
+cpp_quote("#define S_EVAL_PRIOREVALTIMEDOUT				MAKE_HRESULT(0, FACILITY_ITF, 0x0017)")
+cpp_quote("#define E_EVAL_OBJECT_ID_NOT_IN_APP_DOMAIN	MAKE_HRESULT(0, FACILITY_ITF, 0x0018)")
+
+[
+    object,
+    uuid(C077C822-476C-11d2-B73C-0000F87572EF),
+    pointer_default(unique)
+]
+interface IDebugExpressionEvaluator : IUnknown
+{
+    HRESULT Parse
+    (
+        [in]    LPCOLESTR               upstrExpression,
+        [in]    PARSEFLAGS              dwFlags,
+        [in]    UINT                    nRadix,
+        [out]   BSTR                    *pbstrError,
+        [out]   UINT                    *pichError,
+        [out]   IDebugParsedExpression  **ppParsedExpression
+    );
+
+    HRESULT GetMethodProperty
+    (
+        [in]    IDebugSymbolProvider    *pSymbolProvider,
+        [in]    IDebugAddress           *pAddress,
+        [in]    IDebugBinder            *pBinder,
+        [in]    BOOL                    fIncludeHiddenLocals,
+        [out]   IDebugProperty2         **ppProperty
+    );
+
+	HRESULT GetMethodLocationProperty
+	(
+		[in]	LPCOLESTR				upstrFullyQualifiedMethodPlusOffset,
+		[in]	IDebugSymbolProvider	*pSymbolProvider,
+		[in]	IDebugAddress			*pAddress,
+		[in]	IDebugBinder			*pBinder,
+		[out]	IDebugProperty2 		**ppProperty
+	);
+
+    HRESULT SetLocale
+	(
+        [in] WORD wLangID
+	);
+
+	HRESULT SetRegistryRoot
+	(
+		[in]    LPCOLESTR               ustrRegistryRoot
+	);
+}
+
+[
+    object,
+    uuid(2DE1D5E0-CA57-456f-815C-5902825A2795),
+    pointer_default(unique)
+]
+interface IDebugExpressionEvaluator2 : IDebugExpressionEvaluator
+{
+    HRESULT SetCorPath
+    (
+        [in]    LPCOLESTR               pcstrCorPath
+    );
+
+    HRESULT Terminate
+    (
+        void
+    );
+
+    HRESULT SetCallback
+    (
+        [in]    IDebugSettingsCallback2* pCallback
+    );
+
+    HRESULT PreloadModules
+    (
+        [in]    IDebugSymbolProvider *pSym
+    );
+    
+    HRESULT GetService
+    (
+        [in]    GUID uid,
+        [out]   IUnknown ** ppService
+    );
+
+    HRESULT SetIDebugIDECallback
+    (
+        [in]   IDebugIDECallback * pCallback
+    );
+}
+
+[
+    object,
+    uuid(4C7EC6F5-BB6C-43a2-853C-80FF48B7A8A6),
+    pointer_default(unique)
+]
+interface IDebugExpressionEvaluator3 : IDebugExpressionEvaluator2
+{
+	HRESULT Parse2
+    (
+        [in]    LPCOLESTR               upstrExpression,
+        [in]    PARSEFLAGS              dwFlags,
+        [in]    UINT                    nRadix,
+        [in] 	IDebugSymbolProvider   *pSymbolProvider,
+        [in] 	IDebugAddress          *pAddress,
+        [out]   BSTR                    *pbstrError,
+        [out]   UINT                    *pichError,
+        [out]   IDebugParsedExpression  **ppParsedExpression
+    );
+}
+
+
+[
+    object,
+    uuid(B78C9E91-DD39-4e5b-BB7B-30B88149B2FE),
+    pointer_default(unique)
+]
+interface IDebugIDECallback : IUnknown
+{
+    HRESULT DisplayMessage
+    (
+        [in] LPCOLESTR szMessage
+    );
+}
+
+
+[
+    object,
+    uuid(A38EF241-AF3E-49a9-8533-0E35B6794D40),
+    pointer_default(unique)
+]
+interface IDebugIteratorFrameProvider : IUnknown
+{
+    HRESULT GetIteratorFrames
+    (
+        [in] IDebugAddress *pAddress,
+        [in] IDebugBinderDirect *pBinder,
+        [in] IDebugComPlusSymbolProvider *pSym,
+        [out] IDebugProperty2 **ppProperty
+    );
+}
+
+
+
+
+
+[
+    object,
+    uuid(C077C823-476C-11d2-B73C-0000F87572EF),
+    pointer_default(unique)
+]
+interface IDebugObject : IUnknown
+{
+    HRESULT GetSize
+    (
+        [out] UINT  *pnSize
+    );
+
+    HRESULT GetValue
+    (
+        [out, size_is(nSize), length_is(nSize)] BYTE *pValue,
+        [in]                                    UINT nSize
+    );
+
+    HRESULT SetValue
+    (
+        [in, size_is(nSize)]    BYTE *pValue,
+        [in]                    UINT nSize
+    );
+
+    HRESULT SetReferenceValue
+    (
+        [in] IDebugObject *pObject
+    );
+
+    HRESULT GetMemoryContext
+    (
+        IDebugMemoryContext2    **pContext
+    );
+
+    HRESULT GetManagedDebugObject
+    (
+        [out] IDebugManagedObject **ppObject
+    );
+
+    HRESULT IsNullReference
+    (
+        [out] BOOL *pfIsNull
+    );
+
+    HRESULT IsEqual
+    (
+        [in] IDebugObject *pObject,
+        [out] BOOL *pfIsEqual
+    );
+    HRESULT IsReadOnly
+    (
+        [out] BOOL *pfIsReadOnly
+    );
+	HRESULT	IsProxy
+	(
+		[out] BOOL *pfIsProxy
+	);
+}
+
+[
+    object,
+    uuid(3FF130FC-B14F-4bae-AE44-46B1CD3928CC),
+    pointer_default(unique)
+]
+interface IDebugObject2 : IDebugObject
+{
+    HRESULT GetBackingFieldForProperty
+    (
+        [out] IDebugObject2 **ppObject
+    );
+
+    HRESULT GetICorDebugValue
+    (
+        [out] IUnknown **ppUnk
+    );
+
+    HRESULT CreateAlias
+    (
+        [out] IDebugAlias **ppAlias
+    );
+
+    HRESULT GetAlias
+    (
+        [out] IDebugAlias **ppAlias
+    );
+
+    HRESULT GetField
+    (
+        [out] IDebugField **ppField
+    );
+
+    HRESULT IsUserData
+    (
+        [out] BOOL *pfUser
+    );
+
+    HRESULT IsEncOutdated
+    (
+    	[out] BOOL *pfEncOutdated
+    );
+}
+
+[
+    object,
+    uuid(29ECD774-75AE-11d2-B74E-0000F87572EF),
+    pointer_default(unique)
+]
+interface IDebugArrayObject : IDebugObject
+{
+    HRESULT GetCount
+    (
+        [out]   DWORD   *pdwElements
+    );
+
+    HRESULT GetElement
+    (
+        [in]    DWORD           dwIndex,
+        [out]   IDebugObject    **ppElement
+    );
+
+    HRESULT GetElements
+    (
+        [out]   IEnumDebugObjects   **ppEnum
+    );
+
+    HRESULT GetRank
+    (
+        [out]   DWORD   *pdwRank
+    );
+
+    HRESULT GetDimensions
+    (
+        [in] DWORD  dwCount,
+        [out, size_is(dwCount), length_is(dwCount)] DWORD* dwDimensions
+    );
+}
+
+[
+    object,
+    uuid(41487E33-9A10-42fe-BA3B-15FDE59D09D5),
+    pointer_default(unique)
+]
+interface IDebugArrayObject2 : IDebugArrayObject
+{
+    HRESULT HasBaseIndices
+    (
+        [out] BOOL *pfHasBaseIndices
+    );
+
+    HRESULT GetBaseIndices
+    (
+        [in] DWORD dwRank,
+        [out, size_is(dwRank), length_is(dwRank)] DWORD* dwIndices
+    );
+}
+
+[
+    object,
+    uuid(F71D9EA0-4269-48dc-9E8D-F86DEFA042B3),
+    pointer_default(unique)
+]
+interface IDebugFunctionObject : IDebugObject
+{
+
+	enum enum_OBJECT_TYPE
+	{
+        OBJECT_TYPE_BOOLEAN = 0x0,
+        OBJECT_TYPE_CHAR    = 0x1,
+        OBJECT_TYPE_I1      = 0x2,
+        OBJECT_TYPE_U1      = 0x3,
+        OBJECT_TYPE_I2      = 0x4,
+        OBJECT_TYPE_U2      = 0x5,
+        OBJECT_TYPE_I4      = 0x6,
+        OBJECT_TYPE_U4      = 0x7,
+        OBJECT_TYPE_I8      = 0x8,
+        OBJECT_TYPE_U8      = 0x9,
+        OBJECT_TYPE_R4      = 0xa,
+        OBJECT_TYPE_R8      = 0xb,
+        OBJECT_TYPE_OBJECT  = 0xc,
+        OBJECT_TYPE_NULL    = 0xd,
+        OBJECT_TYPE_CLASS   = 0xe
+    };
+
+    typedef DWORD OBJECT_TYPE;
+
+    HRESULT CreatePrimitiveObject
+    (
+        [in]    OBJECT_TYPE ot,
+        [out]   IDebugObject **ppObject
+    );
+
+    HRESULT CreateObject
+    (
+        [in] IDebugFunctionObject *pConstructor,
+        [in] DWORD dwArgs,
+        [in, size_is(dwArgs)] IDebugObject *pArgs[],
+        [out] IDebugObject **ppObject
+    );
+
+    HRESULT CreateObjectNoConstructor
+    (
+        [in] IDebugField *pClassField,
+        [out] IDebugObject **ppObject
+    );
+
+    HRESULT CreateArrayObject
+    (
+        [in]    OBJECT_TYPE ot,
+        [in]    IDebugField *pClassField,
+        [in]    DWORD dwRank,
+        [in, size_is(dwRank)] DWORD dwDims[],
+        [in, size_is(dwRank)] DWORD dwLowBounds[],
+        [out]   IDebugObject **ppObject
+    );
+
+    HRESULT CreateStringObject
+    (
+        [in]    LPCOLESTR pcstrString,
+        [out]   IDebugObject **ppOjbect
+    );
+
+    HRESULT Evaluate
+    (
+        [in, size_is(dwParams)] IDebugObject **ppParams,
+        [in]                    DWORD dwParams,
+        [in]                    DWORD dwTimeout,
+        [out]                   IDebugObject **ppResult
+    );
+};
+
+
+[
+    object,
+    uuid(8E861CC7-D21C-43e7-AB7B-947921689B88),
+    pointer_default(unique)
+]
+interface IDebugFunctionObject2 : IUnknown
+{
+    HRESULT Evaluate
+    (
+        [in, size_is(dwParams)] IDebugObject **ppParams,
+        [in]                    DWORD dwParams,
+        [in]                    DWORD dwEvalFlags,
+        [in]                    DWORD dwTimeout,
+        [out]                   IDebugObject **ppResult
+    );
+    HRESULT CreateObject
+    (
+        [in] IDebugFunctionObject *pConstructor,
+        [in] DWORD dwArgs,
+        [in, size_is(dwArgs)] IDebugObject *pArgs[],
+        [in] DWORD dwEvalFlags,
+        [in] DWORD dwTimeout,
+        [out] IDebugObject **ppObject
+    );
+    HRESULT CreateStringObjectWithLength
+    (
+        [in] LPCOLESTR pcstrString,
+        [in] UINT uiLength,
+        [out] IDebugObject **ppObject
+    );
+};
+
+
+
+[
+    object,
+    uuid(71AF87C9-66C5-49e4-A602-B9012115AFD5),
+    pointer_default(unique)
+]
+interface IDebugManagedObject : IUnknown
+{
+    HRESULT GetManagedObject
+    (
+        [out] IUnknown **ppManagedObject
+    );
+
+    HRESULT SetFromManagedObject
+    (
+        [in] IUnknown *pManagedObject
+    );
+};
+
+[
+    object,
+    uuid(C077C833-476C-11d2-B73C-0000F87572EF),
+    pointer_default(unique)
+]
+interface IDebugBinder : IUnknown
+{
+    HRESULT Bind
+    (
+        [in]    IDebugObject    *pContainer,
+        [in]    IDebugField     *pField,
+        [out]   IDebugObject    **ppObject
+    );
+
+    HRESULT ResolveDynamicType
+    (
+        [in]    IDebugDynamicField *pDynamic,
+        [out]   IDebugField **ppResolved
+    );
+
+    HRESULT ResolveRuntimeType
+    (
+        [in]    IDebugObject *pObject,
+        [out]   IDebugField **ppResolved
+    );
+
+    HRESULT GetMemoryContext
+    (
+        [in]    IDebugField *pField,                // Ask for a cxt based on a symbol (this can be NULL)
+        [in]    DWORD dwConstant,                   // If pField is null, then the EE need a cxt wrapper around a constant.
+        [out]   IDebugMemoryContext2 **ppMemCxt
+    );
+
+    HRESULT GetFunctionObject
+    (
+        [out] IDebugFunctionObject **ppFunction
+    );
+}
+
+
+[
+    object,
+    uuid(9DB3E3B8-84F5-488e-93EB-B3CE3E33EDAB),
+    pointer_default(unique)
+]
+interface IDebugBinderDirect : IUnknown
+{
+    HRESULT GetCORDBFrame
+    (
+        [out] IUnknown **ppFrame
+    );
+
+    HRESULT GetCORDBModule
+    (
+        [in] GUID guid,
+        [in] ULONG32 appDomainID,
+        [out] IUnknown **ppModule
+    );
+
+    HRESULT GetDebugProperty
+    (
+        [out] IDebugProperty2 **ppProperty
+    );
+
+    HRESULT GetMemoryContext
+    (
+        [in] DEBUG_ADDRESS  *pda,
+        [in] UINT64 dwConstant,
+        [out] IDebugMemoryContext2 **ppMemCxt
+    );
+
+    HRESULT GetAlias
+    (
+        [in] IUnknown *pCorValue,
+        [out] IDebugAlias **ppAlias
+    );
+
+    HRESULT IsUserData
+    (
+        [in] DEBUG_ADDRESS *pda,
+        [out] BOOL *pfUser
+    );
+
+    HRESULT CanDoFuncEval
+    (
+        [in] DEBUG_ADDRESS *pda
+    );
+
+    HRESULT ContinueForFuncEval
+    (
+        [in] IUnknown * pCorEval, 
+        [in] DWORD dwEvalFlags, 
+        [in] DWORD dwTimeout
+    );
+
+    HRESULT CreateIDebugObject
+    (
+        [in] IUnknown * pCorDebugValue,
+        [out] IDebugObject ** ppObject
+    );
+
+	HRESULT IsInSQLCLRMode
+	(
+		[out] BOOL *pfSQLCLRMode
+	);
+
+    HRESULT IsInEmbeddedClrMode
+	(
+		[out] BOOL *pfEmbeddedClrMode
+	);
+}
+
+
+// I want to depricate IDebugBinder2
+[
+    object,
+    uuid(DCF3C6EE-7C7D-4e1f-AEEB-646902AF0723),
+    pointer_default(unique)
+]
+interface IDebugBinder2 : IUnknown
+{
+    HRESULT GetMemoryObject
+    (
+		[in]	IDebugField *pField,
+        [in]    DWORD dwConstant,
+        [out]   IDebugObject **ppObject
+    );
+
+    HRESULT GetExceptionObjectAndType
+    (
+        [out] IDebugObject **ppException,
+        [out] IDebugField **ppField
+    );
+}
+
+[
+    object,
+    uuid(BBCD7263-B415-40f6-942A-4A9A8599B708),
+    pointer_default(unique)
+]
+interface IDebugBinder3 : IDebugBinder
+{
+    HRESULT GetMemoryObject
+    (
+		[in]	IDebugField *pField,
+        [in]    UINT64 uConstant,
+        [out]   IDebugObject **ppObject
+    );
+
+    HRESULT GetExceptionObjectAndType
+    (
+        [out] IDebugObject **ppException,
+        [out] IDebugField **ppField
+    );
+
+    HRESULT FindAlias
+    (
+        [in] LPCOLESTR pcstrName,
+        [out] IDebugAlias **ppAlias
+    );
+
+    HRESULT GetAllAliases
+    (
+        [in] UINT uRequest,
+        [in, out, ptr , size_is(uRequest), length_is(*puFetched)] IDebugAlias **ppAliases,
+        [out] UINT *puFetched
+    );
+
+    HRESULT GetTypeArgumentCount
+    (
+        [out] UINT * uCount
+    );
+
+    HRESULT GetTypeArguments
+    (
+        [in] UINT skip, 
+        [in] UINT count, 
+        [in, out, ptr , size_is(count), length_is(*pFetched)] IDebugField **ppFields, 
+        [out] UINT *pFetched
+    );
+
+    HRESULT GetEEService
+    (
+        [in] GUID vendor, 
+        [in] GUID language, 
+        [in] GUID iid, 
+        [out] IUnknown ** ppService
+    );
+
+    HRESULT GetMemoryContext64
+    (
+        [in]    IDebugField *pField,                // Ask for a cxt based on a symbol (this can be NULL)
+        [in]    UINT64 uConstant,                   // If pField is null, then the EE need a cxt wrapper around a constant.
+        [out]   IDebugMemoryContext2 **ppMemCxt
+    );
+}
+
+
+[
+    object,
+    uuid(27ED701A-FA26-406e-AE71-00011B5AE396),
+    pointer_default(unique)
+]
+interface IEEVisualizerDataProvider : IUnknown
+{
+
+    HRESULT GetNewObjectForVisualizer
+    (
+        [out] IDebugObject ** ppObject
+    );
+
+    HRESULT GetObjectForVisualizer
+    (
+        [out] IDebugObject ** ppObject
+    );
+
+    HRESULT CanSetObjectForVisualizer
+    (
+        [out] BOOL * b
+    );
+    
+    HRESULT SetObjectForVisualizer
+    (
+        [in] IDebugObject * pNewObject,
+        [out] BSTR * error,
+        [out] IDebugObject ** pException
+    );
+
+}
+
+[
+    object,
+    uuid(82545B58-F203-4835-ACD6-6D0997AA6F25),
+    pointer_default(unique)
+]
+interface IEEVisualizerService : IUnknown
+{
+	enum enum_DisplayKind
+	{
+        DisplayKind_Value = 0x1,
+        DisplayKind_Name = 0x2,
+        DisplayKind_Type = 0x3,
+    };
+    typedef DWORD DisplayKind;
+
+    enum enum_BrowsableKind
+    {
+        BrowsableKind_None = 0x1,
+        BrowsableKind_Collapsed = 0x2,
+        BrowsableKind_RootHidden = 0x3,
+        BrowsableKind_Never = 0x4,
+    };
+    typedef DWORD BrowsableKind;
+
+    HRESULT GetCustomViewerCount
+    (
+        [out] ULONG* pcelt
+    );
+    
+    HRESULT GetCustomViewerList
+    (
+        [in] ULONG celtSkip, 
+        [in] ULONG celtRequested, 
+        [out, size_is(celtRequested),length_is(*pceltFetched)] DEBUG_CUSTOM_VIEWER* rgViewers, 
+        [out] ULONG* pceltFetched
+    );
+    
+    HRESULT GetPropertyProxy
+    (
+        [in] DWORD dwID, 
+        [out] IPropertyProxyEESide ** proxy
+    );
+
+    HRESULT GetValueDisplayStringCount
+    (
+        [in] DWORD displayKind, 
+        [in] IDebugField * propertyOrField, 
+        [out] ULONG * pcelt
+    );
+
+    HRESULT GetValueDisplayStrings
+    (
+        [in] DisplayKind displayKind, 
+        [in] IDebugField * propertyOrField, 
+        [in] ULONG celtSkip, 
+        [in] ULONG celtRequested, 
+        [out, size_is(celtRequested), length_is(*pceltFetched)] BSTR * rgStrings, 
+        [out, size_is(celtRequested), length_is(*pceltFetched)] BOOL * rgIsExpression, 
+        [out] ULONG * pceltFetched
+    );
+
+    HRESULT GetBrowsableState
+    (
+        [in] IDebugField * propertyOrField, 
+        [out] BrowsableKind * browsableKind
+    );
+
+    HRESULT PossiblyHasInlineProxy
+    (
+        [out] BOOL * mayHaveProxy
+    );
+
+    HRESULT CreateInlineProxy
+    (
+        [out] IDebugObject ** proxy, 
+        [out] BOOL * IsExceptionNotProxy, 
+        [out] BSTR * errorString
+    );
+}
+
+[
+    object,
+    uuid(A2F2C782-F929-4ffa-8699-88D4C4C07B17),
+    pointer_default(unique)
+]
+interface IEEVisualizerServiceProvider : IUnknown
+{
+    HRESULT CreateVisualizerService
+    (
+        [in] IDebugBinder * binder, 
+        [in] IDebugSymbolProvider * pSymProv, 
+        [in] IDebugAddress * pAddress, 
+        [in] IEEVisualizerDataProvider * dataProvider, 
+        [out] IEEVisualizerService ** ppService
+    );
+}
+
+
+[
+    object,
+    uuid(112756A1-3F04-4ccd-BFD6-ACB4BCA614C9),
+    pointer_default(unique)
+]
+interface IDebugPointerObject : IDebugObject
+{
+    HRESULT Dereference
+    (
+        [in]    DWORD dwIndex,
+        [out]   IDebugObject **ppObject
+    );
+
+    HRESULT GetBytes
+    (
+        [in]    DWORD dwStart,
+        [in]    DWORD dwCount,
+        [out, size_is(dwCount), length_is(dwCount)] BYTE *pBytes,
+        [out]   DWORD *pdwBytes
+    );
+
+    HRESULT SetBytes
+    (
+        [in]    DWORD dwStart,
+        [in]    DWORD dwCount,
+        [in, size_is(dwCount), length_is(dwCount)] BYTE *pBytes,
+        [out]   DWORD *pdwBytes
+    );
+}
+
+[
+    object,
+    uuid(BF032216-2C7F-4682-84C1-76EF432D840B),
+    pointer_default(unique)
+]
+interface IDebugPointerObject2 : IDebugObject
+{
+    HRESULT ComputePointerAddress
+    (
+        [out]   DWORD *pdwAddress
+    );
+}
+
+[
+    object,
+    uuid(B69D88F9-BC5A-4eb3-A43C-9AF3155F0632),
+    pointer_default(unique)
+]
+interface IDebugPointerObject3 : IDebugPointerObject
+{
+    HRESULT GetPointerAddress
+    (
+        [out]   UINT64 *puAddress
+    );
+}
+
+
+[
+    object,
+    uuid(7895C94C-5A3F-11d2-B742-0000F87572EF),
+    pointer_default(unique)
+]
+interface IDebugParsedExpression : IUnknown
+{
+    HRESULT EvaluateSync
+    (
+        [in] DWORD                  dwEvalFlags,
+        [in] DWORD                  dwTimeout,
+        [in] IDebugSymbolProvider   *pSymbolProvider,
+        [in] IDebugAddress          *pAddress,
+        [in] IDebugBinder           *pBinder,
+		[in] BSTR                   bstrResultType,
+        [out] IDebugProperty2       **ppResult
+    );
+}
+
+[
+    object,
+    uuid(0881751C-99F4-11d2-B767-0000F87572EF),
+    pointer_default(unique)
+]
+interface IEnumDebugObjects: IUnknown
+{
+    HRESULT Next
+    (
+        [in] ULONG celt,
+        [out, size_is(celt), length_is(*pceltFetched)] IDebugObject **rgelt,
+        [in, out] ULONG* pceltFetched
+    );
+
+    HRESULT Skip
+    (
+        [in] ULONG celt
+    );
+
+    HRESULT Reset
+    (
+        void
+    );
+
+    HRESULT Clone
+    (
+        [out] IEnumDebugObjects **ppEnum
+    );
+
+    HRESULT GetCount
+    (
+        [out] ULONG* pcelt
+    );
+};
+
+[
+    object,
+    uuid(DE7CCB92-94AC-4841-B354-5827B68217E7),
+    pointer_default(unique)
+]
+interface IDebugAlias : IUnknown
+{
+    HRESULT GetObject
+    (
+        [out] IDebugObject2 **ppObject
+    );
+
+    HRESULT GetName
+    (
+        [out] BSTR *pbstrName
+    );
+
+    HRESULT GetICorDebugValue
+    (
+        [out] IUnknown **ppUnk
+    );
+
+    HRESULT Dispose
+    (
+    );
+};
+
+//
+// This is the list of Microsoft expression evaluator dlls that
+// msvsmon knows about
+cpp_quote("#define VB_EE_DLL L\"vbdebug.dll\"")
+cpp_quote("#define MC_EE_DLL L\"mcee.dll\"")
+cpp_quote("#define CS_EE_DLL L\"cscompee.dll\"")
+cpp_quote("#define VJS_EE_DLL L\"vjscompee.dll\"")
+
+[
+	uuid(cefc5bb9-dbb7-4388-afa0-f55b97b5913b)
+]
+library MicrosoftEELib
+{
+	[
+		uuid(FDDC0D64-0720-11D3-BDA3-00C04FA302E2)
+	]
+	coclass ManagedCppExpressionEvaluator
+	{
+		[default] interface IDebugExpressionEvaluator;
+	};
+
+	[
+		uuid(60F5556F-7EBC-4992-8E83-E9B49187FDE3)
+	]
+	coclass CSharpExpressionEvaluator
+	{
+		[default] interface IDebugExpressionEvaluator;
+	};
+
+	[
+		uuid(AFFFF3AF-61DC-4859-9799-1E404EF507D4)
+	]
+	coclass JSharpExpressionEvaluator
+	{
+		[default] interface IDebugExpressionEvaluator;
+	};
+};

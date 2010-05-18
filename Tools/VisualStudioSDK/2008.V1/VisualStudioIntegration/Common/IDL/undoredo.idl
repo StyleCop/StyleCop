@@ -1,0 +1,102 @@
+//------------------------------------------------------------------------------
+// UNDOREDO.IDL
+//
+// Interface definitions for undo/redo history management
+//------------------------------------------------------------------------------
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+    ////////////////////////////////////////////////////////////////////////////
+    // IAction interface
+    //
+    // Actions placed in the undo history of a text buffer expose this
+    // interface.
+    ////////////////////////////////////////////////////////////////////////////
+	[
+		object,
+		uuid(D8C8AB11-7D4A-11d0-A8AA-00A0C921A4D2),
+		helpstring("IAction Interface"),
+		pointer_default(unique)
+	]
+	interface IAction : IUnknown
+	{
+		HRESULT     GetName(BSTR *bstrName, BOOL fLongName);
+		HRESULT     GetSize(long *piSize);
+        HRESULT     Undo (IUnknown *pObject);
+        HRESULT     Redo (IUnknown *pObject);
+        HRESULT     Abort (IUnknown *pObject);
+        HRESULT     AddSibling (IAction *pAction);
+        HRESULT     GetNextSibling (IAction **ppAction);
+        HRESULT     AddChild (IAction *pAction);
+        HRESULT     GetFirstChild (IAction **ppAction);
+        HRESULT     CanMerge (IAction *pAction);
+        HRESULT     Merge (IAction *pAction);
+	};
+
+    ////////////////////////////////////////////////////////////////////////////
+    // IEnumActions interface
+    //
+    // Standard type enumerator interface for IActions in either an undo
+    // or redo stack of a IActionHistory implementation
+    ////////////////////////////////////////////////////////////////////////////
+    [
+        uuid(7A6335C8-7884-11d0-A8A9-00A0C921A4D2)
+    ]
+    interface IEnumActions : IUnknown
+    {
+        HRESULT     Next (ULONG celt, IAction **rgelt, ULONG *pceltFetched);
+        HRESULT     Skip (ULONG celt);
+        HRESULT     Reset ();
+        HRESULT     Clone (IEnumActions **ppenum);
+    };
+
+
+
+    ////////////////////////////////////////////////////////////////////////////
+    // IActionHistory interface
+    //
+    // Objects with undo/redo capability expose this interface.
+    ////////////////////////////////////////////////////////////////////////////
+	[
+		object,
+		uuid(8D5DE85B-7D42-11D0-A8AA-00A0C921A4D2),
+		helpstring("IActionHistory Interface"),
+		pointer_default(unique)
+	]
+	interface IActionHistory : IUnknown
+	{
+		HRESULT RecordAction([in]IAction *pAction);
+		HRESULT OpenAction([in]IAction *pAction);
+		HRESULT CloseAction();
+		HRESULT AbortAction();
+		HRESULT CanUndo();
+		HRESULT CanRedo();
+		HRESULT Undo();
+		HRESULT Redo();
+        HRESULT EnumUndoActions (IEnumActions **ppEnumUndoActions);
+        HRESULT EnumRedoActions (IEnumActions **ppEnumRedoActions);
+        HRESULT Reset ();
+	};
+	
+	
+	
+[
+	uuid(8D5DE84E-7D42-11D0-A8AA-00A0C921A4D2),
+	version(1.0),
+	helpstring("undoredo 1.0 Type Library")
+]
+library UNDOREDOLib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+	[
+		uuid(F5E7E71F-1401-11d1-883B-0000F87579D2),
+		helpstring("ActionHistory Class")
+	]
+	coclass ActionHistory
+	{
+		[default] interface IActionHistory;
+	};
+};

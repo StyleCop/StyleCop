@@ -1,0 +1,1718 @@
+// enc.idl : Microsoft Edit/Continue Debugging Scenario API
+
+import "ocidl.idl";
+import "oleidl.idl";
+
+// ----------------------------------------------------
+// interfaces from "msdbg.idl" that are used here
+interface IDebugStackFrame2;
+interface IDebugCodeContext2;
+interface IDebugENCSnapshot2;
+
+// ----------------------------------------------------
+// interfaces defined in this idl file
+
+// {B104D8B7-AF19-11d2-922C-00A02448799A}
+// DEFINE_GUID(IID_IDebugENC,
+// 0xb104d8b7, 0xaf19, 0x11d2, 0x92, 0x2c, 0x0, 0xa0, 0x24, 0x48, 0x79, 0x9a);
+interface IDebugENC;
+
+// {8706233B-BD4C-11d2-9238-00A02448799A}
+// DEFINE_GUID(IID_IDebugEncLineMap,
+// 0x8706233b, 0xbd4c, 0x11d2, 0x92, 0x38, 0x0, 0xa0, 0x24, 0x48, 0x79, 0x9a);
+interface IDebugENCLineMap;
+
+// {6B56106F-BD51-11d2-9238-00A02448799A}
+// DEFINE_GUID(IID_IDebugENCInfo2,
+// 0x6b56106f, 0xbd51, 0x11d2, 0x92, 0x38, 0x0, 0xa0, 0x24, 0x48, 0x79, 0x9a);
+interface IDebugENCInfo2;
+
+// {7B076AD1-BD51-11d2-9238-00A02448799A}
+// DEFINE_GUID(IID_IEnumDebugENCInfo2,
+// 0x7b076ad1, 0xbd51, 0x11d2, 0x92, 0x38, 0x0, 0xa0, 0x24, 0x48, 0x79, 0x9a);
+interface IEnumDebugENCInfo2;
+
+// {CBB63A8D-BD57-11d2-9238-00A02448799A}
+// DEFINE_GUID(IID_IDebugENCRelinkInfo2,
+// 0xcbb63a8d, 0xbd57, 0x11d2, 0x92, 0x38, 0x0, 0xa0, 0x24, 0x48, 0x79, 0x9a);
+interface IDebugENCRelinkInfo2;
+
+// {9B7DE9A9-BD59-11d2-9238-00A02448799A}
+// DEFINE_GUID(IID_IDebugIDBInfo2,
+// 0x9b7de9a9, 0xbd59, 0x11d2, 0x92, 0x38, 0x0, 0xa0, 0x24, 0x48, 0x79, 0x9a);
+interface IDebugIDBInfo2;
+
+// {B34E469B-BD59-11d2-9238-00A02448799A}
+// DEFINE_GUID(IID_IEnumDebugIDBInfo2,
+// 0xb34e469b, 0xbd59, 0x11d2, 0x92, 0x38, 0x0, 0xa0, 0x24, 0x48, 0x79, 0x9a);
+interface IEnumDebugIDBInfo2;
+
+// {E51BE743-BD57-11d2-9238-00A02448799A}
+// DEFINE_GUID(IID_IEnumDebugENCRelinkInfo2,
+// 0xe51be743, 0xbd57, 0x11d2, 0x92, 0x38, 0x0, 0xa0, 0x24, 0x48, 0x79, 0x9a);
+interface IEnumDebugENCRelinkInfo2;
+
+// {EA70281B-BD58-11d2-9238-00A02448799A}
+// DEFINE_GUID(IID_IDebugENCBuildInfo2,
+// 0xea70281b, 0xbd58, 0x11d2, 0x92, 0x38, 0x0, 0xa0, 0x24, 0x48, 0x79, 0x9a);
+interface IDebugENCBuildInfo2;
+
+// {0EBF1959-BD57-11d2-9238-00A02448799A}
+// DEFINE_GUID(IID_IDebugENCUpdateOnRelinkEvent2,
+// 0xebf1959, 0xbd57, 0x11d2, 0x92, 0x38, 0x0, 0xa0, 0x24, 0x48, 0x79, 0x9a);
+interface IDebugENCUpdateOnRelinkEvent2;
+
+// {2F01EB29-BD57-11d2-9238-00A02448799A}
+// DEFINE_GUID(IID_IDebugENCUpdateOnStaleCodeEvent2,
+// 0x2f01eb29, 0xbd57, 0x11d2, 0x92, 0x38, 0x0, 0xa0, 0x24, 0x48, 0x79, 0x9a);
+interface IDebugENCUpdateOnStaleCodeEvent2;
+
+// {978BAEE7-BD4C-11d2-9238-00A02448799A}
+// DEFINE_GUID(IID_IDebugENCUpdate,
+// 0x978baee7, 0xbd4c, 0x11d2, 0x92, 0x38, 0x0, 0xa0, 0x24, 0x48, 0x79, 0x9a);
+interface IDebugENCUpdate;
+interface IDebugENCSnapshots2;
+interface IEnumDebugENCSnapshots2;
+interface IDebugComPlusSnapshot2;
+interface IDebugENCStackFrame2;
+interface IDebugENCStateEvents;
+
+import "msdbg.idl";
+import "sh.idl";
+
+// ----------------------------------------------------
+// ENC error code to IDE
+
+// Error HRESULTs returned by IDebugENCEvents::OnENCRebuildComplete
+cpp_quote("static const int E_ENC_REBUILD_FAIL = MAKE_HRESULT(1, FACILITY_ITF, 0x0001);")
+
+// Error HRESULTs resturned by VB ENC project/build system [IDebugENCEvents::OnENCRebuildComplete]
+cpp_quote("static const int E_VB_ENC_REBUILD_FAIL = MAKE_HRESULT(1, FACILITY_ITF, 0x0011);")
+
+// Error HRESULTs returned by any ENC project/build system when module is not yet loaded
+cpp_quote("static const int E_ENC_REBUILD_FAIL_MODULE_NOT_LOADED = MAKE_HRESULT(1, FACILITY_ITF, 0x0101);")
+
+
+// Error HRESULTs returned by IDebugENCEvents::OnENCCommitComplete
+cpp_quote("static const int E_ENC_COMMIT_FAIL = MAKE_HRESULT(1, FACILITY_ITF, 0x0002);")
+
+ 
+cpp_quote("static const int E_ENC_MODIFIED_MODULE_RELOADED = MAKE_HRESULT(1, FACILITY_ITF, 0x0005);") 
+cpp_quote("static const int E_ENC_NOT_SUPPORTED_DURING_INTEROP = MAKE_HRESULT(1, FACILITY_ITF, 0x0006);")
+
+
+// Error HRESULTs returned by IDebugManagedENC::GetENCModule
+//cpp_quote("static const int E_ENC_NOT_SUPPORTED_DURING_INTEROP = MAKE_HRESULT(1, FACILITY_ITF, 0x0006);")
+cpp_quote("static const int E_ENC_NOT_SUPPORTED_DURING_SQLCLR = MAKE_HRESULT(1, FACILITY_ITF, 0x0007);")
+cpp_quote("static const int E_ENC_NOT_SUPPORTED_DURING_EMBEDDED = MAKE_HRESULT(1, FACILITY_ITF, 0x0008);")
+cpp_quote("static const int E_ENC_NOT_SUPPORTED_DURING_MINIDUMP = MAKE_HRESULT(1, FACILITY_ITF, 0x0009);")
+cpp_quote("static const int E_ENC_NOT_SUPPORTED_FOR_ATTACH = MAKE_HRESULT(1, FACILITY_ITF, 0x0010);")
+cpp_quote("static const int E_ENC_NOT_SUPPORTED_FOR_WIN64 = MAKE_HRESULT(1, FACILITY_ITF, 0x0011);")
+cpp_quote("static const int E_ENC_NOT_SUPPORTED_UNTIL_MODULE_LOADED = MAKE_HRESULT(1, FACILITY_ITF, 0x0012);")
+cpp_quote("static const int E_ENC_NOT_SUPPORTED_BUILD_FAILED = MAKE_HRESULT(1, FACILITY_ITF, 0x0015);")
+cpp_quote("static const int E_ENC_NOT_SUPPORTED_FOR_SILVERLIGHT = MAKE_HRESULT(1, FACILITY_ITF, 0x0018);")
+
+// HRESULTs returned by IDebugENCModule::ApplyENCUpdate
+// S_ENC_ILREMAP_UNREACHABLE is returned when the cpde determines that one or more statements it needs to
+// remap are in currently unreachable code.
+cpp_quote("static const int S_ENC_ILREMAP_UNREACHABLE = MAKE_HRESULT(0, FACILITY_ITF, 0x0013);")
+cpp_quote("static const int E_ENC_NOT_SUPPORTED_IN_RUNMODE = MAKE_HRESULT(1, FACILITY_ITF, 0x0014);")
+
+// HRESULT used in the encmgr to track stoponce mode
+cpp_quote("static const int E_ENC_NOT_SUPPORTED_IN_STOPONEMODE = MAKE_HRESULT(1, FACILITY_ITF, 0x0016);")
+cpp_quote("static const int E_ENC_NOT_SUPPORTED_FOR_REMOTE = MAKE_HRESULT(1, FACILITY_ITF, 0x0017);")
+
+// ----------------------------------------------------
+enum tagENCSTATE {
+
+	ENCSTATE_DISABLED, // disable [ApplyCodeChange] menu-item
+	ENCSTATE_ENABLED,   // enable [ApplyCodeChange] menu-item
+	ENCSTATE_MANAGED_ENC_NOT_SUPPORTED //  VS7.0 behavior telling IDE that user had changed managed code which we don't support
+};
+typedef enum tagENCSTATE ENCSTATE;
+
+enum tagApplyCodeChangesResult
+{
+    ACCR_SUCCESS,
+    ACCR_BUILDERROR,
+    ACCR_CANCOMMITERROR,
+    ACCR_COMMITERROR,
+    ACCR_MODRELOADERROR,
+    ACCR_ENCNOTSUPPORTED,
+    ACCR_MODNOTLOADEDERROR,
+};
+typedef enum tagApplyCodeChangesResult ApplyCodeChangesResult;
+
+// ----------------------------------------------------
+// EncMgr implements this interface, which is to be consumed by the IDE process during
+// a debugging session
+[
+	object,
+	uuid(B104D8B7-AF19-11d2-922C-00A02448799A),
+	pointer_default(unique)
+]
+interface IDebugENC : IUnknown
+{
+	// must invoke this method immediately after its CoCreation.
+	HRESULT SetRegistryRoot
+	(
+		[in] LPCOLESTR in_szRegistryRoot
+	);
+	// must invoke this method whenever debugger transits from design to break/run mode
+	HRESULT EnterDebuggingSession
+	(
+		[in] IServiceProvider* in_pServiceProvider
+	);
+
+	// used by IDE to set ENC option to all ENC project/build systems
+	HRESULT SetENCProjectBuildOption
+	(
+		[in] REFGUID in_guidOption,
+		[in] LPCOLESTR in_szOptionValue
+	);
+
+	// used by IDE to determine whether to enable [ApplyCodeChange] menu-item
+	HRESULT InquireENCState
+	(
+		[in] ENCSTATE* in_pENCSTATE,
+		[in] BOOL fOnContinue
+	);
+
+	// used by IDE to determine whether ENC relinking currently takes place
+	HRESULT InquireENCRelinkState
+	(
+		[in] BOOL* in_pbENCRelinking
+	);
+
+	// used by IDE to forward-map line changes caused by user edits
+	HRESULT MapToEdited
+	(
+		[in] LPCOLESTR in_szFile,
+		[in] ULONG in_LineNo,
+		[in] ULONG in_ColumnNo,
+		[out] ULONG* out_pLineNo,
+		[out] ULONG* out_pColumnNo
+	);
+
+	// used by IDE to reverse-map line changes caused by user edits
+	HRESULT MapToSuperceded
+	(
+		[in] LPCOLESTR in_szFile,
+		[in] ULONG in_LineNo,
+		[in] ULONG in_ColumnNo,
+		[out] ULONG* out_pLineNo,
+		[out] ULONG* out_pColumnNo
+	);
+
+	//
+	// Deprecated - use ApplyCodeChanges2 in IDebugENC2
+	//
+	HRESULT ApplyCodeChanges
+	(
+		[in] IDebugSession2* in_pSession,
+		[in] BOOL in_fOnContinue,
+		[out] ApplyCodeChangesResult* result
+	);
+
+	//
+	// cancels the prior ApplyCodeChange still in progress
+	//
+	HRESULT CancelApplyCodeChanges
+	(
+		[in] IDebugProgram2* in_pProgram
+	);
+
+	// must invoke whenever debugger transits from break/run to design mode.
+	HRESULT LeaveDebuggingSession
+	(
+		void
+	);
+
+	HRESULT AdviseENCStateEvents
+	(
+		[in] IDebugENCStateEvents* in_pENCStateEvents
+	);
+
+	HRESULT UnadviseENCStateEvents
+	(
+		[in] IDebugENCStateEvents* in_pENCStateEvents
+	);
+
+	// used by IDE to map URL of the following format: "ENC:\\rev=12?c:\document setting\myproject\project1\module1.vb"
+	HRESULT GetFileName
+	(
+		[in]	LPCOLESTR in_szURL,
+		[out]	BSTR* out_pbstrFileName
+	);
+	HRESULT GetFileDisplayName
+	(
+		[in]	LPCOLESTR in_szURL,
+		[out]	BSTR* out_pbstrDisplayFileName
+	);
+
+	// used by IDE to inform ENCMGR that user has selected "NO" to apply-code-change dialog
+	HRESULT ClearENCState
+	(
+		void
+	);	
+};
+
+enum tagEncApplyModel
+{
+    ENCAM_NONE,
+    ENCAM_ANY,
+    ENCAM_ONCONTINUE
+};
+typedef enum tagEncApplyModel EncApplyModel;
+
+enum tagEncEditState
+{
+    ENCES_NO_EDITS_PENDING,
+    ENCES_VALID_EDITS
+};
+typedef enum tagEncEditState EncEditState;
+
+enum tagEncBreakReason
+{
+	ENCBR_NORMAL,
+	ENCBR_EXCEPTION,
+};
+typedef enum tagEncBreakReason EncBreakReason;
+
+// EncMgr implements this interface, which is to be consumed by EncEng during an EnC update phase
+[
+	object,
+	uuid(54B61A02-4823-42ec-9648-A9AE80CDA270),
+	pointer_default(unique)
+]
+interface IDebugENC2 : IDebugENC
+{
+	// An ENC Apply model defines what state is required to allow an apply.
+	// The Apply model in effect is based on the combination of Projects being debugged.
+	//
+	// ENCAM_NONE -> No project supports ENC
+	// ENCAM_ANY -> One or more projects support Apply at any point
+	// ENCAM_ONCONTINUE -> At least one project supports ENC, but only when continuing from break mode.
+	HRESULT GetENCApplyModel( 
+		[in] EncApplyModel* pEncApplyModel
+		);
+
+	HRESULT GetEditState(
+		[in] EncEditState* pEditState
+		);
+		
+	// This method provides updated positions for Active statements
+	// tracked by the language service.
+	// This provides correct callstack navigation ability before an ENC edit has
+	// been applied.
+	HRESULT CurrentPositionFromOriginal
+	(	
+		[in] LPCOLESTR in_szFile,
+		[in] ULONG in_LineNo,
+		[in] ULONG in_ColumnNo,
+		[in] ULONG in_LineNoEnd,
+		[in] ULONG in_ColumnNoEnd,
+		[out] ULONG* out_pLineNo,
+		[out] ULONG* out_pColumnNo,
+		[out] ULONG* out_pLineNoEnd,
+		[out] ULONG* out_pColumnNoEnd
+	);
+
+	// S_OK means Code Contexts are valid
+	// S_FALSE means it is not possible to get a valid CodeContext from Position.
+	HRESULT AreCodeContextsValid([in] LPCOLESTR in_szFile);
+
+	HRESULT WaitForENCRelink();
+
+	HRESULT EncCanIgnoreErrors( [out] BOOL* pfCanIgnoreErrors);
+
+	HRESULT SetLocale([in] WORD wLangID);
+
+	//
+	// applies code changes synchronously
+	// pumps messages during call
+	//
+	HRESULT ApplyCodeChanges2
+	(
+		[in] IDebugSession2* in_pSession,
+		[in] BOOL in_fOnContinue,
+		[in] ULONG ulLineHint,
+		[in] ULONG ulColHint,
+		[out] ApplyCodeChangesResult* result
+	);
+
+	HRESULT EnterBreakState
+	( 
+		[in] IDebugSession2* pProg,
+		[in] EncBreakReason breakReason
+	);
+	
+	HRESULT ExitBreakState( void );
+
+	HRESULT SetStoppingModel(
+		[in] DWORD dwStoppingModel);
+
+	HRESULT CheckEncAvailableForProject(
+		[in] IDebugSession2* pProg,
+		[in] IUnknown* pProject);
+
+	// S_FALSE means that a remap of the leaf frame for a managed application
+	// is not possible.
+	// S_OK means it _could_ be possible depending on IDebugThread3::CanRemapLeafFrame.
+	//
+	// The File and Text position must match the pre-edit location of the IP of a 
+	// leaf frame on a managed thread.
+	HRESULT IsLeafRemapPossible
+	(	
+		[in] LPCOLESTR in_szFile,
+		[in] ULONG in_LineNo,
+		[in] ULONG in_ColumnNo,
+		[in] ULONG in_LineNoEnd,
+		[in] ULONG in_ColumnNoEnd
+	);
+}
+
+// EncMgr implements this interface, which is to be consumed by EncEng during an EnC update phase
+[
+	object,
+	uuid(8706233B-BD4C-11d2-9238-00A02448799A),
+	pointer_default(unique)
+]
+interface IDebugENCLineMap : IUnknown
+{
+	HRESULT GetEditedSource
+	(
+		// not sure whether out_pbstrEditSource returns an absolute pathname [at this time]
+		[out] BSTR* out_pbstrEditedSource
+	);
+	HRESULT GetSupercededSource
+	(
+		// not sure whether out_pbstrSupercededSource returns an absolute pathname [at this time]
+		[out] BSTR* out_pbstrSupercededSource
+	);
+	// return S_OK/S_FALSE for true/false, E_INVALIDARG for line no not in-range
+	HRESULT IsLineModified
+	(
+		[in] ULONG in_LineNoFromSupercededSource
+	);
+	// map LineNoFrom(superceded source) -> LineNoFrom(edited source)
+	HRESULT LineMap
+	(
+		[in] ULONG in_LineNoFromSupercededSource,
+		[out] ULONG* out_pLineNoFromEditedSource
+	);
+	// map LineNoFrom(edited source) -> LineNoFrom(superceded source)
+	HRESULT ReverseLineMap
+	(
+		[in] ULONG in_LineNoFromEditedSource,
+		[out] ULONG* out_pLineNoFromSupercededSource
+	);
+};
+
+// ------------------------------------------------------------------
+// enum ENCINFO_FLAGS
+enum {
+
+	ENCINFO_STACKFRAME = 0x00000001,
+	ENCINFO_HRESULT_FROM_DE = 0x00000002,
+	ENCINFO_ERROR_NO = 0x00000004,
+	ENCINFO_ERROR_BSTR = 0x00000008,
+	ENCINFO_CODE_CONTEXT = 0x00000010,
+	ENCINFO_EXTENDED_INFO = 0x00000020
+};
+
+typedef DWORD ENCINFO_FLAGS;
+
+// struct ENCINFO
+typedef struct tagENCINFO
+{
+	ENCINFO_FLAGS m_dwValidFields;
+
+	IDebugStackFrame2* m_pStackFrame;
+	HRESULT m_HRFromDE;
+	DWORD m_dwErrorNo;
+	BSTR m_bstrError;
+	IDebugCodeContext2* m_pCodeContext;
+	IUnknown* m_pExtendedInfo;
+
+} ENCINFO;
+
+// IDebugENCInfo2
+[
+	object,
+	uuid(6B56106F-BD51-11d2-9238-00A02448799A),
+	pointer_default(unique)
+]
+interface IDebugENCInfo2 : IUnknown
+{
+	HRESULT GetInfo
+	(
+		[out] ENCINFO* out_pENCINFO
+	);
+};
+
+// IEnumDebugENCInfo2
+[
+	object,
+	uuid(7B076AD1-BD51-11d2-9238-00A02448799A),
+	pointer_default(unique)
+]
+interface IEnumDebugENCInfo2 : IUnknown
+{
+	HRESULT Next
+	(
+		[in] ULONG in_NoOfElementsRequested,
+		[out, size_is(in_NoOfElementsRequested), length_is(*out_pNoOfElementsFetched)]
+			IDebugENCInfo2** out_ArrayOfpENCInfo,
+		[out] ULONG* out_pNoOfElementsFetched
+	);
+	HRESULT Skip
+	(
+		[in] ULONG in_NoOfElements
+	);
+	HRESULT Reset
+	(
+		void
+	);
+	HRESULT Clone
+	(
+		[out] IEnumDebugENCInfo2** out_ppEnumENCInfo
+	);
+	HRESULT GetCount
+	(
+		[out] ULONG* out_pCount
+	);
+};
+
+// IDebugENCRelinkInfo2
+[
+	object,
+	uuid(CBB63A8D-BD57-11d2-9238-00A02448799A),
+	pointer_default(unique)
+]
+interface IDebugENCRelinkInfo2 : IUnknown
+{
+	HRESULT GetInfo
+	(
+		[out] BSTR* out_pbstrWorkingDir,
+		[out] BSTR* out_pbstrCommand,
+		[out] BSTR* out_pbstrOutFile,
+		[out] BSTR* out_pbstrDebugFile,
+		[out] BOOL* out_pbEditFromLib
+	);
+};
+
+// IEnumDebugENCRelinkInfo2
+[
+	object,
+	uuid(E51BE743-BD57-11d2-9238-00A02448799A),
+	pointer_default(unique)
+]
+interface IEnumDebugENCRelinkInfo2 : IUnknown
+{
+	HRESULT Next
+	(
+		[in] ULONG in_NoOfElementsRequested,
+		[out, size_is(in_NoOfElementsRequested), length_is(*out_pNoOfElementsFetched)]
+			IDebugENCRelinkInfo2** out_ArrayOfpENCInfo,
+		[out] ULONG* out_pNoOfElementsFetched
+	);
+	HRESULT Skip
+	(
+		[in] ULONG in_NoOfElements
+	);
+	HRESULT Reset
+	(
+		void
+	);
+	HRESULT Clone
+	(
+		[out] IEnumDebugENCRelinkInfo2** out_ppEnumENCRelinkInfo
+	);
+	HRESULT GetCount
+	(
+		[out] ULONG* out_pCount
+	);
+};
+
+// IDebugIDBInfo2
+[
+	object,
+	uuid(9B7DE9A9-BD59-11d2-9238-00A02448799A),
+	pointer_default(unique)
+]
+interface IDebugIDBInfo2 : IUnknown
+{
+	HRESULT GetInfo
+	(
+		[out] BSTR* out_pbstrIDBFile
+	);
+};
+
+// IEnumDebugIDBInfo2
+[
+	object,
+	uuid(B34E469B-BD59-11d2-9238-00A02448799A),
+	pointer_default(unique)
+]
+interface IEnumDebugIDBInfo2 : IUnknown
+{
+	HRESULT Next
+	(
+		[in] ULONG in_NoOfElementsRequested,
+		[out, size_is(in_NoOfElementsRequested), length_is(*out_pNoOfElementsFetched)]
+			IDebugIDBInfo2** out_ArrayOfpIDBInfo2,
+		[out] ULONG* out_pNoOfElementsFetched
+	);
+	HRESULT Skip
+	(
+		[in] ULONG in_NoOfElements
+	);
+	HRESULT Reset
+	(
+		void
+	);
+	HRESULT Clone
+	(
+		[out] IEnumDebugIDBInfo2** out_ppEnumIDBInfo2
+	);
+	HRESULT GetCount
+	(
+		[out] ULONG* out_pCount
+	);	
+};
+
+// IDebugENCBuildInfo2
+[
+	object,
+	uuid(EA70281B-BD58-11d2-9238-00A02448799A),
+	pointer_default(unique)
+]
+interface IDebugENCBuildInfo2 : IUnknown
+{
+	HRESULT GetTargetBuildInfo
+	(
+		[in] LPCOLESTR in_szTargetPath,
+		[out] BSTR* out_pbstrSourcePath,
+		[out] BSTR* out_pbstrCommand,
+		[out] BSTR* out_pbstrCurrentdir
+	);
+	HRESULT IsTargetEligible
+	(
+		[in] LPCOLESTR in_szTargetPath
+	);
+	HRESULT EnumDebugIDBInfo
+	(
+		[out] IEnumDebugIDBInfo2** out_ppEnumIDBInfo
+	);
+};
+
+// IDebugENCUpdateOnRelinkEvent2
+[
+	object,
+	uuid(0EBF1959-BD57-11d2-9238-00A02448799A),
+	pointer_default(unique)
+]
+interface IDebugENCUpdateOnRelinkEvent2 : IUnknown
+{
+	HRESULT GetInfo
+	(
+		[out] IEnumDebugENCRelinkInfo2** out_ppEnumENCRelinkInfo
+	);
+};
+
+// IDebugENCUpdateOnStaleCodeEvent2
+[
+	object,
+	uuid(2F01EB29-BD57-11d2-9238-00A02448799A),
+	pointer_default(unique)
+]
+interface IDebugENCUpdateOnStaleCodeEvent2 : IUnknown
+{
+	HRESULT GetInfo
+	(
+		[out] IEnumDebugENCInfo2** out_ppEnumENCInfo
+	);
+	HRESULT GetHResult
+	(
+		[out] HRESULT* out_pHResult
+	);
+};
+
+// ----------------------------------------------------
+// EncEng implements this interface, which is to be consumed by EncMgr during an EnC update phase
+[
+	object,
+	uuid(978BAEE7-BD4C-11d2-9238-00A02448799A),
+	pointer_default(unique)
+]
+interface IDebugENCUpdate : IUnknown
+{
+	// enumerate language/runtime architecture-specific snapshots based of name.
+	HRESULT EnumENCSnapshots
+	(
+		[in] LPCOLESTR pszModule,
+		[out] IEnumDebugENCSnapshots2** ppEnum
+	);
+    // enumerate language/runtime architecture-specific snapshots based off guid.
+    HRESULT EnumENCSnapshotsByGuid
+    (
+        [in] REFGUID    guidModule,
+        [out] IEnumDebugENCSnapshots2** ppEnum
+    );
+
+	// call when the any of the following conditions have ocurred:
+	// 1) User select "Cancel ApplyCodeChange" menu-item and ENCMGR is in the middle of ENCCommit phase.
+	// 2) one of the ENC Engines fails during ENCCommit phase.
+	HRESULT CancelENC
+	(
+		void
+	);
+
+	// called after an attempted ENC is over
+	// will be called in both success and failure cases
+	HRESULT OnENCAttemptComplete();
+};
+
+// IDebugENCSnapshot2
+[
+	object,
+	uuid(f6f94d0e-78c2-11d2-8ffe-00c04fa38314),
+	pointer_default(unique)
+]
+interface IDebugENCSnapshot2: IUnknown
+{
+	enum
+	{
+		ENC_SNAPSHOT_TYPE_COMPLUS	= 0x0001,
+		ENC_SNAPSHOT_TYPE_CPP		= 0x0002,
+	};
+	typedef DWORD ENC_SNAPSHOT_TYPE;
+
+	typedef struct _ENC_SNAPSHOT_COMPLUS
+	{
+		IDebugComPlusSnapshot2* pcpSnapshot;
+	} ENC_SNAPSHOT_COMPLUS;
+
+	typedef struct _ENC_SNAPSHOT_CPP
+	{
+		DWORD dwNYI;
+	} ENC_SNAPSHOT_CPP;
+
+	typedef union _ENC_SNAPSHOT switch (ENC_SNAPSHOT_TYPE ssType) encSnapshot
+	{
+		case ENC_SNAPSHOT_TYPE_COMPLUS:
+			ENC_SNAPSHOT_COMPLUS encComPlus;
+
+		case ENC_SNAPSHOT_TYPE_CPP:
+			ENC_SNAPSHOT_CPP encCpp;
+
+		default:
+			DWORD unused;
+
+	} ENC_SNAPSHOT;
+
+	typedef struct _ENC_SNAPSHOT_INFO
+	{
+		IDebugProgram2* pProgram;
+		ENC_SNAPSHOT encSnapshot;
+	} ENC_SNAPSHOT_INFO;
+
+	HRESULT GetENCSnapshotInfo(
+		[out] ENC_SNAPSHOT_INFO* pSnapshotInfo);
+
+	// synchronous request from EncMgr to EncEng
+	HRESULT ApplyCodeChange
+	(
+		[in] ULONG in_NoOfLineMaps,
+		[in, size_is(in_NoOfLineMaps)] IDebugENCLineMap** in_ArrayOfLineMaps,
+		[in] IServiceProvider* in_pServiceProvider,
+		[in] BOOL in_fOnContinue,
+		// out_ppEnumENCInfo enumerates and encapsulates error/warning/information during an EnC update
+		[out] IEnumDebugENCInfo2** out_ppEnumENCInfo
+	);
+
+	// CommitChange updates the runtime state of all threads and executable images
+	HRESULT CommitChange
+	(
+		// out_ppEnumENCInfo enumerates and encapsulates error/warning/information during an EnC update
+		[out] IEnumDebugENCInfo2** out_ppEnumENCInfo
+	);
+};
+
+// IDebugENCSnapshot3
+[
+	object,
+	uuid(3F50C7D0-D1AF-4a97-AD81-7FDD5934AD32),
+	pointer_default(unique)
+]
+interface IDebugENCSnapshot3: IDebugENCSnapshot2
+{
+	// ApplyCodeChange on IDebugENCSnapshot2 will be deprecated for this function.
+	
+	HRESULT ApplyCodeChange3
+	(
+		[in] ULONG ulLineHint,
+		[in] ULONG in_NoOfLineMaps,
+		[in, size_is(in_NoOfLineMaps)] IDebugENCLineMap** in_ArrayOfLineMaps,
+		[in] IServiceProvider* in_pServiceProvider,
+		[in] BOOL in_fOnContinue,
+		// out_ppEnumENCInfo enumerates and encapsulates error/warning/information during an EnC update
+		[out] IEnumDebugENCInfo2** out_ppEnumENCInfo
+	);
+};
+
+// ------------------------------------------------------------------
+// IEnumDebugENCSnapshots2
+[
+	object,
+	uuid(f6f94d1a-78c2-11d2-8ffe-00c04fa38314),
+	pointer_default(unique)
+]
+interface IEnumDebugENCSnapshots2: IUnknown
+{
+	HRESULT Next(
+		[in] ULONG celt,
+		[out, size_is(celt), length_is(*pceltFetched)] IDebugENCSnapshot2** rgelt,
+		[in, out] ULONG* pceltFetched);
+
+	HRESULT Skip(
+		[in] ULONG celt);
+
+	HRESULT Reset();
+
+	HRESULT Clone(
+		[out] IEnumDebugENCSnapshots2** ppEnum);
+
+	HRESULT GetCount(
+		[out] ULONG* pcelt);
+};
+
+// ------------------------------------------------------------------
+// IEnumDebugErrorInfos2
+[
+	object,
+	uuid(f6f94d23-78c2-11d2-8ffe-00c04fa38314),
+	pointer_default(unique)
+]
+interface IEnumDebugErrorInfos2 : IUnknown
+{
+	HRESULT Next(
+		[in] ULONG celt,
+		[out, size_is(celt), length_is(*pceltFetched)] IErrorInfo** rgelt,
+		[in, out] ULONG* pceltFetched);
+
+	HRESULT Skip(
+		[in] ULONG celt);
+
+	HRESULT Reset();
+
+	HRESULT Clone(
+		[out] IEnumDebugErrorInfos2** ppEnum);
+
+	HRESULT GetCount(
+		[out] ULONG* pcelt);
+};
+
+// ------------------------------------------------------------------
+// IENCDebugInfo
+//
+// This interface is implemented by the DE.  It provides managed
+// compilers the necessary methods to access pdb info for the
+// current state of the PE
+[
+	object,
+	uuid(1DA15C39-7E02-4ee8-8F60-FFF81275EE14),
+	pointer_default(unique)
+]
+interface IENCDebugInfo : IUnknown
+{
+	typedef struct _ENC_LOCALINFO
+	{
+		BSTR bstrLocalName; // SysFreeString
+		ULONG32 ulAttribute;
+		[size_is(cbSize)] BYTE* pSignature;    // CoTaskMemFree this
+		ULONG32 cbSize;
+		UINT slot;
+	} ENC_LOCALINFO;
+ 
+	HRESULT GetLocalVariableCount(
+		[in] UINT32 MethodToken,
+		[out] ULONG* pcLocals);
+
+	HRESULT GetLocalVariableLayout(
+		[in] UINT32 MethodToken,
+		[in] ULONG cLocals,
+		[out, size_is(cLocals), length_is(*pceltFetched)] ENC_LOCALINFO* rgLocalInfo,
+		[in, out] ULONG* pceltFetched);
+
+	typedef struct _ENC_LOCAL_EXPR_CONTEXT
+	{
+		IDebugSymbolProvider   *pSymbolProvider;
+        IDebugAddress          *pAddress;
+        IUnknown               *pBinder;  // QI for IDebugBinder
+        IUnknown               *pEE; // QI for IDebugExpressionEvaluator
+	} ENC_LOCAL_EXPR_CONTEXT;
+
+	HRESULT GetCountofExpressionContextsForMethod(
+		[in] UINT32 MethodToken,
+		[out] ULONG* pcExprContext);
+		
+	HRESULT GetExpressionContextsForMethod(
+		[in] UINT32 MethodToken,
+		[in] ULONG cExprContext,
+		[out, size_is(cExprContext), length_is(*pceltFetched)] ENC_LOCAL_EXPR_CONTEXT* plocalExprContext,
+		[in,out] ULONG* pceltFetched);		
+}
+
+
+// This must stay in synch with the definitions in encbuild.idl
+enum enum_ENCASINFO
+{
+	ENCASINFO_NONE         = 0x00000000, 
+	ENCASINFO_LEAF         = 0x00000001, // The Active Statement is in a leaf frame
+	ENCASINFO_MIDSTATEMENT = 0x00000002, // The Active Statement is partially executed 
+	ENCASINFO_NONUSER      = 0x00000004, // The Active Statement IL is not in user code
+};
+typedef DWORD ENCASINFO;
+	
+typedef struct _ASTMT
+{
+	UINT32 id;
+	UINT32 methodToken; // Token of the Active Method
+	UINT32 methodVersion;
+	UINT32 ilOffset;
+	UINT32 startLine;
+	UINT32 startCol;
+	UINT32 endLine;
+	UINT32 endCol;
+	BSTR bstrfilename;  // Filename for the active statement (filename as in the pdb)
+	ENCASINFO  encASinfo;
+	BOOL methodUpToDate;
+	UINT64 engineInstanceID;  // Used by SDM to merge/unmerge statements across multiple engines
+	INT32 delta; // This is updated on apply for cached exception statements.
+} ENCPROG_ACTIVE_STATEMENT;
+
+// This structure is used to track the movement of Exception handler source in
+// modified functions that are still on an active frame.
+typedef struct _EXCPTRANGE
+{
+	UINT32 methodToken;
+	UINT32 methodVersion;
+	UINT32 startLine;
+	UINT32 startCol;
+	UINT32 endLine;
+	UINT32 endCol;
+	INT32  delta;
+} ENCPROG_EXCEPTION_RANGE;
+
+// ENC LINEDELTA
+
+// A line delta represents the movement
+// of a method in the source without changing
+// it's body.  This can only represent movement
+// of the entire function.  Any method that has 
+// moved in a way that cannot be represented by 
+// a LINEDELTA must be recompiled.
+typedef struct _LINEDELTA
+{
+	UINT32 mdMethod;
+	INT32  delta;
+} LINEDELTA;
+
+/////////////////////////////////////////////////////////////////////
+// ENC FILE UPDATE                                                 //
+
+// This is an alternative to using LINEDELTA's.
+// If you can, use LINEDELTA's. It is likely to have
+// a performance benefit over FILEUPDATE.
+// 
+// Using FILEUPDATE does not allow a compiler to
+// violate the rules for a LINEDELTA. In fact for Whidbey
+// the FILEUPDATE's are translated to LINEDELTA's at a lower level.
+//
+// A FILEUPDATE is useful when it is difficult to determine
+// method tokens, but easy to determine line movement.
+//
+// See IDebugUpdateInMemoryPE::SetFileUpdate
+typedef struct _LINEUPDATE
+{
+	UINT32 line;
+	UINT32 updatedLine;
+} LINEUPDATE;
+
+typedef struct _FILEUPDATE
+{
+	BSTR bstrFileName;
+	[size_is(cLineUpdate)] LINEUPDATE* pLineUpdates;
+	UINT32 cLineUpdate;
+} FILEUPDATE;
+                                                                   //
+/////////////////////////////////////////////////////////////////////
+
+// ------------------------------------------------------------------
+// Implemented by the SH 
+
+[
+	object,
+	uuid(FF6D3520-E8D9-4e8c-BB75-CFFA7B03C633),
+	pointer_default(unique)
+]
+interface IDebugENCSymbolProvider2: IUnknown
+{	
+	 HRESULT UpdateSymbols2(
+    	[in] ULONG32 ulAppDomainID,
+    	[in] GUID guidModule,
+    	[in] IStream* pUpdateStream,
+    	[in, size_is(cDeltaLines), length_is(cDeltaLines)] LINEDELTA* pDeltaLines,
+		[in] ULONG cDeltaLines);
+
+	HRESULT  GetFileLineFromOffset( 
+		[in] ULONG32 ulAppDomainID,
+		[in] GUID guidModule,
+		[in] DWORD mdMethod,
+		[in] DWORD dwVersion,
+		[in] DWORD dwOffset,
+		[out] DWORD* pdwStartLine,
+    	[out] DWORD* pdwStartCol,
+    	[out] DWORD* pdwEndLine,
+    	[out] DWORD* pdwEndCol,
+		[out] BSTR* pbstrFileName,
+		[out] DWORD* pdwMappedOffset,
+		[out] BOOL* pfMethodUpToDate);
+
+	// Perf: allow for pre-apply intialization
+	HRESULT Initialize(
+		[in] ULONG32 ulAppDomainID,
+		[in] GUID guidModule);
+}
+
+// ------------------------------------------------------------------
+// IDebugENCModule
+//
+// This is implemented by the Managed Debug Engine.
+[
+	object,
+	uuid(95B8097D-3201-4b21-887C-239EE0A0D589),
+	pointer_default(unique)
+]
+interface IDebugENCModule : IUnknown
+{
+	HRESULT GetActiveStatementCount(
+		[out] ULONG* cActiveStatements);
+
+	// Active Statements are all statements that are partially executed.
+	// Typically this is all statements on the stack except the leaf statements.
+	// The Leaf statement can be an Active statement if the IP is not at it's first instruction.
+	HRESULT GetActiveStatements(
+		[in] ULONG celt,
+		[out, size_is(celt), length_is(*pceltFetched)] ENCPROG_ACTIVE_STATEMENT* rgelt,
+		[in, out] ULONG* pceltFetched);
+
+	HRESULT GetMetadataByteCount(
+		[out] ULONG* cb);
+		
+	// This is used to initialize the Metadata copy in the ENCMGR.
+	// It is called at the beginning of ENC, and to refresh
+	// metadata when a bad compile has happened.
+	HRESULT GetMetadataBytes(
+		[in] ULONG cb,
+		[out, size_is(cb), length_is(*cbFetched)] BYTE* pbMetadata,
+		[in, out] ULONG* cbFetched);
+
+	// This interface provides access to pdb information for the module
+	HRESULT GetENCDebugInfo(
+		[out] IENCDebugInfo** ppENCDebugInfo);
+
+	HRESULT ApplyENCUpdate(
+		[in, size_is(cbDeltaIL)] BYTE* pbDeltaIL,
+		[in] ULONG cbDeltaIL,
+		[in, size_is(cbDeltaMeta)] BYTE* pbDeltaMeta,
+		[in] ULONG cbDeltaMeta,
+		[in, size_is(cbDeltaPdb)] BYTE* pbDeltaPdb,
+		[in] ULONG cbDeltaPdb,
+		[in, size_is(cDeltaLines)] LINEDELTA* pDeltaLines,
+		[in] ULONG cDeltaLines,
+		[in, size_is(cRemapStatements)] ENCPROG_ACTIVE_STATEMENT* pRemapStatements,
+		[in] ULONG cRemapStatements,
+		[in, size_is(cExceptionRanges)] ENCPROG_EXCEPTION_RANGE* pExceptionRanges,
+		[in] ULONG cExceptionRanges,
+		[in, size_is(cRemapMethods)] UINT32* pmdRemapMethods,
+		[in] ULONG cRemapMethods,
+		[in, size_is(cFileUpdates)] FILEUPDATE* pFileUpdates,
+		[in] ULONG32 cFileUpdates
+		);
+
+	// Perf: Allow the enc module to intialize in preparation for an ApplyENCUpdate
+	// This is intended to reduce the time for the first ApplyEncUpdate.
+	HRESULT Initialize();
+};
+
+// IDebugCustomENCModule100 - Dev10 interface to provide support for ENC in custom debug
+// engines.
+[
+    object,
+    uuid(A39A3DDD-AF4D-48FA-BC0D-7AFD3FCDEE9B),
+    pointer_default(unique)
+]
+interface IDebugCustomENCModule100 : IUnknown
+{
+    HRESULT GetEmptyDelta(
+        [out] IUnknown** uninitializedDelta);
+    HRESULT GetRemapMethodCount(
+        [out] ULONG* cb);
+
+    //used by the EncMgr to orchestration getting the delta and applying it
+    HRESULT GetDeltaForApply(
+        [out] IUnknown** ppAbstractDelta, 
+        [out, size_is(cRemapMethods), length_is(cRemapMethods)] UINT32* pmdRemapMethods, 
+        [in] ULONG cRemapMethods);
+
+    HRESULT Apply(
+        [in] IUnknown* pAbstractDelta,
+        [in] ENCPROG_ACTIVE_STATEMENT* pRemapStatements,
+        [in] ULONG cRemapStatements,
+        [in] ENCPROG_EXCEPTION_RANGE* pExceptionRanges,
+        [in] ULONG cExceptionRanges);
+};
+
+// IVsENCRebuildableProjectCfg3 - Dev10 interface implemented by project systems
+// to participate in Custom E&C. Project system must also implement 
+// IVsENCRebuildableProjectCfg and IVsENCRebuildableProjectCfg2.
+[
+    local,
+    object,
+    uuid(12342E6D-563A-4195-B267-D080383DD437),
+    pointer_default(unique)
+]
+interface IVsENCRebuildableProjectCfg3 : IUnknown
+{
+    // Instructs the project system to build the project for a custom E&C
+    HRESULT BuildForCustomEnc([in] IDebugCustomENCModule100* pModule);
+};
+
+// ------------------------------------------------------------------
+// IDebugManagedENC
+//
+// This is implemented by the sdm & managed DE.  It can be QI'd from a
+// IDebugSession & IDebugEngine.
+[
+	object,
+	uuid(12DCD8B7-EBFC-4dbe-A72C-3E44CDD3CBAF),
+	pointer_default(unique)
+]
+interface IDebugManagedENC : IUnknown
+{
+	HRESULT GetENCModule(
+		[in] GUID moduleID,
+		[in] LPCOLESTR strPEname,
+		[in] FILETIME* pBuiltFileTime,
+		[out] IDebugENCModule** ppENCModule);
+}
+
+// ------------------------------------------------------------------
+// IDebugUpdateInMemoryPE
+//
+// This interface is implemented by the ENCMGR.  It provides managed
+// compilers the necessary methods to procide an update to a running
+// PE (exe or dll).
+[
+	object,
+	uuid(9E2BD568-7CEE-4166-ABC9-495BA8D3054A),
+	pointer_default(unique)
+]
+interface IDebugUpdateInMemoryPE : IUnknown
+{
+
+	// The LangSvc or compiler is required to QI for IMetadataEmit
+	// The compiler will use this to emit changes to the metadata.
+	HRESULT GetMetadataEmit(
+		[out] IUnknown** ppMetadataEmit);
+
+	// The compiler must provide updated IL for modified
+	// methods.
+	HRESULT SetDeltaIL(
+		[in, size_is(cbIL)] BYTE* pbIL,
+		[in] ULONG32 cbIL);
+
+	// This stream holds the pdb output of recompiling
+	// modified methods.  See ISymUnmanagedWriter.
+	HRESULT SetDeltaPdb(
+		[in] IStream* pDeltaPdbStream);
+
+	// The LangSvc is required to provide line information
+	// for non-recompiled methods that have moved source location.
+	// Any method where line movement cannot be represented
+	// by a single delta must be recompiled and represented in
+	// the delta pdb.
+	HRESULT SetDeltaLines(
+		[in, size_is(cLineDeltas)] LINEDELTA* pLineDeltas,
+		[in] ULONG32 cLineDeltas);
+
+	// This method is used to determine the current slot
+	// location of local variables.
+	HRESULT GetENCDebugInfo(
+		[out] IENCDebugInfo** ppDebugInfo );
+
+	// This method provides the debugger with the tokens of methods
+	// that have been compiled in the update.
+	HRESULT SetRemapMethods(
+		[in, size_is(cRemapMethods)] UINT32* pmdRemapMethodTokens,
+		[in] ULONG32 cRemapMethods);
+
+	// This is an alternative to SetDeltaLines.  It is subject to
+	// the same restriction as SetDeltaLines in that it can only update
+	// whole methods.  It is provided for lang services that cannot 
+	// determine the method tokens for all methods in a file.
+	// The lineUpdates array in each FILEUPDATE provides the line from the
+	// last version of the file and where it is in the new version of the file.
+	// Both lines, and lineUpdates must be in monotonically increasing order
+	// within the array.
+	HRESULT SetFileUpdates(
+		[in, size_is(cFileUpdates)] FILEUPDATE* pFileUpdates,
+		[in] ULONG32 cFileUpdates);
+}
+
+// ------------------------------------------------------------------
+// IDebugComPlusSnapshot2
+[
+	object,
+	uuid(f6f94d20-78c2-11d2-8ffe-00c04fa38314),
+	pointer_default(unique)
+]
+interface IDebugComPlusSnapshot2 : IUnknown
+{
+	// NOTE: THIS MUST MATCH COR_IL_MAP in cordebug.h
+    typedef struct _IL_MAP
+    {
+		ULONG32 oldOffset;
+		ULONG32 newOffset;
+		BOOL fAccurate;
+    } IL_MAP;
+
+	// CopyMetaData saves a copy of the executing metadata from the debuggee
+	// for this snapshot to the output stream.  The stream implementation must
+	// be supplied by the caller and will typically either save the copy to
+	// memory or to disk.  Only the IStream::Write method will be called by
+	// this method.  The MVID value returned is the unique metadata ID for
+	// this copy of the metadata.  It may be used on subsequent edit and
+	// continue operations to determine if the client has the most recent
+	// version already (performance win to cache).
+	HRESULT CopyMetaData(
+        [in] IStream *pIStream,
+        [out] GUID *pMvid);
+	
+	// GetMvid will return the currently active metadata ID for the executing
+	// process.  This value can be used in conjunction with CopyMetaData to
+	// cache the most recent copy of the metadata and avoid expensive copies.
+	// So for example, if you call CopyMetaData once and save that copy,
+	// then on the next E&C operation you can ask for the current MVID and see
+	// if it is already in your cache.  If it is, use your version instead of
+	// calling CopyMetaData again.
+	HRESULT GetMvid(
+        [out] GUID *pMvid);
+
+	// GetRoDataRVA returns the base RVA that should be used when adding new
+	// static read only data to an existing image.  The EE will guarantee that
+	// any RVA values embedded in the code are valid when the delta PE is
+	// applied with new data.  The new data will be added to a page that is
+	// marked read only.
+	HRESULT GetRoDataRVA(
+        [out] ULONG32 *pRoDataRVA);
+
+	// GetRwDataRVA returns the base RVA that should be used when adding new
+	// static read/write data to an existing image.  The EE will guarantee that
+	// any RVA values embedded in the code are valid when the delta PE is
+	// applied with new data.  The ew data will be added to a page that is
+	// marked for both read and write access.
+	HRESULT GetRwDataRVA(
+        [out] ULONG32 *pRwDataRVA);
+
+	// SetPEBytes gives the snapshot object a pointer to the delta PE which was
+	// based on the snapshot.  This pointer value will be accessed when
+	// CanCommitChanges and/or CommitChanges are called.
+	HRESULT SetPEBytes(
+        [in, size_is(dwBytes), length_is(dwBytes)] BYTE *pBytes,
+		[in] DWORD dwBytes);
+
+	// SetILMap is called once for every method being replace that has
+	// active instances on a call stack on a thread in the target process.
+	// It is up to the caller of this API to determine this case exists.
+	// One should halt the target process before making this check and
+	// calling this method.
+	HRESULT SetILMap(
+        [in] DWORD mdFunction,
+        [in] ULONG cMapSize,
+        [in, size_is(cMapSize)] IL_MAP map[]);
+
+    HRESULT SetSymbolBytes(
+        [in, size_is(dwBytes), length_is(dwBytes)] BYTE *pBytes,
+        [in] DWORD dwBytes);
+
+    HRESULT GetSymbolProvider(
+        [out] IDebugComPlusSymbolProvider **ppSym);
+
+    HRESULT GetAppDomainAndModuleIDs(
+        [out] ULONG32 *pulAppDomainID,
+        [out] GUID *pguidModule);
+
+	// RequestILMap is called once for every method being replace that has
+	// active instances on a call stack on a thread in the target process.
+	// It is up to the caller of this API to determine this case exists.
+	// An ILMap will be generated during CreateILMaps for each request made here.
+	HRESULT RequestILMap(
+        [in] DWORD mdFunction);
+
+	// Creates IL Maps for all methods sent to RequestILMap.
+	// Uses the line map to aid in the IL map creation
+	HRESULT CreateILMaps(
+		[in] ULONG in_NoOfLineMaps,
+		[in, size_is(in_NoOfLineMaps)] IDebugENCLineMap** in_ArrayOfLineMaps);
+};
+
+
+// ------------------------------------------------------------------
+// IDebugNativeSnapshot2
+[
+ 	object,
+	uuid (461fda3e-bba5-11d2-b10f-00c04f72dc32),
+	pointer_default (unique)
+]
+interface IDebugNativeSnapshot2: IUnknown
+{
+	HRESULT HasDependentTargets (
+		[in] LPCOLESTR pszSourcePath
+		);
+
+	HRESULT EnumDependentImages (
+		[in] LPCOLESTR pszSourcePath,
+		[out] IEnumString** ppEnum
+		);
+
+	HRESULT EnumDependentTargets (
+		[in] ULONG cSrc,
+		[in, size_is(cSrc)] LPCOLESTR pszSourcePath[],
+		[out] IEnumString** ppEnum
+		);
+
+	HRESULT GetTargetBuildInfo (
+		[in] LPCOLESTR pszTargetPath,
+		[out] BSTR*	pbstrSourcePath,
+		[out] BSTR* pbstrCommand,
+		[out] BSTR* pbstrCommandArgs,
+		[out] BSTR* pbstrCurrentDir
+		);
+
+	// Temporary notification scheme so that the debugger
+	// can close and reopen the .idb files during recompile
+	// This should not be necessary once we have concurrent
+	// read/write support for idb files
+
+	typedef enum _ENC_NOTIFY{
+		ENC_NOTIFY_COMPILE_START,
+		ENC_NOTIFY_COMPILE_END
+	} ENC_NOTIFY;
+
+	HRESULT Notify(
+		[in] ENC_NOTIFY encnotify
+		);
+
+	HRESULT IsTargetEligible(
+		[in] LPCOLESTR pszTargetPath
+		);
+
+	HRESULT AddRecompiledTarget
+	(
+		[in] LPCOLESTR in_szTargetPath,
+		[in] LPCOLESTR in_szSavedTargetPath // foo.enc or NULL
+	);
+};
+
+[
+    object,
+    uuid(B3C64D7F-DB9D-47c7-B479-C579C7F07103),
+    pointer_default(unique)
+]
+interface IDebugENCStackFrame2 : IUnknown
+{
+	HRESULT GetAllLocalsProperty(
+		[out] IDebugProperty2** ppProperty);
+};
+
+typedef INT32 _mdToken;
+
+#pragma warning(push)
+#pragma warning(disable:28718)
+// ------------------------------------------------------------------
+// IDebugMetaDataEmit2
+[
+	object,
+	uuid(f6f94d21-78c2-11d2-8ffe-00c04fa38314),
+	pointer_default(unique)
+]
+interface IDebugMetaDataEmit2 : IUnknown
+{
+    typedef struct _FIELD_OFFSET
+    {
+        _mdToken    ridOfField;
+        ULONG       ulOffset;
+    } FIELD_OFFSET;
+
+    typedef struct _IMAGE_FIXUPENTRY
+    {
+        ULONG   ulRVA;
+        ULONG   Count;
+    } IMAGE_FIXUPENTRY;
+
+    HRESULT SetModuleProps(
+        [in] LPOLESTR szName,
+        [in] GUID *ppid,
+        [in] LCID lcid);
+
+    HRESULT Save(
+        [in] LPOLESTR szFile,
+        [in] DWORD dwSaveFlags);
+
+    HRESULT SaveToStream(
+        [in] IStream *pIStream,
+        [in] DWORD dwSaveFlags);
+
+    HRESULT GetSaveSize(
+        [in] DWORD fSave,
+        [out] DWORD *pdwSaveSize);
+
+    // HRESULT Merge(
+    //     [in] IMetaDataRegImport *pImport,
+    //     [in] IMapToken *pIMap);
+
+    HRESULT DefineCustomValueAsBlob(
+        [in] _mdToken tkObj,
+        [in] LPOLESTR szName,
+        [in, size_is(cbCustomValue)] BYTE *pCustomValue,
+        [in] ULONG cbCustomValue,
+        [in] _mdToken *pcv);
+
+    HRESULT DefineTypeDef(
+        [in] LPOLESTR szNamespace,
+        [in] LPOLESTR szTypeDef,
+        [in] GUID *pguid,
+        [in] INT64 *pVer,
+        [in] DWORD dwTypeDefFlags,
+        [in] _mdToken tkExtends,
+        [in] DWORD dwExtendsFlags,
+        [in] DWORD dwImplements,
+        [in, out, size_is(dwImplements), length_is(dwImplements)] _mdToken rtkImplements[],
+        [in] DWORD dwEvents,
+        [in, out, size_is(dwEvents), length_is(dwEvents)] _mdToken rtkEvents[],
+        [out] _mdToken *ptd);
+
+    HRESULT SetTypeDefProps(
+        [in] _mdToken td,
+        [in] INT64 *pVer,
+        [in] DWORD dwTypeDefFlags,
+        [in] _mdToken tkExtends,
+        [in] DWORD dwExtendsFlags,
+        [in] DWORD dwImplements,
+        [in, size_is(dwImplements), length_is(dwImplements)] _mdToken rtkImplements[],
+        [in] DWORD dwEvents,
+        [in, size_is(dwEvents), length_is(dwEvents)] _mdToken rtkEvents[]);
+
+    HRESULT SetClassSvcsContext(
+        [in] _mdToken td,
+        [in] DWORD dwClassActivateAttr,
+        [in] DWORD dwClassThreadAttr,
+        [in] DWORD dwXactionAttr,
+        [in] DWORD dwSynchAttr);
+
+    HRESULT DefineTypeRefByGUID(
+        [in] GUID *pguid,
+        [out] _mdToken *ptr);
+
+    HRESULT SetModuleReg(
+        [in] DWORD dwModuleRegAttr,
+        [in] GUID *pguid);
+
+    HRESULT SetClassReg(
+        [in] _mdToken td,
+        [in] LPOLESTR szProgID,
+        [in] LPOLESTR szVIProgID,
+        [in] LPOLESTR szIconURL,
+        [in] ULONG ulIconResource,
+        [in] LPOLESTR szSmallIconURL,
+        [in] ULONG ulSmallIconResource,
+        [in] LPOLESTR szDefaultDispName);
+
+    HRESULT SetIfaceReg(
+        [in] _mdToken td,
+        [in] DWORD dwIfaceSvcs,
+        [in] GUID *proxyStub);
+
+    HRESULT SetCategoryImpl(
+        [in] _mdToken td,
+        [in] DWORD dwImpl,
+        [in, size_is(dwImpl), length_is(dwImpl)] GUID rGuidCoCatImpl[],
+        [in] DWORD dwReqd,
+        [in, size_is(dwReqd), length_is(dwReqd)] GUID rGuidCoCatReqd[]);
+
+    HRESULT SetRedirectProgID(
+        [in] _mdToken td,
+        [in] DWORD dwProgIds,
+        [in, size_is(dwProgIds), length_is(dwProgIds)] LPOLESTR rszRedirectProgID[]);
+
+    HRESULT SetMimeTypeImpl(
+        [in] _mdToken td,
+        [in] DWORD dwTypes,
+        [in, size_is(dwTypes), length_is(dwTypes)] LPOLESTR rszMimeType[]);
+
+    HRESULT SetFormatImpl(
+        [in] _mdToken td,
+        [in] DWORD dwSupported,
+        [in, size_is(dwSupported), length_is(dwSupported)] LPOLESTR rszFormatSupported[],
+        [in] DWORD dwFrom,
+        [in, size_is(dwFrom), length_is(dwFrom)] LPOLESTR rszFormatConvertsFrom[],
+        [in] DWORD dwTo,
+        [in, size_is(dwTo), length_is(dwTo)] LPOLESTR rszFormatConvertsTo[],
+        [in] DWORD dwDefault,
+        [in, size_is(dwDefault), length_is(dwDefault)] LPOLESTR rszFormatDefault[],
+        [in] DWORD dwExt,
+        [in, size_is(dwExt), length_is(dwExt)] LPOLESTR rszFileExt[],
+        [in] DWORD dwType,
+        [in, size_is(dwType), length_is(dwType)] LPOLESTR rszFileType[]);
+
+    HRESULT SetRoleCheck(
+        [in] _mdToken tk,
+        [in] DWORD dwNames,
+        [in, size_is(dwNames), length_is(dwNames)] LPOLESTR rszName[],
+        [in] DWORD dwFlags,
+        [in, size_is(dwFlags), length_is(dwFlags)] DWORD rdwRoleFlags[]);
+
+    // HRESULT SetHandler(
+    //     [in] IUnknown *pUnk);
+
+    HRESULT DefineMethod(
+        [in] _mdToken td,
+        [in] LPOLESTR szName,
+        [in] DWORD dwMethodFlags,
+        [in, size_is(cbSigBlob)] BYTE *pvSigBlob,
+        [in] ULONG cbSigBlob,
+        [in] ULONG ulSlot,
+        [in] ULONG ulCodeRVA,
+        [in] DWORD dwImplFlags,
+        [out] _mdToken *pmd);
+
+    HRESULT DefineField(
+        [in] _mdToken td,
+        [in] LPOLESTR szName,
+        [in] DWORD dwFieldFlags,
+        [in, size_is(cbSigBlob)] BYTE *pvSigBlob,
+        [in] ULONG cbSigBlob,
+        [in] DWORD dwCPlusTypeFlag,
+        [in, size_is(cbValue)] BYTE *pValue,
+        [in] ULONG cbValue,
+        [out] _mdToken *pmd);
+
+    HRESULT SetParamProps(
+        [in] _mdToken md,
+        [in] ULONG ulParamSeq,
+        [in] LPOLESTR szName,
+        [in] DWORD dwParamFlags,
+        [in] DWORD dwCPlusTypeFlag,
+        [in, size_is(cbValue)] BYTE *pValue,
+        [in] ULONG cbValue,
+        [out] _mdToken *ppd);
+
+    HRESULT DefineMethodImpl(
+        [in] _mdToken td,
+        [in] _mdToken tk,
+        [in] ULONG ulCodeRVA,
+        [in] DWORD dwImplFlags,
+        [out] _mdToken *pmi);
+
+    HRESULT SetRVA(
+        [in] _mdToken md,
+        [in] ULONG ulCodeRVA,
+        [in] DWORD dwImplFlags);
+
+    HRESULT DefineTypeRefByName(
+        [in] LPOLESTR szNamespace,
+        [in] LPOLESTR szType,
+        [out] _mdToken *ptr);
+
+    // HRESULT DefineImportType(
+    //     IMetaDataImport *pImport,
+    //     mdTypeDef tdImport,
+    //     DWORD dwBindFlags,
+    //     mdTypeRef *ptr);
+
+    HRESULT SetTypeRefBind(
+        [in] _mdToken tr,
+        [in] DWORD dwBindFlags,
+        [in] DWORD dwMinVersion,
+        [in] DWORD dwMaxVersion,
+        [in] LPOLESTR szCodebase);
+
+    HRESULT DefineMemberRef(
+        [in] _mdToken tkImport,
+        [in] LPOLESTR szName,
+        [in, size_is(cbSigBlob)] BYTE *pvSigBlob,
+        [in] ULONG cbSigBlob,
+        [out] _mdToken *pmr);
+
+    // HRESULT DefineImportMember(
+    //     _mdToken tkImport,
+    //     IMetaDataImport *pImport,
+    //     _mdToken mbMember,
+    //     mdMemberRef *pmr);
+
+    HRESULT DefineException(
+        [in] _mdToken mb,
+        [in] _mdToken tk,
+        [out] _mdToken *pex);
+
+    HRESULT DefineProperty(
+        [in] _mdToken td,
+        [in] LPOLESTR szProperty,
+        [in] DWORD dwPropFlags,
+        [in, size_is(cbSig)] BYTE *pvSig,
+        [in] ULONG cbSig,
+        [in] DWORD dwCPlusTypeFlag,
+        [in, size_is(cbValue)] BYTE *pValue,
+        [in] ULONG cbValue,
+        [in] _mdToken mdSetter,
+        [in] _mdToken mdGetter,
+        [in] _mdToken mdReset,
+        [in] _mdToken mdTestDefault,
+        [in] DWORD dwOthers,
+        [in, size_is(dwOthers), length_is(dwOthers)] _mdToken rmdOtherMethods[],
+        [in] _mdToken evNotifyChanging,
+        [in] _mdToken evNotifyChanged,
+        [in] _mdToken fdBackingField,
+        [out] _mdToken *pmdProp);
+
+    HRESULT DefineEvent(
+        [in] _mdToken td,
+        [in] LPOLESTR szEvent,
+        [in] DWORD dwEventFlags,
+        [in] _mdToken tkEventType,
+        [in] _mdToken mdAddOn,
+        [in] _mdToken mdRemoveOn,
+        [in] _mdToken mdFire,
+        [in] DWORD dwOthers,
+        [in, size_is(dwOthers), length_is(dwOthers)] _mdToken rmdOtherMethods[],
+        [out] _mdToken *pmdEvent);
+
+    // HRESULT SetClassLayout(
+    //     [in] _mdToken td,
+    //     [in] DWORD dwPackSize,
+    //     [in] FIELD_OFFSET rFieldOffsets[],
+    //     [in] ULONG ulClassSize);
+
+    HRESULT SetFieldMarshal(
+        [in] _mdToken tk,
+        [in, size_is(cbNativeType)] BYTE *pvNativeType,
+        [in] ULONG cbNativeType);
+
+    HRESULT DefinePermissionSet(
+        [in] _mdToken tk,
+        [in] DWORD dwAction,
+        [in, size_is(cbPermission)] BYTE *pvPermission,
+        [in] ULONG cbPermission,
+        [out] _mdToken *ppm);
+
+    HRESULT SetMemberIndex(
+        [in] _mdToken md,
+        [in] ULONG ulIndex);
+
+    HRESULT GetTokenFromSig(
+        [in, size_is(cbSig)] BYTE *pvSig,
+        [in] ULONG cbSig,
+        [in] _mdToken *pmsig);
+
+    HRESULT DefineModuleRef(
+        [in] LPOLESTR szName,
+        [in] GUID *pguid,
+        [in] GUID *pmvid,
+        [out] _mdToken *pmur);
+
+    HRESULT SetParent(
+        [in] _mdToken mr,
+        [in] _mdToken tk);
+
+    HRESULT GetTokenFromArraySpec(
+        [in, size_is(cbSig)] BYTE *pvSig,
+        [in] ULONG cbSig,
+        [out] _mdToken *parrspec);
+
+    // HRESULT DefineFixupList(
+    //     [in] IMAGE_FIXUPENTRY rFixupEntries[],
+    //     [in] ULONG cbCount);
+};
+
+#pragma warning(pop)
+
+// IDebugMetaDataDebugEmit2
+#pragma warning(push)
+#pragma warning(disable:28718)	
+[
+	object,
+	uuid(f6f94d22-78c2-11d2-8ffe-00c04fa38314),
+	pointer_default(unique)
+]
+interface IDebugMetaDataDebugEmit2 : IUnknown
+{
+    HRESULT DefineSourceFile(
+        [in] LPOLESTR szFileName,
+        [out] _mdToken *psourcefile);
+
+    HRESULT DefineBlock(
+        [in] _mdToken member,
+        [in] _mdToken sourcefile,
+        [in] BYTE *pAttr,
+        [in] ULONG cbAttr);
+
+    HRESULT DefineLocalVarScope(
+        [in] _mdToken scopeParent,
+        [in] ULONG ulStartLine,
+        [in] ULONG ulEndLine,
+        [in] _mdToken member,
+        [out] _mdToken *plocalvarscope);
+};
+#pragma warning(pop)
+
+[
+	object,
+	uuid(ec80d064-102e-435f-aafb-d37e2a4ef654),
+	pointer_default(unique)
+]
+interface IDebugENCStateEvents : IUnknown
+{
+	HRESULT
+	OnStateChange(
+		[in] ENCSTATE* in_pENCSTATE,
+		[in] BOOL in_fReserved
+		);
+}
+ 
+// ----------------------------------------------------
+// {5C4922D9-AF1D-11d2-922C-00A02448799A}
+// DEFINE_GUID(LIBID_EncLib,
+// 0x5c4922d9, 0xaf1d, 0x11d2, 0x92, 0x2c, 0x0, 0xa0, 0x24, 0x48, 0x79, 0x9a);
+[
+	uuid(5C4922D9-AF1D-11d2-922C-00A02448799A)
+]
+library EncLib
+{
+	importlib("stdole2.tlb");
+
+	// {99A426F1-AF1D-11d2-922C-00A02448799A}
+	// DEFINE_GUID(CLSID_EncMgr,
+	// 0x99a426f1, 0xaf1d, 0x11d2, 0x92, 0x2c, 0x0, 0xa0, 0x24, 0x48, 0x79, 0x9a)
+
+	[
+		uuid(99A426F1-AF1D-11d2-922C-00A02448799A)
+	]
+	coclass EncMgr
+	{
+		[default] interface IDebugENC;
+	};
+};

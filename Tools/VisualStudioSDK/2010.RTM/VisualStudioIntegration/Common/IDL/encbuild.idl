@@ -1,0 +1,301 @@
+////////////////////////////////////////////////////////////////////////////////
+// ENCbuild.IDL
+//
+// Interface definitions for Edit 'N Continue & Project system interactions
+////////////////////////////////////////////////////////////////////////////////
+
+#ifndef INTEROPLIB
+import "oleidl.idl";
+import "vsshell.idl";
+#endif
+
+// see IVsENCRebuildableProjectCfg
+// specify the exact reason for calling IVsENCRebuildableProjectCfg::BelongToProject
+enum tagENC_REASON {
+
+	ENCReason_Precompile,
+	ENCReason_Rebuild
+};
+typedef enum tagENC_REASON ENC_REASON;
+
+#ifdef INTEROPLIB
+// When we are building the interop assemblies the values inside the cpp_quote statements are
+// lost, so we have to define them here as enum.
+enum ENC_RETURNCODES
+{
+    S_ENC_NOT_SUPPORTED = 0x00040001,
+    E_STATEMENT_DELETED = 0x80040001
+};
+#else
+// see IVsENCRebuildableProjectCfg::BelongToProject
+cpp_quote("#define S_ENC_NOT_SUPPORTED                 MAKE_HRESULT(0, FACILITY_ITF, 0x0001)")
+
+// HRESULT returned by GetCurrentActiveStatementPosition
+cpp_quote("#define E_STATEMENT_DELETED                 MAKE_HRESULT(1, FACILITY_ITF, 0x0001)")
+#endif
+
+//=======================================================================
+// Project interfaces.
+//=======================================================================
+
+//
+// IVsENCRebuildableProjectCfg
+//
+[
+	uuid(BF031840-AFB9-11d2-AE14-00A0C9110055)
+]
+
+interface IVsENCRebuildableProjectCfg : IUnknown
+{
+	// This method call is synchronous
+	// Return codes;
+	//	S_FALSE: this project doesn't need rebuilding in this program
+	//  S_OK: rebuild succeeded must set out_ppUpdate
+	//  Any FAILED(hr): build errors
+    HRESULT ENCRebuild
+	(
+		[in] IUnknown* in_pProgram,     //IDebugProgram2* pProgram,
+		[out] IUnknown** out_ppSnapshot //IDebugENCSnapshot2* ppUpdate
+	);
+
+	// This method will get called when:
+	// 1) user selects "Cancel ApplyCodeChange" menu-item, or
+	// 2) one of the Project/Build systems fails to rebuild during ENCMGR's ENC Reubild phase. 
+	//		[note: ENCMGR is implementing all-or-nothing semantics on ENC Rebuild] 
+	HRESULT CancelENC
+	(
+		void
+	);
+
+	HRESULT ENCRelink
+	(
+		[in] IUnknown* pENCRelinkInfo   // IEnumDebugENCRelinkInfo *
+	); 
+
+	HRESULT StartDebugging(void);
+
+	HRESULT StopDebugging(void);
+
+	// semantics: BelongToProject
+	// in_szFileName specifies the fully-qualified filename whose content is dirtied by user-edits
+	// in_ENCReason specifies the reason why ENCMGR is calling.
+	// in_fOnContinue, a hack for managed only ENC 
+	// [because managed ENC can't do ApplyCodeChange without a subsequent debugger step] 
+	// [the method always returns S_FALSE when !in_fOnContinue]
+	//
+	// further note: disable managed ENC in VS7.0
+	// for managed ENC project/build system, it will return S_ENC_NOT_SUPPORTED when
+	// 1) in_fOnContinue is true
+	// 2) in_szFileName belongs to this project/build system.
+	HRESULT BelongToProject
+	(
+		[in] LPCOLESTR in_szFileName,
+		[in] ENC_REASON in_ENCReason, 
+		[in] BOOL in_fOnContinue
+	);
+
+	HRESULT SetENCProjectBuildOption
+	(
+		[in] REFGUID in_guidOption,
+		[in] LPCOLESTR in_szOptionValue
+	);
+
+    HRESULT ENCComplete
+	(
+		[in] BOOL in_fENCSuccess
+	);
+}
+
+// {D13E943A-9EE0-457f-8766-7D8B6BC06565}
+// IVsENCRebuildableProjectCfg2
+//
+[
+    object,
+	uuid(D13E943A-9EE0-457f-8766-7D8B6BC06565),
+	pointer_default(unique)
+]
+interface IVsENCRebuildableProjectCfg2 : IUnknown
+{
+	enum enum_ENC_BREAKSTATE_REASON
+	{
+		ENC_BREAK_NORMAL,     // Normal break track active statements, provide exception spans, track rude edits
+		ENC_BREAK_EXCEPTION  // Stopped at Exception, an unwind is required before ENC is allowed.  All edits are rude.  No tracking required.
+	};
+	typedef DWORD ENC_BREAKSTATE_REASON;
+	
+	enum enum_ASINFO
+	{
+		ASINFO_NONE         = 0x00000000, 
+		ASINFO_LEAF         = 0x00000001, // The Active Statement is in a leaf frame
+		ASINFO_MIDSTATEMENT = 0x00000002, // The Active Statement is partially executed 
+		ASINFO_NONUSER      = 0x00000004, // The Active Statement IL is not in user code
+	};
+	typedef DWORD ASINFO;
+
+	enum enum_POSITION_TYPE
+	{
+		TEXT_POSITION_ACTIVE_STATEMENT = 1,     // Filename and position mark the Active statement
+		TEXT_POSITION_NEARBY_STATEMENT  = 2,    // Filename and position mark the statement associated with
+												// some line in the method.  
+												// This is currently the line associated with
+												// offset 0, but may change. 
+												// (The intent is to provide the language service
+												// a hint on where to find the method  in source.)
+											 	// asInfo must have ASINFO_NONUSER set.
+		TEXT_POSITION_NONE = 3                          // Filename and position are not meaningful.
+												// (e.g. a generated function with no source.)                                                                         
+												// asInfo must have ASINFO_NONUSER set.
+	};
+	typedef DWORD POSITION_TYPE;
+
+	typedef struct _ACTVSTMT
+	{
+		UINT32 id;          // ID for Active Statement unique
+		UINT32 methodToken; // Token of the Active Method
+		TextSpan tsPosition;// TextSpan for the active statment
+		BSTR filename;  // Filename for the active statement (filename as in the pdb)
+		ASINFO asInfo; // Flags with extra info about the state
+		POSITION_TYPE posType; // Determines meaning of tsPosition and filename.  See enum_POSITION_TYPE
+	} ENC_ACTIVE_STATEMENT;
+
+	typedef enum 
+	{
+		ENC_NOT_MODIFIED,         // No user edits have occured
+		ENC_NONCONTINUABLE_ERRORS,// Rude ENC edits are present
+		ENC_COMPILE_ERRORS,       // Compile errors are present
+		ENC_APPLY_READY,          // Edits exist, no errors exist
+	} ENC_BUILD_STATE;
+
+	typedef struct _EXCEPTIONSPAN
+	{
+		UINT32 id;		// ID for exception handler assigned by lang service/compiler
+		UINT32 methodToken;
+		TextSpan tsPosition;
+	} ENC_EXCEPTION_SPAN;
+
+	// Event to notify the LangSvc that we have started debugging.
+	HRESULT StartDebuggingPE(void);
+
+	//
+	// Event to notify the LangSvc that we are stopped at a valid state
+	// for ENC.  The LangSvc must track Active Statements, and be capable
+	// of providing ExceptionSpans after recieving this event until the next
+	// ExitBreakStateOnPE event when encBreakReason is ENC_BREAK_NORMAL.
+	//
+	// 
+	HRESULT EnterBreakStateOnPE(
+		[in] ENC_BREAKSTATE_REASON encBreakReason,
+		[in] ENC_ACTIVE_STATEMENT* pActiveStatements,
+		[in] UINT32 cActiveStatements);
+
+	// QI for IDebugUpdateInMemoryPE
+	HRESULT BuildForEnc(
+		[in] IUnknown* pUpdatePE);
+
+	// Event to notify the LangSvc that the debugger has returned to run mode.
+	HRESULT ExitBreakStateOnPE(void);
+
+	// Event to notify the LangSvc that the debugger has stopped debugging
+	HRESULT StopDebuggingPE(void);    	
+
+	// The language service must synchronize all pending changes and provide
+	// an accurate build state when this is called.
+	HRESULT GetENCBuildState(
+		[out] ENC_BUILD_STATE* pENCBuildState);
+
+	// The language service is responsible to tracking ActiveStatements between
+	// the EnterBreakStateOnPE event and the ExitBreakStateOnPE event.
+	HRESULT GetCurrentActiveStatementPosition(
+		[in] UINT32 id,
+		[out] TextSpan* ptsNewPosition);
+
+	//
+	// The MVID is used to determine if the project built matches the PE being debugged.
+	//
+	HRESULT GetPEidentity(
+		[out] GUID* pMVID,
+		[out] BSTR* pbstrPEName);
+
+	//
+	// Provide the number of Exception spans surrounding Active Statements.
+	//
+	HRESULT GetExceptionSpanCount(
+		[out] UINT32* pcExceptionSpan);
+
+	//
+	// Provide the exception spans surrounding Active Statements.
+	//
+	// Exception spans cover code that might run before a remap can be done, or
+	// that might decide where a remap may occur.  When an Active Statement is
+	// marked ASINFO_MIDSTATEMENT then any associated catch and finally clauses
+	// must be marked as an Exception span.  If the Active statement is inside a finally
+	// clause then the try block must also be included in the Exception span.  The reason
+	// for this restriction is that a Leave instruction in the try block may define where 
+	// execution continues after the finally is completed.
+	//
+	// Code changes in ExceptionSpans are rude edits.
+	//
+	HRESULT GetExceptionSpans(
+		[in] UINT32 celt,
+		[out, size_is(celt), length_is(*pceltFetched)] ENC_EXCEPTION_SPAN* rgelt,
+		[in, out] ULONG* pceltFetched);
+
+	//
+	// The Language service must track exception spans between the EnterBreakStateOnPE
+	// event and the ExitBreakStateOnPE.
+	//
+	HRESULT GetCurrentExceptionSpanPosition(
+		[in] UINT32 id,
+		[out] TextSpan* ptsNewPosition);
+
+	//
+	// Notification provided to the language service and compiler that the Apply Succeeded.
+	// This provides an opportunity for the lang service to update state via func eval, and clean up
+	// state.  The hrApplyResult is the HRESULT returned from IDebugENCModule::ApplyENCUpdate
+	// see enc.idl.
+	//
+	HRESULT EncApplySucceeded(
+		[in] HRESULT hrApplyResult);
+
+	//
+	// Provide the timestamp for the last non-enc build. The timestamp requied
+	// here is the one placed in the PE header during build.  Do not use the filesystem timestamp.
+	//
+	// This is not used in the Whidbey implementation of ENC. 
+	HRESULT GetPEBuildTimeStamp(
+		[in,out] FILETIME* pTimeStamp);
+}
+
+// {3909921B-BACD-11d2-BD66-00C04FA302E2}
+// DEFINE_GUID(IID_IEnumVsENCRebuildableProjectCfgs, 
+// 0x3909921b, 0xbacd, 0x11d2, 0xbd, 0x66, 0x0, 0xc0, 0x4f, 0xa3, 0x2, 0xe2);
+[
+	object,
+	uuid(3909921B-BACD-11d2-BD66-00C04FA302E2),
+	pointer_default(unique)
+]
+interface IEnumVsENCRebuildableProjectCfgs : IUnknown
+{
+	HRESULT Next
+	(
+		[in] ULONG celt,
+		[out, size_is(celt), length_is(*pceltFetched)] IVsENCRebuildableProjectCfg** rgelt,
+		[in, out] ULONG* pceltFetched
+	);
+	HRESULT Skip
+	(
+		[in] ULONG celt
+	);
+	HRESULT Reset
+	(
+		void
+	);
+	HRESULT Clone
+	(
+		[out] IEnumVsENCRebuildableProjectCfgs** ppEnum
+	);
+	HRESULT GetCount
+	(
+		[out] ULONG* pcelt
+	);
+}

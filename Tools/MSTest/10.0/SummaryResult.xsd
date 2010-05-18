@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" elementFormDefault="qualified" attributeFormDefault="unqualified">
+    <xs:element name="SummaryResult">
+        <xs:annotation>
+            <xs:documentation>Describes summary result for tests</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="TestName" type="xs:string" minOccurs="1" maxOccurs="1" />
+                <xs:element name="TestResult" type="testResultType" minOccurs="1" maxOccurs="1" />
+                <xs:element name="ErrorMessage" type="xs:string" minOccurs="0" maxOccurs="1" />
+                <xs:element name="DetailedResultsFile" type="xs:string" minOccurs="0" maxOccurs="1" />
+                <xs:element name="InnerTests" minOccurs="0" maxOccurs="1">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="InnerTest" minOccurs="0" maxOccurs="unbounded">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="TestName" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                                        <xs:element name="TestResult" type="testResultType" minOccurs="1" maxOccurs="1" />
+                                        <xs:element name="ErrorMessage" type="xs:string" minOccurs="0" maxOccurs="1" />
+                                        <xs:element name="DetailedResultsFile" type="xs:string" minOccurs="0" maxOccurs="1" />
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+        <xs:key name="InnerTestNameMustBeUnique" msdata:PrimaryKey="true">
+            <xs:selector xpath=".//InnerTest" />
+            <xs:field xpath="TestName" />
+        </xs:key>
+    </xs:element>
+
+    <xs:simpleType name="testResultType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Aborted"/>
+            <xs:enumeration value="Error"/>
+            <xs:enumeration value="Inconclusive"/>
+            <xs:enumeration value="Failed"/>
+            <xs:enumeration value="NotRunnable"/>
+            <xs:enumeration value="NotExecuted"/>
+            <xs:enumeration value="Disconnected"/>
+            <xs:enumeration value="Warning"/>
+            <xs:enumeration value="InProgress"/>
+            <xs:enumeration value="Pending"/>
+            <xs:enumeration value="PassedButRunAborted"/>
+            <xs:enumeration value="Completed"/>
+            <xs:enumeration value="Passed"/>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

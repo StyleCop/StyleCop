@@ -1,0 +1,725 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<doc>
+  <assembly>
+    <name>Microsoft.VisualStudio.QualityTools.LoadTestFramework</name>
+  </assembly>
+  <members>
+    <member name="T:Microsoft.VisualStudio.TestTools.LoadTesting.HeartbeatEventArgs">
+      <summary>Provides data for the <see cref="E:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTest.HeartBeat" /> event. </summary>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.HeartbeatEventArgs.ElapsedSeconds">
+      <summary>Gets the number of seconds since the beginning of the run, including the warm-up period. </summary>
+      <returns>The number of seconds since the beginning of the run.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.HeartbeatEventArgs.IsWarmupComplete">
+      <summary>Gets a value that indicates whether the warm-up period is complete.</summary>
+      <returns>true if the warm-up interval is complete; otherwise, false.</returns>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.LoadTesting.ICounterProvider">
+      <summary>Defines an interface that an implementation of the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.IThresholdRule" /> interface can use to obtain the current values of performance counters, other than the performance counter being tested. </summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.LoadTesting.ICounterProvider.GetCounterValue(System.String,System.String,System.String,System.String)">
+      <summary>Gets the current value of a performance counter.</summary>
+      <returns>A <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.PerformanceCounterValue" /> object.</returns>
+      <param name="machineName">The name of the computer from which the performance counter value is collected.</param>
+      <param name="categoryName">The category name of the performance counter.</param>
+      <param name="counterName">The name of the performance counter.</param>
+      <param name="instanceName">The name of the instance of the performance counter.</param>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.LoadTesting.ILoadTestPlugin">
+      <summary>Defines an interface that is implemented to allow a user written class to handle events that occur as the load test, and the tests contained within the load test, are run.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.LoadTesting.ILoadTestPlugin.Initialize(Microsoft.VisualStudio.TestTools.LoadTesting.LoadTest)">
+      <summary>Initializes the load test plug-in.</summary>
+      <param name="loadTest">The load test to be executed.</param>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.LoadTesting.InvalidLoadProfileException">
+      <summary>This class represents an Exception that occurs when a load test plug-in attempts to assign the <see cref="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestScenario.LoadProfile" /> property of the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestScenario" /> to a <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestLoadProfile" /> with an invalid or inconsistent set of property values. </summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.LoadTesting.InvalidLoadProfileException.#ctor">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.InvalidLoadProfileException" /> class with a system-supplied message that describes the error.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.LoadTesting.InvalidLoadProfileException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.InvalidLoadProfileException" /> class with serialized data.</summary>
+      <param name="info">The object that holds the serialized object data. </param>
+      <param name="context">The contextual information about the source or destination. </param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.LoadTesting.InvalidLoadProfileException.#ctor(System.String)">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.InvalidLoadProfileException" /> class with a specified message that describes the error.</summary>
+      <param name="message">The message that describes the exception. The caller of this constructor is required to make sure that this string has been localized for the current system culture.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.LoadTesting.InvalidLoadProfileException.#ctor(System.String,System.Exception)">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.InvalidLoadProfileException" /> class with a specified error message and a reference to the inner exception that is the cause of this exception.</summary>
+      <param name="message">The message that describes the exception. The caller of this constructor is required to make sure that this string has been localized for the current system culture. </param>
+      <param name="innerException">The exception that is the cause of the current exception. If the <paramref name="innerException" /> parameter is not null, the current exception is raised in a catch block that handles the inner exception. </param>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.LoadTesting.IThresholdRule">
+      <summary>Used to monitor the values of performance counters during a load test run to signal warnings or critical alarms when the value of a performance counters exceeds a threshold.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.LoadTesting.IThresholdRule.CheckCounterValue(Microsoft.VisualStudio.TestTools.LoadTesting.PerformanceCounterValue,Microsoft.VisualStudio.TestTools.LoadTesting.ICounterProvider)">
+      <summary>Checks the value of one or more counter samples against a threshold and returns a result that indicates the status of the counter relative to the threshold parameters specified by the rule parameters.</summary>
+      <returns>A <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.ThresholdRuleResult" /> enumeration.</returns>
+      <param name="counterValue">The computed value of a performance counter.</param>
+      <param name="counterProvider">Provides information about performance counter values.</param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.IThresholdRule.ViolationMessage">
+      <summary>Gets a message describing a rule violation.</summary>
+      <returns>A message describing a rule violation.</returns>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTest">
+      <summary>Represents the load test being run.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTest.#ctor">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTest" /> class.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTest.Abort">
+      <summary>Stops the load test on all agents.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTest.Abort(System.Exception)">
+      <summary>Stops the load test on all agents and specifies the exception that caused the abort.</summary>
+      <param name="exception">An <see cref="T:System.Exception" /> that caused the load test to abort.</param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTest.Context">
+      <summary>Gets the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestContext" /> for the current load test run.</summary>
+      <returns>A <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestContext" /> object.</returns>
+    </member>
+    <member name="E:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTest.Heartbeat">
+      <summary>Occurs once every second.</summary>
+    </member>
+    <member name="E:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTest.LoadTestAborted">
+      <summary>Occurs when the load test is aborted.</summary>
+    </member>
+    <member name="E:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTest.LoadTestFinished">
+      <summary>Occurs when the load test has stopped running on the agent.</summary>
+    </member>
+    <member name="E:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTest.LoadTestStarting">
+      <summary>Occurs just before the load test begins to run on the agent.</summary>
+    </member>
+    <member name="E:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTest.LoadTestWarmupComplete">
+      <summary>Occurs when the warm-up period has completed.</summary>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTest.Name">
+      <summary>Gets the name of the load test.</summary>
+      <returns>The name of the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTest" />.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTest.RunSettings">
+      <summary>Gets the run settings used for the current load test run.</summary>
+      <returns>A <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestRunSettings" /> object.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTest.Scenarios">
+      <summary>Gets a collection of scenarios within the load test.</summary>
+      <returns>A collection of <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestScenario" /> objects contained within an <see cref="T:System.Collections.IList" />.</returns>
+    </member>
+    <member name="E:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTest.TestFinished">
+      <summary>Occurs when an iteration of one of the tests contained within the load test finishes.</summary>
+    </member>
+    <member name="E:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTest.TestSelected">
+      <summary>Occurs every time an iteration of one of the tests contained within the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTest" /> is selected.</summary>
+    </member>
+    <member name="E:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTest.TestStarting">
+      <summary>Occurs when an iteration of one of the tests contained within the load test is started.</summary>
+    </member>
+    <member name="E:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTest.ThresholdExceeded">
+      <summary>Occurs when a threshold rule is exceeded. </summary>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestAbortedEventArgs">
+      <summary>Provides data for the <see cref="E:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTest.LoadTestAborted" /> event. </summary>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestAbortedEventArgs.Exception">
+      <summary>Gets the exception that caused the load test to be aborted.</summary>
+      <returns>An <see cref="T:System.Exception" /> object.</returns>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestConstantLoadProfile">
+      <summary>Represents the load profile of a load test that has a constant load pattern.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestConstantLoadProfile.#ctor">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestConstantLoadProfile" /> class.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestConstantLoadProfile.GetLoad(System.Int32)">
+      <summary>Returns the user load that should be used at the current time in the load test based on the value of <paramref name="elapsedSeconds" /> since the start of the load test that was passed as an argument.</summary>
+      <param name="elapsedSeconds"> The time, in seconds, since the start of the load test.</param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestConstantLoadProfile.MaxUserCount">
+      <summary>Gets or sets the maximum user count. The maximum user count is the same as the <see cref="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestConstantLoadProfile.UserCount" /> for the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestConstantLoadProfile" /> class.</summary>
+      <returns>The maximum user count. </returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestConstantLoadProfile.MinUserCount">
+      <summary>Gets or sets the minimum user count. The minimum user count is the same as the <see cref="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestConstantLoadProfile.UserCount" /> for the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestConstantLoadProfile" /> class.</summary>
+      <returns>The minimum user count. </returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestConstantLoadProfile.UserCount">
+      <summary>Gets or sets the number of virtual users in the case in which you are using a constant load pattern.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestConstantLoadProfile.Validate">
+      <summary>Throws an <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.InvalidLoadProfileException" /> if the LoadProfile object has invalid or inconsistent properties. </summary>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestContext">
+      <summary>Encapsulates information about the context in which the load test is running. </summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestContext.Add(System.Collections.Generic.KeyValuePair{System.String,System.Object})">
+      <summary>Adds an <see cref="T:System.Collections.Generic.KeyValuePair`2" /> item to the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestContext" />.</summary>
+      <param name="item">The <see cref="T:System.Collections.Generic.KeyValuePair`2" /> to add to the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestContext" />.</param>
+      <exception cref="T:System.NotSupportedException">
+        <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestContext" />  is read-only.</exception>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestContext.Add(System.String,System.Object)">
+      <summary>Adds an element with the provided key and value to the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestContext" />.</summary>
+      <param name="key">The unique identifier to use as the key of the element to add.</param>
+      <param name="value">The object to use as the value of the element to add.</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="key" /> is null.</exception>
+      <exception cref="T:System.ArgumentException">An element with the same <paramref name="key" /> already exists in the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestContext" />.</exception>
+      <exception cref="T:System.NotSupportedException">The <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestContext" /> is read-only.</exception>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestContext.AgentCount">
+      <summary>Gets the total number of agents being used in the load test run.</summary>
+      <returns>The number of agents being used in the load test.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestContext.AgentId">
+      <summary>Gets the one-based index for the current agent.</summary>
+      <returns>The one-based index for the current agent.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestContext.AgentName">
+      <summary>Gets the name of the current agent.</summary>
+      <returns>The name of the current agent.</returns>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestContext.Clear">
+      <summary>Removes all items from the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestContext" />.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestContext.Contains(System.Collections.Generic.KeyValuePair{System.String,System.Object})">
+      <summary>Determines whether the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestContext" /> contains a specific value.</summary>
+      <returns>true if item is found in the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestContext" />; otherwise, false.</returns>
+      <param name="item">The object to locate in the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestContext" />.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestContext.ContainsKey(System.String)">
+      <summary>Indicates whether the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestContext" /> contains an element with the specified key.</summary>
+      <returns>true if the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestContext" /> contains an element with the <paramref name="key" />; otherwise, false.</returns>
+      <param name="key">The key to locate in the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestContext" />.</param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestContext.ControllerName">
+      <summary>Gets the name of the computer acting as the controller for the load test run.</summary>
+      <returns>The name of the computer acting as the controller for the load test run.</returns>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestContext.CopyTo(System.Collections.Generic.KeyValuePair{System.String,System.Object}[],System.Int32)">
+      <summary>Copies the elements of the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestContext" /> to an Array, starting at a particular Array index.</summary>
+      <param name="array">The one-dimensional Array that is the destination of the elements copied from <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestContext" />. The array must have zero-based indexing.</param>
+      <param name="arrayIndex">The zero-based index in array at which copying begins.</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="array" /> is null.</exception>
+      <exception cref="T:System.ArgumentOutOfRangeException">
+        <paramref name="arrayIndex" /> is less than 0.</exception>
+      <exception cref="T:System.ArgumentException">
+        <paramref name="array" /> is multidimensional.-or-The number of elements in the source <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestContext" /> is greater than the available space from <paramref name="arrayIndex" /> to the end of the destination array.</exception>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestContext.Count">
+      <summary>Gets the number of elements contained in the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestContext" /> object.</summary>
+      <returns>The number of elements contained in the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestContext" />.</returns>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestContext.GetEnumerator">
+      <summary>Returns an enumerator that iterates through the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestContext" />.</summary>
+      <returns>A <see cref="T:System.Collections.Generic.IEnumerator`1" /> that can be used to iterate through the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestContext" />.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestContext.IsLocalRun">
+      <summary>Gets a value that indicates whether the test was run locally or remotely.</summary>
+      <returns>true if the test was run locally; otherwise, false.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestContext.IsReadOnly">
+      <summary>Gets a value indicating whether <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestContext" /> is read-only. </summary>
+      <returns>This always returns false.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestContext.Item(System.String)">
+      <summary>Gets or sets a <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestContext" /> element with the specified key. </summary>
+      <returns>The element with the specified key.</returns>
+      <param name="key">The key of the element to get or set.</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="key" /> is null.</exception>
+      <exception cref="T:System.Collections.Generic.KeyNotFoundException">The property is retrieved and <paramref name="key" /> is not found.</exception>
+      <exception cref="T:System.NotSupportedException">The property is set and the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestContext" />  is read-only.</exception>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestContext.Keys">
+      <summary>Gets an <see cref="T:System.Collections.Generic.ICollection`1" /> that contains the keys of the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestContext" /> elements.</summary>
+      <returns>A Generic <see cref="T:System.Collections.Generic.ICollection`1" /> that contains the keys of the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestContext" />.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestContext.LoadTestRunId"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestContext.Remove(System.Collections.Generic.KeyValuePair{System.String,System.Object})">
+      <summary>Removes the first occurrence of a specific object from the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestContext" />.</summary>
+      <returns>true if item was successfully removed from the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestContext" />; otherwise, false. This method also returns false if item is not found in the original <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestContext" />.</returns>
+      <param name="item">The object to remove from the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestContext" />.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestContext.Remove(System.String)">
+      <summary>Removes the element with the specified key from the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestContext" />.</summary>
+      <returns>true if the element is successfully removed; otherwise, false. This method also returns false if <paramref name="key" /> was not found in the original <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestContext" />.</returns>
+      <param name="key">The key of the element to remove.</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="key" /> is null.</exception>
+      <exception cref="T:System.NotSupportedException">
+        <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestContext" />  is read-only.</exception>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestContext.System#Collections#IEnumerable#GetEnumerator"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestContext.TryGetValue(System.String,System.Object@)">
+      <summary>Gets the value associated with the specified key.</summary>
+      <returns>true if it contains an element with the specified <paramref name="key" />; otherwise, false.</returns>
+      <param name="key">The key to find.</param>
+      <param name="value">The referenced object that gets the key's value if it is found; otherwise, it gets the default value for the type of the <paramref name="value" /> parameter. This parameter can be passed uninitialized.</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="key" /> is null.</exception>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestContext.Values">
+      <summary>Gets <see cref="T:System.Collections.Generic.ICollection`1" /> that contains the values in the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestContext" /> elements.</summary>
+      <returns>A Generic <see cref="T:System.Collections.Generic.ICollection`1" /> that contains the values of the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestContext" /> elements.</returns>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestGoalBasedLoadProfile">
+      <summary>Represents the load profile of a load test that has a goal-based load pattern. </summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestGoalBasedLoadProfile.#ctor">
+      <summary>Initializes a new instance of the LoadTestGoalBasedLoadProfile class.</summary>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestGoalBasedLoadProfile.CategoryName">
+      <summary>Gets or sets a performance counter category to monitor.</summary>
+      <returns>The name of the performance counter category to monitor.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestGoalBasedLoadProfile.CounterName">
+      <summary>Gets or sets the performance counter to monitor.</summary>
+      <returns>The name of the performance counter to monitor.</returns>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestGoalBasedLoadProfile.GetLoad(System.Int32)">
+      <summary>Returns the user load that should be used at the current time in the load test based on the value of elapsedSeconds since the start of the load test passed as an argument.  </summary>
+      <param name="elapsed"> The time, in seconds, since the start of the load test.</param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestGoalBasedLoadProfile.HigherValuesBetter">
+      <summary>Set this Boolean value to True when the performance counter specified by the Category and Counter properties is a performance counter for which a lower value indicates higher utilization of a resource. </summary>
+      <returns>True if a lower value indicates higher utilization; otherwise, false. </returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestGoalBasedLoadProfile.InitialUserCount">
+      <summary>Gets or sets the initial user count. This is the number of virtual users to run at the start of the load test before the user load is adjusted, based on the specified goal.</summary>
+      <returns>The initial user count. </returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestGoalBasedLoadProfile.InstanceName">
+      <summary>Gets or sets the performance counter instance to monitor.</summary>
+      <returns>The performance counter instance to monitor.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestGoalBasedLoadProfile.MachineName">
+      <summary>Gets or sets the name of the computer to monitor.</summary>
+      <returns>The name of the computer to monitor.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestGoalBasedLoadProfile.MaxTargetValue">
+      <summary>Gets or sets an upper limit to target. Load is increased or decreased to keep the counter below this value.</summary>
+      <returns>The upper limit to target. </returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestGoalBasedLoadProfile.MaxUserCount">
+      <summary>Gets or sets the maximum user count. The load cannot not exceed this value after the goal is met.</summary>
+      <returns>The maximum user count. </returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestGoalBasedLoadProfile.MaxUserCountDecrease">
+      <summary>Gets or sets the maximum amount by which to reduce the user load.</summary>
+      <returns>The maximum amount by which to reduce the user load.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestGoalBasedLoadProfile.MaxUserCountIncrease">
+      <summary>Gets or sets the maximum amount by which to increase the user load.</summary>
+      <returns>The maximum amount by which to increase the user load.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestGoalBasedLoadProfile.MinTargetValue">
+      <summary>Gets or sets the lower limit to target for the goal-based load pattern.</summary>
+      <returns>The lower limit to target. </returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestGoalBasedLoadProfile.MinUserCount">
+      <summary>Gets or sets the minimum user count. The load cannot go below this value even to satisfy the goal.</summary>
+      <returns>The minimum user count. </returns>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestGoalBasedLoadProfile.RestoreUserCountAfterRestart(System.Int32)"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestGoalBasedLoadProfile.StopAdjustingAtGoal">
+      <summary>True indicates to stop adjusting user load. False indicates that the test must continue to adjust the user load throughout the test if needed to keep the specified performance counter value within the target range. </summary>
+      <returns>True if the running test has stopped adjusting the user load. False if the running test will continue to adjust user load throughout the test.</returns>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestGoalBasedLoadProfile.Validate">
+      <summary>Throws an InvalidLoadProfileException if the LoadProfile object has invalid or inconsistent properties. It also displays an appropriate message.</summary>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestLoadProfile"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestLoadProfile.#ctor">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestLoadProfile" /> class.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestLoadProfile.CheckIfProfileCanBeModified(System.String)">
+      <summary>Throws an exception if the profile property is not yet ready to be modified.</summary>
+      <param name="propertyName">The property name you wish to set.</param>
+      <exception cref="LoadProfileModificationException">Thrown if the property is not ready to be modified.</exception>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestLoadProfile.Copy">
+      <summary>Returns a copy of the object, typically a LoadTestPlugin object. The caller can then modify it and reassign it to the LoadProfile property of the LoadTestScenario object. </summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestLoadProfile.GetLoad(System.Int32)">
+      <summary>Returns the user load that should be used at the current time in the load test based on the value of elapsedSeconds since the start of the load test passed as an argument.</summary>
+      <param name="elapsedSeconds">The time, in seconds, since the start of the load test. </param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestLoadProfile.MaxUserCount">
+      <summary>Gets or sets the highest user count that will ever be returned by the GetLoad method of the class extending LoadTestLoadProfile.</summary>
+      <returns>The maximum user count. </returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestLoadProfile.MinUserCount">
+      <summary>Gets or sets the smallest user count that will ever be returned by the GetLoad method of the class extending LoadTestLoadProfile.</summary>
+      <returns>The smallest user count that will ever be returned by the GetLoad method of the class extending LoadTestLoadProfile.</returns>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestLoadProfile.RestoreUserCountAfterRestart(System.Int32)"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestLoadProfile.ScenarioName">
+      <summary>Gets or sets the name of the scenario in the load test that the load profile implementation is controlling.</summary>
+      <returns>The name of the scenario in the load test that the load profile implementation is controlling.</returns>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestLoadProfile.Validate">
+      <summary>Throws an InvalidLoadProfileException if the LoadProfile object has invalid or inconsistent properties. </summary>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestRunIdNotSetException"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestRunIdNotSetException.#ctor"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestRunIdNotSetException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestRunIdNotSetException.#ctor(System.String)"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestRunIdNotSetException.#ctor(System.String,System.Exception)"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestRunSettings">
+      <summary>Describes the load test run settings in use for the current load test run, as defined in the Load Test Editor. </summary>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestRunSettings.Description">
+      <summary>Gets a description of the run.</summary>
+      <returns>A description of the run.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestRunSettings.Name">
+      <summary>Gets the name of the run settings in the load test.</summary>
+      <returns>The name of the run settings in the load test.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestRunSettings.RunDuration">
+      <summary>Gets the number of seconds the load test is to run, not including the <see cref="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestRunSettings.WarmupTime" />.</summary>
+      <returns>The number of seconds the load test is to run.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestRunSettings.WarmupTime">
+      <summary>Gets the number of seconds in the warm-up period.</summary>
+      <returns>The number of seconds in the warm-up period.</returns>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestScenario">
+      <summary>Represents a scenario that is contained within a load test. </summary>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestScenario.CurrentLoad">
+      <summary>Gets or sets the current value for the concurrent user load for this scenario.</summary>
+      <returns>The current value for the concurrent user load.</returns>
+      <exception cref="T:System.ArgumentOutOfRangeException">Set value is less than 0.</exception>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestScenario.DelayBetweenIterations">
+      <summary>Gets or sets the delay between the tests in a load test. </summary>
+      <returns>The delay between the tests in a load test.</returns>
+    </member>
+    <member name="E:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestScenario.LoadChanged">
+      <summary>Occurs when the current user load for this scenario changes as the load test runs.</summary>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestScenario.LoadProfile"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestScenario.Name">
+      <summary>Gets the name of the scenario as defined in the Load Test Editor.</summary>
+      <returns>The name of the scenario as defined in the Load Test Editor.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestScenario.TestNames">
+      <summary>Gets an array of the test names included in the scenario.</summary>
+      <returns>An <see cref="T:System.Collections.IEnumerable" /> collection of test names.</returns>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestStepLoadProfile">
+      <summary>Represents the load profile of a load test that has a step load pattern.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestStepLoadProfile.#ctor">
+      <summary>Initializes a new instance of the LoadTestStepLoadProfile class. </summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestStepLoadProfile.GetLoad(System.Int32)">
+      <summary>Returns the user load that should be used at the current time in the load test based on the value of elapsedSeconds since the start of the load test passed as an argument.</summary>
+      <param name="elapsed"> The time, in seconds, since the start of the load test.</param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestStepLoadProfile.InitialUserCount">
+      <summary>Gets or sets the initial user count, in the case in which you are using the step load pattern.</summary>
+      <returns>The initial user count. </returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestStepLoadProfile.MaxUserCount">
+      <summary>Gets or sets the maximum user count, in the case in which you are using the step load pattern.</summary>
+      <returns>The maximum user count. </returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestStepLoadProfile.StepDuration">
+      <summary>Gets or sets the amount of time between steps in seconds.</summary>
+      <returns>The amount of time between steps, in seconds. </returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestStepLoadProfile.StepRampTime">
+      <summary>Gets or sets the amount of time that it takes in each step to gradually add the users specified by the step user count.</summary>
+      <returns>The amount of time that it takes in each step to gradually add the users specified by the step user count.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestStepLoadProfile.StepUserCount">
+      <summary>Gets or sets the number of users to increase at each step, in the case in which you are using a step load pattern.</summary>
+      <returns>The number of users to increase at each step. </returns>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestStepLoadProfile.Validate">
+      <summary>Throws an InvalidLoadProfileException if the LoadProfile object has invalid or inconsistent properties. </summary>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext">
+      <summary>Encapsulates information about the user context in which a test is running, in a load test. </summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext.Add(System.Collections.Generic.KeyValuePair{System.String,System.Object})">
+      <summary>Adds an <see cref="T:System.Collections.Generic.KeyValuePair`2" /> item to the LoadTestUserContext.</summary>
+      <param name="item">The <see cref="T:System.Collections.Generic.KeyValuePair`2" /> to add to the LoadTestUserContext.</param>
+      <exception cref="T:System.NotSupportedException">LoadTestUserContext is read-only.</exception>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext.Add(System.String,System.Object)">
+      <summary>Adds an element that has the provided key and value to the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext" />.</summary>
+      <param name="key">The unique identifier to use as the key of the element to add.</param>
+      <param name="value">The object to use as the value of the element to add.</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="key" /> is null.</exception>
+      <exception cref="T:System.ArgumentException">An element that has the same <paramref name="key" /> already exists in the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext" />.</exception>
+      <exception cref="T:System.NotSupportedException">The <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext" /> is read-only.</exception>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext.Clear">
+      <summary>Removes all items from the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext" />.</summary>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext.CompletedTestCount">
+      <summary>Gets or sets the number of tests that have been completed by the virtual user that is represented by the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext" /> object since the beginning of the load test.</summary>
+      <returns>The number of tests that have been completed by the virtual user since the load test run began.</returns>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext.Contains(System.Collections.Generic.KeyValuePair{System.String,System.Object})">
+      <summary>Determines whether the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext" /> contains a specific value.</summary>
+      <returns>true if item is found in the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext" />; otherwise, false.</returns>
+      <param name="item">The object to locate in the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext" />.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext.ContainsKey(System.String)">
+      <summary>Indicates whether the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext" /> contains an element that has the specified key.</summary>
+      <returns>true if the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext" /> contains an element that has the key; otherwise, false.</returns>
+      <param name="key">The key to locate in the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext" />.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext.CopyTo(System.Collections.Generic.KeyValuePair{System.String,System.Object}[],System.Int32)">
+      <summary>Copies the elements of the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext" /> to an Array, starting at a particular Array index.</summary>
+      <param name="array">The one-dimensional Array that is the destination of the elements copied from <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext" />. The array must have zero-based indexing.</param>
+      <param name="arrayIndex">The zero-based index in array at which copying begins.</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="array" /> is null.</exception>
+      <exception cref="T:System.ArgumentOutOfRangeException">
+        <paramref name="arrayIndex" /> is less than 0.</exception>
+      <exception cref="T:System.ArgumentException">
+        <paramref name="array" /> is multidimensional.-or-The number of elements in the source <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext" /> is greater than the available space from <paramref name="arrayIndex" /> to the end of the destination array.</exception>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext.Count">
+      <summary>Gets the number of elements contained in the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext" /> object.</summary>
+      <returns>The number of elements contained in the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext" /> object.</returns>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext.GetEnumerator">
+      <summary>Returns an enumerator that iterates through the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext" />.</summary>
+      <returns>A <see cref="T:System.Collections.Generic.IEnumerator`1" /> that can be used to iterate through the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext" />.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext.InitializeTestContext">
+      <summary>Gets or sets the state of the user context at the time InitializeTest completed for the virtual user associated with the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext" /> object.</summary>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext.IsNewUser">
+      <summary>Gets a value that indicates whether a newly created virtual user is running the current test.</summary>
+      <returns>true indicates that a newly created virtual user is running the current test; otherwise false.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext.IsReadOnly">
+      <summary>Gets a value that indicates whether <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext" /> is read-only. </summary>
+      <returns>This always returns false.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext.Item(System.String)">
+      <summary>Gets or sets a <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext" />  element that has the specified key. </summary>
+      <returns>The element that has the specified key.</returns>
+      <param name="key"> The key of the element to get or set.</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="key" /> is null.</exception>
+      <exception cref="T:System.Collections.Generic.KeyNotFoundException">The property is retrieved and <paramref name="key" /> is not found.</exception>
+      <exception cref="T:System.NotSupportedException">The property is set and the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext" />  is read-only.</exception>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext.Keys">
+      <summary>Gets an <see cref="T:System.Collections.ICollection" /> that contains the keys of the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext" /> elements.</summary>
+      <returns>A Generic <see cref="T:System.Collections.ICollection" /> that contains the keys of the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext" />.</returns>
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext.LoadTestUserContextKey"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext.Remove(System.Collections.Generic.KeyValuePair{System.String,System.Object})">
+      <summary>Removes the first occurrence of a specific object from the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext" />.</summary>
+      <returns>true if item was successfully removed from the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext" />; otherwise, false. This method also returns false if item is not found in the original <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext" />.</returns>
+      <param name="item">The object to remove from the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext" />.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext.Remove(System.String)">
+      <summary>Removes the first occurrence of a specific object from the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext" />.</summary>
+      <param name="key">The unique identifier to use as the key of the element to remove.</param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext.ScenarioName">
+      <summary>Gets or sets the name of the load test scenario that created the virtual user that is represented by this <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext" />. </summary>
+      <returns>The name of the load test scenario that created the virtual user that is represented by this <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext" />.</returns>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext.System#Collections#IEnumerable#GetEnumerator"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext.TryGetValue(System.String,System.Object@)">
+      <summary>Gets the value associated with the specified key.</summary>
+      <returns>true if it contains an element that has the specified <paramref name="key" />; otherwise, false.</returns>
+      <param name="key">The key to find.</param>
+      <param name="value">The referenced object that gets the key's value if it is found; otherwise, it gets the default value for the type of the <paramref name="value" /> parameter. This parameter can be passed uninitialized.</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="key" /> is null.</exception>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext.UserId">
+      <summary>Gets the UserId of the user within the load test scenario.</summary>
+      <returns>The UserId of the user within the load test scenario.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext.Values">
+      <summary>Gets <see cref="T:System.Collections.ICollection" /> that contains the values in the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext" /> elements.</summary>
+      <returns>A Generic <see cref="T:System.Collections.ICollection" /> that contains the values of the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext" /> elements.</returns>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.LoadTesting.PerformanceCounterValue">
+      <summary>Contains the computed value of a performance counter collected during a load test run. </summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.LoadTesting.PerformanceCounterValue.#ctor(System.String,System.String,System.String,System.String,System.Single)">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.PerformanceCounterValue" /> class. </summary>
+      <param name="machineName">The name of the computer from which the performance counter value was collected.</param>
+      <param name="categoryName">The category of the performance counter.</param>
+      <param name="counterName">The name of the performance counter.</param>
+      <param name="instanceName">The name of the instance of the performance counter.</param>
+      <param name="value">The sampled value of the performance counter.</param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.PerformanceCounterValue.CategoryName">
+      <summary>Gets the category of the performance counter.</summary>
+      <returns>The category of the performance counter.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.PerformanceCounterValue.CounterName">
+      <summary>Gets the name of the performance counter.</summary>
+      <returns>The name of the performance counter.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.PerformanceCounterValue.InstanceName">
+      <summary>Gets the name of the instance of the performance counter.</summary>
+      <returns>The name of the instance of the performance counter.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.PerformanceCounterValue.MachineName">
+      <summary>Gets the name of the computer from which the performance counter value was collected.</summary>
+      <returns>The name of the computer from which the performance counter value was collected.</returns>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.LoadTesting.PerformanceCounterValue.ToString">
+      <summary>Returns information about the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.PerformanceCounterValue" /> and its value property.</summary>
+      <returns>Information about the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.PerformanceCounterValue" /> and its value property.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.PerformanceCounterValue.Value">
+      <summary>Gets the sampled value of the performance counter.</summary>
+      <returns>The sampled value of the performance counter.</returns>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.LoadTesting.TestFinishedEventArgs">
+      <summary>Provides data for the <see cref="E:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTest.TestFinished" /> event. </summary>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.TestFinishedEventArgs.IsInitializeTest">
+      <summary>Gets a value that indicates whether the test that finished is the InitializeTest that was specified in the load test scenario's test mix.</summary>
+      <returns>true if the test that finished is the InitializeTest that was specified in the load test scenario's test mix; otherwise false.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.TestFinishedEventArgs.IsTerminateTest">
+      <summary>Gets a value that indicates whether the test that finished is the TerminateTest that was specified in the load test scenario's test mix.</summary>
+      <returns>true if the test that finished is the TerminateTest that was specified in the load test scenario's test mix; otherwise false.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.TestFinishedEventArgs.Result">
+      <summary>Gets the result of the test that finished.</summary>
+      <returns>The result of the finished test.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.TestFinishedEventArgs.ScenarioName">
+      <summary>Gets the scenario name of the test that finished.</summary>
+      <returns>The scenario name of the finished test.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.TestFinishedEventArgs.TestName">
+      <summary>Gets the name of the finished test.</summary>
+      <returns>The name of the finished test.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.TestFinishedEventArgs.UserContext">
+      <summary>Gets the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext" /> that represents the virtual user that was running the test that finished.</summary>
+      <returns>The <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext" /> that represents the virtual user that was running the test that finished.</returns>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.LoadTesting.TestIterationResult">
+      <summary>Describes the result of running an individual test case within a load test. </summary>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.TestIterationResult.Duration">
+      <summary>Gets the duration of the test.</summary>
+      <returns>A <see cref="T:System.TimeSpan" /> structure.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.TestIterationResult.EndTime">
+      <summary>Gets the time at which the test finished.</summary>
+      <returns>A <see cref="T:System.DateTime" /> object.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.TestIterationResult.ErrorMessage">
+      <summary>Gets the error message associated with a failure, if any.</summary>
+      <returns>The error message associated with a failure.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.TestIterationResult.ErrorStackTrace">
+      <summary>Gets the stack trace associated with a failure, if any.</summary>
+      <returns>The stack trace associated with a failure.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.TestIterationResult.Passed">
+      <summary>Gets a value that indicates whether the test passed.</summary>
+      <returns>true if the test passed; otherwise, false.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.TestIterationResult.StartTime">
+      <summary>Gets the time at which the test started.</summary>
+      <returns>A <see cref="T:System.DateTime" /> object.</returns>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.LoadTesting.TestSelectedEventArgs">
+      <summary>Contains the arguments for the <see cref="E:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTest.TestSelected" /> event. </summary>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.TestSelectedEventArgs.IsInitializeTest">
+      <summary>Gets a value that indicates whether the selected test is the InitializeTest that was specified in the load test scenario's test mix.</summary>
+      <returns>true if the selected test is the InitializeTest that was specified in the load test scenario's test mix; otherwise false.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.TestSelectedEventArgs.IsTerminateTest">
+      <summary>Gets a value that indicates whether the selected test is the TerminateTest that was specified in the load test scenario's test mix.</summary>
+      <returns>true if the selected test is the TerminateTest that was specified in the load test scenario's test mix; otherwise false.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.TestSelectedEventArgs.ScenarioName">
+      <summary>Gets the scenario name that contains the test that is selected.</summary>
+      <returns>A scenario name.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.TestSelectedEventArgs.TestName">
+      <summary>Gets or sets the name of the test that is selected.</summary>
+      <returns>The name of the test that is selected.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.TestSelectedEventArgs.UserContext">
+      <summary>Gets the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext" /> that represents the virtual user that is running the selected test.</summary>
+      <returns>The <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext" /> that represents the virtual user that is running the selected test.</returns>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.LoadTesting.TestStartingEventArgs">
+      <summary>Contains the arguments for the <see cref="E:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTest.TestStarting" /> event. </summary>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.TestStartingEventArgs.IsInitializeTest">
+      <summary>Gets a value that indicates whether the test that is starting is the InitializeTest that was specified in the load test scenario's test mix.</summary>
+      <returns>true if the test that is starting is the InitializeTest that was specified in the load test scenario's test mix; otherwise false.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.TestStartingEventArgs.IsTerminateTest">
+      <summary>Gets a value that indicates whether the test that is starting is the TerminateTest that was specified in the load test scenario's test mix.</summary>
+      <returns>true if the test that is starting is the TerminateTest that was specified in the load test scenario's test mix; otherwise false.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.TestStartingEventArgs.ScenarioName">
+      <summary>Gets the scenario name that contains the test that is starting.</summary>
+      <returns>A scenario name.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.TestStartingEventArgs.TestContextProperties">
+      <summary>Gets an <see cref="T:System.Collections.Generic.IDictionary`2" /> that contains data available to individual tests in a load test.</summary>
+      <returns>An <see cref="T:System.Collections.Generic.IDictionary`2" />.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.TestStartingEventArgs.TestIterationNumber">
+      <summary>Gets a value that represents the number of tests that have run within the load test on a particular agent.</summary>
+      <returns>The number of test iterations.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.TestStartingEventArgs.TestName">
+      <summary>Gets the name of the test that is starting.</summary>
+      <returns>The name of the test that is starting.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.TestStartingEventArgs.UserContext">
+      <summary>Gets the <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext" /> that represents the virtual user that is running the test that is starting.</summary>
+      <returns>The <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTestUserContext" /> that represents the virtual user that is running the test that is starting.</returns>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.LoadTesting.ThresholdExceededEventArgs">
+      <summary>Provides data for the <see cref="E:Microsoft.VisualStudio.TestTools.LoadTesting.LoadTest.ThresholdExceeded" /> event.</summary>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.ThresholdExceededEventArgs.CounterValue">
+      <summary>Gets the complete name (computer, category, counter, and instance) and value of the performance counter sample that exceeded a threshold.</summary>
+      <returns>A <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.PerformanceCounterValue" /> object.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.LoadTesting.ThresholdExceededEventArgs.ThresholdResult">
+      <summary>Gets a value that indicates if the <see cref="F:Microsoft.VisualStudio.TestTools.LoadTesting.ThresholdRuleResult.Critical" /> or <see cref="F:Microsoft.VisualStudio.TestTools.LoadTesting.ThresholdRuleResult.Warning" /> threshold level was exceeded.</summary>
+      <returns>A <see cref="T:Microsoft.VisualStudio.TestTools.LoadTesting.ThresholdRuleResult" /> enumeration value.</returns>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.LoadTesting.ThresholdRuleResult">
+      <summary>Specifies the results of applying a threshold rule to a performance counter sample.</summary>
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.LoadTesting.ThresholdRuleResult.OK">
+      <summary>Equals 0.</summary>
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.LoadTesting.ThresholdRuleResult.Warning">
+      <summary>Equals 1.</summary>
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.LoadTesting.ThresholdRuleResult.Critical">
+      <summary>Equals 2.</summary>
+    </member>
+  </members>
+</doc>

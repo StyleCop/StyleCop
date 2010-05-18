@@ -1,0 +1,13 @@
+cpp_quote("#ifndef __INDENTSTYLE__")
+cpp_quote("#define __INDENTSTYLE__")
+
+typedef [ uuid(BCCEBE05-D29C-11D2-AABD-00C04F688DDE) ]
+enum _vsIndentStyle
+{
+    vsIndentStyleNone = 0,
+    vsIndentStyleDefault,
+    vsIndentStyleSmart
+} vsIndentStyle;
+
+cpp_quote("#endif // __INDENTSTYLE__")
+

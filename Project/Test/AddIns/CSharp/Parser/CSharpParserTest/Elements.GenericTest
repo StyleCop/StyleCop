@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<GenericTest name="elements" storage="c:\depot\stylecop\v4.3\test\addins\csharp\parser\csharpparsertest\elements.generictest" id="0b08ba0d-7292-4070-9d79-ec3d1d302fd2" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Css projectStructure="" iteration="" />
+  <Owners>
+    <Owner name="" />
+  </Owners>
+  <Execution id="3d83dc05-2194-471d-bcc3-058a94fcd2bc" />
+  <Command filename="%TestBin%\StyleCopTestHarness.exe" arguments="/testname:Elements /i:&quot;%TestDeploymentDir%&quot; /o:&quot;%TestOutputDirectory%&quot; /testroot:%TestLocation%" workingDirectory="%TestOutputDirectory%" />
+  <SummaryXmlFile enabled="true" path="%TestOutputDirectory%\ElementsResults.xml" />
+</GenericTest>

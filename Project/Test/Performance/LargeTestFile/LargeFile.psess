@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<VSPerformanceSession Version="1.00">
+  <Options>
+    <Solution>E:\depot\StyleCop\v4.3\StyleCop.sln</Solution>
+    <CollectionMethod>Sampling</CollectionMethod>
+    <AllocationMethod>None</AllocationMethod>
+    <LaunchRuntimeControl>true</LaunchRuntimeControl>
+    <AddReport>true</AddReport>
+    <UniqueReport>Timestamp</UniqueReport>
+    <SamplingMethod>Cycles</SamplingMethod>
+    <CycleCount>10000000</CycleCount>
+    <PageFaultCount>10</PageFaultCount>
+    <SysCallCount>10</SysCallCount>
+    <SamplingCounter Name="" ReloadValue="00000000000f4240" DisplayName="" />
+    <RelocateBinaries>false</RelocateBinaries>
+    <HardwareCounters EnableHWCounters="false" />
+    <EtwSettings />
+    <PdhSettings>
+      <PdhCountersEnabled>false</PdhCountersEnabled>
+      <PdhCountersRate>500</PdhCountersRate>
+      <PdhCounters>
+        <PdhCounter>\Memory\Pages/sec</PdhCounter>
+        <PdhCounter>\PhysicalDisk(_Total)\Avg. Disk Queue Length</PdhCounter>
+        <PdhCounter>\Processor(_Total)\% Processor Time</PdhCounter>
+      </PdhCounters>
+    </PdhSettings>
+  </Options>
+  <ExcludeSmallFuncs>true</ExcludeSmallFuncs>
+  <PreinstrumentEvent>
+    <InstrEventExclude>false</InstrEventExclude>
+  </PreinstrumentEvent>
+  <PostinstrumentEvent>
+    <InstrEventExclude>false</InstrEventExclude>
+  </PostinstrumentEvent>
+  <Binaries>
+    <Binary>
+      <Path>E:\depot\StyleCop\v4.3\test\TestBin\Microsoft.StyleCop.CSharp.dll</Path>
+      <ArgumentTimestamp>01/01/0001 00:00:00</ArgumentTimestamp>
+      <Instrument>true</Instrument>
+      <Sample>true</Sample>
+      <LaunchProject>false</LaunchProject>
+      <LaunchMethod>Executable</LaunchMethod>
+      <ExecutablePath>E:\depot\StyleCop\main\test\TestBin\StyleCopFuzzTestHarness.exe</ExecutablePath>
+      <StartupDirectory>E:\depot\StyleCop\main\test\TestBin</StartupDirectory>
+      <Arguments>E:\depot\StyleCop\main\test\Performance\LargeTestFile\LargeTestFile.cs</Arguments>
+      <NetAppHost>IIS</NetAppHost>
+      <NetBrowser>InternetExplorer</NetBrowser>
+      <ExcludeSmallFuncs>true</ExcludeSmallFuncs>
+      <PreinstrumentEvent>
+        <InstrEventExclude>false</InstrEventExclude>
+      </PreinstrumentEvent>
+      <PostinstrumentEvent>
+        <InstrEventExclude>false</InstrEventExclude>
+      </PostinstrumentEvent>
+    </Binary>
+  </Binaries>
+  <Reports>
+    <Report>
+      <Path>E:\depot\StyleCop\v4.3\StyleCopFuzzTestHarness080430.vsp</Path>
+    </Report>
+    <Report>
+      <Path>E:\depot\StyleCop\v4.3\StyleCopFuzzTestHarness080430(2).vsp</Path>
+    </Report>
+    <Report>
+      <Path>e:\depot\StyleCop\Main\StyleCopFuzzTestHarness080501(2).vsp</Path>
+    </Report>
+    <Report>
+      <Path>e:\depot\StyleCop\Main\StyleCopFuzzTestHarness080501(3).vsp</Path>
+    </Report>
+  </Reports>
+  <Launches>
+    <Binary>
+      <Path>E:\depot\StyleCop\v4.3\test\TestBin\Microsoft.StyleCop.CSharp.dll</Path>
+    </Binary>
+  </Launches>
+  <RuntimeMarks>
+    <MarkName>Mark One</MarkName>
+    <MarkName>Mark Two</MarkName>
+    <MarkName>Mark Three</MarkName>
+    <MarkName>Mark Four</MarkName>
+    <MarkName>Mark Five</MarkName>
+    <MarkName>Mark Six</MarkName>
+    <MarkName>Mark Seven</MarkName>
+    <MarkName>Mark Eight</MarkName>
+    <MarkName>Mark Nine</MarkName>
+    <MarkName>Mark Ten</MarkName>
+  </RuntimeMarks>
+</VSPerformanceSession>

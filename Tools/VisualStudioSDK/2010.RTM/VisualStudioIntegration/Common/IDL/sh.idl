@@ -1,0 +1,2102 @@
+import "wtypes.idl";
+
+// notes:
+//
+// - define AD7_NO_AD7_IMPORTS to exclude all AD7 imports
+
+// cpp_quote("#ifndef _BASETSD_H_")
+// #include <basetsd.h>
+// cpp_quote("#endif // _BASETSD_H_")
+
+interface IDebugAddress;
+interface IDebugArrayField;
+interface IDebugBlockField;
+interface IDebugClassField;
+interface IDebugContainerField;
+interface IDebugEngineSymbolProviderServices;
+interface IDebugComPlusSymbolProvider;
+interface IDebugField;
+interface IDebugMethodField;
+interface IDebugPointerField;
+interface IDebugPropertyField;
+interface IDebugSymbolDocumentPosition;
+interface IDebugSymbolDocumentTextPosition;
+interface IDebugSymbolProvider;
+interface IEnumDebugAddresses;
+interface IEnumDebugFields;
+interface IDebugCustomAttributeQuery;
+interface IDebugCustomAttributeQuery2;
+interface IDebugCustomAttribute;
+interface IEnumDebugCustomAttributes;
+interface IDebugGenericFieldDefinition;
+interface IDebugGenericFieldInstance;
+interface IDebugGenericParamField;
+
+#ifndef AD7_NO_AD7_IMPORTS
+import "msdbg.idl";
+#endif
+
+cpp_quote("// Symbol provider HRESULTs")
+cpp_quote("//")
+cpp_quote("// HRESULTs: General")
+cpp_quote("static const int E_SH_SYMBOL_STORE_NOT_INITIALIZED			= MAKE_HRESULT(1, FACILITY_ITF, 0x0001);")
+cpp_quote("static const int E_SH_SYMBOL_STORE_ALREADY_INITIALIZED		= MAKE_HRESULT(1, FACILITY_ITF, 0x0002);")
+
+cpp_quote("// HRESULTs: GetContainerField and GetTypeFromAddress")
+cpp_quote("static const int E_SH_INVALID_ADDRESS						= MAKE_HRESULT(1, FACILITY_ITF, 0x0003);")
+
+cpp_quote("// HRESULTs: GetAddressesFromPosition")
+cpp_quote("static const int E_SH_NO_SYMBOLS_FOR_POSITION				= MAKE_HRESULT(1, FACILITY_ITF, 0x0004);")
+cpp_quote("static const int E_SH_INVALID_POSITION						= MAKE_HRESULT(1, FACILITY_ITF, 0x0005);")
+
+cpp_quote("// HRESULTs: GetContextFromAddress")
+cpp_quote("static const int E_SH_NO_SYMBOLS_FOR_ADDRESS					= MAKE_HRESULT(1, FACILITY_ITF, 0x0006);")
+cpp_quote("static const int S_SH_ENC_OLD_CONTEXT						= MAKE_HRESULT(0, FACILITY_ITF, 0x0040);")
+
+cpp_quote("// HRESULTs: GetAddress")
+cpp_quote("static const int E_SH_NO_ADDRESS								= MAKE_HRESULT(1, FACILITY_ITF, 0x0007);")
+
+cpp_quote("// HRESULTs: GetType")
+cpp_quote("static const int E_SH_NO_TYPE								= MAKE_HRESULT(1, FACILITY_ITF, 0x0008);")
+cpp_quote("static const int E_SH_DYNAMIC_TYPE							= MAKE_HRESULT(1, FACILITY_ITF, 0x0009);")
+
+cpp_quote("// HRESULTs: GetContainer")
+cpp_quote("static const int S_SH_NO_CONTAINER							= MAKE_HRESULT(0, FACILITY_ITF, 0x000a);")
+
+cpp_quote("// HRESULTs: GetSize")
+cpp_quote("static const int S_SH_NO_SIZE								= MAKE_HRESULT(0, FACILITY_ITF, 0x000b);")
+cpp_quote("static const int E_SH_DYNAMIC_SIZE							= MAKE_HRESULT(1, FACILITY_ITF, 0x000c);")
+
+cpp_quote("// HRESULTs: EnumFields")
+cpp_quote("static const int S_SH_NO_FIELDS								= MAKE_HRESULT(0, FACILITY_ITF, 0x000d);")
+
+cpp_quote("// HRESULTs: GetThis")
+cpp_quote("static const int S_SH_METHOD_NO_THIS							= MAKE_HRESULT(0, FACILITY_ITF, 0x000e);")
+
+cpp_quote("// HRESULTs: EnumBaseClasses")
+cpp_quote("static const int S_SH_NO_BASE_CLASSES						= MAKE_HRESULT(0, FACILITY_ITF, 0x000f);")
+cpp_quote("static const int E_SH_FILE_NOT_FOUND						    = MAKE_HRESULT(1, FACILITY_ITF, 0x0010);")
+cpp_quote("static const int E_SH_SYMBOLS_NOT_FOUND                      = MAKE_HRESULT(1, FACILITY_ITF, 0x0020);")
+
+cpp_quote("extern GUID guidSymStoreMetaPDB;")
+cpp_quote("extern GUID guidConstantValue;")
+cpp_quote("extern GUID guidConstantType;")
+cpp_quote("extern GUID guidIntPtr;")
+cpp_quote("extern GUID guidValueType;")
+cpp_quote("// HRESULTS: GetContextInfo")
+cpp_quote("static const int E_SH_NO_DOC_CONTEXT						    = MAKE_HRESULT(1, FACILITY_ITF, 0x0011);")
+
+cpp_quote("// HRESULTS: ClassRefToClassDef")
+cpp_quote("static const int E_SH_CLASSDEFINITION_NOT_LOADED				= MAKE_HRESULT(1, FACILITY_ITF, 0x0012);")
+cpp_quote("static const int E_SH_MODULE_NOT_LOADED				        = MAKE_HRESULT(1, FACILITY_ITF, 0x0013);")
+
+cpp_quote("// HRESULTS: ConvertDiaHR")
+cpp_quote("static const int E_SH_OK										= MAKE_HRESULT(1, FACILITY_ITF, 0x0021);")
+cpp_quote("static const int E_SH_USAGE									= MAKE_HRESULT(1, FACILITY_ITF, 0x0022);")
+cpp_quote("static const int E_SH_OUT_OF_MEMORY							= MAKE_HRESULT(1, FACILITY_ITF, 0x0023);")
+cpp_quote("static const int E_SH_FILE_SYSTEM							= MAKE_HRESULT(1, FACILITY_ITF, 0x0024);")
+cpp_quote("static const int E_SH_NOT_FOUND								= MAKE_HRESULT(1, FACILITY_ITF, 0x0025);")
+cpp_quote("static const int E_SH_INVALID_SIG							= MAKE_HRESULT(1, FACILITY_ITF, 0x0026);")
+cpp_quote("static const int E_SH_INVALID_AGE							= MAKE_HRESULT(1, FACILITY_ITF, 0x0027);")
+cpp_quote("static const int E_SH_V1_PDB									= MAKE_HRESULT(1, FACILITY_ITF, 0x0028);")
+cpp_quote("static const int E_SH_FORMAT									= MAKE_HRESULT(1, FACILITY_ITF, 0x0029);")
+cpp_quote("static const int E_SH_CORRUPT								= MAKE_HRESULT(1, FACILITY_ITF, 0x002a);")
+cpp_quote("static const int E_SH_ACCESS_DENIED							= MAKE_HRESULT(1, FACILITY_ITF, 0x002b);")
+cpp_quote("static const int E_SH_INVALID_EXECUTABLE						= MAKE_HRESULT(1, FACILITY_ITF, 0x002c);")
+cpp_quote("static const int E_SH_NO_DEBUG_INFO							= MAKE_HRESULT(1, FACILITY_ITF, 0x002d);")
+cpp_quote("static const int E_SH_INVALID_EXE_TIMESTAMP					= MAKE_HRESULT(1, FACILITY_ITF, 0x002e);")
+cpp_quote("static const int E_SH_DEBUG_INFO_NOT_IN_PDB					= MAKE_HRESULT(1, FACILITY_ITF, 0x0030);")
+//cpp_quote("static const int S_SH_ENC_OLD_CONTEXT						= MAKE_HRESULT(0, FACILITY_ITF, 0x0040);")
+
+cpp_quote("// HRESULTS: ConstructInstantiation")
+cpp_quote("static const int E_SH_TYPE_ARG_NOT_CLOSED					= MAKE_HRESULT(1, FACILITY_ITF, 0x0050);")
+
+typedef INT32 _mdToken;
+
+typedef enum NameMatchOptions
+{
+	nmNone,
+	nmCaseSensitive,
+	nmCaseInsensitive
+} NAME_MATCH;
+
+
+// ------------------------------------------------------------------
+// IDebugSymbolProvider
+
+[
+	object,
+	uuid(c2e34eae-8b9d-11d2-9014-00c04fa38338),
+	pointer_default(unique)
+]
+interface IDebugSymbolProvider: IUnknown
+{
+	HRESULT Initialize(
+		[in] IDebugEngineSymbolProviderServices* pServices);
+
+	HRESULT Uninitialize(void);
+
+	// REVIEW: is this here or on an EE private interface?
+    // DOUGROS: I think it should be here - the SH should be defined
+    // without a dependence on and EE.
+
+	HRESULT GetContainerField(
+		[in] IDebugAddress* pAddress,
+		[out] IDebugContainerField** ppContainerField);
+
+	// REVIEW: is this here or on an EE private interface?
+	HRESULT GetField(
+		[in] IDebugAddress* pAddress,
+		[in] IDebugAddress* pAddressCur,
+		[out] IDebugField** ppField);
+
+	HRESULT GetAddressesFromPosition(
+		[in] IDebugDocumentPosition2* pDocPos,
+        [in] BOOL fStatmentOnly,
+		[out] IEnumDebugAddresses** ppEnumBegAddresses,
+		[out] IEnumDebugAddresses** ppEnumEndAddresses);
+
+	HRESULT GetAddressesFromContext(
+		[in] IDebugDocumentContext2* pDocContext,
+        [in] BOOL fStatmentOnly,
+		[out] IEnumDebugAddresses** ppEnumBegAddresses,
+		[out] IEnumDebugAddresses** ppEnumEndAddresses);
+
+	HRESULT GetContextFromAddress(
+		[in] IDebugAddress* pAddress,
+		[out] IDebugDocumentContext2** ppDocContext);
+
+	HRESULT GetLanguage(
+		[in] IDebugAddress* pAddress,
+		[out] GUID* pguidLanguage,
+		[out] GUID* pguidLanguageVendor);
+
+	HRESULT GetGlobalContainer(
+		[out] IDebugContainerField** pField);
+
+	//
+	// Given a fully qualified method name return its field.
+	// Overloaded functions should return multiple fields
+	//
+	HRESULT GetMethodFieldsByName(
+		[in, ptr] LPCOLESTR pszFullName,
+		[in] NAME_MATCH nameMatch,
+		[out] IEnumDebugFields** ppEnum);
+
+	HRESULT GetClassTypeByName(
+		[in, ptr] LPCOLESTR pszClassName,
+		[in] NAME_MATCH nameMatch,
+		[out] IDebugClassField** ppField);		
+
+	HRESULT GetNamespacesUsedAtAddress(
+		[in] IDebugAddress* pAddress,
+		[out] IEnumDebugFields** ppEnum);
+
+	// A more generic version of GetClassTypeByName
+	HRESULT GetTypeByName(
+		[in, ptr] LPCOLESTR pszClassName,
+		[in] NAME_MATCH nameMatch,
+		[out] IDebugField** ppField);
+
+	HRESULT GetNextAddress(
+		[in] IDebugAddress* pAddress,
+		[in] BOOL fStatmentOnly,
+		[out] IDebugAddress** ppAddress);
+};
+
+// ------------------------------------------------------------------
+// IDebugSymbolProviderDirect
+
+[
+	object,
+	uuid(533A62E9-FDDD-4fef-B7C3-BE4117773087),
+	pointer_default(unique)
+]
+interface IDebugSymbolProviderDirect: IUnknown
+{
+    HRESULT GetCurrentModulesState(
+            [out] DWORD* pState, 
+            [out] unsigned long * count);
+
+    HRESULT GetMethodFromAddress(
+            [in] IDebugAddress * pAddress,
+            [out] GUID * pGuid,
+            [out] DWORD * pAppID,
+            [out] _mdToken * pTokenClass,
+            [out] _mdToken * pTokenMethod,
+            [out] DWORD * pdwOffset,
+            [out] DWORD * pdwVersion);
+
+    HRESULT GetAppIDFromAddress(
+            [in] IDebugAddress * pAddress,
+            [out] DWORD * pAppID);
+
+    HRESULT GetMetaDataImport(
+            [in] GUID * guid,
+            [in] DWORD appID,
+            [out] IUnknown ** ppImport);
+
+    HRESULT GetSymUnmanagedReader(
+            [in] ULONG32 ulAppDomainID,
+            [in] GUID guidModule,
+            [out] IUnknown ** ppSymUnmanagedReader);
+
+    HRESULT GetCurrentModulesInfo(
+            [in, out] unsigned long * pCount,
+            [in, out, size_is(*pCount),length_is(*pCount)] GUID * ppGuids,
+            [in, out, size_is(*pCount),length_is(*pCount)] DWORD * pADIds,
+            [in, out, size_is(*pCount),length_is(*pCount)] DWORD * pCurrentState,
+            [in, out, ptr, size_is(*pCount),length_is(*pCount)] IUnknown ** ppCDModItfs);
+};
+
+
+// ------------------------------------------------------------------
+// IDebugComPlusSymbolProvider
+
+#pragma warning(push)
+#pragma warning(disable:28718)
+
+[
+	object,
+	uuid(c2e34eaf-8b9d-11d2-9014-00c04fa38338),
+	pointer_default(unique)
+]
+interface IDebugComPlusSymbolProvider: IDebugSymbolProvider
+{
+	HRESULT LoadSymbols(
+		[in] ULONG32 ulAppDomainID,
+		[in] GUID guidModule,
+		[in] ULONGLONG baseAddress,
+		[in] IUnknown* pUnkMetadataImport,
+		[in] BSTR bstrModuleName,
+		[in] BSTR bstrSymSearchPath);
+
+	HRESULT UnloadSymbols(
+		[in] ULONG32 ulAppDomainID,
+		[in] GUID guidModule);
+
+	HRESULT GetEntryPoint(
+		[in] ULONG32 ulAppDomainID,
+		[in] GUID guidModule,
+		[out] IDebugAddress **ppAddress);
+
+	HRESULT GetTypeFromAddress(
+		[in] IDebugAddress  *pAddress,
+		[out] IDebugField   **ppField);
+
+	HRESULT UpdateSymbols(
+		[in] ULONG32 ulAppDomainID,
+		[in] GUID guidModule,
+		[in] IStream* pUpdateStream);
+
+	HRESULT CreateTypeFromPrimitive(
+		[in] DWORD dwPrimType,
+		[in] IDebugAddress* pAddress,
+		[in] IDebugField** ppType);
+
+	HRESULT GetFunctionLineOffset(
+		[in] IDebugAddress *pAddress,           // Address that represents function
+		[in] DWORD dwLine,                      // Line offset from beginning of function.
+		[out] IDebugAddress **ppNewAddress);    // New address representing line offset from beginning of function.
+
+	HRESULT GetAddressesInModuleFromPosition(
+		[in] ULONG32 ulAppDomainID,
+		[in] GUID guidModule,
+		[in] IDebugDocumentPosition2* pDocPos,
+		[in] BOOL fStatmentOnly,
+		[out] IEnumDebugAddresses** ppEnumBegAddresses,
+		[out] IEnumDebugAddresses** ppEnumEndAddresses);
+
+	HRESULT GetArrayTypeFromAddress(
+		[in] IDebugAddress *pAddress,
+		[in, size_is(dwSigLength), length_is(dwSigLength)] BYTE *pSig,
+		[in] DWORD dwSigLength,
+		[out] IDebugField **ppField);
+
+	HRESULT GetSymAttribute([in] ULONG32 ulAppDomainID,
+							[in] GUID guidModule,
+							[in] _mdToken tokParent,
+							[in] LPOLESTR pstrName,
+							[in] ULONG32 cBuffer,
+							[out] ULONG32 *pcBuffer,
+							[out, size_is(cBuffer),
+							length_is(*pcBuffer)] BYTE* buffer);
+
+	HRESULT ReplaceSymbols(
+		[in] ULONG32 ulAppDomainID,
+		[in] GUID guidModule,
+		[in] IStream* pStream);
+
+	HRESULT AreSymbolsLoaded(
+		[in] ULONG32 ulAppDomainID,
+		[in] GUID guidModule);
+
+	HRESULT LoadSymbolsFromStream(
+		[in] ULONG32 ulAppDomainID,
+		[in] GUID guidModule,
+		[in] ULONGLONG baseAddress,
+		[in] IUnknown* pUnkMetadataImport,
+		[in] IStream* pStream);
+
+	HRESULT GetSymUnmanagedReader(
+	[in] ULONG32 ulAppDomainID,
+	[in] GUID guidModule,
+	[out] IUnknown ** ppSymUnmanagedReader);
+
+	HRESULT GetAttributedClassesinModule(
+	[in] ULONG32 ulAppDomainID,
+	[in] GUID guidModule,
+	[in] LPOLESTR pstrAttribute,
+	[out] IEnumDebugFields** ppEnum);
+
+	HRESULT GetAttributedClassesForLanguage(
+	[in] GUID guidLanguage,
+	[in] LPOLESTR pstrAttribute,
+	[out] IEnumDebugFields** ppEnum);
+
+	// Returns S_OK if Hidden, otherwise S_FALSE.
+	HRESULT IsHiddenCode(
+	[in] IDebugAddress* pAddress);
+
+	// Returns S_OK if function has been deleted, otherwise S_FALSE
+	// Requires pAddress to be a METHOD_ADDRESS.
+	HRESULT IsFunctionDeleted(
+	[in] IDebugAddress* pAddress);
+
+	// Helper Function.  Returns the name associated with
+	// dwToken with respect to the provided pMetaData
+	HRESULT GetNameFromToken(
+		[in] IUnknown* pMetadataImport,
+		[in] DWORD dwToken,
+		[out] BSTR* pbstrName);
+	
+	// Returns S_OK if function has been deleted, otherwise S_FALSE
+	// Requires pAddress to be a METHOD_ADDRESS.
+	HRESULT IsFunctionStale(
+	[in] IDebugAddress* pAddress);
+		
+
+	// Returns the local variable layout for a set of methods
+	HRESULT GetLocalVariablelayout(
+		[in] ULONG32 ulAppDomainID,
+		[in] GUID guidModule,
+		[in] ULONG32 cMethods,
+		[in, size_is(cMethods)] _mdToken rgMethodTokens[],
+		[out] IStream** pStreamLayout);
+
+	HRESULT GetAssemblyName(
+		[in] ULONG32 ulAppDomainID,
+		[in] GUID guidModule,
+		[out] BSTR* pbstrName);
+};
+#pragma warning(pop)
+
+// ------------------------------------------------------------------
+// IDebugComPlusSymbolProvider2
+
+[
+	object,
+	uuid(29D97D99-2C50-4855-BC74-B3E372DDD602),
+	pointer_default(unique)
+]
+interface IDebugComPlusSymbolProvider2: IDebugComPlusSymbolProvider
+{
+    HRESULT LoadSymbolsFromCallback(
+		[in] ULONG32 ulAppDomainID,
+		[in] GUID guidModule,
+		[in] IUnknown* pUnkMetadataImport,
+        [in] IUnknown* pUnkCorDebugModule,
+		[in] BSTR bstrModuleName,
+		[in] BSTR bstrSymSearchPath,
+        [in] IUnknown *pCallback);
+
+    HRESULT IsAddressSequencePoint(
+	    [in] IDebugAddress* pAddress);
+
+    // Returns S_OK if function has line info otherwise S_FALSE
+    // Requires pAddress to be a METHOD_ADDRESS.
+    HRESULT FunctionHasLineInfo(
+        [in] IDebugAddress* pAddress);
+
+	// For generic types the name to look up for 'List<int>' or 'List<int,int>' would be 'List'.
+	// You can distinguish between similar generic types by QI'ing for IDebugGenericTypeField
+	// and enumerating the formal parameters.
+	// If types of the same name appear in multiple modules you will get all copies. You need
+	// to use GetTypeInfo and distinguish based on the guidModule.
+	HRESULT GetTypesByName(
+		[in, ptr] LPCOLESTR pszClassName,
+		[in] NAME_MATCH nameMatch,
+		[out] IEnumDebugFields** ppEnum);
+
+  HRESULT LoadSymbolsWithCorModule(
+		[in] ULONG32 ulAppDomainID,
+		[in] GUID guidModule,
+		[in] ULONGLONG baseAddress,
+		[in] IUnknown* pUnkMetadataImport,
+        [in] IUnknown* pUnkCorDebugModule,
+		[in] BSTR bstrModuleName,
+		[in] BSTR bstrSymSearchPath);
+
+    HRESULT LoadSymbolsFromStreamWithCorModule(
+		[in] ULONG32 ulAppDomainID,
+		[in] GUID guidModule,
+		[in] ULONGLONG baseAddress,
+		[in] IUnknown* pUnkMetadataImport,
+        [in] IUnknown* pUnkCorDebugModule,
+		[in] IStream* pStream);
+
+    HRESULT GetTypeFromToken(
+        [in] ULONG32 appDomain,
+		[in] GUID guidModule,
+		[in] DWORD tdToken,
+		[out] IDebugField   **ppField);
+};
+
+
+// This interface allows the cpde to partition symbol providers by appdomain,
+// yet maintain required program wide features on some interfaces.
+[
+	object,
+	uuid(2B226A06-FF61-44f3-9ADD-B34BD9F72FCB),
+	pointer_default(unique)
+]
+interface IDebugSymbolProviderGroup: IUnknown
+{
+	HRESULT CreateGroup(
+                [out] IUnknown** ppGroup);
+	
+	// SetGroup may only be called once - further calls will fail.
+	HRESULT SetGroup(
+                [in] IUnknown* pGroup);
+};
+
+[
+	object,
+	uuid(C5717D6C-8DBF-4852-B7D8-C003EE09541F),
+	pointer_default(unique)
+]
+interface IDebugGenericFieldDefinition: IUnknown
+{
+	// Returns the number of the generic params i.e. List<T> = 1, List<T1,T2> = 2
+	// sometimes refered to the 'arity'
+	// returns 0 if there are no type params.
+	HRESULT TypeParamCount(
+		[in, out] ULONG32* pcParams);
+	
+	// Return the Type params in order from left to right. i.e. Dictionary<K,V> returns 
+	// IDebugFormalGenericParameters {K,V}
+	HRESULT GetFormalTypeParams(
+		[in] ULONG32 cParams,
+		[out, size_is(cParams), length_is(*pcParams)] IDebugGenericParamField** ppParams,
+		[in, out] ULONG32* pcParams);
+
+	// Returns an instantiation given this definition and a series of type arguments
+	// The type arguments must be closed Types (Non-generic, or fully instantiated generics).
+	// Constraints are not checked.
+	HRESULT ConstructInstantiation(
+		[in] ULONG32 cArgs,
+		[in, size_is(cArgs)] IDebugField** ppArgs,
+		[out] IDebugField** ppConstructedField);
+
+}
+
+// ------------------------------------------------------------------
+// IDebugGenericFieldInstance
+[
+	object,
+	uuid(C93C9DD0-0A65-4966-BCEB-633EEEE2E096),
+	pointer_default(unique)
+]
+interface IDebugGenericFieldInstance: IUnknown
+{
+	// Returns the number of the generic arguments i.e. List<int> = 1, List<int,float2> = 2
+	// returns 0 if there are no type arguments.
+	HRESULT TypeArgumentCount(
+		[in,out] ULONG32* pcArgs);
+
+	HRESULT GetTypeArguments(
+		[in] ULONG32 cArgs,
+		[out, size_is(cArgs), length_is(*pcArgs)] IDebugField** ppArgs,
+		[in, out] ULONG32* pcArgs);
+}
+
+// ------------------------------------------------------------------
+// IDebugGenericParamField
+[
+	object,
+	uuid(941105E9-760A-49ec-995F-7668CB60216C),
+	pointer_default(unique)
+]
+interface IDebugGenericParamField: IDebugField
+{
+	// The 1st param of Dictionary<K,V> will have name 'K'
+	HRESULT GetNameOfFormalParam(
+		[out] BSTR *pbstrName);
+	
+	HRESULT ConstraintCount(
+		[in, out] ULONG32* pcConst);
+		
+	HRESULT GetConstraints(
+		[in] ULONG32 cConstraints,
+		[out, size_is(cConstraints), length_is(*pcConstraints)] IDebugField** ppConstraints,
+		[in, out] ULONG32* pcConstraints);
+
+	// Returns the type or method owner of this generic parameter
+	// It will
+	HRESULT GetOwner(
+		[out] IDebugField** ppOwner);
+
+	// Returns the index of the param.  
+	// i.e. Dictionary(K,V) K is index 0, V is index 1.
+	HRESULT GetIndex(
+		[out] DWORD* pIndex);
+
+	// Return the flags for this generic parameter.
+        // These flags contain information about various special constraints.
+	HRESULT GetFlags(
+		[out] DWORD *pdwFlags);
+}
+
+// Psuedo-code Example:
+// class Bar<C1,C2> ... (no constraints)
+// class E<T1,T2> where T1 = Bar<T2,int>
+// {
+//    T1 foo<T3,T4>(T1 a,T4 b) where T3 = Bar<T1,T4>
+//    {
+//       T4 foo_local;
+//		 T3 foo_local2;
+//       ...
+//    }
+// }
+//
+// 'E': IDebugClassFieldType 
+//   QI's to IDebugGenericFieldDefinition: with 2 IDebugFormalGenericParamFields:
+//		0. T1: with 1 constraint 'T1C'
+//		1. T2: with 0 constraints
+//   TypeArgumentCount() returns 0
+// 'T1C': IDebugField (QI's to IDebugClassFieldType)
+//	 QI's to IDebugGenericFieldInstance: with 2 Arguments
+//      0. IDebugGenericParamField (Owner: 'E', Index 1 'T2')
+//      1. IDebugField for type 'int'
+//
+// 'foo': IDebugMethodField
+//   QI's to IDebugGenericFieldDefinition with 2 IDebugFormalGenericParamFields:
+//      0. T3: with 1 constraint 'T3C'
+//      1. T4: with 0 constraints
+//   GetType()(this is the T1 return type of 'foo') returns IDebugField which QI's to IDebugGenericFieldInstance with 1 Argument
+//		0. IDebugGenericParamField (Owner: 'E', Index 0 'T1')
+// 'T3C': IDebugField (QI's to IDebugClassFieldType)
+//   QI's to IDebugGenericFieldInstance with 2 Args:
+//      0. IDebugGenericParamField (Owner: 'E', Index 0 'T1')
+//      1. IDebugGenericParamField (Owner: 'foo', Index 1 'T4')
+//
+// 'foo_local': IDebugField
+//    QI's to IDebugGenericFieldInstance with 1 Arg:
+//      0. IDebugGenericParamField (Owner: 'foo', Index 1 'T4')
+//
+// 'foo_local2': IDebugField
+//    QI's to IDebugGenericFieldInstance with 1 Arg:
+//      0. IDebugGenericParamField (Owner: 'foo', Index 0 'T3')
+
+
+// ------------------------------------------------------------------
+// IDebugComPlusSymbolSearchInfo
+
+[
+	object,
+	uuid(F96F4D16-E799-492d-B33D-2325E63D4135),
+	pointer_default(unique)
+]
+interface IDebugComPlusSymbolSearchInfo: IUnknown
+{
+	typedef struct _tagSymbolSearchInfo
+	{
+		BSTR bstrPath;
+		HRESULT hrHRESULT;
+	} SYMBOL_SEARCH_INFO;
+
+	HRESULT GetLastSymbolSearchInfo(
+		[in] ULONG32 ulAppDomainID,
+		[in] GUID guidModule,
+		[out] BSTR *pbstrPath,
+		[out] HRESULT *phrHRESULT);
+
+	HRESULT GetSymbolSearchInfoCount(
+		[in] ULONG32 ulAppDomainID,
+		[in] GUID guidModule,
+		[out] ULONG32 *pCount);
+
+	HRESULT GetSymbolSearchInfo(
+		[in] ULONG32 ulAppDomainID,
+		[in] GUID guidModule,
+		[in] ULONG32 ulSearchInfo,
+		[out] ULONG32 *pulSearchInfo,
+		[out, size_is(ulSearchInfo),
+		length_is(*pulSearchInfo)] SYMBOL_SEARCH_INFO **prgSearchInfo);
+	
+	HRESULT LoadSymbolsWithoutPDB(
+		[in] ULONG32 ulAppDomainID,
+		[in] GUID guidModule,
+		[in] ULONGLONG baseAddress,
+		[in] IUnknown* pUnkMetadataImport,
+        [in] IUnknown* pUnkCorDebugModule,
+		[in] BSTR bstrModule);
+}
+
+// ------------------------------------------------------------------
+// IDebugNativeSymbolProvider
+[
+	object,
+	uuid(796AE40B-6CDA-4f05-A663-D282A93AC7D4),
+	pointer_default(unique)
+]
+interface IDebugTypeFieldBuilder: IUnknown
+{
+	// Use these methods to build types for comparision or casting
+	// purposes.
+
+	// dwElement is a CorElementType defined in CorHdr.h
+	HRESULT CreatePrimitive(
+		[in] DWORD dwElementType,
+		[out] IDebugField** pTypeField);
+
+	HRESULT CreatePointerToType(
+		[in] IDebugField* pTypeField,
+		[out] IDebugField** pPtrToTypeField);
+
+};
+
+// ------------------------------------------------------------------
+// IDebugNativeSymbolProvider2
+[
+	object,
+	uuid(EED3392E-C13A-42a9-932F-145C12B4FB5C),
+	pointer_default(unique)
+]
+interface IDebugTypeFieldBuilder2: IDebugTypeFieldBuilder
+{		
+	HRESULT CreateArrayOfType(
+		[in] IDebugField* pTypeField,
+		[in] DWORD rank,
+		[out] IDebugField** pArrayOfTypeField);
+};
+
+// ------------------------------------------------------------------
+// IDebugNativeSymbolProvider
+
+[
+	object,
+	uuid(c2e34eb0-8b9d-11d2-9014-00c04fa38338),
+	pointer_default(unique)
+]
+interface IDebugNativeSymbolProvider: IDebugSymbolProvider
+{
+	HRESULT LoadSymbols(
+		[in] LPCOLESTR pszFileName);
+};
+
+// ------------------------------------------------------------------
+// IDebugField
+
+[
+	object,
+	uuid(c2e34eb1-8b9d-11d2-9014-00c04fa38338),
+	pointer_default(unique)
+]
+interface IDebugField: IUnknown
+{
+	enum enum_FIELD_MODIFIERS
+	{
+		FIELD_MOD_NONE				= 0x00000000,
+
+		// Access modifiers
+		FIELD_MOD_ACCESS_NONE		= 0x00000001,
+		FIELD_MOD_ACCESS_PUBLIC		= 0x00000002,
+		FIELD_MOD_ACCESS_PROTECTED	= 0x00000004,
+		FIELD_MOD_ACCESS_PRIVATE	= 0x00000008,
+                FIELD_MOD_ACCESS_FRIEND	        = 0x01000000,
+
+		// Modifiers
+		FIELD_MOD_NOMODIFIERS		= 0x00000010,
+		FIELD_MOD_STATIC			= 0x00000020,
+		FIELD_MOD_CONSTANT			= 0x00000040,
+		FIELD_MOD_TRANSIENT			= 0x00000080,
+		FIELD_MOD_VOLATILE			= 0x00000100,
+		FIELD_MOD_ABSTRACT			= 0x00000200,
+		FIELD_MOD_NATIVE			= 0x00000400,
+		FIELD_MOD_SYNCHRONIZED		= 0x00000800,
+		FIELD_MOD_VIRTUAL			= 0x00001000,
+		FIELD_MOD_INTERFACE			= 0x00002000,
+		FIELD_MOD_FINAL				= 0x00004000,
+		FIELD_MOD_SENTINEL			= 0x00008000,
+		FIELD_MOD_INNERCLASS		= 0x00010000,
+		FIELD_MOD_OPTIONAL			= 0x00020000,
+
+		// FIELD_MOD_BYREF is specifically for Arguments to methods
+		FIELD_MOD_BYREF				= 0x00040000,
+
+		// This mod is emitted when the field must be hidden from
+		// the user or presented in a different context.
+		// VB static locals are an example.
+		FIELD_MOD_HIDDEN			= 0x00080000,
+
+		FIELD_MOD_MARSHALASOBJECT   = 0x00100000,
+		
+		FIELD_MOD_SPECIAL_NAME      = 0x00200000,
+
+		FIELD_MOD_HIDEBYSIG         = 0x00400000,
+
+                FIELD_MOD_NEWSLOT           = 0x00800000,
+		
+		// This mod indicates a Property field is writeonly
+		// It is not included in FIELD_MOD_ALL as the only
+		// use of these fields is for Func-eval.
+		// A user must explicitly ask for FIELD_MOD_WRITEONLY fields
+		
+		FIELD_MOD_WRITEONLY			= 0x80000000,
+		
+		FIELD_MOD_ACCESS_MASK		        = 0x0f00000f,
+		FIELD_MOD_MASK				= 0xf0fffff0,
+
+		FIELD_MOD_ALL				= 0x7fffffff,
+
+
+		// Examples:
+		// - private static final: FIELD_MOD_ACCESS_PRIVATE | FIELD_MOD_STATIC | FIELD_MOD_CONSTANT
+		// - public virtual: FIELD_MOD_ACCESS_PUBLIC | FIELD_MOD_VIRTUAL
+		// - protected: FIELD_MOD_ACCESS_PROTECTED | FIELD_MOD_NOMODIFIERS
+	};
+	typedef DWORD FIELD_MODIFIERS;
+
+	enum enum_FIELD_KIND
+	{
+		FIELD_KIND_NONE				= 0x00000000,
+
+		// Type of the field
+		FIELD_KIND_TYPE				= 0x00000001,
+		FIELD_KIND_SYMBOL			= 0x00000002,
+
+		// Storage type of the field
+		FIELD_TYPE_PRIMITIVE		= 0x00000010,
+		FIELD_TYPE_STRUCT			= 0x00000020,
+		FIELD_TYPE_CLASS			= 0x00000040,
+		FIELD_TYPE_INTERFACE		= 0x00000080,
+		FIELD_TYPE_UNION			= 0x00000100,
+		FIELD_TYPE_ARRAY			= 0x00000200,
+		FIELD_TYPE_METHOD			= 0x00000400,
+		FIELD_TYPE_BLOCK			= 0x00000800,
+		FIELD_TYPE_POINTER			= 0x00001000,
+		FIELD_TYPE_ENUM				= 0x00002000,
+		FIELD_TYPE_LABEL			= 0x00004000,
+		FIELD_TYPE_TYPEDEF			= 0x00008000,
+		FIELD_TYPE_BITFIELD			= 0x00010000,
+		FIELD_TYPE_NAMESPACE		= 0x00020000,
+		FIELD_TYPE_MODULE			= 0x00040000,
+		FIELD_TYPE_DYNAMIC			= 0x00080000,
+		FIELD_TYPE_PROP				= 0x00100000,
+		FIELD_TYPE_INNERCLASS		= 0x00200000,
+		FIELD_TYPE_REFERENCE		= 0x00400000,
+		FIELD_TYPE_EXTENDED			= 0x00800000,  // Use IDebugExtendedField::GetExtendedKind
+
+		// Specific info about symbols
+		FIELD_SYM_MEMBER			= 0x01000000,
+		FIELD_SYM_LOCAL				= 0x02000000,
+		FIELD_SYM_PARAM				= 0x04000000,
+		FIELD_SYM_THIS				= 0x08000000,
+		FIELD_SYM_GLOBAL			= 0x10000000,
+		FIELD_SYM_PROP_GETTER		= 0x20000000,
+		FIELD_SYM_PROP_SETTER		= 0x40000000,
+		FIELD_SYM_EXTENED			= 0x80000000, // Use IDebugExtendedField::GetExtendedKinde
+
+		FIELD_KIND_MASK				= 0x0000000f,
+		FIELD_TYPE_MASK				= 0x00fffff0,
+		FIELD_SYM_MASK				= 0xff000000,
+
+		FIELD_KIND_ALL				= 0xffffffff,
+
+		// Examples:
+		// - global namespace: FIELD_KIND_GLOBAL | FIELD_KIND_NAMESPACE
+		// - this pointer: FIELD_KIND_THIS | FIELD_KIND_POINTER
+		// - this object: FIELD_KIND_THIS | FIELD_KIND_DATA_OBJECT
+		// - property getter: FIELD_PROP_GETTER | FIELD_KIND_METHOD
+	};
+	typedef DWORD FIELD_KIND;
+
+	enum enum_FIELD_INFO_FIELDS
+	{
+		FIF_FULLNAME			= 0x0001,
+		FIF_NAME				= 0x0002,
+		FIF_TYPE				= 0x0004,
+		FIF_MODIFIERS			= 0x0008,
+		FIF_ALL					= 0xffffffff,
+	};
+	typedef DWORD FIELD_INFO_FIELDS;
+
+	typedef struct _tagFieldInfo
+	{
+		FIELD_INFO_FIELDS dwFields;
+		BSTR bstrFullName;
+		BSTR bstrName;
+		BSTR bstrType;
+		FIELD_MODIFIERS dwModifiers;
+	} FIELD_INFO;
+
+	enum enum_dwTYPE_KIND
+	{
+		TYPE_KIND_METADATA		= 0x0001,
+		TYPE_KIND_PDB			= 0x0002,
+		TYPE_KIND_BUILT			= 0x0003,
+	};
+
+	typedef DWORD dwTYPE_KIND;
+
+	typedef struct _tagTYPE_METADATA
+	{
+		ULONG32             ulAppDomainID;
+		GUID                guidModule;
+		_mdToken            tokClass;
+	} METADATA_TYPE;
+
+	typedef struct _tagTYPE_PDB
+	{
+		ULONG32             ulAppDomainID;
+		GUID                guidModule;
+		DWORD				symid;
+	} PDB_TYPE;
+
+	typedef struct _tagTYPE_BUILT
+	{
+		ULONG32             ulAppDomainID;
+		GUID                guidModule;
+		IDebugField*			pUnderlyingField;
+	} BUILT_TYPE;
+
+	typedef union _tagTYPE_INFO_UNION switch (dwTYPE_KIND dwKind) type
+	{
+		case TYPE_KIND_METADATA:
+			METADATA_TYPE typeMeta;
+		case TYPE_KIND_PDB:
+			PDB_TYPE typePdb;
+		case TYPE_KIND_BUILT:
+			BUILT_TYPE typeBuilt;
+		default:
+			DWORD unused;
+	} TYPE_INFO;
+
+
+	// Get user-displayable information
+	HRESULT GetInfo(
+		[in] FIELD_INFO_FIELDS dwFields,
+		[out] FIELD_INFO* pFieldInfo);
+
+	// Get the kind of this field
+	HRESULT GetKind(
+		[out] FIELD_KIND* pdwKind);
+
+	// Get a field that describes the type of this field
+	HRESULT GetType(
+		[out] IDebugField** ppType);
+
+	// Get this field's container
+	HRESULT GetContainer(
+		[out] IDebugContainerField** ppContainerField);
+
+	// Get the field's address
+	HRESULT GetAddress(
+		[out] IDebugAddress** ppAddress);
+
+	// Get the size of the field in bytes
+	HRESULT GetSize(
+		[out] DWORD* pdwSize);
+
+	// Get extended info about this field (the caller must free the buffer via CoTaskMemFree)
+	HRESULT GetExtendedInfo(
+		[in] REFGUID guidExtendedInfo,
+		[out, size_is(*pdwLen), length_is(*pdwLen)] BYTE** prgBuffer,
+		[in, out] DWORD* pdwLen);
+
+	// S_OK if same type or symbols, S_FALSE if not
+	HRESULT Equal(
+		 [in] IDebugField* pField);
+
+	HRESULT GetTypeInfo(
+		[out] TYPE_INFO* pTypeInfo);
+		
+};
+
+
+// ------------------------------------------------------------------
+// IDebugExtendedField
+[
+	object,
+	uuid(20F22571-AA1C-4724-AD0A-BDE2D19D6163),
+	pointer_default(unique)
+]
+interface IDebugExtendedField: IDebugField
+{
+	enum enum_FIELD_KIND_EX
+	{
+		FIELD_KIND_EX_NONE			= 0x00000000,
+
+		// Type of the field
+		FIELD_TYPE_EX_METHODVAR		= 0x00000001, // The type is a Generic param instantiated on the method
+		FIELD_TYPE_EX_CLASSVAR		= 0x00000002, // The type is a Generic param instantiated on the class
+	};
+	typedef DWORD FIELD_KIND_EX;
+	
+	HRESULT GetExtendedKind(
+		[out] FIELD_KIND_EX* pdwKind);
+
+	// S_OK if Field is a Closed Type, 
+	HRESULT IsClosedType();
+}
+
+// ------------------------------------------------------------------
+// IDebugPrimitiveTypeField
+[
+	object,
+	uuid(7a739554-3fc6-43ee-981d-f49171151393),
+	pointer_default(unique)
+]
+interface IDebugPrimitiveTypeField : IDebugField
+{
+	// Get the cor element type of this type field
+	// or S_FALSE if not primitive
+	HRESULT GetPrimitiveType([out] DWORD *pdwType);
+}
+
+
+// ------------------------------------------------------------------
+// IDebugContainerField
+
+[
+	object,
+	uuid(c2e34eb2-8b9d-11d2-9014-00c04fa38338),
+	pointer_default(unique)
+]
+interface IDebugContainerField: IDebugField
+{
+	// Get all the child fields of this field
+	HRESULT EnumFields(
+		[in] FIELD_KIND dwKindFilter,
+		[in] FIELD_MODIFIERS dwModifiersFilter,
+		[in, ptr] LPCOLESTR pszNameFilter,
+		[in] NAME_MATCH nameMatch,
+		[out] IEnumDebugFields** ppEnum);
+};
+
+// ------------------------------------------------------------------
+// IDebugMethodField
+
+[
+	object,
+	uuid(c2e34eb4-8b9d-11d2-9014-00c04fa38338),
+	pointer_default(unique)
+]
+interface IDebugMethodField: IDebugContainerField
+{
+	HRESULT EnumParameters(
+		[out] IEnumDebugFields** ppParams);
+
+	HRESULT GetThis(
+		[out] IDebugClassField** ppClass);
+
+	HRESULT EnumAllLocals(
+		[in] IDebugAddress* pAddress,
+		[out] IEnumDebugFields** ppLocals);
+
+	HRESULT EnumLocals(
+		[in] IDebugAddress* pAddress,
+		[out] IEnumDebugFields** ppLocals);
+
+	// S_OK if defined on this field else S_FALSE
+	HRESULT IsCustomAttributeDefined(
+		[in, ptr] LPCOLESTR pszCustomAttributeName);
+
+	HRESULT EnumStaticLocals(
+		[out] IEnumDebugFields** ppLocals);
+
+	//
+	// This returns a class that represents the
+	// global methods and fields from the metadata of
+	// a specific module.  (The one in which this method is defined.)
+	//
+	HRESULT GetGlobalContainer(
+		[out] IDebugClassField** ppClass);
+
+	// Enum Arguments provides the types of each argument
+	// required to call the function.
+	HRESULT EnumArguments(
+		[out] IEnumDebugFields** ppParams);
+
+};
+
+[
+	object,
+	uuid(49473E34-D4CC-49c8-BF62-79A08D2134A5),
+	pointer_default(unique)
+]
+interface IDebugThisAdjust: IUnknown
+{
+	HRESULT GetThisAdjustor(
+		[out] LONG32* pThisAdjust);
+}
+
+typedef enum ConstructorMatchOptions
+{
+	crAll,
+	crNonStatic,
+	crStatic
+} CONSTRUCTOR_ENUM;
+
+// ------------------------------------------------------------------
+// IDebugClassField
+
+[
+	object,
+	uuid(c2e34eb5-8b9d-11d2-9014-00c04fa38338),
+	pointer_default(unique)
+]
+interface IDebugClassField: IDebugContainerField
+{
+	HRESULT EnumBaseClasses(
+		[out] IEnumDebugFields** ppEnum);
+
+	// S_OK if Interface is defined, otherwise S_FALSE
+	HRESULT DoesInterfaceExist(
+		[in, ptr] LPCOLESTR pszInterfaceName);
+
+	// S_FALSE if no Nested Classes	
+	HRESULT EnumNestedClasses(
+		[out] IEnumDebugFields** ppEnum);
+
+	// S_FALSE if no Enclosing class
+	HRESULT GetEnclosingClass(
+		[out] IDebugClassField** ppClassField);
+
+	// Provide IDebugClassFields for each interface implemented
+	HRESULT EnumInterfacesImplemented(
+		[out] IEnumDebugFields** ppEnum);
+
+	// Provide IDebugMethodFields for constructors
+	HRESULT EnumConstructors(
+		[in] CONSTRUCTOR_ENUM cMatch,
+		[out] IEnumDebugFields** ppEnum);
+
+	//Provide name of default indexer
+	HRESULT GetDefaultIndexer(
+		[out] BSTR* pbstrIndexer);
+
+	// S_FALSE if no Nested Enums	
+	HRESULT EnumNestedEnums(
+		[out] IEnumDebugFields** ppEnum);
+
+};
+
+[
+	object,
+	uuid(B90282FC-2D44-4050-A7B2-BF3BCFF8BAF1),
+	pointer_default(unique)
+]
+interface IDebugModOpt: IUnknown
+{
+    HRESULT GetModOpts(
+        [in] ULONG celt,
+		[out, size_is(celt), length_is(*pceltFetched)] BSTR* rgelt,
+		[in, out] ULONG* pceltFetched
+		);
+}
+
+
+
+// ------------------------------------------------------------------
+// IDebugPropertyField
+
+[
+	object,
+	uuid(c2e34eb6-8b9d-11d2-9014-00c04fa38338),
+	pointer_default(unique)
+]
+interface IDebugPropertyField: IDebugContainerField
+{
+	HRESULT GetPropertyGetter(
+		[out] IDebugMethodField** ppField);
+
+	HRESULT GetPropertySetter(
+		[out] IDebugMethodField** ppField);
+};
+
+// ------------------------------------------------------------------
+// IDebugArrayField
+
+[
+	object,
+	uuid(c2e34eb7-8b9d-11d2-9014-00c04fa38338),
+	pointer_default(unique)
+]
+interface IDebugArrayField: IDebugContainerField
+{
+	HRESULT GetNumberOfElements(
+		[out] DWORD* pdwNumElements);
+
+	HRESULT GetElementType(
+		[out] IDebugField** ppType);
+
+	HRESULT GetRank(
+		[out] DWORD* pdwRank);
+};
+
+// ------------------------------------------------------------------
+// IDebugPointerField
+
+[
+	object,
+	uuid(c2e34eb8-8b9d-11d2-9014-00c04fa38338),
+	pointer_default(unique)
+]
+interface IDebugPointerField: IDebugContainerField
+{
+	HRESULT GetDereferencedField(
+		[out] IDebugField** ppField);
+};
+
+// ------------------------------------------------------------------
+// IDebugEnumField
+
+[
+	object,
+	uuid(c2e34eb9-8b9d-11d2-9014-00c04fa38338),
+	pointer_default(unique)
+]
+interface IDebugEnumField: IDebugContainerField
+{
+	HRESULT GetUnderlyingSymbol(
+		[out] IDebugField** ppField);
+
+	HRESULT GetStringFromValue(
+		[in] ULONGLONG value,
+		[out] BSTR* pbstrValue);
+
+	HRESULT GetValueFromString(
+		[in, ptr] LPCOLESTR pszValue,
+		[out] ULONGLONG* pvalue);
+
+	HRESULT GetValueFromStringCaseInsensitive(
+		[in, ptr] LPCOLESTR pszValue,
+		[out] ULONGLONG* pvalue);
+
+};
+
+// ------------------------------------------------------------------
+// IDebugBitField
+
+[
+	object,
+	uuid(c2e34eba-8b9d-11d2-9014-00c04fa38338),
+	pointer_default(unique)
+]
+interface IDebugBitField: IDebugField
+{
+	HRESULT GetStart(
+		[out] DWORD* pdwBitOffset);
+};
+
+// ------------------------------------------------------------------
+// IDebugDynamicField
+
+[
+	object,
+	uuid(B5A2A5EA-D5AB-11d2-9033-00C04FA302A1),
+	pointer_default(unique)
+]
+interface IDebugDynamicField: IDebugField
+{
+};
+
+// ------------------------------------------------------------------
+// IDebugDynamicFieldCOMPlus
+
+[
+	object,
+	uuid(B5B20820-E233-11d2-9037-00C04FA302A1),
+	pointer_default(unique)
+]
+interface IDebugDynamicFieldCOMPlus: IDebugDynamicField
+{
+	HRESULT GetTypeFromPrimitive(
+		[in] DWORD dwCorElementType,
+		[out] IDebugField** ppType);
+
+	HRESULT GetTypeFromTypeDef(
+		[in] ULONG32 ulAppDomainID,
+		[in] GUID guidModule,
+		[in] _mdToken tokClass,
+		[out] IDebugField** ppType);
+};
+
+// ------------------------------------------------------------------
+// IDebugEngineSymbolProviderServices
+
+[
+	object,
+	uuid(83919262-ACD6-11d2-9028-00C04FA302A1),
+	pointer_default(unique)
+]
+interface IDebugEngineSymbolProviderServices: IUnknown
+{
+	HRESULT EnumCodeContexts(
+		[in, size_is(celtAddresses), length_is(celtAddresses)] IDebugAddress** rgpAddresses,
+		[in] DWORD celtAddresses,
+		[out] IEnumDebugCodeContexts2** ppEnum);
+};
+
+typedef struct tagGUID_MODULES
+{
+	DWORD ctResolvedModules;
+	[size_is(ctResolvedModules)] GUID* pguidResolvedModules;  // Caller must free with CoTaskMemFree
+} RESOLVED_MODULES;
+
+// ------------------------------------------------------------------
+// IDebugEngineSymbolProviderServices2
+
+[
+	object,
+	uuid(D318E959-22AB-4eea-9A06-962B11AFDC29),
+	pointer_default(unique)
+]
+interface IDebugEngineSymbolProviderServices2: IDebugEngineSymbolProviderServices
+{
+	// pguidResolvedModules is allocated by the callee, and should be freed by the caller with CoTaskMemFree
+	HRESULT ResolveAssembly(
+		[in] ULONG32 ulAppDomainID,
+		[in] GUID guidModule,
+		[in] DWORD tokAssemblyReference,
+		[out] RESOLVED_MODULES* pResolvedModules);
+
+	HRESULT GetEngineProvidedDocumentPrefix(
+		[out] BSTR* bstrDocPrefix);
+		
+};
+// ------------------------------------------------------------------
+// IDebugAddress
+
+[
+	object,
+	uuid(c2e34ebb-8b9d-11d2-9014-00c04fa38338),
+	pointer_default(unique)
+]
+interface IDebugAddress: IUnknown
+{
+	enum enum_ADDRESS_KIND
+	{
+		ADDRESS_KIND_NATIVE				= 0x0001,
+		ADDRESS_KIND_UNMANAGED_THIS_RELATIVE		= 0x0002,
+		ADDRESS_KIND_UNMANAGED_PHYSICAL			= 0x0005,
+		ADDRESS_KIND_METADATA_METHOD			= 0x0010,
+		ADDRESS_KIND_METADATA_FIELD			= 0x0011,
+		ADDRESS_KIND_METADATA_LOCAL			= 0x0012,
+		ADDRESS_KIND_METADATA_PARAM			= 0x0013,
+		ADDRESS_KIND_METADATA_ARRAYELEM			= 0x0014,
+	        ADDRESS_KIND_METADATA_RETVAL			= 0x0015,
+	};
+	typedef DWORD ADDRESS_KIND;
+
+	typedef struct _tagNATIVE_ADDRESS
+	{
+		DWORD unknown;
+	} NATIVE_ADDRESS;
+
+	typedef struct _tagUNMANAGED_THIS_RELATIVE
+	{
+		DWORD dwOffset;
+		DWORD dwBitOffset;  // This is 0 unless a bit field
+		DWORD dwBitLength;  // This is 0 unless a bit field
+	} UNMANAGED_ADDRESS_THIS_RELATIVE;
+
+	typedef struct _tagUNMANAGED_ADDRESS_PHYSICAL
+	{
+		ULONGLONG offset;
+	} UNMANAGED_ADDRESS_PHYSICAL;
+
+	typedef struct _tagMETADATA_ADDRESS_METHOD
+	{
+		_mdToken tokMethod;
+		DWORD dwOffset;
+        	DWORD dwVersion;
+	} METADATA_ADDRESS_METHOD;
+
+	typedef struct _tagMETADATA_ADDRESS_FIELD
+	{
+		_mdToken tokField;
+	} METADATA_ADDRESS_FIELD;
+
+	typedef struct _tagMETADATA_ADDRESS_LOCAL
+	{
+		_mdToken tokMethod;
+		IUnknown* pLocal;
+		DWORD dwIndex;
+	} METADATA_ADDRESS_LOCAL;
+
+	typedef struct _tagMETADATA_ADDRESS_PARAM
+	{
+		_mdToken tokMethod;
+		_mdToken tokParam;
+		DWORD dwIndex;
+	} METADATA_ADDRESS_PARAM;
+
+	typedef struct _tagMETADATA_ADDRESS_ARRAYELEM
+	{
+		_mdToken tokMethod;
+		DWORD dwIndex;
+	} METADATA_ADDRESS_ARRAYELEM;
+
+    typedef struct _tagMETADATA_ADDRESS_RETVAL
+    {
+        _mdToken tokMethod;
+        DWORD dwCorType;
+        DWORD dwSigSize;
+        BYTE rgSig[10];
+    } METADATA_ADDRESS_RETVAL;
+
+	typedef union _tagDEBUG_ADDRESS_UNION switch (ADDRESS_KIND dwKind) addr
+	{
+		case ADDRESS_KIND_NATIVE:
+			NATIVE_ADDRESS addrNative;
+		case ADDRESS_KIND_UNMANAGED_THIS_RELATIVE:
+			UNMANAGED_ADDRESS_THIS_RELATIVE addrThisRel;
+		case ADDRESS_KIND_UNMANAGED_PHYSICAL:
+			UNMANAGED_ADDRESS_PHYSICAL addrUPhysical;
+		case ADDRESS_KIND_METADATA_METHOD:
+			METADATA_ADDRESS_METHOD addrMethod;
+		case ADDRESS_KIND_METADATA_FIELD:
+			METADATA_ADDRESS_FIELD addrField;
+		case ADDRESS_KIND_METADATA_LOCAL:
+			METADATA_ADDRESS_LOCAL addrLocal;
+		case ADDRESS_KIND_METADATA_PARAM:
+			METADATA_ADDRESS_PARAM addrParam;
+		case ADDRESS_KIND_METADATA_ARRAYELEM:
+			METADATA_ADDRESS_ARRAYELEM addrArrayElem;
+	        case ADDRESS_KIND_METADATA_RETVAL:
+        		METADATA_ADDRESS_RETVAL addrRetVal;
+		default:
+			DWORD unused;
+	} DEBUG_ADDRESS_UNION;
+
+    typedef struct _tagDEBUG_ADDRESS
+    {
+        ULONG32             ulAppDomainID;
+        GUID                guidModule;
+        _mdToken            tokClass;
+        DEBUG_ADDRESS_UNION addr;
+    } DEBUG_ADDRESS;
+
+	HRESULT GetAddress(
+		[out] DEBUG_ADDRESS* pAddress);
+};
+
+
+[
+	object,
+	uuid(877A0DA6-A43E-4046-9BE3-F916AFF4FA7B),
+	pointer_default(unique)
+]
+interface IDebugAddress2: IDebugAddress
+{
+	HRESULT GetProcessID(
+		[out] DWORD* pProcID);
+};
+
+
+// ------------------------------------------------------------------
+// IEnumDebugFields
+
+[
+	object,
+	uuid(c2e34ebc-8b9d-11d2-9014-00c04fa38338),
+	pointer_default(unique)
+]
+interface IEnumDebugFields: IUnknown
+{
+    HRESULT Next(
+        [in] ULONG celt,
+		[out, size_is(celt), length_is(*pceltFetched)] IDebugField** rgelt,
+		[in, out] ULONG* pceltFetched
+		);
+
+	HRESULT Skip(
+		[in] ULONG celt);
+
+	HRESULT Reset(void);
+
+	HRESULT Clone(
+		[out] IEnumDebugFields** ppEnum);
+
+	HRESULT GetCount(
+		[out] ULONG* pcelt);
+};
+
+// ------------------------------------------------------------------
+// IEnumDebugAddresses
+
+[
+	object,
+	uuid(c2e34ebd-8b9d-11d2-9014-00c04fa38338),
+	pointer_default(unique)
+]
+interface IEnumDebugAddresses: IUnknown
+{
+    HRESULT Next(
+        [in] ULONG celt,
+		[out, size_is(celt), length_is(*pceltFetched)] IDebugAddress** rgelt,
+		[in, out] ULONG* pceltFetched
+		);
+
+	HRESULT Skip(
+		[in] ULONG celt);
+
+	HRESULT Reset(void);
+
+	HRESULT Clone(
+		[out] IEnumDebugAddresses** ppEnum);
+
+	HRESULT GetCount(
+		[out] ULONG* pcelt);
+};
+
+// ------------------------------------------------------------------
+// IDebugCustomAttributeQuery
+
+[
+	object,
+	uuid(DFD37B5A-1E3A-4f15-8098-220ABADC620B),
+	pointer_default(unique)
+]
+interface IDebugCustomAttributeQuery: IUnknown
+{
+	// S_OK if defined on this field else S_FALSE
+	HRESULT IsCustomAttributeDefined(
+		[in, ptr] LPCOLESTR pszCustomAttributeName);
+
+	// S_FALSE if the custom attribute does not exist
+	HRESULT GetCustomAttributeByName(
+		[in, ptr] LPCOLESTR pszCustomAttributeName,
+		[in, out, size_is(*pdwLen), length_is(*pdwLen)] BYTE* ppBlob,
+		[in, out] DWORD* pdwLen);
+}
+
+
+// ------------------------------------------------------------------
+// IDebugCustomAttribute
+
+[
+	object,
+	uuid(A3A37C5E-8D71-487d-A9E1-B9A1B3BA9CBB),
+	pointer_default(unique)
+]
+interface IDebugCustomAttribute: IUnknown
+{
+	// S_FALSE if there is no applicable field
+	// This is the field to which the custom attribute is attached.
+	HRESULT GetParentField(
+		[out] IDebugField** ppField);
+
+	// This field represents the class type of the Attribute
+	HRESULT GetAttributeTypeField(
+		[out] IDebugClassField** ppCAType);
+
+	HRESULT GetName(
+		[out] BSTR* bstrName);
+	
+	HRESULT GetAttributeBytes(
+		[in, out, size_is(*pdwLen), length_is(*pdwLen)] BYTE* ppBlob,
+		[in, out] DWORD* pdwLen);
+};
+
+// ------------------------------------------------------------------
+// IDebugCustomAttributeQuery2
+
+[
+	object,
+	uuid(7D257F89-EF56-43c4-80FF-C89B064E4680),
+	pointer_default(unique)
+]
+interface IDebugCustomAttributeQuery2: IDebugCustomAttributeQuery
+{
+	HRESULT EnumCustomAttributes(
+		[out] IEnumDebugCustomAttributes** ppEnum);
+}
+
+// ------------------------------------------------------------------
+// IEnumCustomAttributes
+
+[
+	object,
+	uuid(D9089EF0-22D1-40b9-81D6-47CBDA9DC32C),
+	pointer_default(unique)
+]
+interface IEnumDebugCustomAttributes: IUnknown
+{
+    HRESULT Next(
+        [in] ULONG celt,
+		[out, size_is(celt), length_is(*pceltFetched)] IDebugCustomAttribute** rgelt,
+		[in, out] ULONG* pceltFetched
+		);
+
+	HRESULT Skip(
+		[in] ULONG celt);
+
+	HRESULT Reset(void);
+
+	HRESULT Clone(
+		[out] IEnumDebugCustomAttributes** ppEnum);
+
+	HRESULT GetCount(
+		[out] ULONG* pcelt);
+};
+
+[
+	uuid(c2e34ebe-8b9d-11d2-9014-00c04fa38338)
+]
+library SHLib
+{
+	importlib("stdole2.tlb");
+
+	[ uuid(c2e34ebf-8b9d-11d2-9014-00c04fa38338) ]
+	coclass SHManaged
+	{
+		[default] interface IDebugSymbolProvider;
+	};
+};
+
+// Code and example that shows the usage of symbols and types
+
+#if 0
+
+class A
+{
+	int i;
+	uint bf1: 2;
+	uint bf2: 3;
+}
+
+class B: A
+{
+	enum MyEnum { Elem1 = 1, Elem2 = 2 };
+}
+
+class C
+{
+	B b;
+	int array1[3];
+	int array2[2][3];
+}
+
+class D
+{
+	class Inner
+	{
+		typedef int MyInt;
+		int x;
+	};
+
+	int func(int p1, char p2)
+	{
+		struct S
+		{
+			int z;
+		};
+
+		C c;
+	}
+}
+
+D d;
+
+
+func (IDebugMethodField):
+GetKind:			FIELD_KIND_SYMBOL | FIELD_TYPE_METHOD | FIELD_SYM_FIELD
+GetType:			$1T
+GetContainer:		D
+EnumFields:			S, this, p1, p2, c
+EnumParameters:		p1, p2
+EnumLocals:			c
+GetThis:			this
+
+$1T (IDebugContainerField):
+GetKind:			FIELD_KIND_TYPE | FIELD_TYPE_METHOD
+GetType:			int
+GetContainer:		-- none --
+EnumFields:			$2S, $3S
+
+$2S (IDebugField):
+GetKind:			FIELD_KIND_SYMBOL | FIELD_TYPE_PRIMITIVE | FIELD_SYM_PARAM
+GetType:			int
+GetContainer:		$1T
+
+$3S (IDebugField):
+GetKind:			FIELD_KIND_SYMBOL | FIELD_TYPE_PRIMITIVE | FIELD_SYM_PARAM
+GetType:			char
+GetContainer:		$1T
+
+D (IDebugClassField):
+GetKind:			FIELD_KIND_TYPE | FIELD_KIND_CLASS
+GetType:			-- error --
+GetContainer:		global
+EnumFields:			Inner, func
+EnumBaseClasses:	-- none --
+
+S (IDebugClassField):
+GetKind:			FIELD_KIND_TYPE | FIELD_TYPE_STRUCT
+GetType:			-- none --
+GetContainer:		func
+EnumFields:			z
+EnumBaseClasses:	-- none --
+
+p1 (IDebugField):
+GetKind:			FIELD_KIND_SYMBOL | FIELD_TYPE_PRIMITIVE | FIELD_SYM_PARAM
+GetType:			int
+GetContainer:		func
+
+p2 (IDebugField):
+GetKind:			FIELD_KIND_SYMBOL | FIELD_TYPE_PRIMITIVE | FIELD_SYM_PARAM
+GetType:			char
+GetContainer:		func
+
+c (IDebugClassField):
+GetKind:			FIELD_KIND_SYMBOL | FIELD_TYPE_CLASS | FIELD_SYM_LOCAL
+GetType:			C
+GetContainer:		func
+EnumFields:			b, array1, array2
+EnumBaseClasses:	-- none --
+
+this (IDebugClassField):
+GetKind:			FIELD_KIND_SYMBOL | FIELD_TYPE_CLASS | FIELD_SYM_THIS
+GetType:			D
+GetContainer:		func
+EnumFields:			Inner, func
+EnumBaseClasses:	-- none --
+
+C (IDebugClassField):
+GetKind:			FIELD_KIND_TYPE | FIELD_TYPE_CLASS
+GetType:			-- error --
+GetContainer:		global
+EnumFields:			b, array1, array2
+EnumBaseClasses:	-- none --
+
+b (IDebugClassField):
+GetKind:			FIELD_KIND_SYMBOL | FIELD_TYPE_CLASS | FIELD_SYM_FIELD
+GetType:			B
+GetContainer:		C
+EnumFields:			-- none --
+EnumBaseClasses:	A
+
+B (IDebugClassField):
+GetKind:			FIELD_KIND_TYPE | FIELD_TYPE_CLASS
+GetType:			-- error --
+GetContainer:		global
+EnumFields:			MyEnum
+EnumBaseClasses:	A
+
+MyEnum (IDebugContainerField):
+GetKind:			FIELD_KIND_TYPE | FIELD_TYPE_ENUM
+GetType:			-- error --
+GetContainer:		B
+EnumFields:			EnumElement1, EnumElement2
+
+Elem1 (IDebugEnumField):
+GetKind:			FIELD_TYPE | FIELD_TYPE_ENUMELEMENT
+GetType:			int
+GetContainer:		MyEnum
+GetValue:			1
+
+Elem2 (IDebugEnumField):
+GetKind:			FIELD_TYPE | FIELD_TYPE_ENUMELEMENT
+GetType:			int
+GetContainer:		MyEnum
+GetValue:			2
+
+A (IDebugClassField):
+GetKind:			FIELD_KIND_TYPE | FIELD_TYPE_CLASS
+GetType:			-- error --
+GetContainer:		global
+EnumFields:			i, bf1, bf2
+EnumBaseClasses:	-- none --
+
+i (IDebugField):
+GetKind:			FIELD_KIND_SYMBOL | FIELD_TYPE_PRIMITIVE | FIELD_SYM_FIELD
+GetType:			int
+GetContainer:		A
+
+int (IDebugField):
+GetKind:			FIELD_KIND_TYPE | FIELD_KIND_PRIMITIVE
+GetType:			-- error --
+GetContainer:		global
+
+uint (IDebugField):
+GetKind:			FIELD_KIND_TYPE | FIELD_KIND_PRIMITIVE
+GetType:			-- error --
+GetContainer:		global
+
+global (IDebugContainerField):
+GetKind:			FIELD_KIND_TYPE | FIELD_TYPE_NAMESPACE
+GetType:			-- error --
+GetContainer:		-- error --
+EnumFields:			A, B, C, D, d, int, char, uint
+
+d (IDebugClassField):
+GetKind:			FIELD_KIND_SYMBOL | FIELD_TYPE_CLASS | FIELD_SYM_GLOBAL
+GetType:			D
+GetContainer:		global
+EnumFields:			Inner, func
+EnumBaseClasses:	-- none --
+
+Inner (IDebugClassField):
+GetKind:			FIELD_KIND_TYPE | FIELD_TYPE_CLASS
+GetType:			-- error --
+GetContainer:		D
+EnumFields:			MyInt, x
+EnumBaseClasses:	-- none --
+
+x (IDebugField):
+GetKind:			FIELD_KIND_SYMBOL | FIELD_TYPE_PRIMITIVE | FIELD_SYM_FIELD
+GetType:			int
+GetContainer:		Inner
+
+z (IDebugField):
+GetKind:			FIELD_KIND_SYMBOL | FIELD_TYPE_PRIMITIVE | FIELD_SYM_FIELD
+GetType:			int
+GetContainer:		S
+
+MyInt (IDebugField):
+GetKind:			FIELD_KIND_TYPE | FIELD_TYPE_TYPEDEF
+GetType:			int
+GetContainer:		Inner
+
+bf1 (IDebugBitField):
+GetKind:			FIELD_KIND_SYMBOL | FIELD_TYPE_BITFIELD | FIELD_SYM_FIELD
+GetType:			uint
+GetContainer:		A
+
+bf2 (IDebugBitField):
+GetKind:			FIELD_KIND_SYMBOL | FIELD_TYPE_BITFIELD | FIELD_SYM_FIELD
+GetType:			uint
+GetContainer:		A
+
+array1 (IDebugArrayField):
+GetKind:			FIELD_KIND_SYMBOL | FIELD_TYPE_ARRAY | FIELD_SYM_FIELD
+GetType:			$2T
+GetContainer:		C
+EnumFields:			array1[n]
+GetNumElements:		3
+
+$2T (IDebugArrayField):
+GetKind:			FIELD_KIND_TYPE | FIELD_TYPE_ARRAY
+GetType:			int
+GetContainer:		-- none --
+EnumFields:			-- none --
+GetNumElements:		3
+
+array1[n] (IDebugField):
+GetKind:			FIELD_KIND_SYMBOL | FIELD_TYPE_PRIMITIVE | FIELD_SYM_FIELD
+GetType:			int
+GetContainer:		array1
+
+array2 (IDebugArrayField):
+GetKind:			FIELD_KIND_SYMBOL | FIELD_TYPE_ARRAY | FIELD_SYM_FIELD
+GetType:			$3T
+GetContainer:		C
+EnumFields:			array2[n][1..3]
+GetNumElements:		2
+
+$3T (IDebugArrayField):
+GetKind:			FIELD_KIND_TYPE | FIELD_TYPE_ARRAY
+GetType:			$2T
+GetContainer:		-- none --
+EnumFields:			-- none --
+GetNumElements:		2
+
+array2[n][1..3] (IDebugArrayField):
+GetKind:			FIELD_KIND_SYMBOL | FIELD_TYPE_ARRAY | FIELD_SYM_FIELD
+GetType:			$2T
+GetContainer:		array2
+EnumFields:			array2[n][m]
+GetNumElements:		3
+
+array2[n][m] (IDebugField):
+GetKind:			FIELD_KIND_SYMBOL | FIELD_TYPE_PRIMITIVE | FIELD_SYM_FIELD
+GetType:			int
+GetContainer:		array2[n][1..3]
+
+#endif
+
+// ------------------------------------------------------------------
+// Pseudo code to illustrate how to get locals
+
+#if 0
+
+DE:
+{
+	// Get the method symbol object
+	IDebugSymbolProvider* pSP = symbol_provider;
+	IDebugAddress* pAddress = new IDebugAddress(current_ip);
+	IDebugMethodSymbol* pMethodSym;
+	pEE->GetMethodSymbol(pSP, pAddress, &pMethodSym);
+
+	// Get the locals from the method symbol object
+	IDebugBinder* pBinder = this;
+	IEnumDebugPropertyInfo* pEnumLocals;
+	pMethodSym->GetLocals(pBinder, &pEnumLocals)
+}
+
+EE:
+IDebugEE::GetMethodSymbol(IDebugSymbolProvider* pSP, IDebugAddress* pAddress, IDebugMethodSymbols** ppMethodSym)
+{
+	// Find the nearest method field
+	IDebugMethodField* pMethodField;
+	IDebugContainerField* pContainerField;
+	pSP->GetContainerField(pAddress, &pContainerField);
+	do
+	{
+		pContainerField->QI(IID_IDebugMethodField, &pMethodField);
+		if (!pMethodField)
+		{
+			pContainerField->GetContainer(&pContainerField);
+		}
+	}
+	while (!pMethodField);
+	*ppMethodSym = new IDebugMethodSymbol(pMethodField);
+}
+
+SH:
+IDebugSymbolProvider::GetContainerField(IDebugAddress* pAddress, IDebugMethodField** ppMethodField)
+{
+	ADDRESS address;
+	pAddress->GetAddress(&address);
+	switch (address.dwKind)
+	{
+		// Get the symbol at this section relative address
+		case ADDRESS_KIND_SECTION_RELATIVE:
+		{
+			ADDR addr = { { address.addr.dwOffset, address.addr.dwSection }, 0, fIsLI };
+			SHGetNearestHsym(&addr, NULL, 0, &sym);		// or OLE DB
+			*ppMethodField = new IDebugMethodField(sym);
+			break;
+		}
+	}
+}
+
+EE:
+IDebugMethodSymbol::GetLocals(IDebugBinder* pBinder, IEnumDebugPropertyInfo** ppEnumLocals)
+{
+	// Get an enumerator of fields that describe the locals
+	IEnumDebugFields* pEnumLocals;
+	m_pMethodField->GetLocals(&pEnumLocals);
+	// Bind the locals
+	IEnumDebugObjects* pEnumBoundLocals;
+	pBinder->Bind(pEnumLocals, &pEnumBoundLocals);
+	// Get the fields that describe the locals
+	IDebugField** rgLocals = new IDebugField*[number_locals];
+	pEnumLocals->Next(all, rgLocals);
+	// Get the objects that describe the locals
+	IDebugObject** rgBoundLocals = new IDebugObject*[number_locals];
+	pEnumBoundLocals->Next(all, rgBoundLocals);
+	// Allocate space for the property info
+	DebugPropertyInfo[] rgPropLocals = new DebugPropertyInfo[number_locals];
+	// For each local, fill in the property info
+	for (i = 0; i < number_locals; i++)
+	{
+		rgLocals[i]->GetInfo(FIELD_INFO_ALL, &FieldInfo);
+		rgPropLocals[i].m_bstrName = SysAllocString(FieldInfo.bstrName);
+		rgPropLocals[i].m_bstrType = SysAllocString(FieldInfo.bstrType);
+		rgPropLocals[i].m_bstrFullName = SysAllocString(FieldInfo.bstrFullName);
+		rgPropLocals[i].m_dwAttrib = FieldInfo.dwModifiers;
+		rgBoundLocals[i]->GetValue(&(rgPropLocals[i].m_bstrValue);
+	}
+	*ppEnumLocals = new IEnumDebugPropertyInfo(rgPropLocals)
+}
+
+SH:
+IDebugMethodField::GetLocals(IEnumDebugFields** ppEnumLocals)
+{
+	// Get the list of locals
+	EEGetHSYMList(&hHSYMList, m_pCxt, HSYMR_function | HSYMR_lexical, NULL, FALSE); // or OLE DB
+
+	// Fill out an array of IDebugFields for the locals
+	IDebugField** rgpLocals = new IDebugField*[symbol_count];
+	for (i = 0; i < symbol_count; i++)
+	{
+		rgpLocals[i] = new IDebugField(hHSYMList[i].name, hHSYMList[i].type, hHSYMList[i].value, hHSYMList[i].fullname, hHSYMList[i].attributes);
+	}
+
+	*ppEnumLocals = new IEnumDebugFields(rgpLocals, symbol_count);
+}
+
+#endif
+
+// ------------------------------------------------------------------
+// Pseudo code to illustrate how to do expression evaluation
+
+#if 0
+
+DE:
+{
+	// Parse
+	IDebugParsedExpression* pParsedExpression;
+	pEE->Parse(pszExpression, &pParsedExpression);
+
+	// Bind
+	IDebugSymbolProvider* pSP = symbol_provider;
+	IDebugBinder* pBinder = this;
+	IDebugAddress* pAddressContext = new IDebugAddress(current_ip);
+	IDebugBoundExpression* pBoundExpression
+	pParsedExpression->Bind(pSP, pBinder, pAddressContext, &pBoundExpression);
+
+	// Evaluate
+	IDebugProperty* pResult;
+	pBoundExpression->Evaluate(&pResult);
+}
+
+EE:
+IDebugParsedExpression::Bind(IDebugSymbolProvider* pSP, IDebugBinder* pBinder, IDebugAddress* pAddressContext, IDebugBoundExpression** ppBoundExpression)
+{
+	*ppBoundExpression = new IDebugBoundExpression(this);
+
+	// for each leaf in the parse tree, bind it
+	for (pLeaf = parse_tree.start; pLeaf; pLeaf = parse_tree.next)
+	{
+		// Get the container field for the context we're starting in
+		IDebugContainerField* pContainer;
+		pSP->GetContainerField(pAddressContext, &pContainer);
+		bool fBound = false;
+		while (!fBound && pContainer)
+		{
+			// Search the container for the leaf
+			IEnumDebugFields* pEnumFields;
+			pContainer->GetFields(FIELD_KIND_NONE, FIELD_MOD_NONE, pLeaf.name, &pEnumFields);
+			DWORD dwCount;
+			pEnumFields->GetCount(&dwCount);
+			if (dwCount)
+			{
+				// The leaf is found in this container
+				IDebugField* pField
+				pEnumFields->Next(1, &pField);
+
+				// Bind the field to an object
+				IDebugObject* pObject;
+				pBinder->Bind(pField, &pObject);
+
+				// Add the bound object to the bound expression tree
+				(*ppBoundExpression)->Add(pObject);
+
+				fBound = true;
+			}
+			else
+			{
+				// The leaf is not found in this container
+				pContainer->GetContainerField(&pContainer);
+			}
+		}
+
+		if (!pContainer)
+		{
+			// The parse tree leaf was not found using the outward scope search
+			// The expression is probably invalid, so take some appropriate action here
+		}
+	}
+}
+
+IDebugBoundExpression::Evaluate(IDebugProperty** ppResult)
+{
+	BSTR bstrResult;
+	Evaluate(bind_tree.root, &bstrResult);
+	*ppResult = new IDebugProperty(bstrResult);
+}
+
+Evaluate(bind_tree_node* pNode, BSTR* pbstrResult)
+{
+	if (pNode->m_type == leaf)
+	{
+		// Get the leaf's value
+		pNode->m_pObject->GetValue(pbstrResult);
+	}
+	else
+	{
+		// Evaluate the two subtrees and combine the results
+		BSTR bstrResultLeft;
+		BSTR bstrResultRight;
+		Evaluate(pNode->m_pLeft, &bstrResultLeft);
+		Evaluate(pNode->m_pRight, &bstrResultRight);
+
+		Evaluate(pNode->operator, bstrResultLeft, bstrResultRight, pbstrResult);
+	}
+}
+
+#endif
+
+// ------------------------------------------------------------------
+// Pseudo code to illustrate how to do binding
+
+#if 0
+
+// Binding is done by a binder that is generally implemented by the debug engine. The binder
+// will bind a runtime architecture's data address to memory or an object from which the
+// value can be read.
+
+IDebugBinder::Bind(IDebugField* pField, IDebugObject** ppObject)
+{
+	*ppObject = new IDebugObject(pField);
+}
+
+// IDebugObject for native code binder
+IDebugObject::GetValue(BSTR* pbstrValue)
+{
+	// Get the field's address
+	UINT64 qwAddress = 0;
+
+	IDebugAddress* pAddress;
+	m_pField->GetAddress(&pAddress);
+	ADDRESS address;
+	pAddress->GetAddress(&address);
+	switch (address.dwKind)
+	{
+		case ADDRESS_KIND_SECTION_RELATIVE:
+		{
+			FixupAddr(address.addr.dwSection, address.addr.dwOffset, &qwAddress);
+			break;
+		}
+		case ADDRESS_KIND_REGISTER_RELATIVE:
+		{
+			ReadRegister(address.addr.dwRegister, &qwAddress);
+			qwAddress += address.addr.iOffset;
+			break;
+		}
+	}
+	// Get the field's size
+	DWORD dwSize;
+	m_pField->GetSize(&dwSize);
+	// Read process memory
+	ReadProcessMemory(hProcess, qwAddress, &buffer, dwSize, &dwNumRead);
+
+	BufferToBSTR(buffer, pbstrValue);
+}
+
+// IDebugObject for managed code binder
+IDebugObject::GetValue(BSTR* pbstrValue)
+{
+	// Get the field's address
+	IDebugAddress* pAddress;
+	m_pField->GetAddress(&pAddress);
+	ADDRESS address;
+	pAddress->GetAddress(&address);
+	ASSERT(address.dwKind == ADDRESS_KIND_METADATA);
+
+	// Get the COM+ object
+	ICorDebugValue* pCorValue;
+	pMetaData->GetObject(address.addr.mdClass, address.addr.dwOffset, &pCorValue);
+
+	pCorValue->GetValue(&buffer);
+
+	BufferToBSTR(buffer, pbstrValue);
+}
+
+#endif

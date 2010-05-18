@@ -1,0 +1,253 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<doc>
+  <assembly>
+    <name>Microsoft.VisualStudio.VSHelp80</name>
+  </assembly>
+  <members>
+    <member name="T:Microsoft.VisualStudio.VSHelp80.__vsAskQuestionFlags">
+      <summary>Flags that supply conditions for a question or feedback.</summary>
+    </member>
+    <member name="F:Microsoft.VisualStudio.VSHelp80.__vsAskQuestionFlags.vsAskQuestionFlagsAskNew">
+      <summary>New question. Value = 0x00000001</summary>
+    </member>
+    <member name="F:Microsoft.VisualStudio.VSHelp80.__vsAskQuestionFlags.vsAskQuestionFlagsCheckStatus">
+      <summary>Check the status. Value = 0x00000002</summary>
+    </member>
+    <member name="F:Microsoft.VisualStudio.VSHelp80.__vsAskQuestionFlags.vsAskQuestionFlagsSendFeedback">
+      <summary>Send feedback. Value = 0x00000004</summary>
+    </member>
+    <member name="T:Microsoft.VisualStudio.VSHelp80.__vsHelpDisplayUrlFlags">
+      <summary>Display flags.</summary>
+    </member>
+    <member name="F:Microsoft.VisualStudio.VSHelp80.__vsHelpDisplayUrlFlags.vsHelpDisplayUrlFlagsNone">
+      <summary>Value = 0x00000080.</summary>
+    </member>
+    <member name="F:Microsoft.VisualStudio.VSHelp80.__vsHelpDisplayUrlFlags.vsHelpDisplayUrlFlagsHighlightTerm">
+      <summary>Value = 0x00000001.</summary>
+    </member>
+    <member name="F:Microsoft.VisualStudio.VSHelp80.__vsHelpDisplayUrlFlags.vsHelpDisplayUrlFlagsOpenNewWindow">
+      <summary>Value = 0x00000010.</summary>
+    </member>
+    <member name="F:Microsoft.VisualStudio.VSHelp80.__vsHelpDisplayUrlFlags.vsHelpDisplayUrlFlagsGuidLocal">
+      <summary>Value = 0x00000010.</summary>
+    </member>
+    <member name="F:Microsoft.VisualStudio.VSHelp80.__vsHelpDisplayUrlFlags.vsHelpDisplayUrlFlagsGuidOnline">
+      <summary>Value = 0x00000020.</summary>
+    </member>
+    <member name="F:Microsoft.VisualStudio.VSHelp80.__vsHelpDisplayUrlFlags.vsHelpDisplayUrlFlagsGuidLocale">
+      <summary>Value = 0x00000040.</summary>
+    </member>
+    <member name="F:Microsoft.VisualStudio.VSHelp80.__vsHelpDisplayUrlFlags.vsHelpDisplayUrlFlagsGuidFailover">
+      <summary>Value = 0x00000080.</summary>
+    </member>
+    <member name="F:Microsoft.VisualStudio.VSHelp80.__vsHelpDisplayUrlFlags.vsHelpDisplayUrlFlagsNamedUrl">
+      <summary>Value = 0x00000100.</summary>
+    </member>
+    <member name="F:Microsoft.VisualStudio.VSHelp80.__vsHelpDisplayUrlFlags.vsHelpDisplayUrlFlagsNoHistory">
+      <summary>Value = 0x00000200.</summary>
+    </member>
+    <member name="F:Microsoft.VisualStudio.VSHelp80.__vsHelpDisplayUrlFlags.vsHelpDisplayUrlFlagsNoHistoryThisPage">
+      <summary>Value = 0x00000400.</summary>
+    </member>
+    <member name="T:Microsoft.VisualStudio.VSHelp80.__vsHelpUrlFromTopicIDFlags">
+      <summary>GUID navigation flags.</summary>
+    </member>
+    <member name="F:Microsoft.VisualStudio.VSHelp80.__vsHelpUrlFromTopicIDFlags.HUFTID_Default">
+      <summary>Value = 0x00000000.</summary>
+    </member>
+    <member name="F:Microsoft.VisualStudio.VSHelp80.__vsHelpUrlFromTopicIDFlags.HUFTID_Local">
+      <summary>Specifies that the local help should be used. Value = 0x00000001.</summary>
+    </member>
+    <member name="F:Microsoft.VisualStudio.VSHelp80.__vsHelpUrlFromTopicIDFlags.HUFTID_Online">
+      <summary>Specifies that the online help should be used. Value = 0x00000002.</summary>
+    </member>
+    <member name="F:Microsoft.VisualStudio.VSHelp80.__vsHelpUrlFromTopicIDFlags.HUFTID_Locale">
+      <summary>Specifies that the topic should come from a specific locale. Value = 0x00000004.</summary>
+    </member>
+    <member name="T:Microsoft.VisualStudio.VSHelp80.__vsSearchFlags">
+      <summary>Search terms used specify search parameters.</summary>
+    </member>
+    <member name="F:Microsoft.VisualStudio.VSHelp80.__vsSearchFlags.vsSearchFlagsNone">
+      <summary>Value = 0x00000000.</summary>
+    </member>
+    <member name="F:Microsoft.VisualStudio.VSHelp80.__vsSearchFlags.vsSearchFlagsExecuteSearch">
+      <summary>Value = 0x00000001.</summary>
+    </member>
+    <member name="F:Microsoft.VisualStudio.VSHelp80.__vsSearchFlags.vsSearchFlagsAddToExistingQueryString">
+      <summary>Value = 0x00000002.</summary>
+    </member>
+    <member name="F:Microsoft.VisualStudio.VSHelp80.__vsSearchFlags.vsSearchFlagsFilterTransformSpecified">
+      <summary>Value = 0x00000004.</summary>
+    </member>
+    <member name="T:Microsoft.VisualStudio.VSHelp80.Help2">
+      <summary>The interface that supports Document Explorer.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp80.Help2.AskAQuestion(System.UInt32)">
+      <summary>Displays a URL based on the supplied flag.</summary>
+      <param name="askQuestionFlags">A flag specified in <see cref="T:Microsoft.VisualStudio.VSHelp80.__vsAskQuestionFlags" /> enumeration.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp80.Help2.CanShowFilterUI">
+      <summary>Deprecated method.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp80.Help2.CanSyncContents(System.String)">
+      <summary>Determines if a URL can be synchronized to or not.</summary>
+      <param name="bstrURL">A string containing the URL.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp80.Help2.Close">
+      <summary>Closes Document Explorer and all of its pages.</summary>
+    </member>
+    <member name="P:Microsoft.VisualStudio.VSHelp80.Help2.Collection">
+      <summary>Microsoft Internal Use Only.</summary>
+      <returns>Do not use.</returns>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp80.Help2.Contents">
+      <summary>Selects the Contents navigation window and opens it if it is closed.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp80.Help2.DisplayTopicFrom_OLD_Help(System.String,System.UInt32)">
+      <summary>Deprecated method. Use <see cref="M:Microsoft.VisualStudio.VSHelp80.Help2.DisplayTopicFromF1Keyword(System.String)" /> instead.</summary>
+      <param name="bstrFile">Full path to the .chm or .hlp file.</param>
+      <param name="Id">Context ID to find and display the help topic.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp80.Help2.DisplayTopicFromF1Keyword(System.String)">
+      <summary>Displays Help for F1 and from dialog boxes.</summary>
+      <param name="pszKeyword">String containing the F1 keyword to display the associated topicc..</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp80.Help2.DisplayTopicFromId(System.String,System.UInt32)">
+      <summary>Deprecated. Use <see cref="M:Microsoft.VisualStudio.VSHelp80.Help2.DisplayTopicFromF1Keyword(System.String)" /> instead.</summary>
+      <param name="bstrFile">String containing the keyword.</param>
+      <param name="Id">Context Help ID.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp80.Help2.DisplayTopicFromKeyword(System.String)">
+      <summary>Performs a lookup by using the K-keyword index.</summary>
+      <param name="pszKeyword">K-keyword index of the Help topic to find and display.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp80.Help2.DisplayTopicFromURL(System.String)">
+      <summary>Displays a Help topic specified by the URL in Document Explorer.</summary>
+      <param name="pszURL">String containing an URL address that is compatible with Internet Explorer.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp80.Help2.DisplayTopicFromURLEx(System.String,Microsoft.VisualStudio.VSHelp.IVsHelpTopicShowEvents)">
+      <summary>Microsoft Internal Use Only.</summary>
+      <param name="pszURL">String containing an URL address that is compatible with Internet Explorer.</param>
+      <param name="pIVsHelpTopicShowEvents">An <see cref="T:Microsoft.VisualStudio.VSHelp.IVsHelpTopicShowEvents" /> object.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp80.Help2.DisplayTopicFromURLEx2(System.String,System.UInt32,System.String)">
+      <summary>Displays a Help topic in Document Explorer that is based on help display flags.</summary>
+      <param name="bstrURL">String containing an URL address that is compatible with Internet Explorer.</param>
+      <param name="displayUrlFlags">Values are taken from <see cref="T:Microsoft.VisualStudio.VSHelp80.__vsHelpDisplayUrlFlags" />.</param>
+      <param name="bstrParam">Unused. Pass in null.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp80.Help2.Favorites">
+      <summary>Displays the Favorites tool window.</summary>
+    </member>
+    <member name="P:Microsoft.VisualStudio.VSHelp80.Help2.Filter">
+      <summary>Gets or sets the collection filter.</summary>
+      <returns>Returns a string containing the filter name. </returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.VSHelp80.Help2.FilterQuery">
+      <summary>Returns the query string for the current Help collection filter.</summary>
+      <returns>A string containing the query string for the current filter.</returns>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp80.Help2.FilterUI">
+      <summary>Deprecated method.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp80.Help2.GetNextTopic(System.String)">
+      <summary>Given a URL returns the next URL in the table of contents.</summary>
+      <returns>Returns a string containing the URL of the next topic in the table of contents.</returns>
+      <param name="bstrURL">String containing the URL of the current topic that is compatible with Internet Explorer.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp80.Help2.GetObject(System.String,System.String)">
+      <summary>Microsoft Internal Use Only.</summary>
+      <returns>Returns a help object.</returns>
+      <param name="bstrMoniker"> </param>
+      <param name="bstrOptions"> </param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp80.Help2.GetPrevTopic(System.String)">
+      <summary>Given a URL returns the previous URL in the table of contents.</summary>
+      <returns>Returns a string containing the URL of the previous topic in the table of contents.</returns>
+      <param name="bstrURL">String containing the URL of the current topic that is compatible with Internet Explorer.</param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.VSHelp80.Help2.Help">
+      <summary>Used for compatibility with <see cref="T:EnvDTE80.DTE2" />, when used as Windows.External, Help2 object returns itself.</summary>
+      <returns>Returns a <see cref="T:Microsoft.VisualStudio.VSHelp80.Help2" /> object.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.VSHelp80.Help2.HelpOwner">
+      <summary>Microsoft Internal Use Only.</summary>
+      <returns>Do not use.</returns>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp80.Help2.HowDoI">
+      <summary>Shows the How Do I window.</summary>
+    </member>
+    <member name="P:Microsoft.VisualStudio.VSHelp80.Help2.HxSession">
+      <summary>Microsoft Internal Use Only.</summary>
+      <returns>Do not use.</returns>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp80.Help2.Index">
+      <summary>Selects the Index window.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp80.Help2.IndexResults">
+      <summary>Selects the Index Results window.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp80.Help2.InitializeSettingsToken(System.String)">
+      <summary>For Microsoft Internal Use Only.</summary>
+      <param name="bstrSettingsToken">A string containing the settings token.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp80.Help2.Search">
+      <summary>Selects the Search dialog box.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp80.Help2.SearchEx(System.String,System.String,System.UInt32)">
+      <summary>Selects the Search window and optionally fills the Search dialog box with a term or executes a search for a specific term.</summary>
+      <param name="bstrSearchFilterTransform">Not used. Pass in null.</param>
+      <param name="pszSearchTerm">A string containing the search term.</param>
+      <param name="vssfSearchFlags">Values defined in <see cref="T:Microsoft.VisualStudio.VSHelp80.__vsSearchFlags" />.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp80.Help2.SearchResults">
+      <summary>Selects the Search Results window.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp80.Help2.SetCollection(System.String,System.String)">
+      <summary>Microsoft Internal Use Only.</summary>
+      <param name="bstrCollection">Namespace of the Help collection</param>
+      <param name="bstrFilter">Name of filter. Use an empty string for no filtering.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp80.Help2.SyncContents(System.String)">
+      <summary>Synchronizes the table of contents to the supplied URL. </summary>
+      <param name="bstrURL">String containing the URL.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp80.Help2.SyncIndex(System.String,System.Int32)">
+      <summary>Looks up the topic specified by the K-keyword, but it does not display the topic in Document Explorer, unless specified.</summary>
+      <param name="bstrKeyword">A string containing the K-keyword.</param>
+      <param name="fShow">Set to force the Index window to open.</param>
+    </member>
+    <member name="T:Microsoft.VisualStudio.VSHelp80.IVsHelpFavorites">
+      <summary>Microsoft Internal Use Only.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.VSHelp80.IVsHelpFavorites.AddFavoriteTopic(System.String,System.String,System.String,System.String)"></member>
+    <member name="M:Microsoft.VisualStudio.VSHelp80.IVsHelpFavorites.ShowFavorites">
+      <summary>Microsoft Internal Use Only.</summary>
+    </member>
+    <member name="T:Microsoft.VisualStudio.VSHelp80.SVsHelpFavorites">
+      <summary>Microsoft Internal Use Only.</summary>
+    </member>
+    <member name="T:Microsoft.VisualStudio.VSHelp80.vsHelpSearchFilterTransforms">
+      <summary>Search filter transform names.</summary>
+    </member>
+    <member name="F:Microsoft.VisualStudio.VSHelp80.vsHelpSearchFilterTransforms.vsHelpSearchFilterTransformsAddins"></member>
+    <member name="F:Microsoft.VisualStudio.VSHelp80.vsHelpSearchFilterTransforms.vsHelpSearchFilterTransformsControls">
+      <summary>Transform control Controls.</summary>
+    </member>
+    <member name="F:Microsoft.VisualStudio.VSHelp80.vsHelpSearchFilterTransforms.vsHelpSearchFilterTransformsHelp">
+      <summary>Transform control Help.</summary>
+    </member>
+    <member name="F:Microsoft.VisualStudio.VSHelp80.vsHelpSearchFilterTransforms.vsHelpSearchFilterTransformsSamples">
+      <summary>Transform control Samples.</summary>
+    </member>
+    <member name="F:Microsoft.VisualStudio.VSHelp80.vsHelpSearchFilterTransforms.vsHelpSearchFilterTransformsSnippets">
+      <summary>Transform control Snippets.</summary>
+    </member>
+    <member name="F:Microsoft.VisualStudio.VSHelp80.vsHelpSearchFilterTransforms.vsHelpSearchFilterTransformsStarterKits">
+      <summary>Transform control StarterKits.</summary>
+    </member>
+    <member name="F:Microsoft.VisualStudio.VSHelp80.vsHelpSearchFilterTransforms.vsHelpSearchFilterTransformsUnfiltered">
+      <summary>Transform control Unfiltered.</summary>
+    </member>
+  </members>
+</doc>

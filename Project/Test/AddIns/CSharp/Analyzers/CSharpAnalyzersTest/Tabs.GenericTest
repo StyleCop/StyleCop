@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<GenericTest name="tabs" storage="c:\depot\stylecop\v4.3\test\addins\csharp\analyzers\csharpanalyzerstest\tabs.generictest" id="9fdd9238-cc89-4fc7-b00a-be7cd4bee5c5" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Css projectStructure="" iteration="" />
+  <Description>Executes external testing system with specified parameters.</Description>
+  <Owners>
+    <Owner name="" />
+  </Owners>
+  <Execution id="2fbcca85-7de6-4b66-97c9-95191e50d813" />
+  <Command filename="%TestBin%\StyleCopTestHarness.exe" arguments="/testname:Tabs /i:&quot;%TestDeploymentDir%&quot; /o:&quot;%TestOutputDirectory%&quot; /testroot:%TestLocation%" workingDirectory="%TestOutputDirectory%" />
+  <SummaryXmlFile enabled="true" path="%TestOutputDirectory%\TabsResults.xml" />
+</GenericTest>

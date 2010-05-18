@@ -1,0 +1,193 @@
+/*----------------------------------------------------------------------------- 
+Copyright (c) Microsoft Corporation.  All rights reserved.
+ 
+@doc 
+ 
+@module IVsSccProjectProviderBinding.idl |
+IDL for projects that are bound to a specific kind of project
+
+@owner Source Control Integration Team
+-----------------------------------------------------------------------------*/
+
+/////////////////////////////////////////////////////////////////////////
+// interface IVsSccProjectProviderBinding
+/////////////////////////////////////////////////////////////////////////
+
+// This interface is a QI on IVsProject. It is used to allow projects to force the source
+// control system to use a specific VAPI-style source control provider 
+
+/* Scenarios where this interface is used
+
+-- Add to source control
+	SCC Manager is attempting to add a project to source control
+		This could either be because the SCC Manager is adding the project or the solution to source control
+	SCC Manager QIs the project for IVsSccProjectProviderBinding
+	If the project fails the QI
+		Things are normal
+		End
+	End if
+	SCC Manager calls IVsSccProjectProviderBinding::GetProviderBinding
+	If the project returns VSSCC_PB_STANDARD
+		Things are normal
+		End
+	End if
+	If the project returns VSSCC_PB_CUSTOM_DISABLED
+		This project will not be added to source control
+		End
+	End if
+	If the project returns VSSCC_PB_STANDARD_DISABLED
+		This project will not be added to source control at this time. The Add command should have been disabled
+		End
+	End if
+
+	The user must choose a server location for their client project
+	This causes SCC manager to put up the server choice dialog. To do this we call
+		GetProviderBindingOptions (To check whether the browse dialog is legal)
+		If the project allows browsing, scc manager calls
+			BrowseServerPath
+		Otherwise, it will
+			Call GetProviderSession to get a provider
+			Put up a VAPI folder browser using that session
+		End if
+	SCC Manager stores the provider service guid for later by calling IVsSccProjectProviderBinding::GetProviderService
+		The GUID is stored in a special file next to the project file (project.vspscc, most likely)
+	Once the user has chosen a remote location, SCC Manager calls IVsSccProject::SetSccLocation
+	Once SetSccLocation returns, we assume it is now safe to create the provider, 
+	SCC Manager calls GetProviderSession
+	To actually do the add, we do the same VAPI as normal -
+		CREATE WORKSPACE ENLISTMENT
+		SET ITEM STATUS
+		and so on
+
+-- Open from source control
+This is the most tricky scenario, because:
+	The provider has to exist to create the enlistment to contain the project file
+	So the provider has to exist (at least in stub form) before the project file is read
+
+	SCC Manager starts by getting the solution from source control
+	Information about the project comes from the special file mentioned above (project.vspscc)
+	If the project does not have a provider service guid
+		Regular enlistment continues
+		End
+	End if
+	SCC Manager reads the provider service GUID from the properties. 
+	SCC Manager uses QueryService to get an object of this SID, 
+	SCC Manager QueryInterfaces that object for IVsSccProviderFactory.
+	SCC Manager uses this to create a VAPI provider session (the punkSession).
+	SCC Manager uses this VAPI provider to make an enlistment in the project. 
+		The usual stuff - CREATE WORKSPACE ENLISTMENT, GET
+	Note that, although this is a project-specific provider, the project object does not yet exist.
+
+	Once the enlistment is created, control returns to the solution
+	It reads the project file from within the newly created solution
+	The project calls IVsSccManager2::RegisterSccProject providing the same information we had passed to it in SetSccLocation
+	SCC Manager calls the project IVsSccProjectProviderBinding::GetProviderSession
+		This provider supplants the one we had before, allowing the previous one to be a 'stub' version
+
+-- Open existing project
+	No special action here
+	The project calls IVsSccManager2::RegisterSccProject providing the same information we had passed to it in SetSccLocation
+	SCC Manager calls the project IVsSccProjectProviderBinding::GetProviderSession
+
+-- Change Connection
+
+	This is what can cause calls to GetProviderBindingOptions (to check for display and editability), ValidateServerPathEdit
+
+*/
+
+#ifndef INTEROPLIB
+
+import "objidl.idl";
+
+#endif
+
+#include "SCGuids.h"
+
+// @hung vscpb
+typedef enum __VSSCCPROVIDERBINDING
+{
+  VSSCC_PB_STANDARD			= 0,   // This project never has a custom provider. Same as not implementing this interface
+  VSSCC_PB_CUSTOM_DISABLED	= 1,   // This project cannot be put under source control. This is used when a custom provider is possible, but not installed
+  VSSCC_PB_CUSTOM			= 2,   // The project has a custom provider, which is able to be used right now.
+  VSSCC_PB_STANDARD_DISABLED		= 3,   // The project is offline now, and it cannot be added to source control at this time.
+} VSSCCPROVIDERBINDING;
+
+// @hung vscpbo
+enum __VSSCCPROVIDERBINDINGOPTIONS
+{
+  VSSCC_PBO_CANBROWSESERVERPATH		= 0x00000001,   // True if the project supports a browse dialog. If false, the scc system will use a standard VAPI browser against the supplied VAPI provider
+  VSSCC_PBO_CANEDITSERVERPATH		= 0x00000002,   // True if the project server path can be manually edited by the user and validated
+  VSSCC_PBO_CANDISPLAYSERVERPATH	= 0x00000004,   // Called by the server choice UI. True if the user should be shown in the UI. Return FALSE to display just the provider name instead. 
+  // next val 0x00000008,   
+};
+typedef DWORD VSSCCPROVIDERBINDINGOPTIONS;
+
+
+[
+uuid(uuid_IVsSccProjectProviderBinding),
+version(1.0),
+pointer_default(unique)
+]
+// @hung ivsppb
+interface IVsSccProjectProviderBinding : IUnknown
+{
+	// @cmember Called by the scc system to determine whether a custom provider is bound to this project now, or later
+	HRESULT // @rdesc error or S_OK
+	GetProviderBinding
+	(
+		[out, retval]	VSSCCPROVIDERBINDING*		pvscpbBinding		// @parm [out] The provider type for this project
+	);
+
+	// @cmember Called by the scc system to get the guid of a shell service object that will be used to create a provider when enlistment happens for this project.
+	// See above for a description of how this guid is used
+	HRESULT // @rdesc error or S_OK
+	GetProviderService
+	(
+		[out, retval]	GUID*		pguidService		// @parm [out] The factory
+	);
+
+	// @cmember Called by the source control system to get a provider pointer to map all the 
+	// folders in the project to.  
+	HRESULT // @rdesc error or S_OK
+	GetProviderSession
+	(
+		[out, retval]	IUnknown **punkSession	// @parm [out] a session object for a VAPI provider
+	);
+
+	// @cmember Called by the source control system to translate a path into its other
+	// form. Projects are allowed to have two different but synonymous sets of paths (cache and local). 
+	// Their VAPI provider must treat both as identical (as scc may send them either), but 
+	// to allow translation we require the project to be able to translate in either direction
+	// return E_NOTIMPL if you don't have dual paths, and reward yourself with a cookie for having a 
+	// clean design.
+	HRESULT // @rdesc error or E_NOTIMPL or S_OK
+	TranslateEnlistmentPath
+	(
+		[in]	LPCOLESTR	lpszPath,				// @parm [in] the path in question
+		[out]	BOOL *		pfAlternateIsDisplay,	// @parm [out] TRUE if the alternate path is the preferred one for display; FALSE if the input path was the preferred display path.
+		[out]	BSTR *		pbstrAlternatePath		// @parm [out] an alternate path
+	);
+
+	HRESULT // @rdesc error or S_OK
+	GetProviderBindingOptions
+	(
+		[out, retval]	VSSCCPROVIDERBINDINGOPTIONS *pvscpboOptions		// @parm [out] True if manual editing is allowed
+	);
+
+	// @cmember Called after a user does a manual edit, to see if the edit is safe/valid
+	HRESULT // @rdesc error or S_OK
+	ValidateServerPathEdit
+	(
+		[in]			BOOL		fQuick,					// @parm [in] True if the validation should be fast. Used during interactive editing, this validation should not do anything slow like network access
+		[in]			LPCOLESTR	lpszServerPath,			// @parm [in] The user's edited server path
+		[out, retval]	BOOL *		pfValidServer			// @parm [out] True if it is valid, false if not
+	);
+
+	// @cmember Called to actually put up the browse dialog. If it returns E_NOTIMPL, we put up a standard VAPI add/open folder picker dialog. We put the shell into a modal state before calling this method.
+	HRESULT // @rdesc error, E_NOTIMPL or S_OK
+	BrowseServerPath
+	(
+		[in]			LPCOLESTR	lpszServerPath,			// @parm [in] The user's latest edited text
+		[out, retval]	BSTR *		pbstrNewServerPath		// @parm [out] New enlistment path
+	);
+};

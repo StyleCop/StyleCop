@@ -1,0 +1,451 @@
+// msdbg100.idl
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+#ifndef DEBUGGER_PIA_BUILD
+    // Any imports go here
+    import "msdbg.idl";
+#endif
+
+cpp_quote("extern GUID guidCOMPlusOnlyEng2;")
+cpp_quote("extern GUID guidCOMPlusOnlyEng4;")
+cpp_quote("extern GUID guidFSharpLang;")
+
+    // ------------------------------------------------------------------
+    // IDebugThread100
+    [
+        object,
+        uuid(8590DD4C-BF52-4aef-8348-E0DAC9C65268),
+        pointer_default(unique)
+    ]
+    interface IDebugThread100: IUnknown
+    {
+
+	    enum enum_THREADPROPERTY_FIELDS100
+	    {
+	        // ---------------------------------------------------------------------
+	        // Existing flags
+	        TPF100_ID            = 0x0001,
+	        TPF100_SUSPENDCOUNT  = 0x0002,
+	        TPF100_STATE         = 0x0004,
+	        TPF100_PRIORITY      = 0x0008,
+	        TPF100_NAME          = 0x0010,
+	        TPF100_LOCATION      = 0x0020,
+	        TPF100_ALLFIELDS     = 0xffffffff,
+	        // ---------------------------------------------------------------------
+	        // New flags
+	        TPF100_DISPLAY_NAME  = 0x0040,
+	        TPF100_DISPLAY_NAME_PRIORITY = 0x0080,
+	        TPF100_CATEGORY      = 0x0100,
+	        TPF100_AFFINITY		= 0x0200,
+			TPF100_PRIORITY_ID	= 0x0400
+	    };
+	    typedef DWORD THREADPROPERTY_FIELDS100;
+
+        enum enum_DISPLAY_NAME_PRIORITY100
+        {
+            // used for generic names
+            DISPLAY_NAME_PRI_LOWEST_CONFIDENCY_100 = 0x1,
+
+            // used for guessed names for thread poll threads
+            DISPLAY_NAME_PRI_LOW_CONFIDENCY_100 = 0x10,
+
+            // used for engines that don't implement IDebugThread90
+            DISPLAY_NAM_PRI_DEFAULT_100 = 0x100,
+
+            // used for gussed names based on the main thread, the vshost thread or the GC thread
+            DISPLAY_NAME_PRI_NORMAL_100 = 0x1000,
+
+            // used for names set by the debuggee using the native exception
+            DISPLAY_NAME_PRI_HIGH_100 = 0x10000,
+
+            // used for names set by the debuggee calling System.Threading.Thread.Name = "bla";
+            DISPLAY_NAME_PRI_HIGHEST_100 = 0x100000
+        };
+        typedef enum enum_DISPLAY_NAME_PRIORITY100 DISPLAY_NAME_PRIORITY100;
+
+        typedef struct _tagTHREADPROPERTIES100
+        {
+            // ---------------------------------------------------------------------
+            // Existing fields
+            THREADPROPERTY_FIELDS100 dwFields;
+            DWORD dwThreadId;
+            DWORD dwSuspendCount;
+            DWORD dwThreadState;
+            BSTR bstrPriority;
+            BSTR bstrName;
+            BSTR bstrLocation;
+
+            // ---------------------------------------------------------------------
+            // New fields
+            BSTR bstrDisplayName;
+            DWORD DisplayNamePriority;
+            DWORD dwThreadCategory; // Should match the THREADCATEGORY as defined in vscommon\idl\Debugger90.idl
+
+	        // Newer Fields
+	        UINT64 AffinityMask;
+	        DWORD dwManagedThreadId;
+			int priorityId;
+	        
+	    } THREADPROPERTIES100;
+	    
+	    HRESULT GetThreadProperties100(
+	        [in] THREADPROPERTY_FIELDS100 dwFields,
+	        [out] THREADPROPERTIES100 *ptp);
+	        
+      HRESULT GetFlags(
+          [out]   DWORD * pFlags);
+      HRESULT SetFlags(
+          [in]    DWORD   flags);
+
+	  HRESULT CanDoFuncEval();
+
+	  HRESULT GetThreadDisplayName(
+			[out] BSTR *bstrDisplayName);
+
+	  HRESULT SetThreadDisplayName(
+			[in] BSTR bstrDisplayName);
+	};
+
+// Optional code context interface which engines may implement.
+[
+    object,
+    uuid(653f13a7-7e53-4f48-bde8-8ef8d3bc3c57),
+    pointer_default(unique)
+]
+interface IDebugCodeContext100 : IUnknown
+{
+    // Obtain the program from a code context. This is consumed by the 
+    // disassembly window and the memory window, and is only necessary in scenarios where the same
+    // thread has frames from multiple programs.
+    //
+    // Note: All native and managed memory contexts will implement this interface.  Cpde's CDebugCodeContext explicitly
+    // opts out of implementing IDebugCodeContext2 in its QI code if the memory context isn't a code context, but it will
+    // still implement IDebugCodeContext100.
+    // 
+    // NOTE: The program object returned will be the engine program object rather
+    // than the SDM program object. So many operations on this program are not 
+    // supported (ex: continuing the target).
+    HRESULT GetProgram([out] IDebugProgram2** ppProgram);
+}
+
+// Mostly analogous to the STARTF_* constants defined in winbase.h
+enum _PSI_FLAGS
+{
+    PSI_USESHOWWINDOW       = 0x00000001,   // equivalent to STARTF_USESHOWWINDOW
+    PSI_USESIZE             = 0x00000002,   // equivalent to STARTF_USESIZE
+    PSI_USEPOSITION         = 0x00000004,   // equivalent to STARTF_USEPOSITION
+    PSI_USECOUNTCHARS       = 0x00000008,   // equivalent to STARTF_USECOUNTCHARS
+    PSI_USEFILLATTRIBUTE    = 0x00000010,   // equivalent to STARTF_USEFILLATTRIBUTE
+    PSI_RUNFULLSCREEN       = 0x00000020,   // equivalent to STARTF_RUNFULLSCREEN
+    PSI_FORCEONFEEDBACK     = 0x00000040,   // equivalent to STARTF_FORCEONFEEDBACK
+    PSI_FORCEOFFFEEDBACK    = 0x00000080,   // equivalent to STARTF_FORCEOFFFEEDBACK
+    PSI_USESTDHANDLES       = 0x00000100,   // equivalent to STARTF_USESTDHANDLES
+    // These are not present in winbase.h
+    PSI_USECREATIONFLAGS    = 0x40000000,   // the dwCreationFlags field is valid and should be passed to CreateProcess
+    PSI_INHERITHANDLES      = 0x80000000    // call CreateProcess with bInheritHandles = TRUE
+};
+
+typedef DWORD PSI_FLAGS;
+
+typedef struct _PROCESS_STARTUP_INFO
+{
+    [ptr] LPCWSTR lpDesktop;  
+    [ptr] LPCWSTR lpTitle;  
+    DWORD dwCreationFlags;
+    DWORD dwX;  
+    DWORD dwY;  
+    DWORD dwXSize;  
+    DWORD dwYSize;  
+    DWORD dwXCountChars;  
+    DWORD dwYCountChars;  
+    DWORD dwFillAttribute;  
+    PSI_FLAGS flags;  
+    WORD wShowWindow;  
+    DWORD hStdInput;  
+    DWORD hStdOutput;  
+    DWORD hStdError;
+} PROCESS_STARTUP_INFO;
+
+// ------------------------------------------------------------------
+
+
+// ------------------------------------------------------------------
+// IDebugEngineLaunch100 - Enhanced version of IDebugEngineLaunch2 which is new for
+// Dev10. Engines which choose to implement this interface must also implement 
+// IDebugEngineLaunch2.
+[
+    object,
+    uuid(1ac3d265-c50c-4c12-9b1a-c93f7291fc12),
+    pointer_default(unique)
+
+]
+interface IDebugEngineLaunch100: IUnknown
+{
+    HRESULT LaunchSuspended(
+        [in, ptr] LPCOLESTR pszServer,
+        [in] IDebugPort2* pPort,
+        [in, ptr] LPCOLESTR pszExe,
+        [in, ptr] LPCOLESTR pszArgs,
+        [in, ptr] LPCOLESTR pszDir,
+        [in, ptr] BSTR bstrEnv,
+        [in, ptr] LPCOLESTR pszOptions,
+        [in] LAUNCH_FLAGS dwLaunchFlags,
+        [in] PROCESS_STARTUP_INFO* pStartupInfo,
+        [in] IDebugEventCallback2* pCallback,
+        [out] IDebugProcess2 **ppProcess);
+}
+
+
+enum THREADFLAG
+{
+    THREADFLAG_None         = 0x0000,
+    THREADFLAG_Interesting  = 0x0001
+};
+
+
+// ------------------------------------------------------------------
+// IDebugThreadFlagChangeEvent100 - Sent by the SDM when the thread
+// flags are modified.
+[
+    object,
+    uuid(A4F87F48-D3C4-4694-A1A3-1969E3639EE7),
+    pointer_default(unique)
+]
+interface IDebugThreadFlagChangeEvent100: IUnknown
+{
+    HRESULT GetThread(
+        [out] IDebugThread100 ** ppThread);
+};
+
+// ------------------------------------------------------------------
+// IDebugThreadDisplayNameChangeEvent100 - Sent by the SDM when the
+// thread's display name is changed
+[
+    object,
+    uuid(39CBD675-BDF9-423a-884F-7AB36BF51AF9),
+    pointer_default(unique)
+]
+interface IDebugThreadDisplayNameChangeEvent100: IUnknown
+{
+    HRESULT GetThread(
+        [out] IDebugThread100 ** ppThread);
+};
+
+// ------------------------------------------------------------------
+// IDebugThreadSuspendChangeEvent100 - Sent by the SDM when the thread's
+// suspended state is changed
+[
+    object,
+    uuid(BD20393D-6D0C-44FB-A5E3-7BD5D1B640D1),
+    pointer_default(unique)
+]
+interface IDebugThreadSuspendChangeEvent100: IUnknown
+{
+    HRESULT GetThread(
+        [out] IDebugThread100 ** ppThread);
+};
+
+// ------------------------------------------------------------------
+// IDebugProcessContinueEvent100 - Sent by the SDM when a process is continued
+[
+    object,
+    uuid(C703EBEA-42E7-4768-85A9-692EECBA567B),
+    pointer_default(unique)
+]
+interface IDebugProcessContinueEvent100: IUnknown
+{
+    HRESULT GetProcess(
+        [out] IDebugProcess2 ** ppProcess);
+};
+
+// ------------------------------------------------------------------
+// IDebugCurrentThreadChangedEvent100 - Sent by the Visual Sudio Debugger UI (vsdebug.dll)
+// to inform other packages that the current thread has changed.
+[
+    object,
+    uuid(8764364B-0C52-4c7c-AF6A-8B19A8C98226),
+    pointer_default(unique)
+]
+interface IDebugCurrentThreadChangedEvent100: IUnknown
+{
+};
+
+enum enum_EVALFLAGS100
+{
+    // ---------------------------------------------------------------------
+    // VS 8.0 values
+
+    // the return value is interesting
+    EVAL100_RETURNVALUE                 = 0x0002, // Same as EVAL_RETURNVALUE
+    // don't allow side effects
+    EVAL100_NOSIDEEFFECTS               = 0x0004, // Same as EVAL_NOSIDEEFFECTS
+    // stop on breakpoints
+    EVAL100_ALLOWBPS                    = 0x0008, // Same as EVAL_ALLOWBPS
+    // allow error reporting to the host
+    EVAL100_ALLOWERRORREPORT            = 0x0010, // Same as EVAL_ALLOWERRORREPORT
+    // evaluate any functions as address (instead of invoking the function)
+    EVAL100_FUNCTION_AS_ADDRESS         = 0x0040, // Same as EVAL_FUNCTION_AS_ADDRESS
+    // don't allow function/property evaluation
+    EVAL100_NOFUNCEVAL                  = 0x0080, // Same as EVAL_NOFUNCEVAL
+    // don't allow events
+    EVAL100_NOEVENTS                    = 0x1000, // Same as EVAL_NOEVENTS
+    // design-time expression evaluation
+    EVAL100_DESIGN_TIME_EXPR_EVAL       = 0x2000, // Same as EVAL_DESIGN_TIME_EXPR_EVAL
+    // Allow implicit variable creation
+    EVAL100_ALLOW_IMPLICIT_VARS         = 0x4000, // Same as EVAL_ALLOW_IMPLICIT_VARS
+
+    // ---------------------------------------------------------------------
+    // Values added in VS 9.0
+
+    // Force eval to occur now. Somebody is requesting it (like the user)
+    EVAL100_FORCE_EVALUATION_NOW        = 0x8000,
+
+    // ---------------------------------------------------------------------
+    // Values added in VS 10.0
+
+    //Disable use of the IL interpreter.
+    EVAL100_NO_IL_INTERPRETER	= 0x10000,
+
+    // Force the EE to allow func-evals (not just ToString() or property getters) even if EVAL100_NOSIDEEFFECTS is present.
+    EVAL100_ALLOW_FUNC_EVALS_EVEN_IF_NO_SIDE_EFFECTS = 0x20000,
+
+    // Allow threads to slip during funceval.
+    EVAL100_ALLOW_THREADSLIPPING = 0x40000,
+};
+
+enum enum_DEBUGPROP_INFO_FLAGS100
+{
+    // ---------------------------------------------------------------------
+    // VS 8.0 values
+
+    DEBUGPROP100_INFO_FULLNAME				= 0x00000001,
+    DEBUGPROP100_INFO_NAME					= 0x00000002,
+    DEBUGPROP100_INFO_TYPE					= 0x00000004,
+    DEBUGPROP100_INFO_VALUE					= 0x00000008,
+    DEBUGPROP100_INFO_ATTRIB				= 0x00000010,
+    DEBUGPROP100_INFO_PROP					= 0x00000020,
+
+    DEBUGPROP100_INFO_VALUE_AUTOEXPAND		= 0x00010000,
+    DEBUGPROP100_INFO_NOFUNCEVAL			= 0x00020000,   // Tell EE not to perform ANY type of func-eval.
+    DEBUGPROP100_INFO_VALUE_RAW				= 0x00040000,   // Tell EE not to return any beautified values or members.
+    DEBUGPROP100_INFO_VALUE_NO_TOSTRING		= 0x00080000,   // Tell EE not to return any special synthesized values (ToString() for instance).
+    DEBUGPROP100_INFO_NO_NONPUBLIC_MEMBERS	= 0x00100000,   // Tell EE to return non-public members for non-user objects.
+
+    DEBUGPROP100_INFO_NONE					= 0x00000000,
+    DEBUGPROP100_INFO_STANDARD				= DEBUGPROP100_INFO_ATTRIB | DEBUGPROP100_INFO_NAME | DEBUGPROP100_INFO_TYPE | DEBUGPROP100_INFO_VALUE,
+    DEBUGPROP100_INFO_ALL					= 0xffffffff,
+
+    // ---------------------------------------------------------------------
+    // VS 9.0 values
+    DEBUGPROP100_INFO_NOSIDEEFFECTS          = 0x00200000,   // Tell EE not to perform any eval that has side effects
+
+    // ---------------------------------------------------------------------
+    // VS 10.0 values
+    //Disable use of the IL interpreter.
+    DEBUGPROP100_INFO_NO_IL_INTERPRETER	= 0x00400000,
+
+    // Force the EE to allow func-evals (not just ToString() or property getters) even if EVAL100_NOSIDEEFFECTS is present.
+    DEBUGPROP100_INFO_ALLOW_FUNC_EVALS_EVEN_IF_NO_SIDE_EFFECTS = 0x00800000,
+
+    DEBUGPROP100_INFO_ALLOW_THREADSLIPPING  = 0x01000000,    // Tell EE that slipping threads during funcevals is ok
+};
+typedef DWORD DEBUGPROP100_INFO_FLAGS;
+
+enum enum_MODULE100_FLAGS
+{
+    // ---------------------------------------------------------------------
+    // VS 8.0 values
+    MODULE100_FLAG_NONE		    = 0x0000,
+    MODULE100_FLAG_SYSTEM		= 0x0001,
+    MODULE100_FLAG_SYMBOLS		= 0x0002,
+    MODULE100_FLAG_64BIT		= 0x0004,
+     
+    //
+    // If the engine knows a module about optimizations it needs to set
+    // either of these flags, if it does not the module window will assume
+    // it does not
+    //
+     
+    MODULE100_FLAG_OPTIMIZED	= 0x0008,
+    MODULE100_FLAG_UNOPTIMIZED	= 0x0010,
+
+    // ---------------------------------------------------------------------
+    // VS 9.0 values
+
+    // ---------------------------------------------------------------------
+    // VS 10.0 values
+    MODULE100_FLAG_ENGINEWILLLOADSYMS = 0x0020,
+    MODULE100_FLAG_SYMBOLSUNAVAILABLE = 0x0040, // The engine cannot load symbols at this time
+};
+typedef DWORD MODULE100_FLAGS;
+
+cpp_quote("#define DBG_ATTRIB_VALUE_ERROR_THREAD_SLIP_REQUIRED 0x0004000000000000")
+cpp_quote("#define DBG_ATTRIB_VALUE_ILINTERPRETER 0x0008000000000000")
+
+// ------------------------------------------------------------------
+// IDebugSessionSymbolSettings100
+[
+    object,
+    uuid(142A0821-8B28-49af-BD41-EABD00A88F57),
+    pointer_default(unique)
+]
+interface IDebugSymbolSettings100: IUnknown
+{
+    HRESULT SetSymbolLoadState(
+        [in] BOOL bIsManual,
+        [in] BOOL bLoadAdjacentSymbols,
+        [in] BSTR bstrIncludeList,
+        [in] BSTR bstrExcludeList);
+};
+
+
+// ------------------------------------------------------------------
+// IDebugModuleReloadOperationCompleteEvent100
+// 
+// Sent by the Debugger UI when a symbol reload operation has completed
+// or settings such as Just My Code have changed. 
+[
+    object,
+    uuid(e72b36e9-8ec2-4dee-b96b-c18b752c98c8),
+    pointer_default(unique)
+]
+interface IDebugModuleReloadOperationCompleteEvent100: IUnknown
+{
+
+};
+
+// ------------------------------------------------------------------
+// IDebugDumpModule100 - implemented by engines that support debugging dump files. 
+// Called by the debugger ui to support finding modules in dumps.
+[
+    object,
+    uuid(12e0c541-6479-4c3c-a48d-8ffa223208c2),
+    pointer_default(unique)
+]
+interface IDebugDumpModule100: IUnknown
+{
+    // return true if this module is loaded. False if not. This is used for
+    // loading modules for dumps.
+    HRESULT IsBinaryLoaded([out]BOOL* pbLoaded);
+
+    // The UI will call this for a module that has not been loaded when the user
+    // attempts to load it (From the module window or callstack window).
+    HRESULT LoadBinary([out]IDebugDumpModule100** ppModule);
+}
+
+
+// Extended bit field to support more annotated frame types.
+enum enum_FRAMEINFO_FLAGS_VALUES100
+{
+        // Existing flags:
+	// FIFV_ANNOTATEDFRAME = 0x00000001,
+        // FIFV_NON_USER_CODE  = 0x00000002,
+        // FIFV_CANINTERCEPT_EXCEPTION = 0x00000004,
+        // FIFV_FUNCEVALFRAME = 0x00000008,
+        // FIFV_FUNCEVALFRAME = 0x00000008,
+
+        // New flags
+        FIFV_MAXFRAMES_EXCEEDED = 0x00000010
+};

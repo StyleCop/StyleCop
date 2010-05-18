@@ -1,0 +1,1144 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<doc>
+	<assembly>
+		<name>Microsoft.TeamFoundation.WorkItemTracking.Client</name>
+	</assembly>
+	<members>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.AllowedValuesCollection.Contains(System.String)">
+			<returns>true if the specified string exists in the collection; otherwise false.</returns>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.AllowedValuesCollection.IndexOf(System.String)">
+			<returns>Returns the index of the specified string.</returns>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.AllowedValuesCollection.System.Collections.IList.Contains(System.Object)">
+			<returns>true if the specified string exists in the collection; otherwise false.</returns>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.AllowedValuesCollection.System.Collections.IList.IndexOf(System.Object)">
+			<returns>Returns the index of the specified <see cref="T:System.Object"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.WorkItemTracking.Client.AllowedValuesCollection.Count">
+			<returns>Returns the number of objects in the collection.</returns>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.WorkItemTracking.Client.AllowedValuesCollection.Item(System.Int32)">
+			<param name="index">Indexer to return the string at the given index.</param>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Attachment">
+			<summary>Attachment Linking Class.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.Attachment.#ctor(System.String,System.String)">
+			<summary>Initializes a file attachment object.</summary>
+			<param name="comment">Comment to document the attached file.</param>
+			<param name="path">Path of the file to attach.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.AttachmentCollection.Add(Microsoft.TeamFoundation.WorkItemTracking.Client.Attachment)">
+			<returns>Returns the position of the new <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Attachment"></see> in the collection.</returns>
+			<param name="attachment"><see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Attachment"></see> to add to the collection.</param>
+			<exception cref="T:System.ArgumentNullException">Thrown if attachment is null.</exception>
+			<exception cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.FileAttachmentException">Thrown if attachment already exists.</exception>
+			<exception cref="T:System.ArgumentException">Thrown if trying to add more than the maximum allowed unsaved <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Attachment"></see> objects.</exception>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.AttachmentCollection.AddItem(System.Object)">
+			<returns>Returns the position of the new <see cref="T:System.Object"></see> in the collection.</returns>
+			<param name="value"><see cref="T:System.Object"></see> to add to the collection.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.AttachmentCollection.Contains(Microsoft.TeamFoundation.WorkItemTracking.Client.Attachment)">
+			<returns>true if the specified <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Attachment"></see> exists in the collection; otherwise false.</returns>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.AttachmentCollection.IndexOf(Microsoft.TeamFoundation.WorkItemTracking.Client.Attachment)">
+			<returns>Returns the index of the specified <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Attachment"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.AttachmentCollection.Remove(Microsoft.TeamFoundation.WorkItemTracking.Client.Attachment)">
+			<param name="attachment"><see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Attachment"></see> object to be removed from the collection.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.AttachmentCollection.RemoveAt(System.Int32)">
+			<exception cref="T:System.ArgumentOutOfRangeException">Thrown when index is out of range for the collection.</exception>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.WorkItemTracking.Client.AttachmentCollection.Count">
+			<returns>Returns the number of objects in the collection.</returns>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.WorkItemTracking.Client.AttachmentCollection.Item(System.Int32)">
+			<param name="index">Indexer to return the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Attachment"></see> at the given index.</param>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.BaseLinkType">
+			<summary>Enumeration of the various link types.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.BatchReadParameter.#ctor(System.Int32)">
+			<exception cref="T:System.ArgumentException">Thrown if id is less than or equal to zero.</exception>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.BatchReadParameter.#ctor(System.Int32,System.Int32)">
+			<exception cref="T:System.ArgumentException">Thrown if id is less than or equal to zero or if revision is less than or equal to zero.</exception>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.WorkItemTracking.Client.BatchReadParameter.ProjectHint">
+			<summary>Gets or sets the <see cref="P:Microsoft.TeamFoundation.WorkItemTracking.Client.BatchReadParameter.ProjectHint"></see> property.</summary>
+			<exception cref="T:System.ArgumentException">Thrown if value is less than zero.</exception>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.BatchReadParameterCollection">
+			<summary>A collection of <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.BatchReadParameter"></see> objects, each specifying a work item ID and an optional revision.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.BatchReadParameterCollection.Add(Microsoft.TeamFoundation.WorkItemTracking.Client.BatchReadParameter)">
+			<summary>Adds a new <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.BatchReadParameter"></see> to the collection.</summary>
+			<returns>Returns the position of the new <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.BatchReadParameter"></see> in the collection.</returns>
+			<param name="item"><see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.BatchReadParameter"></see> to add to the collection.</param>
+			<exception cref="T:System.ArgumentNullException">Thrown if item equals null.</exception>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.BatchReadParameterCollection.Clear">
+			<summary>Removes all <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.BatchReadParameter"></see> objects from the collection.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.BatchReadParameterCollection.Contains(Microsoft.TeamFoundation.WorkItemTracking.Client.BatchReadParameter)">
+			<summary>Returns true if the specified <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.BatchReadParameter"></see> exists in the collection; otherwise false.</summary>
+			<returns>true if the specified <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.BatchReadParameter"></see> exists in the collection; otherwise false.</returns>
+			<param name="item"><see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.BatchReadParameter"></see> to verify.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.BatchReadParameterCollection.Contains(System.Int32)">
+			<summary>Returns true if the specified <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.BatchReadParameter"></see> exists in the collection; otherwise false.</summary>
+			<returns>true if the specified <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.BatchReadParameter"></see> exists in the collection; otherwise false.</returns>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.BatchReadParameterCollection.IndexOf(Microsoft.TeamFoundation.WorkItemTracking.Client.BatchReadParameter)">
+			<summary>Returns the index of the specified <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.BatchReadParameter"></see>.</summary>
+			<returns>Returns the index of the specified <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.BatchReadParameter"></see>.</returns>
+			<param name="item"><see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.BatchReadParameter"></see> to return.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.BatchReadParameterCollection.Remove(Microsoft.TeamFoundation.WorkItemTracking.Client.BatchReadParameter)">
+			<summary>Removes the specified <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.BatchReadParameter"></see> from the collection.</summary>
+			<param name="item"><see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.BatchReadParameter"></see> to be removed from the collection.</param>
+			<exception cref="T:System.ArgumentNullException">Thrown if item is null.</exception>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.BatchReadParameterCollection.RemoveAt(System.Int32)">
+			<summary>Removes the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.BatchReadParameter"></see> at the specified index.</summary>
+			<param name="index">Index of the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.BatchReadParameter"></see> to be removed from the collection.</param>
+			<exception cref="T:System.ArgumentOutOfRangeException">Thrown when index is out of range for the collection.</exception>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.WorkItemTracking.Client.BatchReadParameterCollection.Item(System.Int32)">
+			<param name="index">An indexer to return the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.BatchReadParameter"></see> at the given index.</param>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.BatchSaveError">
+			<summary>Class that communicates results of a save for a single <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see>.</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.CancelableAsyncResult">
+			<summary>Accessor for <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.CancelableAsyncResult"></see>. Can be used to access the state of the asynchronous operation or cancel the result.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.CancelableAsyncResult.BeginAsync">
+			<summary>Starts the asynchronous work.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.CancelableAsyncResult.Cancel">
+			<summary>Cancels the pending action.</summary>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.WorkItemTracking.Client.ClientException.ErrorId">
+			<returns>The error ID for this exception. Supports get and set.</returns>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.WorkItemTracking.Client.ClientException.LogException">
+			<returns>When true, the exception is logged.  Supports get and set.</returns>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.CoreField">
+			<summary>Enumerates common work item <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.CoreField"></see> objects.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.WorkItemTracking.Client.CoreField.AuthorizedAs">
+			<summary>The "person name" field, used to store the name of the user who is authenticated to make the change.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.WorkItemTracking.Client.CoreField.CreatedBy">
+			<summary>Can be a user other than the one who is authenticated. See <see cref="F:Microsoft.TeamFoundation.WorkItemTracking.Client.CoreField.AuthorizedAs"></see>.</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.CoreFieldReferenceNames">
+			<summary>This class holds the reference names for all <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.CoreField"></see>s.</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.DisplayFieldList">
+			<summary>Class that represents the fields selected in a query.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.DisplayFieldList.Add(Microsoft.TeamFoundation.WorkItemTracking.Client.FieldDefinition)">
+			<summary>Adds a new <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.FieldDefinition"></see> to the end of the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.DisplayFieldList"></see>.</summary>
+			<returns>Returns the position of the new <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.FieldDefinition"></see> in the list.</returns>
+			<param name="value"><see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.FieldDefinition"></see> to add to the list.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.DisplayFieldList.Add(System.String)">
+			<summary>Adds a new <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.FieldDefinition"></see> to the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.DisplayFieldList"></see>.</summary>
+			<returns>Returns the position of the new <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.FieldDefinition"></see> in the list.</returns>
+			<param name="fieldName">The name of the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.FieldDefinition"></see> to add to the list.</param>
+			<exception cref="T:System.ArgumentNullException">Thrown if fieldName is null.</exception>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.DisplayFieldList.Clear">
+			<summary>Removes all <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.FieldDefinition"></see> objects from the list.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.DisplayFieldList.Contains(Microsoft.TeamFoundation.WorkItemTracking.Client.FieldDefinition)">
+			<summary>Returns true if the specified <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.FieldDefinition"></see> exists in the collection; otherwise false.</summary>
+			<returns>true if the specified <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.FieldDefinition"></see> exists in the collection; otherwise false.</returns>
+			<param name="value"><see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.FieldDefinition"></see> to verify.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.DisplayFieldList.IndexOf(Microsoft.TeamFoundation.WorkItemTracking.Client.FieldDefinition)">
+			<summary>Returns the index of the specified <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.FieldDefinition"></see>.</summary>
+			<returns>Returns the index of the specified <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.FieldDefinition"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.DisplayFieldList.IndexOfFieldId(System.Int32)">
+			<summary>Returns the index of the specified <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.FieldDefinition.Id"></see>.</summary>
+			<returns>Returns the index of the specified <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.FieldDefinition.Id"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.DisplayFieldList.Insert(System.Int32,Microsoft.TeamFoundation.WorkItemTracking.Client.FieldDefinition)">
+			<summary>Inserts a new <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.FieldDefinition"></see> to the list.</summary>
+			<param name="value">The <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.FieldDefinition"></see> to insert into the list.</param>
+			<param name="index">The location to insert the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.FieldDefinition"></see> into the list.</param>
+			<exception cref="T:System.ArgumentException">Thrown if <see cref="P:Microsoft.TeamFoundation.WorkItemTracking.Client.FieldDefinition.IsQueryable"></see> is false or the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.FieldDefinition"></see> already exists in the list.</exception>
+			<exception cref="T:System.ArgumentOutOfRangeException">Thrown if index is out of range for the list.</exception>
+			<exception cref="T:System.ArgumentNullException">Thrown if value is null.</exception>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.DisplayFieldList.Insert(System.Int32,System.String)">
+			<summary>Inserts a new <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.FieldDefinition"></see> to the list.</summary>
+			<param name="fieldName">The field name of the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.FieldDefinition"></see> to insert into the list.</param>
+			<param name="index">The location to insert the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.FieldDefinition"></see> into the list.</param>
+			<exception cref="T:System.ArgumentException">Thrown if <see cref="P:Microsoft.TeamFoundation.WorkItemTracking.Client.FieldDefinition.IsQueryable"></see> is false or the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.FieldDefinition"></see> already exists in the list.</exception>
+			<exception cref="T:System.ArgumentNullException">Thrown if fieldName is null.</exception>
+			<exception cref="T:System.ArgumentOutOfRangeException">Thrown if index is out of range for the list.</exception>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.DisplayFieldList.Remove(Microsoft.TeamFoundation.WorkItemTracking.Client.FieldDefinition)">
+			<summary>Removes a <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.FieldDefinition"></see> from the list.</summary>
+			<param name="value"><see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.FieldDefinition"></see> to be removed from the list.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.DisplayFieldList.Remove(System.String)">
+			<summary>Removes the specified <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.FieldDefinition"></see> from the list.</summary>
+			<param name="fieldName">Field name of the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.FieldDefinition"></see> to be removed from the list.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.DisplayFieldList.RemoveAt(System.Int32)">
+			<summary>Removes the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.FieldDefinition"></see> at the specified index.</summary>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.WorkItemTracking.Client.DisplayFieldList.Item(System.Int32)">
+			<returns>Returns the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.FieldDefinition"></see> at the given index.</returns>
+			<param name="index">Indexer to return the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.FieldDefinition"></see> at the given index.</param>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.ExternalLink">
+			<summary>This class stores external links. An <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.ExternalLink"></see> is a link to other tools.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.ExternalLink.#ctor(Microsoft.TeamFoundation.WorkItemTracking.Client.RegisteredLinkType,System.String)">
+			<summary>Creates a new <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.ExternalLink"></see>.</summary>
+			<param name="type">The <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.RegisteredLinkType"></see> to create as an <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.ExternalLink"></see>.</param>
+			<param name="uri">The URI of the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.ExternalLink"></see>.</param>
+			<exception cref="ArgumentException">Thrown if the uri is blank or empty.</exception>
+			<exception cref="ArgumentNullException">Thrown if type or uri are null.</exception>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.WorkItemTracking.Client.ExternalLink.LinkedArtifactUri">
+			<summary>Gets the URI of this <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.ExternalLink"></see>.</summary>
+			<returns>The URI of this <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.ExternalLink"></see>.</returns>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Field">
+			<summary>This sealed class is used to hold field/value pairs for work items.</summary>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.WorkItemTracking.Client.Field.AllowedValues">
+			<summary>Gets the collection of allowed values for this <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Field"></see>.</summary>
+			<returns>The collection of allowed values for this <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Field"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.WorkItemTracking.Client.Field.FieldDefinition">
+			<summary>Gets the field definition for this <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Field"></see>.</summary>
+			<returns>The field definition for this <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Field"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.WorkItemTracking.Client.Field.IsDirty">
+			<summary>Returns true if the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Field"></see> has been edited since the parent work item was retrieved from or saved to the work item store; otherwise false.</summary>
+			<returns>true if the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Field"></see> has been edited since the parent work item was retrieved from or saved to the work item store; otherwise false.</returns>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.WorkItemTracking.Client.Field.IsEditable">
+			<summary>Returns true if this <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Field"></see> is editable according to the field definition and given the current state of the parent work item; otherwise false.</summary>
+			<returns>true if this <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Field"></see> is editable according to the field definition and given the current state of the parent work item; otherwise false.</returns>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.WorkItemTracking.Client.Field.IsRequired">
+			<summary>Returns true if this <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Field"></see> is required to be non-empty; otherwise false.</summary>
+			<returns>true if this <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Field"></see> is required to be non-empty; otherwise false.</returns>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.WorkItemTracking.Client.Field.IsValid">
+			<summary>Returns true if the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Field"></see> contains a valid value; otherwise false.</summary>
+			<returns>true if the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Field"></see> contains a valid value; otherwise false.</returns>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.FieldCollection">
+			<summary>Manages a collection of <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see> <see cref="P:Microsoft.TeamFoundation.WorkItemTracking.Client.Field"></see> objects.</summary>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.WorkItemTracking.Client.FieldCollection.Item(Microsoft.TeamFoundation.WorkItemTracking.Client.CoreField)">
+			<summary>Gets the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Field"></see> object, not the value.</summary>
+			<param name="coreField"><see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.CoreField"></see> indexer.</param>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.WorkItemTracking.Client.FieldCollection.Item(System.Int32)">
+			<summary>Gets the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Field"></see> object, not the value.</summary>
+			<param name="index">Integer indexer.</param>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.WorkItemTracking.Client.FieldCollection.Item(System.String)">
+			<summary>Gets the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Field"></see> object, not the value.</summary>
+			<param name="name">String indexer.</param>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.FieldDefinition">
+			<summary>This class is used to hold <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Field"></see> definitions.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.FieldDefinition.FilteredAllowedValues(Microsoft.TeamFoundation.WorkItemTracking.Client.FieldFilterList)">
+			<summary>Returns the collection of allowed values for this <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Field"></see> under different conditions, given the provided filters.</summary>
+			<param name="filters">Filters allowed values for field/value pairs as specified by this list.</param>
+			<exception cref="System.ArgumentNullException">Thrown if the argument equals null.</exception>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.FieldDefinitionCollection">
+			<summary>This sealed class is used to hold <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Field"></see> definitions.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.FieldDefinitionCollection.Contains(Microsoft.TeamFoundation.WorkItemTracking.Client.FieldDefinition)">
+			<param name="fieldDefinition">Field definition name.</param>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.FieldFilter">
+			<summary>This class represents a single field/value pair that can be used in a list of field/value pairs used to model properties on a <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.FieldDefinition"></see> object.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.FieldFilter.#ctor(Microsoft.TeamFoundation.WorkItemTracking.Client.FieldDefinition,System.Object)">
+			<param name="fd">Field to use in the filter operation.</param>
+			<param name="value">Value of the field to model with.</param>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.FieldFilterList">
+			<summary>List of Field/value pairs used as filters when calling <see cref="P:Microsoft.TeamFoundation.WorkItemTracking.Client.Field.AllowedValues"></see>.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.FieldFilterList.Add(Microsoft.TeamFoundation.WorkItemTracking.Client.FieldFilter)">
+			<summary>Adds a filter, and returns the index of the newly added item. If an item already exists with the same <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.FieldDefinition"></see>, the old <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.FieldDefinition"></see> will be replaced.</summary>
+			<returns>Returns the index of the newly added item.</returns>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.FieldFilterList.Clear">
+			<summary>Removes all members from the list.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.FieldFilterList.Contains(Microsoft.TeamFoundation.WorkItemTracking.Client.FieldFilter)">
+			<summary>Returns true if the value exists in the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.FieldFilterList"></see>; otherwise false.</summary>
+			<returns>true if the value exists in the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.FieldFilterList"></see>; otherwise false.</returns>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.FieldFilterList.IndexOf(Microsoft.TeamFoundation.WorkItemTracking.Client.FieldFilter)">
+			<summary>Returns the index of the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.FieldFilter"></see>.</summary>
+			<returns>Returns the index of the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.FieldFilter"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.FieldFilterList.Remove(Microsoft.TeamFoundation.WorkItemTracking.Client.FieldFilter)">
+			<summary>Removes the specified <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.FieldFilter"></see>.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.FieldFilterList.RemoveAt(System.Int32)">
+			<summary>Removes a member at the specified position.</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.FieldStatus">
+			<summary>Enumerates the status of a Field. The status depends upon the validity of the field's value.</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.FieldType">
+			<summary>Enumerates all field definition types.</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.FileAttachmentException">
+			<summary>Base class for file attachment exceptions.</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Hyperlink">
+			<summary>This class stores hyperlinks. A hyperlink link type is a URL, UNC, or URI.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.Hyperlink.#ctor(System.String)">
+			<summary>Initializes a new <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.HyperLink"></see>.</summary>
+			<param name="location">The string location of the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.HyperLink"></see>.</param>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.WorkItemTracking.Client.Hyperlink.Location">
+			<summary>Gets the string location of this <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Hyperlink"></see>.</summary>
+			<returns>Returns the string location of this <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Hyperlink"></see>.</returns>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.ImportEventArgs">
+			<summary>Arguments for import events.</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.ImportEventHandler">
+			<summary>Event handler for import events.</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.ImportSeverity">
+			<summary>This enumeration reports the severity of an import problem.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.WorkItemTracking.Client.ImportSeverity.Error">
+			<summary>Error</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.WorkItemTracking.Client.ImportSeverity.Warning">
+			<summary>Warning</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.InternalFields">
+			<summary>Static class that defines all internal field <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.CoreFieldReferenceNames"></see>. Internal fields are used by the <see cref="F:Microsoft.TeamFoundation.ToolNames.WorkItemTracking"></see> system and cannot be used or modified by the user.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.WorkItemTracking.Client.InternalFields.AttachedFiles_Ref">
+			<summary>Returns the attached file's reference string.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.WorkItemTracking.Client.InternalFields.ChangedSet_Ref">
+			<summary>Returns the changed set reference string.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.WorkItemTracking.Client.InternalFields.InAdminOnlyTreeFlag_Ref">
+			<summary>Returns the InAdminOnlyTreeFlag reference string.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.WorkItemTracking.Client.InternalFields.InDeletedTreeFlag_Ref">
+			<summary>Returns the InDeletedTreeFlag reference string.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.WorkItemTracking.Client.InternalFields.LinkedFiles_Ref">
+			<summary>Returns the linked files reference string.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.WorkItemTracking.Client.InternalFields.NodeType_Ref">
+			<summary>Returns the node type reference string.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.WorkItemTracking.Client.InternalFields.NotAField_Ref">
+			<summary>Returns the NotAField reference string.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.WorkItemTracking.Client.InternalFields.PersonId_Ref">
+			<summary>Returns the Person reference string.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.WorkItemTracking.Client.InternalFields.ProjectId_Ref">
+			<summary>Returns the ProjectId reference string.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.WorkItemTracking.Client.InternalFields.RelatedLinks_Ref">
+			<summary>Returns the related links reference string.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.WorkItemTracking.Client.InternalFields.TFServer_Ref">
+			<summary>Returns the TFServer reference string.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.WorkItemTracking.Client.InternalFields.WorkItemForm_Ref">
+			<summary>Returns the WorkItemForm reference string.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.WorkItemTracking.Client.InternalFields.WorkItemFormId_Ref">
+			<summary>Returns the WorkItemFormId reference string.</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Link">
+			<summary>This abstract class is the base class for all other links that include <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Hyperlink"></see>, <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.RelatedLink"></see>, and <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.ExternalLink"></see>.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.Link.#ctor(Microsoft.TeamFoundation.WorkItemTracking.Client.BaseLinkType,Microsoft.TeamFoundation.WorkItemTracking.Client.RegisteredLinkType)">
+			<summary>Initializes a new <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Link"></see>.</summary>
+			<param name="registeredLinkType">The <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.RegisteredLinkType"></see> for this <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Link"></see>.</param>
+			<param name="linkType">The <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.BaseLinkType"></see> for this <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Link"></see>.</param>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.LinkCollection">
+			<summary>A collection of outgoing links for the current <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see>.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.LinkCollection.Add(Microsoft.TeamFoundation.WorkItemTracking.Client.ExternalLink)">
+			<summary>Returns the position of the new <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.ExternalLink"></see> in the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.LinkCollection"></see>.</summary>
+			<param name="link">The <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.ExternalLink"></see> to add to the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.LinkCollection"></see>.</param>
+			<exception cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.ValidationException">Thrown if link already exists in the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.LinkCollection"></see>.</exception>
+			<exception cref="ArgumentNullException">Thrown if link is null.</exception>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.LinkCollection.Add(Microsoft.TeamFoundation.WorkItemTracking.Client.Hyperlink)">
+			<summary>Returns the position of the new <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.HyperLink"></see> in the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.LinkCollection"></see>.</summary>
+			<param name="link">The <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.HyperLink"></see> to add to the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.LinkCollection"></see>.</param>
+			<exception cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.ValidationException">Thrown if link already exists in the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.LinkCollection"></see>.</exception>
+			<exception cref="ArgumentNullException">Thrown if link is null.</exception>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.LinkCollection.Add(Microsoft.TeamFoundation.WorkItemTracking.Client.Link)">
+			<summary>Returns the position of the new <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Link"></see> in the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.LinkCollection"></see>.</summary>
+			<param name="link">The <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Link"></see> to add to the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.LinkCollection"></see>.</param>
+			<exception cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.ValidationException">Thrown if link already exists in the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.LinkCollection"></see>.</exception>
+			<exception cref="ArgumentException">Thrown if link is not a <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.HyperLink"></see>, <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.ExternalLink"></see>, or <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.RelatedLink"></see>.</exception>
+			<exception cref="ArgumentNullException">Thrown if link is null.</exception>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.LinkCollection.Add(Microsoft.TeamFoundation.WorkItemTracking.Client.RelatedLink)">
+			<summary>Returns the position of the new <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.RelatedLink"></see> in the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.LinkCollection"></see>.</summary>
+			<param name="link">The <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.RelatedLink"></see> to add to the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.LinkCollection"></see>.</param>
+			<exception cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.ValidationException">Thrown if link already exists in the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.LinkCollection"></see>.</exception>
+			<exception cref="ArgumentNullException">Thrown if link is null.</exception>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.LinkCollection.Clear">
+			<summary>Removes all <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Link"></see> objects from the collection.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.LinkCollection.Contains(Microsoft.TeamFoundation.WorkItemTracking.Client.Link)">
+			<summary>Returns true if the specified <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Link"></see> exists in the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.LinkCollection"></see>; otherwise false.</summary>
+			<returns>true if the specified <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Link"></see> exists in the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.LinkCollection"></see>; otherwise false.</returns>
+			<param name="link">The <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Link"></see> to verify.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.LinkCollection.Remove(Microsoft.TeamFoundation.WorkItemTracking.Client.Link)">
+			<summary>Removes the specified <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Link"></see> from the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.LinkCollection"></see>.</summary>
+			<param name="link"><see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Link"></see> object to be removed from the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.LinkCollection"></see>.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.LinkCollection.RemoveAt(System.Int32)">
+			<summary>Removes the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Link"></see> at the specified index.</summary>
+			<param name="index">Index of the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Link"></see> to be removed from the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.LinkCollection"></see>.</param>
+			<exception cref="T:System.ArgumentOutOfRangeException">Thrown when index is out of range for the collection.</exception>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.WorkItemTracking.Client.LinkCollection.Item(System.Int32)">
+			<summary>Gets a <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Link"></see> from a <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.LinkCollection"></see> at the given index.</summary>
+			<param name="index">Indexer to return the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Link"></see> at the given index.</param>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.MetadataChangeEventHandler">
+			<summary>Event handler for the <see cref="E:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemStore.MetadataChanged"></see> event. These events are raised when the client has detected metadata changes on the server and finished refreshing its local cache.</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.MetadataChangeTypes">
+			<summary>All possible metadata change types.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.WorkItemTracking.Client.MetadataChangeTypes.Fields">
+			<summary>One or more <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Field"></see>s have been updated.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.WorkItemTracking.Client.MetadataChangeTypes.Forms">
+			<summary>One or more <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Form"></see>s have been updated.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.WorkItemTracking.Client.MetadataChangeTypes.Lists">
+			<summary>One or more <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.List"></see>s or <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.ListItem"></see>s have been updated.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.WorkItemTracking.Client.MetadataChangeTypes.Nodes">
+			<summary>One or more <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Node"></see>s have been updated.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.WorkItemTracking.Client.MetadataChangeTypes.Rules">
+			<summary>One or more <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Rule"></see>s have been updated.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.WorkItemTracking.Client.MetadataChangeTypes.WorkItemTypes">
+			<summary>One or more <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemType"></see>s have been updated.</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.MetadataEventArgs">
+			<summary>Provides data for the <see cref="E:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemStore.MetadataChanged"></see> event.</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Node">
+			<summary>This read-only class encapsulates nodes used for classifying work items by Area and Iteration.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.Node.FindNodeInSubTree(System.Int32)">
+			<summary>Returns the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Node"></see> in the sub tree that matches the given node ID.</summary>
+			<returns>The <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Node"></see> in this.ChildNodes or the children thereof whose Id equals nodeId.</returns>
+			<param name="nodeId">Search for the Node whose Id property is equal to nodeId.</param>
+			<exception cref="NodeNotExistException">Thrown if no matching result is found.</exception>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.Node.FindNodeInSubTree(System.String)">
+			<summary>Returns the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Node"></see> in the sub tree that matches the given path.</summary>
+			<returns>The <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Node"></see> in this.ChildNodes or this.ChildNodes children whose Path equals path.</returns>
+			<param name="path">Search for the Node whose Path property is equal to path.</param>
+			<exception cref="NodeNotExistException">Thrown if no matching result is found.</exception>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.NodeCollection">
+			<summary>This class holds a collection of <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Node"></see> objects.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.NodeCollection.IndexOf(Microsoft.TeamFoundation.WorkItemTracking.Client.Node)">
+			<summary>Returns the index of the specified <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Node"></see>.</summary>
+			<exception cref="T:System.ArgumentNullException">Thrown if value is null.</exception>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.WorkItemTracking.Client.NodeCollection.Item(System.Int32)">
+			<param name="index">Indexer to return the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Node"></see> at the given index.</param>
+			<exception cref="T:System.ArgumentOutOfRangeException">The index is out of range for the collection.</exception>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.WorkItemTracking.Client.NodeCollection.Item(System.String)">
+			<param name="name">Indexer into the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.NodeCollection"></see> using a friendly name.</param>
+			<exception cref="T:System.ArgumentException">Thrown if the name is a blank or empty string.</exception>
+			<exception cref="T:System.ArgumentNullException">Thrown if the name is null.</exception>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.PageSizes">
+			<summary>Enumeration of page sizes that are supported for queries and batch reads.</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Project">
+			<summary>This is a read-only class that inherits from the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Node"></see>.</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.ProjectCollection">
+			<summary>This class holds a collection of all the work item projects on the Team Foundation Server.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.ProjectCollection.Contains(System.String)">
+			<summary>Returns true if the specified project exists in the collection; otherwise false.</summary>
+			<exception cref="T:System.ArgumentNullException">Thrown if projectName is null.</exception>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.ProjectCollection.GetById(System.Int32)">
+			<summary>Returns a <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Project"></see> by the specified Id.</summary>
+			<param name="projectId">The Id of the Project to retrieve.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.ProjectCollection.IndexOf(Microsoft.TeamFoundation.WorkItemTracking.Client.Project)">
+			<summary>Returns the index of the specified <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Project"></see>.</summary>
+			<exception cref="T:System.ArgumentNullException">Thrown if value is null.</exception>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.WorkItemTracking.Client.ProjectCollection.Item(System.Int32)">
+			<summary>Gets the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Project"></see> at the given index.</summary>
+			<param name="index">Indexer to return the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Project"></see> at the given index.</param>
+			<exception cref="T:System.ArgumentOutOfRangeException">The index is out of range for the collection.</exception>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.WorkItemTracking.Client.ProjectCollection.Item(System.String)">
+			<summary>Gets the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.ProjectCollection"></see> using a friendly name.</summary>
+			<param name="projectName">Indexer into the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.ProjectCollection"></see> using a friendly name.</param>
+			<exception cref="T:System.ArgumentNullException">Thrown if the projectName is null.</exception>
+			<exception cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.DeniedOrNotExistException">Thrown if the projectName does not exist in the collection.</exception>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Query">
+			<summary>This class encapsulates a <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Query"></see> against the work item store. Queries are scoped to a <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.WorkItemStore"></see> and are described in the Work Item Query Language.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.Query.#ctor(Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemStore,System.String)">
+			<summary>Initializes a <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Query"></see>.</summary>
+			<param name="store">The <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemStore"></see> against which the query will run.</param>
+			<param name="wiql">The query as a work item query language string.</param>
+			<exception cref="System.ArgumentNullException">Thrown if store or wiql is null.</exception>
+			<exception cref="ValidationException">Thrown if the wiql is invalid.</exception>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.Query.#ctor(Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemStore,System.String,System.Collections.IDictionary)">
+			<summary>Initializes a <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Query"></see> with optional context used for macros such as @Project.</summary>
+			<param name="store">The <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemStore"></see> against which the query will run.</param>
+			<param name="context">This parameter is used to pass contextual information for the query.</param>
+			<param name="wiql">The query as a work item query language string.</param>
+			<exception cref="System.ArgumentNullException">Thrown if store or wiql is null.</exception>
+			<exception cref="ValidationException">Thrown if the wiql is invalid.</exception>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.Query.#ctor(Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemStore,System.String,System.Collections.IDictionary,System.Boolean)">
+			<param name="store">The <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemStore"></see> against which the query will run.</param>
+			<param name="dayPrecision">When TRUE, indicates that a DateTime should resolve to an entire day. Often, it is TRUE to avoid being more precise about a specific time.</param>
+			<param name="context">This parameter is used to pass contextual information for the query.</param>
+			<param name="wiql">The query as a work item query language string.</param>
+		</member>
+		<member name="E:Microsoft.TeamFoundation.WorkItemTracking.Client.Query.AsyncStateChanged">
+			<summary>Event handler for asynchronous changes to the state of a <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Query"></see>.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.Query.BeginCountOnlyQuery">
+			<summary>Runs a <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Query"></see> where only the number of results is returned, not the actual result values.</summary>
+			<returns>The <see cref="T:Microsoft.TeamFoundation.Client.ICancelableAsyncResult"></see> for the query.</returns>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.Query.BeginCountOnlyQuery(System.AsyncCallback)">
+			<summary>Runs a <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Query"></see> where only the number of results is returned, not the actual result values.</summary>
+			<returns>The <see cref="T:Microsoft.TeamFoundation.Client.ICancelableAsyncResult"></see> for the query.</returns>
+			<param name="callBack">The asynchronous callback method to use.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.Query.BeginQuery">
+			<summary>Runs a <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Query"></see> and returns a cancelable asynchronous result.</summary>
+			<returns>The <see cref="T:Microsoft.TeamFoundation.Client.ICancelableAsyncResult"></see> for the query.</returns>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.Query.BeginQuery(System.AsyncCallback)">
+			<summary>Runs a <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Query"></see> and returns a cancelable asynchronous result.</summary>
+			<returns>The <see cref="T:Microsoft.TeamFoundation.Client.ICancelableAsyncResult"></see> for the query.</returns>
+			<param name="callBack">The asynchronous call back method to use.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.Query.EndCountOnlyQuery(Microsoft.TeamFoundation.Client.ICancelableAsyncResult)">
+			<summary>Returns the result of the count-only query after completing the asynchronous call.</summary>
+			<returns>The number of results that satisfy the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Query"></see>.</returns>
+			<param name="car">The asynchronous query for which the results are returned.</param>
+			<exception cref="System.ArgumentNullException">Thrown if car is null.</exception>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.Query.EndQuery(Microsoft.TeamFoundation.Client.ICancelableAsyncResult)">
+			<summary>Returns the result of the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Query"></see> after completing the asynchronous call.</summary>
+			<returns>The <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Query.WorkItemCollection"></see> for the result set.</returns>
+			<param name="car">The asynchronous query for which the results are returned.</param>
+			<exception cref="System.ArgumentNullException">Thrown if car is null.</exception>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.QueryScope">
+			<summary>Enumeration to set the scope of a query.</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.RegisteredLinkType">
+			<summary>Stores a registered link type.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.RegisteredLinkType.Equals(Microsoft.TeamFoundation.WorkItemTracking.Client.RegisteredLinkType)">
+			<summary>true if the specified <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.RegisteredLinkType"></see> is equal to the current <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.RegisteredLinkType"></see>; otherwise, false.</summary>
+			<param name="type">The <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.RegisteredLinkType"></see> to compare.</param>
+			<exception cref="T:System.ArgumentNullException">Thrown if type is null.</exception>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.RegisteredLinkTypeCollection">
+			<summary>A collection of <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.RegisteredLinkType"></see> objects.</summary>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.WorkItemTracking.Client.RegisteredLinkTypeCollection.Item(System.Int32)">
+			<summary>Gets a <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.RegisteredLinkType"></see> from a <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.RegisteredLinkTypeCollection"></see> at the given index.</summary>
+			<param name="index">Indexer to return the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.RegisteredLinkType"></see> at the given index.</param>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.WorkItemTracking.Client.RegisteredLinkTypeCollection.Item(Microsoft.TeamFoundation.WorkItemTracking.Client.RegisteredLinkType)">
+			<summary>Gets a <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.RegisteredLinkType"></see> from a <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.RegisteredLinkTypeCollection"></see>.</summary>
+			<exception cref="T:System.ArgumentNullException">Thrown if registeredType is null.</exception>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.WorkItemTracking.Client.RegisteredLinkTypeCollection.Item(System.String)">
+			<summary>Gets a <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.RegisteredLinkType"></see> from a <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.RegisteredLinkTypeCollection"></see>.</summary>
+			<param name="name">String indexer to retrieve the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.RegisteredLinkType"></see> from the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.RegisteredLinkTypeCollection"></see>.</param>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.RelatedLink">
+			<summary>This class stores related links. A <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.RelatedLink"></see> links two <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see> objects in the same store and across stores.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.RelatedLink.#ctor(System.Int32)">
+			<summary>Creates a new <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.RelatedLink"></see>.</summary>
+			<param name="relatedWorkItemId">The ID for this <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.RelatedLink"></see>.</param>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Revision">
+			<summary>This class stores <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see> revisions.</summary>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.WorkItemTracking.Client.Revision.Item(System.String)">
+			<summary>Gets the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Field"></see> by <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Field"></see> name.</summary>
+			<param name="name">Indexer to get or set an individual <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Field"></see> in a <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Revision"></see>.</param>
+			<exception cref="T:System.ArgumentNullException">Thrown if name is null.</exception>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.RevisionCollection">
+			<summary>A collection of history items for a <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see>.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.RevisionCollection.Contains(Microsoft.TeamFoundation.WorkItemTracking.Client.Revision)">
+			<summary>true if the specified <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see> exists in the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.RevisionCollection"></see>; otherwise false.</summary>
+			<param name="value">The <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see> to verify.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.RevisionCollection.IndexOf(Microsoft.TeamFoundation.WorkItemTracking.Client.Revision)">
+			<summary>Returns the index of the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see> in the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.RevisionCollection"></see>.</summary>
+			<param name="value">The <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see> to find.</param>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Schemas">
+			<summary>Class to store the schema type for a <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see>.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.Schemas.#ctor">
+			<summary>Initializes a new <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Schemas"></see>.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.Schemas.GetSchema(Microsoft.TeamFoundation.WorkItemTracking.Client.SchemaType)">
+			<summary>Creates schema of the given type.</summary>
+			<param name="type">The schema to create.</param>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.SchemaType">
+			<summary>Enumerates the supported schemas in <see cref="F:Microsoft.TeamFoundation.ToolNames.WorkItemTracking"></see>.</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Server">
+			<summary>Class from which to make server calls.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.Server.#ctor(Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemStore)">
+			<summary>Initializes an instance of the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Server"></see> object.</summary>
+			<param name="store"><see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemStore"></see> to access.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.Server.Dispose">
+			<summary>Method to use when disposing this object. Disposes both managed and unmanaged resources.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.Server.Dispose(System.Boolean)">
+			<summary>Disposes the current <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.Server"></see> object.</summary>
+			<param name="disposing">true if managed resources should be disposed in addition to unmanaged resources; false if only unmanaged resources are to be disposed.</param>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.SortField">
+			<summary>This field can be used to sort the list returned by a query.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.SortField.#ctor(Microsoft.TeamFoundation.WorkItemTracking.Client.FieldDefinition,Microsoft.TeamFoundation.WorkItemTracking.Client.SortType)">
+			<exception cref="T:System.ArgumentNullException">Thrown if fd is null.</exception>
+			<exception cref="T:System.ArgumentException">Thrown if sortType is not <see cref="F:Microsoft.TeamFoundation.WorkItemTracking.Client.SortType.Ascending"></see> or <see cref="F:Microsoft.TeamFoundation.WorkItemTracking.Client.SortType.Descending"></see>, or if fd.PsFieldDefinition.IsQueryable is false.</exception>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.SortField.#ctor(Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemStore,System.String,Microsoft.TeamFoundation.WorkItemTracking.Client.SortType)">
+			<exception cref="T:System.ArgumentException">Thrown if sortType is not <see cref="F:Microsoft.TeamFoundation.WorkItemTracking.Client.SortType.Ascending,"></see><see cref="F:Microsoft.TeamFoundation.WorkItemTracking.Client.SortType.Descending"></see>, or fd.PsFieldDefinition.IsQueryable is false.</exception>
+			<exception cref="T:System.ArgumentNullException">Thrown if store is null, or fd is null.</exception>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.SortFieldList">
+			<summary>This class represents the fields that can be used to sort a query.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.SortFieldList.Add(Microsoft.TeamFoundation.WorkItemTracking.Client.SortField)">
+			<summary>Adds a <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.SortField"></see> to the given collection.</summary>
+			<returns>Returns the index of the newly added item, or the index of an existing item with the same ID.</returns>
+			<exception cref="T:System.ArgumentNullException">Thrown when sortField is null.</exception>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.SortFieldList.Add(System.String,Microsoft.TeamFoundation.WorkItemTracking.Client.SortType)">
+			<summary>Adds a <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.SortField"></see> to the given collection.</summary>
+			<returns>Returns the index of the newly added item, or the index of an existing item with the same ID.</returns>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.SortFieldList.Clear">
+			<summary>Removes all objects from the collection.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.SortFieldList.Insert(System.Int32,Microsoft.TeamFoundation.WorkItemTracking.Client.SortField)">
+			<summary>Adds a <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.SortField"></see> to the collection at the given index.</summary>
+			<exception cref="T:System.ArgumentException">Thrown if the sortField's <see cref="P:Microsoft.TeamFoundation.WorkItemTracking.Client.FieldDefinition.CanSortBy"></see> property is false, or the sortField already exists in the list.</exception>
+			<exception cref="T:System.ArgumentNullException">Thrown if sortField is null.</exception>
+			<exception cref="T:System.ArgumentOutOfRangeException">Thrown if index is out of range of the list.</exception>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.SortFieldList.Insert(System.Int32,System.String,Microsoft.TeamFoundation.WorkItemTracking.Client.SortType)">
+			<summary>Adds a <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.SortField"></see> to the collection at the given index.</summary>
+			<exception cref="T:System.ArgumentException">Thrown if the sortField's <see cref="P:Microsoft.TeamFoundation.WorkItemTracking.Client.FieldDefinition.CanSortBy"></see> property is false, or the sortField already exists in the list.</exception>
+			<exception cref="T:System.ArgumentNullException">Thrown if sortField is null.</exception>
+			<exception cref="T:System.ArgumentOutOfRangeException">Thrown if index is out of range of the list.</exception>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.SortFieldList.Remove(Microsoft.TeamFoundation.WorkItemTracking.Client.FieldDefinition)">
+			<summary>Remove a <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.SortField"></see> by <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.FieldDefinition"></see>.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.SortFieldList.Remove(Microsoft.TeamFoundation.WorkItemTracking.Client.SortField)">
+			<summary>Removes the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.SortField"></see> from the list.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.SortFieldList.Remove(System.String)">
+			<summary>Removes a <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.SortField"></see> by name.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.SortFieldList.RemoveAt(System.Int32)">
+			<summary>Removes the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.SortField"></see> at the specified position.</summary>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.WorkItemTracking.Client.SortFieldList.Item(System.Int32)">
+			<summary>Gets or sets the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.SortField"></see> at the given index.</summary>
+			<param name="index">Indexer to return or set the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.SortField"></see> at the given index.</param>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.SortType">
+			<summary>This enumeration declares the sort order for the sorted list.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.WorkItemTracking.Client.SortType.Ascending">
+			<summary>Ascending (0-9, A-Z) sort.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.WorkItemTracking.Client.SortType.Descending">
+			<summary>Descending (Z-A, 9-0) sort.</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.StoredQueriesAction">
+			<summary>This enumeration reports the type of action taken on a stored query.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.WorkItemTracking.Client.StoredQueriesAction.Added">
+			<summary>The stored query was added.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.WorkItemTracking.Client.StoredQueriesAction.Changed">
+			<summary>The stored query was changed.</summary>
+		</member>
+		<member name="F:Microsoft.TeamFoundation.WorkItemTracking.Client.StoredQueriesAction.Removed">
+			<summary>The stored query was removed.</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.StoredQueriesChangedEventArgs">
+			<summary>This class handles events raised when a change occurs to a <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.StoredQuery"></see>.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.StoredQueriesChangedEventArgs.#ctor(Microsoft.TeamFoundation.WorkItemTracking.Client.StoredQuery,Microsoft.TeamFoundation.WorkItemTracking.Client.StoredQueriesAction)">
+			<summary>Initializes the class.</summary>
+			<param name="storedQuery">The <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.StoredQuery"></see> that changed.</param>
+			<param name="action">Action enumerated by the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.StoredQueriesAction"></see>.</param>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.StoredQueriesEventHandler">
+			<summary>This event handler listens to changes to <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.StoredQuery"></see> objects.</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.StoredQuery">
+			<summary>The <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.StoredQuery"></see> class provides server-side WIQL query persistence.</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.StoredQueryCollection">
+			<summary>Queries can be persisted on the Team Foundation Server using the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.StoredQueryCollection"></see> class.</summary>
+		</member>
+		<member name="E:Microsoft.TeamFoundation.WorkItemTracking.Client.StoredQueryCollection.StoredQueriesChanged">
+			<summary>Occurs when a <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.StoredQuery"></see> changes.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.StoredQueryCollection.Add(Microsoft.TeamFoundation.WorkItemTracking.Client.StoredQuery)">
+			<summary>Adds a new <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.StoredQuery"></see> to the collection.</summary>
+			<returns>Returns the position of the new <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.StoredQuery"></see> in the collection.</returns>
+			<param name="storedQuery"><see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.StoredQuery"></see> to add to the collection.</param>
+			<exception cref="T:System.ArgumentNullException">Thrown if storedQuery is null.</exception>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.StoredQueryCollection.AddItem(System.Object)">
+			<summary>Adds a new <see cref="T:System.Object"></see> to the collection.</summary>
+			<returns>Returns the position of the new <see cref="T:System.Object"></see> in the collection.</returns>
+			<param name="value"><see cref="T:System.Object"></see> to add to the collection.</param>
+			<exception cref="T:System.ArgumentNullException">Thrown if storedQuery is null.</exception>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.StoredQueryCollection.Clear">
+			<summary>Clears the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.StoredQueryCollection"></see>.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.StoredQueryCollection.OnStoredQueriesChanged(Microsoft.TeamFoundation.WorkItemTracking.Client.StoredQueriesChangedEventArgs)">
+			<summary>Event handler invoked when a stored query changes.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.StoredQueryCollection.Remove(Microsoft.TeamFoundation.WorkItemTracking.Client.StoredQuery)">
+			<summary>Removes the specified <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.StoredQuery"></see>.</summary>
+			<exception cref="T:System.ArgumentNullException">Thrown if storedQuery is null.</exception>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.StoredQueryCollection.RemoveAt(System.Int32)">
+			<summary>Removes the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.StoredQuery"></see> at the specified index.</summary>
+			<exception cref="T:System.ArgumentOutOfRangeException">Thrown if index is out or range for the collection.</exception>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.WorkItemTracking.Client.StoredQueryCollection.Item(System.Guid)">
+			<summary>Gets the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.StoredQuery"></see>, or null if the guid is not found.</summary>
+			<param name="guid">Indexer to access stored query by guid.</param>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.WorkItemTracking.Client.StoredQueryCollection.Item(System.Int32)">
+			<summary>Gets the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.StoredQuery"></see> at the given index.</summary>
+			<param name="index">Indexer to return the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.StoredQuery"></see> at the given index.</param>
+			<exception cref="T:System.ArgumentOutOfRangeException">The index is out of range for the collection.</exception>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.StringDataLengths">
+			<summary>Maximum lengths for string values that can be saved to the database.</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.UnexpectedErrorException">
+			<summary>The class for reporting unusual error conditions.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.UnexpectedErrorException.#ctor">
+			<summary>The default constructor.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.UnexpectedErrorException.#ctor(System.String)">
+			<param name="message">Message to display.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.UnexpectedErrorException.#ctor(System.String,System.Exception)">
+			<param name="message">Message to display.</param>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.ValidationException">
+			<summary>Used for data validation exceptions and returns the default value this.LogException = false.  Derived from <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.ClientException"></see>.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.ValidationException.#ctor(System.String)">
+			<param name="message">Message to display.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.ValidationException.#ctor(System.String,System.Exception)">
+			<param name="message">Message to display.</param>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem">
+			<summary>This class encapsulates a work item instance.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem.#ctor(Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemType)">
+			<summary>Initializes a blank work item of a specific <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemType"></see>.</summary>
+		</member>
+		<member name="E:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem.FieldChanged">
+			<summary>Occurs every time a field is updated.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem.Copy(Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemType)">
+			<summary>Creates a copy of this <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see> as another <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemType"></see> potentially scoped to a different team project.</summary>
+			<returns>If type is the same as this.type, returns the same value as this.Copy().  Otherwise, returns a similar value as this.Copy() with these exceptions:The returned copy will be in team project type.Project<see cref="T:System.AreaPath"></see> and <see cref="T:System.IterationPath"></see> is set to default for type.The latest values of all other fields that are shared between this.Type and type are copied even if those values are uncommitted.</returns>
+			<param name="targetWIT">The desired <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemType"></see> for the returned <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see>.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem.Open">
+			<summary>Opens this <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see> for editing.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem.PartialOpen">
+			<summary>Opens this <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see> for editing without transferring all the data about the work item over the wire.</summary>
+			<exception cref="T:System.InvalidOperationException">Thrown if the work item is already Open or is read-only.</exception>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem.Reset">
+			<summary>Reverts all changes that were made to this <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see> since the last revision.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem.Save">
+			<summary>Saves this <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see> after validating its contents.</summary>
+			<exception cref="ValidationException">Thrown if the Fields in the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see> are not valid for its <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemType"></see>. This condition can be checked prior to the save by checking <see cref="M:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem.IsValid"></see>. </exception>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem.SyncToLatest">
+			<summary>Updates this <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see> to the latest committed revision. All changes that were made to the work item from the last revision will be discarded.</summary>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem.Item(Microsoft.TeamFoundation.WorkItemTracking.Client.CoreField)">
+			<summary>Gets a <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see> by using <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.CoreField"></see> enumeration.</summary>
+			<param name="id"><see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.CoreField"></see> to get or set.</param>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem.Item(System.String)">
+			<summary>Gets or sets a <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see> by using either a field name or a reference name.</summary>
+			<param name="name">Field name or reference name.</param>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemAsyncEventArgs">
+			<summary>A class to handle <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see> asynchronous change events to the state of a query.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemAsyncEventArgs.#ctor(Microsoft.TeamFoundation.WorkItemTracking.Client.CancelableAsyncResult,Microsoft.TeamFoundation.WorkItemTracking.Client.CancelableActionState,Microsoft.TeamFoundation.WorkItemTracking.Client.CancelableActionState)">
+			<summary>Initializes the class. This sets the internal result, the old state, and the new state.</summary>
+			<param name="oldState">The old state. This will be changed at the end of the event, unless the event is canceled.</param>
+			<param name="newState">The new state. This will become the current state at the end of the event, unless the event is canceled.</param>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemAsyncEventHandler">
+			<summary>This event handler listens to asynchronous changes to the state of a query.</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemCollection">
+			<summary>This class encapsulates a collection of <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see>s.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemCollection.Contains(Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem)">
+			<summary>Checks for a strongly typed <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see> in this collection.</summary>
+			<returns>true if the specified <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see> is contained in the work item collection; otherwise false.</returns>
+			<param name="value">The <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see> to search for. The search is performed by object reference. Therefore, if value is a new instance of the desired work item, the index will not be found.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemCollection.IndexOf(System.Int32)">
+			<summary>Returns the collection index for the specified <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see>. Returns -1 if the item is not found.</summary>
+			<param name="id">The ID of the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see> to search for.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemCollection.IndexOf(Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem)">
+			<summary>Gets the collection index of the strongly typed <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see>.</summary>
+			<returns>Returns the collection index for the specified <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see>. Returns -1 if the item is not found.</returns>
+			<param name="value">The <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see> to search for. The search is performed by object reference. Therefore, if value is a new instance of the desired <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see>, the index will not be found.</param>
+			<exception cref="T:System.ArgumentNullException">Thrown if value is null.</exception>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemCollection.Resort">
+			<summary>Resorts the collection based on the <see cref="P:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemCollection.SortFields"></see> property.</summary>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemCollection.DefaultProjectHint">
+			<summary>Gets or sets the default project hint for the collection to support partial open, by setting properties on the object that allow for all "relevant" fields to be paged in.</summary>
+			<exception cref="T:System.ArgumentException">Thrown if the value is less than zero.</exception>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemEventArgs.Object">
+			<returns>When the whole work item is changed, the object returned back to the user is a null.</returns>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemFieldChangeEventHandler">
+			<summary>This event handler listens to field change events. These events are raised when changes are made to the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see>.</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemStore">
+			<summary>Encapsulates the data store that contains all work items on a particular Team Foundation server. Each work item store is scoped at the server level.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemStore.#ctor(System.String)">
+			<summary>Initializes a new instance of the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemStore"></see> class on the specified Team Foundation server.</summary>
+			<param name="teamSystemName">The name or URL of the Team Foundation server that will house the new work item store.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemStore.#ctor(Microsoft.TeamFoundation.Client.TeamFoundationServer)">
+			<summary>Initializes a new instance of the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemStore"></see> class in the <see cref="T:Microsoft.TeamFoundation.Client.TeamFoundationServer"></see> object on the specified Team Foundation server.</summary>
+			<param name="teamFoundationServer">Identity of the Team Foundation server that will house the new work item store in its <see cref="T:Microsoft.TeamFoundation.Client.TeamFoundationServer"></see> object.</param>
+		</member>
+		<member name="E:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemStore.MetadataChanged">
+			<summary>Occurs when the Team Foundation server updates the client computer's metadata cache.</summary>
+		</member>
+		<member name="E:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemStore.MetadataChanging">
+			<summary>Occurs when the Team Foundation server is about to update the cached metadata on the client computer.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemStore.BatchSave(Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem[])">
+			<summary>Saves multiple <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see> objects in bulk to minimize server round trips. Used to optimize performance.</summary>
+			<returns>An array of <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.BatchSaveError"></see> objects, each one corresponding to a single work item.</returns>
+			<param name="workitems">An array of <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see> objects to save.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemStore.ExportGlobalLists">
+			<summary>Exports all stored global lists from the Team Foundation server as XML.</summary>
+			<returns>All global lists in Team Foundation Server are exported as an XML string.</returns>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemStore.GetReferencingWorkItemUris(System.Uri)">
+			<summary>Gets an array of all <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see> objects that reference the specified URI.</summary>
+			<returns>An array of URIs that identify work items that reference the referencedUri. If no work items are found that reference the specified URI, an empty array is returned.</returns>
+			<param name="referencedUri">The Team Foundation Server URI of the referenced item.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemStore.GetStoredQuery(System.Guid)">
+			<summary>Gets a cross-project query from a referencing GUID.</summary>
+			<param name="guid">Unique identifier of the stored query.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemStore.GetWorkItem(System.Int32)">
+			<summary>Returns the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see> specified by the ID.</summary>
+			<returns>The specified <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see>.</returns>
+			<param name="id">A <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see> ID.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemStore.GetWorkItem(System.Uri)">
+			<summary>Returns the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see> that has the specified Team Foundation Server URI.</summary>
+			<returns>Returns the specified <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see>.</returns>
+			<param name="uri">A Team Foundation Server URI that identifies a specific <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see>.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemStore.GetWorkItem(System.Int32,System.DateTime)">
+			<summary>Returns the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see> revision that has the specified ID and that was revised on the specified date at the specified time.</summary>
+			<returns>Returns the specified <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see>.</returns>
+			<param name="at">The date and time the revision was completed specified as <see cref="T:System.DateTime"></see>.</param>
+			<param name="id">A <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see> ID.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemStore.GetWorkItem(System.Int32,System.Int32)">
+			<summary>Returns the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see> revision that has the specified ID as of the specified revision number.</summary>
+			<returns>Returns the specified <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see>.</returns>
+			<param name="revision">The integer number (1 or higher) of the revision of the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see> to be returned.</param>
+			<param name="id">The <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see> ID for the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see> to be returned.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemStore.GetWorkItem(System.Uri,System.DateTime)">
+			<summary>Returns the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see> revision that has the specified URI and that was revised on the specified date at the specified time.</summary>
+			<returns>Returns the specified <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see>.</returns>
+			<param name="uri">The Team Foundation Server URI to the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see>.</param>
+			<param name="at">The date and time the revision was completed specified as <see cref="T:System.DateTime"></see>.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemStore.GetWorkItem(System.Uri,System.Int32)">
+			<summary>Returns the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see> revision that has the specified URI as of the specified revision number.</summary>
+			<returns><see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see> revision numbers begin at one, not zero.<see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see> is read-only unless the latest revision is returned.</returns>
+			<param name="uri">The Team Foundation Server URI to the desired <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see>.</param>
+			<param name="revision">The integer number (1 or higher) of the revision of the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see> to be returned.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemStore.ImportGlobalLists(System.String)">
+			<summary>Imports specified global lists onto the server as XML.</summary>
+			<param name="lists">An XML string for the global lists.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemStore.ImportGlobalLists(System.Xml.XmlElement)">
+			<summary>Imports global lists onto the server as XML.</summary>
+			<param name="listsElement">An XML element that contains a global list.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemStore.Query(System.String)">
+			<summary>Executes a query with the provided WIQL string and returns a collection of <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see> objects.</summary>
+			<returns>Returns a <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemCollection"></see> of <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see> objects that are the result of the query.</returns>
+			<param name="wiql">A query represented as a Work Item Query Language (WIQL) string.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemStore.Query(Microsoft.TeamFoundation.WorkItemTracking.Client.BatchReadParameterCollection,System.String)">
+			<summary>Executes a query and returns a collection of <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see> objects.</summary>
+			<returns>Returns a <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemCollection"></see> of <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see> field values specified by the wiql query and the batchReadParams collection.</returns>
+			<param name="batchReadParams">A collection of <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.BatchReadParameter"></see> objects. Each object specifies a work item ID and an optional revision. If no revision is specified, the latest revision is returned. </param>
+			<param name="wiql">A query expression that specifies the fields to be placed in the result set. The query must be a work item query language (WIQL) string of the form SELECT &lt;fields&gt; FROM workitems. Other clauses, such as WHERE, are not supported for this method.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemStore.Query(System.String,System.Collections.IDictionary)">
+			<summary>Executes a specified query and returns a collection of <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see> objects.</summary>
+			<returns>Returns a <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemCollection"></see> of <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see> objects that are the result of the query.</returns>
+			<param name="context">The WIQL named parameters.</param>
+			<param name="wiql">A query represented as a Work Item Query Language (WIQL) string.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemStore.QueryCount(System.String)">
+			<summary>Returns the number of <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see> objects that would be returned if the <see cref="M:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemStore.Query"></see> method executed the specified WIQL string.</summary>
+			<returns>The number of <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see> objects that would exist in the <see cref="M:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemStore.Query"></see> method's result set.</returns>
+			<param name="wiql">The WIQL query string. This can be any supported WIQL query.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemStore.QueryCount(System.String,System.Collections.IDictionary)">
+			<summary>Returns the number of <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see> objects that would be returned if the specified WIQL string were executed by the corresponding <see cref="Overload:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemStore.Query"></see> method.</summary>
+			<returns>The number of <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem"></see> objects that would exist in the <see cref="Overload:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemStore.Query"></see> method's result set.</returns>
+			<param name="context">The WIQL named parameters.</param>
+			<param name="wiql">The WIQL query string. This can be any supported WIQL query.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemStore.RefreshCache">
+			<summary>Calls the Team Foundation server to request an update of the cached metadata on the client computer.</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemStoreDiagnostics">
+			<summary>This class contains a set of methods to return diagnostic information about the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemStore"></see>.</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemType">
+			<summary>This is a sealed class that represents a <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemType"></see>.</summary>
+		</member>
+		<member name="E:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemType.ValidationEventHandler">
+			<summary>Occurs when validating import events.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemType.Export(System.Boolean)">
+			<summary>Exports a <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemType"></see> definition in XML format.</summary>
+			<returns><see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemType"></see> definition in XML format</returns>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemType.GetNextState(System.String,System.String)">
+			<summary>Gets the transition state for this <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemType"></see> given a particular starting state and action.</summary>
+			<returns>The name of the next state for this transition action.</returns>
+			<param name="currentState">The initial state of the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemType"></see>.</param>
+			<param name="action">The action to take for this <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemType"></see>.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemType.Validate(Microsoft.TeamFoundation.WorkItemTracking.Client.Project,System.String)">
+			<summary>Validates a <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemType"></see> against a project context before importing it.</summary>
+			<param name="definition">The XML definition for the new <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemType"></see>.</param>
+			<param name="project">The team project to which the new <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemType"></see> would be imported.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemType.Validate(Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemStore,System.String)">
+			<summary>Validates a <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemType"></see> without a project context before importing it.</summary>
+			<param name="store">The work item store against which the new <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemType"></see> would be imported.</param>
+			<param name="definition">The XML definition for the new <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemType"></see>.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemType.Validate(Microsoft.TeamFoundation.WorkItemTracking.Client.Project,System.String,System.String)">
+			<summary>Validates a work item in the context of the given project and methodology before importing it.</summary>
+			<param name="definition">The XML definition for the new <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemType"></see>.</param>
+			<param name="project">The team project to which the new <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemType"></see> would be imported.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemType.Validate(Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemStore,System.String,System.String)">
+			<summary>Validates a <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemType"></see> without a project in the context of the given methodology before importing it.</summary>
+			<param name="store">The work item store against which the new <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemType"></see> would be imported.</param>
+			<param name="definition">The XML definition for the new <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemType"></see>.</param>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemTypeCollection">
+			<summary>This collection class is designed to hold <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemType"></see>s.</summary>
+		</member>
+		<member name="E:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemTypeCollection.ImportEventHandler">
+			<summary>Occurs when <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemType"></see> definitions are imported.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemTypeCollection.Contains(System.String)">
+			<summary>Checks whether a <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemType"></see> is contained by this collection.</summary>
+			<returns>true if the specified <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemType"></see> is contained in this collection; otherwise false.</returns>
+			<param name="typeName">The name of the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemType"></see>.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemTypeCollection.Contains(Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemType)">
+			<summary>Checks whether a <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemType"></see> is contained by this collection.</summary>
+			<returns>true if the specified <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemType"></see> is contained in this collection; otherwise false.</returns>
+			<param name="value">The strongly typed <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemType"></see> to search for in this collection.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemTypeCollection.Import(System.String)">
+			<summary>Imports the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemType"></see> definition from the given XML.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemTypeCollection.Import(System.Xml.XmlElement)">
+			<summary>Imports the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemType"></see> definition from the given XML.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemTypeCollection.Import(System.String,System.String)">
+			<summary>Imports the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemType"></see> definition from the given XML string by using the methodology name to resolve field name conflicts.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemTypeCollection.Import(System.Xml.XmlElement,System.String)">
+			<summary>Imports the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemType"></see> definition from the given XML element by using the methodology name to resolve field name conflicts.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemTypeCollection.IndexOf(Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemType)">
+			<summary>Returns the index of the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemType"></see> in this collection.</summary>
+			<returns>Returns -1 if the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemType"></see> is not found.</returns>
+			<param name="value">The <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemType"></see> to look for.</param>
+		</member>
+		<member name="P:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemTypeCollection.Item(System.Int32)">
+			<summary>Gets the <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemType"></see> at the given index.</summary>
+			<param name="index">An indexer into the new <see cref="T:Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemType"></see>s held in this collection.</param>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Common.IVersionTag">
+			<summary>Used to provide bounded objects with information about a collection change.</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Common.OrderedVariableSizeList">
+			<summary>An object which contains a variable-size collection of elements of type T, without an insert method, without the ability to change existing items, and which is not synchronized.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Common.OrderedVariableSizeList.AddItem(System.Object)">
+			<summary>Adds the given object to the list.</summary>
+			<returns>Returns the index of the added object.</returns>
+			<param name="value">Object to add to the list.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Common.OrderedVariableSizeList.Clear">
+			<summary>Removes all objects from the list.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Common.OrderedVariableSizeList.IndexOfItem(System.Object)">
+			<summary>Returns the index of the Object stored in the collection.</summary>
+			<returns>Returns the index of the Object stored in the collection.</returns>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Common.OrderedVariableSizeList.InsertItem(System.Int32,System.Object)">
+			<summary>Inserts the specified object in the list at the specified index.</summary>
+			<param name="value">The object to insert in the list.</param>
+			<param name="index">The zero-based index where the item is to be inserted.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Common.OrderedVariableSizeList.RemoveAt(System.Int32)">
+			<summary>Removes the object at the specified index.</summary>
+			<param name="index">The zero-based index where the item is to be inserted.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Common.OrderedVariableSizeList.SetItem(System.Int32,System.Object)">
+			<summary>Puts the object into the list at the specified index.</summary>
+			<param name="value">The object to be put in the list.</param>
+			<param name="index">The zero-based index where the item is to be put in the list.</param>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Common.ReadOnlyList">
+			<summary>Object to contain a read-only collection of elements of type T which is not synchronized.</summary>
+		</member>
+		<member name="T:Microsoft.TeamFoundation.WorkItemTracking.Common.VariableSizeList">
+			<summary>An object which contains a variable-size collection of elements of type T, without an insert method, without the ability to change existing items, and which is not synchronized.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Common.VariableSizeList.AddItem(System.Object)">
+			<summary>Adds the given object to the list.</summary>
+			<returns>Returns the index of the added object.</returns>
+			<param name="value">Object to add to the list.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Common.VariableSizeList.Clear">
+			<summary>Removes all objects from the list.</summary>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Common.VariableSizeList.GetItem(System.Int32)">
+			<summary>Gets the object at the given index.</summary>
+			<param name="index">Zero-based index for the object to be retrieved.</param>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Common.VariableSizeList.IndexOfItem(System.Object)">
+			<summary>Returns the index of the Object stored in the collection.</summary>
+			<returns>Returns the index of the Object stored in the collection.</returns>
+		</member>
+		<member name="M:Microsoft.TeamFoundation.WorkItemTracking.Common.VariableSizeList.RemoveAt(System.Int32)">
+			<summary>Removes the object at the specified index.</summary>
+			<param name="index">Zero-based index of the object to remove from the list.</param>
+		</member>
+	</members>
+</doc>

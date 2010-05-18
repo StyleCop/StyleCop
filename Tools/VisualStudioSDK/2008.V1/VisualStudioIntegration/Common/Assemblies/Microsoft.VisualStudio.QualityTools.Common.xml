@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<doc>
+	<assembly>
+		<name>Microsoft.VisualStudio.QualityTools.Common</name>
+	</assembly>
+	<members>
+		<member name="T:Microsoft.VisualStudio.TestTools.Common.IHostedTest">
+			<summary>To be hosted by a host adapter, a test type must implement the IHostedTest interface.   </summary>
+		</member>
+		<member name="P:Microsoft.VisualStudio.TestTools.Common.IHostedTest.HostType">
+			<summary>The IHostedTest.HostType string identifies a host. Testers can use this string in the HostType attribute on a custom test to specify a host in which to run that test. </summary>
+			<returns>The <see cref="T:System.String"></see> that contains the name of the type of host in which the test should run. To indicate the default test host, this property returns null or an empty string. </returns>
+		</member>
+	</members>
+</doc>

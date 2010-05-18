@@ -1,0 +1,73 @@
+/*------------------------------------------------------------------------------ 
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+@doc 
+
+@module IVsSccControlNewSolution.idl - The IDL File describing the "Add New Project to Source Control" interface |
+IDL source for interface allowing a newly created solution to be placed under
+source control automatically when it is created form the "New Project" dialog,
+providiing that the check box is ticked.
+
+@owner Microsoft Corporation, Visual Studio Core Team
+------------------------------------------------------------------------------*/
+
+#if !defined(CTC_INVOKED) && !defined(RGS_INVOKED)
+
+cpp_quote("#pragma once")
+
+//------------------------------------------------------------------------------
+// Imports
+#ifndef INTEROPLIB
+
+import "oaidl.idl";
+
+#endif
+
+//------------------------------------------------------------------------------
+// Forward declarations
+
+//------------------------------------------------------------------------------
+// Enumerations
+
+//------------------------------------------------------------------------------
+
+////////////////////////////////////////////////////////////////////////////
+// IDL source for interface allowing open from source control and add from source control.
+// Interface GUID {753D3585-2077-4e60-8EC5-96EE793F3D1A}
+// DEFINE_GUID(GUID_IVsSccControlNewSolution, 0x753d3585, 0x2077, 0x4e60, 0x8e, 0xc5, 0x96, 0xee, 0x79, 0x3f, 0x3d, 0x1a);
+
+////////////////////////////////////////////////////////////////////////////
+[ uuid(753D3585-2077-4e60-8EC5-96EE793F3D1A) ]
+interface IVsSccControlNewSolution : IUnknown
+{
+    // @cmember Add the current, newly created solution from source control.
+    HRESULT AddNewSolutionToSourceControl
+	(
+		void
+	);
+
+    // @cmember Get the string to be displayed by the "add to scc" checkbox in the "New Project" dialog
+    HRESULT GetDisplayStringForAction
+    (
+		[out] BSTR *pbstrActionName  // Text to be displayed alongside the check box, e.g. Add to source control in MyDB
+	);
+};
+
+//------------------------------------------------------------------------------
+
+////////////////////////////////////////////////////////////////////////////
+// CLSIDs and Service IDs that don't get defined in the generated .h file
+////////////////////////////////////////////////////////////////////////////
+
+//------------------------------------------------------------------------------
+
+#elif defined(RGS_INVOKED)
+
+
+//------------------------------------------------------------------------------
+
+#elif defined(CTC_INVOKED)
+
+//
+
+#endif

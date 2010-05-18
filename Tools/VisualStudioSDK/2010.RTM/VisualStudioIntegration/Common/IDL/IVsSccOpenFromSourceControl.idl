@@ -1,0 +1,98 @@
+/*------------------------------------------------------------------------------ 
+Copyright (c) Microsoft Corporation.  All rights reserved. 
+
+@doc 
+
+@module IVsSccOpenFromSourceControl.idl - The IDL File describing the "Open From Source Control" interface |
+IDL source for interface allowing open from source control and
+add from source control.
+
+@owner Microsoft Corporation, Visual Studio Core Team
+------------------------------------------------------------------------------*/
+
+#if !defined(CTC_INVOKED) && !defined(RGS_INVOKED)
+
+cpp_quote("#pragma once")
+
+//------------------------------------------------------------------------------
+// Imports
+#ifndef INTEROPLIB
+
+import "oaidl.idl";
+import "vsshell.idl";
+
+#endif
+
+//------------------------------------------------------------------------------
+// Forward declarations
+
+//------------------------------------------------------------------------------
+
+////////////////////////////////////////////////////////////////////////////
+// Enumerations
+////////////////////////////////////////////////////////////////////////////
+
+enum __VSOPENFROMSCCDLG
+{
+    VSOFSD_OPENSOLUTIONORPROJECT = 1,
+    VSOFSD_ADDEXISTINGITEM       = 2,
+};
+typedef LONG VSOPENFROMSCCDLG;
+
+//------------------------------------------------------------------------------
+
+////////////////////////////////////////////////////////////////////////////
+// IDL source for interface allowing open from source control and add from source control.
+// Interface GUID {A341396A-1B4A-4164-8E6E-BDDC527C861C}
+// DEFINE_GUID(GUID_IVsSccOpenFromSourceControl, 0xa341396a, 0x1b4a, 0x4164, 0x8e, 0x6e, 0xbd, 0xdc, 0x52, 0x7c, 0x86, 0x1c);
+////////////////////////////////////////////////////////////////////////////
+[ uuid(A341396A-1B4A-4164-8E6E-BDDC527C861C) ]
+interface IVsSccOpenFromSourceControl : IUnknown
+{
+    // @cmember Open the specified solution from source control.
+    HRESULT OpenSolutionFromSourceControl
+        ([in]  LPCOLESTR pszSolutionStoreUrl); // URL of solution in the source control store, e.g. msss://server/.../MySolution.sln
+
+    // @cmember Add the specified project (to the solution) from source control.
+    HRESULT AddProjectFromSourceControl
+        ([in] LPCOLESTR pszProjectStoreUrl);   // Url of project in the source control store, e.g. msss://server/.../MyProject.proj
+
+    // @cmember Add the specified item(s) (to the project) from source control.  Parameters passed to IVsProject::AddItemWithSpecific.
+    HRESULT AddItemFromSourceControl
+        ([in] IVsProject *pProject,
+        [in] VSITEMID itemidLoc,
+        [in] ULONG cFilesToAdd,
+        [in, size_is(cFilesToAdd)] LPCOLESTR rgpszFilesToAdd[],
+        [in] HWND hwndDlgOwner,
+        [in] VSSPECIFICEDITORFLAGS grfEditorFlags,
+        [in] REFGUID rguidEditorType,
+        [in] LPCOLESTR pszPhysicalView,
+        [in] REFGUID rguidLogicalView,
+        [out, retval] VSADDRESULT *pResult);
+
+    // @cmember Get SCC Namespace Extension (NSE) information for use in Open dialogs. Returns S_OK if an NSE is supported, E_NOTIMPL if not, or an error condition.
+    HRESULT GetNamespaceExtensionInformation
+        ([in] VSOPENFROMSCCDLG vsofsdDlg,      // type of dialog which is being initialized
+        [out] BSTR *pbstrNamespaceGUID,        // NSE GUID in string form which allows the dialogs to explore the NSE
+        [out] BSTR *pbstrTrayDisplayName,      // Display name for the NSE, which will be used in the "places bar" of the dialogs
+        [out] BSTR *pbstrProtocolPrefix);      // Prefix which the NSE will return, e.g. "msss://"
+};
+
+//------------------------------------------------------------------------------
+
+////////////////////////////////////////////////////////////////////////////
+// CLSIDs and Service IDs that don't get defined in the generated .h file
+////////////////////////////////////////////////////////////////////////////
+
+//------------------------------------------------------------------------------
+
+#elif defined(RGS_INVOKED)
+
+
+//------------------------------------------------------------------------------
+
+#elif defined(CTC_INVOKED)
+
+//
+
+#endif

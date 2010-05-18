@@ -1,0 +1,79 @@
+﻿<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="UserMacros">
+    <VSIntegrationRoot>%InstallDir%</VSIntegrationRoot>
+  </PropertyGroup>
+  <PropertyGroup Label="UserMacros">
+    <VSIntegrationCommon>$(VSIntegrationRoot)\common</VSIntegrationCommon>
+  </PropertyGroup>
+  <PropertyGroup Label="UserMacros">
+    <VSIntegrationIdl>$(VSIntegrationCommon)\idl</VSIntegrationIdl>
+  </PropertyGroup>
+  <PropertyGroup Label="UserMacros">
+    <VSIntegrationInclude>$(VSIntegrationCommon)\inc</VSIntegrationInclude>
+  </PropertyGroup>
+  <PropertyGroup Label="UserMacros">
+    <Office10Include>$(VSIntegrationInclude)\Office10</Office10Include>
+  </PropertyGroup>
+  <PropertyGroup Label="UserMacros">
+    <VSIntegrationLibraries>$(VSIntegrationCommon)\lib\x86</VSIntegrationLibraries>
+  </PropertyGroup>
+  <PropertyGroup Label="UserMacros">
+    <VSLIncludePath>$(VSIntegrationRoot)\Common\Source\CPP\VSL\Include</VSLIncludePath>
+  </PropertyGroup>
+  <PropertyGroup Label="UserMacros">
+    <VSIntegrationTools>$(VSIntegrationRoot)\Tools\Bin</VSIntegrationTools>
+  </PropertyGroup>
+  <PropertyGroup Label="UserMacros">
+    <RegitPath>$(VSIntegrationTools)</RegitPath>
+  </PropertyGroup>
+  <PropertyGroup Label="UserMacros">
+    <VsctPath>$(VSIntegrationTools)</VsctPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <Midl>
+      <AdditionalIncludeDirectories>$(VSIntegrationInclude);$(VSIntegrationIdl);$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(VSLIncludePath);$(VSIntegrationInclude);$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <TreatWarningAsError>true</TreatWarningAsError>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>$(VSIntegrationInclude);$(IntDir);$(OutDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup>
+    <Link>
+      <AdditionalLibraryDirectories>$(VSIntegrationLibraries);$(IntDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <BuildMacro Include="Office10Include" />
+    <BuildMacro Include="RegitPath" />
+    <BuildMacro Include="VsctPath" />
+    <BuildMacro Include="VSIntegrationCommon" />
+    <BuildMacro Include="VSIntegrationIdl" />
+    <BuildMacro Include="VSIntegrationInclude" />
+    <BuildMacro Include="VSIntegrationLibraries" />
+    <BuildMacro Include="VSIntegrationRoot" />
+    <BuildMacro Include="VSIntegrationTools" />
+    <BuildMacro Include="VSLIncludePath" />
+  </ItemGroup>
+</Project>

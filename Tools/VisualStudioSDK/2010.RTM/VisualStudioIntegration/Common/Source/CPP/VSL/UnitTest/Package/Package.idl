@@ -1,0 +1,35 @@
+/***************************************************************************
+
+Copyright (c) Microsoft Corporation. All rights reserved.
+This code is licensed under the Visual Studio SDK license terms.
+THIS CODE IS PROVIDED *AS IS* WITHOUT WARRANTY OF
+ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY
+IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR
+PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
+
+This code is a part of the Visual Studio Library.
+
+***************************************************************************/
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+
+[
+	uuid(E24CF43C-D08B-49f5-AB9C-87572228E1FC),
+	version(1.0),
+	helpstring("VSL Mock Intefaces 1.0 Type Library")
+]
+library PackageTestInterfacesLib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(F9D84AE5-26D1-453b-BC10-151B10295F4C),
+		control,
+		helpstring("PackageTestInterfacesLib")
+	]
+	coclass Simple
+	{
+		[default] interface IUnknown;
+	};
+};

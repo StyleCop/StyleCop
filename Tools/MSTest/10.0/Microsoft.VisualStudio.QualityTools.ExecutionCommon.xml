@@ -1,0 +1,866 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<doc>
+  <assembly>
+    <name>Microsoft.VisualStudio.QualityTools.ExecutionCommon</name>
+  </assembly>
+  <members>
+    <member name="T:Microsoft.VisualStudio.TestTools.Execution.AdapterRunResult">
+      <summary>The <see cref="T:Microsoft.VisualStudio.TestTools.Execution.AdapterRunResult" /> enumeration is used by the testing framework to indicate the success or failure of a test run.</summary>
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Execution.AdapterRunResult.RunSuccess">
+      <summary>The enumeration value is 0. The test run succeeded.</summary>
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Execution.AdapterRunResult.RunError">
+      <summary>The enumeration value is 1. The test run failed.</summary>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Execution.AgentContext">
+      <summary>Encapsulates the context of the agent environment.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.AgentContext.#ctor(System.String,System.String,System.String,System.Boolean)">
+      <param name="agentName"></param>
+      <param name="agentDisplayName"></param>
+      <param name="agentConnectionString"></param>
+      <param name="isRemote"></param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.AgentContext.ConnectionString">
+      <summary>Gets the agent's machine name and the port on which it listens for incoming connections.</summary>
+      <returns>A string that contains the machine name and port.</returns>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.AgentContext.CreateForLocalAgent"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.AgentContext.DisplayName">
+      <summary>The agent's display name, which is unique throughout an environment.</summary>
+      <returns>A string that contains the agent's display name.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.AgentContext.IsRemote">
+      <summary>Gets a value that indicates whether this agent context is executed remotely.</summary>
+      <returns>true if this agent context is executed remotely; otherwise, false.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.AgentContext.Name"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Execution.BasicTransferInformation"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.BasicTransferInformation.#ctor(Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext)"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.BasicTransferInformation.ClientFileName"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.BasicTransferInformation.Context"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.BasicTransferInformation.Description"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.BasicTransferInformation.PerformCleanup"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.BasicTransferInformation.RequestId"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.BasicTransferInformation.UserToken"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Execution.ControllerContext"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.ControllerContext.#ctor(System.String,System.String,System.String)"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.ControllerContext.ConnectionString"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.ControllerContext.CreateForLocalController"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.ControllerContext.DisplayName"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.ControllerContext.Name"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Execution.CustomNotificationEventArgs"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.CustomNotificationEventArgs.#ctor"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.CustomNotificationEventArgs.#ctor(Microsoft.VisualStudio.TestTools.Common.TestExecId)"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext">
+      <summary>Represents the context in which data collection occurs.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext.#ctor(Microsoft.VisualStudio.TestTools.Common.SessionId)">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext" /> class by using the provided session ID. </summary>
+      <param name="sessionId">A <see cref="T:Microsoft.VisualStudio.TestTools.Common.SessionId" /> object.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext.#ctor(Microsoft.VisualStudio.TestTools.Common.SessionId,Microsoft.VisualStudio.TestTools.Common.TestExecId)">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext" /> class by using the provided session ID and test execution ID.</summary>
+      <param name="sessionId">A <see cref="T:Microsoft.VisualStudio.TestTools.Common.SessionId" /> object.</param>
+      <param name="testExecId">A <see cref="T:Microsoft.VisualStudio.TestTools.Common.TestExecId" /> object.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext.Equals(System.Object)">
+      <summary>Determines whether the specified <see cref="T:Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext" /> matches the current <see cref="T:Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext" />.</summary>
+      <returns>true if the specified <see cref="T:System.Object" /> matches the current <see cref="T:Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext" />; otherwise, false.</returns>
+      <param name="obj">The <see cref="T:Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext" /> to compare with the current <see cref="T:Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext" />.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext.GetHashCode">
+      <summary>Serves as a hash function for a <see cref="T:Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext" />.</summary>
+      <returns>A hash code for the current <see cref="T:Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext" />.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext.HasTestCase">
+      <summary>Gets a value that indicates whether an executing test case is associated with this context.</summary>
+      <returns>true if an associated test case is being executed; otherwise, false.</returns>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext.op_Equality(Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext,Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext)">
+      <summary>Returns a value that indicates whether two instances of <see cref="T:Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext" /> match.</summary>
+      <returns>true if <paramref name="context1" /> and <paramref name="context2" /> match; otherwise, false.</returns>
+      <param name="context1">A <see cref="T:Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext" />.</param>
+      <param name="context2">A <see cref="T:Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext" />.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext.op_Inequality(Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext,Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext)">
+      <summary>Returns a value that indicates whether two instances of <see cref="T:Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext" /> do not match.</summary>
+      <returns>true if <paramref name="context1" /> and <paramref name="context2" /> do not match; otherwise, false.</returns>
+      <param name="context1">A <see cref="T:Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext" />.</param>
+      <param name="context2">A <see cref="T:Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext" />.</param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext.SessionId">
+      <summary>Gets the <see cref="Microsoft.VisualStudio.TestTools.Common.SessionId" /> for the session under which the data collection occurs. Will not be null.</summary>
+      <returns>A <see cref="Microsoft.VisualStudio.TestTools.Common.SessionId" /> object.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext.TestExecId">
+      <summary>Gets a <see cref="T:Microsoft.VisualStudio.TestTools.Common.TestExecId" /> that identifies the test execution under which the data collection occurs.</summary>
+      <returns>A <see cref="T:Microsoft.VisualStudio.TestTools.Common.TestExecId" /> object, or null if no executing test is associated with this context.</returns>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Execution.DataCollectionEnvironmentContext"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.DataCollectionEnvironmentContext.#ctor(Microsoft.VisualStudio.TestTools.Execution.AgentContext,Microsoft.VisualStudio.TestTools.Execution.ControllerContext,Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext)"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.DataCollectionEnvironmentContext.#ctor(Microsoft.VisualStudio.TestTools.Execution.AgentContext,Microsoft.VisualStudio.TestTools.Execution.ControllerContext,Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext,Microsoft.VisualStudio.TestTools.Common.TcmContext)"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.DataCollectionEnvironmentContext.AgentContext"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.DataCollectionEnvironmentContext.ControllerContext"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.DataCollectionEnvironmentContext.CreateForLocalEnvironment"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.DataCollectionEnvironmentContext.CreateForLocalEnvironment(Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext)"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.DataCollectionEnvironmentContext.SessionDataCollectionContext"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.DataCollectionEnvironmentContext.TcmContext"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Execution.DataCollectionEventArgs">
+      <summary>The base class for all execution event arguments.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.DataCollectionEventArgs.#ctor(Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext)">
+      <summary>Initializes the instance by storing the given information.</summary>
+      <param name="context">Context information for the event.</param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.DataCollectionEventArgs.Context">
+      <summary>Gets or sets the context information for the event.</summary>
+      <returns>Returns the context information for the event.</returns>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Execution.DataCollectionEvents">
+      <summary>Defines the execution events that diagnostic data adapters can register.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.DataCollectionEvents.#ctor"></member>
+    <member name="E:Microsoft.VisualStudio.TestTools.Execution.DataCollectionEvents.CustomNotification">
+      <summary>Occurs in response to a custom notification.</summary>
+    </member>
+    <member name="E:Microsoft.VisualStudio.TestTools.Execution.DataCollectionEvents.DataRequest">
+      <summary>Raised to request intermediate data.</summary>
+    </member>
+    <member name="E:Microsoft.VisualStudio.TestTools.Execution.DataCollectionEvents.SessionEnd">
+      <summary>Raised when a test session ends.</summary>
+    </member>
+    <member name="E:Microsoft.VisualStudio.TestTools.Execution.DataCollectionEvents.SessionPause">
+      <summary>Raised when a test session pauses.</summary>
+    </member>
+    <member name="E:Microsoft.VisualStudio.TestTools.Execution.DataCollectionEvents.SessionResume">
+      <summary>Raised when a test session resumes.</summary>
+    </member>
+    <member name="E:Microsoft.VisualStudio.TestTools.Execution.DataCollectionEvents.SessionStart">
+      <summary>Raised when a test session starts.</summary>
+    </member>
+    <member name="E:Microsoft.VisualStudio.TestTools.Execution.DataCollectionEvents.TestCaseEnd">
+      <summary>Raised when a test case ends.</summary>
+    </member>
+    <member name="E:Microsoft.VisualStudio.TestTools.Execution.DataCollectionEvents.TestCaseFailed"></member>
+    <member name="E:Microsoft.VisualStudio.TestTools.Execution.DataCollectionEvents.TestCasePause">
+      <summary>Raised when a test case pauses.</summary>
+    </member>
+    <member name="E:Microsoft.VisualStudio.TestTools.Execution.DataCollectionEvents.TestCaseReset">
+      <summary>Raised when a test case resets.</summary>
+    </member>
+    <member name="E:Microsoft.VisualStudio.TestTools.Execution.DataCollectionEvents.TestCaseResume">
+      <summary>Raised when a test case resumes.</summary>
+    </member>
+    <member name="E:Microsoft.VisualStudio.TestTools.Execution.DataCollectionEvents.TestCaseStart">
+      <summary>Raised when a test case starts.</summary>
+    </member>
+    <member name="E:Microsoft.VisualStudio.TestTools.Execution.DataCollectionEvents.TestStepEnd">
+      <summary>Raised when a test step ends.</summary>
+    </member>
+    <member name="E:Microsoft.VisualStudio.TestTools.Execution.DataCollectionEvents.TestStepStart">
+      <summary>Raised when a test step starts.</summary>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Execution.DataCollectionLogger">
+      <summary>Sends error messages for diagnostic data adapters to the client, which can be the test runner, Visual Studio IDE, or .</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.DataCollectionLogger.#ctor"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.DataCollectionLogger.LogError(Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext,System.Exception)">
+      <summary>Logs an error message for an exception.</summary>
+      <param name="context">The <see cref="T:Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext" /> in which the message is sent.</param>
+      <param name="exception">The exception. Cannot be null.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.DataCollectionLogger.LogError(Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext,System.String)">
+      <summary>Logs an error message.</summary>
+      <param name="context">The <see cref="T:Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext" /> in which the message is sent.</param>
+      <param name="text">The error text. Cannot be null.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.DataCollectionLogger.LogError(Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext,System.String,System.Exception)">
+      <summary>Logs an error message for an exception.</summary>
+      <param name="context">The <see cref="T:Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext" /> in which the message is sent.</param>
+      <param name="text">Text that explains the exception. Cannot be null.</param>
+      <param name="exception">The exception. Cannot be null.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.DataCollectionLogger.LogWarning(Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext,System.String)">
+      <summary>Logs a warning message.</summary>
+      <param name="context">The <see cref="T:Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext" /> in which the message is sent.</param>
+      <param name="text">The warning text. Cannot be null.</param>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Execution.DataCollectionSink">
+      <summary>Diagnostic data adapters use a <see cref="T:Microsoft.VisualStudio.TestTools.Execution.DataCollectionSink" /> to store files and XML data for later attachment to bugs and test reports.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.DataCollectionSink.#ctor">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.VisualStudio.TestTools.Execution.DataCollectionSink" /> class. </summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.DataCollectionSink.SendFileAsync(Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext,System.String,System.Boolean)">
+      <summary>Sends a file asynchronously to the <see cref="T:Microsoft.VisualStudio.TestTools.Execution.DataCollectionSink" /> by using the parameters that are specified for this method.</summary>
+      <param name="context">An <see cref="T:Microsoft.VisualStudio.TestTools.Execution.IBaseRunContext" /> that describes the context within which the test is running. Cannot be null.</param>
+      <param name="path">The local path where the file exists.</param>
+      <param name="deleteFile">true to automatically delete the file after sending it; otherwise, false.</param>
+      <exception cref="FileNotFoundException">The <paramref name="path" /> does not exist.</exception>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.DataCollectionSink.SendFileAsync(Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext,System.String,System.String,System.Boolean)">
+      <summary>Sends an intermediate file asynchronously to the <see cref="T:Microsoft.VisualStudio.TestTools.Execution.DataCollectionSink" /> by using the parameters that are specified for this method.</summary>
+      <param name="context">An <see cref="T:Microsoft.VisualStudio.TestTools.Execution.IBaseRunContext" /> that describes the context within which the test is running. Cannot be null.</param>
+      <param name="path">The local path where the file exists.</param>
+      <param name="description">A short description of the file.</param>
+      <param name="deleteFile">true to automatically delete the file after sending it; otherwise, false.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.DataCollectionSink.SendFileAsync(Microsoft.VisualStudio.TestTools.Execution.FileTransferInformation)">
+      <summary>Sends an intermediate file asynchronously to the <see cref="T:Microsoft.VisualStudio.TestTools.Execution.DataCollectionSink" /> by using the provided file transfer information object.</summary>
+      <param name="fileTransferInformation">A <see cref="T:Microsoft.VisualStudio.TestTools.Execution.FileTransferInformation" /> object.</param>
+    </member>
+    <member name="E:Microsoft.VisualStudio.TestTools.Execution.DataCollectionSink.SendFileCompleted">
+      <summary>Occurs when a file has been sent to the <see cref="T:Microsoft.VisualStudio.TestTools.Execution.DataCollectionSink" />.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.DataCollectionSink.SendStreamAsync(Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext,System.IO.Stream,System.String,System.Boolean)">
+      <summary>Sends a stream to the <see cref="T:Microsoft.VisualStudio.TestTools.Execution.DataCollectionSink" /> by using the parameters that are specified for this method.</summary>
+      <param name="context">An <see cref="T:Microsoft.VisualStudio.TestTools.Execution.IBaseRunContext" /> that describes the context within which the test is running. Cannot be null.</param>
+      <param name="stream">The <see cref="T:System.IO.Stream" /> to send.</param>
+      <param name="fileName">The file name to use for the data on the client.</param>
+      <param name="closeStream">true to automatically close the stream when sending is completed; otherwise, false.</param>
+      <exception cref="ArgumentException">The <paramref name="fileName" /> is null, is empty, is a reserved file name, or contains invalid characters.</exception>
+      <exception cref="InvalidOperationException">The <paramref name="stream" /> cannot be read.</exception>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.DataCollectionSink.SendStreamAsync(Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext,System.IO.Stream,System.String,System.String,System.Boolean)">
+      <summary>Sends a stream to the <see cref="T:Microsoft.VisualStudio.TestTools.Execution.DataCollectionSink" /> by using the parameters that are specified for this method.</summary>
+      <param name="context">An <see cref="T:Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext" /> that describes the context within which the test is running. Cannot be null.</param>
+      <param name="stream">The System.IO.Stream to send.</param>
+      <param name="fileName">The file name to use for the data on the client. Must not be null or empty and cannot contain illegal characters. Do not include a complete path.</param>
+      <param name="description">A short description for the file.</param>
+      <param name="closeStream">true to automatically close the stream when sending is completed; otherwise, false.</param>
+      <exception cref="ArgumentException">The <paramref name="fileName" /> is null, is empty, is a reserved file name, or contains invalid characters.</exception>
+      <exception cref="InvalidOperationException">The <paramref name="stream" /> cannot be read.</exception>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.DataCollectionSink.SendStreamAsync(Microsoft.VisualStudio.TestTools.Execution.StreamTransferInformation)">
+      <summary>Sends a stream to the <see cref="T:Microsoft.VisualStudio.TestTools.Execution.DataCollectionSink" /> by using the parameters that are specified for this method.</summary>
+      <param name="streamTransferInformation">A <see cref="T:Microsoft.VisualStudio.TestTools.Execution.StreamTransferInformation" /> object.</param>
+    </member>
+    <member name="E:Microsoft.VisualStudio.TestTools.Execution.DataCollectionSink.SendStreamCompleted">
+      <summary>Occurs when a stream has been sent to the <see cref="T:Microsoft.VisualStudio.TestTools.Execution.DataCollectionSink" />.</summary>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Execution.DataCollector"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.DataCollector.#ctor"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.DataCollector.Dispose"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.DataCollector.Dispose(System.Boolean)">
+      <param name="disposing"></param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.DataCollector.Initialize(System.Xml.XmlElement,Microsoft.VisualStudio.TestTools.Execution.DataCollectionEvents,Microsoft.VisualStudio.TestTools.Execution.DataCollectionSink,Microsoft.VisualStudio.TestTools.Execution.DataCollectionLogger,Microsoft.VisualStudio.TestTools.Execution.DataCollectionEnvironmentContext)">
+      <param name="configurationElement"></param>
+      <param name="events"></param>
+      <param name="dataSink"></param>
+      <param name="logger"></param>
+      <param name="environmentContext"></param>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Execution.DataCollectorConfigurationEditorAttribute"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.DataCollectorConfigurationEditorAttribute.#ctor(System.String)"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.DataCollectorConfigurationEditorAttribute.HelpUri"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.DataCollectorConfigurationEditorAttribute.TypeUri"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Execution.DataCollectorConfigurationEditorTypeUriAttribute">
+      <summary>Identifies a diagnostic data adapter configuration editor in the form of a uniform resource identifier (URI). </summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.DataCollectorConfigurationEditorTypeUriAttribute.#ctor(System.String)">
+      <summary>Initializes an instance of the <see cref="T:Microsoft.VisualStudio.TestTools.Execution.DataCollectorConfigurationEditorTypeUriAttribute" /> by using the provided URI for the type of the diagnostic data adapter configuration editor.</summary>
+      <param name="typeUri">URI of the data collector configuration editor. Cannot be null.</param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.DataCollectorConfigurationEditorTypeUriAttribute.TypeUri">
+      <summary>Gets the URI that uniquely identifies the type of the diagnostic data adapter configuration editor.</summary>
+      <returns>A string that contains the URI for the type of the diagnostic data adapter configuration editor.</returns>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Execution.DataCollectorDescriptionAttribute">
+      <summary>Attaches a description to a custom diagnostic data adapter.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.DataCollectorDescriptionAttribute.#ctor(System.String)">
+      <summary>Initializes an instance of the <see cref="T:Microsoft.VisualStudio.TestTools.Execution.DataCollectorDescriptionAttribute" /> by using the provided description of the diagnostic data adapter.</summary>
+      <param name="description">A string that contains a description of the diagnostic data adapter.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.DataCollectorDescriptionAttribute.#ctor(System.String,System.Boolean)">
+      <summary>Initializes a <see cref="T:Microsoft.VisualStudio.TestTools.Execution.DataCollectorDescriptionAttribute" /> by using the description of the data collector.</summary>
+      <param name="description">Description of the diagnostic data adapter or resource name that contains the description.</param>
+      <param name="isResourceName">true to indicate that the string that is provided for the description is a resource name; false to indicate that the string that is provided should be used directly as the description for the data collector.</param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.DataCollectorDescriptionAttribute.Description">
+      <summary>Gets the description of the diagnostic data adapter.</summary>
+      <returns>A string that contains the description of the diagnostic data adapter.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.DataCollectorDescriptionAttribute.IsResourceName">
+      <summary>Indicates whether the string that is provided for the description is a resource name or the actual description for the diagnostic data adapter.</summary>
+      <returns>true if the provided string for the description is a resource name;false if the provided string should be used directly as the description for the diagnostic data adapter.</returns>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Execution.DataCollectorEnabledByDefaultAttribute">
+      <summary>Designates that the diagnostic data adapter class is enabled by default when the adapter is listed in the Test Manager user interface (UI).</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.DataCollectorEnabledByDefaultAttribute.#ctor">
+      <summary>Initializes an instance of the <see cref="T:Microsoft.VisualStudio.TestTools.Execution.DataCollectorEnabledByDefaultAttribute" /> class, which is enabled by default.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.DataCollectorEnabledByDefaultAttribute.#ctor(System.Boolean)">
+      <summary>Initializes an instance of the <see cref="T:Microsoft.VisualStudio.TestTools.Execution.DataCollectorEnabledByDefaultAttribute" /> class by using the provided value to determine whether the adapter is enabled by default.</summary>
+      <param name="isEnabledByDefault">true to enable the collector by default; otherwise, false.</param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.DataCollectorEnabledByDefaultAttribute.IsEnabledByDefault">
+      <summary>Gets or sets the enabled-by-default state.</summary>
+      <returns>A bool value that indicates whether the diagnostic data adapter is enabled by default.</returns>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Execution.DataCollectorFriendlyNameAttribute">
+      <summary>Defines a friendly name for the diagnostic data adapter.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.DataCollectorFriendlyNameAttribute.#ctor(System.String)">
+      <summary>Initializes an instance of the <see cref="M:Microsoft.VisualStudio.TestTools.Execution.DataCollectorFriendlyNameAttribute.#ctor(System.String)" /> class with the provided friendly name for the diagnostic data adapter.</summary>
+      <param name="friendlyName">Friendly name of the diagnostic data adapter.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.DataCollectorFriendlyNameAttribute.#ctor(System.String,System.Boolean)">
+      <summary>Initializes an instance of the <see cref="M:Microsoft.VisualStudio.TestTools.Execution.DataCollectorFriendlyNameAttribute.#ctor(System.String)" /> class with the friendly name and indicates whether the string is a resource name.</summary>
+      <param name="friendlyName">Friendly name of the diagnostic data adapter or resource name that contains the friendly name.</param>
+      <param name="isResourceName">true indicates that the string that is provided for the friendly name is a resource name. false indicates that the string that is provided should be used directly as the friendly name for the adapter.</param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.DataCollectorFriendlyNameAttribute.FriendlyName">
+      <summary>Gets the user-friendly name for the diagnostic data adapter.</summary>
+      <returns>A string that contains the user-friendly name for the collector.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.DataCollectorFriendlyNameAttribute.IsResourceName">
+      <summary>Gets the value that indicates whether the friendly name is a resource name.</summary>
+      <returns>A bool value that indicates whether the provided string for the friendly name is a resource name. A value of false indicates that the provided string should be used directly as the friendly name for the data collector; otherwise, the friendly name is extracted from a resource that depends on the current language setting.</returns>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Execution.DataCollectorNotifications"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.DataCollectorNotifications.#ctor"></member>
+    <member name="E:Microsoft.VisualStudio.TestTools.Execution.DataCollectorNotifications.CustomEventCompleted"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.DataCollectorNotifications.RaiseCustomEvent(Microsoft.VisualStudio.TestTools.Execution.CustomNotificationEventArgs)"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.DataCollectorNotifications.RaiseCustomEvent(Microsoft.VisualStudio.TestTools.Execution.CustomNotificationEventArgs,Microsoft.VisualStudio.TestTools.Execution.NotificationBroadcastLevel)"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.DataCollectorNotifications.RaiseCustomEventAsync(Microsoft.VisualStudio.TestTools.Execution.CustomNotificationEventArgs)"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.DataCollectorNotifications.RaiseCustomEventAsync(Microsoft.VisualStudio.TestTools.Execution.CustomNotificationEventArgs,Microsoft.VisualStudio.TestTools.Execution.NotificationBroadcastLevel)"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.DataCollectorNotifications.RaiseCustomEventAsync(Microsoft.VisualStudio.TestTools.Execution.CustomNotificationEventArgs,Microsoft.VisualStudio.TestTools.Execution.NotificationBroadcastLevel,System.Object)"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.DataCollectorNotifications.RaiseTestFailedEvent(Microsoft.VisualStudio.TestTools.Common.ITestElement)"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Execution.DataCollectorSettings">
+      <summary>Reads and updates the configuration settings and static data for a diagnostic data adapter.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.DataCollectorSettings.#ctor(System.Xml.XmlElement,System.Xml.XmlElement,System.Boolean,Microsoft.VisualStudio.TestTools.Execution.RoleContext)"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.DataCollectorSettings.Configuration">
+      <summary>Gets or sets the configuration for the diagnostic data adapter.</summary>
+      <returns>An XML element that contains the configuration for the diagnostic data adapter.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.DataCollectorSettings.DefaultConfiguration">
+      <summary>Gets the default configuration of the diagnostic data adapter.</summary>
+      <returns>An XML element that contains the default configuration of the diagnostic data adapter.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.DataCollectorSettings.IsEnabled">
+      <summary>Gets or sets a value to enable or disable the diagnostic data adapter.</summary>
+      <returns>A bool value that indicates whether the diagnostic data adapter is enabled.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.DataCollectorSettings.RoleContext"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Execution.DataCollectorTypeUriAttribute">
+      <summary>Uses a URI to uniquely identify the type of a diagnostic data adapter.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.DataCollectorTypeUriAttribute.#ctor(System.String)">
+      <summary>Creates an instance of the <see cref="T:Microsoft.VisualStudio.TestTools.Execution.DataCollectorTypeUriAttribute" /> class by using the provided string as the URI for the diagnostic data adapter.</summary>
+      <param name="typeUri">URI of the diagnostic data adapter type.</param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.DataCollectorTypeUriAttribute.TypeUri">
+      <summary>Gets the URI that uniquely identifies the type of the diagnostic data adapter.</summary>
+      <returns>A string that contains the URI that uniquely identifies the type of the diagnostic data adapter.</returns>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Execution.DataRequestEventArgs">
+      <summary>Event arguments class for <see cref="E:Microsoft.VisualStudio.TestTools.Execution.DataCollectionEvents.DataRequest" /> events.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.DataRequestEventArgs.#ctor(Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext,Microsoft.VisualStudio.TestTools.Common.ITestElement,Microsoft.VisualStudio.TestTools.Common.TcmInformation,System.TimeSpan)"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.DataRequestEventArgs.RequestedDuration"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.DataRequestEventArgs.RequestId">
+      <summary>Gets or sets the <see cref="T:Microsoft.VisualStudio.TestTools.Execution.RequestId" /> that uniquely identifies this request context.</summary>
+      <returns>The <see cref="T:Microsoft.VisualStudio.TestTools.Execution.RequestId" /> that uniquely identifies this request context.</returns>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Execution.ExecutionUtilities">
+      <summary>Provides utility methods to help execute and debug tests.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.ExecutionUtilities.DebugTarget(Microsoft.VisualStudio.TestTools.Execution.IResultSink,System.Guid,Microsoft.VisualStudio.TestTools.Common.DebugTargetInfo,System.TimeSpan)">
+      <summary>Requests a debug operation for a test.</summary>
+      <returns>A <see cref="T:Microsoft.VisualStudio.TestTools.Common.DebugOperationResult" /> object that contains the result of the debug operation.</returns>
+      <param name="sink">The <see cref="T:Microsoft.VisualStudio.TestTools.Common.IResultSink" /> to which you send the debug request.</param>
+      <param name="runId">The GUID identifier for the test run.</param>
+      <param name="targetInfo">A <see cref="T:Microsoft.VisualStudio.TestTools.DebugTargetInfo" /> object that contains information about the debug operation.</param>
+      <param name="timeout">The <see cref="T:System.TimeSpan" /> to wait for the debugger to perform the debug operation.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.ExecutionUtilities.IsAuthenticatedUserInAdminGroup(System.Security.Principal.WindowsIdentity)"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Execution.FileTransferInformation"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.FileTransferInformation.#ctor(Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext,System.String,System.Boolean)"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.FileTransferInformation.ClientFileName"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.FileTransferInformation.DeleteFile"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.FileTransferInformation.Path"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.FileTransferInformation.PerformCleanup"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Execution.IBaseAdapter">
+      <summary>Provides an interface to use as a base for a custom test adapter.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.IBaseAdapter.AbortTestRun">
+      <summary>Called when an internal error occurs during a test run. This method should behave similarly to the <see cref="M:Microsoft.VisualStudio.TestTools.Execution.IBaseAdapter.StopTestRun" /> method.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.IBaseAdapter.Cleanup">
+      <summary>Called when a test run is completed.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.IBaseAdapter.PauseTestRun">
+      <summary>Called when the user requests to pause a test run.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.IBaseAdapter.ResumeTestRun">
+      <summary>Called when the user requests to resume a test run.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.IBaseAdapter.Run(Microsoft.VisualStudio.TestTools.Common.ITestElement,Microsoft.VisualStudio.TestTools.Execution.ITestContext)">
+      <summary>Called to execute a test case.</summary>
+      <param name="testElement">The test element that describes which adapter to load. </param>
+      <param name="testContext">The context for the adapter. </param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.IBaseAdapter.StopTestRun">
+      <summary>Called when the user requests to stop a test run.</summary>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Execution.IBaseRunContext">
+      <summary>Provides an interface that the test adapter uses to communicate with the test execution framework.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.IBaseRunContext.PauseTestRun">
+      <summary>Sends a request to pause the test run.</summary>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.IBaseRunContext.ResultSink">
+      <summary>Gets an object used to send test results to the test execution framework.</summary>
+      <returns>Returns the <see cref="T:Microsoft.VisualStudio.TestTools.Execution.IResultSink" /> for this run context.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.IBaseRunContext.RunConfig">
+      <summary>Gets information about the test run.</summary>
+      <returns>An <see cref="T:Microsoft.VisualStudio.TestTools.Execution.IExecutionRunConfiguration" /> that contains the execution run configuration.</returns>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.IBaseRunContext.StopTestRun">
+      <summary>Sends a request to stop the test run.</summary>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.IBaseRunContext.TestRunner">
+      <summary>Provides an interface that the test adapter uses to run one or more inner tests.</summary>
+      <returns>An <see cref="T:Microsoft.VisualStudio.TestTools.Execution.ITestRunner" /> object.</returns>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Execution.IContextAccessor">
+      <summary>Interface to use to build a helper class to store and retrieve values from contexts.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.IContextAccessor.AddDoubleValue(System.String,System.Double)">
+      <summary>Adds an element by using the specified key and value.</summary>
+      <param name="key">A string that represents the key of the element to add.</param>
+      <param name="value">A double value to add.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.IContextAccessor.AddIntValue(System.String,System.Int32)">
+      <summary>Adds an element with the specified key and value.</summary>
+      <param name="key">A string that represents the key of the element to add.</param>
+      <param name="value">An int value to add.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.IContextAccessor.AddObject(System.String,System.Object)">
+      <summary>Adds an element with the specified key and value.</summary>
+      <param name="key">A string that represents the key of the element to add.</param>
+      <param name="value">An object value to add.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.IContextAccessor.AddStringValue(System.String,System.String)">
+      <summary>Adds an element with the specified key and value.</summary>
+      <param name="key">A string that represents the key of the element to add.</param>
+      <param name="value">A string value to add.</param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.IContextAccessor.Count">
+      <summary>Gets the total number of values that are stored.</summary>
+      <returns>An int that indicates the number of values that are stored.</returns>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.IContextAccessor.GetDoubleValue(System.String)">
+      <summary>Retrieves the value that is associated with the specified key.</summary>
+      <returns>The retrieved double value.</returns>
+      <param name="key">A string that represents the key of the element to retrieve.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.IContextAccessor.GetEnumerator">
+      <summary>Returns an <see cref="T:System.Collections.IDictionaryEnumerator" /> that iterates through the <see cref="T:Microsoft.VisualStudio.TestTools.Execution.IContextAccessor" />.</summary>
+      <returns>An <see cref="T:System.Collections.IDictionaryEnumerator" /> for the <see cref="T:Microsoft.VisualStudio.TestTools.Execution.IContextAccessor" />.</returns>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.IContextAccessor.GetIntValue(System.String)">
+      <summary>Retrieves the value that is associated with the specified key.</summary>
+      <returns>The retrieved int value.</returns>
+      <param name="key">A string that represents the key of the element to retrieve.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.IContextAccessor.GetObject(System.String)">
+      <summary>Retrieves the object that is associated with the specified key.</summary>
+      <returns>The retrieved object value.</returns>
+      <param name="key">A string that represents the key for the value to retrieve.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.IContextAccessor.GetStringValue(System.String)">
+      <summary>Retrieves a string that is associated with the specified key.</summary>
+      <returns>The retrieved string value.</returns>
+      <param name="key">The key for the string to retrieve.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.IContextAccessor.RemoveValue(System.String)">
+      <summary>Removes the element with the specified key.</summary>
+      <param name="key"> The key for the element to remove.</param>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Execution.IDataCollectionAwareTestAdapter"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.IDataCollectionAwareTestAdapter.DataCollectors"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Execution.IDataCollectionRunContext">
+      <summary>Interface for an object that encapsulates the current environment for custom diagnostic data adapters.</summary>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.IDataCollectionRunContext.ResultSink">
+      <summary>Gets an object that saves the results from a test on the Test Manager server.</summary>
+      <returns>An <see cref="T:Microsoft.VisualStudio.TestTools.Execution.IResultSink" /> object.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.IDataCollectionRunContext.RunContextVariables">
+      <summary>Gets an object that enables access to each value in the context.</summary>
+      <returns>An <see cref="T:Microsoft.VisualStudio.TestTools.Execution.IContextAccessor" /> object.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.IDataCollectionRunContext.TestRun">
+      <summary>Gets a reference to the test run object.</summary>
+      <returns>A <see cref="T:Microsoft.VisualStudio.TestTools.Common.TestRun" /> object.</returns>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Execution.IDataCollectorConfigurationEditor">
+      <summary>Provides an interface that creates custom configuration editors of diagnostic data adapters.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.IDataCollectorConfigurationEditor.Initialize(System.IServiceProvider,Microsoft.VisualStudio.TestTools.Execution.DataCollectorSettings)">
+      <summary>Initializes the configuration editor with a service provider and the configuration settings for a diagnostic data adapter.</summary>
+      <param name="serviceProvider">An <see cref="T:System.IServiceProvider" /> that allows the consumer to query the parent for any services that it may provide.</param>
+      <param name="settings">A <see cref="T:Microsoft.VisualStudio.TestTools.Execution.DataCollectorSettings" /> object that has the current settings of the diagnostic data adapter.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.IDataCollectorConfigurationEditor.ResetToAgentDefaults">
+      <summary>Resets the configuration editor to the default settings.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.IDataCollectorConfigurationEditor.SaveData">
+      <summary>Saves the data in the configuration editor.</summary>
+      <returns>A <see cref="T:Microsoft.VisualStudio.TestTools.Execution.DataCollectorSettings" /> object for the diagnostic data adapter.</returns>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.IDataCollectorConfigurationEditor.VerifyData">
+      <summary>Verifies whether any errors have occurred. Typically called by the framework before closing the data collector configuration editor.</summary>
+      <returns>true if no errors have occurred; otherwise, false.</returns>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Execution.IExecutionRunConfiguration">
+      <summary>Interface for test run information.</summary>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.IExecutionRunConfiguration.TestElements">
+      <summary>Gets the list of test elements in the run.</summary>
+      <returns>Returns the list of test elements in the test run.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.IExecutionRunConfiguration.TestRun">
+      <summary>Gets a <see cref="T:Microsoft.VisualStudio.TestTools.Common.TestRun" /> object.</summary>
+      <returns>Returns a <see cref="T:Microsoft.VisualStudio.TestTools.Common.TestRun" /> object.</returns>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Execution.IHostAdapter">
+      <summary>Interface to provide support for test execution in a host application.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.IHostAdapter.GetTestAdapter(Microsoft.VisualStudio.TestTools.Common.ITestElement,Microsoft.VisualStudio.TestTools.Execution.IRunContext)">
+      <summary>Loads and returns the test adapter for the given test element and run context.</summary>
+      <returns>The current <see cref="T:Microsoft.VisualStudio.TestTools.TestAdapter.ITestAdapter" />.</returns>
+      <param name="test">An <see cref="T:Microsoft.VisualStudio.TestTools.Common.ITestElement" /> that describes which test adapter to load.</param>
+      <param name="runContext">The <see cref="T:Microsoft.VisualStudio.TestTools.Execution.IRunContext" /> for the test adapter.</param>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Execution.IRegisterHostAdapter">
+      <summary>Provides an interface for a host adapter agent to publish on a remoting channel.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.IRegisterHostAdapter.Ping">
+      <summary>Verifies connectivity if no error results from a call to this method.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.IRegisterHostAdapter.Register(Microsoft.VisualStudio.TestTools.Execution.IHostAdapter)">
+      <summary>Registers the <see cref="T:Microsoft.VisualStudio.TestTools.Execution.IHostAdapter" />.</summary>
+      <param name="hostAdapter">The <see cref="T:Microsoft.VisualStudio.TestTools.Execution.IHostAdapter" /> to register.</param>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Execution.IResultSink">
+      <summary>Interface to send messages, results, and notifications.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.IResultSink.AddResult(Microsoft.VisualStudio.TestTools.Common.TestMessage)">
+      <summary>Adds the message to the result sink.</summary>
+      <param name="testMessage">The <see cref="T:Microsoft.VisualStudio.TestTools.Common.TestMessage" /> to add to the result sink.</param>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Execution.IRunContext">
+      <summary>Provides an interface for test adapters to retrieve information about a test run.</summary>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.IRunContext.AgentName">
+      <summary>Gets the name of the computer that is running the test. </summary>
+      <returns>The name of the computer that is running the test.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.IRunContext.RunContextVariables">
+      <summary>Gets the run context variables.</summary>
+      <returns>An <see cref="T:Microsoft.VisualStudio.TestTools.Execution.IContextAccessor" /> object that contains the named values for the context.</returns>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Execution.ITestContext">
+      <summary>A context interface definition for a test context that is passed to a method during the test run process.</summary>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.ITestContext.Properties">
+      <summary>Gets the properties for this test context.</summary>
+      <returns>An <see cref="T:System.Collections.Generic.IDictionary" /> object that contains the properties for this test context.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.ITestContext.ResultSink">
+      <summary>Gets the result sink for this test context, which contains the pass or fail result of the test.</summary>
+      <returns>An <see cref="T:Microsoft.VisualStudio.TestTools.Execution.IResultSink" /> object for this test context.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.ITestContext.RunContextVariables">
+      <summary>Gets the run context variables.</summary>
+      <returns>An <see cref="T:Microsoft.VisualStudio.TestTools.Execution.IContextAccessor" /> object that contains the run context variables.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.ITestContext.TestContextVariables">
+      <summary>Gets the test context variables.</summary>
+      <returns>An <see cref="T:Microsoft.VisualStudio.TestTools.Execution.IContextAccessor" /> object that contains the test context variables.</returns>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Execution.ITestExecutionPlugin">
+      <summary>Pluggable interface that is used to execute code in the test execution framework.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.ITestExecutionPlugin.AfterExecutionCompleted(Microsoft.VisualStudio.TestTools.Common.TestRun,Microsoft.VisualStudio.TestTools.Execution.IResultSink,Microsoft.VisualStudio.TestTools.Execution.IDataCollectionRunContext)">
+      <summary>This method is called after all tests have been completed, signifying that the test run is finished,.</summary>
+      <param name="run">The test run that is currently processed and for which a special action is required.</param>
+      <param name="sink">An <see cref="T:Microsoft.VisualStudio.TestTools.Execution.IResultSink" /> object that is used to send data.</param>
+      <param name="runContext">An <see cref="T:Microsoft.VisualStudio.TestTools.Execution.IDataCollectionRunContext" /> object that represents the context for the test.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.ITestExecutionPlugin.AfterTestCompleted(Microsoft.VisualStudio.TestTools.Execution.IDataCollectionRunContext,Microsoft.VisualStudio.TestTools.Common.TestExecId)">
+      <summary>This method is called after the test has completed.</summary>
+      <param name="runContext">An <see cref="T:Microsoft.VisualStudio.TestTools.Execution.IDataCollectionRunContext" /> object that represents the context for the test.</param>
+      <param name="id">The test ID. </param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.ITestExecutionPlugin.BeforeExecutionStarted(Microsoft.VisualStudio.TestTools.Common.TestRun,Microsoft.VisualStudio.TestTools.Execution.IResultSink,Microsoft.VisualStudio.TestTools.Execution.IDataCollectionRunContext)">
+      <summary>This method is called before a test run execution starts.</summary>
+      <param name="run">The test run that is currently processed and for which a special action is required.</param>
+      <param name="sink">An <see cref="T:Microsoft.VisualStudio.TestTools.Execution.IResultSink" /> object that is used to send data.</param>
+      <param name="runContext">An <see cref="T:Microsoft.VisualStudio.TestTools.Execution.IDataCollectionRunContext" /> object that represents the context for the test.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.ITestExecutionPlugin.BeforeTestStarted(Microsoft.VisualStudio.TestTools.Execution.IDataCollectionRunContext,Microsoft.VisualStudio.TestTools.Common.TestExecId)">
+      <summary>This method is called before a test starts.</summary>
+      <returns>true if the agent should continue to run the test; false if the agent should not run the test.NoteWhen false is returned, the agent assumes that the plug-in reported a test failure for that test and does not record a result. Even when false is returned, the plug-in will still raise a <see cref="F:Microsoft.VisualStudio.TestTools.Common.TestMessageKind.TestEnd" /> event for that test.</returns>
+      <param name="runContext">An <see cref="T:Microsoft.VisualStudio.TestTools.Execution.IDataCollectionRunContext" /> object that represents the context for the test.</param>
+      <param name="id">The test ID. </param>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Execution.ITestRunner">
+      <summary>Provides an interface between the controller and the agent to enable a suite adapter to call back and execute a list of test cases.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.ITestRunner.LoadRun(Microsoft.VisualStudio.TestTools.Common.ITestElement[],Microsoft.VisualStudio.TestTools.Execution.IResultSink,System.Collections.Generic.IDictionary{System.String,System.Object})">
+      <summary>Runs a load test case.</summary>
+      <returns>A member of the <see cref="T:Microsoft.VisualStudio.TestTools.Execution.AdapterRunResult" /> enumeration that indicates the success or failure of each test.</returns>
+      <param name="testElement">Array of <see cref="T:Microsoft.VisualStudio.TestTools.Common.ITestElement" /> objects to execute.</param>
+      <param name="resultSink">An <see cref="T:Microsoft.VisualStudio.TestTools.Execution.IResultSink" /> to store the results of the tests.</param>
+      <param name="contextProperties">An <see cref="T:System.Collections.Generic.IDictionary&lt;TKey,TValue&gt;" /> object that contains the context properties for the test.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.ITestRunner.Run(Microsoft.VisualStudio.TestTools.Common.ITestElement[],Microsoft.VisualStudio.TestTools.Execution.IResultSink)">
+      <summary>Runs a test case.</summary>
+      <returns>A member of the <see cref="T:Microsoft.VisualStudio.TestTools.Execution.AdapterRunResult" /> enumeration that indicates the success or failure of each test.</returns>
+      <param name="testElement">Array of <see cref="T:Microsoft.VisualStudio.TestTools.Common.ITestElement" /> objects to execute.</param>
+      <param name="resultSink">An <see cref="T:Microsoft.VisualStudio.TestTools.Execution.IResultSink" /> to store the results of the tests.</param>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Execution.NotificationBroadcastLevel"></member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Execution.NotificationBroadcastLevel.LocalOnly">
+      <summary />
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Execution.NotificationBroadcastLevel.All">
+      <summary />
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Execution.RequestId">
+      <summary>Uniquely identifies a request and can be used with messages and events.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.RequestId.CompareTo(Microsoft.VisualStudio.TestTools.Execution.RequestId)">
+      <summary>Compares this instance with the provided <see cref="T:Microsoft.VisualStudio.TestTools.Execution.RequestId" />.</summary>
+      <returns>A 32-bit signed integer that indicates the relative order of the <see cref="T:Microsoft.VisualStudio.TestTools.Execution.RequestId" />s that are being compared. The return value has these meanings:Less than zeroThis instance is less than <paramref name="other" />.ZeroThis instance is equal to <paramref name="other" />.Larger than zeroThis instance is greater than <paramref name="other" />.</returns>
+      <param name="other">The <see cref="T:Microsoft.VisualStudio.TestTools.Execution.RequestId" /> for comparison.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.RequestId.CompareTo(System.Object)">
+      <summary>Compares this instance with the provided object.</summary>
+      <returns>A 32-bit signed integer that indicates the relative order of the objects that are being compared. The return value has these meanings:Less than zeroThis instance is less than <paramref name="obj" />.ZeroThis instance is equal to <paramref name="obj" />.Larger than zeroThis instance is greater than <paramref name="obj" />.</returns>
+      <param name="obj">The object for comparison.</param>
+      <exception cref="ArgumentException">Object is not of type <see cref="T:Microsoft.VisualStudio.TestTools.Execution.RequestId" />.</exception>
+    </member>
+    <member name="F:Microsoft.VisualStudio.TestTools.Execution.RequestId.Empty">
+      <summary>A <see cref="T:Microsoft.VisualStudio.TestTools.Execution.RequestId" /> with an empty GUID.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.RequestId.Equals(Microsoft.VisualStudio.TestTools.Execution.RequestId)">
+      <summary>Compares this instance with the provided <see cref="T:Microsoft.VisualStudio.TestTools.Execution.RequestId" /> for value equality.</summary>
+      <returns>true if equal; otherwise, false.</returns>
+      <param name="other">The <see cref="T:Microsoft.VisualStudio.TestTools.Execution.RequestId" /> for comparison.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.RequestId.Equals(System.Object)">
+      <summary>Compares this instance with the provided object for value equality.</summary>
+      <returns>true if equal; otherwise, false.</returns>
+      <param name="obj">The object of type <see cref="T:Microsoft.VisualStudio.TestTools.Execution.RequestId" /> for comparison.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.RequestId.GetHashCode">
+      <summary>Gets a hash code for this instance.</summary>
+      <returns>The underlying hash code for this <see cref="T:Microsoft.VisualStudio.TestTools.Execution.RequestId" />.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.RequestId.Id">
+      <summary>Gets or sets the underlying GUID that represents the <see cref="T:Microsoft.VisualStudio.TestTools.Execution.RequestId" />.</summary>
+      <returns>A GUID that represents the <see cref="T:Microsoft.VisualStudio.TestTools.Execution.RequestId" />.</returns>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.RequestId.op_Equality(Microsoft.VisualStudio.TestTools.Execution.RequestId,Microsoft.VisualStudio.TestTools.Execution.RequestId)">
+      <summary>Compares two <see cref="T:Microsoft.VisualStudio.TestTools.Execution.RequestId" />s for value equality.</summary>
+      <returns>true if equal; otherwise, false.</returns>
+      <param name="left">The <see cref="T:Microsoft.VisualStudio.TestTools.Execution.RequestId" /> on the left-hand side of the equality operator.</param>
+      <param name="right">The <see cref="T:Microsoft.VisualStudio.TestTools.Execution.RequestId" /> on the right-hand side of the equality operator.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.RequestId.op_Inequality(Microsoft.VisualStudio.TestTools.Execution.RequestId,Microsoft.VisualStudio.TestTools.Execution.RequestId)">
+      <summary>Compares two <see cref="T:Microsoft.VisualStudio.TestTools.Execution.RequestId" />s for value inequality.</summary>
+      <returns>true if not equal; otherwise, false.</returns>
+      <param name="left">The <see cref="T:Microsoft.VisualStudio.TestTools.Execution.RequestId" /> on the left-hand side of the inequality operator.</param>
+      <param name="right">The <see cref="T:Microsoft.VisualStudio.TestTools.Execution.RequestId" /> on the right-hand side of the inequality operator.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.RequestId.ToString">
+      <summary>Converts the instance to a string in lowercase registry format.</summary>
+      <returns>A lowercase string in registry format that represents the underlying <see cref="T:Microsoft.VisualStudio.TestTools.Execution.RequestId" />.</returns>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Execution.RoleContext"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.RoleContext.#ctor(System.Boolean,System.Boolean)"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.RoleContext.IsExecutionRole"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.RoleContext.IsRemoteRole"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Execution.RunConfiguration">
+      <summary>Class to manage test run configuration data and objects.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.RunConfiguration.#ctor(Microsoft.VisualStudio.TestTools.Common.TestRun)">
+      <summary>Initializes a new <see cref="T:Microsoft.VisualStudio.TestTools.Execution.RunConfiguration" /> object with a new <see cref="T:Microsoft.VisualStudio.TestTools.Common.TestRun" />.</summary>
+      <param name="testRun">The <see cref="T:Microsoft.VisualStudio.TestTools.Common.TestRun" /> to use to initialize this <see cref="T:Microsoft.VisualStudio.TestTools.Execution.RunConfiguration" />.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.RunConfiguration.IsValid">
+      <summary>Reports whether the <see cref="T:Microsoft.VisualStudio.TestTools.Execution.RunConfiguration" /> is valid.</summary>
+      <returns>true if the <see cref="T:Microsoft.VisualStudio.TestTools.Common.TestRun" /> is valid and this <see cref="T:Microsoft.VisualStudio.TestTools.Execution.RunConfiguration" /> contains <see cref="T:Microsoft.VisualStudio.TestTools.Common.ITestElement" /> objects; otherwise, false.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.RunConfiguration.TestCount">
+      <summary>Gets the number of <see cref="T:Microsoft.VisualStudio.TestTools.Common.ITestElement" /> objects in this <see cref="T:Microsoft.VisualStudio.TestTools.Execution.RunConfiguration" />.</summary>
+      <returns>The number of <see cref="T:Microsoft.VisualStudio.TestTools.Common.ITestElement" /> objects in this <see cref="T:Microsoft.VisualStudio.TestTools.Execution.RunConfiguration" />.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.RunConfiguration.TestElements">
+      <summary>Gets all <see cref="T:Microsoft.VisualStudio.TestTools.Common.ITestElement" /> objects in the <see cref="T:Microsoft.VisualStudio.TestTools.Execution.RunConfiguration" />.</summary>
+      <returns>An array of <see cref="T:Microsoft.VisualStudio.TestTools.Common.ITestElement" /> objects.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.RunConfiguration.TestRun">
+      <summary>Gets the <see cref="T:Microsoft.VisualStudio.TestTools.Common.TestRun" /> for this <see cref="T:Microsoft.VisualStudio.TestTools.Execution.RunConfiguration" />.</summary>
+      <returns>A <see cref="T:Microsoft.VisualStudio.TestTools.Common.TestRun" /> object.</returns>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Execution.SessionEndEventArgs">
+      <summary>Represents the event arguments for the <see cref="E:Microsoft.VisualStudio.TestTools.Execution.DataCollectionEvents.SessionEnd" /> event.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.SessionEndEventArgs.#ctor(Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext)"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Execution.SessionPauseEventArgs">
+      <summary>Represents the event arguments for the <see cref="E:Microsoft.VisualStudio.TestTools.Execution.DataCollectionEvents.SessionPause" /> event.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.SessionPauseEventArgs.#ctor(Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext)"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Execution.SessionResumeEventArgs">
+      <summary>Represents the event arguments for the <see cref="E:Microsoft.VisualStudio.TestTools.Execution.DataCollectionEvents.SessionResume" /> event.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.SessionResumeEventArgs.#ctor(Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext)"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Execution.SessionStartEventArgs">
+      <summary>Represents the event arguments for the <see cref="E:Microsoft.VisualStudio.TestTools.Execution.DataCollectionEvents.SessionStart" /> event.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.SessionStartEventArgs.#ctor(Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext)"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Execution.StreamTransferInformation"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.StreamTransferInformation.#ctor(Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext,System.IO.Stream,System.String,System.Boolean)"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.StreamTransferInformation.ClientFileName"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.StreamTransferInformation.CloseStream"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.StreamTransferInformation.FileName"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.StreamTransferInformation.PerformCleanup"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.StreamTransferInformation.Stream"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Execution.TestCaseEndEventArgs">
+      <summary>Represents the event arguments for the <see cref="E:Microsoft.VisualStudio.TestTools.Execution.DataCollectionEvents.TestCaseEnd" /> event.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.TestCaseEndEventArgs.#ctor(Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext,Microsoft.VisualStudio.TestTools.Common.ITestElement,Microsoft.VisualStudio.TestTools.Common.TcmInformation,Microsoft.VisualStudio.TestTools.Common.TestOutcome)"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.TestCaseEndEventArgs.TestOutcome">
+      <summary>Gets or sets the <see cref="T:Microsoft.VisualStudio.TestTools.Common.TestOutcome" /> of the test.</summary>
+      <returns>The outcome of the test.</returns>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Execution.TestCaseEventArgs">
+      <summary>Provides a base class for all event argument classes that are used in test case events.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.TestCaseEventArgs.#ctor(Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext,Microsoft.VisualStudio.TestTools.Common.ITestElement,Microsoft.VisualStudio.TestTools.Common.TcmInformation)">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.VisualStudio.TestTools.Execution.TestCaseEventArgs" /> class by using the provided information.</summary>
+      <param name="context">A <see cref="T:Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext" /> object.</param>
+      <param name="testElement">The current test element represented by a <see cref="T:Microsoft.VisualStudio.TestTools.Common.ITestElement" /> object.</param>
+      <param name="tcmInformation">A <see cref="T:Microsoft.VisualStudio.TestTools.Common.TcmInformation" /> object that is used to obtain further data about the test from the Test Manager.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.TestCaseEventArgs.#ctor(Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext,System.Guid,Microsoft.VisualStudio.TestTools.Common.TcmInformation,System.String,System.Boolean)">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.VisualStudio.TestTools.Execution.TestCaseEventArgs" /> class by using the given information.</summary>
+      <param name="context">A <see cref="T:Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext" /> object.</param>
+      <param name="testCaseId">The current test case ID that identifies  represented by a <see cref="T:Microsoft.VisualStudio.TestTools.Common.ITestElement" /> object.</param>
+      <param name="tcmInformation">A <see cref="T:Microsoft.VisualStudio.TestTools.Common.TcmInformation" /> object that is used to obtain further data about the test from the Test Manager.</param>
+      <param name="testCaseName">The name of the test case.</param>
+      <param name="isChildTestCase">true if the current test case is a child of another test case.</param>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.TestCaseEventArgs.IsChildTestCase">
+      <summary>Gets or sets a value that indicates whether the test case is a child of another test case.</summary>
+      <returns>true if this is a child test case, and false if this is a top-level test case.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.TestCaseEventArgs.TcmInformation">
+      <summary>Gets the object that contains information that can be used to obtain further data about the test case from the Test Manager server.</summary>
+      <returns>An information object, or null if the test did not originate in the Test Manager.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.TestCaseEventArgs.TestCaseId">
+      <summary>Gets or sets the test case identifier.</summary>
+      <returns>The test case ID.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.TestCaseEventArgs.TestCaseName">
+      <summary>Gets or sets the name of the test case.</summary>
+      <returns>The name of the test case.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.TestCaseEventArgs.TestElement">
+      <summary>Gets the current test case element.</summary>
+      <returns>The current test case element.</returns>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Execution.TestCaseFailedEventArgs"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.TestCaseFailedEventArgs.#ctor(Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext,Microsoft.VisualStudio.TestTools.Common.ITestElement,Microsoft.VisualStudio.TestTools.Common.TcmInformation)"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Execution.TestCasePauseEventArgs">
+      <summary>Represents the event arguments for the <see cref="E:Microsoft.VisualStudio.TestTools.Execution.DataCollectionEvents.TestCasePause" /> event.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.TestCasePauseEventArgs.#ctor(Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext,Microsoft.VisualStudio.TestTools.Common.ITestElement,Microsoft.VisualStudio.TestTools.Common.TcmInformation)"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Execution.TestCaseResetEventArgs">
+      <summary>Represents the event arguments for the <see cref="E:Microsoft.VisualStudio.TestTools.Execution.DataCollectionEvents.TestCaseReset" /> event.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.TestCaseResetEventArgs.#ctor(Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext,Microsoft.VisualStudio.TestTools.Common.ITestElement,Microsoft.VisualStudio.TestTools.Common.TcmInformation)"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Execution.TestCaseResumeEventArgs">
+      <summary>Represents the event arguments for the <see cref="E:Microsoft.VisualStudio.TestTools.Execution.DataCollectionEvents.TestCaseResume" /> event.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.TestCaseResumeEventArgs.#ctor(Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext,Microsoft.VisualStudio.TestTools.Common.ITestElement,Microsoft.VisualStudio.TestTools.Common.TcmInformation)"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Execution.TestCaseStartEventArgs">
+      <summary>Represents the event arguments for the <see cref="E:Microsoft.VisualStudio.TestTools.Execution.DataCollectionEvents.TestCaseStart" /> event.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.TestCaseStartEventArgs.#ctor(Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext,Microsoft.VisualStudio.TestTools.Common.ITestElement,Microsoft.VisualStudio.TestTools.Common.TcmInformation)"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Execution.TestExecutionSection"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.TestExecutionSection.#ctor"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.TestExecutionSection.DeserializeElement(System.Xml.XmlReader,System.Boolean)"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.TestExecutionSection.SerializeElement(System.Xml.XmlWriter,System.Boolean)"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.TestExecutionSection.SerializeToXmlElement(System.Xml.XmlWriter,System.String)"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Execution.TestStepEndEventArgs">
+      <summary>Represents the event arguments for the <see cref="E:Microsoft.VisualStudio.TestTools.Execution.DataCollectionEvents.TestStepEnd" /> event.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.TestStepEndEventArgs.#ctor(Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext,Microsoft.VisualStudio.TestTools.Common.ITestElement,Microsoft.VisualStudio.TestTools.Common.TcmInformation,System.Int32,System.String,Microsoft.VisualStudio.TestTools.Common.TestOutcome)"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.TestStepEndEventArgs.TestStepOutcome"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Execution.TestStepEventArgs">
+      <summary>Base class for all test step event arguments.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.TestStepEventArgs.#ctor(Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext,Microsoft.VisualStudio.TestTools.Common.ITestElement,Microsoft.VisualStudio.TestTools.Common.TcmInformation,System.Int32,System.String)"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.TestStepEventArgs.#ctor(Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext,System.Guid,Microsoft.VisualStudio.TestTools.Common.TcmInformation,System.String,System.Boolean,System.Int32,System.String)"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.TestStepEventArgs.TestStepDescription">
+      <summary>Gets or sets the description of the test step.</summary>
+      <returns>Returns a description of the test step.</returns>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.TestStepEventArgs.TestStepId">
+      <summary>Gets or sets the ID of the test step.</summary>
+      <returns>Returns the ID of the test step.</returns>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Execution.TestStepStartEventArgs">
+      <summary>Represents the event arguments for the <see cref="E:Microsoft.VisualStudio.TestTools.Execution.DataCollectionEvents.TestStepStart" /> event.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.TestStepStartEventArgs.#ctor(Microsoft.VisualStudio.TestTools.Execution.DataCollectionContext,Microsoft.VisualStudio.TestTools.Common.ITestElement,Microsoft.VisualStudio.TestTools.Common.TcmInformation,System.Int32,System.String)"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.Execution.Aggregation.AggregationSessionConfiguration"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.Aggregation.AggregationSessionConfiguration.#ctor"></member>
+    <member name="M:Microsoft.VisualStudio.TestTools.Execution.Aggregation.AggregationSessionConfiguration.#ctor(System.String)"></member>
+    <member name="P:Microsoft.VisualStudio.TestTools.Execution.Aggregation.AggregationSessionConfiguration.OutputDirectory"></member>
+    <member name="T:Microsoft.VisualStudio.TestTools.TestAdapter.ILoadTestAdapter">
+      <summary>Interface to be implemented by load test adapters.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.TestAdapter.ILoadTestAdapter.LoadRun(Microsoft.VisualStudio.TestTools.Common.ITestElement,Microsoft.VisualStudio.TestTools.Execution.ITestContext)">
+      <summary>Thread-safe Run method.</summary>
+      <param name="testElement">The test element.</param>
+      <param name="testContext">The test context.</param>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.TestAdapter.ITestAdapter">
+      <summary>Interface to be implemented by all test adapters.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.TestAdapter.ITestAdapter.Initialize(Microsoft.VisualStudio.TestTools.Execution.IRunContext)">
+      <summary>Called when test adapter is loaded to execute a test run.</summary>
+      <param name="runContext">The context for this test run.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.TestAdapter.ITestAdapter.PreTestRunFinished(Microsoft.VisualStudio.TestTools.Execution.IRunContext)">
+      <summary>Called when a test run is complete to allow test adapters to clean up.</summary>
+      <param name="runContext">The context for this test run.</param>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.TestAdapter.ITestAdapter.ReceiveMessage(System.Object)">
+      <summary>Receives a downstream message from the user interface, a controller, or an agent.</summary>
+      <param name="message">The message.</param>
+    </member>
+    <member name="T:Microsoft.VisualStudio.TestTools.TestAdapter.ITimeoutTestAdapter">
+      <summary>Interface for test adapters to request time-out notifications for tests.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.TestAdapter.ITimeoutTestAdapter.TestTimeout(Microsoft.VisualStudio.TestTools.Common.ITestElement)">
+      <summary>Called by the agent to stop an individual test instead of stopping the whole run. Called when the test times out.</summary>
+      <param name="test">The test to stop.</param>
+    </member>
+  </members>
+</doc>

@@ -1,0 +1,186 @@
+import "oaidl.idl";
+import "ocidl.idl";
+import "oleidl.idl";
+
+///////////////////////////////////////////
+// Help object
+
+[
+  uuid(83285928-227C-11d3-B870-00C04F79F802),
+  version(1.0)
+]
+library VsHelp
+{
+  importlib("stdole2.tlb");  // Needed for IDispatch
+
+  [
+    dual, 
+    oleautomation, 
+    object, 
+    uuid(B9B0983A-364C-4866-873F-D5ED190138FB),
+    helpstring("IVsHelpOwner Interface"),
+    version(1.0)
+  ]
+  interface IVsHelpOwner : IDispatch
+  {
+    //Bring the external help viewer to the foreground (cannot be done from help app while it is not active)
+    [id(1)]
+    HRESULT BringHelpToTop([in] long hwndHelpApp);
+    
+    [propget, id(10)] // object to return as Window.External
+    HRESULT AutomationObject([out, retval] IDispatch ** ppObj); // DTE for VS 
+  }
+
+
+  [
+    uuid(D1AAC64A-6A25-4274-B2C6-BC3B840B6E54),
+    helpstring("IVsHelpTopicEvents Interface")
+  ]
+  interface IVsHelpTopicShowEvents : IDispatch
+  {
+    [id(1)]
+    HRESULT OnBeforeTopicShow([in] BSTR bstrURL, [in] IDispatch * pWB);
+    [id(2)]
+    HRESULT OnTopicShowComplete([in] BSTR bstrURL, [in] IDispatch * pWB);
+  };
+
+  [dual, 
+   oleautomation, 
+   object, 
+   uuid(4A791148-19E4-11d3-B86B-00C04F79F802)
+  ]
+  interface Help : IDispatch
+  {
+    [id(1)]  // show TOC tool wnd
+    HRESULT Contents();
+
+    [id(2)] // show Index tool wnd
+    HRESULT Index();
+
+    [id(3)] // show Search tool wnd
+    HRESULT Search();
+
+    [id(4)] // show Index Results tool wnd
+    HRESULT IndexResults();
+
+    [id(5)] // show Search Results tool wnd
+    HRESULT SearchResults();
+
+    [id(6)] 
+    HRESULT DisplayTopicFromId([in] BSTR   bstrFile, [in] DWORD  Id);
+
+    [id(7)] 
+    HRESULT DisplayTopicFromURL([in] BSTR pszURL);
+
+    [id(8)] 
+    HRESULT DisplayTopicFromURLEx([in] BSTR pszURL, [in] IVsHelpTopicShowEvents * pIVsHelpTopicShowEvents);
+
+    [id(9)] //Do not use this method for F1
+    HRESULT DisplayTopicFromKeyword([in] BSTR pszKeyword); 
+
+    [id(10)] //Use this method to bring up help for F1 and from dialogs
+    HRESULT DisplayTopicFromF1Keyword([in] BSTR pszKeyword); 
+
+    [id(11)] //Use this method to bring up old winhelp or hh1.3
+             //Note that this should only be used to support old non-VS
+             //components, such as COM controls loaded into the object browser
+    HRESULT DisplayTopicFrom_OLD_Help([in] BSTR bstrFile, [in] DWORD Id);
+
+    [id(12)] //Show TOC and Sync the TOC to the given URL
+    HRESULT SyncContents([in] BSTR bstrURL);
+
+    [id(13)] //returns S_OK or S_FALSE
+    HRESULT CanSyncContents([in] BSTR bstrURL);
+
+    [id(14)] //returns next topic in TOC
+    HRESULT GetNextTopic([in] BSTR bstrURL, [out, retval] BSTR *pbstrNext);
+    
+    [id(15)] //returns next topic in TOC
+    HRESULT GetPrevTopic([in]  BSTR bstrURL, [out, retval] BSTR *pbstrPrev);
+
+    [id(16)] //Show UI to create-edit-delete filters
+    HRESULT FilterUI();
+
+    [id(17)] //returns S_OK or S_FALSE
+    HRESULT CanShowFilterUI();
+
+    [id(18)]
+    HRESULT Close();  //should be called if you use MSDN automation
+
+    [id(19)] //Set the index to be positioned at the given keyword, show the index if indicated
+    HRESULT SyncIndex([in] BSTR bstrKeyword, [in] BOOL fShow);
+
+    [id(20)] // define collection and filter - should be called if you use MSDN automation
+    HRESULT SetCollection([in] BSTR bstrCollection, [in] BSTR bstrFilter); 
+
+    [propget, id(21)] 
+    HRESULT Collection([out, retval] BSTR * pbstrCollection);
+    
+    [propget, id(22)] 
+    HRESULT Filter([out, retval] BSTR * pbstrFilter);
+    
+    [propput, id(22)] 
+    HRESULT Filter([in] BSTR bstrFilter);
+
+    [propget, id(23)] 
+    HRESULT FilterQuery([out, retval] BSTR * pbstrFilterQuery);
+
+    [propget, id(24)] // for external help
+    HRESULT HelpOwner([out, retval] IVsHelpOwner ** ppObj); 
+    
+    [propput, id(24)]  // for external help
+    HRESULT HelpOwner([in] IVsHelpOwner * pObj);
+
+    [propget, id(25)] 
+    HRESULT HxSession([out, retval] IDispatch ** ppObj); 
+
+    // just for compatibility with DTE, when used as Windows.External
+    // Help object returns itself
+    [propget, id(26)] 
+    HRESULT Help([out, retval] IDispatch ** ppObj); 
+
+    [id(27)] //returns a help related object, moniker can be GUID of object to return
+    HRESULT GetObject([in] BSTR bstrMoniker,
+                      [in] BSTR bstrOptions,
+                      [out, retval] IDispatch **ppDisp);
+  };
+
+  [
+    uuid(507E4490-5A8C-11d3-B897-00C04F79F802),
+    helpstring("IVsHelpEvents Interface")
+  ]
+  interface IVsHelpEvents : IDispatch
+  {
+    [id(1)]
+    HRESULT OnFilterChanged([in] BSTR bstrNewFilter);
+
+    [id(2)]
+    HRESULT OnCollectionChanged([in] BSTR bstrNewCollection, [in] BSTR bstrNewFilter);
+  };
+
+
+  [
+    uuid(4A79114D-19E4-11d3-B86B-00C04F79F802),
+    helpstring("DExplore Application objects"),
+    appobject,
+    hidden
+  ]
+  coclass DExploreAppObj
+  {
+    [default] interface Help;
+    [default, source] interface IVsHelpEvents;
+  };
+};
+
+cpp_quote("#define SID_SVsHelp	IID_Help")
+cpp_quote("#define IID_IVsHelp	IID_Help")
+cpp_quote("#define IVsHelp	    Help")
+
+cpp_quote("#define CLSID_MsdnAppObj	CLSID_DExploreAppObj")
+
+// Not available in External help mode.
+// {CA8A686A-0882-4e79-BCA3-AF3F3AB3EB8A}
+cpp_quote("extern const __declspec(selectany) GUID SID_SVsIntegratedHelp = { 0xca8a686a, 0x882, 0x4e79, { 0xbc, 0xa3, 0xaf, 0x3f, 0x3a, 0xb3, 0xeb, 0x8a } };")
+
+
+

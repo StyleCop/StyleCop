@@ -1,0 +1,275 @@
+/****************************************************************************
+*  The VSSHELL Interfaces
+*  Copyright (c) 2001-2002, Microsoft Corporation, All Rights Reserved
+*  Information Contained Herein Is Proprietary and Confidential.
+****************************************************************************/
+
+#ifndef INTEROPLIB
+
+// Imports - all imports should go here (inside the ifndef)
+import "oaidl.idl";
+import "textfind.idl";
+
+#endif
+
+/****************************************************************************
+********    IMPORTANT!!   *********
+
+All guids for interfaces and co-creatable objects in this file should be defined
+in vsshelluuids.h
+
+****************************************************************************/
+#include "textmgruuids.h"
+
+
+/****************************************************************************
+PLEASE READ THE FOLLOWING NOTES:
+
+***** Note on enumerators and bitwise flags passed as parameters:
+
+When a parameter must be exactly one of a set of values (a true enumerator),
+the values should be defined and used as follows:
+
+typedef enum __VSSAMPLETYPE
+{
+    ST_THISTYPE     = 0,   // first value should be zero or one, except
+    ST_THATTYPE     = 1,   // in special cases, and following values
+    ST_THEOTHERTYPE = 2,   // should use consecutive numbers
+} VSSAMPLETYPE;
+
+interface IVsSample : IUnknown
+{
+    HRESULT SampleMethod([in] VSSAMPLETYPE stType);
+}
+
+When a parameter must be exactly one of a set of values (a true enumerator),
+and is considered a PROPID, the values should be defined and used as follows:
+
+enum __VSSAMPLEPROPID
+{
+    VSSAMPPROPID_LAST     = -7000,  // first value should be a unique
+    VSSAMPPROPID_This     = -7000,  // number not used by any other
+    VSSAMPPROPID_That     = -7001,  // PROPID, and following values
+    VSSAMPPROPID_FIRST    = -7001,  // should use consecutive numbers
+};
+typedef LONG VSSAMPLEPROPID;
+
+interface IVsSample : IUnknown
+{
+    HRESULT GetProperty([in] VSSAMPLEPROPID propid, [out] VARIANT *pvar);
+    HRESULT SetProperty([in] VSSAMPLEPROPID propid, [in] VARIANT var);
+}
+
+When a parameter can be none of or a combination of values (bitwise),
+the values should be defined and used as follows:
+
+enum __VSSAMPLEOPTS
+{
+    SO_THISOPTION     = 0x00000001,   // first value should be one,
+    SO_THATOPTION     = 0x00000002,   // following values should use
+    SO_THEOTHEROPTION = 0x00000004,   // consecutive powers of two
+};
+typedef DWORD VSSAMPLEOPTS;
+
+interface IVsSample : IUnknown
+{
+    HRESULT SampleMethod([in] VSSAMPLEOPTS grfOptions);
+}
+
+***** Defining properties
+
+Define properties as follows:
+
+interface IVsSample : IUnknown
+{
+    HRESULT get_Foo([out] BSTR *pbstrFoo);
+    HRESULT put_Foo([in] BSTR bstrFoo);
+}
+
+DO NOT use [propget], [propput] or [propputref] to define properties!!!
+
+***** Array typed args
+
+Pass array type arguments (both in and out) using [] and size_is when the corresponding
+size argument is present. You must have the array size as an argument for interop to
+work correctly.
+
+interface IVsSample : IUnknown
+{
+    HRESULT MethodPassesInArray([in] int cItems, [in, size_is(cItems)] int prgiItems[]);
+}
+
+DO NOT use [in] int piItems[].
+
+
+****************************************************************************/
+
+//================================================================
+// Library
+//================================================================
+
+//----------------------------------------------------------------------------
+//  interface IVsFindTarget2
+//----------------------------------------------------------------------------
+[
+    uuid(uuid_IVsFindTarget2),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsFindTarget2 : IUnknown
+{
+  HRESULT NavigateTo2([in] IVsTextSpanSet *pSpans,       // optional - Set of text spans describing the match (IVsFinder::GetTaggedSpans)
+                      [in] enum _TextSelMode iSelMode);  // Set selection to box or stream
+}
+
+typedef enum {
+    // VSFE_Syntax             = -4,   // syntax error in expression
+    // VSFE_NotSupported       = -3,   // not supported
+    // VSFE_NotInitialized     = -2,   // not initialized
+    // VSFE_Failure            = -1,   // broken
+    // VSFE_NoError            =  0,
+    VSFE_NoErrorAnsiPattern    =  1    // expression found to be zero-extended ansi chars
+} VSFINDERROR2;
+
+// These values indicate the result of a find or replace
+// Some of these are used only internally by the find manager.
+//
+enum __VSFINDRESULT2
+{
+  // VSFR_NotFound              = 0,
+  // VSFR_Found                 = 1,
+  // VSFR_Replaced              = 2,
+  // VSFR_EndOfDoc              = 3, // passed the end of the document
+  // VSFR_EndOfSearch           = 4, // reached the starting point
+  // VSFR_FindInFiles           = 5, // started a background find in files
+  // VSFR_NoTarget              = 6, // no document
+  // VSFR_Error                 = 7, // some disastrous error
+     VSFR_ReplaceIncompleteEOL  = 0x10000000, // user tried to replace only the CR of the LF of a line with a CR-LF ending.
+     VSFR_CancelledBeforeReplacementsMade        = 0x20000000, // cancelled replace before any replacement were made
+  // VSFR_AndInterrupt          = 0x40000000, // stopped w/ ESC/CANCEL
+  // VSFR_AndReplace            = 0x80000000, // combined with Found or NotFound
+  // VSFR_FLAGMASK              = 0xFF000000,
+
+  // The FINDREPLACE_RESULT_ names are for compatability only and deprecated.
+  // Use the VSFR_ names in all new code.
+  // FINDREPLACE_RESULT_Failed           = 0,
+  // FINDREPLACE_RESULT_Found            = 1,
+  // FINDREPLACE_RESULT_Replaced         = 2,
+  // FINDREPLACE_RESULT_EndOfDoc         = 3,
+  // FINDREPLACE_RESULT_EndOfSearch      = 4,
+  // FINDREPLACE_RESULT_FindInFiles      = 5
+};
+
+typedef DWORD VSFINDRESULT2;
+
+enum __VSFINDOPTIONS2
+{
+    // FR_OptionMask          =   0x00000FFF, // ---- Options -----------------------------
+    // FR_MatchCase           =   0x00000001, // Match case
+    // FR_WholeWord           =   0x00000002, // Match whole words
+    // FR_Hidden              =   0x00000004, // Hidden text
+    // FR_Backwards           =   0x00000008, // Search in reverse
+    // FR_Selection           =   0x00000010, // Search selection only
+    // FR_Block               =   0x00000020, // Current procedure/block
+    // FR_KeepCase            =   0x00000040, // Keep case
+    // FR_SubFolders          =   0x00000100, // Subfolders
+    // FR_KeepOpen            =   0x00000200, // Keep modified files open
+    // FR_NameOnly            =   0x00000400, // Display filename only
+
+    // FR_SyntaxMask          =   0x00003000, // ---- Syntax (bitset for capabilities) ----
+    // FR_Plain               =   0x00000000, // Match exact string
+    // FR_Wildcard            =   0x00001000, // Match Wildcards
+    // FR_RegExpr             =   0x00002000, // Match regular expressions
+    FR_RegExprLineBreaks      =   0x00004000, // Match line breaks using regular expressions
+
+    // FR_TargetMask          =   0x00070000, // ---- Targets (exclusive: not bits) -------
+    // FR_Document            =   0x00010000, // Search Current document
+    // FR_OpenDocuments       =   0x00020000, // Search Open documents
+    // FR_Files               =   0x00030000, // Find in Files
+    // FR_Project             =   0x00040000, // Find in Project
+    // FR_Solution            =   0x00050000, // Find in Solution
+
+    // FR_ActionMask          =   0x00F80000, // ---- Actions (bitset for capabilities) ---
+    // FR_MarkAll             =   0x00080000,
+    // FR_Find                =   0x00100000, // Find next
+    // FR_FindAll             =   0x00200000, // Find all (bulk find)
+    // FR_Replace             =   0x00400000, // Replace
+    // FR_ReplaceAll          =   0x00800000, // Replace all
+
+    // FR_InternalMask        =   0x7F000000, // ---- Internal ops: no UI -----------------
+    // FR_ResetPosition       =   0x01000000, // New find
+    // FR_FromStart           =   0x02000000, // Search from beginning of doc
+    // FR_OneMatchPerLine     =   0x04000000, // Return only one match per line (bulk find)
+    // FR_Report              =   0x08000000, // Generate a results list
+    // FR_SelectionDefault    =   0x10000000, // GetCapabilities: force selection
+    FR_BlockThread            =   0x20000000, // Blocks the thread when doing a search
+	FR_DoNotUpdateUI          =   0x40000000,  // Tells Find to not update the find dialog at all.
+
+    // FR_NoFind              =   0x80000000, // suppress find
+
+    // Common options for all targets
+    // FR_CommonOptions       = (FR_MatchCase|FR_WholeWord|FR_Hidden|FR_KeepCase),
+
+    // Options for single documents
+    // FR_DocOptionSet        = (FR_CommonOptions|FR_Backwards|FR_Selection|FR_Block),
+
+    // Options for multifile targets
+    // FR_FIFOptionSet        = (FR_CommonOptions|FR_SubFolders|FR_KeepOpen|FR_NameOnly),
+
+    // Option bits for all targets
+    // FR_OptionSet           = (FR_DocOptionSet|FR_FIFOptionSet),
+
+    // Set of possible syntax options
+    // FR_SyntaxSet           = (FR_Plain|FR_Wildcard|FR_RegExpr),
+
+    // FR_Capabilities        = (FR_OptionSet|FR_SyntaxSet|FR_ActionMask|FR_SelectionDefault),
+
+    // FR_All                 =   0x7FFFFFFF, // ------------------------------------------
+    // FR_None                =   0x00000000,
+    // backward compatability aliases
+    // FR_Procedure           =   FR_Block,
+    // FR_Pattern             =   FR_Wildcard
+};
+
+typedef DWORD VSFINDOPTIONS2;
+
+enum __VSFTPROPID2
+{
+    // VSFTPROPID_DocName                      = 0,  // VT_BSTR      Full path of filename/persistence moniker
+    // VSFTPROPID_IsDiskFile                   = 1,  // VT_BOOL      VARIANT_TRUE if object is file on disk
+    // VSFTPROPID_BlockName                    = 2,  // VT_BSTR      Name of current block
+    // VSFTPROPID_InitialPattern               = 3,  // VT_BSTR      Seed Find pattern - selection within single line
+    // VSFTPROPID_InitialPatternAggressive     = 4,  // VT_BSTR      Seed Find pattern - as above, or text near caret if no selection
+    // VSFTPROPID_WindowFrame                  = 5,  // VT_UNKNOWN   IVsWindowFrame
+    VSFTPROPID_IsFindInFilesForegroundOnly  = 6,  // VT_BOOL      Document is foreground only
+};
+
+typedef DWORD VSFTPROPID2;
+
+//================================================================
+// IVsFindCancelDialog
+/*
+This interface will launch a modeless dialog on the background thread
+which allows for users to cancel out of a find/replace operation.
+
+First, users need to call LaunchDialog() to launch the dialog.  To query the dialog regularly 
+and see whether users want to cancel call QueryDialog().
+
+Lastly, users need to dismiss the dialog by calling CloseDialog()
+
+However, most of the time it only makes sense to launch this dialog if find is occuring on the foreground thread, because
+if the search takes a long time it will appear as if the application hung.  Users may want to differentiate functionality in 
+LaunchDialog/QueryDialog/CloseDialog if find is already occuring on the background thread.
+*/
+[
+  uuid(uuid_IVsFindCancelDialog),
+  version(1.0),
+  pointer_default(unique)
+]
+interface IVsFindCancelDialog : IUnknown
+{
+  HRESULT LaunchDialog();
+  HRESULT QueryDialog( [out] BOOL * pfCancel );
+  HRESULT CloseDialog();
+};
+

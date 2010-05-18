@@ -1,0 +1,10 @@
+<StyleCopCsParserObjectModel>
+  <Element Name="Root" Type="DocumentRoot">
+    <Element Name="System" Type="UsingDirective" />
+    <Element Name="System.Collections.Generic" Type="UsingDirective" />
+    <Element Name="System.Text" Type="UsingDirective" />
+    <Element Name="MS.StyleCop.CSharpParserTest.TestData.ImplicitlyTypedArrays" Type="Namespace">
+      <Element Name="ImplicitlyTypedArrays" Type="Class" />
+    </Element>
+  </Element>
+</StyleCopCsParserObjectModel>

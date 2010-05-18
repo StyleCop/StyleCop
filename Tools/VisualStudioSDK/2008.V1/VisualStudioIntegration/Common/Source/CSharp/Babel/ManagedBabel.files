@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <!--
+    The ManagedBabelPath property should be defined to point to the directory where this file is located before importing this file.
+    Failure to define this will result in build error.
+  -->
+
+  <!-- Provide a default value for $(ManagedBabelPath) -->
+  <PropertyGroup>
+    <ManagedBabelPath Condition="'$(ManagedBabelPath)'==''">.</ManagedBabelPath>
+  </PropertyGroup>
+
+  <!-- 
+  It's possible to provide references for inclusion in the project via this file, but
+  none are specified here.  All references are included in the contained project
+  instead.
+  -->
+
+  <ItemGroup>
+    <Compile Include="$(ManagedBabelPath)\AuthoringScope.cs" >
+      <Link>ManagedBabel\AuthoringScope.cs</Link>
+      <Visible>true</Visible>
+    </Compile>
+    <Compile Include="$(ManagedBabelPath)\Configuration.cs" >
+      <Link>ManagedBabel\Configuration.cs</Link>
+      <Visible>true</Visible>
+    </Compile>
+    <Compile Include="$(ManagedBabelPath)\Declaration.cs" >
+      <Link>ManagedBabel\Declaration.cs</Link>
+      <Visible>true</Visible>
+    </Compile>
+    <Compile Include="$(ManagedBabelPath)\Declarations.cs" >
+      <Link>ManagedBabel\Declarations.cs</Link>
+      <Visible>true</Visible>
+    </Compile>
+    <Compile Include="$(ManagedBabelPath)\IASTResolver.cs" >
+      <Link>ManagedBabel\IASTResolver.cs</Link>
+      <Visible>true</Visible>
+    </Compile>
+    <Compile Include="$(ManagedBabelPath)\IScanner.cs" >
+      <Link>ManagedBabel\IScanner.cs</Link>
+      <Visible>true</Visible>
+    </Compile>
+    <Compile Include="$(ManagedBabelPath)\LanguageService.cs" >
+      <Link>ManagedBabel\LanguageService.cs</Link>
+      <Visible>true</Visible>
+    </Compile>
+    <Compile Include="$(ManagedBabelPath)\LineScanner.cs" >
+      <Link>ManagedBabel\LineScanner.cs</Link>
+      <Visible>true</Visible>
+    </Compile>
+    <Compile Include="$(ManagedBabelPath)\Method.cs" >
+      <Link>ManagedBabel\Method.cs</Link>
+      <Visible>true</Visible>
+    </Compile>
+    <Compile Include="$(ManagedBabelPath)\Methods.cs" >
+      <Link>ManagedBabel\Methods.cs</Link>
+      <Visible>true</Visible>
+    </Compile>
+    <Compile Include="$(ManagedBabelPath)\Package.cs" >
+      <Link>ManagedBabel\Package.cs</Link>
+      <Visible>true</Visible>
+    </Compile>
+    <Compile Include="$(ManagedBabelPath)\Parser.cs" >
+      <Link>ManagedBabel\Parser.cs</Link>
+      <Visible>true</Visible>
+    </Compile>
+    <Compile Include="$(ManagedBabelPath)\ParserStack.cs" >
+      <Link>ManagedBabel\ParserStack.cs</Link>
+      <Visible>true</Visible>
+    </Compile>
+    <Compile Include="$(ManagedBabelPath)\Rule.cs" >
+      <Link>ManagedBabel\Rule.cs</Link>
+      <Visible>true</Visible>
+    </Compile>
+    <Compile Include="$(ManagedBabelPath)\ShiftReduceParser.cs" >
+      <Link>ManagedBabel\ShiftReduceParser.cs</Link>
+      <Visible>true</Visible>
+    </Compile>
+    <Compile Include="$(ManagedBabelPath)\Source.cs" >
+      <Link>ManagedBabel\Source.cs</Link>
+      <Visible>true</Visible>
+    </Compile>
+    <Compile Include="$(ManagedBabelPath)\State.cs" >
+      <Link>ManagedBabel\State.cs</Link>
+      <Visible>true</Visible>
+    </Compile>
+  </ItemGroup>
+ 
+</Project>

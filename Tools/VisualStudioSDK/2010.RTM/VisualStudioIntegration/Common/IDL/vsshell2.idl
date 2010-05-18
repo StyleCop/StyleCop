@@ -1,0 +1,155 @@
+/****************************************************************************
+*  The VSSHELL Interfaces
+*  Copyright (c) 2001-2002, Microsoft Corporation, All Rights Reserved
+****************************************************************************/
+
+#ifndef INTEROPLIB
+
+// Imports - all imports should go here (inside the ifndef)
+import "oaidl.idl";
+import "vsshell.idl";
+
+#endif
+
+/****************************************************************************
+********    IMPORTANT!!   *********
+
+All guids for interfaces and co-creatable objects in this file should be defined
+in vsshelluuids.h
+
+Do NOT derive from interfaces defined in vshell.idl because:
+
+1. We want to be able to independently implement the new interfaces without having 
+   to implement all the methods in the old interfaces.
+2. This creates dependencies which causes complications for the build process.
+
+****************************************************************************/
+#include "vsshelluuids.h"
+
+
+/****************************************************************************
+PLEASE READ THE FOLLOWING NOTES:
+
+***** Note on enumerators and bitwise flags passed as parameters:
+
+When a parameter must be exactly one of a set of values (a true enumerator),
+the values should be defined and used as follows:
+
+typedef enum __VSSAMPLETYPE
+{
+    ST_THISTYPE     = 0,   // first value should be zero or one, except
+    ST_THATTYPE     = 1,   // in special cases, and following values
+    ST_THEOTHERTYPE = 2,   // should use consecutive numbers
+} VSSAMPLETYPE;
+
+interface IVsSample : IUnknown
+{
+    HRESULT SampleMethod([in] VSSAMPLETYPE stType);
+}
+
+When a parameter must be exactly one of a set of values (a true enumerator),
+and is considered a PROPID, the values should be defined and used as follows:
+
+enum __VSSAMPLEPROPID
+{
+    VSSAMPPROPID_LAST     = -7000,  // first value should be a unique
+    VSSAMPPROPID_This     = -7000,  // number not used by any other
+    VSSAMPPROPID_That     = -7001,  // PROPID, and following values
+    VSSAMPPROPID_FIRST    = -7001,  // should use consecutive numbers
+};
+typedef LONG VSSAMPLEPROPID;
+
+interface IVsSample : IUnknown
+{
+    HRESULT GetProperty([in] VSSAMPLEPROPID propid, [out] VARIANT *pvar);
+    HRESULT SetProperty([in] VSSAMPLEPROPID propid, [in] VARIANT var);
+}
+
+When a parameter can be none of or a combination of values (bitwise),
+the values should be defined and used as follows:
+
+enum __VSSAMPLEOPTS
+{
+    SO_THISOPTION     = 0x00000001,   // first value should be one,
+    SO_THATOPTION     = 0x00000002,   // following values should use
+    SO_THEOTHEROPTION = 0x00000004,   // consecutive powers of two
+};
+typedef DWORD VSSAMPLEOPTS;
+
+interface IVsSample : IUnknown
+{
+    HRESULT SampleMethod([in] VSSAMPLEOPTS grfOptions);
+}
+
+***** Defining properties
+
+Define properties as follows:
+
+interface IVsSample : IUnknown
+{
+    HRESULT get_Foo([out] BSTR *pbstrFoo);
+    HRESULT put_Foo([in] BSTR bstrFoo);
+}
+
+DO NOT use [propget], [propput] or [propputref] to define properties!!!
+
+***** Array typed args
+
+Pass array type arguments (both in and out) using [] and size_is when the corresponding
+size argument is present. You must have the array size as an argument for interop to
+work correctly.
+
+interface IVsSample : IUnknown
+{
+    HRESULT MethodPassesInArray([in] int cItems, [in, size_is(cItems)] int prgiItems[]);
+}
+
+DO NOT use [in] int piItems[].
+
+
+****************************************************************************/
+
+
+//---------------------------------------------------------------------------
+// IVsProjectUpgrade
+//---------------------------------------------------------------------------
+// Implemented by project objects that need to upgrade project file format [optional].
+// Interface retrieved by QI from IVsHierarchy.
+//
+// UpgradeProject is always called after the project is opened, before any other user action can be taken on the project.  If
+//    the project has no need to upgrade, it can simply return S_OK.  Otherwise, at this point the project quietly determines
+//    whether its project file can be modified (using IVsQueryEditQuerySave::QueryEditFiles(QEF_ReportOnly, ...)).  If the
+//    VSQueryEditResult from QueryEditFiles is QER_EditOK, migration can proceed because the project file can be written.  If
+//    the VSQueryEditResult from QueryEditFiles is QER_EditNotOK and the VSQueryEditResultFlags has the QER_ReadOnlyNotUnderSCC
+//    bit set, the method should return failure, because the user should resolve the permissions issue himself.  If the
+//    VSQueryEditResult from QueryEditFiles is QER_EditNotOK and the VSQueryEditResultFlags has the QER_ReadOnlyUnderSCC bit set,
+//    the project file should be checked out using QueryEditFiles(QEF_ForceEdit_NoPrompting | QEF_DisallowInMemoryEdits,...).
+//    Once the project file can be written to disk, the project should save a copy of the project file in the previous format
+//    (with a .OLD extension), make its necessary migration changes, and save the project file in the new format.  Again, if
+//    any part of the upgrade process fails, the method should return failure.  This will cause the project to be unloaded in
+//    the solution explorer. 
+//  Note: If the QueryEditFiles call on the project file causes a "check out" and a "get latest version" then the project will
+//    be unloaded and reloaded.  CreateProject will be called to reload the project and UpgradeProject will be called again once
+//    the project is created.  This means that UpgradeProject will be recursed into, so the "inner" call should do the migration
+//    and the "outer" call should find that it's project has been zombied (after the call to QueryEditFiles) and should simply
+//    return S_OK.
+//  Note: Since the UpgradeProject method will always be called (if supported) after CreateProject is called, projects do not
+//    need to do version checks or migration warnings at CreateProject time--these should all be done at UpgradeProject time.
+//---------------------------------------------------------------------------
+enum __VSUPGRADEPROJFLAGS
+{
+    UPF_SILENTMIGRATE    = 0x00000001, // user has already been prompted for solution migration, so do not prompt again.  this
+                                       // flag will not be passed if the project is opened without an associated solution file.
+};
+typedef DWORD VSUPGRADEPROJFLAGS;
+
+[
+    uuid(uuid_IVsProjectUpgrade),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsProjectUpgrade : IUnknown
+{
+    HRESULT UpgradeProject([in] VSUPGRADEPROJFLAGS grfUpgradeFlags);
+};
+

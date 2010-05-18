@@ -1,0 +1,58 @@
+/*----------------------------------------------------------------------------- 
+Copyright (c) Microsoft Corporation.  All rights reserved.
+ 
+@doc 
+ 
+@module IVsSccEnlistmentPathTranslation.idl |
+IDL for the solution to use the source control system to translate project paths
+
+@owner Source Control Integration Team 
+-----------------------------------------------------------------------------*/
+
+/////////////////////////////////////////////////////////////////////////
+// interface IVsSccEnlistmentPathTranslation
+/////////////////////////////////////////////////////////////////////////
+
+// This interface is a QI on IVsSccManager. It is used by the solution to translate paths. This
+// allows the solution file to contain, for example, \\foo\bar for a UNC projects, while persistence
+// actually happens to \\foo\bar_username
+
+// This is not normally called by anyone except the solution, unless someone else is parsing solution 
+// files for some reason. 
+
+// There's a full description of the use of this interface in IVsSccProjectEnlistmentFactory.idl
+
+#ifndef INTEROPLIB 
+
+import "objidl.idl";
+
+#endif
+
+#include "SCGuids.h"
+
+[
+uuid(uuid_IVsSccEnlistmentPathTranslation),
+version(1.0),
+pointer_default(unique)
+]
+// @hung ivsmpt
+interface IVsSccEnlistmentPathTranslation : IUnknown
+{
+	// @cmember Called by the solution to translate paths 
+	HRESULT // @rdesc error or S_OK
+	TranslateProjectPathToEnlistmentPath
+	(
+		[in]	LPCOLESTR				lpszProjectPath,		// @parm [in] the project's pseudo-path, read from the solution file	
+		[out]	BSTR *					pbstrEnlistmentPath,	// @parm [out] the path used by the sln for loading and saving the project
+		[out]	BSTR *					pbstrEnlistmentPathUNC	// @parm [out] the path used by the scc system for managing the enlistment
+	);
+
+	// @cmember Called if someone wants to translate in the other direction
+	HRESULT // @rdesc error or S_OK
+	TranslateEnlistmentPathToProjectPath
+	(
+		[in]			LPCOLESTR				lpszEnlistmentPath,		// @parm [in] the path used by the sln for loading and saving the project, or the path used by the scc system
+		[out, retval]	BSTR *					pbstrProjectPath		// @parm [out] the project's pseudo-path, read from the solution file	
+	);
+};
+

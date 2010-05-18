@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?include AssemblyVersion.wxi ?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Fragment Id="SettingsEditorFragment">
+
+    <!-- The Settings Editor allows editing of the settings files without VS. -->
+
+    <DirectoryRef Id="INSTALLDIR" FileSource="$(var.DropDir)">
+
+      <!-- Installs the editor with the prog files -->
+      <Component Id="SettingsEditorProgFilesComponent" Guid="7006FD88-9F38-4979-A257-4DDED113C1D8">
+
+        <!-- The Settings Editor allows editing of the settings files without VS. -->
+        <File Id='SettingsEditorProgFiles' Name='StyleCopSettingsEditor.exe' Checksum="yes" Vital='yes' />
+        
+        <RegistryKey Action='createAndRemoveOnUninstall' Root='HKCR' Key='.SourceAnalysis' Id='ProgFilesEditor_001' />
+        <RegistryValue Root='HKCR' Key='.SourceAnalysis' Type='string' Value='Settings.SourceAnalysis' Id='ProgFilesEditor_002' />
+        <RegistryValue Root='HKCR' Key='.SourceAnalysis' Type='string' Name='ContentType' Value='text/xml' Id='ProgFilesEditor_003' />
+
+        <RegistryKey Action='createAndRemoveOnUninstall' Root='HKCR' Key='.SourceAnalysis' Id='ProgFilesEditor_004' />
+        <RegistryValue Root='HKCR' Key='Settings.SourceAnalysis\shell\open\command' Type='string' Value='"[INSTALLDIR]StyleCopSettingsEditor.exe" "%1"' Id='ProgFilesEditor_005' />
+
+        <RegistryKey Action='createAndRemoveOnUninstall' Root='HKCR' Key='.StyleCop' Id='ProgFilesEditor_006' />
+        <RegistryValue Root='HKCR' Key='.StyleCop' Type='string' Value='Settings.StyleCop' Id='ProgFilesEditor_007' />
+        <RegistryValue Root='HKCR' Key='.StyleCop' Type='string' Name='ContentType' Value='text/xml' Id='ProgFilesEditor_008' />
+
+        <RegistryKey Action='createAndRemoveOnUninstall' Root='HKCR' Key='.StyleCop' Id='ProgFilesEditor_009' />
+        <RegistryValue Root='HKCR' Key='Settings.StyleCop\shell\open\command' Type='string' Value='"[INSTALLDIR]StyleCopSettingsEditor.exe" "%1"' Id='ProgFilesEditor_010' />
+
+      </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="MSBuildBinDir" FileSource="$(var.DropDir)">
+
+      <!-- Installs the editor with the msbuild files -->
+      <Component Id="SettingsEditorMSBuildComponent" Guid="C4FD728F-8568-4b34-8E53-255A36FD1EB2">
+
+        <File Id='SettingsEditorMSBuild' Name='StyleCopSettingsEditor.exe' Checksum="yes" Vital='yes' />
+
+        <RegistryKey Action='createAndRemoveOnUninstall' Root='HKCR' Key='.SourceAnalysis' Id='MSBuildEditor_001' />
+        <RegistryValue Root='HKCR' Key='.SourceAnalysis' Type='string' Value='Settings.SourceAnalysis' Id='MSBuildEditor_002' />
+        <RegistryValue Root='HKCR' Key='.SourceAnalysis' Type='string' Name='ContentType' Value='text/xml' Id='MSBuildEditor_003' />
+
+        <RegistryKey Action='createAndRemoveOnUninstall' Root='HKCR' Key='.SourceAnalysis' Id='MSBuildEditor_004' />
+        <RegistryValue Root='HKCR' Key='Settings.SourceAnalysis\shell\open\command' Type='string' Value='"[MSBuildBinDir]StyleCopSettingsEditor.exe" "%1"' Id='MSBuildEditor_005' />
+
+        <RegistryKey Action='createAndRemoveOnUninstall' Root='HKCR' Key='.StyleCop' Id='MSBuildEditor_006' />
+        <RegistryValue Root='HKCR' Key='.StyleCop' Type='string' Value='Settings.StyleCop' Id='MSBuildEditor_007' />
+        <RegistryValue Root='HKCR' Key='.StyleCop' Type='string' Name='ContentType' Value='text/xml' Id='MSBuildEditor_008' />
+
+        <RegistryKey Action='createAndRemoveOnUninstall' Root='HKCR' Key='.StyleCop' Id='MSBuildEditor_009' />
+        <RegistryValue Root='HKCR' Key='Settings.StyleCop\shell\open\command' Type='string' Value='"[MSBuildBinDir]StyleCopSettingsEditor.exe" "%1"' Id='MSBuildEditor_010' />
+      </Component>
+    </DirectoryRef>
+
+  </Fragment>
+</Wix>

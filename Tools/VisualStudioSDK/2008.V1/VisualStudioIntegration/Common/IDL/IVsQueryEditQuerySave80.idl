@@ -1,0 +1,83 @@
+/*-----------------------------------------------------------------------------
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+Module IVsQueryEditQuerySave80.idl - Query Edit and Query Save service |
+
+This service is called immediately before a document is edited for the
+first time, and immediately before a document is saved.
+
+This allows the source-control package to ensure that the file is checked-
+out at the correct time.  Editors are required to call QueryEdit before
+dirtying a file, and QuerySave before saving it.
+
+Owner: Source Control Integration Team
+-----------------------------------------------------------------------------*/
+
+#ifndef INTEROPLIB
+
+// Imports - all imports should go here (inside the ifndef)
+import "IVsQueryEditQuerySave2.idl";
+
+#endif
+
+#if !defined(CTC_INVOKED) && !defined(RGS_INVOKED)
+cpp_quote("#pragma once")
+
+/*-----------------------------------------------------------------------------
+Enum: VSQueryEditFlags2
+
+Conditions for the QueryEdit
+-----------------------------------------------------------------------------*/
+enum __VSQueryEditFlags2
+{
+    /********************************************** defined in IVsQueryEditQuerySave2.idl
+	QEF_AllowInMemoryEdits    = 0x00000000,	// In-memory edits are allowed
+	QEF_ForceInMemoryEdits    = 0x00000001,	// In-memory edits are allowed regardless
+	QEF_DisallowInMemoryEdits = 0x00000002,	// In-memory edits are disallowed regardless
+	QEF_SilentMode            = 0x00000004,	// No UI is put up, but silent operations may be performed to make files editable
+	QEF_ImplicitEdit          = 0x00000008,	// Use this flag carefully: this flag disables the cancel button on the checkout dialog; the cancel action is interpreted as the user choice for allowing in memory editing
+	QEF_ReportOnly            = 0x00000010,	// No UI is put up, and no action is taken; return values indicate if an edit would be allowed, modulo user interaction, option settings and external conditions
+	QEF_NoReload              = 0x00000020,	// Disallow edit if it would cause a reload to occur
+	QEF_ForceEdit_NoPrompting = 0x00000040,	// Perform operations to make files editable, regardless of option settings, and without user interaction
+    **********************************************/ 
+
+	QEF_AllowUnopenedProjects = 0x00000080,	// Allows to call QueryEditFiles for project files of unloaded projects or 
+						// projects that are still being loaded and might not have IVsHierarchy yet.
+						// QEF_SilentMode is assumed for the flag, i.e. there will never be any UI shown for files of unopened projects.
+	QEF_CheckoutLocalVersion  = 0x00000100,	// Attempt to checkout local version
+	QEF_CheckoutLatestVersion = 0x00000200,	// Attempt to checkout latest version
+	QEF_DetectAnyChangedFile  = 0x00000400,	// Detect changes in any file involved in the operation and return QER_Changed if any file was changed on disk. 
+	// QEF_NextFlag = 0x00000800
+};
+typedef DWORD VSQueryEditFlags2;
+
+/*-----------------------------------------------------------------------------
+Enum: VSQueryEditResultFlags2
+
+@enum Detailed results of the QueryEdit
+-----------------------------------------------------------------------------*/
+enum tagVSQueryEditResultFlags2
+{
+    /********************************************** defined in IVsQueryEditQuerySave2.idl
+	QER_MaybeCheckedout          = 0x00000001, // Files checked-out to edit
+	QER_MaybeChanged             = 0x00000002, // Files changed on check-out
+	QER_InMemoryEdit             = 0x00000004, // Ok to edit files in-memory
+	QER_InMemoryEditNotAllowed   = 0x00000008, // Edit denied b/c in-memory edit not allowed
+	QER_NoisyCheckoutRequired    = 0x00000010, // Silent mode operation does not permit UI
+	QER_NoisyPromptRequired      = 0x00000010, // Silent mode operation does not permit UI - more consistent synonym
+	QER_CheckoutCanceledOrFailed = 0x00000020, // Edit not allowed b/c checkout failed
+	QER_EditNotPossible          = 0x00000040, // Edit will never be allowed b/c of current option settings or external conditions
+	QER_ReadOnlyNotUnderScc      = 0x00000080, // Edit not allowed because file is read-only on disk
+	QER_ReadOnlyUnderScc         = 0x00000100, // Edit not allowed because file is read-only and under source control (probably checked in)
+    **********************************************/ 
+	QER_Reloaded                 = 0x00000200, // A file involved in the operation was checked out, a new version was retrieved from the source control database and the file was reloaded in the editor or in the shell (if the file is a project or solution file).
+											   // The editor may need to abort the initial operation that caused the edit if it cannot tollerate the reload (e.g. when the editor made some calculations that cannot be remade to match the new file content after the operation).
+	QER_Changed                  = 0x00000400, // A file involved in the operation was checked out, a new version was retrieved from the source control database (so the file changed on disk).
+											   // A source control provider should normally detect file changes only in files opened in editors (so it can reload them if they change during the operation).
+											   // However, in scenarios like find_in_files, QueryEdit may be called with files that are not open in editor, and the caller may be interested if the files were changed should they get checked out during the operation.
+											   // The caller should pass in QEF_DetectAnyChangedFile flag, and the source control provider should detect accurately if any of the file has changed and return QER_Changed if so.
+	// QER_NextFlag = 0x00000800
+};
+typedef DWORD VSQueryEditResultFlags2;
+
+#endif

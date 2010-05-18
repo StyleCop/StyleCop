@@ -1,0 +1,86 @@
+﻿<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGUID>{F416129C-19B3-417F-B0D1-EB8AC2854A9F}</ProjectGUID>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(LocalAppData)\Microsoft\VisualStudio\10.0\Microsoft.Cpp.$(Platform).user.settings" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32' and (exists('$(LocalAppData)\Microsoft\VisualStudio\10.0\Microsoft.Cpp.$(Platform).user.settings'))" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(LocalAppData)\Microsoft\VisualStudio\10.0\Microsoft.Cpp.$(Platform).user.settings" Condition="'$(Configuration)|$(Platform)'=='Release|Win32' and (exists('$(LocalAppData)\Microsoft\VisualStudio\10.0\Microsoft.Cpp.$(Platform).user.settings'))" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <CodeAnalysisRuleSet>Migrated rules for VSLInclude.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <CodeAnalysisRuleSet>Migrated rules for VSLInclude.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <PostBuildEvent>
+      <Command>
+      </Command>
+      <Message>
+      </Message>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Include\VSL.h" />
+    <ClInclude Include="..\Include\VSLAutomation.h" />
+    <ClInclude Include="..\Include\VSLCommandTarget.h" />
+    <ClInclude Include="..\Include\VSLCommon.h" />
+    <ClInclude Include="..\Include\VSLComparison.h" />
+    <ClInclude Include="..\Include\VSLContainers.h" />
+    <ClInclude Include="..\Include\VSLControls.h" />
+    <ClInclude Include="..\Include\VSLErrorHandlers.h" />
+    <ClInclude Include="..\Include\VSLErrorHandlersBase.h" />
+    <ClInclude Include="..\Include\VSLExceptionHandlers.h" />
+    <ClInclude Include="..\Include\VSLExceptions.h" />
+    <ClInclude Include="..\Include\VSLFile.h" />
+    <ClInclude Include="..\Include\VSLFindAndReplace.h" />
+    <ClInclude Include="..\Include\VSLFont.h" />
+    <ClInclude Include="..\Include\VSLHierarchy.h" />
+    <ClInclude Include="..\Include\VSLHierarchyNode.h" />
+    <ClInclude Include="..\Include\VSLMockSystemInterfaces.h" />
+    <ClInclude Include="..\Include\VSLMockVisualStudioInterfaces.h" />
+    <ClInclude Include="..\Include\VSLPackage.h" />
+    <ClInclude Include="..\Include\VSLShortNameDefines.h" />
+    <ClInclude Include="..\Include\VSLUnitTest.h" />
+    <ClInclude Include="..\Include\VSLVsSite.h" />
+    <ClInclude Include="..\Include\VSLWindows.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Include\VSLPackageDllEntryPoints.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

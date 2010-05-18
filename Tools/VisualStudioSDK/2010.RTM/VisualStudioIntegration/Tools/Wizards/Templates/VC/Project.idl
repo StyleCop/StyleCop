@@ -1,0 +1,78 @@
+﻿// %ProjectName%.idl : IDL source for %ProjectName%.dll
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (%ProjectName%.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+midl_pragma warning (disable : 2015)
+import "vsshell.idl";
+midl_pragma warning (default : 2015)
+
+//standard dispids
+#define DISPID_Name                     (-800)
+#define DISPID_Delete                   (-801)
+#define DISPID_Object                   (-802)
+#define DISPID_Parent                   (-803)
+#define DISPID_NewEnum					(-4)
+#define DISPID_Value					(0)
+
+[
+	uuid(%MenuGroupGuid%),
+	version(1.0),
+	helpstring("%ProjectName% 1.0 Type Library")
+]
+library %ProjectClass%Lib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+%EditorStart%
+	importlib("dte80a.olb");
+
+	interface ISingleViewEditor;
+
+	[
+		object,
+		uuid(%EditorInterfaceID%),
+		oleautomation,
+		nonextensible,
+		helpstring("%ProjectClass% Single View Editor Interface"),
+		pointer_default(unique)
+	]	
+	interface ISingleViewEditor : IDispatch
+	{
+		[propget, id(1), helpstring("property DTE")] HRESULT DTE([out, retval] _DTE* *pVal);
+		[propget, id(DISPID_Parent), helpstring("property Parent")] HRESULT Parent([out, retval] _DTE* *pVal);
+		[propget, id(2), helpstring("property DefaultTabStop")] HRESULT DefaultTabStop([out, retval] float *pdVal);
+		[propput, id(2), helpstring("property DefaultTabStop")] HRESULT DefaultTabStop([in] float dVal);
+		[propget, id(3), helpstring("property Range")] HRESULT Range([out, retval] /*ITextRange*/ IDispatch** ppRange);
+		[propget, id(4), helpstring("property Selection")] HRESULT Selection([out, retval] /*ITextSelection*/ IDispatch** ppSelection);
+		[propget, id(5), helpstring("property Flags")] HRESULT Flags([out, retval] long *plFlags);
+		[propput, id(5), helpstring("property Flags")] HRESULT Flags([in] long lFlags);
+		[id(6), helpstring("method FindText")] HRESULT FindText([in] BSTR pStr);
+		[id(7), helpstring("method SetText")] HRESULT SetText([in] BSTR pStr);
+		[id(8), helpstring("method TypeText")] HRESULT TypeText([in] BSTR pStr);
+		[id(9), helpstring("method Cut")] HRESULT Cut(void);
+		[id(10), helpstring("method Copy")] HRESULT Copy(void);
+		[id(11), helpstring("method Paste")] HRESULT Paste(void);
+		[id(12), helpstring("method Delete")] HRESULT Delete([in] long lUnit, [in] long cUnit);
+		[id(13), helpstring("method MoveUp")] HRESULT MoveUp([in] long lUnit, [in] long cUnit, [in] long lExtend);
+		[id(14), helpstring("method MoveDown")] HRESULT MoveDown([in] long lUnit, [in] long cUnit, [in] long lExtend);
+		[id(15), helpstring("method MoveLeft")] HRESULT MoveLeft([in] long lUnit, [in] long cUnit, [in] long lExtend);
+		[id(16), helpstring("method MoveRight")] HRESULT MoveRight([in] long lUnit, [in] long cUnit, [in] long lExtend);
+		[id(17), helpstring("method EndKey")] HRESULT EndKey([in] long lUnit, [in] long lExtend);
+		[id(18), helpstring("method HomeKey")] HRESULT HomeKey([in] long lUnit, [in] long lExtend);
+	};
+
+%EditorEnd%
+	[
+		uuid(%PackageGuid%),
+		helpstring("%ProjectName% Package")
+	]
+	coclass %ProjectClass%Package
+	{
+		[default] interface IVsPackage;
+	};
+};

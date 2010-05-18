@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xs:schema targetNamespace="http://schemas.microsoft.com/SystemDefinitionModel/2005/1/Compiler/Simulations" xmlns:sdmis="http://schemas.microsoft.com/SystemDefinitionModel/2005/1/InstanceSpace" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/SystemDefinitionModel/2005/1/Compiler/Simulations" elementFormDefault="qualified" version="1.0" id="Simulations">
+	<!-- ===================================================================================================================== -->
+	<!-- Simulations root element -->
+	<!-- ===================================================================================================================== -->
+	<xs:element name="Simulations" type="Simulations"/>
+	<xs:complexType name="Simulations">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="Simulation" type="Simulation"/>
+		</xs:choice>
+	</xs:complexType>
+	<!-- ===================================================================================================================== -->
+	<!-- Simulation element -->
+	<!-- ===================================================================================================================== -->
+	<xs:complexType name="Simulation">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="InstanceSpace" type="sdmis:InstanceSpace"/>
+		</xs:choice>
+	</xs:complexType>
+</xs:schema>
