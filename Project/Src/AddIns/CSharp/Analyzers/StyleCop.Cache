@@ -1,204 +1,204 @@
 <stylecopresultscache>
   <version>10</version>
-  <project key="764709412">
+  <project key="-2002052953">
     <configuration>DEBUG;TRACE</configuration>
   </project>
   <sourcecode name="AssemblyVersion.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
     <settings>
-      <timestamp>05/12/2010 09:35:54</timestamp>
-      <milliseconds>866</milliseconds>
+      <timestamp>05/18/2010 14:53:44</timestamp>
+      <milliseconds>448</milliseconds>
     </settings>
-    <timestamp>05/12/2010 09:39:15</timestamp>
-    <milliseconds>808</milliseconds>
+    <timestamp>05/18/2010 16:04:13</timestamp>
+    <milliseconds>265</milliseconds>
     <violations />
   </sourcecode>
   <sourcecode name="CachedCodeStrings.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
     <settings>
-      <timestamp>05/12/2010 09:35:54</timestamp>
-      <milliseconds>866</milliseconds>
+      <timestamp>05/18/2010 14:53:44</timestamp>
+      <milliseconds>448</milliseconds>
     </settings>
-    <timestamp>05/12/2010 09:35:54</timestamp>
-    <milliseconds>260</milliseconds>
-    <violations />
-  </sourcecode>
-  <sourcecode name="LayoutRules.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
-    <settings>
-      <timestamp>05/12/2010 09:35:54</timestamp>
-      <milliseconds>866</milliseconds>
-    </settings>
-    <timestamp>05/12/2010 09:35:54</timestamp>
-    <milliseconds>503</milliseconds>
-    <violations />
-  </sourcecode>
-  <sourcecode name="MaintainabilityRules.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
-    <settings>
-      <timestamp>05/12/2010 09:35:54</timestamp>
-      <milliseconds>866</milliseconds>
-    </settings>
-    <timestamp>05/12/2010 09:35:54</timestamp>
-    <milliseconds>538</milliseconds>
-    <violations />
-  </sourcecode>
-  <sourcecode name="DocumentationRules.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
-    <settings>
-      <timestamp>05/12/2010 09:35:54</timestamp>
-      <milliseconds>866</milliseconds>
-    </settings>
-    <timestamp>05/12/2010 09:39:13</timestamp>
-    <milliseconds>299</milliseconds>
+    <timestamp>05/18/2010 14:53:44</timestamp>
+    <milliseconds>317</milliseconds>
     <violations />
   </sourcecode>
   <sourcecode name="NamingRules.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
     <settings>
-      <timestamp>05/12/2010 09:35:54</timestamp>
-      <milliseconds>866</milliseconds>
+      <timestamp>05/18/2010 14:53:44</timestamp>
+      <milliseconds>448</milliseconds>
     </settings>
-    <timestamp>05/12/2010 09:35:54</timestamp>
-    <milliseconds>590</milliseconds>
+    <timestamp>05/18/2010 14:53:44</timestamp>
+    <milliseconds>388</milliseconds>
+    <violations />
+  </sourcecode>
+  <sourcecode name="LayoutRules.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>05/18/2010 14:53:44</timestamp>
+      <milliseconds>448</milliseconds>
+    </settings>
+    <timestamp>05/18/2010 14:53:44</timestamp>
+    <milliseconds>375</milliseconds>
     <violations />
   </sourcecode>
   <sourcecode name="AssemblyInfo.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
     <settings>
-      <timestamp>05/12/2010 09:35:54</timestamp>
-      <milliseconds>866</milliseconds>
+      <timestamp>05/18/2010 14:53:44</timestamp>
+      <milliseconds>448</milliseconds>
     </settings>
-    <timestamp>05/12/2010 09:35:54</timestamp>
-    <milliseconds>984</milliseconds>
+    <timestamp>05/18/2010 14:53:44</timestamp>
+    <milliseconds>403</milliseconds>
+    <violations />
+  </sourcecode>
+  <sourcecode name="MaintainabilityRules.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>05/18/2010 14:53:44</timestamp>
+      <milliseconds>448</milliseconds>
+    </settings>
+    <timestamp>05/18/2010 14:53:44</timestamp>
+    <milliseconds>380</milliseconds>
     <violations />
   </sourcecode>
   <sourcecode name="CodeStrings.Designer.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
     <settings>
-      <timestamp>05/12/2010 09:35:54</timestamp>
-      <milliseconds>866</milliseconds>
+      <timestamp>05/18/2010 14:53:44</timestamp>
+      <milliseconds>448</milliseconds>
     </settings>
-    <timestamp>05/12/2010 09:35:54</timestamp>
-    <milliseconds>253</milliseconds>
-    <violations />
-  </sourcecode>
-  <sourcecode name="OrderingRules.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
-    <settings>
-      <timestamp>05/12/2010 09:35:54</timestamp>
-      <milliseconds>866</milliseconds>
-    </settings>
-    <timestamp>05/12/2010 09:35:54</timestamp>
-    <milliseconds>649</milliseconds>
+    <timestamp>05/18/2010 14:53:44</timestamp>
+    <milliseconds>321</milliseconds>
     <violations />
   </sourcecode>
   <sourcecode name="CommentVerifier.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
     <settings>
-      <timestamp>05/12/2010 09:35:54</timestamp>
-      <milliseconds>866</milliseconds>
+      <timestamp>05/18/2010 14:53:44</timestamp>
+      <milliseconds>448</milliseconds>
     </settings>
-    <timestamp>05/12/2010 09:35:54</timestamp>
-    <milliseconds>323</milliseconds>
+    <timestamp>05/18/2010 14:53:44</timestamp>
+    <milliseconds>326</milliseconds>
     <violations />
   </sourcecode>
-  <sourcecode name="Rules.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+  <sourcecode name="OrderingRules.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
     <settings>
-      <timestamp>05/12/2010 09:35:54</timestamp>
-      <milliseconds>866</milliseconds>
+      <timestamp>05/18/2010 14:53:44</timestamp>
+      <milliseconds>448</milliseconds>
     </settings>
-    <timestamp>05/12/2010 09:35:54</timestamp>
-    <milliseconds>830</milliseconds>
+    <timestamp>05/18/2010 14:53:44</timestamp>
+    <milliseconds>397</milliseconds>
     <violations />
   </sourcecode>
   <sourcecode name="Strings.Designer.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
     <settings>
-      <timestamp>05/12/2010 09:35:54</timestamp>
-      <milliseconds>866</milliseconds>
+      <timestamp>05/18/2010 14:53:44</timestamp>
+      <milliseconds>448</milliseconds>
     </settings>
-    <timestamp>05/12/2010 09:35:54</timestamp>
-    <milliseconds>932</milliseconds>
+    <timestamp>05/18/2010 14:53:44</timestamp>
+    <milliseconds>476</milliseconds>
+    <violations />
+  </sourcecode>
+  <sourcecode name="Rules.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>05/18/2010 14:53:44</timestamp>
+      <milliseconds>448</milliseconds>
+    </settings>
+    <timestamp>05/18/2010 14:53:44</timestamp>
+    <milliseconds>446</milliseconds>
     <violations />
   </sourcecode>
   <sourcecode name="ValidPrefixes.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
     <settings>
-      <timestamp>05/12/2010 09:35:54</timestamp>
-      <milliseconds>866</milliseconds>
+      <timestamp>05/18/2010 14:53:44</timestamp>
+      <milliseconds>448</milliseconds>
     </settings>
-    <timestamp>05/12/2010 09:35:54</timestamp>
-    <milliseconds>959</milliseconds>
+    <timestamp>05/18/2010 14:53:44</timestamp>
+    <milliseconds>487</milliseconds>
+    <violations />
+  </sourcecode>
+  <sourcecode name="DocumentationRules.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>05/18/2010 14:53:44</timestamp>
+      <milliseconds>448</milliseconds>
+    </settings>
+    <timestamp>05/18/2010 14:53:44</timestamp>
+    <milliseconds>364</milliseconds>
     <violations />
   </sourcecode>
   <sourcecode name="SpacingRules.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
     <settings>
-      <timestamp>05/12/2010 09:35:54</timestamp>
-      <milliseconds>866</milliseconds>
+      <timestamp>05/18/2010 14:53:44</timestamp>
+      <milliseconds>448</milliseconds>
     </settings>
-    <timestamp>05/12/2010 09:41:44</timestamp>
-    <milliseconds>943</milliseconds>
+    <timestamp>05/18/2010 14:53:44</timestamp>
+    <milliseconds>470</milliseconds>
     <violations />
   </sourcecode>
   <sourcecode name="CompanyInformation.Designer.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
     <settings>
-      <timestamp>05/12/2010 09:35:54</timestamp>
-      <milliseconds>866</milliseconds>
+      <timestamp>05/18/2010 14:53:44</timestamp>
+      <milliseconds>448</milliseconds>
     </settings>
-    <timestamp>05/12/2010 09:35:54</timestamp>
-    <milliseconds>346</milliseconds>
-    <violations />
-  </sourcecode>
-  <sourcecode name="CompanyInformation.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
-    <settings>
-      <timestamp>05/12/2010 09:35:54</timestamp>
-      <milliseconds>866</milliseconds>
-    </settings>
-    <timestamp>05/12/2010 09:35:54</timestamp>
-    <milliseconds>337</milliseconds>
+    <timestamp>05/18/2010 14:53:44</timestamp>
+    <milliseconds>330</milliseconds>
     <violations />
   </sourcecode>
   <sourcecode name="ReadabilityRules.Comments.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
     <settings>
-      <timestamp>05/12/2010 09:35:54</timestamp>
-      <milliseconds>866</milliseconds>
+      <timestamp>05/18/2010 14:53:44</timestamp>
+      <milliseconds>448</milliseconds>
     </settings>
-    <timestamp>05/12/2010 09:35:54</timestamp>
-    <milliseconds>690</milliseconds>
+    <timestamp>05/18/2010 14:53:44</timestamp>
+    <milliseconds>412</milliseconds>
+    <violations />
+  </sourcecode>
+  <sourcecode name="CompanyInformation.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>05/18/2010 14:53:44</timestamp>
+      <milliseconds>448</milliseconds>
+    </settings>
+    <timestamp>05/18/2010 14:53:44</timestamp>
+    <milliseconds>334</milliseconds>
     <violations />
   </sourcecode>
   <sourcecode name="ReadabilityRules.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
     <settings>
-      <timestamp>05/12/2010 09:35:54</timestamp>
-      <milliseconds>866</milliseconds>
+      <timestamp>05/18/2010 14:53:44</timestamp>
+      <milliseconds>448</milliseconds>
     </settings>
-    <timestamp>05/12/2010 09:35:54</timestamp>
-    <milliseconds>732</milliseconds>
-    <violations />
-  </sourcecode>
-  <sourcecode name="ReadabilityRules.MethodParameters.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
-    <settings>
-      <timestamp>05/12/2010 09:35:54</timestamp>
-      <milliseconds>866</milliseconds>
-    </settings>
-    <timestamp>05/12/2010 09:35:54</timestamp>
-    <milliseconds>745</milliseconds>
-    <violations />
-  </sourcecode>
-  <sourcecode name="ReadabilityRules.ClassMembers.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
-    <settings>
-      <timestamp>05/12/2010 09:35:54</timestamp>
-      <milliseconds>866</milliseconds>
-    </settings>
-    <timestamp>05/12/2010 09:35:54</timestamp>
-    <milliseconds>685</milliseconds>
+    <timestamp>05/18/2010 14:53:44</timestamp>
+    <milliseconds>427</milliseconds>
     <violations />
   </sourcecode>
   <sourcecode name="ReadabilityRules.QueryExpressions.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
     <settings>
-      <timestamp>05/12/2010 09:35:54</timestamp>
-      <milliseconds>866</milliseconds>
+      <timestamp>05/18/2010 14:53:44</timestamp>
+      <milliseconds>448</milliseconds>
     </settings>
-    <timestamp>05/12/2010 09:35:54</timestamp>
-    <milliseconds>775</milliseconds>
+    <timestamp>05/18/2010 14:53:44</timestamp>
+    <milliseconds>418</milliseconds>
     <violations />
   </sourcecode>
   <sourcecode name="ReadabilityRules.Statements.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
     <settings>
-      <timestamp>05/12/2010 09:35:54</timestamp>
-      <milliseconds>866</milliseconds>
+      <timestamp>05/18/2010 14:53:44</timestamp>
+      <milliseconds>448</milliseconds>
     </settings>
-    <timestamp>05/12/2010 09:35:54</timestamp>
-    <milliseconds>785</milliseconds>
+    <timestamp>05/18/2010 14:53:44</timestamp>
+    <milliseconds>423</milliseconds>
+    <violations />
+  </sourcecode>
+  <sourcecode name="ReadabilityRules.ClassMembers.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>05/18/2010 14:53:44</timestamp>
+      <milliseconds>448</milliseconds>
+    </settings>
+    <timestamp>05/18/2010 14:53:44</timestamp>
+    <milliseconds>409</milliseconds>
+    <violations />
+  </sourcecode>
+  <sourcecode name="ReadabilityRules.MethodParameters.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>05/18/2010 14:53:44</timestamp>
+      <milliseconds>448</milliseconds>
+    </settings>
+    <timestamp>05/18/2010 14:53:44</timestamp>
+    <milliseconds>415</milliseconds>
     <violations />
   </sourcecode>
 </stylecopresultscache>

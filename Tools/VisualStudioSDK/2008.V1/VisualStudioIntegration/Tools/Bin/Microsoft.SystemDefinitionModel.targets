@@ -1,0 +1,169 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+    <!-- Define the tasks -->
+    <UsingTask TaskName="Microsoft.SystemDefinitionModel.Tasks.SdmC" AssemblyFile="Microsoft.Sdm.Build.Tasks.dll"/>
+    <UsingTask TaskName="Microsoft.SystemDefinitionModel.Tasks.SdmG" AssemblyFile="Microsoft.Sdm.Build.Tasks.dll"/>
+    <UsingTask TaskName="Microsoft.SystemDefinitionModel.Tasks.SdmProtoGen" AssemblyFile="Microsoft.Sdm.Build.Tasks.dll"/>
+
+    <PropertyGroup>
+        <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildBinPath)\Microsoft.SystemDefinitionModel.targets</MSBuildAllProjects>
+    </PropertyGroup>
+
+    <!-- Default properties -->
+    <PropertyGroup>
+        <!-- Default bin directory -->
+        <Configuration Condition=" '$(Configuration)'=='' ">Debug</Configuration>
+        <OutputPath Condition=" '$(OutputPath)' == '' ">bin\$(Configuration)</OutputPath>
+        <OutDir Condition=" '$(OutDir)' == '' ">$(OutputPath)\</OutDir>
+
+        <!-- Default SdmC properties -->
+        <SdmSourcePath>$(OutDir)$(SdmSourceFile)</SdmSourcePath>
+        <SdmTargetFile Condition="'$(SdmTargetFile)' == '' ">$(SdmSourceFile)Document</SdmTargetFile>
+        <SdmTargetPath>$(OutDir)$(SdmTargetFile)</SdmTargetPath>
+        <InstanceSpaceReportPath Condition="'$(InstanceSpaceReport)' != '' ">$(OutDir)$(InstanceSpaceReport)</InstanceSpaceReportPath>
+        <ConfigurationReportPath Condition="'$(ConfigurationReport)' != '' ">$(OutDir)$(ConfigurationReport)</ConfigurationReportPath>
+        
+        <!-- Default SdmG properties -->
+        <GenerateResources Condition="'$(GenerateResources)' == ''">false</GenerateResources>
+        
+        <GenerateClasses Condition="'$(GenerateClasses)' == ''">true</GenerateClasses>
+        <!-- If the resources will not be generated, clear out the classes filename -->
+        <GeneratedClassFile Condition="'$(GenerateClasses)' == 'false'"></GeneratedClassFile>
+        <GeneratedClassPath Condition="'$(GeneratedClassFile)' != ''">$(OutDir)$(GeneratedClassFile)</GeneratedClassPath>
+
+        <GeneratedResourceFile Condition="'$(GeneratedResourceFile)' == ''">$(ManagerAssemblyName).resources</GeneratedResourceFile>
+        <!-- If the resources will not be generated, clear out the resources filename -->
+        <GeneratedResourceFile Condition="'$(GenerateResources)' == 'false'"></GeneratedResourceFile>
+        <GeneratedResourcePath Condition="'$(GeneratedResourceFile)' != ''">$(OutDir)$(GeneratedResourceFile)</GeneratedResourcePath>
+        <ResourceTextFile Condition="'$(GenerateResources)' == 'false'"></ResourceTextFile>
+        
+        <!-- Default CSC properties for building the manager -->
+        <ManagerFileName Condition="'$(ManagerFileName)' == ''">$(ManagerAssemblyName).dll</ManagerFileName>
+        <ManagerPath>$(OutDir)$(ManagerFileName)</ManagerPath>
+        
+        <!-- Default prototype properties -->
+        <PrototypeOutput Condition="'$(PrototypeOutput)$(PrototypeLayer)' == 'Application'">$(OutDir)$(PrototypeTypeName).adPrototype</PrototypeOutput>
+        <PrototypeOutput Condition="'$(PrototypeOutput)$(PrototypeLayer)' == 'Host'">$(OutDir)$(PrototypeTypeName).lddPrototype</PrototypeOutput>
+    </PropertyGroup>
+    
+    <!-- Compile an SDM document -->
+    <PropertyGroup>
+        <SdmCDependsOn>MakeOutputDir</SdmCDependsOn>
+    </PropertyGroup>
+    <Target Name="SdmC"
+        Inputs="$(SdmSourceFile);
+                $(MSBuildAllProjects)"
+        Outputs="$(SdmTargetPath)"
+        DependsOnTargets="$(SdmCDependsOn)">
+        
+        <Copy
+            SourceFiles="$(SdmSourceFile)"
+            DestinationFiles="$(SdmSourcePath)"
+            SkipUnchangedFiles="true"
+            />
+
+        <!-- Compile a document -->
+        <SdmC
+            SourceFile="$(SdmSourcePath)"
+            TargetFile="$(SdmTargetPath)"
+            References="@(SdmReference)"
+            ReferenceSearchPath="@(SdmReferenceSearchPath)"
+            KeyFile="$(SdmKeyFile)"
+            KeyContainer="$(SdmKeyContainer)"
+            InstanceSpaceReport="$(InstanceSpaceReportPath)"
+            ConfigurationReport="$(ConfigurationReportPath)"
+            WarningLevelAsErrors="$(SdmWarningLevelAsErrors)"
+            WarningLevelReported="$(SdmWarningLevelReported)"
+            ErrorLimit="$(SdmErrorLimit)"
+            MaxSimulationComplexity="$(SdmMaxComplexity)"
+            NoLogo="$(SdmNoLogo)"
+            ToolPath="$(SdmToolsPath)"/>
+        
+    </Target>
+    
+    <!-- Create a prototype -->
+    <PropertyGroup>
+        <SdmProtoGenDependsOn>MakeOutputDir</SdmProtoGenDependsOn>
+    </PropertyGroup>
+    <Target Name="SdmProtoGen"
+            Inputs="$(MSBuildAllProjects)"
+            Outputs="$(PrototypeOutput);."
+            DependsOnTargets="$(SdmProtoGenDependsOn)">
+
+        <SdmProtoGen
+            Filename="$(PrototypeFilename)"
+            Type="$(PrototypeType)"
+            Layer="$(PrototypeLayer)"
+            Document="$(PrototypeDocument)"
+            TypeName="$(PrototypeTypeName)"
+            Output="$(PrototypeOutput)"
+            ToolboxName="$(PrototypeName)"
+            ToolboxBitmap="$(PrototypeBitmap)"
+            ToolboxCaption="$(PrototypeCaption)"
+            ToolboxPosition="$(PrototypePosition)"
+            ToolPath="$(SdmToolsPath)"/>
+    </Target>
+
+    <!-- Generate the classes and resources for a manager assembly -->
+    <PropertyGroup>
+        <SdmGDependsOn>MakeOutputDir</SdmGDependsOn>
+    </PropertyGroup>
+    <Target Name="SdmG"
+        Inputs="$(SdmSourceFile);
+                $(MSBuildAllProjects)"
+        Outputs="$(GeneratedClassPath);
+                 $(GeneratedResourcePath)"
+        DependsOnTargets="$(SdmGDependsOn)">
+                 
+        <!-- Create the resources for a manager -->
+        <SdmG
+            SourceFile="$(SdmSourceFile)"
+            References="@(SdmReference)"
+            ReferenceSearchPath="@(SdmReferenceSearchPath)"
+            WarningLevelAsErrors="$(SdmWarningLevelAsErrors)"
+            WarningLevelReported="$(SdmWarningLevelReported)"
+            ErrorLimit="$(SdmErrorLimit)"
+            GenerateClasses="$(GenerateClasses)"
+            GenerateResources="$(GenerateResources)"
+            ClassesFile="$(GeneratedClassPath)"
+            ResourcesFile="$(GeneratedResourcePath)"
+            SettingClasses="$(GenerateSettingClasses)"
+            ConstraintClasses="$(GenerateConstraintClasses)"
+            FlowClasses="$(GenerateFlowClasses)"
+            EqualsMethod="$(GenerateEqualsMethod)"
+            CopyMethod="$(GenerateCopyMethod)"
+            HashMethod="$(GenerateHashMethod)"
+            NoLogo="$(SdmNoLogo)"
+            ToolPath="$(SdmToolsPath)"/>
+            
+        
+        <!-- Dump the resources to a text file -->
+        <Resgen Condition="'$(ResourceTextPath)' != ''"
+            Sources="$(GeneratedResourcePath)" 
+            OutputResources="$(ResourceTextPath)">
+            
+            <Output TaskParameter="OutputResources" PropertyName="ResourceTextPath" />
+        </Resgen>
+    </Target>
+
+    <!-- Clean out the bin directory -->
+    <Target Name="Clean">
+        <Delete Files="$(SdmSourcePath);
+                       $(SdmTargetPath);
+                       $(InstanceSpaceReportPath);
+                       $(ConfigurationReportPath);
+                       $(PrototypeOutput);
+                       $(GeneratedClassPath);
+                       $(GeneratedResourcePath);
+                       $(ResourceTextPath);
+                       $(ManagerPath)"
+        />
+    </Target>
+
+    <Target Name="MakeOutputDir">
+        <!-- Create the build directory. -->
+        <MakeDir
+              Directories="$(OutDir)"/>
+    </Target>
+
+</Project>
