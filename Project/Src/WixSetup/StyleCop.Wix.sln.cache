@@ -31,11 +31,11 @@
     <AspNetConfiguration>$(Configuration)</AspNetConfiguration>
   </PropertyGroup>
   <PropertyGroup>
-    <SolutionDir>c:\depot\StyleCop_Plex\Main\src\wixsetup\</SolutionDir>
+    <SolutionDir>c:\depot\StyleCop\Project\src\wixsetup\</SolutionDir>
     <SolutionExt>.sln</SolutionExt>
     <SolutionFileName>StyleCop.Wix.sln</SolutionFileName>
     <SolutionName>StyleCop.Wix</SolutionName>
-    <SolutionPath>c:\depot\StyleCop_Plex\Main\src\wixsetup\StyleCop.Wix.sln</SolutionPath>
+    <SolutionPath>c:\depot\StyleCop\Project\src\wixsetup\StyleCop.Wix.sln</SolutionPath>
   </PropertyGroup>
   <PropertyGroup>
     <TargetFrameworkVersion Condition="'$(TargetFrameworkVersion)' == '' and '$(MSBuildToolsVersion)' == '2.0'">v2.0</TargetFrameworkVersion>

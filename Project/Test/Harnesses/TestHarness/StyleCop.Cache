@@ -1,78 +1,78 @@
 <stylecopresultscache>
   <version>10</version>
-  <project key="-1028402117">
+  <project key="1813368981">
     <configuration>TRACE;DEBUG;BREAK_TEST_HARNESS_OFFs</configuration>
   </project>
-  <sourcecode name="AssemblyInfo.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+  <sourcecode name="TestCodeFileInfo.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
     <settings>
-      <timestamp>05/12/2010 09:36:00</timestamp>
-      <milliseconds>668</milliseconds>
+      <timestamp>05/18/2010 14:53:46</timestamp>
+      <milliseconds>880</milliseconds>
     </settings>
-    <timestamp>05/12/2010 09:36:09</timestamp>
-    <milliseconds>867</milliseconds>
+    <timestamp>05/18/2010 14:53:46</timestamp>
+    <milliseconds>829</milliseconds>
     <violations />
   </sourcecode>
-  <sourcecode name="Program.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+  <sourcecode name="AssemblyInfo.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
     <settings>
-      <timestamp>05/12/2010 09:36:00</timestamp>
-      <milliseconds>668</milliseconds>
+      <timestamp>05/18/2010 14:53:46</timestamp>
+      <milliseconds>880</milliseconds>
     </settings>
-    <timestamp>05/12/2010 09:36:09</timestamp>
-    <milliseconds>722</milliseconds>
+    <timestamp>05/18/2010 14:53:46</timestamp>
+    <milliseconds>814</milliseconds>
     <violations />
   </sourcecode>
   <sourcecode name="Strings.Designer.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
     <settings>
-      <timestamp>05/12/2010 09:36:00</timestamp>
-      <milliseconds>668</milliseconds>
+      <timestamp>05/18/2010 14:53:46</timestamp>
+      <milliseconds>880</milliseconds>
     </settings>
-    <timestamp>05/12/2010 09:36:09</timestamp>
-    <milliseconds>743</milliseconds>
-    <violations />
-  </sourcecode>
-  <sourcecode name="TestCodeFileInfo.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
-    <settings>
-      <timestamp>05/12/2010 09:36:00</timestamp>
-      <milliseconds>668</milliseconds>
-    </settings>
-    <timestamp>05/12/2010 09:36:09</timestamp>
-    <milliseconds>788</milliseconds>
-    <violations />
-  </sourcecode>
-  <sourcecode name="TestInfo.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
-    <settings>
-      <timestamp>05/12/2010 09:36:00</timestamp>
-      <milliseconds>668</milliseconds>
-    </settings>
-    <timestamp>05/12/2010 09:36:09</timestamp>
-    <milliseconds>822</milliseconds>
+    <timestamp>05/18/2010 14:53:46</timestamp>
+    <milliseconds>820</milliseconds>
     <violations />
   </sourcecode>
   <sourcecode name="ViolationInfo.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
     <settings>
-      <timestamp>05/12/2010 09:36:00</timestamp>
-      <milliseconds>668</milliseconds>
+      <timestamp>05/18/2010 14:53:46</timestamp>
+      <milliseconds>880</milliseconds>
     </settings>
-    <timestamp>05/12/2010 09:36:09</timestamp>
-    <milliseconds>818</milliseconds>
+    <timestamp>05/18/2010 14:53:46</timestamp>
+    <milliseconds>842</milliseconds>
     <violations />
   </sourcecode>
   <sourcecode name=".NETFramework,Version=v4.0.AssemblyAttributes.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
     <settings>
-      <timestamp>05/12/2010 09:36:00</timestamp>
-      <milliseconds>668</milliseconds>
+      <timestamp>05/18/2010 14:53:46</timestamp>
+      <milliseconds>880</milliseconds>
     </settings>
-    <timestamp>03/22/2010 17:26:42</timestamp>
-    <milliseconds>829</milliseconds>
+    <timestamp>05/19/2010 09:23:00</timestamp>
+    <milliseconds>365</milliseconds>
+    <violations />
+  </sourcecode>
+  <sourcecode name="TestInfo.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>05/18/2010 14:53:46</timestamp>
+      <milliseconds>880</milliseconds>
+    </settings>
+    <timestamp>05/18/2010 14:53:46</timestamp>
+    <milliseconds>832</milliseconds>
+    <violations />
+  </sourcecode>
+  <sourcecode name="Program.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>05/18/2010 14:53:46</timestamp>
+      <milliseconds>880</milliseconds>
+    </settings>
+    <timestamp>05/18/2010 14:53:46</timestamp>
+    <milliseconds>810</milliseconds>
     <violations />
   </sourcecode>
   <sourcecode name="TestRunner.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
     <settings>
-      <timestamp>05/12/2010 09:36:00</timestamp>
-      <milliseconds>668</milliseconds>
+      <timestamp>05/18/2010 14:53:46</timestamp>
+      <milliseconds>880</milliseconds>
     </settings>
-    <timestamp>05/12/2010 09:36:09</timestamp>
-    <milliseconds>835</milliseconds>
+    <timestamp>05/18/2010 14:53:46</timestamp>
+    <milliseconds>840</milliseconds>
     <violations />
   </sourcecode>
 </stylecopresultscache>
