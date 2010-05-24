@@ -1,7 +1,7 @@
 [OPTIONS]
 Auto Index=Yes
 Compatibility=1.1 or later
-Compiled file=..\bin\StyleCop.chm
+Compiled file=bin\StyleCop.chm
 Contents file=Contents.hhc
 Default Window=MsdnHelp
 Display compile progress=No

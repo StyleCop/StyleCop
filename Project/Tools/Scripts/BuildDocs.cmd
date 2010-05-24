@@ -2,6 +2,6 @@
 
 SETLOCAL
 
-CALL msbuild BuildDocs.proj
+CALL msbuild %PROJECTROOT%\Docs\Rules\BuildDocs.proj
 
 ENDLOCAL
