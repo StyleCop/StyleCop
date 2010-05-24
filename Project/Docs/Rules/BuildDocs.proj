@@ -8,7 +8,7 @@
 
     <Target Name="Docs">
         <Error Condition="!Exists('$(ProgramFiles)\HTML Help Workshop\hhc.exe')" Text="Please ensure the Microsoft HTML Help Workshop is installed." />   
-        <MakeDir Directories="$(PROJECTROOT)\Docs\Bin" />
+        <MakeDir Directories="$(PROJECTROOT)\Docs\Rules\Bin" />
         <Help.Compile ProjectFilePath="$(PROJECTROOT)\Docs\Rules\StyleCop.hhp" />
     </Target>
 </Project>
