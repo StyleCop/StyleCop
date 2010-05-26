@@ -564,6 +564,24 @@ img.note
 
 
 /*------------------------------ Begin General Table Styles -------------------------------*/
+div#pagebody div#mainbody table
+{
+    border: 1px solid #ddd;
+    margin: auto auto 15pt 3.75pt;
+    border-collapse: collapse;    
+    width:97%;    
+}
+
+div#pagebody div#mainbody table col
+{      
+    width:150px;    
+}
+
+div#pagebody div#mainbody table tr td
+{      
+    border: 1px solid #ddd;    
+}
+
 div#mainSection table
 {
 	border: 0;
@@ -1081,3 +1099,17 @@ span.filter
 	color: #0000FF;
 }
 
+div#pagebody div#mainbody h2
+{
+    margin: 0cm 0cm 7.5pt;
+}
+
+div#pagebody div#mainbody p
+{
+    margin: 0cm 0cm 7.5pt;
+}
+
+div#pagebody div#mainbody table tr td p                 
+{
+  margin:  5pt 4pt 5pt;   
+}
