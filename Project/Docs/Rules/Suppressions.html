@@ -1,90 +1,57 @@
 ﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
-<head>
-    <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
-    <meta content="history" name="save">
-    <meta name="GENERATOR" content="Innovasys HelpStudio Lite (http://www.innovasys.com)">
-    <title>Rule Suppressions</title>
-    <link rel="stylesheet" type="text/css" href="stylesheets/helpstudio.css"><link rel="stylesheet" type="text/css" href="styles/Presentation.css">
-    <script src="script/helpstudio.js" type="text/javascript"></script>
-    
-    
-    <xml>
-        <MSHelp:RLTitle Title="Rule Suppressions"/>
-        <MSHelp:Attr Name="DocSet" Value="StyleCop"/>
-        <MSHelp:Attr Name="TopicType" Value="kbRef"/>
-    </xml> 
-    
-</head>
-<body id="hsbody" topmargin="0">
-    <input type="hidden" id="userDataCache" class="userDataStyle" NAME="userDataCache"></input>
-    <div id="allHistory" class="saveHistory" onsave="saveScrollPosition()" onload="loadScrollPosition()"></div>
-    <div id="pagetop">
-        <table width="100%" id="pagetoptable1">
-            <tr id="pagetoptable1row1">
-                <td align="left">
-                    <span id="projecttitle">
-                        StyleCop 4.3
-                    </span>
-                </td>
-                <td align="right">
-                    <span id="feedbacklink">
-                        </td>
-                    </span>
-                </td>
-            </tr>
-            <tr id="pagetoptable1row2">
-                <td align="left" colspan="2">
-                    <span id="pagetitle">
-                        Rule Suppressions
-                    </span>
-                </td>
-            </tr>
-            
-        </table>
-    </div>
-    <div class="hspopupbubble" id="hsglossaryitembox">
-        <p>Glossary Item Box</p>
-    </div>
-    <div id="pagebody" valign="bottom">
-        <div id="mainbody">
-            <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 3.75pt" class=MsoNormal><SPAN style="FONT-FAMILY: 'Verdana','sans-serif'; COLOR: black; FONT-SIZE: 9.5pt; mso-fareast-font-family: 'Times New Roman'; mso-bidi-font-family: 'Times New Roman'">Starting with StyleCop 4.3.2, it is possible to suppress the reporting of rule violations by adding suppression attributes within the source code. The syntax for these suppressions is similar to that for Visual Studio Code Analysis, or FxCop. For more information about Code Analysis suppressions, see the following article: <A href="http://msdn.microsoft.com/en-us/library/ms244717.aspx"><SPAN style="COLOR: blue">In Source Suppressions Overview</SPAN></A>.<o:p></o:p></SPAN></P>
-<P style="LINE-HEIGHT: normal; MARGIN: 7.5pt 0in 3.75pt" class=MsoNormal><SPAN style="FONT-FAMILY: 'Verdana','sans-serif'; COLOR: black; FONT-SIZE: 9.5pt; mso-fareast-font-family: 'Times New Roman'; mso-bidi-font-family: 'Times New Roman'">StyleCop rule suppressions are registered in code using the <B>SuppressMessage</B> attribute. The <B>SuppressMessage </B>attribute is a conditional attribute, which is included in the IL metadata of your managed code assembly only if the CODE_ANALYSIS compilation symbol is defined at compile time.<o:p></o:p></SPAN></P>
-<P style="LINE-HEIGHT: normal; MARGIN: 7.5pt 0in 3.75pt" class=MsoNormal><SPAN style="FONT-FAMILY: 'Verdana','sans-serif'; COLOR: black; FONT-SIZE: 9.5pt; mso-fareast-font-family: 'Times New Roman'; mso-bidi-font-family: 'Times New Roman'">We recommend that you use in-source suppressions on debug or check-in builds, in order to eliminate the possibility of mistakenly shipping the in-source suppression metadata and compromising execution or performance because of the metadata bloat. <o:p></o:p></SPAN></P>
-<P style="LINE-HEIGHT: normal; MARGIN: 7.5pt 0in 3.75pt" class=MsoNormal><SPAN style="FONT-FAMILY: 'Verdana','sans-serif'; COLOR: black; FONT-SIZE: 9.5pt; mso-fareast-font-family: 'Times New Roman'; mso-bidi-font-family: 'Times New Roman'">The <B>SuppressMessage</B> attribute has the following format:<o:p></o:p></SPAN></P>
-<P style="LINE-HEIGHT: normal; MARGIN: 7.5pt 0in 3.75pt" class=MsoNormal><I><SPAN style="FONT-FAMILY: 'Verdana','sans-serif'; COLOR: black; FONT-SIZE: 9.5pt; mso-fareast-font-family: 'Times New Roman'; mso-bidi-font-family: 'Times New Roman'">[SuppressMessage(</SPAN></I><I><SPAN style="FONT-FAMILY: 'Verdana','sans-serif'; COLOR: maroon; FONT-SIZE: 9.5pt; mso-fareast-font-family: 'Times New Roman'; mso-bidi-font-family: 'Times New Roman'">"Rule Category"</SPAN></I><I><SPAN style="FONT-FAMILY: 'Verdana','sans-serif'; COLOR: black; FONT-SIZE: 9.5pt; mso-fareast-font-family: 'Times New Roman'; mso-bidi-font-family: 'Times New Roman'">, </SPAN></I><I><SPAN style="FONT-FAMILY: 'Verdana','sans-serif'; COLOR: maroon; FONT-SIZE: 9.5pt; mso-fareast-font-family: 'Times New Roman'; mso-bidi-font-family: 'Times New Roman'">"Rule Id"</SPAN></I><I><SPAN style="FONT-FAMILY: 'Verdana','sans-serif'; COLOR: black; FONT-SIZE: 9.5pt; mso-fareast-font-family: 'Times New Roman'; mso-bidi-font-family: 'Times New Roman'">, </SPAN></I><I><SPAN style="FONT-FAMILY: 'Verdana','sans-serif'; COLOR: maroon; FONT-SIZE: 9.5pt; mso-fareast-font-family: 'Times New Roman'; mso-bidi-font-family: 'Times New Roman'">"Justification"</SPAN></I><I><SPAN style="FONT-FAMILY: 'Verdana','sans-serif'; COLOR: black; FONT-SIZE: 9.5pt; mso-fareast-font-family: 'Times New Roman'; mso-bidi-font-family: 'Times New Roman'">)]</SPAN></I><SPAN style="FONT-FAMILY: 'Verdana','sans-serif'; COLOR: black; FONT-SIZE: 9.5pt; mso-fareast-font-family: 'Times New Roman'; mso-bidi-font-family: 'Times New Roman'"><o:p></o:p></SPAN></P>
-<P style="LINE-HEIGHT: normal; MARGIN: 7.5pt 0in 3.75pt" class=MsoNormal><SPAN style="FONT-FAMILY: 'Verdana','sans-serif'; COLOR: black; FONT-SIZE: 9.5pt; mso-fareast-font-family: 'Times New Roman'; mso-bidi-font-family: 'Times New Roman'">Where:<o:p></o:p></SPAN></P>
-<P style="LINE-HEIGHT: normal; TEXT-INDENT: -0.25in; MARGIN: 3.75pt 0in 3.75pt 21.75pt; mso-list: l1 level1 lfo1; tab-stops: list .5in" class=MsoNormal><SPAN style="FONT-FAMILY: Symbol; COLOR: black; FONT-SIZE: 10pt; mso-fareast-font-family: Symbol; mso-bidi-font-size: 9.5pt; mso-bidi-font-family: Symbol"><SPAN style="mso-list: Ignore">·<SPAN style="FONT: 7pt 'Times New Roman'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </SPAN></SPAN></SPAN><B><SPAN style="FONT-FAMILY: 'Verdana','sans-serif'; COLOR: black; FONT-SIZE: 9.5pt; mso-fareast-font-family: 'Times New Roman'; mso-bidi-font-family: 'Times New Roman'">Rule Category - </SPAN></B><SPAN style="FONT-FAMILY: 'Verdana','sans-serif'; COLOR: black; FONT-SIZE: 9.5pt; mso-fareast-font-family: 'Times New Roman'; mso-bidi-font-family: 'Times New Roman'">The StyleCop rule namespace in which the rule is defined. For example, </SPAN><I><SPAN style="FONT-FAMILY: Consolas; COLOR: black; FONT-SIZE: 10pt">Microsoft.StyleCop.CSharp.DocumentationRules</SPAN></I><SPAN style="FONT-FAMILY: 'Verdana','sans-serif'; COLOR: black; FONT-SIZE: 9.5pt; mso-fareast-font-family: 'Times New Roman'; mso-bidi-font-family: 'Times New Roman'"><o:p></o:p></SPAN></P>
-<P style="LINE-HEIGHT: normal; TEXT-INDENT: -0.25in; MARGIN: 3.75pt 0in 3.75pt 21.75pt; mso-list: l1 level1 lfo1; tab-stops: list .5in" class=MsoNormal><SPAN style="FONT-FAMILY: Symbol; COLOR: black; FONT-SIZE: 10pt; mso-fareast-font-family: Symbol; mso-bidi-font-size: 9.5pt; mso-bidi-font-family: Symbol"><SPAN style="mso-list: Ignore">·<SPAN style="FONT: 7pt 'Times New Roman'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </SPAN></SPAN></SPAN><B><SPAN style="FONT-FAMILY: 'Verdana','sans-serif'; COLOR: black; FONT-SIZE: 9.5pt; mso-fareast-font-family: 'Times New Roman'; mso-bidi-font-family: 'Times New Roman'">Rule Id - </SPAN></B><SPAN style="FONT-FAMILY: 'Verdana','sans-serif'; COLOR: black; FONT-SIZE: 9.5pt; mso-fareast-font-family: 'Times New Roman'; mso-bidi-font-family: 'Times New Roman'">The identifier for the rule, using the format <I>shortname:longname</I>. For example, </SPAN><I><SPAN style="FONT-FAMILY: Consolas; COLOR: black; FONT-SIZE: 9.5pt; mso-fareast-font-family: 'Times New Roman'">SA1600:ElementsMustBeDocumented</SPAN></I><SPAN style="FONT-FAMILY: 'Verdana','sans-serif'; COLOR: black; FONT-SIZE: 9.5pt; mso-fareast-font-family: 'Times New Roman'; mso-bidi-font-family: 'Times New Roman'"><o:p></o:p></SPAN></P>
-<P style="LINE-HEIGHT: normal; TEXT-INDENT: -0.25in; MARGIN: 3.75pt 0in 3.75pt 21.75pt; mso-list: l1 level1 lfo1; tab-stops: list .5in" class=MsoNormal><SPAN style="FONT-FAMILY: Symbol; COLOR: black; FONT-SIZE: 10pt; mso-fareast-font-family: Symbol; mso-bidi-font-size: 9.5pt; mso-bidi-font-family: Symbol"><SPAN style="mso-list: Ignore">·<SPAN style="FONT: 7pt 'Times New Roman'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </SPAN></SPAN></SPAN><B><SPAN style="FONT-FAMILY: 'Verdana','sans-serif'; COLOR: black; FONT-SIZE: 9.5pt; mso-fareast-font-family: 'Times New Roman'; mso-bidi-font-family: 'Times New Roman'">Justification</SPAN></B><SPAN style="FONT-FAMILY: 'Verdana','sans-serif'; COLOR: black; FONT-SIZE: 9.5pt; mso-fareast-font-family: 'Times New Roman'; mso-bidi-font-family: 'Times New Roman'"> - The text that is used to document the reason for suppressing the message. <o:p></o:p></SPAN></P>
-<P style="LINE-HEIGHT: normal; MARGIN: 7.5pt 0in 3.75pt" class=MsoNormal><SPAN style="FONT-FAMILY: 'Verdana','sans-serif'; COLOR: black; FONT-SIZE: 9.5pt; mso-fareast-font-family: 'Times New Roman'; mso-bidi-font-family: 'Times New Roman'">The <B>SuppressMessage<I> </I></B>attribute also takes the following optional parameter. These parameters are completely ignored by StyleCop and do not need to be filled in for StyleCop suppressions.<o:p></o:p></SPAN></P>
-<P style="LINE-HEIGHT: normal; TEXT-INDENT: -0.25in; MARGIN: 3.75pt 0in 3.75pt 21.75pt; mso-list: l0 level1 lfo2; tab-stops: list .5in" class=MsoNormal><SPAN style="FONT-FAMILY: Symbol; COLOR: black; FONT-SIZE: 10pt; mso-fareast-font-family: Symbol; mso-bidi-font-size: 9.5pt; mso-bidi-font-family: Symbol"><SPAN style="mso-list: Ignore">·<SPAN style="FONT: 7pt 'Times New Roman'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </SPAN></SPAN></SPAN><B><SPAN style="FONT-FAMILY: 'Verdana','sans-serif'; COLOR: black; FONT-SIZE: 9.5pt; mso-fareast-font-family: 'Times New Roman'; mso-bidi-font-family: 'Times New Roman'">Message Id</SPAN></B><SPAN style="FONT-FAMILY: 'Verdana','sans-serif'; COLOR: black; FONT-SIZE: 9.5pt; mso-fareast-font-family: 'Times New Roman'; mso-bidi-font-family: 'Times New Roman'"><o:p></o:p></SPAN></P>
-<P style="LINE-HEIGHT: normal; TEXT-INDENT: -0.25in; MARGIN: 3.75pt 0in 3.75pt 21.75pt; mso-list: l0 level1 lfo2; tab-stops: list .5in" class=MsoNormal><SPAN style="FONT-FAMILY: Symbol; COLOR: black; FONT-SIZE: 10pt; mso-fareast-font-family: Symbol; mso-bidi-font-size: 9.5pt; mso-bidi-font-family: Symbol"><SPAN style="mso-list: Ignore">·<SPAN style="FONT: 7pt 'Times New Roman'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </SPAN></SPAN></SPAN><B><SPAN style="FONT-FAMILY: 'Verdana','sans-serif'; COLOR: black; FONT-SIZE: 9.5pt; mso-fareast-font-family: 'Times New Roman'; mso-bidi-font-family: 'Times New Roman'">Scope</SPAN></B><SPAN style="FONT-FAMILY: 'Verdana','sans-serif'; COLOR: black; FONT-SIZE: 9.5pt; mso-fareast-font-family: 'Times New Roman'; mso-bidi-font-family: 'Times New Roman'"><o:p></o:p></SPAN></P>
-<P style="LINE-HEIGHT: normal; TEXT-INDENT: -0.25in; MARGIN: 3.75pt 0in 3.75pt 21.75pt; mso-list: l0 level1 lfo2; tab-stops: list .5in" class=MsoNormal><SPAN style="FONT-FAMILY: Symbol; COLOR: black; FONT-SIZE: 10pt; mso-fareast-font-family: Symbol; mso-bidi-font-size: 9.5pt; mso-bidi-font-family: Symbol"><SPAN style="mso-list: Ignore">·<SPAN style="FONT: 7pt 'Times New Roman'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </SPAN></SPAN></SPAN><B><SPAN style="FONT-FAMILY: 'Verdana','sans-serif'; COLOR: black; FONT-SIZE: 9.5pt; mso-fareast-font-family: 'Times New Roman'; mso-bidi-font-family: 'Times New Roman'">Target</SPAN></B><SPAN style="FONT-FAMILY: 'Verdana','sans-serif'; COLOR: black; FONT-SIZE: 9.5pt; mso-fareast-font-family: 'Times New Roman'; mso-bidi-font-family: 'Times New Roman'"><o:p></o:p></SPAN></P>
-<P style="MARGIN: 0in 0in 10pt" class=MsoNormal><SPAN style="LINE-HEIGHT: 115%; FONT-FAMILY: 'Verdana','sans-serif'; FONT-SIZE: 9.5pt"><o:p>&nbsp;</o:p></SPAN></P>
-<P style="MARGIN: 0in 0in 10pt" class=MsoNormal><B style="mso-bidi-font-weight: normal"><SPAN style="LINE-HEIGHT: 115%; FONT-FAMILY: 'Verdana','sans-serif'; FONT-SIZE: 9.5pt">SuppressMessage Usage <o:p></o:p></SPAN></B></P>
-<P style="MARGIN: 0in 0in 10pt" class=MsoNormal><SPAN style="LINE-HEIGHT: 115%; FONT-FAMILY: 'Verdana','sans-serif'; FONT-SIZE: 9.5pt">StyleCop violations are suppressed at the level to which an instance of the <B style="mso-bidi-font-weight: normal">SuppressMessage</B> attribute is applied. The purpose of this is to tightly couple the suppression information to the code where the violation occurs. <o:p></o:p></SPAN></P>
-<P style="MARGIN: 0in 0in 10pt" class=MsoNormal><SPAN style="LINE-HEIGHT: 115%; FONT-FAMILY: 'Verdana','sans-serif'; FONT-SIZE: 9.5pt">For example, a StyleCop <B style="mso-bidi-font-weight: normal">SuppressMessage</B> attribute placed on a class will suppress the rule for all contents of the class. The same attribute placed on a method will only suppress the rule within the method.<o:p></o:p></SPAN></P>
-<P style="MARGIN: 0in 0in 10pt" class=MsoNormal><B style="mso-bidi-font-weight: normal"><SPAN style="LINE-HEIGHT: 115%; FONT-FAMILY: 'Verdana','sans-serif'; FONT-SIZE: 9.5pt">Global Suppressions<o:p></o:p></SPAN></B></P>
-<P style="MARGIN: 0in 0in 10pt" class=MsoNormal><SPAN style="LINE-HEIGHT: 115%; FONT-FAMILY: 'Verdana','sans-serif'; FONT-SIZE: 9.5pt">StyleCop does not support the notion of global suppressions or file-level suppressions. Suppressions must be placed on a code element.<o:p></o:p></SPAN></P>
-<P style="MARGIN: 0in 0in 10pt" class=MsoNormal><B style="mso-bidi-font-weight: normal"><SPAN style="LINE-HEIGHT: 115%; FONT-FAMILY: 'Verdana','sans-serif'; FONT-SIZE: 9.5pt">Examples:<o:p></o:p></SPAN></B></P>
-<P style="MARGIN: 0in 0in 10pt" class=MsoNormal><SPAN style="LINE-HEIGHT: 115%; FONT-FAMILY: 'Verdana','sans-serif'; FONT-SIZE: 9.5pt">The following code suppresses the ElementsMustBeDocumented rule for the given class and all its contents:<o:p></o:p></SPAN></P>
-<P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes">[SuppressMessage(<SPAN style="COLOR: #a31515">"Microsoft.StyleCop.CSharp.DocumentationRules"</SPAN>, <SPAN style="COLOR: #a31515">"SA1600:ElementsMustBeDocumented"</SPAN>)]<o:p></o:p></SPAN></P>
-<P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; COLOR: blue; FONT-SIZE: 10pt; mso-no-proof: yes">public</SPAN><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes"> <SPAN style="COLOR: blue">class</SPAN> <SPAN style="COLOR: #2b91af">MyUndocumentedClass<o:p></o:p></SPAN></SPAN></P>
-<P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes">{<o:p></o:p></SPAN></P>
-<P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes"><SPAN style="mso-spacerun: yes">&nbsp;&nbsp; </SPAN><SPAN style="mso-spacerun: yes">&nbsp;</SPAN><SPAN style="COLOR: blue">public</SPAN> <SPAN style="COLOR: blue">void</SPAN> MyUndocumentedMethod<o:p></o:p></SPAN></P>
-<P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes"><SPAN style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </SPAN>{<o:p></o:p></SPAN></P>
-<P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes"><SPAN style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </SPAN>}<o:p></o:p></SPAN></P>
-<P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes">}</SPAN><SPAN class=label></P></SPAN>
-            <a name="seealsobookmark"></a>
-            
-            
-            
-            
+    <head>
+        <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
+        <meta content="history" name="save">
+        <title>Rule Suppressions</title>
+        <link rel="stylesheet" type="text/css" href="stylesheets/helpstudio.css">
+        <link rel="stylesheet" type="text/css" href="styles/Presentation.css">
+        <script src="script/helpstudio.js" type="text/javascript"></script>
+        <script src="script/StandardText.js" type="text/javascript"></script>    
+    </head>
+    <body id="hsbody" topmargin="0">
+        <input type="hidden" id="userDataCache" class="userDataStyle" NAME="userDataCache"></input>
+        <div id="allHistory" class="saveHistory" onsave="saveScrollPosition()" onload="loadScrollPosition()"></div>
+        <script type="text/javascript">WritePageTop(document.title);</script>  
+        <div id="pagebody" valign="bottom">
+            <div id="mainbody">
+                <P>Starting with StyleCop 4.3.2, it is possible to suppress the reporting of rule violations by adding suppression attributes within the source code. The syntax for these suppressions is similar to that for Visual Studio Code Analysis, or FxCop. For more information about Code Analysis suppressions, see the following article: <A href="http://msdn.microsoft.com/en-us/library/ms244717.aspx"><SPAN style="COLOR: blue">In Source Suppressions Overview</SPAN></A>.</P>
+                <P>StyleCop rule suppressions are registered in code using the <B>SuppressMessage</B> attribute. The <B>SuppressMessage </B>attribute is a conditional attribute, which is included in the IL metadata of your managed code assembly only if the CODE_ANALYSIS compilation symbol is defined at compile time.<o:p></o:p></SPAN></P>
+                <P>We recommend that you use in-source suppressions on debug or check-in builds, in order to eliminate the possibility of mistakenly shipping the in-source suppression metadata and compromising execution or performance because of the metadata bloat.</P>
+                <P>The <B>SuppressMessage</B> attribute has the following format:</P>
+                <P><i>[SuppressMessage("Rule Category, "Rule Id", "Justification")]</i></P>
+                <P>Where:</P>
+                <ul>
+                    <li><B>Rule Category -</B>The StyleCop rule namespace in which the rule is defined. For example, <I>Microsoft.StyleCop.CSharp.DocumentationRules</I></li>
+                    <li><B>Rule Id -</B>The identifier for the rule, using the format <I>shortname:longname</I>. For example, <I>SA1600:ElementsMustBeDocumented</I></li>
+                    <li><B>Justification -</B>The text that is used to document the reason for suppressing the message.</li>
+                </ul>
+                <p></p>
+                <P>The <B>SuppressMessage<I> </I></B>attribute also takes the following optional parameters. These parameters are completely ignored by StyleCop and do not need to be filled in for StyleCop suppressions.</P>
+                <ul>
+                    <li><B>Message Id</B></li>
+                    <li><b>Scope</B></li>
+                    <li><b>Target</B></li>
+                </ul>
+                <P></P>
+                <P><b>SuppressMessage Usage</B></P>
+                <P>StyleCop violations are suppressed at the level to which an instance of the <B>SuppressMessage</B> attribute is applied. The purpose of this is to tightly couple the suppression information to the code where the violation occurs.</P>
+                <P>For example, a StyleCop <B style="mso-bidi-font-weight: normal">SuppressMessage</B> attribute placed on a class will suppress the rule for all contents of the class. The same attribute placed on a method will only suppress the rule within the method.</P>
+                <p></p>
+                <P><B>Global Suppressions</B></P>
+                <P>StyleCop does not support the notion of global suppressions or file-level suppressions. Suppressions must be placed on a code element.</P>
+                <p></p>
+                <P><b>Examples:</B></P>
+                <P>The following code suppresses the ElementsMustBeDocumented rule for the given class and all its contents:</P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes">[SuppressMessage(<SPAN style="COLOR: #a31515">"Microsoft.StyleCop.CSharp.DocumentationRules"</SPAN>, <SPAN style="COLOR: #a31515">"SA1600:ElementsMustBeDocumented"</SPAN>)]<o:p></o:p></SPAN></P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; COLOR: blue; FONT-SIZE: 10pt; mso-no-proof: yes">public</SPAN><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes"> <SPAN style="COLOR: blue">class</SPAN> <SPAN style="COLOR: #2b91af">MyUndocumentedClass<o:p></o:p></SPAN></SPAN></P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes">{<o:p></o:p></SPAN></P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes"><SPAN style="mso-spacerun: yes">&nbsp;&nbsp; </SPAN><SPAN style="mso-spacerun: yes">&nbsp;</SPAN><SPAN style="COLOR: blue">public</SPAN> <SPAN style="COLOR: blue">void</SPAN> MyUndocumentedMethod<o:p></o:p></SPAN></P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes"><SPAN style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </SPAN>{<o:p></o:p></SPAN></P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes"><SPAN style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </SPAN>}<o:p></o:p></SPAN></P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes">}</SPAN><SPAN class=label></P></SPAN>
+            </div>
+            <script type="text/javascript">WritePageFooter();</script> 
         </div>
-        <div id="pagefooter">
-            <p>&nbsp;</p><p>&nbsp;</p><hr size=1><p>&copy; Microsoft Corporation. All Rights Reserved.</p>
-        </div>
-    </div>
-</body>
+    </body>
 </html>
