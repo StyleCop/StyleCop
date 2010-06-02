@@ -17,7 +17,7 @@
             <div id="mainbody">
                 <P>Starting with StyleCop 4.3.2, it is possible to suppress the reporting of rule violations by adding suppression attributes within the source code. The syntax for these suppressions is similar to that for Visual Studio Code Analysis, or FxCop. For more information about Code Analysis suppressions, see the following article: <A href="http://msdn.microsoft.com/en-us/library/ms244717.aspx"><SPAN style="COLOR: blue">In Source Suppressions Overview</SPAN></A>.</P>
                 <P>StyleCop rule suppressions are registered in code using the <B>SuppressMessage</B> attribute. The <B>SuppressMessage </B>attribute is a conditional attribute, which is included in the IL metadata of your managed code assembly only if the CODE_ANALYSIS compilation symbol is defined at compile time.<o:p></o:p></SPAN></P>
-                <P>We recommend that you use in-source suppressions on debug or check-in builds, in order to eliminate the possibility of mistakenly shipping the in-source suppression metadata and compromising execution or performance because of the metadata bloat.</P>
+                <P>We recommend using in-source suppressions on debug builds, in order to eliminate the possibility of mistakenly shipping the in-source suppression metadata and compromising execution or performance because of the metadata bloat.</P>
                 <P>The <B>SuppressMessage</B> attribute has the following format:</P>
                 <P><i>[SuppressMessage("Rule Category, "Rule Id", "Justification")]</i></P>
                 <P>Where:</P>
@@ -49,7 +49,29 @@
                 <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes"><SPAN style="mso-spacerun: yes">&nbsp;&nbsp; </SPAN><SPAN style="mso-spacerun: yes">&nbsp;</SPAN><SPAN style="COLOR: blue">public</SPAN> <SPAN style="COLOR: blue">void</SPAN> MyUndocumentedMethod<o:p></o:p></SPAN></P>
                 <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes"><SPAN style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </SPAN>{<o:p></o:p></SPAN></P>
                 <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes"><SPAN style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </SPAN>}<o:p></o:p></SPAN></P>
-                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes">}</SPAN><SPAN class=label></P></SPAN>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes">}</SPAN></P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN class=label></P></SPAN>
+                <p></p>
+                <P>Beginning with StyleCop 4.4.0, it is also possible to suppress all of the rules 
+                    within a rule namespace, using a single suppression attribute. This is indicated 
+                    by replacing the rule CheckID and rule name with a single asterisk. The 
+                    following code example suppresses all of StyleCop&#39;s default documentation rules 
+                    within the inner class. In this case, StyleCop would still flag a violation 
+                    indicating that the outer class is missing documentation, but it would ignore 
+                    all documentation rules for the inner class and its contents.</P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; COLOR: blue; FONT-SIZE: 10pt; mso-no-proof: yes">public</SPAN><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes"> <SPAN style="COLOR: blue">class</SPAN>
+                    <SPAN style="COLOR: #2b91af">OuterClass<o:p></o:p></SPAN></SPAN></P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes">{<o:p></o:p></SPAN></P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes">&nbsp;&nbsp;&nbsp; [SuppressMessage(<SPAN style="COLOR: #a31515">"Microsoft.StyleCop.CSharp.DocumentationRules"</SPAN>, <SPAN style="COLOR: #a31515">"*&quot;</SPAN>)]<o:p></o:p></SPAN></P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; COLOR: blue; FONT-SIZE: 10pt; mso-no-proof: yes">&nbsp;&nbsp;&nbsp; public</SPAN><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes"> <SPAN style="COLOR: blue">class</SPAN>
+                    <SPAN style="COLOR: #2b91af">InnerClass<o:p></o:p></SPAN></SPAN></P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes">&nbsp;&nbsp;&nbsp; {<o:p></o:p></SPAN></P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes"><SPAN style="mso-spacerun: yes">&nbsp;&nbsp; </SPAN><SPAN style="mso-spacerun: yes">&nbsp;</SPAN><SPAN style="COLOR: blue">&nbsp;&nbsp;&nbsp; public</SPAN> <SPAN style="COLOR: blue">void</SPAN> MyUndocumentedMethod<o:p></o:p></SPAN></P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes"><SPAN style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; </SPAN>{<o:p></o:p></SPAN></P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes"><SPAN style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </SPAN>}<o:p></o:p></SPAN></P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes">&nbsp;&nbsp;&nbsp; }</SPAN></P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes">}</SPAN></P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN class=label></P></SPAN>
             </div>
             <script type="text/javascript">WritePageFooter();</script> 
         </div>
