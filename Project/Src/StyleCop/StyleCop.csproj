@@ -52,6 +52,7 @@
     <CodeAnalysisRules>
     </CodeAnalysisRules>
     <CodeAnalysisRuleSet>..\FxCopRules.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>$(RootBin)\Debug\Microsoft.StyleCop.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>$(RootBin)\Release\</OutputPath>
@@ -59,7 +60,7 @@
     <BaseAddress>285212672</BaseAddress>
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
     <DefineConstants>TRACE;VS2005</DefineConstants>
-    <DocumentationFile>bin\Release\Microsoft.StyleCop.XML</DocumentationFile>
+    <DocumentationFile>$(RootBin)\Release\Microsoft.StyleCop.xml</DocumentationFile>
     <DebugSymbols>true</DebugSymbols>
     <FileAlignment>4096</FileAlignment>
     <NoStdLib>false</NoStdLib>

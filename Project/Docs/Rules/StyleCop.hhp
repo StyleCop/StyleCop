@@ -8,7 +8,7 @@ Display compile progress=No
 Error log file=errors.log
 Full-text search=Yes
 Index file=Index.hhk
-Language=0x809 English (United Kingdom)
+Language=0x409 English (United States)
 Title=StyleCop
 
 [WINDOWS]

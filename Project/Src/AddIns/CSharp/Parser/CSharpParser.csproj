@@ -46,8 +46,7 @@
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DocumentationFile>
-    </DocumentationFile>
+    <DocumentationFile>$(RootBin)\Debug\Microsoft.StyleCop.CSharp.xml</DocumentationFile>
     <FileAlignment>4096</FileAlignment>
     <NoStdLib>false</NoStdLib>
     <NoWarn>
@@ -71,7 +70,7 @@
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
     <DefineConstants>TRACE</DefineConstants>
-    <!--<DocumentationFile>bin\Release\Microsoft.StyleCop.CSharp.XML</DocumentationFile>-->
+    <DocumentationFile>$(RootBin)\Release\Microsoft.StyleCop.CSharp.xml</DocumentationFile>
     <FileAlignment>4096</FileAlignment>
     <NoStdLib>false</NoStdLib>
     <NoWarn>
