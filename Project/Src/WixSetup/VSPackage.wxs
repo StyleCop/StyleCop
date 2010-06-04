@@ -20,7 +20,7 @@
             <File Id='Settings' Name='Settings.StyleCop' Checksum="yes" Vital='yes' />
           </Component>
 
-          <Directory Id="DOCS" Name="Docs" FileSource="$(var.RootDir)\Docs\Rules\bin">
+          <Directory Id="DOCS" Name="Docs" FileSource="$(var.RootDir)\Docs\Bin">
             <Component Id="StyleCopDocs" Guid="9E101542-FD36-4586-8AD7-2BFBD1D2387D">
               <File Id='RulesChm' Name='StyleCop.chm' Checksum="yes" Vital='yes' />
             </Component>

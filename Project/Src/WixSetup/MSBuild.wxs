@@ -24,7 +24,7 @@
 
               </Component>
 
-              <Directory Id="MSBuild_DOCS" Name="Docs" FileSource="$(var.RootDir)\Docs\Rules\bin">
+              <Directory Id="MSBuild_DOCS" Name="Docs" FileSource="$(var.RootDir)\Docs\Bin">
                 <Component Id="MSBuild_StyleCopDocs" Guid="354AA9FB-EF0E-472F-AF73-6CC3BF0D252A">
                   <File Id='MSBuild_RulesChm' Name='StyleCop.chm' Checksum="yes" Vital='yes' />
                 </Component>
