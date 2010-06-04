@@ -94,7 +94,7 @@
 	        <Output TaskParameter="Include" ItemName="ManualDocsFiles" />
         </CreateItem>
 
-	<RemoveDir Directories="Decompiled;Hel" />
+	<RemoveDir Directories="Decompiled;Help" />
 
 	<MakeDir Directories="Bin" />
 
