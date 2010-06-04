@@ -521,7 +521,6 @@ namespace Microsoft.StyleCop.CSharp
         /// <param name="parentElement">The parent element, if any.</param>
         /// <param name="context">The optional visitor context data.</param>
         /// <returns>Returns true to continue, or false to stop the walker.</returns>
-        /// <typeparam name="T">The type of the visitor context data.</typeparam>
         private bool ProcessStatement(
             Statement statement,
             Expression parentExpression,
@@ -602,7 +601,6 @@ namespace Microsoft.StyleCop.CSharp
         /// <param name="parentElement">The parent element, if any.</param>
         /// <param name="context">The optional visitor context data.</param>
         /// <returns>Returns true to continue, or false to stop the walker.</returns>
-        /// <typeparam name="T">The type of the visitor context data.</typeparam>
         private bool ProcessExpression(
             Expression expression,
             Expression parentExpression,
