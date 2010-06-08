@@ -68,13 +68,10 @@
         <tr id="headerTableRow3">
           <td align="left">
             <a href="#exampleToggle" onclick="OpenSection(exampleToggle)">Example</a>  
-  <span id="headfeedbackarea" class="feedbackhead">
-      <a href="javascript:SubmitFeedback('DevDocs@Microsoft.com','','','','','%0\dThank%20you%20for%20your%20feedback.%20The%20developer%20writing%20teams%20use%20your%20feedback%20to%20improve%20documentation.%20While%20we%20are%20reviewing%20your%20feedback,%20we%20may%20send%20you%20e-mail%20to%20ask%20for%20clarification%20or%20feedback%20on%20a%20solution.%20We%20do%20not%20use%20your%20e-mail%20address%20for%20any%20other%20purpose%20and%20we%20delete%20it%20after%20we%20finish%20our%20review.%0\AFor%20further%20information%20about%20the%20privacy%20policies%20of%20Microsoft,%20please%20see%20http://privacy.microsoft.com/en-us/default.aspx.%0\A%0\d','Customer%20Feedback');">
+              <span id="headfeedbackarea" class="feedbackhead">
+              <a href="javascript:SubmitFeedback('DevDocs@Microsoft.com','','','','','%0\dThank%20you%20for%20your%20feedback.%20The%20developer%20writing%20teams%20use%20your%20feedback%20to%20improve%20documentation.%20While%20we%20are%20reviewing%20your%20feedback,%20we%20may%20send%20you%20e-mail%20to%20ask%20for%20clarification%20or%20feedback%20on%20a%20solution.%20We%20do%20not%20use%20your%20e-mail%20address%20for%20any%20other%20purpose%20and%20we%20delete%20it%20after%20we%20finish%20our%20review.%0\AFor%20further%20information%20about%20the%20privacy%20policies%20of%20Microsoft,%20please%20see%20http://privacy.microsoft.com/en-us/default.aspx.%0\A%0\d','Customer%20Feedback');">
         
-        Send Feedback
-      </a>
-	</span>
-</td>
+        &nbsp;</a></span></td>
         </tr>
       </table>
       <table id="gradientTable">
@@ -156,11 +153,11 @@ public class CustomRules : SourceAnalyzer
           There are two common ways for a custom rules analyzer to iterate through the code object model and discover
           rules violations. The first method uses the built-in code walkers. A code walker can be instantiated from
           the root of any document, element, statement, expression, or clause, by calling
-          <span sdata="cer" target="Overload:Microsoft.StyleCop.CSharp.CsDocument.WalkDocument"><a href="O_T_Microsoft_StyleCop_CSharp_CsDocument_WalkDocument.htm">WalkDocument<span class="languageSpecificText"><span class="cs">()</span><span class="cpp">()</span><span class="nu">()</span></span></a></span>, 
-          <span sdata="cer" target="Overload:Microsoft.StyleCop.CSharp.CsElement.WalkElement"><a href="O_T_Microsoft_StyleCop_CSharp_CsElement_WalkElement.htm">WalkElement<span class="languageSpecificText"><span class="cs">()</span><span class="cpp">()</span><span class="nu">()</span></span></a></span>, 
-          <span sdata="cer" target="Overload:Microsoft.StyleCop.CSharp.Statement.WalkStatement"><a href="O_T_Microsoft_StyleCop_CSharp_Statement_WalkStatement.htm">WalkStatement<span class="languageSpecificText"><span class="cs">()</span><span class="cpp">()</span><span class="nu">()</span></span></a></span>, 
-          <span sdata="cer" target="Overload:Microsoft.StyleCop.CSharp.Expression.WalkExpression"><a href="O_T_Microsoft_StyleCop_CSharp_Expression_WalkExpression.htm">WalkExpression<span class="languageSpecificText"><span class="cs">()</span><span class="cpp">()</span><span class="nu">()</span></span></a></span>, 
-          or <span sdata="cer" target="Overload:Microsoft.StyleCop.CSharp.QueryClause.WalkQueryClause"><a href="O_T_Microsoft_StyleCop_CSharp_QueryClause_WalkQueryClause.htm">WalkQueryClause<span class="languageSpecificText"><span class="cs">()</span><span class="cpp">()</span><span class="nu">()</span></span></a></span>.
+          <span sdata="cer" target="Overload:Microsoft.StyleCop.CSharp.CsDocument.WalkDocument"><a href="O_T_Microsoft_StyleCop_CSharp_CsDocument_WalkDocument.htm">WalkDocument</a></span>, 
+          <span sdata="cer" target="Overload:Microsoft.StyleCop.CSharp.CsElement.WalkElement"><a href="O_T_Microsoft_StyleCop_CSharp_CsElement_WalkElement.htm">WalkElement</a></span>, 
+          <span sdata="cer" target="Overload:Microsoft.StyleCop.CSharp.Statement.WalkStatement"><a href="O_T_Microsoft_StyleCop_CSharp_Statement_WalkStatement.htm">WalkStatement</a></span>, 
+          <span sdata="cer" target="Overload:Microsoft.StyleCop.CSharp.Expression.WalkExpression"><a href="O_T_Microsoft_StyleCop_CSharp_Expression_WalkExpression.htm">WalkExpression</a></span>, 
+          or <span sdata="cer" target="Overload:Microsoft.StyleCop.CSharp.QueryClause.WalkQueryClause"><a href="O_T_Microsoft_StyleCop_CSharp_QueryClause_WalkQueryClause.htm">WalkQueryClause</a></span>.
           In each case, the walker method takes a series of delegate callbacks, which will be called each time the walker
           discovers an element, statement, expression, or query clause in the code. For example:
         </p>
@@ -227,7 +224,7 @@ public override void AnalyzeDocument(CodeDocument document)
     {
         if (tokenNode.Value.CsTokenType == CsTokenType.String)
         {
-            this.AddViolation(document.RootElement, tokenNode.Value.LineNumber, "CodeMustNotContainHardcodedStrings");
+            this.AddViolation(tokenNode.Value, tokenNode.Value.LineNumber, "CodeMustNotContainHardcodedStrings");
         }
     }
 }
@@ -286,16 +283,7 @@ public class AccessModifiers : SourceAnalyzer
 </div>
       <div id="footer">
         <div class="footerLine">
-          <img width="100%" height="3px" src="../icons/footer.gif" title="Footer image" />
         </div>
-<span id="feedbackarea">
-			Send
-		<a href="javascript:SubmitFeedback('DevDocs@Microsoft.com','','','','','%0\dThank%20you%20for%20your%20feedback.%20The%20developer%20writing%20teams%20use%20your%20feedback%20to%20improve%20documentation.%20While%20we%20are%20reviewing%20your%20feedback,%20we%20may%20send%20you%20e-mail%20to%20ask%20for%20clarification%20or%20feedback%20on%20a%20solution.%20We%20do%20not%20use%20your%20e-mail%20address%20for%20any%20other%20purpose%20and%20we%20delete%20it%20after%20we%20finish%20our%20review.%0\AFor%20further%20information%20about%20the%20privacy%20policies%20of%20Microsoft,%20please%20see%20http://privacy.microsoft.com/en-us/default.aspx.%0\A%0\d','Customer%20Feedback');">
-			
-      feedback
-		</a>
-			on this topic to Microsoft.
-		</span>
 </div>
     </div>
   </body>
