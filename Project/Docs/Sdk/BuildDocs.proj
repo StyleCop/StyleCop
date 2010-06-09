@@ -94,15 +94,17 @@
 	        <Output TaskParameter="Include" ItemName="ManualDocsFiles" />
         </CreateItem>
 
-	<RemoveDir Directories="Decompiled;Hel" />
+	<RemoveDir Directories="Decompiled;Help" />
 
 	<MakeDir Directories="Bin" />
 
-	<MSBuild Projects="StyleCopSDK.shfbproj" Properties="CleanIntermediates=True;SHFBROOT=$(SHFBROOT)" />	
+	<MSBuild Projects="StyleCopSDK.shfbproj" Properties="CleanIntermediates=True;SHFBROOT=$(SHFBROOT)" /> 
 
 	<Help.Decompile DestinationFolder="Decompiled" ChmFilePath="Help\StyleCopSDKDocumentation.chm" />
 
         <Microsoft.Build.Tasks.Copy SourceFiles="@(ManualDocsFiles)" DestinationFolder="Decompiled\html" />
+
+	<Microsoft.Build.Tasks.Copy SourceFiles="ManualStyles\Presentation.css" DestinationFolder="Decompiled\styles" />
 
 	<Microsoft.Build.Tasks.Copy SourceFiles="StyleCopSDK.hhp" DestinationFolder="Decompiled" />
 

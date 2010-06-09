@@ -32,6 +32,10 @@
     <RootNamespaceTitle>API Reference</RootNamespaceTitle>
     <NamingMethod>MemberName</NamingMethod>
     <SandcastlePath>..\..\..\Tools\Sandcastle\2.4.10520</SandcastlePath>
+    <FeedbackEMailLinkText>
+    </FeedbackEMailLinkText>
+    <FeedbackEMailAddress>stylecop%40microsoft.com</FeedbackEMailAddress>
+    <SyntaxFilters>None</SyntaxFilters>
   </PropertyGroup>
   <!-- There are no properties for these groups.  AnyCPU needs to appear in
        order for Visual Studio to perform the build.  The others are optional
