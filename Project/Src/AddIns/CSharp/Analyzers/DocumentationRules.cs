@@ -863,6 +863,51 @@ namespace Microsoft.StyleCop.CSharp
             return false;
         }
 
+        /// <summary>
+        /// Returns the net count of opening and closing code elements for the token provided.
+        /// </summary>
+        /// <param name="token">The xml header line token.</param>
+        /// <returns>The net count of open and close code elements.</returns>
+        private static int XmlHeaderLineCodeElementCount(CsToken token)
+        {
+            Param.AssertNotNull(token, "token");
+            Debug.Assert(token.CsTokenType == CsTokenType.XmlHeaderLine, "The token should be an xml header line");
+
+            string lineText = token.Text;
+
+            int openCodeTagCount = CountOfStringInStringOccurrences(lineText, "<code>");
+            int closeCodeTagCount = CountOfStringInStringOccurrences(lineText, "</code>");
+
+            return openCodeTagCount - closeCodeTagCount;
+        }
+
+        /// <summary>
+        /// Returns the count of occurences of stringToFind in the provided string.
+        /// </summary>
+        /// <param name="text">The text to search through.</param>
+        /// <param name="stringToFind">The string to count.</param>
+        /// <returns>The count of stringToFind in the text. If text or stringToFind are empty or null then return 0.</returns>
+        private static int CountOfStringInStringOccurrences(string text, string stringToFind)
+        {
+            Param.Ignore(text, stringToFind);
+
+            if (String.IsNullOrEmpty(text) || String.IsNullOrEmpty(stringToFind))
+            {
+                return 0;
+            }
+
+            int count = 0;
+            int i = 0;
+
+            while ((i = text.IndexOf(stringToFind, i)) != -1)
+            {
+                i += stringToFind.Length;
+                count++;
+            }
+
+            return count;
+        }
+
         #endregion Private Static Methods
 
         #region Private Methods
@@ -1326,6 +1371,8 @@ namespace Microsoft.StyleCop.CSharp
             if (!element.Generated)
             {
                 int blankLineCount = 0;
+                int insideCodeElementCount = 0;
+
                 for (Node<CsToken> tokenNode = header.ChildTokens.First; tokenNode != null && tokenNode != header.ChildTokens.Last.Next; tokenNode = tokenNode.Next)
                 {
                     CsToken token = tokenNode.Value;
@@ -1342,15 +1389,17 @@ namespace Microsoft.StyleCop.CSharp
                     }
                     else if (token.CsTokenType == CsTokenType.XmlHeaderLine)
                     {
+                        insideCodeElementCount += XmlHeaderLineCodeElementCount(token);
+
                         if (tokenNode == header.ChildTokens.First || tokenNode == header.ChildTokens.Last)
                         {
-                            if (IsXmlHeaderLineEmpty(token))
+                            if (IsXmlHeaderLineEmpty(token) && insideCodeElementCount == 0)
                             {
                                 this.AddViolation(element, token.LineNumber, Rules.DocumentationHeadersMustNotContainBlankLines);
                                 break;
                             }
                         }
-                        else if (!IsXmlHeaderLineEmpty(token))
+                        else if (!IsXmlHeaderLineEmpty(token) || insideCodeElementCount > 0)
                         {
                             blankLineCount = 0;
                         }

@@ -66,4 +66,199 @@ namespace CSharpAnalyzersTest.TestData
     public class Class8
     {
     }
+
+    /// <summary>
+    /// valid header
+    /// </summary>
+    /// <example> 
+    /// <code>
+    /// <![CDATA[
+    /// public class ClassA : ClassBase
+    /// {
+    /// public ClassA(int identifier)
+    /// : base(identifier)
+    /// {
+    /// }
+    /// }
+    /// 
+    /// public class ClassB : ClassBase
+    /// {
+    /// public ClassB(int identifier)
+    /// : base(identifier)
+    /// {
+    /// }
+    /// }
+    /// ]]>
+    /// </code>
+    /// </example>   
+    public class Class9
+    {
+    }
+
+    /// <summary>
+    /// invalid header
+    /// </summary>
+    /// <example> 
+    /// <code>
+    /// <![CDATA[
+    /// public class ClassA : ClassBase
+    /// {
+    /// public ClassA(int identifier)
+    /// : base(identifier)
+    /// {
+    /// }
+    /// } </code>
+    /// 
+    /// <code>
+    /// public class ClassB : ClassBase
+    /// {
+    /// public ClassB(int identifier)
+    /// : base(identifier)
+    /// {
+    /// }
+    /// }
+    /// ]]>
+    /// </code>
+    /// </example>
+    public class Class10
+    {
+    }
+
+    /// <summary>
+    /// valid header
+    /// </summary>
+    /// <example> 
+    /// <code>
+    /// <![CDATA[
+    /// public class ClassA : ClassBase
+    /// {
+    /// public ClassA(int identifier)
+    /// : base(identifier)
+    /// {
+    /// }
+    /// } </code><code><code><code>
+    /// </code></code>
+    /// 
+    /// </code>
+    /// <code>
+    /// 
+    /// public class ClassB : ClassBase
+    /// {
+    /// public ClassB(int identifier)
+    /// : base(identifier)
+    /// {
+    /// }
+    /// }
+    /// ]]>
+    /// </code>
+    /// </example>
+    public class Class11
+    {
+    }
+
+    /// <summary>
+    /// valid header
+    /// </summary>
+    /// <example> 
+    /// <code>
+    /// <![CDATA[
+    /// public class ClassA : ClassBase
+    /// {
+    /// public ClassA(int identifier)
+    /// : base(identifier)
+    /// {
+    /// }
+    /// } </code><code><code><code>
+    /// </code></code>
+    /// 
+    /// 
+    /// 
+    /// </code>
+    /// <code>
+    /// 
+    /// public class ClassB : ClassBase
+    /// {
+    /// public ClassB(int identifier)
+    /// : base(identifier)
+    /// {
+    /// }
+    /// }
+    /// ]]>
+    /// </code>
+    /// </example>
+    public class Class12
+    {
+    }
+
+    /// <summary>
+    /// valid header
+    /// </summary>
+    /// <example> 
+    /// <code>
+    /// <![CDATA[
+    /// public class ClassA : ClassBase
+    /// {
+    /// public ClassA(int identifier)
+    /// : base(identifier)
+    /// {
+    /// }
+    /// } </code><code><code><code>
+    /// </code></code>
+    /// 
+    /// 
+    /// 
+    /// </code>
+    /// <code>
+    /// 
+    /// public class ClassB : ClassBase
+    /// {
+    /// public ClassB(int identifier)
+    /// : base(identifier)
+    /// {
+    /// }
+    /// }
+    /// ]]>
+    /// 
+    /// 
+    /// 
+    /// </code>
+    /// </example>
+    public class Class13
+    {
+    }
+
+    /// <summary>
+    /// invalid header
+    /// </summary>
+    /// <example> 
+    /// <![CDATA[
+    /// public class ClassA : ClassBase
+    /// {
+    /// public ClassA(int identifier)
+    /// : base(identifier)
+    /// {
+    /// }
+    /// } </code><code><code><code>
+    /// </code></code>
+    /// 
+    /// 
+    /// 
+    /// </code>
+    /// <code>
+    /// 
+    /// public class ClassB : ClassBase
+    /// {
+    /// public ClassB(int identifier)
+    /// : base(identifier)
+    /// {
+    /// }
+    /// }
+    /// ]]>
+    /// 
+    /// 
+    /// 
+    /// </example>
+    public class Class14
+    {
+    }
 }

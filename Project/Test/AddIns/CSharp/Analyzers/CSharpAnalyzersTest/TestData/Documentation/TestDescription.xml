@@ -1928,6 +1928,15 @@
               <RuleSettings>
                 <BooleanProperty Name="Enabled">True</BooleanProperty>
               </RuleSettings>
+            </Rule>           
+          </Rules>
+        </Analyzer>
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.LayoutRules">
+          <Rules>
+            <Rule Name="CodeMustNotContainMultipleBlankLinesInARow">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
             </Rule>
           </Rules>
         </Analyzer>
@@ -1941,6 +1950,8 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.Class6" LineNumber="42" Rule="DocumentationHeadersMustNotContainBlankLines" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.Class7" LineNumber="52" Rule="DocumentationHeadersMustNotContainBlankLines" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.Class8" LineNumber="61" Rule="DocumentationHeadersMustNotContainBlankLines" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Class10" LineNumber="111" Rule="DocumentationHeadersMustNotContainBlankLines" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Class14" LineNumber="243" Rule="DocumentationHeadersMustNotContainBlankLines" />
     </ExpectedViolations>
   </Test>
 
