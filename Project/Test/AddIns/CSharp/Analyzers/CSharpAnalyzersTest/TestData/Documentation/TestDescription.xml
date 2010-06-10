@@ -1934,6 +1934,7 @@
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.LayoutRules">
           <Rules>
             <Rule Name="CodeMustNotContainMultipleBlankLinesInARow">
+              <!-- This rule is enabled here to ensure that it does not fire within the code sections of these headers. -->
               <RuleSettings>
                 <BooleanProperty Name="Enabled">True</BooleanProperty>
               </RuleSettings>
