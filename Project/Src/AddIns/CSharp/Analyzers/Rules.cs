@@ -221,6 +221,11 @@ namespace Microsoft.StyleCop.CSharp
         /// Verifies that an 'include' tag contains a valid file and path attribute.
         /// </summary>
         IncludeNodeDoesNotContainValidFileAndPath,
+
+        /// <summary>
+        /// Verifies that an 'includedoc' tag is not used when the class does not inherit from a base class.
+        /// </summary>
+        InheritDocMustBeUsedWithInheritingClass,
         
         /// <summary>
         /// The property's summary tag starts with invalid text.

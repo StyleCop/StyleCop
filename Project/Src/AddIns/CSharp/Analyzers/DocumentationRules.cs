@@ -1183,78 +1183,116 @@ namespace Microsoft.StyleCop.CSharp
 
             if (rawDocs != null && formattedDocs != null)
             {
-                // If the method has an <inheritdoc /> header then do not parse anymore.
-                XmlNode inheritDocXml = rawDocs.SelectSingleNode("root/inheritdoc");
-
-                if (inheritDocXml != null)
+                // Check whether the method has an <inheritdoc> tag at the root. If so, discontinue checking the contents of the header, 
+                // but verify that the class actually inherits from a base class. Otherwise this tag is not allowed.
+                if (rawDocs.SelectSingleNode("root/inheritdoc") != null)
                 {
-                    return;
+                    this.CheckInheritDocRules(element);
                 }
-
-                // Insert any documentation present in 'include' tags.
-                if (this.InsertIncludedDocumentation(element, Path.GetDirectoryName(element.Document.SourceCode.Path), formattedDocs))
+                else
                 {
-                    this.CheckForBlankLinesInDocumentationHeader(element, header);
-                    this.CheckHeaderSummary(element, lineNumber, partialElement, formattedDocs);
+                    // Insert any documentation present in 'include' tags.
+                    if (this.InsertIncludedDocumentation(element, Path.GetDirectoryName(element.Document.SourceCode.Path), formattedDocs))
+                    {
+                        this.CheckForBlankLinesInDocumentationHeader(element, header);
+                        this.CheckHeaderSummary(element, lineNumber, partialElement, formattedDocs);
 
-                    // Check element parameters and return types.
-                    if (element.ElementType == ElementType.Method)
-                    {
-                        Method item = element as Method;
-                        this.CheckHeaderParams(element, item.Parameters, formattedDocs);
-                        this.CheckHeaderReturnValue(element, item.ReturnType, formattedDocs);
-                    }
-                    else if (element.ElementType == ElementType.Constructor)
-                    {
-                        Constructor item = element as Constructor;
-                        this.CheckHeaderParams(element, item.Parameters, formattedDocs);
-                        this.CheckConstructorSummaryText(item, formattedDocs);
-                    }
-                    else if (element.ElementType == ElementType.Delegate)
-                    {
-                        Microsoft.StyleCop.CSharp.Delegate item = element as Microsoft.StyleCop.CSharp.Delegate;
-                        this.CheckHeaderParams(element, item.Parameters, formattedDocs);
-                        this.CheckHeaderReturnValue(element, item.ReturnType, formattedDocs);
-                    }
-                    else if (element.ElementType == ElementType.Indexer)
-                    {
-                        Indexer item = element as Indexer;
-                        this.CheckHeaderParams(element, item.Parameters, formattedDocs);
-                    }
-                    else if (element.ElementType == ElementType.Property)
-                    {
-                        // Check value tags on properties.
-                        this.CheckPropertyValueTag(element, formattedDocs);
+                        // Check element parameters and return types.
+                        if (element.ElementType == ElementType.Method)
+                        {
+                            Method item = element as Method;
+                            this.CheckHeaderParams(element, item.Parameters, formattedDocs);
+                            this.CheckHeaderReturnValue(element, item.ReturnType, formattedDocs);
+                        }
+                        else if (element.ElementType == ElementType.Constructor)
+                        {
+                            Constructor item = element as Constructor;
+                            this.CheckHeaderParams(element, item.Parameters, formattedDocs);
+                            this.CheckConstructorSummaryText(item, formattedDocs);
+                        }
+                        else if (element.ElementType == ElementType.Delegate)
+                        {
+                            Microsoft.StyleCop.CSharp.Delegate item = element as Microsoft.StyleCop.CSharp.Delegate;
+                            this.CheckHeaderParams(element, item.Parameters, formattedDocs);
+                            this.CheckHeaderReturnValue(element, item.ReturnType, formattedDocs);
+                        }
+                        else if (element.ElementType == ElementType.Indexer)
+                        {
+                            Indexer item = element as Indexer;
+                            this.CheckHeaderParams(element, item.Parameters, formattedDocs);
+                        }
+                        else if (element.ElementType == ElementType.Property)
+                        {
+                            // Check value tags on properties.
+                            this.CheckPropertyValueTag(element, formattedDocs);
 
-                        // Check that the property summary starts with the correct text.
-                        this.CheckPropertySummaryFormatting(element as Property, formattedDocs);
-                    }
-                    else if (element.ElementType == ElementType.Destructor)
-                    {
-                        this.CheckDestructorSummaryText((Destructor)element, formattedDocs);
-                    }
+                            // Check that the property summary starts with the correct text.
+                            this.CheckPropertySummaryFormatting(element as Property, formattedDocs);
+                        }
+                        else if (element.ElementType == ElementType.Destructor)
+                        {
+                            this.CheckDestructorSummaryText((Destructor)element, formattedDocs);
+                        }
 
-                    // Check for repeating comments on all element types which can contain params or typeparams.
-                    if (element.ElementType == ElementType.Method ||
-                        element.ElementType == ElementType.Constructor ||
-                        element.ElementType == ElementType.Delegate ||
-                        element.ElementType == ElementType.Indexer ||
-                        element.ElementType == ElementType.Class ||
-                        element.ElementType == ElementType.Struct ||
-                        element.ElementType == ElementType.Interface)
-                    {
-                        this.CheckForRepeatingComments(element, formattedDocs);
-                    }
+                        // Check for repeating comments on all element types which can contain params or typeparams.
+                        if (element.ElementType == ElementType.Method ||
+                            element.ElementType == ElementType.Constructor ||
+                            element.ElementType == ElementType.Delegate ||
+                            element.ElementType == ElementType.Indexer ||
+                            element.ElementType == ElementType.Class ||
+                            element.ElementType == ElementType.Struct ||
+                            element.ElementType == ElementType.Interface)
+                        {
+                            this.CheckForRepeatingComments(element, formattedDocs);
+                        }
 
-                    // Check generic type parameters.
-                    if (element.ElementType == ElementType.Class ||
-                        element.ElementType == ElementType.Method ||
-                        element.ElementType == ElementType.Delegate ||
-                        element.ElementType == ElementType.Interface ||
-                        element.ElementType == ElementType.Struct)
-                    {
-                        this.CheckGenericTypeParams(element, formattedDocs);
+                        // Check generic type parameters.
+                        if (element.ElementType == ElementType.Class ||
+                            element.ElementType == ElementType.Method ||
+                            element.ElementType == ElementType.Delegate ||
+                            element.ElementType == ElementType.Interface ||
+                            element.ElementType == ElementType.Struct)
+                        {
+                            this.CheckGenericTypeParams(element, formattedDocs);
+                        }
                     }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Checks the given element which contains an inheritdoc tag in the header.
+        /// </summary>
+        /// <param name="element">The element to check.</param>
+        private void CheckInheritDocRules(CsElement element)
+        {
+            Param.AssertNotNull(element, "element");
+
+            if (element.ElementType == ElementType.Class)
+            {
+                if (string.IsNullOrEmpty(((Class)element).BaseClass))
+                {
+                    this.AddViolation(element, Rules.InheritDocMustBeUsedWithInheritingClass);
+                }
+            }
+            else if (element.ElementType == ElementType.Interface)
+            {
+                if (((Interface)element).ImplementedInterfaces.Count == 0)
+                {
+                    this.AddViolation(element, Rules.InheritDocMustBeUsedWithInheritingClass);
+                }
+            }
+            else if (element.ElementType == ElementType.Struct)
+            {
+                this.AddViolation(element, Rules.InheritDocMustBeUsedWithInheritingClass);
+            }
+            else
+            {
+                // Find the parent class.
+                ClassBase parentClass = element.Parent as ClassBase;
+                if (parentClass == null || parentClass.ElementType != ElementType.Class || string.IsNullOrEmpty(parentClass.BaseClass))
+                {
+                    this.AddViolation(element, Rules.InheritDocMustBeUsedWithInheritingClass);
                 }
             }
         }

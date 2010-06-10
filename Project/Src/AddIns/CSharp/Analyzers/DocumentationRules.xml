@@ -201,6 +201,10 @@
         <Context>The 'include' tag does not contain a valid 'file' and 'path' attribute: {0}</Context>
         <Description>Verifies that an 'include' tag contains a valid file and path attribute.</Description>
       </Rule>
+      <Rule Name="InheritDocMustBeUsedWithInheritingClass" CheckId="SA1648">
+        <Context>The 'inheritdoc' tag should not be used when the class does not inherit from a base class.</Context>
+        <Description>Verifies that an 'includedoc' tag is not used when the class does not inherit from a base class.</Description>
+      </Rule>
     </RuleGroup>
     <RuleGroup Name="File Headers">
       <Rule Name="FileMustHaveHeader" CheckId="SA1633">
