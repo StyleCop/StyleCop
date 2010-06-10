@@ -1138,6 +1138,14 @@ namespace Microsoft.StyleCop.CSharp
 
             if (rawDocs != null && formattedDocs != null)
             {
+                // If the method has an <inheritdoc /> header then do not parse anymore.
+                XmlNode inheritDocXml = rawDocs.SelectSingleNode("root/inheritdoc");
+
+                if (inheritDocXml != null)
+                {
+                    return;
+                }
+
                 // Insert any documentation present in 'include' tags.
                 if (this.InsertIncludedDocumentation(element, Path.GetDirectoryName(element.Document.SourceCode.Path), formattedDocs))
                 {
