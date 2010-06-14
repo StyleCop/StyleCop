@@ -1896,8 +1896,6 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.Violations.NestedMultiGenericClassCrefWithltgtAndNamespace`T`S`R.NestedMultiGenericClassCrefWithltgtAndNamespaceClass2`D`E`F.NestedMultiGenericClassCrefWithltgtAndNamespaceClass2" LineNumber="424" Rule="ConstructorSummaryDocumentationMustBeginWithStandardText" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.Violations.NestedMultiGenericClassCrefWithltgtAndNamespace`T`S`R.NestedMultiGenericClassCrefWithltgtAndNamespaceClass3`G`H.NestedMultiGenericClassCrefWithltgtAndNamespaceClass3" LineNumber="434" Rule="ConstructorSummaryDocumentationMustBeginWithStandardText" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.Violations.NestedMultiGenericClassCrefWithltgtAndNamespace`T`S`R.NestedMultiGenericClassCrefWithltgtAndNamespaceClass3`G`H.NestedMultiGenericClassCrefWithltgtAndNamespaceClass3%int" LineNumber="441" Rule="ConstructorSummaryDocumentationMustBeginWithStandardText" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.NestedClassesConstructorSummary.Class3.Class3" LineNumber="318" Rule="ConstructorSummaryDocumentationMustBeginWithStandardText" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.NestedClassesConstructorSummary.Class3.Class4.Class4" LineNumber="327" Rule="ConstructorSummaryDocumentationMustBeginWithStandardText" />
     </ExpectedViolations>
   </Test>
 
