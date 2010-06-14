@@ -84,23 +84,23 @@ namespace Microsoft.StyleCop.CSharp
         /// A regular expression to match a type reference included within a cref attribute.
         /// </summary>
         /// <remarks>
-        /// {0}: namespace
-        /// {1}: type name
-        /// {2}: generic parameters regex
-        /// {3}: number of generic parameters
+        /// {0}: namespace (A.B)
+        /// {1}: type name (like Foo or Foo.Bar without any generics on it)
+        /// {2}: typename with generic parameters regex already on it ( like Foo{A,B} or Foo{A,B}.Bar{C,D} )
+        /// {3}: typename with the number of generic parameters on it too (like Foo`3 or Foo`2.Bar`3)
         /// </remarks>
         private const string CrefRegex =
-            @"(?'see'<see\s+cref\s*=\s*"")?" + // Optionally matches '<see cref="'
-            @"(((({0})?{1})(?(see)({2})))" + // Matches 'type', or, if <see> tag is included, matches 'type&lt;T,S&gt;', 'type&lt;T,S>', or 'type{T,S}'
-                @"|" +
-                @"(?(see)T:(({0})?{1}){3}))" + // Matches T:type'N, only if <see> tag is included.
-            @"(?(see)(""\s*(/>|>[\w\s]*</see>)))"; // Optionally matches '"/>' or '">some text</see>'
+            @"(?'see'<see\s+cref\s*=\s*"")?" +      // Optionally matches '<see cref="'
+            @"(((({0})?(?(see)({2})|({1}))))" +     // Optional namespace and then  matches 'type', or, if <see> tag is included, matches 'type&lt;T,S&gt;', 'type&lt;T,S>', or 'type{T,S}'
+            @"|" +
+            @"(?(see)T:(({0})?{3})))" +             // Matches T:type'N, only if <see> tag is included.
+            @"(?(see)(""\s*(/>|>[\w\s]*</see>)))";  // Optionally matches '"/>' or '">some text</see>' if <see> tag is included.
 
         /// <summary>
-        /// A regular expression to match the generic parameters list for a type.
+        /// A regular expression to match the generic parameters list for a type. Needs the outer paranthesis as its inserted into other RegExs.
         /// </summary>
         private const string CrefGenericParamsRegex =
-            @"(\s*(<|&lt;)\s*{0}\s*(>|&gt;))|(\s*{{\s*{0}\s*}})";
+            @"((\s*(<|&lt;)\s*{0}\s*(>|&gt;))|(\s*{{\s*{0}\s*}}))";
 
         /// <summary>
         /// Various version of the @ character.
@@ -558,8 +558,96 @@ namespace Microsoft.StyleCop.CSharp
         {
             Param.AssertNotNull(type, "type");
 
+            // We get the actual type name. For nested types this is A.B rather than just B
+            string actualTypeName = GetActualClassName(type).Replace('+', '.');
+
+            string actualTypeNameWithoutGenerics = string.Empty;
+
+            var typeNameParts = actualTypeName.Split('.');
+
+            string typeNameWithGenerics = string.Empty;
+
+            for (int i = 0; i < typeNameParts.Length; i++)
+            {
+                typeNameWithGenerics += BuildTypeNameStringWithGenerics(typeNameParts[i]);
+                actualTypeNameWithoutGenerics += RemoveGenericsFromTypeName(typeNameParts[i]);
+
+                if (i < typeNameParts.Length - 1)
+                {
+                    typeNameWithGenerics += @"\.";
+                    actualTypeNameWithoutGenerics += @"\.";
+                }
+            }
+
+            string typeNameWithParamsNumber = string.Empty;
+            for (int i = 0; i < typeNameParts.Length; i++)
+            {
+                typeNameWithParamsNumber += BuildTypeNameStringWithParamsNumber(typeNameParts[i]);
+
+                if (i < typeNameParts.Length - 1)
+                {
+                    typeNameWithParamsNumber += @"\.";
+                }
+            }
+
+            // Also capture the fully qualified name of the type, without generic parameters included.
+            string namespaceRegex = BuildNamespaceRegex(type);
+
+            // Build the regex string to match all possible formats for the type name.
+            return string.Format(CultureInfo.InvariantCulture, CrefRegex, namespaceRegex, actualTypeNameWithoutGenerics, typeNameWithGenerics, typeNameWithParamsNumber);
+        }
+
+        /// <summary>
+        /// Gets the actual name of the class. If nested type returns A.B rather than only B.
+        /// </summary>
+        /// <param name="type">The type to get the correct class name for.</param>
+        /// <returns>A string of the actual class name.</returns>
+        private static string GetActualClassName(ClassBase type)
+        {
+            Param.AssertNotNull(type, "type");
+            ClassBase localType = type;
+
+            while (localType.Parent is ClassBase)
+            {
+                localType = (ClassBase)localType.Parent;
+            }
+
+            string fullyQualifiedName = localType.FullyQualifiedName;
+
+            int lastIndexOfDot = fullyQualifiedName.LastIndexOf('.');
+            return lastIndexOfDot == -1 ? type.Name : type.FullyQualifiedName.Substring(lastIndexOfDot + 1).Replace('.', '+');
+        }
+
+        /// <summary>
+        /// Removes the generics from type anme provided.
+        /// </summary>
+        /// <param name="typeName">Name of the type.</param>
+        /// <returns>A string of the type name without the generics at the end.</returns>
+        private static string RemoveGenericsFromTypeName(string typeName)
+        {
+            Param.AssertNotNull(typeName, "typeName");
+
             // Determine whether the type is generic.
-            string typeName = type.Declaration.Name;
+            int index = typeName.IndexOf('<');
+            if (index > 0)
+            {
+                // Remove the generic brackets from the type name.
+                typeName = typeName.Substring(0, index);
+            }
+
+            return typeName;
+        }
+
+        /// <summary>
+        /// Builds the type name string with generics.
+        /// </summary>
+        /// <param name="typeName">Name of the type.</param>
+        /// <returns>A type name string with a regex to match generics as the suffix.</returns>
+        private static string BuildTypeNameStringWithGenerics(string typeName)
+        {
+            Param.AssertNotNull(typeName, "typeName");
+
+            // Determine whether the type is generic.
             string[] genericParams = null;
             string genericParametersRegex = null;
 
@@ -577,17 +665,37 @@ namespace Microsoft.StyleCop.CSharp
                 typeName = typeName.Substring(0, index);
             }
 
-            // Also capture the fully qualified name of the type, without generic parameters included.
-            string namespaceRegex = BuildNamespaceRegex(type);
+            return typeName + (genericParametersRegex ?? string.Empty);
+        }
 
-            // Build the regex string to match all possible formats for the type name.
-            return string.Format(
-                CultureInfo.InvariantCulture,
-                CrefRegex,
-                namespaceRegex,
-                typeName,
-                genericParametersRegex == null ? string.Empty : genericParametersRegex,
-                genericParams == null ? string.Empty : "`" + genericParams.Length.ToString(CultureInfo.InvariantCulture));
+        /// <summary>
+        /// Builds the type name string with params number.
+        /// </summary>
+        /// <param name="typeName">Name of the type.</param>
+        /// <returns>A type name string with the numbers of generics as the suffix.</returns>
+        private static string BuildTypeNameStringWithParamsNumber(string typeName)
+        {
+            Param.AssertNotNull(typeName, "typeName");
+
+            // Determine whether the type is generic.
+            string[] genericParams = null;
+            string parametersCountForGenerics = null;
+
+            int index = typeName.IndexOf('<');
+            if (index > 0)
+            {
+                // Get the generic types from the type name.
+                genericParams = ExtractGenericParametersFromType(typeName, index);
+                if (genericParams != null && genericParams.Length > 0)
+                {
+                    parametersCountForGenerics = "`" + genericParams.Length;
+                }
+
+                // Remove the generic brackets from the type name.
+                typeName = typeName.Substring(0, index);
+            }
+
+            return typeName + (parametersCountForGenerics ?? string.Empty);
         }
 
         /// <summary>

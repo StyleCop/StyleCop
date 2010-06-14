@@ -284,4 +284,72 @@ namespace CSharpAnalyzersTest.TestData
         {
         }
     }
+
+    public class NestedClassesConstructorSummary
+    {
+        private class Class1
+        {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="NestedClassesConstructorSummary.Class1"/> class.
+            /// </summary>
+            /// <remarks>valid</remarks>
+            public Class1()
+            {
+            }
+
+            private class Class2
+            {
+                /// <summary>
+                /// Initializes a new instance of the <see cref="NestedClassesConstructorSummary.Class1.Class2"/> class.
+                /// </summary>
+                /// <remarks>valid</remarks>
+                public Class2()
+                {
+                }
+            }
+        }
+
+        private class Class3
+        {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="CSharpAnalyzersTest.TestData.NestedClassesConstructorSummary.Class3"/> class.
+            /// </summary>
+            /// <remarks>valid</remarks>
+            public Class3()
+            {
+            }
+            private class Class4
+            {
+                /// <summary>
+                /// Initializes a new instance of the <see cref="CSharpAnalyzersTest.TestData.NestedClassesConstructorSummary.Class3.Class4"/> class.
+                /// </summary>
+                /// <remarks>valid</remarks>
+                public Class4()
+                {
+                }
+            }
+        }
+
+        private class Class5
+        {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="TestData.NestedClassesConstructorSummary.Class5"/> class.
+            /// </summary>
+            /// <remarks>invalid</remarks>
+            public Class5()
+            {
+            }
+
+            private class Class6
+            {
+                /// <summary>
+                /// Initializes a new instance of the <see cref="TestData.NestedClassesConstructorSummary.Class5.Class6"/> class.
+                /// </summary>
+                /// <remarks>valid</remarks>
+                public Class6()
+                {
+                }
+            }
+        }
+    }
 }

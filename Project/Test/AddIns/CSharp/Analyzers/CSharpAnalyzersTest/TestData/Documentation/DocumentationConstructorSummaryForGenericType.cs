@@ -333,4 +333,51 @@ namespace CSharpAnalyzersTest.TestData
         {
         }
     }
+
+    public class NestedMultiGenericClassCrefWithltgtAndNamespace<T, S, R>
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CSharpAnalyzersTest.TestData.NestedMultiGenericClassCrefWithltgtAndNamespace&lt;T,S,R&gt;" /> class.
+        /// </summary>
+        public NestedMultiGenericClassCrefWithltgtAndNamespace()
+        {
+        }
+
+        public class NestedMultiGenericClassCrefWithltgtAndNamespaceClass1<A, B, C>
+        {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="CSharpAnalyzersTest.TestData.NestedMultiGenericClassCrefWithltgtAndNamespace&lt;T,S,R&gt;.NestedMultiGenericClassCrefWithltgtAndNamespaceClass1&lt;A,B,C&gt;" /> class.
+            /// </summary>
+            public NestedMultiGenericClassCrefWithltgtAndNamespaceClass1()
+            {
+            }
+
+            public class NestedMultiGenericClassCrefWithltgtAndNamespaceClass4<D, E>
+            {
+                /// <summary>
+                /// Initializes a new instance of the <see cref="NestedMultiGenericClassCrefWithltgtAndNamespace&lt;T,S,R&gt;.NestedMultiGenericClassCrefWithltgtAndNamespaceClass1&lt;A,B,C&gt;.NestedMultiGenericClassCrefWithltgtAndNamespaceClass4&lt;D,E&gt;" /> class.
+                /// </summary>
+                public NestedMultiGenericClassCrefWithltgtAndNamespaceClass4()
+                {
+                }
+            }
+        }      
+
+        public class NestedMultiGenericClassCrefWithltgtAndNamespaceClass3<G, H>
+        {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="NestedMultiGenericClassCrefWithltgtAndNamespace&lt;T,S,R&gt;.NestedMultiGenericClassCrefWithltgtAndNamespaceClass3&lt;G,H&gt;" /> class.
+            /// </summary>
+            public NestedMultiGenericClassCrefWithltgtAndNamespaceClass3()
+            {
+            }
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="T:NestedMultiGenericClassCrefWithltgtAndNamespace`3.NestedMultiGenericClassCrefWithltgtAndNamespaceClass3`2" /> class.
+            /// </summary>
+            public NestedMultiGenericClassCrefWithltgtAndNamespaceClass3(int i)
+            {
+            }
+        }
+    }
 }
