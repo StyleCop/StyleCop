@@ -606,6 +606,8 @@ namespace Microsoft.StyleCop.CSharp
         private static string GetActualClassName(ClassBase type, bool showPlusInTypeName)
         {
             Param.AssertNotNull(type, "type");
+            Param.Ignore(showPlusInTypeName);
+
             CsElement localType = type;
 
             while (localType.Parent is ClassBase)
@@ -701,9 +703,7 @@ namespace Microsoft.StyleCop.CSharp
             int index = typeName.IndexOf('<');
             if (index < 0)
             {
-
                 return typeName;
-
             }
 
             StringBuilder returnValue = new StringBuilder();
