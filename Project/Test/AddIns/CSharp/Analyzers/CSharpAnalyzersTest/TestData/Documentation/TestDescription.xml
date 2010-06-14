@@ -595,6 +595,9 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationProperties.InvalidProperty32" LineNumber="380" Rule="PropertyDocumentationMustHaveValue" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationProperties.InvalidProperty32" LineNumber="380" Rule="PropertySummaryDocumentationMustOmitSetAccessorWithRestrictedAccess" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationProperties.InvalidProperty33" LineNumber="391" Rule="PropertySummaryDocumentationMustMatchAccessors" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationProperties2.InvalidProperty1" LineNumber="486" Rule="DocumentationTextMustBeginWithACapitalLetter" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationProperties2.InvalidProperty2" LineNumber="495" Rule="DocumentationTextMustBeginWithACapitalLetter" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationProperties2.InvalidProperty3" LineNumber="504" Rule="DocumentationTextMustBeginWithACapitalLetter" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationStruct1" LineNumber="125" Rule="ElementDocumentationMustNotHaveDefaultSummary" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationStruct2" LineNumber="132" Rule="DocumentationMustContainValidXml" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationStruct3" LineNumber="136" Rule="ElementsMustBeDocumented" />

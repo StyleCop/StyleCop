@@ -1384,21 +1384,22 @@ namespace Microsoft.StyleCop.CSharp
             {
                 this.AddViolation(element, lineNumber, Rules.DocumentationTextMustEndWithAPeriod, documentationType);
             }
-            
+
             if ((commentType & InvalidCommentType.NoCapitalLetter) != 0)
             {
-                // If the return value documentation starts with "true" or "false", then
-                // don't check that the comment starts with a capital letter, because we want to
-                // allow this. For example, it is common to write return documentation such as:
-                // "true if the method succeeds; false otherwise."
-                if (!documentationType.Equals("return", StringComparison.Ordinal) ||
-                    (!documentationXml.InnerText.StartsWith("true", StringComparison.Ordinal) &&
-                     !documentationXml.InnerText.StartsWith("false", StringComparison.Ordinal)))
+                // Allow documentation to begin with <c> or <paramref> and not a capital letter
+                // Or
+                // begin with true or false (in a <return> element)
+                // Code like this is common:
+                // <value><c>true</c> if dirty; otherwise, <c>false</c>.</value>
+                if ((!documentationXml.InnerXml.StartsWith("<c>", StringComparison.Ordinal) && !documentationXml.InnerXml.StartsWith("<paramref", StringComparison.Ordinal)) &&
+                    (!documentationType.Equals("return", StringComparison.Ordinal) ||
+                     (!documentationXml.InnerText.StartsWith("true", StringComparison.Ordinal) && !documentationXml.InnerText.StartsWith("false", StringComparison.Ordinal))))
                 {
                     this.AddViolation(element, lineNumber, Rules.DocumentationTextMustBeginWithACapitalLetter, documentationType);
                 }
             }
-            
+
             if ((commentType & InvalidCommentType.NoWhitespace) != 0)
             {
                 this.AddViolation(element, lineNumber, Rules.DocumentationTextMustContainWhitespace, documentationType);
