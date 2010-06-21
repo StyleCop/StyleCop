@@ -413,4 +413,34 @@ namespace CSharpAnalyzersTest.TestData.Violations
         {
         }
     }
+
+    public class NestedMultiGenericClassCrefWithltgtAndNamespace<T, S, R>
+    {
+        public class NestedMultiGenericClassCrefWithltgtAndNamespaceClass2<D, E, F>
+        {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="NestedMultiGenericClassCrefWithltgtAndNamespaceClass2&lt;D,E,F&gt;" /> class.
+            /// </summary>           
+            public NestedMultiGenericClassCrefWithltgtAndNamespaceClass2()
+            {
+            }
+        }
+
+        public class NestedMultiGenericClassCrefWithltgtAndNamespaceClass3<G, H>
+        {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="NestedMultiGenericClassCrefWithltgtAndNamespace.NestedMultiGenericClassCrefWithltgtAndNamespaceClass3&lt;G,H&gt;" /> class.
+            /// </summary>
+            public NestedMultiGenericClassCrefWithltgtAndNamespaceClass3()
+            {
+            }
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="T:NestedMultiGenericClassCrefWithltgtAndNamespace`3.NestedMultiGenericClassCrefWithltgtAndNamespaceClass3`3" /> class.
+            /// </summary>
+            public NestedMultiGenericClassCrefWithltgtAndNamespaceClass3(int i)
+            {
+            }
+        }
+    }
 }

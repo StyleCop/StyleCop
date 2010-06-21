@@ -276,9 +276,7 @@
     <Content Include="TestData\DebugText\TestDescription.xml" />
     <Content Include="TestData\DeclarationKeywordOrder\TestDescription.xml" />
     <Content Include="TestData\Documentation\IncludedDocumentation.xml" />
-    <Content Include="TestData\Documentation\TestDescription.xml">
-      <SubType>Designer</SubType>
-    </Content>
+    <Content Include="TestData\Documentation\TestDescription.xml" />
     <Content Include="TestData\ElementOrder\TestDescription.xml" />
     <Content Include="TestData\EmptyStrings\TestDescription.xml" />
     <Content Include="TestData\FileContents\TestDescription.xml" />
