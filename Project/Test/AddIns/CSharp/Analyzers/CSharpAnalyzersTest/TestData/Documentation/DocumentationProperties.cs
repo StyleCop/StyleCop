@@ -444,4 +444,69 @@ namespace CSharpAnalyzersTest.TestData
             internal set { }
         }
     }
+
+    /// <summary>
+    /// This is the class summary. This class tests that <c></c> and <paramref name=""/> do not insist an capital letters.
+    /// </summary>
+    public class DocumentationProperties2
+    {
+        /// <summary>
+        /// Gets a whatever.
+        /// </summary>
+        /// <remarks><c>true</c> or false.</remarks>
+        /// <value>This is the value.</value>
+        public string ValidProperty1
+        {
+            get { return null; }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether whatever.
+        /// </summary>
+        /// <value><c>true</c> if valid; otherwise, <c>false</c>.</value>        
+        public bool ValidProperty2
+        {
+            get { return true; }
+        }
+        
+        /// <summary>
+        /// Gets a whatever.
+        /// </summary>
+        /// <value><paramref name="value"/> this is the value.</value>
+        public int ValidProperty3
+        {
+            get { return 1; }
+        }
+                
+        /// <summary>
+        /// Gets a whatever.
+        /// </summary>
+        /// <value>no capital letter.</value>
+        public int InvalidProperty1
+        {
+            get { return 1; }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether whatever.
+        /// </summary>
+        /// <value>true if valid; otherwise, false.</value>        
+        public bool InvalidProperty2
+        {
+            get { return true; }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether whatever.
+        /// </summary>
+        /// <value>true if valid; <paramref name="value"/> otherwise, false.</value>        
+        public bool InvalidProperty3
+        {
+            get { return true; }
+        }
+    }
 }
+
+
+
+ 
