@@ -119,7 +119,7 @@ public class MyCustomRules : SourceAnalyzer
           </pre></td></tr></table></span></div>
         </p>
         <p>
-          Next, implement an override of the <span sdata="cer" target="M:Microsoft.StyleCop.SourceAnalyzer.AnalyzeDocument(Microsoft.StyleCop.CodeDocument)"><a href="M_Microsoft_StyleCop_SourceAnalyzer_AnalyzeDocument_1_94a78698.htm">AnalyzeDocument(CodeDocument)</a></span>
+          Next, implement an override of the <span sdata="cer" target="M:Microsoft.StyleCop.SourceAnalyzer.AnalyzeDocument(Microsoft.StyleCop.CodeDocument)"><a href="M_Microsoft_StyleCop_SourceAnalyzer_AnalyzeDocument.htm">AnalyzeDocument(CodeDocument)</a></span>
           method. This method will be called by StyleCop whenever the custom analyzer should run its rules against a code
           document. The AnalyzeDocument method receives an instance of a <span sdata="cer" target="T:Microsoft.StyleCop.CodeDocument"><a href="T_Microsoft_StyleCop_CodeDocument.htm">CodeDocument</a></span>
           class. For C# code, this should be casted to <span sdata="cer" target="T:Microsoft.StyleCop.CSharp.CsDocument"><a href="T_Microsoft_StyleCop_CSharp_CsDocument.htm">CsDocument</a></span>.
@@ -153,11 +153,11 @@ public class CustomRules : SourceAnalyzer
           There are two common ways for a custom rules analyzer to iterate through the code object model and discover
           rules violations. The first method uses the built-in code walkers. A code walker can be instantiated from
           the root of any document, element, statement, expression, or clause, by calling
-          <span sdata="cer" target="Overload:Microsoft.StyleCop.CSharp.CsDocument.WalkDocument"><a href="O_T_Microsoft_StyleCop_CSharp_CsDocument_WalkDocument.htm">WalkDocument</a></span>, 
-          <span sdata="cer" target="Overload:Microsoft.StyleCop.CSharp.CsElement.WalkElement"><a href="O_T_Microsoft_StyleCop_CSharp_CsElement_WalkElement.htm">WalkElement</a></span>, 
-          <span sdata="cer" target="Overload:Microsoft.StyleCop.CSharp.Statement.WalkStatement"><a href="O_T_Microsoft_StyleCop_CSharp_Statement_WalkStatement.htm">WalkStatement</a></span>, 
-          <span sdata="cer" target="Overload:Microsoft.StyleCop.CSharp.Expression.WalkExpression"><a href="O_T_Microsoft_StyleCop_CSharp_Expression_WalkExpression.htm">WalkExpression</a></span>, 
-          or <span sdata="cer" target="Overload:Microsoft.StyleCop.CSharp.QueryClause.WalkQueryClause"><a href="O_T_Microsoft_StyleCop_CSharp_QueryClause_WalkQueryClause.htm">WalkQueryClause</a></span>.
+          <span sdata="cer" target="Overload:Microsoft.StyleCop.CSharp.CsDocument.WalkDocument"><a href="Overload_Microsoft_StyleCop_CSharp_CsDocument_WalkDocument.htm">WalkDocument</a></span>, 
+          <span sdata="cer" target="Overload:Microsoft.StyleCop.CSharp.CsElement.WalkElement"><a href="Overload_Microsoft_StyleCop_CSharp_CsElement_WalkElement.htm">WalkElement</a></span>, 
+          <span sdata="cer" target="Overload:Microsoft.StyleCop.CSharp.Statement.WalkStatement"><a href="Overload_Microsoft_StyleCop_CSharp_Statement_WalkStatement.htm">WalkStatement</a></span>, 
+          <span sdata="cer" target="Overload:Microsoft.StyleCop.CSharp.Expression.WalkExpression"><a href="Overload_Microsoft_StyleCop_CSharp_Expression_WalkExpression.htm">WalkExpression</a></span>, 
+          or <span sdata="cer" target="Overload:Microsoft.StyleCop.CSharp.QueryClause.WalkQueryClause"><a href="Overload_Microsoft_StyleCop_CSharp_QueryClause_WalkQueryClause.htm">WalkQueryClause</a></span>.
           In each case, the walker method takes a series of delegate callbacks, which will be called each time the walker
           discovers an element, statement, expression, or query clause in the code. For example:
         </p>
