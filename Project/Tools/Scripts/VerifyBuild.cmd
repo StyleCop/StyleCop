@@ -15,6 +15,7 @@ SET NoSync=0
 SET SkipWixBuild=0
 SET WixBuildOnly=0
 SET NoCodeAnalysis=0
+SET BuildDocs=0
 
 SET VerifyInstallLog=%TEMP%\StyleCop.VerifyBuild.Install.Log
 REM *** Parse script parameters ***
@@ -55,6 +56,9 @@ FOR %%a IN (.- ./) DO IF /I ".%1" == "%%aWIXBUILDONLY" ( SET WixBuildOnly=1& SHI
 
 REM Skip Code Analysis if -NoCodeAnalysis
 FOR %%a IN (.- ./) DO IF /I ".%1" == "%%aNOCODEANALYSIS" ( SET NoCodeAnalysis=1& SHIFT & GOTO Params )
+
+REM Build Documentation if -Docs
+FOR %%a IN (.- ./) DO IF /I ".%1" == "%%aDOCS" ( SET BuildDocs=1& SHIFT & GOTO Params )
 
 REM Set BuildTarget
 FOR %%a IN (.- ./) DO IF /I ".%1" == "%%aRETAIL" ( SET BuildTarget=Release& SHIFT & GOTO Params )
@@ -211,6 +215,10 @@ if exist %PROJECTROOT%\src\WixSetup\%BuildLogFile%.err (
     SET GOTOEND=1
 )
 
+IF %GOTOEND%.==1. GOTO :END
+
+IF NOT %BuildDocs%.==1. GOTO :END
+call %PROJECTROOT%\Docs\BuildDocs.cmd
 
 ECHO.
 ECHO **** BUILD SUMMARY END ***********************************************
