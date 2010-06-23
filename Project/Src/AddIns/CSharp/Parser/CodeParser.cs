@@ -367,7 +367,6 @@ namespace Microsoft.StyleCop.CSharp
                 }
                 else if (!char.IsWhiteSpace(typeCharacter))
                 {
-                    // Look for a comment.
                     if (typeCharacter == '/' && i < type.Length - 1)
                     {
                         if (type[i + 1] == '/')

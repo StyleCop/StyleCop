@@ -245,6 +245,7 @@
     <Compile Include="Tokens\ConditionalCompilationDirectiveType.cs" />
     <Compile Include="Tokens\ConstructorConstraint.cs" />
     <Compile Include="Tokens\ConditionalCompilationDirective.cs" />
+    <Compile Include="Tokens\GenericTypeParameter.cs" />
     <Compile Include="Tokens\Number.cs" />
     <Compile Include="Tokens\TypeToken.cs" />
     <Compile Include="Tokens\Attribute.cs" />
