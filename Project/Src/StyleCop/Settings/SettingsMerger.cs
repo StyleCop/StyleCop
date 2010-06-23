@@ -328,6 +328,9 @@ namespace Microsoft.StyleCop
                 }
             }
 
+            // Add excluded files from the overriding settings file.
+            mergedSettings.MergeExcludedFiles(overridingSettings, originalSettings);
+
             // Merge the write times together. Set the write time of the merged settings file to the most
             // recent write time of the two file which were merged.
             if (originalSettings.WriteTime.CompareTo(overridingSettings.WriteTime) > 0)

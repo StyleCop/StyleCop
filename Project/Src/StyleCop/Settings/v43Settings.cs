@@ -53,6 +53,9 @@ namespace Microsoft.StyleCop
 
             // Load the analyzers under this parser.
             LoadAnalyzerSettings(document, settings);
+
+            // Load the collection of excluded files.
+            LoadExcludedFiles(document, settings);
         }
 
         #endregion Public Static Methods
@@ -391,6 +394,30 @@ namespace Microsoft.StyleCop
 
                     // Add this property to the parent collection.
                     properties.Add(collectionProperty);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Loads excluded file settings.
+        /// </summary>
+        /// <param name="document">The settings document.</param>
+        /// <param name="settings">Stores the settings.</param>
+        private static void LoadExcludedFiles(XmlDocument document, Settings settings)
+        {
+            Param.AssertNotNull(document, "document");
+            Param.AssertNotNull(settings, "settings");
+
+            XmlNodeList excludedFileNodes = document.DocumentElement.SelectNodes("ExcludedFiles/ExcludedFile");
+            if (excludedFileNodes != null && excludedFileNodes.Count > 0)
+            {
+                foreach (XmlNode excludedFileNode in excludedFileNodes)
+                {
+                    string fileName = excludedFileNode.InnerText;
+                    if (!string.IsNullOrEmpty(fileName))
+                    {
+                        settings.AddExcludedFile(fileName);
+                    }
                 }
             }
         }

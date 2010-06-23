@@ -42,6 +42,15 @@ namespace Microsoft.StyleCop
 
         #endregion Public Constants
 
+        #region Private Static Fields
+
+        /// <summary>
+        /// An empty array of strings.
+        /// </summary>
+        private static readonly string[] EmptyStringArray = new string[] { };
+
+        #endregion Private Static Fields
+
         #region Private Fields
 
         /// <summary>
@@ -78,6 +87,11 @@ namespace Microsoft.StyleCop
         /// The settings for the analyzers.
         /// </summary>
         private Dictionary<string, AddInPropertyCollection> analyzerSettings = new Dictionary<string, AddInPropertyCollection>();
+
+        /// <summary>
+        /// The collection of excluded files specified in the settings.
+        /// </summary>
+        private Dictionary<string, string> excludedFiles;
 
         /// <summary>
         /// The StyleCop core instance.
@@ -242,6 +256,22 @@ namespace Microsoft.StyleCop
             }
         }
 
+        /// <summary>
+        /// Gets the collection of excluded files.
+        /// </summary>
+        public ICollection<string> ExcludedFiles
+        {
+            get
+            {
+                if (this.excludedFiles == null)
+                {
+                    return EmptyStringArray;
+                }
+
+                return this.excludedFiles.Values;
+            }
+        }
+
         #endregion Public Properties
 
         #region Internal Properties
@@ -349,6 +379,23 @@ namespace Microsoft.StyleCop
             return null;
         }
 
+        /// <summary>
+        /// Determines whether the given file has been excluded in the settings.
+        /// </summary>
+        /// <param name="fileName">The name of the file.</param>
+        /// <returns>Returns true if the file has been excluded; false otherwise.</returns>
+        public bool IsFileExcluded(string fileName)
+        {
+            Param.Ignore(fileName);
+
+            if (this.excludedFiles != null && !string.IsNullOrEmpty(fileName))
+            {
+                return this.excludedFiles.ContainsKey(fileName.ToUpperInvariant());
+            }
+
+            return false;
+        }
+
         #endregion Public Methods
 
         #region Internal Methods
@@ -413,6 +460,91 @@ namespace Microsoft.StyleCop
                 {
                     Dictionary<string, AddInPropertyCollection> collection = this.GetPropertyCollectionDictionary(addIn);
                     collection.Remove(addIn.Id);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Adds an excluded file.
+        /// </summary>
+        /// <param name="fileName">The name of the file to add.</param>
+        internal void AddExcludedFile(string fileName)
+        {
+            Param.AssertNotNull(fileName, "fileName");
+
+            if (this.excludedFiles == null)
+            {
+                this.excludedFiles = new Dictionary<string, string>();
+            }
+
+            string fileNameUpper = fileName.ToUpperInvariant();
+
+            if (!this.excludedFiles.ContainsKey(fileNameUpper))
+            {
+                this.excludedFiles.Add(fileNameUpper, fileName);
+            }
+        }
+
+        /// <summary>
+        /// Merges the excluded files from the two given settings files into this settings file.
+        /// </summary>
+        /// <param name="settings1">The first settings.</param>
+        /// <param name="settings2">The second settings.</param>
+        internal void MergeExcludedFiles(Settings settings1, Settings settings2)
+        {
+            Param.AssertNotNull(settings1, "settings1");
+            Param.AssertNotNull(settings2, "settings2");
+
+            Debug.Assert(this.excludedFiles == null, "This method should only be called when the dictionary has not been initialized yet");
+
+            // This method attempts to take advantage of the fact that a dictionary can be passed into the constructor of another dictionary.
+            // Since we are merging two dictionaries, the most efficient way is to pass the larger of the two dictionaries into the constructor
+            // of the new dictionary, and then add each of the items from the smaller dictionary to the merged dictionary one by one.
+            IDictionary<string, string> baseSettings = settings1.excludedFiles;
+            IDictionary<string, string> additionalSettings = settings2.excludedFiles;
+
+            if (settings1.excludedFiles == null)
+            {
+                if (settings2.excludedFiles == null)
+                {
+                    // 1 and 2 are null.
+                    baseSettings = additionalSettings = null;
+                }
+                else
+                {
+                    // 1 is null.
+                    baseSettings = settings2.excludedFiles;
+                    additionalSettings = null;
+                }
+            }
+            else
+            {
+                if (settings2.excludedFiles == null)
+                {
+                    // 2 is null.
+                    additionalSettings = null;
+                }
+                else
+                {
+                    // Neither are null.
+                    if (settings2.excludedFiles.Count > settings1.excludedFiles.Count)
+                    {
+                        baseSettings = settings2.excludedFiles;
+                        additionalSettings = settings1.excludedFiles;
+                    }
+                }
+            }
+
+            if (baseSettings != null)
+            {
+                this.excludedFiles = new Dictionary<string, string>(baseSettings);
+
+                if (additionalSettings != null)
+                {
+                    foreach (string file in additionalSettings.Values)
+                    {
+                        this.AddExcludedFile(file);
+                    }
                 }
             }
         }
