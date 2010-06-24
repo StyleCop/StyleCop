@@ -12,8 +12,15 @@
       Name="AnalyzeGeneratedFiles"
       DefaultValue="False"
       FriendlyName="Analyze generated files"
-      Description="Indicates whether to include generated files (*.g.cs and *.generated.cs)."
+      Description="Indicates whether to include generated files (*.g.cs, *.generated.cs, etc.)"
     />
+    <CollectionProperty
+      Name="GeneratedFileFilters"
+      Aggregate="True"
+      FriendlyName="Generated File Filters"
+      Description="The list filter patterns to match against generated file names (*.g.cs, *.generated.cs, etc.)">
+    </CollectionProperty>
+
   </Properties>
   <FileTypes>
     <FileType>.cs</FileType>
