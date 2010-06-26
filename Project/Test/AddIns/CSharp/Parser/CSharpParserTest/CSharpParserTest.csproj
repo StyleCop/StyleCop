@@ -63,6 +63,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="FileLists.GenericTest">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="TestData\FileLists\TestFile1.cs" />
+    <None Include="TestData\FileLists\TestFile2.cs" />
     <Compile Include="TestData\GeneratedCode\AccessModifiersMissing.Designer.cs">
     </Compile>
     <None Include="TestData\GeneratedCode\AccessModifiersMissing.g.cs" />
@@ -139,6 +144,9 @@
     <Content Include="TestData\Elements\TestDescription.xml" />
     <Content Include="TestData\ExtensionMethods\TestDescription.xml" />
     <None Include="TestData\GeneratedCode\TestDescription.xml" />
+    <None Include="TestData\FileLists\TestDescription.xml">
+      <SubType>Designer</SubType>
+    </None>
     <Content Include="TestData\ImplicitlyTypedArrays\TestDescription.xml" />
     <None Include="TestData\LambdaExpressions\LambdaExpressionsObjectModel.xml" />
     <None Include="TestData\LambdaExpressions\TestDescription.xml" />

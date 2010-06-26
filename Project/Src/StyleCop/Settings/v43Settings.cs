@@ -40,22 +40,7 @@ namespace Microsoft.StyleCop
             Param.AssertNotNull(document, "document");
             Param.AssertNotNull(settings, "settings");
 
-            // Add the global settings if there are any.
-            XmlNode globalSettingsNode = document.DocumentElement["GlobalSettings"];
-            if (globalSettingsNode != null)
-            {
-                LoadPropertyCollection(
-                    globalSettingsNode, settings.GlobalSettings, settings.Core.PropertyDescriptors, null);
-            }
-
-            // Load the parser settings.
-            LoadParserSettings(document, settings);
-
-            // Load the analyzers under this parser.
-            LoadAnalyzerSettings(document, settings);
-
-            // Load the collection of excluded files.
-            LoadExcludedFiles(document, settings);
+            Load(document.DocumentElement, settings);
         }
 
         #endregion Public Static Methods
@@ -63,16 +48,44 @@ namespace Microsoft.StyleCop
         #region Private Static Methods
 
         /// <summary>
-        /// Loads parser settings from the document.
+        /// Loads the settings from the document.
         /// </summary>
-        /// <param name="document">The settings document.</param>
+        /// <param name="documentRoot">The root node of the settings document.</param>
         /// <param name="settings">Stores the settings.</param>
-        private static void LoadParserSettings(XmlDocument document, Settings settings)
+        public static void Load(XmlNode documentRoot, Settings settings)
         {
-            Param.AssertNotNull(document, "document");
+            Param.AssertNotNull(documentRoot, "documentRoot");
             Param.AssertNotNull(settings, "settings");
 
-            XmlNodeList parsersNodes = document.DocumentElement.SelectNodes("Parsers/Parser");
+            // Add the global settings if there are any.
+            XmlNode globalSettingsNode = documentRoot["GlobalSettings"];
+            if (globalSettingsNode != null)
+            {
+                LoadPropertyCollection(
+                    globalSettingsNode, settings.GlobalSettings, settings.Core.PropertyDescriptors, null);
+            }
+
+            // Load the parser settings.
+            LoadParserSettings(documentRoot, settings);
+
+            // Load the analyzers under this parser.
+            LoadAnalyzerSettings(documentRoot, settings);
+
+            // Load the collection of excluded files.
+            LoadFileLists(documentRoot, settings);
+        }
+
+        /// <summary>
+        /// Loads parser settings from the document.
+        /// </summary>
+        /// <param name="documentRoot">The root node of the settings document.</param>
+        /// <param name="settings">Stores the settings.</param>
+        private static void LoadParserSettings(XmlNode documentRoot, Settings settings)
+        {
+            Param.AssertNotNull(documentRoot, "documentRoot");
+            Param.AssertNotNull(settings, "settings");
+
+            XmlNodeList parsersNodes = documentRoot.SelectNodes("Parsers/Parser");
             if (parsersNodes != null && parsersNodes.Count > 0)
             {
                 foreach (XmlNode parserNode in parsersNodes)
@@ -113,14 +126,14 @@ namespace Microsoft.StyleCop
         /// <summary>
         /// Loads analyzer settings from the document.
         /// </summary>
-        /// <param name="document">The settings document.</param>
+        /// <param name="documentRoot">The root node of the settings document.</param>
         /// <param name="settings">Stores the settings.</param>
-        private static void LoadAnalyzerSettings(XmlDocument document, Settings settings)
+        private static void LoadAnalyzerSettings(XmlNode documentRoot, Settings settings)
         {
-            Param.AssertNotNull(document, "document");
+            Param.AssertNotNull(documentRoot, "documentRoot");
             Param.AssertNotNull(settings, "settings");
 
-            XmlNodeList analyzerNodes = document.DocumentElement.SelectNodes("Analyzers/Analyzer");
+            XmlNodeList analyzerNodes = documentRoot.SelectNodes("Analyzers/Analyzer");
             if (analyzerNodes != null && analyzerNodes.Count > 0)
             {
                 foreach (XmlNode analyzerNode in analyzerNodes)
@@ -399,25 +412,40 @@ namespace Microsoft.StyleCop
         }
 
         /// <summary>
-        /// Loads excluded file settings.
+        /// Loads files specified in file lists.
         /// </summary>
-        /// <param name="document">The settings document.</param>
+        /// <param name="documentRoot">The root node of the settings document.</param>
         /// <param name="settings">Stores the settings.</param>
-        private static void LoadExcludedFiles(XmlDocument document, Settings settings)
+        private static void LoadFileLists(XmlNode documentRoot, Settings settings)
         {
-            Param.AssertNotNull(document, "document");
+            Param.AssertNotNull(documentRoot, "documentRoot");
             Param.AssertNotNull(settings, "settings");
 
-            XmlNodeList excludedFileNodes = document.DocumentElement.SelectNodes("ExcludedFiles/ExcludedFile");
-            if (excludedFileNodes != null && excludedFileNodes.Count > 0)
+            XmlNodeList fileListNodes = documentRoot.SelectNodes("SourceFileList");
+            foreach (XmlNode fileListNode in fileListNodes)
             {
-                foreach (XmlNode excludedFileNode in excludedFileNodes)
+                XmlNodeList fileNodes = fileListNode.SelectNodes("SourceFile");
+                if (fileNodes.Count > 0)
                 {
-                    string fileName = excludedFileNode.InnerText;
-                    if (!string.IsNullOrEmpty(fileName))
+                    Settings settingsForFileList = new Settings(settings.Core);
+
+                    XmlNode settingsNode = fileListNode.SelectSingleNode("Settings");
+                    if (settingsNode != null)
                     {
-                        settings.AddExcludedFile(fileName);
+                        V43Settings.Load(settingsNode, settingsForFileList);
                     }
+
+                    SourceFileListSettings sourceFileListSettings = new SourceFileListSettings(settingsForFileList);
+
+                    foreach (XmlNode fileNode in fileNodes)
+                    {
+                        if (!string.IsNullOrEmpty(fileNode.InnerText))
+                        {
+                            sourceFileListSettings.AddFile(fileNode.InnerText);
+                        }
+                    }
+
+                    settings.AddSourceFileList(sourceFileListSettings);
                 }
             }
         }

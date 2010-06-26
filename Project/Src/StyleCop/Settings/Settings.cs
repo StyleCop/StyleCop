@@ -21,6 +21,7 @@ namespace Microsoft.StyleCop
     using System.Globalization;
     using System.IO;
     using System.Security;
+    using System.Threading;
     using System.Xml;
 
     /// <summary>
@@ -91,7 +92,7 @@ namespace Microsoft.StyleCop
         /// <summary>
         /// The collection of excluded files specified in the settings.
         /// </summary>
-        private Dictionary<string, string> excludedFiles;
+        private List<SourceFileListSettings> sourceFileLists = new List<SourceFileListSettings>();
 
         /// <summary>
         /// The StyleCop core instance.
@@ -102,6 +103,16 @@ namespace Microsoft.StyleCop
         /// Indicates whether this is the default settings file for the installation.
         /// </summary>
         private bool defaultSettings;
+
+        /// <summary>
+        /// The collection of enabled analyzers based on the settings.
+        /// </summary>
+        private Dictionary<StyleCopAddIn, Dictionary<string, Rule>> enabledRules;
+
+        /// <summary>
+        /// Lock object for enabled rules dictionary
+        /// </summary>
+        private ReaderWriterLock enabledRulesLock = new ReaderWriterLock();
 
         #endregion Private Fields
 
@@ -114,6 +125,7 @@ namespace Microsoft.StyleCop
         internal Settings(StyleCopCore core)
         {
             Param.AssertNotNull(core, "core");
+
             this.core = core;
         }
 
@@ -192,6 +204,23 @@ namespace Microsoft.StyleCop
         }
 
         /// <summary>
+        /// Gets a value indicating whether rules for this file list are enabled or disabled by default.
+        /// </summary>
+        public bool RulesEnabledByDefault
+        {
+            get
+            {
+                if (this.globalSettings != null)
+                {
+                    BooleanProperty property = this.globalSettings["RulesEnabledByDefault"] as BooleanProperty;
+                    return property == null || property.Value != false;
+                }
+
+                return true;
+            }
+        }
+
+        /// <summary>
         /// Gets the time when the settings were last updated.
         /// </summary>
         public DateTime WriteTime 
@@ -257,18 +286,42 @@ namespace Microsoft.StyleCop
         }
 
         /// <summary>
-        /// Gets the collection of excluded files.
+        /// Gets the collection of source files lists.
         /// </summary>
-        public ICollection<string> ExcludedFiles
+        public ICollection<SourceFileListSettings> SourceFileLists
         {
             get
             {
-                if (this.excludedFiles == null)
-                {
-                    return EmptyStringArray;
-                }
+                return this.sourceFileLists.AsReadOnly();
+            }
+        }
+        
+        /// <summary>
+        /// Gets the collection of enabled analyzers for these settings.
+        /// </summary>
+        public IEnumerable<SourceAnalyzer> EnabledAnalyzers
+        {
+            get
+            {
+                this.enabledRulesLock.AcquireReaderLock(Timeout.Infinite);
 
-                return this.excludedFiles.Values;
+                try
+                {
+                    this.InitializeEnabledRules();
+
+                    foreach (StyleCopAddIn addIn in this.enabledRules.Keys)
+                    {
+                        SourceAnalyzer analyzer = addIn as SourceAnalyzer;
+                        if (analyzer != null)
+                        {
+                            yield return analyzer;
+                        }
+                    }
+                }
+                finally
+                {
+                    this.enabledRulesLock.ReleaseReaderLock();
+                }
             }
         }
 
@@ -380,17 +433,58 @@ namespace Microsoft.StyleCop
         }
 
         /// <summary>
-        /// Determines whether the given file has been excluded in the settings.
+        /// Gets the custom settings for a file with the given name, if any.
         /// </summary>
         /// <param name="fileName">The name of the file.</param>
-        /// <returns>Returns true if the file has been excluded; false otherwise.</returns>
-        public bool IsFileExcluded(string fileName)
+        /// <returns>Returns the custom settings or null if there are no custom settings specified for this file.</returns>
+        /// <remarks>Custom settings are specified through a SourceFileList node in the settings file.</remarks>
+        public Settings GetCustomSettingsForFile(string fileName)
         {
             Param.Ignore(fileName);
 
-            if (this.excludedFiles != null && !string.IsNullOrEmpty(fileName))
+            if (!string.IsNullOrEmpty(fileName))
             {
-                return this.excludedFiles.ContainsKey(fileName.ToUpperInvariant());
+                for (int i = 0; i < this.sourceFileLists.Count; ++i)
+                {
+                    if (this.sourceFileLists[i].ContainsFile(fileName))
+                    {
+                        return this.sourceFileLists[i].Settings;
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the given rule is enabled for the given document.
+        /// </summary>
+        /// <param name="analyzer">The analyzer which contains the rule.</param>
+        /// <param name="ruleName">The rule to check.</param>
+        /// <returns>Returns true if the rule is enabled; otherwise false.</returns>
+        public bool IsRuleEnabled(SourceAnalyzer analyzer, string ruleName)
+        {
+            Param.RequireNotNull(analyzer, "analyzer");
+            Param.RequireValidString(ruleName, "ruleName");
+            
+            this.enabledRulesLock.AcquireReaderLock(Timeout.Infinite);
+
+            try
+            {
+                this.InitializeEnabledRules();
+
+                if (this.enabledRules != null)
+                {
+                    Dictionary<string, Rule> enabledRulesForAnalyzer = null;
+                    if (this.enabledRules.TryGetValue(analyzer, out enabledRulesForAnalyzer) && enabledRulesForAnalyzer != null)
+                    {
+                        return enabledRulesForAnalyzer.ContainsKey(ruleName);
+                    }
+                }
+            }
+            finally
+            {
+                this.enabledRulesLock.ReleaseReaderLock();
             }
 
             return false;
@@ -465,88 +559,13 @@ namespace Microsoft.StyleCop
         }
 
         /// <summary>
-        /// Adds an excluded file.
+        /// Adds a set of custom source file settings.
         /// </summary>
-        /// <param name="fileName">The name of the file to add.</param>
-        internal void AddExcludedFile(string fileName)
+        /// <param name="sourceFileList">The source file list settings.</param>
+        internal void AddSourceFileList(SourceFileListSettings sourceFileList)
         {
-            Param.AssertNotNull(fileName, "fileName");
-
-            if (this.excludedFiles == null)
-            {
-                this.excludedFiles = new Dictionary<string, string>();
-            }
-
-            string fileNameUpper = fileName.ToUpperInvariant();
-
-            if (!this.excludedFiles.ContainsKey(fileNameUpper))
-            {
-                this.excludedFiles.Add(fileNameUpper, fileName);
-            }
-        }
-
-        /// <summary>
-        /// Merges the excluded files from the two given settings files into this settings file.
-        /// </summary>
-        /// <param name="settings1">The first settings.</param>
-        /// <param name="settings2">The second settings.</param>
-        internal void MergeExcludedFiles(Settings settings1, Settings settings2)
-        {
-            Param.AssertNotNull(settings1, "settings1");
-            Param.AssertNotNull(settings2, "settings2");
-
-            Debug.Assert(this.excludedFiles == null, "This method should only be called when the dictionary has not been initialized yet");
-
-            // This method attempts to take advantage of the fact that a dictionary can be passed into the constructor of another dictionary.
-            // Since we are merging two dictionaries, the most efficient way is to pass the larger of the two dictionaries into the constructor
-            // of the new dictionary, and then add each of the items from the smaller dictionary to the merged dictionary one by one.
-            IDictionary<string, string> baseSettings = settings1.excludedFiles;
-            IDictionary<string, string> additionalSettings = settings2.excludedFiles;
-
-            if (settings1.excludedFiles == null)
-            {
-                if (settings2.excludedFiles == null)
-                {
-                    // 1 and 2 are null.
-                    baseSettings = additionalSettings = null;
-                }
-                else
-                {
-                    // 1 is null.
-                    baseSettings = settings2.excludedFiles;
-                    additionalSettings = null;
-                }
-            }
-            else
-            {
-                if (settings2.excludedFiles == null)
-                {
-                    // 2 is null.
-                    additionalSettings = null;
-                }
-                else
-                {
-                    // Neither are null.
-                    if (settings2.excludedFiles.Count > settings1.excludedFiles.Count)
-                    {
-                        baseSettings = settings2.excludedFiles;
-                        additionalSettings = settings1.excludedFiles;
-                    }
-                }
-            }
-
-            if (baseSettings != null)
-            {
-                this.excludedFiles = new Dictionary<string, string>(baseSettings);
-
-                if (additionalSettings != null)
-                {
-                    foreach (string file in additionalSettings.Values)
-                    {
-                        this.AddExcludedFile(file);
-                    }
-                }
-            }
+            Param.AssertNotNull(sourceFileList, "sourceFileList");
+            this.sourceFileLists.Add(sourceFileList);
         }
 
         #endregion Internal Methods
@@ -604,6 +623,84 @@ namespace Microsoft.StyleCop
             }
 
             return collection;
+        }
+
+        /// <summary>
+        /// Initializes the collection of enabled analyzers and rules based on these settings.
+        /// </summary>
+        private void InitializeEnabledRules()
+        {
+            if (this.enabledRules == null)
+            {
+                var cookie = this.enabledRulesLock.UpgradeToWriterLock(Timeout.Infinite);
+
+                try
+                {
+                    if (this.enabledRules == null)
+                    {
+                        this.enabledRules = new Dictionary<StyleCopAddIn, Dictionary<string, Rule>>();
+
+                        // Determine whether addins are enabled or disabled by default.
+                        bool enabledByDefault = this.RulesEnabledByDefault;
+
+                        // Iterate through all loaded parsers.
+                        foreach (SourceParser parser in this.core.Parsers)
+                        {
+                            // Iterate through each analyzer attached to this parser.
+                            foreach (SourceAnalyzer analyzer in parser.Analyzers)
+                            {
+                                // Create a dictionary to hold each enabled rule for the analyzer.
+                                Dictionary<string, Rule> enabledRulesForAnalyzer = new Dictionary<string, Rule>();
+
+                                // Get the settings for this analyzer, if there are any.
+                                AddInPropertyCollection analyzerSettings = this.GetAddInSettings(analyzer);
+
+                                // Iterate through each of the analyzer's rules.
+                                foreach (Rule rule in analyzer.AddInRules)
+                                {
+                                    // Determine whether the rule is currently enabled.
+                                    bool ruleEnabled = enabledByDefault && rule.EnabledByDefault;
+
+                                    // Determine whether there is a setting which enables or disables the rules.
+                                    // If the rule is set to CanDisable = false, then ignore the setting unless
+                                    // we are in disabled by default mode.
+                                    if (analyzerSettings != null && (!ruleEnabled || rule.CanDisable))
+                                    {
+                                        BooleanProperty property = analyzerSettings[rule.Name + "#Enabled"] as BooleanProperty;
+                                        if (property != null)
+                                        {
+                                            ruleEnabled = property.Value;
+                                        }
+                                    }
+
+                                    // If the rule is enabled, add it to the enabled rules dictionary.
+                                    if (ruleEnabled)
+                                    {
+                                        enabledRulesForAnalyzer.Add(rule.Name, rule);
+                                    }
+                                }
+
+                                // If the analyzer has at least one enabled rule, add the analyzer to the list 
+                                // of enabled analyzers.
+                                if (enabledRulesForAnalyzer.Count > 0)
+                                {
+                                    // The rules list should not already be set for this project on this analyzer.
+                                    // If so, something is wrong.
+                                    Debug.Assert(
+                                        !this.enabledRules.ContainsKey(analyzer),
+                                        "The rule list for this analyzer should not be set yet.");
+
+                                    this.enabledRules.Add(analyzer, enabledRulesForAnalyzer);
+                                }
+                            }
+                        }
+                    }
+                }
+                finally
+                {
+                    this.enabledRulesLock.DowngradeFromWriterLock(ref cookie);
+                }
+            }
         }
 
         #endregion Private Methods

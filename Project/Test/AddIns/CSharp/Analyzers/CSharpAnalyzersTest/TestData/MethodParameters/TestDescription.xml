@@ -4,6 +4,10 @@
   <Test Name="MethodDeclarationValidPlacement">
     <TestCodeFile>MethodDeclarationValidPlacement.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.ReadabilityRules">
           <Rules>
@@ -65,6 +69,10 @@
   <Test Name="MethodDeclarationOpeningParenthesisPlacement">
     <TestCodeFile>MethodDeclarationOpeningParenthesisPlacement.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.ReadabilityRules">
           <Rules>
@@ -162,6 +170,10 @@
   <Test Name="MethodDeclarationClosingParenthesisPlacement">
     <TestCodeFile>MethodDeclarationClosingParenthesisPlacement.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.ReadabilityRules">
           <Rules>
@@ -271,6 +283,10 @@
   <Test Name="MethodDeclarationCommaPlacement">
     <TestCodeFile>MethodDeclarationCommaPlacement.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.ReadabilityRules">
           <Rules>
@@ -342,6 +358,10 @@
   <Test Name="MethodDeclarationParameterListStart">
     <TestCodeFile>MethodDeclarationParameterListStart.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.ReadabilityRules">
           <Rules>
@@ -446,6 +466,10 @@
   <Test Name="MethodDeclarationParameterFollowsComma">
     <TestCodeFile>MethodDeclarationParameterFollowsComma.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.ReadabilityRules">
           <Rules>
@@ -551,6 +575,10 @@
   <Test Name="MethodDeclarationSplitParameterMustStartOnLineAfterDeclaration">
     <TestCodeFile>MethodDeclarationSplitParameterMustStartOnLineAfterDeclaration.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.ReadabilityRules">
           <Rules>
@@ -696,6 +724,10 @@
   <Test Name="MethodDeclarationSpanningMultipleLines">
     <TestCodeFile>MethodDeclarationSpanningMultipleLines.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.ReadabilityRules">
           <Rules>
@@ -877,6 +909,10 @@
   <Test Name="InterfaceMethodDeclarationValidPlacement">
     <TestCodeFile>InterfaceMethodDeclarationValidPlacement.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.ReadabilityRules">
           <Rules>
@@ -938,6 +974,10 @@
   <Test Name="InterfaceMethodDeclarationOpeningParenthesisPlacement">
     <TestCodeFile>InterfaceMethodDeclarationOpeningParenthesisPlacement.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.ReadabilityRules">
           <Rules>
@@ -1004,6 +1044,10 @@
   <Test Name="InterfaceMethodDeclarationClosingParenthesisPlacement">
     <TestCodeFile>InterfaceMethodDeclarationClosingParenthesisPlacement.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.ReadabilityRules">
           <Rules>
@@ -1069,6 +1113,10 @@
   <Test Name="InterfaceMethodDeclarationCommaPlacement">
     <TestCodeFile>InterfaceMethodDeclarationCommaPlacement.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.ReadabilityRules">
           <Rules>
@@ -1138,6 +1186,10 @@
   <Test Name="InterfaceMethodDeclarationParameterListStart">
     <TestCodeFile>InterfaceMethodDeclarationParameterListStart.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.ReadabilityRules">
           <Rules>
@@ -1202,6 +1254,10 @@
   <Test Name="InterfaceMethodDeclarationParameterFollowsComma">
     <TestCodeFile>InterfaceMethodDeclarationParameterFollowsComma.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.ReadabilityRules">
           <Rules>
@@ -1268,6 +1324,10 @@
   <Test Name="InterfaceMethodDeclarationSplitParameterMustStartOnLineAfterDeclaration">
     <TestCodeFile>InterfaceMethodDeclarationSplitParameterMustStartOnLineAfterDeclaration.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.ReadabilityRules">
           <Rules>
@@ -1343,6 +1403,10 @@
   <Test Name="InterfaceMethodDeclarationSpanningMultipleLines">
     <TestCodeFile>InterfaceMethodDeclarationSpanningMultipleLines.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.ReadabilityRules">
           <Rules>
@@ -1430,6 +1494,10 @@
   <Test Name="IndexerDeclarationValidPlacement">
     <TestCodeFile>IndexerDeclarationValidPlacement.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.ReadabilityRules">
           <Rules>
@@ -1491,6 +1559,10 @@
   <Test Name="IndexerDeclarationOpeningParenthesisPlacement">
     <TestCodeFile>IndexerDeclarationOpeningParenthesisPlacement.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.ReadabilityRules">
           <Rules>
@@ -1554,6 +1626,10 @@
   <Test Name="IndexerDeclarationClosingParenthesisPlacement">
     <TestCodeFile>IndexerDeclarationClosingParenthesisPlacement.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.ReadabilityRules">
           <Rules>
@@ -1618,6 +1694,10 @@
   <Test Name="IndexerDeclarationCommaPlacement">
     <TestCodeFile>IndexerDeclarationCommaPlacement.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.ReadabilityRules">
           <Rules>
@@ -1687,6 +1767,10 @@
   <Test Name="IndexerDeclarationParameterListStart">
     <TestCodeFile>IndexerDeclarationParameterListStart.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.ReadabilityRules">
           <Rules>
@@ -1751,6 +1835,10 @@
   <Test Name="IndexerDeclarationParameterFollowsComma">
     <TestCodeFile>IndexerDeclarationParameterFollowsComma.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.ReadabilityRules">
           <Rules>
@@ -1817,6 +1905,10 @@
   <Test Name="IndexerDeclarationSplitParameterMustStartOnLineAfterDeclaration">
     <TestCodeFile>IndexerDeclarationSplitParameterMustStartOnLineAfterDeclaration.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.ReadabilityRules">
           <Rules>
@@ -1892,6 +1984,10 @@
   <Test Name="IndexerDeclarationSpanningMultipleLines">
     <TestCodeFile>IndexerDeclarationSpanningMultipleLines.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.ReadabilityRules">
           <Rules>
@@ -1961,6 +2057,10 @@
   <Test Name="DelegateDeclarationValidPlacement">
     <TestCodeFile>DelegateDeclarationValidPlacement.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.ReadabilityRules">
           <Rules>
@@ -2022,6 +2122,10 @@
   <Test Name="DelegateDeclarationOpeningParenthesisPlacement">
     <TestCodeFile>DelegateDeclarationOpeningParenthesisPlacement.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.ReadabilityRules">
           <Rules>
@@ -2088,6 +2192,10 @@
   <Test Name="DelegateDeclarationClosingParenthesisPlacement">
   <TestCodeFile>DelegateDeclarationClosingParenthesisPlacement.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.ReadabilityRules">
           <Rules>
@@ -2153,6 +2261,10 @@
   <Test Name="DelegateDeclarationCommaPlacement">
     <TestCodeFile>DelegateDeclarationCommaPlacement.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.ReadabilityRules">
           <Rules>
@@ -2222,6 +2334,10 @@
   <Test Name="DelegateDeclarationParameterListStart">
     <TestCodeFile>DelegateDeclarationParameterListStart.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.ReadabilityRules">
           <Rules>
@@ -2285,6 +2401,10 @@
   <Test Name="DelegateDeclarationParameterFollowsComma">
     <TestCodeFile>DelegateDeclarationParameterFollowsComma.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.ReadabilityRules">
           <Rules>
@@ -2351,6 +2471,10 @@
   <Test Name="DelegateDeclarationSplitParameterMustStartOnLineAfterDeclaration">
     <TestCodeFile>DelegateDeclarationSplitParameterMustStartOnLineAfterDeclaration.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.ReadabilityRules">
           <Rules>
@@ -2426,6 +2550,10 @@
   <Test Name="DelegateDeclarationSpanningMultipleLines">
     <TestCodeFile>DelegateDeclarationSpanningMultipleLines.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.ReadabilityRules">
           <Rules>
@@ -2513,6 +2641,10 @@
   <Test Name="MethodCallValidPlacement">
     <TestCodeFile>MethodCallValidPlacement.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.ReadabilityRules">
           <Rules>
@@ -2574,6 +2706,10 @@
   <Test Name="MethodCallMultiLineParameter">
     <TestCodeFile>MethodCallMultiLineParameter.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.ReadabilityRules">
           <Rules>

@@ -36,6 +36,11 @@ namespace Microsoft.StyleCop
         private CodeProject project;
 
         /// <summary>
+        /// The settings for the project.
+        /// </summary>
+        private Settings settings;
+
+        /// <summary>
         /// The parser that handles this source code document.
         /// </summary>
         private SourceParser parser;
@@ -183,18 +188,29 @@ namespace Microsoft.StyleCop
         }
 
         /// <summary>
-        /// Gets the settings for the the project that contains the document.
+        /// Gets or sets the settings for this source code.
         /// </summary>
         public Settings Settings
         {
             get
             {
+                if (this.settings != null)
+                {
+                    return this.settings;
+                }
+
                 if (this.project != null)
                 {
                     return this.project.Settings;
                 }
 
                 return null;
+            }
+
+            set
+            {
+                Param.Ignore(value);
+                this.settings = value;
             }
         }
 

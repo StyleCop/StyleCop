@@ -195,10 +195,9 @@ namespace Microsoft.StyleCop
                         return null;
                     }
 
-                    if (!sourceCode.Project.Settings.IsFileExcluded(sourceCode.Name))
-                    {
-                        return sourceCode;
-                    }
+                    sourceCode.Settings = sourceCode.Project.Settings.GetCustomSettingsForFile(sourceCode.Name);
+
+                    return sourceCode;
                 }
             }
 

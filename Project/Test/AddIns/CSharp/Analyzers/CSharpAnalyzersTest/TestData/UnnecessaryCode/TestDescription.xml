@@ -3,6 +3,10 @@
   <Test Name="UnnecessaryCodeTryStatement">
     <TestCodeFile>UnnecessaryCodeTryStatement.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
           <Rules>
@@ -36,6 +40,10 @@
   <Test Name="UnnecessaryCodeCheckedUncheckedStatement">
     <TestCodeFile>UnnecessaryCodeCheckedUncheckedStatement.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
           <Rules>
@@ -59,6 +67,10 @@
   <Test Name="UnnecessaryCodeLockStatement">
     <TestCodeFile>UnnecessaryCodeLockStatement.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
           <Rules>
@@ -80,6 +92,10 @@
   <Test Name="UnnecessaryCodeUnsafeStatement">
     <TestCodeFile>UnnecessaryCodeUnsafeStatement.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
           <Rules>
@@ -101,6 +117,10 @@
   <Test Name="UnnecessaryCodeStaticConstructor">
     <TestCodeFile>UnnecessaryCodeStaticConstructor.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
           <Rules>
@@ -122,6 +142,10 @@
   <Test Name="AnonymousMethodParenthesis">
     <TestCodeFile>AnonymousMethodParenthesis.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
           <Rules>

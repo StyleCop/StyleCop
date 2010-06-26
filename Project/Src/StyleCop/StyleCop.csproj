@@ -111,6 +111,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>LogStrings.resx</DependentUpon>
     </Compile>
+    <Compile Include="Settings\SourceFileList.cs" />
     <Compile Include="Settings\v43Settings.cs" />
     <Compile Include="Settings\v41Settings.cs" />
     <Compile Include="Settings\v42Settings.cs" />

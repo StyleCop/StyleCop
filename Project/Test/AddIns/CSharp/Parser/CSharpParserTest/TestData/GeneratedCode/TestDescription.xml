@@ -14,6 +14,10 @@
     <TestCodeFile>AccessModifiersMissing2.G.I.Cs</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.GeNeRaTeD.Cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
           <Rules>
@@ -47,6 +51,10 @@
     <TestCodeFile>AccessModifiersMissing2.G.I.Cs</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.GeNeRaTeD.Cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
           <Rules>
@@ -87,6 +95,10 @@
     <TestCodeFile>AccessModifiersMissing2.G.I.Cs</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.GeNeRaTeD.Cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
           <Rules>
@@ -125,6 +137,10 @@
     <TestCodeFile>AccessModifiersMissing2.G.I.Cs</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.GeNeRaTeD.Cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
           <Rules>
@@ -171,6 +187,10 @@
     <TestCodeFile>AccessModifiersMissing2.G.I.Cs</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.GeNeRaTeD.Cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
           <Rules>
@@ -218,6 +238,10 @@
     <TestCodeFile>AccessModifiersMissing2.G.I.Cs</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.GeNeRaTeD.Cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
           <Rules>
@@ -263,6 +287,10 @@
     <TestCodeFile>AccessModifiersMissing2.G.I.Cs</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.GeNeRaTeD.Cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
           <Rules>
@@ -301,6 +329,10 @@
     <TestCodeFile>AccessModifiersMissing2.G.I.Cs</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.GeNeRaTeD.Cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
           <Rules>
@@ -342,6 +374,10 @@
     <TestCodeFile>AccessModifiersMissing2.G.I.Cs</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.GeNeRaTeD.Cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
           <Rules>
@@ -381,6 +417,10 @@
     <TestCodeFile>AccessModifiersMissing2.G.I.Cs</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.GeNeRaTeD.Cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
           <Rules>
@@ -425,6 +465,10 @@
     <TestCodeFile>AccessModifiersMissing2.G.I.Cs</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.GeNeRaTeD.Cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
           <Rules>
@@ -470,6 +514,10 @@
     <TestCodeFile>AccessModifiersMissing2.G.I.Cs</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.GeNeRaTeD.Cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
           <Rules>
@@ -513,6 +561,10 @@
     <TestCodeFile>AccessModifiersMissing2.G.I.Cs</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.GeNeRaTeD.Cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
           <Rules>
@@ -564,6 +616,10 @@
     <TestCodeFile>AccessModifiersMissing2.G.I.Cs</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.GeNeRaTeD.Cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
           <Rules>
@@ -616,6 +672,10 @@
     <TestCodeFile>AccessModifiersMissing2.G.I.Cs</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.GeNeRaTeD.Cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
           <Rules>
@@ -666,6 +726,10 @@
     <TestCodeFile>AccessModifiersMissing2.G.I.Cs</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.GeNeRaTeD.Cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
           <Rules>
@@ -709,6 +773,10 @@
     <TestCodeFile>AccessModifiersMissing2.G.I.Cs</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.GeNeRaTeD.Cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
           <Rules>
@@ -755,6 +823,10 @@
     <TestCodeFile>AccessModifiersMissing2.G.I.Cs</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.GeNeRaTeD.Cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
           <Rules>
@@ -799,6 +871,10 @@
     <TestCodeFile>AccessModifiersMissing2.G.I.Cs</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.GeNeRaTeD.Cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
           <Rules>
@@ -845,6 +921,10 @@
     <TestCodeFile>AccessModifiersMissing2.G.I.Cs</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.GeNeRaTeD.Cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
           <Rules>
@@ -892,6 +972,10 @@
     <TestCodeFile>AccessModifiersMissing2.G.I.Cs</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.GeNeRaTeD.Cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
           <Rules>
@@ -937,6 +1021,10 @@
     <TestCodeFile>AccessModifiersMissing2.G.I.Cs</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.GeNeRaTeD.Cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
           <Rules>
@@ -986,6 +1074,10 @@
     <TestCodeFile>AccessModifiersMissing2.G.I.Cs</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.GeNeRaTeD.Cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
           <Rules>
@@ -1036,6 +1128,10 @@
     <TestCodeFile>AccessModifiersMissing2.G.I.Cs</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.GeNeRaTeD.Cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
           <Rules>
@@ -1084,6 +1180,10 @@
     <TestCodeFile>AccessModifiersMissing2.G.I.Cs</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.GeNeRaTeD.Cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
           <Rules>
@@ -1125,6 +1225,10 @@
     <TestCodeFile>AccessModifiersMissing2.G.I.Cs</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.GeNeRaTeD.Cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
           <Rules>
@@ -1173,6 +1277,10 @@
     <TestCodeFile>AccessModifiersMissing2.G.I.Cs</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.GeNeRaTeD.Cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
           <Rules>

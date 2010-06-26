@@ -96,32 +96,45 @@ namespace Microsoft.StyleCop
         {
             get
             {
-                StringProperty mergeTypeProperty = this.localSettings.GlobalSettings.GetProperty(SettingsMerger.MergeSettingsFilesProperty) as StringProperty;
+                string mergeType = DetermineMergeType(this.localSettings, this.environment);
 
-                string mergeType = SettingsMerger.MergeStyleParent;
-                if (mergeTypeProperty != null)
-                {
-                    mergeType = mergeTypeProperty.Value;
-                }
-
-                // If the merge style is set to link but the current environment doesn't support linking, change it to parent.
-                if (!this.environment.SupportsLinkedSettings && 
-                    string.CompareOrdinal(mergeType, SettingsMerger.MergeStyleLinked) == 0)
-                {
-                    mergeType = SettingsMerger.MergeStyleParent;
-                }
+                Settings mergedSettings = this.localSettings;
 
                 // Perform the necessary type of merge.
                 if (string.CompareOrdinal(mergeType, SettingsMerger.MergeStyleLinked) == 0)
                 {
-                    return this.FindMergedSettingsThroughLinkedSettings(this.localSettings, true);
+                    mergedSettings = this.FindMergedSettingsThroughLinkedSettings(this.localSettings, true);
                 }
                 else if (string.CompareOrdinal(mergeType, SettingsMerger.MergeStyleNone) != 0)
                 {
-                    return this.FindMergedSettingsThroughParentPaths(this.localSettings, true);
+                    mergedSettings = this.FindMergedSettingsThroughParentPaths(this.localSettings, true);
                 }
 
-                return this.localSettings;
+                // Now that the settings have been merged, determine whether there are any file groups in the settings
+                // that need to be merged with the main settings.
+                foreach (SourceFileListSettings fileList in this.localSettings.SourceFileLists)
+                {
+                    if (fileList.Settings == null)
+                    {
+                        fileList.Settings = mergedSettings;
+                    }
+                    else
+                    {
+                        mergeType = DetermineMergeType(fileList.Settings, this.environment);
+
+                        // Perform the necessary type of merge.
+                        if (string.CompareOrdinal(mergeType, SettingsMerger.MergeStyleLinked) == 0)
+                        {
+                            fileList.Settings = this.FindMergedSettingsThroughLinkedSettings(fileList.Settings, true);
+                        }
+                        else if (string.CompareOrdinal(mergeType, SettingsMerger.MergeStyleNone) != 0)
+                        {
+                            fileList.Settings = MergeSettings(mergedSettings, fileList.Settings);
+                        }
+                    }
+                }
+
+                return mergedSettings;
             }
         }
 
@@ -254,10 +267,6 @@ namespace Microsoft.StyleCop
             mergedPropertyCollection.IsReadOnly = true;
         }
 
-        #endregion Internal Static Methods
-
-        #region Private Static Methods
-
         /// <summary>
         /// Merges two settings files together.
         /// </summary>
@@ -328,9 +337,6 @@ namespace Microsoft.StyleCop
                 }
             }
 
-            // Add excluded files from the overriding settings file.
-            mergedSettings.MergeExcludedFiles(overridingSettings, originalSettings);
-
             // Merge the write times together. Set the write time of the merged settings file to the most
             // recent write time of the two file which were merged.
             if (originalSettings.WriteTime.CompareTo(overridingSettings.WriteTime) > 0)
@@ -344,6 +350,39 @@ namespace Microsoft.StyleCop
 
             return mergedSettings;
         }
+
+        /// <summary>
+        /// Determines the type of merge to perform, based on the local settings file.
+        /// </summary>
+        /// <param name="settings">The settings file</param>
+        /// <param name="environment">The environment.</param>
+        /// <returns>Returns the merge type.</returns>
+        private static string DetermineMergeType(Settings settings, StyleCopEnvironment environment)
+        {
+            Param.AssertNotNull(settings, "settings");
+            Param.Ignore(environment);
+
+            StringProperty mergeTypeProperty = settings.GlobalSettings.GetProperty(SettingsMerger.MergeSettingsFilesProperty) as StringProperty;
+
+            string mergeType = SettingsMerger.MergeStyleParent;
+            if (mergeTypeProperty != null)
+            {
+                mergeType = mergeTypeProperty.Value;
+            }
+
+            // If the merge style is set to link but the current environment doesn't support linking, change it to parent.
+            if ((environment == null || !environment.SupportsLinkedSettings) &&
+                string.CompareOrdinal(mergeType, SettingsMerger.MergeStyleLinked) == 0)
+            {
+                mergeType = SettingsMerger.MergeStyleParent;
+            }
+
+            return mergeType;
+        }
+
+        #endregion Internal Static Methods
+
+        #region Private Static Methods
 
         /// <summary>
         /// Merges two collection properties together.

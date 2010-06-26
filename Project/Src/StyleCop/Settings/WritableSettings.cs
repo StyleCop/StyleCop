@@ -23,7 +23,7 @@ namespace Microsoft.StyleCop
     /// <summary>
     /// Represents a single StyleCop settings file in read-write mode.
     /// </summary>
-    public class WritableSettings : Settings
+    public sealed class WritableSettings : Settings
     {
         #region Internal Constructors
 

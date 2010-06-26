@@ -199,7 +199,7 @@ namespace Microsoft.StyleCop
         /// <summary>
         /// Gets a value indicating whether the given rule is enabled for the given document.
         /// </summary>
-        /// <param name="document">The document being analyzed.</param>
+        /// <param name="document">The document.</param>
         /// <param name="ruleName">The rule to check.</param>
         /// <returns>Returns true if the rule is enabled; otherwise false.</returns>
         public virtual bool IsRuleEnabled(CodeDocument document, string ruleName)
