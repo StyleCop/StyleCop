@@ -8,31 +8,31 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{7F9347C0-CEB0-4CE6-BB4B-A61ADD960D1C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpParser", "src\AddIns\CSharp\Parser\CSharpParser.csproj", "{C173ACF5-2CE5-4771-83A4-D01453C8CB09}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpParser", "Src\AddIns\CSharp\Parser\CSharpParser.csproj", "{C173ACF5-2CE5-4771-83A4-D01453C8CB09}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StyleCop", "src\StyleCop\StyleCop.csproj", "{AF7A7FEA-C07B-456A-B072-C7E795A6CBD4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StyleCop", "Src\StyleCop\StyleCop.csproj", "{AF7A7FEA-C07B-456A-B072-C7E795A6CBD4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpAnalyzers", "src\AddIns\CSharp\Analyzers\CSharpAnalyzers.csproj", "{DE988D84-EAF4-4FD7-A33A-9EE0E6DE752C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpAnalyzers", "Src\AddIns\CSharp\Analyzers\CSharpAnalyzers.csproj", "{DE988D84-EAF4-4FD7-A33A-9EE0E6DE752C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VSPackage", "src\VSPackage\VSPackage.csproj", "{58A36A69-E471-4E7D-B75D-EFDE5B1B851B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VSPackage", "Src\VSPackage\VSPackage.csproj", "{58A36A69-E471-4E7D-B75D-EFDE5B1B851B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InternalAnalyzers", "src\AddIns\CSharp\InternalAnalyzers\InternalAnalyzers.csproj", "{5E566973-8BA3-4B6A-B300-7A5CC015B3D4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InternalAnalyzers", "Src\AddIns\CSharp\InternalAnalyzers\InternalAnalyzers.csproj", "{5E566973-8BA3-4B6A-B300-7A5CC015B3D4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpAnalyzersTest", "test\AddIns\CSharp\Analyzers\CSharpAnalyzersTest\CSharpAnalyzersTest.csproj", "{859D876F-8088-42EA-922A-800D2319C5CE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpAnalyzersTest", "Test\AddIns\CSharp\Analyzers\CSharpAnalyzersTest\CSharpAnalyzersTest.csproj", "{859D876F-8088-42EA-922A-800D2319C5CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StyleCopTestHarness", "test\Harnesses\TestHarness\StyleCopTestHarness.csproj", "{40A38D73-93E7-49FD-9781-74CF6E6098CC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StyleCopTestHarness", "Test\Harnesses\TestHarness\StyleCopTestHarness.csproj", "{40A38D73-93E7-49FD-9781-74CF6E6098CC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpParserTest", "test\AddIns\CSharp\Parser\CSharpParserTest\CSharpParserTest.csproj", "{5970CD94-2C7C-4F83-8C15-A0B3148E631C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpParserTest", "Test\AddIns\CSharp\Parser\CSharpParserTest\CSharpParserTest.csproj", "{5970CD94-2C7C-4F83-8C15-A0B3148E631C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SettingsEditor", "src\SettingsEditor\SettingsEditor.csproj", "{88BEE003-4764-455A-9705-B65D3521984F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SettingsEditor", "Src\SettingsEditor\SettingsEditor.csproj", "{88BEE003-4764-455A-9705-B65D3521984F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StyleCopRunDir", "test\Harnesses\StyleCopRunDir\StyleCopRunDir.csproj", "{AC9B2C98-D783-49FF-B531-0C1E07BADBBE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StyleCopRunDir", "Test\Harnesses\StyleCopRunDir\StyleCopRunDir.csproj", "{AC9B2C98-D783-49FF-B531-0C1E07BADBBE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VSPackageUnitTest", "test\VSPackageUnitTest\VSPackageUnitTest.csproj", "{074AD813-8DC3-46CA-8F7E-97703523EA38}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VSPackageUnitTest", "Test\VSPackageUnitTest\VSPackageUnitTest.csproj", "{074AD813-8DC3-46CA-8F7E-97703523EA38}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerfHarness", "test\Harnesses\PerfHarness\PerfHarness.csproj", "{C938AB10-78BE-46FC-8ACF-00D02C576BAF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerfHarness", "Test\Harnesses\PerfHarness\PerfHarness.csproj", "{C938AB10-78BE-46FC-8ACF-00D02C576BAF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpParserTestRules", "test\AddIns\CSharp\Parser\CSharpParserTestRules\CSharpParserTestRules.csproj", "{40EDAB29-01CA-4135-A330-E63F0E99D9FF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpParserTestRules", "Test\AddIns\CSharp\Parser\CSharpParserTestRules\CSharpParserTestRules.csproj", "{40EDAB29-01CA-4135-A330-E63F0E99D9FF}"
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution

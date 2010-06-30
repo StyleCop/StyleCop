@@ -378,4 +378,7 @@
   <data name="ViolationFormatter" xml:space="preserve">
     <value>{0}: {1}</value>
   </data>
+  <data name="MergedSettingsRulesEnabledByDefaultMismatch" xml:space="preserve">
+    <value>It is not possible to merge two sets of settings when one specifies that rules are enabled by default, and the other specifies that rules are disabled by default.</value>
+  </data>
 </root>

@@ -5,6 +5,10 @@
     <TestCodeFile>ElementOrderUsingDirectives.cs</TestCodeFile>
     <TestCodeFile>ElementOrderUsingDirectives2.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.OrderingRules">
           <AnalyzerSettings>
@@ -32,6 +36,10 @@
     <TestCodeFile>ElementOrderRootElementOrder.cs</TestCodeFile>
     <TestCodeFile>ElementOrderClassElementOrder.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.OrderingRules">
           <AnalyzerSettings>
@@ -137,6 +145,10 @@
     <TestCodeFile>ElementOrderStatics.cs</TestCodeFile>
     <TestCodeFile>ElementOrderStaticsByAccess.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.OrderingRules">
           <AnalyzerSettings>
@@ -172,6 +184,10 @@
   <Test Name="ElementOrderByAccess">
     <TestCodeFile>ElementOrderByAccess.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.OrderingRules">
           <AnalyzerSettings>
@@ -305,6 +321,10 @@
   <Test Name="ElementOrderPartialElementsMissingAccessModifier">
     <TestCodeFile>ElementOrderPartialElementsMissingAccessModifier.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.OrderingRules">
           <AnalyzerSettings>
@@ -331,6 +351,10 @@
   <Test Name="ElementOrderConstField">
     <TestCodeFile>ElementOrderConstField.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.OrderingRules">
           <AnalyzerSettings>
@@ -359,6 +383,10 @@
     <TestCodeFile>ElementOrderGeneratedCode.cs</TestCodeFile>
     <TestCodeFile>ElementOrderGlobalGeneratedCode.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.OrderingRules">
           <AnalyzerSettings>
@@ -490,6 +518,10 @@
     <TestCodeFile>ElementOrderGeneratedCode.cs</TestCodeFile>
     <TestCodeFile>ElementOrderGlobalGeneratedCode.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.OrderingRules">
           <AnalyzerSettings>
@@ -603,6 +635,10 @@
   <Test Name="UsingDirectiveOrdering">
     <TestCodeFile>UsingDirectiveOrdering.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.OrderingRules">
           <Rules>
@@ -647,6 +683,10 @@
   <Test Name="AccessorOrder">
     <TestCodeFile>AccessorOrder.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.OrderingRules">
           <Rules>

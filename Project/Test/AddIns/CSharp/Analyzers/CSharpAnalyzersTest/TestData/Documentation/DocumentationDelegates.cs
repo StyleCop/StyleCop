@@ -404,5 +404,40 @@ namespace CSharpAnalyzersTest.TestData
         /// <param name="x">The first param.</param>
         /// <param name="y">The second param.</param>
         public delegate void InvalidDelegate53(int x, int y, int z);
+
+        /// <summary>
+        /// This is a summary for the delegate.
+        /// </summary>
+        /// <typeparam name="T">This is the first generic parameter.</typeparam>
+        public delegate void ValidCovariantDelegate<out T>();
+
+        /// <summary>
+        /// This is a summary for the delegate.
+        /// </summary>
+        /// <typeparam name="T">This is the first generic parameter.</typeparam>
+        public delegate void ValidContravariantDelegate<in T>();
+
+        /// <summary>
+        /// This is a summary for the delegate.
+        /// </summary>
+        /// <typeparam name="S">This is the first generic parameter.</typeparam>
+        /// <typeparam name="T">This is the first second parameter.</typeparam>
+        public delegate void ValidCovariantContravariantDelegate<out S, in T>();
+
+        /// <summary>
+        /// This is a summary for the delegate.
+        /// </summary>
+        public delegate void InvalidCovariantDelegate<out T>();
+
+        /// <summary>
+        /// This is a summary for the delegate.
+        /// </summary>
+        public delegate void InvalidContravariantDelegate<in T>();
+
+        /// <summary>
+        /// This is a summary for the delegate.
+        /// </summary>
+        /// <typeparam name="S">This is the first second parameter.</typeparam>
+        public delegate void InvalidCovariantContravariantDelegate<out S, in T>();
     }
 }

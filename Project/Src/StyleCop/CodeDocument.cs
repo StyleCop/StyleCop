@@ -84,9 +84,9 @@ namespace Microsoft.StyleCop
         {
             get
             {
-                if (this.sourceCode != null && this.sourceCode.Project != null)
+                if (this.sourceCode != null)
                 {
-                    return this.sourceCode.Project.Settings;
+                    return this.sourceCode.Settings;
                 }
 
                 return null;

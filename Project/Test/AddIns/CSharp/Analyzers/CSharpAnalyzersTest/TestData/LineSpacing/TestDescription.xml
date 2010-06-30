@@ -4,6 +4,10 @@
   <Test Name="LineSpacingCurlyBrackets">
     <TestCodeFile>LineSpacingBlankLineCurly.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.LayoutRules">
           <Rules>
@@ -135,6 +139,10 @@
   <Test Name="LineSpacingClosingCurlyBrackets">
     <TestCodeFile>LineSpacingClosingCurly.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.LayoutRules">
           <Rules>
@@ -237,6 +245,10 @@
   <Test Name="LineSpacingOpeningCurlyBrackets">
     <TestCodeFile>LineSpacingOpeningCurly.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.LayoutRules">
           <Rules>
@@ -338,6 +350,10 @@
   <Test Name="LineSpacingCurlyPrecedingBlankLine">
     <TestCodeFile>LineSpacingCurlyPrecedingBlankLine.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.LayoutRules">
           <Rules>
@@ -438,6 +454,10 @@
   <Test Name="LineSpacingCurlyNoFollowingBlankLine">
     <TestCodeFile>LineSpacingCurlyNoFollowingBlankLine.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.LayoutRules">
           <Rules>
@@ -533,6 +553,10 @@
   <Test Name="LineSpacingXmlHeaders">
     <TestCodeFile>LineSpacingXmlHeaders.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.LayoutRules">
           <Rules>
@@ -610,6 +634,10 @@
   <Test Name="LineSpacingMultipleBlankLines">
     <TestCodeFile>LineSpacingMultipleBlankLines.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.LayoutRules">
           <Rules>
@@ -687,6 +715,10 @@
   <Test Name="LineSpacingChainedStatements">
     <TestCodeFile>LineSpacingChainedStatements.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.LayoutRules">
           <Rules>
@@ -763,6 +795,10 @@
   <Test Name="LineSpacingSingleLineComments">
     <TestCodeFile>LineSpacingSingleLineComments.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.LayoutRules">
           <Rules>
@@ -844,6 +880,10 @@
     <TestCodeFile>LineSpacingFileHeaderOneBlankLine.cs</TestCodeFile>
     <TestCodeFile>LineSpacingFileHeaderTwoBlankLines.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.LayoutRules">
           <Rules>
@@ -915,6 +955,10 @@
   <Test Name="LineSpacingBetweenElements">
     <TestCodeFile>LineSpacingBetweenElements.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.LayoutRules">
           <Rules>

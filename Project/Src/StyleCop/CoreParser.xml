@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <SourceParser Name="NotUsed">
   <Description>
-    Not Used.
+    Global settings.
   </Description>
   <FileType>.b4d21706-e5eb-4d66-a73a-a4ee90f21af2</FileType>
   <Properties>
@@ -25,6 +25,12 @@
       FriendlyName="Write Results Cache"
       Description="Indicates whether to cache analysis results."
       DisplaySettings="False"
+    />
+    <BooleanProperty
+      Name="RulesEnabledByDefault"
+      DefaultValue="true"
+      FriendlyName="Rules Enabled By Default"
+      Description="Indicates rules are enabled or disabled by default."
     />
   </Properties>
   <Rules>

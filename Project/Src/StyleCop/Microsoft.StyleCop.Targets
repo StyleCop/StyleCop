@@ -92,7 +92,7 @@
 
     <!-- Run the StyleCop MSBuild task. -->
     <StyleCopTask
-      ProjectFullPath="$(MSBuildProjectFile)"
+      ProjectFullPath="$(MSBuildProjectDirectory)"
       SourceFiles="@(StyleCopFiles)"
       AdditionalAddinPaths="@(StyleCopAdditionalAddinPaths)"
       ForceFullAnalysis="$(StyleCopForceFullAnalysis)"

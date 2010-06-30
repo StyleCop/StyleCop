@@ -1,0 +1,155 @@
+﻿<html xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:MSHelp="http://msdn.microsoft.com/mshelp" xmlns:mshelp="http://msdn.microsoft.com/mshelp" xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
+  <head>
+    <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8" />
+    <META NAME="save" CONTENT="history" />
+    <title>Authoring Rules Metadata</title>
+    <link rel="stylesheet" type="text/css" href="../styles/presentation.css" />
+    <link rel="stylesheet" type="text/css" href="ms-help://Hx/HxRuntime/HxLink.css" />
+    <script type="text/javascript" src="../scripts/EventUtilities.js"> </script>
+    <script type="text/javascript" src="../scripts/SplitScreen.js"> </script>
+    <script type="text/javascript" src="../scripts/Dropdown.js"> </script>
+    <script type="text/javascript" src="../scripts/script_manifold.js"> </script>
+    <script type="text/javascript" src="../scripts/script_feedBack.js"> </script>
+    <script type="text/javascript" src="../scripts/CheckboxMenu.js"> </script>
+    <script type="text/javascript" src="../scripts/CommonUtilities.js"> </script>
+    
+  </head>
+  <body>
+    <input type="hidden" id="userDataCache" class="userDataStyle" />
+    <input type="hidden" id="hiddenScrollOffset" />
+    <img id="collapseImage" style="display:none; height:0; width:0;" src="../icons/collapse_all.gif" title="Collapse image" />
+    <img id="expandImage" style="display:none; height:0; width:0;" src="../icons/expand_all.gif" title="Expand Image" />
+    <img id="collapseAllImage" style="display:none; height:0; width:0;" src="../icons/collapse_all.gif" />
+    <img id="expandAllImage" style="display:none; height:0; width:0;" src="../icons/expand_all.gif" />
+    <img id="dropDownImage" style="display:none; height:0; width:0;" src="../icons/dropdown.gif" />
+    <img id="dropDownHoverImage" style="display:none; height:0; width:0;" src="../icons/dropdownHover.gif" />
+    <img id="copyImage" style="display:none; height:0; width:0;" src="../icons/copycode.gif" title="Copy image" />
+    <img id="copyHoverImage" style="display:none; height:0; width:0;" src="../icons/copycodeHighlight.gif" title="CopyHover image" />
+    <div id="header">
+      <table id="topTable" cellspacing="0" cellpadding="0">
+        <tr>
+          <td>
+            <span onclick="ExpandCollapseAll(toggleAllImage)" style="cursor:default;" onkeypress="ExpandCollapseAll_CheckKey(toggleAllImage, event)" tabindex="0">
+              <img ID="toggleAllImage" class="toggleAll" src="../icons/collapse_all.gif" /> <label id="collapseAllLabel" for="toggleAllImage" style="display: none;">Collapse All</label><label id="expandAllLabel" for="toggleAllImage" style="display: none;">Expand All</label> </span>
+            <span>    </span>
+            <span id="devlangsDropdown" class="filter" tabindex="0">
+              <img id="devlangsDropdownImage" src="../icons/dropdown.gif" /> <label id="devlangsMenuAllLabel" for="devlangsDropdownImage" style="display: none;"><nobr>Code: All </nobr></label><label id="devlangsMenuMultipleLabel" for="devlangsDropdownImage" style="display: none;"><nobr>Code: Multiple </nobr></label><label id="devlangsMenuVisualBasicLabel" for="devlangsDropdownImage" style="display: none;"><nobr>Code: Visual Basic </nobr></label><label id="devlangsMenuCSharpLabel" for="devlangsDropdownImage" style="display: none;"><nobr>Code: C# </nobr></label><label id="devlangsMenuManagedCPlusPlusLabel" for="devlangsDropdownImage" style="display: none;"><nobr>Code: Visual C++ </nobr></label><label id="devlangsMenuJSharpLabel" for="devlangsDropdownImage" style="display: none;"><nobr>Code: J# </nobr></label><label id="devlangsMenuJScriptLabel" for="devlangsDropdownImage" style="display: none;"><nobr>Code: JScript </nobr></label></span>
+          </td>
+        </tr>
+      </table>
+      <div id="devlangsMenu">
+        <input id="VisualBasicCheckbox" type="checkbox" data="VisualBasic,vb,'persist'" value="on" onClick="SetLanguage(this)" />
+        <label class="checkboxLabel" for="VisualBasicCheckbox">Visual Basic</label>
+        <br />
+        <input id="CSharpCheckbox" type="checkbox" data="CSharp,cs,'persist'" value="on" onClick="SetLanguage(this)" />
+        <label class="checkboxLabel" for="CSharpCheckbox">C#</label>
+        <br />
+        <input id="ManagedCPlusPlusCheckbox" type="checkbox" data="ManagedCPlusPlus,cpp,'persist'" value="on" onClick="SetLanguage(this)" />
+        <label class="checkboxLabel" for="ManagedCPlusPlusCheckbox">Visual C++</label>
+        <br />
+        <input id="JSharpCheckbox" type="checkbox" data="JSharp,cs,'persist'" value="on" onClick="SetLanguage(this)" />
+        <label class="checkboxLabel" for="JSharpCheckbox">J#</label>
+        <br />
+        <input id="JScriptCheckbox" type="checkbox" data="JScript,cs,'persist'" value="on" onClick="SetLanguage(this)" />
+        <label class="checkboxLabel" for="JScriptCheckbox">JScript</label>
+        <br />
+      </div>
+      <table id="bottomTable" cellpadding="0" cellspacing="0">
+        <tr id="headerTableRow1">
+          <td align="left">
+            <span id="runningHeaderText" />
+          </td>
+        </tr>
+        <tr id="headerTableRow2">
+          <td align="left">
+            <span id="nsrTitle">Authoring Rules Metadata</span>
+          </td>
+        </tr>
+        <tr id="headerTableRow3">
+          <td align="left">
+              &nbsp;</td>
+        </tr>
+      </table>
+      <table id="gradientTable">
+        <tr>
+          <td class="nsrBottom" background="../icons/gradient.gif" />
+        </tr>
+      </table>
+    </div>
+    <div id="mainSection">
+      <div id="mainBody">
+        <div id="allHistory" class="saveHistory" onsave="saveAll()" onload="loadAll()" />
+        <font color="DarkGray"></font>
+        <p /> 
+  
+    <div class="introduction">
+      <p>
+        A custom StyleCop rules analyzer must be accompanied by an Xml metadata file describing the list of rules
+        enforced by the analyzer, as well as any user settings exposed by the analyzer. This topic describes the 
+        format of a custom rules analyzer Xml metadata file.
+      </p>
+      <p>
+        To learn how to author a custom StyleCop rules analyzer, see the <span sdata="link"><a href="_Writing Custom Rules for StyleCop.htm">Writing Custom Rules for StyleCop</a></span> 
+        topic.
+      </p>
+    </div>
+
+    <h1 class="heading"><span onclick="ExpandCollapse(sectionToggle0)" style="cursor:default;" onkeypress="ExpandCollapse_CheckKey(sectionToggle0, event)" tabindex="0"><img id="sectionToggle0" class="toggle" name="toggleSwitch" src="../icons/collapse_all.gif" />Authoring rules metadata</span></h1><div id="sectionSection0" class="section" name="collapseableSection" style="">
+        <p>
+          Every StyleCop rules analyzer class must have an associated rules metadata file, which is an Xml document 
+          located within the same project as the rules analyzer class, with the same name. To create a rules metadata 
+          file, open the Visual Studio project containing your custom StyleCop rules analyzer (or create a new one).
+          Right-click on the project node, select Add-&gt;New Item, and select Xml File from the list of available item 
+          types. Ensure that the Xml file has the same name as custom rules class. For example, if the custom rules class 
+          is named CustomRules, and is located within a file called CustomRules.cs, the rules metadata Xml file should be 
+          named CustomRules.xml, and should be placed within the same directory as the CustomRules.cs file. Once the Xml 
+          document is created, right-click on the file in Solution Explorer and select Properties. Change the Build Action 
+          property for the file to Embedded Resource.
+        </p>
+        <p>
+          The contents of the rules metadata file provide a friendly name and description for the rules class, as well as 
+          the list of rules enforced and any optional properties which can be set for the rule. For example:
+        </p>
+        <p>
+          <div class="code"><span codeLanguage="other"><table width="100%" cellspacing="0" cellpadding="0"><tr><th> </th><th><span class="copyCode" onclick="CopyCode(this)" onkeypress="CopyCode_CheckKey(this, event)" onmouseover="ChangeCopyCodeIcon(this)" onmouseout="ChangeCopyCodeIcon(this)" tabindex="0"><img class="copyCodeImage" name="ccImage" align="absmiddle" title="Copy image" src="../icons/copycode.gif" />Copy Code</span></th></tr><tr><td colspan="2"><pre>
+&lt;SourceAnalyzer Name="My Custom Rules"&gt;
+  &lt;Description&gt;
+    Custom rules enforcing blah blah blah.
+  &lt;/Description&gt;
+  &lt;Rules&gt;
+    &lt;RuleGroup Name="Fun Rules You Will Love"&gt;
+      &lt;Rule Name="BlockStatementsShouldNotBeEmpty" CheckId="MY1000"&gt;
+        &lt;Context&gt;A block statement should always contain child statements.&lt;/Context&gt;
+        &lt;Description&gt;Validates that the code does not contain any empty block statements.&lt;/Description&gt;
+      &lt;/Rule&gt;
+      &lt;Rule Name="CodeMustNotContainHardcodedStrings" CheckId="MY1001"&gt;
+        &lt;Context&gt;The code should not contain any hard-coded strings.&lt;/Context&gt;
+        &lt;Description&gt;Validates that the code does not contain any hard-coded strings.&lt;/Description&gt;
+      &lt;/Rule&gt;
+    &lt;/RuleGroup&gt;
+  &lt;/Rules&gt;
+&lt;/SourceAnalyzer&gt;
+          </pre></td></tr></table></span></div>
+        </p>
+        <p>
+          The RuleGroup node may be ommitted completely if the list of rules is short and does not need to be 
+          sub-categorized into groups. Each rule must have a unique rule name, and a unique CheckId. The CheckId 
+          value must consist of six characters, beginning with a unique two-letter code idenfying your organization, 
+          followed by a unique four-digit number. The context string for a rule will appear in the Visual Studio error 
+          list when a violation of the rule is discovered. The rule description appears within the StyleCop settings 
+          dialog, to provide more detail about the rule.
+        </p>
+        <p>
+          To expose custom settings which the end-user can configure to control the behavior of your custom rules,
+          see the <span sdata="link"><a href="_Adding Custom Rule Settings.htm">Adding Custom Rule Settings</a></span> page.
+        </p>
+      </div>
+  
+</div>
+      <div id="footer">
+        <div class="footerLine">
+        </div>
+</div>
+    </div>
+  </body>
+</html>

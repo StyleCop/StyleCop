@@ -399,4 +399,60 @@ namespace CSharpAnalyzersTest.TestData
     public interface InvalidDocumentationInterface40<T, S, W>
     {
     }
+
+    /// <summary>
+    /// This is the summary for the interface.
+    /// </summary>
+    /// <typeparam name="S">This is the first generic parameter.</typeparam>
+    /// <typeparam name="T">This is the second generic parameter.</typeparam>
+    public interface ValidDocumentationInterface11<S, T>
+    {
+    }
+
+    /// <summary>
+    /// This is a summary for the interface.
+    /// </summary>
+    /// <typeparam name="T">This is the first generic parameter.</typeparam>
+    public interface ValidCovariantInterface<out T>
+    {
+    }
+
+    /// <summary>
+    /// This is a summary for the interface.
+    /// </summary>
+    /// <typeparam name="T">This is the first generic parameter.</typeparam>
+    public interface ValidContravariantInterface<in T>
+    {
+    }
+
+    /// <summary>
+    /// This is a summary for the interface.
+    /// </summary>
+    /// <typeparam name="S">This is the first generic parameter.</typeparam>
+    /// <typeparam name="T">This is the first second parameter.</typeparam>
+    public interface ValidCovariantContravariantInterface<out S, in T>
+    {
+    }
+
+    /// <summary>
+    /// This is a summary for the interface.
+    /// </summary>
+    public interface InvalidCovariantInterface<out T>
+    {
+    }
+
+    /// <summary>
+    /// This is a summary for the interface.
+    /// </summary>
+    public interface InvalidContravariantInterface<in T>
+    {
+    }
+
+    /// <summary>
+    /// This is a summary for the interface.
+    /// </summary>
+    /// <typeparam name="S">This is the first second parameter.</typeparam>
+    public interface InvalidCovariantContravariantInterface<out S, in T>
+    {
+    }
 }

@@ -3,6 +3,10 @@
   <Test Name="CloseParenthesis">
     <TestCodeFile>CloseParenthesis.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.SpacingRules">
           <Rules>

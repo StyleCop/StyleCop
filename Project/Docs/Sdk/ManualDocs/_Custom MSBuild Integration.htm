@@ -1,0 +1,424 @@
+﻿<html xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:MSHelp="http://msdn.microsoft.com/mshelp" xmlns:mshelp="http://msdn.microsoft.com/mshelp" xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
+  <head>
+    <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8" />
+    <META NAME="save" CONTENT="history" />
+    <title>Custom MSBuild Integration</title>
+    <link rel="stylesheet" type="text/css" href="../styles/presentation.css" />
+    <link rel="stylesheet" type="text/css" href="ms-help://Hx/HxRuntime/HxLink.css" />
+    <script type="text/javascript" src="../scripts/EventUtilities.js"> </script>
+    <script type="text/javascript" src="../scripts/SplitScreen.js"> </script>
+    <script type="text/javascript" src="../scripts/Dropdown.js"> </script>
+    <script type="text/javascript" src="../scripts/script_manifold.js"> </script>
+    <script type="text/javascript" src="../scripts/script_feedBack.js"> </script>
+    <script type="text/javascript" src="../scripts/CheckboxMenu.js"> </script>
+    <script type="text/javascript" src="../scripts/CommonUtilities.js"> </script>
+    
+  </head>
+  <body>
+    <input type="hidden" id="userDataCache" class="userDataStyle" />
+    <input type="hidden" id="hiddenScrollOffset" />
+    <img id="collapseImage" style="display:none; height:0; width:0;" src="../icons/collapse_all.gif" title="Collapse image" />
+    <img id="expandImage" style="display:none; height:0; width:0;" src="../icons/expand_all.gif" title="Expand Image" />
+    <img id="collapseAllImage" style="display:none; height:0; width:0;" src="../icons/collapse_all.gif" />
+    <img id="expandAllImage" style="display:none; height:0; width:0;" src="../icons/expand_all.gif" />
+    <img id="dropDownImage" style="display:none; height:0; width:0;" src="../icons/dropdown.gif" />
+    <img id="dropDownHoverImage" style="display:none; height:0; width:0;" src="../icons/dropdownHover.gif" />
+    <img id="copyImage" style="display:none; height:0; width:0;" src="../icons/copycode.gif" title="Copy image" />
+    <img id="copyHoverImage" style="display:none; height:0; width:0;" src="../icons/copycodeHighlight.gif" title="CopyHover image" />
+    <div id="header">
+      <table id="topTable" cellspacing="0" cellpadding="0">
+        <tr>
+          <td>
+            <span onclick="ExpandCollapseAll(toggleAllImage)" style="cursor:default;" onkeypress="ExpandCollapseAll_CheckKey(toggleAllImage, event)" tabindex="0">
+              <img ID="toggleAllImage" class="toggleAll" src="../icons/collapse_all.gif" /> <label id="collapseAllLabel" for="toggleAllImage" style="display: none;">Collapse All</label><label id="expandAllLabel" for="toggleAllImage" style="display: none;">Expand All</label> </span>
+            <span>    </span>
+            <span id="devlangsDropdown" class="filter" tabindex="0">
+              <img id="devlangsDropdownImage" src="../icons/dropdown.gif" /> <label id="devlangsMenuAllLabel" for="devlangsDropdownImage" style="display: none;"><nobr>Code: All </nobr></label><label id="devlangsMenuMultipleLabel" for="devlangsDropdownImage" style="display: none;"><nobr>Code: Multiple </nobr></label><label id="devlangsMenuVisualBasicLabel" for="devlangsDropdownImage" style="display: none;"><nobr>Code: Visual Basic </nobr></label><label id="devlangsMenuCSharpLabel" for="devlangsDropdownImage" style="display: none;"><nobr>Code: C# </nobr></label><label id="devlangsMenuManagedCPlusPlusLabel" for="devlangsDropdownImage" style="display: none;"><nobr>Code: Visual C++ </nobr></label><label id="devlangsMenuJSharpLabel" for="devlangsDropdownImage" style="display: none;"><nobr>Code: J# </nobr></label><label id="devlangsMenuJScriptLabel" for="devlangsDropdownImage" style="display: none;"><nobr>Code: JScript </nobr></label></span>
+          </td>
+        </tr>
+      </table>
+      <div id="devlangsMenu">
+        <input id="VisualBasicCheckbox" type="checkbox" data="VisualBasic,vb,'persist'" value="on" onClick="SetLanguage(this)" />
+        <label class="checkboxLabel" for="VisualBasicCheckbox">Visual Basic</label>
+        <br />
+        <input id="CSharpCheckbox" type="checkbox" data="CSharp,cs,'persist'" value="on" onClick="SetLanguage(this)" />
+        <label class="checkboxLabel" for="CSharpCheckbox">C#</label>
+        <br />
+        <input id="ManagedCPlusPlusCheckbox" type="checkbox" data="ManagedCPlusPlus,cpp,'persist'" value="on" onClick="SetLanguage(this)" />
+        <label class="checkboxLabel" for="ManagedCPlusPlusCheckbox">Visual C++</label>
+        <br />
+        <input id="JSharpCheckbox" type="checkbox" data="JSharp,cs,'persist'" value="on" onClick="SetLanguage(this)" />
+        <label class="checkboxLabel" for="JSharpCheckbox">J#</label>
+        <br />
+        <input id="JScriptCheckbox" type="checkbox" data="JScript,cs,'persist'" value="on" onClick="SetLanguage(this)" />
+        <label class="checkboxLabel" for="JScriptCheckbox">JScript</label>
+        <br />
+      </div>
+      <table id="bottomTable" cellpadding="0" cellspacing="0">
+        <tr id="headerTableRow1">
+          <td align="left">
+            <span id="runningHeaderText" />
+          </td>
+        </tr>
+        <tr id="headerTableRow2">
+          <td align="left">
+            <span id="nsrTitle">Custom MSBuild Integration</span>
+          </td>
+        </tr>
+        <tr id="headerTableRow3">
+          <td align="left">
+              &nbsp;</td>
+        </tr>
+      </table>
+      <table id="gradientTable">
+        <tr>
+          <td class="nsrBottom" background="../icons/gradient.gif" />
+        </tr>
+      </table>
+    </div>
+    <div id="mainSection">
+      <div id="mainBody">
+        <div id="allHistory" class="saveHistory" onsave="saveAll()" onload="loadAll()" />
+        <font color="DarkGray"></font>
+        <p /> 
+  
+    <div class="introduction">
+      <p>
+        StyleCop provides a default MSBuild task and targets file which can be used in most common scenarios to integrate StyleCop into an
+        MSBuild-based build environment. This article describes how to write a custom MSBuild task for StyleCop to enable scenarios which
+        are not possible with the default MSBuild task provided with the tool.
+      </p>
+    </div>
+
+    <h1 class="heading"><span onclick="ExpandCollapse(sectionToggle0)" style="cursor:default;" onkeypress="ExpandCollapse_CheckKey(sectionToggle0, event)" tabindex="0"><img id="sectionToggle0" class="toggle" name="toggleSwitch" src="../icons/collapse_all.gif" />Creating a Custom MSBuild Task for StyleCop</span></h1><div id="sectionSection0" class="section" name="collapseableSection" style="">
+        <p>
+          To enable advanced MSBuild scenarios, it is necessary to write a custom MSBuild task to wrap the StyleCop toolset. To get started,
+          create a Class Library project in Visual Studio, create a new class within this project, and copy and paste the sample code from below
+          into this class. This provides a default MSBuild task for StyleCop which can be modified to suit your needs.
+        </p>
+        <p>
+          <div class="code"><span codeLanguage="other"><table width="100%" cellspacing="0" cellpadding="0"><tr><th> </th><th><span class="copyCode" onclick="CopyCode(this)" onkeypress="CopyCode_CheckKey(this, event)" onmouseover="ChangeCopyCodeIcon(this)" onmouseout="ChangeCopyCodeIcon(this)" tabindex="0"><img class="copyCodeImage" name="ccImage" align="absmiddle" title="Copy image" src="../icons/copycode.gif" />Copy Code</span></th></tr><tr><td colspan="2"><pre>
+namespace MyCustomStyleCopTask
+{
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+    using Microsoft.Build.Framework;
+    using Microsoft.Build.Utilities;
+
+    public sealed class StyleCopTask : Task
+    {
+        private const string MSBuildErrorCode = null;
+        private const string MSBuildSubCategory = null;
+        private const int DefaultViolationLimit = 10000;
+
+        private ITaskItem[] inputSourceFiles = new ITaskItem[0];
+        private ITaskItem inputProjectFullPath;
+        private ITaskItem[] inputAdditionalAddinPaths = new ITaskItem[0];
+        private bool inputForceFullAnalysis;
+        private string[] inputDefineConstants = new string[0];
+        private bool inputTreatErrorsAsWarnings;
+        private bool inputCacheResults;
+        private ITaskItem inputOverrideSettingsFile;
+        private ITaskItem outputFile;
+        private ITaskItem maxViolationCount;
+
+        private bool succeeded = true;
+        private int violationCount;
+        private int violationLimit;
+
+        public ITaskItem[] SourceFiles
+        {
+            get { return this.inputSourceFiles; }
+            set { this.inputSourceFiles = value; }
+        }
+
+        public ITaskItem ProjectFullPath
+        {
+            get { return this.inputProjectFullPath; }
+            set { this.inputProjectFullPath = value; }
+        }
+
+        public ITaskItem[] AdditionalAddinPaths
+        {
+            get { return this.inputAdditionalAddinPaths; }
+            set { this.inputAdditionalAddinPaths = value; }
+        }
+
+        public bool ForceFullAnalysis
+        {
+            get { return this.inputForceFullAnalysis; }
+            set { this.inputForceFullAnalysis = value; }
+        }
+
+        public string[] DefineConstants
+        {
+            get { return this.inputDefineConstants; }
+            set { this.inputDefineConstants = value; }
+        }
+
+        public bool TreatErrorsAsWarnings
+        {
+            get { return this.inputTreatErrorsAsWarnings; }
+            set { this.inputTreatErrorsAsWarnings = value; }
+        }
+
+        public bool CacheResults
+        {
+            get { return this.inputCacheResults; }
+            set { this.inputCacheResults = value; }
+        }
+
+        public ITaskItem OverrideSettingsFile
+        {
+            get { return this.inputOverrideSettingsFile; }
+            set { this.inputOverrideSettingsFile = value; }
+        }
+
+        public ITaskItem OutputFile
+        {
+            get { return this.outputFile; }
+            set { this.outputFile = value; }
+        }
+
+        public ITaskItem MaxViolationCount
+        {
+            get { return this.maxViolationCount; }
+            set { this.maxViolationCount = value; }
+        }
+
+        public override bool Execute()
+        {
+            // Clear the violation count and set the violation limit for the project.
+            this.violationCount = 0;
+            this.violationLimit = 0;
+
+            if (this.maxViolationCount != null)
+            {
+                int.TryParse(this.maxViolationCount.ItemSpec, out this.violationLimit);
+            }
+
+            if (this.violationLimit == 0)
+            {
+                this.violationLimit = DefaultViolationLimit;
+            }
+
+            // Get settings files (if null or empty use null filename so it uses right default).
+            string overrideSettingsFileName = null;
+            if (this.inputOverrideSettingsFile != null &amp;&amp; this.inputOverrideSettingsFile.ItemSpec.Length &gt; 0)
+            {
+                overrideSettingsFileName = this.inputOverrideSettingsFile.ItemSpec;
+            }
+
+            // Get addin paths.
+            List&lt;string&gt; addinPaths = new List&lt;string&gt;();
+            foreach (ITaskItem addinPath in this.inputAdditionalAddinPaths)
+            {
+                addinPaths.Add(addinPath.GetMetadata("FullPath"));
+            }
+
+            // Create the StyleCop console.
+            StyleCopConsole console = new StyleCopConsole(
+                overrideSettingsFileName,
+                this.inputCacheResults,
+                this.outputFile == null ? null : this.outputFile.ItemSpec,
+                addinPaths,
+                true);
+
+            // Create the configuration.
+            Configuration configuration = new Configuration(this.inputDefineConstants);
+
+            if (this.inputProjectFullPath != null &amp;&amp; this.inputProjectFullPath.ItemSpec != null)
+            {
+                // Create a CodeProject object for these files.
+                CodeProject project = new CodeProject(
+                    this.inputProjectFullPath.ItemSpec.GetHashCode(),
+                    this.inputProjectFullPath.ItemSpec,
+                    configuration);
+
+                // Add each source file to this project.
+                foreach (ITaskItem inputSourceFile in this.inputSourceFiles)
+                {
+                    console.Core.Environment.AddSourceCode(project, inputSourceFile.ItemSpec, null);
+                }
+
+                try
+                {
+                    // Subscribe to events
+                    console.OutputGenerated += this.OnOutputGenerated;
+                    console.ViolationEncountered += this.OnViolationEncountered;
+
+                    // Analyze the source files
+                    CodeProject[] projects = new CodeProject[] { project };
+                    console.Start(projects, this.inputForceFullAnalysis);
+                }
+                finally
+                {
+                    // Unsubscribe from events
+                    console.OutputGenerated -= this.OnOutputGenerated;
+                    console.ViolationEncountered -= this.OnViolationEncountered;
+                }
+            }
+
+            return this.succeeded;
+        }
+
+        private void OnViolationEncountered(object sender, ViolationEventArgs e)
+        {
+            if (this.violationLimit &lt; 0 || this.violationCount &lt; this.violationLimit)
+            {
+                this.violationCount++;
+
+                // Does the violation qualify for breaking the build?
+                if (!(e.Warning || this.inputTreatErrorsAsWarnings))
+                {
+                    this.succeeded = false;
+                }
+
+                string path = string.Empty;
+                if (e.SourceCode != null &amp;&amp; e.SourceCode.Path != null &amp;&amp; e.SourceCode.Path.Length &gt; 0)
+                {
+                    path = e.SourceCode.Path;
+                }
+                else if (e.Element != null &amp;&amp;
+                    e.Element.Document != null &amp;&amp;
+                    e.Element.Document.SourceCode != null &amp;&amp;
+                    e.Element.Document.SourceCode.Path != null)
+                {
+                    path = e.Element.Document.SourceCode.Path;
+                }
+
+                // Prepend the rule check-id to the message.
+                string message = string.Concat(e.Violation.Rule.CheckId, ": ", e.Message);
+
+                lock (this)
+                {
+                    if (e.Warning || this.inputTreatErrorsAsWarnings)
+                    {
+                        Log.LogWarning(MSBuildSubCategory, MSBuildErrorCode, null, path, e.LineNumber, 1, 0, 0, message);
+                    }
+                    else
+                    {
+                        Log.LogError(MSBuildSubCategory, MSBuildErrorCode, null, path, e.LineNumber, 1, 0, 0, message);
+                    }
+                }
+            }
+        }
+
+        private void OnOutputGenerated(object sender, OutputEventArgs e)
+        {
+            lock (this)
+            {
+                Log.LogMessage(e.Output.Trim());
+            }
+        }
+    }
+}
+          </pre></td></tr></table></span></div>
+        </p>
+        <p>
+          Next, create a new file called MyCustomStyleCopTask.targets, and copy and paste the following code into this targets file. You will
+          need to modify the contents of this targets file to match any modifications you make to your custom MSBuild task.
+        </p>
+        <p>
+          <div class="code"><span codeLanguage="other"><table width="100%" cellspacing="0" cellpadding="0"><tr><th> </th><th><span class="copyCode" onclick="CopyCode(this)" onkeypress="CopyCode_CheckKey(this, event)" onmouseover="ChangeCopyCodeIcon(this)" onmouseout="ChangeCopyCodeIcon(this)" tabindex="0"><img class="copyCodeImage" name="ccImage" align="absmiddle" title="Copy image" src="../icons/copycode.gif" />Copy Code</span></th></tr><tr><td colspan="2"><pre>
+&lt;Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003"&gt;
+  &lt;!-- Specify where tasks are implemented. --&gt;
+  &lt;UsingTask AssemblyFile="MyCustomStyleCopTask.dll" TaskName="MyCustomStyleCopTask"/&gt;
+
+  &lt;PropertyGroup&gt;
+    &lt;BuildDependsOn&gt;$(BuildDependsOn);StyleCop&lt;/BuildDependsOn&gt;
+    &lt;RebuildDependsOn&gt;StyleCopForceFullAnalysis;$(RebuildDependsOn)&lt;/RebuildDependsOn&gt;
+  &lt;/PropertyGroup&gt;
+
+  &lt;!-- Define StyleCopForceFullAnalysis property. --&gt;
+  &lt;PropertyGroup Condition="'$(StyleCopForceFullAnalysis)' == ''"&gt;
+    &lt;StyleCopForceFullAnalysis&gt;false&lt;/StyleCopForceFullAnalysis&gt;
+  &lt;/PropertyGroup&gt;
+
+  &lt;!-- Define StyleCopCacheResults property. --&gt;
+  &lt;PropertyGroup Condition="'$(StyleCopCacheResults)' == ''"&gt;
+    &lt;StyleCopCacheResults&gt;true&lt;/StyleCopCacheResults&gt;
+  &lt;/PropertyGroup&gt;
+
+  &lt;!-- Define StyleCopTreatErrorsAsWarnings property. --&gt;
+  &lt;PropertyGroup Condition="'$(StyleCopTreatErrorsAsWarnings)' == ''"&gt;
+    &lt;StyleCopTreatErrorsAsWarnings&gt;true&lt;/StyleCopTreatErrorsAsWarnings&gt;
+  &lt;/PropertyGroup&gt;
+
+  &lt;!-- Define StyleCopEnabled property. --&gt;
+  &lt;PropertyGroup Condition="'$(StyleCopEnabled)' == ''"&gt;
+    &lt;StyleCopEnabled&gt;true&lt;/StyleCopEnabled&gt;
+  &lt;/PropertyGroup&gt;
+
+  &lt;!-- Define StyleCopOverrideSettingsFile property. --&gt;
+  &lt;PropertyGroup Condition="'$(StyleCopOverrideSettingsFile)' == ''"&gt;
+    &lt;StyleCopOverrideSettingsFile&gt; &lt;/StyleCopOverrideSettingsFile&gt;
+  &lt;/PropertyGroup&gt;
+
+  &lt;!-- Define StyleCopOutputFile property. --&gt;
+  &lt;PropertyGroup Condition="'$(StyleCopOutputFile)' == ''"&gt;
+    &lt;StyleCopOutputFile&gt;$(IntermediateOutputPath)StyleCopViolations.xml&lt;/StyleCopOutputFile&gt;
+  &lt;/PropertyGroup&gt;
+
+  &lt;!-- Define StyleCopMaxViolationCount property . --&gt;
+  &lt;PropertyGroup Condition="'$(StyleCopMaxViolationCount)' == ''"&gt;
+    &lt;!-- Specifying 0 will cause StyleCop to use the default violation count limit.
+     Specifying any positive number will cause StyleCop to use that number as the violation count limit.
+     Specifying any negative number will cause StyleCop to allow any number of violations without limit. --&gt;
+    &lt;StyleCopMaxViolationCount&gt;0&lt;/StyleCopMaxViolationCount&gt;
+  &lt;/PropertyGroup&gt;
+
+  &lt;!-- Define target: StyleCopForceFullAnalysis --&gt;
+  &lt;Target Name="StyleCopForceFullAnalysis"&gt;
+    &lt;CreateProperty Value="true"&gt;
+      &lt;Output TaskParameter="Value" PropertyName="StyleCopForceFullAnalysis" /&gt;
+    &lt;/CreateProperty&gt;
+  &lt;/Target&gt;
+
+  &lt;!-- Define target: StyleCop --&gt;
+  &lt;Target Name="StyleCop" Condition="'$(StyleCopEnabled)' != 'false'"&gt;
+    &lt;!-- Determine what files should be checked. Take all Compile items, but exclude those that have set ExcludeFromStyleCop=true. --&gt;
+    &lt;CreateItem Include="@(Compile)" Condition="'%(Compile.ExcludeFromStyleCop)' != 'true'"&gt;
+      &lt;Output TaskParameter="Include" ItemName="StyleCopFiles"/&gt;
+    &lt;/CreateItem&gt;
+
+    &lt;Message Text="Forcing full StyleCop reanalysis." Condition="'$(StyleCopForceFullAnalysis)' == 'true'" Importance="Low" /&gt;
+    &lt;Message Text="Analyzing @(StyleCopFiles)" Importance="Low" /&gt;
+
+    &lt;!-- Run the StyleCop MSBuild task. --&gt;
+    &lt;MyCustomStyleCopTask
+      ProjectFullPath="$(MSBuildProjectFile)"
+      SourceFiles="@(StyleCopFiles)"
+      AdditionalAddinPaths="@(StyleCopAdditionalAddinPaths)"
+      ForceFullAnalysis="$(StyleCopForceFullAnalysis)"
+      DefineConstants="$(DefineConstants)"
+      TreatErrorsAsWarnings="$(StyleCopTreatErrorsAsWarnings)"
+      CacheResults="$(StyleCopCacheResults)"
+      OverrideSettingsFile="$(StyleCopOverrideSettingsFile)"
+      OutputFile="$(StyleCopOutputFile)"
+      MaxViolationCount="$(StyleCopMaxViolationCount)"
+    /&gt;
+
+    &lt;!-- Make output files cleanable --&gt;
+    &lt;CreateItem Include="$(StyleCopOutputFile)"&gt;
+      &lt;Output TaskParameter="Include" ItemName="FileWrites"/&gt;
+    &lt;/CreateItem&gt;
+
+    &lt;!-- Add the StyleCop.cache file to the list of files we've written - so they can be cleaned up on a Build Clean. --&gt;
+    &lt;CreateItem Include="StyleCop.Cache" Condition="'$(StyleCopCacheResults)' == 'true'"&gt;
+      &lt;Output TaskParameter="Include" ItemName="FileWrites"/&gt;
+    &lt;/CreateItem&gt;
+  &lt;/Target&gt;
+&lt;/Project&gt;
+          </pre></td></tr></table></span></div>
+        </p>
+      </div>
+  
+</div>
+      <div id="footer">
+        <div class="footerLine">
+        </div>
+</div>
+    </div>
+  </body>
+</html>

@@ -535,10 +535,6 @@ namespace MS.StyleCop.TestHarness
             {
                 // Set up the StyleCop console which will run the test.
                 StyleCopConsole testConsole = PrepareStyleCopConsoleForTest(testInfo);
-                
-                // Make sure that addins are disabled by default. This ensures that only addins that we explicitely enable
-                // in the settings file will be run during the test.
-                testConsole.Core.AddinsDisabledByDefault = true;
 
                 CodeProject project = PrepareCodeProjectForTest(testInfo, testConsole);
 
@@ -1035,20 +1031,6 @@ namespace MS.StyleCop.TestHarness
             root.Attributes.Append(attribute);
 
             settings.AppendChild(root);
-
-            // Add global settings which are inserted into every settings file.
-            XmlElement globalSettings = settings.CreateElement("GlobalSettings");
-            root.AppendChild(globalSettings);
-
-            // Add the "no merge" property.
-            XmlElement noMergeProperty = settings.CreateElement("StringProperty");
-            noMergeProperty.InnerText = "NoMerge";
-
-            attribute = settings.CreateAttribute("Name");
-            attribute.Value = "MergeSettingsFiles";
-            noMergeProperty.Attributes.Append(attribute);
-
-            globalSettings.AppendChild(noMergeProperty);
 
             // Add any settings provided in the test description document.
             XmlNode additionalSettings = testInfo.TestDescription.SelectSingleNode("Settings");

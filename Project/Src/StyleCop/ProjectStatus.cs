@@ -29,11 +29,6 @@ namespace Microsoft.StyleCop
         /// </summary>
         private bool ignoreResultsCache;
 
-        /// <summary>
-        /// The list of analyzers for this project for each file type.
-        /// </summary>
-        private Dictionary<string, ICollection<SourceAnalyzer>> analyzerLists = new Dictionary<string, ICollection<SourceAnalyzer>>();
-
         #endregion Private Fields
 
         #region Public Constructors
@@ -64,17 +59,6 @@ namespace Microsoft.StyleCop
             {
                 Param.Ignore(value);
                 this.ignoreResultsCache = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets the analyzer lists for each file type in this project.
-        /// </summary>
-        internal Dictionary<string, ICollection<SourceAnalyzer>> AnalyzerLists
-        {
-            get
-            {
-                return this.analyzerLists;
             }
         }
 

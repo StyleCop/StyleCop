@@ -340,6 +340,15 @@ namespace Microsoft.StyleCop {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to It is not possible to merge two sets of settings when one specifies that rules are enabled by default, and the other specifies that rules are disabled by default..
+        /// </summary>
+        internal static string MergedSettingsRulesEnabledByDefaultMismatch {
+            get {
+                return ResourceManager.GetString("MergedSettingsRulesEnabledByDefaultMismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to There is no description for the add-in..
         /// </summary>
         internal static string MissingAddInDescription {

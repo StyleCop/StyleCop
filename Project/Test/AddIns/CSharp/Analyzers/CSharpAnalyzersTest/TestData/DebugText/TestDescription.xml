@@ -3,6 +3,10 @@
   <Test Name="SuppressMessage Justifictions">
     <TestCodeFile>SuppressMessageJustifications.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
           <Rules>
@@ -72,6 +76,10 @@
   <Test Name="Debug.Assert Messages">
     <TestCodeFile>DebugAssertMessages.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
           <Rules>

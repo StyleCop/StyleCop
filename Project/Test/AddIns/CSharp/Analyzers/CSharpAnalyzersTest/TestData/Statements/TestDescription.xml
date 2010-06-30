@@ -3,6 +3,10 @@
   <Test Name="BlockStatementsEmbeddedStuff">
     <TestCodeFile>BlockStatementsEmbeddedStuff.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.ReadabilityRules">
           <Rules>
@@ -194,6 +198,10 @@
   <Test Name="StatementsExtraSemicolon">
     <TestCodeFile>StatementsExtraSemicolon.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.ReadabilityRules">
           <Rules>
@@ -237,6 +245,10 @@
   <Test Name="StatementsMultipleStatementsOnOneLine">
     <TestCodeFile>StatementsMultipleStatementsOnOneLine.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.ReadabilityRules">
           <Rules>

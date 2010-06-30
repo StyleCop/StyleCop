@@ -4,6 +4,10 @@
   <Test Name="ClassMembersDoNotPrefixCallsWithBaseUnlessLocalImplementationExists">
     <TestCodeFile>ClassMembersDoNotPrefixCallsWithBaseUnlessLocalImplementationExists.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.ReadabilityRules">
           <Rules>
@@ -26,6 +30,10 @@
   <Test Name="ClassMembersPrefixLocalCallsWithThis">
     <TestCodeFile>ClassMembersPrefixLocalCallsWithThis.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.ReadabilityRules">
           <Rules>
@@ -66,6 +74,10 @@
   <Test Name="ClassMembersLocalVariables">
     <TestCodeFile>ClassMembersLocalVariables.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.ReadabilityRules">
           <Rules>
@@ -119,6 +131,10 @@
   <Test Name="ClassMembersMethodArguments">
     <TestCodeFile>ClassMembersMethodArguments.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.ReadabilityRules">
           <Rules>
@@ -153,6 +169,10 @@
   <Test Name="ClassMembersCollectionInitializers">
     <TestCodeFile>ClassMembersCollectionInitializers.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.ReadabilityRules">
           <Rules>

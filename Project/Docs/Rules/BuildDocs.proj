@@ -1,0 +1,14 @@
+<Project
+    DefaultTargets="Docs"
+    xmlns= "http://schemas.microsoft.com/developer/msbuild/2003"
+    ToolsVersion="4.0">
+
+    <Import
+        Project="$(PROJECTROOT)\tools\SDcTasks\Microsoft.Sdc.Common.tasks" />
+
+    <Target Name="Docs">
+        <Error Condition="!Exists('$(ProgramFiles)\HTML Help Workshop\hhc.exe')" Text="Please ensure the Microsoft HTML Help Workshop is installed." />   
+        <MakeDir Directories="$(PROJECTROOT)\Docs\Rules\Bin" />
+        <Help.Compile ProjectFilePath="$(PROJECTROOT)\Docs\Rules\StyleCop.hhp" />
+    </Target>
+</Project>

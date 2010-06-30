@@ -4,6 +4,10 @@
   <Test Name="Parenthesis">
     <TestCodeFile>Parenthesis.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
           <Rules>
@@ -45,6 +49,10 @@
   <Test Name="ArithmeticParenthesis">
     <TestCodeFile>ArithmeticParenthesis.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
           <Rules>
@@ -73,6 +81,10 @@
   <Test Name="ConditionalLogicalParenthesis">
     <TestCodeFile>ConditionalLogicalParenthesis.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
           <Rules>

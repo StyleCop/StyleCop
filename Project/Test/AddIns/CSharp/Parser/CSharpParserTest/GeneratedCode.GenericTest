@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<GenericTest name="generatedcode" storage="c:\depot\stylecop\project\test\addins\csharp\parser\csharpparsertest\generatedcode.generictest" id="ecdadfef-6c00-4f2a-83c4-9553fee6d410" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Description>Executes external testing system with specified parameters.</Description>
+  <Execution id="0fe289bf-c303-47a7-8d94-60043b3bf9a0" />
+  <Command filename="%TestBin%\StyleCopTestHarness.exe" arguments="/testname:GeneratedCode /i:&quot;%TestDeploymentDir%&quot; /o:&quot;%TestOutputDirectory%&quot; /testroot:%TestLocation%" workingDirectory="%TestOutputDirectory%" />
+  <SummaryXmlFile enabled="true" path="%TestOutputDirectory%\GeneratedCodeResults.xml" />
+</GenericTest>

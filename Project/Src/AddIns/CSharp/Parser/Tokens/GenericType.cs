@@ -28,7 +28,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The types within the generic type.
         /// </summary>
-        private ICollection<string> types;
+        private ICollection<GenericTypeParameter> typeParameters;
 
         #endregion Private Fields
 
@@ -58,20 +58,63 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Gets the types within the generic type.
         /// </summary>
-        public ICollection<string> GenericTypes
+        public ICollection<GenericTypeParameter> GenericTypesParameters
         {
             get
             {
-                if (this.types == null)
+                if (this.typeParameters == null)
                 {
                     this.ExtractGenericTypes();
                 }
 
-                return this.types;
+                return this.typeParameters;
             }
         }
 
         #endregion Public Properties
+
+        #region Protected Override Methods
+
+        /// <summary>
+        /// Creates a text string based on the child tokens in the token.
+        /// </summary>
+        protected override void CreateTextString()
+        {
+            int genericTagCount = 0;
+
+            StringBuilder text = new StringBuilder();
+            foreach (CsToken token in this.ChildTokens)
+            {
+                if (token.CsTokenType == CSharp.CsTokenType.OpenGenericBracket)
+                {
+                    ++genericTagCount;
+                }
+                else if (token.CsTokenType == CSharp.CsTokenType.CloseGenericBracket)
+                {
+                    --genericTagCount;
+                }
+
+                // Strip out comments and whitespace.
+                if (token.CsTokenType != CsTokenType.WhiteSpace &&
+                    token.CsTokenType != CsTokenType.EndOfLine &&
+                    token.CsTokenType != CsTokenType.SingleLineComment &&
+                    token.CsTokenType != CsTokenType.MultiLineComment &&
+                    token.CsTokenType != CsTokenType.PreprocessorDirective)
+                {
+                    text.Append(token.Text);
+                }
+
+                // Insert a space after the out or in keyword found within a generic argument list.
+                if (genericTagCount > 0 && (token.CsTokenType == CSharp.CsTokenType.Out || token.CsTokenType == CSharp.CsTokenType.In))
+                {
+                    text.Append(" ");
+                }
+            }
+
+            this.Text = text.ToString();
+        }
+
+        #endregion Protected Override Methods
         
         #region Private Methods
 
@@ -80,37 +123,56 @@ namespace Microsoft.StyleCop.CSharp
         /// </summary>
         private void ExtractGenericTypes()
         {
-            List<string> genericTypes = new List<string>();
-            StringBuilder type = new StringBuilder();
+            List<GenericTypeParameter> genericTypes = new List<GenericTypeParameter>();
+
+            bool start = false;
+            ParameterModifiers modifiers = ParameterModifiers.None;
+            TypeToken type = null;
 
             for (Node<CsToken> tokenNode = this.ChildTokens.First; tokenNode != null; tokenNode = tokenNode.Next)
             {
-                if (tokenNode.Value.CsTokenType == CsTokenType.Comma)
+                if (tokenNode.Value.CsTokenType == CsTokenType.OpenGenericBracket)
                 {
-                    string trimmedType = CodeParser.TrimType(type.ToString());
-                    if (!string.IsNullOrEmpty(trimmedType))
+                    start = true;
+                }
+                else if (start)
+                {
+                    if (tokenNode.Value.CsTokenType == CSharp.CsTokenType.CloseGenericBracket)
                     {
-                        genericTypes.Add(trimmedType);
+                        if (type != null)
+                        {
+                            genericTypes.Add(new GenericTypeParameter(type, modifiers));
+                        }
+
+                        break;
                     }
 
-                    type.Remove(0, type.Length);
-                }
-                else
-                {
-                    type.Append(tokenNode.Value.Text);
+                    if (tokenNode.Value.CsTokenType == CsTokenType.Comma)
+                    {
+                        if (type != null)
+                        {
+                            genericTypes.Add(new GenericTypeParameter(type, modifiers));
+                        }
+
+                        type = null;
+                        modifiers = ParameterModifiers.None;
+                    }
+                    else if (tokenNode.Value.CsTokenType == CsTokenType.Out)
+                    {
+                        modifiers = ParameterModifiers.Out;
+                    }
+                    else if (tokenNode.Value.CsTokenType == CsTokenType.In)
+                    {
+                        modifiers = ParameterModifiers.In;
+                    }
+                    else if (tokenNode.Value.CsTokenType == CsTokenType.Other && type == null)
+                    {
+                        type = tokenNode.Value as TypeToken;
+                    }
                 }
             }
 
-            if (type.Length > 0)
-            {
-                string trimmedType = CodeParser.TrimType(type.ToString());
-                if (!string.IsNullOrEmpty(trimmedType))
-                {
-                    genericTypes.Add(trimmedType);
-                }
-            }
-
-            this.types = genericTypes.ToArray();
+            this.typeParameters = genericTypes.ToArray();
         }
 
         #endregion Private Methods

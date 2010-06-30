@@ -15,6 +15,10 @@
     <TestCodeFile>DocumentationStructs.cs</TestCodeFile>
     <TestCodeFile>DocumentationSlashes.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
           <AnalyzerSettings>
@@ -325,6 +329,9 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationDelegates.InvalidDelegate51`T`S" LineNumber="391" Rule="GenericTypeParameterDocumentationMustMatchTypeParameters" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationDelegates.InvalidDelegate52`T`S" LineNumber="399" Rule="GenericTypeParameterDocumentationMustMatchTypeParameters" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationDelegates.InvalidDelegate53%int%int%int" LineNumber="406" Rule="ElementParametersMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationDelegates.InvalidCovariantDelegate`outT" LineNumber="430" Rule="GenericTypeParametersMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationDelegates.InvalidContravariantDelegate`inT" LineNumber="435" Rule="GenericTypeParametersMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationDelegates.InvalidCovariantContravariantDelegate`outS`inT" LineNumber="441" Rule="GenericTypeParameterDocumentationMustMatchTypeParameters" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationDestructor3.~InvalidDocumentationDestructor3" LineNumber="42" Rule="ElementDocumentationMustNotHaveDefaultSummary" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationDestructor4.~InvalidDocumentationDestructor4" LineNumber="55" Rule="DocumentationMustContainValidXml" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationDestructor5.~InvalidDocumentationDestructor5" LineNumber="65" Rule="ElementsMustBeDocumented" />
@@ -491,6 +498,9 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationInterface38" LineNumber="383" Rule="PartialElementDocumentationMustHaveSummary" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationInterface39`T" LineNumber="390" Rule="GenericTypeParametersMustBeDocumentedPartialClass" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationInterface40`T`S`W" LineNumber="399" Rule="GenericTypeParameterDocumentationMustMatchTypeParameters" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidCovariantInterface`outT" LineNumber="440" Rule="GenericTypeParametersMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidContravariantInterface`inT" LineNumber="447" Rule="GenericTypeParametersMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidCovariantContravariantInterface`outS`inT" LineNumber="455" Rule="GenericTypeParameterDocumentationMustMatchTypeParameters" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationMethods.InvalidMethod1" LineNumber="118" Rule="ElementDocumentationMustNotHaveDefaultSummary" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationMethods.InvalidMethod2" LineNumber="124" Rule="DocumentationMustContainValidXml" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationMethods.InvalidMethod3" LineNumber="128" Rule="ElementsMustBeDocumented" />
@@ -650,7 +660,6 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationSlashes.Method5" LineNumber="63" Rule="SingleLineCommentsMustNotUseDocumentationStyleSlashes" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationSlashes.Method5" LineNumber="65" Rule="SingleLineCommentsMustNotUseDocumentationStyleSlashes" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationSlashes.Method5" LineNumber="66" Rule="SingleLineCommentsMustNotUseDocumentationStyleSlashes" />
-
     </ExpectedViolations>
   </Test>
 
@@ -658,6 +667,10 @@
   <Test Name="DocumentationIgnorePrivates">
     <TestCodeFile>DocumentationIgnorePrivates.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
           <AnalyzerSettings>
@@ -1044,6 +1057,10 @@
   <Test Name="DocumentationIncludeFields">
     <TestCodeFile>DocumentationIncludeFields.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
           <AnalyzerSettings>
@@ -1232,6 +1249,10 @@
   <Test Name="DocumentationRequireValueTags">
     <TestCodeFile>DocumentationRequireValueTags.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
           <AnalyzerSettings>
@@ -1267,6 +1288,10 @@
   <Test Name="DocumentationRequireProperFormatting">
     <TestCodeFile>DocumentationRequireProperFormatting.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
           <AnalyzerSettings>
@@ -1454,6 +1479,10 @@
   <Test Name="DocumentationRequireCapitalLetter">
     <TestCodeFile>DocumentationRequireCapitalLetter.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
           <AnalyzerSettings>
@@ -1641,6 +1670,10 @@
   <Test Name="DocumentationRequirePeriod">
     <TestCodeFile>DocumentationRequirePeriod.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
           <AnalyzerSettings>
@@ -1830,6 +1863,10 @@
     <TestCodeFile>DocumentationConstructorSummaryForGenericType.cs</TestCodeFile>
     <TestCodeFile>DocumentationConstructorSummaryForGenericTypeViolations.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
           <Rules>
@@ -1906,6 +1943,10 @@
   <Test Name="DocumentationDestructorSummary">
     <TestCodeFile>DocumentationDestructorSummary.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
           <Rules>
@@ -1928,6 +1969,10 @@
   <Test Name="DocumentationHeadersMustNotContainBlankLines">
     <TestCodeFile>DocumentationHeaderBlankLines.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
           <Rules>
@@ -1967,6 +2012,10 @@
   <Test Name="DocumentationDllImports">
     <TestCodeFile>DocumentationExternDllImports.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
           <AnalyzerSettings>
@@ -1996,6 +2045,10 @@
   <Test Name="IncludedDocumentation">
     <TestCodeFile>IncludedDocumentation.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
           <AnalyzerSettings>
@@ -2212,6 +2265,10 @@
   <Test Name="NestedPropertyAccessModifiersWithGetHeaders">
     <TestCodeFile>NestedPropertyAccessModifiersWithGetHeaders.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
           <AnalyzerSettings>
@@ -2722,6 +2779,10 @@
   <Test Name="NestedPropertyAccessModifiersWithGetAndSetHeaders">
     <TestCodeFile>NestedPropertyAccessModifiersWithGetAndSetHeaders.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
           <AnalyzerSettings>
@@ -2968,6 +3029,10 @@
   <Test Name="DocumentationInheritdoc">
     <TestCodeFile>DocumentationInheritdoc.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
           <AnalyzerSettings>

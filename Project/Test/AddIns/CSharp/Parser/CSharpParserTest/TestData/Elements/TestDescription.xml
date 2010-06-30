@@ -18,6 +18,10 @@
     <TestCodeFile TestObjectModel="true">Destructor.cs</TestCodeFile>
     <TestCodeFile TestObjectModel="true">Event.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="MS.StyleCop.CSharpParserTest.CsParserDump">
           <Rules>

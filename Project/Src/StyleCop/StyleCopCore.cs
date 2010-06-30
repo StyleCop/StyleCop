@@ -94,11 +94,6 @@ namespace Microsoft.StyleCop
         private CoreParser coreParser = new CoreParser();
 
         /// <summary>
-        /// Indicates whether addins are disabled by default. Defaults to false.
-        /// </summary>
-        private bool addinsDisabledByDefault;
-
-        /// <summary>
         /// A tag object which can be optionally filled in by the host.
         /// </summary>
         private object hostTag;
@@ -325,29 +320,6 @@ namespace Microsoft.StyleCop
             get
             {
                 return this.coreParser.PropertyDescriptors;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether add-ins are disabled by default.
-        /// </summary>
-        /// <remarks>By default, add-ins are enabled by default.</remarks>
-        [SuppressMessage(
-            "Microsoft.Naming", 
-            "CA1704:IdentifiersShouldBeSpelledCorrectly", 
-            MessageId = "Addins",
-            Justification = "API has already been published and should not be changed.")]
-        public bool AddinsDisabledByDefault
-        {
-            get
-            {
-                return this.addinsDisabledByDefault;
-            }
-
-            set
-            {
-                Param.Ignore(value);
-                this.addinsDisabledByDefault = value;
             }
         }
 
@@ -1526,7 +1498,6 @@ namespace Microsoft.StyleCop
                     // Initialize each of the enabled rules dictionaries for the analyzers.
                     foreach (SourceAnalyzer analyzer in parser.Analyzers)
                     {
-                        analyzer.EnabledRules = new Dictionary<CodeProject, Dictionary<string, Rule>>();
                         analyzer.PreAnalyze();
                     }
                 }
@@ -1583,7 +1554,6 @@ namespace Microsoft.StyleCop
                 {
                     foreach (SourceAnalyzer analyzer in parser.Analyzers)
                     {
-                        analyzer.EnabledRules = null;
                         analyzer.PostAnalyze();
                     }
                 }

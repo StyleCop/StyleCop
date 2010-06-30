@@ -228,8 +228,7 @@ namespace Microsoft.StyleCop.CSharp
                         int comma = name.IndexOf(",", index + 1, StringComparison.Ordinal);
                         if (comma != -1)
                         {
-                            string type = name.Substring(index + 1, comma - index - 1);
-                            types.Add(type.Trim());
+                            types.Add(ExtractGenericTypeParameter(name, index, comma));
                             index = comma;
                         }
                         else
@@ -237,8 +236,7 @@ namespace Microsoft.StyleCop.CSharp
                             int closeBracket = name.IndexOf(">", StringComparison.Ordinal);
                             if (closeBracket != -1)
                             {
-                                string type = name.Substring(index + 1, closeBracket - index - 1);
-                                types.Add(type.Trim());
+                                types.Add(ExtractGenericTypeParameter(name, index, closeBracket));
                             }
 
                             break;
@@ -248,6 +246,33 @@ namespace Microsoft.StyleCop.CSharp
             }
 
             return types;
+        }
+
+        /// <summary>
+        /// Extracts the generic type parameter out of part of a generic type.
+        /// </summary>
+        /// <param name="fullType">The full generic type.</param>
+        /// <param name="startIndex">The start index of the generic type parameter.</param>
+        /// <param name="endIndex">The index just past the end of the generic type parameter. </param>
+        /// <returns>Returns the extracted type.</returns>
+        private static string ExtractGenericTypeParameter(string fullType, int startIndex, int endIndex)
+        {
+            Param.AssertValidString(fullType, "fullType");
+            Param.AssertValueBetween(startIndex, 0, fullType.Length, "startIndex");
+            Param.AssertValueBetween(endIndex, 0, fullType.Length, "endIndex");
+
+            string type = fullType.Substring(startIndex + 1, endIndex - startIndex - 1).Trim();
+
+            if (type.StartsWith("out ", StringComparison.Ordinal) && type.Length > 4)
+            {
+                type = type.Substring(4);
+            }
+            else if (type.StartsWith("in ", StringComparison.Ordinal) && type.Length > 3)
+            {
+                type = type.Substring(3);
+            }
+
+            return type;
         }
 
         /// <summary>

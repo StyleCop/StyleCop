@@ -180,86 +180,6 @@ namespace Microsoft.StyleCop
         #region Private Static Methods
 
         /// <summary>
-        /// Loads the list of analyzers for the given project after looking at the project settings.
-        /// </summary>
-        /// <param name="core">The core instance.</param>
-        /// <param name="project">The project to check.</param>
-        /// <param name="parsers">The list of parsers current loaded.</param>
-        /// <returns>Returns the list of analyzers discovered for this project.</returns>
-        private static ICollection<SourceAnalyzer> DiscoverAnalyzerList(
-            StyleCopCore core, CodeProject project, ICollection<SourceParser> parsers)
-        {
-            Param.AssertNotNull(core, "core");
-            Param.AssertNotNull(project, "project");
-            Param.AssertNotNull(parsers, "parsers");
-
-            // Create the list of enabled analyzers and rules which will be returned.
-            List<SourceAnalyzer> list = new List<SourceAnalyzer>();
-
-            // Iterate through all loaded parsers.
-            foreach (SourceParser parser in parsers)
-            {
-                // Iterate through each analyzer attached to this parser.
-                foreach (SourceAnalyzer analyzer in parser.Analyzers)
-                {
-                    // Create a dictionary to hold each enabled rule for the analyzer.
-                    Dictionary<string, Rule> enabledRulesForAnalyzer = new Dictionary<string, Rule>();
-
-                    // Get the settings for this analyzer, if there are any.
-                    AddInPropertyCollection analyzerSettings = project.Settings == null ?
-                        null : project.Settings.GetAddInSettings(analyzer);
-
-                    // Iterate through each of the analyzer's rules.
-                    foreach (Rule rule in analyzer.AddInRules)
-                    {
-                        // Determine whether the rule is currently enabled.
-                        bool ruleEnabled = !core.AddinsDisabledByDefault && rule.EnabledByDefault;
-
-                        // Determine whether there is a setting which enables or disables the rules.
-                        // If the rule is set to CanDisable = false, then ignore the setting unless
-                        // we are in disabled by default mode.
-                        if (analyzerSettings != null && (!ruleEnabled || rule.CanDisable))
-                        {
-                            BooleanProperty property = analyzerSettings[rule.Name + "#Enabled"] as BooleanProperty;
-                            if (property != null)
-                            {
-                                ruleEnabled = property.Value;
-                            }
-                        }
-
-                        // If the rule is enabled, add it to the enabled rules dictionary.
-                        if (ruleEnabled)
-                        {
-                            enabledRulesForAnalyzer.Add(rule.Name, rule);
-                        }
-                    }
-
-                    // If the analyzer has at least one enabled rule, add the analyzer to the list 
-                    // of enabled analyzers.
-                    if (enabledRulesForAnalyzer.Count > 0)
-                    {
-                        list.Add(analyzer);
-
-                        // The enables rules dictionary should have been created.
-                        Debug.Assert(analyzer.EnabledRules != null, "The enabled rules dictionary should not be null");
-
-                        // The rules list should not already be set for this project on this analyzer.
-                        // If so, something is wrong.
-                        Debug.Assert(
-                            !analyzer.EnabledRules.ContainsKey(project),
-                            "The rule list for this analyzer on this code project should not be set yet.");
-
-                        // Store the list of enabled rules within the analyzer so it can be quickly
-                        // accessed at runtime.
-                        analyzer.EnabledRules.Add(project, enabledRulesForAnalyzer);
-                    }
-                }
-            }
-
-            return list;
-        }
-
-        /// <summary>
         /// Formats the exception message and stack trace into a loggable string.
         /// </summary>
         /// <param name="ex">The exception.</param>
@@ -309,9 +229,8 @@ namespace Microsoft.StyleCop
             // Extract the document to parse.
             CodeDocument parsedDocument = documentStatus.Document;
 
-            // Get or load the analyzer list for this project type.
-            ICollection<SourceAnalyzer> analyzers = this.GetAnalyzersForProjectFile(
-                sourceCode.Project, sourceCode, this.data.Core.Parsers);
+            // Get or load the analyzer list.
+            IEnumerable<SourceAnalyzer> analyzers = sourceCode.Settings.EnabledAnalyzers;
 
             // Parse the document.
             bool parsingCompleted;
@@ -347,7 +266,7 @@ namespace Microsoft.StyleCop
                     {
                         if (this.data.ResultsCache != null && sourceCode.Project.WriteCache)
                         {
-                            this.data.ResultsCache.SaveDocumentResults(parsedDocument, sourceCode.Parser, sourceCode.Project.Settings.WriteTime);
+                            this.data.ResultsCache.SaveDocumentResults(parsedDocument, sourceCode.Parser, sourceCode.Settings.WriteTime);
                         }
 
                         parsedDocument.Dispose();
@@ -379,7 +298,7 @@ namespace Microsoft.StyleCop
         /// <param name="passNumber">The current pass number.</param>
         /// <returns>Returns true if analysis was run, or false if analysis was delayed until the next pass.</returns>
         private bool TestAndRunAnalyzers(
-            CodeDocument document, SourceParser parser, ICollection<SourceAnalyzer> analyzers, int passNumber)
+            CodeDocument document, SourceParser parser, IEnumerable<SourceAnalyzer> analyzers, int passNumber)
         {
             Param.AssertNotNull(document, "document");
             Param.AssertNotNull(parser, "parser");
@@ -417,7 +336,7 @@ namespace Microsoft.StyleCop
         /// <param name="parser">The parser that created the document.</param>
         /// <param name="analyzers">The list of analyzsers to run against the document.</param>
         private void RunAnalyzers(
-            CodeDocument document, SourceParser parser, ICollection<SourceAnalyzer> analyzers)
+            CodeDocument document, SourceParser parser, IEnumerable<SourceAnalyzer> analyzers)
         {
             Param.AssertNotNull(document, "document");
             Param.AssertNotNull(parser, "parser");
@@ -493,51 +412,6 @@ namespace Microsoft.StyleCop
             }
 
             return false;
-        }
-
-        /// <summary>
-        /// Gets the list of analyzers for the given source code document in the given project.
-        /// </summary>
-        /// <param name="project">The project containing the document.</param>
-        /// <param name="sourceCode">The source code document.</param>
-        /// <param name="parsers">The list of parsers current loaded.</param>
-        /// <returns>Returns the analyzer list.</returns>
-        private ICollection<SourceAnalyzer> GetAnalyzersForProjectFile(
-            CodeProject project, SourceCode sourceCode, ICollection<SourceParser> parsers)
-        {
-            Param.AssertNotNull(project, "project");
-            Param.AssertNotNull(sourceCode, "sourceCode");
-            Param.AssertNotNull(parsers, "parsers");
-
-            if (!string.IsNullOrEmpty(sourceCode.Type))
-            {
-                // Get the project status for this project.
-                ProjectStatus projectStatus = this.data.GetProjectStatus(project);
-                Debug.Assert(projectStatus != null, "There is no status for the given project.");
-
-                lock (projectStatus.AnalyzerLists)
-                {
-                    // Get the analyzer list from cache if it's there.
-                    ICollection<SourceAnalyzer> analyzers = null;
-                    if (!projectStatus.AnalyzerLists.TryGetValue(sourceCode.Type, out analyzers))
-                    {
-                        // Load the list of disabled analyzers from the project settings and create the list of analyzers manually.
-                        analyzers = StyleCopThread.DiscoverAnalyzerList(this.data.Core, project, parsers);
-                        projectStatus.AnalyzerLists.Add(sourceCode.Type, analyzers);
-
-                        foreach (SourceAnalyzer analyzer in analyzers)
-                        {
-                            this.data.Core.SignalOutput(
-                                MessageImportance.Low,
-                                string.Format(CultureInfo.CurrentCulture, "Loaded Analyzer: {0}...", analyzer.Name));
-                        }
-                    }
-
-                    return analyzers;
-                }
-            }
-
-            return null;
         }
 
         #endregion Private Methods

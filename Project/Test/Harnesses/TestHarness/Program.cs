@@ -37,8 +37,6 @@ namespace MS.StyleCop.TestHarness
         /// <param name="args">The event arguments.</param>
         public static void Main(string[] args)
         {
-            ////System.Diagnostics.Debugger.Break();
-
             string testInputLocation = null;
             string testOutputLocation = null;
             string testroot = null;

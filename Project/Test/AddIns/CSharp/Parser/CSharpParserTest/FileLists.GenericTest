@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<GenericTest name="GenericTest1" storage="c:\depot\stylecop\project\test\addins\csharp\parser\csharpparsertest\generictest1.generictest" id="e0452223-44c6-4be1-ab56-2458e35b9490" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Command filename="%TestBin%\StyleCopTestHarness.exe" arguments="/testname:FileLists /i:&quot;%TestDeploymentDir%&quot; /o:&quot;%TestOutputDirectory%&quot; /testroot:%TestLocation%" workingDirectory="%TestOutputDirectory%" />
+  <SummaryXmlFile enabled="true" path="%TestOutputDirectory%\FileListsResults.xml" />
+</GenericTest>

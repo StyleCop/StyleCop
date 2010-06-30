@@ -1,0 +1,119 @@
+<Project
+    DefaultTargets="Docs"
+    xmlns= "http://schemas.microsoft.com/developer/msbuild/2003"
+    ToolsVersion="4.0">
+
+    <Import
+        Project="$(PROJECTROOT)\tools\SDcTasks\Microsoft.Sdc.Common.tasks" />
+
+    <PropertyGroup>
+        <SandcastleVersion>2.4.10520</SandcastleVersion>
+	<SHFBROOT>$(STTOOLS)\Sandcastle Help File Builder\1.8.0.3</SHFBROOT>
+        <ManualDocsInsertValue>&lt;param name=&quot;Name&quot; value=&quot;StyleCopSDK&quot;&gt;
+    &lt;param name=&quot;Local&quot; value=&quot;html/_StyleCopSDK.htm&quot;&gt;
+  &lt;/OBJECT&gt;&lt;/LI&gt;
+  &lt;UL&gt;
+    &lt;LI&gt;&lt;OBJECT type=&quot;text/sitemap&quot;&gt;
+      &lt;param name=&quot;Name&quot; value=&quot;Writing Custom Rules for StyleCop&quot;&gt;
+      &lt;param name=&quot;Local&quot; value=&quot;html/_Writing Custom Rules for StyleCop.htm&quot;&gt;
+    &lt;/OBJECT&gt;&lt;/LI&gt;
+    &lt;UL&gt;
+      &lt;LI&gt;&lt;OBJECT type=&quot;text/sitemap&quot;&gt;
+        &lt;param name=&quot;Name&quot; value=&quot;Authoring a Custom StyleCop Rule&quot;&gt;
+        &lt;param name=&quot;Local&quot; value=&quot;html/_Authoring a Custom StyleCop Rule.htm&quot;&gt;
+      &lt;/OBJECT&gt;&lt;/LI&gt;
+    &lt;/UL&gt;
+    &lt;UL&gt;
+      &lt;LI&gt;&lt;OBJECT type=&quot;text/sitemap&quot;&gt;
+        &lt;param name=&quot;Name&quot; value=&quot;Authoring Rules Metadata&quot;&gt;
+        &lt;param name=&quot;Local&quot; value=&quot;html/_Authoring Rules Metadata.htm&quot;&gt;
+      &lt;/OBJECT&gt;&lt;/LI&gt;
+    &lt;/UL&gt;
+    &lt;UL&gt;
+      &lt;LI&gt;&lt;OBJECT type=&quot;text/sitemap&quot;&gt;
+        &lt;param name=&quot;Name&quot; value=&quot;Adding Custom Rule Settings&quot;&gt;
+        &lt;param name=&quot;Local&quot; value=&quot;html/_Adding Custom Rule Settings.htm&quot;&gt;
+      &lt;/OBJECT&gt;&lt;/LI&gt;
+      &lt;UL&gt;
+        &lt;LI&gt;&lt;OBJECT type=&quot;text/sitemap&quot;&gt;
+          &lt;param name=&quot;Name&quot; value=&quot;Adding a Custom StyleCop Settings Page&quot;&gt;
+          &lt;param name=&quot;Local&quot; value=&quot;html/_Adding a Custom StyleCop Settings Page.htm&quot;&gt;
+        &lt;/OBJECT&gt;&lt;/LI&gt;
+      &lt;/UL&gt;
+    &lt;/UL&gt;
+    &lt;UL&gt;
+      &lt;LI&gt;&lt;OBJECT type=&quot;text/sitemap&quot;&gt;
+        &lt;param name=&quot;Name&quot; value=&quot;Installing a Custom Rule&quot;&gt;
+        &lt;param name=&quot;Local&quot; value=&quot;html/_Installing a Custom Rule.htm&quot;&gt;
+      &lt;/OBJECT&gt;&lt;/LI&gt;
+    &lt;/UL&gt;
+    &lt;UL&gt;
+      &lt;LI&gt;&lt;OBJECT type=&quot;text/sitemap&quot;&gt;
+        &lt;param name=&quot;Name&quot; value=&quot;Custom C# Language Service&quot;&gt;
+        &lt;param name=&quot;Local&quot; value=&quot;html/_Custom CSharp Language Service.htm&quot;&gt;
+      &lt;/OBJECT&gt;&lt;/LI&gt;
+    &lt;/UL&gt;
+  &lt;/UL&gt;
+  &lt;UL&gt;
+    &lt;LI&gt;&lt;OBJECT type=&quot;text/sitemap&quot;&gt;
+      &lt;param name=&quot;Name&quot; value=&quot;Integrating StyleCop Into Build Environments&quot;&gt;
+      &lt;param name=&quot;Local&quot; value=&quot;html/_Integrating StyleCop Into Build Environments.htm&quot;&gt;
+    &lt;/OBJECT&gt;&lt;/LI&gt;
+    &lt;UL&gt;
+      &lt;LI&gt;&lt;OBJECT type=&quot;text/sitemap&quot;&gt;
+        &lt;param name=&quot;Name&quot; value=&quot;Integrating StyleCop into MSBuild&quot;&gt;
+        &lt;param name=&quot;Local&quot; value=&quot;html/_Integrating StyleCop into MSBuild.htm&quot;&gt;
+      &lt;/OBJECT&gt;&lt;/LI&gt;
+    &lt;/UL&gt;
+    &lt;UL&gt;
+      &lt;LI&gt;&lt;OBJECT type=&quot;text/sitemap&quot;&gt;
+        &lt;param name=&quot;Name&quot; value=&quot;Custom MSBuild Integration&quot;&gt;
+        &lt;param name=&quot;Local&quot; value=&quot;html/_Custom MSBuild Integration.htm&quot;&gt;
+      &lt;/OBJECT&gt;&lt;/LI&gt;
+    &lt;/UL&gt;
+    &lt;UL&gt;
+      &lt;LI&gt;&lt;OBJECT type=&quot;text/sitemap&quot;&gt;
+        &lt;param name=&quot;Name&quot; value=&quot;Hosting StyleCop in a Custom Environment&quot;&gt;
+        &lt;param name=&quot;Local&quot; value=&quot;html/_Hosting StyleCop in a Custom Environment.htm&quot;&gt;
+      &lt;/OBJECT&gt;&lt;/LI&gt;
+    &lt;/UL&gt;
+  &lt;/UL&gt;
+  &lt;UL&gt;
+  &lt;LI&gt;&lt;OBJECT type=&quot;text/sitemap&quot;&gt;
+
+	</ManualDocsInsertValue>
+
+	<ManualDocsSearchValue>&lt;param name=&quot;Name&quot; value=&quot;API Reference&quot;&gt;</ManualDocsSearchValue>
+	
+    </PropertyGroup>
+
+    <Target Name="Docs">
+        <Error Condition="!Exists('$(ProgramFiles)\HTML Help Workshop\hhc.exe')" Text="Please ensure the Microsoft HTML Help Workshop is installed." />   
+
+	<CreateItem Include="ManualDocs\*.*" >
+	        <Output TaskParameter="Include" ItemName="ManualDocsFiles" />
+        </CreateItem>
+
+	<RemoveDir Directories="Decompiled;Help" />
+
+	<MakeDir Directories="Bin" />
+
+	<MSBuild Projects="StyleCopSDK.shfbproj" Properties="CleanIntermediates=True;SHFBROOT=$(SHFBROOT)" /> 
+
+	<Help.Decompile DestinationFolder="Decompiled" ChmFilePath="Help\StyleCopSDKDocumentation.chm" />
+
+        <Microsoft.Build.Tasks.Copy SourceFiles="@(ManualDocsFiles)" DestinationFolder="Decompiled\html" />
+
+	<Microsoft.Build.Tasks.Copy SourceFiles="ManualStyles\Presentation.css" DestinationFolder="Decompiled\styles" />
+
+	<Microsoft.Build.Tasks.Copy SourceFiles="StyleCopSDK.hhp" DestinationFolder="Decompiled" />
+
+	<File.Replace Path="Decompiled\StyleCopSDKDocumentation.hhc" OldValue='$(ManualDocsSearchValue)' NewValue='$(ManualDocsInsertValue)$(ManualDocsSearchValue)' />
+		
+        <Help.Compile ProjectFilePath="Decompiled\StyleCopSDK.hhp" /> 
+
+	<Microsoft.Build.Tasks.Copy SourceFiles="Decompiled\StyleCopSDK.chm" DestinationFiles="bin\StyleCopSDK.chm" />
+
+	<RemoveDir Directories="Decompiled;Help" />
+    </Target>
+</Project>

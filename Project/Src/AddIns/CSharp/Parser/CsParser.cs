@@ -24,6 +24,7 @@ namespace Microsoft.StyleCop.CSharp
     using System.IO;
     using System.Reflection;
     using System.Text;
+    using System.Text.RegularExpressions;
     using System.Threading;
     using System.Xml;
     using Microsoft.StyleCop;
@@ -37,6 +38,7 @@ namespace Microsoft.StyleCop.CSharp
     public partial class CsParser : SourceParser
     {
         #region Internal Constants
+
         /// <summary>
         /// The name of the settings property indicating whether to analyze designer files.
         /// </summary>
@@ -47,7 +49,24 @@ namespace Microsoft.StyleCop.CSharp
         /// </summary>
         internal const string AnalyzeGeneratedFilesProperty = "AnalyzeGeneratedFiles";
 
+        /// <summary>
+        /// The name of the settings property which contains the list of filter filters.
+        /// </summary>
+        internal const string GeneratedFileFiltersProperty = "GeneratedFileFilters";
+
         #endregion Internal Constants
+
+        #region Private Static Readonly Fields
+
+        /// <summary>
+        /// The default collection of generated file filters.
+        /// </summary>
+        private static readonly string[] DefaultGeneratedFileFilters = new string[] 
+        {
+            @"\.g\.cs$", @"\.generated\.cs$", @"\.g\.i\.cs$"
+        };
+
+        #endregion Private Static Readonly Fields
 
         #region Private Fields
 
@@ -204,9 +223,25 @@ namespace Microsoft.StyleCop.CSharp
                     analyzeGeneratedFiles = analyzerGeneratedFilesProperty.Value;
                 }
 
-                if (analyzeGeneratedFiles ||
-                    (!document.SourceCode.Name.EndsWith(".g.cs", StringComparison.OrdinalIgnoreCase) &&
-                     !document.SourceCode.Name.EndsWith(".generated.cs", StringComparison.OrdinalIgnoreCase)))
+                if (analyzeGeneratedFiles)
+                {
+                    // This document should be analyzed.
+                    return false;
+                }
+
+                // Initialize to the default set of generated file filters.
+                IEnumerable<string> filters = DefaultGeneratedFileFilters;
+
+                // Get the file filter list for generated files.
+                CollectionProperty generatedFileFilterSettings = this.GetSetting(
+                    document.Settings, CsParser.GeneratedFileFiltersProperty) as CollectionProperty;
+
+                if (generatedFileFilterSettings != null)
+                {
+                    filters = generatedFileFilterSettings.Values;
+                }
+
+                if (!FileNameMatchesFilter(document.SourceCode.Name, filters))
                 {
                     // This document should be analyzed.
                     return false;
@@ -397,6 +432,31 @@ namespace Microsoft.StyleCop.CSharp
                     }
 
                     item = item.FindParentElement();
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Determines whether the given file name matches any of the filter patterns.
+        /// </summary>
+        /// <param name="fileName">The name of the file.</param>
+        /// <param name="filters">The filter patterns.</param>
+        /// <returns>Returns true if the file name matches the patterns.</returns>
+        private static bool FileNameMatchesFilter(string fileName, IEnumerable<string> filters)
+        {
+            Param.AssertNotNull(fileName, "fileName");
+            Param.Ignore(filters);
+
+            if (filters != null)
+            {
+                foreach (string filter in filters)
+                {
+                    if (Regex.IsMatch(fileName, filter, RegexOptions.IgnoreCase))
+                    {
+                        return true;
+                    }
                 }
             }
 

@@ -40,12 +40,6 @@ namespace Microsoft.StyleCop
         /// </summary>
         private SourceParser parser;
 
-        /// <summary>
-        /// The collection of rules which are currently enabled. This collection is set just before
-        /// an analysis, and cleared again after the analysis is complete.
-        /// </summary>
-        private Dictionary<CodeProject, Dictionary<string, Rule>> enabledRules;
-
         #endregion Private Fields
 
         #region Protected Constructors
@@ -116,33 +110,12 @@ namespace Microsoft.StyleCop
 
         #endregion Public Properties
 
-        #region Internal Properties
-
-        /// <summary>
-        /// Gets or sets the temporary list of enabled rules.
-        /// </summary>
-        internal Dictionary<CodeProject, Dictionary<string, Rule>> EnabledRules
-        {
-            get
-            {
-                return this.enabledRules;
-            }
-
-            set
-            {
-                Param.Ignore(value);
-                this.enabledRules = value;
-            }
-        }
-
-        #endregion Internal Properties
-
         #region Public Override Methods
 
         /// <summary>
         /// Gets a value indicating whether the given rule is enabled for the given document.
         /// </summary>
-        /// <param name="document">The document being analyzed.</param>
+        /// <param name="document">The document.</param>
         /// <param name="ruleName">The rule to check.</param>
         /// <returns>Returns true if the rule is enabled; otherwise false.</returns>
         public override bool IsRuleEnabled(CodeDocument document, string ruleName)
@@ -150,16 +123,12 @@ namespace Microsoft.StyleCop
             Param.RequireNotNull(document, "document");
             Param.RequireValidString(ruleName, "ruleName");
 
-            if (this.enabledRules != null)
+            if (document.SourceCode == null || document.SourceCode.Settings == null)
             {
-                Dictionary<string, Rule> enabledRulesForDocument = null;
-                if (this.enabledRules.TryGetValue(document.SourceCode.Project, out enabledRulesForDocument))
-                {
-                    return enabledRulesForDocument.ContainsKey(ruleName);
-                }
+                return true;
             }
 
-            return base.IsRuleEnabled(document, ruleName);
+            return document.SourceCode.Settings.IsRuleEnabled(this, ruleName);
         }
 
         /// <summary>

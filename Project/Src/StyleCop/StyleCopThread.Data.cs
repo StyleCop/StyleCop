@@ -186,25 +186,19 @@ namespace Microsoft.StyleCop
             /// <returns>Returns the source code document to analyze or null if none.</returns>
             public SourceCode GetNextSourceCodeDocument()
             {
-                SourceCode sourceCode = null;
-                while (this.projectIndex < this.projects.Count)
+                // Keep looping until we find a file that is not marked as excluded.
+                while (true)
                 {
-                    CodeProject project = this.projects[this.projectIndex];
+                    SourceCode sourceCode = this.ExtractNextSourceCodeDocument();
+                    if (sourceCode == null)
+                    {
+                        return null;
+                    }
 
-                    ++this.sourceCodeInstanceIndex;
-                    if (this.sourceCodeInstanceIndex >= project.SourceCodeInstances.Count)
-                    {
-                        ++this.projectIndex;
-                        this.sourceCodeInstanceIndex = -1;
-                    }
-                    else
-                    {
-                        sourceCode = project.SourceCodeInstances[this.sourceCodeInstanceIndex];
-                        break;
-                    }
+                    sourceCode.Settings = sourceCode.Project.Settings.GetCustomSettingsForFile(sourceCode.Name);
+
+                    return sourceCode;
                 }
-
-                return sourceCode;
             }
 
             /// <summary>
@@ -332,6 +326,37 @@ namespace Microsoft.StyleCop
             }
 
             #endregion Public Methods
+
+            #region Private Methods
+
+            /// <summary>
+            /// Pulls out the next source code document.
+            /// </summary>
+            /// <returns>Returns the source code document to analyze or null if none.</returns>
+            private SourceCode ExtractNextSourceCodeDocument()
+            {
+                SourceCode sourceCode = null;
+                while (this.projectIndex < this.projects.Count)
+                {
+                    CodeProject project = this.projects[this.projectIndex];
+
+                    ++this.sourceCodeInstanceIndex;
+                    if (this.sourceCodeInstanceIndex >= project.SourceCodeInstances.Count)
+                    {
+                        ++this.projectIndex;
+                        this.sourceCodeInstanceIndex = -1;
+                    }
+                    else
+                    {
+                        sourceCode = project.SourceCodeInstances[this.sourceCodeInstanceIndex];
+                        break;
+                    }
+                }
+
+                return sourceCode;
+            }
+
+            #endregion Private Methods
         }
     }
 }

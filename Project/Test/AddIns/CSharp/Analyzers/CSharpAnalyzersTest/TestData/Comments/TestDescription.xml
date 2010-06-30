@@ -4,6 +4,10 @@
   <Test Name="CommentsMustContainText">
     <TestCodeFile>CommentsMustContainText.cs</TestCodeFile>
     <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
       <Analyzers>
         <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.ReadabilityRules">
           <Rules>
