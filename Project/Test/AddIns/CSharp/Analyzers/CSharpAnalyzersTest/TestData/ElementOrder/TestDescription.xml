@@ -298,6 +298,7 @@
       <Violation Section="Root.ElementOrderByAccess11.Class1.SubClass20" LineNumber="1088" Rule="ElementsMustBeOrderedByAccess" />
       <Violation Section="Root.ElementOrderByAccess11.Class1.SubClass22" LineNumber="1096" Rule="ElementsMustBeOrderedByAccess" />
       <Violation Section="Root.ElementOrderByAccess11.Class1.SubClass24" LineNumber="1104" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess12.Class1.Class2.SomethingInternal" LineNumber="1119" Rule="ElementsMustBeOrderedByAccess" />
     </ExpectedViolations>
   </Test>
 

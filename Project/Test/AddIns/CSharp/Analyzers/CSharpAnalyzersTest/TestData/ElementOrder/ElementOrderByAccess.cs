@@ -1108,3 +1108,31 @@ namespace ElementOrderByAccess11
 }
 
 #endregion Classes
+
+namespace ElementOrderByAccess12
+{
+    public class Class1
+    {
+        private class Class2
+        {
+            // Incorrect order.
+            internal void SomethingInternal() { }
+            public void SomethingPublic() { }
+            private void SomethingPrivate() { }
+        }
+    }
+}
+
+namespace ElementOrderByAccess13
+{
+    public class Class1
+    {
+        private Class1()
+        {
+        }
+
+        static Class1()
+        {
+        }
+    }
+}
