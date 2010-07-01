@@ -99,6 +99,9 @@
     <Compile Include="CacheOptions.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="StyleCopRunner.cs" />
+    <Compile Include="StyleCopObjectConsole.cs" />
+    <Compile Include="ObjectBasedEnvironment.cs" />
     <Compile Include="CoreParser.cs" />
     <Compile Include="DocumentAnalysisStatus.cs" />
     <Compile Include="GlobalSuppressions.cs" />

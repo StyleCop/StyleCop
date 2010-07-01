@@ -381,4 +381,13 @@
   <data name="MergedSettingsRulesEnabledByDefaultMismatch" xml:space="preserve">
     <value>It is not possible to merge two sets of settings when one specifies that rules are enabled by default, and the other specifies that rules are disabled by default.</value>
   </data>
+  <data name="SourceCodeFactoryReturnsNull" xml:space="preserve">
+    <value>A SourceCodeFactory may not return null.</value>
+  </data>
+  <data name="SourceCodeStreamRequired" xml:space="preserve">
+    <value>Stream-based runtime environments must use the SourceCodeStream class.</value>
+  </data>
+  <data name="StreamBasedCodeProjectRequired" xml:space="preserve">
+    <value>Stream-based runtime environments must use the StreamBasedCodeProject class rather than CodeProject.</value>
+  </data>
 </root>

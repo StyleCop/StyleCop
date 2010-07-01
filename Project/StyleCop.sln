@@ -2,8 +2,10 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8FBEC870-B153-4917-A53A-9FB8B369FCA4}"
 	ProjectSection(SolutionItems) = preProject
+		Local.testsettings = Local.testsettings
 		localtestrun.testrunconfig = localtestrun.testrunconfig
 		StyleCop.vsmdi = StyleCop.vsmdi
+		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{7F9347C0-CEB0-4CE6-BB4B-A61ADD960D1C}"
@@ -33,6 +35,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerfHarness", "Test\Harnesses\PerfHarness\PerfHarness.csproj", "{C938AB10-78BE-46FC-8ACF-00D02C576BAF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpParserTestRules", "Test\AddIns\CSharp\Parser\CSharpParserTestRules\CSharpParserTestRules.csproj", "{40EDAB29-01CA-4135-A330-E63F0E99D9FF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObjectBasedEnvironmentTest", "Test\StyleCopCore\ObjectBasedEnvironmentTest\ObjectBasedEnvironmentTest.csproj", "{321E62EE-A371-4CD7-93A9-4DF91BA092EA}"
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
@@ -95,6 +99,10 @@ Global
 		{40EDAB29-01CA-4135-A330-E63F0E99D9FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{40EDAB29-01CA-4135-A330-E63F0E99D9FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{40EDAB29-01CA-4135-A330-E63F0E99D9FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{321E62EE-A371-4CD7-93A9-4DF91BA092EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{321E62EE-A371-4CD7-93A9-4DF91BA092EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{321E62EE-A371-4CD7-93A9-4DF91BA092EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{321E62EE-A371-4CD7-93A9-4DF91BA092EA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -107,5 +115,6 @@ Global
 		{074AD813-8DC3-46CA-8F7E-97703523EA38} = {7F9347C0-CEB0-4CE6-BB4B-A61ADD960D1C}
 		{C938AB10-78BE-46FC-8ACF-00D02C576BAF} = {7F9347C0-CEB0-4CE6-BB4B-A61ADD960D1C}
 		{40EDAB29-01CA-4135-A330-E63F0E99D9FF} = {7F9347C0-CEB0-4CE6-BB4B-A61ADD960D1C}
+		{321E62EE-A371-4CD7-93A9-4DF91BA092EA} = {7F9347C0-CEB0-4CE6-BB4B-A61ADD960D1C}
 	EndGlobalSection
 EndGlobal

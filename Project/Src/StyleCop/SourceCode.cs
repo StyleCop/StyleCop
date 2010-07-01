@@ -23,8 +23,8 @@ namespace Microsoft.StyleCop
     /// Describes source code to parse and analyze.
     /// </summary>
     /// <remarks>Each piece of source code to be parsed and analyzed by StyleCop must be 
-    /// described by a CodeSource object. A CodeSource object may only be used once. After the 
-    /// CodeSource has been processed by StyleCop, it cannot be sent to StyleCop 
+    /// described by a SourceCode object. A SourceCode object may only be used once. After the 
+    /// SourceCode has been processed by StyleCop, it cannot be sent to StyleCop 
     /// a second time for analysis.</remarks>
     public abstract class SourceCode
     {

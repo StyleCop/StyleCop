@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="StyleCopConsole.cs" company="Microsoft">
+// <copyright file="StyleCopObjectConsole.cs" company="Microsoft">
 //   Copyright (c) Microsoft Corporation.
 // </copyright>
 // <license>
@@ -24,91 +24,74 @@ namespace Microsoft.StyleCop
     using System.Xml;
 
     /// <summary>
-    /// A lightweight host for StyleCop which loads source files and settings files from the file system.
+    /// A lightweight StyleCop host which does not depend on the file system for loading source and settings files. Source files and settings
+    /// files can be loaded from any arbitrary source (in memory, database, etc.).
     /// </summary>
     [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "StyleCop", Justification = "This is the correct casing.")]
-    public sealed class StyleCopConsole : StyleCopRunner
+    public class StyleCopObjectConsole : StyleCopRunner
     {
         #region Private Fields
 
         /// <summary>
-        /// The settings path.
+        /// The default settings document.
         /// </summary>
-        private string settingsPath;
-
-        /// <summary>
-        /// The output file path.
-        /// </summary>
-        private string outputFile;
+        private Settings defaultSettings;
 
         #endregion Private Fields
 
         #region Public Constructors
 
         /// <summary>
-        /// Initializes a new instance of the StyleCopConsole class.
+        /// Initializes a new instance of the StyleCopObjectConsole class.
         /// </summary>
-        /// <param name="settings">The path to the settings to load or
-        /// null to use the default project settings files.</param>
-        /// <param name="writeResultsCache">Indicates whether to write results cache files.</param>
-        /// <param name="outputFile">Optional path to the results output file.</param>
+        /// <param name="environment">The environment.</param>
+        /// <param name="defaultSettings">The default settings to use, or null to allow each project to specify its own settings.</param>
         /// <param name="addInPaths">The list of paths to search under for parser and analyzer addins.
         /// Can be null if no addin paths are provided.</param>
         /// <param name="loadFromDefaultPath">Indicates whether to load addins
-        /// from the default path, where the core binary is located.</param>
-        public StyleCopConsole(
-            string settings,
-            bool writeResultsCache,
-            string outputFile,
+        /// from the default application path.</param>
+        public StyleCopObjectConsole(
+            ObjectBasedEnvironment environment,
+            Settings defaultSettings,
             ICollection<string> addInPaths,
-            bool loadFromDefaultPath) 
-            : this(settings, writeResultsCache, outputFile, addInPaths, loadFromDefaultPath, null)
+            bool loadFromDefaultPath)
+            : this(environment, defaultSettings, addInPaths, loadFromDefaultPath, null)
         {
-            Param.Ignore(settings, writeResultsCache, outputFile, addInPaths, loadFromDefaultPath);
+            Param.Ignore(environment);
+            Param.Ignore(defaultSettings);
+            Param.Ignore(addInPaths);
+            Param.Ignore(loadFromDefaultPath);
         }
 
         /// <summary>
-        /// Initializes a new instance of the StyleCopConsole class.
+        /// Initializes a new instance of the StyleCopObjectConsole class.
         /// </summary>
-        /// <param name="settings">The path to the settings to load or
-        /// null to use the default project settings files.</param>
-        /// <param name="writeResultsCache">Indicates whether to write results cache files.</param>
-        /// <param name="outputFile">Optional path to the results output file.</param>
+        /// <param name="environment">The environment.</param>
+        /// <param name="defaultSettings">The default settings to use, or null to allow each project to specify its own settings.</param>
         /// <param name="addInPaths">The list of paths to search under for parser and analyzer addins.
         /// Can be null if no addin paths are provided.</param>
         /// <param name="loadFromDefaultPath">Indicates whether to load addins
         /// from the default application path.</param>
         /// <param name="hostTag">An optional tag which can be set by the host.</param>
-        public StyleCopConsole(
-            string settings, 
-            bool writeResultsCache, 
-            string outputFile,
+        public StyleCopObjectConsole(
+            ObjectBasedEnvironment environment,
+            Settings defaultSettings,
             ICollection<string> addInPaths,
             bool loadFromDefaultPath,
             object hostTag)
         {
-            Param.Ignore(settings);
-            Param.Ignore(outputFile);
-            Param.Ignore(writeResultsCache);
+            Param.RequireNotNull(environment, "environment");
+            Param.Ignore(defaultSettings);
             Param.Ignore(addInPaths);
             Param.Ignore(loadFromDefaultPath);
             Param.Ignore(hostTag);
-            
-            this.settingsPath = settings;
-            
-            if (outputFile == null)
-            {
-                this.outputFile = "StyleCopViolations.xml";
-            }
-            else
-            {
-                this.outputFile = outputFile;
-            }
 
-            this.Core = new StyleCopCore(null, hostTag);
+            this.Core = new StyleCopCore(environment, hostTag);
             this.Core.Initialize(addInPaths, loadFromDefaultPath);
-            this.Core.WriteResultsCache = writeResultsCache;
+            this.Core.WriteResultsCache = false;
             this.InitCore();
+
+            this.defaultSettings = defaultSettings;
         }
 
         #endregion Public Constructors
@@ -119,39 +102,23 @@ namespace Microsoft.StyleCop
         /// Starts analyzing the source code documents contained within the given projects.
         /// </summary>
         /// <param name="projects">The projects to analyze.</param>
-        /// <param name="fullAnalyze">Determines whether to ignore cache files and reanalyze
-        /// every file from scratch.</param>
         /// <returns>Returns false if an error occurs during analysis.</returns>
-        public bool Start(IList<CodeProject> projects, bool fullAnalyze)
+        public bool Start(IList<CodeProject> projects)
         {
             Param.RequireNotNull(projects, "projects");
-            Param.Ignore(fullAnalyze);
 
             bool error = false;
 
             try
             {
-                // Load the settings files.
-                this.LoadSettingsFiles(projects);
+                // Load the settings for each project.
+                this.LoadSettings(projects);
 
                 // Reset the violation count.
                 this.ViolationCount = 0;
 
-                // Delete the output file if it already exists.
-                if (!string.IsNullOrEmpty(this.outputFile))
-                {
-                    this.Core.Environment.RemoveAnalysisResults(this.outputFile);
-                }
-
                 // Analyze the files.
-                if (fullAnalyze)
-                {
-                    this.Core.FullAnalyze(projects);
-                }
-                else
-                {
-                    this.Core.Analyze(projects);    
-                }
+                this.Core.FullAnalyze(projects);
 
                 if (this.ViolationCount > 0)
                 {
@@ -162,15 +129,9 @@ namespace Microsoft.StyleCop
                     this.OnOutputGenerated(new OutputEventArgs(Strings.NoViolationsEncountered));
                 }
 
-                // Write the output file
                 Exception exception;
-                if (!this.Core.Environment.SaveAnalysisResults(this.outputFile, this.Violations, out exception))
+                this.Core.Environment.SaveAnalysisResults(null, this.Violations, out exception);
                 {
-                    string message = (exception == null)
-                        ? Strings.CouldNotSaveViolationsFile
-                        : string.Format(CultureInfo.CurrentCulture, Strings.CouldNotSaveViolationsFileWithException, exception.Message);
-
-                    this.OnOutputGenerated(new OutputEventArgs(message));
                     error = true;
                 }
             }
@@ -200,34 +161,34 @@ namespace Microsoft.StyleCop
 
         #endregion Public Methods
 
+        #region Protected Methods
+
+        /// <summary>
+        /// Gets the settings for the given project.
+        /// </summary>
+        /// <param name="project">The project.</param>
+        /// <returns>Returns the settings, or null if there </returns>
+        protected virtual Settings GetSettingsForProject(CodeProject project)
+        {
+            Param.Ignore(project);
+            return null;
+        }
+
+        #endregion Protected Methods
+
         #region Private Methods
 
         /// <summary>
         /// Loads the settings files to use for the analysis.
         /// </summary>
         /// <param name="projects">The list of projects to use.</param>
-        private void LoadSettingsFiles(IList<CodeProject> projects)
+        private void LoadSettings(IList<CodeProject> projects)
         {
             Param.AssertNotNull(projects, "projects");
 
-            Settings mergedSettings = null;
-
-            // Load the local settings without merging.
-            Settings localSettings = null;
-            if (this.settingsPath != null)
-            {
-                localSettings = this.Core.Environment.GetSettings(this.settingsPath, false);
-                if (localSettings != null)
-                {
-                    // Merge the local settings.
-                    SettingsMerger merger = new SettingsMerger(localSettings, this.Core.Environment);
-                    mergedSettings = merger.MergedSettings;
-                }
-            }
-
             foreach (CodeProject project in projects)
             {
-                Settings settingsToUse = mergedSettings;
+                Settings settingsToUse = this.defaultSettings;
                 if (settingsToUse == null)
                 {
                     settingsToUse = this.Core.Environment.GetProjectSettings(project, true);
