@@ -19,7 +19,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.MaintainabilityRules">
           <Rules>
             <Rule Name="AccessModifierMustBeDeclared">
               <RuleSettings>
@@ -56,7 +56,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.MaintainabilityRules">
           <Rules>
             <Rule Name="AccessModifierMustBeDeclared">
               <RuleSettings>
@@ -67,7 +67,7 @@
         </Analyzer>
       </Analyzers>
       <Parsers>
-        <Parser ParserId="Microsoft.StyleCop.CSharp.CsParser">
+        <Parser ParserId="Microsoft.StyleCop.CSharp_old.CsParser">
           <ParserSettings>
             <BooleanProperty Name="AnalyzeDesignerFiles">True</BooleanProperty>
           </ParserSettings>
@@ -100,7 +100,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.MaintainabilityRules">
           <Rules>
             <Rule Name="AccessModifierMustBeDeclared">
               <RuleSettings>
@@ -111,7 +111,7 @@
         </Analyzer>
       </Analyzers>
       <Parsers>
-        <Parser ParserId="Microsoft.StyleCop.CSharp.CsParser">
+        <Parser ParserId="Microsoft.StyleCop.CSharp_old.CsParser">
           <ParserSettings>
             <BooleanProperty Name="AnalyzeDesignerFiles">False</BooleanProperty>
           </ParserSettings>
@@ -142,7 +142,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.MaintainabilityRules">
           <Rules>
             <Rule Name="AccessModifierMustBeDeclared">
               <RuleSettings>
@@ -153,7 +153,7 @@
         </Analyzer>
       </Analyzers>
       <Parsers>
-        <Parser ParserId="Microsoft.StyleCop.CSharp.CsParser">
+        <Parser ParserId="Microsoft.StyleCop.CSharp_old.CsParser">
           <ParserSettings>
             <BooleanProperty Name="AnalyzeGeneratedFiles">True</BooleanProperty>
           </ParserSettings>
@@ -192,7 +192,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.MaintainabilityRules">
           <Rules>
             <Rule Name="AccessModifierMustBeDeclared">
               <RuleSettings>
@@ -203,7 +203,7 @@
         </Analyzer>
       </Analyzers>
       <Parsers>
-        <Parser ParserId="Microsoft.StyleCop.CSharp.CsParser">
+        <Parser ParserId="Microsoft.StyleCop.CSharp_old.CsParser">
           <ParserSettings>
             <BooleanProperty Name="AnalyzeDesignerFiles">True</BooleanProperty>
             <BooleanProperty Name="AnalyzeGeneratedFiles">True</BooleanProperty>
@@ -243,7 +243,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.MaintainabilityRules">
           <Rules>
             <Rule Name="AccessModifierMustBeDeclared">
               <RuleSettings>
@@ -254,7 +254,7 @@
         </Analyzer>
       </Analyzers>
       <Parsers>
-        <Parser ParserId="Microsoft.StyleCop.CSharp.CsParser">
+        <Parser ParserId="Microsoft.StyleCop.CSharp_old.CsParser">
           <ParserSettings>
             <BooleanProperty Name="AnalyzeDesignerFiles">False</BooleanProperty>
             <BooleanProperty Name="AnalyzeGeneratedFiles">True</BooleanProperty>
@@ -292,7 +292,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.MaintainabilityRules">
           <Rules>
             <Rule Name="AccessModifierMustBeDeclared">
               <RuleSettings>
@@ -302,7 +302,7 @@
           </Rules>
         </Analyzer>
       </Analyzers>
-      <Parser ParserId="Microsoft.StyleCop.CSharp.CsParser">
+      <Parser ParserId="Microsoft.StyleCop.CSharp_old.CsParser">
         <ParserSettings>
           <BooleanProperty Name="AnalyzeGeneratedFiles">False</BooleanProperty>
         </ParserSettings>
@@ -334,7 +334,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.MaintainabilityRules">
           <Rules>
             <Rule Name="AccessModifierMustBeDeclared">
               <RuleSettings>
@@ -345,7 +345,7 @@
         </Analyzer>
       </Analyzers>
       <Parsers>
-        <Parser ParserId="Microsoft.StyleCop.CSharp.CsParser">
+        <Parser ParserId="Microsoft.StyleCop.CSharp_old.CsParser">
           <ParserSettings>
             <BooleanProperty Name="AnalyzeDesignerFiles">True</BooleanProperty>
             <BooleanProperty Name="AnalyzeGeneratedFiles">False</BooleanProperty>
@@ -379,7 +379,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.MaintainabilityRules">
           <Rules>
             <Rule Name="AccessModifierMustBeDeclared">
               <RuleSettings>
@@ -390,7 +390,7 @@
         </Analyzer>
       </Analyzers>
       <Parsers>
-        <Parser ParserId="Microsoft.StyleCop.CSharp.CsParser">
+        <Parser ParserId="Microsoft.StyleCop.CSharp_old.CsParser">
           <ParserSettings>
             <BooleanProperty Name="AnalyzeDesignerFiles">False</BooleanProperty>
             <BooleanProperty Name="AnalyzeGeneratedFiles">False</BooleanProperty>
@@ -422,7 +422,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.MaintainabilityRules">
           <Rules>
             <Rule Name="AccessModifierMustBeDeclared">
               <RuleSettings>
@@ -433,7 +433,7 @@
         </Analyzer>
       </Analyzers>
       <Parsers>
-        <Parser ParserId="Microsoft.StyleCop.CSharp.CsParser">
+        <Parser ParserId="Microsoft.StyleCop.CSharp_old.CsParser">
           <ParserSettings>
             <CollectionProperty Name="GeneratedFileFilters">
               <Value>\.g\.cs$</Value>
@@ -470,7 +470,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.MaintainabilityRules">
           <Rules>
             <Rule Name="AccessModifierMustBeDeclared">
               <RuleSettings>
@@ -481,7 +481,7 @@
         </Analyzer>
       </Analyzers>
       <Parsers>
-        <Parser ParserId="Microsoft.StyleCop.CSharp.CsParser">
+        <Parser ParserId="Microsoft.StyleCop.CSharp_old.CsParser">
           <ParserSettings>
             <BooleanProperty Name="AnalyzeDesignerFiles">True</BooleanProperty>
             <CollectionProperty Name="GeneratedFileFilters">
@@ -519,7 +519,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.MaintainabilityRules">
           <Rules>
             <Rule Name="AccessModifierMustBeDeclared">
               <RuleSettings>
@@ -530,7 +530,7 @@
         </Analyzer>
       </Analyzers>
       <Parsers>
-        <Parser ParserId="Microsoft.StyleCop.CSharp.CsParser">
+        <Parser ParserId="Microsoft.StyleCop.CSharp_old.CsParser">
           <ParserSettings>
             <BooleanProperty Name="AnalyzeDesignerFiles">False</BooleanProperty>
             <CollectionProperty Name="GeneratedFileFilters">
@@ -566,7 +566,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.MaintainabilityRules">
           <Rules>
             <Rule Name="AccessModifierMustBeDeclared">
               <RuleSettings>
@@ -577,7 +577,7 @@
         </Analyzer>
       </Analyzers>
       <Parsers>
-        <Parser ParserId="Microsoft.StyleCop.CSharp.CsParser">
+        <Parser ParserId="Microsoft.StyleCop.CSharp_old.CsParser">
           <ParserSettings>
             <BooleanProperty Name="AnalyzeGeneratedFiles">True</BooleanProperty>
             <CollectionProperty Name="GeneratedFileFilters">
@@ -621,7 +621,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.MaintainabilityRules">
           <Rules>
             <Rule Name="AccessModifierMustBeDeclared">
               <RuleSettings>
@@ -632,7 +632,7 @@
         </Analyzer>
       </Analyzers>
       <Parsers>
-        <Parser ParserId="Microsoft.StyleCop.CSharp.CsParser">
+        <Parser ParserId="Microsoft.StyleCop.CSharp_old.CsParser">
           <ParserSettings>
             <BooleanProperty Name="AnalyzeDesignerFiles">True</BooleanProperty>
             <BooleanProperty Name="AnalyzeGeneratedFiles">True</BooleanProperty>
@@ -677,7 +677,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.MaintainabilityRules">
           <Rules>
             <Rule Name="AccessModifierMustBeDeclared">
               <RuleSettings>
@@ -688,7 +688,7 @@
         </Analyzer>
       </Analyzers>
       <Parsers>
-        <Parser ParserId="Microsoft.StyleCop.CSharp.CsParser">
+        <Parser ParserId="Microsoft.StyleCop.CSharp_old.CsParser">
           <ParserSettings>
             <BooleanProperty Name="AnalyzeDesignerFiles">False</BooleanProperty>
             <BooleanProperty Name="AnalyzeGeneratedFiles">True</BooleanProperty>
@@ -731,7 +731,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.MaintainabilityRules">
           <Rules>
             <Rule Name="AccessModifierMustBeDeclared">
               <RuleSettings>
@@ -741,7 +741,7 @@
           </Rules>
         </Analyzer>
       </Analyzers>
-      <Parser ParserId="Microsoft.StyleCop.CSharp.CsParser">
+      <Parser ParserId="Microsoft.StyleCop.CSharp_old.CsParser">
         <ParserSettings>
           <BooleanProperty Name="AnalyzeGeneratedFiles">False</BooleanProperty>
           <CollectionProperty Name="GeneratedFileFilters">
@@ -778,7 +778,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.MaintainabilityRules">
           <Rules>
             <Rule Name="AccessModifierMustBeDeclared">
               <RuleSettings>
@@ -789,7 +789,7 @@
         </Analyzer>
       </Analyzers>
       <Parsers>
-        <Parser ParserId="Microsoft.StyleCop.CSharp.CsParser">
+        <Parser ParserId="Microsoft.StyleCop.CSharp_old.CsParser">
           <ParserSettings>
             <BooleanProperty Name="AnalyzeDesignerFiles">True</BooleanProperty>
             <BooleanProperty Name="AnalyzeGeneratedFiles">False</BooleanProperty>
@@ -828,7 +828,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.MaintainabilityRules">
           <Rules>
             <Rule Name="AccessModifierMustBeDeclared">
               <RuleSettings>
@@ -840,7 +840,7 @@
         </Analyzer>
       </Analyzers>
       <Parsers>
-        <Parser ParserId="Microsoft.StyleCop.CSharp.CsParser">
+        <Parser ParserId="Microsoft.StyleCop.CSharp_old.CsParser">
           <ParserSettings>
             <BooleanProperty Name="AnalyzeDesignerFiles">False</BooleanProperty>
             <CollectionProperty Name="GeneratedFileFilters">
@@ -876,7 +876,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.MaintainabilityRules">
           <Rules>
             <Rule Name="AccessModifierMustBeDeclared">
               <RuleSettings>
@@ -887,7 +887,7 @@
         </Analyzer>
       </Analyzers>
       <Parsers>
-        <Parser ParserId="Microsoft.StyleCop.CSharp.CsParser">
+        <Parser ParserId="Microsoft.StyleCop.CSharp_old.CsParser">
           <ParserSettings>
             <CollectionProperty Name="GeneratedFileFilters">
               <Value>g.i</Value>
@@ -926,7 +926,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.MaintainabilityRules">
           <Rules>
             <Rule Name="AccessModifierMustBeDeclared">
               <RuleSettings>
@@ -937,7 +937,7 @@
         </Analyzer>
       </Analyzers>
       <Parsers>
-        <Parser ParserId="Microsoft.StyleCop.CSharp.CsParser">
+        <Parser ParserId="Microsoft.StyleCop.CSharp_old.CsParser">
           <ParserSettings>
             <BooleanProperty Name="AnalyzeDesignerFiles">True</BooleanProperty>
             <CollectionProperty Name="GeneratedFileFilters">
@@ -977,7 +977,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.MaintainabilityRules">
           <Rules>
             <Rule Name="AccessModifierMustBeDeclared">
               <RuleSettings>
@@ -988,7 +988,7 @@
         </Analyzer>
       </Analyzers>
       <Parsers>
-        <Parser ParserId="Microsoft.StyleCop.CSharp.CsParser">
+        <Parser ParserId="Microsoft.StyleCop.CSharp_old.CsParser">
           <ParserSettings>
             <BooleanProperty Name="AnalyzeDesignerFiles">False</BooleanProperty>
             <CollectionProperty Name="GeneratedFileFilters">
@@ -1026,7 +1026,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.MaintainabilityRules">
           <Rules>
             <Rule Name="AccessModifierMustBeDeclared">
               <RuleSettings>
@@ -1037,7 +1037,7 @@
         </Analyzer>
       </Analyzers>
       <Parsers>
-        <Parser ParserId="Microsoft.StyleCop.CSharp.CsParser">
+        <Parser ParserId="Microsoft.StyleCop.CSharp_old.CsParser">
           <ParserSettings>
             <BooleanProperty Name="AnalyzeGeneratedFiles">True</BooleanProperty>
             <CollectionProperty Name="GeneratedFileFilters">
@@ -1079,7 +1079,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.MaintainabilityRules">
           <Rules>
             <Rule Name="AccessModifierMustBeDeclared">
               <RuleSettings>
@@ -1090,7 +1090,7 @@
         </Analyzer>
       </Analyzers>
       <Parsers>
-        <Parser ParserId="Microsoft.StyleCop.CSharp.CsParser">
+        <Parser ParserId="Microsoft.StyleCop.CSharp_old.CsParser">
           <ParserSettings>
             <BooleanProperty Name="AnalyzeDesignerFiles">True</BooleanProperty>
             <BooleanProperty Name="AnalyzeGeneratedFiles">True</BooleanProperty>
@@ -1133,7 +1133,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.MaintainabilityRules">
           <Rules>
             <Rule Name="AccessModifierMustBeDeclared">
               <RuleSettings>
@@ -1144,7 +1144,7 @@
         </Analyzer>
       </Analyzers>
       <Parsers>
-        <Parser ParserId="Microsoft.StyleCop.CSharp.CsParser">
+        <Parser ParserId="Microsoft.StyleCop.CSharp_old.CsParser">
           <ParserSettings>
             <BooleanProperty Name="AnalyzeDesignerFiles">False</BooleanProperty>
             <BooleanProperty Name="AnalyzeGeneratedFiles">True</BooleanProperty>
@@ -1185,7 +1185,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.MaintainabilityRules">
           <Rules>
             <Rule Name="AccessModifierMustBeDeclared">
               <RuleSettings>
@@ -1195,7 +1195,7 @@
           </Rules>
         </Analyzer>
       </Analyzers>
-      <Parser ParserId="Microsoft.StyleCop.CSharp.CsParser">
+      <Parser ParserId="Microsoft.StyleCop.CSharp_old.CsParser">
         <ParserSettings>
           <BooleanProperty Name="AnalyzeGeneratedFiles">False</BooleanProperty>
           <CollectionProperty Name="GeneratedFileFilters">
@@ -1230,7 +1230,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.MaintainabilityRules">
           <Rules>
             <Rule Name="AccessModifierMustBeDeclared">
               <RuleSettings>
@@ -1241,7 +1241,7 @@
         </Analyzer>
       </Analyzers>
       <Parsers>
-        <Parser ParserId="Microsoft.StyleCop.CSharp.CsParser">
+        <Parser ParserId="Microsoft.StyleCop.CSharp_old.CsParser">
           <ParserSettings>
             <BooleanProperty Name="AnalyzeDesignerFiles">True</BooleanProperty>
             <BooleanProperty Name="AnalyzeGeneratedFiles">False</BooleanProperty>
@@ -1282,7 +1282,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.MaintainabilityRules">
           <Rules>
             <Rule Name="AccessModifierMustBeDeclared">
               <RuleSettings>
@@ -1293,7 +1293,7 @@
         </Analyzer>
       </Analyzers>
       <Parsers>
-        <Parser ParserId="Microsoft.StyleCop.CSharp.CsParser">
+        <Parser ParserId="Microsoft.StyleCop.CSharp_old.CsParser">
           <ParserSettings>
             <BooleanProperty Name="AnalyzeDesignerFiles">False</BooleanProperty>
             <BooleanProperty Name="AnalyzeGeneratedFiles">False</BooleanProperty>

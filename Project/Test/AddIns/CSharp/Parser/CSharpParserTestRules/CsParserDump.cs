@@ -21,7 +21,7 @@ namespace MS.StyleCop.CSharpParserTest
     using System.Text;
     using System.Xml;
     using Microsoft.StyleCop;
-    using Microsoft.StyleCop.CSharp;
+    using Microsoft.StyleCop.CSharp_old;
 
     /// <summary>
     /// Dumps the parsed object model from the CsParser into an Xml file.

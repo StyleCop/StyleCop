@@ -8,7 +8,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.ReadabilityRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.ReadabilityRules">
           <Rules>
             <Rule Name="DoNotUseRegions">
               <RuleSettings>
@@ -36,7 +36,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.ReadabilityRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.ReadabilityRules">
           <Rules>
             <Rule Name="DoNotPlaceRegionsWithinElements">
               <RuleSettings>

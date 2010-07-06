@@ -11,7 +11,7 @@ namespace Microsoft.StyleCop.Internal
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
     using Microsoft.StyleCop;
-    using Microsoft.StyleCop.CSharp;
+    using Microsoft.StyleCop.CSharp_old;
 
     /// <summary>
     /// Checks the usage of the Param class to verify method parameters.

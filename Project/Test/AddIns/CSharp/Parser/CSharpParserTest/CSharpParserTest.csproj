@@ -156,7 +156,7 @@
     <None Include="TestData\QueryExpressions\TestDescription.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\src\AddIns\CSharp\Parser\CSharpParser.csproj">
+    <ProjectReference Include="..\..\..\..\..\Src\AddIns\CSharp\Parser_old\CSharpParser_old.csproj">
       <Project>{C173ACF5-2CE5-4771-83A4-D01453C8CB09}</Project>
       <Name>CSharpParser</Name>
     </ProjectReference>

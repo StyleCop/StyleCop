@@ -9,7 +9,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.NamingRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.NamingRules">
           <Rules>
             <Rule Name="ElementMustBeginWithUpperCaseLetter">
               <RuleSettings>
@@ -84,7 +84,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.NamingRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.NamingRules">
           <AnalyzerSettings>
             <CollectionProperty Name="Hungarian">
               <Value>x</Value>
@@ -124,7 +124,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.NamingRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.NamingRules">
           <Rules>
             <Rule Name="ElementMustBeginWithUpperCaseLetter">
               <RuleSettings>

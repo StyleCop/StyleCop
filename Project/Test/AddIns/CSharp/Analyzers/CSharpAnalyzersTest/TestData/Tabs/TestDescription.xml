@@ -8,7 +8,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.SpacingRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.SpacingRules">
           <Rules>
             <Rule Name="TabsMustNotBeUsed">
               <RuleSettings>

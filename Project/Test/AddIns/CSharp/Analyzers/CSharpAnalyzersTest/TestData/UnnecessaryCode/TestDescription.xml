@@ -8,7 +8,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.MaintainabilityRules">
           <Rules>
             <Rule Name="RemoveUnnecessaryCode">
               <RuleSettings>
@@ -45,7 +45,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.MaintainabilityRules">
           <Rules>
             <Rule Name="RemoveUnnecessaryCode">
               <RuleSettings>
@@ -72,7 +72,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.MaintainabilityRules">
           <Rules>
             <Rule Name="RemoveUnnecessaryCode">
               <RuleSettings>
@@ -97,7 +97,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.MaintainabilityRules">
           <Rules>
             <Rule Name="RemoveUnnecessaryCode">
               <RuleSettings>
@@ -122,7 +122,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.MaintainabilityRules">
           <Rules>
             <Rule Name="RemoveUnnecessaryCode">
               <RuleSettings>
@@ -147,7 +147,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.MaintainabilityRules">
           <Rules>
             <Rule Name="RemoveDelegateParenthesisWhenPossible">
               <RuleSettings>

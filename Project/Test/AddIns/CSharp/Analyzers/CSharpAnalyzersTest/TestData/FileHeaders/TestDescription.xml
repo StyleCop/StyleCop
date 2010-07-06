@@ -9,7 +9,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.DocumentationRules">
           <Rules>
             <Rule Name="FileMustHaveHeader">
               <RuleSettings>
@@ -34,7 +34,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.DocumentationRules">
           <Rules>
             <Rule Name="FileMustHaveHeader">
               <RuleSettings>
@@ -59,7 +59,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.DocumentationRules">
           <Rules>
             <Rule Name="FileMustHaveHeader">
               <RuleSettings>
@@ -84,7 +84,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.DocumentationRules">
           <Rules>
             <Rule Name="FileMustHaveHeader">
               <RuleSettings>
@@ -123,7 +123,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.DocumentationRules">
           <Rules>
             <Rule Name="FileMustHaveHeader">
               <RuleSettings>
@@ -185,7 +185,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.DocumentationRules">
           <Rules>
             <Rule Name="FileMustHaveHeader">
               <RuleSettings>
@@ -248,7 +248,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.DocumentationRules">
           <Rules>
             <Rule Name="FileMustHaveHeader">
               <RuleSettings>
@@ -309,7 +309,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.DocumentationRules">
           <AnalyzerSettings>
             <StringProperty Name="CompanyName">Fake Company</StringProperty>
           </AnalyzerSettings>
@@ -373,7 +373,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.DocumentationRules">
           <Rules>
             <Rule Name="FileMustHaveHeader">
               <RuleSettings>
@@ -434,7 +434,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.DocumentationRules">
           <AnalyzerSettings>
             <StringProperty Name="Copyright">Fake copyright text</StringProperty>
           </AnalyzerSettings>
@@ -497,7 +497,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.DocumentationRules">
           <Rules>
             <Rule Name="FileMustHaveHeader">
               <RuleSettings>
@@ -559,7 +559,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.DocumentationRules">
           <Rules>
             <Rule Name="FileHeaderMustHaveSummary">
               <RuleSettings>
