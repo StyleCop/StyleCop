@@ -310,7 +310,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Reads the next expression from the file and returns it.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent codeUnit.</param>
+        /// <param name="parentProxy">Represents the parent item.</param>
         /// <param name="previousPrecedence">The precedence of the expression just before this one.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
         /// <returns>Returns the expression.</returns>
@@ -326,7 +326,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Reads the next expression from the file and returns it.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent codeUnit.</param>
+        /// <param name="parentProxy">Represents the parent item.</param>
         /// <param name="previousPrecedence">The precedence of the expression just before this one.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
         /// <param name="allowVariableDeclaration">Indicates whether this expression can be a variable declaration expression.</param>
@@ -733,7 +733,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Gets an expression that starts with an unknown word.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent codeUnit.</param>
+        /// <param name="parentProxy">Represents the parent item.</param>
         /// <param name="allowVariableDeclaration">Indicates whether this expression can be a variable declaration expression.</param>
         /// <param name="unsafeCode">Indicates whether the expression resides within a block of unsafe code.</param>
         /// <returns>Returns the expression.</returns>
@@ -811,7 +811,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Reads an expression starting with an unknown word.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent codeUnit.</param>
+        /// <param name="parentProxy">Represents the parent item.</param>
         /// <param name="unsafeCode">Indicates whether the code is marked as unsafe.</param>
         /// <returns>Returns the expression.</returns>
         private LiteralExpression GetLiteralExpression(CodeUnitProxy parentProxy, bool unsafeCode)
@@ -998,7 +998,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Reads an expression beginning with two unknown words.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent codeUnit.</param>
+        /// <param name="parentProxy">Represents the parent item.</param>
         /// <param name="type">The type of the variable.</param>
         /// <param name="previousPrecedence">The precedence of the previous expression.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
@@ -1018,7 +1018,7 @@ namespace Microsoft.StyleCop.CSharp
         /// Reads an expression beginning with two unknown words.
         /// </summary>
         /// <param name="expressionProxy">Proxy object for the expression being created.</param>
-        /// <param name="parentProxy">Represents the parent codeUnit.</param>
+        /// <param name="parentProxy">Represents the parent item.</param>
         /// <param name="type">The type of the variable.</param>
         /// <param name="previousPrecedence">The precedence of the previous expression.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
@@ -1128,7 +1128,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Reads an array initializer expression.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent codeUnit.</param>
+        /// <param name="parentProxy">Represents the parent item.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
         /// <returns>Returns the expression.</returns>
         private ArrayInitializerExpression GetArrayInitializerExpression(CodeUnitProxy parentProxy, bool unsafeCode)
@@ -1190,7 +1190,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Gets a token representing a type identifier.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent codeUnit.</param>
+        /// <param name="parentProxy">Represents the parent item.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
         /// <param name="includeArrayBrackets">Indicates whether to include array brackets in the type token.</param>
         /// <returns>Returns the token.</returns>
@@ -1206,7 +1206,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Gets a token representing a type identifier.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent codeUnit.</param>
+        /// <param name="parentProxy">Represents the parent item.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
         /// <param name="includeArrayBrackets">Indicates whether to include array brackets in the type token.</param>
         /// <param name="isExpression">Indicates whether this type token comes at the end of an 'is' expression.</param>
@@ -1233,7 +1233,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Reads an expression beginning with an opening parenthesis.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent codeUnit.</param>
+        /// <param name="parentProxy">Represents the parent item.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
         /// <returns>Returns the expression.</returns>
         private Expression GetOpenParenthesisExpression(CodeUnitProxy parentProxy, bool unsafeCode)
@@ -1260,7 +1260,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Reads a cast expression.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent codeUnit.</param>
+        /// <param name="parentProxy">Represents the parent item.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
         /// <returns>Returns the expression.</returns>
         private CastExpression GetCastExpression(CodeUnitProxy parentProxy, bool unsafeCode)
@@ -1311,7 +1311,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Reads an expression wrapped in parenthesis expression.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent codeUnit.</param>
+        /// <param name="parentProxy">Represents the parent item.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
         /// <returns>Returns the expression.</returns>
         private ParenthesizedExpression GetParenthesizedExpression(CodeUnitProxy parentProxy, bool unsafeCode)
@@ -1565,7 +1565,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Reads a unary increment expression.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent codeUnit.</param>
+        /// <param name="parentProxy">Represents the parent item.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
         /// <returns>Returns the expression.</returns>
         private IncrementExpression GetUnaryIncrementExpression(CodeUnitProxy parentProxy, bool unsafeCode)
@@ -1596,7 +1596,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Reads a unary decrement expression.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent codeUnit.</param>
+        /// <param name="parentProxy">Represents the parent item.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
         /// <returns>Returns the expression.</returns>
         private DecrementExpression GetUnaryDecrementExpression(CodeUnitProxy parentProxy, bool unsafeCode)
@@ -1628,7 +1628,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Reads a unary expression.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent codeUnit.</param>
+        /// <param name="parentProxy">Represents the parent item.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
         /// <returns>Returns the expression.</returns>
         private UnaryExpression GetUnaryExpression(CodeUnitProxy parentProxy, bool unsafeCode)
@@ -2127,7 +2127,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Reads and returns the right-hand expression of an operator expression.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent codeUnit.</param>
+        /// <param name="parentProxy">Represents the parent item.</param>
         /// <param name="precedence">The precendence of this operator expression.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
         /// <returns>Returns the expression.</returns>
@@ -2153,7 +2153,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Reads a checked expression from the code.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent codeUnit.</param>
+        /// <param name="parentProxy">Represents the parent item.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
         /// <returns>Returns the expression.</returns>
         private CheckedExpression GetCheckedExpression(CodeUnitProxy parentProxy, bool unsafeCode)
@@ -2189,7 +2189,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Reads an unchecked expression from the code.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent codeUnit.</param>
+        /// <param name="parentProxy">Represents the parent item.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
         /// <returns>Returns the expression.</returns>
         private UncheckedExpression GetUncheckedExpression(CodeUnitProxy parentProxy, bool unsafeCode)
@@ -2225,7 +2225,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Reads a new allocation expression from the code.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent codeUnit.</param>
+        /// <param name="parentProxy">Represents the parent item.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
         /// <returns>Returns the expression.</returns>
         private Expression GetNewAllocationExpression(CodeUnitProxy parentProxy, bool unsafeCode)
@@ -2369,7 +2369,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Reads an anonymous type initializer expression from the code.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent codeUnit.</param>
+        /// <param name="parentProxy">Represents the parent item.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
         /// <returns>Returns the expression.</returns>
         private CollectionInitializerExpression GetAnonymousTypeInitializerExpression(CodeUnitProxy parentProxy, bool unsafeCode)
@@ -2478,7 +2478,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Moves past all array brackets. This assumes that the brackets are part of a new array allocation.
         /// </summary>
-        /// <param name="parentProxy">Proxy for the parent codeUnit..</param>
+        /// <param name="parentProxy">Proxy for the parent item..</param>
         private void MovePastArrayBrackets(CodeUnitProxy parentProxy)
         {
             Param.AssertNotNull(parentProxy, "parentProxy");
@@ -2517,7 +2517,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Gets an object initializer or collection initializer expression.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent codeUnit.</param>
+        /// <param name="parentProxy">Represents the parent item.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
         /// <returns>Returns the expression.</returns>
         private Expression GetObjectOrCollectionInitializerExpression(CodeUnitProxy parentProxy, bool unsafeCode)
@@ -2569,7 +2569,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Gets an object initializer expression.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent codeUnit.</param>
+        /// <param name="parentProxy">Represents the parent item.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
         /// <returns>Returns the expression.</returns>
         private ObjectInitializerExpression GetObjectInitializerExpression(CodeUnitProxy parentProxy, bool unsafeCode)
@@ -2663,7 +2663,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Gets a collection initializer expression.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent codeUnit.</param>
+        /// <param name="parentProxy">Represents the parent item.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
         /// <returns>Returns the expression.</returns>
         private CollectionInitializerExpression GetCollectionInitializerExpression(CodeUnitProxy parentProxy, bool unsafeCode)
@@ -2735,7 +2735,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Reads a stackalloc expression from the code.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent codeUnit.</param>
+        /// <param name="parentProxy">Represents the parent item.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
         /// <returns>Returns the expression.</returns>
         private StackallocExpression GetStackallocExpression(CodeUnitProxy parentProxy, bool unsafeCode)
@@ -2780,7 +2780,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Reads a sizeof expression from the code.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent codeUnit.</param>
+        /// <param name="parentProxy">Represents the parent item.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
         /// <returns>Returns the expression.</returns>
         private SizeofExpression GetSizeofExpression(CodeUnitProxy parentProxy, bool unsafeCode)
@@ -2820,7 +2820,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Reads a typeof expression from the code.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent codeUnit.</param>
+        /// <param name="parentProxy">Represents the parent item.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
         /// <returns>Returns the expression.</returns>
         private TypeofExpression GetTypeofExpression(CodeUnitProxy parentProxy, bool unsafeCode)
@@ -2860,7 +2860,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Reads a default value expression from the code.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent codeUnit.</param>
+        /// <param name="parentProxy">Represents the parent item.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
         /// <returns>Returns the expression.</returns>
         private DefaultValueExpression GetDefaultValueExpression(CodeUnitProxy parentProxy, bool unsafeCode)
@@ -2900,7 +2900,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Reads an anonymous method from the code.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent codeUnit.</param>
+        /// <param name="parentProxy">Represents the parent item.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
         /// <returns>Returns the expression.</returns>
         private AnonymousMethodExpression GetAnonymousMethodExpression(CodeUnitProxy parentProxy, bool unsafeCode)
@@ -3019,7 +3019,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Reads a lambda expression.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent codeUnit.</param>
+        /// <param name="parentProxy">Represents the parent item.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
         /// <returns>Returns the expression.</returns>
         private LambdaExpression GetLambdaExpression(CodeUnitProxy parentProxy, bool unsafeCode)
@@ -3100,14 +3100,14 @@ namespace Microsoft.StyleCop.CSharp
                 // Advance past this symbol.
                 index = this.GetNextCodeSymbolIndex(index + 1);
 
-                // The next codeUnit must either be a type or an identifier.
+                // The next item must either be a type or an identifier.
                 int endIndex = -1;
                 if (this.HasTypeSignature(index, unsafeCode, out endIndex))
                 {
                     // Advance past this.
                     index = this.GetNextCodeSymbolIndex(endIndex + 1);
 
-                    // The next symbol must either be the 'in' keyword or the identifier if the previous codeUnit is a type.
+                    // The next symbol must either be the 'in' keyword or the identifier if the previous item is a type.
                     symbol = this.symbols.Peek(index);
                     if (symbol != null)
                     {
@@ -3140,7 +3140,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Reads a query expression.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent codeUnit.</param>
+        /// <param name="parentProxy">Represents the parent item.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides 
         /// in an unsafe code block.</param>
         /// <returns>Returns the query expression.</returns>
@@ -3180,7 +3180,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Gets the collection of query clauses.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent codeUnit.</param>
+        /// <param name="parentProxy">Represents the parent item.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides 
         /// in an unsafe code block.</param>
         /// <returns>Returns the query clauses.</returns>
@@ -3256,7 +3256,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Gets a query continuation clause.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent codeUnit.</param>
+        /// <param name="parentProxy">Represents the parent item.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides 
         /// in an unsafe code block.</param>
         /// <returns>Returns the query continuation clause.</returns>
@@ -3292,7 +3292,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Gets a query from clause.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent codeUnit.</param>
+        /// <param name="parentProxy">Represents the parent item.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides 
         /// in an unsafe code block.</param>
         /// <returns>Returns the query from clause.</returns>
@@ -3335,7 +3335,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Gets a query let clause.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent codeUnit.</param>
+        /// <param name="parentProxy">Represents the parent item.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides 
         /// in an unsafe code block.</param>
         /// <returns>Returns the query let clause.</returns>
@@ -3378,7 +3378,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Gets a query where clause.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent codeUnit.</param>
+        /// <param name="parentProxy">Represents the parent item.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides 
         /// in an unsafe code block.</param>
         /// <returns>Returns the query where clause.</returns>
@@ -3415,7 +3415,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Gets a query join clause.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent codeUnit.</param>
+        /// <param name="parentProxy">Represents the parent item.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides 
         /// in an unsafe code block.</param>
         /// <returns>Returns the query from clause.</returns>
@@ -3498,7 +3498,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Gets a query order-by clause.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent codeUnit.</param>
+        /// <param name="parentProxy">Represents the parent item.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides 
         /// in an unsafe code block.</param>
         /// <returns>Returns the query order-by clause.</returns>
@@ -3573,7 +3573,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Gets a query select clause.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent codeUnit.</param>
+        /// <param name="parentProxy">Represents the parent item.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides 
         /// in an unsafe code block.</param>
         /// <returns>Returns the query select clause.</returns>
@@ -3610,7 +3610,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Gets a query group clause.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent codeUnit.</param>
+        /// <param name="parentProxy">Represents the parent item.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides 
         /// in an unsafe code block.</param>
         /// <returns>Returns the query group clause.</returns>
@@ -3780,7 +3780,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Reads an unsafe access expression.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent codeUnit.</param>
+        /// <param name="parentProxy">Represents the parent item.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
         /// <returns>Returns the expression.</returns>
         private UnsafeAccessExpression GetUnsafeAccessExpression(CodeUnitProxy parentProxy, bool unsafeCode)

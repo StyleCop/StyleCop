@@ -158,7 +158,7 @@ namespace Microsoft.StyleCop.CSharp
                     }
                     else if (elementList.Count > 0)
                     {
-                        // Make sure this elements is the same type as the codeUnit(s) already in the list.
+                        // Make sure this elements is the same type as the item(s) already in the list.
                         if (elementList[0].ElementType != element.ElementType)
                         {
                             throw new SyntaxException(element.Document.SourceCode, element.LineNumber);
@@ -384,7 +384,7 @@ namespace Microsoft.StyleCop.CSharp
             Param.Ignore(partialElements);
             Param.Ignore(unsafeCode);
 
-            // Check to see if the codeUnit is unsafe. This is the case if the codeUnit's parent is unsafe, or if it
+            // Check to see if the item is unsafe. This is the case if the item's parent is unsafe, or if it
             // has the unsafe keyword itself.
             if (!unsafeCode)
             {
@@ -498,7 +498,7 @@ namespace Microsoft.StyleCop.CSharp
         /// up to the start of the next element.
         /// </summary>
         /// <param name="unsafeCode">Indicates whether the code is unsafe.</param>
-        /// <param name="parentProxy">Represents the parent codeUnit.</param>
+        /// <param name="parentProxy">Represents the parent item.</param>
         /// <param name="elementProxy">Proxy for the element.</param>
         /// <returns>Returns the collection of attributes on the element, if any.</returns>
         private ICollection<Attribute> MoveToElementDeclaration(bool unsafeCode, CodeUnitProxy parentProxy, CodeUnitProxy elementProxy)
@@ -1239,7 +1239,7 @@ namespace Microsoft.StyleCop.CSharp
 
             if (symbol.SymbolType == SymbolType.Colon)
             {
-                // Add the colon token and the base codeUnit name.
+                // Add the colon token and the base item name.
                 this.GetToken(elementProxy, TokenType.BaseColon, SymbolType.Colon);
                 this.GetTypeToken(elementProxy, unsafeCode, false);
             }
@@ -1265,7 +1265,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Parses and returns the items within an enum element.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent codeUnit.</param>
+        /// <param name="parentProxy">Represents the parent item.</param>
         /// <param name="parent">The parent enum element.</param>
         /// <param name="unsafeCode">Indicates whether the enum lies within unsafe code.</param>
         /// <returns>Returns the element.</returns>
@@ -1292,7 +1292,7 @@ namespace Microsoft.StyleCop.CSharp
                     break;
                 }
 
-                // Get the enum codeUnit name.
+                // Get the enum item name.
                 Token name = this.GetToken(enumItemProxy, TokenType.Literal, SymbolType.Other);
 
                 Expression initializationExpression = null;
@@ -1443,7 +1443,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Parses and returns the declarators for a field.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent codeUnit.</param>
+        /// <param name="parentProxy">Represents the parent item.</param>
         /// <param name="unsafeCode">Indicates whether the code is marked as unsafe.</param>
         /// <param name="fieldType">The field type.</param>
         /// <returns>Returns the declarators.</returns>
@@ -1571,18 +1571,18 @@ namespace Microsoft.StyleCop.CSharp
                 // Advance up to the next symbol.
                 this.AdvanceToNextCodeSymbol(elementProxy);
 
-                // The overloaded codeUnit will either be a type or a symbol.
+                // The overloaded item will either be a type or a symbol.
                 int endIndex = -1;
                 Token operatorType = null;
                 
                 if (this.HasTypeSignature(1, unsafeCode, out endIndex))
                 {
-                    // The overloaded codeUnit is a type.
+                    // The overloaded item is a type.
                     operatorType = this.GetTypeToken(elementProxy, unsafeCode, true);
                 }
                 else
                 {
-                    // The overloaded codeUnit is a symbol.
+                    // The overloaded item is a symbol.
                     operatorType = this.ConvertOperatorOverloadSymbol();
                     elementProxy.Children.Add(operatorType);
                 }
@@ -2000,7 +2000,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Parses an element's parameter list.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent codeUnit.</param>
+        /// <param name="parentProxy">Represents the parent item.</param>
         /// <param name="unsafeCode">Indicates whether the code is marked as unsafe.</param>
         /// <param name="openingBracketType">The type of the bracket which opens the parameter list.</param>
         /// <returns>Returns the collection of parameters.</returns>
@@ -2016,7 +2016,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Parses an element's parameter list.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent codeUnit.</param>
+        /// <param name="parentProxy">Represents the parent item.</param>
         /// <param name="unsafeCode">Indicates whether the code is marked as unsafe.</param>
         /// <param name="openingBracketType">The type of the bracket which opens the parameter list.</param>
         /// <param name="staticMethod">Indicates whether the parameters are part of a static method.</param>
@@ -2134,7 +2134,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Parses an anonymous method or lambda expression's parameter list.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent codeUnit.</param>
+        /// <param name="parentProxy">Represents the parent item.</param>
         /// <param name="unsafeCode">Indicates whether the code is marked as unsafe.</param>
         /// <returns>Returns the collection of parameters.</returns>
         private ParameterList GetAnonymousMethodParameterList(CodeUnitProxy parentProxy, bool unsafeCode)
@@ -2446,7 +2446,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Parses one or more type constraint clauses.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent codeUnit.</param>
+        /// <param name="parentProxy">Represents the parent item.</param>
         /// <param name="unsafeCode">Indicates whether the code is marked as unsafe.</param>
         /// <returns>Returns the clauses.</returns>
         private ICollection<TypeParameterConstraintClause> GetTypeConstraintClauses(CodeUnitProxy parentProxy, bool unsafeCode)
@@ -2553,7 +2553,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Gets a token representing the name of an element.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent codeUnit.</param>
+        /// <param name="parentProxy">Represents the parent item.</param>
         /// <param name="unsafeCode">Indicates whether the code is unsafe.</param>
         /// <returns>Returns the name token.</returns>
         private Token GetElementNameToken(CodeUnitProxy parentProxy, bool unsafeCode)

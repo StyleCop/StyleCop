@@ -32,7 +32,7 @@ namespace Microsoft.StyleCop.CSharp
         private TypeToken returnType;
 
         /// <summary>
-        /// The list if type constraints on the codeUnit, if any.
+        /// The list if type constraints on the item, if any.
         /// </summary>
         private ICollection<TypeParameterConstraintClause> typeConstraints;
 

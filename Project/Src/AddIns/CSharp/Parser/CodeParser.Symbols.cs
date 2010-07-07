@@ -538,7 +538,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Gets a lexical element of a specific type.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent codeUnit.</param>
+        /// <param name="parentProxy">Represents the parent item.</param>
         /// <param name="lexicalElementType">The type of the lexical element to retrieve.</param>
         /// <param name="symbolType">The type of the symbol.</param>
         /// <returns>Returns the token.</returns>
@@ -598,7 +598,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Gets a token of a specific type.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent codeUnit.</param>
+        /// <param name="parentProxy">Represents the parent item.</param>
         /// <param name="tokenType">The type of the token to retrieve.</param>
         /// <param name="symbolType">The type of the expected symbol.</param>
         /// <returns>Returns the token.</returns>
@@ -961,7 +961,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Gets an operator token of a specific type.
         /// </summary>
-        /// <param name="parentProxy">Proxy object for the parent codeUnit.</param>
+        /// <param name="parentProxy">Proxy object for the parent item.</param>
         /// <returns>Returns the token.</returns>
         private OperatorSymbolToken GetOperatorSymbolToken(CodeUnitProxy parentProxy)
         {
@@ -980,7 +980,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Gets an operator token of a specific type.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent codeUnit.</param>
+        /// <param name="parentProxy">Represents the parent item.</param>
         /// <param name="operatorType">The type of the operator token to retrieve.</param>
         /// <returns>Returns the token.</returns>
         private OperatorSymbolToken GetOperatorSymbolToken(CodeUnitProxy parentProxy, OperatorType operatorType)
@@ -1019,7 +1019,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Gets a token representing a type identifier.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent codeUnit.</param>
+        /// <param name="parentProxy">Represents the parent item.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
         /// <param name="includeArrayBrackets">Indicates whether to include array brackets in the type token.</param>
         /// <returns>Returns the token.</returns>
@@ -1035,7 +1035,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Gets a token representing a type identifier.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent codeUnit.</param>
+        /// <param name="parentProxy">Represents the parent item.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
         /// <param name="includeArrayBrackets">Indicates whether to include array brackets in the type token.</param>
         /// <param name="isExpression">Indicates whether this type token comes at the end of an 'is' expression.</param>
@@ -1171,7 +1171,7 @@ namespace Microsoft.StyleCop.CSharp
                 symbol = this.symbols.Peek(startIndex);
 
                 // Add the next word. The type of the next word must either be an unknown
-                // word type, which will be the name of the next codeUnit in the type, or else
+                // word type, which will be the name of the next item in the type, or else
                 // it must be the 'this' keyword. This is used when implementing an explicit
                 // interface member which is an indexer.
                 if (symbol.SymbolType == SymbolType.Other || symbol.SymbolType == SymbolType.This)
@@ -1203,7 +1203,7 @@ namespace Microsoft.StyleCop.CSharp
                         CodeLocation genericTypeLocation = CodeUnit.JoinLocations(typeTokenProxy.Children.First, typeTokenProxy.Children.Last);
                         generic = new GenericTypeToken(typeTokenProxy, genericTypeLocation, this.symbols.Generated);
 
-                        // Reset the token list and add this generic token as the first codeUnit in the list.
+                        // Reset the token list and add this generic token as the first item in the list.
                         typeTokenProxy = new CodeUnitProxy();
                         typeTokenProxy.Children.Add(generic);
 

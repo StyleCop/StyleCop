@@ -1031,9 +1031,9 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Checks the given CodeUnit to see if it is of the expected type and passes the filter.
         /// </summary>
-        /// <typeparam name="T">The type of the codeUnit to match against.</typeparam>
-        /// <param name="codeUnit">The codeUnit to check.</param>
-        /// <returns>Returns true if the codeUnit matches; false otherwise.</returns>
+        /// <typeparam name="T">The type of the item to match against.</typeparam>
+        /// <param name="item">The item to check.</param>
+        /// <returns>Returns true if the item matches; false otherwise.</returns>
         [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "The method does not require a parameter of type T.")]
         private static T Compare<T>(CodeUnit item) where T : CodeUnit
         {
@@ -1049,12 +1049,12 @@ namespace Microsoft.StyleCop.CSharp
         }
 
         /// <summary>
-        /// Determines whether the codeUnit is of the given type.
+        /// Determines whether the item is of the given type.
         /// </summary>
         /// <param name="codeUnit">The code unit.</param>
         /// <param name="type">The type of CodeUnit to search for.</param>
         /// <param name="mask">The mask to apply to the type.</param>
-        /// <returns>Returns true if the codeUnit is of the given type; false otherwise.</returns>
+        /// <returns>Returns true if the item is of the given type; false otherwise.</returns>
         private static bool Is(this CodeUnit codeUnit, int type, FundamentalTypeMasks mask)
         {
             Param.RequireNotNull(codeUnit, "codeUnit");
@@ -1120,7 +1120,7 @@ namespace Microsoft.StyleCop.CSharp
             private CodeUnit codeUnit;
 
             /// <summary>
-            /// The current codeUnit.
+            /// The current item.
             /// </summary>
             private T currentItem;
 
@@ -1135,7 +1135,7 @@ namespace Microsoft.StyleCop.CSharp
             }
 
             /// <summary>
-            /// Gets the current codeUnit.
+            /// Gets the current item.
             /// </summary>
             public T Current
             {
@@ -1146,7 +1146,7 @@ namespace Microsoft.StyleCop.CSharp
             }
 
             /// <summary>
-            /// Gets the current codeUnit.
+            /// Gets the current item.
             /// </summary>
             object System.Collections.IEnumerator.Current
             {
@@ -1157,7 +1157,7 @@ namespace Microsoft.StyleCop.CSharp
             }
 
             /// <summary>
-            /// Moves to the next codeUnit in the collection.
+            /// Moves to the next item in the collection.
             /// </summary>
             /// <returns>Returns true if the index was moved; false if there are no more items in the collection.</returns>
             public bool MoveNext()

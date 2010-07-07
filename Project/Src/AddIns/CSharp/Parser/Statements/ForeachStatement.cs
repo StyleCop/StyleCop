@@ -30,7 +30,7 @@ namespace Microsoft.StyleCop.CSharp
         private VariableDeclarationExpression variable;
 
         /// <summary>
-        /// The codeUnit being interated over.
+        /// The item being interated over.
         /// </summary>
         private Expression item;
 
@@ -48,13 +48,13 @@ namespace Microsoft.StyleCop.CSharp
         /// </summary>
         /// <param name="proxy">Proxy object for the statement.</param>
         /// <param name="variable">The variable declared in foreach-statement declaration.</param>
-        /// <param name="codeUnit">The codeUnit being iterated over.</param>
+        /// <param name="item">The item being iterated over.</param>
         internal ForeachStatement(CodeUnitProxy proxy, VariableDeclarationExpression variable, Expression item)
             : base(proxy, StatementType.Foreach)
         {
             Param.AssertNotNull(proxy, "proxy");
             Param.AssertNotNull(variable, "variable");
-            Param.AssertNotNull(item, "codeUnit");
+            Param.AssertNotNull(item, "item");
 
             this.variable = variable;
             this.item = item;
@@ -76,7 +76,7 @@ namespace Microsoft.StyleCop.CSharp
         }
 
         /// <summary>
-        /// Gets the codeUnit being iterated over.
+        /// Gets the item being iterated over.
         /// </summary>
         public Expression Item
         {

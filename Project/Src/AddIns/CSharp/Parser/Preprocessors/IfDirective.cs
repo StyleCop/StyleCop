@@ -29,7 +29,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <param name="proxy">The proxy.</param>
         /// <param name="body">The body expression.</param>
         /// <param name="location">The location of the preprocessor directive in the code.</param>
-        /// <param name="generated">Indicates whether the codeUnit is generated.</param>
+        /// <param name="generated">Indicates whether the item is generated.</param>
         internal IfDirective(string text, CodeUnitProxy proxy, Expression body, CodeLocation location, bool generated)
             : base(text, proxy, PreprocessorType.Elif, body, location, generated)
         {

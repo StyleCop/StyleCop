@@ -592,7 +592,7 @@ namespace Microsoft.StyleCop.CSharp {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to enum codeUnit.
+        ///   Looks up a localized string similar to enum item.
         /// </summary>
         internal static string EnumItem {
             get {

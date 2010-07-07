@@ -252,7 +252,7 @@ namespace Microsoft.StyleCop.CSharp
         }
 
         /// <summary>
-        /// Adds parameters to the fully qualified name of the codeUnit.
+        /// Adds parameters to the fully qualified name of the item.
         /// </summary>
         /// <param name="parameters">The list of parameters on the element.</param>
         /// <param name="fullyQualifiedName">The fully qualified name of the element.</param>
@@ -409,7 +409,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Parses an attribute.
         /// </summary>
-        /// <param name="parentProxy">Proxy object for the parent codeUnit.</param>
+        /// <param name="parentProxy">Proxy object for the parent item.</param>
         /// <param name="unsafeCode">Indicates whether the attribute lies within a block of unsafe code.</param>
         /// <returns>Returns the attribute.</returns>
         internal Attribute GetAttribute(CodeUnitProxy parentProxy, bool unsafeCode)
@@ -511,7 +511,7 @@ namespace Microsoft.StyleCop.CSharp
                 attributeProxy.Children.Add(attributeExpression);
                 attributeExpressions.Add(attributeExpression);
 
-                // Get the next codeUnit, which must either be a comma or the closing attribute bracket.
+                // Get the next item, which must either be a comma or the closing attribute bracket.
                 this.AdvanceToNextCodeSymbol(attributeProxy);
                 symbol = this.symbols.Peek(1);
                 if (symbol == null)
@@ -779,7 +779,7 @@ namespace Microsoft.StyleCop.CSharp
         /// the first and last lines, as well as the leading slashes on all lines, and return only
         /// the header text.
         /// </summary>
-        /// <param name="parentProxy">Proxy object for the parent codeUnit.</param>
+        /// <param name="parentProxy">Proxy object for the parent item.</param>
         /// <returns>Returns the file header.</returns>
         private FileHeader GetFileHeader(CodeUnitProxy parentProxy)
         {
@@ -1149,7 +1149,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Advances past any whitespace and comments in the code.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent codeUnit.</param>
+        /// <param name="parentProxy">Represents the parent item.</param>
         private void AdvanceToNextCodeSymbol(CodeUnitProxy parentProxy)
         {
             Param.Ignore(parentProxy);
@@ -1159,7 +1159,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Advances past any whitespace and comments in the code.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent codeUnit.</param>
+        /// <param name="parentProxy">Represents the parent item.</param>
         /// <param name="skip">Indicates the types of tokens to advance past.</param>
         private void AdvanceToNextCodeSymbol(CodeUnitProxy parentProxy, SkipSymbols skip)
         {

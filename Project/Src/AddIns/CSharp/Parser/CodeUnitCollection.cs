@@ -112,7 +112,7 @@ namespace Microsoft.StyleCop.CSharp
         }
 
         /// <summary>
-        /// Gets the first codeUnit in the collection.
+        /// Gets the first item in the collection.
         /// </summary>
         public CodeUnit First
         {
@@ -120,7 +120,7 @@ namespace Microsoft.StyleCop.CSharp
         }
 
         /// <summary>
-        /// Gets the last codeUnit in the collection.
+        /// Gets the last item in the collection.
         /// </summary>
         public CodeUnit Last
         {
@@ -134,8 +134,8 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Determines whether the collection contains a specific value.
         /// </summary>
-        /// <param name="codeUnit">The codeUnit to locate in the collection.</param>
-        /// <returns>Returns true if the codeUnit is found in the collection; otherwise false.</returns>
+        /// <param name="item">The item to locate in the collection.</param>
+        /// <returns>Returns true if the item is found in the collection; otherwise false.</returns>
         public bool Contains(CodeUnit item)
         {
             Param.Ignore(item);
@@ -177,9 +177,9 @@ namespace Microsoft.StyleCop.CSharp
         }
 
         /// <summary>
-        /// Adds an codeUnit to the collection.
+        /// Adds an item to the collection.
         /// </summary>
-        /// <param name="codeUnit">The codeUnit to add to the collection.</param>
+        /// <param name="item">The item to add to the collection.</param>
         [SuppressMessage("Microsoft.Design", "CA1033:InterfaceMethodsShouldBeCallableByChildTypes", Justification = "Does not need to be visible to derived classes.")]
         void ICollection<CodeUnit>.Add(CodeUnit item)
         {
@@ -197,10 +197,10 @@ namespace Microsoft.StyleCop.CSharp
         }
 
         /// <summary>
-        /// Removes the given codeUnit from the list.
+        /// Removes the given item from the list.
         /// </summary>
-        /// <param name="codeUnit">The codeUnit to remove from the list.</param>
-        /// <returns>Return true if the codeUnit was removed from the list.</returns>
+        /// <param name="item">The item to remove from the list.</param>
+        /// <returns>Return true if the item was removed from the list.</returns>
         /// <remarks>This method is inefficient as it must iterate the list to find the node to remove.</remarks>
         [SuppressMessage("Microsoft.Design", "CA1033:InterfaceMethodsShouldBeCallableByChildTypes", Justification = "Does not need to be visible to derived classes.")]
         bool ICollection<CodeUnit>.Remove(CodeUnit item)
@@ -214,9 +214,9 @@ namespace Microsoft.StyleCop.CSharp
         #region Internal Methods
 
         /// <summary>
-        /// Adds an codeUnit to the collection.
+        /// Adds an item to the collection.
         /// </summary>
-        /// <param name="codeUnit">The codeUnit to add to the collection.</param>
+        /// <param name="item">The item to add to the collection.</param>
         internal void Add(CodeUnit item)
         {
             Param.Ignore(item);
@@ -224,13 +224,13 @@ namespace Microsoft.StyleCop.CSharp
         }
 
         /// <summary>
-        /// Adds an codeUnit to the collection.
+        /// Adds an item to the collection.
         /// </summary>
-        /// <param name="codeUnit">The codeUnit to add to the collection.</param>
-        /// <param name="setParent">Indicates whether to set the codeUnit's parent to the parent of this collection.</param>
+        /// <param name="item">The item to add to the collection.</param>
+        /// <param name="setParent">Indicates whether to set the item's parent to the parent of this collection.</param>
         internal void Add(CodeUnit item, bool setParent)
         {
-            Param.AssertNotNull(item, "codeUnit");
+            Param.AssertNotNull(item, "item");
             Param.Ignore(setParent);
 
             Debug.Assert(
@@ -251,22 +251,22 @@ namespace Microsoft.StyleCop.CSharp
         }
 
         /// <summary>
-        /// Replaces the original codeUnit in the list with the new codeUnit.
+        /// Replaces the original item in the list with the new item.
         /// </summary>
-        /// <param name="originalItem">The original codeUnit to remove and replace.</param>
-        /// <param name="newItem">The new codeUnit to insert into the list.</param>
+        /// <param name="originalItem">The original item to remove and replace.</param>
+        /// <param name="newItem">The new item to insert into the list.</param>
         internal void Replace(CodeUnit originalItem, CodeUnit newItem)
         {
             Param.AssertNotNull(originalItem, "originalItem");
             Param.AssertNotNull(newItem, "newItem");
 
             Debug.Assert(
-                originalItem.ParentReference == this.parentReference, 
-                "The original codeUnit is not a member of this collection.");
+                originalItem.ParentReference == this.parentReference,
+                "The original item is not a member of this collection.");
 
             Debug.Assert(
                 newItem.ParentReference == null,
-                "The new codeUnit has already been added to a different collection and must be removed from the that collection before it can be added to this one.");
+                "The new item has already been added to a different collection and must be removed from the that collection before it can be added to this one.");
 
             if (this.items == null)
             {
@@ -285,9 +285,9 @@ namespace Microsoft.StyleCop.CSharp
         /// </summary>
         internal void Clear()
         {
-            foreach (CodeUnit codeUnit in this.items)
+            foreach (CodeUnit item in this.items)
             {
-                codeUnit.ParentReference = null;
+                item.ParentReference = null;
             }
 
             if (this.items == null)
@@ -300,14 +300,14 @@ namespace Microsoft.StyleCop.CSharp
         */
 
         /// <summary>
-        /// Removes the given codeUnit from the list.
+        /// Removes the given item from the list.
         /// </summary>
-        /// <param name="codeUnit">The codeUnit to remove from the list.</param>
-        /// <returns>Return true if the codeUnit was removed from the list.</returns>
+        /// <param name="item">The item to remove from the list.</param>
+        /// <returns>Return true if the item was removed from the list.</returns>
         /// <remarks>This method is inefficient as it must iterate the list to find the node to remove.</remarks>
         internal bool Remove(CodeUnit item)
         {
-            Param.AssertNotNull(item, "codeUnit");
+            Param.AssertNotNull(item, "item");
 
             if (item.ParentReference != this.parentReference || this.items == null || !this.items.Remove(item))
             {
@@ -461,10 +461,10 @@ namespace Microsoft.StyleCop.CSharp
             #region Public Override Methods
 
             /// <summary>
-            /// Inserts a codeUnit into the list after the given codeUnit.
+            /// Inserts a item into the list after the given item.
             /// </summary>
             /// <param name="node">The node to insert.</param>
-            /// <param name="nodeToInsertAfter">The node to insert the codeUnit after.</param>
+            /// <param name="nodeToInsertAfter">The node to insert the item after.</param>
             public override void InsertAfter(CodeUnit node, CodeUnit nodeToInsertAfter)
             {
                 Param.AssertNotNull(node, "node");
@@ -475,10 +475,10 @@ namespace Microsoft.StyleCop.CSharp
             }
 
             /// <summary>
-            /// Inserts a node into the list before the given codeUnit.
+            /// Inserts a node into the list before the given item.
             /// </summary>
             /// <param name="node">The node to insert.</param>
-            /// <param name="nodeToInsertBefore">The node to insert the codeUnit before.</param>
+            /// <param name="nodeToInsertBefore">The node to insert the item before.</param>
             public override void InsertBefore(CodeUnit node, CodeUnit nodeToInsertBefore)
             {
                 Param.AssertNotNull(node, "node");
@@ -576,13 +576,13 @@ namespace Microsoft.StyleCop.CSharp
             #region Private Methods
 
             /// <summary>
-            /// Increments or decrements the count based on the type of the codeUnit.
+            /// Increments or decrements the count based on the type of the item.
             /// </summary>
-            /// <param name="codeUnit">The codeUnit being added.</param>
+            /// <param name="item">The item being added.</param>
             /// <param name="amount">The amount to increment or decrement the count.</param>
             private void IncrementOrDecrementCount(CodeUnit item, int amount)
             {
-                Param.AssertNotNull(item, "codeUnit");
+                Param.AssertNotNull(item, "item");
                 Param.Ignore(amount);
 
                 switch (item.CodeUnitType)
@@ -611,7 +611,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Represents a virtual collection of code units of a specific type.
         /// </summary>
-        /// <typeparam name="T">The type of the codeUnit to include in the virtual collection.</typeparam>
+        /// <typeparam name="T">The type of the item to include in the virtual collection.</typeparam>
         private class VirtualCodeUnitCollection<T> : ICollection<T> where T : CodeUnit
         {
             #region Private Fields
@@ -634,7 +634,7 @@ namespace Microsoft.StyleCop.CSharp
             /// Initializes a new instance of the VirtualCodeUnitCollection class.
             /// </summary>
             /// <param name="collection">The collection of all code units.</param>
-            /// <param name="countHandler">Retrieves the correct codeUnit count from the collection.</param>
+            /// <param name="countHandler">Retrieves the correct item count from the collection.</param>
             public VirtualCodeUnitCollection(CodeUnitCollection collection, CountHandler countHandler)
             {
                 Param.AssertNotNull(collection, "collection");
@@ -692,9 +692,9 @@ namespace Microsoft.StyleCop.CSharp
             #region Public Methods
 
             /// <summary>
-            /// Adds an codeUnit to the collection.
+            /// Adds an item to the collection.
             /// </summary>
-            /// <param name="codeUnit">The codeUnit to add to the collection.</param>
+            /// <param name="item">The item to add to the collection.</param>
             public void Add(T item)
             {
                 Param.Ignore(item);
@@ -712,8 +712,8 @@ namespace Microsoft.StyleCop.CSharp
             /// <summary>
             /// Determines whether the collection contains a specific value.
             /// </summary>
-            /// <param name="codeUnit">The codeUnit to locate in the collection.</param>
-            /// <returns>Returns true if the codeUnit is found in the collection; otherwise false.</returns>
+            /// <param name="item">The item to locate in the collection.</param>
+            /// <returns>Returns true if the item is found in the collection; otherwise false.</returns>
             public bool Contains(T item)
             {
                 Param.Ignore(item);
@@ -737,14 +737,14 @@ namespace Microsoft.StyleCop.CSharp
             }
 
             /// <summary>
-            /// Removes the given codeUnit from the list.
+            /// Removes the given item from the list.
             /// </summary>
-            /// <param name="codeUnit">The codeUnit to remove from the list.</param>
-            /// <returns>Return true if the codeUnit was removed from the list.</returns>
+            /// <param name="item">The item to remove from the list.</param>
+            /// <returns>Return true if the item was removed from the list.</returns>
             /// <remarks>This method is inefficient as it must iterate the list to find the node to remove.</remarks>
             public bool Remove(T item)
             {
-                Param.AssertNotNull(item, "codeUnit");
+                Param.AssertNotNull(item, "item");
                 throw new NotImplementedException();
             }
 
@@ -783,7 +783,7 @@ namespace Microsoft.StyleCop.CSharp
             private CodeUnitCollection collection;
 
             /// <summary>
-            /// The current codeUnit in the collection.
+            /// The current item in the collection.
             /// </summary>
             private T currentItem;
 
@@ -806,7 +806,7 @@ namespace Microsoft.StyleCop.CSharp
             #region Public Properties
 
             /// <summary>
-            /// Gets the current codeUnit.
+            /// Gets the current item.
             /// </summary>
             public T Current
             {
@@ -817,7 +817,7 @@ namespace Microsoft.StyleCop.CSharp
             }
 
             /// <summary>
-            /// Gets the current codeUnit.
+            /// Gets the current item.
             /// </summary>
             object System.Collections.IEnumerator.Current
             {
@@ -840,7 +840,7 @@ namespace Microsoft.StyleCop.CSharp
             }
 
             /// <summary>
-            /// Moves to the next codeUnit in the collection.
+            /// Moves to the next item in the collection.
             /// </summary>
             /// <returns>Returns false if there are no more items in the collection.</returns>
             public bool MoveNext()
@@ -868,7 +868,7 @@ namespace Microsoft.StyleCop.CSharp
             #region Private Methods
 
             /// <summary>
-            /// Moves to the next matching codeUnit in the collection.
+            /// Moves to the next matching item in the collection.
             /// </summary>
             private void MoveToNextItem()
             {

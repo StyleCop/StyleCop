@@ -112,7 +112,7 @@ namespace Microsoft.StyleCop.CSharp
         /// </summary>
         /// <param name="proxy">Proxy object for the code unit.</param>
         /// <param name="codeUnitType">The type of the code unit.</param>
-        /// <param name="generated">Indicates whether the codeUnit lies within a block of generated code.</param>
+        /// <param name="generated">Indicates whether the item lies within a block of generated code.</param>
         internal CodeUnit(CodeUnitProxy proxy, CodeUnitType codeUnitType, bool generated)
             : this(proxy, (int)codeUnitType, generated)
         {
@@ -126,7 +126,7 @@ namespace Microsoft.StyleCop.CSharp
         /// </summary>
         /// <param name="proxy">Proxy object for the code unit.</param>
         /// <param name="fundamentalType">The type of the code unit.</param>
-        /// <param name="generated">Indicates whether the codeUnit lies within a block of generated code.</param>
+        /// <param name="generated">Indicates whether the item lies within a block of generated code.</param>
         internal CodeUnit(CodeUnitProxy proxy, int fundamentalType, bool generated)
         {
             Param.Ignore(proxy);

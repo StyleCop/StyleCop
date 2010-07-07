@@ -47,7 +47,7 @@ namespace Microsoft.StyleCop.Collections
         /// <summary>
         /// Initializes a new instance of the LinkNode class.
         /// </summary>
-        /// <param name="containerNode">The linked list node that contains this codeUnit.</param>
+        /// <param name="containerNode">The linked list node that contains this item.</param>
         public LinkNode(T containerNode)
         {
             Param.RequireNotNull(containerNode, "containerNode");

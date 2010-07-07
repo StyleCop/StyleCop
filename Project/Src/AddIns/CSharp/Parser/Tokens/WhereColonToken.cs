@@ -25,9 +25,9 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Initializes a new instance of the WhereColonToken class.
         /// </summary>
-        /// <param name="text">The text of the codeUnit.</param>
-        /// <param name="location">The location of the codeUnit.</param>
-        /// <param name="generated">Indicates whether the codeUnit is generated.</param>
+        /// <param name="text">The text of the item.</param>
+        /// <param name="location">The location of the item.</param>
+        /// <param name="generated">Indicates whether the item is generated.</param>
         internal WhereColonToken(string text, CodeLocation location, bool generated)
             : base(text, TokenType.WhereColon, location, generated)
         {

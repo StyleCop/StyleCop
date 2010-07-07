@@ -592,7 +592,7 @@ namespace Microsoft.StyleCop.CSharp
 
         /// <summary>
         /// Merges the access of this element with the access of its parent to determine
-        /// the actual visibility of this codeUnit outside of the class.
+        /// the actual visibility of this item outside of the class.
         /// </summary>
         /// <returns>Returns the actual access level.</returns>
         private AccessModifierType ComputeActualAccess()
