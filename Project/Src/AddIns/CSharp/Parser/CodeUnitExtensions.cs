@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="ICodeUnit.cs" company="Microsoft">
+// <copyright file="CodeUnitExtensions.cs" company="Microsoft">
 //   Copyright (c) Microsoft Corporation.
 // </copyright>
 // <license>
@@ -19,92 +19,8 @@ namespace Microsoft.StyleCop.CSharp
     using Microsoft.StyleCop.Collections;
     using System.Diagnostics.CodeAnalysis;
 
-    /*
     /// <summary>
-    /// An interface implemented by types that describe a unit of code.
-    /// </summary>
-    public interface ICodeUnit : ILinkNode<ICodeUnit>
-    {
-        #region Properties
-
-        /// <summary>
-        /// Gets the collection of children beneath this code unit.
-        /// </summary>
-        CodeUnitCollection Children
-        {
-            get;
-        }
-
-        /// <summary>
-        /// Gets the parent of the code unit.
-        /// </summary>
-        ICodeUnit Parent
-        {
-            get;
-        }
-
-        /// <summary>
-        /// Gets the location of this code unit within the document.
-        /// </summary>
-        CodeLocation Location
-        {
-            get;
-        }
-
-        /// <summary>
-        /// Gets the line number that this code unit appears on in the document.
-        /// </summary>
-        int LineNumber
-        {
-            get;
-        }
-
-        /// <summary>
-        /// Gets the friendly name of the code unit type, which can be used in user output.
-        /// </summary>
-        string FriendlyTypeText
-        {
-            get;
-        }
-
-        /// <summary>
-        /// Gets the friendly name of the code unit type as a plural noun, which can be used in user output.
-        /// </summary>
-        string FriendlyPluralTypeText
-        {
-            get;
-        }
-
-        /// <summary>
-        /// Gets the type of the code unit.
-        /// </summary>
-        CodeUnitType CodeUnitType
-        {
-            get;
-        }
-
-        /// <summary>
-        /// The raw type ID.
-        /// </summary>
-        int FundamentalType
-        {
-            get;
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether this is generated code.
-        /// </summary>
-        bool Generated
-        {
-            get;
-        }
-
-        #endregion Properties
-    }
-    */
-
-    /// <summary>
-    /// Extension methods for the ICodeUnit interface.
+    /// Extension methods for the CodeUnit class.
     /// </summary>
     public static class CodeUnitExtensions
     {
@@ -1277,42 +1193,4 @@ namespace Microsoft.StyleCop.CSharp
 
         #endregion Private Classes
     }
-
-    /*
-    /// <summary>
-    /// An interface implemented by all types that describe a unit of code.
-    /// </summary>
-    internal interface IWriteableCodeUnit : CodeUnit
-    {
-        /// <summary>
-        /// Adds a child expression.
-        /// </summary>
-        /// <param name="expression">The expression to add.</param>
-        void AddExpression(Expression expression);
-
-        /// <summary>
-        /// Adds a range of child expressions.
-        /// </summary>
-        /// <param name="expressions">The expressions to add.</param>
-        void AddExpressions(IEnumerable<Expression> expressions);
-
-        /// <summary>
-        /// Adds a child statement.
-        /// </summary>
-        /// <param name="statement">The statement to add.</param>
-        void AddStatement(Statement statement);
-
-        /// <summary>
-        /// Adds a range of child statements.
-        /// </summary>
-        /// <param name="statements">The statements to add.</param>
-        void AddStatements(IEnumerable<Statement> statements);
-
-        /// <summary>
-        /// Gets the parent of this code unit.
-        /// </summary>
-        /// <param name="parent">The parent of the code unit.</param>
-        void SetParent(CodeUnit parent);
-    }
-     * */
 }
