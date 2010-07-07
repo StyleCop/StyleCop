@@ -100,7 +100,7 @@ namespace Microsoft.StyleCop
             "Microsoft.Maintainability", 
             "CA1500:VariableNamesShouldNotMatchFieldNames", 
             Justification = "The method is abstract")]
-        public abstract bool ParseFile(SourceCode sourceCode, int passNumber, ref CodeDocument document);
+        public abstract bool ParseFile(SourceCode sourceCode, int passNumber, ref ICodeDocument document);
 
         #endregion Public Abstract Methods
 
@@ -125,7 +125,7 @@ namespace Microsoft.StyleCop
         /// </summary>
         /// <param name="document">The document.</param>
         /// <returns>Returns true to skip analysis on the document.</returns>
-        public virtual bool SkipAnalysisForDocument(CodeDocument document)
+        public virtual bool SkipAnalysisForDocument(ICodeDocument document)
         {
             Param.Ignore(document);
 
@@ -241,7 +241,7 @@ namespace Microsoft.StyleCop
         /// <param name="document">The document containing the violations.</param>
         /// <param name="violationsDocument">The xml document in which to store the violation information.</param>
         /// <param name="parentNode">The parent node within this xml document under which to store the violation information.</param>
-        internal static void ExportViolations(CodeDocument document, XmlDocument violationsDocument, XmlNode parentNode)
+        internal static void ExportViolations(ICodeDocument document, XmlDocument violationsDocument, XmlNode parentNode)
         {
             Param.AssertNotNull(document, "document");
             Param.AssertNotNull(violationsDocument, "violationsDocument");
@@ -274,7 +274,7 @@ namespace Microsoft.StyleCop
         /// it will not conflict with the next analysis. This method can be called to clear all
         /// analyzer data which was stored during the previous analysis.</para>
         /// </remarks>
-        internal static void ClearAnalyzerTags(CodeDocument document)
+        internal static void ClearAnalyzerTags(ICodeDocument document)
         {
             Param.AssertNotNull(document, "document");
 

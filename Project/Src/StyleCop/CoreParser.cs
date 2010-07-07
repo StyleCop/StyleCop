@@ -46,7 +46,7 @@ namespace Microsoft.StyleCop
         /// <param name="passNumber">The current pass number.</param>
         /// <param name="document">The parsed representation of the file.</param>
         /// <returns>Returns false if no further analyzation should be done on this file.</returns>
-        public override bool ParseFile(SourceCode sourceCode, int passNumber, ref CodeDocument document)
+        public override bool ParseFile(SourceCode sourceCode, int passNumber, ref ICodeDocument document)
         {
             Param.Ignore(sourceCode, passNumber, document);
             throw new NotImplementedException();

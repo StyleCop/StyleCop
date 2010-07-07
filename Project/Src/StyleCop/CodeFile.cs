@@ -276,6 +276,38 @@ namespace Microsoft.StyleCop
             return null;
         }
 
+        /// <summary>
+        /// Writes the final document back to the source.
+        /// </summary>
+        /// <param name="document">The document to write.</param>
+        /// <param name="exception">Returns an exception if the write operation fails.</param>
+        /// <returns>Returns true if the document was written successfully; false otherwise.</returns>
+        public override bool Write(ICodeDocument document, out Exception exception)
+        {
+            Param.RequireNotNull(document, "document");
+            exception = null;
+
+            try
+            {
+                using (StreamWriter writer = new StreamWriter(this.path))
+                {
+                    document.Write(writer);
+                }
+
+                return true;
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                exception = ex;
+            }
+            catch (IOException ex)
+            {
+                exception = ex;
+            }
+
+            return false;
+        }
+
         #endregion Public Override Methods
     }
 }

@@ -224,6 +224,14 @@ namespace Microsoft.StyleCop
         /// <returns>Returns the TextReader containing the source code.</returns>
         public abstract TextReader Read();
 
+        /// <summary>
+        /// Writes the final document back to the source.
+        /// </summary>
+        /// <param name="document">The document to write.</param>
+        /// <param name="exception">Returns an exception if the write operation fails.</param>
+        /// <returns>Returns true if the document was written successfully; false otherwise.</returns>
+        public abstract bool Write(ICodeDocument document, out Exception exception);
+
         #endregion Public Abstract Methods
 
         #region Internal Methods

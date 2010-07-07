@@ -58,7 +58,7 @@ namespace Microsoft.StyleCop.CSharp_old
         /// Checks the order of the elements within the given document.
         /// </summary>
         /// <param name="document">The document to check.</param>
-        public override void AnalyzeDocument(CodeDocument document)
+        public override void AnalyzeDocument(ICodeDocument document)
         {
             Param.RequireNotNull(document, "document");
 

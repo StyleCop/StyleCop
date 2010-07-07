@@ -49,7 +49,7 @@ namespace Microsoft.StyleCop
         /// <summary>
         /// Gets the document that contains the code part.
         /// </summary>
-        CodeDocument Document
+        ICodeDocument Document
         {
             get;
         }

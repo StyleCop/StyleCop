@@ -202,7 +202,7 @@ namespace Microsoft.StyleCop
         /// <param name="document">The document.</param>
         /// <param name="ruleName">The rule to check.</param>
         /// <returns>Returns true if the rule is enabled; otherwise false.</returns>
-        public virtual bool IsRuleEnabled(CodeDocument document, string ruleName)
+        public virtual bool IsRuleEnabled(ICodeDocument document, string ruleName)
         {
             Param.Ignore(document, ruleName);
             return true;

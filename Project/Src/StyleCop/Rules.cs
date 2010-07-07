@@ -24,6 +24,16 @@ namespace Microsoft.StyleCop
         /// <summary>
         /// An exception occurred while parsing the file.
         /// </summary>
-        ExceptionOccurred
+        ExceptionOccurred,
+
+        /// <summary>
+        /// A {0} exception occurred while saving the file {1}: {2}.
+        /// </summary>
+        SaveExceptionOccurred,
+
+        /// <summary>
+        /// An unknown error occurred while saving the file {0}.
+        /// </summary>
+        UnknownSaveExceptionOccurred
     }
 }

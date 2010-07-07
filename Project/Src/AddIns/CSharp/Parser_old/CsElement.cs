@@ -298,7 +298,7 @@ namespace Microsoft.StyleCop.CSharp_old
         /// <summary>
         /// Gets the document that contains this element.
         /// </summary>
-        public CodeDocument Document
+        public ICodeDocument Document
         {
             get
             {
