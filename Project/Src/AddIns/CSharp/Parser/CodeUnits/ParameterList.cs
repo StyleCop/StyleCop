@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="ICodeUnit.cs" company="Microsoft">
+// <copyright file="ParameterList.cs" company="Microsoft">
 //   Copyright (c) Microsoft Corporation.
 // </copyright>
 // <license>

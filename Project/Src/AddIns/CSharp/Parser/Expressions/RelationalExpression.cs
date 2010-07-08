@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="ICodeUnit.cs" company="Microsoft">
+// <copyright file="RelationalExpression.cs" company="Microsoft">
 //   Copyright (c) Microsoft Corporation.
 // </copyright>
 // <license>

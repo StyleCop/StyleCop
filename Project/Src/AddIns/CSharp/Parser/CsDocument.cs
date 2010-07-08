@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------
 // <copyright file="CsDocument.cs" company="Microsoft">
-//     Copyright (c) Microsoft Corporation. All rights reserved.
+//     Copyright (c) Microsoft Corporation.
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -130,6 +130,7 @@ namespace Microsoft.StyleCop.CSharp
 
             set
             {
+                Param.Ignore(value);
                 this.readOnly = value;
             }
         }

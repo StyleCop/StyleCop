@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="ICodeUnit.cs" company="Microsoft">
+// <copyright file="Parameter.cs" company="Microsoft">
 //   Copyright (c) Microsoft Corporation.
 // </copyright>
 // <license>
@@ -78,6 +78,12 @@ namespace Microsoft.StyleCop.CSharp
                             token.TokenType != TokenType.This)
                         {
                             foundType = true;
+
+                            // If the first thing we encounter is __arglist, then there is no type and only a name.
+                            if (token.Text.Equals("__arglist", StringComparison.Ordinal))
+                            {
+                                return token;
+                            }
                         }
                     }
                     else
@@ -113,7 +119,13 @@ namespace Microsoft.StyleCop.CSharp
                 {
                     if (token.TokenType == TokenType.Type)
                     {
-                        return (TypeToken)token;
+                        // If the first thing we encounter is __arglist, then there is no type and only a name.
+                        if (!token.Text.Equals("__arglist", StringComparison.Ordinal))
+                        {
+                            return (TypeToken)token;
+                        }
+
+                        break;
                     }
                 }
 

@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------
 // <copyright file="Token.cs" company="Microsoft">
-//     Copyright (c) Microsoft Corporation. All rights reserved.
+//     Copyright (c) Microsoft Corporation.
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -27,9 +27,9 @@ namespace Microsoft.StyleCop.CSharp
     {
         #region Internal Static Fields
 
-        /// <summary>
-        /// An empty array of tokens.
-        /// </summary>
+        ///// <summary>
+        ///// An empty array of tokens.
+        ///// </summary>
         ////internal static readonly Token[] EmptyTokenArray = new Token[] { };
 
         #endregion Internal Static Fields
@@ -131,7 +131,7 @@ namespace Microsoft.StyleCop.CSharp
         }
 
         /// <summary>
-        /// Gets a value indicating whether the token is composed of multiple child tokens.
+        /// Gets or sets a value indicating whether the token is composed of multiple child tokens.
         /// </summary>
         public bool IsComplexToken
         {

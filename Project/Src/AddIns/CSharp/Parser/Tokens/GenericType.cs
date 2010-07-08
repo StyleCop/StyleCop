@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------
 // <copyright file="GenericType.cs" company="Microsoft">
-//     Copyright (c) Microsoft Corporation. All rights reserved.
+//     Copyright (c) Microsoft Corporation.
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -37,7 +37,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Initializes a new instance of the GenericType class.
         /// </summary>
-        /// <param name="childTokens">The list of child tokens that form the generic token.</param>
+        /// <param name="proxy">The proxy object.</param>
         /// <param name="location">The location of the generic in the code.</param>
         /// <param name="generated">True if the token is inside of a block of generated code.</param>
         internal GenericType(CodeUnitProxy proxy, CodeLocation location, bool generated)

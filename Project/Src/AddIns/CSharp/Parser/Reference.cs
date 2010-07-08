@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="CodeUnitReference.cs" company="Microsoft">
-//     Copyright (c) Microsoft Corporation. All rights reserved.
+// <copyright file="Reference.cs" company="Microsoft">
+//     Copyright (c) Microsoft Corporation.
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -15,73 +15,112 @@
 namespace Microsoft.StyleCop.CSharp
 {
     using System;
+    using System.Diagnostics;
 
     /// <summary>
-    /// Provides a reference to an object.
+    /// A reference to a code unit.
     /// </summary>
-    internal class Reference<T> where T : class
+    internal interface ICodeUnitReference
+    {
+        /// <summary>
+        /// Gets the referenced target.
+        /// </summary>
+        CodeUnit Target
+        {
+            get;
+        }
+    }
+
+    /// <summary>
+    /// Provides a reference to a code unit.
+    /// </summary>
+    internal class CodeUnitReference : ICodeUnitReference
     {
         /// <summary>
         /// The referenced item.
         /// </summary>
-        private T target;
+        private ICodeUnitReference targetRef;
 
         /// <summary>
-        /// Initializes a new instance of the Reference class.
+        /// Initializes a new instance of the CodeUnitReference class.
         /// </summary>
-        public Reference()
+        public CodeUnitReference()
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the Reference class.
+        /// Initializes a new instance of the CodeUnitReference class.
         /// </summary>
-        /// <param name="target">The initial item to point the referece to.</param>
-        public Reference(T target)
+        /// <param name="targetRef">The initial item to point the referece to.</param>
+        public CodeUnitReference(ICodeUnitReference targetRef)
         {
-            Param.AssertNotNull(target, "target");
-            this.target = target;
+            Param.AssertNotNull(targetRef, "targetRef");
+            this.targetRef = targetRef;
         }
 
-        /// <summary>
-        /// Event that is fired when the code unit reference changes.
-        /// </summary>
-        public event EventHandler ReferenceChanged;
+        ///// <summary>
+        ///// Event that is fired when the code unit reference changes.
+        ///// </summary>
+        ////public event EventHandler ReferenceChanged;
 
         /// <summary>
-        /// Gets or sets the referenced target.
+        /// Gets the referenced target.
         /// </summary>
-        public T Target
+        public CodeUnit Target
         {
             get
             {
-                return this.target;
+                return this.targetRef == null ? null : this.targetRef.Target;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the reference.
+        /// </summary>
+        public ICodeUnitReference TargetRef
+        {
+            get
+            {
+                return this.targetRef;
             }
 
             set
             {
-                Param.Ignore(value);
+                Param.AssertNotNull(value, "TargetRef");
 
-                if (value != this.target)
+                // Check whether there is already another reference pointing back to the same target. If so, 
+                // we want to reference that reference rather than referencing the target directly.
+                CodeUnit codeUnit = value.Target;
+                if (codeUnit != null)
                 {
-                    this.target = value;
-                    this.OnReferenceChanged(EventArgs.Empty);
+                    CodeUnit child = codeUnit.FindFirstChild<CodeUnit>();
+                    if (child != null && child.ParentReference != null && child.ParentReference.Target != null)
+                    {
+                        Debug.Assert(child.ParentReference.Target == codeUnit, "The child's parent reference is invalid.");
+                        this.targetRef = child.ParentReference;
+                    }
+                }
+
+                if (this.targetRef == null)
+                {
+                    // Initialize the target reference to the given value.
+                    this.targetRef = value;
                 }
             }
         }
 
-        /// <summary>
-        /// Called when the referenced target changes.
-        /// </summary>
-        /// <param name="args">The event arguments.</param>
-        protected void OnReferenceChanged(EventArgs args)
-        {
-            Param.Ignore(args);
+        /////// <summary>
+        /////// Called when the referenced target changes.
+        /////// </summary>
+        /////// <param name="args">The event arguments.</param>
+        ////protected void OnReferenceChanged(EventArgs args)
+        ////{
+        ////    Param.Ignore(args);
 
-            if (this.ReferenceChanged != null)
-            {
-                this.ReferenceChanged(this, EventArgs.Empty);
-            }
-        }
+        ////    if (this.ReferenceChanged != null)
+        ////    {
+        ////        this.ReferenceChanged(this, EventArgs.Empty);
+        ////    }
+        ////}
     }
 }

@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------
 // <copyright file="CodeParser.Elements.cs" company="Microsoft">
-//     Copyright (c) Microsoft Corporation. All rights reserved.
+//     Copyright (c) Microsoft Corporation.
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -1418,18 +1418,18 @@ namespace Microsoft.StyleCop.CSharp
             declarationExpressionProxy.Children.Add(fieldTypeExpression);
 
             // Get all of the variable declarators.
-            IList<VariableDeclaratorExpression> declarators = this.GetFieldDeclarators(declarationExpressionProxy, unsafeCode, fieldType);
+            string firstFieldName = this.GetFieldDeclarators(declarationExpressionProxy, unsafeCode, fieldType);
 
-            if (declarators.Count == 0)
+            if (string.IsNullOrWhiteSpace(firstFieldName))
             {
                 throw this.CreateSyntaxException();
             }
 
             var variableDeclarationStatementProxy = new CodeUnitProxy();
-            var declarationExpression = new VariableDeclarationExpression(declarationExpressionProxy, fieldTypeExpression, declarators);
+            var declarationExpression = new VariableDeclarationExpression(declarationExpressionProxy, fieldTypeExpression);
             variableDeclarationStatementProxy.Children.Add(declarationExpression);
 
-            var field = new Field(elementProxy, declarators[0].Identifier.Text, attributes, fieldType, unsafeCode);
+            var field = new Field(elementProxy, firstFieldName, attributes, fieldType, unsafeCode);
 
             var variableDeclarationStatement = new VariableDeclarationStatement(variableDeclarationStatementProxy, field.Const, declarationExpression);
             elementProxy.Children.Add(variableDeclarationStatement);
@@ -1446,14 +1446,14 @@ namespace Microsoft.StyleCop.CSharp
         /// <param name="parentProxy">Represents the parent item.</param>
         /// <param name="unsafeCode">Indicates whether the code is marked as unsafe.</param>
         /// <param name="fieldType">The field type.</param>
-        /// <returns>Returns the declarators.</returns>
-        private IList<VariableDeclaratorExpression> GetFieldDeclarators(CodeUnitProxy parentProxy, bool unsafeCode, TypeToken fieldType)
+        /// <returns>Returns the name of the first field.</returns>
+        private string GetFieldDeclarators(CodeUnitProxy parentProxy, bool unsafeCode, TypeToken fieldType)
         {
             Param.AssertNotNull(parentProxy, "parentProxy");
             Param.Ignore(unsafeCode);
             Param.AssertNotNull(fieldType, "fieldType");
 
-            var declarators = new List<VariableDeclaratorExpression>();
+            string firstFieldName = null;
             Symbol symbol = this.PeekNextSymbol();
 
             while (symbol.SymbolType != SymbolType.Semicolon)
@@ -1467,6 +1467,11 @@ namespace Microsoft.StyleCop.CSharp
 
                 var identifierExpression = new LiteralExpression(identifierExpressionProxy, identifier);
                 declaratorProxy.Children.Add(identifierExpression);
+
+                if (firstFieldName == null)
+                {
+                    firstFieldName = identifier.Text;
+                }
 
                 Expression initialization = null;
 
@@ -1507,7 +1512,6 @@ namespace Microsoft.StyleCop.CSharp
                 var declaratorExpression = new VariableDeclaratorExpression(declaratorProxy, identifierExpression, initialization);
 
                 parentProxy.Children.Add(declaratorExpression);
-                declarators.Add(declaratorExpression);
 
                 // If the next symbol is a comma, continue.
                 symbol = this.PeekNextSymbol();
@@ -1519,7 +1523,7 @@ namespace Microsoft.StyleCop.CSharp
             }
 
             // Return the declarators as a read-only collection.
-            return declarators.ToArray();
+            return firstFieldName;
         }
 
         /// <summary>
@@ -1883,30 +1887,30 @@ namespace Microsoft.StyleCop.CSharp
 
             // Get declared modifiers.
             Dictionary<TokenType, Token> modifiers = this.GetElementModifiers(elementProxy, ref accessModifier, EventModifiers);
-
             unsafeCode |= modifiers.ContainsKey(TokenType.Unsafe);
 
             // Get the event keyword.
             this.GetToken(elementProxy, TokenType.Event, SymbolType.Event);
 
             // Get the event type.
-            TypeToken eventHandlerType = this.GetTypeToken(elementProxy, unsafeCode, true);
+            var eventHandlerTypeExpressionProxy = new CodeUnitProxy();
+            TypeToken eventHandlerType = this.GetTypeToken(eventHandlerTypeExpressionProxy, unsafeCode, true);
+            var eventHandlerTypeExpression = new LiteralExpression(eventHandlerTypeExpressionProxy, eventHandlerType);
+            elementProxy.Children.Add(eventHandlerTypeExpression);
 
-            // Get the name of the event.
-            Token name = this.GetElementNameToken(elementProxy, unsafeCode);
+            // Get all of the event declarators.
+            string firstEventName = this.GetEventDeclarators(elementProxy, unsafeCode, eventHandlerType);
 
-            var @event = new Event(elementProxy, name.Text, attributes, eventHandlerType, unsafeCode);
+            if (string.IsNullOrWhiteSpace(firstEventName))
+            {
+                throw this.CreateSyntaxException();
+            }
+
+            Event @event = new Event(elementProxy, firstEventName, attributes, eventHandlerType, unsafeCode);
 
             Symbol symbol = this.PeekNextSymbol();
 
-            if (symbol.SymbolType == SymbolType.Equals)
-            {
-                this.GetToken(elementProxy, TokenType.Equals, SymbolType.Equals);
-                @event.InitializationExpression = this.GetNextExpression(elementProxy, ExpressionPrecedence.None, unsafeCode);
-
-                this.GetToken(elementProxy, TokenType.Semicolon, SymbolType.Semicolon);
-            }
-            else if (symbol.SymbolType == SymbolType.Semicolon)
+            if (symbol.SymbolType == SymbolType.Semicolon)
             {
                 this.GetToken(elementProxy, TokenType.Semicolon, SymbolType.Semicolon);
             }
@@ -1917,6 +1921,70 @@ namespace Microsoft.StyleCop.CSharp
             }
 
             return @event;
+        }
+
+        /// <summary>
+        /// Parses and returns the declarators for an event.
+        /// </summary>
+        /// <param name="parentProxy">Represents the parent item.</param>
+        /// <param name="unsafeCode">Indicates whether the code is marked as unsafe.</param>
+        /// <param name="eventHandlerType">The event type.</param>
+        /// <returns>Returns the name of the first event.</returns>
+        private string GetEventDeclarators(CodeUnitProxy parentProxy, bool unsafeCode, TypeToken eventHandlerType)
+        {
+            Param.AssertNotNull(parentProxy, "parentProxy");
+            Param.Ignore(unsafeCode);
+            Param.AssertNotNull(eventHandlerType, "eventHandlerType");
+
+            string firstEventName = null;
+            Symbol symbol = this.PeekNextSymbol();
+
+            while (symbol.SymbolType != SymbolType.Semicolon)
+            {
+                this.AdvanceToNextCodeSymbol(parentProxy);
+                var declaratorProxy = new CodeUnitProxy();
+
+                // Get the identifier.
+                var identifierExpressionProxy = new CodeUnitProxy();
+                Token identifier = this.GetElementNameToken(identifierExpressionProxy, unsafeCode, true);
+
+                if (firstEventName == null)
+                {
+                    firstEventName = identifier.Text;
+                }
+
+                var identifierExpression = new LiteralExpression(identifierExpressionProxy, identifier);
+                declaratorProxy.Children.Add(identifierExpression);
+
+                Expression initialization = null;
+
+                // Check whether there is an equals sign.
+                symbol = this.PeekNextSymbol();
+                if (symbol.SymbolType == SymbolType.Equals)
+                {
+                    this.GetOperatorSymbolToken(declaratorProxy, OperatorType.Equals);
+                    initialization = this.GetNextExpression(declaratorProxy, ExpressionPrecedence.None, unsafeCode);
+
+                    if (initialization == null)
+                    {
+                        throw this.CreateSyntaxException();
+                    }
+                }
+
+                var declaratorExpression = new VariableDeclaratorExpression(declaratorProxy, identifierExpression, initialization);
+
+                parentProxy.Children.Add(declaratorExpression);
+
+                // If the next symbol is a comma, continue.
+                symbol = this.PeekNextSymbol();
+                if (symbol.SymbolType == SymbolType.Comma)
+                {
+                    this.GetToken(parentProxy, TokenType.Comma, SymbolType.Comma);
+                    symbol = this.PeekNextSymbol();
+                }
+            }
+
+            return firstEventName;
         }
 
         /// <summary>
@@ -2099,10 +2167,15 @@ namespace Microsoft.StyleCop.CSharp
                 }
 
                 // Get the parameter type.
-                this.GetTypeToken(parameterProxy, unsafeCode, true);
+                TypeToken parameterType = this.GetTypeToken(parameterProxy, unsafeCode, true);
 
-                // Get the parameter name.
-                this.GetToken(parameterProxy, TokenType.Literal, SymbolType.Other);
+                // When the parameterType is __arglist, this means that there is actually no parameter type at
+                // all, and the parameter name should be set to the __arglist token.
+                if (!parameterType.Text.Equals("__arglist", StringComparison.Ordinal))
+                {
+                    // Get the parameter name.
+                    this.GetToken(parameterProxy, TokenType.Literal, SymbolType.Other);
+                }
 
                 // Create and add the parameter.
                 parameterListProxy.Children.Add(new Parameter(parameterProxy));

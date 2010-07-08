@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------
 // <copyright file="ConstructorConstraint.cs" company="Microsoft">
-//     Copyright (c) Microsoft Corporation. All rights reserved.
+//     Copyright (c) Microsoft Corporation.
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -29,11 +29,13 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Initializes a new instance of the ConstructorConstraint class.
         /// </summary>
+        /// <param name="proxy">The proxy object.</param>
         /// <param name="location">The location of the token in the code.</param>
         /// <param name="generated">True if the token is inside of a block of generated code.</param>
         internal ConstructorConstraint(CodeUnitProxy proxy, CodeLocation location, bool generated)
             : base(proxy, TokenType.ConstructorConstraint, location, generated)
         {
+            Param.AssertNotNull(proxy, "proxy");
             Param.AssertNotNull(location, "location");
             Param.Ignore(generated);
         }

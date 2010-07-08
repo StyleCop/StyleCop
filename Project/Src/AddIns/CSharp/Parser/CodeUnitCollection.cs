@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------
 // <copyright file="CodeUnitCollection.cs" company="Microsoft">
-//     Copyright (c) Microsoft Corporation. All rights reserved.
+//     Copyright (c) Microsoft Corporation.
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -35,7 +35,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The reference to the parent of the collection.
         /// </summary>
-        private Reference<CodeUnit> parentReference;
+        private ICodeUnitReference parentReference;
 
         #endregion Private Fields
 
@@ -45,7 +45,7 @@ namespace Microsoft.StyleCop.CSharp
         /// Initializes a new instance of the CodeUnitCollection class.
         /// </summary>
         /// <param name="parentReference">The reference to the parent of the collection.</param>
-        internal CodeUnitCollection(Reference<CodeUnit> parentReference)
+        internal CodeUnitCollection(ICodeUnitReference parentReference)
         {
             Param.AssertNotNull(parentReference, "parentReference");
             this.parentReference = parentReference;

@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="ICodeUnit.cs" company="Microsoft">
+// <copyright file="QueryClause.cs" company="Microsoft">
 //   Copyright (c) Microsoft Corporation.
 // </copyright>
 // <license>
@@ -15,6 +15,7 @@
 namespace Microsoft.StyleCop.CSharp
 {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
 
     /// <summary>
@@ -80,9 +81,9 @@ namespace Microsoft.StyleCop.CSharp
         /// Gets the variables defined within this code unit.
         /// </summary>
         /// <returns>Returns the collection of variables.</returns>
-        public virtual IVariable[] GetVariables()
+        public virtual IList<IVariable> GetVariables()
         {
-            return null;
+            return CsParser.EmptyVariableArray;
         }
 
         #endregion Public Virtual Methods
@@ -98,7 +99,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <returns>Returns the variable.</returns>
         protected QueryClauseVariable ExtractQueryVariable(Token firstToken, bool allowTypelessVariable, bool onlyTypelessVariable)
         {
-            Param.AssertNotNull(firstToken, "firstToken");
+            Param.RequireNotNull(firstToken, "firstToken");
             Param.Ignore(allowTypelessVariable);
             Param.Ignore(onlyTypelessVariable);
 
@@ -171,8 +172,8 @@ namespace Microsoft.StyleCop.CSharp
             internal QueryClauseVariable(TypeToken type, string name, CodeLocation location, bool generated)
             {
                 Param.Ignore(type);
-                Param.AssertValidString(name, "name");
-                Param.AssertNotNull(location, "location");
+                Param.RequireValidString(name, "name");
+                Param.RequireNotNull(location, "location");
                 Param.Ignore(generated);
 
                 this.type = type;

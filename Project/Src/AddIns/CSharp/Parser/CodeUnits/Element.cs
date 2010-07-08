@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="ICodeUnit.cs" company="Microsoft">
+// <copyright file="Element.cs" company="Microsoft">
 //   Copyright (c) Microsoft Corporation.
 // </copyright>
 // <license>
@@ -184,7 +184,7 @@ namespace Microsoft.StyleCop.CSharp
         }
 
         /// <summary>
-        /// Gets the element's access level, without taking into account the access level of the element's parent.
+        /// Gets or sets the element's access level, without taking into account the access level of the element's parent.
         /// </summary>
         public virtual AccessModifierType AccessLevel
         {
@@ -424,9 +424,9 @@ namespace Microsoft.StyleCop.CSharp
         /// Gets the variables defined within this code unit.
         /// </summary>
         /// <returns>Returns the collection of variables.</returns>
-        public virtual IVariable[] GetVariables()
+        public virtual IList<IVariable> GetVariables()
         {
-            return null;
+            return CsParser.EmptyVariableArray;
         }
 
         /// <summary>

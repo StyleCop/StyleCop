@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="ICodeUnit.cs" company="Microsoft">
+// <copyright file="Constructor.cs" company="Microsoft">
 //   Copyright (c) Microsoft Corporation.
 // </copyright>
 // <license>
@@ -125,7 +125,7 @@ namespace Microsoft.StyleCop.CSharp
         /// Gets the variables defined within this element.
         /// </summary>
         /// <returns>Returns the collection of variables.</returns>
-        public override IVariable[] GetVariables()
+        public override IList<IVariable> GetVariables()
         {
             return Method.GatherVariablesForElementWithParametersAndChildStatements(this, this.Parameters);
         }

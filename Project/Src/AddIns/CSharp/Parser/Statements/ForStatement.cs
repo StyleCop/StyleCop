@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------
 // <copyright file="ForStatement.cs" company="Microsoft">
-//     Copyright (c) Microsoft Corporation. All rights reserved.
+//     Copyright (c) Microsoft Corporation.
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -141,11 +141,11 @@ namespace Microsoft.StyleCop.CSharp
         /// Gets the variables defined within this code unit.
         /// </summary>
         /// <returns>Returns the collection of variables.</returns>
-        public override IVariable[] GetVariables()
+        public override IList<IVariable> GetVariables()
         {
             if (this.initializers == null || this.initializers.Count == 0)
             {
-                return null;
+                return CsParser.EmptyVariableArray;
             }
 
             var variables = new List<IVariable>(this.initializers.Count);
@@ -158,7 +158,7 @@ namespace Microsoft.StyleCop.CSharp
                 }
             }
 
-            return variables.ToArray();
+            return variables.AsReadOnly();
         }
 
         #endregion Public Override Methods

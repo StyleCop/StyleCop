@@ -134,6 +134,8 @@ namespace Microsoft.StyleCop
             Param.Ignore(environment);
             Param.Ignore(hostTag);
 
+            System.Diagnostics.Debugger.Break();
+
             this.environment = environment;
             this.hostTag = hostTag;
 

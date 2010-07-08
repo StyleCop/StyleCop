@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------
 // <copyright file="CodeParser.Expressions.cs" company="Microsoft">
-//     Copyright (c) Microsoft Corporation. All rights reserved.
+//     Copyright (c) Microsoft Corporation.
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -522,6 +522,7 @@ namespace Microsoft.StyleCop.CSharp
             {
                 CodeUnit next = unit.LinkNode.Next;
                 unit.Detach();
+                unit.LinkNode.ContainingList = null;
                 parentProxy.Children.Add(unit);
                 unit = next;
             }
@@ -1058,8 +1059,6 @@ namespace Microsoft.StyleCop.CSharp
                 }
 
                 // Get each declarator.
-                var declarators = new List<VariableDeclaratorExpression>();
-
                 while (true)
                 {
                     var variableDeclaratorExpressionProxy = new CodeUnitProxy();
@@ -1102,7 +1101,6 @@ namespace Microsoft.StyleCop.CSharp
 
                     // Create and add the declarator.
                     var declarator = new VariableDeclaratorExpression(variableDeclaratorExpressionProxy, identifier, initializer);
-                    declarators.Add(declarator);
                     expressionProxy.Children.Add(declarator);
 
                     // Now check if the next character is a comma. If so there is another declarator.
@@ -1118,7 +1116,7 @@ namespace Microsoft.StyleCop.CSharp
                 }
 
                 // Create the expression.
-                expression = new VariableDeclarationExpression(expressionProxy, literalType, declarators.ToArray());
+                expression = new VariableDeclarationExpression(expressionProxy, literalType);
                 parentProxy.Children.Add(expression);
             }
 

@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="ICodeUnit.cs" company="Microsoft">
+// <copyright file="Method.cs" company="Microsoft">
 //   Copyright (c) Microsoft Corporation.
 // </copyright>
 // <license>
@@ -185,7 +185,7 @@ namespace Microsoft.StyleCop.CSharp
         /// Gets the variables defined within this element.
         /// </summary>
         /// <returns>Returns the collection of variables.</returns>
-        public override IVariable[] GetVariables()
+        public override IList<IVariable> GetVariables()
         {
             return GatherVariablesForElementWithParametersAndChildStatements(this, this.Parameters);
         }
@@ -200,7 +200,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <param name="element">The element.</param>
         /// <param name="parameters">The element's parameters.</param>
         /// <returns>Returns the variables.</returns>
-        internal static IVariable[] GatherVariablesForElementWithParametersAndChildStatements(Element element, IList<Parameter> parameters)
+        internal static IList<IVariable> GatherVariablesForElementWithParametersAndChildStatements(Element element, IList<Parameter> parameters)
         {
             Param.AssertNotNull(element, "element");
             Param.Ignore(parameters);
@@ -222,7 +222,7 @@ namespace Microsoft.StyleCop.CSharp
                 variables.AddRange(variableStatement.GetVariables());
             }
 
-            return variables.Count > 0 ? variables.ToArray() : null;
+            return variables.AsReadOnly();
         }
 
         #endregion Internal Static Methods

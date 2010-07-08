@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="ICodeUnit.cs" company="Microsoft">
+// <copyright file="Accessor.cs" company="Microsoft">
 //   Copyright (c) Microsoft Corporation.
 // </copyright>
 // <license>
@@ -30,10 +30,10 @@ namespace Microsoft.StyleCop.CSharp
         /// </summary>
         private AccessorType accessorType;
 
-        /// <summary>
-        /// The accessor's return type.
-        /// </summary>
-        private TypeToken returnType;
+        ///// <summary>
+        ///// The accessor's return type.
+        ///// </summary>
+        ////private TypeToken returnType;
 
         #endregion Private Fields
 
@@ -82,17 +82,6 @@ namespace Microsoft.StyleCop.CSharp
             }
         }
 
-        /// <summary>
-        /// Gets the accessor's return type.
-        /// </summary>
-        public TypeToken ReturnType
-        {
-            get
-            {
-                return this.returnType;
-            }
-        }
-
         #endregion Public Properties
 
         #region Protected Override Properties
@@ -116,13 +105,13 @@ namespace Microsoft.StyleCop.CSharp
         /// Gets the variables defined within this element.
         /// </summary>
         /// <returns>Returns the collection of variables.</returns>
-        public override IVariable[] GetVariables()
+        public override IList<IVariable> GetVariables()
         {
             var variables = new List<IVariable>();
 
             if (this.accessorType == AccessorType.Set ||
                 this.accessorType == AccessorType.Add ||
-                this.AccessorType == AccessorType.Remove)
+                this.accessorType == AccessorType.Remove)
             {
                 variables.Add(new VirtualAccessorParameter(this));
             }
@@ -134,30 +123,18 @@ namespace Microsoft.StyleCop.CSharp
                 variables.AddRange(variableStatement.GetVariables());
             }
 
-            return variables.Count > 0 ? variables.ToArray() : null;
+            return variables.AsReadOnly();
         }
 
         #endregion Public Override Methods
 
-        #region Protected Override Methods
+        #region Public Methods
 
         /// <summary>
-        /// Called when the parent of the accessor changes.
+        /// Gets the accessor's return type.
         /// </summary>
-        protected override void OnParentChanged()
-        {
-            base.OnParentChanged();
-            this.FillDetails();
-        }
-
-        #endregion Protected Override Methods
-
-        #region Private Methods
-
-        /// <summary>
-        /// Fills in the details of the accessor based on its type.
-        /// </summary>
-        private void FillDetails()
+        /// <returns>Returns the return type.</returns>
+        public TypeToken GetReturnType()
         {
             // Set the return type and parameters.
             if (this.accessorType == AccessorType.Get)
@@ -165,59 +142,43 @@ namespace Microsoft.StyleCop.CSharp
                 Element parent = this.FindParent<Element>();
                 if (parent != null)
                 {
-                    this.FillGetAccessorDetails(parent);
+                    Property property = parent as Property;
+                    if (property != null)
+                    {
+                        // Get accessors on properties have the return type of their parent property, 
+                        // and have no input parameters.
+                        return property.ReturnType;
+                    }
+                    else
+                    {
+                        // Get accessors on indexers have the return type of their parent indexer, 
+                        // and have the input parameters of the parent indexer.
+                        Indexer indexer = (Indexer)parent;
+                        return indexer.ReturnType;
+                    }
                 }
             }
-            else if (this.accessorType == AccessorType.Set)
-            {
-                Element parent = this.FindParent<Element>();
-                if (parent != null)
-                {
-                    this.FillSetAccessorDetails(parent);
-                }
-            }
-            else
-            {
-                // Add and remove accessors have no return type.
-                this.returnType = this.CreateVoidTypeToken();
-            }
-        }
 
-        /// <summary>
-        /// Fills in the details of the get accessor.
-        /// </summary>
-        /// <param name="parent">The parent of the accessor.</param>
-        private void FillGetAccessorDetails(Element parent)
-        {
-            Param.AssertNotNull(parent, "parent");
-
-            Property property = parent as Property;
-            if (property != null)
-            {
-                // Get accessors on properties have the return type of their parent property, 
-                // and have no input parameters.
-                this.returnType = property.ReturnType;
-            }
-            else
-            {
-                // Get accessors on indexers have the return type of their parent indexer, 
-                // and have the input parameters of the parent indexer.
-                Indexer indexer = (Indexer)parent;
-                this.returnType = indexer.ReturnType;
-            }
-        }
-
-        /// <summary>
-        /// Fills in the details of the set accessor.
-        /// </summary>
-        /// <param name="parent">The parent of the accessor.</param>
-        private void FillSetAccessorDetails(Element parent)
-        {
-            Param.AssertNotNull(parent, "parent");
-            
             // Set accessors do not have a return type.
-            this.returnType = this.CreateVoidTypeToken();
+            return this.CreateVoidTypeToken();
         }
+
+        #endregion Public Methods
+
+        #region Protected Override Methods
+
+        /////// <summary>
+        /////// Called when the parent of the accessor changes.
+        /////// </summary>
+        ////protected override void OnParentChanged()
+        ////{
+        ////    base.OnParentChanged();
+        ////    this.FillDetails();
+        ////}
+
+        #endregion Protected Override Methods
+
+        #region Private Methods
 
         /// <summary>
         /// Creates a TypeToken of type void.
@@ -265,7 +226,7 @@ namespace Microsoft.StyleCop.CSharp
                     return "value";
                 }
             }
-
+            
             /// <summary>
             /// Gets the variable type.
             /// </summary>

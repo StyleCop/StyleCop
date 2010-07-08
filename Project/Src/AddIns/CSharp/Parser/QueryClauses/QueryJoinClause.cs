@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------
 // <copyright file="QueryJoinClause.cs" company="Microsoft">
-//     Copyright (c) Microsoft Corporation. All rights reserved.
+//     Copyright (c) Microsoft Corporation.
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -15,6 +15,7 @@
 namespace Microsoft.StyleCop.CSharp
 {
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Describes a join clause in a query expression.
@@ -147,7 +148,7 @@ namespace Microsoft.StyleCop.CSharp
         /// Gets the variables defined within this clause.
         /// </summary>
         /// <returns>Returns the collection of variables.</returns>
-        public override IVariable[] GetVariables()
+        public override IList<IVariable> GetVariables()
         {
             IVariable rangeVariable = this.RangeVariable;
             IVariable intoVariable = this.IntoVariable;
@@ -168,7 +169,7 @@ namespace Microsoft.StyleCop.CSharp
                 return new IVariable[] { intoVariable };
             }
 
-            return null;
+            return CsParser.EmptyVariableArray;
         }
 
         #endregion Public Override Methods

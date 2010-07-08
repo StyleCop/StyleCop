@@ -323,7 +323,12 @@
     <None Include="MethodParameters.GenericTest" />
     <None Include="LineSpacing.GenericTest" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Harnesses\TestHarness\StyleCopTestHarness.csproj">
+      <Project>{40A38D73-93E7-49FD-9781-74CF6E6098CC}</Project>
+      <Name>StyleCopTestHarness</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
       <Visible>False</Visible>

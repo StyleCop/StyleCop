@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="VariableDeclaratorExpression.cs" company="Microsoft">
+// <copyright file="EventDeclaratorExpression.cs" company="Microsoft">
 //   Copyright (c) Microsoft Corporation.
 // </copyright>
 // <license>
@@ -17,20 +17,20 @@ namespace Microsoft.StyleCop.CSharp
     using System;
 
     /// <summary>
-    /// A single variable declarator within a variable declaration expression.
+    /// A single declarator within a event.
     /// </summary>
     /// <subcategory>expression</subcategory>
-    public sealed partial class VariableDeclaratorExpression : Expression
+    public sealed partial class EventDeclaratorExpression : Expression
     {
         #region Private Fields
 
         /// <summary>
-        /// The identifier of the variable.
+        /// The identifier of the event.
         /// </summary>
         private LiteralExpression identifier;
 
         /// <summary>
-        /// The initialization expression for the variable.
+        /// The initialization expression for the event.
         /// </summary>
         private Expression initializer;
 
@@ -39,16 +39,16 @@ namespace Microsoft.StyleCop.CSharp
         #region Internal Constructors
 
         /// <summary>
-        /// Initializes a new instance of the VariableDeclaratorExpression class.
+        /// Initializes a new instance of the EventDeclaratorExpression class.
         /// </summary>
         /// <param name="proxy">Proxy object for the expression.</param>
-        /// <param name="identifier">The identifier name of the variable.</param>
-        /// <param name="initializer">The initialization expression for the variable.</param>
-        internal VariableDeclaratorExpression(
+        /// <param name="identifier">The identifier name of the event.</param>
+        /// <param name="initializer">The initialization expression for the event.</param>
+        internal EventDeclaratorExpression(
             CodeUnitProxy proxy,
             LiteralExpression identifier, 
             Expression initializer)
-            : base(proxy, ExpressionType.VariableDeclarator)
+            : base(proxy, ExpressionType.EventDeclarator)
         {
             Param.AssertNotNull(proxy, "proxy");
             Param.AssertNotNull(identifier, "identifier");
@@ -63,7 +63,7 @@ namespace Microsoft.StyleCop.CSharp
         #region Public Properties
 
         /// <summary>
-        /// Gets the identifier name of the variable.
+        /// Gets the identifier name of the event.
         /// </summary>
         public LiteralExpression Identifier
         {
@@ -74,7 +74,7 @@ namespace Microsoft.StyleCop.CSharp
         }
 
         /// <summary>
-        /// Gets the initialization statement for the variable.
+        /// Gets the initialization statement for the event.
         /// </summary>
         public Expression Initializer
         {
@@ -90,7 +90,7 @@ namespace Microsoft.StyleCop.CSharp
     /// <content>
     /// Implements the IVariable interface.
     /// </content>
-    public partial class VariableDeclaratorExpression : IVariable
+    public partial class EventDeclaratorExpression : IVariable
     {
         #region Public Properties 
 
@@ -112,10 +112,10 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                VariableDeclarationExpression declaration = this.Parent as VariableDeclarationExpression;
-                if (declaration != null)
+                Event @event = this.Parent as Event;
+                if (@event != null)
                 {
-                    return declaration.Type;
+                    return @event.EventHandlerType;
                 }
 
                 return null;

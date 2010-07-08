@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="ICodeUnit.cs" company="Microsoft">
+// <copyright file="Field.cs" company="Microsoft">
 //   Copyright (c) Microsoft Corporation.
 // </copyright>
 // <license>
@@ -151,12 +151,12 @@ namespace Microsoft.StyleCop.CSharp
         /// Gets the variables defined within this element.
         /// </summary>
         /// <returns>Returns the collection of variables.</returns>
-        public override IVariable[] GetVariables()
+        public override IList<IVariable> GetVariables()
         {
             VariableDeclarationStatement declarationStatement = this.VariableDeclarationStatement;
             if (declarationStatement == null)
             {
-                return null;
+                return CsParser.EmptyVariableArray;
             }
 
             return declarationStatement.GetVariables();

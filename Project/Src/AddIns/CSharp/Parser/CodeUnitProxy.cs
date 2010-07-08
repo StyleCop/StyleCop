@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="CodeUnitProxy.cs" company="Microsoft">
-//     Copyright (c) Microsoft Corporation. All rights reserved.
+//     Copyright (c) Microsoft Corporation.
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -33,7 +33,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The reference to the CodeUnit.
         /// </summary>
-        private Reference<CodeUnit> reference = new Reference<CodeUnit>();
+        private CodeUnitReference reference = new CodeUnitReference();
 
         /// <summary>
         /// Initializes a new instance of the CodeUnitProxy class.
@@ -61,7 +61,7 @@ namespace Microsoft.StyleCop.CSharp
         public void Attach(CodeUnit codeUnit)
         {
             Param.AssertNotNull(codeUnit, "codeUnit");
-            this.reference.Target = codeUnit;
+            this.reference.TargetRef = codeUnit;
         }
     }
 }
