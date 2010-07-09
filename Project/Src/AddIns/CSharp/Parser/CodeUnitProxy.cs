@@ -30,17 +30,23 @@ namespace Microsoft.StyleCop.CSharp
         /// </summary>
         private CodeUnitCollection children;
 
+        ///// <summary>
+        ///// The reference to the CodeUnit.
+        ///// </summary>
+        ////private CodeUnitReference reference;
+
         /// <summary>
-        /// The reference to the CodeUnit.
+        /// The target code that this object is a proxy for.
         /// </summary>
-        private CodeUnitReference reference = new CodeUnitReference();
+        private CodeUnit target;
 
         /// <summary>
         /// Initializes a new instance of the CodeUnitProxy class.
         /// </summary>
         public CodeUnitProxy()
         {
-            this.children = new CodeUnitCollection(this.reference);
+            ////this.reference = new CodeUnitReference(this);
+            this.children = new CodeUnitCollection(this);
         }
 
         /// <summary>
@@ -55,13 +61,24 @@ namespace Microsoft.StyleCop.CSharp
         }
 
         /// <summary>
-        /// Attaches the code unit reference to the given code unit.
+        /// Gets the code unit that this object is a proxy for.
+        /// </summary>
+        public CodeUnit Target
+        {
+            get
+            {
+                return this.target;
+            }
+        }
+
+        /// <summary>
+        /// Attaches this proxy to its code unit.
         /// </summary>
         /// <param name="codeUnit">The code unit to attach to.</param>
         public void Attach(CodeUnit codeUnit)
         {
             Param.AssertNotNull(codeUnit, "codeUnit");
-            this.reference.TargetRef = codeUnit;
+            this.target = codeUnit;
         }
     }
 }

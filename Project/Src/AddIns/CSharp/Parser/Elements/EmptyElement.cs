@@ -35,7 +35,7 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertNotNull(proxy, "proxy");
             Param.Ignore(unsafeCode);
 
-            this.AccessLevel = AccessModifierType.Public;
+            this.AccessModifierType = AccessModifierType.Public;
         }
 
         #endregion Internal Constructors

@@ -83,6 +83,16 @@ namespace Microsoft.StyleCop.CSharp
         Argument = 0x11000000,
 
         /// <summary>
+        /// An Xml header.
+        /// </summary>
+        XmlHeader = 0x12000000,
+
+        /// <summary>
+        /// A file header.
+        /// </summary>
+        FileHeader = 0x13000000,
+
+        /// <summary>
         /// All types of code units.
         /// </summary>
         All = 0x7FFFFFFF // This is set to the largest positive number.
@@ -1486,15 +1496,15 @@ namespace Microsoft.StyleCop.CSharp
         /// </summary>
         None = 0,
 
-        /// <summary>
-        /// A code file.
-        /// </summary>
-        File = 0x02010000,
+        /////// <summary>
+        /////// A code file.
+        /////// </summary>
+        ////File = 0x02010000,
 
         /// <summary>
-        /// The root of a document.
+        /// A document.
         /// </summary>
-        Root = 0x02020000,
+        Document = 0x02020000,
 
         /// <summary>
         /// An extern alias directive.

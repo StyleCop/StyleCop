@@ -44,7 +44,7 @@ namespace Microsoft.StyleCop.CSharp
             // Static destructors are always public.
             if (this.ContainsModifier(TokenType.Static))
             {
-                this.AccessLevel = AccessModifierType.Public;
+                this.AccessModifierType = AccessModifierType.Public;
             }
         }
 

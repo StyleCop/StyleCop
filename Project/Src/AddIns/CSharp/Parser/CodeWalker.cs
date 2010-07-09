@@ -60,10 +60,7 @@ namespace Microsoft.StyleCop.CSharp
             Param.Ignore(context);
             Param.Ignore(codeUnitTypes);
 
-            if (document.RootElement != null)
-            {
-                WalkCodeUnit(document.RootElement, callback, context, codeUnitTypes);
-            }
+            WalkCodeUnit(document, callback, context, codeUnitTypes);
         }
 
         /// <summary>

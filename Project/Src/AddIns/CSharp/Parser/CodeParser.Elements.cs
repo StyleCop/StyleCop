@@ -200,7 +200,7 @@ namespace Microsoft.StyleCop.CSharp
                 case ElementType.Enum:
                     return
                         parent != null &&
-                        (parent.ElementType == ElementType.Root ||
+                        (parent.ElementType == ElementType.Document ||
                          parent.ElementType == ElementType.Namespace ||
                          parent.ElementType == ElementType.Class ||
                          parent.ElementType == ElementType.Struct);
@@ -237,17 +237,16 @@ namespace Microsoft.StyleCop.CSharp
                     return
                         parent != null &&
                         (parent.ElementType == ElementType.Namespace ||
-                         parent.ElementType == ElementType.Root);
+                         parent.ElementType == ElementType.Document);
 
-                case ElementType.File:
-                case ElementType.Root:
+                case ElementType.Document:
                     return parent == null;
 
                 case ElementType.Namespace:
                 case ElementType.UsingDirective:
                     return
                         parent != null &&
-                        (parent.ElementType == ElementType.Root ||
+                        (parent.ElementType == ElementType.Document ||
                          parent.ElementType == ElementType.Namespace);
 
                 case ElementType.EmptyElement:
@@ -550,9 +549,8 @@ namespace Microsoft.StyleCop.CSharp
                         break;
 
                     case SymbolType.XmlHeaderLine:
-                        // Add the xml header to the element.
-                        elementProxy.Children.Add(new XmlHeaderLine(symbol.Text, symbol.Location, this.symbols.Generated));
-                        this.symbols.Advance();
+                        // Get the xml header.
+                        elementProxy.Children.Add(this.GetXmlHeader());
                         proxyForNonTokens = elementProxy;
                         break;
 
@@ -589,6 +587,73 @@ namespace Microsoft.StyleCop.CSharp
 
             // Set the attributes as a read-only collection.
             return attributes.ToArray();
+        }
+        
+        /// <summary>
+        /// Gets an xml header.
+        /// </summary>
+        /// <returns>Returns the header or null if there is no header.</returns>
+        private XmlHeader GetXmlHeader()
+        {
+            // Get the first symbol and make sure it is the right type.
+            int index = 1;
+            Symbol firstSymbol = this.symbols.Peek(index);
+            Debug.Assert(firstSymbol != null && firstSymbol.SymbolType == SymbolType.XmlHeaderLine, "Expected an xml documentation header line");
+
+            // Marks the end of the header.
+            int end = -1;
+            int endOfLineCount = 0;
+
+            var xmlHeaderProxy = new CodeUnitProxy();
+
+            // Loop until the entire header is found.
+            Symbol symbol = firstSymbol;
+            while (symbol != null)
+            {
+                if (symbol.SymbolType == SymbolType.XmlHeaderLine)
+                {
+                    // This type of token belongs in the header.
+                    end = index;
+                    endOfLineCount = 0;
+                }
+                else if (symbol.SymbolType == SymbolType.EndOfLine)
+                {
+                    if (++endOfLineCount > 1)
+                    {
+                        // If there are two newlines in a row, this is the
+                        // end of the Xml header.
+                        break;
+                    }
+                }
+                else if (symbol.SymbolType == SymbolType.WhiteSpace ||
+                    symbol.SymbolType == SymbolType.SingleLineComment)
+                {
+                    endOfLineCount = 0;
+                }
+                else
+                {
+                    // This is the end of the header.
+                    break;
+                }
+
+                // Advance the index and get the next symbol.
+                symbol = this.symbols.Peek(++index);
+            }
+
+            // Make sure we've advanced at least one symbol.
+            Debug.Assert(end != -1, "Should have advanced at least one symbol");
+
+            // Add all of the symbols for the header to a token list.
+            for (int i = 1; i <= end; ++i)
+            {
+                this.symbols.Advance();
+                Debug.Assert(this.symbols.Current != null, "The current symbol should not be null");
+
+                xmlHeaderProxy.Children.Add(new XmlHeaderLine(this.symbols.Current.Text, this.symbols.Current.Location, this.symbols.Generated));
+            }
+
+            // Create the Xml header object.
+            return new XmlHeader(xmlHeaderProxy);
         }
 
         /// <summary>
@@ -1550,7 +1615,7 @@ namespace Microsoft.StyleCop.CSharp
             Interface parentInterface = parentElement as Interface;
             if (parentInterface != null)
             {
-                accessModifier = parentInterface.AccessLevel;
+                accessModifier = parentInterface.AccessModifierType;
             }
 
             // Get the declared modifiers for the method.
@@ -1787,7 +1852,7 @@ namespace Microsoft.StyleCop.CSharp
             Interface parentInterface = parent as Interface;
             if (parentInterface != null)
             {
-                accessModifier = parentInterface.AccessLevel;
+                accessModifier = parentInterface.AccessModifierType;
             }
 
             // Get declared modifiers.
@@ -1833,7 +1898,7 @@ namespace Microsoft.StyleCop.CSharp
             Interface parentInterface = parent as Interface;
             if (parentInterface != null)
             {
-                accessModifier = parentInterface.AccessLevel;
+                accessModifier = parentInterface.AccessModifierType;
             }
 
             // Get declared modifiers.
@@ -1882,7 +1947,7 @@ namespace Microsoft.StyleCop.CSharp
             Interface parentInterface = parent as Interface;
             if (parentInterface != null)
             {
-                accessModifier = parentInterface.AccessLevel;
+                accessModifier = parentInterface.AccessModifierType;
             }
 
             // Get declared modifiers.

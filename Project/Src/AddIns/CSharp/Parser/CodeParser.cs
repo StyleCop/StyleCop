@@ -371,11 +371,11 @@ namespace Microsoft.StyleCop.CSharp
             // Create the symbol manager class.
             this.symbols = new SymbolManager(symbolList);
 
-            // Create the document object.
-            this.document = new CsDocument(this.lexer.SourceCode, this.parser);
-
             // The parent reference to the document.
             var documentProxy = new CodeUnitProxy();
+
+            // Create the document object.
+            this.document = new CsDocument(documentProxy, this.lexer.SourceCode, this.parser);
 
             // Get the file header if it exists.
             FileHeader fileHeader = this.GetFileHeader(documentProxy);
@@ -386,19 +386,11 @@ namespace Microsoft.StyleCop.CSharp
                 this.symbols.IncrementGeneratedCodeBlocks();
             }
 
-            this.document.FileHeader = fileHeader;
-
-            // Create the root element for the document.
-            var root = new DocumentRoot(documentProxy, this.document);
-
             // Parse the contents of the document.
-            this.ParseElementContainerBody(documentProxy, root, this.parser.PartialElements, false);
-
-            // Add the root element to the document.
-            this.document.RootElement = root;
+            this.ParseElementContainerBody(documentProxy, this.document, this.parser.PartialElements, false);
 
             // Perform a debug check to ensure that all code unit references have been set.
-            ValidateCodeUnitReferences(root);
+            ValidateCodeUnitReferences(this.document);
         }
 
         /// <summary>
@@ -783,8 +775,7 @@ namespace Microsoft.StyleCop.CSharp
             // Make sure that we are starting at the beginning of the file.
             Debug.Assert(this.symbols.CurrentIndex == -1, "Expected to be at the  beginning of the file");
 
-            // Stores the header text.
-            var header = new StringBuilder();
+            var fileHeaderProxy = new CodeUnitProxy();
 
             // Advance past whitespace and EOLs only.
             this.AdvanceToNextCodeSymbol(parentProxy, SkipSymbols.WhiteSpace | SkipSymbols.EndOfLine);
@@ -805,14 +796,8 @@ namespace Microsoft.StyleCop.CSharp
                     newLineCount = 0;
 
                     // Ignore lines that start with //- since these are borders. We only want the body.
-                    if (!symbol.Text.StartsWith("//-", StringComparison.Ordinal))
-                    {
-                        // Copy everything after the comment slashes.
-                        header.Append(symbol.Text.Substring(2, symbol.Text.Length - 2));
-                    }
-
                     // Advance the symbol manager.
-                    parentProxy.Children.Add(new SingleLineComment(symbol.Text, symbol.Location, this.symbols.Generated));
+                    fileHeaderProxy.Children.Add(new SingleLineComment(symbol.Text, symbol.Location, this.symbols.Generated));
                     this.symbols.Advance();
                 }
                 else if (symbol.SymbolType == SymbolType.EndOfLine)
@@ -823,14 +808,14 @@ namespace Microsoft.StyleCop.CSharp
                         break;
                     }
 
-                    parentProxy.Children.Add(new EndOfLine(symbol.Text, symbol.Location, this.symbols.Generated));
+                    fileHeaderProxy.Children.Add(new EndOfLine(symbol.Text, symbol.Location, this.symbols.Generated));
                     this.symbols.Advance();
                 }
                 else if (symbol.SymbolType == SymbolType.WhiteSpace)
                 {
                     if (this.IsNextSymbolPartOfHeader())
                     {
-                        parentProxy.Children.Add(new Whitespace(symbol.Text, symbol.Location, this.symbols.Generated));
+                        fileHeaderProxy.Children.Add(new Whitespace(symbol.Text, symbol.Location, this.symbols.Generated));
                         this.symbols.Advance();
                     }
                     else
@@ -844,7 +829,7 @@ namespace Microsoft.StyleCop.CSharp
                 }
             }
 
-            return new FileHeader(header.ToString());
+            return new FileHeader(fileHeaderProxy);
         }
 
         /// <summary>
@@ -1366,10 +1351,10 @@ namespace Microsoft.StyleCop.CSharp
             {
                 lineNumber = this.symbols.Current.LineNumber;
             }
-            else if (this.document != null && this.document.RootElement != null && this.document.RootElement.Children.Count > 0)
+            else if (this.document != null && this.document.Children.Count > 0)
             {
                 // Take the line nubmer of the last code unit that has been added to the document up to this point.
-                lineNumber = this.document.RootElement.FindLastDescendent<CodeUnit>().LineNumber;
+                lineNumber = this.document.FindLastDescendent<CodeUnit>().LineNumber;
             }
 
             return lineNumber;

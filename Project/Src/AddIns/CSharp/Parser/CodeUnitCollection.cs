@@ -35,7 +35,8 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The reference to the parent of the collection.
         /// </summary>
-        private ICodeUnitReference parentReference;
+        ////private ICodeUnitReference parentReference;
+        private CodeUnitProxy parentReference;
 
         #endregion Private Fields
 
@@ -45,7 +46,7 @@ namespace Microsoft.StyleCop.CSharp
         /// Initializes a new instance of the CodeUnitCollection class.
         /// </summary>
         /// <param name="parentReference">The reference to the parent of the collection.</param>
-        internal CodeUnitCollection(ICodeUnitReference parentReference)
+        internal CodeUnitCollection(CodeUnitProxy parentReference)
         {
             Param.AssertNotNull(parentReference, "parentReference");
             this.parentReference = parentReference;
