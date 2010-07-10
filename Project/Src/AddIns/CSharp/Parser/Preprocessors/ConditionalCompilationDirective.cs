@@ -32,6 +32,7 @@ namespace Microsoft.StyleCop.CSharp
         private Expression body;
 
         #endregion Private Fields
+
         #region Internal Constructors
 
         /// <summary>
@@ -41,23 +42,14 @@ namespace Microsoft.StyleCop.CSharp
         /// <param name="proxy">Proxy object for the directive.</param>
         /// <param name="type">The type of the directive.</param>
         /// <param name="body">The expression that makes up the body of the directive.</param>
-        /// <param name="location">The location of the preprocessor in the code.</param>
-        /// <param name="generated">Indicates whether the directive lies within a block of generated code.</param>
         internal ConditionalCompilationDirective(
-            string text, 
-            CodeUnitProxy proxy,
-            PreprocessorType type, 
-            Expression body, 
-            CodeLocation location, 
-            bool generated)
-            : base(text, proxy, type, location, generated)
+            string text, CodeUnitProxy proxy, PreprocessorType type, Expression body)
+            : base(text, proxy, type)
         {
             Param.AssertValidString(text, "text");
             Param.Ignore(proxy);
             Param.Ignore(type);
             Param.Ignore(body);
-            Param.AssertNotNull(location, "location");
-            Param.Ignore(generated);
 
             Debug.Assert(
                 type == PreprocessorType.If ||

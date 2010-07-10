@@ -35,9 +35,17 @@ namespace Microsoft.StyleCop.CSharp
         /// <param name="location">The location of the preprocessor in the code.</param>
         /// <param name="generated">Indicates whether the preprocessor lies within a block of generated code.</param>
         internal PreprocessorDirective(string text, PreprocessorType preprocessorType, CodeLocation location, bool generated)
-            : this(text, null, preprocessorType, location, generated)
+            : base((int)preprocessorType, location, generated)
         {
-            Param.Ignore(text, preprocessorType, location, generated);
+            Param.AssertNotNull(text, "text");
+            Param.Ignore(preprocessorType);
+            Param.AssertNotNull(location, "location");
+            Param.Ignore(generated);
+
+            Debug.Assert(System.Enum.IsDefined(typeof(PreprocessorType), this.PreprocessorType), "The type is invalid.");
+
+            this.Text = text;
+            this.Initialize();
         }
 
         /// <summary>
@@ -46,44 +54,17 @@ namespace Microsoft.StyleCop.CSharp
         /// <param name="text">The line text.</param>
         /// <param name="proxy">Proxy object for the directive.</param>
         /// <param name="preprocessorType">The type of the preprocessor.</param>
-        /// <param name="location">The location of the preprocessor in the code.</param>
-        /// <param name="generated">Indicates whether the preprocessor lies within a block of generated code.</param>
-        internal PreprocessorDirective(string text, CodeUnitProxy proxy, PreprocessorType preprocessorType, CodeLocation location, bool generated)
-            : base(proxy, (int)preprocessorType, location, generated)
+        internal PreprocessorDirective(string text, CodeUnitProxy proxy, PreprocessorType preprocessorType)
+            : base((int)preprocessorType, proxy)
         {
             Param.AssertNotNull(text, "text");
-            Param.Ignore(proxy);
+            Param.AssertNotNull(proxy, "proxy");
             Param.Ignore(preprocessorType);
-            Param.AssertNotNull(location, "location");
-            Param.Ignore(generated);
 
             Debug.Assert(System.Enum.IsDefined(typeof(PreprocessorType), this.PreprocessorType), "The type is invalid.");
 
             this.Text = text;
-
-            // Extract the type of the preprocessor statement.
-            int startIndex = 0;
-            while (true)
-            {
-                if (text[startIndex] == '#')
-                {
-                    break;
-                }
-
-                ++startIndex;
-            }
-
-            // Extract the name.
-            int index = startIndex;
-            while (index + 1 < text.Length)
-            {
-                if (!char.IsLetter(text[index + 1]))
-                {
-                    break;
-                }
-
-                ++index;
-            }
+            this.Initialize();
         }
 
         #endregion Internal Constructors
@@ -102,5 +83,43 @@ namespace Microsoft.StyleCop.CSharp
         }
 
         #endregion Public Properties
+
+        #region Private Methods
+
+        /// <summary>
+        /// Initializes the contents of the class.
+        /// </summary>
+        private void Initialize()
+        {
+            string text = this.Text;
+            if (!string.IsNullOrEmpty(text))
+            {
+                // Extract the type of the preprocessor statement.
+                int startIndex = 0;
+                while (true)
+                {
+                    if (text[startIndex] == '#')
+                    {
+                        break;
+                    }
+
+                    ++startIndex;
+                }
+
+                // Extract the name.
+                int index = startIndex;
+                while (index + 1 < text.Length)
+                {
+                    if (!char.IsLetter(text[index + 1]))
+                    {
+                        break;
+                    }
+
+                    ++index;
+                }
+            }
+        }
+
+        #endregion Private Methods
     }
 }

@@ -28,12 +28,10 @@ namespace Microsoft.StyleCop.CSharp
         /// <param name="text">The text within the directive.</param>
         /// <param name="proxy">The proxy.</param>
         /// <param name="body">The body expression.</param>
-        /// <param name="location">The location of the preprocessor directive in the code.</param>
-        /// <param name="generated">Indicates whether the item is generated.</param>
-        internal ElifDirective(string text, CodeUnitProxy proxy, Expression body, CodeLocation location, bool generated)
-            : base(text, proxy, PreprocessorType.Elif, body, location, generated)
+        internal ElifDirective(string text, CodeUnitProxy proxy, Expression body)
+            : base(text, proxy, PreprocessorType.Elif, body)
         {
-            Param.Ignore(text, proxy, body, location, generated);
+            Param.Ignore(text, proxy, body);
         }
     }
 }

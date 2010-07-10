@@ -74,11 +74,6 @@ namespace Microsoft.StyleCop.CSharp
         /// </summary>
         private LinkNode<CodeUnit> linkNode;
 
-        /// <summary>
-        /// Indicates whether the code unit lies within a block of generated code.
-        /// </summary>
-        private bool generated;
-
         #endregion Private Fields
 
         #region Internal Constructors
@@ -91,7 +86,8 @@ namespace Microsoft.StyleCop.CSharp
         internal CodeUnit(CodeUnitProxy proxy, CodeUnitType codeUnitType)
             : this(proxy, (int)codeUnitType)
         {
-            Param.Ignore(proxy, codeUnitType);
+            Param.Ignore(proxy);
+            Param.Ignore(codeUnitType);
         }
 
         /// <summary>
@@ -100,39 +96,9 @@ namespace Microsoft.StyleCop.CSharp
         /// <param name="proxy">Proxy object for the code unit.</param>
         /// <param name="fundamentalType">The type of the code unit.</param>
         internal CodeUnit(CodeUnitProxy proxy, int fundamentalType)
-            : this(
-            proxy, 
-            fundamentalType, 
-            proxy == null ? false : (proxy.Children == null ? false : (proxy.Children.First == null ? false : (proxy.Children.First.Generated || proxy.Children.Last.Generated))))
-        {
-            Param.Ignore(proxy, fundamentalType);
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the CodeUnit class.
-        /// </summary>
-        /// <param name="proxy">Proxy object for the code unit.</param>
-        /// <param name="codeUnitType">The type of the code unit.</param>
-        /// <param name="generated">Indicates whether the item lies within a block of generated code.</param>
-        internal CodeUnit(CodeUnitProxy proxy, CodeUnitType codeUnitType, bool generated)
-            : this(proxy, (int)codeUnitType, generated)
-        {
-            Param.Ignore(proxy);
-            Param.Ignore(codeUnitType);
-            Param.Ignore(generated);
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the CodeUnit class.
-        /// </summary>
-        /// <param name="proxy">Proxy object for the code unit.</param>
-        /// <param name="fundamentalType">The type of the code unit.</param>
-        /// <param name="generated">Indicates whether the item lies within a block of generated code.</param>
-        internal CodeUnit(CodeUnitProxy proxy, int fundamentalType, bool generated)
         {
             Param.Ignore(proxy);
             Param.Ignore(fundamentalType);
-            Param.Ignore(generated);
 
             this.linkNode = new LinkNode<CodeUnit>(this);
             
@@ -142,11 +108,56 @@ namespace Microsoft.StyleCop.CSharp
 
             this.fundamentalType = fundamentalType;
             Debug.Assert(System.Enum.IsDefined(typeof(CodeUnitType), this.CodeUnitType), "The type is invalid.");
-
-            this.generated = generated;
         }
 
         #endregion Internal Constructors
+
+        #region Public Virtual Properties
+
+        /// <summary>
+        /// Gets a value indicating whether this is generated code.
+        /// </summary>
+        public virtual bool Generated
+        {
+            get
+            {
+                return this.proxy.Children.First == null ? false : (this.proxy.Children.First.Generated || this.proxy.Children.Last.Generated);
+            }
+        }
+
+        /// <summary>
+        /// Gets the location of this code unit within the document.
+        /// </summary>
+        public virtual CodeLocation Location
+        {
+            get
+            {
+                if (this.proxy.Children.Count > 0)
+                {
+                    return CodeUnit.JoinLocations(this.proxy.Children.First, this.proxy.Children.Last);
+                }
+
+                return CodeLocation.Empty;
+            }
+        }
+
+        /// <summary>
+        /// Gets the line number that this code unit appears on in the document.
+        /// </summary>
+        public virtual int LineNumber
+        {
+            get
+            {
+                if (this.proxy.Children.Count > 0)
+                {
+                    return this.proxy.Children.First.LineNumber;
+                }
+
+                return 0;
+            }
+        }
+
+        #endregion Public Virtual Properties
 
         #region Public Properties
 
@@ -175,38 +186,6 @@ namespace Microsoft.StyleCop.CSharp
                 }
 
                 return this.parentReference.Target;
-            }
-        }
-
-        /// <summary>
-        /// Gets the location of this code unit within the document.
-        /// </summary>
-        public virtual CodeLocation Location
-        {
-            get
-            {
-                if (this.Children.Count > 0)
-                {
-                    return CodeUnit.JoinLocations(this.Children.First, this.Children.Last);
-                }
-
-                return CodeLocation.Empty;
-            }
-        }
-
-        /// <summary>
-        /// Gets the line number that this code unit appears on in the document.
-        /// </summary>
-        public virtual int LineNumber
-        {
-            get
-            {
-                if (this.Children.Count > 0)
-                {
-                    return this.Children.First.LineNumber;
-                }
-
-                return 0;
             }
         }
 
@@ -269,22 +248,6 @@ namespace Microsoft.StyleCop.CSharp
             get
             {
                 return (CodeUnitType)(this.fundamentalType & (int)FundamentalTypeMasks.CodeUnit);
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether this is generated code.
-        /// </summary>
-        public bool Generated
-        {
-            get
-            {
-                return this.generated;
-            }
-
-            protected set
-            {
-                this.generated = value;
             }
         }
 

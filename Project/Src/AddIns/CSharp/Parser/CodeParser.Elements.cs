@@ -2630,11 +2630,7 @@ namespace Microsoft.StyleCop.CSharp
                         openParenthesis.MatchingBracket = closeParenthesis;
                         closeParenthesis.MatchingBracket = openParenthesis;
 
-                        constraintToken = new ConstructorConstraintToken(
-                            constraintTokenProxy,
-                            CodeUnit.JoinLocations(constraintTokenProxy.Children.First, constraintTokenProxy.Children.Last),
-                            constraintTokenProxy.Children.First.Generated);
-
+                        constraintToken = new ConstructorConstraintToken(constraintTokenProxy);
                         constraintClauseProxy.Children.Add(constraintToken);
                     }
                     else

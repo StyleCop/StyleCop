@@ -1143,8 +1143,7 @@ namespace Microsoft.StyleCop.CSharp
 
             // The type is either not generic, or else it is composed of a more complex type which includes a generic 
             // (for example, an array of a generic type). Return the more complex type.
-            CodeLocation location = CodeUnit.JoinLocations(typeTokenProxy.Children.First, typeTokenProxy.Children.Last);
-            return new TypeToken(typeTokenProxy, location, this.symbols.Generated);
+            return new TypeToken(typeTokenProxy);
         }
 
         /// <summary>
@@ -1200,8 +1199,7 @@ namespace Microsoft.StyleCop.CSharp
                     if (this.GetGenericArgumentList(typeTokenProxy, unsafeCode, null, startIndex, out end))
                     {
                         // Create a new GenericTypeToken which represents this generic type.
-                        CodeLocation genericTypeLocation = CodeUnit.JoinLocations(typeTokenProxy.Children.First, typeTokenProxy.Children.Last);
-                        generic = new GenericTypeToken(typeTokenProxy, genericTypeLocation, this.symbols.Generated);
+                        generic = new GenericTypeToken(typeTokenProxy);
 
                         // Reset the token list and add this generic token as the first item in the list.
                         typeTokenProxy = new CodeUnitProxy();

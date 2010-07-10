@@ -44,7 +44,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <param name="location">The location of the comment in the code.</param>
         /// <param name="generated">Indicates whether the comment lies within a block of generated code.</param>
         internal Comment(string text, CommentType commentType, CodeLocation location, bool generated)
-            : base(null, (int)commentType, location, generated)
+            : base((int)commentType, location, generated)
         {
             Param.AssertNotNull(text, "text");
             Param.Ignore(commentType);

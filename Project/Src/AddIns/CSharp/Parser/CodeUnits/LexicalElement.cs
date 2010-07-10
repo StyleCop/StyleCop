@@ -46,6 +46,11 @@ namespace Microsoft.StyleCop.CSharp
         /// </summary>
         private CodeLocation location;
 
+        /// <summary>
+        /// Indicates whether the item is generated.
+        /// </summary>
+        private bool? generated;
+
         #endregion Private Fields
 
         #region Internal Constructors
@@ -53,25 +58,14 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Initializes a new instance of the LexicalElement class.
         /// </summary>
-        /// <param name="proxy">Proxy object for the lexical element.</param>
         /// <param name="lexicalElementType">The lexical element type.</param>
         /// <param name="location">The location of the lexical element within the code document.</param>
         /// <param name="generated">True if the lexical element is inside of a block of generated code.</param>
-        internal LexicalElement(CodeUnitProxy proxy, int lexicalElementType, CodeLocation location, bool generated)
-            : base(proxy, lexicalElementType, generated)
+        internal LexicalElement(LexicalElementType lexicalElementType, CodeLocation location, bool generated)
+            : this((int)lexicalElementType, location, generated)
         {
-            Param.Ignore(proxy);
-            Param.Ignore(lexicalElementType);
-            Param.AssertNotNull(location, "location");
-            Param.Ignore(generated);
-
-            Debug.Assert(System.Enum.IsDefined(typeof(LexicalElementType), this.LexicalElementType), "The type is invalid.");
-            this.location = location;
+            Param.Ignore(lexicalElementType, location, generated);
         }
-
-        #endregion Internal Constructors
-
-        #region Protected Constructors
 
         /// <summary>
         /// Initializes a new instance of the LexicalElement class.
@@ -79,13 +73,44 @@ namespace Microsoft.StyleCop.CSharp
         /// <param name="lexicalElementType">The lexical element type.</param>
         /// <param name="location">The location of the lexical element within the code document.</param>
         /// <param name="generated">True if the lexical element is inside of a block of generated code.</param>
-        protected LexicalElement(LexicalElementType lexicalElementType, CodeLocation location, bool generated)
-            : this(null, (int)lexicalElementType, location, generated)
+        internal LexicalElement(int lexicalElementType, CodeLocation location, bool generated)
+            : base(null, (int)lexicalElementType)
         {
-            Param.Ignore(lexicalElementType, location, generated);
+            Param.Ignore(lexicalElementType, generated);
+            Param.AssertNotNull(location, "location");
+            Param.Ignore(generated);
+
+            Debug.Assert(System.Enum.IsDefined(typeof(LexicalElementType), this.LexicalElementType), "The type is invalid.");
+            this.location = location;
+            this.generated = generated;
         }
 
-        #endregion Protected Constructors
+        /// <summary>
+        /// Initializes a new instance of the LexicalElement class.
+        /// </summary>
+        /// <param name="lexicalElementType">The lexical element type.</param>
+        /// <param name="proxy">The proxy for the element.</param>
+        internal LexicalElement(LexicalElementType lexicalElementType, CodeUnitProxy proxy)
+            : this((int)lexicalElementType, proxy)
+        {
+            Param.Ignore(lexicalElementType, proxy);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the LexicalElement class.
+        /// </summary>
+        /// <param name="lexicalElementType">The lexical element type.</param>
+        /// <param name="proxy">The proxy for the element.</param>
+        internal LexicalElement(int lexicalElementType, CodeUnitProxy proxy)
+            : base(proxy, (int)lexicalElementType)
+        {
+            Param.Ignore(lexicalElementType);
+            Param.AssertNotNull(proxy, "proxy");
+
+            Debug.Assert(System.Enum.IsDefined(typeof(LexicalElementType), this.LexicalElementType), "The type is invalid.");
+        }
+
+        #endregion Internal Constructors
 
         #region Public Override Properties
 
@@ -96,6 +121,11 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
+                if (this.location == null)
+                {
+                    return base.Location;
+                }
+
                 return this.location;
             }
         }
@@ -107,7 +137,28 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
+                if (this.location == null)
+                {
+                    return base.LineNumber;
+                }
+
                 return this.location.StartPoint.LineNumber;
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the item comes from generated code.
+        /// </summary>
+        public override bool Generated
+        {
+            get
+            {
+                if (this.generated == null)
+                {
+                    return base.Generated;
+                }
+
+                return this.generated.Value;
             }
         }
 

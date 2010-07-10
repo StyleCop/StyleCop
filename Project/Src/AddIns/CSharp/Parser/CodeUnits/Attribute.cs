@@ -47,13 +47,11 @@ namespace Microsoft.StyleCop.CSharp
         /// </summary>
         /// <param name="proxy">Proxy object for the attribute.</param>
         /// <param name="attributeExpressions">The list of attribute expressions within this attribute.</param>
-        /// <param name="generated">Indicates whether the attribute resides within a block of generated code.</param>
-        internal Attribute(CodeUnitProxy proxy, ICollection<AttributeExpression> attributeExpressions, bool generated)
-            : base(proxy, CodeUnitType.Attribute, generated)
+        internal Attribute(CodeUnitProxy proxy, ICollection<AttributeExpression> attributeExpressions)
+            : base(proxy, CodeUnitType.Attribute)
         {
             Param.AssertGreaterThanOrEqualTo(proxy.Children.Count, 2, "childTokens");
             Param.AssertNotNull(attributeExpressions, "attributeExpressions");
-            Param.Ignore(generated);
 
             this.attributeExpressions = attributeExpressions;
         }
