@@ -58,24 +58,27 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Initializes a new instance of the LexicalElement class.
         /// </summary>
+        /// <param name="document">The parent document.</param>
         /// <param name="lexicalElementType">The lexical element type.</param>
         /// <param name="location">The location of the lexical element within the code document.</param>
         /// <param name="generated">True if the lexical element is inside of a block of generated code.</param>
-        internal LexicalElement(LexicalElementType lexicalElementType, CodeLocation location, bool generated)
-            : this((int)lexicalElementType, location, generated)
+        internal LexicalElement(CsDocument document, LexicalElementType lexicalElementType, CodeLocation location, bool generated)
+            : this(document, (int)lexicalElementType, location, generated)
         {
-            Param.Ignore(lexicalElementType, location, generated);
+            Param.Ignore(document, lexicalElementType, location, generated);
         }
 
         /// <summary>
         /// Initializes a new instance of the LexicalElement class.
         /// </summary>
+        /// <param name="document">The parent document.</param>
         /// <param name="lexicalElementType">The lexical element type.</param>
         /// <param name="location">The location of the lexical element within the code document.</param>
         /// <param name="generated">True if the lexical element is inside of a block of generated code.</param>
-        internal LexicalElement(int lexicalElementType, CodeLocation location, bool generated)
-            : base(null, (int)lexicalElementType)
+        internal LexicalElement(CsDocument document, int lexicalElementType, CodeLocation location, bool generated)
+            : base(document, (int)lexicalElementType)
         {
+            Param.AssertNotNull(document, "document");
             Param.Ignore(lexicalElementType, generated);
             Param.AssertNotNull(location, "location");
             Param.Ignore(generated);

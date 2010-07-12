@@ -14,6 +14,7 @@
 //-----------------------------------------------------------------------
 namespace Microsoft.StyleCop.CSharp
 {
+    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
@@ -44,18 +45,10 @@ namespace Microsoft.StyleCop.CSharp
         /// Initializes a new instance of the TypeParameterConstraintClause class.
         /// </summary>
         /// <param name="proxy">Proxy object for the query clause.</param>
-        /// <param name="type">The type being constrainted.</param>
-        /// <param name="constraints">The list of constraints on the type, if any.</param>
-        internal TypeParameterConstraintClause(CodeUnitProxy proxy, Token type, ICollection<Token> constraints) 
+        internal TypeParameterConstraintClause(CodeUnitProxy proxy) 
             : base(proxy, CodeUnitType.TypeParameterConstraintClause)
         {
             Param.Ignore(proxy);
-            Param.AssertNotNull(type, "type");
-            Param.Ignore(constraints);
-            
-            this.type = type;
-            this.constraints = constraints;
-            Debug.Assert(this.constraints == null || this.constraints.IsReadOnly, "Constraints must be read-only");
         }
 
         #endregion Internal Constructors
@@ -73,6 +66,12 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
+                this.ValidateEditVersion();
+                if (this.type == null)
+                {
+                    this.SetType();
+                }
+                
                 return this.type;
             }
         }
@@ -84,10 +83,79 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
+                this.ValidateEditVersion();
+                if (this.constraints == null)
+                {
+                    this.SetConstraints();
+                }
+
                 return this.constraints;
             }
         }
 
         #endregion Public Properties
+
+        #region Protected Override Methods
+
+        /// <summary>
+        /// Resets the contents of the item.
+        /// </summary>
+        protected override void Reset()
+        {
+            base.Reset();
+
+            this.type = null;
+            this.constraints = null;
+        }
+
+        #endregion Protected Override Methods
+
+        #region Private Methods
+
+        /// <summary>
+        /// Initializes the type field.
+        /// </summary>
+        private void SetType()
+        {
+            // Find the where token.
+            Token where = this.FindFirstChild<WhereToken>();
+            if (where != null)
+            {
+                this.type = where.FindNextSibling<TypeToken>();
+                if (this.type != null)
+                {
+                    return;
+                }
+            }
+
+            throw new InvalidOperationException();
+        }
+
+        /// <summary>
+        /// Initializes the constraints field.
+        /// </summary>
+        private void SetConstraints()
+        {
+            List<Token> constraints = new List<Token>(2);
+
+            // Find the colon.
+            CodeUnit colon = this.FindFirstChild<WhereColonToken>();
+            if (colon != null)
+            {
+                for (Token constraint = colon.FindNextSibling<Token>(); constraint != null; constraint = constraint.FindNextSibling<Token>())
+                {
+                    constraints.Add(constraint);
+                }
+
+                if (constraints.Count > 0)
+                {
+                    this.constraints = constraints.AsReadOnly();
+                }
+            }
+
+            throw new InvalidOperationException();
+        }
+
+        #endregion Private Methods
     }
 }

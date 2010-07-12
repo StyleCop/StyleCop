@@ -30,10 +30,10 @@ namespace Microsoft.StyleCop.CSharp
         /// </summary>
         private CodeUnitCollection children;
 
-        ///// <summary>
-        ///// The reference to the CodeUnit.
-        ///// </summary>
-        ////private CodeUnitReference reference;
+        /// <summary>
+        /// The parent document.
+        /// </summary>
+        private CsDocument document;
 
         /// <summary>
         /// The target code that this object is a proxy for.
@@ -43,9 +43,12 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Initializes a new instance of the CodeUnitProxy class.
         /// </summary>
-        public CodeUnitProxy()
+        /// <param name="document">The parent document.</param>
+        public CodeUnitProxy(CsDocument document)
         {
-            ////this.reference = new CodeUnitReference(this);
+            Param.Ignore(document);
+
+            this.document = document;
             this.children = new CodeUnitCollection(this);
         }
 
@@ -72,6 +75,23 @@ namespace Microsoft.StyleCop.CSharp
         }
 
         /// <summary>
+        /// Gets the parent document.
+        /// </summary>
+        public CsDocument Document
+        {
+            get
+            {
+                if (this.document == null)
+                {
+                    Debug.Assert(this.target == null || this.target.Is(ElementType.Document), "Document has not been set properly.");
+                    return this.target as CsDocument;
+                }
+
+                return this.document;
+            }
+        }
+
+        /// <summary>
         /// Attaches this proxy to its code unit.
         /// </summary>
         /// <param name="codeUnit">The code unit to attach to.</param>
@@ -79,6 +99,8 @@ namespace Microsoft.StyleCop.CSharp
         {
             Param.AssertNotNull(codeUnit, "codeUnit");
             this.target = codeUnit;
+
+            Debug.Assert(this.document != null || codeUnit.Is(ElementType.Document), "Only a document element can have a proxy with a null document property.");
         }
     }
 }

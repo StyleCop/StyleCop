@@ -27,12 +27,14 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Initializes a new instance of the UndefDirective class.
         /// </summary>
+        /// <param name="document">The parent document.</param>
         /// <param name="text">The text within the directive.</param>
         /// <param name="location">The location of the preprocessor directive in the code.</param>
         /// <param name="generated">Indicates whether the item is generated.</param>
-        internal UndefDirective(string text, CodeLocation location, bool generated)
-            : base(text, PreprocessorType.Undef, location, generated)
+        internal UndefDirective(CsDocument document, string text, CodeLocation location, bool generated)
+            : base(document, text, PreprocessorType.Undef, location, generated)
         {
+            Param.AssertNotNull(document, "document");
             Param.Ignore(text, location, generated);
         }
     }

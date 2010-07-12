@@ -39,27 +39,29 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Initializes a new instance of the Token class.
         /// </summary>
+        /// <param name="document">The parent document.</param>
         /// <param name="text">The token string.</param>
         /// <param name="tokenType">The token type.</param>
         /// <param name="location">The location of the token within the code document.</param>
         /// <param name="generated">True if the token is inside of a block of generated code.</param>
-        internal Token(string text, TokenType tokenType, CodeLocation location, bool generated)
-            : this(text, (int)tokenType, location, generated)
+        internal Token(CsDocument document, string text, TokenType tokenType, CodeLocation location, bool generated)
+            : this(document, text, (int)tokenType, location, generated)
         {
-            Param.Ignore(text, tokenType, location, generated);
+            Param.Ignore(document, text, tokenType, location, generated);
         }
 
         /// <summary>
         /// Initializes a new instance of the Token class.
         /// </summary>
+        /// <param name="document">The parent document.</param>
         /// <param name="text">The token string.</param>
         /// <param name="tokenType">The token type.</param>
         /// <param name="location">The location of the token within the code document.</param>
         /// <param name="generated">True if the token is inside of a block of generated code.</param>
-        internal Token(string text, int tokenType, CodeLocation location, bool generated)
-            : base(tokenType, location, generated)
+        internal Token(CsDocument document, string text, int tokenType, CodeLocation location, bool generated)
+            : base(document, tokenType, location, generated)
         {
-            Param.Ignore(text, tokenType, location, generated);
+            Param.Ignore(document, text, tokenType, location, generated);
 
             this.Text = text;
         }

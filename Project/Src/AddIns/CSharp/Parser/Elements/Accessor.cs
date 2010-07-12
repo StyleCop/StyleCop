@@ -160,7 +160,7 @@ namespace Microsoft.StyleCop.CSharp
             }
 
             // Set accessors do not have a return type.
-            return this.CreateVoidTypeToken();
+            return this.CreateVoidTypeToken(this.Document);
         }
 
         #endregion Public Methods
@@ -183,11 +183,14 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Creates a TypeToken of type void.
         /// </summary>
+        /// <param name="document">The parent document.</param>
         /// <returns>Returns the token.</returns>
-        private TypeToken CreateVoidTypeToken()
+        private TypeToken CreateVoidTypeToken(CsDocument document)
         {
-            var tokenProxy = new CodeUnitProxy();
-            tokenProxy.Children.Add(new LiteralToken("void", CodeLocation.Empty, this.Generated));
+            Param.AssertNotNull(document, "document");
+
+            var tokenProxy = new CodeUnitProxy(document);
+            tokenProxy.Children.Add(new LiteralToken(document, "void", CodeLocation.Empty, this.Generated));
             
             return new TypeToken(tokenProxy);
         }

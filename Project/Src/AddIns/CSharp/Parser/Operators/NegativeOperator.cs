@@ -25,12 +25,14 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Initializes a new instance of the NegativeOperator class.
         /// </summary>
+        /// <param name="document">The parent document.</param>
         /// <param name="text">The text of the item.</param>
         /// <param name="location">The location of the item.</param>
         /// <param name="generated">Indicates whether the item is generated.</param>
-        internal NegativeOperator(string text, CodeLocation location, bool generated)
-            : base(text, OperatorCategory.Unary, OperatorType.Negative, location, generated)
+        internal NegativeOperator(CsDocument document, string text, CodeLocation location, bool generated)
+            : base(document, text, OperatorCategory.Unary, OperatorType.Negative, location, generated)
         {
+            Param.AssertNotNull(document, "document");
             Param.AssertValidString(text, "text");
             Param.AssertNotNull(location, "location");
             Param.Ignore(generated);

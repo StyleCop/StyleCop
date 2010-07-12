@@ -120,6 +120,54 @@ namespace Microsoft.StyleCop
         /// <summary>
         /// Initializes a new instance of the SyntaxException class.
         /// </summary>
+        /// <param name="document">The document containing the exception.</param>
+        /// <param name="lineNumber">The line number of the exception.</param>
+        public SyntaxException(ICodeDocument document, int lineNumber)
+            : this(document.SourceCode, lineNumber)
+        {
+            Param.Ignore(document, lineNumber);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the SyntaxException class.
+        /// </summary>
+        /// <param name="document">The document containing the exception.</param>
+        /// <param name="lineNumber">The line number of the exception.</param>
+        /// <param name="message">The exception message.</param>
+        public SyntaxException(ICodeDocument document, int lineNumber, string message)
+            : this(document.SourceCode, lineNumber, message)
+        {
+            Param.Ignore(document, lineNumber, message);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the SyntaxException class.
+        /// </summary>
+        /// <param name="document">The document containing the exception.</param>
+        /// <param name="lineNumber">The line number of the exception.</param>
+        /// <param name="innerException">The exception within this exception.</param>
+        public SyntaxException(ICodeDocument document, int lineNumber, Exception innerException)
+            : this(document.SourceCode, lineNumber, innerException)
+        {
+            Param.Ignore(document, lineNumber, innerException);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the SyntaxException class.
+        /// </summary>
+        /// <param name="document">The document containing the exception.</param>
+        /// <param name="lineNumber">The line number of the exception.</param>
+        /// <param name="message">The exception message.</param>
+        /// <param name="innerException">The exception within this exception.</param>
+        public SyntaxException(ICodeDocument document, int lineNumber, string message, Exception innerException)
+            : this(document.SourceCode, lineNumber, message, innerException)
+        {
+            Param.Ignore(document, lineNumber, message, innerException);
+        }
+        
+        /// <summary>
+        /// Initializes a new instance of the SyntaxException class.
+        /// </summary>
         /// <param name="serializationInfo">Holds the serialization info about the exception.</param>
         /// <param name="streamingContext">Holds contextual information.</param>
         private SyntaxException(SerializationInfo serializationInfo, StreamingContext streamingContext)

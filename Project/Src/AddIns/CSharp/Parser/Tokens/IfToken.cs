@@ -25,12 +25,14 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Initializes a new instance of the IfToken class.
         /// </summary>
+        /// <param name="document">The parent document.</param>
         /// <param name="text">The text of the item.</param>
         /// <param name="location">The location of the item.</param>
         /// <param name="generated">Indicates whether the item is generated.</param>
-        internal IfToken(string text, CodeLocation location, bool generated)
-            : base(text, TokenType.If, location, generated)
+        internal IfToken(CsDocument document, string text, CodeLocation location, bool generated)
+            : base(document, text, TokenType.If, location, generated)
         {
+            Param.AssertNotNull(document, "document");
             Param.AssertValidString(text, "text");
             Param.AssertNotNull(location, "location");
             Param.Ignore(generated);

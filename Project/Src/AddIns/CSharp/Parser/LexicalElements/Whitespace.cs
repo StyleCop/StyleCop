@@ -47,18 +47,14 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Initializes a new instance of the Whitespace class.
         /// </summary>
+        /// <param name="document">The parent document.</param>
         /// <param name="text">The whitespace text.</param>
         /// <param name="location">The location of the whitespace in the code.</param>
         /// <param name="generated">True if the token is inside of a block of generated code.</param>
-        internal Whitespace(
-            string text,
-            CodeLocation location,
-            bool generated) 
-            : base(
-            LexicalElementType.WhiteSpace,
-            location,
-            generated)
+        internal Whitespace(CsDocument document, string text, CodeLocation location, bool generated) 
+            : base(document, LexicalElementType.WhiteSpace, location, generated)
         {
+            Param.AssertNotNull(document, "document");
             Param.AssertValidString(text, "text");
             Param.AssertNotNull(location, "location");
             Param.Ignore(generated);

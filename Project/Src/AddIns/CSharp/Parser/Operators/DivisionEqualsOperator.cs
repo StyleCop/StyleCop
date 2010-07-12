@@ -25,12 +25,14 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Initializes a new instance of the DivisionEqualsOperator class.
         /// </summary>
+        /// <param name="document">The parent document.</param>
         /// <param name="text">The text of the item.</param>
         /// <param name="location">The location of the item.</param>
         /// <param name="generated">Indicates whether the item is generated.</param>
-        internal DivisionEqualsOperator(string text, CodeLocation location, bool generated)
-            : base(text, OperatorCategory.Assignment, OperatorType.DivisionEquals, location, generated)
+        internal DivisionEqualsOperator(CsDocument document, string text, CodeLocation location, bool generated)
+            : base(document, text, OperatorCategory.Assignment, OperatorType.DivisionEquals, location, generated)
         {
+            Param.AssertNotNull(document, "document");
             Param.AssertValidString(text, "text");
             Param.AssertNotNull(location, "location");
             Param.Ignore(generated);

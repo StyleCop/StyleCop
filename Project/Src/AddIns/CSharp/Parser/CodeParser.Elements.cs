@@ -139,7 +139,7 @@ namespace Microsoft.StyleCop.CSharp
                 // for example within a property.
                 if (partialElements == null)
                 {
-                    throw new SyntaxException(element.Document.SourceCode, element.LineNumber);
+                    throw new SyntaxException(element.Document, element.LineNumber);
                 }
 
                 List<Element> elementList = null;
@@ -161,7 +161,7 @@ namespace Microsoft.StyleCop.CSharp
                         // Make sure this elements is the same type as the item(s) already in the list.
                         if (elementList[0].ElementType != element.ElementType)
                         {
-                            throw new SyntaxException(element.Document.SourceCode, element.LineNumber);
+                            throw new SyntaxException(element.Document, element.LineNumber);
                         }
                     }
                 }
@@ -435,7 +435,7 @@ namespace Microsoft.StyleCop.CSharp
             // Keep looping until all the child elements within this container element have been processed.
             while (true)
             {
-                var childElementProxy = new CodeUnitProxy();
+                var childElementProxy = new CodeUnitProxy(this.document);
 
                 // Move past whitespace, preprocessors, comments, xml headers, and attributes, up to the 
                 // start of the element.
@@ -526,7 +526,7 @@ namespace Microsoft.StyleCop.CSharp
                         Attribute attribute = this.GetAttribute(elementProxy, unsafeCode);
                         if (attribute == null)
                         {
-                            throw new SyntaxException(this.document.SourceCode, symbol.LineNumber);
+                            throw new SyntaxException(this.document, symbol.LineNumber);
                         }
 
                         // Add the attribute to the list of attributes for this element.
@@ -604,7 +604,7 @@ namespace Microsoft.StyleCop.CSharp
             int end = -1;
             int endOfLineCount = 0;
 
-            var xmlHeaderProxy = new CodeUnitProxy();
+            var xmlHeaderProxy = new CodeUnitProxy(this.document);
 
             // Loop until the entire header is found.
             Symbol symbol = firstSymbol;
@@ -649,7 +649,7 @@ namespace Microsoft.StyleCop.CSharp
                 this.symbols.Advance();
                 Debug.Assert(this.symbols.Current != null, "The current symbol should not be null");
 
-                xmlHeaderProxy.Children.Add(new XmlHeaderLine(this.symbols.Current.Text, this.symbols.Current.Location, this.symbols.Generated));
+                xmlHeaderProxy.Children.Add(new XmlHeaderLine(this.document, this.symbols.Current.Text, this.symbols.Current.Location, this.symbols.Generated));
             }
 
             // Create the Xml header object.
@@ -1347,7 +1347,7 @@ namespace Microsoft.StyleCop.CSharp
 
             while (symbol.SymbolType != SymbolType.CloseCurlyBracket)
             {
-                var enumItemProxy = new CodeUnitProxy();
+                var enumItemProxy = new CodeUnitProxy(this.document);
                 ICollection<Attribute> attributes = this.MoveToElementDeclaration(unsafeCode, parentProxy, enumItemProxy);
 
                 // If the next symbol is a close curly bracket, quit.
@@ -1474,10 +1474,10 @@ namespace Microsoft.StyleCop.CSharp
 
             unsafeCode |= modifiers.ContainsKey(TokenType.Unsafe);
 
-            var declarationExpressionProxy = new CodeUnitProxy();
+            var declarationExpressionProxy = new CodeUnitProxy(this.document);
 
             // Get the field type.
-            var fieldTypeExpressionProxy = new CodeUnitProxy();
+            var fieldTypeExpressionProxy = new CodeUnitProxy(this.document);
             TypeToken fieldType = this.GetTypeToken(fieldTypeExpressionProxy, unsafeCode, true);
             var fieldTypeExpression = new LiteralExpression(fieldTypeExpressionProxy, fieldType);
             declarationExpressionProxy.Children.Add(fieldTypeExpression);
@@ -1490,7 +1490,7 @@ namespace Microsoft.StyleCop.CSharp
                 throw this.CreateSyntaxException();
             }
 
-            var variableDeclarationStatementProxy = new CodeUnitProxy();
+            var variableDeclarationStatementProxy = new CodeUnitProxy(this.document);
             var declarationExpression = new VariableDeclarationExpression(declarationExpressionProxy, fieldTypeExpression);
             variableDeclarationStatementProxy.Children.Add(declarationExpression);
 
@@ -1524,10 +1524,10 @@ namespace Microsoft.StyleCop.CSharp
             while (symbol.SymbolType != SymbolType.Semicolon)
             {
                 this.AdvanceToNextCodeSymbol(parentProxy);
-                var declaratorProxy = new CodeUnitProxy();
+                var declaratorProxy = new CodeUnitProxy(this.document);
 
                 // Get the identifier.
-                var identifierExpressionProxy = new CodeUnitProxy();
+                var identifierExpressionProxy = new CodeUnitProxy(this.document);
                 Token identifier = this.GetElementNameToken(identifierExpressionProxy, unsafeCode, true);
 
                 var identifierExpression = new LiteralExpression(identifierExpressionProxy, identifier);
@@ -1730,8 +1730,8 @@ namespace Microsoft.StyleCop.CSharp
             {
                 this.GetToken(elementProxy, TokenType.BaseColon, SymbolType.Colon);
 
-                var constructorInitializerStatementProxy = new CodeUnitProxy();
-                var constructorInitializerExpressionProxy = new CodeUnitProxy();
+                var constructorInitializerStatementProxy = new CodeUnitProxy(this.document);
+                var constructorInitializerExpressionProxy = new CodeUnitProxy(this.document);
 
                 // The next symbol must be the keyword base or this.
                 symbol = this.PeekNextSymbol();
@@ -1740,7 +1740,7 @@ namespace Microsoft.StyleCop.CSharp
                     throw this.CreateSyntaxException();
                 }
 
-                var initializerNameExpressionProxy = new CodeUnitProxy();
+                var initializerNameExpressionProxy = new CodeUnitProxy(this.document);
                 Token initializerNameToken = this.GetToken(initializerNameExpressionProxy, TokenType.Literal, symbol.SymbolType);
 
                 // Get the name expression.
@@ -1958,7 +1958,7 @@ namespace Microsoft.StyleCop.CSharp
             this.GetToken(elementProxy, TokenType.Event, SymbolType.Event);
 
             // Get the event type.
-            var eventHandlerTypeExpressionProxy = new CodeUnitProxy();
+            var eventHandlerTypeExpressionProxy = new CodeUnitProxy(this.document);
             TypeToken eventHandlerType = this.GetTypeToken(eventHandlerTypeExpressionProxy, unsafeCode, true);
             var eventHandlerTypeExpression = new LiteralExpression(eventHandlerTypeExpressionProxy, eventHandlerType);
             elementProxy.Children.Add(eventHandlerTypeExpression);
@@ -2007,10 +2007,10 @@ namespace Microsoft.StyleCop.CSharp
             while (symbol.SymbolType != SymbolType.Semicolon)
             {
                 this.AdvanceToNextCodeSymbol(parentProxy);
-                var declaratorProxy = new CodeUnitProxy();
+                var declaratorProxy = new CodeUnitProxy(this.document);
 
                 // Get the identifier.
-                var identifierExpressionProxy = new CodeUnitProxy();
+                var identifierExpressionProxy = new CodeUnitProxy(this.document);
                 Token identifier = this.GetElementNameToken(identifierExpressionProxy, unsafeCode, true);
 
                 if (firstEventName == null)
@@ -2184,14 +2184,14 @@ namespace Microsoft.StyleCop.CSharp
             // Get each of the parameters.
             Symbol symbol = this.PeekNextSymbol();
 
-            CodeUnitProxy parameterListProxy = new CodeUnitProxy();
+            CodeUnitProxy parameterListProxy = new CodeUnitProxy(this.document);
 
             int parameterIndex = 0;
 
             while (symbol.SymbolType != closingBracketType)
             {
                 this.AdvanceToNextCodeSymbol(parameterListProxy);
-                CodeUnitProxy parameterProxy = new CodeUnitProxy();
+                CodeUnitProxy parameterProxy = new CodeUnitProxy(this.document);
 
                 // Collect attributes on the parameter.
                 while (symbol.SymbolType == SymbolType.OpenSquareBracket)
@@ -2283,7 +2283,7 @@ namespace Microsoft.StyleCop.CSharp
             // Get the opening bracket.
             BracketToken openingParenthesis = (BracketToken)this.GetToken(parentProxy, TokenType.OpenParenthesis, SymbolType.OpenParenthesis);
 
-            var parameterListProxy = new CodeUnitProxy();
+            var parameterListProxy = new CodeUnitProxy(this.document);
             var parameters = new List<Parameter>();
 
             // Get each of the parameters.
@@ -2293,7 +2293,7 @@ namespace Microsoft.StyleCop.CSharp
             {
                 this.AdvanceToNextCodeSymbol(parameterListProxy);
 
-                var parameterProxy = new CodeUnitProxy();
+                var parameterProxy = new CodeUnitProxy(this.document);
                 ParameterModifiers modifiers = ParameterModifiers.None;
 
                 // If there is a parameter modifier, get it.
@@ -2598,28 +2598,24 @@ namespace Microsoft.StyleCop.CSharp
             Symbol symbol = this.PeekNextSymbol();
             while (symbol.Text == "where")
             {
-                var constraintClauseProxy = new CodeUnitProxy();
+                var constraintClauseProxy = new CodeUnitProxy(this.document);
 
                 this.GetToken(constraintClauseProxy, TokenType.Literal, SymbolType.Other);
-                Token typeToken = this.GetToken(constraintClauseProxy, TokenType.Literal, SymbolType.Other);
+                this.GetToken(constraintClauseProxy, TokenType.Literal, SymbolType.Other);
                 this.GetToken(constraintClauseProxy, TokenType.WhereColon, SymbolType.Colon);
-
-                var constraints = new List<Token>();
 
                 while (true)
                 {
                     symbol = this.PeekNextSymbol();
                     
-                    Token constraintToken = null;
-
                     if (symbol.SymbolType == SymbolType.Class || symbol.SymbolType == SymbolType.Struct)
                     {
                         // A constraint of type class or struct.
-                        constraintToken = this.GetToken(constraintClauseProxy, TokenType.Literal, symbol.SymbolType);
+                        this.GetToken(constraintClauseProxy, TokenType.Literal, symbol.SymbolType);
                     }
                     else if (symbol.SymbolType == SymbolType.New)
                     {
-                        var constraintTokenProxy = new CodeUnitProxy();
+                        var constraintTokenProxy = new CodeUnitProxy(this.document);
 
                         // A constructor constraint.
                         this.GetToken(constraintTokenProxy, TokenType.Literal, SymbolType.New);
@@ -2630,16 +2626,13 @@ namespace Microsoft.StyleCop.CSharp
                         openParenthesis.MatchingBracket = closeParenthesis;
                         closeParenthesis.MatchingBracket = openParenthesis;
 
-                        constraintToken = new ConstructorConstraintToken(constraintTokenProxy);
-                        constraintClauseProxy.Children.Add(constraintToken);
+                        constraintClauseProxy.Children.Add(new ConstructorConstraintToken(constraintTokenProxy));
                     }
                     else
                     {
                         // A type constraint.
-                        constraintToken = this.GetTypeToken(constraintClauseProxy, unsafeCode, true);
+                        this.GetTypeToken(constraintClauseProxy, unsafeCode, true);
                     }
-
-                    constraints.Add(constraintToken);
 
                     symbol = this.PeekNextSymbol();
                     if (symbol.SymbolType != SymbolType.Comma)
@@ -2651,7 +2644,7 @@ namespace Microsoft.StyleCop.CSharp
                 }
 
                 // Add the constraints as a read-only collection in a constraint clause.
-                var constraintClause = new TypeParameterConstraintClause(constraintClauseProxy, typeToken, constraints.ToArray());
+                var constraintClause = new TypeParameterConstraintClause(constraintClauseProxy);
                 constraintClauses.Add(constraintClause);
 
                 parentProxy.Children.Add(constraintClause);
@@ -2757,7 +2750,7 @@ namespace Microsoft.StyleCop.CSharp
             Debug.Assert(firstSymbol != null && firstSymbol.SymbolType == SymbolType.XmlHeaderLine, "Expected an xml documentation header line");
 
             // Reference to the xml header.
-            var xmlHeader = new CodeUnitProxy();
+            var xmlHeader = new CodeUnitProxy(this.document);
 
             // Marks the end of the header.
             int end = -1;

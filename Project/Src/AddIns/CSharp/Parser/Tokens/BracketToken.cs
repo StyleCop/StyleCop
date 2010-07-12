@@ -38,14 +38,15 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Initializes a new instance of the BracketToken class.
         /// </summary>
+        /// <param name="document">The parent document.</param>
         /// <param name="text">The token string.</param>
         /// <param name="tokenType">The token type.</param>
         /// <param name="location">The location of the token within the code document.</param>
         /// <param name="generated">True if the token is inside of a block of generated code.</param>
-        internal BracketToken(string text, TokenType tokenType, CodeLocation location, bool generated)
-            : base(text, tokenType, location, generated)
+        internal BracketToken(CsDocument document, string text, TokenType tokenType, CodeLocation location, bool generated)
+            : base(document, text, tokenType, location, generated)
         {
-            Param.Ignore(text, tokenType, location, generated);
+            Param.Ignore(document, text, tokenType, location, generated);
 
             Debug.Assert(
                 tokenType == TokenType.OpenCurlyBracket ||

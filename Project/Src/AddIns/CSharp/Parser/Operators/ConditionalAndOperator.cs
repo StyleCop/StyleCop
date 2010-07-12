@@ -25,12 +25,14 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Initializes a new instance of the ConditionalAndOperator class.
         /// </summary>
+        /// <param name="document">The parent document.</param>
         /// <param name="text">The text of the item.</param>
         /// <param name="location">The location of the item.</param>
         /// <param name="generated">Indicates whether the item is generated.</param>
-        internal ConditionalAndOperator(string text, CodeLocation location, bool generated)
-            : base(text, OperatorCategory.Logical, OperatorType.ConditionalAnd, location, generated)
+        internal ConditionalAndOperator(CsDocument document, string text, CodeLocation location, bool generated)
+            : base(document, text, OperatorCategory.Logical, OperatorType.ConditionalAnd, location, generated)
         {
+            Param.AssertNotNull(document, "document");
             Param.AssertValidString(text, "text");
             Param.AssertNotNull(location, "location");
             Param.Ignore(generated);

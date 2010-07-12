@@ -224,7 +224,7 @@ namespace Microsoft.StyleCop.CSharp
                 {
                     if (temp.TokenType != TokenType.Literal)
                     {
-                        throw new SyntaxException(document.SourceCode, temp.LineNumber);
+                        throw new SyntaxException(document, temp.LineNumber);
                     }
 
                     endToken = temp;
@@ -364,18 +364,18 @@ namespace Microsoft.StyleCop.CSharp
         {
             Debug.Assert(this.document == null, "This method is only designed to be called once.");
 
-            // Find the list of symbols in the document.
-            List<Symbol> symbolList = this.lexer.GetSymbols(
-                this.lexer.SourceCode, this.lexer.SourceCode.Project.Configuration);
-
-            // Create the symbol manager class.
-            this.symbols = new SymbolManager(symbolList);
-
             // The parent reference to the document.
-            var documentProxy = new CodeUnitProxy();
+            var documentProxy = new CodeUnitProxy(null);
 
             // Create the document object.
             this.document = new CsDocument(documentProxy, this.lexer.SourceCode, this.parser);
+
+            // Find the list of symbols in the document.
+            List<Symbol> symbolList = this.lexer.GetSymbols(
+                this.document, this.lexer.SourceCode.Project.Configuration);
+
+            // Create the symbol manager class.
+            this.symbols = new SymbolManager(symbolList);
 
             // Get the file header if it exists.
             FileHeader fileHeader = this.GetFileHeader(documentProxy);
@@ -410,13 +410,13 @@ namespace Microsoft.StyleCop.CSharp
             Symbol firstSymbol = this.symbols.Peek(1);
             Debug.Assert(firstSymbol != null && firstSymbol.SymbolType == SymbolType.OpenSquareBracket, "Expected an opening square bracket");
 
-            var attributeProxy = new CodeUnitProxy();
+            var attributeProxy = new CodeUnitProxy(this.document);
 
             // The list of attribute expressions in the attribute.
             var attributeExpressions = new List<AttributeExpression>();
 
             // Move past the opening square bracket.
-            var openingBracket = new OpenAttributeBracketToken(firstSymbol.Text, firstSymbol.Location, this.symbols.Generated);
+            var openingBracket = new OpenAttributeBracketToken(this.document, firstSymbol.Text, firstSymbol.Location, this.symbols.Generated);
 
             attributeProxy.Children.Add(openingBracket);
             this.symbols.Advance();
@@ -429,13 +429,13 @@ namespace Microsoft.StyleCop.CSharp
                 Symbol symbol = this.symbols.Peek(1);
                 if (symbol == null)
                 {
-                    throw new SyntaxException(this.document.SourceCode, firstSymbol.LineNumber);
+                    throw new SyntaxException(this.document, firstSymbol.LineNumber);
                 }
 
                 // Check the type. If this is the closing bracket then we are done.
                 if (symbol.SymbolType == SymbolType.CloseSquareBracket)
                 {
-                    var closingBracket = new CloseAttributeBracketToken(symbol.Text, symbol.Location, this.symbols.Generated);
+                    var closingBracket = new CloseAttributeBracketToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
                     attributeProxy.Children.Add(closingBracket);
                     this.symbols.Advance();
 
@@ -452,10 +452,10 @@ namespace Microsoft.StyleCop.CSharp
                 symbol = this.symbols.Peek(1);
                 if (symbol == null)
                 {
-                    throw new SyntaxException(this.document.SourceCode, firstSymbol.LineNumber);
+                    throw new SyntaxException(this.document, firstSymbol.LineNumber);
                 }
 
-                var attributeExpressionProxy = new CodeUnitProxy();
+                var attributeExpressionProxy = new CodeUnitProxy(this.document);
 
                 if (symbol.SymbolType == SymbolType.Other || symbol.SymbolType == SymbolType.Return)
                 {
@@ -478,7 +478,7 @@ namespace Microsoft.StyleCop.CSharp
 
                             // Add the colon.
                             this.AdvanceToNextCodeSymbol(attributeExpressionProxy);
-                            attributeExpressionProxy.Children.Add(new AttributeColonToken(colon.Text, symbol.Location, this.symbols.Generated));
+                            attributeExpressionProxy.Children.Add(new AttributeColonToken(this.document, colon.Text, symbol.Location, this.symbols.Generated));
                             this.symbols.Advance();
 
                             this.AdvanceToNextCodeSymbol(attributeExpressionProxy);
@@ -490,7 +490,7 @@ namespace Microsoft.StyleCop.CSharp
                 Expression initialization = this.GetNextExpression(attributeExpressionProxy, ExpressionPrecedence.None, unsafeCode);
                 if (initialization == null)
                 {
-                    throw new SyntaxException(this.document.SourceCode, firstSymbol.LineNumber);
+                    throw new SyntaxException(this.document, firstSymbol.LineNumber);
                 }
 
                 // Create and add the attribute expression.
@@ -503,7 +503,7 @@ namespace Microsoft.StyleCop.CSharp
                 symbol = this.symbols.Peek(1);
                 if (symbol == null)
                 {
-                    throw new SyntaxException(this.document.SourceCode, firstSymbol.LineNumber);
+                    throw new SyntaxException(this.document, firstSymbol.LineNumber);
                 }
 
                 if (symbol.SymbolType == SymbolType.Comma)
@@ -514,7 +514,7 @@ namespace Microsoft.StyleCop.CSharp
                 else if (symbol.SymbolType != SymbolType.CloseSquareBracket)
                 {
                     // This type of symbol is unexpected.
-                    throw new SyntaxException(this.document.SourceCode, firstSymbol.LineNumber);
+                    throw new SyntaxException(this.document, firstSymbol.LineNumber);
                 }
             }
 
@@ -632,25 +632,25 @@ namespace Microsoft.StyleCop.CSharp
             string type = CsParser.GetPreprocessorDirectiveType(preprocessorSymbol, out bodyIndex);
             if (type == null)
             {
-                throw new SyntaxException(this.document.SourceCode, preprocessorSymbol.LineNumber);
+                throw new SyntaxException(this.document, preprocessorSymbol.LineNumber);
             }
 
             // Create the correct preprocessor object type.
             PreprocessorDirective preprocessor = null;
             if (type == "region")
             {
-                var region = new RegionDirective(preprocessorSymbol.Text, preprocessorSymbol.Location, generated);
+                var region = new RegionDirective(this.document, preprocessorSymbol.Text, preprocessorSymbol.Location, generated);
                 this.symbols.PushRegion(region);
                 preprocessor = region;
             }
             else if (type == "endregion")
             {
-                var endregion = new EndRegionDirective(preprocessorSymbol.Text, preprocessorSymbol.Location, generated);
+                var endregion = new EndRegionDirective(this.document, preprocessorSymbol.Text, preprocessorSymbol.Location, generated);
                 RegionDirective startregion = this.symbols.PopRegion();
 
                 if (startregion == null)
                 {
-                    throw new SyntaxException(this.document.SourceCode, preprocessorSymbol.LineNumber);
+                    throw new SyntaxException(this.document, preprocessorSymbol.LineNumber);
                 }
 
                 startregion.Partner = endregion;
@@ -676,27 +676,27 @@ namespace Microsoft.StyleCop.CSharp
             }
             else if (type == "pragma")
             {
-                preprocessor = new PragmaDirective(preprocessorSymbol.Text, preprocessorSymbol.Location, generated);
+                preprocessor = new PragmaDirective(this.document, preprocessorSymbol.Text, preprocessorSymbol.Location, generated);
             }
             else if (type == "define")
             {
-                preprocessor = new DefineDirective(preprocessorSymbol.Text, preprocessorSymbol.Location, generated);
+                preprocessor = new DefineDirective(this.document, preprocessorSymbol.Text, preprocessorSymbol.Location, generated);
             }
             else if (type == "undef")
             {
-                preprocessor = new UndefDirective(preprocessorSymbol.Text, preprocessorSymbol.Location, generated);
+                preprocessor = new UndefDirective(this.document, preprocessorSymbol.Text, preprocessorSymbol.Location, generated);
             }
             else if (type == "line")
             {
-                preprocessor = new LineDirective(preprocessorSymbol.Text, preprocessorSymbol.Location, generated);
+                preprocessor = new LineDirective(this.document, preprocessorSymbol.Text, preprocessorSymbol.Location, generated);
             }
             else if (type == "error")
             {
-                preprocessor = new ErrorDirective(preprocessorSymbol.Text, preprocessorSymbol.Location, generated);
+                preprocessor = new ErrorDirective(this.document, preprocessorSymbol.Text, preprocessorSymbol.Location, generated);
             }
             else if (type == "warning")
             {
-                preprocessor = new WarningDirective(preprocessorSymbol.Text, preprocessorSymbol.Location, generated);
+                preprocessor = new WarningDirective(this.document, preprocessorSymbol.Text, preprocessorSymbol.Location, generated);
             }
             else
             {
@@ -721,13 +721,13 @@ namespace Microsoft.StyleCop.CSharp
 
             Expression body = null;
 
-            var directiveProxy = new CodeUnitProxy();
+            var directiveProxy = new CodeUnitProxy(this.document);
 
             // Extract the body of the directive if necessary.
             if (type != PreprocessorType.Endif && startIndex < preprocessorSymbol.Text.Length)
             {
                 body = CodeParser.GetConditionalPreprocessorBodyExpression(
-                    directiveProxy, this.parser, this.document.SourceCode, preprocessorSymbol, startIndex);
+                    this.document, directiveProxy, this.parser, preprocessorSymbol, startIndex);
             }
 
             // Create and return the directive.
@@ -762,7 +762,7 @@ namespace Microsoft.StyleCop.CSharp
             // Make sure that we are starting at the beginning of the file.
             Debug.Assert(this.symbols.CurrentIndex == -1, "Expected to be at the  beginning of the file");
 
-            var fileHeaderProxy = new CodeUnitProxy();
+            var fileHeaderProxy = new CodeUnitProxy(this.document);
 
             // Advance past whitespace and EOLs only.
             this.AdvanceToNextCodeSymbol(parentProxy, SkipSymbols.WhiteSpace | SkipSymbols.EndOfLine);
@@ -784,7 +784,7 @@ namespace Microsoft.StyleCop.CSharp
 
                     // Ignore lines that start with //- since these are borders. We only want the body.
                     // Advance the symbol manager.
-                    fileHeaderProxy.Children.Add(new SingleLineComment(symbol.Text, symbol.Location, this.symbols.Generated));
+                    fileHeaderProxy.Children.Add(new SingleLineComment(this.document, symbol.Text, symbol.Location, this.symbols.Generated));
                     this.symbols.Advance();
                 }
                 else if (symbol.SymbolType == SymbolType.EndOfLine)
@@ -795,14 +795,14 @@ namespace Microsoft.StyleCop.CSharp
                         break;
                     }
 
-                    fileHeaderProxy.Children.Add(new EndOfLine(symbol.Text, symbol.Location, this.symbols.Generated));
+                    fileHeaderProxy.Children.Add(new EndOfLine(this.document, symbol.Text, symbol.Location, this.symbols.Generated));
                     this.symbols.Advance();
                 }
                 else if (symbol.SymbolType == SymbolType.WhiteSpace)
                 {
                     if (this.IsNextSymbolPartOfHeader())
                     {
-                        fileHeaderProxy.Children.Add(new Whitespace(symbol.Text, symbol.Location, this.symbols.Generated));
+                        fileHeaderProxy.Children.Add(new Whitespace(this.document, symbol.Text, symbol.Location, this.symbols.Generated));
                         this.symbols.Advance();
                     }
                     else
@@ -874,7 +874,7 @@ namespace Microsoft.StyleCop.CSharp
             lastIndex = -1;
 
             // The reference to the generic token.
-            var genericTokenProxy = new CodeUnitProxy();
+            var genericTokenProxy = new CodeUnitProxy(this.document);
 
             // Get the first symbol. This should be an unknown word type.
             Symbol firstSymbol = this.symbols.Peek(startIndex);
@@ -884,7 +884,7 @@ namespace Microsoft.StyleCop.CSharp
             GenericTypeToken generic = null;
 
             // Create a token for the name.
-            var name = new LiteralToken(firstSymbol.Text, firstSymbol.Location, this.symbols.Generated);
+            var name = new LiteralToken(this.document, firstSymbol.Text, firstSymbol.Location, this.symbols.Generated);
 
             // Get the argument list. This will return null if this is not a generic.
             if (this.GetGenericArgumentList(genericTokenProxy, unsafeCode, name, startIndex + 1, out lastIndex))
@@ -948,7 +948,7 @@ namespace Microsoft.StyleCop.CSharp
                             return false;
                         }
 
-                        openingGenericBracket = new OpenGenericBracketToken(symbol.Text, symbol.Location, this.symbols.Generated);
+                        openingGenericBracket = new OpenGenericBracketToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
                         genericArgumentListItems.Add(openingGenericBracket);
                     }
                     else
@@ -966,7 +966,7 @@ namespace Microsoft.StyleCop.CSharp
                     if (symbol == null)
                     {
                         // The code ran out before we found the end of the generic.
-                        throw new SyntaxException(this.document.SourceCode, name.LineNumber);
+                        throw new SyntaxException(this.document, name.LineNumber);
                     }
                     else if (symbol.SymbolType == SymbolType.GreaterThan)
                     {
@@ -977,7 +977,7 @@ namespace Microsoft.StyleCop.CSharp
                         }
 
                         // This is the end of the generic statement. Add the closing bracket to the token list.
-                        var closingGenericBracket = new CloseGenericBracketToken(symbol.Text, symbol.Location, this.symbols.Generated);
+                        var closingGenericBracket = new CloseGenericBracketToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
                         genericArgumentListItems.Add(closingGenericBracket);
 
                         openingGenericBracket.MatchingBracket = closingGenericBracket;
@@ -992,7 +992,7 @@ namespace Microsoft.StyleCop.CSharp
                         Token word = this.GetTypeTokenAux(unsafeCode, true, false, index, out lastIndex);
                         if (word == null)
                         {
-                            throw new SyntaxException(this.document.SourceCode, symbol.LineNumber);
+                            throw new SyntaxException(this.document, symbol.LineNumber);
                         }
 
                         // Advance the index to the end of the token.
@@ -1142,7 +1142,7 @@ namespace Microsoft.StyleCop.CSharp
                             return;
                         }
 
-                        parentProxy.Children.Add(new Whitespace(symbol.Text, symbol.Location, this.symbols.Generated));
+                        parentProxy.Children.Add(new Whitespace(this.document, symbol.Text, symbol.Location, this.symbols.Generated));
                         this.symbols.Advance();
                         break;
                     
@@ -1152,7 +1152,7 @@ namespace Microsoft.StyleCop.CSharp
                             return;
                         }
 
-                        parentProxy.Children.Add(new EndOfLine(symbol.Text, symbol.Location, this.symbols.Generated));
+                        parentProxy.Children.Add(new EndOfLine(this.document, symbol.Text, symbol.Location, this.symbols.Generated));
                         this.symbols.Advance();
                         break;
                     
@@ -1162,7 +1162,7 @@ namespace Microsoft.StyleCop.CSharp
                             return;
                         }
 
-                        parentProxy.Children.Add(new SingleLineComment(symbol.Text, symbol.Location, this.symbols.Generated));
+                        parentProxy.Children.Add(new SingleLineComment(this.document, symbol.Text, symbol.Location, this.symbols.Generated));
                         this.symbols.Advance();
                         break;
                     
@@ -1172,7 +1172,7 @@ namespace Microsoft.StyleCop.CSharp
                             return;
                         }
 
-                        parentProxy.Children.Add(new MultilineComment(symbol.Text, symbol.Location, this.symbols.Generated));
+                        parentProxy.Children.Add(new MultilineComment(this.document, symbol.Text, symbol.Location, this.symbols.Generated));
                         this.symbols.Advance();
                         break;
                     
@@ -1192,7 +1192,7 @@ namespace Microsoft.StyleCop.CSharp
                             return;
                         }
 
-                        parentProxy.Children.Add(new XmlHeaderLine(symbol.Text, symbol.Location, this.symbols.Generated));
+                        parentProxy.Children.Add(new XmlHeaderLine(this.document, symbol.Text, symbol.Location, this.symbols.Generated));
                         this.symbols.Advance();
                         break;
 
@@ -1351,7 +1351,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <returns>Returns the exception.</returns>
         private SyntaxException CreateSyntaxException()
         {
-            throw new SyntaxException(this.document.SourceCode, this.GetBestLineNumber());
+            throw new SyntaxException(this.document, this.GetBestLineNumber());
         }
 
         #endregion Private Methods

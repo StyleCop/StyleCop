@@ -76,7 +76,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Gets this document.
         /// </summary>
-        public override ICodeDocument Document
+        public override CsDocument Document
         {
             get
             {
@@ -287,101 +287,4 @@ namespace Microsoft.StyleCop.CSharp
 
         #endregion Private Methods
     }
-
-    /*
-    /// <content>
-    /// Implements the ICodeUnit interface for CsDocument.
-    /// </content>
-    public partial class CsDocument : ICodeUnit
-    {
-        /// <summary>
-        /// Gets the collection of children beneath this code unit.
-        /// </summary>
-        CodeUnitCollection ICodeUnit.Children 
-        {
-            get 
-            {
-                this.AssertContent();
-                return this.contents.Children;
-            }
-        }
-
-        CodeUnitType ICodeUnit.CodeUnitType 
-        {
-            get
-            {
-                return CodeUnitType.Document;
-            }
-        }
-
-        string ICodeUnit.FriendlyPluralTypeText 
-        {
-            get
-            {
-            }
-        }
-
-        string ICodeUnit.FriendlyTypeText 
-        {
-            get
-            {
-            }
-        }
-
-        int ICodeUnit.FundamentalType 
-        {
-            get
-            {
-                return (int)CodeUnitType.Documemnt;
-            }
-        }
-
-        bool ICodeUnit.Generated 
-        {
-            get
-            {
-                this.AssertContent();
-                return this.contents.Generated;
-            }
-        }
-
-        int ICodeUnit.LineNumber 
-        {
-            get
-            {
-                return 1;
-            }
-        }
-
-        Microsoft.StyleCop.Collections.LinkNode<CodeUnit> ICodeUnit.LinkNode 
-        {
-            get
-            {
-                this.AssertContent();
-                return this.contents.LinkNode;
-            }
-        }
-
-        Microsoft.StyleCop.CodeLocation ICodeUnit.Location 
-        {
-            get
-            {
-                if (this.contents == null || this.contents.Children.Count == 0)
-                {
-                    return CodeLocation.Empty;
-                }
-
-                return CodeLocation.Join(CodeLocation.Empty, this.contents.Children.Last.Location);
-            }
-        }
-
-        CodeUnit ICodeUnit.Parent 
-        {
-            get
-            {
-                return null;
-            }
-        }
-    }
-     * */
 }

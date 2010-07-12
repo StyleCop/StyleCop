@@ -134,12 +134,12 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Gets the list of symbols from the code file.
         /// </summary>
-        /// <param name="sourceCode">The source code containing the symbols.</param>
+        /// <param name="document">The parent document.</param>
         /// <param name="configuration">The active configuration.</param>
         /// <returns>Returns the list of symbols in the code file.</returns>
-        internal List<Symbol> GetSymbols(SourceCode sourceCode, Configuration configuration)
+        internal List<Symbol> GetSymbols(CsDocument document, Configuration configuration)
         {
-            Param.AssertNotNull(sourceCode, "sourceCode");
+            Param.AssertNotNull(document, "document");
             Param.Ignore(configuration);
 
             // Create the symbol list.
@@ -148,7 +148,7 @@ namespace Microsoft.StyleCop.CSharp
             // Loop until all the symbols have been read.
             while (true)
             {
-                Symbol symbol = this.GetSymbol(sourceCode, configuration, true);
+                Symbol symbol = this.GetSymbol(document, configuration, true);
                 if (symbol == null)
                 {
                     break;
@@ -164,7 +164,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Gets the next symbol in the code, starting at the current marker.
         /// </summary>
-        /// <param name="sourceCode">The source code containing the symbol.</param>
+        /// <param name="document">The parent document.</param>
         /// <param name="configuration">The active configuration.</param>
         /// <param name="evaluatePreprocessors">Indicates whether to evaluate preprocessor symbols.</param>
         /// <returns>Returns the next symbol in the document.</returns>
@@ -176,10 +176,10 @@ namespace Microsoft.StyleCop.CSharp
             "Microsoft.Globalization", 
             "CA1303:DoNotPassLiteralsAsLocalizedParameters", 
             Justification = "The literals represent non-localizable C# operators.")]
-        internal Symbol GetSymbol(SourceCode sourceCode, Configuration configuration, bool evaluatePreprocessors)
+        internal Symbol GetSymbol(CsDocument document, Configuration configuration, bool evaluatePreprocessors)
         {
-            Param.AssertNotNull(sourceCode, "sourceCode");
             Param.Ignore(configuration);
+            Param.AssertNotNull(document, "document");
             Param.Ignore(evaluatePreprocessors);
 
             Symbol symbol = null;
@@ -237,7 +237,7 @@ namespace Microsoft.StyleCop.CSharp
                         break;
 
                     case '#':
-                        symbol = this.GetPreprocessorDirectiveSymbol(sourceCode, configuration, evaluatePreprocessors);
+                        symbol = this.GetPreprocessorDirectiveSymbol(document, configuration, evaluatePreprocessors);
                         break;
                         
                     case '(':
@@ -1591,14 +1591,14 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Gets the next preprocessor directive keyword.
         /// </summary>
-        /// <param name="sourceCode">The source code.</param>
+        /// <param name="document">The parent document.</param>
         /// <param name="configuration">The active configuration.</param>
         /// <param name="evaluate">Indicates whether to evaluate the preprocessor symbol if it is a conditional
         /// directive.</param>
         /// <returns>Returns the next preprocessor directive keyword.</returns>
-        private Symbol GetPreprocessorDirectiveSymbol(SourceCode sourceCode, Configuration configuration, bool evaluate)
+        private Symbol GetPreprocessorDirectiveSymbol(CsDocument document, Configuration configuration, bool evaluate)
         {
-            Param.AssertNotNull(sourceCode, "sourceCode");
+            Param.AssertNotNull(document, "document");
             Param.Ignore(configuration);
             Param.Ignore(evaluate);
 
@@ -1607,7 +1607,7 @@ namespace Microsoft.StyleCop.CSharp
             this.AdvanceToEndOfLine(text);
             if (text.Length == 1)
             {
-                throw new SyntaxException(sourceCode, this.marker.LineNumber, Strings.UnexpectedEndOfFile);
+                throw new SyntaxException(document, this.marker.LineNumber, Strings.UnexpectedEndOfFile);
             }
 
             // Create the code location.
@@ -1630,7 +1630,7 @@ namespace Microsoft.StyleCop.CSharp
             {
                 // Check the type of the symbol. If this is a conditional preprocessor symbol which resolves to false,
                 // then we need to advance past all of the code which is not in scope.
-                this.CheckForConditionalCompilationDirective(sourceCode, symbol, configuration);
+                this.CheckForConditionalCompilationDirective(document, symbol, configuration);
             }
 
             // Return the symbol.
@@ -1641,12 +1641,12 @@ namespace Microsoft.StyleCop.CSharp
         /// Checks the given preprocessor symbol to determine whether it is a conditional preprocessor directive.
         /// If so, determines whether we should skip past code which is out of scope.
         /// </summary>
-        /// <param name="sourceCode">The source code file containing this directive.</param>
+        /// <param name="document">The parent document.</param>
         /// <param name="preprocessorSymbol">The symbol to check.</param>
         /// <param name="configuration">The active configuration.</param>
-        private void CheckForConditionalCompilationDirective(SourceCode sourceCode, Symbol preprocessorSymbol, Configuration configuration)
+        private void CheckForConditionalCompilationDirective(CsDocument document, Symbol preprocessorSymbol, Configuration configuration)
         {
-            Param.AssertNotNull(sourceCode, "sourceCode");
+            Param.AssertNotNull(document, "document");
             Param.AssertNotNull(preprocessorSymbol, "preprocessorSymbol");
             Param.Ignore(configuration);
           
@@ -1655,18 +1655,18 @@ namespace Microsoft.StyleCop.CSharp
             string type = CsParser.GetPreprocessorDirectiveType(preprocessorSymbol, out bodyIndex);
             if (type == "define")
             {
-                this.GetDefinePreprocessorDirective(sourceCode, preprocessorSymbol, bodyIndex);
+                this.GetDefinePreprocessorDirective(document, preprocessorSymbol, bodyIndex);
             }
             else if (type == "undef")
             {
-                this.GetUndefinePreprocessorDirective(sourceCode, preprocessorSymbol, bodyIndex);
+                this.GetUndefinePreprocessorDirective(document, preprocessorSymbol, bodyIndex);
             }
             else if (type == "endif")
             {
                 // Pop this conditional directive off of the stack.
                 if (this.conditionalDirectives.Count == 0)
                 {
-                    throw new SyntaxException(sourceCode, preprocessorSymbol.LineNumber);
+                    throw new SyntaxException(document, preprocessorSymbol.LineNumber);
                 }
 
                 this.conditionalDirectives.Pop();
@@ -1676,7 +1676,7 @@ namespace Microsoft.StyleCop.CSharp
                 // Extract an if, endif, or else directive.
                 bool skip;
                 if (!this.GetIfElsePreprocessorDirectives(
-                    sourceCode, preprocessorSymbol, configuration, bodyIndex, type, out skip))
+                    document, preprocessorSymbol, configuration, bodyIndex, type, out skip))
                 {
                     // Check whether the code needs to be skipped.
                     if (skip)
@@ -1686,10 +1686,10 @@ namespace Microsoft.StyleCop.CSharp
                         while (true)
                         {
                             // Get the next symbol.
-                            Symbol symbol = this.GetSymbol(sourceCode, configuration, false);
+                            Symbol symbol = this.GetSymbol(document, configuration, false);
                             if (symbol == null)
                             {
-                                throw new SyntaxException(sourceCode, preprocessorSymbol.LineNumber);
+                                throw new SyntaxException(document, preprocessorSymbol.LineNumber);
                             }
 
                             // Check whether this is another preprocessor.
@@ -1725,7 +1725,7 @@ namespace Microsoft.StyleCop.CSharp
                         // Indicate that this conditional directive has been entered.
                         if (this.conditionalDirectives.Count == 0)
                         {
-                            throw new SyntaxException(sourceCode, preprocessorSymbol.LineNumber);
+                            throw new SyntaxException(document, preprocessorSymbol.LineNumber);
                         }
 
                         this.conditionalDirectives.Pop();
@@ -1738,7 +1738,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Extracts an if, endif, or else directive.
         /// </summary>
-        /// <param name="sourceCode">The source code being parsed.</param>
+        /// <param name="document">The parent document.</param>
         /// <param name="preprocessorSymbol">The preprocessor symbol being parsed.</param>
         /// <param name="configuration">The current code configuration.</param>
         /// <param name="startIndex">The start index of the item within the symbols.</param>
@@ -1746,9 +1746,9 @@ namespace Microsoft.StyleCop.CSharp
         /// <param name="skip">Returns a value indicating whether the item should be skipped.</param>
         /// <returns>Returns a value indicating whether to ignore the item.</returns>
         private bool GetIfElsePreprocessorDirectives(
-            SourceCode sourceCode, Symbol preprocessorSymbol, Configuration configuration, int startIndex, string type, out bool skip)
+            CsDocument document, Symbol preprocessorSymbol, Configuration configuration, int startIndex, string type, out bool skip)
         {
-            Param.AssertNotNull(sourceCode, "sourceCode");
+            Param.AssertNotNull(document, "document");
             Param.AssertNotNull(preprocessorSymbol, "preprocessorSymbol");
             Param.AssertNotNull(configuration, "configuration");
             Param.AssertGreaterThanOrEqualToZero(startIndex, "startIndex");
@@ -1763,21 +1763,21 @@ namespace Microsoft.StyleCop.CSharp
                 this.conditionalDirectives.Push(false);
 
                 // Extract the body of the directive.
-                var expressionProxy = new CodeUnitProxy();
-                Expression body = CodeParser.GetConditionalPreprocessorBodyExpression(expressionProxy, this.parser, sourceCode, preprocessorSymbol, startIndex);
+                var expressionProxy = new CodeUnitProxy(document);
+                Expression body = CodeParser.GetConditionalPreprocessorBodyExpression(document, expressionProxy, this.parser, preprocessorSymbol, startIndex);
                 if (body == null)
                 {
-                    throw new SyntaxException(sourceCode, preprocessorSymbol.LineNumber);
+                    throw new SyntaxException(document, preprocessorSymbol.LineNumber);
                 }
 
                 // Determine whether the code under this directive needs to be skipped because it is out of scope.
-                skip = !this.EvaluateConditionalDirectiveExpression(sourceCode, body, configuration);
+                skip = !this.EvaluateConditionalDirectiveExpression(document, body, configuration);
             }
             else if (type == "elif")
             {
                 if (this.conditionalDirectives.Count == 0)
                 {
-                    throw new SyntaxException(sourceCode, preprocessorSymbol.LineNumber);
+                    throw new SyntaxException(document, preprocessorSymbol.LineNumber);
                 }
 
                 bool entered = this.conditionalDirectives.Peek();
@@ -1788,12 +1788,12 @@ namespace Microsoft.StyleCop.CSharp
                 else
                 {
                     // Extract the body of the directive.
-                    var expressionProxy = new CodeUnitProxy();
-                    Expression body = CodeParser.GetConditionalPreprocessorBodyExpression(expressionProxy, this.parser, sourceCode, preprocessorSymbol, startIndex);
+                    var expressionProxy = new CodeUnitProxy(document);
+                    Expression body = CodeParser.GetConditionalPreprocessorBodyExpression(document, expressionProxy, this.parser, preprocessorSymbol, startIndex);
                     if (body != null)
                     {
                         // Determine whether the code under this directive needs to be skipped because it is out of scope.
-                        skip = !this.EvaluateConditionalDirectiveExpression(sourceCode, body, configuration);
+                        skip = !this.EvaluateConditionalDirectiveExpression(document, body, configuration);
                     }
                 }
             }
@@ -1801,7 +1801,7 @@ namespace Microsoft.StyleCop.CSharp
             {
                 if (this.conditionalDirectives.Count == 0)
                 {
-                    throw new SyntaxException(sourceCode, preprocessorSymbol.LineNumber);
+                    throw new SyntaxException(document, preprocessorSymbol.LineNumber);
                 }
 
                 bool entered = this.conditionalDirectives.Peek();
@@ -1822,23 +1822,23 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Gets a define preprocessor directive from the code.
         /// </summary>
-        /// <param name="sourceCode">The source code being parsed.</param>
+        /// <param name="document">The parent document.</param>
         /// <param name="preprocessorSymbol">The preprocessor symbol being parsed.</param>
         /// <param name="startIndex">The start index within the symbols.</param>
-        private void GetDefinePreprocessorDirective(SourceCode sourceCode, Symbol preprocessorSymbol, int startIndex)
+        private void GetDefinePreprocessorDirective(CsDocument document, Symbol preprocessorSymbol, int startIndex)
         {
-            Param.AssertNotNull(sourceCode, "sourceCode");
+            Param.AssertNotNull(document, "document");
             Param.AssertNotNull(preprocessorSymbol, "preprocessorSymbol");
             Param.AssertGreaterThanOrEqualToZero(startIndex, "startIndex");
 
-            var expressionProxy = new CodeUnitProxy();
+            var expressionProxy = new CodeUnitProxy(document);
 
             // Get the body of the define directive.
             LiteralExpression body = CodeParser.GetConditionalPreprocessorBodyExpression(
-                expressionProxy, this.parser, sourceCode, preprocessorSymbol, startIndex) as LiteralExpression;
+                document, expressionProxy, this.parser, preprocessorSymbol, startIndex) as LiteralExpression;
             if (body == null)
             {
-                throw new SyntaxException(sourceCode, preprocessorSymbol.LineNumber);
+                throw new SyntaxException(document, preprocessorSymbol.LineNumber);
             }
 
             // Create the defines list if necessary.
@@ -1860,23 +1860,23 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Gets an undefine preprocessor directive from the code.
         /// </summary>
-        /// <param name="sourceCode">The source code being parsed.</param>
+        /// <param name="document">The parent document.</param>
         /// <param name="preprocessorSymbol">The preprocessor symbol being parsed.</param>
         /// <param name="startIndex">The start index within the symbols.</param>
-        private void GetUndefinePreprocessorDirective(SourceCode sourceCode, Symbol preprocessorSymbol, int startIndex)
+        private void GetUndefinePreprocessorDirective(CsDocument document, Symbol preprocessorSymbol, int startIndex)
         {
-            Param.AssertNotNull(sourceCode, "sourceCode");
+            Param.AssertNotNull(document, "document");
             Param.AssertNotNull(preprocessorSymbol, "preprocessorSymbol");
             Param.AssertGreaterThanOrEqualToZero(startIndex, "startIndex");
 
-            var expressionProxy = new CodeUnitProxy();
+            var expressionProxy = new CodeUnitProxy(document);
 
             // Get the body of the undefine directive.
             LiteralExpression body = CodeParser.GetConditionalPreprocessorBodyExpression(
-                expressionProxy, this.parser, sourceCode, preprocessorSymbol, startIndex) as LiteralExpression;
+                document, expressionProxy, this.parser, preprocessorSymbol, startIndex) as LiteralExpression;
             if (body == null)
             {
-                throw new SyntaxException(sourceCode, preprocessorSymbol.LineNumber);
+                throw new SyntaxException(document, preprocessorSymbol.LineNumber);
             }
 
             // Create the undefines list if necessary.
@@ -1899,14 +1899,14 @@ namespace Microsoft.StyleCop.CSharp
         /// Evaluates an expression from within a conditional compiliation directive to determine
         /// whether it resolves to true or false.
         /// </summary>
-        /// <param name="sourceCode">The source code containing the expression.</param>
+        /// <param name="document">The parent document.</param>
         /// <param name="expression">The expression to evalulate.</param>
         /// <param name="configuration">The active configuration.</param>
         /// <returns>Returns true if the expression evaluates to true, otherwise returns false.</returns>
         private bool EvaluateConditionalDirectiveExpression(
-            SourceCode sourceCode, Expression expression, Configuration configuration)
+            CsDocument document, Expression expression, Configuration configuration)
         {
-            Param.AssertNotNull(sourceCode, "sourceCode");
+            Param.AssertNotNull(document, "document");
             Param.AssertNotNull(expression, "expression");
             Param.Ignore(configuration);
 
@@ -1953,11 +1953,11 @@ namespace Microsoft.StyleCop.CSharp
 
                     // Evaluate the left side of the expression.
                     bool leftSide = this.EvaluateConditionalDirectiveExpression(
-                        sourceCode, conditionalLogicalExpression.LeftHandSide, configuration);
+                        document, conditionalLogicalExpression.LeftHandSide, configuration);
 
                     // Evaluate the right side of the expression.
                     bool rightSide = this.EvaluateConditionalDirectiveExpression(
-                        sourceCode, conditionalLogicalExpression.RightHandSide, configuration);
+                        document, conditionalLogicalExpression.RightHandSide, configuration);
 
                     // Check whether this is a conditional OR or a conditional AND expression.
                     if (conditionalLogicalExpression.OperatorType == ConditionalLogicalExpression.Operator.And)
@@ -1976,11 +1976,11 @@ namespace Microsoft.StyleCop.CSharp
 
                     // Evaluate the left side of the expression.
                     leftSide = this.EvaluateConditionalDirectiveExpression(
-                        sourceCode, relationalExpression.LeftHandSide, configuration);
+                        document, relationalExpression.LeftHandSide, configuration);
 
                     // Evaluate the right side of the expression.
                     rightSide = this.EvaluateConditionalDirectiveExpression(
-                        sourceCode, relationalExpression.RightHandSide, configuration);
+                        document, relationalExpression.RightHandSide, configuration);
 
                     // Check whether this is an equality or an inequality expression.
                     if (relationalExpression.OperatorType == RelationalExpression.Operator.EqualTo)
@@ -1994,7 +1994,7 @@ namespace Microsoft.StyleCop.CSharp
                     else
                     {
                         // Any other type of relational operator is not allowed in a conditional compilation directive.
-                        throw new SyntaxException(sourceCode, expression.LineNumber);
+                        throw new SyntaxException(document, expression.LineNumber);
                     }
 
                     break;
@@ -2005,12 +2005,12 @@ namespace Microsoft.StyleCop.CSharp
                     {
                         // Evaluate the right side of the expression.
                         value = !this.EvaluateConditionalDirectiveExpression(
-                            sourceCode, unaryExpression.Value, configuration);
+                            document, unaryExpression.Value, configuration);
                     }
                     else
                     {
                         // Any other type of unary operator is not allowed in a conditional compilation directive.
-                        throw new SyntaxException(sourceCode, expression.LineNumber);
+                        throw new SyntaxException(document, expression.LineNumber);
                     }
 
                     break;
@@ -2019,12 +2019,12 @@ namespace Microsoft.StyleCop.CSharp
                     // Evaluate the inner expression.
                     ParenthesizedExpression parenthesizedExpression = expression as ParenthesizedExpression;
                     value = this.EvaluateConditionalDirectiveExpression(
-                        sourceCode, parenthesizedExpression.InnerExpression, configuration);
+                        document, parenthesizedExpression.InnerExpression, configuration);
                     break;
 
                 default:
                     // Any other type of expression is not allowed within a conditional compilation directive.
-                    throw new SyntaxException(sourceCode, expression.LineNumber);
+                    throw new SyntaxException(document, expression.LineNumber);
             }
 
             return value;
