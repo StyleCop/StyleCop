@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes an event keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class EventToken : Token
+    public sealed class EventToken : SimpleToken
     {
         /// <summary>
         /// Initializes a new instance of the EventToken class.

@@ -25,54 +25,15 @@ namespace Microsoft.StyleCop.CSharp
     /// <subcategory>token</subcategory>
     public abstract class Token : LexicalElement
     {
-        #region Internal Static Fields
-
-        ///// <summary>
-        ///// An empty array of tokens.
-        ///// </summary>
-        ////internal static readonly Token[] EmptyTokenArray = new Token[] { };
-
-        #endregion Internal Static Fields
-
         #region Internal Constructors
 
         /// <summary>
         /// Initializes a new instance of the Token class.
         /// </summary>
-        /// <param name="document">The parent document.</param>
-        /// <param name="text">The token string.</param>
-        /// <param name="tokenType">The token type.</param>
-        /// <param name="location">The location of the token within the code document.</param>
-        /// <param name="generated">True if the token is inside of a block of generated code.</param>
-        internal Token(CsDocument document, string text, TokenType tokenType, CodeLocation location, bool generated)
-            : this(document, text, (int)tokenType, location, generated)
-        {
-            Param.Ignore(document, text, tokenType, location, generated);
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the Token class.
-        /// </summary>
-        /// <param name="document">The parent document.</param>
-        /// <param name="text">The token string.</param>
-        /// <param name="tokenType">The token type.</param>
-        /// <param name="location">The location of the token within the code document.</param>
-        /// <param name="generated">True if the token is inside of a block of generated code.</param>
-        internal Token(CsDocument document, string text, int tokenType, CodeLocation location, bool generated)
-            : base(document, tokenType, location, generated)
-        {
-            Param.Ignore(document, text, tokenType, location, generated);
-
-            this.Text = text;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the Token class.
-        /// </summary>
-        /// <param name="tokenType">The token type.</param>
         /// <param name="proxy">Proxy object for the token.</param>
-        internal Token(TokenType tokenType, CodeUnitProxy proxy)
-            : this((int)tokenType, proxy)
+        /// <param name="tokenType">The token type.</param>
+        internal Token(CodeUnitProxy proxy, TokenType tokenType)
+            : this(proxy, (int)tokenType)
         {
             Param.Ignore(tokenType);
             Param.AssertNotNull(proxy, "proxy");
@@ -81,31 +42,31 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Initializes a new instance of the Token class.
         /// </summary>
-        /// <param name="tokenType">The token type.</param>
         /// <param name="proxy">Proxy object for the token.</param>
-        internal Token(int tokenType, CodeUnitProxy proxy)
-            : base(tokenType, proxy)
+        /// <param name="tokenType">The token type.</param>
+        internal Token(CodeUnitProxy proxy, int tokenType)
+            : base(proxy, tokenType)
         {
             Param.Ignore(tokenType);
             Param.AssertNotNull(proxy, "proxy");
             Debug.Assert(System.Enum.IsDefined(typeof(TokenType), this.TokenType), "The type is invalid.");
         }
 
-        /// <summary>
-        /// Initializes a new instance of the Token class.
-        /// </summary>
-        /// <param name="text">The token string.</param>
-        /// <param name="tokenType">The token type.</param>
-        /// <param name="proxy">Proxy object for the expression.</param>
-        internal Token(string text, int tokenType, CodeUnitProxy proxy)
-            : this(tokenType, proxy)
-        {
-            Param.AssertNotNull(text, "text");
-            Param.Ignore(tokenType);
-            Param.AssertNotNull(proxy, "proxy");
+        /////// <summary>
+        /////// Initializes a new instance of the Token class.
+        /////// </summary>
+        /////// <param name="text">The token string.</param>
+        /////// <param name="tokenType">The token type.</param>
+        /////// <param name="proxy">Proxy object for the expression.</param>
+        ////internal Token(string text, int tokenType, CodeUnitProxy proxy)
+        ////    : this(proxy, tokenType)
+        ////{
+        ////    Param.AssertNotNull(text, "text");
+        ////    Param.Ignore(tokenType);
+        ////    Param.AssertNotNull(proxy, "proxy");
 
-            this.Text = text;
-        }
+        ////    this.Text = text;
+        ////}
 
         #endregion Internal Constructors
 

@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a case keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class CaseToken : Token
+    public sealed class CaseToken : SimpleToken
     {
         /// <summary>
         /// Initializes a new instance of the CaseToken class.

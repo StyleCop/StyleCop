@@ -26,7 +26,7 @@ namespace Microsoft.StyleCop.CSharp
         "CA1702:CompoundWordsShouldBeCasedCorrectly", 
         MessageId = "Whitespace",
         Justification = "API has already been published and should not be changed.")]
-    public sealed class Whitespace : LexicalElement
+    public sealed class Whitespace : SimpleLexicalElement
     {
         #region Private Fields
 

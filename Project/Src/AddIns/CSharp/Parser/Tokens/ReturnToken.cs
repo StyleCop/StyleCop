@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a return keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class ReturnToken : Token
+    public sealed class ReturnToken : SimpleToken
     {
         /// <summary>
         /// Initializes a new instance of the ReturnToken class.

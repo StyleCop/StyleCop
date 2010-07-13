@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes an abstract keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class AbstractToken : Token
+    public sealed class AbstractToken : SimpleToken
     {
         /// <summary>
         /// Initializes a new instance of the AbstractToken class.

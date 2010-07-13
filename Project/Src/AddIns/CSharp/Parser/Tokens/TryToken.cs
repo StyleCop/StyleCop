@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a try keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class TryToken : Token
+    public sealed class TryToken : SimpleToken
     {
         /// <summary>
         /// Initializes a new instance of the TryToken class.

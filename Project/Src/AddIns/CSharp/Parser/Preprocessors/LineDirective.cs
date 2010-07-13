@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a line directive.
     /// </summary>
     /// <subcategory>preprocessor</subcategory>
-    public sealed class LineDirective : PreprocessorDirective
+    public sealed class LineDirective : SimplePreprocessorDirective
     {
         /// <summary>
         /// Initializes a new instance of the LineDirective class.

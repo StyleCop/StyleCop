@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a namespace keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class NamespaceToken : Token
+    public sealed class NamespaceToken : SimpleToken
     {
         /// <summary>
         /// Initializes a new instance of the NamespaceToken class.

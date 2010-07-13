@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a typeof keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class TypeofToken : Token
+    public sealed class TypeofToken : SimpleToken
     {
         /// <summary>
         /// Initializes a new instance of the TypeofToken class.

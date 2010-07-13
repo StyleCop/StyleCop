@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes an add keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class AddToken : Token
+    public sealed class AddToken : SimpleToken
     {
         /// <summary>
         /// Initializes a new instance of the AddToken class.

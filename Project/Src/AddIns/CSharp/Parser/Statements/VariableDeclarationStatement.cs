@@ -60,6 +60,22 @@ namespace Microsoft.StyleCop.CSharp
 
         #endregion Internal Constructors
 
+        #region Public Override Properties
+
+        /// <summary>
+        /// Gets the variables defined within this statement.
+        /// </summary>
+        /// <returns>Returns the collection of variables.</returns>
+        public override IList<IVariable> Variables
+        {
+            get
+            {
+                return this.expression.GetVariables();
+            }
+        }
+
+        #endregion Public Override Properties
+
         #region Public Properties
 
         /// <summary>
@@ -108,15 +124,6 @@ namespace Microsoft.StyleCop.CSharp
             {
                 return this.expression.Declarators;
             }
-        }
-
-        /// <summary>
-        /// Gets the variables defined within this statement.
-        /// </summary>
-        /// <returns>Returns the collection of variables.</returns>
-        public override IList<IVariable> GetVariables()
-        {
-            return this.expression.GetVariables();
         }
 
         #endregion Public Properties

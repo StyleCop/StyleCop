@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a colon with a base clause.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class BaseColonToken : Token
+    public sealed class BaseColonToken : SimpleToken
     {
         /// <summary>
         /// Initializes a new instance of the BaseColonToken class.

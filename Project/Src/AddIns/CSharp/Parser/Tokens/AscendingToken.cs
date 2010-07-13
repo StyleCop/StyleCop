@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes an ascending keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class AscendingToken : Token
+    public sealed class AscendingToken : SimpleToken
     {
         /// <summary>
         /// Initializes a new instance of the AscendingToken class.

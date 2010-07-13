@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a for keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class ForToken : Token
+    public sealed class ForToken : SimpleToken
     {
         /// <summary>
         /// Initializes a new instance of the ForToken class.

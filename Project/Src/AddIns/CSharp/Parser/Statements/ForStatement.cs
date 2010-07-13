@@ -79,7 +79,37 @@ namespace Microsoft.StyleCop.CSharp
         }
 
         #endregion Internal Constructors
-    
+
+        #region Public Override Properties
+
+        /// <summary>
+        /// Gets the variables defined within this code unit.
+        /// </summary>
+        public override IList<IVariable> Variables
+        {
+            get
+            {
+                if (this.initializers == null || this.initializers.Count == 0)
+                {
+                    return CsParser.EmptyVariableArray;
+                }
+
+                var variables = new List<IVariable>(this.initializers.Count);
+
+                foreach (Expression initializerExpression in this.initializers)
+                {
+                    if (initializerExpression.Is(ExpressionType.VariableDeclaration))
+                    {
+                        variables.AddRange(((VariableDeclarationExpression)initializerExpression).GetVariables());
+                    }
+                }
+
+                return variables.AsReadOnly();
+            }
+        }
+
+        #endregion Public Override Properties
+
         #region Public Properties
 
         /// <summary>
@@ -134,33 +164,5 @@ namespace Microsoft.StyleCop.CSharp
         }
 
         #endregion Public Properties
-
-        #region Public Override Methods
-
-        /// <summary>
-        /// Gets the variables defined within this code unit.
-        /// </summary>
-        /// <returns>Returns the collection of variables.</returns>
-        public override IList<IVariable> GetVariables()
-        {
-            if (this.initializers == null || this.initializers.Count == 0)
-            {
-                return CsParser.EmptyVariableArray;
-            }
-
-            var variables = new List<IVariable>(this.initializers.Count);
-
-            foreach (Expression initializerExpression in this.initializers)
-            {
-                if (initializerExpression.Is(ExpressionType.VariableDeclaration))
-                {
-                    variables.AddRange(((VariableDeclarationExpression)initializerExpression).GetVariables());
-                }
-            }
-
-            return variables.AsReadOnly();
-        }
-
-        #endregion Public Override Methods
     }
 }

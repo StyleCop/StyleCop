@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a using keyword within a using statement.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class UsingToken : Token
+    public sealed class UsingToken : SimpleToken
     {
         /// <summary>
         /// Initializes a new instance of the UsingToken class.

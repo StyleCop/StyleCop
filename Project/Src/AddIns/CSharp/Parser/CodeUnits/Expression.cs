@@ -89,22 +89,6 @@ namespace Microsoft.StyleCop.CSharp
             }
         }
 
-        /////// <summary>
-        /////// Gets a text representation of the expression.
-        /////// </summary>
-        ////public string Text
-        ////{
-        ////    get
-        ////    {
-        ////        if (this.text == null)
-        ////        {
-        ////            this.CreateTextString();
-        ////        }
-
-        ////        return this.text;
-        ////    }
-        ////}
-
         #endregion Public Properties
 
         #region Protected Methods
@@ -134,44 +118,5 @@ namespace Microsoft.StyleCop.CSharp
         }
 
         #endregion Protected Methods
-
-        #region Private Methods
-
-        /////// <summary>
-        /////// Creates a text string based on the child tokens in the attribute.
-        /////// </summary>
-        ////private void CreateTextString()
-        ////{
-        ////    var tokenText = new StringBuilder();
-        ////    this.AddChildTexts(this, tokenText);
-
-        ////    this.text = tokenText.ToString();
-        ////}
-
-        ////private void AddChildTexts(CodeUnit codeUnit, StringBuilder textBuilder)
-        ////{
-        ////    if (codeUnit.Children != null && codeUnit.Children.Count > 0)
-        ////    {
-        ////        foreach (CodeUnit item in codeUnit.Children)
-        ////        {
-        ////            this.AddChildTexts(item, textBuilder);
-        ////        }
-        ////    }
-        ////    else
-        ////    {
-        ////        // Leaf nodes should always be tokens.
-        ////        Token token = (Token)codeUnit;
-
-        ////        // Strip out comments and preprocessor directives.
-        ////        if (token.TokenType != TokenType.SingleLineComment &&
-        ////            token.TokenType != TokenType.MultiLineComment &&
-        ////            token.TokenType != TokenType.PreprocessorDirective)
-        ////        {
-        ////            textBuilder.Append(token.Text);
-        ////        }
-        ////    }
-        ////}
-
-        #endregion Private Methods
     }
 }

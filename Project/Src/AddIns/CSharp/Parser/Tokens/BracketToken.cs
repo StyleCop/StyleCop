@@ -22,7 +22,7 @@ namespace Microsoft.StyleCop.CSharp
     /// attribute bracket, or generic bracket.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public abstract class BracketToken : Token
+    public abstract class BracketToken : SimpleToken
     {
         #region Private Fields
 

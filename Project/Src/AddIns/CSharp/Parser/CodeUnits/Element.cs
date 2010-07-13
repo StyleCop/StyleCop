@@ -16,11 +16,13 @@ namespace Microsoft.StyleCop.CSharp
 {
     using System;
     using System.Collections;
+    using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.Text;
+    using System.Threading;
 
     /// <summary>
     /// Describes a single element in a C# code file.
@@ -37,7 +39,21 @@ namespace Microsoft.StyleCop.CSharp
         internal static readonly Element[] EmptyElementArray = new Element[] { };
 
         #endregion Internal Static Fields
-        
+
+        #region Private Static Fields
+
+        /// <summary>
+        /// Stores the friendly type names for all element types.
+        /// </summary>
+        private static ConcurrentDictionary<ElementType, string> friendlyTypeNames = new ConcurrentDictionary<ElementType, string>();
+
+        /// <summary>
+        /// Stores the pluralized friendly type names for all element types.
+        /// </summary>
+        private static ConcurrentDictionary<ElementType, string> friendlyPluralTypeNames = new ConcurrentDictionary<ElementType, string>();
+
+        #endregion Private Static Fields
+
         #region Private Fields
 
         /// <summary>
@@ -51,19 +67,14 @@ namespace Microsoft.StyleCop.CSharp
         private string name;
 
         /// <summary>
-        /// The friendly name of the type.
-        /// </summary>
-        private string friendlyTypeName;
-
-        /// <summary>
-        /// The friendly name of the type, in plural form.
-        /// </summary>
-        private string friendlyPluralTypeName;
-
-        /// <summary>
         /// The element's access modifier type.
         /// </summary>
-        private AccessModifierType accessModifier = AccessModifierType.Private;
+        private AccessModifierType? accessModifier;
+
+        /// <summary>
+        /// The actual access level of the element.
+        /// </summary>
+        private AccessModifierType? actualAccessLevel;
 
         /// <summary>
         /// The list of modifiers in the declaration.
@@ -73,7 +84,22 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Indicates whether this element is unsafe.
         /// </summary>
-        private bool unsafeCode;
+        private bool? unsafeCode;
+
+        /// <summary>
+        /// The fully qualified name of the element.
+        /// </summary>
+        private string fullyQualifiedName;
+
+        /// <summary>
+        /// The first token in the element's declaration.
+        /// </summary>
+        private Token firstDeclarationToken;
+
+        /// <summary>
+        /// The element's header.
+        /// </summary>
+        private Tuple<bool, XmlHeader> header;
 
         /// <summary>
         /// The list of violations in this element.
@@ -102,6 +128,25 @@ namespace Microsoft.StyleCop.CSharp
             ElementType type,
             string name,
             ICollection<Attribute> attributes,
+            bool unsafeCode)
+            : this(proxy, (int)type, name, attributes, unsafeCode)
+        {
+            Param.Ignore(proxy, type, name, attributes, unsafeCode);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the Element class.
+        /// </summary>
+        /// <param name="proxy">Proxy object for the element.</param>
+        /// <param name="type">The element type.</param>
+        /// <param name="name">The name of this element.</param>
+        /// <param name="attributes">The list of attributes attached to this element.</param>
+        /// <param name="unsafeCode">Indicates whether the element is unsafe.</param>
+        internal Element(
+            CodeUnitProxy proxy,
+            int type,
+            string name,
+            ICollection<Attribute> attributes,
             bool unsafeCode) 
             : base(proxy, (int)type)
         {
@@ -126,113 +171,10 @@ namespace Microsoft.StyleCop.CSharp
             if (this.attributes != null)
             {
                 Debug.Assert(this.attributes.IsReadOnly, "The attributes collection should be read-only.");
-
-                foreach (Attribute attribute in this.attributes)
-                {
-                    Debug.Assert(attribute.Element == null, "The attribute element should not be empty");
-                    attribute.Element = this;
-                }
             }
         }
 
         #endregion Internal Constructors
-
-        #region Public Virtual Properties
-
-        /// <summary>
-        /// Gets the fully qualified name of the element.
-        /// </summary>
-        public virtual string FullyQualifiedName
-        {
-            get
-            {
-                string parentFullyQualifiedName = null;
-
-                Element parentElement = this.ParentCastedToElement;
-                if (parentElement != null && parentElement.ElementType != ElementType.Document)
-                {
-                    parentFullyQualifiedName = parentElement.FullyQualifiedName;
-                }
-
-                if (string.IsNullOrEmpty(parentFullyQualifiedName))
-                {
-                    return this.name;
-                }
-
-                var fullyQualifiedName = new StringBuilder();
-                fullyQualifiedName.Append(parentFullyQualifiedName);
-                fullyQualifiedName.Append(".");
-
-                if (!string.IsNullOrEmpty(this.name))
-                {
-                    fullyQualifiedName.Append(this.name);
-                }
-
-                return fullyQualifiedName.ToString();
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the element's access level, without taking into account the access level of the element's parent.
-        /// </summary>
-        public virtual AccessModifierType AccessModifierType
-        {
-            get
-            {
-                return this.accessModifier;
-            }
-
-            protected set
-            {
-                this.accessModifier = value;
-            }
-        }
-
-        #endregion Public Virtual Properties
-
-        #region Public Properties
-
-        /// <summary>
-        /// Gets the friendly name of the code unit type, which can be used in user output.
-        /// </summary>
-        public string FriendlyTypeText
-        {
-            get
-            {
-                string text = this.GetFriendlyTypeText(null);
-                if (text != null)
-                {
-                    return text;
-                }
-
-                text = this.GetFriendlyTypeText(this.GetType().Name);
-                Debug.Assert(!string.IsNullOrEmpty(text), "The text should not be empty");
-
-                return text;
-            }
-        }
-
-        /// <summary>
-        /// Gets the friendly name of the code unit type as a plural noun, which can be used in user output.
-        /// </summary>
-        public string FriendlyPluralTypeText
-        {
-            get
-            {
-                string text = this.GetFriendlyPluralTypeText(null);
-                if (text != null)
-                {
-                    return text;
-                }
-
-                text = this.GetFriendlyPluralTypeText(this.GetType().Name);
-                Debug.Assert(!string.IsNullOrEmpty(text), "The text should not be empty");
-
-                return text;
-            }
-        }
-
-        #endregion Public Properties
 
         #region ICodeElement Properties
 
@@ -260,7 +202,139 @@ namespace Microsoft.StyleCop.CSharp
 
         #endregion ICodeElement Properties
 
+        #region Public Virtual Properties
+
+        /// <summary>
+        /// Gets the fully qualified name of the element.
+        /// </summary>
+        public virtual string FullyQualifiedName
+        {
+            get
+            {
+                this.ValidateEditVersion();
+                if (this.fullyQualifiedName == null)
+                {
+                    string parentFullyQualifiedName = null;
+
+                    Element parentElement = this.ParentCastedToElement;
+                    if (parentElement != null && parentElement.ElementType != ElementType.Document)
+                    {
+                        parentFullyQualifiedName = parentElement.FullyQualifiedName;
+                    }
+
+                    if (string.IsNullOrEmpty(parentFullyQualifiedName))
+                    {
+                        this.fullyQualifiedName = this.Name;
+                    }
+                    else
+                    {
+                        var fullyQualifiedNameBuilder = new StringBuilder();
+                        fullyQualifiedNameBuilder.Append(parentFullyQualifiedName);
+                        fullyQualifiedNameBuilder.Append(".");
+
+                        if (!string.IsNullOrEmpty(this.Name))
+                        {
+                            fullyQualifiedNameBuilder.Append(this.Name);
+                        }
+
+                        this.fullyQualifiedName = fullyQualifiedNameBuilder.ToString();
+                    }
+                }
+
+                return this.fullyQualifiedName;
+            }
+        }
+
+        /// <summary>
+        /// Gets the element's access level, without taking into account the access level of the element's parent.
+        /// </summary>
+        public virtual AccessModifierType AccessModifierType
+        {
+            get
+            {
+                this.ValidateEditVersion();
+
+                if (this.accessModifier == null)
+                {
+                    this.accessModifier = this.DefaultAccessModifierType;
+                    this.GatherDeclarationModifiers(this.AllowedModifiers);
+                }
+
+                return this.accessModifier.Value;
+            }
+        }
+
+        /// <summary>
+        /// Gets the actual access level of this element, taking into account the
+        /// access level of the element's parent.
+        /// </summary>
+        /// <returns>Returns the actual access level.</returns>
+        public virtual AccessModifierType ActualAccessLevel
+        {
+            get
+            {
+                this.ValidateEditVersion();
+                if (this.actualAccessLevel == null)
+                {
+                    this.actualAccessLevel = this.ComputeActualAccess();
+                }
+
+                return this.actualAccessLevel.Value;
+            }
+        }
+
+        /// <summary>
+        /// Gets the variables defined within this code unit.
+        /// </summary>
+        public virtual IList<IVariable> Variables
+        {
+            get
+            {
+                return CsParser.EmptyVariableArray;
+            }
+        }
+
+        #endregion Public Virtual Properties
+
         #region Public Properties
+
+        /// <summary>
+        /// Gets the friendly name of the code unit type, which can be used in user output.
+        /// </summary>
+        public string FriendlyTypeText
+        {
+            get
+            {
+                ElementType type = this.ElementType;
+                string value = null;
+                if (!friendlyTypeNames.TryGetValue(type, out value))
+                {
+                    value = TypeNames.ResourceManager.GetString(this.GetType().Name, TypeNames.Culture);
+                    friendlyTypeNames.AddOrUpdate(type, value, (elementType, originalValue) => originalValue);
+                }
+
+                return value;
+            }
+        }
+
+        /// <summary>
+        /// Gets the pluralized friendly name of the code unit type, which can be used in user output.
+        /// </summary>
+        public string FriendlyPluralTypeText
+        {
+            get
+            {
+                ElementType type = this.ElementType;
+                string value = null;
+                if (!friendlyPluralTypeNames.TryGetValue(type, out value))
+                {
+                    value = TypeNames.ResourceManager.GetString(this.GetType().Name + "Plural", TypeNames.Culture);
+                    friendlyPluralTypeNames.AddOrUpdate(type, value, (elementType, originalValue) => originalValue);
+                }
+
+                return value;
+            }
+        }
 
         /// <summary>
         /// Gets a value indicating whether the element declares an access modifier within its declaration.
@@ -280,6 +354,26 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
+                this.ValidateEditVersion();
+                if (this.attributes == null)
+                {
+                    List<Attribute> temp = new List<Attribute>();
+
+                    for (CodeUnit item = this.FindFirstChild<CodeUnit>(); item != null; item = item.FindNextSibling<CodeUnit>())
+                    {
+                        if (item.Is(CodeUnitType.Attribute))
+                        {
+                            temp.Add((Attribute)item);
+                        }
+                        else if (!item.Is(CodeUnitType.LexicalElement) || item.Is(LexicalElementType.Token))
+                        {
+                            break;
+                        }
+                    }
+
+                    this.attributes = temp.AsReadOnly();
+                }
+
                 return this.attributes;
             }
         }
@@ -289,7 +383,7 @@ namespace Microsoft.StyleCop.CSharp
         /// </summary>
         public ElementType ElementType
         {
-            get 
+            get
             {
                 return (ElementType)(this.FundamentalType & (int)FundamentalTypeMasks.Element);
             }
@@ -303,7 +397,30 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                return this.unsafeCode;
+                this.ValidateEditVersion();
+                if (this.unsafeCode == null)
+                {
+                    this.unsafeCode = false;
+
+                    if (this.ContainsModifier(TokenType.Unsafe))
+                    {
+                        this.unsafeCode = true;
+                    }
+                    else
+                    {
+                        Element parent = this.ParentCastedToElement;
+                        if (parent != null)
+                        {
+                            bool parentIsUnsafe = parent.Unsafe;
+                            if (parentIsUnsafe)
+                            {
+                                this.unsafeCode = true;
+                            }
+                        }
+                    }
+                }
+
+                return this.unsafeCode.Value;
             }
         }
 
@@ -344,6 +461,13 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
+                this.ValidateEditVersion();
+                if (this.name == null)
+                {
+                    this.name = this.GetElementName();
+                    Debug.Assert(this.name != null, "GetElementName must never return null.");
+                }
+
                 return this.name;
             }
         }
@@ -355,20 +479,24 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                for (CodeUnit item = this.FindFirstDescendent<CodeUnit>(); item != null; item = item.FindNextDescendentOf<CodeUnit>(this))
+                this.ValidateEditVersion();
+                if (this.firstDeclarationToken == null)
                 {
-                    if (item.Is(CodeUnitType.Attribute))
+                    for (CodeUnit item = this.FindFirstDescendent<CodeUnit>(); item != null; item = item.FindNextDescendentOf<CodeUnit>(this))
                     {
-                        // Move to the end of the attribute.
-                        item = item.FindLastDescendent<CodeUnit>();
-                    }
-                    else if (item.Is(LexicalElementType.Token))
-                    {
-                        return (Token)item;
+                        if (item.Is(CodeUnitType.Attribute))
+                        {
+                            // Move to the end of the attribute.
+                            item = item.FindLastDescendent<CodeUnit>();
+                        }
+                        else if (item.Is(LexicalElementType.Token))
+                        {
+                            this.firstDeclarationToken = (Token)item;
+                        }
                     }
                 }
 
-                return null;
+                return this.firstDeclarationToken;
             }
         }
 
@@ -387,6 +515,17 @@ namespace Microsoft.StyleCop.CSharp
             }
         }
 
+        /// <summary>
+        /// Gets the default access modifier for this element.
+        /// </summary>
+        protected virtual AccessModifierType DefaultAccessModifierType
+        {
+            get
+            {
+                return AccessModifierType.Private;
+            }
+        }
+
         #endregion Protected Virtual Properties
 
         #region Private Properties
@@ -399,38 +538,20 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                if (this.Parent == null)
+                CodeUnit parent = this.Parent;
+                if (parent == null)
                 {
                     return null;
                 }
 
-                Debug.Assert(this.Parent is Element, "The parent of an Element must always be an Element.");
-                return (Element)this.Parent;
+                Debug.Assert(parent.Is(CodeUnitType.Element), "The parent of an Element must always be an Element.");
+                return (Element)parent;
             }
         }
 
         #endregion Private Properties
 
         #region Public Virtual Methods
-
-        /// <summary>
-        /// Gets the variables defined within this code unit.
-        /// </summary>
-        /// <returns>Returns the collection of variables.</returns>
-        public virtual IList<IVariable> GetVariables()
-        {
-            return CsParser.EmptyVariableArray;
-        }
-
-        /// <summary>
-        /// Gets the actual access level of this element, taking into account the
-        /// access level of the element's parent.
-        /// </summary>
-        /// <returns>Returns the actual access level.</returns>
-        public virtual AccessModifierType GetActualAccessLevel()
-        {
-            return this.ComputeActualAccess();
-        }
 
         /// <summary>
         /// Clears the analyzer tags for this element.
@@ -451,7 +572,15 @@ namespace Microsoft.StyleCop.CSharp
         /// <returns>Returns the header or null if there is none.</returns>
         public XmlHeader GetHeader()
         {
-            return this.FindFirstChild<XmlHeader>();
+            this.ValidateEditVersion();
+
+            if (this.header == null)
+            {
+                XmlHeader foundHeader = this.FindFirstChild<XmlHeader>();
+                this.header = new Tuple<bool, XmlHeader>(foundHeader != null, foundHeader);
+            }
+
+            return this.header.Item2;
         }
 
         /// <summary>
@@ -462,6 +591,8 @@ namespace Microsoft.StyleCop.CSharp
         public bool ContainsModifier(params TokenType[] types)
         {
             Param.RequireNotNull(types, "types");
+
+            this.ValidateEditVersion();
 
             if (this.modifiers == null)
             {
@@ -514,43 +645,36 @@ namespace Microsoft.StyleCop.CSharp
 
         #endregion Internal Virtual Methods
 
-        #region Internal Methods
+        #region Protected Override Methods
 
         /// <summary>
-        /// Gets the friendly name of the code unit type, which can be used in user output.
+        /// Resets the contents of the item.
         /// </summary>
-        /// <param name="typeName">The name of the type.</param>
-        /// <returns>Returns the friendly name text.</returns>
-        internal string GetFriendlyTypeText(string typeName)
+        protected override void Reset()
         {
-            Param.Ignore(typeName);
+            base.Reset();
 
-            if (this.friendlyTypeName == null && typeName != null)
-            {
-                this.friendlyTypeName = TypeNames.ResourceManager.GetString(typeName, TypeNames.Culture);
-            }
-
-            return this.friendlyTypeName;
+            this.attributes = null;
+            this.name = null;
+            this.accessModifier = null;
+            this.modifiers = null;
+            this.unsafeCode = null;
+            this.fullyQualifiedName = null;
+            this.firstDeclarationToken = null;
+            this.header = null;
         }
+
+        #endregion Protected Override Methods
+
+        #region Protected Abstract Methods
 
         /// <summary>
-        /// Gets the friendly name of the code unit type as a plural noun, which can be used in user output.
+        /// Gets the name of the element.
         /// </summary>
-        /// <param name="typeName">The name of the type.</param>
-        /// <returns>Returns the plural friendly name text.</returns>
-        internal string GetFriendlyPluralTypeText(string typeName)
-        {
-            Param.Ignore(typeName);
+        /// <returns>The name of the element.</returns>
+        protected abstract string GetElementName();
 
-            if (this.friendlyPluralTypeName == null && typeName != null)
-            {
-                this.friendlyPluralTypeName = TypeNames.ResourceManager.GetString(typeName + "Plural", TypeNames.Culture);
-            }
-
-            return this.friendlyPluralTypeName;
-        }
-
-        #endregion Internal Methods
+        #endregion Protected Abstract Methods
 
         #region Private Static Methods
 
@@ -586,45 +710,45 @@ namespace Microsoft.StyleCop.CSharp
             return !stop;
         }
 
-        /// <summary>
-        /// Determines whether the given text string contains an xml header summary tag.
-        /// </summary>
-        /// <param name="text">The text to check.</param>
-        /// <returns>Returns true if the text is a summary; false otherwise.</returns>
-        private static bool IsXmlHeaderSummaryLine(string text)
-        {
-            Param.AssertNotNull(text, "text");
+        /////// <summary>
+        /////// Determines whether the given text string contains an xml header summary tag.
+        /////// </summary>
+        /////// <param name="text">The text to check.</param>
+        /////// <returns>Returns true if the text is a summary; false otherwise.</returns>
+        ////private static bool IsXmlHeaderSummaryLine(string text)
+        ////{
+        ////    Param.AssertNotNull(text, "text");
 
-            const string Summary = "summary";
+        ////    const string Summary = "summary";
 
-            for (int i = 0; i < text.Length; ++i)
-            {
-                if (text[i] == '<')
-                {
-                    for (int j = 0; j < Summary.Length; ++j)
-                    {
-                        int index = i + j + 1;
-                        if (text.Length <= index)
-                        {
-                            return false;
-                        }
+        ////    for (int i = 0; i < text.Length; ++i)
+        ////    {
+        ////        if (text[i] == '<')
+        ////        {
+        ////            for (int j = 0; j < Summary.Length; ++j)
+        ////            {
+        ////                int index = i + j + 1;
+        ////                if (text.Length <= index)
+        ////                {
+        ////                    return false;
+        ////                }
 
-                        if (Summary[j] != text[index])
-                        {
-                            return false;
-                        }
-                    }
+        ////                if (Summary[j] != text[index])
+        ////                {
+        ////                    return false;
+        ////                }
+        ////            }
 
-                    return true;
-                }
-                else if (!char.IsWhiteSpace(text[i]))
-                {
-                    break;
-                }
-            }
+        ////            return true;
+        ////        }
+        ////        else if (!char.IsWhiteSpace(text[i]))
+        ////        {
+        ////            break;
+        ////        }
+        ////    }
 
-            return false;
-        }
+        ////    return false;
+        ////}
 
         #endregion Private Static Methods
 
@@ -637,19 +761,21 @@ namespace Microsoft.StyleCop.CSharp
         /// <returns>Returns the actual access level.</returns>
         private AccessModifierType ComputeActualAccess()
         {
-            if (this.accessModifier == AccessModifierType.Private)
+            AccessModifierType localAccess = this.AccessModifierType;
+
+            if (localAccess == AccessModifierType.Private)
             {
-                return this.accessModifier;
+                return localAccess;
             }
 
             Element parentElement = this.ParentCastedToElement;
             if (parentElement == null)
             {
-                return this.accessModifier;
+                return localAccess;
             }
 
-            AccessModifierType parentActualAccess = parentElement.GetActualAccessLevel();
-            AccessModifierType actualAccess = this.accessModifier;
+            AccessModifierType parentActualAccess = parentElement.ActualAccessLevel;
+            AccessModifierType actualAccess = localAccess;
 
             if (parentActualAccess == AccessModifierType.Public)
             {

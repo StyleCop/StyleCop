@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes an alias keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class AliasToken : Token
+    public sealed class AliasToken : SimpleToken
     {
         /// <summary>
         /// Initializes a new instance of the AliasToken class.

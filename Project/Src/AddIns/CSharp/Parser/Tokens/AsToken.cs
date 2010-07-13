@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes an as keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class AsToken : Token
+    public sealed class AsToken : SimpleToken
     {
         /// <summary>
         /// Initializes a new instance of the AsToken class.

@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a false keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class FalseToken : Token
+    public sealed class FalseToken : SimpleToken
     {
         /// <summary>
         /// Initializes a new instance of the FalseToken class.

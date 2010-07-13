@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes an interface keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class InterfaceToken : Token
+    public sealed class InterfaceToken : SimpleToken
     {
         /// <summary>
         /// Initializes a new instance of the InterfaceToken class.

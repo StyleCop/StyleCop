@@ -104,6 +104,30 @@ namespace Microsoft.StyleCop.CSharp
 
         #endregion Internal Constructors
 
+        #region Public Override Properties
+
+        /// <summary>
+        /// Gets the variables defined within this code unit.
+        /// </summary>
+        public override IList<IVariable> Variables
+        {
+            get
+            {
+                if (this.catchExpression != null)
+                {
+                    var expression = this.catchExpression.FindFirstInTree<VariableDeclarationExpression>();
+                    if (expression != null)
+                    {
+                        return expression.GetVariables();
+                    }
+                }
+
+                return CsParser.EmptyVariableArray;
+            }
+        }
+
+        #endregion Public Override Properties
+
         #region Public Properties
 
         /// <summary>
@@ -162,27 +186,5 @@ namespace Microsoft.StyleCop.CSharp
         }
 
         #endregion Public Properties
-
-        #region Public Override Methods
-
-        /// <summary>
-        /// Gets the variables defined within this code unit.
-        /// </summary>
-        /// <returns>Returns the collection of variables.</returns>
-        public override IList<IVariable> GetVariables()
-        {
-            if (this.catchExpression != null)
-            {
-                var expression = this.catchExpression.FindFirstInTree<VariableDeclarationExpression>();
-                if (expression != null)
-                {
-                    return expression.GetVariables();
-                }
-            }
-
-            return CsParser.EmptyVariableArray;
-        }
-
-        #endregion Public Override Methods
     }
 }

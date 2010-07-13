@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a descending keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class DescendingToken : Token
+    public sealed class DescendingToken : SimpleToken
     {
         /// <summary>
         /// Initializes a new instance of the DescendingToken class.

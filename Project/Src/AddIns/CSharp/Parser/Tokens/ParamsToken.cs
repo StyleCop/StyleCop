@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a params keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class ParamsToken : Token
+    public sealed class ParamsToken : SimpleToken
     {
         /// <summary>
         /// Initializes a new instance of the ParamsToken class.

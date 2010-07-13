@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a stackallow keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class StackallocToken : Token
+    public sealed class StackallocToken : SimpleToken
     {
         /// <summary>
         /// Initializes a new instance of the StackallocToken class.

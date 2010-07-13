@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a pragma directive.
     /// </summary>
     /// <subcategory>preprocessor</subcategory>
-    public sealed class PragmaDirective : PreprocessorDirective
+    public sealed class PragmaDirective : SimplePreprocessorDirective
     {
         /// <summary>
         /// Initializes a new instance of the PragmaDirective class.

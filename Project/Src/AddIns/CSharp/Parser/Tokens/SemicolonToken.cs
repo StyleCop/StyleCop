@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a semicolon keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class SemicolonToken : Token
+    public sealed class SemicolonToken : SimpleToken
     {
         /// <summary>
         /// Initializes a new instance of the SemicolonToken class.

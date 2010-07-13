@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a volatile keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class VolatileToken : Token
+    public sealed class VolatileToken : SimpleToken
     {
         /// <summary>
         /// Initializes a new instance of the VolatileToken class.

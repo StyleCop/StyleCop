@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a warning directive.
     /// </summary>
     /// <subcategory>preprocessor</subcategory>
-    public sealed class WarningDirective : PreprocessorDirective
+    public sealed class WarningDirective : SimplePreprocessorDirective
     {
         /// <summary>
         /// Initializes a new instance of the WarningDirective class.

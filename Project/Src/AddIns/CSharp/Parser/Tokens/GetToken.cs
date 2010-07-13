@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a get keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class GetToken : Token
+    public sealed class GetToken : SimpleToken
     {
         /// <summary>
         /// Initializes a new instance of the GetToken class.

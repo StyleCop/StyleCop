@@ -44,7 +44,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <param name="body">The expression that makes up the body of the directive.</param>
         internal ConditionalCompilationDirective(
             string text, CodeUnitProxy proxy, PreprocessorType type, Expression body)
-            : base(text, proxy, type)
+            : base(proxy, type)
         {
             Param.AssertValidString(text, "text");
             Param.Ignore(proxy);
@@ -58,6 +58,7 @@ namespace Microsoft.StyleCop.CSharp
                 type == PreprocessorType.Endif,
                 "The type must be one of the conditional compilation directive types.");
 
+            this.Text = text;
             this.body = body;
         }
 

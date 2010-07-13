@@ -25,6 +25,30 @@ namespace Microsoft.StyleCop.CSharp
     /// </summary>
     public sealed class XmlHeader : CodeUnit
     {
+        #region Private Fields
+
+        /// <summary>
+        /// The collection of lines within the header.
+        /// </summary>
+        private ICollection<XmlHeaderLine> headerLines;
+
+        /// <summary>
+        /// Indicates whether the header is empty.
+        /// </summary>
+        private bool? empty;
+
+        /// <summary>
+        /// The raw header xml.
+        /// </summary>
+        private string headerXml;
+
+        /// <summary>
+        /// The header xml with formatting included.
+        /// </summary>
+        private string formattedHeaderXml;
+
+        #endregion Private Fields
+
         #region Internal Constructors
 
         /// <summary>
@@ -44,11 +68,17 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Gets the collection of header lines within the header.
         /// </summary>
-        public IEnumerable<XmlHeaderLine> HeaderLines
+        public ICollection<XmlHeaderLine> HeaderLines
         {
             get
             {
-                return this.GetChildren<XmlHeaderLine>();
+                this.ValidateEditVersion();
+                if (this.headerLines == null)
+                {
+                    this.headerLines = new List<XmlHeaderLine>(this.GetChildren<XmlHeaderLine>()).AsReadOnly();
+                }
+
+                return this.headerLines;
             }
         }
 
@@ -59,81 +89,122 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                for (XmlHeaderLine headerLine = this.FindFirstChild<XmlHeaderLine>(); headerLine != null; headerLine = headerLine.FindNextSibling<XmlHeaderLine>())
+                this.ValidateEditVersion();
+                if (this.empty == null)
                 {
-                    string text = headerLine.Text;
-                    if (!string.IsNullOrEmpty(text))
+                    this.empty = true;
+
+                    for (XmlHeaderLine headerLine = this.FindFirstChild<XmlHeaderLine>(); headerLine != null; headerLine = headerLine.FindNextSibling<XmlHeaderLine>())
                     {
-                        // Start searching at index 3 to move past the initial '///' slashes.
-                        for (int i = 3; i < text.Length; ++i)
+                        if (!this.empty.Value)
                         {
-                            if (!char.IsWhiteSpace(text[i]))
+                            break;
+                        }
+
+                        string text = headerLine.Text;
+                        if (!string.IsNullOrEmpty(text))
+                        {
+                            // Start searching at index 3 to move past the initial '///' slashes.
+                            for (int i = 3; i < text.Length; ++i)
                             {
-                                return false;
+                                if (!char.IsWhiteSpace(text[i]))
+                                {
+                                    this.empty = false;
+                                    break;
+                                }
                             }
                         }
                     }
                 }
 
-                return true;
+                return this.empty.Value;
             }
         }
-
-        #endregion Public Properties
-
-        #region Public Methods
 
         /// <summary>
         /// Gets the header Xml.
         /// </summary>
-        /// <returns>Returnst the Xml</returns>
-        public string GetHeaderXml()
+        public string HeaderXml
         {
-            StringBuilder text = new StringBuilder();
-
-            for (XmlHeaderLine headerLine = this.FindFirstChild<XmlHeaderLine>(); headerLine != null; headerLine = headerLine.FindNextSibling<XmlHeaderLine>())
+            get
             {
-                string headerLineText = headerLine.Text;
-                if (headerLineText.StartsWith("///", StringComparison.Ordinal))
+                this.ValidateEditVersion();
+                if (this.headerXml == null)
                 {
-                    headerLineText = headerLineText.Substring(3, headerLineText.Length - 3);
+                    StringBuilder text = new StringBuilder();
+
+                    for (XmlHeaderLine headerLine = this.FindFirstChild<XmlHeaderLine>(); headerLine != null; headerLine = headerLine.FindNextSibling<XmlHeaderLine>())
+                    {
+                        string headerLineText = headerLine.Text;
+                        if (headerLineText.StartsWith("///", StringComparison.Ordinal))
+                        {
+                            headerLineText = headerLineText.Substring(3, headerLineText.Length - 3);
+                        }
+
+                        text.Append(headerLineText);
+                    }
+
+                    this.headerXml = text.ToString();
                 }
 
-                text.Append(headerLineText);
+                return this.headerXml;
             }
-
-            return text.ToString();
         }
 
         /// <summary>
         /// Gets the header Xml with original formatting included.
         /// </summary>
-        /// <returns>Returns the formatted Xml.</returns>
-        public string GetFormattedHeaderXml()
+        public string FormattedHeaderXml
         {
-            StringBuilder text = new StringBuilder();
-
-            for (CodeUnit item = this.FindFirstChild<CodeUnit>(); item != null; item = item.FindNextSibling<CodeUnit>())
+            get
             {
-                if (item.Is(CommentType.XmlHeaderLine))
+                this.ValidateEditVersion();
+                if (this.formattedHeaderXml == null)
                 {
-                    string headerLineText = ((XmlHeaderLine)item).Text;
-                    if (headerLineText.StartsWith("///", StringComparison.Ordinal))
+                    StringBuilder text = new StringBuilder();
+
+                    for (CodeUnit item = this.FindFirstChild<CodeUnit>(); item != null; item = item.FindNextSibling<CodeUnit>())
                     {
-                        headerLineText = headerLineText.Substring(3, headerLineText.Length - 3);
+                        if (item.Is(CommentType.XmlHeaderLine))
+                        {
+                            string headerLineText = ((XmlHeaderLine)item).Text;
+                            if (headerLineText.StartsWith("///", StringComparison.Ordinal))
+                            {
+                                headerLineText = headerLineText.Substring(3, headerLineText.Length - 3);
+                            }
+
+                            text.Append(headerLineText);
+                        }
+                        else if (item.Is(LexicalElementType.EndOfLine))
+                        {
+                            text.Append('\n');
+                        }
                     }
 
-                    text.Append(headerLineText);
+                    this.formattedHeaderXml = text.ToString();
                 }
-                else if (item.Is(LexicalElementType.EndOfLine))
-                {
-                    text.Append('\n');
-                }
-            }
 
-            return text.ToString();
+                return this.formattedHeaderXml;
+            }
+        }
+        
+        #endregion Public Properties
+
+        #region Protected Override Methods
+
+        /// <summary>
+        /// Resets the contents of the item.
+        /// </summary>
+        protected override void Reset()
+        {
+            base.Reset();
+
+            this.headerLines = null;
+            this.empty = null;
+            this.headerXml = null;
+            this.formattedHeaderXml = null;
         }
 
-        #endregion Public Methods
+        #endregion Protected Override Methods
     }
 }

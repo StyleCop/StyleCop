@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a checked keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class CheckedToken : Token
+    public sealed class CheckedToken : SimpleToken
     {
         /// <summary>
         /// Initializes a new instance of the CheckedToken class.

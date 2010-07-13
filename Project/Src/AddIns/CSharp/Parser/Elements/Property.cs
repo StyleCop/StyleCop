@@ -64,13 +64,6 @@ namespace Microsoft.StyleCop.CSharp
             Param.Ignore(unsafeCode);
 
             this.returnType = returnType;
-
-            // If this is an explicit interface member implementation and our access modifier
-            // is currently set to private because we don't have one, then it should be public instead.
-            if (name.IndexOf(".", StringComparison.Ordinal) > -1 && !name.StartsWith("this.", StringComparison.Ordinal))
-            {
-                this.AccessModifierType = AccessModifierType.Public;
-            }
         }
 
         #endregion Internal Constructors
@@ -125,6 +118,26 @@ namespace Microsoft.StyleCop.CSharp
             }
         }
 
+        /// <summary>
+        /// Gets the default access modifier for this type.
+        /// </summary>
+        protected override AccessModifierType DefaultAccessModifierType
+        {
+            get
+            {
+                string name = this.Name;
+
+                // If this is an explicit interface member implementation and our access modifier
+                // is currently set to private because we don't have one, then it should be public instead.
+                if (name.IndexOf(".", StringComparison.Ordinal) > -1 && !name.StartsWith("this.", StringComparison.Ordinal))
+                {
+                    return AccessModifierType.Public;
+                }
+
+                return base.DefaultAccessModifierType;
+            }
+        }
+
         #endregion Protected Override Properties
 
         #region Internal Override Methods
@@ -174,5 +187,30 @@ namespace Microsoft.StyleCop.CSharp
         }
 
         #endregion Internal Override Methods
+
+        #region Protected Override Methods
+
+        /// <summary>
+        /// Gets the name of the element.
+        /// </summary>
+        /// <returns>The name of the element.</returns>
+        protected override string GetElementName()
+        {
+            // Get the return type.
+            TypeToken returnType = this.FindFirstChild<TypeToken>();
+            if (returnType != null)
+            {
+                // The next Token is the name.
+                Token nameToken = returnType.FindNextSibling<Token>();
+                if (nameToken != null)
+                {
+                    return nameToken.Text;
+                }
+            }
+
+            throw new SyntaxException(this.Document, this.LineNumber);
+        }
+
+        #endregion Protected Override Methods
     }
 }

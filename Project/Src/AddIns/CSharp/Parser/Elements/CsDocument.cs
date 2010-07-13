@@ -274,6 +274,19 @@ namespace Microsoft.StyleCop.CSharp
 
         #endregion Public Methods
 
+        #region Protected Override Methods
+
+        /// <summary>
+        /// Gets the name of the element.
+        /// </summary>
+        /// <returns>The name of the element.</returns>
+        protected override string GetElementName()
+        {
+            return this.sourceCode.Name;
+        }
+
+        #endregion Protected Override Methods
+
         #region Private Methods
 
         /// <summary>

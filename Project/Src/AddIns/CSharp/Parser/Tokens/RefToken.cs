@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a ref keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class RefToken : Token
+    public sealed class RefToken : SimpleToken
     {
         /// <summary>
         /// Initializes a new instance of the RefToken class.

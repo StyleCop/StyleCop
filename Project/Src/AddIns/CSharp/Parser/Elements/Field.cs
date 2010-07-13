@@ -70,6 +70,28 @@ namespace Microsoft.StyleCop.CSharp
 
         #endregion Internal Constructors
 
+        #region Public Override Properties
+
+        /// <summary>
+        /// Gets the variables defined within this element.
+        /// </summary>
+        /// <returns>Returns the collection of variables.</returns>
+        public override IList<IVariable> Variables
+        {
+            get
+            {
+                VariableDeclarationStatement declarationStatement = this.VariableDeclarationStatement;
+                if (declarationStatement == null)
+                {
+                    return CsParser.EmptyVariableArray;
+                }
+
+                return declarationStatement.Variables;
+            }
+        }
+
+        #endregion Public Override Properties
+
         #region Public Properties
 
         /// <summary>
@@ -145,23 +167,24 @@ namespace Microsoft.StyleCop.CSharp
 
         #endregion Protected Override Properties
 
-        #region Public Override Methods
+        #region Protected Override Methods
 
         /// <summary>
-        /// Gets the variables defined within this element.
+        /// Gets the name of the element.
         /// </summary>
-        /// <returns>Returns the collection of variables.</returns>
-        public override IList<IVariable> GetVariables()
+        /// <returns>The name of the element.</returns>
+        protected override string GetElementName()
         {
-            VariableDeclarationStatement declarationStatement = this.VariableDeclarationStatement;
-            if (declarationStatement == null)
+            // For a field, the name of the first variable declarator is the name of the field.
+            VariableDeclaratorExpression declarator = this.FindFirstDescendent<VariableDeclaratorExpression>();
+            if (declarator != null)
             {
-                return CsParser.EmptyVariableArray;
+                return declarator.Identifier.Text;
             }
 
-            return declarationStatement.GetVariables();
+            throw new SyntaxException(this.Document, this.LineNumber);
         }
 
-        #endregion Public Override Methods
+        #endregion Protected Override Methods
     }
 }

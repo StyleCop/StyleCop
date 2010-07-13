@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a select keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class SelectToken : Token
+    public sealed class SelectToken : SimpleToken
     {
         /// <summary>
         /// Initializes a new instance of the SelectToken class.

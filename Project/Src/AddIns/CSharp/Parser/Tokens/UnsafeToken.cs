@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes an unsafe keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class UnsafeToken : Token
+    public sealed class UnsafeToken : SimpleToken
     {
         /// <summary>
         /// Initializes a new instance of the UnsafeToken class.

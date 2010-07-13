@@ -16,6 +16,7 @@ namespace Microsoft.StyleCop.CSharp
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
     using System.Text;
 
@@ -27,11 +28,6 @@ namespace Microsoft.StyleCop.CSharp
     public sealed class Attribute : CodeUnit
     {
         #region Private Fields
-
-        /// <summary>
-        /// The element that this attribute is attached to.
-        /// </summary>
-        private Element element;
 
         /// <summary>
         /// Gets the list of attribute expressions within this attribute.
@@ -54,6 +50,7 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertNotNull(attributeExpressions, "attributeExpressions");
 
             this.attributeExpressions = attributeExpressions;
+            Debug.Assert(this.attributeExpressions.IsReadOnly, "Must be a read-only collection.");
         }
 
         #endregion Internal Constructors
@@ -67,26 +64,31 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
+                this.ValidateEditVersion();
+
+                if (this.attributeExpressions == null)
+                {
+                    this.attributeExpressions = new List<AttributeExpression>(this.GetChildren<AttributeExpression>()).AsReadOnly();
+                }
+                
                 return this.attributeExpressions;
             }
         }
 
-        /// <summary>
-        /// Gets the element that this attribute is attached to, if any.
-        /// </summary>
-        public Element Element
-        {
-            get
-            {
-                return this.element;
-            }
+        #endregion Public Properties
 
-            internal set
-            {
-                this.element = value;
-            }
+        #region Protected Override Methods
+
+        /// <summary>
+        /// Resets the contents of the item.
+        /// </summary>
+        protected override void Reset()
+        {
+            base.Reset();
+
+            this.attributeExpressions = null;
         }
 
-        #endregion Public Properties
+        #endregion Protected Override Methods
     }
 }

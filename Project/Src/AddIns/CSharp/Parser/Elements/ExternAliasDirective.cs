@@ -116,5 +116,30 @@ namespace Microsoft.StyleCop.CSharp
         }
 
         #endregion Internal Override Methods
+
+        #region Protected Override Methods
+
+        /// <summary>
+        /// Gets the name of the element.
+        /// </summary>
+        /// <returns>The name of the element.</returns>
+        protected override string GetElementName()
+        {
+            // Get the alias keyword.
+            Token aliasToken = this.FindFirstChild<AliasToken>();
+            if (aliasToken != null)
+            {
+                // The next Token is the name.
+                Token nameToken = aliasToken.FindNextSibling<Token>();
+                if (nameToken != null)
+                {
+                    return nameToken.Text;
+                }
+            }
+
+            throw new SyntaxException(this.Document, this.LineNumber);
+        }
+
+        #endregion Protected Override Methods
     }
 }

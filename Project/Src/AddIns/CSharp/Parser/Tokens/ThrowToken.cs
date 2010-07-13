@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a throw keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class ThrowToken : Token
+    public sealed class ThrowToken : SimpleToken
     {
         /// <summary>
         /// Initializes a new instance of the ThrowToken class.

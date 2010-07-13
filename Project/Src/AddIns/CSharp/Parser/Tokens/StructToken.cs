@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a struct keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class StructToken : Token
+    public sealed class StructToken : SimpleToken
     {
         /// <summary>
         /// Initializes a new instance of the StructToken class.

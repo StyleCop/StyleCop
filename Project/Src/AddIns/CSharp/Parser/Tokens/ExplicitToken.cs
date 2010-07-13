@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes an explicit keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class ExplicitToken : Token
+    public sealed class ExplicitToken : SimpleToken
     {
         /// <summary>
         /// Initializes a new instance of the ExplicitToken class.

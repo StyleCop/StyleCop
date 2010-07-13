@@ -12,34 +12,34 @@
 //   notice, or any other, from this software.
 // </license>
 //-----------------------------------------------------------------------
-namespace Microsoft.StyleCop.CSharp
-{
-    using System;
+////namespace Microsoft.StyleCop.CSharp
+////{
+////    using System;
 
-    /// <summary>
-    /// The various types of accessors for properties, indexers and events.
-    /// </summary>
-    /// <subcategory>element</subcategory>
-    public enum AccessorType
-    {
-        /// <summary>
-        /// A get accessor within a property or indexer.
-        /// </summary>
-        Get,
+////    /// <summary>
+////    /// The various types of accessors for properties, indexers and events.
+////    /// </summary>
+////    /// <subcategory>element</subcategory>
+////    public enum AccessorType
+////    {
+////        /// <summary>
+////        /// A get accessor within a property or indexer.
+////        /// </summary>
+////        Get,
 
-        /// <summary>
-        /// A set accessor within a property or indexer.
-        /// </summary>
-        Set,
+////        /// <summary>
+////        /// A set accessor within a property or indexer.
+////        /// </summary>
+////        Set,
 
-        /// <summary>
-        /// An add accessor within an event.
-        /// </summary>
-        Add,
+////        /// <summary>
+////        /// An add accessor within an event.
+////        /// </summary>
+////        Add,
 
-        /// <summary>
-        /// A remove accessor within an event.
-        /// </summary>
-        Remove
-    }
-}
+////        /// <summary>
+////        /// A remove accessor within an event.
+////        /// </summary>
+////        Remove
+////    }
+////}

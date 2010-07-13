@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes an if keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class IfToken : Token
+    public sealed class IfToken : SimpleToken
     {
         /// <summary>
         /// Initializes a new instance of the IfToken class.

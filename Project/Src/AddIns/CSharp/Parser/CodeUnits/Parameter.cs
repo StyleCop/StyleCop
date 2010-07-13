@@ -32,6 +32,25 @@ namespace Microsoft.StyleCop.CSharp
 
         #endregion Internal Static Fields
 
+        #region Private Fields
+
+        /// <summary>
+        /// The token representing the name of the parameter.
+        /// </summary>
+        private Token nameToken;
+
+        /// <summary>
+        /// The token representing the type of the parameter.
+        /// </summary>
+        private TypeToken parameterTypeToken;
+
+        /// <summary>
+        /// The optional modifiers on the parameter.
+        /// </summary>
+        private ParameterModifiers? modifiers;
+
+        #endregion Private Fields
+
         #region Internal Constructors
 
         /// <summary>
@@ -66,33 +85,39 @@ namespace Microsoft.StyleCop.CSharp
         {
             get 
             {
-                bool foundType = false;
-
-                for (Token token = this.FindFirstChild<Token>(); token != null; token = token.FindNextSibling<Token>())
+                this.ValidateEditVersion();
+                if (this.nameToken == null)
                 {
-                    if (!foundType)
-                    {
-                        if (token.TokenType != TokenType.Ref &&
-                            token.TokenType != TokenType.Out &&
-                            token.TokenType != TokenType.Params &&
-                            token.TokenType != TokenType.This)
-                        {
-                            foundType = true;
+                    bool foundType = false;
 
-                            // If the first thing we encounter is __arglist, then there is no type and only a name.
-                            if (token.Text.Equals("__arglist", StringComparison.Ordinal))
+                    for (Token token = this.FindFirstChild<Token>(); token != null; token = token.FindNextSibling<Token>())
+                    {
+                        if (!foundType)
+                        {
+                            if (token.TokenType != TokenType.Ref &&
+                                token.TokenType != TokenType.Out &&
+                                token.TokenType != TokenType.Params &&
+                                token.TokenType != TokenType.This)
                             {
-                                return token;
+                                foundType = true;
+
+                                // If the first thing we encounter is __arglist, then there is no type and only a name.
+                                if (token.Text.Equals("__arglist", StringComparison.Ordinal))
+                                {
+                                    this.nameToken = token;
+                                    break;
+                                }
                             }
                         }
-                    }
-                    else
-                    {
-                        return token;
+                        else
+                        {
+                            this.nameToken = token;
+                            break;
+                        }
                     }
                 }
 
-                return null;
+                return this.nameToken;
             }
         }
 
@@ -115,21 +140,25 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                for (Token token = this.FindFirstChild<Token>(); token != null; token = token.FindNextSibling<Token>())
+                this.ValidateEditVersion();
+                if (this.parameterTypeToken == null)
                 {
-                    if (token.TokenType == TokenType.Type)
+                    for (Token token = this.FindFirstChild<Token>(); token != null; token = token.FindNextSibling<Token>())
                     {
-                        // If the first thing we encounter is __arglist, then there is no type and only a name.
-                        if (!token.Text.Equals("__arglist", StringComparison.Ordinal))
+                        if (token.TokenType == TokenType.Type)
                         {
-                            return (TypeToken)token;
-                        }
+                            // If the first thing we encounter is __arglist, then there is no type and only a name.
+                            if (!token.Text.Equals("__arglist", StringComparison.Ordinal))
+                            {
+                                this.parameterTypeToken = (TypeToken)token;
+                            }
 
-                        break;
+                            break;
+                        }
                     }
                 }
 
-                return null;
+                return this.parameterTypeToken;
             }
         }
 
@@ -140,37 +169,55 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                ParameterModifiers modifiers = ParameterModifiers.None;
-
-                for (Token token = this.FindFirstChild<Token>(); token != null; token = token.FindNextSibling<Token>())
+                this.ValidateEditVersion();
+                if (this.modifiers == null)
                 {
-                    if (token.TokenType == TokenType.Ref)
+                    this.modifiers = ParameterModifiers.None;
+
+                    for (Token token = this.FindFirstChild<Token>(); token != null; token = token.FindNextSibling<Token>())
                     {
-                        modifiers |= ParameterModifiers.Ref;
-                    }
-                    else if (token.TokenType == TokenType.Out)
-                    {
-                        modifiers |= ParameterModifiers.Out;
-                    }
-                    else if (token.TokenType == TokenType.Params)
-                    {
-                        modifiers |= ParameterModifiers.Params;
-                    }
-                    else if (token.TokenType == TokenType.This)
-                    {
-                        modifiers |= ParameterModifiers.This;
-                    }
-                    else
-                    {
-                        break;
+                        if (token.TokenType == TokenType.Ref)
+                        {
+                            this.modifiers |= ParameterModifiers.Ref;
+                        }
+                        else if (token.TokenType == TokenType.Out)
+                        {
+                            this.modifiers |= ParameterModifiers.Out;
+                        }
+                        else if (token.TokenType == TokenType.Params)
+                        {
+                            this.modifiers |= ParameterModifiers.Params;
+                        }
+                        else if (token.TokenType == TokenType.This)
+                        {
+                            this.modifiers |= ParameterModifiers.This;
+                        }
+                        else
+                        {
+                            break;
+                        }
                     }
                 }
 
-                return modifiers;
+                return this.modifiers.Value; 
             }
         }
 
         #endregion Public Properties
+
+        #region Protected Override Methods
+
+        /// <summary>
+        /// Resets the contents of the parameter.
+        /// </summary>
+        protected override void Reset()
+        {
+            this.nameToken = null;
+            this.parameterTypeToken = null;
+            this.modifiers = null;
+        }
+
+        #endregion Protected Override Methods
     }
 
     /// <content>

@@ -89,15 +89,18 @@ namespace Microsoft.StyleCop.CSharp
         /// Gets the variables defined within this code unit.
         /// </summary>
         /// <returns>Returns the collection of variables.</returns>
-        public override IList<IVariable> GetVariables()
+        public override IList<IVariable> Variables
         {
-            VariableDeclarationExpression item = this.FindFirstChild<VariableDeclarationExpression>();
-            if (item != null)
+            get
             {
-                return item.GetVariables();
-            }
+                VariableDeclarationExpression item = this.FindFirstChild<VariableDeclarationExpression>();
+                if (item != null)
+                {
+                    return item.GetVariables();
+                }
 
-            return CsParser.EmptyVariableArray;
+                return CsParser.EmptyVariableArray;
+            }
         }
 
         #endregion Public Properties

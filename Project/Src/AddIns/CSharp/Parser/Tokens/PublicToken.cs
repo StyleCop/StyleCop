@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a public keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class PublicToken : Token
+    public sealed class PublicToken : SimpleToken
     {
         /// <summary>
         /// Initializes a new instance of the PublicToken class.

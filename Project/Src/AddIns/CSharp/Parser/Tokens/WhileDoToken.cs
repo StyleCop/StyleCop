@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes an a while keyword within a do-while statement.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class WhileDoToken : Token
+    public sealed class WhileDoToken : SimpleToken
     {
         /// <summary>
         /// Initializes a new instance of the WhileDoToken class.

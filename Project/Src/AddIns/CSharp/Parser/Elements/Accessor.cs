@@ -23,20 +23,6 @@ namespace Microsoft.StyleCop.CSharp
     /// <subcategory>element</subcategory>
     public sealed class Accessor : Element
     {
-        #region Private Fields
-
-        /// <summary>
-        /// The type of the accessor.
-        /// </summary>
-        private AccessorType accessorType;
-
-        ///// <summary>
-        ///// The accessor's return type.
-        ///// </summary>
-        ////private TypeToken returnType;
-
-        #endregion Private Fields
-
         #region Internal Constructors
 
         /// <summary>
@@ -48,15 +34,13 @@ namespace Microsoft.StyleCop.CSharp
         /// <param name="attributes">The list of attributes attached to this element.</param>
         /// <param name="unsafeCode">Indicates whether the element resides within a block of unsafe code.</param>
         internal Accessor(CodeUnitProxy proxy, string name, AccessorType accessorType, ICollection<Attribute> attributes, bool unsafeCode)
-            : base(proxy, ElementType.Accessor, name, attributes, unsafeCode)
+            : base(proxy, (int)accessorType, name, attributes, unsafeCode)
         {
             Param.AssertNotNull(proxy, "proxy");
             Param.AssertValidString(name, "name");
             Param.Ignore(accessorType);
             Param.Ignore(attributes);
             Param.Ignore(unsafeCode);
-
-            this.accessorType = accessorType;
 
             // Make sure the type and name match.
             Debug.Assert(
@@ -69,6 +53,39 @@ namespace Microsoft.StyleCop.CSharp
 
         #endregion Internal Constructors
 
+        #region Public Override Properties
+
+        /// <summary>
+        /// Gets the variables defined within this element.
+        /// </summary>
+        /// <returns>Returns the collection of variables.</returns>
+        public override IList<IVariable> Variables
+        {
+            get
+            {
+                var variables = new List<IVariable>();
+
+                AccessorType accessorType = this.AccessorType;
+                if (accessorType == AccessorType.Set ||
+                    accessorType == AccessorType.Add ||
+                    accessorType == AccessorType.Remove)
+                {
+                    variables.Add(new VirtualAccessorParameter(this));
+                }
+
+                for (VariableDeclarationStatement variableStatement = this.FindFirstChild<VariableDeclarationStatement>();
+                    variableStatement != null;
+                    variableStatement = variableStatement.FindNextSibling<VariableDeclarationStatement>())
+                {
+                    variables.AddRange(variableStatement.Variables);
+                }
+
+                return variables.AsReadOnly();
+            }
+        }
+
+        #endregion Public Override Properties
+
         #region Public Properties
 
         /// <summary>
@@ -78,7 +95,7 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                return this.accessorType;
+                return (AccessorType)(this.FundamentalType & (int)FundamentalTypeMasks.Accessor);
             }
         }
 
@@ -99,35 +116,6 @@ namespace Microsoft.StyleCop.CSharp
 
         #endregion Protected Override Properties
 
-        #region Public Override Methods
-
-        /// <summary>
-        /// Gets the variables defined within this element.
-        /// </summary>
-        /// <returns>Returns the collection of variables.</returns>
-        public override IList<IVariable> GetVariables()
-        {
-            var variables = new List<IVariable>();
-
-            if (this.accessorType == AccessorType.Set ||
-                this.accessorType == AccessorType.Add ||
-                this.accessorType == AccessorType.Remove)
-            {
-                variables.Add(new VirtualAccessorParameter(this));
-            }
-
-            for (VariableDeclarationStatement variableStatement = this.FindFirstChild<VariableDeclarationStatement>();
-                variableStatement != null;
-                variableStatement = variableStatement.FindNextSibling<VariableDeclarationStatement>())
-            {
-                variables.AddRange(variableStatement.GetVariables());
-            }
-
-            return variables.AsReadOnly();
-        }
-
-        #endregion Public Override Methods
-
         #region Public Methods
 
         /// <summary>
@@ -137,7 +125,7 @@ namespace Microsoft.StyleCop.CSharp
         public TypeToken GetReturnType()
         {
             // Set the return type and parameters.
-            if (this.accessorType == AccessorType.Get)
+            if (this.AccessorType == AccessorType.Get)
             {
                 Element parent = this.FindParent<Element>();
                 if (parent != null)
@@ -167,14 +155,37 @@ namespace Microsoft.StyleCop.CSharp
 
         #region Protected Override Methods
 
-        /////// <summary>
-        /////// Called when the parent of the accessor changes.
-        /////// </summary>
-        ////protected override void OnParentChanged()
-        ////{
-        ////    base.OnParentChanged();
-        ////    this.FillDetails();
-        ////}
+        /// <summary>
+        /// Gets the name of the element.
+        /// </summary>
+        /// <returns>The name of the element.</returns>
+        protected override string GetElementName()
+        {
+            Token nameToken = null;
+            switch (this.AccessorType)
+            {
+                case AccessorType.Set:
+                    nameToken = this.FindFirstChild<SetToken>();
+                    break;
+                case AccessorType.Add:
+                    nameToken = this.FindFirstChild<AddToken>();
+                    break;
+                case AccessorType.Remove:
+                    nameToken = this.FindFirstChild<RemoveToken>();
+                    break;
+                default:
+                    Debug.Assert(this.AccessorType == AccessorType.Get, "Invalid accessor type");
+                    nameToken = this.FindFirstChild<GetToken>();
+                    break;
+            }
+
+            if (nameToken == null)
+            {
+                throw new SyntaxException(this.Document, this.LineNumber);
+            }
+
+            return nameToken.Text;
+        }
 
         #endregion Protected Override Methods
 

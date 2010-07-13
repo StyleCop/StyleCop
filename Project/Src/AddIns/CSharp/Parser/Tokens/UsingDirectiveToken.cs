@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a using keyword within a using directive.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class UsingDirectiveToken : Token
+    public sealed class UsingDirectiveToken : SimpleToken
     {
         /// <summary>
         /// Initializes a new instance of the UsingDirectiveToken class.

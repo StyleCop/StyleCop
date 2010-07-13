@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a switch keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class SwitchToken : Token
+    public sealed class SwitchToken : SimpleToken
     {
         /// <summary>
         /// Initializes a new instance of the SwitchToken class.

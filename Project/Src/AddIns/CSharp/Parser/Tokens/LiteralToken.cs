@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a literal.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class LiteralToken : Token
+    public sealed class LiteralToken : SimpleToken
     {
         /// <summary>
         /// Initializes a new instance of the LiteralToken class.

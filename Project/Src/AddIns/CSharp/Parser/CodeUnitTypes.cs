@@ -1603,6 +1603,33 @@ namespace Microsoft.StyleCop.CSharp
     }
 
     /// <summary>
+    /// The various types of accessors for properties, indexers and events.
+    /// </summary>
+    /// <subcategory>element</subcategory>
+    public enum AccessorType
+    {
+        /// <summary>
+        /// A get accessor within a property or indexer.
+        /// </summary>
+        Get = 0x020e0100,
+
+        /// <summary>
+        /// A set accessor within a property or indexer.
+        /// </summary>
+        Set = 0x020e0200,
+
+        /// <summary>
+        /// An add accessor within an event.
+        /// </summary>
+        Add = 0x020e0300,
+
+        /// <summary>
+        /// A remove accessor within an event.
+        /// </summary>
+        Remove = 0x020e0400
+    }
+
+    /// <summary>
     /// Defines the masks used to reduce a code unit type value down to a specific type value.
     /// </summary>
     public enum FundamentalTypeMasks
@@ -1626,6 +1653,11 @@ namespace Microsoft.StyleCop.CSharp
         /// The mask for Token types.
         /// </summary>
         Token = 0x7FFFFF00,
+
+        /// <summary>
+        /// The mask for Accessor types.
+        /// </summary>
+        Accessor = 0x7FFFFF00,
 
         /// <summary>
         /// The mask for Operator types.

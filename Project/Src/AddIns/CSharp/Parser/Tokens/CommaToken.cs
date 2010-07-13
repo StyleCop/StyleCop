@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a comma.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class CommaToken : Token
+    public sealed class CommaToken : SimpleToken
     {
         /// <summary>
         /// Initializes a new instance of the CommaToken class.

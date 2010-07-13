@@ -22,7 +22,7 @@ namespace Microsoft.StyleCop.CSharp
     /// </summary>
     /// <subcategory>token</subcategory>
     [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "Readonly", Justification = "Matches the C# keyword readonly.")]
-    public sealed class ReadonlyToken : Token
+    public sealed class ReadonlyToken : SimpleToken
     {
         /// <summary>
         /// Initializes a new instance of the ReadonlyToken class.

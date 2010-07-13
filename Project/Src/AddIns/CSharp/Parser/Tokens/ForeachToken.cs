@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a foreach keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class ForeachToken : Token
+    public sealed class ForeachToken : SimpleToken
     {
         /// <summary>
         /// Initializes a new instance of the ForeachToken class.

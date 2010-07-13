@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a do keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class DoToken : Token
+    public sealed class DoToken : SimpleToken
     {
         /// <summary>
         /// Initializes a new instance of the DoToken class.

@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes an in keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class InToken : Token
+    public sealed class InToken : SimpleToken
     {
         /// <summary>
         /// Initializes a new instance of the InToken class.

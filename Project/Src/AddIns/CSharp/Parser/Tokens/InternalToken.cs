@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes an internal keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class InternalToken : Token
+    public sealed class InternalToken : SimpleToken
     {
         /// <summary>
         /// Initializes a new instance of the InternalToken class.

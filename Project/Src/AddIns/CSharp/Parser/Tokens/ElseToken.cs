@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes an else keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class ElseToken : Token
+    public sealed class ElseToken : SimpleToken
     {
         /// <summary>
         /// Initializes a new instance of the ElseToken class.

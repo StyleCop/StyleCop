@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a group keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class GroupToken : Token
+    public sealed class GroupToken : SimpleToken
     {
         /// <summary>
         /// Initializes a new instance of the GroupToken class.

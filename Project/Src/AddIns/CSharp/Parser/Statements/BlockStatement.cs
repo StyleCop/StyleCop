@@ -37,36 +37,38 @@ namespace Microsoft.StyleCop.CSharp
 
         #endregion Internal Constructors
 
-        #region Public Override Methods
+        #region Public Override Properties
 
         /// <summary>
         /// Gets the variables defined within this code unit.
         /// </summary>
-        /// <returns>Returns the collection of variables.</returns>
-        public override IList<IVariable> GetVariables()
+        public override IList<IVariable> Variables
         {
-            List<IVariable> variables = null;
-
-            for (VariableDeclarationStatement variableStatement = this.FindFirstChild<VariableDeclarationStatement>();
-                variableStatement != null;
-                variableStatement = variableStatement.FindNextSibling<VariableDeclarationStatement>())
+            get
             {
-                if (variables == null)
+                List<IVariable> variables = null;
+
+                for (VariableDeclarationStatement variableStatement = this.FindFirstChild<VariableDeclarationStatement>();
+                    variableStatement != null;
+                    variableStatement = variableStatement.FindNextSibling<VariableDeclarationStatement>())
                 {
-                    variables = new List<IVariable>();
+                    if (variables == null)
+                    {
+                        variables = new List<IVariable>();
+                    }
+
+                    variables.AddRange(variableStatement.Variables);
                 }
 
-                variables.AddRange(variableStatement.GetVariables());
-            }
+                if (variables != null && variables.Count > 0)
+                {
+                    return variables.AsReadOnly();
+                }
 
-            if (variables != null && variables.Count > 0)
-            {
-                return variables.AsReadOnly();
+                return CsParser.EmptyVariableArray;
             }
-
-            return CsParser.EmptyVariableArray;
         }
 
-        #endregion Public Override Methods
+        #endregion Public Override Properties
     }
 }

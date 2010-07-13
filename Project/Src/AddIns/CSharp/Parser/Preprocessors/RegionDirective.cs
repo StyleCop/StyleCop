@@ -24,7 +24,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a region directive.
     /// </summary>
     /// <subcategory>preprocessor</subcategory>
-    public sealed class RegionDirective : PreprocessorDirective
+    public sealed class RegionDirective : SimplePreprocessorDirective
     {
         #region Private Fields
 

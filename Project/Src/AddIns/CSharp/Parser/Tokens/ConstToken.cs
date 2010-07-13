@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a const keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class ConstToken : Token
+    public sealed class ConstToken : SimpleToken
     {
         /// <summary>
         /// Initializes a new instance of the ConstToken class.

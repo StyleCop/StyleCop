@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a goto keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class GotoToken : Token
+    public sealed class GotoToken : SimpleToken
     {
         /// <summary>
         /// Initializes a new instance of the GotoToken class.

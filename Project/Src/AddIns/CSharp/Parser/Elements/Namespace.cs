@@ -40,8 +40,6 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertNotNull(proxy, "proxy");
             Param.AssertValidString(name, "name");
             Param.Ignore(attributes, unsafeCode);
-
-            this.AccessModifierType = AccessModifierType.Public;
         }
 
         /// <summary>
@@ -56,7 +54,6 @@ namespace Microsoft.StyleCop.CSharp
             : base(proxy, type, name, attributes, unsafeCode)
         {
             Param.Ignore(proxy, type, name, attributes, unsafeCode);
-            this.AccessModifierType = AccessModifierType.Public;
         }
 
         #endregion Internal Constructors
@@ -74,6 +71,42 @@ namespace Microsoft.StyleCop.CSharp
             }
         }
 
+        /// <summary>
+        /// Gets the default access modifier for this type.
+        /// </summary>
+        protected override AccessModifierType DefaultAccessModifierType
+        {
+            get
+            {
+                return AccessModifierType.Public;
+            }
+        }
+
         #endregion Protected Override Properties
+
+        #region Protected Override Methods
+
+        /// <summary>
+        /// Gets the name of the element.
+        /// </summary>
+        /// <returns>The name of the element.</returns>
+        protected override string GetElementName()
+        {
+            // Get the namespace keyword.
+            Token namespaceToken = this.FindFirstChild<NamespaceToken>();
+            if (namespaceToken != null)
+            {
+                // The next Token is the name.
+                Token nameToken = namespaceToken.FindNextSibling<Token>();
+                if (nameToken != null)
+                {
+                    return nameToken.Text;
+                }
+            }
+
+            throw new SyntaxException(this.Document, this.LineNumber);
+        }
+
+        #endregion Protected Override Methods
     }
 }

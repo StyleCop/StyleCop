@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a number literal.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class NumberToken : Token
+    public sealed class NumberToken : SimpleToken
     {
         /// <summary>
         /// Initializes a new instance of the NumberToken class.

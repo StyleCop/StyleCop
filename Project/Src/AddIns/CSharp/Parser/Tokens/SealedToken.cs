@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a sealed keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class SealedToken : Token
+    public sealed class SealedToken : SimpleToken
     {
         /// <summary>
         /// Initializes a new instance of the SealedToken class.

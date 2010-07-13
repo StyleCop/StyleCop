@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a catch keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class CatchToken : Token
+    public sealed class CatchToken : SimpleToken
     {
         /// <summary>
         /// Initializes a new instance of the CatchToken class.

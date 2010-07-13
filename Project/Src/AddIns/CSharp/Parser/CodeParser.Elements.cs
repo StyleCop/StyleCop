@@ -1210,7 +1210,7 @@ namespace Microsoft.StyleCop.CSharp
             // Add the keyword token.
             this.GetToken(elementProxy, keywordType, symbolType);
             
-            // Add the class name token.
+            // Add the element name token.
             Token name = this.GetElementNameToken(elementProxy, unsafeCode);
 
             // Get the base classes.

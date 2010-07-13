@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a colon within an attribute.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class AttributeColonToken : Token
+    public sealed class AttributeColonToken : SimpleToken
     {
         /// <summary>
         /// Initializes a new instance of the AttributeColonToken class.

@@ -48,12 +48,6 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertValidString(name, "name");
             Param.Ignore(attributes);
             Param.Ignore(unsafeCode);
-
-            // Static constructors are always public.
-            if (this.ContainsModifier(TokenType.Static))
-            {
-                this.AccessModifierType = AccessModifierType.Public;
-            }
         }
 
         #endregion Internal Constructors
@@ -68,6 +62,17 @@ namespace Microsoft.StyleCop.CSharp
             get
             {
                 return CodeParser.AddQualifications(this.Parameters, base.FullyQualifiedName);
+            }
+        }
+
+        /// <summary>
+        /// Gets the variables defined within this element.
+        /// </summary>
+        public override IList<IVariable> Variables
+        {
+            get
+            {
+                return Method.GatherVariablesForElementWithParametersAndChildStatements(this, this.Parameters);
             }
         }
 
@@ -117,19 +122,44 @@ namespace Microsoft.StyleCop.CSharp
             }
         }
 
-        #endregion Protected Override Properties
-
-        #region Public Override Methods
-
         /// <summary>
-        /// Gets the variables defined within this element.
+        /// Gets the default access modifier for this element.
         /// </summary>
-        /// <returns>Returns the collection of variables.</returns>
-        public override IList<IVariable> GetVariables()
+        protected override AccessModifierType DefaultAccessModifierType
         {
-            return Method.GatherVariablesForElementWithParametersAndChildStatements(this, this.Parameters);
+            get
+            {
+                // Static constructors are always public.
+                if (this.ContainsModifier(TokenType.Static))
+                {
+                    return AccessModifierType.Public;
+                }
+
+                return base.DefaultAccessModifierType;
+            }
         }
 
-        #endregion Public Override Methods
+        #endregion Protected Override Properties
+
+        #region Protected Override Methods
+
+        /// <summary>
+        /// Gets the name of the element.
+        /// </summary>
+        /// <returns>The name of the element.</returns>
+        protected override string GetElementName()
+        {
+            for (Token token = this.FindFirstChild<Token>(); token != null; token = token.FindNextSibling<Token>())
+            {
+                if (token.Is(TokenType.Literal) || token.Is(TokenType.Type))
+                {
+                    return token.Text;
+                }
+            }
+
+            throw new SyntaxException(this.Document, this.LineNumber);
+        }
+
+        #endregion Protected Override Methods
     }
 }

@@ -41,16 +41,6 @@ namespace Microsoft.StyleCop.CSharp
         /// </summary>
         private string text;
 
-        /// <summary>
-        /// The location of the element.
-        /// </summary>
-        private CodeLocation location;
-
-        /// <summary>
-        /// Indicates whether the item is generated.
-        /// </summary>
-        private bool? generated;
-
         #endregion Private Fields
 
         #region Internal Constructors
@@ -58,114 +48,29 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Initializes a new instance of the LexicalElement class.
         /// </summary>
-        /// <param name="document">The parent document.</param>
-        /// <param name="lexicalElementType">The lexical element type.</param>
-        /// <param name="location">The location of the lexical element within the code document.</param>
-        /// <param name="generated">True if the lexical element is inside of a block of generated code.</param>
-        internal LexicalElement(CsDocument document, LexicalElementType lexicalElementType, CodeLocation location, bool generated)
-            : this(document, (int)lexicalElementType, location, generated)
-        {
-            Param.Ignore(document, lexicalElementType, location, generated);
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the LexicalElement class.
-        /// </summary>
-        /// <param name="document">The parent document.</param>
-        /// <param name="lexicalElementType">The lexical element type.</param>
-        /// <param name="location">The location of the lexical element within the code document.</param>
-        /// <param name="generated">True if the lexical element is inside of a block of generated code.</param>
-        internal LexicalElement(CsDocument document, int lexicalElementType, CodeLocation location, bool generated)
-            : base(document, (int)lexicalElementType)
-        {
-            Param.AssertNotNull(document, "document");
-            Param.Ignore(lexicalElementType, generated);
-            Param.AssertNotNull(location, "location");
-            Param.Ignore(generated);
-
-            Debug.Assert(System.Enum.IsDefined(typeof(LexicalElementType), this.LexicalElementType), "The type is invalid.");
-            this.location = location;
-            this.generated = generated;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the LexicalElement class.
-        /// </summary>
-        /// <param name="lexicalElementType">The lexical element type.</param>
         /// <param name="proxy">The proxy for the element.</param>
-        internal LexicalElement(LexicalElementType lexicalElementType, CodeUnitProxy proxy)
-            : this((int)lexicalElementType, proxy)
+        /// <param name="lexicalElementType">The lexical element type.</param>
+        internal LexicalElement(CodeUnitProxy proxy, LexicalElementType lexicalElementType)
+            : this(proxy, (int)lexicalElementType)
         {
-            Param.Ignore(lexicalElementType, proxy);
+            Param.Ignore(proxy, lexicalElementType);
         }
 
         /// <summary>
         /// Initializes a new instance of the LexicalElement class.
         /// </summary>
-        /// <param name="lexicalElementType">The lexical element type.</param>
         /// <param name="proxy">The proxy for the element.</param>
-        internal LexicalElement(int lexicalElementType, CodeUnitProxy proxy)
+        /// <param name="lexicalElementType">The lexical element type.</param>
+        internal LexicalElement(CodeUnitProxy proxy, int lexicalElementType)
             : base(proxy, (int)lexicalElementType)
         {
-            Param.Ignore(lexicalElementType);
             Param.AssertNotNull(proxy, "proxy");
+            Param.Ignore(lexicalElementType);
 
             Debug.Assert(System.Enum.IsDefined(typeof(LexicalElementType), this.LexicalElementType), "The type is invalid.");
         }
 
         #endregion Internal Constructors
-
-        #region Public Override Properties
-
-        /// <summary>
-        /// Gets the location of this code unit within the document.
-        /// </summary>
-        public override CodeLocation Location
-        {
-            get
-            {
-                if (this.location == null)
-                {
-                    return base.Location;
-                }
-
-                return this.location;
-            }
-        }
-
-        /// <summary>
-        /// Gets the line number that this code unit appears on in the document.
-        /// </summary>
-        public override int LineNumber
-        {
-            get
-            {
-                if (this.location == null)
-                {
-                    return base.LineNumber;
-                }
-
-                return this.location.StartPoint.LineNumber;
-            }
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether the item comes from generated code.
-        /// </summary>
-        public override bool Generated
-        {
-            get
-            {
-                if (this.generated == null)
-                {
-                    return base.Generated;
-                }
-
-                return this.generated.Value;
-            }
-        }
-
-        #endregion Public Override Properties
 
         #region Public Properties
 
@@ -176,6 +81,7 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
+                this.ValidateEditVersion();
                 if (this.text == null)
                 {
                     this.CreateTextString();
@@ -231,5 +137,25 @@ namespace Microsoft.StyleCop.CSharp
         }
 
         #endregion Protected Virtual Methods
+
+        #region Protected Override Methods
+
+        /// <summary>
+        /// Resets the contents of the item.
+        /// </summary>
+        protected override void Reset()
+        {
+            base.Reset();
+
+            // Only clear out the text if the item contains at least one child. Otherwise
+            // this is a simple lexical element and we should allow it to keep its text intact
+            // when something in the document changes.
+            if (this.Children.Count > 0)
+            {
+                this.text = null;
+            }
+        }
+
+        #endregion Protected Override Methods
     }
 }
