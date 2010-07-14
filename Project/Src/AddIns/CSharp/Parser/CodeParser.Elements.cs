@@ -1012,7 +1012,7 @@ namespace Microsoft.StyleCop.CSharp
                     return this.GetEvent(elementProxy, parentElement, unsafeCode, generated, attributes);
 
                 case ElementType.Accessor:
-                    return this.GetAccessor(elementProxy, parentElement, unsafeCode, generated, attributes);
+                    return this.GetAccessor(elementProxy, parentElement, unsafeCode, generated);
 
                 case ElementType.EmptyElement:
                     return this.GetEmptyElement(elementProxy, parentElement, unsafeCode, generated);
@@ -2047,29 +2047,27 @@ namespace Microsoft.StyleCop.CSharp
         /// <param name="parent">The parent of the element.</param>
         /// <param name="unsafeCode">Indicates whether the code is marked as unsafe.</param>
         /// <param name="generated">Indicates whether the code is marked as generated code.</param>
-        /// <param name="attributes">The attributes on the element.</param>
         /// <returns>Returns the element.</returns>
-        private Accessor GetAccessor(CodeUnitProxy elementProxy, Element parent, bool unsafeCode, bool generated, ICollection<Attribute> attributes)
+        private Accessor GetAccessor(CodeUnitProxy elementProxy, Element parent, bool unsafeCode, bool generated)
         {
             Param.AssertNotNull(elementProxy, "elementProxy");
             Param.AssertNotNull(parent, "parent");
             Param.Ignore(unsafeCode);
             Param.Ignore(generated);
-            Param.Ignore(attributes);
 
             // Get the modifiers and access.
             AccessModifierType accessModifier = AccessModifierType.Private;
             this.GetElementModifiers(elementProxy, ref accessModifier, null);
 
             // Get the accessor type token.
-            AccessorType accessorType = AccessorType.Get;
-            Token accessorName = null;
+            Accessor accessor = null;
 
             Symbol symbol = this.PeekNextSymbol();
             if (symbol.Text == "get")
             {
-                accessorName = this.GetToken(elementProxy, TokenType.Get, SymbolType.Other);
-                
+                this.GetToken(elementProxy, TokenType.Get, SymbolType.Other);
+                accessor = new GetAccessor(elementProxy, unsafeCode);
+
                 if (parent.ElementType != ElementType.Property && parent.ElementType != ElementType.Indexer)
                 {
                     throw this.CreateSyntaxException();
@@ -2077,8 +2075,8 @@ namespace Microsoft.StyleCop.CSharp
             }
             else if (symbol.Text == "set")
             {
-                accessorType = AccessorType.Set;
-                accessorName = this.GetToken(elementProxy, TokenType.Set, SymbolType.Other);
+                this.GetToken(elementProxy, TokenType.Set, SymbolType.Other);
+                accessor = new SetAccessor(elementProxy, unsafeCode);
 
                 if (parent.ElementType != ElementType.Property && parent.ElementType != ElementType.Indexer)
                 {
@@ -2087,8 +2085,8 @@ namespace Microsoft.StyleCop.CSharp
             }
             else if (symbol.Text == "add")
             {
-                accessorType = AccessorType.Add;
-                accessorName = this.GetToken(elementProxy, TokenType.Add, SymbolType.Other);
+                this.GetToken(elementProxy, TokenType.Add, SymbolType.Other);
+                accessor = new AddAccessor(elementProxy, unsafeCode);
 
                 if (parent.ElementType != ElementType.Event)
                 {
@@ -2097,8 +2095,8 @@ namespace Microsoft.StyleCop.CSharp
             }
             else if (symbol.Text == "remove")
             {
-                accessorType = AccessorType.Remove;
-                accessorName = this.GetToken(elementProxy, TokenType.Remove, SymbolType.Other);
+                this.GetToken(elementProxy, TokenType.Remove, SymbolType.Other);
+                accessor = new RemoveAccessor(elementProxy, unsafeCode);
 
                 if (parent.ElementType != ElementType.Event)
                 {
@@ -2110,7 +2108,7 @@ namespace Microsoft.StyleCop.CSharp
                 throw this.CreateSyntaxException();
             }
 
-            var accessor = new Accessor(elementProxy, accessorName.Text, accessorType, attributes, unsafeCode);
+            Debug.Assert(accessor != null, "Accessor not created.");
 
             // Get the method body.
             this.ParseStatementContainer(elementProxy, accessor, true, unsafeCode);
