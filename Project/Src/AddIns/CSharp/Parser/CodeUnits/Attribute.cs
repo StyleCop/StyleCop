@@ -27,12 +27,21 @@ namespace Microsoft.StyleCop.CSharp
     [SuppressMessage("Microsoft.Naming", "CA1711:IdentifiersShouldNotHaveIncorrectSuffix", Justification = "The class describes a C# attribute.")]
     public sealed class Attribute : CodeUnit
     {
+        #region Internal Static Readonly Fields
+
+        /// <summary>
+        /// An empty array of attributes.
+        /// </summary>
+        internal static readonly Attribute[] EmptyAttributeArray = new Attribute[] { };
+
+        #endregion Internal Static Readonly Fields
+
         #region Private Fields
 
         /// <summary>
         /// Gets the list of attribute expressions within this attribute.
         /// </summary>
-        private ICollection<AttributeExpression> attributeExpressions;
+        private CodeUnitProperty<ICollection<AttributeExpression>> attributeExpressions;
 
         #endregion Private Fields
 
@@ -49,8 +58,8 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertGreaterThanOrEqualTo(proxy.Children.Count, 2, "childTokens");
             Param.AssertNotNull(attributeExpressions, "attributeExpressions");
 
-            this.attributeExpressions = attributeExpressions;
-            Debug.Assert(this.attributeExpressions.IsReadOnly, "Must be a read-only collection.");
+            this.attributeExpressions.Value = attributeExpressions;
+            Debug.Assert(attributeExpressions.IsReadOnly, "Must be a read-only collection.");
         }
 
         #endregion Internal Constructors
@@ -66,12 +75,12 @@ namespace Microsoft.StyleCop.CSharp
             {
                 this.ValidateEditVersion();
 
-                if (this.attributeExpressions == null)
+                if (!this.attributeExpressions.Initialized)
                 {
-                    this.attributeExpressions = new List<AttributeExpression>(this.GetChildren<AttributeExpression>()).AsReadOnly();
+                    this.attributeExpressions.Value = new List<AttributeExpression>(this.GetChildren<AttributeExpression>()).AsReadOnly();
                 }
                 
-                return this.attributeExpressions;
+                return this.attributeExpressions.Value;
             }
         }
 
@@ -86,7 +95,7 @@ namespace Microsoft.StyleCop.CSharp
         {
             base.Reset();
 
-            this.attributeExpressions = null;
+            this.attributeExpressions.Reset();
         }
 
         #endregion Protected Override Methods

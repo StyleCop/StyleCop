@@ -482,9 +482,6 @@ namespace Microsoft.StyleCop.CSharp
                 // Add any suppressed rules.
                 this.AddRuleSuppressionsForElement(childElement);
 
-                // Set up the new element.
-                childElement.Initialize(this.document);
-
                 // Add the element to the collection of partial elements, if necessary.
                 AddElementToPartialElementsList(childElement, partialElements);
             }
@@ -646,10 +643,10 @@ namespace Microsoft.StyleCop.CSharp
             // Add all of the symbols for the header to a token list.
             for (int i = 1; i <= end; ++i)
             {
-                this.symbols.Advance();
-                Debug.Assert(this.symbols.Current != null, "The current symbol should not be null");
-
-                xmlHeaderProxy.Children.Add(new XmlHeaderLine(this.document, this.symbols.Current.Text, this.symbols.Current.Location, this.symbols.Generated));
+                if (!this.GetNextNonCodeSymbol(xmlHeaderProxy, SkipSymbols.All & ~SkipSymbols.Preprocessor))
+                {
+                    Debug.Fail("Each symbol should be added successfully since the types were verified above.");
+                }
             }
 
             // Create the Xml header object.
@@ -1316,7 +1313,7 @@ namespace Microsoft.StyleCop.CSharp
             BracketToken openingCurlyBracket = (BracketToken)this.GetToken(elementProxy, TokenType.OpenCurlyBracket, SymbolType.OpenCurlyBracket);
 
             // Get each of the enum items.
-            @enum.Items = this.GetEnumItems(elementProxy, @enum, unsafeCode);
+            this.GetEnumItems(elementProxy, @enum, unsafeCode);
 
             // Get the closing curly bracket.
             BracketToken closingCurlyBracket = (BracketToken)this.GetToken(elementProxy, TokenType.CloseCurlyBracket, SymbolType.CloseCurlyBracket);
@@ -1333,14 +1330,11 @@ namespace Microsoft.StyleCop.CSharp
         /// <param name="parentProxy">Represents the parent item.</param>
         /// <param name="parent">The parent enum element.</param>
         /// <param name="unsafeCode">Indicates whether the enum lies within unsafe code.</param>
-        /// <returns>Returns the element.</returns>
-        private ICollection<EnumItem> GetEnumItems(CodeUnitProxy parentProxy, Enum parent, bool unsafeCode)
+        private void GetEnumItems(CodeUnitProxy parentProxy, Enum parent, bool unsafeCode)
         {
             Param.AssertNotNull(parentProxy, "parentProxy");
             Param.AssertNotNull(parent, "parent");
             Param.Ignore(unsafeCode);
-
-            var enumItems = new List<EnumItem>();
 
             SkipSymbols skip = SkipSymbols.All;
             Symbol symbol = this.PeekNextSymbol(skip);
@@ -1372,10 +1366,7 @@ namespace Microsoft.StyleCop.CSharp
                     initializationExpression = this.GetNextExpression(enumItemProxy, ExpressionPrecedence.None, unsafeCode);
                 }
 
-                var enumItem = new EnumItem(enumItemProxy, name.Text, attributes, initializationExpression, unsafeCode);
-
-                parentProxy.Children.Add(enumItem);
-                enumItems.Add(enumItem);
+                parentProxy.Children.Add(new EnumItem(enumItemProxy, name.Text, attributes, initializationExpression, unsafeCode));
                 
                 symbol = this.PeekNextSymbol();
 
@@ -1391,9 +1382,6 @@ namespace Microsoft.StyleCop.CSharp
 
                 symbol = this.PeekNextSymbol(skip);
             }
-
-            // Return the enum items as a read-only collection.
-            return enumItems.ToArray();
         }
 
         /// <summary>
@@ -2036,7 +2024,7 @@ namespace Microsoft.StyleCop.CSharp
                     }
                 }
 
-                var declaratorExpression = new VariableDeclaratorExpression(declaratorProxy, identifierExpression, initialization);
+                var declaratorExpression = new EventDeclaratorExpression(declaratorProxy, identifierExpression, initialization);
 
                 parentProxy.Children.Add(declaratorExpression);
 

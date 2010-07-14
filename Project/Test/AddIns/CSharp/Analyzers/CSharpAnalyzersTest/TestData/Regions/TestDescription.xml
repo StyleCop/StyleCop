@@ -8,7 +8,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.ReadabilityRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.Rules.ReadabilityRules">
           <Rules>
             <Rule Name="DoNotUseRegions">
               <RuleSettings>
@@ -21,10 +21,10 @@
     </Settings>
     <ExpectedViolations>
       <Violation Section="Root" LineNumber="1" Rule="DoNotUseRegions" />
-      <Violation Section="Root.DoNotUseRegionsWithinElements.Class1" LineNumber="6" Rule="DoNotUseRegions" />
-      <Violation Section="Root.DoNotUseRegionsWithinElements.Class1.Method" LineNumber="9" Rule="DoNotUseRegions" />
-      <Violation Section="Root.DoNotUseRegionsWithinElements.Class1.Method" LineNumber="12" Rule="DoNotUseRegions" />
-      <Violation Section="Root.DoNotUseRegionsWithinElements.Class1.Method" LineNumber="15" Rule="DoNotUseRegions" />
+      <Violation Section="DoNotUseRegionsWithinElements.Class1" LineNumber="6" Rule="DoNotUseRegions" />
+      <Violation Section="DoNotUseRegionsWithinElements.Class1.Method" LineNumber="9" Rule="DoNotUseRegions" />
+      <Violation Section="DoNotUseRegionsWithinElements.Class1.Method" LineNumber="12" Rule="DoNotUseRegions" />
+      <Violation Section="DoNotUseRegionsWithinElements.Class1.Method" LineNumber="15" Rule="DoNotUseRegions" />
     </ExpectedViolations>
   </Test>
 
@@ -36,7 +36,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.ReadabilityRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.Rules.ReadabilityRules">
           <Rules>
             <Rule Name="DoNotPlaceRegionsWithinElements">
               <RuleSettings>
@@ -48,9 +48,9 @@
       </Analyzers>
     </Settings>
     <ExpectedViolations>
-      <Violation Section="Root.DoNotUseRegionsWithinElements.Class1.Method" LineNumber="9" Rule="DoNotPlaceRegionsWithinElements" />
-      <Violation Section="Root.DoNotUseRegionsWithinElements.Class1.Method" LineNumber="12" Rule="DoNotPlaceRegionsWithinElements" />
-      <Violation Section="Root.DoNotUseRegionsWithinElements.Class1.Method" LineNumber="15" Rule="DoNotPlaceRegionsWithinElements" />
+      <Violation Section="DoNotUseRegionsWithinElements.Class1.Method" LineNumber="9" Rule="DoNotPlaceRegionsWithinElements" />
+      <Violation Section="DoNotUseRegionsWithinElements.Class1.Method" LineNumber="12" Rule="DoNotPlaceRegionsWithinElements" />
+      <Violation Section="DoNotUseRegionsWithinElements.Class1.Method" LineNumber="15" Rule="DoNotPlaceRegionsWithinElements" />
     </ExpectedViolations>
   </Test>
 </StyleCopTestDescription>

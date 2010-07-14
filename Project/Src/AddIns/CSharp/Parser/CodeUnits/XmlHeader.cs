@@ -30,22 +30,22 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The collection of lines within the header.
         /// </summary>
-        private ICollection<XmlHeaderLine> headerLines;
+        private CodeUnitProperty<ICollection<XmlHeaderLine>> headerLines;
 
         /// <summary>
         /// Indicates whether the header is empty.
         /// </summary>
-        private bool? empty;
+        private CodeUnitProperty<bool> empty;
 
         /// <summary>
         /// The raw header xml.
         /// </summary>
-        private string headerXml;
+        private CodeUnitProperty<string> headerXml;
 
         /// <summary>
         /// The header xml with formatting included.
         /// </summary>
-        private string formattedHeaderXml;
+        private CodeUnitProperty<string> headerXmlWithNewlines;
 
         #endregion Private Fields
 
@@ -73,12 +73,13 @@ namespace Microsoft.StyleCop.CSharp
             get
             {
                 this.ValidateEditVersion();
-                if (this.headerLines == null)
+
+                if (!this.headerLines.Initialized)
                 {
-                    this.headerLines = new List<XmlHeaderLine>(this.GetChildren<XmlHeaderLine>()).AsReadOnly();
+                    this.headerLines.Value = new List<XmlHeaderLine>(this.GetChildren<XmlHeaderLine>()).AsReadOnly();
                 }
 
-                return this.headerLines;
+                return this.headerLines.Value;
             }
         }
 
@@ -90,9 +91,10 @@ namespace Microsoft.StyleCop.CSharp
             get
             {
                 this.ValidateEditVersion();
-                if (this.empty == null)
+
+                if (!this.empty.Initialized)
                 {
-                    this.empty = true;
+                    this.empty.Value = true;
 
                     for (XmlHeaderLine headerLine = this.FindFirstChild<XmlHeaderLine>(); headerLine != null; headerLine = headerLine.FindNextSibling<XmlHeaderLine>())
                     {
@@ -109,7 +111,7 @@ namespace Microsoft.StyleCop.CSharp
                             {
                                 if (!char.IsWhiteSpace(text[i]))
                                 {
-                                    this.empty = false;
+                                    this.empty.Value = false;
                                     break;
                                 }
                             }
@@ -129,37 +131,33 @@ namespace Microsoft.StyleCop.CSharp
             get
             {
                 this.ValidateEditVersion();
-                if (this.headerXml == null)
+
+                if (!this.headerXml.Initialized)
                 {
                     StringBuilder text = new StringBuilder();
 
                     for (XmlHeaderLine headerLine = this.FindFirstChild<XmlHeaderLine>(); headerLine != null; headerLine = headerLine.FindNextSibling<XmlHeaderLine>())
                     {
-                        string headerLineText = headerLine.Text;
-                        if (headerLineText.StartsWith("///", StringComparison.Ordinal))
-                        {
-                            headerLineText = headerLineText.Substring(3, headerLineText.Length - 3);
-                        }
-
-                        text.Append(headerLineText);
+                        text.Append(ExtractHeaderLineText(headerLine));
                     }
 
-                    this.headerXml = text.ToString();
+                    this.headerXml.Value = text.ToString();
                 }
 
-                return this.headerXml;
+                return this.headerXml.Value;
             }
         }
 
         /// <summary>
-        /// Gets the header Xml with original formatting included.
+        /// Gets the header Xml with original newlines included.
         /// </summary>
-        public string FormattedHeaderXml
+        public string HeaderXmlWithNewlines
         {
             get
             {
                 this.ValidateEditVersion();
-                if (this.formattedHeaderXml == null)
+
+                if (!this.headerXmlWithNewlines.Initialized)
                 {
                     StringBuilder text = new StringBuilder();
 
@@ -167,13 +165,7 @@ namespace Microsoft.StyleCop.CSharp
                     {
                         if (item.Is(CommentType.XmlHeaderLine))
                         {
-                            string headerLineText = ((XmlHeaderLine)item).Text;
-                            if (headerLineText.StartsWith("///", StringComparison.Ordinal))
-                            {
-                                headerLineText = headerLineText.Substring(3, headerLineText.Length - 3);
-                            }
-
-                            text.Append(headerLineText);
+                            text.Append(ExtractHeaderLineText((XmlHeaderLine)item));
                         }
                         else if (item.Is(LexicalElementType.EndOfLine))
                         {
@@ -181,10 +173,10 @@ namespace Microsoft.StyleCop.CSharp
                         }
                     }
 
-                    this.formattedHeaderXml = text.ToString();
+                    this.headerXmlWithNewlines.Value = text.ToString();
                 }
 
-                return this.formattedHeaderXml;
+                return this.headerXmlWithNewlines.Value;
             }
         }
         
@@ -199,12 +191,42 @@ namespace Microsoft.StyleCop.CSharp
         {
             base.Reset();
 
-            this.headerLines = null;
-            this.empty = null;
-            this.headerXml = null;
-            this.formattedHeaderXml = null;
+            this.headerLines.Reset();
+            this.empty.Reset();
+            this.headerXml.Reset();
+            this.headerXmlWithNewlines.Reset();
         }
 
         #endregion Protected Override Methods
+
+        #region Private Static Methods
+
+        /// <summary>
+        /// Extracts the raw text from a header line.
+        /// </summary>
+        /// <param name="headerLine">The header line.</param>
+        /// <returns>Returns the raw text.</returns>
+        private static string ExtractHeaderLineText(XmlHeaderLine headerLine)
+        {
+            Param.AssertNotNull(headerLine, "headerLine");
+
+            string headerLineText = headerLine.Text;
+            if (headerLineText.StartsWith("///", StringComparison.Ordinal))
+            {
+                // Typically, the header line will begin with a single space after the three slashes. We should not
+                // consider this space to be part of the documentation, so skip past it.
+                int startIndex = 3;
+                if (headerLineText.Length > 3 && headerLineText[3] == ' ')
+                {
+                    startIndex = 4;
+                }
+
+                headerLineText = headerLineText.Substring(startIndex, headerLineText.Length - startIndex);
+            }
+
+            return headerLineText;
+        }
+
+        #endregion Private Static Methods
     }
 }

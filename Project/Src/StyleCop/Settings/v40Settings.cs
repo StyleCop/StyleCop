@@ -62,13 +62,13 @@ namespace Microsoft.StyleCop
                     case "PublicAndProtectedOnly":
                         LoadAnalyzerSetting(
                             settings,
-                            "Microsoft.StyleCop.CSharp_old.DocumentationRules", 
+                            "Microsoft.StyleCop.CSharp.DocumentationRules", 
                             "IgnorePrivates", 
                             child.InnerText);
 
                         LoadAnalyzerSetting(
                             settings,
-                            "Microsoft.StyleCop.CSharp_old.DocumentationRules",
+                            "Microsoft.StyleCop.CSharp.DocumentationRules",
                             "IgnoreInternals",
                             child.InnerText);
                         break;
@@ -76,7 +76,7 @@ namespace Microsoft.StyleCop
                     case "IncludeFields":
                         LoadAnalyzerSetting(
                             settings,
-                            "Microsoft.StyleCop.CSharp_old.DocumentationRules", 
+                            "Microsoft.StyleCop.CSharp.DocumentationRules", 
                             "IncludeFields", 
                             child.InnerText);
                         break;
@@ -84,7 +84,7 @@ namespace Microsoft.StyleCop
                     case "GeneratedCodeElementOrder":
                         LoadAnalyzerSetting(
                             settings,
-                            "Microsoft.StyleCop.CSharp_old.OrderingRules", 
+                            "Microsoft.StyleCop.CSharp.OrderingRules", 
                             "GeneratedCodeElementOrder", 
                             child.InnerText);
                         break;
@@ -92,7 +92,7 @@ namespace Microsoft.StyleCop
                     case "RequireValueTags":
                         LoadLegacyAnalyzerSetting(
                             settings,
-                            "Microsoft.StyleCop.CSharp_old.DocumentationRules", 
+                            "Microsoft.StyleCop.CSharp.DocumentationRules", 
                             "RequireValueTags",
                             child.InnerText);
                         break;
@@ -182,7 +182,7 @@ namespace Microsoft.StyleCop
             string[] prefixes = validPrefixesNode.InnerText.Split(',');
 
             // Get the analyzer.
-            SourceAnalyzer analyzer = settings.Core.GetAnalyzer("Microsoft.StyleCop.CSharp_old.NamingRules");
+            SourceAnalyzer analyzer = settings.Core.GetAnalyzer("Microsoft.StyleCop.CSharp.NamingRules");
             if (analyzer != null)
             {
                 // Get the property descriptor.
@@ -207,79 +207,79 @@ namespace Microsoft.StyleCop
             {
                 case "E508A3D4-B487-4D5F-8386-5827FA1334CD":
                     // Variable names
-                    return "Microsoft.StyleCop.CSharp_old.NamingRules";
+                    return "Microsoft.StyleCop.CSharp.NamingRules";
 
                 case "C0F8B61A-DC6C-4550-8652-1074C95520B6":
                     // Field underscores
-                    return "Microsoft.StyleCop.CSharp_old.NamingRules";
+                    return "Microsoft.StyleCop.CSharp.NamingRules";
 
                 case "F3EA01DF-3F2F-42AF-865D-84768B8CF4B0":
                     // Element name case
-                    return "Microsoft.StyleCop.CSharp_old.NamingRules";
+                    return "Microsoft.StyleCop.CSharp.NamingRules";
 
                 case "25474DA2-9B71-48A9-BA76-A4726EC8C48E":
                     // Interface names
-                    return "Microsoft.StyleCop.CSharp_old.NamingRules";
+                    return "Microsoft.StyleCop.CSharp.NamingRules";
 
                 case "C17BFE16-544B-11DA-8BDE-F66BAD1E3F3A": 
                     // Statements
-                    return "Microsoft.StyleCop.CSharp_old.ReadabilityRules";
+                    return "Microsoft.StyleCop.CSharp.ReadabilityRules";
 
                 case "8DE5A506-0BD9-478B-95AF-2B3EC20C2093":
                     // Method parameter placement
-                    return "Microsoft.StyleCop.CSharp_old.ReadabilityRules";
+                    return "Microsoft.StyleCop.CSharp.ReadabilityRules";
 
                 case "3B74A427-6D8D-4808-9FCD-520F15E8517C":
                     // Comments
-                    return "Microsoft.StyleCop.CSharp_old.ReadabilityRules";
+                    return "Microsoft.StyleCop.CSharp.ReadabilityRules";
 
                 case "2771D7CA-F585-4832-B2C2-88DA370EBAC1":
                     // Class members
-                    return "Microsoft.StyleCop.CSharp_old.ReadabilityRules";
+                    return "Microsoft.StyleCop.CSharp.ReadabilityRules";
 
                 case "64C9DA50-FC1A-4F20-986E-72AAA00B8ED4":
                     // Spacing
-                    return "Microsoft.StyleCop.CSharp_old.SpacingRules";
+                    return "Microsoft.StyleCop.CSharp.SpacingRules";
 
                 case "19F875BA-368A-40D8-B70A-5D26DF5BEBDD":
                     // Tabs
-                    return "Microsoft.StyleCop.CSharp_old.SpacingRules";
+                    return "Microsoft.StyleCop.CSharp.SpacingRules";
 
                 case "9ADAF7F0-E57D-4DF7-9885-ABAB2A9149FC":
                     // Field access modifiers
-                    return "Microsoft.StyleCop.CSharp_old.MaintainabilityRules";
+                    return "Microsoft.StyleCop.CSharp.MaintainabilityRules";
 
                 case "C0FC9515-97A4-4D61-89CD-9D87FEDD5B24":
                     // Parenthesis
-                    return "Microsoft.StyleCop.CSharp_old.MaintainabilityRules";
+                    return "Microsoft.StyleCop.CSharp.MaintainabilityRules";
 
                 case "F6912B0F-C5FC-453D-BA02-183C3C9A2A8B":
                     // Access modifiers
-                    return "Microsoft.StyleCop.CSharp_old.LayoutRules";
+                    return "Microsoft.StyleCop.CSharp.LayoutRules";
 
                 case "5937033A-122C-492E-9C08-6F1AE80D1710":
                     // Line spacing
-                    return "Microsoft.StyleCop.CSharp_old.LayoutRules";
+                    return "Microsoft.StyleCop.CSharp.LayoutRules";
 
                 case "305C458B-4CEC-4E49-96A9-E8012B333C7B":
                     // Bracket placement
-                    return "Microsoft.StyleCop.CSharp_old.LayoutRules";
+                    return "Microsoft.StyleCop.CSharp.LayoutRules";
 
                 case "31B0AB2A-8EED-4815-9F2D-C5A439EA9809":
                     // File headers
-                    return "Microsoft.StyleCop.CSharp_old.DocumentationRules";
+                    return "Microsoft.StyleCop.CSharp.DocumentationRules";
 
                 case "A2B149D9-1F5E-4D79-8E8B-2273E956B9DD":
                     // Xml headers
-                    return "Microsoft.StyleCop.CSharp_old.DocumentationRules";
+                    return "Microsoft.StyleCop.CSharp.DocumentationRules";
 
                 case "E2283402-D0B2-468D-81BC-DE32B48B7A4C":
                     // Element order
-                    return "Microsoft.StyleCop.CSharp_old.OrderingRules";
+                    return "Microsoft.StyleCop.CSharp.OrderingRules";
 
                 case "6D18499A-AA21-4BE5-9590-7C8BEC56C1F8":
                     // Declaration keyword order
-                    return "Microsoft.StyleCop.CSharp_old.OrderingRules";
+                    return "Microsoft.StyleCop.CSharp.OrderingRules";
             }
 
             return null;
@@ -331,7 +331,7 @@ namespace Microsoft.StyleCop
 
             switch (analyzerId)
             {
-                case "Microsoft.StyleCop.CSharp_old.DocumentationRules":
+                case "Microsoft.StyleCop.CSharp.DocumentationRules":
                     if (propertyName == "RequireValueTags")
                     {
                         SourceAnalyzer analyzer = settings.Core.GetAnalyzer(analyzerId);
@@ -369,7 +369,7 @@ namespace Microsoft.StyleCop
             Param.AssertNotNull(settings, "settings");
             Param.AssertValidString(nodeText, "nodeText");
 
-            SourceParser parser = settings.Core.GetParser("Microsoft.StyleCop.CSharp_old.CsParser");
+            SourceParser parser = settings.Core.GetParser("Microsoft.StyleCop.CSharp.CsParser");
             if (parser != null)
             {
                 PropertyDescriptor<bool> propertyDescriptor = parser.PropertyDescriptors["AnalyzeDesignerFiles"] as PropertyDescriptor<bool>;

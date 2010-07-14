@@ -160,7 +160,7 @@
       <Project>{27990660-AC31-4622-A971-FE2BE70844CF}</Project>
       <Name>CSharpParser</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\src\StyleCop\StyleCop.csproj">
+    <ProjectReference Include="..\..\..\..\..\Src\StyleCop\StyleCop.csproj">
       <Project>{AF7A7FEA-C07B-456A-B072-C7E795A6CBD4}</Project>
       <Name>StyleCop</Name>
     </ProjectReference>

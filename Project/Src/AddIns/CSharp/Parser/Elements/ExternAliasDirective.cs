@@ -29,7 +29,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The identifier name of the alias.
         /// </summary>
-        private string identifier = string.Empty;
+        private CodeUnitProperty<string> identifier;
 
         #endregion Private Fields
 
@@ -58,7 +58,31 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                return this.identifier;
+                this.ValidateEditVersion();
+
+                if (!this.identifier.Initialized)
+                {
+                    this.identifier.Value = null;
+
+                    // Find the 'alias' keyword.
+                    Token aliasToken = this.FindFirstChild<AliasToken>();
+                    if (aliasToken != null && aliasToken != this.FindLastChild<Token>())
+                    {
+                        Token temp = aliasToken.FindNextSibling<Token>();
+                        if (temp != null)
+                        {
+                            // This word is the identifier
+                            this.identifier.Value = CodeParser.TrimType(CodeParser.GetFullName(this.Document, this, temp, out temp));
+                        }
+                    }
+
+                    if (this.identifier.Value == null)
+                    {
+                        throw new SyntaxException(this.Document, this.LineNumber);   
+                    }
+                }
+
+                return this.identifier.Value;
             }
         }
 
@@ -78,44 +102,6 @@ namespace Microsoft.StyleCop.CSharp
         }
 
         #endregion Protected Override Properties
-
-        #region Internal Override Methods
-
-        /// <summary>
-        /// Initializes the element.
-        /// </summary>
-        /// <param name="document">The document that contains the element.</param>
-        internal override void Initialize(CsDocument document)
-        {
-            Param.AssertNotNull(document, "document");
-
-            base.Initialize(document);
-
-            // Find the 'alias' keyword.
-            Token aliasToken = null;
-
-            for (Token token = this.FindFirstChild<Token>(); token != null; token = token.FindNextSibling<Token>())
-            {
-                if (token.TokenType == TokenType.Alias)
-                {
-                    aliasToken = token;
-                    break;
-                }
-            }
-
-            // Make sure we found it.
-            if (aliasToken != null && aliasToken != this.FindLastChild<Token>())
-            {
-                Token temp = aliasToken.FindNextSibling<Token>();
-                if (temp != null)
-                {
-                    // This word is the identifier
-                    this.identifier = CodeParser.TrimType(CodeParser.GetFullName(document, this, temp, out temp));
-                }
-            }
-        }
-
-        #endregion Internal Override Methods
 
         #region Protected Override Methods
 
@@ -138,6 +124,16 @@ namespace Microsoft.StyleCop.CSharp
             }
 
             throw new SyntaxException(this.Document, this.LineNumber);
+        }
+
+        /// <summary>
+        /// Resets the contents of the class.
+        /// </summary>
+        protected override void Reset()
+        {
+            base.Reset();
+
+            this.identifier.Reset();
         }
 
         #endregion Protected Override Methods

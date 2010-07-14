@@ -28,7 +28,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The initialization expression, if there is one.
         /// </summary>
-        private Expression initialization;
+        private CodeUnitProperty<Expression> initialization;
 
         #endregion Private Fields
 
@@ -49,7 +49,7 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertValidString(name, "name");
             Param.Ignore(attributes, initialization, unsafeCode);
 
-            this.initialization = initialization;
+            this.initialization.Value = initialization;
         }
 
         #endregion Internal Constructors
@@ -63,7 +63,14 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                return this.initialization;
+                this.ValidateEditVersion();
+
+                if (!this.initialization.Initialized)
+                {
+                    this.initialization.Value = this.FindFirstChild<Expression>();
+                }
+
+                return this.initialization.Value;
             }
         }
 
@@ -101,6 +108,15 @@ namespace Microsoft.StyleCop.CSharp
             }
 
             throw new SyntaxException(this.Document, this.LineNumber);
+        }
+
+        /// <summary>
+        /// Resets the contents of the class.
+        /// </summary>
+        protected override void Reset()
+        {
+            base.Reset();
+            this.initialization.Reset();
         }
 
         #endregion Protected Override Methods

@@ -28,7 +28,22 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The constructor's input parameters.
         /// </summary>
-        private IList<Parameter> parameters;
+        private CodeUnitProperty<IList<Parameter>> parameters;
+
+        /// <summary>
+        /// The fully qualified name of the constructor.
+        /// </summary>
+        private CodeUnitProperty<string> fullyQualifiedName;
+
+        /// <summary>
+        /// The variables on the constructor.
+        /// </summary>
+        private CodeUnitProperty<IList<IVariable>> variables;
+
+        /// <summary>
+        /// The optional constructor initializer.
+        /// </summary>
+        private CodeUnitProperty<ConstructorInitializerStatement> initializer;
 
         #endregion Private Fields
 
@@ -61,7 +76,14 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                return CodeParser.AddQualifications(this.Parameters, base.FullyQualifiedName);
+                this.ValidateEditVersion();
+
+                if (!this.fullyQualifiedName.Initialized)
+                {
+                    this.fullyQualifiedName.Value = CodeParser.AddQualifications(this.Parameters, base.FullyQualifiedName);
+                }
+
+                return this.fullyQualifiedName.Value;
             }
         }
 
@@ -72,7 +94,14 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                return Method.GatherVariablesForElementWithParametersAndChildStatements(this, this.Parameters);
+                this.ValidateEditVersion();
+
+                if (!this.variables.Initialized)
+                {
+                    this.variables.Value = Method.GatherVariablesForElementWithParametersAndChildStatements(this, this.Parameters);
+                }
+
+                return this.variables.Value;
             }
         }
 
@@ -87,7 +116,14 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                return this.FindFirstChild<ConstructorInitializerStatement>();
+                this.ValidateEditVersion();
+
+                if (!this.initializer.Initialized)
+                {
+                    this.initializer.Value = this.FindFirstChild<ConstructorInitializerStatement>();
+                }
+
+                return this.initializer.Value;
             }
         }
 
@@ -98,12 +134,14 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                if (this.parameters == null)
+                this.ValidateEditVersion();
+
+                if (!this.parameters.Initialized)
                 {
-                    this.parameters = this.CollectFormalParameters(this.FirstDeclarationToken, TokenType.CloseParenthesis);
+                    this.parameters.Value = this.CollectFormalParameters(this.FirstDeclarationToken, TokenType.CloseParenthesis);
                 }
 
-                return this.parameters;
+                return this.parameters.Value;
             }
         }
 
@@ -158,6 +196,19 @@ namespace Microsoft.StyleCop.CSharp
             }
 
             throw new SyntaxException(this.Document, this.LineNumber);
+        }
+
+        /// <summary>
+        /// Resets the contents of the class.
+        /// </summary>
+        protected override void Reset()
+        {
+            base.Reset();
+
+            this.parameters.Reset();
+            this.fullyQualifiedName.Reset();
+            this.variables.Reset();
+            this.initializer.Reset();
         }
 
         #endregion Protected Override Methods

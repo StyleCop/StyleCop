@@ -87,10 +87,11 @@ namespace Microsoft.StyleCop.CSharp
         #endregion Public Properties
     }
 
+    /*
     /// <content>
     /// Implements the IVariable interface.
     /// </content>
-    public partial class EventDeclaratorExpression : IVariable
+    public partial class EventDeclaratorExpression //: IVariable
     {
         #region Public Properties 
 
@@ -143,4 +144,5 @@ namespace Microsoft.StyleCop.CSharp
 
         #endregion Public Methods
     }
+     * */
 }

@@ -32,12 +32,12 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The derived base type.
         /// </summary>
-        private string baseType;
+        private CodeUnitProperty<string> baseType;
 
         /// <summary>
         /// The list of items in the enum.
         /// </summary>
-        private ICollection<EnumItem> items;
+        private CodeUnitProperty<ICollection<EnumItem>> items;
 
         #endregion Private Fields
 
@@ -69,7 +69,14 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                return this.baseType;
+                this.ValidateEditVersion();
+
+                if (!this.baseType.Initialized)
+                {
+                    this.baseType.Value = this.GetBaseType();
+                }
+
+                return this.baseType.Value;
             }
         }
         
@@ -80,15 +87,14 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                return this.items;
-            }
+                this.ValidateEditVersion();
 
-            internal set
-            {
-                Param.AssertNotNull(value, "Items");
-                this.items = value;
+                if (!this.items.Initialized)
+                {
+                    this.items.Value = new List<EnumItem>(this.GetChildren<EnumItem>()).AsReadOnly();
+                }
 
-                Debug.Assert(this.items.IsReadOnly, "The collection of enum items should be read-only.");
+                return this.items.Value;
             }
         }
 
@@ -108,22 +114,6 @@ namespace Microsoft.StyleCop.CSharp
         }
 
         #endregion Protected Override Properties
-
-        #region Internal Override Methods
-
-        /// <summary>
-        /// Gets the base type, if there is one.
-        /// </summary>
-        /// <param name="document">The document that contains the element.</param>
-        internal override void Initialize(CsDocument document)
-        {
-            Param.Ignore(document);
-
-            // Get the base type, if any.
-            this.baseType = this.GetBaseType();
-        }
-
-        #endregion Internal Override Methods
 
         #region Protected Override Methods
 
@@ -146,6 +136,17 @@ namespace Microsoft.StyleCop.CSharp
             }
 
             throw new SyntaxException(this.Document, this.LineNumber);
+        }
+
+        /// <summary>
+        /// Resets the contents of the class.
+        /// </summary>
+        protected override void Reset()
+        {
+            base.Reset();
+
+            this.baseType.Reset();
+            this.items.Reset();
         }
 
         #endregion Protected Override Methods

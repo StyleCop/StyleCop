@@ -29,12 +29,12 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The namespace type declared by the using element.
         /// </summary>
-        private string namespaceType = string.Empty;
+        private CodeUnitProperty<string> namespaceType;
 
         /// <summary>
         /// The alias mapped to the namespace type, if any.
         /// </summary>
-        private string alias = string.Empty;
+        private CodeUnitProperty<string> alias;
 
         #endregion Private Fields
 
@@ -55,12 +55,8 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertValidString(@namespace, "namespace");
             Param.Ignore(alias);
 
-            this.namespaceType = @namespace;
-
-            if (alias != null)
-            {
-                this.alias = alias;
-            }
+            this.namespaceType.Value = @namespace;
+            this.alias.Value = alias ?? string.Empty;
         }
 
         #endregion Internal Constructors
@@ -74,7 +70,14 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                return this.alias;
+                this.ValidateEditVersion();
+
+                if (!this.alias.Initialized)
+                {
+                    this.Init();
+                }
+
+                return this.alias.Value;
             }
         }
 
@@ -85,7 +88,14 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                return this.namespaceType;
+                this.ValidateEditVersion();
+
+                if (!this.namespaceType.Initialized)
+                {
+                    this.Init();
+                }
+
+                return this.namespaceType.Value;
             }
         }
 
@@ -106,64 +116,6 @@ namespace Microsoft.StyleCop.CSharp
 
         #endregion Protected Override Properties
 
-        #region Internal Override Methods
-
-        /// <summary>
-        /// Initializes the element.
-        /// </summary>
-        /// <param name="document">The document that contains the element.</param>
-        internal override void Initialize(CsDocument document)
-        {
-            Param.AssertNotNull(document, "document");
-
-            base.Initialize(document);
-
-            // Find the 'using' keyword.
-            Token usingKeyword = null;
-
-            for (Token token = this.FindFirstChild<Token>(); token != null; token = token.FindNextSibling<Token>())
-            {
-                if (token.TokenType == TokenType.UsingDirective)
-                {
-                    usingKeyword = token;
-                    break;
-                }
-            }
-
-            // Make sure we found it.
-            if (usingKeyword != null)
-            {
-                // Move past it.
-                Token index = usingKeyword.FindNextSibling<Token>();
-                if (index != null)
-                {
-                    // This word is usually the namespace type, unless an alias is defined.
-                    this.namespaceType = CodeParser.TrimType(CodeParser.GetFullName(document, this, index, out index));
-
-                    // Now see if the next word is an equals sign.
-                    index = index.FindNextSibling<Token>();
-
-                    if (index != null)
-                    {
-                        if (index.Text == "=")
-                        {
-                            // Get the word after the equals sign, which will be the namespace.
-                            index = index.FindNextSibling<Token>();
-
-                            if (index != null)
-                            {
-                                // Set the alias and the namespace.
-                                this.alias = this.namespaceType;
-                                this.namespaceType = CodeParser.TrimType(index.Text);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        #endregion Internal Override Methods
-
         #region Protected Override Methods
 
         /// <summary>
@@ -181,6 +133,61 @@ namespace Microsoft.StyleCop.CSharp
             return this.NamespaceType;
         }
 
+        /// <summary>
+        /// Resets the contents of the class.
+        /// </summary>
+        protected override void Reset()
+        {
+            base.Reset();
+
+            this.namespaceType.Reset();
+            this.alias.Reset();
+        }
+
         #endregion Protected Override Methods
+
+        #region Private Methods
+
+        /// <summary>
+        /// Initializes the element.
+        /// </summary>
+        private void Init()
+        {
+            this.namespaceType.Value = this.alias.Value = string.Empty;
+
+            // Find the 'using' keyword.
+            Token usingKeyword = this.FindFirstChild<UsingDirectiveToken>();
+            if (usingKeyword != null)
+            {
+                // Move past it.
+                Token index = usingKeyword.FindNextSibling<Token>();
+                if (index != null)
+                {
+                    // This word is usually the namespace type, unless an alias is defined.
+                    this.namespaceType.Value = CodeParser.TrimType(CodeParser.GetFullName(this.Document, this, index, out index));
+
+                    // Now see if the next word is an equals sign.
+                    index = index.FindNextSibling<Token>();
+
+                    if (index != null)
+                    {
+                        if (index.Text == "=")
+                        {
+                            // Get the word after the equals sign, which will be the namespace.
+                            index = index.FindNextSibling<Token>();
+
+                            if (index != null)
+                            {
+                                // Set the alias and the namespace.
+                                this.alias.Value = this.namespaceType.Value;
+                                this.namespaceType.Value = CodeParser.TrimType(index.Text);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        #endregion Private Methods
     }
 }

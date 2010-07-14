@@ -30,7 +30,22 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The event handler type.
         /// </summary>
-        private TypeToken eventHandlerType;
+        private CodeUnitProperty<TypeToken> eventHandlerType;
+
+        /// <summary>
+        /// The declarators on the event.
+        /// </summary>
+        private CodeUnitProperty<ICollection<EventDeclaratorExpression>> declarators;
+
+        /// <summary>
+        /// The add accessor.
+        /// </summary>
+        private CodeUnitProperty<Accessor> add;
+
+        /// <summary>
+        /// The remove accessor.
+        /// </summary>
+        private CodeUnitProperty<Accessor> remove;
 
         #endregion Private Fields
 
@@ -53,32 +68,10 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertNotNull(eventHandlerType, "eventHandlerType");
             Param.Ignore(unsafeCode);
 
-            this.eventHandlerType = eventHandlerType;
+            this.eventHandlerType.Value = eventHandlerType;
         }
 
         #endregion Internal Constructors
-
-        #region Public Override Properties
-
-        /// <summary>
-        /// Gets the variables defined within this event.
-        /// </summary>
-        public override IList<IVariable> Variables
-        {
-            get
-            {
-                List<IVariable> variables = new List<IVariable>();
-
-                for (EventDeclaratorExpression declarator = this.FindFirstChild<EventDeclaratorExpression>(); declarator != null; declarator.FindNextSibling<EventDeclaratorExpression>())
-                {
-                    variables.Add(declarator);
-                }
-
-                return variables.AsReadOnly();
-            }
-        }
-
-        #endregion Public Override Properties
 
         #region Public Properties
 
@@ -89,18 +82,86 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                return this.eventHandlerType;
+                this.ValidateEditVersion();
+
+                if (!this.eventHandlerType.Initialized)
+                {
+                    this.eventHandlerType.Value = this.FindFirstChild<TypeToken>();
+                }
+
+                return this.eventHandlerType.Value;
             }
         }
 
         /// <summary>
         /// Gets the optional declarator expressions.
         /// </summary>
-        public IEnumerable<EventDeclaratorExpression> Declarators
+        public ICollection<EventDeclaratorExpression> Declarators
         {
             get
             {
-                return this.GetChildren<EventDeclaratorExpression>();
+                this.ValidateEditVersion();
+
+                if (!this.declarators.Initialized)
+                {
+                    this.declarators.Value = new List<EventDeclaratorExpression>(this.GetChildren<EventDeclaratorExpression>()).AsReadOnly();
+                }
+
+                return this.declarators.Value;
+            }
+        }
+
+        /// <summary>
+        /// Gets the add accessor for the event, if there is one.
+        /// </summary>
+        public Accessor AddAccessor
+        {
+            get
+            {
+                this.ValidateEditVersion();
+
+                if (!this.add.Initialized)
+                {
+                    this.add.Value = null;
+
+                    // Find the add and remove accessors for this event, if they exist.
+                    for (Accessor child = this.FindFirstChild<Accessor>(); child != null; child = child.FindNextSibling<Accessor>())
+                    {
+                        if (child.AccessorType == AccessorType.Add)
+                        {
+                            this.add.Value = child;
+                        }
+                    }
+                }
+
+                return this.add.Value;
+            }
+        }
+
+        /// <summary>
+        /// Gets the remove accessor for the event, if there is one.
+        /// </summary>
+        public Accessor RemoveAccessor
+        {
+            get
+            {
+                this.ValidateEditVersion();
+
+                if (!this.remove.Initialized)
+                {
+                    this.remove.Value = null;
+
+                    // Find the add and remove accessors for this event, if they exist.
+                    for (Accessor child = this.FindFirstChild<Accessor>(); child != null; child = child.FindNextSibling<Accessor>())
+                    {
+                        if (child.AccessorType == AccessorType.Remove)
+                        {
+                            this.remove.Value = child;
+                        }
+                    }
+                }
+
+                return this.remove.Value;
             }
         }
 
@@ -121,46 +182,6 @@ namespace Microsoft.StyleCop.CSharp
 
         #endregion Protected Override Properties
 
-        #region Public Methods
-
-        /// <summary>
-        /// Gets the add accessor for the event, if there is one.
-        /// </summary>
-        /// <returns>Returns the add accessor or null if there is none.</returns>
-        public Accessor FindAddAccessor()
-        {
-            // Find the add and remove accessors for this event, if they exist.
-            for (Accessor child = this.FindFirstChild<Accessor>(); child != null; child = child.FindNextSibling<Accessor>())
-            {
-                if (child.AccessorType == AccessorType.Add)
-                {
-                    return child;
-                }
-            }
-
-            return null;
-        }
-
-        /// <summary>
-        /// Gets the remove accessor for the event, if there is one.
-        /// </summary>
-        /// <returns>Returns the remove accessor or null if there is none.</returns>
-        public Accessor FindRemoveAccessor()
-        {
-            // Find the add and remove accessors for this event, if they exist.
-            for (Accessor child = this.FindFirstChild<Accessor>(); child != null; child = child.FindNextSibling<Accessor>())
-            {
-                if (child.AccessorType == AccessorType.Add)
-                {
-                    return child;
-                }
-            }
-
-            return null;
-        }
-
-        #endregion Public Methods
-
         #region Protected Override Methods
 
         /// <summary>
@@ -177,6 +198,19 @@ namespace Microsoft.StyleCop.CSharp
             }
 
             throw new SyntaxException(this.Document, this.LineNumber);
+        }
+
+        /// <summary>
+        /// Resets the contents of the class.
+        /// </summary>
+        protected override void Reset()
+        {
+            base.Reset();
+
+            this.eventHandlerType.Reset();
+            this.declarators.Reset();
+            this.add.Reset();
+            this.remove.Reset();
         }
 
         #endregion Protected Override Methods

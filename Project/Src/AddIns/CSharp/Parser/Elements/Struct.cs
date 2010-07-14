@@ -59,22 +59,6 @@ namespace Microsoft.StyleCop.CSharp
 
         #endregion Protected Override Properties
 
-        #region Internal Override Methods
-
-        /// <summary>
-        /// Initializes the struct object.
-        /// </summary>
-        /// <param name="document">The document that contains the element.</param>
-        internal override void Initialize(CsDocument document)
-        {
-            Param.Ignore(document);
-
-            // Gather the inheritance from the declaration.
-            this.SetInheritedItems();
-        }
-
-        #endregion Internal Override Methods
-
         #region Protected Override Methods
 
         /// <summary>

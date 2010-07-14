@@ -1124,83 +1124,99 @@ namespace Microsoft.StyleCop.CSharp
         /// Advances past any whitespace and comments in the code.
         /// </summary>
         /// <param name="parentProxy">Represents the parent item.</param>
-        /// <param name="skip">Indicates the types of tokens to advance past.</param>
+        /// <param name="skip">Indicates the types of CodeUnits to advance past.</param>
         private void AdvanceToNextCodeSymbol(CodeUnitProxy parentProxy, SkipSymbols skip)
         {
             Param.AssertNotNull(parentProxy, "parentProxy");
             Param.Ignore(skip);
 
-            Symbol symbol = this.symbols.Peek(1);
-            while (symbol != null)
+            while (this.GetNextNonCodeSymbol(parentProxy, skip))
             {
-                // NOTE: If the list of case-statements checked here is changed, you must also make the same corresponding change in the PeekToNextCodeSymbol method.
-                switch (symbol.SymbolType)
-                {
-                    case SymbolType.WhiteSpace:
-                        if ((skip & SkipSymbols.WhiteSpace) == 0)
-                        {
-                            return;
-                        }
+            }
+        }
 
-                        parentProxy.Children.Add(new Whitespace(this.document, symbol.Text, symbol.Location, this.symbols.Generated));
-                        this.symbols.Advance();
-                        break;
-                    
-                    case SymbolType.EndOfLine:
-                        if ((skip & SkipSymbols.EndOfLine) == 0)
-                        {
-                            return;
-                        }
+        /// <summary>
+        /// Gets the next whitespace or comment symbol if it appears in the skip list.
+        /// </summary>
+        /// <param name="parentProxy">The proxy to add the new CodeUnits to.</param>
+        /// <param name="types">Indicates the types of CodeUnits to advance past.</param>
+        /// <returns>Returns true if a symbol was advanced past; false otherwise.</returns>
+        private bool GetNextNonCodeSymbol(CodeUnitProxy parentProxy, SkipSymbols types)
+        {
+            Param.AssertNotNull(parentProxy, "parentProxy");
+            Param.Ignore(types);
 
-                        parentProxy.Children.Add(new EndOfLine(this.document, symbol.Text, symbol.Location, this.symbols.Generated));
-                        this.symbols.Advance();
-                        break;
-                    
-                    case SymbolType.SingleLineComment:
-                        if ((skip & SkipSymbols.SingleLineComment) == 0)
-                        {
-                            return;
-                        }
+            Symbol symbol = this.symbols.Peek(1);
+            if (symbol == null)
+            {
+                return false;
+            }
 
-                        parentProxy.Children.Add(new SingleLineComment(this.document, symbol.Text, symbol.Location, this.symbols.Generated));
-                        this.symbols.Advance();
-                        break;
-                    
-                    case SymbolType.MultiLineComment:
-                        if ((skip & SkipSymbols.MultiLineComment) == 0)
-                        {
-                            return;
-                        }
+            // NOTE: If the list of case-statements checked here is changed, you must also make the same corresponding change in the PeekToNextCodeSymbol method.
+            switch (symbol.SymbolType)
+            {
+                case SymbolType.WhiteSpace:
+                    if ((types & SkipSymbols.WhiteSpace) == 0)
+                    {
+                        return false;
+                    }
 
-                        parentProxy.Children.Add(new MultilineComment(this.document, symbol.Text, symbol.Location, this.symbols.Generated));
-                        this.symbols.Advance();
-                        break;
-                    
-                    case SymbolType.PreprocessorDirective:
-                        if ((skip & SkipSymbols.Preprocessor) == 0)
-                        {
-                            return;
-                        }
+                    parentProxy.Children.Add(new Whitespace(this.document, symbol.Text, symbol.Location, this.symbols.Generated));
+                    this.symbols.Advance();
+                    return true;
 
-                        this.GetPreprocessorDirective(parentProxy, symbol, this.symbols.Generated);
-                        this.symbols.Advance();
-                        break;
-                    
-                    case SymbolType.XmlHeaderLine:
-                        if ((skip & SkipSymbols.XmlHeader) == 0)
-                        {
-                            return;
-                        }
+                case SymbolType.EndOfLine:
+                    if ((types & SkipSymbols.EndOfLine) == 0)
+                    {
+                        return false;
+                    }
 
-                        parentProxy.Children.Add(new XmlHeaderLine(this.document, symbol.Text, symbol.Location, this.symbols.Generated));
-                        this.symbols.Advance();
-                        break;
+                    parentProxy.Children.Add(new EndOfLine(this.document, symbol.Text, symbol.Location, this.symbols.Generated));
+                    this.symbols.Advance();
+                    return true;
 
-                    default:
-                        return;
-                }
+                case SymbolType.SingleLineComment:
+                    if ((types & SkipSymbols.SingleLineComment) == 0)
+                    {
+                        return false;
+                    }
 
-                symbol = this.symbols.Peek(1);
+                    parentProxy.Children.Add(new SingleLineComment(this.document, symbol.Text, symbol.Location, this.symbols.Generated));
+                    this.symbols.Advance();
+                    return true;
+
+                case SymbolType.MultiLineComment:
+                    if ((types & SkipSymbols.MultiLineComment) == 0)
+                    {
+                        return false;
+                    }
+
+                    parentProxy.Children.Add(new MultilineComment(this.document, symbol.Text, symbol.Location, this.symbols.Generated));
+                    this.symbols.Advance();
+                    return true;
+
+                case SymbolType.PreprocessorDirective:
+                    if ((types & SkipSymbols.Preprocessor) == 0)
+                    {
+                        return false;
+                    }
+
+                    this.GetPreprocessorDirective(parentProxy, symbol, this.symbols.Generated);
+                    this.symbols.Advance();
+                    return true;
+
+                case SymbolType.XmlHeaderLine:
+                    if ((types & SkipSymbols.XmlHeader) == 0)
+                    {
+                        return false;
+                    }
+
+                    parentProxy.Children.Add(new XmlHeaderLine(this.document, symbol.Text, symbol.Location, this.symbols.Generated));
+                    this.symbols.Advance();
+                    return true;
+
+                default:
+                    return false;
             }
         }
 

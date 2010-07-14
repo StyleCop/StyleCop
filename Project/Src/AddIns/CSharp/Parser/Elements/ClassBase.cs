@@ -29,17 +29,17 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The name of the base class that this item inherits from.
         /// </summary>
-        private string baseClass = string.Empty;
+        private CodeUnitProperty<string> baseClass;
 
         /// <summary>
         /// The list of interfaces that this item implements.
         /// </summary>
-        private string[] implementedInterfaces = new string[] { };
+        private CodeUnitProperty<IList<string>> implementedInterfaces;
 
         /// <summary>
         /// The list of type constraints on the item, if any.
         /// </summary>
-        private ICollection<TypeParameterConstraintClause> typeConstraints;
+        private CodeUnitProperty<ICollection<TypeParameterConstraintClause>> typeConstraints;
 
         #endregion Private Fields
 
@@ -66,20 +66,15 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertNotNull(proxy, "proxy");
             Param.Ignore(type, name, attributes, typeConstraints, unsafeCode);
 
-            this.typeConstraints = typeConstraints;
-
-            #if DEBUG
-            if (typeConstraints != null)
-            {
-                Debug.Assert(typeConstraints.IsReadOnly, "The typeconstraints collection should be read-only.");
-            }
-            #endif
+            this.typeConstraints.Value = typeConstraints;
+            Debug.Assert(typeConstraints == null || typeConstraints.IsReadOnly, "The typeconstraints collection should be read-only.");
         }
 
         #endregion Internal Constructors
 
         #region Public Override Properties
 
+        /*
         /// <summary>
         /// Gets the variables defined within this element.
         /// </summary>
@@ -87,24 +82,27 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                if (!this.Is(ElementType.Interface))
+                this.ValidateEditVersion();
+
+                if (!this.variables.Initialized)
                 {
-                    var variables = new List<IVariable>();
+                    List<IVariable> vars = new List<IVariable>();
 
-                    for (Field field = this.FindFirstChild<Field>(); field != null; field = field.FindNextSibling<Field>())
+                    if (!this.Is(ElementType.Interface))
                     {
-                        variables.AddRange(field.Variables);
+                        for (Field field = this.FindFirstChild<Field>(); field != null; field = field.FindNextSibling<Field>())
+                        {
+                            vars.AddRange(field.Variables);
+                        }
                     }
 
-                    if (variables.Count > 0)
-                    {
-                        return variables.AsReadOnly();
-                    }
+                    this.variables.Value = vars.AsReadOnly();
                 }
 
-                return CsParser.EmptyVariableArray;
+                return this.variables.Value;
             }
         }
+         * */
 
         #endregion Public Override Properties
 
@@ -117,7 +115,15 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                return this.implementedInterfaces;
+                this.ValidateEditVersion();
+
+                if (!this.implementedInterfaces.Initialized)
+                {
+                    this.SetInheritedItems();
+                    Debug.Assert(this.implementedInterfaces.Value != null, "Not set");
+                }
+
+                return this.implementedInterfaces.Value;
             }
         }
 
@@ -128,30 +134,15 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                return this.baseClass;
-            }
-        }
+                this.ValidateEditVersion();
 
-        /// <summary>
-        /// Gets the list of partial interfaces with the same fully qualified name as this element.
-        /// </summary>
-        /// <remarks>If this is not a partial element, this property returns null.</remarks>
-        public ICollection<Element> PartialElementList
-        {
-            get
-            {
-                if (this.ContainsModifier(TokenType.Partial))
+                if (!this.baseClass.Initialized)
                 {
-                    List<Element> partialElementList;
-                    CsDocument document = (CsDocument)this.Document;
-
-                    if (document.Parser.PartialElements.TryGetValue(this.FullyQualifiedName, out partialElementList))
-                    {
-                        return partialElementList.AsReadOnly();
-                    }
+                    this.SetInheritedItems();
+                    Debug.Assert(this.baseClass.Value != null, "Not set");
                 }
 
-                return null;
+                return this.baseClass.Value;
             }
         }
 
@@ -162,24 +153,73 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                return this.typeConstraints;
+                this.ValidateEditVersion();
+
+                if (!this.typeConstraints.Initialized)
+                {
+                    this.typeConstraints.Value = new List<TypeParameterConstraintClause>(this.GetChildren<TypeParameterConstraintClause>()).AsReadOnly();
+                }
+
+                return this.typeConstraints.Value;
             }
         }
 
         #endregion Public Properties
 
-        #region Protected Methods
+        #region Public Methods
+
+        /// <summary>
+        /// Gets the list of partial elements with the same fully qualified name as this element.
+        /// </summary>
+        /// <returns>Returns the collection of partial elements of this type.</returns>
+        /// <remarks>If this is not a partial element, this property returns null.</remarks>
+        public ICollection<Element> DiscoverPartialElementList()
+        {
+            if (this.ContainsModifier(TokenType.Partial))
+            {
+                List<Element> partialElementList;
+
+                if (this.Document.Parser.PartialElements.TryGetValue(this.FullyQualifiedName, out partialElementList))
+                {
+                    return partialElementList.AsReadOnly();
+                }
+            }
+
+            return Element.EmptyElementArray;
+        }
+
+        #endregion Public Methods
+
+        #region Protected Override Methods
+
+        /// <summary>
+        /// Resets the contents of the class.
+        /// </summary>
+        protected override void Reset()
+        {
+            base.Reset();
+
+            this.baseClass.Reset();
+            this.implementedInterfaces.Reset();
+            this.typeConstraints.Reset();
+        }
+
+        #endregion Protected Override Methods
+
+        #region Private Methods
 
         /// <summary>
         /// Sets the inherited items of the class.
         /// </summary>
-        protected void SetInheritedItems()
+        private void SetInheritedItems()
         {
             // Pull out the name of the base class and any implemented interfaces 
             // from the declaration of this class.
             bool colon = false;
             bool comma = false;
             var interfaces = new List<string>();
+
+            this.baseClass.Value = string.Empty;
 
             for (Token token = this.FindFirstChild<Token>(); token != null; token = token.FindNextSibling<Token>())
             {
@@ -193,7 +233,7 @@ namespace Microsoft.StyleCop.CSharp
                     }
                     else
                     {
-                        this.baseClass = CodeParser.TrimType(token.Text);
+                        this.baseClass.Value = CodeParser.TrimType(token.Text);
                     }
 
                     colon = false;
@@ -211,7 +251,7 @@ namespace Microsoft.StyleCop.CSharp
                     }
                     else if (token.Text == ":")
                     {
-                        if (this.baseClass.Length > 0)
+                        if (this.baseClass.Value.Length > 0)
                         {
                             break;
                         }
@@ -227,12 +267,9 @@ namespace Microsoft.StyleCop.CSharp
                 }
             }
 
-            if (interfaces.Count > 0)
-            {
-                this.implementedInterfaces = interfaces.ToArray();
-            }
+            this.implementedInterfaces.Value = interfaces.AsReadOnly();
         }
 
-        #endregion Protected Methods
+        #endregion Private Methods
     }
 }

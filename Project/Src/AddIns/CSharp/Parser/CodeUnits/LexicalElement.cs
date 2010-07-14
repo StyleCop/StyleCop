@@ -39,7 +39,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The element's text.
         /// </summary>
-        private string text;
+        private CodeUnitProperty<string> text;
 
         #endregion Private Fields
 
@@ -82,22 +82,25 @@ namespace Microsoft.StyleCop.CSharp
             get
             {
                 this.ValidateEditVersion();
-                if (this.text == null)
+
+                if (!this.text.Initialized)
                 {
+                    this.text.Value = null;
+
                     this.CreateTextString();
 
-                    if (this.text == null)
+                    if (this.text.Value == null)
                     {
-                        this.text = string.Empty;
+                        this.text.Value = string.Empty;
                     }
                 }
 
-                return this.text;
+                return this.text.Value;
             }
 
             protected set
             {
-                this.text = value;
+                this.text.Value = value;
             }
         }
 
@@ -152,7 +155,7 @@ namespace Microsoft.StyleCop.CSharp
             // when something in the document changes.
             if (this.Children.Count > 0)
             {
-                this.text = null;
+                this.text.Reset();
             }
         }
 

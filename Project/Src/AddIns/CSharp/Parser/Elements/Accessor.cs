@@ -23,6 +23,20 @@ namespace Microsoft.StyleCop.CSharp
     /// <subcategory>element</subcategory>
     public sealed class Accessor : Element
     {
+        #region Private Fields
+
+        /// <summary>
+        /// The variables on the accessor.
+        /// </summary>
+        private CodeUnitProperty<IList<IVariable>> variables;
+
+        /// <summary>
+        /// The return type for the accessor.
+        /// </summary>
+        private CodeUnitProperty<TypeToken> returnType;
+
+        #endregion Private Fields
+
         #region Internal Constructors
 
         /// <summary>
@@ -63,24 +77,31 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                var variables = new List<IVariable>();
+                this.ValidateEditVersion();
 
-                AccessorType accessorType = this.AccessorType;
-                if (accessorType == AccessorType.Set ||
-                    accessorType == AccessorType.Add ||
-                    accessorType == AccessorType.Remove)
+                if (!this.variables.Initialized)
                 {
-                    variables.Add(new VirtualAccessorParameter(this));
+                    var vars = new List<IVariable>();
+
+                    AccessorType accessorType = this.AccessorType;
+                    if (accessorType == AccessorType.Set ||
+                        accessorType == AccessorType.Add ||
+                        accessorType == AccessorType.Remove)
+                    {
+                        vars.Add(new VirtualAccessorParameter(this));
+                    }
+
+                    for (VariableDeclarationStatement variableStatement = this.FindFirstChild<VariableDeclarationStatement>();
+                        variableStatement != null;
+                        variableStatement = variableStatement.FindNextSibling<VariableDeclarationStatement>())
+                    {
+                        vars.AddRange(variableStatement.Variables);
+                    }
+
+                    this.variables.Value = vars.AsReadOnly();
                 }
 
-                for (VariableDeclarationStatement variableStatement = this.FindFirstChild<VariableDeclarationStatement>();
-                    variableStatement != null;
-                    variableStatement = variableStatement.FindNextSibling<VariableDeclarationStatement>())
-                {
-                    variables.AddRange(variableStatement.Variables);
-                }
-
-                return variables.AsReadOnly();
+                return this.variables.Value;
             }
         }
 
@@ -96,6 +117,48 @@ namespace Microsoft.StyleCop.CSharp
             get
             {
                 return (AccessorType)(this.FundamentalType & (int)FundamentalTypeMasks.Accessor);
+            }
+        }
+
+        /// <summary>
+        /// Gets the accessor's return type.
+        /// </summary>
+        public TypeToken ReturnType
+        {
+            get
+            {
+                this.ValidateEditVersion();
+
+                if (!this.returnType.Initialized)
+                {
+                    // Set the return type and parameters.
+                    if (this.AccessorType == AccessorType.Get)
+                    {
+                        Element parent = this.FindParent<Element>();
+                        if (parent != null)
+                        {
+                            Property property = parent as Property;
+                            if (property != null)
+                            {
+                                // Get accessors on properties have the return type of their parent property, 
+                                // and have no input parameters.
+                                this.returnType.Value = property.ReturnType;
+                            }
+                            else
+                            {
+                                // Get accessors on indexers have the return type of their parent indexer, 
+                                // and have the input parameters of the parent indexer.
+                                Indexer indexer = (Indexer)parent;
+                                this.returnType.Value = indexer.ReturnType;
+                            }
+                        }
+                    }
+
+                    // Set accessors do not have a return type.
+                    this.returnType.Value = this.CreateVoidTypeToken(this.Document);
+                }
+
+                return this.returnType.Value;
             }
         }
 
@@ -115,43 +178,6 @@ namespace Microsoft.StyleCop.CSharp
         }
 
         #endregion Protected Override Properties
-
-        #region Public Methods
-
-        /// <summary>
-        /// Gets the accessor's return type.
-        /// </summary>
-        /// <returns>Returns the return type.</returns>
-        public TypeToken GetReturnType()
-        {
-            // Set the return type and parameters.
-            if (this.AccessorType == AccessorType.Get)
-            {
-                Element parent = this.FindParent<Element>();
-                if (parent != null)
-                {
-                    Property property = parent as Property;
-                    if (property != null)
-                    {
-                        // Get accessors on properties have the return type of their parent property, 
-                        // and have no input parameters.
-                        return property.ReturnType;
-                    }
-                    else
-                    {
-                        // Get accessors on indexers have the return type of their parent indexer, 
-                        // and have the input parameters of the parent indexer.
-                        Indexer indexer = (Indexer)parent;
-                        return indexer.ReturnType;
-                    }
-                }
-            }
-
-            // Set accessors do not have a return type.
-            return this.CreateVoidTypeToken(this.Document);
-        }
-
-        #endregion Public Methods
 
         #region Protected Override Methods
 
@@ -189,6 +215,21 @@ namespace Microsoft.StyleCop.CSharp
 
         #endregion Protected Override Methods
 
+        #region Protected Override Methods
+
+        /// <summary>
+        /// Resets the contents of the class.
+        /// </summary>
+        protected override void Reset()
+        {
+            base.Reset();
+
+            this.variables.Reset();
+            this.returnType.Reset();
+        }
+
+        #endregion Protected Override Methods
+
         #region Private Methods
 
         /// <summary>
@@ -221,6 +262,11 @@ namespace Microsoft.StyleCop.CSharp
             private Accessor parentAccessor;
 
             /// <summary>
+            /// Tnhe type of the variable.
+            /// </summary>
+            private CodeUnitProperty<TypeToken> variableType;
+
+            /// <summary>
             /// Initializes a new instance of the VirtualAccessorParameter class.
             /// </summary>
             /// <param name="parentAccessor">The parent accessor.</param>
@@ -248,20 +294,25 @@ namespace Microsoft.StyleCop.CSharp
             {
                 get
                 {
-                    if (this.parentAccessor.AccessorType == AccessorType.Add ||
-                        this.parentAccessor.AccessorType == AccessorType.Remove)
+                    if (!this.variableType.Initialized)
                     {
-                        return ((Event)this.parentAccessor.FindParent<Element>()).EventHandlerType;
+                        if (this.parentAccessor.AccessorType == AccessorType.Add ||
+                            this.parentAccessor.AccessorType == AccessorType.Remove)
+                        {
+                            this.variableType.Value = ((Event)this.parentAccessor.FindParent<Element>()).EventHandlerType;
+                        }
+                        else if (this.parentAccessor.AccessorType == AccessorType.Set)
+                        {
+                            this.variableType.Value = ((Property)this.parentAccessor.FindParent<Element>()).ReturnType;
+                        }
+                        else
+                        {
+                            Debug.Fail("Invalid accessor type.");
+                            this.variableType.Value = null;
+                        }
                     }
-                    else if (this.parentAccessor.AccessorType == AccessorType.Set)
-                    {
-                        return ((Property)this.parentAccessor.FindParent<Element>()).ReturnType;
-                    }
-                    else
-                    {
-                        Debug.Fail("Invalid accessor type.");
-                        return null;
-                    }
+
+                    return this.variableType.Value;
                 }
             }
 

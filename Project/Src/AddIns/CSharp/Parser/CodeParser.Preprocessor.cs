@@ -359,7 +359,7 @@ namespace Microsoft.StyleCop.CSharp
             Expression expression = this.GetNextConditionalPreprocessorExpression(this.document, expressionProxy, ExpressionPrecedence.Unary);
             if (expression == null || expression.Children.Count == 0)
             {
-                throw new SyntaxException(document, symbol.LineNumber);
+                throw new SyntaxException(this.document, symbol.LineNumber);
             }
 
             // Create and return the expression.
@@ -455,7 +455,7 @@ namespace Microsoft.StyleCop.CSharp
                 Expression rightHandSide = this.GetNextConditionalPreprocessorExpression(this.document, expressionProxy, precedence);
                 if (rightHandSide == null)
                 {
-                    throw new SyntaxException(document, operatorToken.LineNumber);
+                    throw new SyntaxException(this.document, operatorToken.LineNumber);
                 }
 
                 // Get the expression operator type.
@@ -516,7 +516,7 @@ namespace Microsoft.StyleCop.CSharp
                 Expression rightHandSide = this.GetNextConditionalPreprocessorExpression(this.document, expressionProxy, precedence);
                 if (rightHandSide == null)
                 {
-                    throw new SyntaxException(document, operatorToken.LineNumber);
+                    throw new SyntaxException(this.document, operatorToken.LineNumber);
                 }
 
                 // Get the expression operator type.

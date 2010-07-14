@@ -8,7 +8,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.SpacingRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.Rules.SpacingRules">
           <Rules>
             <Rule Name="TabsMustNotBeUsed">
               <RuleSettings>
@@ -21,17 +21,17 @@
     </Settings>
     <ExpectedViolations>
       <Violation Section="Root" LineNumber="1" Rule="TabsMustNotBeUsed" />
-      <Violation Section="Root.Tabs1" LineNumber="2" Rule="TabsMustNotBeUsed" />
-      <Violation Section="Root.Tabs1" LineNumber="5" Rule="TabsMustNotBeUsed" />
-      <Violation Section="Root.Tabs1.System.Collections" LineNumber="5" Rule="TabsMustNotBeUsed" />
-      <Violation Section="Root.Tabs1" LineNumber="15" Rule="TabsMustNotBeUsed" />
-      <Violation Section="Root.Tabs1.TabsClass" LineNumber="15" Rule="TabsMustNotBeUsed" />
-      <Violation Section="Root.Tabs1.TabsClass" LineNumber="16" Rule="TabsMustNotBeUsed" />
-      <Violation Section="Root.Tabs1.TabsClass" LineNumber="17" Rule="TabsMustNotBeUsed" />
-      <Violation Section="Root.Tabs1.TabsClass.Invalid" LineNumber="18" Rule="TabsMustNotBeUsed" />
-      <Violation Section="Root.Tabs1.TabsClass.Invalid" LineNumber="19" Rule="TabsMustNotBeUsed" />
-      <Violation Section="Root.Tabs1.TabsClass" LineNumber="20" Rule="TabsMustNotBeUsed" />
-      <Violation Section="Root.Tabs1" LineNumber="21" Rule="TabsMustNotBeUsed" />
+      <Violation Section="Tabs1" LineNumber="2" Rule="TabsMustNotBeUsed" />
+      <Violation Section="Tabs1" LineNumber="5" Rule="TabsMustNotBeUsed" />
+      <Violation Section="Tabs1.System.Collections" LineNumber="5" Rule="TabsMustNotBeUsed" />
+      <Violation Section="Tabs1" LineNumber="15" Rule="TabsMustNotBeUsed" />
+      <Violation Section="Tabs1.TabsClass" LineNumber="15" Rule="TabsMustNotBeUsed" />
+      <Violation Section="Tabs1.TabsClass" LineNumber="16" Rule="TabsMustNotBeUsed" />
+      <Violation Section="Tabs1.TabsClass" LineNumber="17" Rule="TabsMustNotBeUsed" />
+      <Violation Section="Tabs1.TabsClass.Invalid" LineNumber="18" Rule="TabsMustNotBeUsed" />
+      <Violation Section="Tabs1.TabsClass.Invalid" LineNumber="19" Rule="TabsMustNotBeUsed" />
+      <Violation Section="Tabs1.TabsClass" LineNumber="20" Rule="TabsMustNotBeUsed" />
+      <Violation Section="Tabs1" LineNumber="21" Rule="TabsMustNotBeUsed" />
       <Violation Section="Root" LineNumber="22" Rule="TabsMustNotBeUsed" />
       <Violation Section="Root" LineNumber="25" Rule="TabsMustNotBeUsed" />
     </ExpectedViolations>

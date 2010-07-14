@@ -29,22 +29,32 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The method's return type.
         /// </summary>
-        private TypeToken returnType;
+        private CodeUnitProperty<TypeToken> returnType;
 
         /// <summary>
         /// The list if type constraints on the item, if any.
         /// </summary>
-        private ICollection<TypeParameterConstraintClause> typeConstraints;
+        private CodeUnitProperty<ICollection<TypeParameterConstraintClause>> typeConstraints;
 
         /// <summary>
         /// Indicates whether this is an extension method. 
         /// </summary>
-        private bool extensionMethod;
+        private CodeUnitProperty<bool> extensionMethod;
 
         /// <summary>
         /// The parameters within the methods formal parameter list.
         /// </summary>
-        private IList<Parameter> parameters;
+        private CodeUnitProperty<IList<Parameter>> parameters;
+
+        /// <summary>
+        /// The fully qualified name of the method.
+        /// </summary>
+        private CodeUnitProperty<string> fullyQualifiedName;
+
+        /// <summary>
+        /// The variables on the method.
+        /// </summary>
+        private CodeUnitProperty<IList<IVariable>> variables;
 
         #endregion Private Fields
 
@@ -73,18 +83,10 @@ namespace Microsoft.StyleCop.CSharp
                 returnType != null || this.ContainsModifier(TokenType.Explicit, TokenType.Implicit),
                 "A method's return type can only be null in an explicit or implicit operator overload method.");
 
-            this.returnType = returnType;
-            this.typeConstraints = typeConstraints;
+            this.returnType.Value = returnType;
 
-            // Determine whether this is an extension method. The method must be static.
-            if (this.Parameters.Count > 0 && this.ContainsModifier(TokenType.Static))
-            {
-                // Look at this first parameter. 
-                if ((this.Parameters[0].Modifiers & ParameterModifiers.This) != 0)
-                {
-                    this.extensionMethod = true;
-                }
-            }
+            this.typeConstraints.Value = typeConstraints ?? TypeParameterConstraintClause.EmptyTypeParameterConstraintClause;
+            Debug.Assert(typeConstraints == null || typeConstraints.IsReadOnly, "Must be a read-only collection.");
         }
 
         #endregion Internal Constructors
@@ -98,7 +100,14 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                return CodeParser.AddQualifications(this.Parameters, base.FullyQualifiedName);
+                this.ValidateEditVersion();
+
+                if (!this.fullyQualifiedName.Initialized)
+                {
+                    this.fullyQualifiedName.Value = CodeParser.AddQualifications(this.Parameters, base.FullyQualifiedName);
+                }
+
+                return this.fullyQualifiedName.Value;
             }
         }
 
@@ -109,7 +118,15 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                return GatherVariablesForElementWithParametersAndChildStatements(this, this.Parameters);
+                this.ValidateEditVersion();
+
+                if (!this.variables.Initialized)
+                {
+                    this.variables.Value = GatherVariablesForElementWithParametersAndChildStatements(this, this.Parameters);
+                    Debug.Assert(this.variables.Value != null && this.variables.Value.IsReadOnly, "Invalid");
+                }
+
+                return this.variables.Value;
             }
         }
 
@@ -124,7 +141,19 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                return this.returnType;
+                this.ValidateEditVersion();
+
+                if (!this.returnType.Initialized)
+                {
+                    this.returnType.Value = null;
+
+                    if (!this.ContainsModifier(TokenType.Explicit, TokenType.Implicit))
+                    {
+                        this.returnType.Value = this.FindFirstChild<TypeToken>();
+                    }
+                }
+
+                return this.returnType.Value;
             }
         }
 
@@ -135,12 +164,15 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                if (this.parameters == null)
+                this.ValidateEditVersion();
+
+                if (!this.parameters.Initialized)
                 {
-                    this.parameters = this.CollectFormalParameters(this.FirstDeclarationToken, TokenType.CloseParenthesis);
+                    this.parameters.Value = this.CollectFormalParameters(this.FirstDeclarationToken, TokenType.CloseParenthesis);
+                    Debug.Assert(this.parameters.Value != null, "Must return a non-null value.");
                 }
 
-                return this.parameters;
+                return this.parameters.Value;
             }
         }
 
@@ -151,7 +183,14 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                return this.typeConstraints;
+                this.ValidateEditVersion();
+
+                if (!this.typeConstraints.Initialized)
+                {
+                    this.typeConstraints.Value = new List<TypeParameterConstraintClause>(this.GetChildren<TypeParameterConstraintClause>()).AsReadOnly();
+                }
+
+                return this.typeConstraints.Value;
             }
         }
 
@@ -162,7 +201,24 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                return this.extensionMethod;
+                this.ValidateEditVersion();
+
+                if (!this.extensionMethod.Initialized)
+                {
+                    this.extensionMethod.Value = false;
+
+                    // An extension method must be static.
+                    if (this.Parameters.Count > 0 && this.ContainsModifier(TokenType.Static))
+                    {
+                        // Look at this first parameter to see if it contains the 'this' modifier.
+                        if ((this.Parameters[0].Modifiers & ParameterModifiers.This) != 0)
+                        {
+                            this.extensionMethod.Value = true;
+                        }
+                    }
+                }
+
+                return this.extensionMethod.Value;
             }
         }
 
@@ -276,6 +332,21 @@ namespace Microsoft.StyleCop.CSharp
             }
 
             throw new SyntaxException(this.Document, this.LineNumber);
+        }
+
+        /// <summary>
+        /// Resets the contents of the class.
+        /// </summary>
+        protected override void Reset()
+        {
+            base.Reset();
+
+            this.returnType.Reset();
+            this.typeConstraints.Reset();
+            this.extensionMethod.Reset();
+            this.parameters.Reset();
+            this.fullyQualifiedName.Reset();
+            this.variables.Reset();
         }
 
         #endregion Protected Override Methods

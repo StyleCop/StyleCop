@@ -59,47 +59,52 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The list of attributes attached to the element.
         /// </summary>
-        private ICollection<Attribute> attributes;
+        private CodeUnitProperty<ICollection<Attribute>> attributes;
 
         /// <summary>
         /// The name of the element.
         /// </summary>
-        private string name;
+        private CodeUnitProperty<string> name;
 
         /// <summary>
         /// The element's access modifier type.
         /// </summary>
-        private AccessModifierType? accessModifier;
+        private CodeUnitProperty<AccessModifierType> accessModifier;
 
         /// <summary>
         /// The actual access level of the element.
         /// </summary>
-        private AccessModifierType? actualAccessLevel;
+        private CodeUnitProperty<AccessModifierType> actualAccessLevel;
 
         /// <summary>
         /// The list of modifiers in the declaration.
         /// </summary>
-        private Dictionary<TokenType, Token> modifiers;
+        private CodeUnitProperty<Dictionary<TokenType, Token>> modifiers;
 
         /// <summary>
         /// Indicates whether this element is unsafe.
         /// </summary>
-        private bool? unsafeCode;
+        private CodeUnitProperty<bool> unsafeCode;
 
         /// <summary>
         /// The fully qualified name of the element.
         /// </summary>
-        private string fullyQualifiedName;
+        private CodeUnitProperty<string> fullyQualifiedName;
 
         /// <summary>
         /// The first token in the element's declaration.
         /// </summary>
-        private Token firstDeclarationToken;
+        private CodeUnitProperty<Token> firstDeclarationToken;
 
         /// <summary>
         /// The element's header.
         /// </summary>
-        private Tuple<bool, XmlHeader> header;
+        private CodeUnitProperty<XmlHeader> header;
+
+        /// <summary>
+        /// The line number on which the element begins.
+        /// </summary>
+        private CodeUnitProperty<int> lineNumber;
 
         /// <summary>
         /// The list of violations in this element.
@@ -158,49 +163,51 @@ namespace Microsoft.StyleCop.CSharp
 
             Debug.Assert(System.Enum.IsDefined(typeof(ElementType), this.ElementType), "The type is invalid.");
 
-            this.name = name;
-            this.attributes = attributes;
-            this.unsafeCode = unsafeCode;
+            this.name.Value = name;
+            this.attributes.Value = attributes ?? Attribute.EmptyAttributeArray;
+            Debug.Assert(attributes == null || attributes.IsReadOnly, "The attributes collection should be read-only");
+
+            this.unsafeCode.Value = unsafeCode;
 
             if (!unsafeCode && this.ContainsModifier(TokenType.Unsafe))
             {
-                this.unsafeCode = true;
-            }
-
-            // Fill in the element reference in the attributes list items.
-            if (this.attributes != null)
-            {
-                Debug.Assert(this.attributes.IsReadOnly, "The attributes collection should be read-only.");
+                this.unsafeCode.Value = true;
             }
         }
 
         #endregion Internal Constructors
 
-        #region ICodeElement Properties
+        #region Public Override Properties
 
         /// <summary>
-        /// Gets the collection of child elements beneath this element.
+        /// Gets the line number that this code unit appears on in the document.
         /// </summary>
-        IEnumerable<ICodeElement> ICodeElement.ChildCodeElements
+        public override int LineNumber
         {
             get
             {
-                return this.FindChildElements();
+                this.ValidateEditVersion();
+
+                if (!this.lineNumber.Initialized)
+                {
+                    // The line number of the element is the first line on which a Token appears, which
+                    // skips past the documentation header.
+                    Token firstToken = this.FirstDeclarationToken;
+                    if (firstToken != null)
+                    {
+                        this.lineNumber.Value = firstToken.LineNumber;
+                    }
+                    else
+                    {
+                        this.lineNumber.Value = base.LineNumber;
+                    }
+                }
+
+                return this.lineNumber.Value;
             }
         }
 
-        /// <summary>
-        /// Gets the containing document.
-        /// </summary>
-        ICodeDocument ICodeElement.Document
-        {
-            get
-            {
-                return this.Document;
-            }
-        }
-
-        #endregion ICodeElement Properties
+        #endregion Public Override Properties
 
         #region Public Virtual Properties
 
@@ -212,7 +219,8 @@ namespace Microsoft.StyleCop.CSharp
             get
             {
                 this.ValidateEditVersion();
-                if (this.fullyQualifiedName == null)
+
+                if (!this.fullyQualifiedName.Initialized)
                 {
                     string parentFullyQualifiedName = null;
 
@@ -224,7 +232,7 @@ namespace Microsoft.StyleCop.CSharp
 
                     if (string.IsNullOrEmpty(parentFullyQualifiedName))
                     {
-                        this.fullyQualifiedName = this.Name;
+                        this.fullyQualifiedName.Value = this.Name;
                     }
                     else
                     {
@@ -237,11 +245,11 @@ namespace Microsoft.StyleCop.CSharp
                             fullyQualifiedNameBuilder.Append(this.Name);
                         }
 
-                        this.fullyQualifiedName = fullyQualifiedNameBuilder.ToString();
+                        this.fullyQualifiedName.Value = fullyQualifiedNameBuilder.ToString();
                     }
                 }
 
-                return this.fullyQualifiedName;
+                return this.fullyQualifiedName.Value;
             }
         }
 
@@ -254,9 +262,8 @@ namespace Microsoft.StyleCop.CSharp
             {
                 this.ValidateEditVersion();
 
-                if (this.accessModifier == null)
+                if (!this.accessModifier.Initialized)
                 {
-                    this.accessModifier = this.DefaultAccessModifierType;
                     this.GatherDeclarationModifiers(this.AllowedModifiers);
                 }
 
@@ -274,9 +281,10 @@ namespace Microsoft.StyleCop.CSharp
             get
             {
                 this.ValidateEditVersion();
-                if (this.actualAccessLevel == null)
+
+                if (!this.actualAccessLevel.Initialized)
                 {
-                    this.actualAccessLevel = this.ComputeActualAccess();
+                    this.actualAccessLevel.Value = this.ComputeActualAccess();
                 }
 
                 return this.actualAccessLevel.Value;
@@ -355,7 +363,8 @@ namespace Microsoft.StyleCop.CSharp
             get
             {
                 this.ValidateEditVersion();
-                if (this.attributes == null)
+
+                if (!this.attributes.Initialized)
                 {
                     List<Attribute> temp = new List<Attribute>();
 
@@ -371,10 +380,10 @@ namespace Microsoft.StyleCop.CSharp
                         }
                     }
 
-                    this.attributes = temp.AsReadOnly();
+                    this.attributes.Value = temp.AsReadOnly();
                 }
 
-                return this.attributes;
+                return this.attributes.Value;
             }
         }
 
@@ -398,13 +407,14 @@ namespace Microsoft.StyleCop.CSharp
             get
             {
                 this.ValidateEditVersion();
-                if (this.unsafeCode == null)
+
+                if (!this.unsafeCode.Initialized)
                 {
-                    this.unsafeCode = false;
+                    this.unsafeCode.Value = false;
 
                     if (this.ContainsModifier(TokenType.Unsafe))
                     {
-                        this.unsafeCode = true;
+                        this.unsafeCode.Value = true;
                     }
                     else
                     {
@@ -414,7 +424,7 @@ namespace Microsoft.StyleCop.CSharp
                             bool parentIsUnsafe = parent.Unsafe;
                             if (parentIsUnsafe)
                             {
-                                this.unsafeCode = true;
+                                this.unsafeCode.Value = true;
                             }
                         }
                     }
@@ -462,13 +472,14 @@ namespace Microsoft.StyleCop.CSharp
             get
             {
                 this.ValidateEditVersion();
-                if (this.name == null)
+
+                if (!this.name.Initialized)
                 {
-                    this.name = this.GetElementName();
-                    Debug.Assert(this.name != null, "GetElementName must never return null.");
+                    this.name.Value = this.GetElementName();
+                    Debug.Assert(this.name.Value != null, "GetElementName must never return null.");
                 }
 
-                return this.name;
+                return this.name.Value;
             }
         }
 
@@ -480,8 +491,11 @@ namespace Microsoft.StyleCop.CSharp
             get
             {
                 this.ValidateEditVersion();
-                if (this.firstDeclarationToken == null)
+
+                if (!this.firstDeclarationToken.Initialized)
                 {
+                    this.firstDeclarationToken.Value = null;
+
                     for (CodeUnit item = this.FindFirstDescendent<CodeUnit>(); item != null; item = item.FindNextDescendentOf<CodeUnit>(this))
                     {
                         if (item.Is(CodeUnitType.Attribute))
@@ -491,16 +505,62 @@ namespace Microsoft.StyleCop.CSharp
                         }
                         else if (item.Is(LexicalElementType.Token))
                         {
-                            this.firstDeclarationToken = (Token)item;
+                            this.firstDeclarationToken.Value = (Token)item;
+                            break;
                         }
                     }
                 }
 
-                return this.firstDeclarationToken;
+                return this.firstDeclarationToken.Value;
+            }
+        }
+
+        /// <summary>
+        /// Gets the contents of the Xml header, if any.
+        /// </summary>
+        /// <returns>Returns the header or null if there is none.</returns>
+        public XmlHeader Header
+        {
+            get
+            {
+                this.ValidateEditVersion();
+
+                if (!this.header.Initialized)
+                {
+                    this.header.Value = this.FindFirstChild<XmlHeader>();
+                }
+
+                return this.header.Value;
             }
         }
 
         #endregion Public Properties
+
+        #region ICodeElement Properties
+
+        /// <summary>
+        /// Gets the collection of child elements beneath this element.
+        /// </summary>
+        IEnumerable<ICodeElement> ICodeElement.ChildCodeElements
+        {
+            get
+            {
+                return this.FindChildElements();
+            }
+        }
+
+        /// <summary>
+        /// Gets the containing document.
+        /// </summary>
+        ICodeDocument ICodeElement.Document
+        {
+            get
+            {
+                return this.Document;
+            }
+        }
+
+        #endregion ICodeElement Properties
 
         #region Protected Virtual Properties
 
@@ -567,23 +627,6 @@ namespace Microsoft.StyleCop.CSharp
         #region Public Methods
 
         /// <summary>
-        /// Gets the contents of the Xml header, if any.
-        /// </summary>
-        /// <returns>Returns the header or null if there is none.</returns>
-        public XmlHeader GetHeader()
-        {
-            this.ValidateEditVersion();
-
-            if (this.header == null)
-            {
-                XmlHeader foundHeader = this.FindFirstChild<XmlHeader>();
-                this.header = new Tuple<bool, XmlHeader>(foundHeader != null, foundHeader);
-            }
-
-            return this.header.Item2;
-        }
-
-        /// <summary>
         /// Indicates whether the element declaration contains one of the given modifiers.
         /// </summary>
         /// <param name="types">The modifier types to check for.</param>
@@ -594,15 +637,15 @@ namespace Microsoft.StyleCop.CSharp
 
             this.ValidateEditVersion();
 
-            if (this.modifiers == null)
+            if (!this.modifiers.Initialized)
             {
                 this.GatherDeclarationModifiers(this.AllowedModifiers);
-                Debug.Assert(this.modifiers != null, "Modifiers should be non-null now.");
+                Debug.Assert(this.modifiers.Value != null, "Modifiers should be non-null now.");
             }
 
             for (int i = 0; i < types.Length; ++i)
             {
-                if (this.modifiers.ContainsKey(types[i]))
+                if (this.modifiers.Value.ContainsKey(types[i]))
                 {
                     return true;
                 }
@@ -632,19 +675,6 @@ namespace Microsoft.StyleCop.CSharp
 
         #endregion Public Methods
 
-        #region Internal Virtual Methods
-
-        /// <summary>
-        /// Initializes the element.
-        /// </summary>
-        /// <param name="document">The document that contains the element.</param>
-        internal virtual void Initialize(CsDocument document)
-        {
-            Param.Ignore(document);
-        }
-
-        #endregion Internal Virtual Methods
-
         #region Protected Override Methods
 
         /// <summary>
@@ -654,14 +684,15 @@ namespace Microsoft.StyleCop.CSharp
         {
             base.Reset();
 
-            this.attributes = null;
-            this.name = null;
-            this.accessModifier = null;
-            this.modifiers = null;
-            this.unsafeCode = null;
-            this.fullyQualifiedName = null;
-            this.firstDeclarationToken = null;
-            this.header = null;
+            this.attributes.Reset();
+            this.name.Reset();
+            this.accessModifier.Reset();
+            this.modifiers.Reset();
+            this.unsafeCode.Reset();
+            this.fullyQualifiedName.Reset();
+            this.firstDeclarationToken.Reset();
+            this.header.Reset();
+            this.lineNumber.Reset();
         }
 
         #endregion Protected Override Methods
@@ -709,46 +740,6 @@ namespace Microsoft.StyleCop.CSharp
 
             return !stop;
         }
-
-        /////// <summary>
-        /////// Determines whether the given text string contains an xml header summary tag.
-        /////// </summary>
-        /////// <param name="text">The text to check.</param>
-        /////// <returns>Returns true if the text is a summary; false otherwise.</returns>
-        ////private static bool IsXmlHeaderSummaryLine(string text)
-        ////{
-        ////    Param.AssertNotNull(text, "text");
-
-        ////    const string Summary = "summary";
-
-        ////    for (int i = 0; i < text.Length; ++i)
-        ////    {
-        ////        if (text[i] == '<')
-        ////        {
-        ////            for (int j = 0; j < Summary.Length; ++j)
-        ////            {
-        ////                int index = i + j + 1;
-        ////                if (text.Length <= index)
-        ////                {
-        ////                    return false;
-        ////                }
-
-        ////                if (Summary[j] != text[index])
-        ////                {
-        ////                    return false;
-        ////                }
-        ////            }
-
-        ////            return true;
-        ////        }
-        ////        else if (!char.IsWhiteSpace(text[i]))
-        ////        {
-        ////            break;
-        ////        }
-        ////    }
-
-        ////    return false;
-        ////}
 
         #endregion Private Static Methods
 
@@ -852,9 +843,10 @@ namespace Microsoft.StyleCop.CSharp
         {
             Param.Ignore(allowedModifiers);
 
-            this.modifiers = new Dictionary<TokenType, Token>();
-
+            this.modifiers.Value = new Dictionary<TokenType, Token>();
             Token accessModifierSeen = null;
+
+            this.accessModifier.Value = this.DefaultAccessModifierType;
 
             for (Token token = this.FirstDeclarationToken; token != null; token = token.FindNextSibling<Token>())
             {
@@ -866,9 +858,9 @@ namespace Microsoft.StyleCop.CSharp
                         throw new SyntaxException(this.Document, token.LineNumber);
                     }
 
-                    this.accessModifier = AccessModifierType.Public;
+                    this.accessModifier.Value = AccessModifierType.Public;
                     accessModifierSeen = token;
-                    this.modifiers.Add(TokenType.Public, token);
+                    this.modifiers.Value.Add(TokenType.Public, token);
                 }
                 else if (token.TokenType == TokenType.Private)
                 {
@@ -878,9 +870,9 @@ namespace Microsoft.StyleCop.CSharp
                         throw new SyntaxException(this.Document, token.LineNumber);
                     }
 
-                    this.accessModifier = AccessModifierType.Private;
+                    this.accessModifier.Value = AccessModifierType.Private;
                     accessModifierSeen = token;
-                    this.modifiers.Add(TokenType.Private, token);
+                    this.modifiers.Value.Add(TokenType.Private, token);
                 }
                 else if (token.TokenType == TokenType.Internal)
                 {
@@ -888,11 +880,11 @@ namespace Microsoft.StyleCop.CSharp
                     // modifier, in which case it is protected internal.
                     if (accessModifierSeen == null)
                     {
-                        this.accessModifier = AccessModifierType.Internal;
+                        this.accessModifier.Value = AccessModifierType.Internal;
                     }
                     else if (accessModifierSeen.TokenType == TokenType.Protected)
                     {
-                        this.accessModifier = AccessModifierType.ProtectedInternal;
+                        this.accessModifier.Value = AccessModifierType.ProtectedInternal;
                     }
                     else
                     {
@@ -900,7 +892,7 @@ namespace Microsoft.StyleCop.CSharp
                     }
 
                     accessModifierSeen = token;
-                    this.modifiers.Add(TokenType.Internal, token);
+                    this.modifiers.Value.Add(TokenType.Internal, token);
                 }
                 else if (token.TokenType == TokenType.Protected)
                 {
@@ -908,11 +900,11 @@ namespace Microsoft.StyleCop.CSharp
                     // modifier, in which case it is protected internal.
                     if (accessModifierSeen == null)
                     {
-                        this.accessModifier = AccessModifierType.Protected;
+                        this.accessModifier.Value = AccessModifierType.Protected;
                     }
                     else if (accessModifierSeen.TokenType == TokenType.Internal)
                     {
-                        this.accessModifier = AccessModifierType.ProtectedInternal;
+                        this.accessModifier.Value = AccessModifierType.ProtectedInternal;
                     }
                     else
                     {
@@ -920,11 +912,11 @@ namespace Microsoft.StyleCop.CSharp
                     }
 
                     accessModifierSeen = token;
-                    this.modifiers.Add(TokenType.Protected, token);
+                    this.modifiers.Value.Add(TokenType.Protected, token);
                 }
                 else
                 {
-                    if (!GetOtherElementModifier(allowedModifiers, this.modifiers, token))
+                    if (!GetOtherElementModifier(allowedModifiers, this.modifiers.Value, token))
                     {
                         break;
                     }

@@ -25,17 +25,26 @@ namespace Microsoft.StyleCop.CSharp
     /// <subcategory>other</subcategory>
     public sealed class TypeParameterConstraintClause : CodeUnit
     {
+        #region Internal Static Readonly Fields
+
+        /// <summary>
+        /// An empty array of type constraint clauses.
+        /// </summary>
+        internal static readonly TypeParameterConstraintClause[] EmptyTypeParameterConstraintClause = new TypeParameterConstraintClause[] { };
+
+        #endregion Internal Static Readonly Fields
+
         #region Private Fields
 
         /// <summary>
         /// The type being constrainted.
         /// </summary>
-        private Token type;
+        private CodeUnitProperty<Token> type;
 
         /// <summary>
         /// The list of constraints on the type.
         /// </summary>
-        private ICollection<Token> constraints;
+        private CodeUnitProperty<ICollection<Token>> constraints;
 
         #endregion Private Fields
 
@@ -67,22 +76,23 @@ namespace Microsoft.StyleCop.CSharp
             get
             {
                 this.ValidateEditVersion();
-                if (this.type == null)
+                
+                if (!this.type.Initialized)
                 {
                     // Find the where token.
                     Token where = this.FindFirstChild<WhereToken>();
                     if (where != null)
                     {
-                        this.type = where.FindNextSibling<TypeToken>();
+                        this.type.Value = where.FindNextSibling<TypeToken>();
                     }
 
-                    if (this.type == null)
+                    if (this.type.Value == null)
                     {
                         throw new SyntaxException(this.Document, this.LineNumber);
                     }
                 }
                 
-                return this.type;
+                return this.type.Value;
             }
         }
 
@@ -94,9 +104,12 @@ namespace Microsoft.StyleCop.CSharp
             get
             {
                 this.ValidateEditVersion();
-                if (this.constraints == null)
+
+                if (!this.constraints.Initialized)
                 {
-                    List<Token> constraints = new List<Token>(2);
+                    this.constraints.Value = null;
+
+                    List<Token> c = new List<Token>(2);
 
                     // Find the colon.
                     CodeUnit colon = this.FindFirstChild<WhereColonToken>();
@@ -104,22 +117,22 @@ namespace Microsoft.StyleCop.CSharp
                     {
                         for (Token constraint = colon.FindNextSibling<Token>(); constraint != null; constraint = constraint.FindNextSibling<Token>())
                         {
-                            constraints.Add(constraint);
+                            c.Add(constraint);
                         }
 
-                        if (constraints.Count > 0)
+                        if (c.Count > 0)
                         {
-                            this.constraints = constraints.AsReadOnly();
+                            this.constraints.Value = c.AsReadOnly();
                         }
                     }
 
-                    if (this.constraints == null)
+                    if (this.constraints.Value == null)
                     {
                         throw new SyntaxException(this.Document, this.LineNumber);
                     }
                 }
 
-                return this.constraints;
+                return this.constraints.Value;
             }
         }
 
@@ -134,8 +147,8 @@ namespace Microsoft.StyleCop.CSharp
         {
             base.Reset();
 
-            this.type = null;
-            this.constraints = null;
+            this.type.Reset();
+            this.constraints.Reset();
         }
 
         #endregion Protected Override Methods

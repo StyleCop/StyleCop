@@ -10,12 +10,12 @@
       </GlobalSettings>
     </Settings>
     <ExpectedViolations>
-      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.TestFile1.System.Text" LineNumber="9" RuleNamespace="Microsoft.StyleCop.CSharp_old.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
-      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
-      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.TestFile2.System.Text" LineNumber="9" RuleNamespace="Microsoft.StyleCop.CSharp_old.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
-      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.TestFile1.System.Text" LineNumber="9" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
+      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.TestFile2.System.Text" LineNumber="9" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
+      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
     </ExpectedViolations>
   </Test>
 
@@ -30,12 +30,12 @@
       </GlobalSettings>
     </Settings>
     <ExpectedViolations>
-      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.TestFile1.System.Text" LineNumber="9" RuleNamespace="Microsoft.StyleCop.CSharp_old.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
-      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
-      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.TestFile2.System.Text" LineNumber="9" RuleNamespace="Microsoft.StyleCop.CSharp_old.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
-      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.TestFile1.System.Text" LineNumber="9" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
+      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.TestFile2.System.Text" LineNumber="9" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
+      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
     </ExpectedViolations>
   </Test>
 
@@ -63,7 +63,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.MaintainabilityRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.Rules.MaintainabilityRules">
           <Rules>
             <Rule Name="AccessModifierMustBeDeclared">
               <RuleSettings>
@@ -75,8 +75,8 @@
       </Analyzers>
     </Settings>
     <ExpectedViolations>
-      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
-      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
     </ExpectedViolations>
   </Test>
 
@@ -92,12 +92,12 @@
       </SourceFileList>
     </Settings>
     <ExpectedViolations>
-      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.TestFile1.System.Text" LineNumber="9" RuleNamespace="Microsoft.StyleCop.CSharp_old.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
-      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
-      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.TestFile2.System.Text" LineNumber="9" RuleNamespace="Microsoft.StyleCop.CSharp_old.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
-      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.TestFile1.System.Text" LineNumber="9" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
+      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.TestFile2.System.Text" LineNumber="9" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
+      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
     </ExpectedViolations>
   </Test>
 
@@ -127,7 +127,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.MaintainabilityRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.Rules.MaintainabilityRules">
           <Rules>
             <Rule Name="AccessModifierMustBeDeclared">
               <RuleSettings>
@@ -141,8 +141,8 @@
       </SourceFileList>
     </Settings>
     <ExpectedViolations>
-      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
-      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
     </ExpectedViolations>
   </Test>
 
@@ -159,12 +159,12 @@
       </SourceFileList>
     </Settings>
     <ExpectedViolations>
-      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.TestFile1.System.Text" LineNumber="9" RuleNamespace="Microsoft.StyleCop.CSharp_old.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
-      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
-      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.TestFile2.System.Text" LineNumber="9" RuleNamespace="Microsoft.StyleCop.CSharp_old.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
-      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.TestFile1.System.Text" LineNumber="9" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
+      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.TestFile2.System.Text" LineNumber="9" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
+      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
     </ExpectedViolations>
   </Test>
 
@@ -195,7 +195,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.MaintainabilityRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.Rules.MaintainabilityRules">
           <Rules>
             <Rule Name="AccessModifierMustBeDeclared">
               <RuleSettings>
@@ -210,8 +210,8 @@
       </SourceFileList>
     </Settings>
     <ExpectedViolations>
-      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
-      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
     </ExpectedViolations>
   </Test>
 
@@ -228,12 +228,12 @@
       </SourceFileList>
     </Settings>
     <ExpectedViolations>
-      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.TestFile1.System.Text" LineNumber="9" RuleNamespace="Microsoft.StyleCop.CSharp_old.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
-      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
-      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.TestFile2.System.Text" LineNumber="9" RuleNamespace="Microsoft.StyleCop.CSharp_old.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
-      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.TestFile1.System.Text" LineNumber="9" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
+      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.TestFile2.System.Text" LineNumber="9" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
+      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
     </ExpectedViolations>
   </Test>
 
@@ -264,7 +264,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.MaintainabilityRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.Rules.MaintainabilityRules">
           <Rules>
             <Rule Name="AccessModifierMustBeDeclared">
               <RuleSettings>
@@ -279,8 +279,8 @@
       </SourceFileList>
     </Settings>
     <ExpectedViolations>
-      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
-      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
     </ExpectedViolations>
   </Test>
 
@@ -294,7 +294,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.MaintainabilityRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.Rules.MaintainabilityRules">
           <Rules>
             <Rule Name="AccessModifierMustBeDeclared">
               <RuleSettings>
@@ -311,8 +311,8 @@
       </SourceFileList>
     </Settings>
     <ExpectedViolations>
-      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
-      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
     </ExpectedViolations>
   </Test>
 
@@ -326,7 +326,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.MaintainabilityRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.Rules.MaintainabilityRules">
           <Rules>
             <Rule Name="AccessModifierMustBeDeclared">
               <RuleSettings>
@@ -346,8 +346,8 @@
       </SourceFileList>
     </Settings>
     <ExpectedViolations>
-      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
-      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
     </ExpectedViolations>
   </Test>
 
@@ -370,9 +370,9 @@
       </SourceFileList>
     </Settings>
     <ExpectedViolations>
-      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
-      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.TestFile2.System.Text" LineNumber="9" RuleNamespace="Microsoft.StyleCop.CSharp_old.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
+      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.TestFile2.System.Text" LineNumber="9" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
     </ExpectedViolations>
   </Test>
 
@@ -392,7 +392,7 @@
             <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
           </GlobalSettings>
           <Analyzers>
-            <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.MaintainabilityRules">
+            <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.Rules.MaintainabilityRules">
               <Rules>
                 <Rule Name="AccessModifierMustBeDeclared">
                   <RuleSettings>
@@ -406,10 +406,10 @@
       </SourceFileList>
     </Settings>
     <ExpectedViolations>
-      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
-      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
-      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.TestFile2.System.Text" LineNumber="9" RuleNamespace="Microsoft.StyleCop.CSharp_old.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
+      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.TestFile2.System.Text" LineNumber="9" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
     </ExpectedViolations>
   </Test>
 
@@ -428,7 +428,7 @@
             <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
           </GlobalSettings>
           <Analyzers>
-            <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.MaintainabilityRules">
+            <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.Rules.MaintainabilityRules">
               <Rules>
                 <Rule Name="AccessModifierMustBeDeclared">
                   <RuleSettings>
@@ -442,10 +442,10 @@
       </SourceFileList>
     </Settings>
     <ExpectedViolations>
-      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
-      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
-      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.TestFile2.System.Text" LineNumber="9" RuleNamespace="Microsoft.StyleCop.CSharp_old.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
+      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.TestFile2.System.Text" LineNumber="9" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
     </ExpectedViolations>
   </Test>
 
@@ -466,7 +466,7 @@
             <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
           </GlobalSettings>
           <Analyzers>
-            <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.MaintainabilityRules">
+            <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.Rules.MaintainabilityRules">
               <Rules>
                 <Rule Name="AccessModifierMustBeDeclared">
                   <RuleSettings>
@@ -480,8 +480,8 @@
       </SourceFileList>
     </Settings>
     <ExpectedViolations>
-      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
-      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
     </ExpectedViolations>
   </Test>
 
@@ -501,7 +501,7 @@
             <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
           </GlobalSettings>
           <Analyzers>
-            <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.MaintainabilityRules">
+            <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.Rules.MaintainabilityRules">
               <Rules>
                 <Rule Name="AccessModifierMustBeDeclared">
                   <RuleSettings>
@@ -520,7 +520,7 @@
             <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
           </GlobalSettings>
           <Analyzers>
-            <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.DocumentationRules">
+            <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.Rules.DocumentationRules">
               <Rules>
                 <Rule Name="ElementsMustBeDocumented">
                   <RuleSettings>
@@ -534,8 +534,8 @@
       </SourceFileList>
     </Settings>
     <ExpectedViolations>
-      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
-      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.DocumentationRules" Rule="ElementsMustBeDocumented" />
     </ExpectedViolations>
   </Test>
 
@@ -558,12 +558,12 @@
       </SourceFileList>
     </Settings>
     <ExpectedViolations>
-      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.TestFile1.System.Text" LineNumber="9" RuleNamespace="Microsoft.StyleCop.CSharp_old.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
-      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
-      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.TestFile2.System.Text" LineNumber="9" RuleNamespace="Microsoft.StyleCop.CSharp_old.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
-      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.TestFile1.System.Text" LineNumber="9" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
+      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.TestFile2.System.Text" LineNumber="9" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
+      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
     </ExpectedViolations>
   </Test>
 
@@ -586,12 +586,12 @@
       </SourceFileList>
     </Settings>
     <ExpectedViolations>
-      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.TestFile1.System.Text" LineNumber="9" RuleNamespace="Microsoft.StyleCop.CSharp_old.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
-      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
-      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.TestFile2.System.Text" LineNumber="9" RuleNamespace="Microsoft.StyleCop.CSharp_old.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
-      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.TestFile1.System.Text" LineNumber="9" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
+      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.TestFile2.System.Text" LineNumber="9" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
+      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
     </ExpectedViolations>
   </Test>
 
@@ -614,12 +614,12 @@
       </SourceFileList>
     </Settings>
     <ExpectedViolations>
-      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.TestFile1.System.Text" LineNumber="9" RuleNamespace="Microsoft.StyleCop.CSharp_old.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
-      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
-      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.TestFile2.System.Text" LineNumber="9" RuleNamespace="Microsoft.StyleCop.CSharp_old.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
-      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.TestFile1.System.Text" LineNumber="9" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
+      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.TestFile2.System.Text" LineNumber="9" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
+      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
     </ExpectedViolations>
   </Test>
 
@@ -643,12 +643,12 @@
       </SourceFileList>
     </Settings>
     <ExpectedViolations>
-      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.TestFile1.System.Text" LineNumber="9" RuleNamespace="Microsoft.StyleCop.CSharp_old.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
-      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
-      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.TestFile2.System.Text" LineNumber="9" RuleNamespace="Microsoft.StyleCop.CSharp_old.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
-      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.TestFile1.System.Text" LineNumber="9" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
+      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.TestFile2.System.Text" LineNumber="9" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
+      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
     </ExpectedViolations>
   </Test>
 
@@ -711,12 +711,12 @@
       </SourceFileList>
     </Settings>
     <ExpectedViolations>
-      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.TestFile1.System.Text" LineNumber="9" RuleNamespace="Microsoft.StyleCop.CSharp_old.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
-      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
-      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.TestFile2.System.Text" LineNumber="9" RuleNamespace="Microsoft.StyleCop.CSharp_old.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
-      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp_old.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.TestFile1.System.Text" LineNumber="9" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
+      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.TestFile2.System.Text" LineNumber="9" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
+      <Violation Section="Root.TestFile2.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.Rules.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
     </ExpectedViolations>
   </Test>
 

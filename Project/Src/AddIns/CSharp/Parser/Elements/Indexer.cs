@@ -30,22 +30,32 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The return type for the indexer.
         /// </summary>
-        private TypeToken returnType;
+        private CodeUnitProperty<TypeToken> returnType;
 
         /// <summary>
         /// The input parameters.
         /// </summary>
-        private IList<Parameter> parameters;
+        private CodeUnitProperty<IList<Parameter>> parameters;
 
         /// <summary>
         /// The get accessor for the indexer.
         /// </summary>
-        private Accessor get;
+        private CodeUnitProperty<Accessor> get;
 
         /// <summary>
         /// The set accessor for the indexer.
         /// </summary>
-        private Accessor set;
+        private CodeUnitProperty<Accessor> set;
+
+        /// <summary>
+        /// The fully qualified name of the item.
+        /// </summary>
+        private CodeUnitProperty<string> fullyQualifiedName;
+
+        /// <summary>
+        /// The variables on the item.
+        /// </summary>
+        private CodeUnitProperty<IList<IVariable>> variables;
 
         #endregion Private Fields
 
@@ -65,10 +75,10 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertNotNull(proxy, "proxy");
             Param.AssertValidString(name, "name");
             Param.Ignore(attributes);
-            Param.Ignore(returnType);
+            Param.AssertNotNull(returnType, "returnType");
             Param.Ignore(unsafeCode);
 
-            this.returnType = returnType;
+            this.returnType.Value = returnType;
         }
 
         #endregion Internal Constructors
@@ -82,7 +92,14 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                return CodeParser.AddQualifications(this.Parameters, base.FullyQualifiedName);
+                this.ValidateEditVersion();
+
+                if (!this.fullyQualifiedName.Initialized)
+                {
+                    this.fullyQualifiedName.Value = CodeParser.AddQualifications(this.Parameters, base.FullyQualifiedName);
+                }
+
+                return this.fullyQualifiedName.Value;
             }
         }
 
@@ -93,20 +110,22 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                IList<Parameter> parameters = this.Parameters;
-                if (parameters != null && parameters.Count > 0)
+                this.ValidateEditVersion();
+
+                if (!this.variables.Initialized)
                 {
-                    IVariable[] variables = new IVariable[parameters.Count];
-
-                    for (int i = 0; i < parameters.Count; ++i)
+                    IList<Parameter> p = this.Parameters;
+                    if (p != null && p.Count > 0)
                     {
-                        variables[i] = parameters[i];
+                        this.variables.Value = new List<IVariable>(p).AsReadOnly();
                     }
-
-                    return variables;
+                    else
+                    {
+                        this.variables.Value = CsParser.EmptyVariableArray;
+                    }
                 }
 
-                return CsParser.EmptyVariableArray;
+                return this.variables.Value;
             }
         }
 
@@ -121,7 +140,14 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                return this.returnType;
+                this.ValidateEditVersion();
+
+                if (!this.returnType.Initialized)
+                {
+                    this.returnType.Value = this.FindFirstChild<TypeToken>();
+                }
+
+                return this.returnType.Value;
             }
         }
 
@@ -132,12 +158,14 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                if (this.parameters == null)
+                this.ValidateEditVersion();
+
+                if (!this.parameters.Initialized)
                 {
-                    this.parameters = this.CollectFormalParameters(this.FirstDeclarationToken, TokenType.CloseSquareBracket);
+                    this.parameters.Value = this.CollectFormalParameters(this.FirstDeclarationToken, TokenType.CloseSquareBracket);
                 }
 
-                return this.parameters;
+                return this.parameters.Value;
             }
         }
 
@@ -148,7 +176,23 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                return this.get;
+                this.ValidateEditVersion();
+
+                if (!this.get.Initialized)
+                {
+                    // todo: create acccessor classes for each accessor type
+                    this.get.Value = null;
+
+                    for (Accessor child = this.FindFirstChild<Accessor>(); child != null; child = child.FindNextSibling<Accessor>())
+                    {
+                        if (child.AccessorType == AccessorType.Get)
+                        {
+                            this.get.Value = child;
+                        }
+                    }
+                }
+
+                return this.get.Value;
             }
         }
 
@@ -159,7 +203,22 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                return this.set;
+                this.ValidateEditVersion();
+
+                if (!this.set.Initialized)
+                {
+                    this.set.Value = null;
+
+                    for (Accessor child = this.FindFirstChild<Accessor>(); child != null; child = child.FindNextSibling<Accessor>())
+                    {
+                        if (child.AccessorType == AccessorType.Set)
+                        {
+                            this.set.Value = child;
+                        }
+                    }
+                }
+
+                return this.set.Value;
             }
         }
 
@@ -194,58 +253,11 @@ namespace Microsoft.StyleCop.CSharp
                     return AccessModifierType.Public;
                 }
 
-                return this.DefaultAccessModifierType;
+                return base.DefaultAccessModifierType;
             }
         }
 
         #endregion Protected Override Properties
-
-        #region Internal Override Methods
-
-        /// <summary>
-        /// Initializes the contents of the indexer.
-        /// </summary>
-        /// <param name="document">The document that contains the element.</param>
-        internal override void Initialize(CsDocument document)
-        {
-            Param.AssertNotNull(document, "document");
-            base.Initialize(document);
-
-            // Find the get and set accessors for this indexer, if they exist.
-            for (Element child = this.FindFirstChild<Element>(); child != null; child = child.FindNextSibling<Element>())
-            {
-                Accessor accessor = child as Accessor;
-                if (accessor == null)
-                {
-                    throw new SyntaxException(document, accessor.LineNumber);
-                }
-
-                if (accessor.AccessorType == AccessorType.Get)
-                {
-                    if (this.get != null)
-                    {
-                        throw new SyntaxException(document, accessor.LineNumber);
-                    }
-
-                    this.get = accessor;
-                }
-                else if (accessor.AccessorType == AccessorType.Set)
-                {
-                    if (this.set != null)
-                    {
-                        throw new SyntaxException(document, accessor.LineNumber);
-                    }
-
-                    this.set = accessor;
-                }
-                else
-                {
-                    throw new SyntaxException(document, accessor.LineNumber);
-                }
-            }
-        }
-
-        #endregion Internal Override Methods
 
         #region Protected Override Methods
 
@@ -262,6 +274,21 @@ namespace Microsoft.StyleCop.CSharp
             }
 
             throw new SyntaxException(this.Document, this.LineNumber);
+        }
+
+        /// <summary>
+        /// Resets the contents of the class.
+        /// </summary>
+        protected override void Reset()
+        {
+            base.Reset();
+
+            this.returnType.Reset();
+            this.parameters.Reset();
+            this.get.Reset();
+            this.set.Reset();
+            this.fullyQualifiedName.Reset();
+            this.variables.Reset();
         }
 
         #endregion Protected Override Methods
