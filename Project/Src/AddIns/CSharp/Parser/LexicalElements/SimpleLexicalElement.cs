@@ -35,7 +35,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Indicates whether the item is generated.
         /// </summary>
-        private bool? generated;
+        private CodeUnitProperty<bool> generated;
 
         #endregion Private Fields
 
@@ -71,7 +71,7 @@ namespace Microsoft.StyleCop.CSharp
 
             Debug.Assert(System.Enum.IsDefined(typeof(LexicalElementType), this.LexicalElementType), "The type is invalid.");
             this.location = location;
-            this.generated = generated;
+            this.generated.Value = generated;
         }
 
         #endregion Internal Constructors
@@ -108,9 +108,10 @@ namespace Microsoft.StyleCop.CSharp
             get
             {
                 this.ValidateEditVersion();
-                if (this.generated == null)
+
+                if (!this.generated.Initialized)
                 {
-                    this.generated = this.Parent.Generated;
+                    this.generated.Value = this.Parent.Generated;
                 }
 
                 return this.generated.Value;
@@ -128,7 +129,7 @@ namespace Microsoft.StyleCop.CSharp
         {
             base.Reset();
 
-            this.generated = null;
+            this.generated.Reset();
         }
 
         #endregion Protected Override Methods

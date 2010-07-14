@@ -51,23 +51,7 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertNotNull(proxy, "proxy");
             Debug.Assert(System.Enum.IsDefined(typeof(TokenType), this.TokenType), "The type is invalid.");
         }
-
-        /////// <summary>
-        /////// Initializes a new instance of the Token class.
-        /////// </summary>
-        /////// <param name="text">The token string.</param>
-        /////// <param name="tokenType">The token type.</param>
-        /////// <param name="proxy">Proxy object for the expression.</param>
-        ////internal Token(string text, int tokenType, CodeUnitProxy proxy)
-        ////    : this(proxy, tokenType)
-        ////{
-        ////    Param.AssertNotNull(text, "text");
-        ////    Param.Ignore(tokenType);
-        ////    Param.AssertNotNull(proxy, "proxy");
-
-        ////    this.Text = text;
-        ////}
-
+ 
         #endregion Internal Constructors
 
         #region Public Properties
