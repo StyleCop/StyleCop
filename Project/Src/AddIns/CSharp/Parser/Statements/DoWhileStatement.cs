@@ -15,6 +15,7 @@
 namespace Microsoft.StyleCop.CSharp
 {
     using System;
+    using System.Diagnostics;
 
     /// <summary>
     /// A do-while-statement.
@@ -27,12 +28,12 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The statement that is embedded within this do-while-statement.
         /// </summary>
-        private Statement embeddedStatement;
+        private CodeUnitProperty<Statement> embeddedStatement;
 
         /// <summary>
         /// The expression within the while statement.
         /// </summary>
-        private Expression conditionExpression;
+        private CodeUnitProperty<Expression> conditionExpression;
 
         #endregion Private Fields
 
@@ -51,8 +52,8 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertNotNull(conditionExpression, "conditionExpression");
             Param.AssertNotNull(embeddedStatement, "embeddedStatement");
 
-            this.conditionExpression = conditionExpression;
-            this.embeddedStatement = embeddedStatement;
+            this.conditionExpression.Value = conditionExpression;
+            this.embeddedStatement.Value = embeddedStatement;
         }
 
         #endregion Internal Constructors
@@ -66,7 +67,15 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                return this.conditionExpression;
+                this.ValidateEditVersion();
+
+                if (!this.conditionExpression.Initialized)
+                {
+                    this.Initialize();
+                    Debug.Assert(this.conditionExpression.Value != null, "Failed to initialize.");
+                }
+
+                return this.conditionExpression.Value;
             }
         }
 
@@ -77,10 +86,67 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                return this.embeddedStatement;
+                this.ValidateEditVersion();
+
+                if (!this.embeddedStatement.Initialized)
+                {
+                    this.Initialize();
+                    Debug.Assert(this.embeddedStatement.Value != null, "Failed to initialize.");
+                }
+
+                return this.embeddedStatement.Value;
             }
         }
 
         #endregion Public Properties
+
+        #region Protected Override Methods
+
+        /// <summary>
+        /// Resets the contents of the class.
+        /// </summary>
+        protected override void Reset()
+        {
+            base.Reset();
+
+            this.embeddedStatement.Reset();
+            this.conditionExpression.Reset();
+        }
+
+        #endregion Protected Override Methods
+
+        #region Private Methods
+
+        /// <summary>
+        /// Initializes the contents of the statement.
+        /// </summary>
+        private void Initialize()
+        {
+            this.embeddedStatement.Value = this.FindFirstChild<Statement>();
+            if (this.embeddedStatement.Value == null)
+            {
+                throw new SyntaxException(this.Document, this.LineNumber);
+            }
+
+            OpenParenthesisToken openParen = this.embeddedStatement.Value.FindNextSibling<OpenParenthesisToken>();
+            if (openParen == null)
+            {
+                throw new SyntaxException(this.Document, this.LineNumber);
+            }
+
+            this.conditionExpression.Value = openParen.FindNextSibling<Expression>();
+            if (this.conditionExpression.Value == null)
+            {
+                throw new SyntaxException(this.Document, this.LineNumber);
+            }
+
+            CloseParenthesisToken closeParen = this.conditionExpression.Value.FindNextSibling<CloseParenthesisToken>();
+            if (closeParen == null)
+            {
+                throw new SyntaxException(this.Document, this.LineNumber);
+            }
+        }
+
+        #endregion Private Methods
     }
 }

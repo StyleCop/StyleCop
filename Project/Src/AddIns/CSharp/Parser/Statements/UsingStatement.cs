@@ -16,6 +16,7 @@ namespace Microsoft.StyleCop.CSharp
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
 
     /// <summary>
     /// A using-statement.
@@ -28,12 +29,17 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The expression declared in the using-statement.
         /// </summary>
-        private Expression resource;
+        private CodeUnitProperty<Expression> resource;
 
         /// <summary>
         /// The statement that is embedded within this using-statement.
         /// </summary>
-        private Statement embeddedStatement;
+        private CodeUnitProperty<Statement> embeddedStatement;
+
+        /// <summary>
+        /// The collection of variables declared within the statement.
+        /// </summary>
+        private CodeUnitProperty<IList<IVariable>> variables;
 
         #endregion Private Fields
 
@@ -50,7 +56,7 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertNotNull(proxy, "proxy");
             Param.AssertNotNull(resource, "resource");
 
-            this.resource = resource;
+            this.resource.Value = resource;
         }
 
         #endregion Internal Constructors
@@ -64,7 +70,15 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                return this.resource;
+                this.ValidateEditVersion();
+
+                if (!this.resource.Initialized)
+                {
+                    this.Initialize();
+                    Debug.Assert(this.embeddedStatement.Value != null, "Failed to initialize.");
+                }
+
+                return this.resource.Value;
             }
         }
 
@@ -75,13 +89,15 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                return this.embeddedStatement;
-            }
+                this.ValidateEditVersion();
 
-            internal set
-            {
-                Param.AssertNotNull(value, "EmbeddedStatement");
-                this.embeddedStatement = value;
+                if (!this.embeddedStatement.Initialized)
+                {
+                    this.Initialize();
+                    Debug.Assert(this.embeddedStatement.Value != null, "Failed to initialize.");
+                }
+
+                return this.embeddedStatement.Value;
             }
         }
 
@@ -93,16 +109,75 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                VariableDeclarationExpression item = this.FindFirstChild<VariableDeclarationExpression>();
-                if (item != null)
+                this.ValidateEditVersion();
+
+                if (!this.variables.Initialized)
                 {
-                    return item.GetVariables();
+                    VariableDeclarationExpression item = this.FindFirstChild<VariableDeclarationExpression>();
+                    if (item != null)
+                    {
+                        this.variables.Value = item.Variables;
+                    }
+                    else
+                    {
+                        this.variables.Value = CsParser.EmptyVariableArray;
+                    }
                 }
 
-                return CsParser.EmptyVariableArray;
+                return this.variables.Value;
             }
         }
 
         #endregion Public Properties
+
+        #region Protected Override Methods
+
+        /// <summary>
+        /// Resets the contents of the class.
+        /// </summary>
+        protected override void Reset()
+        {
+            base.Reset();
+
+            this.resource.Reset();
+            this.embeddedStatement.Reset();
+            this.variables.Reset();
+        }
+
+        #endregion Protected Override Methods
+
+        #region Private Methods
+
+        /// <summary>
+        /// Initializes the contents of the statement.
+        /// </summary>
+        private void Initialize()
+        {
+            OpenParenthesisToken openParen = this.FindFirstChild<OpenParenthesisToken>();
+            if (openParen == null)
+            {
+                throw new SyntaxException(this.Document, this.LineNumber);
+            }
+
+            this.resource.Value = openParen.FindNextSibling<Expression>();
+            if (this.resource.Value == null)
+            {
+                throw new SyntaxException(this.Document, this.LineNumber);
+            }
+
+            CloseParenthesisToken closeParen = this.resource.Value.FindNextSibling<CloseParenthesisToken>();
+            if (closeParen == null)
+            {
+                throw new SyntaxException(this.Document, this.LineNumber);
+            }
+
+            this.embeddedStatement.Value = closeParen.FindNextSibling<Statement>();
+            if (this.embeddedStatement.Value == null)
+            {
+                throw new SyntaxException(this.Document, this.LineNumber);
+            }
+        }
+
+        #endregion Private Methods
     }
 }

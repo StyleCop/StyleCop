@@ -29,23 +29,28 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The variables initialized in the for-statement.
         /// </summary>
-        private ICollection<Expression> initializers;
+        private CodeUnitProperty<ICollection<Expression>> initializers;
 
         /// <summary>
         /// The condition checked before each loop through the for-statement.
         /// </summary>
-        private Expression condition;
+        private CodeUnitProperty<Expression> condition;
 
         /// <summary>
         /// The statements called at the end of each loop through the for-statement,
         /// used to advance the enumerator.
         /// </summary>
-        private ICollection<Expression> iterators;
+        private CodeUnitProperty<ICollection<Expression>> iterators;
 
         /// <summary>
         /// The statement that is embedded within this for-statement.
         /// </summary>
-        private Statement embeddedStatement;
+        private CodeUnitProperty<Statement> embeddedStatement;
+
+        /// <summary>
+        /// The variables declared within the statement.
+        /// </summary>
+        private CodeUnitProperty<IList<IVariable>> variables;
 
         #endregion Private Fields
 
@@ -70,9 +75,9 @@ namespace Microsoft.StyleCop.CSharp
             Param.Ignore(condition);
             Param.AssertNotNull(iterators, "iterators");
             
-            this.initializers = initializers;
-            this.condition = condition;
-            this.iterators = iterators;
+            this.initializers.Value = initializers;
+            this.condition.Value = condition;
+            this.iterators.Value = iterators;
 
             Debug.Assert(initializers.IsReadOnly, "The collection of initializers should be read-only.");
             Debug.Assert(iterators.IsReadOnly, "The collection of iterators should be read-only.");
@@ -89,22 +94,32 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                if (this.initializers == null || this.initializers.Count == 0)
-                {
-                    return CsParser.EmptyVariableArray;
-                }
+                this.ValidateEditVersion();
 
-                var variables = new List<IVariable>(this.initializers.Count);
-
-                foreach (Expression initializerExpression in this.initializers)
+                if (!this.variables.Initialized)
                 {
-                    if (initializerExpression.Is(ExpressionType.VariableDeclaration))
+                    ICollection<Expression> inits = this.Initializers;
+                    if (inits == null || inits.Count == 0)
                     {
-                        variables.AddRange(((VariableDeclarationExpression)initializerExpression).GetVariables());
+                        this.variables.Value = CsParser.EmptyVariableArray;
+                    }
+                    else
+                    {
+                        var vars = new List<IVariable>(inits.Count);
+
+                        foreach (Expression initializerExpression in inits)
+                        {
+                            if (initializerExpression.Is(ExpressionType.VariableDeclaration))
+                            {
+                                vars.AddRange(((VariableDeclarationExpression)initializerExpression).Variables);
+                            }
+                        }
+
+                        this.variables.Value = vars.AsReadOnly();
                     }
                 }
 
-                return variables.AsReadOnly();
+                return this.variables.Value;
             }
         }
 
@@ -119,7 +134,14 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                return this.initializers;
+                this.ValidateEditVersion();
+
+                if (!this.initializers.Initialized)
+                {
+                    this.Initialize();
+                }
+
+                return this.initializers.Value;
             }
         }
 
@@ -130,7 +152,14 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                return this.condition;
+                this.ValidateEditVersion();
+
+                if (!this.condition.Initialized)
+                {
+                    this.Initialize();
+                }
+
+                return this.condition.Value;
             }
         }
 
@@ -142,7 +171,14 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                return this.iterators;
+                this.ValidateEditVersion();
+
+                if (!this.iterators.Initialized)
+                {
+                    this.Initialize();
+                }
+
+                return this.iterators.Value;
             }
         }
 
@@ -153,16 +189,186 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                return this.embeddedStatement;
-            }
+                this.ValidateEditVersion();
 
-            internal set
-            {
-                Param.AssertNotNull(value, "EmbeddedStatement");
-                this.embeddedStatement = value;
+                if (!this.embeddedStatement.Initialized)
+                {
+                    this.Initialize();
+                    Debug.Assert(this.embeddedStatement.Value != null, "Failed to initialize.");
+                }
+
+                return this.embeddedStatement.Value;
             }
         }
 
         #endregion Public Properties
+
+        #region Protected Override Methods
+
+        /// <summary>
+        /// Resets the contents of the class.
+        /// </summary>
+        protected override void Reset()
+        {
+            base.Reset();
+
+            this.initializers.Reset();
+            this.condition.Reset();
+            this.iterators.Reset();
+            this.embeddedStatement.Reset();
+            this.variables.Reset();
+        }
+
+        #endregion Protected Override Methods
+
+        #region Private Methods
+
+        /// <summary>
+        /// Initializes the contents of the statement.
+        /// </summary>
+        private void Initialize()
+        {
+            OpenParenthesisToken openParen = this.FindFirstChild<OpenParenthesisToken>();
+            if (openParen == null)
+            {
+                throw new SyntaxException(this.Document, this.LineNumber);
+            }
+
+            this.initializers.Value = this.FindInitializers(openParen);
+            if (this.initializers.Value == null)
+            {
+                throw new SyntaxException(this.Document, this.LineNumber);
+            }
+
+            SemicolonToken semicolon = openParen.FindNextSibling<SemicolonToken>();
+            if (semicolon == null)
+            {
+                throw new SyntaxException(this.Document, this.LineNumber);
+            }
+
+            this.condition.Value = semicolon.FindNextSibling<Expression>();
+            if (this.condition.Value == null)
+            {
+                throw new SyntaxException(this.Document, this.LineNumber);
+            }
+
+            semicolon = semicolon.FindNextSibling<SemicolonToken>();
+            if (semicolon == null)
+            {
+                throw new SyntaxException(this.Document, this.LineNumber);
+            }
+
+            this.iterators.Value = this.FindIterators(semicolon);
+            if (this.iterators.Value == null)
+            {
+                throw new SyntaxException(this.Document, this.LineNumber);
+            }
+
+            CloseParenthesisToken closeParen = semicolon.FindNextSibling<CloseParenthesisToken>();
+            if (closeParen == null)
+            {
+                throw new SyntaxException(this.Document, this.LineNumber);
+            }
+
+            this.embeddedStatement.Value = closeParen.FindNextSibling<Statement>();
+            if (this.embeddedStatement.Value == null)
+            {
+                throw new SyntaxException(this.Document, this.LineNumber);
+            }
+        }
+
+        /// <summary>
+        /// Finds and gathers the initializer expressions for the for statement.
+        /// </summary>
+        /// <param name="start">The code unit in front of the initializers.</param>
+        /// <returns>Returns the collection of initializers.</returns>
+        private ICollection<Expression> FindInitializers(CodeUnit start)
+        {
+            Param.AssertNotNull(start, "start");
+
+            List<Expression> expressions = new List<Expression>();
+
+            bool comma = false;
+            for (CodeUnit c = start.FindNextSibling<CodeUnit>(); c != null; c = c.FindNextSibling<CodeUnit>())
+            {
+                if (c.Is(TokenType.Semicolon))
+                {
+                    return expressions.AsReadOnly();
+                }
+                else if (comma)
+                {
+                    comma = false;
+                    if (c.Is(CodeUnitType.Expression))
+                    {
+                        expressions.Add((Expression)c);
+                    }
+                    else
+                    {
+                        throw new SyntaxException(this.Document, this.LineNumber);
+                    }
+                }
+                else
+                {
+                    if (c.Is(TokenType.Comma))
+                    {
+                        comma = true;
+                    }
+                    else
+                    {
+                        throw new SyntaxException(this.Document, this.LineNumber);
+                    }
+                }
+            }
+
+            throw new SyntaxException(this.Document, this.LineNumber);
+        }
+
+        /// <summary>
+        /// Finds and gathers the initializer expressions for the for statement.
+        /// </summary>
+        /// <param name="start">The code unit in front of the initializers.</param>
+        /// <returns>Returns the collection of initializers.</returns>
+        private ICollection<Expression> FindIterators(CodeUnit start)
+        {
+            Param.AssertNotNull(start, "start");
+
+            List<Expression> expressions = new List<Expression>();
+
+            bool comma = false;
+            for (CodeUnit c = start.FindNextSibling<CodeUnit>(); c != null; c = c.FindNextSibling<CodeUnit>())
+            {
+                if (c.Is(TokenType.CloseParenthesis))
+                {
+                    return expressions.AsReadOnly();
+                }
+                else if (comma)
+                {
+                    comma = false;
+                    if (c.Is(CodeUnitType.Expression))
+                    {
+                        expressions.Add((Expression)c);
+                    }
+                    else
+                    {
+                        throw new SyntaxException(this.Document, this.LineNumber);
+                    }
+                }
+                else
+                {
+                    if (c.Is(TokenType.Comma))
+                    {
+                        comma = true;
+                    }
+                    else
+                    {
+                        throw new SyntaxException(this.Document, this.LineNumber);
+                    }
+                }
+            }
+
+            throw new SyntaxException(this.Document, this.LineNumber);
+        }
+
+        #endregion Private Methods
     }
 }

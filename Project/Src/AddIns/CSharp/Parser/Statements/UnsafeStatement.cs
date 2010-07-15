@@ -15,6 +15,7 @@
 namespace Microsoft.StyleCop.CSharp
 {
     using System;
+    using System.Diagnostics;
 
     /// <summary>
     /// An unsafe-statement.
@@ -27,7 +28,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The block embedded to the unsafe-statement.
         /// </summary>
-        private BlockStatement embeddedStatement;
+        private CodeUnitProperty<BlockStatement> embeddedStatement;
 
         #endregion Private Fields
 
@@ -44,7 +45,7 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertNotNull(proxy, "proxy");
             Param.AssertNotNull(embeddedStatement, "embeddedStatement");
 
-            this.embeddedStatement = embeddedStatement;
+            this.embeddedStatement.Value = embeddedStatement;
         }
 
         #endregion Internal Constructors
@@ -58,10 +59,35 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                return this.embeddedStatement;
+                this.ValidateEditVersion();
+
+                if (!this.embeddedStatement.Initialized)
+                {
+                    this.embeddedStatement.Value = this.FindFirstChild<BlockStatement>();
+                    if (this.embeddedStatement.Value == null)
+                    {
+                        throw new SyntaxException(this.Document, this.LineNumber);
+                    }
+                }
+
+                return this.embeddedStatement.Value;
             }
         }
 
         #endregion Public Properties
+
+        #region Protected Override Methods
+
+        /// <summary>
+        /// Resets the contents of the class.
+        /// </summary>
+        protected override void Reset()
+        {
+            base.Reset();
+
+            this.embeddedStatement.Reset();
+        }
+
+        #endregion Protected Override Methods
     }
 }

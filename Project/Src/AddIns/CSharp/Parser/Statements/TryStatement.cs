@@ -30,17 +30,22 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The statement embedded within the try-statement.
         /// </summary>
-        private BlockStatement embeddedStatement;
+        private CodeUnitProperty<BlockStatement> embeddedStatement;
 
         /// <summary>
         /// The finally-statement attached to this try-statement, if there is one.
         /// </summary>
-        private FinallyStatement finallyStatement;
+        private CodeUnitProperty<FinallyStatement> finallyStatement;
 
         /// <summary>
         /// The list of catch-statements attached to this try-statement.
         /// </summary>
-        private ICollection<CatchStatement> catchStatements;
+        private CodeUnitProperty<ICollection<CatchStatement>> catchStatements;
+
+        /// <summary>
+        /// Statements attached to this statement.
+        /// </summary>
+        private CodeUnitProperty<ICollection<Statement>> attachedStatements;
 
         #endregion Private Fields
 
@@ -57,7 +62,7 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertNotNull(proxy, "proxy");
             Param.AssertNotNull(embeddedStatement, "embeddedStatement");
 
-            this.embeddedStatement = embeddedStatement;
+            this.embeddedStatement.Value = embeddedStatement;
         }
 
         #endregion Internal Constructors
@@ -71,7 +76,15 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                return this.embeddedStatement;
+                this.ValidateEditVersion();
+
+                if (!this.embeddedStatement.Initialized)
+                {
+                    this.Initialize();
+                    Debug.Assert(this.embeddedStatement.Value != null, "Failed to initialize.");
+                }
+
+                return this.embeddedStatement.Value;
             }
         }
 
@@ -82,12 +95,14 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                return this.finallyStatement;
-            }
+                this.ValidateEditVersion();
 
-            internal set
-            {
-                this.finallyStatement = value;
+                if (!this.finallyStatement.Initialized)
+                {
+                    this.Initialize();
+                }
+
+                return this.finallyStatement.Value;
             }
         }
 
@@ -98,17 +113,15 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                return this.catchStatements;
-            }
+                this.ValidateEditVersion();
 
-            internal set
-            {
-                Param.Ignore(value);
-                this.catchStatements = value;
+                if (!this.catchStatements.Initialized)
+                {
+                    this.Initialize();
+                    Debug.Assert(this.catchStatements.Value != null, "Failed to initialize.");
+                }
 
-                Debug.Assert(
-                    this.catchStatements == null || this.catchStatements.IsReadOnly,
-                    "The collection of catch statements should be read-only.");
+                return this.catchStatements.Value;
             }
         }
 
@@ -119,27 +132,86 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Gets the collection of statements attached to this try-statement.
         /// </summary>
-        public override IEnumerable<Statement> AttachedStatements
+        public override ICollection<Statement> AttachedStatements
         {
             get
             {
-                if (this.catchStatements.Count > 0)
+                this.ValidateEditVersion();
+
+                if (!this.attachedStatements.Initialized)
                 {
-                    foreach (CatchStatement catchStatement in this.catchStatements)
+                    List<Statement> statements = new List<Statement>();
+
+                    if (this.CatchStatements.Count > 0)
                     {
-                        yield return catchStatement;
+                        statements.AddRange(this.CatchStatements);
                     }
+
+                    if (this.FinallyStatement != null)
+                    {
+                        statements.Add(this.FinallyStatement);
+                    }
+
+                    this.attachedStatements.Value = statements.AsReadOnly();
                 }
 
-                if (this.finallyStatement != null)
-                {
-                    yield return this.finallyStatement;
-                }
-
-                yield break;
+                return this.attachedStatements.Value;
             }
         }
 
         #endregion Public Override Properties
+
+        #region Protected Override Methods
+
+        /// <summary>
+        /// Resets the contents of the class.
+        /// </summary>
+        protected override void Reset()
+        {
+            base.Reset();
+
+            this.embeddedStatement.Reset();
+            this.finallyStatement.Reset();
+            this.catchStatements.Reset();
+            this.attachedStatements.Reset();
+        }
+
+        #endregion Protected Override Methods
+
+        #region Private Methods
+
+        /// <summary>
+        /// Initializes the contents of the statement.
+        /// </summary>
+        private void Initialize()
+        {
+            this.embeddedStatement.Value = this.FindFirstChild<BlockStatement>();
+            if (this.embeddedStatement.Value == null)
+            {
+                throw new SyntaxException(this.Document, this.LineNumber);
+            }
+
+            List<CatchStatement> catchList = new List<CatchStatement>();
+            for (CodeUnit c = this.FindNextSibling<CodeUnit>(); c != null; c = c.FindNext<CodeUnit>())
+            {
+                if (c.Is(StatementType.Catch))
+                {
+                    catchList.Add((CatchStatement)c);
+                }
+                else if (c.Is(StatementType.Finally))
+                {
+                    this.finallyStatement.Value = (FinallyStatement)c;
+                    break;
+                }
+                else if (!c.Is(CodeUnitType.LexicalElement) || c.Is(LexicalElementType.Token))
+                {
+                    break;
+                }
+            }
+
+            this.catchStatements.Value = catchList.AsReadOnly();
+        }
+
+        #endregion Private Methods
     }
 }

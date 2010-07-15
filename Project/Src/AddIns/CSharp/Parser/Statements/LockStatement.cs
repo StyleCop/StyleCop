@@ -15,6 +15,7 @@
 namespace Microsoft.StyleCop.CSharp
 {
     using System;
+    using System.Diagnostics;
 
     /// <summary>
     /// A lock-statement.
@@ -27,12 +28,12 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The object to lock.
         /// </summary>
-        private Expression lockedExpression;
+        private CodeUnitProperty<Expression> lockedExpression;
 
         /// <summary>
         /// The statement that is embedded within this lock-statement.
         /// </summary>
-        private Statement embeddedStatement;
+        private CodeUnitProperty<Statement> embeddedStatement;
 
         #endregion Private Fields
 
@@ -49,7 +50,7 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertNotNull(proxy, "proxy");
             Param.AssertNotNull(lockedExpression, "lockedExpression");
 
-            this.lockedExpression = lockedExpression;
+            this.lockedExpression.Value = lockedExpression;
         }
 
         #endregion Internal Constructors
@@ -63,7 +64,15 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                return this.lockedExpression;
+                this.ValidateEditVersion();
+
+                if (!this.lockedExpression.Initialized)
+                {
+                    this.Initialize();
+                    Debug.Assert(this.lockedExpression.Value != null, "Failed to initialize.");
+                }
+
+                return this.lockedExpression.Value;
             }
         }
 
@@ -74,16 +83,67 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                return this.embeddedStatement;
-            }
+                this.ValidateEditVersion();
 
-            internal set
-            {
-                Param.AssertNotNull(value, "EmbeddedStatement");
-                this.embeddedStatement = value;
+                if (!this.embeddedStatement.Initialized)
+                {
+                    this.Initialize();
+                    Debug.Assert(this.embeddedStatement.Value != null, "Failed to initialize.");
+                }
+
+                return this.embeddedStatement.Value;
             }
         }
 
         #endregion Public Properties
+
+        #region Protected Override Methods
+
+        /// <summary>
+        /// Resets the contents of the class.
+        /// </summary>
+        protected override void Reset()
+        {
+            base.Reset();
+
+            this.lockedExpression.Reset();
+            this.embeddedStatement.Reset();
+        }
+
+        #endregion Protected Override Methods
+
+        #region Private Methods
+
+        /// <summary>
+        /// Initializes the contents of the statement.
+        /// </summary>
+        private void Initialize()
+        {
+            OpenParenthesisToken openParen = this.FindFirstChild<OpenParenthesisToken>();
+            if (openParen == null)
+            {
+                throw new SyntaxException(this.Document, this.LineNumber);
+            }
+
+            this.lockedExpression.Value = openParen.FindNextSibling<Expression>();
+            if (this.lockedExpression.Value == null)
+            {
+                throw new SyntaxException(this.Document, this.LineNumber);
+            }
+
+            CloseParenthesisToken closeParen = this.lockedExpression.Value.FindNextSibling<CloseParenthesisToken>();
+            if (closeParen == null)
+            {
+                throw new SyntaxException(this.Document, this.LineNumber);
+            }
+
+            this.embeddedStatement.Value = closeParen.FindNextSibling<Statement>();
+            if (this.embeddedStatement.Value == null)
+            {
+                throw new SyntaxException(this.Document, this.LineNumber);
+            }
+        }
+
+        #endregion Private Methods
     }
 }

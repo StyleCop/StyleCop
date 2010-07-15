@@ -27,7 +27,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The return value expression, if there is one.
         /// </summary>
-        private Expression returnValue;
+        private CodeUnitProperty<Expression> returnValue;
 
         #endregion Private Fields
 
@@ -44,7 +44,7 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertNotNull(proxy, "proxy");
             Param.Ignore(returnValue);
 
-            this.returnValue = returnValue;
+            this.returnValue.Value = returnValue;
         }
 
         #endregion Internal Constructors
@@ -58,10 +58,31 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                return this.returnValue;
+                this.ValidateEditVersion();
+
+                if (!this.returnValue.Initialized)
+                {
+                    this.returnValue.Value = this.FindFirstChild<Expression>();
+                }
+
+                return this.returnValue.Value;
             }
         }
 
         #endregion Public Properties
+
+        #region Protected Override Methods
+
+        /// <summary>
+        /// Resets the contents of the class.
+        /// </summary>
+        protected override void Reset()
+        {
+            base.Reset();
+
+            this.returnValue.Reset();
+        }
+
+        #endregion Protected Override Methods
     }
 }

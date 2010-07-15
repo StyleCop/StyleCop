@@ -126,27 +126,26 @@ namespace Microsoft.StyleCop.CSharp
             }
         }
 
-        #endregion Public Properties
-
-        #region Public Methods
-
         /// <summary>
         /// Gets the variables defined within this expression.
         /// </summary>
         /// <returns>Returns the collection of variables.</returns>
-        public IList<IVariable> GetVariables()
+        public IList<IVariable> Variables
         {
-            this.ValidateEditVersion();
-
-            if (!this.variables.Initialized)
+            get
             {
-                this.variables.Value = new List<IVariable>(this.Declarators).AsReadOnly();
-            }
+                this.ValidateEditVersion();
 
-            return this.variables.Value;
+                if (!this.variables.Initialized)
+                {
+                    this.variables.Value = new List<IVariable>(this.Declarators).AsReadOnly();
+                }
+
+                return this.variables.Value;
+            }
         }
 
-        #endregion Public Methods
+        #endregion Public Properties
 
         #region Protected Override Methods
 

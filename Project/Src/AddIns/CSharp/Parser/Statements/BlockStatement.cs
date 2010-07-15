@@ -23,6 +23,15 @@ namespace Microsoft.StyleCop.CSharp
     /// <subcategory>statement</subcategory>
     public sealed class BlockStatement : Statement
     {
+        #region Private Fields
+
+        /// <summary>
+        /// The variables defined within the statement.
+        /// </summary>
+        private CodeUnitProperty<IList<IVariable>> variables;
+
+        #endregion Private Fields
+
         #region Internal Constructors
 
         /// <summary>
@@ -46,26 +55,23 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                List<IVariable> variables = null;
+                this.ValidateEditVersion();
 
-                for (VariableDeclarationStatement variableStatement = this.FindFirstChild<VariableDeclarationStatement>();
-                    variableStatement != null;
-                    variableStatement = variableStatement.FindNextSibling<VariableDeclarationStatement>())
+                if (!this.variables.Initialized)
                 {
-                    if (variables == null)
+                    List<IVariable> vars = new List<IVariable>();
+
+                    for (VariableDeclarationStatement variableStatement = this.FindFirstChild<VariableDeclarationStatement>();
+                        variableStatement != null;
+                        variableStatement = variableStatement.FindNextSibling<VariableDeclarationStatement>())
                     {
-                        variables = new List<IVariable>();
+                        vars.AddRange(variableStatement.Variables);
                     }
 
-                    variables.AddRange(variableStatement.Variables);
+                    this.variables.Value = vars.AsReadOnly();
                 }
 
-                if (variables != null && variables.Count > 0)
-                {
-                    return variables.AsReadOnly();
-                }
-
-                return CsParser.EmptyVariableArray;
+                return this.variables.Value;
             }
         }
 

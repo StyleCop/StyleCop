@@ -29,12 +29,12 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Indicates whether the item is constant.
         /// </summary>
-        private bool constant;
+        private CodeUnitProperty<bool> constant;
 
         /// <summary>
         /// The inner expression.
         /// </summary>
-        private VariableDeclarationExpression expression;
+        private CodeUnitProperty<VariableDeclarationExpression> expression;
 
         #endregion Private Fields
 
@@ -54,8 +54,8 @@ namespace Microsoft.StyleCop.CSharp
             Param.Ignore(constant);
             Param.AssertNotNull(expression, "expression");
 
-            this.constant = constant;
-            this.expression = expression;
+            this.constant.Value = constant;
+            this.expression.Value = expression;
         }
 
         #endregion Internal Constructors
@@ -70,7 +70,7 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                return this.expression.GetVariables();
+                return this.InnerExpression.Variables;
             }
         }
 
@@ -85,7 +85,22 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                return this.constant;
+                this.ValidateEditVersion();
+
+                if (!this.constant.Initialized)
+                {
+                    Field parentField = this.Parent as Field;
+                    if (parentField != null)
+                    {
+                        this.constant.Value = parentField.Const;
+                    }
+                    else
+                    {
+                        this.constant.Value = this.InnerExpression.FindPreviousSibling<ConstToken>() != null;
+                    }
+                }
+
+                return this.constant.Value;
             }
         }
 
@@ -96,7 +111,18 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                return this.expression;
+                this.ValidateEditVersion();
+
+                if (!this.expression.Initialized)
+                {
+                    this.expression.Value = this.FindFirstChild<VariableDeclarationExpression>();
+                    if (this.expression.Value == null)
+                    {
+                        throw new SyntaxException(this.Document, this.LineNumber);
+                    }
+                }
+
+                return this.expression.Value;
             }
         }
 
@@ -111,7 +137,7 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                return this.expression.Type;
+                return this.InnerExpression.Type;
             }
         }
 
@@ -122,10 +148,25 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                return this.expression.Declarators;
+                return this.InnerExpression.Declarators;
             }
         }
 
         #endregion Public Properties
+
+        #region Protected Override Methods
+
+        /// <summary>
+        /// Resets the contents of the class.
+        /// </summary>
+        protected override void Reset()
+        {
+            base.Reset();
+
+            this.constant.Reset();
+            this.expression.Reset();
+        }
+
+        #endregion Protected Override Methods
     }
 }
