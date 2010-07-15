@@ -131,9 +131,8 @@ namespace Microsoft.StyleCop
         {
             get
             {
-                // Convert to array to make it read-only. It is
-                // efficient to convert a List<> to an array.
-                return this.sourceCodes.ToArray();
+                // Convert to array to make it read-only.
+                return this.sourceCodes.AsReadOnly();
             }
         }
 

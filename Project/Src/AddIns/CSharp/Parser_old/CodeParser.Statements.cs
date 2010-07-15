@@ -928,7 +928,7 @@ namespace Microsoft.StyleCop.CSharp_old
 
             // Create and return the for-statement.
             ForStatement statement = new ForStatement(
-                partialTokens, initializers.ToArray(), condition, iterators.ToArray());
+                partialTokens, initializers.AsReadOnly(), condition, iterators.ToArray());
             statement.EmbeddedStatement = childStatement;
             statementReference.Target = statement;
 
@@ -1250,7 +1250,7 @@ namespace Microsoft.StyleCop.CSharp_old
             CsTokenList partialTokens = new CsTokenList(this.tokens, firstTokenNode, this.tokens.Last);
 
             // Create and return the switch-statement.
-            var statement = new SwitchStatement(partialTokens, expression, caseStatements.ToArray(), defaultStatement);
+            var statement = new SwitchStatement(partialTokens, expression, caseStatements.AsReadOnly(), defaultStatement);
             statementReference.Target = statement;
 
             return statement;
@@ -1483,7 +1483,7 @@ namespace Microsoft.StyleCop.CSharp_old
             statement.Tokens = new CsTokenList(this.tokens, firstTokenNode, this.tokens.Last);
 
             // Add the catch and finally statements to the try statement.
-            statement.CatchStatements = catchStatements.ToArray();
+            statement.CatchStatements = catchStatements.AsReadOnly();
             statement.FinallyStatement = finallyStatement;
 
             // Return the statement.

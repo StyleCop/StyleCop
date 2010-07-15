@@ -105,7 +105,7 @@ namespace Microsoft.StyleCop.CSharp
                 }
             }
 
-            this.types = genericTypes.ToArray();
+            this.types = genericTypes.AsReadOnly();
         }
 
         #endregion Private Methods

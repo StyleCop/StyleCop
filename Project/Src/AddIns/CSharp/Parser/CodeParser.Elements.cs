@@ -583,7 +583,7 @@ namespace Microsoft.StyleCop.CSharp
             }
 
             // Set the attributes as a read-only collection.
-            return attributes.ToArray();
+            return attributes.AsReadOnly();
         }
         
         /// <summary>
@@ -2639,7 +2639,7 @@ namespace Microsoft.StyleCop.CSharp
             }
 
             // Return the constraint clauses as a read-only collection.
-            return constraintClauses.ToArray();
+            return constraintClauses.AsReadOnly();
         }
 
         /// <summary>
