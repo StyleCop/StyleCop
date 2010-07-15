@@ -29,7 +29,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The expression within the parenthesis.
         /// </summary>
-        private Expression innerExpression;
+        private CodeUnitProperty<Expression> innerExpression;
 
         #endregion Private Fields
 
@@ -46,7 +46,7 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertNotNull(proxy, "proxy");
             Param.AssertNotNull(innerExpression, "innerExpression");
 
-            this.innerExpression = innerExpression;
+            this.innerExpression.Value = innerExpression;
         }
 
         #endregion Internal Constructors
@@ -60,10 +60,36 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                return this.innerExpression;
+                this.ValidateEditVersion();
+
+                if (!this.innerExpression.Initialized)
+                {
+                    this.innerExpression.Value = this.FindFirstChild<Expression>();
+
+                    if (this.innerExpression.Value == null)
+                    {
+                        throw new SyntaxException(this.Document, this.LineNumber);
+                    }
+                }
+
+                return this.innerExpression.Value;
             }
         }
 
         #endregion Public Properties
+
+        #region Protected Override Methods
+
+        /// <summary>
+        /// Resets the contents of the class.
+        /// </summary>
+        protected override void Reset()
+        {
+            base.Reset();
+
+            this.innerExpression.Reset();
+        }
+
+        #endregion Protected Override Methods
     }
 }

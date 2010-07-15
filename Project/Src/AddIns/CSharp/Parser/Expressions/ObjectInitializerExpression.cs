@@ -29,7 +29,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The collection of initializers within the expression.
         /// </summary>
-        private ICollection<AssignmentExpression> initializers;
+        private CodeUnitProperty<ICollection<AssignmentExpression>> initializers;
 
         #endregion Private Fields
 
@@ -47,7 +47,7 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertNotNull(proxy, "proxy");
             Param.AssertNotNull(initializers, "initializers");
 
-            this.initializers = initializers;
+            this.initializers.Value = initializers;
             Debug.Assert(initializers.IsReadOnly, "The collection of initializers should be read-only.");
         }
 
@@ -62,10 +62,57 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                return this.initializers;
+                this.ValidateEditVersion();
+
+                if (!this.initializers.Initialized)
+                {
+                    List<AssignmentExpression> expressions = new List<AssignmentExpression>();
+                    AssignmentExpression expression = this.FindFirstChild<AssignmentExpression>();
+                    if (expression == null)
+                    {
+                        throw new SyntaxException(this.Document, this.LineNumber);
+                    }
+
+                    expressions.Add(expression);
+
+                    while (true)
+                    {
+                        CommaToken comma = expression.FindNextSibling<CommaToken>();
+                        if (comma == null)
+                        {
+                            break;
+                        }
+
+                        expression = comma.FindNextSibling<AssignmentExpression>();
+                        if (expression == null)
+                        {
+                            break;
+                        }
+
+                        expressions.Add(expression);
+                    }
+
+                    this.initializers.Value = expressions.AsReadOnly();
+                }
+
+                return this.initializers.Value;
             }
         }
 
         #endregion Public Properties
+
+        #region Protected Override Methods
+
+        /// <summary>
+        /// Resets the contents of the class.
+        /// </summary>
+        protected override void Reset()
+        {
+            base.Reset();
+
+            this.initializers.Reset();
+        }
+
+        #endregion Protected Override Methods
     }
 }

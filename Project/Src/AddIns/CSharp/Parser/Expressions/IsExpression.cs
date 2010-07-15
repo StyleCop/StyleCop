@@ -14,6 +14,7 @@
 //-----------------------------------------------------------------------
 namespace Microsoft.StyleCop.CSharp
 {
+    using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
@@ -27,12 +28,12 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The value to check.
         /// </summary>
-        private Expression value;
+        private CodeUnitProperty<Expression> value;
 
         /// <summary>
         /// The type to check.
         /// </summary>
-        private TypeToken type;
+        private CodeUnitProperty<TypeToken> type;
 
         #endregion Private Properties
 
@@ -51,8 +52,8 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertNotNull(value, "value");
             Param.AssertNotNull(type, "type");
 
-            this.value = value;
-            this.type = CodeParser.ExtractTypeTokenFromLiteralExpression(type);
+            this.value.Value = value;
+            this.type.Value = CodeParser.ExtractTypeTokenFromLiteralExpression(type);
         }
 
         #endregion Internal Constructors
@@ -66,7 +67,15 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                return this.value;
+                this.ValidateEditVersion();
+
+                if (!this.value.Initialized)
+                {
+                    this.Initialize();
+                    Debug.Assert(this.value.Value != null, "Failed to initialize");
+                }
+
+                return this.value.Value;
             }
         }
 
@@ -81,10 +90,63 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                return this.type;
+                this.ValidateEditVersion();
+
+                if (!this.type.Initialized)
+                {
+                    this.Initialize();
+                    Debug.Assert(this.type.Value != null, "Failed to initialize");
+                }
+
+                return this.type.Value;
             }
         }
 
         #endregion Public Properties
+
+        #region Protected Override Methods
+
+        /// <summary>
+        /// Resets the contents of the class.
+        /// </summary>
+        protected override void Reset()
+        {
+            base.Reset();
+
+            this.value.Reset();
+            this.type.Reset();
+        }
+
+        #endregion Protected Override Methods
+
+        #region Private Methods
+
+        /// <summary>
+        /// Initializes the contents of the expression.
+        /// </summary>
+        private void Initialize()
+        {
+            this.value.Value = this.FindFirstChild<Expression>();
+            if (this.value.Value == null)
+            {
+                throw new SyntaxException(this.Document, this.LineNumber);
+            }
+
+            IsToken @is = this.value.Value.FindNextSibling<IsToken>();
+            if (@is == null)
+            {
+                throw new SyntaxException(this.Document, this.LineNumber);
+            }
+
+            LiteralExpression literal = @is.FindNextSibling<LiteralExpression>();
+            if (literal == null)
+            {
+                throw new SyntaxException(this.Document, this.LineNumber);
+            }
+
+            this.type.Value = CodeParser.ExtractTypeTokenFromLiteralExpression(literal);
+        }
+
+        #endregion Private Methods
     }
 }

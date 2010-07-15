@@ -349,8 +349,13 @@ namespace Microsoft.StyleCop.CSharp
         {
             Param.AssertNotNull(literal, "literal");
 
-            Debug.Assert(literal.Token != null && literal.Token.TokenType == TokenType.Type, "The literal expression does not contain a TypeToken");
-            return (TypeToken)literal.Token;
+            TypeToken type = literal.Token as TypeToken;
+            if (type == null)
+            {
+                throw new SyntaxException(literal.Document, literal.LineNumber);
+            }
+
+            return type;
         }
 
         #endregion Internal Static Methods

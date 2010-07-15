@@ -30,12 +30,12 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The type of operation being performed.
         /// </summary>
-        private Operator operatorType;
+        private CodeUnitProperty<Operator> operatorType;
 
         /// <summary>
         /// The expression the operator is being applied to.
         /// </summary>
-        private Expression value;
+        private CodeUnitProperty<Expression> value;
 
         #endregion Private Fields
 
@@ -54,8 +54,8 @@ namespace Microsoft.StyleCop.CSharp
             Param.Ignore(operatorType);
             Param.AssertNotNull(value, "value");
 
-            this.operatorType = operatorType;
-            this.value = value;
+            this.operatorType.Value = operatorType;
+            this.value.Value = value;
         }
 
         #endregion Internal Constructors
@@ -92,7 +92,30 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                return this.operatorType;
+                this.ValidateEditVersion();
+
+                if (!this.operatorType.Initialized)
+                {
+                    var operatorToken = this.FindFirstChild<OperatorSymbolToken>();
+                    if (operatorToken != null)
+                    {
+                        if (operatorToken.SymbolType == CSharp.OperatorType.AddressOf)
+                        {
+                            this.operatorType.Value = Operator.AddressOf;
+                        }
+                        else if (operatorToken.SymbolType == CSharp.OperatorType.Dereference)
+                        {
+                            this.operatorType.Value = Operator.Dereference;
+                        }
+                    }
+
+                    if (!this.operatorType.Initialized)
+                    {
+                        throw new SyntaxException(this.Document, this.LineNumber);
+                    }
+                }
+
+                return this.operatorType.Value;
             }
         }
 
@@ -103,10 +126,36 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                return this.value;
+                this.ValidateEditVersion();
+
+                if (!this.value.Initialized)
+                {
+                    this.value.Value = this.FindFirstChild<Expression>();
+                    if (this.value.Value == null)
+                    {
+                        throw new SyntaxException(this.Document, this.LineNumber);
+                    }
+                }
+
+                return this.value.Value;
             }
         }
 
         #endregion Public Properties
+
+        #region Protected Override Methods
+
+        /// <summary>
+        /// Resets the contents of the class.
+        /// </summary>
+        protected override void Reset()
+        {
+            base.Reset();
+
+            this.operatorType.Reset();
+            this.value.Reset();
+        }
+
+        #endregion Protected Override Methods
     }
 }

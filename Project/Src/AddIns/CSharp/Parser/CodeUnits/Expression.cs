@@ -111,7 +111,7 @@ namespace Microsoft.StyleCop.CSharp
                     list.Add(argument);
                 }
                 
-                return list.ToArray();
+                return list.AsReadOnly();
             }
 
             return Argument.EmptyArgumentArray;

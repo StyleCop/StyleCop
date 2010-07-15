@@ -16,6 +16,7 @@ namespace Microsoft.StyleCop.CSharp
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Text;
 
     /// <summary>
@@ -29,17 +30,17 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The condition being evaluated.
         /// </summary>
-        private Expression condition;
+        private CodeUnitProperty<Expression> condition;
 
         /// <summary>
         /// The expression that is evaluated if the condition is true.
         /// </summary>
-        private Expression trueValue;
+        private CodeUnitProperty<Expression> trueValue;
 
         /// <summary>
         /// The expression that is evaluated if the condition is false.
         /// </summary>
-        private Expression falseValue;
+        private CodeUnitProperty<Expression> falseValue;
 
         #endregion Private Fields
 
@@ -61,9 +62,9 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertNotNull(trueValue, "trueValue");
             Param.AssertNotNull(falseValue, "falseValue");
 
-            this.condition = condition;
-            this.trueValue = trueValue;
-            this.falseValue = falseValue;
+            this.condition.Value = condition;
+            this.trueValue.Value = trueValue;
+            this.falseValue.Value = falseValue;
         }
 
         #endregion Internal Constructors
@@ -77,7 +78,15 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                return this.condition;
+                this.ValidateEditVersion();
+
+                if (!this.condition.Initialized)
+                {
+                    this.Initialize();
+                    Debug.Assert(this.condition.Value != null, "Failed to initialize");
+                }
+
+                return this.condition.Value;
             }
         }
 
@@ -88,7 +97,15 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                return this.trueValue;
+                this.ValidateEditVersion();
+
+                if (!this.trueValue.Initialized)
+                {
+                    this.Initialize();
+                    Debug.Assert(this.trueValue.Value != null, "Failed to initialize");
+                }
+
+                return this.trueValue.Value;
             }
         }
 
@@ -99,10 +116,74 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                return this.falseValue;
+                this.ValidateEditVersion();
+
+                if (!this.falseValue.Initialized)
+                {
+                    this.Initialize();
+                    Debug.Assert(this.falseValue.Value != null, "Failed to initialize");
+                }
+
+                return this.falseValue.Value;
             }
         }
 
         #endregion Public Properties
+
+        #region Protected Override Methods
+
+        /// <summary>
+        /// Resets the contents of the class.
+        /// </summary>
+        protected override void Reset()
+        {
+            base.Reset();
+
+            this.condition.Reset();
+            this.trueValue.Reset();
+            this.falseValue.Reset();
+        }
+
+        #endregion Protected Override Methods
+
+        #region Private Methods
+
+        /// <summary>
+        /// Initializes the contents of the expression.
+        /// </summary>
+        private void Initialize()
+        {
+            this.condition.Value = this.FindFirstChild<Expression>();
+            if (this.condition.Value == null)
+            {
+                throw new SyntaxException(this.Document, this.LineNumber);
+            }
+
+            ConditionalQuestionMarkOperator questionMark = this.condition.Value.FindNextSibling<ConditionalQuestionMarkOperator>();
+            if (questionMark == null)
+            {
+                throw new SyntaxException(this.Document, this.LineNumber);
+            }
+
+            this.trueValue.Value = questionMark.FindNextSibling<Expression>();
+            if (this.trueValue.Value == null)
+            {
+                throw new SyntaxException(this.Document, this.LineNumber);
+            }
+
+            ConditionalColonOperator colon = this.condition.Value.FindNextSibling<ConditionalColonOperator>();
+            if (colon == null)
+            {
+                throw new SyntaxException(this.Document, this.LineNumber);
+            }
+
+            this.falseValue.Value = colon.FindNextSibling<Expression>();
+            if (this.falseValue.Value == null)
+            {
+                throw new SyntaxException(this.Document, this.LineNumber);
+            }
+        }
+
+        #endregion Private Methods
     }
 }

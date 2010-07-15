@@ -433,13 +433,6 @@ namespace Microsoft.StyleCop.CSharp
         #region Protected Virtual Methods
 
         /// <summary>
-        /// Collects the variables declared by the code unit.
-        /// </summary>
-        protected virtual void CollectVariables()
-        {
-        }
-
-        /// <summary>
         /// Resets all properties within the code unit.
         /// </summary>
         protected virtual void Reset()

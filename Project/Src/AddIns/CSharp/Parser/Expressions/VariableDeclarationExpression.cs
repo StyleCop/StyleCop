@@ -30,7 +30,17 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The type of the variable being declared.
         /// </summary>
-        private TypeToken type;
+        private CodeUnitProperty<TypeToken> type;
+
+        /// <summary>
+        /// The declarators in the expression.
+        /// </summary>
+        private CodeUnitProperty<ICollection<VariableDeclaratorExpression>> declarators;
+
+        /// <summary>
+        /// The variables defined within the expression.
+        /// </summary>
+        private CodeUnitProperty<IList<IVariable>> variables;
 
         #endregion Private Fields
 
@@ -47,7 +57,7 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertNotNull(proxy, "proxy");
             Param.AssertNotNull(type, "type");
 
-            this.type = CodeParser.ExtractTypeTokenFromLiteralExpression(type);
+            this.type.Value = CodeParser.ExtractTypeTokenFromLiteralExpression(type);
         }
 
         #endregion Internal Constructors
@@ -58,25 +68,61 @@ namespace Microsoft.StyleCop.CSharp
         /// Gets the type of the variable.
         /// </summary>
         [SuppressMessage(
-            "Microsoft.Naming", 
+            "Microsoft.Naming",
             "CA1721:PropertyNamesShouldNotMatchGetMethods",
             Justification = "API has already been published and should not be changed.")]
         public TypeToken Type
         {
             get
             {
-                return this.type;
+                this.ValidateEditVersion();
+
+                if (!this.type.Initialized)
+                {
+                    this.type.Value = null;
+
+                    for (CodeUnit c = this.FindFirstChild<CodeUnit>(); c != null; c = c.FindNextSibling<CodeUnit>())
+                    {
+                        if (c.Is(ExpressionType.Literal))
+                        {
+                            LiteralExpression literal = (LiteralExpression)c;
+                            if (literal.Token != null && literal.Token.Is(TokenType.Type))
+                            {
+                                this.type.Value = (TypeToken)literal.Token;
+                                break;
+                            }
+                        }
+                        else if (c.Is(ExpressionType.VariableDeclarator))
+                        {
+                            break;
+                        }
+                    }
+
+                    if (this.type.Value == null)
+                    {
+                        throw new SyntaxException(this.Document, this.LineNumber);
+                    }
+                }
+
+                return this.type.Value;
             }
         }
 
         /// <summary>
         /// Gets the list of declarators for the expression.
         /// </summary>
-        public IEnumerable<VariableDeclaratorExpression> Declarators
+        public ICollection<VariableDeclaratorExpression> Declarators
         {
             get
             {
-                return this.GetChildren<VariableDeclaratorExpression>();
+                this.ValidateEditVersion();
+
+                if (!this.declarators.Initialized)
+                {
+                    this.declarators.Value = new List<VariableDeclaratorExpression>(this.GetChildren<VariableDeclaratorExpression>()).AsReadOnly();
+                }
+
+                return this.declarators.Value;
             }
         }
 
@@ -90,15 +136,31 @@ namespace Microsoft.StyleCop.CSharp
         /// <returns>Returns the collection of variables.</returns>
         public IList<IVariable> GetVariables()
         {
-            List<IVariable> variables = new List<IVariable>();
-            for (VariableDeclaratorExpression declarator = this.FindFirstChild<VariableDeclaratorExpression>(); declarator != null; declarator = declarator.FindNextSibling<VariableDeclaratorExpression>())
+            this.ValidateEditVersion();
+
+            if (!this.variables.Initialized)
             {
-                variables.Add(declarator);
+                this.variables.Value = new List<IVariable>(this.Declarators).AsReadOnly();
             }
 
-            return variables.AsReadOnly();
+            return this.variables.Value;
         }
 
         #endregion Public Methods
+
+        #region Protected Override Methods
+
+        /// <summary>
+        /// Resets the contents of the class.
+        /// </summary>
+        protected override void Reset()
+        {
+            base.Reset();
+
+            this.declarators.Reset();
+            this.variables.Reset();
+        }
+
+        #endregion Protected Override Methods
     }
 }

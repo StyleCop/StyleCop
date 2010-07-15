@@ -16,6 +16,7 @@ namespace Microsoft.StyleCop.CSharp
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Text;
 
     /// <summary>
@@ -29,12 +30,12 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The type creation expression.
         /// </summary>
-        private Expression typeCreationExpression;
+        private CodeUnitProperty<Expression> typeCreationExpression;
 
         /// <summary>
         /// The optional initializer expression.
         /// </summary>
-        private Expression initializerExpression;
+        private CodeUnitProperty<Expression> initializerExpression;
 
         #endregion Private Fields
 
@@ -67,8 +68,8 @@ namespace Microsoft.StyleCop.CSharp
                 "initializerExpression",
                 "The initializer expression must be null or a valid initializer expression type.");
 
-            this.typeCreationExpression = typeCreationExpression;
-            this.initializerExpression = initializerExpression;
+            this.typeCreationExpression.Value = typeCreationExpression;
+            this.initializerExpression.Value = initializerExpression;
         }
 
         #endregion Internal Constructors
@@ -82,7 +83,15 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                return this.typeCreationExpression;
+                this.ValidateEditVersion();
+
+                if (!this.typeCreationExpression.Initialized)
+                {
+                    this.Initialize();
+                    Debug.Assert(this.typeCreationExpression.Value != null, "Failed to initialize");
+                }
+
+                return this.typeCreationExpression.Value;
             }
         }
 
@@ -93,10 +102,66 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                return this.initializerExpression;
+                this.ValidateEditVersion();
+
+                if (!this.initializerExpression.Initialized)
+                {
+                    this.Initialize();
+                    Debug.Assert(this.initializerExpression.Value != null, "Failed to initialize");
+                }
+
+                return this.initializerExpression.Value;
             }
         }
 
         #endregion Public Properties
+
+        #region Protected Override Methods
+
+        /// <summary>
+        /// Resets the contents of the class.
+        /// </summary>
+        protected override void Reset()
+        {
+            base.Reset();
+
+            this.typeCreationExpression.Reset();
+            this.initializerExpression.Reset();
+        }
+
+        #endregion Protected Override Methods
+
+        #region Private Methods
+
+        /// <summary>
+        /// Initializes the contents of the expression.
+        /// </summary>
+        private void Initialize()
+        {
+            Expression firstExpression = this.FindFirstChild<Expression>();
+            if (firstExpression == null ||
+                (firstExpression.ExpressionType != ExpressionType.Literal &&
+                 firstExpression.ExpressionType != ExpressionType.MemberAccess &&
+                 firstExpression.ExpressionType != ExpressionType.MethodInvocation))
+            {
+                throw new SyntaxException(this.Document, this.LineNumber);
+            }
+
+            this.typeCreationExpression.Value = firstExpression;
+
+            Expression nextExpression = firstExpression.FindNextSibling<Expression>();
+            if (nextExpression != null &&
+                (nextExpression.ExpressionType == ExpressionType.ObjectInitializer ||
+                 nextExpression.ExpressionType == ExpressionType.CollectionInitializer))
+            {
+                this.initializerExpression.Value = nextExpression;
+            }
+            else
+            {
+                this.initializerExpression.Value = null;
+            }
+        }
+
+        #endregion Private Methods
     }
 }

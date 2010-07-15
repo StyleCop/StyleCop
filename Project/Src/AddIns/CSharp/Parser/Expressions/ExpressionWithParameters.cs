@@ -29,7 +29,12 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The parameters defines in the expression.
         /// </summary>
-        private IList<Parameter> parameters;
+        private CodeUnitProperty<IList<Parameter>> parameters;
+
+        /// <summary>
+        /// The variables on the expression.
+        /// </summary>
+        private CodeUnitProperty<IList<IVariable>> variables;
 
         #endregion Private Fields
 
@@ -58,41 +63,36 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                if (this.parameters == null)
+                this.ValidateEditVersion();
+
+                if (!this.parameters.Initialized)
                 {
-                    this.parameters = this.CollectFormalParameters(this.FindFirstChild<Token>(), TokenType.CloseParenthesis);
+                    this.parameters.Value = this.CollectFormalParameters(this.FindFirstChild<Token>(), TokenType.CloseParenthesis);
                 }
 
-                return this.parameters;
+                return this.parameters.Value;
             }
         }
-
-        #endregion Public Properties
-
-        #region Public Methods
 
         /// <summary>
         /// Gets the variables defined within this element.
         /// </summary>
         /// <returns>Returns the collection of variables.</returns>
-        public IList<IVariable> GetVariables()
+        public IList<IVariable> Variables
         {
-            IList<Parameter> parameters = this.Parameters;
-
-            if (parameters != null && parameters.Count > 0)
+            get
             {
-                IVariable[] variables = new IVariable[parameters.Count];
-                for (int i = 0; i < parameters.Count; ++i)
+                this.ValidateEditVersion();
+
+                if (!this.variables.Initialized)
                 {
-                    variables[i] = parameters[i];
+                    this.variables.Value = new List<IVariable>(this.Parameters).AsReadOnly();
                 }
 
-                return variables;
+                return this.variables.Value;
             }
-
-            return CsParser.EmptyVariableArray;
         }
 
-        #endregion Public Methods
+        #endregion Public Properties
     }
 }

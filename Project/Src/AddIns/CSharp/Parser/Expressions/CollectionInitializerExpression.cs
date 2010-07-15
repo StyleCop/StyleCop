@@ -16,6 +16,7 @@ namespace Microsoft.StyleCop.CSharp
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
 
     /// <summary>
     /// An expression representing a collection initializer.
@@ -23,6 +24,15 @@ namespace Microsoft.StyleCop.CSharp
     /// <subcategory>expression</subcategory>
     public sealed class CollectionInitializerExpression : Expression
     {
+        #region Private Fields
+
+        /// <summary>
+        /// The list of variable initializers within the array initializer expression.
+        /// </summary>
+        private CodeUnitProperty<ICollection<Expression>> initializers;
+
+        #endregion Private Fields
+
         #region Internal Constructors
 
         /// <summary>
@@ -31,26 +41,78 @@ namespace Microsoft.StyleCop.CSharp
         /// <param name="proxy">Proxy object for the expression.</param>
         /// <param name="initializers">The list of variable initializers within the 
         /// array initializer expression.</param>
-        internal CollectionInitializerExpression(CodeUnitProxy proxy, IEnumerable<Expression> initializers)
+        internal CollectionInitializerExpression(CodeUnitProxy proxy, ICollection<Expression> initializers)
             : base(proxy, ExpressionType.CollectionInitializer)
         {
             Param.AssertNotNull(proxy, "proxy");
             Param.AssertNotNull(initializers, "initializers");
+
+            this.initializers.Value = initializers;
+            Debug.Assert(initializers.IsReadOnly, "The initializers collection should be read-only.");
         }
 
         #endregion Internal Constructors
 
-        #region Public Method
+        #region Public Properties
 
         /// <summary>
-        /// Gets the list of initializers within the expression.
+        /// Gets the list of variable initializers within the collection initializer expression.
         /// </summary>
-        /// <returns>Returns the initializer expressions.</returns>
-        public ICollection<Expression> FindInitializers()
+        public ICollection<Expression> Initializers
         {
-            return this.FindChildExpressions();
+            get
+            {
+                this.ValidateEditVersion();
+
+                if (!this.initializers.Initialized)
+                {
+                    List<Expression> expressions = new List<Expression>();
+                    Expression expression = this.FindFirstChild<Expression>();
+                    if (expression == null)
+                    {
+                        throw new SyntaxException(this.Document, this.LineNumber);
+                    }
+
+                    expressions.Add(expression);
+
+                    while (true)
+                    {
+                        CommaToken comma = expression.FindNextSibling<CommaToken>();
+                        if (comma == null)
+                        {
+                            break;
+                        }
+
+                        expression = comma.FindNextSibling<Expression>();
+                        if (expression == null)
+                        {
+                            break;
+                        }
+
+                        expressions.Add(expression);
+                    }
+
+                    this.initializers.Value = expressions.AsReadOnly();
+                }
+
+                return this.initializers.Value;
+            }
         }
 
-        #endregion Public Method
+        #endregion Public Properties
+
+        #region Protected Override Methods
+
+        /// <summary>
+        /// Resets the contents of the class.
+        /// </summary>
+        protected override void Reset()
+        {
+            base.Reset();
+
+            this.initializers.Reset();
+        }
+
+        #endregion Protected Override Methods
     }
 }

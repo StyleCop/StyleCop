@@ -16,6 +16,7 @@ namespace Microsoft.StyleCop.CSharp
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
     using System.Text;
 
@@ -30,17 +31,17 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The type of arithmetic operation being performed.
         /// </summary>
-        private Operator operatorType;
+        private CodeUnitProperty<Operator> operatorType;
 
         /// <summary>
         /// The left hand size of the expression.
         /// </summary>
-        private Expression leftHandSide;
+        private CodeUnitProperty<Expression> leftHandSide;
 
         /// <summary>
         /// The right hand size of the expression.
         /// </summary>
-        private Expression rightHandSide;
+        private CodeUnitProperty<Expression> rightHandSide;
 
         #endregion Private Fields
 
@@ -65,9 +66,9 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertNotNull(leftHandSide, "leftHandSide");
             Param.AssertNotNull(rightHandSide, "rightHandSide");
 
-            this.operatorType = operatorType;
-            this.leftHandSide = leftHandSide;
-            this.rightHandSide = rightHandSide;
+            this.operatorType.Value = operatorType;
+            this.leftHandSide.Value = leftHandSide;
+            this.rightHandSide.Value = rightHandSide;
         }
 
         #endregion Internal Constructors
@@ -129,7 +130,14 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                return this.operatorType;
+                this.ValidateEditVersion();
+
+                if (!this.operatorType.Initialized)
+                {
+                    this.Initialize();
+                }
+
+                return this.operatorType.Value;
             }
         }
 
@@ -140,7 +148,15 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                return this.leftHandSide;
+                this.ValidateEditVersion();
+
+                if (!this.leftHandSide.Initialized)
+                {
+                    this.Initialize();
+                    Debug.Assert(this.leftHandSide.Value != null, "Failed to initialize");
+                }
+
+                return this.leftHandSide.Value;
             }
         }
 
@@ -151,10 +167,96 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                return this.rightHandSide;
+                this.ValidateEditVersion();
+
+                if (!this.rightHandSide.Initialized)
+                {
+                    this.Initialize();
+                    Debug.Assert(this.rightHandSide.Value != null, "Failed to initialize");
+                }
+
+                return this.rightHandSide.Value;
             }
         }
 
         #endregion Public Properties
+
+        #region Protected Override Methods
+
+        /// <summary>
+        /// Resets the contents of the class.
+        /// </summary>
+        protected override void Reset()
+        {
+            base.Reset();
+
+            this.operatorType.Reset();
+            this.leftHandSide.Reset();
+            this.rightHandSide.Reset();
+        }
+
+        #endregion Protected Override Methods
+
+        #region Private Methods
+
+        /// <summary>
+        /// Initializes the contents of the expression.
+        /// </summary>
+        private void Initialize()
+        {
+            this.leftHandSide.Value = this.FindFirstChild<Expression>();
+            if (this.leftHandSide.Value == null)
+            {
+                throw new SyntaxException(this.Document, this.LineNumber);
+            }
+
+            OperatorSymbolToken o = this.leftHandSide.Value.FindNextSibling<OperatorSymbolToken>();
+            if (o == null)
+            {
+                throw new SyntaxException(this.Document, this.LineNumber);
+            }
+
+            switch (o.SymbolType)
+            {
+                case CSharp.OperatorType.Plus:
+                    this.operatorType.Value = Operator.Addition;
+                    break;
+
+                case CSharp.OperatorType.Minus:
+                    this.operatorType.Value = Operator.Subtraction;
+                    break;
+
+                case CSharp.OperatorType.Multiplication:
+                    this.operatorType.Value = Operator.Multiplication;
+                    break;
+
+                case CSharp.OperatorType.Division:
+                    this.operatorType.Value = Operator.Division;
+                    break;
+
+                case CSharp.OperatorType.Mod:
+                    this.operatorType.Value = Operator.Mod;
+                    break;
+
+                case CSharp.OperatorType.LeftShift:
+                    this.operatorType.Value = Operator.LeftShift;
+                    break;
+
+                case CSharp.OperatorType.RightShift:
+                    this.operatorType.Value = Operator.RightShift;
+                    break;
+
+                default:
+                    throw new SyntaxException(this.Document, this.LineNumber);
+            }
+
+            this.rightHandSide.Value = o.FindNextSibling<Expression>();
+            if (this.rightHandSide.Value == null)
+            {
+                throw new SyntaxException(this.Document, this.LineNumber);
+            }
+        }
+
+        #endregion Private Methods
     }
 }
