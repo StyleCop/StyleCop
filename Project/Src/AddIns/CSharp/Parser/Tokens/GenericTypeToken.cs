@@ -30,7 +30,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The types within the generic type.
         /// </summary>
-        private ICollection<string> types;
+        private CodeUnitProperty<ICollection<string>> types;
 
         #endregion Private Fields
 
@@ -59,12 +59,14 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                if (this.types == null)
+                this.ValidateEditVersion();
+
+                if (!this.types.Initialized)
                 {
                     this.ExtractGenericTypes();
                 }
 
-                return this.types;
+                return this.types.Value;
             }
         }
 
@@ -107,7 +109,7 @@ namespace Microsoft.StyleCop.CSharp
                 }
             }
 
-            this.types = genericTypes.AsReadOnly();
+            this.types.Value = genericTypes.AsReadOnly();
         }
 
         #endregion Private Methods

@@ -31,7 +31,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The partner of this endregion tag.
         /// </summary>
-        private RegionDirective partner;
+        private CodeUnitProperty<RegionDirective> partner;
 
         #endregion Private Fields
 
@@ -64,12 +64,39 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                return this.partner;
+                if (!this.partner.Initialized)
+                {
+                    int count = 1;
+                    for (SimplePreprocessorDirective directive = this.FindPrevious<SimplePreprocessorDirective>();
+                        directive != null;
+                        directive = directive.FindPrevious<SimplePreprocessorDirective>())
+                    {
+                        if (directive.Is(PreprocessorType.EndRegion))
+                        {
+                            ++count;
+                        }
+                        else if (directive.Is(PreprocessorType.Region))
+                        {
+                            --count;
+                            if (count == 0)
+                            {
+                                this.partner.Value = (RegionDirective)directive;
+                            }
+                        }
+                    }
+
+                    if (!this.partner.Initialized)
+                    {
+                        throw new SyntaxException(this.Document, this.LineNumber);
+                    }
+                }
+
+                return this.partner.Value;
             }
 
             internal set
             {
-                this.partner = value;
+                this.partner.Value = value;
             }
         }
 
