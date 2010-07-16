@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a closing curly bracket.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class CloseCurlyBracketToken : BracketToken
+    public sealed class CloseCurlyBracketToken : CloseBracketToken
     {
         /// <summary>
         /// Initializes a new instance of the CloseCurlyBracketToken class.
@@ -36,6 +36,18 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertValidString(text, "text");
             Param.AssertNotNull(location, "location");
             Param.Ignore(generated);
+        }
+
+
+        /// <summary>
+        /// Gets the matching bracket type for this bracket.
+        /// </summary>
+        protected override TokenType MatchingBracketType
+        {
+            get
+            {
+                return TokenType.OpenCurlyBracket;
+            }
         }
     }
 }

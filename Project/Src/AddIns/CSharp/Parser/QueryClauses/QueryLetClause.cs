@@ -16,12 +16,32 @@ namespace Microsoft.StyleCop.CSharp
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
 
     /// <summary>
     /// Describes a let clause in a query expression.
     /// </summary>
-    public sealed class QueryLetClause : QueryClauseWithExpression
+    public sealed class QueryLetClause : QueryClause
     {
+        #region Private Fields
+
+        /// <summary>
+        /// The variable defined in the clause.
+        /// </summary>
+        private CodeUnitProperty<IVariable> rangeVariable;
+
+        /// <summary>
+        /// The variables within the clause.
+        /// </summary>
+        private CodeUnitProperty<IList<IVariable>> variables;
+
+        /// <summary>
+        /// The  expression.
+        /// </summary>
+        private CodeUnitProperty<Expression> expression;
+
+        #endregion Private Fields
+
         #region Internal Constructors
 
         /// <summary>
@@ -30,10 +50,12 @@ namespace Microsoft.StyleCop.CSharp
         /// <param name="proxy">Proxy object for the clause.</param>
         /// <param name="expression">The range expression.</param>
         internal QueryLetClause(CodeUnitProxy proxy, Expression expression)
-            : base(proxy, QueryClauseType.Let, expression)
+            : base(proxy, QueryClauseType.Let)
         {
             Param.AssertNotNull(proxy, "proxy");
             Param.AssertNotNull(expression, "expression");
+
+            this.expression.Value = expression;
         }
 
         #endregion Internal Constructors
@@ -48,13 +70,22 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                IVariable rangeVariable = this.RangeVariable;
-                if (rangeVariable != null)
+                this.ValidateEditVersion();
+
+                if (!this.variables.Initialized)
                 {
-                    return new IVariable[] { rangeVariable };
+                    IVariable rangeVariable = this.RangeVariable;
+                    if (rangeVariable != null)
+                    {
+                        this.variables.Value = new IVariable[] { rangeVariable };
+                    }
+                    else
+                    {
+                        this.variables.Value = CsParser.EmptyVariableArray;
+                    }
                 }
 
-                return CsParser.EmptyVariableArray;
+                return this.variables.Value;
             }
         }
 
@@ -69,17 +100,90 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                // Find the 'let' keyword.
-                LetToken letToken = this.FindFirstChild<LetToken>();
-                if (letToken == null)
+                this.ValidateEditVersion();
+
+                if (!this.rangeVariable.Initialized)
                 {
-                    return null;
+                    this.Initialize();
+                    Debug.Assert(this.rangeVariable.Value != null, "Failed to initialize");
                 }
 
-                return ExtractQueryVariable(letToken.FindNextSibling<Token>(), true, true);
+                return this.rangeVariable.Value;
+            }
+        }
+
+        /// <summary>
+        /// Gets the range expression.
+        /// </summary>
+        public Expression Expression
+        {
+            get
+            {
+                this.ValidateEditVersion();
+
+                if (!this.expression.Initialized)
+                {
+                    this.Initialize();
+                    Debug.Assert(this.expression.Value != null, "Failed to initialize");
+                }
+
+                return this.expression.Value;
             }
         }
 
         #endregion Public Properties
-   }
+
+        #region Protected Override Methods
+
+        /// <summary>
+        /// Resets the contents of the class.
+        /// </summary>
+        protected override void Reset()
+        {
+            base.Reset();
+
+            this.rangeVariable.Reset();
+            this.variables.Reset();
+            this.expression.Reset();
+        }
+
+        #endregion Protected Override Methods
+
+        #region Private Methods
+
+        /// <summary>
+        /// Initializes the contents of the class.
+        /// </summary>
+        private void Initialize()
+        {
+            // Find the 'let' keyword.
+            LetToken let = this.FindFirstChild<LetToken>();
+            if (let == null)
+            {
+                throw new SyntaxException(this.Document, this.LineNumber);
+            }
+
+            TypeToken type = let.FindNextSibling<TypeToken>();
+            if (type == null)
+            {
+                throw new SyntaxException(this.Document, this.LineNumber);
+            }
+
+            this.rangeVariable.Value = ExtractQueryVariable(type, true, true);
+
+            EqualsOperator equals = type.FindNextSibling<EqualsOperator>();
+            if (equals == null)
+            {
+                throw new SyntaxException(this.Document, this.LineNumber);
+            }
+
+            this.expression.Value = equals.FindNextSibling<Expression>();
+            if (this.expression.Value == null)
+            {
+                throw new SyntaxException(this.Document, this.LineNumber);
+            }
+        }
+
+        #endregion Private Methods
+    }
 }

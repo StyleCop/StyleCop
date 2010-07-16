@@ -3430,7 +3430,7 @@ namespace Microsoft.StyleCop.CSharp
             Debug.Assert(symbol.SymbolType == SymbolType.Other && symbol.Text == "join", "Expected a join keyword");
             #endif
 
-            // Get and add the 'from' symbol.
+            // Get and add the 'join' symbol.
             this.GetToken(queryClauseProxy, TokenType.Join, SymbolType.Other);
 
             // Get the variable.
@@ -3562,7 +3562,7 @@ namespace Microsoft.StyleCop.CSharp
             }
 
             // Create and return the clause.
-            var orderByClause = new QueryOrderByClause(queryClauseProxy, orderings);
+            var orderByClause = new QueryOrderByClause(queryClauseProxy, orderings.AsReadOnly());
 
             parentProxy.Children.Add(orderByClause);
             return orderByClause;

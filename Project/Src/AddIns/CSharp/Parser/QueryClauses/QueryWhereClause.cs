@@ -19,8 +19,17 @@ namespace Microsoft.StyleCop.CSharp
     /// <summary>
     /// Describes a where clause in a query expression.
     /// </summary>
-    public sealed class QueryWhereClause : QueryClauseWithExpression
+    public sealed class QueryWhereClause : QueryClause
     {
+        #region Private Fields
+
+        /// <summary>
+        /// The range expression.
+        /// </summary>
+        private CodeUnitProperty<Expression> expression;
+
+        #endregion Private Fields
+
         #region Internal Constructors
 
         /// <summary>
@@ -29,12 +38,60 @@ namespace Microsoft.StyleCop.CSharp
         /// <param name="proxy">Proxy object for the clause.</param>
         /// <param name="expression">The expression.</param>
         internal QueryWhereClause(CodeUnitProxy proxy, Expression expression)
-            : base(proxy, QueryClauseType.Where, expression)
+            : base(proxy, QueryClauseType.Where)
         {
             Param.AssertNotNull(proxy, "proxy");
             Param.AssertNotNull(expression, "expression");
+
+            this.expression.Value = expression;
         }
 
         #endregion Internal Constructors
+
+        #region Public Properties
+
+        /// <summary>
+        /// Gets the range expression.
+        /// </summary>
+        public Expression Expression
+        {
+            get
+            {
+                this.ValidateEditVersion();
+
+                if (!this.expression.Initialized)
+                {
+                    WhereToken whereToken = this.FindFirstChild<WhereToken>();
+                    if (whereToken == null)
+                    {
+                        throw new SyntaxException(this.Document, this.LineNumber);
+                    }
+
+                    this.expression.Value = whereToken.FindNextSibling<Expression>();
+                    if (this.expression.Value == null)
+                    {
+                        throw new SyntaxException(this.Document, this.LineNumber);
+                    }
+                }
+
+                return this.expression.Value;
+            }
+        }
+
+        #endregion Public Properties
+
+        #region Protected Override Methods
+
+        /// <summary>
+        /// Resets the contents of the class.
+        /// </summary>
+        protected override void Reset()
+        {
+            base.Reset();
+
+            this.expression.Reset();
+        }
+
+        #endregion Protected Override Methods
     }
 }
