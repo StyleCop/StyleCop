@@ -132,6 +132,9 @@ namespace Microsoft.StyleCop
                             fileList.Settings = MergeSettings(mergedSettings, fileList.Settings);
                         }
                     }
+
+                    // Finally, add the merged file list to the new merged settings object.
+                    mergedSettings.AddSourceFileList(fileList);
                 }
 
                 return mergedSettings;
