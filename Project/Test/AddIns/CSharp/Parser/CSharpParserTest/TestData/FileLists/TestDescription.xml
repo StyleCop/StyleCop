@@ -147,7 +147,7 @@
   </Test>
 
   <!-- Tests with a random file in the file list and everything else enabled by default. -->
-  <Test Name="RandomFileListWithEverythingElseDefault">
+  <Test Name="RandomFileListWithEverythingElseDefaultEnabled">
     <TestCodeFile>TestFile1.cs</TestCodeFile>
     <TestCodeFile>TestFile2.cs</TestCodeFile>
     <Settings>
@@ -169,7 +169,7 @@
   </Test>
 
   <!-- Tests with a random file in the file list and everything else disabled by default. -->
-  <Test Name="RandomFileListWithEverythingElseDefault">
+  <Test Name="RandomFileListWithEverythingElseDefaultDisabled">
     <TestCodeFile>TestFile1.cs</TestCodeFile>
     <TestCodeFile>TestFile2.cs</TestCodeFile>
     <Settings>
@@ -216,7 +216,7 @@
   </Test>
 
   <!-- Tests with a known file in the file list, without any file list settings, and everything else enabled by default. -->
-  <Test Name="KnownFileListWithEverythingElseDefault">
+  <Test Name="KnownFileListWithEverythingElseDefaultEnabled">
     <TestCodeFile>TestFile1.cs</TestCodeFile>
     <TestCodeFile>TestFile2.cs</TestCodeFile>
     <Settings>
@@ -238,7 +238,7 @@
   </Test>
 
   <!-- Tests with a known file in the file list, without any file list settings, everything else disabled by default. -->
-  <Test Name="KnownFileListWithEverythingElseDefault">
+  <Test Name="KnownFileListWithEverythingElseDefaultDisabled">
     <TestCodeFile>TestFile1.cs</TestCodeFile>
     <TestCodeFile>TestFile2.cs</TestCodeFile>
     <Settings>
