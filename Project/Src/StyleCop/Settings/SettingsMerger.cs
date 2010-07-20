@@ -134,7 +134,10 @@ namespace Microsoft.StyleCop
                     }
 
                     // Finally, add the merged file list to the new merged settings object.
-                    mergedSettings.AddSourceFileList(fileList);
+                    if (mergedSettings != this.localSettings)
+                    {
+                        mergedSettings.AddSourceFileList(fileList);
+                    }
                 }
 
                 return mergedSettings;
