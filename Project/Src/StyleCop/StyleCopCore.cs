@@ -449,11 +449,13 @@ namespace Microsoft.StyleCop
                 // Loop through each of the returned paths.
                 foreach (string addinPath in addInPaths)
                 {
+                    string expandedAddinPath = System.Environment.ExpandEnvironmentVariables(addinPath);
+
                     // Make sure this path exists. If we get an exception trying
                     // to access the path, skip it.
                     try
                     {
-                        if (!Directory.Exists(addinPath))
+                        if (!Directory.Exists(expandedAddinPath))
                         {
                             continue;
                         }
@@ -476,7 +478,7 @@ namespace Microsoft.StyleCop
                     }
 
                     // Load the addins from this path.
-                    this.LoadAddins(addinPath, assemblyPublicKey);
+                    this.LoadAddins(expandedAddinPath, assemblyPublicKey);
                 }
             }
 

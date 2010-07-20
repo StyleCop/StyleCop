@@ -152,8 +152,8 @@ namespace Microsoft.StyleCop
         internal Settings(StyleCopCore core, string path, string location, XmlDocument contents, DateTime writeTime)
         {
             Param.AssertNotNull(core, "core");
-            Param.AssertValidString(path, "path");
-            Param.AssertValidString(location, "location");
+            Param.Ignore(path);
+            Param.Ignore(location);
             Param.Ignore(contents);
             Param.Ignore(writeTime);
 

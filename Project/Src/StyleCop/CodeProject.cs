@@ -174,7 +174,7 @@ namespace Microsoft.StyleCop
         /// <summary>
         /// Gets a value indicating whether to write cache results for the project.
         /// </summary>
-        public bool WriteCache
+        public virtual bool WriteCache
         {
             get
             {
@@ -217,13 +217,13 @@ namespace Microsoft.StyleCop
 
         #endregion Public Properties
 
-        #region Internal Methods
+        #region Internal Virtual Methods
 
         /// <summary>
         /// Adds the given source code document to the project.
         /// </summary>
         /// <param name="sourceCode">The source code to add.</param>
-        internal void AddSourceCode(SourceCode sourceCode)
+        internal virtual void AddSourceCode(SourceCode sourceCode)
         {
             Param.AssertNotNull(sourceCode, "sourceCode");
 
@@ -235,6 +235,6 @@ namespace Microsoft.StyleCop
             this.sourceCodes.Add(sourceCode);
         }
 
-        #endregion Internal Methods
+        #endregion Internal Virtual Methods
     }
 }

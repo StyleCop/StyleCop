@@ -754,11 +754,38 @@ namespace Microsoft.StyleCop {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to A SourceCodeFactory may not return null..
+        /// </summary>
+        internal static string SourceCodeFactoryReturnsNull {
+            get {
+                return ResourceManager.GetString("SourceCodeFactoryReturnsNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stream-based runtime environments must use the SourceCodeStream class..
+        /// </summary>
+        internal static string SourceCodeStreamRequired {
+            get {
+                return ResourceManager.GetString("SourceCodeStreamRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The SourceCode&apos;s Type property is not set..
         /// </summary>
         internal static string SourceCodeTypePropertyNotSet {
             get {
                 return ResourceManager.GetString("SourceCodeTypePropertyNotSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stream-based runtime environments must use the StreamBasedCodeProject class rather than CodeProject..
+        /// </summary>
+        internal static string StreamBasedCodeProjectRequired {
+            get {
+                return ResourceManager.GetString("StreamBasedCodeProjectRequired", resourceCulture);
             }
         }
         
