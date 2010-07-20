@@ -93,6 +93,17 @@ namespace Microsoft.StyleCop
             }
         }
 
+        /// <summary>
+        /// Gets the current environment.
+        /// </summary>
+        public StyleCopEnvironment Environment
+        {
+            get
+            {
+                return this.core == null ? null : this.core.Environment;
+            }
+        }
+
         #endregion Public Properties
 
         #region Protected Properties
@@ -140,6 +151,27 @@ namespace Microsoft.StyleCop
             {
                 this.core.Dispose();
             }
+        }
+
+        /// <summary>
+        /// Adds a source code document to the given project.
+        /// </summary>
+        /// <param name="project">The project which should contain the source code instance.</param>
+        /// <param name="path">The path to the source code document to add.</param>
+        /// <param name="context">Optional context information.</param>
+        /// <returns>Returns true if any source code documents were added to the project.</returns>
+        public bool AddSourceCode(CodeProject project, string path, object context)
+        {
+            Param.RequireNotNull(project, "project");
+            Param.RequireValidString(path, "path");
+            Param.Ignore(context);
+
+            if (this.Environment == null)
+            {
+                throw new InvalidOperationException();
+            }
+
+            return this.Environment.AddSourceCode(project, path, context);
         }
 
         #endregion Public Methods

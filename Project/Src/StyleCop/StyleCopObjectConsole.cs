@@ -99,6 +99,17 @@ namespace Microsoft.StyleCop
         #region Public Methods
 
         /// <summary>
+        /// Starts analyzing the source code documents contained within the given project.
+        /// </summary>
+        /// <param name="project">The project to analyze.</param>
+        /// <returns>Returns false if an error occurs during analysis.</returns>
+        public bool Start(CodeProject project)
+        {
+            Param.RequireNotNull(project, "project");
+            return this.Start(new CodeProject[] { project });
+        }
+
+        /// <summary>
         /// Starts analyzing the source code documents contained within the given projects.
         /// </summary>
         /// <param name="projects">The projects to analyze.</param>
@@ -182,7 +193,7 @@ namespace Microsoft.StyleCop
         /// Loads the settings files to use for the analysis.
         /// </summary>
         /// <param name="projects">The list of projects to use.</param>
-        private void LoadSettings(IList<CodeProject> projects)
+        private void LoadSettings(IEnumerable<CodeProject> projects)
         {
             Param.AssertNotNull(projects, "projects");
 
