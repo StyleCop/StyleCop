@@ -40,14 +40,12 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Initializes a new instance of the RegionDirective class.
         /// </summary>
-        /// <param name="document">The parent document.</param>
         /// <param name="text">The line text.</param>
         /// <param name="location">The location of the preprocessor in the code.</param>
         /// <param name="generated">Indicates whether the preprocessor lies within a block of generated code.</param>
-        internal RegionDirective(CsDocument document, string text, CodeLocation location, bool generated)
-            : base(document, text, PreprocessorType.Region, location, generated)
+        internal RegionDirective(string text, CodeLocation location, bool generated)
+            : base(text, PreprocessorType.Region, location, generated)
         {
-            Param.AssertNotNull(document, "document");
             Param.AssertValidString(text, "text");
             Param.AssertNotNull(location, "location");
             Param.Ignore(generated);

@@ -39,15 +39,13 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Initializes a new instance of the Comment class.
         /// </summary>
-        /// <param name="document">The parent document.</param>
         /// <param name="text">The line text.</param>
         /// <param name="commentType">The type of the comment.</param>
         /// <param name="location">The location of the comment in the code.</param>
         /// <param name="generated">Indicates whether the comment lies within a block of generated code.</param>
-        internal Comment(CsDocument document, string text, CommentType commentType, CodeLocation location, bool generated)
-            : base(document, (int)commentType, location, generated)
+        internal Comment(string text, CommentType commentType, CodeLocation location, bool generated)
+            : base((int)commentType, location, generated)
         {
-            Param.AssertNotNull(document, "document");
             Param.AssertNotNull(text, "text");
             Param.Ignore(commentType);
             Param.Ignore(location);

@@ -25,14 +25,12 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Initializes a new instance of the NamespaceToken class.
         /// </summary>
-        /// <param name="document">The parent document.</param>
         /// <param name="text">The text of the item.</param>
         /// <param name="location">The location of the item.</param>
         /// <param name="generated">Indicates whether the item is generated.</param>
-        internal NamespaceToken(CsDocument document, string text, CodeLocation location, bool generated)
-            : base(document, text, TokenType.Namespace, location, generated)
+        internal NamespaceToken(string text, CodeLocation location, bool generated)
+            : base(text, TokenType.Namespace, location, generated)
         {
-            Param.AssertNotNull(document, "document");
             Param.AssertValidString(text, "text");
             Param.AssertNotNull(location, "location");
             Param.Ignore(generated);

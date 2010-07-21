@@ -25,14 +25,12 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Initializes a new instance of the SetToken class.
         /// </summary>
-        /// <param name="document">The parent document.</param>
         /// <param name="text">The text of the item.</param>
         /// <param name="location">The location of the item.</param>
         /// <param name="generated">Indicates whether the item is generated.</param>
-        internal SetToken(CsDocument document, string text, CodeLocation location, bool generated)
-            : base(document, text, TokenType.Set, location, generated)
+        internal SetToken(string text, CodeLocation location, bool generated)
+            : base(text, TokenType.Set, location, generated)
         {
-            Param.AssertNotNull(document, "document");
             Param.AssertValidString(text, "text");
             Param.AssertNotNull(location, "location");
             Param.Ignore(generated);

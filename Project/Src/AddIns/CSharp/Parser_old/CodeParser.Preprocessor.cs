@@ -35,14 +35,15 @@ namespace Microsoft.StyleCop.CSharp_old
         /// Extracts the body of the given preprocessor directive symbol, parses it, and returns the parsed expression.
         /// </summary>
         /// <param name="parser">The C# parser.</param>
-        /// <param name="document">The parent document.</param>
+        /// <param name="sourceCode">The source code containing the preprocessor directive symbol.</param>
         /// <param name="preprocessorSymbol">The preprocessor directive symbol.</param>
         /// <param name="startIndex">The index of the start of the expression body within the text string.</param>
         /// <returns>Returns the expression.</returns>
         internal static Expression GetConditionalPreprocessorBodyExpression(
-             CsParser parser, CsDocument document, Symbol preprocessorSymbol, int startIndex)
+             CsParser parser, SourceCode sourceCode, Symbol preprocessorSymbol, int startIndex)
         {
             Param.AssertNotNull(parser, "parser");
+            Param.AssertNotNull(sourceCode, "sourceCode");
             Param.AssertNotNull(preprocessorSymbol, "preprocessorSymbol");
             Param.AssertGreaterThanOrEqualToZero(startIndex, "startIndex");
             Debug.Assert(preprocessorSymbol.SymbolType == SymbolType.PreprocessorDirective, "The symbol is not a preprocessor directive.");
@@ -53,14 +54,14 @@ namespace Microsoft.StyleCop.CSharp_old
                 using (StringReader reader = new StringReader(text))
                 {
                     // Extract the symbols within this text.
-                    CodeLexer lexer = new CodeLexer(parser, document.SourceCode, new CodeReader(reader));
-                    List<Symbol> symbolList = lexer.GetSymbols(document, null);
+                    CodeLexer lexer = new CodeLexer(parser, sourceCode, new CodeReader(reader));
+                    List<Symbol> symbolList = lexer.GetSymbols(sourceCode, null);
                     SymbolManager directiveSymbols = new SymbolManager(symbolList);
 
                     CodeParser preprocessorBodyParser = new CodeParser(parser, directiveSymbols);
 
                     // Parse these symbols to create the body expression.
-                    return preprocessorBodyParser.GetNextConditionalPreprocessorExpression(document.SourceCode);
+                    return preprocessorBodyParser.GetNextConditionalPreprocessorExpression(sourceCode);
                 }
             }
 

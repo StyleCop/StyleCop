@@ -25,14 +25,12 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Initializes a new instance of the RemoveToken class.
         /// </summary>
-        /// <param name="document">The parent document.</param>
         /// <param name="text">The text of the item.</param>
         /// <param name="location">The location of the item.</param>
         /// <param name="generated">Indicates whether the item is generated.</param>
-        internal RemoveToken(CsDocument document, string text, CodeLocation location, bool generated)
-            : base(document, text, TokenType.Remove, location, generated)
+        internal RemoveToken(string text, CodeLocation location, bool generated)
+            : base(text, TokenType.Remove, location, generated)
         {
-            Param.AssertNotNull(document, "document");
             Param.AssertValidString(text, "text");
             Param.AssertNotNull(location, "location");
             Param.Ignore(generated);

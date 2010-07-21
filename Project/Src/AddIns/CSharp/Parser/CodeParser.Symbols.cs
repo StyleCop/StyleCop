@@ -32,6 +32,38 @@ namespace Microsoft.StyleCop.CSharp
     {
         #region Private Static Methods
 
+        /*
+        /// <summary>
+        /// Converts a symbol type to a token type.
+        /// </summary>
+        /// <param name="symbolType">The symbol type to convert.</param>
+        /// <returns>Returns the token type.</returns>
+        /// <remarks>This method should only be used for converting whitespace and comment symbol types.</remarks>
+        private static TokenType TokenTypeFromSymbolType(SymbolType symbolType)
+        {
+            Param.Ignore(symbolType);
+
+            switch (symbolType)
+            {
+                case SymbolType.WhiteSpace:
+                    return TokenType.WhiteSpace;
+                case SymbolType.EndOfLine:
+                    return TokenType.EndOfLine;
+                case SymbolType.SingleLineComment:
+                    return TokenType.SingleLineComment;
+                case SymbolType.MultiLineComment:
+                    return TokenType.MultiLineComment;
+                case SymbolType.PreprocessorDirective:
+                    return TokenType.PreprocessorDirective;
+                case SymbolType.XmlHeaderLine:
+                    return TokenType.XmlHeaderLine;
+                default:
+                    Debug.Fail("This method should only be used for whitespace, comments, xml header lines, and preprocessors");
+                    throw new StyleCopException();
+            }
+        }
+        */
+
         /// <summary>
         /// Gets the type of the given operator symbol.
         /// </summary>
@@ -329,6 +361,126 @@ namespace Microsoft.StyleCop.CSharp
         }
         */
 
+        /// <summary>
+        /// Creates an operator token from the given symbol.
+        /// </summary>
+        /// <param name="symbol">The symbol to convert.</param>
+        /// <param name="generated">Indicates whether the symbol lies within a generated code block.</param>
+        /// <returns>Returns the operator symbol.</returns>
+        [SuppressMessage("Microsoft.Maintainability", "CA1506:AvoidExcessiveClassCoupling", Justification = "The method is a factory.")]
+        [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification = "Complexity is due to simple switch statements.")]
+        private static OperatorSymbolToken CreateOperatorSymbolToken(Symbol symbol, bool generated)
+        {
+            Param.AssertNotNull(symbol, "symbol");
+            Param.Ignore(generated);
+
+            // Get the type of the operator.
+            OperatorType type;
+            OperatorCategory category;
+            if (!GetOperatorType(symbol, out type, out category))
+            {
+                // This should never happen unless there is a bug in the code.
+                Debug.Fail("Unexpected operator type");
+                throw new InvalidOperationException();
+            }
+
+            // Create the appropriate operator token based on the type.
+            switch (type)
+            {
+                case OperatorType.AddressOf:
+                    return new AddressOfOperator(symbol.Text, symbol.Location, generated);
+                case OperatorType.AndEquals:
+                    return new AndEqualsOperator(symbol.Text, symbol.Location, generated);
+                case OperatorType.BitwiseCompliment:
+                    return new BitwiseComplementOperator(symbol.Text, symbol.Location, generated);
+                case OperatorType.ConditionalAnd:
+                    return new ConditionalAndOperator(symbol.Text, symbol.Location, generated);
+                case OperatorType.ConditionalColon:
+                    return new ConditionalColonOperator(symbol.Text, symbol.Location, generated);
+                case OperatorType.ConditionalEquals:
+                    return new ConditionalEqualsOperator(symbol.Text, symbol.Location, generated);
+                case OperatorType.ConditionalOr:
+                    return new ConditionalOrOperator(symbol.Text, symbol.Location, generated);
+                case OperatorType.ConditionalQuestionMark:
+                    return new ConditionalQuestionMarkOperator(symbol.Text, symbol.Location, generated);
+                case OperatorType.Decrement:
+                    return new DecrementOperator(symbol.Text, symbol.Location, generated);
+                case OperatorType.Dereference:
+                    return new DereferenceOperator(symbol.Text, symbol.Location, generated);
+                case OperatorType.Division:
+                    return new DivisionOperator(symbol.Text, symbol.Location, generated);
+                case OperatorType.DivisionEquals:
+                    return new DivisionEqualsOperator(symbol.Text, symbol.Location, generated);
+                case OperatorType.Equals:
+                    return new EqualsOperator(symbol.Text, symbol.Location, generated);
+                case OperatorType.GreaterThan:
+                    return new GreaterThanOperator(symbol.Text, symbol.Location, generated);
+                case OperatorType.GreaterThanOrEquals:
+                    return new GreaterThanOrEqualsOperator(symbol.Text, symbol.Location, generated);
+                case OperatorType.Increment:
+                    return new IncrementOperator(symbol.Text, symbol.Location, generated);
+                case OperatorType.Lambda:
+                    return new LambdaOperator(symbol.Text, symbol.Location, generated);
+                case OperatorType.LeftShift:
+                    return new LeftShiftOperator(symbol.Text, symbol.Location, generated);
+                case OperatorType.LeftShiftEquals:
+                    return new LeftShiftEqualsOperator(symbol.Text, symbol.Location, generated);
+                case OperatorType.LessThan:
+                    return new LessThanOperator(symbol.Text, symbol.Location, generated);
+                case OperatorType.LessThanOrEquals:
+                    return new LessThanOrEqualsOperator(symbol.Text, symbol.Location, generated);
+                case OperatorType.LogicalAnd:
+                    return new LogicalAndOperator(symbol.Text, symbol.Location, generated);
+                case OperatorType.LogicalOr:
+                    return new LogicalOrOperator(symbol.Text, symbol.Location, generated);
+                case OperatorType.LogicalXor:
+                    return new LogicalXorOperator(symbol.Text, symbol.Location, generated);
+                case OperatorType.MemberAccess:
+                    return new MemberAccessOperator(symbol.Text, symbol.Location, generated);
+                case OperatorType.Minus:
+                    return new MinusOperator(symbol.Text, symbol.Location, generated);
+                case OperatorType.MinusEquals:
+                    return new MinusEqualsOperator(symbol.Text, symbol.Location, generated);
+                case OperatorType.Mod:
+                    return new ModOperator(symbol.Text, symbol.Location, generated);
+                case OperatorType.ModEquals:
+                    return new ModEqualsOperator(symbol.Text, symbol.Location, generated);
+                case OperatorType.Multiplication:
+                    return new MultiplicationOperator(symbol.Text, symbol.Location, generated);
+                case OperatorType.MultiplicationEquals:
+                    return new MultiplicationEqualsOperator(symbol.Text, symbol.Location, generated);
+                case OperatorType.Negative:
+                    return new NegativeOperator(symbol.Text, symbol.Location, generated);
+                case OperatorType.Not:
+                    return new NotOperator(symbol.Text, symbol.Location, generated);
+                case OperatorType.NotEquals:
+                    return new NotEqualsOperator(symbol.Text, symbol.Location, generated);
+                case OperatorType.NullCoalescingSymbol:
+                    return new NullCoalescingSymbolOperator(symbol.Text, symbol.Location, generated);
+                case OperatorType.OrEquals:
+                    return new OrEqualsOperator(symbol.Text, symbol.Location, generated);
+                case OperatorType.Plus:
+                    return new PlusOperator(symbol.Text, symbol.Location, generated);
+                case OperatorType.PlusEquals:
+                    return new PlusEqualsOperator(symbol.Text, symbol.Location, generated);
+                case OperatorType.Pointer:
+                    return new PointerOperator(symbol.Text, symbol.Location, generated);
+                case OperatorType.Positive:
+                    return new PositiveOperator(symbol.Text, symbol.Location, generated);
+                case OperatorType.QualifiedAlias:
+                    return new QualifiedAliasOperator(symbol.Text, symbol.Location, generated);
+                case OperatorType.RightShift:
+                    return new RightShiftOperator(symbol.Text, symbol.Location, generated);
+                case OperatorType.RightShiftEquals:
+                    return new RightShiftEqualsOperator(symbol.Text, symbol.Location, generated);
+                case OperatorType.XorEquals:
+                    return new XorEqualsOperator(symbol.Text, symbol.Location, generated);
+                default:
+                    Debug.Fail("Invalid operator type");
+                    return null;
+            }
+        }
+
         #endregion Private Static Methods
         
         #region Private Methods
@@ -369,12 +521,12 @@ namespace Microsoft.StyleCop.CSharp
                     }
 
                     symbol = this.symbols.Peek(1);
-                    token = new LiteralToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    token = new LiteralToken(symbol.Text, symbol.Location, this.symbols.Generated);
                     this.symbols.Advance();
                 }
                 else
                 {
-                    token = new LiteralToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    token = new LiteralToken(symbol.Text, symbol.Location, this.symbols.Generated);
                     this.symbols.Advance();
                 }
             }
@@ -563,243 +715,243 @@ namespace Microsoft.StyleCop.CSharp
             switch (symbol.SymbolType)
             {
                 case SymbolType.Abstract:
-                    return new AbstractToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new AbstractToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.As:
-                    return new AsToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new AsToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.Base:
-                    return new BaseToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new BaseToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.Break:
-                    return new BreakToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new BreakToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.Case:
-                    return new CaseToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new CaseToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.Catch:
-                    return new CatchToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new CatchToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.Checked:
-                    return new CheckedToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new CheckedToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.Class:
-                    return new ClassToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new ClassToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.CloseCurlyBracket:
-                    return new CloseCurlyBracketToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new CloseCurlyBracketToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.CloseParenthesis:
-                    return new CloseParenthesisToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new CloseParenthesisToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.CloseSquareBracket:
-                    return new CloseSquareBracketToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new CloseSquareBracketToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.Colon:
                     switch (tokenType)
                     {
                         case TokenType.BaseColon:
-                            return new BaseColonToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                            return new BaseColonToken(symbol.Text, symbol.Location, this.symbols.Generated);
                         case TokenType.LabelColon:
-                            return new LabelColonToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                            return new LabelColonToken(symbol.Text, symbol.Location, this.symbols.Generated);
                         case TokenType.WhereColon:
-                            return new WhereColonToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                            return new WhereColonToken(symbol.Text, symbol.Location, this.symbols.Generated);
                     }
 
                     break;
                 case SymbolType.Comma:
-                    return new CommaToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new CommaToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.Const:
-                    return new ConstToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new ConstToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.Continue:
-                    return new ContinueToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new ContinueToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.Default:
                     if (tokenType == TokenType.DefaultValue)
                     {
-                        return new DefaultValueToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                        return new DefaultValueToken(symbol.Text, symbol.Location, this.symbols.Generated);
                     }
 
-                    return new DefaultToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new DefaultToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.Delegate:
-                    return new DelegateToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new DelegateToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.Do:
-                    return new DoToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new DoToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.Else:
-                    return new ElseToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new ElseToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.Enum:
-                    return new EnumToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new EnumToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.Equals:
                     if (tokenType == TokenType.Equals)
                     {
-                        return new EqualsToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                        return new EqualsToken(symbol.Text, symbol.Location, this.symbols.Generated);
                     }
 
                     break;
 
                 case SymbolType.Event:
-                    return new EventToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new EventToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.Explicit:
-                    return new ExplicitToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new ExplicitToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.Extern:
                     if (tokenType == TokenType.ExternDirective)
                     {
-                        return new ExternDirectiveToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                        return new ExternDirectiveToken(symbol.Text, symbol.Location, this.symbols.Generated);
                     }
 
-                    return new ExternToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new ExternToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.False:
-                    return new FalseToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new FalseToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.Finally:
-                    return new FinallyToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new FinallyToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.Fixed:
-                    return new FixedToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new FixedToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.For:
-                    return new ForToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new ForToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.Foreach:
-                    return new ForeachToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new ForeachToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.Goto:
-                    return new GotoToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new GotoToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.If:
-                    return new IfToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new IfToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.Implicit:
-                    return new ImplicitToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new ImplicitToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.In:
-                    return new InToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new InToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.Interface:
-                    return new InterfaceToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new InterfaceToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.Internal:
-                    return new InternalToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new InternalToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.Is:
-                    return new IsToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new IsToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.Lock:
-                    return new LockToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new LockToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.Namespace:
-                    return new NamespaceToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new NamespaceToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.New:
-                    return new NewToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new NewToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.Null:
-                    return new NullToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new NullToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.Number:
-                    return new NumberToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new NumberToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.OpenCurlyBracket:
-                    return new OpenCurlyBracketToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new OpenCurlyBracketToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.OpenParenthesis:
-                    return new OpenParenthesisToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new OpenParenthesisToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.OpenSquareBracket:
-                    return new OpenSquareBracketToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new OpenSquareBracketToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.Operator:
-                    return new OperatorToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new OperatorToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.Other:
                     switch (tokenType)
                     {
                         case TokenType.Add:
-                            return new AddToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                            return new AddToken(symbol.Text, symbol.Location, this.symbols.Generated);
                         case TokenType.Alias:
-                            return new AliasToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                            return new AliasToken(symbol.Text, symbol.Location, this.symbols.Generated);
                         case TokenType.Ascending:
-                            return new AscendingToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                            return new AscendingToken(symbol.Text, symbol.Location, this.symbols.Generated);
                         case TokenType.By:
-                            return new ByToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                            return new ByToken(symbol.Text, symbol.Location, this.symbols.Generated);
                         case TokenType.Descending:
-                            return new DescendingToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                            return new DescendingToken(symbol.Text, symbol.Location, this.symbols.Generated);
                         case TokenType.Equals:
-                            return new EqualsToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                            return new EqualsToken(symbol.Text, symbol.Location, this.symbols.Generated);
                         case TokenType.From:
-                            return new FromToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                            return new FromToken(symbol.Text, symbol.Location, this.symbols.Generated);
                         case TokenType.Get:
-                            return new GetToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                            return new GetToken(symbol.Text, symbol.Location, this.symbols.Generated);
                         case TokenType.Group:
-                            return new GroupToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                            return new GroupToken(symbol.Text, symbol.Location, this.symbols.Generated);
                         case TokenType.Into:
-                            return new IntoToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                            return new IntoToken(symbol.Text, symbol.Location, this.symbols.Generated);
                         case TokenType.Join:
-                            return new JoinToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                            return new JoinToken(symbol.Text, symbol.Location, this.symbols.Generated);
                         case TokenType.Let:
-                            return new LetToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                            return new LetToken(symbol.Text, symbol.Location, this.symbols.Generated);
                         case TokenType.Literal:
-                            return new LiteralToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                            return new LiteralToken(symbol.Text, symbol.Location, this.symbols.Generated);
                         case TokenType.On:
-                            return new OnToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                            return new OnToken(symbol.Text, symbol.Location, this.symbols.Generated);
                         case TokenType.OrderBy:
-                            return new OrderByToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                            return new OrderByToken(symbol.Text, symbol.Location, this.symbols.Generated);
                         case TokenType.Partial:
-                            return new PartialToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                            return new PartialToken(symbol.Text, symbol.Location, this.symbols.Generated);
                         case TokenType.Remove:
-                            return new RemoveToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                            return new RemoveToken(symbol.Text, symbol.Location, this.symbols.Generated);
                         case TokenType.Select:
-                            return new SelectToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                            return new SelectToken(symbol.Text, symbol.Location, this.symbols.Generated);
                         case TokenType.Set:
-                            return new SetToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                            return new SetToken(symbol.Text, symbol.Location, this.symbols.Generated);
                         case TokenType.Where:
-                            return new WhereToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                            return new WhereToken(symbol.Text, symbol.Location, this.symbols.Generated);
                         case TokenType.Yield:
-                            return new YieldToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                            return new YieldToken(symbol.Text, symbol.Location, this.symbols.Generated);
                     }
 
                     break;
                 case SymbolType.Out:
-                    return new OutToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new OutToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.Override:
-                    return new OverrideToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new OverrideToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.Params:
-                    return new ParamsToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new ParamsToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.Private:
-                    return new PrivateToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new PrivateToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.Protected:
-                    return new ProtectedToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new ProtectedToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.Public:
-                    return new PublicToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new PublicToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.Readonly:
-                    return new ReadonlyToken(this.document,  symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new ReadonlyToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.Ref:
-                    return new RefToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new RefToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.Return:
-                    return new ReturnToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new ReturnToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.Sealed:
-                    return new SealedToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new SealedToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.Semicolon:
-                    return new SemicolonToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new SemicolonToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.Sizeof:
-                    return new SizeofToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new SizeofToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.Stackalloc:
-                    return new StackallocToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new StackallocToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.Static:
-                    return new StaticToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new StaticToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.String:
-                    return new StringToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new StringToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.Struct:
-                    return new StructToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new StructToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.Switch:
-                    return new SwitchToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new SwitchToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.This:
-                    return new ThisToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new ThisToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.Throw:
-                    return new ThrowToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new ThrowToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.Tilde:
                     if (tokenType == TokenType.DestructorTilde)
                     {
-                        return new DestructorTildeToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                        return new DestructorTildeToken(symbol.Text, symbol.Location, this.symbols.Generated);
                     }
 
                     break;
 
                 case SymbolType.True:
-                    return new TrueToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new TrueToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.Try:
-                    return new TryToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new TryToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.Typeof:
-                    return new TypeofToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new TypeofToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.Unchecked:
-                    return new UncheckedToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new UncheckedToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.Unsafe:
-                    return new UnsafeToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new UnsafeToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.Using:
                     if (tokenType == TokenType.UsingDirective)
                     {
-                        return new UsingDirectiveToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                        return new UsingDirectiveToken(symbol.Text, symbol.Location, this.symbols.Generated);
                     }
 
-                    return new UsingToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new UsingToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.Virtual:
-                    return new VirtualToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new VirtualToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.Volatile:
-                    return new VolatileToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new VolatileToken(symbol.Text, symbol.Location, this.symbols.Generated);
                 case SymbolType.While:
                     if (tokenType == TokenType.WhileDo)
                     {
-                        return new WhileDoToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                        return new WhileDoToken(symbol.Text, symbol.Location, this.symbols.Generated);
                     }
 
-                    return new WhileToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                    return new WhileToken(symbol.Text, symbol.Location, this.symbols.Generated);
             }
 
             Debug.Fail("Cannot create a token of the given symbol type using this method.");
@@ -855,133 +1007,13 @@ namespace Microsoft.StyleCop.CSharp
             Symbol operatorSymbol = this.PeekNextSymbol();
 
             // Convert it to a token.
-            OperatorSymbolToken operatorToken = this.CreateOperatorSymbolToken(operatorSymbol, this.symbols.Generated);
+            OperatorSymbolToken operatorToken = CreateOperatorSymbolToken(operatorSymbol, this.symbols.Generated);
             if (operatorToken == null)
             {
                 throw this.CreateSyntaxException();
             }
 
             return operatorToken;
-        }
-
-        /// <summary>
-        /// Creates an operator token from the given symbol.
-        /// </summary>
-        /// <param name="symbol">The symbol to convert.</param>
-        /// <param name="generated">Indicates whether the symbol lies within a generated code block.</param>
-        /// <returns>Returns the operator symbol.</returns>
-        [SuppressMessage("Microsoft.Maintainability", "CA1506:AvoidExcessiveClassCoupling", Justification = "The method is a factory.")]
-        [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification = "Complexity is due to simple switch statements.")]
-        private OperatorSymbolToken CreateOperatorSymbolToken(Symbol symbol, bool generated)
-        {
-            Param.AssertNotNull(symbol, "symbol");
-            Param.Ignore(generated);
-
-            // Get the type of the operator.
-            OperatorType type;
-            OperatorCategory category;
-            if (!GetOperatorType(symbol, out type, out category))
-            {
-                // This should never happen unless there is a bug in the code.
-                Debug.Fail("Unexpected operator type");
-                throw new InvalidOperationException();
-            }
-
-            // Create the appropriate operator token based on the type.
-            switch (type)
-            {
-                case OperatorType.AddressOf:
-                    return new AddressOfOperator(this.document, symbol.Text, symbol.Location, generated);
-                case OperatorType.AndEquals:
-                    return new AndEqualsOperator(this.document, symbol.Text, symbol.Location, generated);
-                case OperatorType.BitwiseCompliment:
-                    return new BitwiseComplementOperator(this.document, symbol.Text, symbol.Location, generated);
-                case OperatorType.ConditionalAnd:
-                    return new ConditionalAndOperator(this.document, symbol.Text, symbol.Location, generated);
-                case OperatorType.ConditionalColon:
-                    return new ConditionalColonOperator(this.document, symbol.Text, symbol.Location, generated);
-                case OperatorType.ConditionalEquals:
-                    return new ConditionalEqualsOperator(this.document, symbol.Text, symbol.Location, generated);
-                case OperatorType.ConditionalOr:
-                    return new ConditionalOrOperator(this.document, symbol.Text, symbol.Location, generated);
-                case OperatorType.ConditionalQuestionMark:
-                    return new ConditionalQuestionMarkOperator(this.document, symbol.Text, symbol.Location, generated);
-                case OperatorType.Decrement:
-                    return new DecrementOperator(this.document, symbol.Text, symbol.Location, generated);
-                case OperatorType.Dereference:
-                    return new DereferenceOperator(this.document, symbol.Text, symbol.Location, generated);
-                case OperatorType.Division:
-                    return new DivisionOperator(this.document, symbol.Text, symbol.Location, generated);
-                case OperatorType.DivisionEquals:
-                    return new DivisionEqualsOperator(this.document, symbol.Text, symbol.Location, generated);
-                case OperatorType.Equals:
-                    return new EqualsOperator(this.document, symbol.Text, symbol.Location, generated);
-                case OperatorType.GreaterThan:
-                    return new GreaterThanOperator(this.document, symbol.Text, symbol.Location, generated);
-                case OperatorType.GreaterThanOrEquals:
-                    return new GreaterThanOrEqualsOperator(this.document, symbol.Text, symbol.Location, generated);
-                case OperatorType.Increment:
-                    return new IncrementOperator(this.document, symbol.Text, symbol.Location, generated);
-                case OperatorType.Lambda:
-                    return new LambdaOperator(this.document, symbol.Text, symbol.Location, generated);
-                case OperatorType.LeftShift:
-                    return new LeftShiftOperator(this.document, symbol.Text, symbol.Location, generated);
-                case OperatorType.LeftShiftEquals:
-                    return new LeftShiftEqualsOperator(this.document, symbol.Text, symbol.Location, generated);
-                case OperatorType.LessThan:
-                    return new LessThanOperator(this.document, symbol.Text, symbol.Location, generated);
-                case OperatorType.LessThanOrEquals:
-                    return new LessThanOrEqualsOperator(this.document, symbol.Text, symbol.Location, generated);
-                case OperatorType.LogicalAnd:
-                    return new LogicalAndOperator(this.document, symbol.Text, symbol.Location, generated);
-                case OperatorType.LogicalOr:
-                    return new LogicalOrOperator(this.document, symbol.Text, symbol.Location, generated);
-                case OperatorType.LogicalXor:
-                    return new LogicalXorOperator(this.document, symbol.Text, symbol.Location, generated);
-                case OperatorType.MemberAccess:
-                    return new MemberAccessOperator(this.document, symbol.Text, symbol.Location, generated);
-                case OperatorType.Minus:
-                    return new MinusOperator(this.document, symbol.Text, symbol.Location, generated);
-                case OperatorType.MinusEquals:
-                    return new MinusEqualsOperator(this.document, symbol.Text, symbol.Location, generated);
-                case OperatorType.Mod:
-                    return new ModOperator(this.document, symbol.Text, symbol.Location, generated);
-                case OperatorType.ModEquals:
-                    return new ModEqualsOperator(this.document, symbol.Text, symbol.Location, generated);
-                case OperatorType.Multiplication:
-                    return new MultiplicationOperator(this.document, symbol.Text, symbol.Location, generated);
-                case OperatorType.MultiplicationEquals:
-                    return new MultiplicationEqualsOperator(this.document, symbol.Text, symbol.Location, generated);
-                case OperatorType.Negative:
-                    return new NegativeOperator(this.document, symbol.Text, symbol.Location, generated);
-                case OperatorType.Not:
-                    return new NotOperator(this.document, symbol.Text, symbol.Location, generated);
-                case OperatorType.NotEquals:
-                    return new NotEqualsOperator(this.document, symbol.Text, symbol.Location, generated);
-                case OperatorType.NullCoalescingSymbol:
-                    return new NullCoalescingSymbolOperator(this.document, symbol.Text, symbol.Location, generated);
-                case OperatorType.OrEquals:
-                    return new OrEqualsOperator(this.document, symbol.Text, symbol.Location, generated);
-                case OperatorType.Plus:
-                    return new PlusOperator(this.document, symbol.Text, symbol.Location, generated);
-                case OperatorType.PlusEquals:
-                    return new PlusEqualsOperator(this.document, symbol.Text, symbol.Location, generated);
-                case OperatorType.Pointer:
-                    return new PointerOperator(this.document, symbol.Text, symbol.Location, generated);
-                case OperatorType.Positive:
-                    return new PositiveOperator(this.document, symbol.Text, symbol.Location, generated);
-                case OperatorType.QualifiedAlias:
-                    return new QualifiedAliasOperator(this.document, symbol.Text, symbol.Location, generated);
-                case OperatorType.RightShift:
-                    return new RightShiftOperator(this.document, symbol.Text, symbol.Location, generated);
-                case OperatorType.RightShiftEquals:
-                    return new RightShiftEqualsOperator(this.document, symbol.Text, symbol.Location, generated);
-                case OperatorType.XorEquals:
-                    return new XorEqualsOperator(this.document, symbol.Text, symbol.Location, generated);
-                default:
-                    Debug.Fail("Invalid operator type");
-                    return null;
-            }
         }
 
         /// <summary>
@@ -1065,7 +1097,7 @@ namespace Microsoft.StyleCop.CSharp
             Symbol symbol = this.symbols.Peek(startIndex);
             Debug.Assert(symbol != null && symbol.SymbolType == SymbolType.Other, "Expected a text symbol");
 
-            var typeTokenProxy = new CodeUnitProxy(this.document);
+            var typeTokenProxy = new CodeUnitProxy();
 
             // Get the name of the type token plus any generic symbols and types.
             GenericTypeToken generic;
@@ -1143,11 +1175,11 @@ namespace Microsoft.StyleCop.CSharp
                 // interface member which is an indexer.
                 if (symbol.SymbolType == SymbolType.Other || symbol.SymbolType == SymbolType.This)
                 {
-                    typeTokenProxy.Children.Add(new LiteralToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated));
+                    typeTokenProxy.Children.Add(new LiteralToken(symbol.Text, symbol.Location, this.symbols.Generated));
                 }
                 else
                 {
-                    throw new SyntaxException(this.document, symbol.LineNumber);
+                    throw new SyntaxException(this.document.SourceCode, symbol.LineNumber);
                 }
 
                 ++startIndex;
@@ -1170,7 +1202,7 @@ namespace Microsoft.StyleCop.CSharp
                         generic = new GenericTypeToken(typeTokenProxy);
 
                         // Reset the token list and add this generic token as the first item in the list.
-                        typeTokenProxy = new CodeUnitProxy(this.document);
+                        typeTokenProxy = new CodeUnitProxy();
                         typeTokenProxy.Children.Add(generic);
 
                         // Advance the symbol index.
@@ -1199,12 +1231,12 @@ namespace Microsoft.StyleCop.CSharp
                 // Add the dot or qualified alias.
                 if (symbol.SymbolType == SymbolType.Dot)
                 {
-                    typeTokenProxy.Children.Add(new MemberAccessOperator(this.document, symbol.Text, symbol.Location, this.symbols.Generated));
+                    typeTokenProxy.Children.Add(new MemberAccessOperator(symbol.Text, symbol.Location, this.symbols.Generated));
                 }
                 else
                 {
                     Debug.Assert(symbol.SymbolType == SymbolType.QualifiedAlias, "Expected a qualified alias keyword");
-                    typeTokenProxy.Children.Add(new QualifiedAliasOperator(this.document, symbol.Text, symbol.Location, this.symbols.Generated));
+                    typeTokenProxy.Children.Add(new QualifiedAliasOperator(symbol.Text, symbol.Location, this.symbols.Generated));
                 }
 
                 // Get the next symbol.
@@ -1266,19 +1298,19 @@ namespace Microsoft.StyleCop.CSharp
 
             if (symbol.SymbolType == SymbolType.WhiteSpace)
             {
-                return new Whitespace(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                return new Whitespace(symbol.Text, symbol.Location, this.symbols.Generated);
             }
             else if (symbol.SymbolType == SymbolType.EndOfLine)
             {
-                return new EndOfLine(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                return new EndOfLine(symbol.Text, symbol.Location, this.symbols.Generated);
             }
             else if (symbol.SymbolType == SymbolType.SingleLineComment)
             {
-                return new SingleLineComment(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                return new SingleLineComment(symbol.Text, symbol.Location, this.symbols.Generated);
             }
             else if (symbol.SymbolType == SymbolType.MultiLineComment)
             {
-                return new MultilineComment(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                return new MultilineComment(symbol.Text, symbol.Location, this.symbols.Generated);
             }
             else if (symbol.SymbolType == SymbolType.PreprocessorDirective)
             {
@@ -1315,22 +1347,22 @@ namespace Microsoft.StyleCop.CSharp
                         symbol = this.symbols.Peek(startIndex);
                         if (symbol.SymbolType == SymbolType.WhiteSpace)
                         {
-                            typeTokenProxy.Children.Add(new Whitespace(this.document, symbol.Text, symbol.Location, this.symbols.Generated));
+                            typeTokenProxy.Children.Add(new Whitespace(symbol.Text, symbol.Location, this.symbols.Generated));
                             ++startIndex;
                         }
                         else if (symbol.SymbolType == SymbolType.EndOfLine)
                         {
-                            typeTokenProxy.Children.Add(new EndOfLine(this.document, symbol.Text, symbol.Location, this.symbols.Generated));
+                            typeTokenProxy.Children.Add(new EndOfLine(symbol.Text, symbol.Location, this.symbols.Generated));
                             ++startIndex;
                         }
                         else if (symbol.SymbolType == SymbolType.SingleLineComment)
                         {
-                            typeTokenProxy.Children.Add(new SingleLineComment(this.document, symbol.Text, symbol.Location, this.symbols.Generated));
+                            typeTokenProxy.Children.Add(new SingleLineComment(symbol.Text, symbol.Location, this.symbols.Generated));
                             ++startIndex;
                         }
                         else if (symbol.SymbolType == SymbolType.MultiLineComment)
                         {
-                            typeTokenProxy.Children.Add(new MultilineComment(this.document, symbol.Text, symbol.Location, this.symbols.Generated));
+                            typeTokenProxy.Children.Add(new MultilineComment(symbol.Text, symbol.Location, this.symbols.Generated));
                             ++startIndex;
                         }
                         else if (symbol.SymbolType == SymbolType.PreprocessorDirective)
@@ -1352,10 +1384,10 @@ namespace Microsoft.StyleCop.CSharp
                         {
                             if (openingBracket != null)
                             {
-                                throw new SyntaxException(this.document, symbol.LineNumber);
+                                throw new SyntaxException(this.document.SourceCode, symbol.LineNumber);
                             }
 
-                            openingBracket = new OpenSquareBracketToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                            openingBracket = new OpenSquareBracketToken(symbol.Text, symbol.Location, this.symbols.Generated);
                             typeTokenProxy.Children.Add(openingBracket);
                             ++startIndex;
                         }
@@ -1363,10 +1395,10 @@ namespace Microsoft.StyleCop.CSharp
                         {
                             if (openingBracket == null)
                             {
-                                throw new SyntaxException(this.document, symbol.LineNumber);
+                                throw new SyntaxException(this.document.SourceCode, symbol.LineNumber);
                             }
 
-                            var closingBracket = new CloseSquareBracketToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+                            var closingBracket = new CloseSquareBracketToken(symbol.Text, symbol.Location, this.symbols.Generated);
                             typeTokenProxy.Children.Add(closingBracket);
                             ++startIndex;
 
@@ -1386,7 +1418,7 @@ namespace Microsoft.StyleCop.CSharp
                         {
                             if (openingBracket != null)
                             {
-                                throw new SyntaxException(this.document, symbol.LineNumber);
+                                throw new SyntaxException(this.document.SourceCode, symbol.LineNumber);
                             }
 
                             break;
@@ -1428,7 +1460,7 @@ namespace Microsoft.StyleCop.CSharp
                     symbol = this.symbols.Peek(startIndex);
 
                     // Add the nullable type symbol.
-                    typeTokenProxy.Children.Add(new NullableTypeToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated));
+                    typeTokenProxy.Children.Add(new NullableTypeToken(symbol.Text, symbol.Location, this.symbols.Generated));
                     ++startIndex;
                 }
             }
@@ -1468,7 +1500,7 @@ namespace Microsoft.StyleCop.CSharp
                 symbol = this.symbols.Peek(startIndex);
 
                 // Add the dereference symbol.
-                typeTokenProxy.Children.Add(new DereferenceOperator(this.document, symbol.Text, symbol.Location, this.symbols.Generated));
+                typeTokenProxy.Children.Add(new DereferenceOperator(symbol.Text, symbol.Location, this.symbols.Generated));
                 ++startIndex;
 
                 // Nullable types are not allowed with dereferences.

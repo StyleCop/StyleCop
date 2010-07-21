@@ -25,14 +25,12 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Initializes a new instance of the CloseParenthesisToken class.
         /// </summary>
-        /// <param name="document">The parent document.</param>
         /// <param name="text">The text within the parenthesis.</param>
         /// <param name="location">The location of the parenthesis.</param>
         /// <param name="generated">Indicates whether the item lies within a block of generated code.</param>
-        internal CloseParenthesisToken(CsDocument document, string text, CodeLocation location, bool generated)
-            : base(document, text, TokenType.CloseParenthesis, location, generated)
+        internal CloseParenthesisToken(string text, CodeLocation location, bool generated)
+            : base(text, TokenType.CloseParenthesis, location, generated)
         {
-            Param.AssertNotNull(document, "document");
             Param.AssertValidString(text, "text");
             Param.AssertNotNull(location, "location");
             Param.Ignore(generated);

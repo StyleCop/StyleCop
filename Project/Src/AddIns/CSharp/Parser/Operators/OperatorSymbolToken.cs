@@ -38,16 +38,14 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Initializes a new instance of the OperatorSymbolToken class.
         /// </summary>
-        /// <param name="document">The parent document.</param>
         /// <param name="text">The text of the operator symbol.</param>
         /// <param name="category">The category of the operator.</param>
         /// <param name="symbolType">The specific symbol type.</param>
         /// <param name="location">The location of the operator symbol in the code document.</param>
         /// <param name="generated">Indicates whether the operator lies within a block of generated code.</param>
-        internal OperatorSymbolToken(CsDocument document, string text, OperatorCategory category, OperatorType symbolType, CodeLocation location, bool generated)
-            : base(document, text, (int)symbolType, location, generated)
+        internal OperatorSymbolToken(string text, OperatorCategory category, OperatorType symbolType, CodeLocation location, bool generated)
+            : base(text, (int)symbolType, location, generated)
         {
-            Param.AssertNotNull(document, "document");
             Param.AssertValidString(text, "text");
             Param.Ignore(category);
             Param.Ignore(symbolType);

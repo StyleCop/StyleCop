@@ -34,18 +34,18 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Extracts the body of the given preprocessor directive symbol, parses it, and returns the parsed expression.
         /// </summary>
-        /// <param name="document">The parent document.</param>
         /// <param name="parentProxy">Represents the parent item.</param>
         /// <param name="parser">The C# parser.</param>
+        /// <param name="sourceCode">The source code containing the preprocessor directive symbol.</param>
         /// <param name="preprocessorSymbol">The preprocessor directive symbol.</param>
         /// <param name="startIndex">The index of the start of the expression body within the text string.</param>
         /// <returns>Returns the expression.</returns>
         internal static Expression GetConditionalPreprocessorBodyExpression(
-             CsDocument document, CodeUnitProxy parentProxy, CsParser parser, Symbol preprocessorSymbol, int startIndex)
+             CodeUnitProxy parentProxy, CsParser parser, SourceCode sourceCode, Symbol preprocessorSymbol, int startIndex)
         {
-            Param.AssertNotNull(document, "document");
             Param.AssertNotNull(parentProxy, "parentProxy");
             Param.AssertNotNull(parser, "parser");
+            Param.AssertNotNull(sourceCode, "sourceCode");
             Param.AssertNotNull(preprocessorSymbol, "preprocessorSymbol");
             Param.AssertGreaterThanOrEqualToZero(startIndex, "startIndex");
             Debug.Assert(preprocessorSymbol.SymbolType == SymbolType.PreprocessorDirective, "The symbol is not a preprocessor directive.");
@@ -80,19 +80,19 @@ namespace Microsoft.StyleCop.CSharp
                     // Extract the symbols within this text.
                     var lexer = new CodeLexer(
                         parser,
-                        document.SourceCode,
+                        sourceCode,
                         new CodeReader(reader),
                         preprocessorSymbol.Location.StartPoint.Index + startIndex,
                         preprocessorSymbol.Location.StartPoint.IndexOnLine + startIndex,
                         preprocessorSymbol.Location.StartPoint.LineNumber);
 
-                    List<Symbol> symbolList = lexer.GetSymbols(document, null);
+                    List<Symbol> symbolList = lexer.GetSymbols(sourceCode, null);
                     var directiveSymbols = new SymbolManager(symbolList);
 
                     var preprocessorBodyParser = new CodeParser(parser, directiveSymbols);
 
                     // Parse these symbols to create the body expression.
-                    return preprocessorBodyParser.GetNextConditionalPreprocessorExpression(document, parentProxy);
+                    return preprocessorBodyParser.GetNextConditionalPreprocessorExpression(parentProxy, sourceCode);
                 }
             }
 
@@ -107,14 +107,14 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Reads the next expression from a conditional preprocessor directive.
         /// </summary>
-        /// <param name="document">The parent document.</param>
         /// <param name="parentProxy">Represents the parent item.</param>
+        /// <param name="sourceCode">The source code.</param>
         /// <returns>Returns the expression.</returns>
-        internal Expression GetNextConditionalPreprocessorExpression(CsDocument document, CodeUnitProxy parentProxy)
+        internal Expression GetNextConditionalPreprocessorExpression(CodeUnitProxy parentProxy, SourceCode sourceCode)
         {
-            Param.AssertNotNull(document, "document");
             Param.AssertNotNull(parentProxy, "parentProxy");
-            return this.GetNextConditionalPreprocessorExpression(document, parentProxy, ExpressionPrecedence.None);
+            Param.AssertNotNull(sourceCode, "sourceCode");
+            return this.GetNextConditionalPreprocessorExpression(parentProxy, sourceCode, ExpressionPrecedence.None);
         }
 
         #endregion Internal Methods
@@ -124,14 +124,14 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Reads the next expression from a conditional preprocessor directive.
         /// </summary>
-        /// <param name="document">The parent document.</param>
         /// <param name="parentProxy">Represents the parent item.</param>
+        /// <param name="sourceCode">The source code.</param>
         /// <param name="previousPrecedence">The precedence of the expression just before this one.</param>
         /// <returns>Returns the expression.</returns>
-        private Expression GetNextConditionalPreprocessorExpression(CsDocument document, CodeUnitProxy parentProxy, ExpressionPrecedence previousPrecedence)
+        private Expression GetNextConditionalPreprocessorExpression(CodeUnitProxy parentProxy, SourceCode sourceCode, ExpressionPrecedence previousPrecedence)
         {
-            Param.AssertNotNull(document, "document");
             Param.AssertNotNull(parentProxy, "parentProxy");
+            Param.AssertNotNull(sourceCode, "sourceCode");
             Param.Ignore(previousPrecedence);
 
             // Move past comments and whitepace.
@@ -151,11 +151,11 @@ namespace Microsoft.StyleCop.CSharp
                         break;
 
                     case SymbolType.Not:
-                        expression = this.GetConditionalPreprocessorNotExpression(parentProxy);
+                        expression = this.GetConditionalPreprocessorNotExpression(parentProxy, sourceCode);
                         break;
 
                     case SymbolType.OpenParenthesis:
-                        expression = this.GetConditionalPreprocessorParenthesizedExpression(parentProxy);
+                        expression = this.GetConditionalPreprocessorParenthesizedExpression(parentProxy, sourceCode);
                         break;
                             
                     case SymbolType.False:
@@ -167,7 +167,7 @@ namespace Microsoft.StyleCop.CSharp
                         break;
 
                     default:
-                        throw new SyntaxException(this.document, symbol.LineNumber);
+                        throw new SyntaxException(sourceCode, symbol.LineNumber);
                 }
             }
 
@@ -175,7 +175,7 @@ namespace Microsoft.StyleCop.CSharp
             while (expression != null)
             {
                 // Check if there is an extension to this expression.
-                Expression extension = this.GetConditionalPreprocessorExpressionExtension(null, expression, previousPrecedence);
+                Expression extension = this.GetConditionalPreprocessorExpressionExtension(null, sourceCode, expression, previousPrecedence);
                 if (extension != null)
                 {
                     // The larger expression is what we want to return here.
@@ -205,7 +205,7 @@ namespace Microsoft.StyleCop.CSharp
             Param.Ignore(symbolType, tokenType);
 
             this.AdvanceToNextCodeSymbol(parentProxy);
-            var expressionProxy = new CodeUnitProxy(this.document);
+            var expressionProxy = new CodeUnitProxy();
 
             Token token = this.GetToken(expressionProxy, tokenType, symbolType);
 
@@ -219,12 +219,14 @@ namespace Microsoft.StyleCop.CSharp
         /// Given an expression, reads further to see if it is actually a sub-expression within a larger expression.
         /// </summary>
         /// <param name="parentProxy">Represents the parent item.</param>
+        /// <param name="sourceCode">The source code.</param>
         /// <param name="leftSide">The known expression which might have an extension.</param>
         /// <param name="previousPrecedence">The precedence of the expression just before this one.</param>
         /// <returns>Returns the expression.</returns>
-        private Expression GetConditionalPreprocessorExpressionExtension(CodeUnitProxy parentProxy, Expression leftSide, ExpressionPrecedence previousPrecedence)
+        private Expression GetConditionalPreprocessorExpressionExtension(CodeUnitProxy parentProxy, SourceCode sourceCode, Expression leftSide, ExpressionPrecedence previousPrecedence)
         {
             Param.Ignore(parentProxy);
+            Param.AssertNotNull(sourceCode, "sourceCode");
             Param.AssertNotNull(leftSide, "leftSide");
             Param.Ignore(previousPrecedence);
 
@@ -249,12 +251,12 @@ namespace Microsoft.StyleCop.CSharp
                         {
                             case OperatorType.ConditionalEquals:
                             case OperatorType.NotEquals:
-                                expression = this.GetConditionalPreprocessorEqualityExpression(parentProxy, leftSide, previousPrecedence);
+                                expression = this.GetConditionalPreprocessorEqualityExpression(parentProxy, sourceCode, leftSide, previousPrecedence);
                                 break;
 
                             case OperatorType.ConditionalAnd:
                             case OperatorType.ConditionalOr:
-                                expression = this.GetConditionalPreprocessorAndOrExpression(parentProxy, leftSide, previousPrecedence);
+                                expression = this.GetConditionalPreprocessorAndOrExpression(parentProxy, sourceCode, leftSide, previousPrecedence);
                                 break;
                         }
                     }
@@ -277,22 +279,22 @@ namespace Microsoft.StyleCop.CSharp
             {
                 if (symbol.SymbolType == SymbolType.WhiteSpace)
                 {
-                    parentProxy.Children.Add(new Whitespace(this.document, symbol.Text, symbol.Location, this.symbols.Generated));
+                    parentProxy.Children.Add(new Whitespace(symbol.Text, symbol.Location, this.symbols.Generated));
                     this.symbols.Advance();
                 }
                 else if (symbol.SymbolType == SymbolType.EndOfLine)
                 {
-                    parentProxy.Children.Add(new EndOfLine(this.document, symbol.Text, symbol.Location, this.symbols.Generated));
+                    parentProxy.Children.Add(new EndOfLine(symbol.Text, symbol.Location, this.symbols.Generated));
                     this.symbols.Advance();
                 }
                 else if (symbol.SymbolType == SymbolType.SingleLineComment)
                 {
-                    parentProxy.Children.Add(new SingleLineComment(this.document, symbol.Text, symbol.Location, this.symbols.Generated));
+                    parentProxy.Children.Add(new SingleLineComment(symbol.Text, symbol.Location, this.symbols.Generated));
                     this.symbols.Advance();
                 }
                 else if (symbol.SymbolType == SymbolType.MultiLineComment)
                 {
-                    parentProxy.Children.Add(new MultilineComment(this.document, symbol.Text, symbol.Location, this.symbols.Generated));
+                    parentProxy.Children.Add(new MultilineComment(symbol.Text, symbol.Location, this.symbols.Generated));
                     this.symbols.Advance();
                 }
                 else
@@ -314,7 +316,7 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertNotNull(parentProxy, "parentProxy");
 
             this.AdvanceToNextConditionalDirectiveCodeSymbol(parentProxy);
-            var expressionProxy = new CodeUnitProxy(this.document);
+            var expressionProxy = new CodeUnitProxy();
 
             // Get the first symbol.
             Symbol symbol = this.symbols.Peek(1);
@@ -323,7 +325,7 @@ namespace Microsoft.StyleCop.CSharp
             // Convert the symbol to a token.
             this.symbols.Advance();
 
-            var literalToken = new LiteralToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+            var literalToken = new LiteralToken(symbol.Text, symbol.Location, this.symbols.Generated);
             expressionProxy.Children.Add(literalToken);
 
             // Create a literal expression from this token.
@@ -337,29 +339,31 @@ namespace Microsoft.StyleCop.CSharp
         /// Reads a NOT expression.
         /// </summary>
         /// <param name="parentProxy">Represents the parent item.</param>
+        /// <param name="sourceCode">The source code containing the expression.</param>
         /// <returns>Returns the expression.</returns>
-        private UnaryExpression GetConditionalPreprocessorNotExpression(CodeUnitProxy parentProxy)
+        private UnaryExpression GetConditionalPreprocessorNotExpression(CodeUnitProxy parentProxy, SourceCode sourceCode)
         {
             Param.AssertNotNull(parentProxy, "parentProxy");
+            Param.AssertNotNull(sourceCode, "sourceCode");
 
             this.AdvanceToNextConditionalDirectiveCodeSymbol(parentProxy);
-            var expressionProxy = new CodeUnitProxy(this.document);
+            var expressionProxy = new CodeUnitProxy();
 
             Symbol symbol = this.symbols.Peek(1);
             Debug.Assert(symbol != null, "The next symbol should not be null");
 
             // Create the token based on the type of the symbol.
-            var token = new NotOperator(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+            var token = new NotOperator(symbol.Text, symbol.Location, this.symbols.Generated);
             expressionProxy.Children.Add(token);
 
             // Advance up to the symbol and add it to the document.
             this.symbols.Advance();
 
             // Get the expression after the operator.
-            Expression expression = this.GetNextConditionalPreprocessorExpression(this.document, expressionProxy, ExpressionPrecedence.Unary);
+            Expression expression = this.GetNextConditionalPreprocessorExpression(expressionProxy, sourceCode, ExpressionPrecedence.Unary);
             if (expression == null || expression.Children.Count == 0)
             {
-                throw new SyntaxException(document, symbol.LineNumber);
+                throw new SyntaxException(sourceCode, symbol.LineNumber);
             }
 
             // Create and return the expression.
@@ -373,30 +377,32 @@ namespace Microsoft.StyleCop.CSharp
         /// Reads an expression wrapped in parenthesis.
         /// </summary>
         /// <param name="parentProxy">Represents the parent item.</param>
+        /// <param name="sourceCode">The source code containing the expression.</param>
         /// <returns>Returns the expression.</returns>
-        private ParenthesizedExpression GetConditionalPreprocessorParenthesizedExpression(CodeUnitProxy parentProxy)
+        private ParenthesizedExpression GetConditionalPreprocessorParenthesizedExpression(CodeUnitProxy parentProxy, SourceCode sourceCode)
         {
             Param.AssertNotNull(parentProxy, "parentProxy");
+            Param.AssertNotNull(sourceCode, "sourceCode");
 
             this.AdvanceToNextConditionalDirectiveCodeSymbol(parentProxy);
-            var expressionProxy = new CodeUnitProxy(this.document);
+            var expressionProxy = new CodeUnitProxy();
 
             // Get the opening parenthesis.
             Symbol firstSymbol = this.symbols.Peek(1);
             if (firstSymbol == null || firstSymbol.SymbolType != SymbolType.OpenParenthesis)
             {
-                throw new SyntaxException(this.document, firstSymbol.LineNumber);
+                throw new SyntaxException(sourceCode, firstSymbol.LineNumber);
             }
 
             this.symbols.Advance();
-            var openParenthesis = new OpenParenthesisToken(this.document, firstSymbol.Text, firstSymbol.Location, this.symbols.Generated);
+            var openParenthesis = new OpenParenthesisToken(firstSymbol.Text, firstSymbol.Location, this.symbols.Generated);
             expressionProxy.Children.Add(openParenthesis);
 
             // Get the inner expression.
-            Expression expression = this.GetNextConditionalPreprocessorExpression(this.document, expressionProxy, ExpressionPrecedence.None);
+            Expression expression = this.GetNextConditionalPreprocessorExpression(expressionProxy, sourceCode, ExpressionPrecedence.None);
             if (expression == null)
             {
-                throw new SyntaxException(this.document, firstSymbol.LineNumber);
+                throw new SyntaxException(sourceCode, firstSymbol.LineNumber);
             }
 
             // Get the closing parenthesis.
@@ -404,11 +410,11 @@ namespace Microsoft.StyleCop.CSharp
             Symbol symbol = this.symbols.Peek(1);
             if (symbol == null || symbol.SymbolType != SymbolType.CloseParenthesis)
             {
-                throw new SyntaxException(this.document, firstSymbol.LineNumber);
+                throw new SyntaxException(sourceCode, firstSymbol.LineNumber);
             }
 
             this.symbols.Advance();
-            var closeParenthesis = new CloseParenthesisToken(this.document, symbol.Text, symbol.Location, this.symbols.Generated);
+            var closeParenthesis = new CloseParenthesisToken(symbol.Text, symbol.Location, this.symbols.Generated);
             expressionProxy.Children.Add(closeParenthesis);
 
             openParenthesis.MatchingBracket = closeParenthesis;
@@ -425,20 +431,22 @@ namespace Microsoft.StyleCop.CSharp
         /// Reads a relational expression.
         /// </summary>
         /// <param name="parentProxy">Represents the parent item.</param>
+        /// <param name="sourceCode">The file containing the expression.</param>
         /// <param name="leftHandSide">The expression on the left hand side of the operator.</param>
         /// <param name="previousPrecedence">The precedence of the previous expression.</param>
         /// <returns>Returns the expression.</returns>
         private RelationalExpression GetConditionalPreprocessorEqualityExpression(
-            CodeUnitProxy parentProxy, Expression leftHandSide, ExpressionPrecedence previousPrecedence)
+            CodeUnitProxy parentProxy, SourceCode sourceCode, Expression leftHandSide, ExpressionPrecedence previousPrecedence)
         {
             Param.AssertNotNull(parentProxy, "parentProxy");
+            Param.AssertNotNull(sourceCode, "sourceCode");
             Param.AssertNotNull(leftHandSide, "leftHandSide");
             Param.Ignore(previousPrecedence);
 
             RelationalExpression expression = null;
 
             this.AdvanceToNextConditionalDirectiveCodeSymbol(parentProxy);
-            var expressionProxy = new CodeUnitProxy(this.document);
+            var expressionProxy = new CodeUnitProxy();
 
             // Create the operator symbol.
             OperatorSymbolToken operatorToken = this.PeekOperatorSymbolToken();
@@ -452,10 +460,10 @@ namespace Microsoft.StyleCop.CSharp
                 expressionProxy.Children.Add(operatorToken);
 
                 // Get the expression on the right-hand side of the operator.
-                Expression rightHandSide = this.GetNextConditionalPreprocessorExpression(this.document, expressionProxy, precedence);
+                Expression rightHandSide = this.GetNextConditionalPreprocessorExpression(expressionProxy, sourceCode, precedence);
                 if (rightHandSide == null)
                 {
-                    throw new SyntaxException(document, operatorToken.LineNumber);
+                    throw new SyntaxException(sourceCode, operatorToken.LineNumber);
                 }
 
                 // Get the expression operator type.
@@ -471,7 +479,7 @@ namespace Microsoft.StyleCop.CSharp
                         break;
 
                     default:
-                        throw new SyntaxException(this.document, operatorToken.LineNumber);
+                        throw new SyntaxException(sourceCode, operatorToken.LineNumber);
                 }
 
                 // Create and return the expression.
@@ -486,20 +494,22 @@ namespace Microsoft.StyleCop.CSharp
         /// Reads a conditional logical expression.
         /// </summary>
         /// <param name="parentProxy">Represents the parent item.</param>
+        /// <param name="sourceCode">The source code containing the expression.</param>
         /// <param name="leftHandSide">The expression on the left hand side of the operator.</param>
         /// <param name="previousPrecedence">The precedence of the expression just before this one.</param>
         /// <returns>Returns the expression.</returns>
         private ConditionalLogicalExpression GetConditionalPreprocessorAndOrExpression(
-            CodeUnitProxy parentProxy,  Expression leftHandSide, ExpressionPrecedence previousPrecedence)
+            CodeUnitProxy parentProxy,  SourceCode sourceCode, Expression leftHandSide, ExpressionPrecedence previousPrecedence)
         {
             Param.AssertNotNull(parentProxy, "parentProxy");
+            Param.AssertNotNull(sourceCode, "sourceCode");
             Param.AssertNotNull(leftHandSide, "leftHandSide");
             Param.Ignore(previousPrecedence);
 
             ConditionalLogicalExpression expression = null;
 
             this.AdvanceToNextConditionalDirectiveCodeSymbol(parentProxy);
-            var expressionProxy = new CodeUnitProxy(this.document);
+            var expressionProxy = new CodeUnitProxy();
 
             // Create the operator symbol.
             OperatorSymbolToken operatorToken = this.PeekOperatorSymbolToken();
@@ -513,10 +523,10 @@ namespace Microsoft.StyleCop.CSharp
                 expressionProxy.Children.Add(operatorToken);
 
                 // Get the expression on the right-hand side of the operator.
-                Expression rightHandSide = this.GetNextConditionalPreprocessorExpression(this.document, expressionProxy, precedence);
+                Expression rightHandSide = this.GetNextConditionalPreprocessorExpression(expressionProxy, sourceCode, precedence);
                 if (rightHandSide == null)
                 {
-                    throw new SyntaxException(document, operatorToken.LineNumber);
+                    throw new SyntaxException(sourceCode, operatorToken.LineNumber);
                 }
 
                 // Get the expression operator type.
@@ -532,7 +542,7 @@ namespace Microsoft.StyleCop.CSharp
                         break;
 
                     default:
-                        throw new SyntaxException(this.document, operatorToken.LineNumber);
+                        throw new SyntaxException(sourceCode, operatorToken.LineNumber);
                 }
 
                 // Create and return the expression.

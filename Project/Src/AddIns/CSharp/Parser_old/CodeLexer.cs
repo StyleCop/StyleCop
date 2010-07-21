@@ -107,11 +107,12 @@ namespace Microsoft.StyleCop.CSharp_old
         /// <summary>
         /// Gets the list of symbols from the code file.
         /// </summary>
-        /// <param name="document">The parent document.</param>
+        /// <param name="sourceCode">The source code containing the symbols.</param>
         /// <param name="configuration">The active configuration.</param>
         /// <returns>Returns the list of symbols in the code file.</returns>
-        internal List<Symbol> GetSymbols(CsDocument document, Configuration configuration)
+        internal List<Symbol> GetSymbols(SourceCode sourceCode, Configuration configuration)
         {
+            Param.AssertNotNull(sourceCode, "sourceCode");
             Param.Ignore(configuration);
 
             // Create the symbol list.

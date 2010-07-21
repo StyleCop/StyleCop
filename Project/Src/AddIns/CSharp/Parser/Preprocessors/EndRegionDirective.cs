@@ -40,14 +40,12 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Initializes a new instance of the EndRegionDirective class.
         /// </summary>
-        /// <param name="document">The parent document.</param>
         /// <param name="text">The line text.</param>
         /// <param name="location">The location of the preprocessor in the code.</param>
         /// <param name="generated">Indicates whether the preprocessor lies within a block of generated code.</param>
-        internal EndRegionDirective(CsDocument document, string text, CodeLocation location, bool generated)
-            : base(document, text, PreprocessorType.EndRegion, location, generated)
+        internal EndRegionDirective(string text, CodeLocation location, bool generated)
+            : base(text, PreprocessorType.EndRegion, location, generated)
         {
-            Param.AssertNotNull(document, "document");
             Param.AssertValidString(text, "text");
             Param.AssertNotNull(location, "location");
             Param.Ignore(generated);
