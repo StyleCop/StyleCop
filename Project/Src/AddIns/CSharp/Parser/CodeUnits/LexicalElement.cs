@@ -100,11 +100,6 @@ namespace Microsoft.StyleCop.CSharp
 
             protected set
             {
-                if (!this.text.Initialized || this.text.Value != value)
-                {
-                    this.OnTextChanged();
-                }
-
                 this.text.Value = value;
             }
         }
@@ -141,13 +136,6 @@ namespace Microsoft.StyleCop.CSharp
         /// Creates the text string for the lexical element.
         /// </summary>
         protected virtual void CreateTextString()
-        {
-        }
-
-        /// <summary>
-        /// Called when the value of the text property changes.
-        /// </summary>
-        protected virtual void OnTextChanged()
         {
         }
 

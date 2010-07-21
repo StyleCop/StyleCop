@@ -39,6 +39,8 @@ namespace Microsoft.StyleCop.CSharp
             Param.Ignore(preprocessorType);
 
             Debug.Assert(System.Enum.IsDefined(typeof(PreprocessorType), this.PreprocessorType), "The type is invalid.");
+
+            this.Initialize();
         }
 
         #endregion Internal Constructors
@@ -57,5 +59,43 @@ namespace Microsoft.StyleCop.CSharp
         }
 
         #endregion Public Properties
+
+        #region Private Methods
+
+        /// <summary>
+        /// Initializes the contents of the class.
+        /// </summary>
+        private void Initialize()
+        {
+            string text = this.Text;
+            if (!string.IsNullOrEmpty(text))
+            {
+                // Extract the type of the preprocessor statement.
+                int startIndex = 0;
+                while (true)
+                {
+                    if (text[startIndex] == '#')
+                    {
+                        break;
+                    }
+
+                    ++startIndex;
+                }
+
+                // Extract the name.
+                int index = startIndex;
+                while (index + 1 < text.Length)
+                {
+                    if (!char.IsLetter(text[index + 1]))
+                    {
+                        break;
+                    }
+
+                    ++index;
+                }
+            }
+        }
+
+        #endregion Private Methods
     }
 }
