@@ -60,6 +60,18 @@ namespace Microsoft.StyleCop.CSharp
             Param.Ignore(generated);
 
             this.Text = text;
+
+            for (int i = 0; i < text.Length; ++i)
+            {
+                if (text[i] == ' ')
+                {
+                    ++this.spaceCount;
+                }
+                else if (text[i] == '\t')
+                {
+                    ++this.tabCount;
+                }
+            }
         }
 
         #endregion Internal Constructors
@@ -90,31 +102,33 @@ namespace Microsoft.StyleCop.CSharp
 
         #endregion Public Properties
 
-        #region Protected Override Properties
+        #region Public Override Methods
 
         /// <summary>
-        /// Called when the value of the Text property changes.
+        /// Gets the whitespace interpreted as a string.
         /// </summary>
-        protected override void OnTextChanged()
+        /// <returns>Returns the whitespace interpreted a string.</returns>
+        public override string ToString()
         {
-            base.OnTextChanged();
-
-            this.spaceCount = this.tabCount = 0;
-            string text = this.Text;
-
-            for (int i = 0; i < text.Length; ++i)
+            var output = new StringBuilder();
+            
+            if (this.tabCount >= 1)
             {
-                if (text[i] == ' ')
-                {
-                    ++this.spaceCount;
-                }
-                else if (text[i] == '\t')
-                {
-                    ++this.tabCount;
-                }
+                output.Append("\t");
             }
+
+            if (this.spaceCount == 1)
+            {
+                output.Append(" ");
+            }
+            else if (this.spaceCount > 1)
+            {
+                output.Append("  ");
+            }
+
+            return output.ToString();
         }
 
-        #endregion Protected Override Properties
+        #endregion Public Override Methods
     }
 }
