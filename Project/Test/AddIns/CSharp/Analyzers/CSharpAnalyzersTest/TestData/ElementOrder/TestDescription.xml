@@ -10,7 +10,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.OrderingRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.OrderingRules">
           <AnalyzerSettings>
             <BooleanProperty Name="GeneratedCodeElementOrder">True</BooleanProperty>
           </AnalyzerSettings>
@@ -41,7 +41,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.OrderingRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.OrderingRules">
           <AnalyzerSettings>
             <BooleanProperty Name="GeneratedCodeElementOrder">True</BooleanProperty>
           </AnalyzerSettings>
@@ -150,7 +150,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.OrderingRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.OrderingRules">
           <AnalyzerSettings>
             <BooleanProperty Name="GeneratedCodeElementOrder">True</BooleanProperty>
           </AnalyzerSettings>
@@ -189,7 +189,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.OrderingRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.OrderingRules">
           <AnalyzerSettings>
             <BooleanProperty Name="GeneratedCodeElementOrder">True</BooleanProperty>
           </AnalyzerSettings>
@@ -326,7 +326,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.OrderingRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.OrderingRules">
           <AnalyzerSettings>
             <BooleanProperty Name="GeneratedCodeElementOrder">True</BooleanProperty>
           </AnalyzerSettings>
@@ -356,7 +356,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.OrderingRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.OrderingRules">
           <AnalyzerSettings>
             <BooleanProperty Name="GeneratedCodeElementOrder">True</BooleanProperty>
           </AnalyzerSettings>
@@ -388,7 +388,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.OrderingRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.OrderingRules">
           <AnalyzerSettings>
             <BooleanProperty Name="GeneratedCodeElementOrder">True</BooleanProperty>
           </AnalyzerSettings>
@@ -523,7 +523,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.OrderingRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.OrderingRules">
           <AnalyzerSettings>
             <BooleanProperty Name="GeneratedCodeElementOrder">False</BooleanProperty>
           </AnalyzerSettings>
@@ -640,7 +640,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.OrderingRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.OrderingRules">
           <Rules>
             <Rule Name="SystemUsingDirectivesMustBePlacedBeforeOtherUsingDirectives">
               <RuleSettings>
@@ -688,7 +688,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.OrderingRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.OrderingRules">
           <Rules>
             <Rule Name="PropertyAccessorsMustFollowOrder">
               <RuleSettings>

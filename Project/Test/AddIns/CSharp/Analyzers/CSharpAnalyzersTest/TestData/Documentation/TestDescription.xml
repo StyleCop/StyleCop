@@ -20,7 +20,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.DocumentationRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
           <AnalyzerSettings>
             <BooleanProperty Name="IgnorePrivates">False</BooleanProperty>
             <BooleanProperty Name="IgnoreInternals">False</BooleanProperty>
@@ -672,7 +672,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.DocumentationRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
           <AnalyzerSettings>
             <BooleanProperty Name="IgnorePrivates">True</BooleanProperty>
             <BooleanProperty Name="IgnoreInternals">False</BooleanProperty>
@@ -1062,7 +1062,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.DocumentationRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
           <AnalyzerSettings>
             <BooleanProperty Name="IgnorePrivates">False</BooleanProperty>
             <BooleanProperty Name="IncludeFields">False</BooleanProperty>
@@ -1254,7 +1254,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.DocumentationRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
           <AnalyzerSettings>
             <BooleanProperty Name="IgnorePrivates">False</BooleanProperty>
             <BooleanProperty Name="IncludeFields">True</BooleanProperty>
@@ -1293,7 +1293,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.DocumentationRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
           <AnalyzerSettings>
             <BooleanProperty Name="IgnorePrivates">False</BooleanProperty>
             <BooleanProperty Name="IncludeFields">True</BooleanProperty>
@@ -1484,7 +1484,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.DocumentationRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
           <AnalyzerSettings>
             <BooleanProperty Name="IgnorePrivates">False</BooleanProperty>
             <BooleanProperty Name="IncludeFields">True</BooleanProperty>
@@ -1675,7 +1675,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.DocumentationRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
           <AnalyzerSettings>
             <BooleanProperty Name="IgnorePrivates">False</BooleanProperty>
             <BooleanProperty Name="IncludeFields">True</BooleanProperty>
@@ -1868,7 +1868,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.DocumentationRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
           <Rules>
             <Rule Name="ConstructorSummaryDocumentationMustBeginWithStandardText">
               <RuleSettings>
@@ -1948,7 +1948,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.DocumentationRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
           <Rules>
             <Rule Name="DestructorSummaryDocumentationMustBeginWithStandardText">
               <RuleSettings>
@@ -1974,7 +1974,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.DocumentationRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
           <Rules>
             <Rule Name="DocumentationHeadersMustNotContainBlankLines">
               <RuleSettings>
@@ -1983,7 +1983,7 @@
             </Rule>
           </Rules>
         </Analyzer>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.LayoutRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.LayoutRules">
           <Rules>
             <Rule Name="CodeMustNotContainMultipleBlankLinesInARow">
               <!-- This rule is enabled here to ensure that it does not fire within the code sections of these headers. -->
@@ -2017,7 +2017,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.DocumentationRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
           <AnalyzerSettings>
             <BooleanProperty Name="IgnorePrivates">False</BooleanProperty>
             <BooleanProperty Name="IncludeFields">True</BooleanProperty>
@@ -2050,7 +2050,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.DocumentationRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
           <AnalyzerSettings>
             <BooleanProperty Name="IgnorePrivates">False</BooleanProperty>
             <BooleanProperty Name="IgnoreInternals">False</BooleanProperty>
@@ -2270,7 +2270,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.DocumentationRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
           <AnalyzerSettings>
             <BooleanProperty Name="IgnorePrivates">False</BooleanProperty>
             <BooleanProperty Name="IgnoreInternals">False</BooleanProperty>
@@ -2784,7 +2784,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.DocumentationRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
           <AnalyzerSettings>
             <BooleanProperty Name="IgnorePrivates">False</BooleanProperty>
             <BooleanProperty Name="IgnoreInternals">False</BooleanProperty>
@@ -3034,7 +3034,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.DocumentationRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
           <AnalyzerSettings>
             <BooleanProperty Name="IgnorePrivates">False</BooleanProperty>
             <BooleanProperty Name="IgnoreInternals">False</BooleanProperty>

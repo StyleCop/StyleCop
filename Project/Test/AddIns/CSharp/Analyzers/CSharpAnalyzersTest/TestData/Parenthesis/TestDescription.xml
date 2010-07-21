@@ -9,7 +9,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.MaintainabilityRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
           <Rules>
             <Rule Name="StatementMustNotUseUnnecessaryParenthesis">
               <RuleSettings>
@@ -54,7 +54,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.MaintainabilityRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
           <Rules>
             <Rule Name="ArithmeticExpressionsMustDeclarePrecedence">
               <RuleSettings>
@@ -86,7 +86,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.MaintainabilityRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
           <Rules>
             <Rule Name="ConditionalExpressionsMustDeclarePrecedence">
               <RuleSettings>

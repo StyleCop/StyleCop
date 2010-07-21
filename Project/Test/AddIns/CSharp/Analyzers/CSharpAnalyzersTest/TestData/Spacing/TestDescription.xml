@@ -8,7 +8,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.SpacingRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.SpacingRules">
           <Rules>
             <Rule Name="ClosingParenthesisMustBeSpacedCorrectly">
               <RuleSettings>
