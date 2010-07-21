@@ -771,7 +771,7 @@ namespace Microsoft.StyleCop.CSharp
             }
 
             // Create and return the for-statement.
-            var statement = new ForStatement(statementProxy, initializers.AsReadOnly(), condition, iterators.ToArray());
+            var statement = new ForStatement(statementProxy, initializers.ToArray(), condition, iterators.ToArray());
             parentProxy.Children.Add(statement);
             statement.EmbeddedStatement = childStatement;
 
@@ -1031,7 +1031,7 @@ namespace Microsoft.StyleCop.CSharp
             closingBracket.MatchingBracket = openingBracket;
 
             // Create and return the switch-statement.
-            var statement = new SwitchStatement(statementProxy, expression, caseStatements.AsReadOnly(), defaultStatement);
+            var statement = new SwitchStatement(statementProxy, expression, caseStatements.ToArray(), defaultStatement);
             parentProxy.Children.Add(statement);
 
             return statement;
@@ -1243,7 +1243,7 @@ namespace Microsoft.StyleCop.CSharp
             FinallyStatement finallyStatement = this.GetAttachedFinallyStatement(parentProxy, statement, unsafeCode);
 
             // Add the catch and finally statements to the try statement.
-            statement.CatchStatements = catchStatements.AsReadOnly();
+            statement.CatchStatements = catchStatements.ToArray();
             statement.FinallyStatement = finallyStatement;
 
             // Return the statement.
