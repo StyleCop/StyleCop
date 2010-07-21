@@ -138,6 +138,9 @@
   <data name="CacheTab" xml:space="preserve">
     <value>Results Caching</value>
   </data>
+  <data name="CannotBeNull" xml:space="preserve">
+    <value>Must not be null</value>
+  </data>
   <data name="CannotDisplaySettingsInNonUIMode" xml:space="preserve">
     <value>StyleCop is running in non-UI mode. The settings dialog cannot be displayed in this mode. Check the status of the DisplayUI property on the StyleCopCore object before attempting to display settings.</value>
   </data>
@@ -146,6 +149,9 @@
   </data>
   <data name="Collec" xml:space="preserve">
     <value />
+  </data>
+  <data name="CollectionCannotBeEmptyOrNull" xml:space="preserve">
+    <value>The collection must not be empty or null</value>
   </data>
   <data name="ComparingDifferentPropertyTypes" xml:space="preserve">
     <value>It is not possible to compare properties of different types.</value>
@@ -206,6 +212,27 @@
   </data>
   <data name="MissingNameAttributeOnRootNode" xml:space="preserve">
     <value>The root node does not have a valid name attribute.</value>
+  </data>
+  <data name="MustBeBetween" xml:space="preserve">
+    <value>The value must be between {0} and {1}</value>
+  </data>
+  <data name="MustBeGreaterThan" xml:space="preserve">
+    <value>The value must be greater than {0}</value>
+  </data>
+  <data name="MustBeGreaterThanOrEqualTo" xml:space="preserve">
+    <value>The value must be greater than or equal to {0}</value>
+  </data>
+  <data name="MustBeGreaterThanOrEqualToZero" xml:space="preserve">
+    <value>The value must be greater than or equal to zero</value>
+  </data>
+  <data name="MustBeGreaterThanZero" xml:space="preserve">
+    <value>The value must be greater than zero</value>
+  </data>
+  <data name="MustBeLessThan" xml:space="preserve">
+    <value>The value must be less than {0}</value>
+  </data>
+  <data name="MustBeLessThanOrEqualTo" xml:space="preserve">
+    <value>The value must be less than or equal to {0}</value>
   </data>
   <data name="NodeIsNotMemberOfList" xml:space="preserve">
     <value>The node is not a member of the current list.</value>
@@ -308,6 +335,15 @@
   </data>
   <data name="SourceCodeTypePropertyNotSet" xml:space="preserve">
     <value>The SourceCode's Type property is not set.</value>
+  </data>
+  <data name="StringCannotBeEmptyOrNull" xml:space="preserve">
+    <value>The string must not be empty or null</value>
+  </data>
+  <data name="SyntaxErrorInFile" xml:space="preserve">
+    <value>A syntax error has been discovered in file {0} on line {1}.</value>
+  </data>
+  <data name="SyntaxErrorInFileWithMessage" xml:space="preserve">
+    <value>A syntax error has been discovered in file {0} on line {1}: {2}</value>
   </data>
   <data name="Title" xml:space="preserve">
     <value>Microsoft StyleCop</value>

@@ -101,11 +101,6 @@
     </Compile>
     <Compile Include="ICodeDocument.cs" />
     <Compile Include="ISourceFixer.cs" />
-    <Compile Include="ParamStrings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ParamStrings.resx</DependentUpon>
-    </Compile>
     <Compile Include="StyleCopRunner.cs" />
     <Compile Include="StyleCopObjectConsole.cs" />
     <Compile Include="ObjectBasedEnvironment.cs" />
@@ -239,10 +234,6 @@
     <EmbeddedResource Include="LogStrings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>LogStrings.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ParamStrings.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>ParamStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Settings\PropertyControl.resx">
       <DependentUpon>PropertyControl.cs</DependentUpon>

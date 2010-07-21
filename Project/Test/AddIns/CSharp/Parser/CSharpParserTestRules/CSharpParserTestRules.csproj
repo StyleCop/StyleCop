@@ -49,12 +49,8 @@
     <EmbeddedResource Include="CsParserDump.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\Src\AddIns\CSharp\CodeModel\CSharpCodeModel.csproj">
-      <Project>{27990660-AC31-4622-A971-FE2BE70844CF}</Project>
-      <Name>CSharpCodeModel</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\Src\AddIns\CSharp\Parser\CSharpParser.csproj">
-      <Project>{2D0CFE6C-2E44-498B-BBE9-F0703E0F2EE2}</Project>
+      <Project>{27990660-AC31-4622-A971-FE2BE70844CF}</Project>
       <Name>CSharpParser</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\src\StyleCop\StyleCop.csproj">
