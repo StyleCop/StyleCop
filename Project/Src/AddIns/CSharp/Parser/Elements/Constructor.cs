@@ -82,8 +82,7 @@ namespace Microsoft.StyleCop.CSharp
             Param.Ignore(unsafeCode);
             Param.Ignore(generated);
 
-            // Static constructors are always public.
-            // Not so, static constructors are, in fact, private and handled as a special case for ordering.
+            // Static constructors are treated as private and handled as a special case for ordering.
             if (this.Declaration.ContainsModifier(CsTokenType.Static))
             {
                 this.Declaration.AccessModifierType = AccessModifierType.Private;
