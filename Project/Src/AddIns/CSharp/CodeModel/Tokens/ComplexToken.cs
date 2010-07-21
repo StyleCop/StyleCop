@@ -51,9 +51,9 @@ namespace Microsoft.StyleCop.CSharp.CodeModel
         {
             var text = new StringBuilder();
 
-            for (LexicalElement lex = this.FindFirstDescendent<LexicalElement>(); lex != null; lex = lex.FindNextDescendentOf<LexicalElement>(this))
+            for (Token token = this.FindFirstChild<Token>(); token != null; token = token.FindNextSibling<Token>())
             {
-                text.Append(lex.Text);
+                text.Append(token.Text);
             }
 
             this.Text = text.ToString();

@@ -135,7 +135,7 @@ namespace Microsoft.StyleCop
             Param.Ignore(hostTag);
 
 #if DEBUG
-            ////System.Windows.Forms.MessageBox.Show("hi");
+            System.Windows.Forms.MessageBox.Show("hi");
 #endif
 
             this.environment = environment;

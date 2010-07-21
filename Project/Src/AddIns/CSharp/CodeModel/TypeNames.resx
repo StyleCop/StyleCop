@@ -243,12 +243,6 @@
   <data name="ContinueStatementPlural" xml:space="preserve">
     <value>continue statements</value>
   </data>
-  <data name="CsDocument" xml:space="preserve">
-    <value>document</value>
-  </data>
-  <data name="CsDocumentPlural" xml:space="preserve">
-    <value>documents</value>
-  </data>
   <data name="DecrementExpression" xml:space="preserve">
     <value>decrement expression</value>
   </data>
@@ -674,5 +668,11 @@
   </data>
   <data name="YieldStatementPlural" xml:space="preserve">
     <value>yield statements</value>
+  </data>
+  <data name="CsDocument" xml:space="preserve">
+    <value>document</value>
+  </data>
+  <data name="CsDocumentPlural" xml:space="preserve">
+    <value>documents</value>
   </data>
 </root>

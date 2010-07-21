@@ -71,8 +71,6 @@
     <Compile Include="CodeUnits\Argument.cs" />
     <Compile Include="CodeUnits\ArgumentList.cs" />
     <Compile Include="CodeUnits\Attribute.cs" />
-    <Compile Include="CodeUnits\GenericParameterList.cs" />
-    <Compile Include="CodeUnits\GenericTypeParameter.cs" />
     <Compile Include="CsLanguageService.cs" />
     <Compile Include="LexicalElements\SimpleLexicalElement.cs" />
     <Compile Include="CodeUnits\FileHeader.cs" />
@@ -397,11 +395,7 @@
     <Compile Include="Tokens\WhileDoToken.cs" />
     <Compile Include="Tokens\WhileToken.cs" />
     <Compile Include="Tokens\YieldToken.cs" />
-    <Compile Include="TypeNames.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>TypeNames.resx</DependentUpon>
-    </Compile>
+    <Compile Include="TypeNames.Designer.cs" />
     <Compile Include="VariableModifiers.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -416,10 +410,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="TypeNames.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>TypeNames.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
+    <EmbeddedResource Include="TypeNames.resx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(PROJECTROOT)\Tools\msbuild\MS.StyleCop.Build.Targets" />

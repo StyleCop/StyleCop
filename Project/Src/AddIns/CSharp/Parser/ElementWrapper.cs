@@ -115,7 +115,7 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                return this.element == null ? string.Empty : this.element.FullyQualifiedName;
+                return this.element == null ? string.Empty : this.element.Document.FullyQualifiedName;
             }
         }
 
@@ -155,12 +155,13 @@ namespace Microsoft.StyleCop.CSharp
         {
             Param.AssertNotNull(element, "element");
 
+            Debug.Assert(element.ElementType != ElementType.Document, "Use DocumentWrapper.Wrapper for docs.");
+
             if (element.Tag != null)
             {
                 return (ElementWrapper)element.Tag;
             }
 
-            Debug.Assert(element.ElementType != ElementType.Document, "Document wrapper should be set in CsDocumentWrapper constructor.");
             ElementWrapper wrapper = new ElementWrapper(element);
             element.Tag = wrapper;
             return wrapper;

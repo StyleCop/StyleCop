@@ -46,11 +46,6 @@ namespace Microsoft.StyleCop.CSharp.CodeModel
         /// <summary>
         /// The 'this' modifier.
         /// </summary>
-        This = 0x08,
-
-        /// <summary>
-        /// The 'in' modifier.
-        /// </summary>
-        In = 0x10
+        This = 0x08
     }
 }

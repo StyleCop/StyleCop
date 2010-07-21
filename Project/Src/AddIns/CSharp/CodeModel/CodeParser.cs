@@ -1017,14 +1017,6 @@ namespace Microsoft.StyleCop.CSharp.CodeModel
                         // Add the token.
                         genericArgumentListItems.Add(word);
                     }
-                    else if (symbol.SymbolType == SymbolType.Out)
-                    {
-                        genericArgumentListItems.Add(this.ConvertTokenSymbol(symbol, TokenType.Out));
-                    }
-                    else if (symbol.SymbolType == SymbolType.In)
-                    {
-                        genericArgumentListItems.Add(this.ConvertTokenSymbol(symbol, TokenType.In));
-                    }
                     else if (symbol.SymbolType == SymbolType.WhiteSpace ||
                         symbol.SymbolType == SymbolType.EndOfLine ||
                         symbol.SymbolType == SymbolType.SingleLineComment ||
@@ -1051,77 +1043,9 @@ namespace Microsoft.StyleCop.CSharp.CodeModel
             // to the generic token proxy and return success.
             if (genericArgumentListItems != null && genericArgumentListItems.Count > 0)
             {
-                // First, find the opening bracket.
-                if (!genericArgumentListItems[0].Is(TokenType.OpenGenericBracket))
+                for (int i = 0; i < genericArgumentListItems.Count; ++i)
                 {
-                    throw new SyntaxException(this.document, this.GetBestLineNumber());
-                }
-
-                genericTokenProxy.Children.Add(genericArgumentListItems[0]);
-
-                // Create a GenericTypeParameterList and add it as a child of the generic token.
-                var genericTypeParameterListProxy = new CodeUnitProxy(this.document);
-                genericTokenProxy.Children.Add(new GenericTypeParameterList(genericTypeParameterListProxy));
-
-                // Find each of the generic arguments and add them to the list.
-                int tokenIndex = this.NextCodeToken(genericTypeParameterListProxy, 1, genericArgumentListItems);
-                while (tokenIndex < genericArgumentListItems.Count && tokenIndex != -1)
-                {
-                    if (genericArgumentListItems[tokenIndex].Is(TokenType.CloseGenericBracket))
-                    {
-                        genericTokenProxy.Children.Add(genericArgumentListItems[tokenIndex]);
-                        break;
-                    }
-                    else if (genericArgumentListItems[tokenIndex].Is(TokenType.Comma))
-                    {
-                        genericTypeParameterListProxy.Children.Add(genericArgumentListItems[tokenIndex]);
-                        tokenIndex = this.NextCodeToken(genericTypeParameterListProxy, tokenIndex + 1, genericArgumentListItems);
-                        if (tokenIndex == -1)
-                        {
-                            throw new SyntaxException(this.document, this.GetBestLineNumber());
-                        }
-                    }
-                    else
-                    {
-                        var genericTypeParameterProxy = new CodeUnitProxy(this.document);
-
-                        // Check for out or in.
-                        if (genericArgumentListItems[tokenIndex].Is(TokenType.In) || genericArgumentListItems[tokenIndex].Is(TokenType.Out))
-                        {
-                            genericTypeParameterProxy.Children.Add(genericArgumentListItems[tokenIndex]);
-                            tokenIndex = this.NextCodeToken(genericTypeParameterProxy, tokenIndex + 1, genericArgumentListItems);
-                            if (tokenIndex == -1)
-                            {
-                                throw new SyntaxException(this.document, this.GetBestLineNumber());
-                            }
-                        }
-
-                        // Check for out or in.
-                        if (genericArgumentListItems[tokenIndex].Is(TokenType.In) || genericArgumentListItems[tokenIndex].Is(TokenType.Out))
-                        {
-                            genericTypeParameterProxy.Children.Add(genericArgumentListItems[tokenIndex]);
-                            tokenIndex = this.NextCodeToken(genericTypeParameterProxy, tokenIndex + 1, genericArgumentListItems);
-                            if (tokenIndex == -1)
-                            {
-                                throw new SyntaxException(this.document, this.GetBestLineNumber());
-                            }
-                        }
-
-                        // Get the type token.
-                        if (!genericArgumentListItems[tokenIndex].Is(TokenType.Type))
-                        {
-                            throw new SyntaxException(this.document, this.GetBestLineNumber());
-                        }
-
-                        genericTypeParameterProxy.Children.Add(genericArgumentListItems[tokenIndex]);
-                        genericTypeParameterListProxy.Children.Add(new GenericTypeParameter(genericTypeParameterProxy));
-
-                        tokenIndex = this.NextCodeToken(genericTypeParameterListProxy, tokenIndex + 1, genericArgumentListItems);
-                        if (tokenIndex == -1)
-                        {
-                            throw new SyntaxException(this.document, this.GetBestLineNumber());
-                        }
-                    }
+                    genericTokenProxy.Children.Add(genericArgumentListItems[i]);
                 }
 
                 return true;
@@ -1129,32 +1053,6 @@ namespace Microsoft.StyleCop.CSharp.CodeModel
 
             // This is not a generic argument list.
             return false;
-        }
-
-        /// <summary>
-        /// Gets the next code token in the list.
-        /// </summary>
-        /// <param name="parent">The parent proxy.</param>
-        /// <param name="startIndex">The index at which to begin searching.</param>
-        /// <param name="items">The list of items.</param>
-        /// <returns>Returns the next code token or -1 if none was found.</returns>
-        private int NextCodeToken(CodeUnitProxy parent, int startIndex, IList<LexicalElement> items)
-        {
-            Param.AssertNotNull(parent, "parent");
-            Param.AssertGreaterThanOrEqualToZero(startIndex, "startIndex");
-            Param.AssertNotNull(items, "items");
-
-            for (int i = startIndex; i < items.Count; ++i)
-            {
-                if (!items[i].Is(CodeUnitType.LexicalElement) || items[i].Is(LexicalElementType.Token))
-                {
-                    return i;
-                }
-
-                parent.Children.Add(items[i]);
-            }
-
-            return -1;
         }
 
         /// <summary>

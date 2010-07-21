@@ -25,10 +25,7 @@ namespace Microsoft.StyleCop.CSharp.CodeModel
     /// <subcategory>token</subcategory>
     public sealed class ParameterList : CodeUnit
     {
-        /// <summary>
-        /// The collection of parameters in the list.
-        /// </summary>
-        private CodeUnitProperty<ICollection<Parameter>> parameters;
+        #region Internal Constructors
 
         /// <summary>
         /// Initializes a new instance of the ParameterList class.
@@ -40,31 +37,6 @@ namespace Microsoft.StyleCop.CSharp.CodeModel
             Param.AssertNotNull(proxy, "proxy");
         }
 
-        /// <summary>
-        /// Gets the collection of parameters within the list.
-        /// </summary>
-        public ICollection<Parameter> Parameters
-        {
-            get
-            {
-                this.ValidateEditVersion();
-
-                if (!this.parameters.Initialized)
-                {
-                    this.parameters.Value = new List<Parameter>(this.GetChildren<Parameter>());
-                }
-
-                return this.parameters.Value;
-            }
-        }
-
-        /// <summary>
-        /// Resets the contents of the item.
-        /// </summary>
-        protected override void Reset()
-        {
-            base.Reset();
-            this.parameters.Reset();
-        }
+        #endregion Internal Constructors
     }
 }

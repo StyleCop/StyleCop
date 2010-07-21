@@ -93,16 +93,6 @@ namespace Microsoft.StyleCop.CSharp.CodeModel
         FileHeader = 0x13000000,
 
         /// <summary>
-        /// A parameter within a generic type definition.
-        /// </summary>
-        GenericTypeParameter = 0x14000000,
-
-        /// <summary>
-        /// A generic type parameter list.
-        /// </summary>
-        GenericTypeParameterList = 0x15000000,
-
-        /// <summary>
         /// All types of code units.
         /// </summary>
         All = 0x7FFFFFFF // This is set to the largest positive number.

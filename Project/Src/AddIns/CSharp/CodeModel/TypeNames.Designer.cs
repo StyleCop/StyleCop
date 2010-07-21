@@ -39,7 +39,7 @@ namespace Microsoft.StyleCop.CSharp.CodeModel {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Microsoft.StyleCop.CSharp.CodeModel.TypeNames", typeof(TypeNames).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Microsoft.StyleCop.CSharp.TypeNames", typeof(TypeNames).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -435,24 +435,6 @@ namespace Microsoft.StyleCop.CSharp.CodeModel {
         internal static string ContinueStatementPlural {
             get {
                 return ResourceManager.GetString("ContinueStatementPlural", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to document.
-        /// </summary>
-        internal static string CsDocument {
-            get {
-                return ResourceManager.GetString("CsDocument", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to documents.
-        /// </summary>
-        internal static string CsDocumentPlural {
-            get {
-                return ResourceManager.GetString("CsDocumentPlural", resourceCulture);
             }
         }
         
