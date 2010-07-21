@@ -35,7 +35,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Indicates whether the item is generated.
         /// </summary>
-        private CodeUnitProperty<bool> generated;
+        private bool? generated;
 
         #endregion Private Fields
 
@@ -60,7 +60,7 @@ namespace Microsoft.StyleCop.CSharp
 
             this.Text = text;
             this.location = location;
-            this.generated.Value = generated;
+            this.generated = generated;
         }
 
         #endregion Internal Constructors
@@ -97,9 +97,9 @@ namespace Microsoft.StyleCop.CSharp
             get
             {
                 this.ValidateEditVersion();
-                if (!this.generated.Initialized)
+                if (this.generated == null)
                 {
-                    this.generated.Value = this.Parent.Generated;
+                    this.generated = this.Parent.Generated;
                 }
 
                 return this.generated.Value;
@@ -117,7 +117,7 @@ namespace Microsoft.StyleCop.CSharp
         {
             base.Reset();
 
-            this.generated.Reset();
+            this.generated = null;
         }
 
         #endregion Protected Override Methods
