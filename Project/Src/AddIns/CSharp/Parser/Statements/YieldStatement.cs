@@ -15,7 +15,6 @@
 namespace Microsoft.StyleCop.CSharp
 {
     using System.Diagnostics.CodeAnalysis;
-    using System.Diagnostics;
 
     /// <summary>
     /// A yield-statement.
@@ -28,12 +27,12 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The type of the yield statement.
         /// </summary>
-        private CodeUnitProperty<Type> type;
+        private Type type;
 
         /// <summary>
         /// The expression being returned, if any.
         /// </summary>
-        private CodeUnitProperty<Expression> returnValue;
+        private Expression returnValue;
 
         #endregion Private Fields
 
@@ -52,8 +51,8 @@ namespace Microsoft.StyleCop.CSharp
             Param.Ignore(type);
             Param.Ignore(returnValue);
 
-            this.type.Value = type;
-            this.returnValue.Value = returnValue;
+            this.type = type;
+            this.returnValue = returnValue;
         }
 
         #endregion Internal Constructors
@@ -92,14 +91,7 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                this.ValidateEditVersion();
-
-                if (!this.type.Initialized)
-                {
-                    this.Initialize();
-                }
-
-                return this.type.Value;
+                return this.type;
             }
         }
 
@@ -110,62 +102,10 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                this.ValidateEditVersion();
-
-                if (!this.returnValue.Initialized)
-                {
-                    this.Initialize();
-                }
-
-                return this.returnValue.Value;
+                return this.returnValue;
             }
         }
 
         #endregion Public Properties
-
-        #region Protected Override Methods
-
-        /// <summary>
-        /// Resets the contents of the class.
-        /// </summary>
-        protected override void Reset()
-        {
-            base.Reset();
-
-            this.type.Reset();
-            this.returnValue.Reset();
-        }
-
-        #endregion Protected Override Methods
-
-        #region Private Methods
-
-        /// <summary>
-        /// Initializes the contents of the statement.
-        /// </summary>
-        private void Initialize()
-        {
-            Token token = this.FindFirstChild<Token>();
-            if (token == null)
-            {
-                throw new SyntaxException(this.Document, this.LineNumber);
-            }
-            else if (token.Is(TokenType.Break))
-            {
-                this.type.Value = YieldStatement.Type.Break;
-                this.returnValue.Value = null;
-            }
-            else if (token.Is(TokenType.Return))
-            {
-                this.type.Value = YieldStatement.Type.Return;
-                this.returnValue.Value = token.FindNextSibling<Expression>();
-            }
-            else
-            {
-                throw new SyntaxException(this.Document, this.LineNumber);
-            }
-        }
-
-        #endregion Private Methods
     }
 }

@@ -15,7 +15,6 @@
 namespace Microsoft.StyleCop.CSharp
 {
     using System;
-    using System.Diagnostics;
 
     /// <summary>
     /// A while-statement.
@@ -28,12 +27,12 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The expression within the while-statement.
         /// </summary>
-        private CodeUnitProperty<Expression> conditionExpression;
+        private Expression conditionExpression;
 
         /// <summary>
         /// The statement that is embedded within this while-statement.
         /// </summary>
-        private CodeUnitProperty<Statement> embeddedStatement;
+        private Statement embeddedStatement;
 
         #endregion Private Fields
 
@@ -50,7 +49,7 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertNotNull(proxy, "proxy");
             Param.AssertNotNull(conditionExpression, "conditionExpression");
 
-            this.conditionExpression.Value = conditionExpression;
+            this.conditionExpression = conditionExpression;
         }
 
         #endregion Internal Constructors
@@ -64,15 +63,7 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                this.ValidateEditVersion();
-
-                if (!this.conditionExpression.Initialized)
-                {
-                    this.Initialize();
-                    Debug.Assert(this.conditionExpression.Value != null, "Failed to initialize.");
-                }
-
-                return this.conditionExpression.Value;
+                return this.conditionExpression;
             }
         }
 
@@ -83,67 +74,16 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                this.ValidateEditVersion();
+                return this.embeddedStatement;
+            }
 
-                if (!this.embeddedStatement.Initialized)
-                {
-                    this.Initialize();
-                    Debug.Assert(this.embeddedStatement.Value != null, "Failed to initialize.");
-                }
-
-                return this.embeddedStatement.Value;
+            internal set
+            {
+                Param.AssertNotNull(value, "EmbeddedStatement");
+                this.embeddedStatement = value;
             }
         }
 
         #endregion Public Properties
-
-        #region Protected Override Methods
-
-        /// <summary>
-        /// Resets the contents of the class.
-        /// </summary>
-        protected override void Reset()
-        {
-            base.Reset();
-
-            this.embeddedStatement.Reset();
-            this.conditionExpression.Reset();
-        }
-
-        #endregion Protected Override Methods
-
-        #region Private Methods
-
-        /// <summary>
-        /// Initializes the contents of the statement.
-        /// </summary>
-        private void Initialize()
-        {
-            OpenParenthesisToken openParen = this.FindFirstChild<OpenParenthesisToken>();
-            if (openParen == null)
-            {
-                throw new SyntaxException(this.Document, this.LineNumber);
-            }
-
-            this.conditionExpression.Value = openParen.FindNextSibling<Expression>();
-            if (this.conditionExpression.Value == null)
-            {
-                throw new SyntaxException(this.Document, this.LineNumber);
-            }
-
-            CloseParenthesisToken closeParen = this.conditionExpression.Value.FindNextSibling<CloseParenthesisToken>();
-            if (closeParen == null)
-            {
-                throw new SyntaxException(this.Document, this.LineNumber);
-            }
-
-            this.embeddedStatement.Value = closeParen.FindNextSibling<Statement>();
-            if (this.embeddedStatement.Value == null)
-            {
-                throw new SyntaxException(this.Document, this.LineNumber);
-            }
-        }
-
-        #endregion Private Methods
     }
 }

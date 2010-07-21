@@ -28,7 +28,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The expression within this statement.
         /// </summary>
-        private CodeUnitProperty<Expression> expression;
+        private Expression expression;
 
         #endregion Private Fields
 
@@ -45,7 +45,7 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertNotNull(proxy, "proxy");
             Param.AssertNotNull(expression, "expression");
 
-            this.expression.Value = expression;
+            this.expression = expression;
         }
 
         #endregion Internal Constructors
@@ -59,35 +59,10 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                this.ValidateEditVersion();
-
-                if (!this.expression.Initialized)
-                {
-                    this.expression.Value = this.FindFirstChild<Expression>();
-                    if (this.expression.Value == null)
-                    {
-                        throw new SyntaxException(this.Document, this.LineNumber);
-                    }
-                }
-
-                return this.expression.Value;
+                return this.expression;
             }
         }
 
         #endregion Public Properties
-
-        #region Protected Override Methods
-
-        /// <summary>
-        /// Resets the contents of the class.
-        /// </summary>
-        protected override void Reset()
-        {
-            base.Reset();
-
-            this.expression.Reset();
-        }
-
-        #endregion Protected Override Methods
     }
 }

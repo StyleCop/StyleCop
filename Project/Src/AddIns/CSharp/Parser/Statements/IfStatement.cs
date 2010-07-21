@@ -16,7 +16,6 @@ namespace Microsoft.StyleCop.CSharp
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
 
     /// <summary>
     /// An if-statement.
@@ -29,22 +28,17 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The expression within the if-statement.
         /// </summary>
-        private CodeUnitProperty<Expression> conditionExpression;
+        private Expression conditionExpression;
 
         /// <summary>
         /// The statement that is embedded within this if-statement.
         /// </summary>
-        private CodeUnitProperty<Statement> embeddedStatement;
+        private Statement embeddedStatement;
 
         /// <summary>
         /// The else-statement attached to the end of this if-statement, if any.
         /// </summary>
-        private CodeUnitProperty<ElseStatement> elseStatement;
-
-        /// <summary>
-        /// The statements attached to this else statement.
-        /// </summary>
-        private CodeUnitProperty<ICollection<Statement>> attachedStatements;
+        private ElseStatement elseStatement;
 
         #endregion Private Fields
 
@@ -61,7 +55,7 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertNotNull(proxy, "proxy");
             Param.AssertNotNull(conditionExpression, "conditionExpression");
 
-            this.conditionExpression.Value = conditionExpression;
+            this.conditionExpression = conditionExpression;
         }
 
         #endregion Internal Constructors
@@ -75,15 +69,7 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                this.ValidateEditVersion();
-
-                if (!this.conditionExpression.Initialized)
-                {
-                    this.Initialize();
-                    Debug.Assert(this.conditionExpression.Value != null, "Failed to initialize.");
-                }
-
-                return this.conditionExpression.Value;
+                return this.conditionExpression;
             }
         }
 
@@ -94,15 +80,13 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                this.ValidateEditVersion();
+                return this.embeddedStatement;
+            }
 
-                if (!this.embeddedStatement.Initialized)
-                {
-                    this.Initialize();
-                    Debug.Assert(this.embeddedStatement.Value != null, "Failed to initialize.");
-                }
-
-                return this.embeddedStatement.Value;
+            internal set
+            {
+                Param.AssertNotNull(value, "EmbeddedStatement");
+                this.embeddedStatement = value;
             }
         }
 
@@ -113,14 +97,12 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                this.ValidateEditVersion();
+                return this.elseStatement;
+            }
 
-                if (!this.elseStatement.Initialized)
-                {
-                    this.Initialize();
-                }
-
-                return this.elseStatement.Value;
+            internal set
+            {
+                this.elseStatement = value;
             }
         }
 
@@ -131,96 +113,21 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Gets the collection of statements attached to this if-statement.
         /// </summary>
-        public override ICollection<Statement> AttachedStatements
+        public override IEnumerable<Statement> AttachedStatements
         {
             get
             {
-                this.ValidateEditVersion();
-
-                if (!this.attachedStatements.Initialized)
+                ElseStatement elseStatement = this.elseStatement;
+                while (elseStatement != null)
                 {
-                    List<Statement> elses = new List<Statement>();
-
-                    ElseStatement @else = this.AttachedElseStatement;
-                    while (@else != null)
-                    {
-                        elses.Add(@else);
-                        @else = @else.AttachedElseStatement;
-                    }
-
-                    this.attachedStatements.Value = elses.AsReadOnly();
+                    yield return elseStatement;
+                    elseStatement = elseStatement.AttachedElseStatement;
                 }
 
-                return this.attachedStatements.Value;
+                yield break;
             }
         }
 
         #endregion Public Override Properties
-
-        #region Protected Override Methods
-
-        /// <summary>
-        /// Resets the contents of the class.
-        /// </summary>
-        protected override void Reset()
-        {
-            base.Reset();
-
-            this.conditionExpression.Reset();
-            this.embeddedStatement.Reset();
-            this.elseStatement.Reset();
-            this.attachedStatements.Reset();
-        }
-
-        #endregion Protected Override Methods
-
-        #region Private Methods
-
-        /// <summary>
-        /// Initializes the contents of the statement.
-        /// </summary>
-        private void Initialize()
-        {
-            OpenParenthesisToken openParen = this.FindFirstChild<OpenParenthesisToken>();
-            if (openParen == null)
-            {
-                throw new SyntaxException(this.Document, this.LineNumber);
-            }
-
-            this.conditionExpression.Value = openParen.FindNextSibling<Expression>();
-            if (this.conditionExpression.Value == null)
-            {
-                throw new SyntaxException(this.Document, this.LineNumber);
-            }
-
-            CloseParenthesisToken closeParen = this.conditionExpression.Value.FindNextSibling<CloseParenthesisToken>();
-            if (closeParen == null)
-            {
-                throw new SyntaxException(this.Document, this.LineNumber);
-            }
-
-            this.embeddedStatement.Value = closeParen.FindNextSibling<Statement>();
-            if (this.embeddedStatement.Value == null)
-            {
-                throw new SyntaxException(this.Document, this.LineNumber);
-            }
-
-            // Look for an attached else statement after the if-statement.
-            this.elseStatement.Value = null;
-
-            for (CodeUnit c = this.FindNextSibling<CodeUnit>(); c != null; c = c.FindNext<CodeUnit>())
-            {
-                if (c.Is(StatementType.Else))
-                {
-                    this.elseStatement.Value = (ElseStatement)c;
-                }
-                else if (!c.Is(CodeUnitType.LexicalElement) || c.Is(LexicalElementType.Token))
-                {
-                    break;
-                }
-            }
-        }
-
-        #endregion Private Methods
     }
 }

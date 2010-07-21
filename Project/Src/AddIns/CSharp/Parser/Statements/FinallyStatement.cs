@@ -15,7 +15,6 @@
 namespace Microsoft.StyleCop.CSharp
 {
     using System;
-    using System.Diagnostics;
 
     /// <summary>
     /// A finally-statement.
@@ -28,12 +27,12 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The try-statement that this finally-statement is attached to.
         /// </summary>
-        private CodeUnitProperty<TryStatement> tryStatement;
+        private TryStatement tryStatement;
 
         /// <summary>
         /// The statement embedded within the catch-statement.
         /// </summary>
-        private CodeUnitProperty<BlockStatement> embeddedStatement;
+        private BlockStatement embeddedStatement;
 
         #endregion Private Fields
 
@@ -52,8 +51,8 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertNotNull(tryStatement, "tryStatement");
             Param.AssertNotNull(embeddedStatement, "embeddedStatement");
 
-            this.tryStatement.Value = tryStatement;
-            this.embeddedStatement.Value = embeddedStatement;
+            this.tryStatement = tryStatement;
+            this.embeddedStatement = embeddedStatement;
         }
 
         #endregion Internal Constructors
@@ -67,15 +66,7 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                this.ValidateEditVersion();
-
-                if (!this.tryStatement.Initialized)
-                {
-                    this.Initialize();
-                    Debug.Assert(this.tryStatement.Value != null, "Failed to initialize.");
-                }
-
-                return this.tryStatement.Value;
+                return this.tryStatement;
             }
         }
 
@@ -86,69 +77,10 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                this.ValidateEditVersion();
-
-                if (!this.embeddedStatement.Initialized)
-                {
-                    this.Initialize();
-                    Debug.Assert(this.embeddedStatement.Value != null, "Failed to initialize.");
-                }
-
-                return this.embeddedStatement.Value;
+                return this.embeddedStatement;
             }
         }
 
         #endregion Public Properties
-
-        #region Protected Override Methods
-
-        /// <summary>
-        /// Resets the contents of the class.
-        /// </summary>
-        protected override void Reset()
-        {
-            base.Reset();
-
-            this.tryStatement.Reset();
-            this.embeddedStatement.Reset();
-        }
-
-        #endregion Protected Override Methods
-
-        #region Private Methods
-
-        /// <summary>
-        /// Initializes the contents of the statement.
-        /// </summary>
-        private void Initialize()
-        {
-            this.embeddedStatement.Value = this.FindFirstChild<BlockStatement>();
-            if (this.embeddedStatement.Value == null)
-            {
-                throw new SyntaxException(this.Document, this.LineNumber);
-            }
-
-            // Look for the try-statement that this finally-statement is attached to.
-            this.tryStatement.Value = null;
-
-            for (CodeUnit c = this.FindPreviousSibling<CodeUnit>(); c != null; c = c.FindNext<CodeUnit>())
-            {
-                if (c.Is(StatementType.Try))
-                {
-                    this.tryStatement.Value = (TryStatement)c;
-                }
-                else if (!c.Is(StatementType.Catch) && (!c.Is(CodeUnitType.LexicalElement) || c.Is(LexicalElementType.Token)))
-                {
-                    break;
-                }
-            }
-
-            if (this.tryStatement.Value == null)
-            {
-                throw new SyntaxException(this.Document, this.LineNumber);
-            }
-        }
-
-        #endregion Private Methods
     }
 }

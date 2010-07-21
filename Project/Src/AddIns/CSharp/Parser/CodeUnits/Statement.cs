@@ -82,7 +82,7 @@ namespace Microsoft.StyleCop.CSharp
         /// </summary>
         /// <remarks>Examples of attached statements are the else-statements
         /// attached to an if-statement, or the catch statements attached to a try-statement.</remarks>
-        public virtual ICollection<Statement> AttachedStatements
+        public virtual IEnumerable<Statement> AttachedStatements
         {
             get
             {

@@ -552,9 +552,14 @@ namespace Microsoft.StyleCop.CSharp
             // Create the if-statement.
             var statement = new IfStatement(statementProxy, expression);
             parentProxy.Children.Add(statement);
+            statement.EmbeddedStatement = childStatement;
 
             // Check if there is an else or an else-if attached to this statement.
-            this.GetAttachedElseStatement(parentProxy, unsafeCode);
+            ElseStatement attached = this.GetAttachedElseStatement(parentProxy, unsafeCode);
+            if (attached != null)
+            {
+                statement.AttachedElseStatement = attached;
+            }
 
             return statement;
         }
@@ -619,9 +624,14 @@ namespace Microsoft.StyleCop.CSharp
             // Create the else-statement.
             var statement = new ElseStatement(statementProxy, conditional);
             parentProxy.Children.Add(statement);
+            statement.EmbeddedStatement = childStatement;
 
             // Check if there is another else or an else-if attached to this statement.
-            this.GetAttachedElseStatement(parentProxy, unsafeCode);
+            ElseStatement attached = this.GetAttachedElseStatement(parentProxy, unsafeCode);
+            if (attached != null)
+            {
+                statement.AttachedElseStatement = attached;
+            }
 
             return statement;
         }
@@ -668,6 +678,7 @@ namespace Microsoft.StyleCop.CSharp
             // Create and return the while-statement.
             var statement = new WhileStatement(statementProxy, expression);
             parentProxy.Children.Add(statement);
+            statement.EmbeddedStatement = childStatement;
 
             return statement;
         }
@@ -762,6 +773,7 @@ namespace Microsoft.StyleCop.CSharp
             // Create and return the for-statement.
             var statement = new ForStatement(statementProxy, initializers.AsReadOnly(), condition, iterators.ToArray());
             parentProxy.Children.Add(statement);
+            statement.EmbeddedStatement = childStatement;
 
             return statement;
         }
@@ -968,6 +980,7 @@ namespace Microsoft.StyleCop.CSharp
             // Create the foreach-statement.
             var statement = new ForeachStatement(statementProxy, variable, item);
             parentProxy.Children.Add(statement);
+            statement.EmbeddedStatement = childStatement;
 
             return statement;
         }
@@ -1214,6 +1227,7 @@ namespace Microsoft.StyleCop.CSharp
             parentProxy.Children.Add(statement);
 
             // Get the attached catch statements, if any.
+            var catchStatements = new List<CatchStatement>();
             while (true)
             {
                 CatchStatement catchStatement = this.GetAttachedCatchStatement(parentProxy, statement, unsafeCode);
@@ -1221,10 +1235,16 @@ namespace Microsoft.StyleCop.CSharp
                 {
                     break;
                 }
+
+                catchStatements.Add(catchStatement);
             }
 
             // Get the attached finally statement, if any.
-            this.GetAttachedFinallyStatement(parentProxy, statement, unsafeCode);
+            FinallyStatement finallyStatement = this.GetAttachedFinallyStatement(parentProxy, statement, unsafeCode);
+
+            // Add the catch and finally statements to the try statement.
+            statement.CatchStatements = catchStatements.AsReadOnly();
+            statement.FinallyStatement = finallyStatement;
 
             // Return the statement.
             return statement;
@@ -1374,6 +1394,7 @@ namespace Microsoft.StyleCop.CSharp
             // Create the lock-statement.
             var statement = new LockStatement(statementProxy, expression);
             parentProxy.Children.Add(statement);
+            statement.EmbeddedStatement = childStatement;
 
             return statement;
         }
@@ -1420,6 +1441,7 @@ namespace Microsoft.StyleCop.CSharp
             // Create the using-statement.
             var statement = new UsingStatement(statementProxy, expression);
             parentProxy.Children.Add(statement);
+            statement.EmbeddedStatement = childStatement;
 
             return statement;
         }
@@ -1527,6 +1549,7 @@ namespace Microsoft.StyleCop.CSharp
             // Create the fixed-statement.
             var statement = new FixedStatement(statementProxy, expression);
             parentProxy.Children.Add(statement);
+            statement.EmbeddedStatement = childStatement;
 
             return statement;
         }
