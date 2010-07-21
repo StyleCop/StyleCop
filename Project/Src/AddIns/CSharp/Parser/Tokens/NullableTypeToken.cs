@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a nullable type symbol.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class NullableTypeToken : SimpleToken
+    public sealed class NullableTypeToken : Token
     {
         /// <summary>
         /// Initializes a new instance of the NullableTypeToken class.

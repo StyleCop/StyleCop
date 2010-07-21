@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a yield keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class YieldToken : SimpleToken
+    public sealed class YieldToken : Token
     {
         /// <summary>
         /// Initializes a new instance of the YieldToken class.

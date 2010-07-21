@@ -43,6 +43,10 @@ namespace Microsoft.StyleCop.CSharp
 
         #endregion Private Static Fields
 
+        #region Private Fields
+
+        #endregion Private Fields
+
         #region Internal Constructors
 
         /// <summary>
@@ -90,17 +94,19 @@ namespace Microsoft.StyleCop.CSharp
             }
         }
 
+        #endregion Public Virtual Properties
+
+        #region Public Virtual Methods
+
         /// <summary>
         /// Gets the variables defined within this code unit.
         /// </summary>
-        public virtual IList<IVariable> Variables
+        /// <returns>Returns the collection of variables.</returns>
+        public virtual IList<IVariable> GetVariables()
         {
-            get
-            {
-                return CsParser.EmptyVariableArray;
-            }
+            return CsParser.EmptyVariableArray;
         }
 
-        #endregion Public Virtual Properties
+        #endregion Public Virtual Methods
     }
 }

@@ -58,28 +58,6 @@ namespace Microsoft.StyleCop.CSharp
 
         #endregion Internal Constructors
 
-        #region Public Override Properties
-
-        /// <summary>
-        /// Gets the variables defined within this event.
-        /// </summary>
-        public override IList<IVariable> Variables
-        {
-            get
-            {
-                List<IVariable> variables = new List<IVariable>();
-
-                for (EventDeclaratorExpression declarator = this.FindFirstChild<EventDeclaratorExpression>(); declarator != null; declarator.FindNextSibling<EventDeclaratorExpression>())
-                {
-                    variables.Add(declarator);
-                }
-
-                return variables.AsReadOnly();
-            }
-        }
-
-        #endregion Public Override Properties
-
         #region Public Properties
 
         /// <summary>
@@ -161,24 +139,24 @@ namespace Microsoft.StyleCop.CSharp
 
         #endregion Public Methods
 
-        #region Protected Override Methods
+        #region Public Override Methods
 
         /// <summary>
-        /// Gets the name of the element.
+        /// Gets the variables defined within this event.
         /// </summary>
-        /// <returns>The name of the element.</returns>
-        protected override string GetElementName()
+        /// <returns>Returns the collection of variables.</returns>
+        public override IList<IVariable> GetVariables()
         {
-            // For an event, the name of the first event declarator is the name of the event.
-            EventDeclaratorExpression declarator = this.FindFirstChild<EventDeclaratorExpression>();
-            if (declarator != null)
+            List<IVariable> variables = new List<IVariable>();
+
+            for (EventDeclaratorExpression declarator = this.FindFirstChild<EventDeclaratorExpression>(); declarator != null; declarator.FindNextSibling<EventDeclaratorExpression>())
             {
-                return declarator.Identifier.Text;
+                variables.Add(declarator);
             }
 
-            throw new SyntaxException(this.Document, this.LineNumber);
+            return variables.AsReadOnly();
         }
 
-        #endregion Protected Override Methods
+        #endregion Public Override Methods
     }
 }

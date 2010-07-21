@@ -40,24 +40,15 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertValidString(name, "name");
             Param.Ignore(attributes);
             Param.Ignore(unsafeCode);
-        }
 
-        #endregion Internal Constructors
-
-        #region Public Override Properties
-
-        /// <summary>
-        /// Gets the variables defined within this element.
-        /// </summary>
-        public override IList<IVariable> Variables
-        {
-            get
+            // Static destructors are always public.
+            if (this.ContainsModifier(TokenType.Static))
             {
-                return Method.GatherVariablesForElementWithParametersAndChildStatements(this, null);
+                this.AccessModifierType = AccessModifierType.Public;
             }
         }
 
-        #endregion Public Override Properties
+        #endregion Internal Constructors
 
         #region Protected Override Properties
 
@@ -72,44 +63,19 @@ namespace Microsoft.StyleCop.CSharp
             }
         }
 
-        /// <summary>
-        /// Gets the default access modifier for this type.
-        /// </summary>
-        protected override AccessModifierType DefaultAccessModifierType
-        {
-            get
-            {
-                // Static destructors are always public.
-                if (this.ContainsModifier(TokenType.Static))
-                {
-                    return AccessModifierType.Public;
-                }
-
-                return base.DefaultAccessModifierType;
-            }
-        }
-
         #endregion Protected Override Properties
 
-        #region Protected Override Methods
+        #region Public Override Methods
 
         /// <summary>
-        /// Gets the name of the element.
+        /// Gets the variables defined within this element.
         /// </summary>
-        /// <returns>The name of the element.</returns>
-        protected override string GetElementName()
+        /// <returns>Returns the collection of variables.</returns>
+        public override IList<IVariable> GetVariables()
         {
-            for (Token token = this.FindFirstChild<Token>(); token != null; token = token.FindNextSibling<Token>())
-            {
-                if (token.Is(TokenType.Literal) || token.Is(TokenType.Type))
-                {
-                    return "~" + token.Text;
-                }
-            }
-
-            throw new SyntaxException(this.Document, this.LineNumber);
+            return Method.GatherVariablesForElementWithParametersAndChildStatements(this, null);
         }
 
-        #endregion Protected Override Methods
+        #endregion Public Override Methods
     }
 }

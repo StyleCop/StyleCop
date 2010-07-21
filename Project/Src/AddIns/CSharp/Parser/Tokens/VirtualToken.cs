@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a virtual keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class VirtualToken : SimpleToken
+    public sealed class VirtualToken : Token
     {
         /// <summary>
         /// Initializes a new instance of the VirtualToken class.

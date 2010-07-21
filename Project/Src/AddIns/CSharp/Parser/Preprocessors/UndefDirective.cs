@@ -22,7 +22,7 @@ namespace Microsoft.StyleCop.CSharp
     /// </summary>
     /// <subcategory>preprocessor</subcategory>
     [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Undef", Justification = "Matches the C# undef directive.")]
-    public sealed class UndefDirective : SimplePreprocessorDirective
+    public sealed class UndefDirective : PreprocessorDirective
     {
         /// <summary>
         /// Initializes a new instance of the UndefDirective class.

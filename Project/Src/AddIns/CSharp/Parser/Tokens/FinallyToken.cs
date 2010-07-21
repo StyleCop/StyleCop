@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a finally keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class FinallyToken : SimpleToken
+    public sealed class FinallyToken : Token
     {
         /// <summary>
         /// Initializes a new instance of the FinallyToken class.

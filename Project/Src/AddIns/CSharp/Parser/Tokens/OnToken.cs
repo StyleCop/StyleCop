@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes an on keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class OnToken : SimpleToken
+    public sealed class OnToken : Token
     {
         /// <summary>
         /// Initializes a new instance of the OnToken class.

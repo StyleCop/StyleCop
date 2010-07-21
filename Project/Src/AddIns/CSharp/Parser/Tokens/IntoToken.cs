@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes an into keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class IntoToken : SimpleToken
+    public sealed class IntoToken : Token
     {
         /// <summary>
         /// Initializes a new instance of the IntoToken class.

@@ -70,28 +70,6 @@ namespace Microsoft.StyleCop.CSharp
 
         #endregion Internal Constructors
 
-        #region Public Override Properties
-
-        /// <summary>
-        /// Gets the variables defined within this element.
-        /// </summary>
-        /// <returns>Returns the collection of variables.</returns>
-        public override IList<IVariable> Variables
-        {
-            get
-            {
-                VariableDeclarationStatement declarationStatement = this.VariableDeclarationStatement;
-                if (declarationStatement == null)
-                {
-                    return CsParser.EmptyVariableArray;
-                }
-
-                return declarationStatement.Variables;
-            }
-        }
-
-        #endregion Public Override Properties
-
         #region Public Properties
 
         /// <summary>
@@ -167,24 +145,23 @@ namespace Microsoft.StyleCop.CSharp
 
         #endregion Protected Override Properties
 
-        #region Protected Override Methods
+        #region Public Override Methods
 
         /// <summary>
-        /// Gets the name of the element.
+        /// Gets the variables defined within this element.
         /// </summary>
-        /// <returns>The name of the element.</returns>
-        protected override string GetElementName()
+        /// <returns>Returns the collection of variables.</returns>
+        public override IList<IVariable> GetVariables()
         {
-            // For a field, the name of the first variable declarator is the name of the field.
-            VariableDeclaratorExpression declarator = this.FindFirstDescendent<VariableDeclaratorExpression>();
-            if (declarator != null)
+            VariableDeclarationStatement declarationStatement = this.VariableDeclarationStatement;
+            if (declarationStatement == null)
             {
-                return declarator.Identifier.Text;
+                return CsParser.EmptyVariableArray;
             }
 
-            throw new SyntaxException(this.Document, this.LineNumber);
+            return declarationStatement.GetVariables();
         }
 
-        #endregion Protected Override Methods
+        #endregion Public Override Methods
     }
 }

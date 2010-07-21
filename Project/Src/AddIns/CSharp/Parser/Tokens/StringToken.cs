@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a string keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class StringToken : SimpleToken
+    public sealed class StringToken : Token
     {
         /// <summary>
         /// Initializes a new instance of the StringToken class.

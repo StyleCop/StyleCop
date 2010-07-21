@@ -63,21 +63,6 @@ namespace Microsoft.StyleCop.CSharp
 
         #endregion Internal Constructors
 
-        #region Public Override Properties
-
-        /// <summary>
-        /// Gets the variables defined within this code unit.
-        /// </summary>
-        public override IList<IVariable> Variables
-        {
-            get
-            {
-                return this.variable.GetVariables();
-            }
-        }
-
-        #endregion Public Override Properties
-
         #region Public Properties
 
         /// <summary>
@@ -117,6 +102,15 @@ namespace Microsoft.StyleCop.CSharp
                 Param.AssertNotNull(value, "EmbeddedStatement");
                 this.embeddedStatement = value;
             }
+        }
+
+        /// <summary>
+        /// Gets the variables defined within this code unit.
+        /// </summary>
+        /// <returns>Returns the collection of variables.</returns>
+        public override IList<IVariable> GetVariables()
+        {
+            return this.variable.GetVariables();
         }
 
         #endregion Public Properties

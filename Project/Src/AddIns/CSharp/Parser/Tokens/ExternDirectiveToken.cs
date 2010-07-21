@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes an extern directive keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class ExternDirectiveToken : SimpleToken
+    public sealed class ExternDirectiveToken : Token
     {
         /// <summary>
         /// Initializes a new instance of the ExternDirectiveToken class.

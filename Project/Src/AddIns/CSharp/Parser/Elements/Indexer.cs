@@ -69,6 +69,13 @@ namespace Microsoft.StyleCop.CSharp
             Param.Ignore(unsafeCode);
 
             this.returnType = returnType;
+
+            // If this is an explicit interface member implementation and our access modifier
+            // is currently set to private because we don't have one, then it should be public instead.
+            if (name.IndexOf(".", StringComparison.Ordinal) > -1 && !name.StartsWith("this.", StringComparison.Ordinal))
+            {
+                this.AccessModifierType = AccessModifierType.Public;
+            }
         }
 
         #endregion Internal Constructors
@@ -83,30 +90,6 @@ namespace Microsoft.StyleCop.CSharp
             get
             {
                 return CodeParser.AddQualifications(this.Parameters, base.FullyQualifiedName);
-            }
-        }
-
-        /// <summary>
-        /// Gets the variables defined within this element.
-        /// </summary>
-        public override IList<IVariable> Variables
-        {
-            get
-            {
-                IList<Parameter> parameters = this.Parameters;
-                if (parameters != null && parameters.Count > 0)
-                {
-                    IVariable[] variables = new IVariable[parameters.Count];
-
-                    for (int i = 0; i < parameters.Count; ++i)
-                    {
-                        variables[i] = parameters[i];
-                    }
-
-                    return variables;
-                }
-
-                return CsParser.EmptyVariableArray;
             }
         }
 
@@ -178,27 +161,33 @@ namespace Microsoft.StyleCop.CSharp
             }
         }
 
-        /// <summary>
-        /// Gets the default access modifier for this type.
-        /// </summary>
-        protected override AccessModifierType DefaultAccessModifierType
-        {
-            get
-            {
-                string name = this.Name;
+        #endregion Protected Override Properties
 
-                // If this is an explicit interface member implementation and our access modifier
-                // is currently set to private because we don't have one, then it should be public instead.
-                if (name.IndexOf(".", StringComparison.Ordinal) > -1 && !name.StartsWith("this.", StringComparison.Ordinal))
+        #region Public Override Methods
+
+        /// <summary>
+        /// Gets the variables defined within this element.
+        /// </summary>
+        /// <returns>Returns the collection of variables.</returns>
+        public override IList<IVariable> GetVariables()
+        {
+            IList<Parameter> parameters = this.Parameters;
+            if (parameters != null && parameters.Count > 0)
+            {
+                IVariable[] variables = new IVariable[parameters.Count];
+
+                for (int i = 0; i < parameters.Count; ++i)
                 {
-                    return AccessModifierType.Public;
+                    variables[i] = parameters[i];
                 }
 
-                return this.DefaultAccessModifierType;
+                return variables;
             }
+
+            return CsParser.EmptyVariableArray;
         }
 
-        #endregion Protected Override Properties
+        #endregion Public Override Methods
 
         #region Internal Override Methods
 
@@ -246,24 +235,5 @@ namespace Microsoft.StyleCop.CSharp
         }
 
         #endregion Internal Override Methods
-
-        #region Protected Override Methods
-
-        /// <summary>
-        /// Gets the name of the element.
-        /// </summary>
-        /// <returns>The name of the element.</returns>
-        protected override string GetElementName()
-        {
-            Token thisToken = this.FindFirstChild<ThisToken>();
-            if (thisToken != null)
-            {
-                return thisToken.Text;
-            }
-
-            throw new SyntaxException(this.Document, this.LineNumber);
-        }
-
-        #endregion Protected Override Methods
     }
 }

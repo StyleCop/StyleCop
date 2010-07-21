@@ -38,28 +38,6 @@ namespace Microsoft.StyleCop.CSharp
 
         #endregion Internal Constructors
 
-        #region Public Override Properties
-
-        /// <summary>
-        /// Gets the variables defined within this clause.
-        /// </summary>
-        /// <returns>Returns the collection of variables.</returns>
-        public override IList<IVariable> Variables
-        {
-            get
-            {
-                IVariable rangeVariable = this.RangeVariable;
-                if (rangeVariable != null)
-                {
-                    return new IVariable[] { rangeVariable };
-                }
-
-                return CsParser.EmptyVariableArray;
-            }
-        }
-
-        #endregion Public Override Properties
-
         #region Public Properties
 
         /// <summary>
@@ -76,10 +54,29 @@ namespace Microsoft.StyleCop.CSharp
                     return null;
                 }
 
-                return ExtractQueryVariable(letToken.FindNextSibling<Token>(), true, true);
+                return this.ExtractQueryVariable(letToken.FindNextSibling<Token>(), true, true);
             }
         }
 
         #endregion Public Properties
-   }
+
+        #region Public Override Methods
+
+        /// <summary>
+        /// Gets the variables defined within this clause.
+        /// </summary>
+        /// <returns>Returns the collection of variables.</returns>
+        public override IList<IVariable> GetVariables()
+        {
+            IVariable rangeVariable = this.RangeVariable;
+            if (rangeVariable != null)
+            {
+                return new IVariable[] { rangeVariable };
+            }
+
+            return CsParser.EmptyVariableArray;
+        }
+
+        #endregion Public Override Methods
+    }
 }

@@ -32,7 +32,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <param name="proxy">Proxy object for the statement.</param>
         /// <param name="tokenType">The type of the token.</param>
         internal ComplexToken(CodeUnitProxy proxy, TokenType tokenType)
-            : base(proxy, tokenType)
+            : base(tokenType, proxy)
         {
             Param.AssertNotNull(proxy, "proxy");
             Param.Ignore(tokenType);

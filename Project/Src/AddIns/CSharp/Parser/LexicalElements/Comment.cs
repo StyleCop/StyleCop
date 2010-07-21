@@ -23,7 +23,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a comment.
     /// </summary>
     /// <subcategory>lexicalelement</subcategory>
-    public abstract class Comment : SimpleLexicalElement
+    public abstract class Comment : LexicalElement
     {
         #region Internal Static Fields
 

@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a null keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class NullToken : SimpleToken
+    public sealed class NullToken : Token
     {
         /// <summary>
         /// Initializes a new instance of the NullToken class.

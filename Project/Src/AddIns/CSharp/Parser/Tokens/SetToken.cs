@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a set keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class SetToken : SimpleToken
+    public sealed class SetToken : Token
     {
         /// <summary>
         /// Initializes a new instance of the SetToken class.

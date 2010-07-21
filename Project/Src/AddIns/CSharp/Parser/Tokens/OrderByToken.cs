@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes an orderby keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class OrderByToken : SimpleToken
+    public sealed class OrderByToken : Token
     {
         /// <summary>
         /// Initializes a new instance of the OrderByToken class.

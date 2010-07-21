@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a where keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class WhereToken : SimpleToken
+    public sealed class WhereToken : Token
     {
         /// <summary>
         /// Initializes a new instance of the WhereToken class.

@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a continue keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class ContinueToken : SimpleToken
+    public sealed class ContinueToken : Token
     {
         /// <summary>
         /// Initializes a new instance of the ContinueToken class.

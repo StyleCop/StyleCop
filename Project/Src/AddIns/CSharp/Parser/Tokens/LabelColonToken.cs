@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a colon within a label statement.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class LabelColonToken : SimpleToken
+    public sealed class LabelColonToken : Token
     {
         /// <summary>
         /// Initializes a new instance of the LabelColonToken class.

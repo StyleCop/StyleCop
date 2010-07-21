@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a destructor tilde.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class DestructorTildeToken : SimpleToken
+    public sealed class DestructorTildeToken : Token
     {
         /// <summary>
         /// Initializes a new instance of the DestructorTildeToken class.

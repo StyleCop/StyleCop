@@ -21,7 +21,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes an end-of-line element.
     /// </summary>
     /// <subcategory>lexicalelement</subcategory>
-    public sealed class EndOfLine : SimpleLexicalElement
+    public sealed class EndOfLine : LexicalElement
     {
         #region Internal Constructors
 

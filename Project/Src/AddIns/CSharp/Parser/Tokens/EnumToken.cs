@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes an enum keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class EnumToken : SimpleToken
+    public sealed class EnumToken : Token
     {
         /// <summary>
         /// Initializes a new instance of the EnumToken class.

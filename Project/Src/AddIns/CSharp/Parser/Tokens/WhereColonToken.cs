@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a colon within a where constraint.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class WhereColonToken : SimpleToken
+    public sealed class WhereColonToken : Token
     {
         /// <summary>
         /// Initializes a new instance of the WhereColonToken class.

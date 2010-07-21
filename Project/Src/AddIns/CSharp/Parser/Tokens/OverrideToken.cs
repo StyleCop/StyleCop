@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes an override keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class OverrideToken : SimpleToken
+    public sealed class OverrideToken : Token
     {
         /// <summary>
         /// Initializes a new instance of the OverrideToken class.

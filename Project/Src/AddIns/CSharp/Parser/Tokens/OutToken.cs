@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes an out keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class OutToken : SimpleToken
+    public sealed class OutToken : Token
     {
         /// <summary>
         /// Initializes a new instance of the OutToken class.

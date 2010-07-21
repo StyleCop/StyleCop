@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a static keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class StaticToken : SimpleToken
+    public sealed class StaticToken : Token
     {
         /// <summary>
         /// Initializes a new instance of the StaticToken class.

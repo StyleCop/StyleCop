@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a let keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class LetToken : SimpleToken
+    public sealed class LetToken : Token
     {
         /// <summary>
         /// Initializes a new instance of the LetToken class.
