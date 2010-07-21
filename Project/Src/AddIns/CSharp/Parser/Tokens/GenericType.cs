@@ -38,10 +38,14 @@ namespace Microsoft.StyleCop.CSharp
         /// Initializes a new instance of the GenericType class.
         /// </summary>
         /// <param name="proxy">The proxy object.</param>
-        internal GenericType(CodeUnitProxy proxy)
-            : base(proxy)
+        /// <param name="location">The location of the generic in the code.</param>
+        /// <param name="generated">True if the token is inside of a block of generated code.</param>
+        internal GenericType(CodeUnitProxy proxy, CodeLocation location, bool generated)
+            : base(proxy, location, generated)
         {
             Param.AssertGreaterThanOrEqualTo(proxy.Children.Count, 3, "childTokens");
+            Param.AssertNotNull(location, "location");
+            Param.Ignore(generated);
 
             this.IsGeneric = true;
         }

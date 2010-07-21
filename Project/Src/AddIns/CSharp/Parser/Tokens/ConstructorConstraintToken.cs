@@ -30,10 +30,14 @@ namespace Microsoft.StyleCop.CSharp
         /// Initializes a new instance of the ConstructorConstraintToken class.
         /// </summary>
         /// <param name="proxy">Proxy object for the statement.</param>
-        internal ConstructorConstraintToken(CodeUnitProxy proxy)
-            : base(proxy, TokenType.ConstructorConstraint)
+        /// <param name="location">The location of the token in the code.</param>
+        /// <param name="generated">True if the token is inside of a block of generated code.</param>
+        internal ConstructorConstraintToken(CodeUnitProxy proxy, CodeLocation location, bool generated)
+            : base(proxy, TokenType.ConstructorConstraint, location, generated)
         {
             Param.AssertNotNull(proxy, "proxy");
+            Param.AssertNotNull(location, "location");
+            Param.Ignore(generated);
         }
 
         #endregion Internal Constructors

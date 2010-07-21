@@ -44,7 +44,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <param name="location">The location of the token within the code document.</param>
         /// <param name="generated">True if the token is inside of a block of generated code.</param>
         internal Token(string text, TokenType tokenType, CodeLocation location, bool generated)
-            : this(text, (int)tokenType, location, generated)
+            : this(text, null, (int)tokenType, location, generated)
         {
             Param.Ignore(text, tokenType, location, generated);
         }
@@ -57,52 +57,62 @@ namespace Microsoft.StyleCop.CSharp
         /// <param name="location">The location of the token within the code document.</param>
         /// <param name="generated">True if the token is inside of a block of generated code.</param>
         internal Token(string text, int tokenType, CodeLocation location, bool generated)
-            : base(tokenType, location, generated)
+            : this(text, null, tokenType, location, generated)
         {
             Param.Ignore(text, tokenType, location, generated);
-
-            this.Text = text;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the Token class.
-        /// </summary>
-        /// <param name="tokenType">The token type.</param>
-        /// <param name="proxy">Proxy object for the token.</param>
-        internal Token(TokenType tokenType, CodeUnitProxy proxy)
-            : this((int)tokenType, proxy)
-        {
-            Param.Ignore(tokenType);
-            Param.AssertNotNull(proxy, "proxy");
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the Token class.
-        /// </summary>
-        /// <param name="tokenType">The token type.</param>
-        /// <param name="proxy">Proxy object for the token.</param>
-        internal Token(int tokenType, CodeUnitProxy proxy)
-            : base(tokenType, proxy)
-        {
-            Param.Ignore(tokenType);
-            Param.AssertNotNull(proxy, "proxy");
-            Debug.Assert(System.Enum.IsDefined(typeof(TokenType), this.TokenType), "The type is invalid.");
         }
 
         /// <summary>
         /// Initializes a new instance of the Token class.
         /// </summary>
         /// <param name="text">The token string.</param>
-        /// <param name="tokenType">The token type.</param>
         /// <param name="proxy">Proxy object for the expression.</param>
-        internal Token(string text, int tokenType, CodeUnitProxy proxy)
-            : this(tokenType, proxy)
+        /// <param name="tokenType">The token type.</param>
+        /// <param name="location">The location of the token within the code document.</param>
+        /// <param name="generated">True if the token is inside of a block of generated code.</param>
+        internal Token(string text, CodeUnitProxy proxy, int tokenType, CodeLocation location, bool generated)
+            : this(proxy, tokenType, location, generated)
         {
             Param.AssertNotNull(text, "text");
+            Param.Ignore(proxy);
             Param.Ignore(tokenType);
-            Param.AssertNotNull(proxy, "proxy");
+            Param.Ignore(location);
+            Param.Ignore(generated);
 
             this.Text = text;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the Token class.
+        /// </summary>
+        /// <param name="proxy">Proxy object for the token.</param>
+        /// <param name="tokenType">The token type.</param>
+        /// <param name="location">The location of the token within the code document.</param>
+        /// <param name="generated">True if the token is inside of a block of generated code.</param>
+        internal Token(CodeUnitProxy proxy, TokenType tokenType, CodeLocation location, bool generated)
+            : this(proxy, (int)tokenType, location, generated)
+        {
+            Param.Ignore(proxy);
+            Param.Ignore(tokenType);
+            Param.Ignore(location);
+            Param.Ignore(generated);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the Token class.
+        /// </summary>
+        /// <param name="proxy">Proxy object for the token.</param>
+        /// <param name="tokenType">The token type.</param>
+        /// <param name="location">The location of the token within the code document.</param>
+        /// <param name="generated">True if the token is inside of a block of generated code.</param>
+        internal Token(CodeUnitProxy proxy, int tokenType, CodeLocation location, bool generated)
+            : base(proxy, tokenType, location, generated)
+        {
+            Param.Ignore(proxy);
+            Param.Ignore(tokenType);
+            Param.AssertNotNull(location, "location");
+            Param.Ignore(generated);
+            Debug.Assert(System.Enum.IsDefined(typeof(TokenType), this.TokenType), "The type is invalid.");
         }
 
         #endregion Internal Constructors

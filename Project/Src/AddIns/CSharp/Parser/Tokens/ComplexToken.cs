@@ -31,11 +31,15 @@ namespace Microsoft.StyleCop.CSharp
         /// </summary>
         /// <param name="proxy">Proxy object for the statement.</param>
         /// <param name="tokenType">The type of the token.</param>
-        internal ComplexToken(CodeUnitProxy proxy, TokenType tokenType)
-            : base(tokenType, proxy)
+        /// <param name="location">The location of the token in the code.</param>
+        /// <param name="generated">True if the token is inside of a block of generated code.</param>
+        internal ComplexToken(CodeUnitProxy proxy, TokenType tokenType, CodeLocation location, bool generated)
+            : base(proxy, tokenType, location, generated)
         {
             Param.AssertNotNull(proxy, "proxy");
             Param.Ignore(tokenType);
+            Param.AssertNotNull(location, "location");
+            Param.Ignore(generated);
 
             this.IsComplexToken = true;
         }

@@ -273,7 +273,7 @@ namespace Microsoft.StyleCop.CSharp
             }
 
             // Create the new type token.
-            var typeToken = new TypeToken(typeTokenProxy);
+            var typeToken = new TypeToken(typeTokenProxy, CodeUnit.JoinLocations(firstToken, typeTokenProxy.Children.Last), firstToken.Generated);
 
             var expressionProxy = new CodeUnitProxy();
             expressionProxy.Children.Add(typeToken);
