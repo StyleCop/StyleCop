@@ -290,9 +290,7 @@
     <Content Include="TestData\Spacing\TestDescription.xml" />
     <Content Include="TestData\Statements\TestDescription.xml" />
     <Content Include="TestData\Tabs\TestDescription.xml" />
-    <Content Include="TestData\UnnecessaryCode\TestDescription.xml">
-      <SubType>Designer</SubType>
-    </Content>
+    <Content Include="TestData\UnnecessaryCode\TestDescription.xml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="AccessModifiers.GenericTest" />

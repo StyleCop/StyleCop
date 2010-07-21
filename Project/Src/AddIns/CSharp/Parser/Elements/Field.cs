@@ -28,22 +28,17 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The type of the field.
         /// </summary>
-        private CodeUnitProperty<TypeToken> fieldType;
+        private TypeToken type;
 
         /// <summary>
         /// Indicates whether the item is declared const.
         /// </summary>
-        private CodeUnitProperty<bool> isConst;
+        private bool isConst;
 
         /// <summary>
         /// Indicates whether the item is declared readonly.
         /// </summary>
-        private CodeUnitProperty<bool> isReadOnly;
-
-        /// <summary>
-        /// The statement within the field.
-        /// </summary>
-        private CodeUnitProperty<VariableDeclarationStatement> statement;
+        private bool isReadOnly;
 
         #endregion Private Fields
 
@@ -66,10 +61,36 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertNotNull(fieldType, "fieldType");
             Param.Ignore(unsafeCode);
 
-            this.fieldType.Value = fieldType;
+            this.type = fieldType;
+
+            // Determine whether the item is const or readonly.
+            this.isConst = this.ContainsModifier(TokenType.Const);
+            this.isReadOnly = this.ContainsModifier(TokenType.Readonly);
         }
 
         #endregion Internal Constructors
+
+        #region Public Override Properties
+
+        /// <summary>
+        /// Gets the variables defined within this element.
+        /// </summary>
+        /// <returns>Returns the collection of variables.</returns>
+        public override IList<IVariable> Variables
+        {
+            get
+            {
+                VariableDeclarationStatement declarationStatement = this.VariableDeclarationStatement;
+                if (declarationStatement == null)
+                {
+                    return CsParser.EmptyVariableArray;
+                }
+
+                return declarationStatement.Variables;
+            }
+        }
+
+        #endregion Public Override Properties
 
         #region Public Properties
 
@@ -80,14 +101,7 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                this.ValidateEditVersion();
-
-                if (!this.isConst.Initialized)
-                {
-                    this.isConst.Value = this.ContainsModifier(TokenType.Const);
-                }
-
-                return this.isConst.Value;
+                return this.isConst;
             }
         }
 
@@ -103,14 +117,7 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                this.ValidateEditVersion();
-
-                if (!this.isReadOnly.Initialized)
-                {
-                    this.isReadOnly.Value = this.ContainsModifier(TokenType.Readonly);
-                }
-
-                return this.isReadOnly.Value;
+                return this.isReadOnly;
             }
         }
 
@@ -121,14 +128,7 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                this.ValidateEditVersion();
-
-                if (!this.fieldType.Initialized)
-                {
-                    this.fieldType.Value = this.FindFirstChild<TypeToken>();
-                }
-
-                return this.fieldType.Value;
+                return this.type;
             }
         }
 
@@ -139,15 +139,15 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                this.ValidateEditVersion();
-
-                if (!this.statement.Initialized)
-                {
-                    this.statement.Value = this.FindNext<VariableDeclarationStatement>();
-                }
-
-                return this.statement.Value;
+                return this.FindNext<VariableDeclarationStatement>();
             }
+
+            /*
+            internal set
+            {
+                this.declaration = value;
+            }
+             */
         }
 
         #endregion Public Properties
@@ -183,19 +183,6 @@ namespace Microsoft.StyleCop.CSharp
             }
 
             throw new SyntaxException(this.Document, this.LineNumber);
-        }
-
-        /// <summary>
-        /// Resets the contents of the class.
-        /// </summary>
-        protected override void Reset()
-        {
-            base.Reset();
-
-            this.fieldType.Reset();
-            this.isConst.Reset();
-            this.isReadOnly.Reset();
-            this.statement.Reset();
         }
 
         #endregion Protected Override Methods

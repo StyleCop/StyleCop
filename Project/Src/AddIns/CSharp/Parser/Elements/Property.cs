@@ -30,17 +30,17 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The return type for the property.
         /// </summary>
-        private CodeUnitProperty<TypeToken> returnType;
+        private TypeToken returnType;
 
         /// <summary>
         /// The get accessor for the property.
         /// </summary>
-        private CodeUnitProperty<Accessor> get;
+        private Accessor get;
 
         /// <summary>
         /// The set accessor for the property.
         /// </summary>
-        private CodeUnitProperty<Accessor> set;
+        private Accessor set;
 
         #endregion Private Fields
 
@@ -63,7 +63,7 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertNotNull(returnType, "returnType");
             Param.Ignore(unsafeCode);
 
-            this.returnType.Value = returnType;
+            this.returnType = returnType;
         }
 
         #endregion Internal Constructors
@@ -77,14 +77,7 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                this.ValidateEditVersion();
-
-                if (!this.returnType.Initialized)
-                {
-                    this.returnType.Value = this.FindFirstChild<TypeToken>();
-                }
-
-                return this.returnType.Value;
+                return this.returnType;
             }
         }
 
@@ -95,22 +88,7 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                this.ValidateEditVersion();
-
-                if (!this.get.Initialized)
-                {
-                    this.get.Value = null;
-
-                    for (Accessor child = this.FindFirstChild<Accessor>(); child != null; child = child.FindNextSibling<Accessor>())
-                    {
-                        if (child.AccessorType == AccessorType.Get)
-                        {
-                            this.get.Value = child;
-                        }
-                    }
-                }
-
-                return this.get.Value;
+                return this.get;
             }
         }
 
@@ -121,22 +99,7 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                this.ValidateEditVersion();
-
-                if (!this.set.Initialized)
-                {
-                    this.set.Value = null;
-
-                    for (Accessor child = this.FindFirstChild<Accessor>(); child != null; child = child.FindNextSibling<Accessor>())
-                    {
-                        if (child.AccessorType == AccessorType.Set)
-                        {
-                            this.set.Value = child;
-                        }
-                    }
-                }
-
-                return this.set.Value;
+                return this.set;
             }
         }
 
@@ -177,6 +140,54 @@ namespace Microsoft.StyleCop.CSharp
 
         #endregion Protected Override Properties
 
+        #region Internal Override Methods
+
+        /// <summary>
+        /// Initializes the contents of the property.
+        /// </summary>
+        /// <param name="document">The document that contains the element.</param>
+        internal override void Initialize(CsDocument document)
+        {
+            Param.AssertNotNull(document, "document");
+
+            base.Initialize(document);
+
+            // Find the get and set accessors for this property, if they exist.
+            for (Element child = this.FindFirstChild<Element>(); child != null; child = child.FindNextSibling<Element>())
+            {
+                Accessor accessor = child as Accessor;
+                if (accessor == null)
+                {
+                    throw new SyntaxException(document, accessor.LineNumber);
+                }
+
+                if (accessor.AccessorType == AccessorType.Get)
+                {
+                    if (this.get != null)
+                    {
+                        throw new SyntaxException(document, accessor.LineNumber);
+                    }
+
+                    this.get = accessor;
+                }
+                else if (accessor.AccessorType == AccessorType.Set)
+                {
+                    if (this.set != null)
+                    {
+                        throw new SyntaxException(document, accessor.LineNumber);
+                    }
+
+                    this.set = accessor;
+                }
+                else
+                {
+                    throw new SyntaxException(document, accessor.LineNumber);
+                }
+            }
+        }
+
+        #endregion Internal Override Methods
+
         #region Protected Override Methods
 
         /// <summary>
@@ -186,11 +197,11 @@ namespace Microsoft.StyleCop.CSharp
         protected override string GetElementName()
         {
             // Get the return type.
-            TypeToken r = this.FindFirstChild<TypeToken>();
-            if (r != null)
+            TypeToken returnType = this.FindFirstChild<TypeToken>();
+            if (returnType != null)
             {
                 // The next Token is the name.
-                Token nameToken = r.FindNextSibling<Token>();
+                Token nameToken = returnType.FindNextSibling<Token>();
                 if (nameToken != null)
                 {
                     return nameToken.Text;
@@ -198,18 +209,6 @@ namespace Microsoft.StyleCop.CSharp
             }
 
             throw new SyntaxException(this.Document, this.LineNumber);
-        }
-
-        /// <summary>
-        /// Resets the contents of the class.
-        /// </summary>
-        protected override void Reset()
-        {
-            base.Reset();
-
-            this.returnType.Reset();
-            this.get.Reset();
-            this.set.Reset();
         }
 
         #endregion Protected Override Methods

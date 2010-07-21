@@ -12,7 +12,7 @@
 //   notice, or any other, from this software.
 // </license>
 //-----------------------------------------------------------------------
-namespace Microsoft.StyleCop.CSharp.Collections
+namespace Microsoft.StyleCop.Collections
 {
     using System;
     using System.Collections.Generic;

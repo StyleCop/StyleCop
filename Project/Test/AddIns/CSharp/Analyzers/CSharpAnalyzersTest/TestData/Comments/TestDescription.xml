@@ -9,7 +9,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.Rules.ReadabilityRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.ReadabilityRules">
           <Rules>
             <Rule Name="CommentsMustContainText">
               <RuleSettings>

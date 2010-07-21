@@ -18,7 +18,7 @@ namespace Microsoft.StyleCop.CSharp
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Text;
-    using Microsoft.StyleCop.CSharp.Collections;
+    using Microsoft.StyleCop.Collections;
 
     /// <summary>
     /// A proxy object used to stand in for a <see cref="CodeUnit" /> while it is being created.

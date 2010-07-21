@@ -31,17 +31,17 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The delegate's return type.
         /// </summary>
-        private CodeUnitProperty<TypeToken> returnType;
+        private TypeToken returnType;
 
         /// <summary>
         /// The delegate's input parameters.
         /// </summary>
-        private CodeUnitProperty<IList<Parameter>> parameters;
+        private IList<Parameter> parameters;
 
         /// <summary>
         /// The list if type constraints on the item, if any.
         /// </summary>
-        private CodeUnitProperty<ICollection<TypeParameterConstraintClause>> typeConstraints;
+        private ICollection<TypeParameterConstraintClause> typeConstraints;
 
         #endregion Private Fields
 
@@ -66,10 +66,8 @@ namespace Microsoft.StyleCop.CSharp
             Param.Ignore(typeConstraints);
             Param.Ignore(unsafeCode);
 
-            this.returnType.Value = returnType;
-
-            this.typeConstraints.Value = typeConstraints ?? TypeParameterConstraintClause.EmptyTypeParameterConstraintClause;
-            Debug.Assert(typeConstraints == null || typeConstraints.IsReadOnly, "Must be a read-only collection.");
+            this.returnType = returnType;
+            this.typeConstraints = typeConstraints;
         }
 
         #endregion Internal Constructors
@@ -98,14 +96,7 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                this.ValidateEditVersion();
-
-                if (!this.returnType.Initialized)
-                {
-                    this.returnType.Value = this.FindFirstChild<TypeToken>();
-                }
-
-                return this.returnType.Value;
+                return this.returnType;
             }
         }
 
@@ -116,14 +107,12 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                this.ValidateEditVersion();
-
-                if (!this.parameters.Initialized)
+                if (this.parameters == null)
                 {
-                    this.parameters.Value = this.CollectFormalParameters(this.FirstDeclarationToken, TokenType.CloseParenthesis);
+                    this.parameters = this.CollectFormalParameters(this.FirstDeclarationToken, TokenType.CloseParenthesis);
                 }
 
-                return this.parameters.Value;
+                return this.parameters;
             }
         }
 
@@ -134,14 +123,7 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                this.ValidateEditVersion();
-
-                if (!this.typeConstraints.Initialized)
-                {
-                    this.typeConstraints.Value = new List<TypeParameterConstraintClause>(this.GetChildren<TypeParameterConstraintClause>()).AsReadOnly();
-                }
-
-                return this.typeConstraints.Value;
+                return this.typeConstraints;
             }
         }
 
@@ -183,18 +165,6 @@ namespace Microsoft.StyleCop.CSharp
             }
 
             throw new SyntaxException(this.Document, this.LineNumber);
-        }
-
-        /// <summary>
-        /// Resets the contents of the class.
-        /// </summary>
-        protected override void Reset()
-        {
-            base.Reset();
-
-            this.returnType.Reset();
-            this.parameters.Reset();
-            this.typeConstraints.Reset();
         }
 
         #endregion Protected Override Methods

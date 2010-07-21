@@ -18,7 +18,7 @@ namespace Microsoft.StyleCop.CSharp
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
-    using Microsoft.StyleCop.CSharp.Collections;
+    using Microsoft.StyleCop.Collections;
 
     /// <summary>
     /// A collection of code-units.

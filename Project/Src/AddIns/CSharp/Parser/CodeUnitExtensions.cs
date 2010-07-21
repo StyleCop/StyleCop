@@ -17,7 +17,7 @@ namespace Microsoft.StyleCop.CSharp
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
-    using Microsoft.StyleCop.CSharp.Collections;
+    using Microsoft.StyleCop.Collections;
 
     /// <summary>
     /// Extension methods for the CodeUnit class.
