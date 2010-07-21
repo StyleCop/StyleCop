@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="Event.cs" company="Microsoft">
+// <copyright file="ICodeUnit.cs" company="Microsoft">
 //   Copyright (c) Microsoft Corporation.
 // </copyright>
 // <license>
@@ -31,6 +31,21 @@ namespace Microsoft.StyleCop.CSharp
         /// The event handler type.
         /// </summary>
         private TypeToken eventHandlerType;
+
+        /// <summary>
+        /// The add accessor for the event.
+        /// </summary>
+        private Accessor add;
+
+        /// <summary>
+        /// The remove accessor for the event.
+        /// </summary>
+        private Accessor remove;
+
+        /// <summary>
+        /// An optional initialization expression for the event.
+        /// </summary>
+        private Expression initializationExpression;
 
         #endregion Private Fields
 
@@ -72,13 +87,42 @@ namespace Microsoft.StyleCop.CSharp
         }
 
         /// <summary>
-        /// Gets the optional declarator expressions.
+        /// Gets the add accessor for the event, if there is one.
         /// </summary>
-        public IEnumerable<EventDeclaratorExpression> Declarators
+        public Accessor AddAccessor
         {
             get
             {
-                return this.GetChildren<EventDeclaratorExpression>();
+                return this.add;
+            }
+        }
+
+        /// <summary>
+        /// Gets the remove accessor for the event, if there is one.
+        /// </summary>
+        public Accessor RemoveAccessor
+        {
+            get
+            {
+                return this.remove;
+            }
+        }
+
+        /// <summary>
+        /// Gets the optional initialization expression.
+        /// </summary>
+        public Expression InitializationExpression
+        {
+            get
+            {
+                return this.initializationExpression;
+            }
+
+            internal set
+            {
+                Param.AssertNotNull(value, "InitializationExpression");
+
+                this.initializationExpression = value;
             }
         }
 
@@ -99,64 +143,51 @@ namespace Microsoft.StyleCop.CSharp
 
         #endregion Protected Override Properties
 
-        #region Public Methods
+        #region Internal Override Methods
 
         /// <summary>
-        /// Gets the add accessor for the event, if there is one.
+        /// Initializes the contents of the event.
         /// </summary>
-        /// <returns>Returns the add accessor or null if there is none.</returns>
-        public Accessor FindAddAccessor()
+        /// <param name="document">The document that contains the element.</param>
+        internal override void Initialize(CsDocument document)
         {
+            Param.AssertNotNull(document, "document");
+            base.Initialize(document);
+
             // Find the add and remove accessors for this event, if they exist.
-            for (Accessor child = this.FindFirstChild<Accessor>(); child != null; child = child.FindNextSibling<Accessor>())
+            for (Element child = this.FindFirstChild<Element>(); child != null; child = child.FindNextSibling<Element>())
             {
-                if (child.AccessorType == AccessorType.Add)
+                Accessor accessor = child as Accessor;
+                if (accessor == null)
                 {
-                    return child;
+                    throw new SyntaxException(document.SourceCode, accessor.LineNumber);
+                }
+
+                if (accessor.AccessorType == AccessorType.Add)
+                {
+                    if (this.add != null)
+                    {
+                        throw new SyntaxException(document.SourceCode, accessor.LineNumber);
+                    }
+
+                    this.add = accessor;
+                }
+                else if (accessor.AccessorType == AccessorType.Remove)
+                {
+                    if (this.remove != null)
+                    {
+                        throw new SyntaxException(document.SourceCode, accessor.LineNumber);
+                    }
+
+                    this.remove = accessor;
+                }
+                else
+                {
+                    throw new SyntaxException(document.SourceCode, accessor.LineNumber);
                 }
             }
-
-            return null;
         }
 
-        /// <summary>
-        /// Gets the remove accessor for the event, if there is one.
-        /// </summary>
-        /// <returns>Returns the remove accessor or null if there is none.</returns>
-        public Accessor FindRemoveAccessor()
-        {
-            // Find the add and remove accessors for this event, if they exist.
-            for (Accessor child = this.FindFirstChild<Accessor>(); child != null; child = child.FindNextSibling<Accessor>())
-            {
-                if (child.AccessorType == AccessorType.Add)
-                {
-                    return child;
-                }
-            }
-
-            return null;
-        }
-
-        #endregion Public Methods
-
-        #region Public Override Methods
-
-        /// <summary>
-        /// Gets the variables defined within this event.
-        /// </summary>
-        /// <returns>Returns the collection of variables.</returns>
-        public override IList<IVariable> GetVariables()
-        {
-            List<IVariable> variables = new List<IVariable>();
-
-            for (EventDeclaratorExpression declarator = this.FindFirstChild<EventDeclaratorExpression>(); declarator != null; declarator.FindNextSibling<EventDeclaratorExpression>())
-            {
-                variables.Add(declarator);
-            }
-
-            return variables.AsReadOnly();
-        }
-
-        #endregion Public Override Methods
+        #endregion Internal Override Methods
     }
 }

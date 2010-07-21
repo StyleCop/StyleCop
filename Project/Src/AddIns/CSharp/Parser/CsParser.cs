@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------
 // <copyright file="CsParser.cs" company="Microsoft">
-//     Copyright (c) Microsoft Corporation.
+//     Copyright (c) Microsoft Corporation. All rights reserved.
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -47,11 +47,6 @@ namespace Microsoft.StyleCop.CSharp
         /// The name of the settings property indicating whether to analyze generated files.
         /// </summary>
         internal const string AnalyzeGeneratedFilesProperty = "AnalyzeGeneratedFiles";
-
-        /// <summary>
-        /// An empty array of variables.
-        /// </summary>
-        internal static readonly IVariable[] EmptyVariableArray = new IVariable[] { };
 
         #endregion Internal Constants
 

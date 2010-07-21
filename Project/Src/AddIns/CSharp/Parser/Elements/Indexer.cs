@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="Indexer.cs" company="Microsoft">
+// <copyright file="ICodeUnit.cs" company="Microsoft">
 //   Copyright (c) Microsoft Corporation.
 // </copyright>
 // <license>
@@ -169,7 +169,7 @@ namespace Microsoft.StyleCop.CSharp
         /// Gets the variables defined within this element.
         /// </summary>
         /// <returns>Returns the collection of variables.</returns>
-        public override IList<IVariable> GetVariables()
+        public override IVariable[] GetVariables()
         {
             IList<Parameter> parameters = this.Parameters;
             if (parameters != null && parameters.Count > 0)
@@ -184,7 +184,7 @@ namespace Microsoft.StyleCop.CSharp
                 return variables;
             }
 
-            return CsParser.EmptyVariableArray;
+            return null;
         }
 
         #endregion Public Override Methods

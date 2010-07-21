@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------
 // <copyright file="VariableDeclarationExpression.cs" company="Microsoft">
-//     Copyright (c) Microsoft Corporation.
+//     Copyright (c) Microsoft Corporation. All rights reserved.
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -32,6 +32,11 @@ namespace Microsoft.StyleCop.CSharp
         /// </summary>
         private TypeToken type;
 
+        /// <summary>
+        /// The list of declarators.
+        /// </summary>
+        private ICollection<VariableDeclaratorExpression> declarators;
+
         #endregion Private Fields
 
         #region Internal Constructors
@@ -41,13 +46,27 @@ namespace Microsoft.StyleCop.CSharp
         /// </summary>
         /// <param name="proxy">Proxy object for the expression.</param>
         /// <param name="type">The type of the variable or variables being declared.</param>
-        internal VariableDeclarationExpression(CodeUnitProxy proxy, LiteralExpression type)
+        /// <param name="declarators">The list of declarators in the expression.</param>
+        internal VariableDeclarationExpression(
+            CodeUnitProxy proxy,
+            LiteralExpression type, 
+            ICollection<VariableDeclaratorExpression> declarators)
             : base(proxy, ExpressionType.VariableDeclaration)
         {
             Param.AssertNotNull(proxy, "proxy");
             Param.AssertNotNull(type, "type");
+            Param.AssertNotNull(declarators, "declarators");
+
+            this.declarators = declarators;
+
+            Debug.Assert(declarators.IsReadOnly, "The declarators collection should be read-only.");
 
             this.type = CodeParser.ExtractTypeTokenFromLiteralExpression(type);
+
+            foreach (VariableDeclaratorExpression expression in declarators)
+            {
+                expression.ParentVariable = this;
+            }
         }
 
         #endregion Internal Constructors
@@ -72,11 +91,11 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Gets the list of declarators for the expression.
         /// </summary>
-        public IEnumerable<VariableDeclaratorExpression> Declarators
+        public ICollection<VariableDeclaratorExpression> Declarators
         {
             get
             {
-                return this.GetChildren<VariableDeclaratorExpression>();
+                return this.declarators;
             }
         }
 
@@ -88,15 +107,22 @@ namespace Microsoft.StyleCop.CSharp
         /// Gets the variables defined within this expression.
         /// </summary>
         /// <returns>Returns the collection of variables.</returns>
-        public IList<IVariable> GetVariables()
+        public IVariable[] GetVariables()
         {
-            List<IVariable> variables = new List<IVariable>();
-            for (VariableDeclaratorExpression declarator = this.FindFirstChild<VariableDeclaratorExpression>(); declarator != null; declarator = declarator.FindNextSibling<VariableDeclaratorExpression>())
+            if (this.declarators == null || this.declarators.Count == 0)
             {
-                variables.Add(declarator);
+                return null;
             }
 
-            return variables.AsReadOnly();
+            IVariable[] variables = new IVariable[this.declarators.Count];
+
+            int i = 0;
+            foreach (VariableDeclaratorExpression declarator in this.declarators)
+            {
+                variables[i++] = declarator;
+            }
+
+            return variables;
         }
 
         #endregion Public Methods

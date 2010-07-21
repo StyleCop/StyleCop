@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------
 // <copyright file="ExpressionWithParameters.cs" company="Microsoft">
-//     Copyright (c) Microsoft Corporation.
+//     Copyright (c) Microsoft Corporation. All rights reserved.
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -75,7 +75,7 @@ namespace Microsoft.StyleCop.CSharp
         /// Gets the variables defined within this element.
         /// </summary>
         /// <returns>Returns the collection of variables.</returns>
-        public IList<IVariable> GetVariables()
+        public IVariable[] GetVariables()
         {
             IList<Parameter> parameters = this.Parameters;
 
@@ -90,7 +90,7 @@ namespace Microsoft.StyleCop.CSharp
                 return variables;
             }
 
-            return CsParser.EmptyVariableArray;
+            return null;
         }
 
         #endregion Public Methods

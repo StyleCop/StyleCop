@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------
 // <copyright file="CodeParser.cs" company="Microsoft">
-//     Copyright (c) Microsoft Corporation.
+//     Copyright (c) Microsoft Corporation. All rights reserved.
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -62,6 +62,11 @@ namespace Microsoft.StyleCop.CSharp
         /// The collection of symbols in the document.
         /// </summary>
         private SymbolManager symbols;
+
+        /// <summary>
+        /// The collection of tokens in the document.
+        /// </summary>
+        ////private MasterList<Token> tokens = new MasterList<Token>();
 
         #endregion Private Fields
 

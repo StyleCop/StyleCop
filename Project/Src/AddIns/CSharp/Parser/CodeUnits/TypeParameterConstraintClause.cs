@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="TypeParameterConstraintClause.cs" company="Microsoft">
+// <copyright file="ICodeUnit.cs" company="Microsoft">
 //   Copyright (c) Microsoft Corporation.
 // </copyright>
 // <license>

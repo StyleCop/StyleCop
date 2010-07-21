@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="VariableDeclaratorExpression.cs" company="Microsoft">
+// <copyright file="ICodeUnit.cs" company="Microsoft">
 //   Copyright (c) Microsoft Corporation.
 // </copyright>
 // <license>
@@ -33,6 +33,11 @@ namespace Microsoft.StyleCop.CSharp
         /// The initialization expression for the variable.
         /// </summary>
         private Expression initializer;
+
+        /// <summary>
+        /// The parent expression.
+        /// </summary>
+        private VariableDeclarationExpression parent;
 
         #endregion Private Fields
 
@@ -84,6 +89,22 @@ namespace Microsoft.StyleCop.CSharp
             }
         }
 
+        /// <summary>
+        /// Gets the parent expression.
+        /// </summary>
+        public VariableDeclarationExpression ParentVariable
+        {
+            get
+            {
+                return this.parent;
+            }
+
+            internal set
+            {
+                this.parent = value;
+            }
+        }
+
         #endregion Public Properties
     }
 
@@ -112,13 +133,7 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                VariableDeclarationExpression declaration = this.Parent as VariableDeclarationExpression;
-                if (declaration != null)
-                {
-                    return declaration.Type;
-                }
-
-                return null;
+                return this.parent == null ? null : this.parent.Type;
             }
         }
 

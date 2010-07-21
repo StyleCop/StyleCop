@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="DocumentRoot.cs" company="Microsoft">
+// <copyright file="ICodeUnit.cs" company="Microsoft">
 //   Copyright (c) Microsoft Corporation.
 // </copyright>
 // <license>
@@ -22,7 +22,7 @@ namespace Microsoft.StyleCop.CSharp
     /// An element which represents the root level of a document.
     /// </summary>
     /// <subcategory>element</subcategory>
-    public sealed class DocumentRoot : Namespace
+    public sealed class DocumentRoot : Namespace//, IDocumentCodePart
     {
         #region Private Fields
 

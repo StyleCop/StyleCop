@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------
 // <copyright file="CodeUnit.cs" company="Microsoft">
-//     Copyright (c) Microsoft Corporation.
+//     Copyright (c) Microsoft Corporation. All rights reserved.
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -30,7 +30,7 @@ namespace Microsoft.StyleCop.CSharp
     /// <summary>
     /// A basic code unit.
     /// </summary>
-    public abstract class CodeUnit : ILinkNode<CodeUnit>, ICodeUnitReference
+    public abstract class CodeUnit : ILinkNode<CodeUnit>
     {
         #region Internal Static Fields
 
@@ -61,7 +61,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The reference to the parent code unit.
         /// </summary>
-        private ICodeUnitReference parentReference;
+        private Reference<CodeUnit> parentReference;
 
         /// <summary>
         /// The type of the code unit.
@@ -138,12 +138,13 @@ namespace Microsoft.StyleCop.CSharp
             // Fill in the values from the proxy of this code unit.
             if (proxy != null)
             {
-                this.children = proxy.Children;
                 proxy.Attach(this);
+                this.children = proxy.Children;
             }
             else
             {
-                this.children = new CodeUnitCollection(this);
+                var thisReference = new Reference<CodeUnit>(this);
+                this.children = new CodeUnitCollection(thisReference);
             }
 
             Debug.Assert(this.children != null, "The child collection must be set");
@@ -280,7 +281,7 @@ namespace Microsoft.StyleCop.CSharp
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether this is generated code.
+        /// Gets a value indicating whether this is generated code.
         /// </summary>
         public bool Generated
         {
@@ -308,24 +309,12 @@ namespace Microsoft.StyleCop.CSharp
 
         #endregion Public Properties
 
-        #region IReference Properties 
-
-        /// <summary>
-        /// Gets a reference which points back to this object.
-        /// </summary>
-        CodeUnit ICodeUnitReference.Target
-        {
-            get { return this; }
-        }
-        
-        #endregion IReference Properties
-
         #region Internal Virtual Properties
 
         /// <summary>
         /// Gets or sets the parent reference.
         /// </summary>
-        internal virtual ICodeUnitReference ParentReference
+        internal virtual Reference<CodeUnit> ParentReference
         {
             get
             {
@@ -338,19 +327,19 @@ namespace Microsoft.StyleCop.CSharp
 
                 if (value != this.parentReference)
                 {
-                    ////if (this.parentReference != null)
-                    ////{
-                    ////    this.parentReference.ReferenceChanged -= new EventHandler(this.ParentReferenceChanged);
-                    ////}
+                    if (this.parentReference != null)
+                    {
+                        this.parentReference.ReferenceChanged -= new EventHandler(this.ParentReferenceChanged);
+                    }
 
                     this.parentReference = value;
 
-                    ////if (value != null)
-                    ////{
-                    ////    value.ReferenceChanged += new EventHandler(this.ParentReferenceChanged);
-                    ////}
+                    if (value != null)
+                    {
+                        value.ReferenceChanged += new EventHandler(this.ParentReferenceChanged);
+                    }
 
-                    ////this.OnParentChanged();
+                    this.OnParentChanged();
                 }
             }
         }
@@ -420,7 +409,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Joins the locations of the two code units.
         /// </summary>
-        /// <param name="location1">The first code unit.</param>
+        /// <param name="codeUnit1">The first code unit.</param>
         /// <param name="codeUnit2">The second code unit.</param>
         /// <returns>Returns the joined location.</returns>
         internal static CodeLocation JoinLocations(CodeLocation location1, CodeUnit codeUnit2)
@@ -487,21 +476,22 @@ namespace Microsoft.StyleCop.CSharp
             if (this.parentReference != null && this.parentReference.Target != null)
             {
                 this.parentReference.Target.Children.Remove(this);
+                
+                // Null the parent reference. Use the property to make sure the appropriate events get fired.
+                this.ParentReference = null;
             }
-
-            this.parentReference = null;
         }
 
         #endregion Internal Methods
 
         #region Protected Virtual Methods
 
-        /////// <summary>
-        /////// Called when the parent of the element changes.
-        /////// </summary>
-        ////protected virtual void OnParentChanged()
-        ////{
-        ////}
+        /// <summary>
+        /// Called when the parent of the element changes.
+        /// </summary>
+        protected virtual void OnParentChanged()
+        {
+        }
 
         /// <summary>
         /// Collects the variables declared by the code unit.
@@ -580,16 +570,16 @@ namespace Microsoft.StyleCop.CSharp
 
         #region Private Methods
 
-        /////// <summary>
-        /////// Called when the parent reference changes.
-        /////// </summary>
-        /////// <param name="sender">The event sender.</param>
-        /////// <param name="e">The event arguments.</param>
-        ////private void ParentReferenceChanged(object sender, EventArgs e)
-        ////{
-        ////    Param.Ignore(sender, e);
-        ////    this.OnParentChanged();
-        ////}
+        /// <summary>
+        /// Called when the parent reference changes.
+        /// </summary>
+        /// <param name="sender">The event sender.</param>
+        /// <param name="e">The event arguments.</param>
+        private void ParentReferenceChanged(object sender, EventArgs e)
+        {
+            Param.Ignore(sender, e);
+            this.OnParentChanged();
+        }
 
         #endregion Private Methods
     }

@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="Statement.cs" company="Microsoft">
+// <copyright file="ICodeUnit.cs" company="Microsoft">
 //   Copyright (c) Microsoft Corporation.
 // </copyright>
 // <license>
@@ -102,9 +102,9 @@ namespace Microsoft.StyleCop.CSharp
         /// Gets the variables defined within this code unit.
         /// </summary>
         /// <returns>Returns the collection of variables.</returns>
-        public virtual IList<IVariable> GetVariables()
+        public virtual IVariable[] GetVariables()
         {
-            return CsParser.EmptyVariableArray;
+            return null;
         }
 
         #endregion Public Virtual Methods

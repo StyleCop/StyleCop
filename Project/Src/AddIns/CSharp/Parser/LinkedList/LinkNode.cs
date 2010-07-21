@@ -1,6 +1,6 @@
 ﻿//--------------------------------------------------------------------------
 // <copyright file="LinkNode.cs" company="Microsoft">
-//     Copyright (c) Microsoft Corporation.
+//     Copyright (c) Microsoft Corporation. All rights reserved.
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -18,7 +18,7 @@ namespace Microsoft.StyleCop.Collections
     using System.Collections.Generic;
 
     /// <summary>
-    /// Contained by a node that can be inserted into a <see cref="LinkedItemList{T}" />.
+    /// Contained by a node that can be inserted into a <see cref="LinkedItemList" />.
     /// </summary>
     /// <typeparam name="T">The type of the container node.</typeparam>
     public class LinkNode<T> where T : class, ILinkNode<T>
@@ -97,7 +97,7 @@ namespace Microsoft.StyleCop.Collections
         #region Internal Properties
 
         /// <summary>
-        /// Gets or sets the list that contains this node.
+        /// Gets the list that contains this node.
         /// </summary>
         internal LinkedItemList<T> ContainingList
         {
