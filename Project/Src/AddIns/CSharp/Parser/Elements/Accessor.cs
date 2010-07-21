@@ -21,7 +21,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes an accessor within a property, indexer, or event.
     /// </summary>
     /// <subcategory>element</subcategory>
-    public class Accessor : Element
+    public sealed class Accessor : Element
     {
         #region Private Fields
 
@@ -45,13 +45,15 @@ namespace Microsoft.StyleCop.CSharp
         /// <param name="proxy">Proxy object for the accessor.</param>
         /// <param name="name">The name of the accessor.</param>
         /// <param name="accessorType">The type of the accessor.</param>
+        /// <param name="attributes">The list of attributes attached to this element.</param>
         /// <param name="unsafeCode">Indicates whether the element resides within a block of unsafe code.</param>
-        internal Accessor(CodeUnitProxy proxy, string name, AccessorType accessorType, bool unsafeCode)
-            : base(proxy, (int)accessorType, name, null, unsafeCode)
+        internal Accessor(CodeUnitProxy proxy, string name, AccessorType accessorType, ICollection<Attribute> attributes, bool unsafeCode)
+            : base(proxy, (int)accessorType, name, attributes, unsafeCode)
         {
             Param.AssertNotNull(proxy, "proxy");
             Param.AssertValidString(name, "name");
             Param.Ignore(accessorType);
+            Param.Ignore(attributes);
             Param.Ignore(unsafeCode);
 
             // Make sure the type and name match.
