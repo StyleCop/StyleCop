@@ -29,7 +29,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The matching bracket.
         /// </summary>
-        private CodeUnitProperty<BracketToken> matchingBracket;
+        private BracketToken matchingBracket;
 
         #endregion Private Fields
 
@@ -73,62 +73,15 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                this.ValidateEditVersion();
-
-                if (!this.matchingBracket.Initialized)
-                {
-                    this.matchingBracket.Value = this.FindMatchingBracket();
-                    if (this.matchingBracket.Value == null)
-                    {
-                        throw new SyntaxException(this.Document, this.LineNumber);
-                    }
-                }
-
-                return this.matchingBracket.Value;
+                return this.matchingBracket;
             }
 
             internal set
             {
-                this.matchingBracket.Value = value;
+                this.matchingBracket = value;
             }
         }
 
         #endregion Public Properties
-
-        #region Protected Abstract Properties
-
-        /// <summary>
-        /// Gets the matching bracket type for this bracket.
-        /// </summary>
-        protected abstract TokenType MatchingBracketType
-        {
-            get;
-        }
-
-        #endregion Protected Abstract Properties
-
-        #region Protected Override Methods
-
-        /// <summary>
-        /// Resets the contents of the item.
-        /// </summary>
-        protected override void Reset()
-        {
-            base.Reset();
-
-            this.matchingBracket.Reset();
-        }
-
-        #endregion Protected Override Methods
-
-        #region Protected Abstract Methods
-
-        /// <summary>
-        /// Finds the matching bracket token.
-        /// </summary>
-        /// <returns>The matching bracket token.</returns>
-        protected abstract BracketToken FindMatchingBracket();
-
-        #endregion Protected Abstract Methods
     }
 }

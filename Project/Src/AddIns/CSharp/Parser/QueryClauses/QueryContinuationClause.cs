@@ -28,17 +28,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The list of clauses in the expression.
         /// </summary>
-        private CodeUnitProperty<ICollection<QueryClause>> clauses;
-
-        /// <summary>
-        /// The variable declared within the clause.
-        /// </summary>
-        private CodeUnitProperty<IVariable> variable;
-
-        /// <summary>
-        /// The variables declared on the clause.
-        /// </summary>
-        private CodeUnitProperty<IList<IVariable>> variables;
+        private ICollection<QueryClause> clauses;
 
         #endregion Private Fields
 
@@ -55,7 +45,7 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertNotNull(proxy, "proxy");
             Param.AssertNotNull(clauses, "clauses");
 
-            this.clauses.Value = clauses;
+            this.clauses = clauses;
             Debug.Assert(clauses.IsReadOnly, "The collection of query clauses should be read-only.");
         }
 
@@ -71,22 +61,13 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                this.ValidateEditVersion();
-
-                if (!this.variables.Initialized)
+                IVariable variable = this.Variable;
+                if (variable != null)
                 {
-                    IVariable variable = this.Variable;
-                    if (variable != null)
-                    {
-                        this.variables.Value = new IVariable[] { variable };
-                    }
-                    else
-                    {
-                        this.variables.Value = CsParser.EmptyVariableArray;
-                    }
+                    return new IVariable[] { variable };
                 }
 
-                return this.variables.Value;
+                return CsParser.EmptyVariableArray;
             }
         }
 
@@ -101,23 +82,14 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                this.ValidateEditVersion();
-
-                if (!this.variable.Initialized)
+                // Find the 'into' keyword.
+                IntoToken intoToken = this.FindFirstChild<IntoToken>();
+                if (intoToken == null)
                 {
-                    // Find the 'into' keyword.
-                    IntoToken intoToken = this.FindFirstChild<IntoToken>();
-                    if (intoToken == null)
-                    {
-                        this.variable.Value = null;
-                    }
-                    else
-                    {
-                        this.variable.Value = ExtractQueryVariable(intoToken.FindNextSibling<Token>(), true, true);
-                    }
+                    return null;
                 }
 
-                return this.variable.Value;
+                return ExtractQueryVariable(intoToken.FindNextSibling<Token>(), true, true);
             }
         }
 
@@ -128,33 +100,10 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                this.ValidateEditVersion();
-
-                if (!this.clauses.Initialized)
-                {
-                    this.clauses.Value = new List<QueryClause>(this.GetChildren<QueryClause>()).AsReadOnly();
-                }
-
-                return this.clauses.Value;
+                return this.clauses;
             }
         }
 
         #endregion Public Properties
-
-        #region Protected Override Methods
-
-        /// <summary>
-        /// Resets the contents of the class.
-        /// </summary>
-        protected override void Reset()
-        {
-            base.Reset();
-
-            this.clauses.Reset();
-            this.variable.Reset();
-            this.variables.Reset();
-        }
-
-        #endregion Protected Override Methods
     }
 }

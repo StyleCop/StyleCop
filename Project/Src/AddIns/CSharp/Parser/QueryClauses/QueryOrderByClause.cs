@@ -16,7 +16,6 @@ namespace Microsoft.StyleCop.CSharp
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
@@ -151,7 +150,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The list of orderings.
         /// </summary>
-        private CodeUnitProperty<ICollection<QueryOrderByOrdering>> orderings;
+        private QueryOrderByOrdering[] orderings;
 
         #endregion Private Fields
 
@@ -168,8 +167,13 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertNotNull(proxy, "proxy");
             Param.AssertNotNull(orderings, "orderings");
 
-            this.orderings.Value = orderings;
-            Debug.Assert(orderings.IsReadOnly, "Must be a read only collection.");
+            this.orderings = new QueryOrderByOrdering[orderings.Count];
+
+            int i = 0;
+            foreach (QueryOrderByOrdering ordering in orderings)
+            {
+                this.orderings[i++] = ordering;
+            }
         }
 
         #endregion Internal Constructors
@@ -183,80 +187,10 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                this.ValidateEditVersion();
-
-                if (!this.orderings.Initialized)
-                {
-                    List<QueryOrderByOrdering> list = new List<QueryOrderByOrdering>();
-
-                    Expression orderingExpression = this.FindFirstChild<Expression>();
-                    while (orderingExpression != null)
-                    {
-                        CodeUnit position = orderingExpression;
-
-                        QueryOrderByOrdering ordering = new QueryOrderByOrdering();
-                        ordering.Expression = orderingExpression;
-
-                        // Check for a possible ascending or descending keyword.
-                        for (CodeUnit c = position.FindNextSibling<CodeUnit>(); c != null; c = c.FindNextSibling<CodeUnit>())
-                        {
-                            if (c.Is(TokenType.Ascending))
-                            {
-                                ordering.Direction = QueryOrderByDirection.Ascending;
-                                position = c;
-                                break;
-                            }
-                            else if (c.Is(TokenType.Descending))
-                            {
-                                ordering.Direction = QueryOrderByDirection.Descending;
-                                position = c;
-                                break;
-                            }
-                            else if (!c.Is(CodeUnitType.LexicalElement) || c.Is(LexicalElementType.Token))
-                            {
-                                break;
-                            }
-                        }
-
-                        list.Add(ordering);
-
-                        // Look for a comma next.
-                        orderingExpression = null;
-                        for (CodeUnit c = position.FindNextSibling<CodeUnit>(); c != null; c = c.FindNextSibling<CodeUnit>())
-                        {
-                            if (c.Is(TokenType.Comma))
-                            {
-                                orderingExpression = c.FindNextSibling<Expression>();
-                                break;
-                            }
-                            else if (!c.Is(CodeUnitType.LexicalElement) || c.Is(LexicalElementType.Token))
-                            {
-                                break;
-                            }
-                        }
-                    }
-
-                    this.orderings.Value = list.AsReadOnly();
-                }
-
-                return this.orderings.Value;
+                return this.orderings;
             }
         }
 
         #endregion Public Properties
-
-        #region Protected Override Methods
-
-        /// <summary>
-        /// Resets the contents of the class.
-        /// </summary>
-        protected override void Reset()
-        {
-            base.Reset();
-
-            this.orderings.Reset();
-        }
-
-        #endregion Protected Override Methods
     }
 }

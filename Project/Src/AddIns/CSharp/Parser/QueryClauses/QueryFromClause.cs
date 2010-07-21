@@ -16,32 +16,12 @@ namespace Microsoft.StyleCop.CSharp
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
 
     /// <summary>
     /// Describes a from clause in a query expression.
     /// </summary>
-    public sealed class QueryFromClause : QueryClause
+    public sealed class QueryFromClause : QueryClauseWithExpression
     {
-        #region Private Fields
-
-        /// <summary>
-        /// The variable defined in the clause.
-        /// </summary>
-        private CodeUnitProperty<IVariable> rangeVariable;
-
-        /// <summary>
-        /// The variables within the clause.
-        /// </summary>
-        private CodeUnitProperty<IList<IVariable>> variables;
-
-        /// <summary>
-        /// The range expression.
-        /// </summary>
-        private CodeUnitProperty<Expression> expression;
-
-        #endregion Private Fields
-
         #region Internal Constructors
 
         /// <summary>
@@ -50,12 +30,10 @@ namespace Microsoft.StyleCop.CSharp
         /// <param name="proxy">Proxy object for the clause.</param>
         /// <param name="expression">The range expression.</param>
         internal QueryFromClause(CodeUnitProxy proxy, Expression expression) 
-            : base(proxy, QueryClauseType.From)
+            : base(proxy, QueryClauseType.From, expression)
         {
             Param.AssertNotNull(proxy, "proxy");
             Param.AssertNotNull(expression, "expression");
-
-            this.expression.Value = expression;
         }
 
         #endregion Internal Constructors
@@ -69,41 +47,13 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                this.ValidateEditVersion();
-
-                if (!this.variables.Initialized)
+                IVariable rangeVariable = this.RangeVariable;
+                if (rangeVariable != null)
                 {
-                    IVariable rangeVariable = this.RangeVariable;
-                    if (rangeVariable != null)
-                    {
-                        this.variables.Value = new IVariable[] { rangeVariable };
-                    }
-                    else
-                    {
-                        this.variables.Value = CsParser.EmptyVariableArray;
-                    }
+                    return new IVariable[] { rangeVariable };
                 }
 
-                return this.variables.Value;
-            }
-        }
-
-        /// <summary>
-        /// Gets the range expression.
-        /// </summary>
-        public Expression Expression
-        {
-            get
-            {
-                this.ValidateEditVersion();
-
-                if (!this.expression.Initialized)
-                {
-                    this.Initialize();
-                    Debug.Assert(this.expression.Value != null, "Failed to initialize");
-                }
-
-                return this.expression.Value;
+                return CsParser.EmptyVariableArray;
             }
         }
 
@@ -116,69 +66,19 @@ namespace Microsoft.StyleCop.CSharp
         /// </summary>
         public IVariable RangeVariable
         {
-            get 
+            get
             {
-                this.ValidateEditVersion();
-
-                if (!this.rangeVariable.Initialized)
+                // Find the 'from' keyword.
+                FromToken fromToken = this.FindFirstChild<FromToken>();
+                if (fromToken == null)
                 {
-                    this.Initialize();
-                    Debug.Assert(this.rangeVariable.Value != null, "Failed to initialize");
+                    return null;
                 }
 
-                return this.rangeVariable.Value;
+                return ExtractQueryVariable(fromToken.FindNextSibling<Token>(), true, false);
             }
         }
 
         #endregion Public Properties
-
-        #region Protected Override Methods
-
-        /// <summary>
-        /// Resets the contents of the class.
-        /// </summary>
-        protected override void Reset()
-        {
-            base.Reset();
-
-            this.rangeVariable.Reset();
-            this.variables.Reset();
-        }
-
-        #endregion Protected Override Methods
-
-        #region Private Methods
-
-        /// <summary>
-        /// Initializes the contents of the class.
-        /// </summary>
-        private void Initialize()
-        {
-            FromToken fromToken = this.FindFirstChild<FromToken>();
-            if (fromToken == null)
-            {
-                throw new SyntaxException(this.Document, this.LineNumber);
-            }
-
-            this.rangeVariable.Value = ExtractQueryVariable(fromToken.FindNextSibling<Token>(), true, false);
-            if (this.rangeVariable.Value == null)
-            {
-                throw new SyntaxException(this.Document, this.LineNumber);
-            }
-
-            InToken @in = fromToken.FindNextSibling<InToken>();
-            if (@in == null)
-            {
-                throw new SyntaxException(this.Document, this.LineNumber);
-            }
-
-            this.expression.Value = @in.FindNextSibling<Expression>();
-            if (this.expression.Value == null)
-            {
-                throw new SyntaxException(this.Document, this.LineNumber);
-            }
-        }
-
-        #endregion Private Methods
     }
 }

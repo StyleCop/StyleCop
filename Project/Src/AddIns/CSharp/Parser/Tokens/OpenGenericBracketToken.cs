@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes an opening generic bracket.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class OpenGenericBracketToken : OpenBracketToken
+    public sealed class OpenGenericBracketToken : BracketToken
     {
         /// <summary>
         /// Initializes a new instance of the OpenGenericBracketToken class.
@@ -36,17 +36,6 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertValidString(text, "text");
             Param.AssertNotNull(location, "location");
             Param.Ignore(generated);
-        }
-
-        /// <summary>
-        /// Gets the matching bracket type for this bracket.
-        /// </summary>
-        protected override TokenType MatchingBracketType
-        {
-            get
-            {
-                return TokenType.CloseGenericBracket;
-            }
         }
     }
 }
