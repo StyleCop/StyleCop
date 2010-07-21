@@ -1,4 +1,4 @@
-﻿//-----------------------------------------------------------------------
+//-----------------------------------------------------------------------
 // <copyright file="CsParser.cs" company="Microsoft">
 //     Copyright (c) Microsoft Corporation.
 // </copyright>
@@ -15,13 +15,18 @@
 namespace Microsoft.StyleCop.CSharp
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
+    using System.Globalization;
     using System.IO;
+    using System.Reflection;
+    using System.Text;
     using System.Threading;
+    using System.Xml;
     using Microsoft.StyleCop;
-    using Microsoft.StyleCop.CSharp.CodeModel;
 
     /// <summary>
     /// Parses a C# code file.
@@ -43,6 +48,11 @@ namespace Microsoft.StyleCop.CSharp
         /// </summary>
         internal const string AnalyzeGeneratedFilesProperty = "AnalyzeGeneratedFiles";
 
+        /// <summary>
+        /// An empty array of variables.
+        /// </summary>
+        internal static readonly IVariable[] EmptyVariableArray = new IVariable[] { };
+
         #endregion Internal Constants
 
         #region Private Fields
@@ -58,7 +68,7 @@ namespace Microsoft.StyleCop.CSharp
         private Dictionary<int, List<Element>> suppressions;
 
         /// <summary>
-        /// Lock object for suppressions dictionary.
+        /// Lock object for suppressions dictionary
         /// </summary>
         private ReaderWriterLock suppressionsLock = new ReaderWriterLock();
 
@@ -74,6 +84,23 @@ namespace Microsoft.StyleCop.CSharp
         }
 
         #endregion Public Constructors
+
+        #region Internal Properties
+
+        /// <summary>
+        /// Gets the list of partial elements found within the document.
+        /// </summary>
+        internal Dictionary<string, List<Element>> PartialElements
+        {
+            get
+            {
+                // This should only be called during a parse\analyze run.
+                Debug.Assert(this.partialElements != null, "The list of partial elements should not be null");
+                return this.partialElements;
+            }
+        }
+
+        #endregion Internal Properties
 
         #region Public Override Methods
 
@@ -105,19 +132,22 @@ namespace Microsoft.StyleCop.CSharp
                         }
                         else
                         {
-                            CsLanguageService languageService = new CsLanguageService();
-                            
-                            document = new CsDocumentWrapper(
-                                this, 
-                                sourceCode, 
-                                languageService.CreateCodeModel(reader, sourceCode.Name, sourceCode.Path));
+                            // Create the lexer object for the code string.
+                            var lexer = new CodeLexer(this, sourceCode, new CodeReader(reader));
+
+                            // Parse the document.
+                            var parser = new CodeParser(this, lexer);
+                            parser.ParseDocument();
+
+                            document = parser.Document;
                         }
                     }
                 }
                 catch (SyntaxException syntaxex)
                 {
-                    this.AddViolation(sourceCode, syntaxex.LineNumber, Rules.SyntaxException, syntaxex.Message);
-                    document = new CsDocumentWrapper(this, sourceCode);
+                    this.AddViolation(syntaxex.SourceCode, syntaxex.LineNumber, Rules.SyntaxException, syntaxex.Message);
+                    var csdocument = new CsDocument(new CodeUnitProxy(null), sourceCode, this);
+                    document = csdocument;
                 }
             }
 
@@ -226,6 +256,63 @@ namespace Microsoft.StyleCop.CSharp
         }
 
         #endregion Public Override Methods
+
+        #region Internal Static Methods
+ 
+        /// <summary>
+        /// Gets the type of the given preprocessor symbol.
+        /// </summary>
+        /// <param name="preprocessor">The preprocessor symbol.</param>
+        /// <param name="bodyIndex">Returns the start index of the body of the preprocessor.</param>
+        /// <returns>Returns the type or null if the type cannot be determined.</returns>
+        internal static string GetPreprocessorDirectiveType(Symbol preprocessor, out int bodyIndex)
+        {
+            Param.AssertNotNull(preprocessor, "preprocessor");
+            Debug.Assert(preprocessor.SymbolType == SymbolType.PreprocessorDirective, "Expected a preprocessor directive");
+
+            // Get the preprocessor type. This is the second word in the statement.
+            bodyIndex = -1;
+            int startIndex = -1;
+            int endIndex = -1;
+
+            // Move to the start of the second word.
+            for (int i = 1; i < preprocessor.Text.Length; ++i)
+            {
+                if (char.IsLetter(preprocessor.Text[i]))
+                {
+                    startIndex = i;
+                    break;
+                }
+            }
+
+            if (startIndex == -1)
+            {
+                return null;
+            }
+
+            // Move to the end of the word.
+            for (endIndex = startIndex; endIndex < preprocessor.Text.Length; ++endIndex)
+            {
+                if (!char.IsLetter(preprocessor.Text[endIndex]))
+                {
+                    break;
+                }
+            }
+
+            --endIndex;
+            if (endIndex < startIndex)
+            {
+                return null;
+            }
+
+            // The body start index is just past the endIndex.
+            bodyIndex = endIndex + 1;
+
+            // Get the word.
+            return preprocessor.Text.Substring(startIndex, endIndex - startIndex + 1);
+        }
+
+        #endregion Internal Static Methods
 
         #region Internal Methods
 

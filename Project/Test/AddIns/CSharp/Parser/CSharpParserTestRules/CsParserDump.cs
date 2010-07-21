@@ -22,7 +22,6 @@ namespace MS.StyleCop.CSharpParserTest
     using System.Xml;
     using Microsoft.StyleCop;
     using Microsoft.StyleCop.CSharp;
-    using Microsoft.StyleCop.CSharp.CodeModel;
 
     /// <summary>
     /// Dumps the parsed object model from the CsParser into an Xml file.
@@ -55,7 +54,7 @@ namespace MS.StyleCop.CSharpParserTest
             XmlNode root = contents.CreateElement("StyleCopCsParserObjectModel");
             contents.AppendChild(root);
 
-            CsDocument csdocument = document.AsCsDocument();
+            CsDocument csdocument = (CsDocument)document;
             this.ProcessElement(csdocument, root);
 
             // Get the location where the output file should be stored.

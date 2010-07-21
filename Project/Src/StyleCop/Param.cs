@@ -633,7 +633,7 @@ namespace Microsoft.StyleCop
         public static void RequireNotNull(object parameter, string parameterName)
         {
             Param.Ignore(parameter, parameterName);
-            RequireNotNull(parameter, parameterName, delegate { return ParamStrings.CannotBeNull; });
+            RequireNotNull(parameter, parameterName, delegate { return Strings.CannotBeNull; });
         }
 
         /// <summary>
@@ -723,7 +723,7 @@ namespace Microsoft.StyleCop
         public static void RequireValidString(string parameter, string parameterName)
         {
             Param.Ignore(parameterName);
-            Param.Require(parameter != null && parameter.Length > 0, parameterName, delegate { return ParamStrings.StringCannotBeEmptyOrNull; });
+            Param.Require(parameter != null && parameter.Length > 0, parameterName, delegate { return Strings.StringCannotBeEmptyOrNull; });
         }
 
         /// <summary>
@@ -734,7 +734,7 @@ namespace Microsoft.StyleCop
         public static void RequireValidCollection(ICollection parameter, string parameterName)
         {
             Param.Ignore(parameterName);
-            Param.Require(parameter != null && parameter.Count > 0, parameterName, delegate { return ParamStrings.CollectionCannotBeEmptyOrNull; });
+            Param.Require(parameter != null && parameter.Count > 0, parameterName, delegate { return Strings.CollectionCannotBeEmptyOrNull; });
         }
 
         /// <summary>
@@ -745,7 +745,7 @@ namespace Microsoft.StyleCop
         public static void RequireGreaterThanZero(int number, string parameterName)
         {
             Param.Ignore(parameterName);
-            Param.RequireValidIndex(number > 0, parameterName, delegate { return ParamStrings.MustBeGreaterThanZero; });
+            Param.RequireValidIndex(number > 0, parameterName, delegate { return Strings.MustBeGreaterThanZero; });
         }
 
         /// <summary>
@@ -756,7 +756,7 @@ namespace Microsoft.StyleCop
         public static void RequireGreaterThanZero(long number, string parameterName)
         {
             Param.Ignore(parameterName);
-            Param.RequireValidIndex(number > 0, parameterName, delegate { return ParamStrings.MustBeGreaterThanZero; });
+            Param.RequireValidIndex(number > 0, parameterName, delegate { return Strings.MustBeGreaterThanZero; });
         }
 
         /// <summary>
@@ -767,7 +767,7 @@ namespace Microsoft.StyleCop
         public static void RequireGreaterThanZero(short number, string parameterName)
         {
             Param.Ignore(parameterName);
-            Param.RequireValidIndex(number > 0, parameterName, delegate { return ParamStrings.MustBeGreaterThanZero; });
+            Param.RequireValidIndex(number > 0, parameterName, delegate { return Strings.MustBeGreaterThanZero; });
         }
 
         /// <summary>
@@ -778,7 +778,7 @@ namespace Microsoft.StyleCop
         public static void RequireGreaterThanZero(double number, string parameterName)
         {
             Param.Ignore(parameterName);
-            Param.RequireValidIndex(number > 0, parameterName, delegate { return ParamStrings.MustBeGreaterThanZero; });
+            Param.RequireValidIndex(number > 0, parameterName, delegate { return Strings.MustBeGreaterThanZero; });
         }
 
         /// <summary>
@@ -789,7 +789,7 @@ namespace Microsoft.StyleCop
         public static void RequireGreaterThanZero(float number, string parameterName)
         {
             Param.Ignore(parameterName);
-            Param.RequireValidIndex(number > 0, parameterName, delegate { return ParamStrings.MustBeGreaterThanZero; });
+            Param.RequireValidIndex(number > 0, parameterName, delegate { return Strings.MustBeGreaterThanZero; });
         }
 
         /// <summary>
@@ -800,7 +800,7 @@ namespace Microsoft.StyleCop
         public static void RequireGreaterThanOrEqualToZero(int number, string parameterName)
         {
             Param.Ignore(parameterName);
-            Param.RequireValidIndex(number >= 0, parameterName, delegate { return ParamStrings.MustBeGreaterThanOrEqualToZero; });
+            Param.RequireValidIndex(number >= 0, parameterName, delegate { return Strings.MustBeGreaterThanOrEqualToZero; });
         }
 
         /// <summary>
@@ -811,7 +811,7 @@ namespace Microsoft.StyleCop
         public static void RequireGreaterThanOrEqualToZero(long number, string parameterName)
         {
             Param.Ignore(parameterName);
-            Param.RequireValidIndex(number >= 0, parameterName, delegate { return ParamStrings.MustBeGreaterThanOrEqualToZero; });
+            Param.RequireValidIndex(number >= 0, parameterName, delegate { return Strings.MustBeGreaterThanOrEqualToZero; });
         }
 
         /// <summary>
@@ -822,7 +822,7 @@ namespace Microsoft.StyleCop
         public static void RequireGreaterThanOrEqualToZero(short number, string parameterName)
         {
             Param.Ignore(parameterName);
-            Param.RequireValidIndex(number >= 0, parameterName, delegate { return ParamStrings.MustBeGreaterThanOrEqualToZero; });
+            Param.RequireValidIndex(number >= 0, parameterName, delegate { return Strings.MustBeGreaterThanOrEqualToZero; });
         }
 
         /// <summary>
@@ -833,7 +833,7 @@ namespace Microsoft.StyleCop
         public static void RequireGreaterThanOrEqualToZero(double number, string parameterName)
         {
             Param.Ignore(parameterName);
-            Param.RequireValidIndex(number >= 0, parameterName, delegate { return ParamStrings.MustBeGreaterThanOrEqualToZero; });
+            Param.RequireValidIndex(number >= 0, parameterName, delegate { return Strings.MustBeGreaterThanOrEqualToZero; });
         }
 
         /// <summary>
@@ -844,7 +844,7 @@ namespace Microsoft.StyleCop
         public static void RequireGreaterThanOrEqualToZero(float number, string parameterName)
         {
             Param.Ignore(parameterName);
-            Param.RequireValidIndex(number >= 0, parameterName, delegate { return ParamStrings.MustBeGreaterThanOrEqualToZero; });
+            Param.RequireValidIndex(number >= 0, parameterName, delegate { return Strings.MustBeGreaterThanOrEqualToZero; });
         }
 
         /// <summary>
@@ -858,7 +858,7 @@ namespace Microsoft.StyleCop
             Param.Ignore(number, minimum, parameterName);
             if (number <= minimum)
             {
-                string message = ParamStrings.MustBeGreaterThan;
+                string message = Strings.MustBeGreaterThan;
                 Debug.Assert(false, parameterName, string.Format(CultureInfo.CurrentCulture, message, minimum));
                 throw new ArgumentOutOfRangeException(string.Format(CultureInfo.CurrentCulture, message, minimum), parameterName);
             }
@@ -875,7 +875,7 @@ namespace Microsoft.StyleCop
             Param.Ignore(number, minimum, parameterName);
             if (number <= minimum)
             {
-                string message = ParamStrings.MustBeGreaterThan;
+                string message = Strings.MustBeGreaterThan;
                 Debug.Assert(false, parameterName, string.Format(CultureInfo.CurrentCulture, message, minimum));
                 throw new ArgumentOutOfRangeException(string.Format(CultureInfo.CurrentCulture, message, minimum), parameterName);
             }
@@ -892,7 +892,7 @@ namespace Microsoft.StyleCop
             Param.Ignore(number, minimum, parameterName);
             if (number <= minimum)
             {
-                string message = ParamStrings.MustBeGreaterThan;
+                string message = Strings.MustBeGreaterThan;
                 Debug.Assert(false, parameterName, string.Format(CultureInfo.CurrentCulture, message, minimum));
                 throw new ArgumentOutOfRangeException(string.Format(CultureInfo.CurrentCulture, message, minimum), parameterName);
             }
@@ -909,7 +909,7 @@ namespace Microsoft.StyleCop
             Param.Ignore(number, minimum, parameterName);
             if (number <= minimum)
             {
-                string message = ParamStrings.MustBeGreaterThan;
+                string message = Strings.MustBeGreaterThan;
                 Debug.Assert(false, parameterName, string.Format(CultureInfo.CurrentCulture, message, minimum));
                 throw new ArgumentOutOfRangeException(string.Format(CultureInfo.CurrentCulture, message, minimum), parameterName);
             }
@@ -926,7 +926,7 @@ namespace Microsoft.StyleCop
             Param.Ignore(number, minimum, parameterName);
             if (number <= minimum)
             {
-                string message = ParamStrings.MustBeGreaterThan;
+                string message = Strings.MustBeGreaterThan;
                 Debug.Assert(false, parameterName, string.Format(CultureInfo.CurrentCulture, message, minimum));
                 throw new ArgumentOutOfRangeException(string.Format(CultureInfo.CurrentCulture, message, minimum), parameterName);
             }
@@ -943,7 +943,7 @@ namespace Microsoft.StyleCop
             Param.Ignore(number, minimum, parameterName);
             if (number < minimum)
             {
-                string message = ParamStrings.MustBeGreaterThanOrEqualTo;
+                string message = Strings.MustBeGreaterThanOrEqualTo;
                 Debug.Assert(false, parameterName, string.Format(CultureInfo.CurrentCulture, message, minimum));
                 throw new ArgumentOutOfRangeException(string.Format(CultureInfo.CurrentCulture, message, minimum), parameterName);
             }
@@ -960,7 +960,7 @@ namespace Microsoft.StyleCop
             Param.Ignore(number, minimum, parameterName);
             if (number < minimum)
             {
-                string message = ParamStrings.MustBeGreaterThanOrEqualTo;
+                string message = Strings.MustBeGreaterThanOrEqualTo;
                 Debug.Assert(false, parameterName, string.Format(CultureInfo.CurrentCulture, message, minimum));
                 throw new ArgumentOutOfRangeException(string.Format(CultureInfo.CurrentCulture, message, minimum), parameterName);
             }
@@ -977,7 +977,7 @@ namespace Microsoft.StyleCop
             Param.Ignore(number, minimum, parameterName);
             if (number < minimum)
             {
-                string message = ParamStrings.MustBeGreaterThanOrEqualTo;
+                string message = Strings.MustBeGreaterThanOrEqualTo;
                 Debug.Assert(false, parameterName, string.Format(CultureInfo.CurrentCulture, message, minimum));
                 throw new ArgumentOutOfRangeException(string.Format(CultureInfo.CurrentCulture, message, minimum), parameterName);
             }
@@ -994,7 +994,7 @@ namespace Microsoft.StyleCop
             Param.Ignore(number, minimum, parameterName);
             if (number < minimum)
             {
-                string message = ParamStrings.MustBeGreaterThanOrEqualTo;
+                string message = Strings.MustBeGreaterThanOrEqualTo;
                 Debug.Assert(false, parameterName, string.Format(CultureInfo.CurrentCulture, message, minimum));
                 throw new ArgumentOutOfRangeException(string.Format(CultureInfo.CurrentCulture, message, minimum), parameterName);
             }
@@ -1011,7 +1011,7 @@ namespace Microsoft.StyleCop
             Param.Ignore(number, minimum, parameterName);
             if (number < minimum)
             {
-                string message = ParamStrings.MustBeGreaterThanOrEqualTo;
+                string message = Strings.MustBeGreaterThanOrEqualTo;
                 Debug.Assert(false, parameterName, string.Format(CultureInfo.CurrentCulture, message, minimum));
                 throw new ArgumentOutOfRangeException(string.Format(CultureInfo.CurrentCulture, message, minimum), parameterName);
             }
@@ -1028,7 +1028,7 @@ namespace Microsoft.StyleCop
             Param.Ignore(number, maximum, parameterName);
             if (number >= maximum)
             {
-                string message = ParamStrings.MustBeLessThan;
+                string message = Strings.MustBeLessThan;
                 Debug.Assert(false, parameterName, string.Format(CultureInfo.CurrentCulture, message, maximum));
                 throw new ArgumentOutOfRangeException(string.Format(CultureInfo.CurrentCulture, message, maximum), parameterName);
             }
@@ -1045,7 +1045,7 @@ namespace Microsoft.StyleCop
             Param.Ignore(number, maximum, parameterName);
             if (number >= maximum)
             {
-                string message = ParamStrings.MustBeLessThan;
+                string message = Strings.MustBeLessThan;
                 Debug.Assert(false, parameterName, string.Format(CultureInfo.CurrentCulture, message, maximum));
                 throw new ArgumentOutOfRangeException(string.Format(CultureInfo.CurrentCulture, message, maximum), parameterName);
             }
@@ -1062,7 +1062,7 @@ namespace Microsoft.StyleCop
             Param.Ignore(number, maximum, parameterName);
             if (number >= maximum)
             {
-                string message = ParamStrings.MustBeLessThan;
+                string message = Strings.MustBeLessThan;
                 Debug.Assert(false, parameterName, string.Format(CultureInfo.CurrentCulture, message, maximum));
                 throw new ArgumentOutOfRangeException(string.Format(CultureInfo.CurrentCulture, message, maximum), parameterName);
             }
@@ -1079,7 +1079,7 @@ namespace Microsoft.StyleCop
             Param.Ignore(number, maximum, parameterName);
             if (number >= maximum)
             {
-                string message = ParamStrings.MustBeLessThan;
+                string message = Strings.MustBeLessThan;
                 Debug.Assert(false, parameterName, string.Format(CultureInfo.CurrentCulture, message, maximum));
                 throw new ArgumentOutOfRangeException(string.Format(CultureInfo.CurrentCulture, message, maximum), parameterName);
             }
@@ -1096,7 +1096,7 @@ namespace Microsoft.StyleCop
             Param.Ignore(number, maximum, parameterName);
             if (number >= maximum)
             {
-                string message = ParamStrings.MustBeLessThan;
+                string message = Strings.MustBeLessThan;
                 Debug.Assert(false, parameterName, string.Format(CultureInfo.CurrentCulture, message, maximum));
                 throw new ArgumentOutOfRangeException(string.Format(CultureInfo.CurrentCulture, message, maximum), parameterName);
             }
@@ -1113,7 +1113,7 @@ namespace Microsoft.StyleCop
             Param.Ignore(number, maximum, parameterName);
             if (number > maximum)
             {
-                string message = ParamStrings.MustBeLessThanOrEqualTo;
+                string message = Strings.MustBeLessThanOrEqualTo;
                 Debug.Assert(false, parameterName, string.Format(CultureInfo.CurrentCulture, message, maximum));
                 throw new ArgumentOutOfRangeException(string.Format(CultureInfo.CurrentCulture, message, maximum), parameterName);
             }
@@ -1130,7 +1130,7 @@ namespace Microsoft.StyleCop
             Param.Ignore(number, maximum, parameterName);
             if (number > maximum)
             {
-                string message = ParamStrings.MustBeLessThanOrEqualTo;
+                string message = Strings.MustBeLessThanOrEqualTo;
                 Debug.Assert(false, parameterName, string.Format(CultureInfo.CurrentCulture, message, maximum));
                 throw new ArgumentOutOfRangeException(string.Format(CultureInfo.CurrentCulture, message, maximum), parameterName);
             }
@@ -1147,7 +1147,7 @@ namespace Microsoft.StyleCop
             Param.Ignore(number, maximum, parameterName);
             if (number > maximum)
             {
-                string message = ParamStrings.MustBeLessThanOrEqualTo;
+                string message = Strings.MustBeLessThanOrEqualTo;
                 Debug.Assert(false, parameterName, string.Format(CultureInfo.CurrentCulture, message, maximum));
                 throw new ArgumentOutOfRangeException(string.Format(CultureInfo.CurrentCulture, message, maximum), parameterName);
             }
@@ -1164,7 +1164,7 @@ namespace Microsoft.StyleCop
             Param.Ignore(number, maximum, parameterName);
             if (number > maximum)
             {
-                string message = ParamStrings.MustBeLessThanOrEqualTo;
+                string message = Strings.MustBeLessThanOrEqualTo;
                 Debug.Assert(false, parameterName, string.Format(CultureInfo.CurrentCulture, message, maximum));
                 throw new ArgumentOutOfRangeException(string.Format(CultureInfo.CurrentCulture, message, maximum), parameterName);
             }
@@ -1181,7 +1181,7 @@ namespace Microsoft.StyleCop
             Param.Ignore(number, maximum, parameterName);
             if (number > maximum)
             {
-                string message = ParamStrings.MustBeLessThanOrEqualTo;
+                string message = Strings.MustBeLessThanOrEqualTo;
                 Debug.Assert(false, parameterName, string.Format(CultureInfo.CurrentCulture, message, maximum));
                 throw new ArgumentOutOfRangeException(string.Format(CultureInfo.CurrentCulture, message, maximum), parameterName);
             }
@@ -1200,7 +1200,7 @@ namespace Microsoft.StyleCop
             Param.RequireValidIndex(
                 number >= low && number <= high,
                 parameterName,
-                delegate { return string.Format(CultureInfo.CurrentCulture, ParamStrings.MustBeBetween, low, high); });
+                delegate { return string.Format(CultureInfo.CurrentCulture, Strings.MustBeBetween, low, high); });
         }
 
         /// <summary>
@@ -1216,7 +1216,7 @@ namespace Microsoft.StyleCop
             Param.RequireValidIndex(
                 number >= low && number <= high,
                 parameterName,
-                delegate { return string.Format(CultureInfo.CurrentCulture, ParamStrings.MustBeBetween, low, high); });
+                delegate { return string.Format(CultureInfo.CurrentCulture, Strings.MustBeBetween, low, high); });
         }
 
         /// <summary>
@@ -1232,7 +1232,7 @@ namespace Microsoft.StyleCop
             Param.RequireValidIndex(
                 number >= low && number <= high,
                 parameterName,
-                delegate { return string.Format(CultureInfo.CurrentCulture, ParamStrings.MustBeBetween, low, high); });
+                delegate { return string.Format(CultureInfo.CurrentCulture, Strings.MustBeBetween, low, high); });
         }
 
         /// <summary>
@@ -1248,7 +1248,7 @@ namespace Microsoft.StyleCop
             Param.RequireValidIndex(
                 number >= low && number <= high,
                 parameterName,
-                delegate { return string.Format(CultureInfo.CurrentCulture, ParamStrings.MustBeBetween, low, high); });
+                delegate { return string.Format(CultureInfo.CurrentCulture, Strings.MustBeBetween, low, high); });
         }
 
         /// <summary>
@@ -1264,7 +1264,7 @@ namespace Microsoft.StyleCop
             Param.RequireValidIndex(
                 number >= low && number <= high,
                 parameterName,
-                delegate { return string.Format(CultureInfo.CurrentCulture, ParamStrings.MustBeBetween, low, high); });
+                delegate { return string.Format(CultureInfo.CurrentCulture, Strings.MustBeBetween, low, high); });
         }
 
         /// <summary>

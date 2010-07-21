@@ -124,6 +124,15 @@ namespace Microsoft.StyleCop {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Must not be null.
+        /// </summary>
+        internal static string CannotBeNull {
+            get {
+                return ResourceManager.GetString("CannotBeNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to StyleCop is running in non-UI mode. The settings dialog cannot be displayed in this mode. Check the status of the DisplayUI property on the StyleCopCore object before attempting to display settings..
         /// </summary>
         internal static string CannotDisplaySettingsInNonUIMode {
@@ -147,6 +156,15 @@ namespace Microsoft.StyleCop {
         internal static string Collec {
             get {
                 return ResourceManager.GetString("Collec", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The collection must not be empty or null.
+        /// </summary>
+        internal static string CollectionCannotBeEmptyOrNull {
+            get {
+                return ResourceManager.GetString("CollectionCannotBeEmptyOrNull", resourceCulture);
             }
         }
         
@@ -345,6 +363,69 @@ namespace Microsoft.StyleCop {
         internal static string MissingNameAttributeOnRootNode {
             get {
                 return ResourceManager.GetString("MissingNameAttributeOnRootNode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The value must be between {0} and {1}.
+        /// </summary>
+        internal static string MustBeBetween {
+            get {
+                return ResourceManager.GetString("MustBeBetween", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The value must be greater than {0}.
+        /// </summary>
+        internal static string MustBeGreaterThan {
+            get {
+                return ResourceManager.GetString("MustBeGreaterThan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The value must be greater than or equal to {0}.
+        /// </summary>
+        internal static string MustBeGreaterThanOrEqualTo {
+            get {
+                return ResourceManager.GetString("MustBeGreaterThanOrEqualTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The value must be greater than or equal to zero.
+        /// </summary>
+        internal static string MustBeGreaterThanOrEqualToZero {
+            get {
+                return ResourceManager.GetString("MustBeGreaterThanOrEqualToZero", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The value must be greater than zero.
+        /// </summary>
+        internal static string MustBeGreaterThanZero {
+            get {
+                return ResourceManager.GetString("MustBeGreaterThanZero", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The value must be less than {0}.
+        /// </summary>
+        internal static string MustBeLessThan {
+            get {
+                return ResourceManager.GetString("MustBeLessThan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The value must be less than or equal to {0}.
+        /// </summary>
+        internal static string MustBeLessThanOrEqualTo {
+            get {
+                return ResourceManager.GetString("MustBeLessThanOrEqualTo", resourceCulture);
             }
         }
         
@@ -709,6 +790,15 @@ namespace Microsoft.StyleCop {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The string must not be empty or null.
+        /// </summary>
+        internal static string StringCannotBeEmptyOrNull {
+            get {
+                return ResourceManager.GetString("StringCannotBeEmptyOrNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to GetCodeEditor is not implemented by StyleCopConsole..
         /// </summary>
         internal static string StyleCopConsoleDoesNotImplementGetCodeEditor {
@@ -723,6 +813,24 @@ namespace Microsoft.StyleCop {
         internal static string StyleCopUnableToLoad {
             get {
                 return ResourceManager.GetString("StyleCopUnableToLoad", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A syntax error has been discovered in file {0} on line {1}..
+        /// </summary>
+        internal static string SyntaxErrorInFile {
+            get {
+                return ResourceManager.GetString("SyntaxErrorInFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A syntax error has been discovered in file {0} on line {1}: {2}.
+        /// </summary>
+        internal static string SyntaxErrorInFileWithMessage {
+            get {
+                return ResourceManager.GetString("SyntaxErrorInFileWithMessage", resourceCulture);
             }
         }
         
