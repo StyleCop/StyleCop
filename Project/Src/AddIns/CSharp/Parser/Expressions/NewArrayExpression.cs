@@ -14,7 +14,6 @@
 //-----------------------------------------------------------------------
 namespace Microsoft.StyleCop.CSharp
 {
-    using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
@@ -28,12 +27,12 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The type of the array.
         /// </summary>
-        private CodeUnitProperty<ArrayAccessExpression> type;
+        private ArrayAccessExpression type;
 
         /// <summary>
         /// The type creation expression.
         /// </summary>
-        private CodeUnitProperty<ArrayInitializerExpression> initializer;
+        private ArrayInitializerExpression initializer;
 
         #endregion Private Fields
 
@@ -53,8 +52,8 @@ namespace Microsoft.StyleCop.CSharp
             Param.Ignore(type, "type");
             Param.Ignore(initializer);
 
-            this.type.Value = type;
-            this.initializer.Value = initializer;
+            this.type = type;
+            this.initializer = initializer;
         }
 
         #endregion Internal Constructors
@@ -73,14 +72,7 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                this.ValidateEditVersion();
-
-                if (!this.type.Initialized)
-                {
-                    this.Initialize();
-                }
-
-                return this.type.Value;
+                return this.type;
             }
         }
 
@@ -91,45 +83,10 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                this.ValidateEditVersion();
-
-                if (!this.initializer.Initialized)
-                {
-                    this.Initialize();
-                }
-
-                return this.initializer.Value;
+                return this.initializer;
             }
         }
 
         #endregion Public Properties
-
-        #region Protected Override Methods
-
-        /// <summary>
-        /// Resets the contents of the class.
-        /// </summary>
-        protected override void Reset()
-        {
-            base.Reset();
-
-            this.type.Reset();
-            this.initializer.Reset();
-        }
-
-        #endregion Protected Override Methods
-
-        #region Private Methods
-
-        /// <summary>
-        /// Initializes the contents of the expression.
-        /// </summary>
-        private void Initialize()
-        {
-            this.type.Value = this.FindFirstChild<ArrayAccessExpression>();
-            this.initializer.Value = this.FindFirstChild<ArrayInitializerExpression>();
-        }
-
-        #endregion Private Methods
     }
 }

@@ -29,7 +29,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The expression wrapped within the unchecked expression.
         /// </summary>
-        private CodeUnitProperty<Expression> internalExpression;
+        private Expression internalExpression;
 
         #endregion Private Fields
 
@@ -46,7 +46,7 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertNotNull(proxy, "proxy");
             Param.AssertNotNull(internalExpression, "internalExpression");
 
-            this.internalExpression.Value = internalExpression;
+            this.internalExpression = internalExpression;
         }
 
         #endregion Internal Constructors
@@ -60,35 +60,10 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                this.ValidateEditVersion();
-
-                if (!this.internalExpression.Initialized)
-                {
-                    this.internalExpression.Value = this.FindFirstChild<Expression>();
-                    if (this.internalExpression.Value == null)
-                    {
-                        throw new SyntaxException(this.Document, this.LineNumber);
-                    }
-                }
-
-                return this.internalExpression.Value;
+                return this.internalExpression;
             }
         }
 
         #endregion Public Properties
-
-        #region Protected Override Methods
-
-        /// <summary>
-        /// Resets the contents of the class.
-        /// </summary>
-        protected override void Reset()
-        {
-            base.Reset();
-
-            this.internalExpression.Reset();
-        }
-
-        #endregion Protected Override Methods
     }
 }

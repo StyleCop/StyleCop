@@ -29,7 +29,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The literal token.
         /// </summary>
-        private CodeUnitProperty<Token> token;
+        private Token token;
 
         #endregion Private Fields
 
@@ -46,8 +46,20 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertNotNull(proxy, "proxy");
             Param.AssertNotNull(token, "token");
 
-            this.token.Value = token;
+            this.token = token;
         }
+
+        /////// <summary>
+        /////// Initializes a new instance of the LiteralExpression class.
+        /////// </summary>
+        /////// <param name="masterList">The master token list for the document containing the expression.</param>
+        /////// <param name="tokenNode">The literal token represented by the expression.</param>
+        ////internal LiteralExpression(MasterList<Token> masterList, Node<Token> tokenNode)
+        ////    : this(new TokenList(masterList, tokenNode, tokenNode), tokenNode)
+        ////{
+        ////    Param.AssertNotNull(masterList, "masterList");
+        ////    Param.AssertNotNull(tokenNode, "tokenNode");
+        ////}
 
         #endregion Internal Constructors
 
@@ -60,18 +72,7 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                this.ValidateEditVersion();
-
-                if (!this.token.Initialized)
-                {
-                    this.token.Value = this.FindFirstChild<Token>();
-                    if (this.token.Value == null)
-                    {
-                        throw new SyntaxException(this.Document, this.LineNumber);
-                    }
-                }
-
-                return this.token.Value;
+                return this.token;
             }
         }
 
@@ -82,8 +83,7 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                Token token = this.Token;
-                return token == null ? string.Empty : token.Text;
+                return this.token == null ? string.Empty : this.token.Text;
             }
         }
 
@@ -101,19 +101,5 @@ namespace Microsoft.StyleCop.CSharp
         }
 
         #endregion Public Override Methods
-
-        #region Protected Override Methods
-
-        /// <summary>
-        /// Resets the contents of the class.
-        /// </summary>
-        protected override void Reset()
-        {
-            base.Reset();
-
-            this.token.Reset();
-        }
-
-        #endregion Protected Override Methods
     }
 }

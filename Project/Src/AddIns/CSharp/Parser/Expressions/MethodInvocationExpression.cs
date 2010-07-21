@@ -28,12 +28,12 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The method name.
         /// </summary>
-        private CodeUnitProperty<Expression> name;
+        private Expression name;
 
         /// <summary>
         /// The arguments passed to the method.
         /// </summary>
-        private CodeUnitProperty<IList<Argument>> arguments;
+        private IList<Argument> arguments;
 
         #endregion Private Fields
 
@@ -50,7 +50,7 @@ namespace Microsoft.StyleCop.CSharp
             Param.Ignore(proxy);
             Param.AssertNotNull(name, "name");
 
-            this.name.Value = name;
+            this.name = name;
         }
 
         #endregion Internal Constructors
@@ -64,18 +64,7 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                this.ValidateEditVersion();
-
-                if (!this.name.Initialized)
-                {
-                    this.name.Value = this.FindFirstChild<Expression>();
-                    if (this.name.Value == null)
-                    {
-                        throw new SyntaxException(this.Document, this.LineNumber);
-                    }
-                }
-
-                return this.name.Value;
+                return this.name;
             }
         }
 
@@ -86,33 +75,15 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                this.ValidateEditVersion();
-
-                if (!this.arguments.Initialized)
+                if (this.arguments == null)
                 {
-                    this.arguments.Value = this.CollectArguments();
-                    Debug.Assert(this.arguments.Value != null, "Failed to initialize.");
+                    this.arguments = this.CollectArguments();
                 }
 
-                return this.arguments.Value;
+                return this.arguments;
             }
         }
 
         #endregion Protected Properties
-
-        #region Protected Override Methods
-
-        /// <summary>
-        /// Resets the contents of the class.
-        /// </summary>
-        protected override void Reset()
-        {
-            base.Reset();
-
-            this.name.Reset();
-            this.arguments.Reset();
-        }
-
-        #endregion Protected Override Methods
     }
 }

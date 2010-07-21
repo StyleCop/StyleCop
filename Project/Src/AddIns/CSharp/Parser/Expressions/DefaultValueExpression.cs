@@ -27,7 +27,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The type to obtain the default value of.
         /// </summary>
-        private CodeUnitProperty<TypeToken> type;
+        private TypeToken type;
 
         #endregion Private Fields
 
@@ -44,7 +44,7 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertNotNull(proxy, "proxy");
             Param.AssertNotNull(type, "type");
 
-            this.type.Value = CodeParser.ExtractTypeTokenFromLiteralExpression(type);
+            this.type = CodeParser.ExtractTypeTokenFromLiteralExpression(type);
         }
 
         #endregion Internal Constructors
@@ -62,37 +62,10 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                this.ValidateEditVersion();
-
-                if (!this.type.Initialized)
-                {
-                    LiteralExpression literal = this.FindFirstChild<LiteralExpression>();
-                    if (literal == null)
-                    {
-                        throw new SyntaxException(this.Document, this.LineNumber);
-                    }
-
-                    this.type.Value = CodeParser.ExtractTypeTokenFromLiteralExpression(literal);
-                }
-
-                return this.type.Value;
+                return this.type;
             }
         }
 
         #endregion Public Properties
-
-        #region Protected Override Methods
-
-        /// <summary>
-        /// Resets the contents of the class.
-        /// </summary>
-        protected override void Reset()
-        {
-            base.Reset();
-
-            this.type.Reset();
-        }
-
-        #endregion Protected Override Methods
     }
 }

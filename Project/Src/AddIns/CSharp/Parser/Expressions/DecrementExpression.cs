@@ -14,7 +14,6 @@
 //-----------------------------------------------------------------------
 namespace Microsoft.StyleCop.CSharp
 {
-    using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
@@ -28,12 +27,12 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The type of decrement being performed.
         /// </summary>
-        private CodeUnitProperty<DecrementType> decrementType;
+        private DecrementType decrementType;
 
         /// <summary>
         /// The value being decremented.
         /// </summary>
-        private CodeUnitProperty<Expression> value;
+        private Expression value;
 
         #endregion Private Fields
 
@@ -52,8 +51,8 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertNotNull(value, "value");
             Param.Ignore(decrementType);
 
-            this.value.Value = value;
-            this.decrementType.Value = decrementType;
+            this.value = value;
+            this.decrementType = decrementType;
         }
 
         #endregion Internal Constructors
@@ -96,14 +95,7 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                this.ValidateEditVersion();
-
-                if (!this.decrementType.Initialized)
-                {
-                    this.Initialize();
-                }
-
-                return this.decrementType.Value;
+                return this.decrementType;
             }
         }
 
@@ -114,77 +106,10 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                this.ValidateEditVersion();
-
-                if (!this.value.Initialized)
-                {
-                    this.Initialize();
-                    Debug.Assert(this.value.Value != null, "Failed to initialize");
-                }
-
-                return this.value.Value;
+                return this.value;
             }
         }
 
         #endregion Public Properties
-
-        #region Protected Override Methods
-
-        /// <summary>
-        /// Resets the contents of the class.
-        /// </summary>
-        protected override void Reset()
-        {
-            base.Reset();
-
-            this.decrementType.Reset();
-            this.value.Reset();
-        }
-
-        #endregion Protected Override Methods
-
-        #region Private Methods
-
-        /// <summary>
-        /// Initializes the contents of the expression.
-        /// </summary>
-        private void Initialize()
-        {
-            this.value.Value = null;
-
-            for (CodeUnit c = this.FindFirstChild<CodeUnit>(); c != null; c = c.FindNextSibling<CodeUnit>())
-            {
-                if (c.Is(OperatorType.Decrement))
-                {
-                    this.decrementType.Value = DecrementType.Prefix;
-                    this.value.Value = c.FindNextSibling<Expression>();
-                    if (this.value.Value == null)
-                    {
-                        throw new SyntaxException(this.Document, this.LineNumber);
-                    }
-
-                    break;
-                }
-                else if (c.Is(CodeUnitType.Expression))
-                {
-                    this.value.Value = (Expression)c;
-                    var operatorSymbol = this.FindNextSibling<DecrementOperator>();
-                    if (operatorSymbol == null)
-                    {
-                        throw new SyntaxException(this.Document, this.LineNumber);
-                    }
-
-                    this.decrementType.Value = DecrementType.Postfix;
-                    break;
-                }
-            }
-
-            if (this.value.Value == null)
-            {
-                throw new SyntaxException(this.Document, this.LineNumber);
-            }
-        }
-
-        #endregion Private Methods
     }
 }

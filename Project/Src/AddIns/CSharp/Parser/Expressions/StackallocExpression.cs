@@ -27,7 +27,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The type of the array.
         /// </summary>
-        private CodeUnitProperty<ArrayAccessExpression> type;
+        private ArrayAccessExpression type;
 
         #endregion Private Fields
 
@@ -44,7 +44,7 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertNotNull(proxy, "proxy");
             Param.AssertNotNull(type, "type");
 
-            this.type.Value = type;
+            this.type = type;
         }
 
         #endregion Internal Constructors
@@ -62,36 +62,10 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                this.ValidateEditVersion();
-
-                if (!this.type.Initialized)
-                {
-                    this.type.Value = this.FindFirstChild<ArrayAccessExpression>();
-
-                    if (this.type.Value == null)
-                    {
-                        throw new SyntaxException(this.Document, this.LineNumber);
-                    }
-                }
-
-                return this.type.Value;
+                return this.type;
             }
         }
 
         #endregion Public Properties
-
-        #region Protected Override Methods
-
-        /// <summary>
-        /// Resets the contents of the class.
-        /// </summary>
-        protected override void Reset()
-        {
-            base.Reset();
-
-            this.type.Reset();
-        }
-
-        #endregion Protected Override Methods
     }
 }

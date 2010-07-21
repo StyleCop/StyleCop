@@ -15,7 +15,6 @@
 namespace Microsoft.StyleCop.CSharp
 {
     using System;
-    using System.Diagnostics;
 
     /// <summary>
     /// An expression representing an element or assembly attribute.
@@ -28,17 +27,12 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The attribute target, if any.
         /// </summary>
-        private CodeUnitProperty<LiteralExpression> target;
+        private LiteralExpression target;
 
         /// <summary>
         /// The attribute initialization call.
         /// </summary>
-        private CodeUnitProperty<Expression> initialization;
-        
-        /// <summary>
-        /// Indicates whether the attribute is an assembly-level attribute.
-        /// </summary>
-        private CodeUnitProperty<bool> isAssemblyAttribute;
+        private Expression initialization; 
 
         #endregion Private Fields
 
@@ -57,8 +51,8 @@ namespace Microsoft.StyleCop.CSharp
             Param.Ignore(target);
             Param.AssertNotNull(initialization, "initialization");
 
-            this.target.Value = target;
-            this.initialization.Value = initialization;
+            this.target = target;
+            this.initialization = initialization;
         }
 
         #endregion Internal Constructors
@@ -72,14 +66,7 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                this.ValidateEditVersion();
-
-                if (!this.target.Initialized)
-                {
-                    this.Initialize();
-                }
-
-                return this.target.Value;
+                return this.target;
             }
         }
 
@@ -90,15 +77,7 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                this.ValidateEditVersion();
-
-                if (!this.initialization.Initialized)
-                {
-                    this.Initialize();
-                    Debug.Assert(this.initialization.Value != null, "Failed to initialize");
-                }
-
-                return this.initialization.Value;
+                return this.initialization;
             }
         }
 
@@ -109,90 +88,27 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                this.ValidateEditVersion();
+                bool assembly = false;
 
-                if (!this.isAssemblyAttribute.Initialized)
+                for (Token token = this.FindFirstChild<Token>(); token != null; token = token.FindNextSibling<Token>())
                 {
-                    this.isAssemblyAttribute.Value = false;
-                    bool assembly = false;
-
-                    for (Token token = this.FindFirstChild<Token>(); token != null; token = token.FindNextSibling<Token>())
+                    if (!assembly)
                     {
-                        if (!assembly)
+                        if (token.Text == "assembly")
                         {
-                            if (token.Text == "assembly")
-                            {
-                                assembly = true;
-                            }
+                            assembly = true;
                         }
-                        else if (token.Text == ":")
-                        {
-                            this.isAssemblyAttribute.Value = true;
-                            break;
-                        }
+                    }
+                    else if (token.Text == ":")
+                    {
+                        return true;
                     }
                 }
 
-                return this.isAssemblyAttribute.Value;
+                return false;
             }
         }
 
         #endregion Public Properties
-
-        #region Protected Override Methods
-
-        /// <summary>
-        /// Resets the contents of the class.
-        /// </summary>
-        protected override void Reset()
-        {
-            base.Reset();
-
-            this.initialization.Reset();
-            this.target.Reset();
-            this.isAssemblyAttribute.Reset();
-        }
-
-        #endregion Protected Override Methods
-
-        #region Private Methods
-
-        /// <summary>
-        /// Initializes the contents of the expression.
-        /// </summary>
-        private void Initialize()
-        {
-            this.target.Value = null;
-
-            Expression firstExpression = this.FindFirstChild<Expression>();
-            if (firstExpression == null)
-            {
-                throw new SyntaxException(this.Document, this.LineNumber);
-            }
-
-            if (firstExpression.ExpressionType == ExpressionType.Literal)
-            {
-                AttributeColonToken colon = firstExpression.FindNextSibling<AttributeColonToken>();
-                if (colon != null)
-                {
-                    this.target.Value = (LiteralExpression)firstExpression;
-                }
-            }
-
-            if (this.target.Value == null)
-            {
-                this.initialization.Value = firstExpression;
-            }
-            else
-            {
-                this.initialization.Value = firstExpression.FindNextSibling<Expression>();
-                if (this.initialization.Value == null)
-                {
-                    throw new SyntaxException(this.Document, this.LineNumber);
-                }
-            }
-        }
-
-        #endregion Private Methods
     }
 }

@@ -30,12 +30,12 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The type of operation being performed.
         /// </summary>
-        private CodeUnitProperty<Operator> operatorType;
+        private Operator operatorType;
 
         /// <summary>
         /// The expression the operator is being applied to.
         /// </summary>
-        private CodeUnitProperty<Expression> value;
+        private Expression value;
 
         #endregion Private Fields
 
@@ -57,8 +57,8 @@ namespace Microsoft.StyleCop.CSharp
             Param.Ignore(operatorType);
             Param.AssertNotNull(value, "value");
 
-            this.operatorType.Value = operatorType;
-            this.value.Value = value;
+            this.operatorType = operatorType;
+            this.value = value;
         }
 
         #endregion Internal Constructors
@@ -105,38 +105,7 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                this.ValidateEditVersion();
-
-                if (!this.operatorType.Initialized)
-                {
-                    var operatorToken = this.FindFirstChild<OperatorSymbolToken>();
-                    if (operatorToken != null)
-                    {
-                        if (operatorToken.SymbolType == CSharp.OperatorType.Plus)
-                        {
-                            this.operatorType.Value = Operator.Positive;
-                        }
-                        else if (operatorToken.SymbolType == CSharp.OperatorType.Minus)
-                        {
-                            this.operatorType.Value = Operator.Negative;
-                        }
-                        else if (operatorToken.SymbolType == CSharp.OperatorType.Not)
-                        {
-                            this.operatorType.Value = Operator.Not;
-                        }
-                        else if (operatorToken.SymbolType == CSharp.OperatorType.BitwiseCompliment)
-                        {
-                            this.operatorType.Value = Operator.BitwiseCompliment;
-                        }
-                    }
-
-                    if (!this.operatorType.Initialized)
-                    {
-                        throw new SyntaxException(this.Document, this.LineNumber);
-                    }
-                }
-
-                return this.operatorType.Value;
+                return this.operatorType;
             }
         }
 
@@ -147,36 +116,10 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                this.ValidateEditVersion();
-
-                if (!this.value.Initialized)
-                {
-                    this.value.Value = this.FindFirstChild<Expression>();
-                    if (this.value.Value == null)
-                    {
-                        throw new SyntaxException(this.Document, this.LineNumber);
-                    }
-                }
-
-                return this.value.Value;
+                return this.value;
             }
         }
 
         #endregion Public Properties
-
-        #region Protected Override Methods
-
-        /// <summary>
-        /// Resets the contents of the class.
-        /// </summary>
-        protected override void Reset()
-        {
-            base.Reset();
-
-            this.operatorType.Reset();
-            this.value.Reset();
-        }
-
-        #endregion Protected Override Methods
     }
 }
