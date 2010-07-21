@@ -14,7 +14,6 @@
 //-----------------------------------------------------------------------
 namespace Microsoft.StyleCop.CSharp
 {
-    using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
@@ -28,12 +27,12 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The type of increment being performed.
         /// </summary>
-        private CodeUnitProperty<IncrementType> incrementType;
+        private IncrementType incrementType;
 
         /// <summary>
         /// The value being incremented.
         /// </summary>
-        private CodeUnitProperty<Expression> value;
+        private Expression value;
 
         #endregion Private Fields
 
@@ -52,8 +51,8 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertNotNull(value, "value");
             Param.Ignore(incrementType);
 
-            this.value.Value = value;
-            this.incrementType.Value = incrementType;
+            this.value = value;
+            this.incrementType = incrementType;
         }
 
         #endregion Internal Constructors
@@ -96,14 +95,7 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                this.ValidateEditVersion();
-
-                if (!this.incrementType.Initialized)
-                {
-                    this.Initialize();
-                }
-
-                return this.incrementType.Value;
+                return this.incrementType;
             }
         }
 
@@ -114,77 +106,10 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                this.ValidateEditVersion();
-
-                if (!this.value.Initialized)
-                {
-                    this.Initialize();
-                    Debug.Assert(this.value.Value != null, "Failed to initialize");
-                }
-
-                return this.value.Value;
+                return this.value;
             }
         }
 
         #endregion Public Properties
-
-        #region Protected Override Methods
-
-        /// <summary>
-        /// Resets the contents of the class.
-        /// </summary>
-        protected override void Reset()
-        {
-            base.Reset();
-
-            this.incrementType.Reset();
-            this.value.Reset();
-        }
-
-        #endregion Protected Override Methods
-
-        #region Private Methods
-
-        /// <summary>
-        /// Initializes the contents of the expression.
-        /// </summary>
-        private void Initialize()
-        {
-            this.value.Value = null;
-
-            for (CodeUnit c = this.FindFirstChild<CodeUnit>(); c != null; c = c.FindNextSibling<CodeUnit>())
-            {
-                if (c.Is(OperatorType.Increment))
-                {
-                    this.incrementType.Value = IncrementType.Prefix;
-                    this.value.Value = c.FindNextSibling<Expression>();
-                    if (this.value.Value == null)
-                    {
-                        throw new SyntaxException(this.Document, this.LineNumber);
-                    }
-
-                    break;
-                }
-                else if (c.Is(CodeUnitType.Expression))
-                {
-                    this.value.Value = (Expression)c;
-                    var operatorSymbol = this.FindNextSibling<IncrementOperator>();
-                    if (operatorSymbol == null)
-                    {
-                        throw new SyntaxException(this.Document, this.LineNumber);
-                    }
-
-                    this.incrementType.Value = IncrementType.Postfix;
-                    break;
-                }
-            }
-
-            if (this.value.Value == null)
-            {
-                throw new SyntaxException(this.Document, this.LineNumber);
-            }
-        }
-
-        #endregion Private Methods
     }
 }

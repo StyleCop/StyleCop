@@ -1179,7 +1179,7 @@ namespace Microsoft.StyleCop.CSharp
             closingBracket.MatchingBracket = openingBracket;
 
             // Return the expression.
-            var expression = new ArrayInitializerExpression(expressionProxy, initializers.AsReadOnly());
+            var expression = new ArrayInitializerExpression(expressionProxy, initializers.ToArray());
             parentProxy.Children.Add(expression);
 
             return expression;
@@ -2652,7 +2652,7 @@ namespace Microsoft.StyleCop.CSharp
             closingBracket.MatchingBracket = openingBracket;
 
             // Create and return the expression.
-            var expression = new ObjectInitializerExpression(expressionProxy, initializerExpressions.AsReadOnly());
+            var expression = new ObjectInitializerExpression(expressionProxy, initializerExpressions.ToArray());
             parentProxy.Children.Add(expression);
 
             return expression;
@@ -2724,7 +2724,7 @@ namespace Microsoft.StyleCop.CSharp
             closingBracket.MatchingBracket = openingBracket;
 
             // Create and return the expression.
-            var expression = new CollectionInitializerExpression(expressionProxy, initializerExpressions.AsReadOnly());
+            var expression = new CollectionInitializerExpression(expressionProxy, initializerExpressions);
             parentProxy.Children.Add(expression);
 
             return expression;
@@ -3064,11 +3064,11 @@ namespace Microsoft.StyleCop.CSharp
 
             if (symbol.SymbolType == SymbolType.OpenCurlyBracket)
             {
-                this.GetNextStatement(expressionProxy, unsafeCode);
+                lambdaExpression.AnonymousFunctionBody = this.GetNextStatement(expressionProxy, unsafeCode);
             }
             else
             {
-                this.GetNextExpression(expressionProxy, ExpressionPrecedence.None, unsafeCode);
+                lambdaExpression.AnonymousFunctionBody = this.GetNextExpression(expressionProxy, ExpressionPrecedence.None, unsafeCode);
             }
 
             // Return the expression.

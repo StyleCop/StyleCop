@@ -24,7 +24,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The body of the lambda expression.
         /// </summary>
-        private CodeUnitProperty<CodeUnit> anonymousFunctionBody;
+        private CodeUnit anonymousFunctionBody;
 
         #endregion Private Fields
 
@@ -51,53 +51,15 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                this.ValidateEditVersion();
+                return this.anonymousFunctionBody;
+            }
 
-                if (!this.anonymousFunctionBody.Initialized)
-                {
-                    this.anonymousFunctionBody.Value = null;
-
-                    LambdaOperator lambda = this.FindFirstChild<LambdaOperator>();
-                    if (lambda != null)
-                    {
-                        for (CodeUnit c = lambda.FindNextSibling<CodeUnit>(); c != null; c = c.FindNextSibling<CodeUnit>())
-                        {
-                            if (c.Is(CodeUnitType.Expression) || c.Is(CodeUnitType.Statement))
-                            {
-                                this.anonymousFunctionBody.Value = c;
-                                break;
-                            }
-                            else if (!c.Is(CodeUnitType.LexicalElement) || c.Is(LexicalElementType.PreprocessorDirective) || c.Is(LexicalElementType.Token))
-                            {
-                                break;
-                            }
-                        }
-                    }
-
-                    if (this.anonymousFunctionBody.Value == null)
-                    {
-                        throw new SyntaxException(this.Document, this.LineNumber);
-                    }
-                }
-
-                return this.anonymousFunctionBody.Value;
+            internal set
+            {
+                this.anonymousFunctionBody = value;
             }
         }
 
         #endregion Public Properties
-
-        #region Protected Override Methods
-
-        /// <summary>
-        /// Resets the contents of the class.
-        /// </summary>
-        protected override void Reset()
-        {
-            base.Reset();
-
-            this.anonymousFunctionBody.Reset();
-        }
-
-        #endregion Protected Override Methods
     }
 }

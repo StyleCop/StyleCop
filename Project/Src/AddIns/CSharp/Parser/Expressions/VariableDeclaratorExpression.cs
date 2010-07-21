@@ -15,7 +15,6 @@
 namespace Microsoft.StyleCop.CSharp
 {
     using System;
-    using System.Diagnostics;
 
     /// <summary>
     /// A single variable declarator within a variable declaration expression.
@@ -28,12 +27,12 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The identifier of the variable.
         /// </summary>
-        private CodeUnitProperty<LiteralExpression> identifier;
+        private LiteralExpression identifier;
 
         /// <summary>
         /// The initialization expression for the variable.
         /// </summary>
-        private CodeUnitProperty<Expression> initializer;
+        private Expression initializer;
 
         #endregion Private Fields
 
@@ -55,8 +54,8 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertNotNull(identifier, "identifier");
             Param.Ignore(initializer);
 
-            this.identifier.Value = identifier;
-            this.initializer.Value = initializer;
+            this.identifier = identifier;
+            this.initializer = initializer;
         }
 
         #endregion Internal Constructors
@@ -70,15 +69,7 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                this.ValidateEditVersion();
-
-                if (!this.identifier.Initialized)
-                {
-                    this.Initialize();
-                    Debug.Assert(this.identifier.Value != null, "Failed to initialize");
-                }
-
-                return this.identifier.Value;
+                return this.identifier;
             }
         }
 
@@ -89,63 +80,11 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                this.ValidateEditVersion();
-
-                if (!this.initializer.Initialized)
-                {
-                    this.Initialize();
-                }
-
-                return this.initializer.Value;
+                return this.initializer;
             }
         }
 
         #endregion Public Properties
-
-                #region Protected Override Methods
-
-        /// <summary>
-        /// Resets the contents of the class.
-        /// </summary>
-        protected override void Reset()
-        {
-            base.Reset();
-
-            this.identifier.Reset();
-            this.initializer.Reset();
-        }
-
-        #endregion Protected Override Methods
-
-        #region Private Methods
-
-        /// <summary>
-        /// Initializes the contents of the expression.
-        /// </summary>
-        private void Initialize()
-        {
-            this.identifier.Value = this.FindFirstChild<LiteralExpression>();
-            if (this.identifier.Value == null)
-            {
-                throw new SyntaxException(this.Document, this.LineNumber);
-            }
-
-            EqualsOperator equals = this.identifier.Value.FindNextSibling<EqualsOperator>();
-            if (equals == null)
-            {
-                this.initializer.Value = null;
-            }
-            else
-            {
-                this.initializer.Value = equals.FindNextSibling<Expression>();
-                if (this.initializer.Value == null)
-                {
-                    throw new SyntaxException(this.Document, this.LineNumber);
-                }
-            }
-        }
-
-        #endregion Private Methods
     }
 
     /// <content>
@@ -162,7 +101,7 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                return this.identifier.Value == null ? null : this.identifier.Value.Text;
+                return this.identifier == null ? null : this.identifier.Text;
             }
         }
 

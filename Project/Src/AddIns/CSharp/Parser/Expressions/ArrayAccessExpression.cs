@@ -28,12 +28,12 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Represents the item being indexed.
         /// </summary>
-        private CodeUnitProperty<Expression> array;
+        private Expression array;
 
         /// <summary>
         /// The array access arguments.
         /// </summary>
-        private CodeUnitProperty<IList<Argument>> arguments;
+        private IList<Argument> arguments;
 
         #endregion Private Fields
 
@@ -50,7 +50,7 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertNotNull(proxy, "proxy");
             Param.AssertNotNull(array, "array");
 
-            this.array.Value = array;
+            this.array = array;
         }
 
         #endregion Internal Constructors
@@ -64,18 +64,7 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                this.ValidateEditVersion();
-
-                if (!this.array.Initialized)
-                {
-                    this.array.Value = this.FindFirstChild<Expression>();
-                    if (this.array.Value == null)
-                    {
-                        throw new SyntaxException(this.Document, this.LineNumber);
-                    }
-                }
-
-                return this.array.Value;
+                return this.array;
             }
         }
 
@@ -86,32 +75,15 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                this.ValidateEditVersion();
-
-                if (!this.arguments.Initialized)
+                if (this.arguments == null)
                 {
-                    this.arguments.Value = this.CollectArguments();
+                    this.arguments = this.CollectArguments();
                 }
 
-                return this.arguments.Value;
+                return this.arguments;
             }
         }
 
         #endregion Public Properties
-
-        #region Protected Override Methods
-
-        /// <summary>
-        /// Resets the contents of the class.
-        /// </summary>
-        protected override void Reset()
-        {
-            base.Reset();
-
-            this.array.Reset();
-            this.arguments.Reset();
-        }
-
-        #endregion Protected Override Methods
     }
 }
