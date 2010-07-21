@@ -27,7 +27,7 @@ namespace Microsoft.StyleCop.CSharp
         #region Private Fields
 
         /// <summary>
-        /// Indicates whether the item is constant.
+        /// Indicates whether the codeUnit is constant.
         /// </summary>
         private bool constant;
 
@@ -44,7 +44,7 @@ namespace Microsoft.StyleCop.CSharp
         /// Initializes a new instance of the VariableDeclarationStatement class.
         /// </summary>
         /// <param name="proxy">Proxy object for the statement.</param>
-        /// <param name="constant">Indicates whether the item is constant.</param>
+        /// <param name="constant">Indicates whether the codeUnit is constant.</param>
         /// <param name="expression">The inner expression.</param>
         internal VariableDeclarationStatement(
             CodeUnitProxy proxy, bool constant, VariableDeclarationExpression expression)
@@ -63,7 +63,7 @@ namespace Microsoft.StyleCop.CSharp
         #region Public Properties
 
         /// <summary>
-        /// Gets a value indicating whether the item is constant.
+        /// Gets a value indicating whether the codeUnit is constant.
         /// </summary>
         public bool Constant
         {

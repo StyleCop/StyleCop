@@ -23,7 +23,7 @@ namespace Microsoft.StyleCop.Collections
     /// <summary>
     /// A doubly-linked list.
     /// </summary>
-    /// <typeparam name="T">The type of item stored in the list.</typeparam>
+    /// <typeparam name="T">The type of codeUnit stored in the list.</typeparam>
     internal partial class LinkedItemList<T> : ICollection<T> where T : class, ILinkNode<T>
     {
         #region Private Fields
@@ -70,7 +70,7 @@ namespace Microsoft.StyleCop.Collections
         }
 
         /// <summary>
-        /// Gets the first item in the list.
+        /// Gets the first codeUnit in the list.
         /// </summary>
         public T First
         {
@@ -81,7 +81,7 @@ namespace Microsoft.StyleCop.Collections
         }
 
         /// <summary>
-        /// Gets the last item in the list.
+        /// Gets the last codeUnit in the list.
         /// </summary>
         public T Last
         {
@@ -107,10 +107,10 @@ namespace Microsoft.StyleCop.Collections
         #region Public Virtual Methods
 
         /// <summary>
-        /// Inserts a item into the list after the given item.
+        /// Inserts a codeUnit into the list after the given codeUnit.
         /// </summary>
         /// <param name="node">The node to insert.</param>
-        /// <param name="nodeToInsertAfter">The node to insert the item after.</param>
+        /// <param name="nodeToInsertAfter">The node to insert the codeUnit after.</param>
         public virtual void InsertAfter(T node, T nodeToInsertAfter)
         {
             Param.AssertNotNull(node, "node");
@@ -169,10 +169,10 @@ namespace Microsoft.StyleCop.Collections
         }
 
         /// <summary>
-        /// Inserts a node into the list before the given item.
+        /// Inserts a node into the list before the given codeUnit.
         /// </summary>
         /// <param name="node">The node to insert.</param>
-        /// <param name="nodeToInsertBefore">The node to insert the item before.</param>
+        /// <param name="nodeToInsertBefore">The node to insert the codeUnit before.</param>
         public virtual void InsertBefore(T node, T nodeToInsertBefore)
         {
             Param.AssertNotNull(node, "node");
@@ -478,10 +478,10 @@ namespace Microsoft.StyleCop.Collections
         }
 
         /// <summary>
-        /// Determines whether the given item is contained within the list.
+        /// Determines whether the given codeUnit is contained within the list.
         /// </summary>
-        /// <param name="item">The item to search for.</param>
-        /// <returns>Returns true if the item is contained within the list.</returns>
+        /// <param name="codeUnit">The codeUnit to search for.</param>
+        /// <returns>Returns true if the codeUnit is contained within the list.</returns>
         public bool Contains(T item)
         {
             Param.Ignore(item);
@@ -557,32 +557,32 @@ namespace Microsoft.StyleCop.Collections
         }
 
         /// <summary>
-        /// Inserts the specified item at the beginning of the list.
+        /// Inserts the specified codeUnit at the beginning of the list.
         /// </summary>
-        /// <param name="item">The item to insert.</param>
+        /// <param name="codeUnit">The codeUnit to insert.</param>
         public void InsertFirst(T item)
         {
-            Param.AssertNotNull(item, "item");
+            Param.AssertNotNull(item, "codeUnit");
             this.InsertBefore(item, this.head);
         }
 
         /// <summary>
-        /// Inserts the specified item at the end of the list.
+        /// Inserts the specified codeUnit at the end of the list.
         /// </summary>
-        /// <param name="item">The item to insert.</param>
+        /// <param name="codeUnit">The codeUnit to insert.</param>
         public void InsertLast(T item)
         {
-            Param.AssertNotNull(item, "item");
+            Param.AssertNotNull(item, "codeUnit");
             this.InsertAfter(item, this.tail);
         }
 
         /// <summary>
-        /// Adds an item to the collection.
+        /// Adds an codeUnit to the collection.
         /// </summary>
-        /// <param name="item">The item to add to the collection.</param>
+        /// <param name="codeUnit">The codeUnit to add to the collection.</param>
         public void Add(T item)
         {
-            Param.AssertNotNull(item, "item");
+            Param.AssertNotNull(item, "codeUnit");
             this.InsertLast(item);
         }
 

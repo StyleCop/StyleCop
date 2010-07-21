@@ -39,7 +39,7 @@ namespace Microsoft.StyleCop.CSharp
         private IList<Parameter> parameters;
 
         /// <summary>
-        /// The list if type constraints on the item, if any.
+        /// The list if type constraints on the codeUnit, if any.
         /// </summary>
         private ICollection<TypeParameterConstraintClause> typeConstraints;
 

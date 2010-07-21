@@ -18,7 +18,7 @@ namespace Microsoft.StyleCop.CSharp
     using System.Collections.Generic;
     
     /// <summary>
-    /// Describes a single item within an enum element.
+    /// Describes a single codeUnit within an enum element.
     /// </summary>
     /// <subcategory>element</subcategory>
     public sealed class EnumItem : Element
@@ -57,7 +57,7 @@ namespace Microsoft.StyleCop.CSharp
         #region Public Properties
 
         /// <summary>
-        /// Gets the initialization expression for the enum item, if there is one.
+        /// Gets the initialization expression for the enum codeUnit, if there is one.
         /// </summary>
         public Expression Initialization
         {

@@ -128,7 +128,7 @@ namespace Microsoft.StyleCop.CSharp
         #region Private Methods
 
         /// <summary>
-        /// Gets the base type of the item.
+        /// Gets the base type of the codeUnit.
         /// </summary>
         /// <returns>Returns the name of the base type or null if none.</returns>
         private string GetBaseType()

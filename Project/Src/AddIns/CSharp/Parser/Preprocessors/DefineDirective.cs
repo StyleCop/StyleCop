@@ -27,7 +27,7 @@ namespace Microsoft.StyleCop.CSharp
         /// </summary>
         /// <param name="text">The text within the directive.</param>
         /// <param name="location">The location of the preprocessor directive in the code.</param>
-        /// <param name="generated">Indicates whether the item is generated.</param>
+        /// <param name="generated">Indicates whether the codeUnit is generated.</param>
         internal DefineDirective(string text, CodeLocation location, bool generated)
             : base(text, PreprocessorType.Define, location, generated)
         {

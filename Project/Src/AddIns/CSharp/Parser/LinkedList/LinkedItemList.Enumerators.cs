@@ -21,7 +21,7 @@ namespace Microsoft.StyleCop.Collections
     /// <summary>
     /// A set of enumerators for iterating through lists based on the <see cref="LinkedItemList{T}"/> class.
     /// </summary>
-    /// <typeparam name="T">The type of item stored in the list.</typeparam>
+    /// <typeparam name="T">The type of codeUnit stored in the list.</typeparam>
     internal static class LinkedItemListEnumerators<T> where T : class, ILinkNode<T>
     {
         #region ForwardEnumerable Class
@@ -34,12 +34,12 @@ namespace Microsoft.StyleCop.Collections
             #region Private Fields
 
             /// <summary>
-            /// The first item in the master list.
+            /// The first codeUnit in the master list.
             /// </summary>
             private T startItem;
 
             /// <summary>
-            /// The last item in the master list.
+            /// The last codeUnit in the master list.
             /// </summary>
             private T endItem;
 
@@ -50,8 +50,8 @@ namespace Microsoft.StyleCop.Collections
             /// <summary>
             /// Initializes a new instance of the ForwardEnumerable class.
             /// </summary>
-            /// <param name="startItem">The first item in the master list.</param>
-            /// <param name="endItem">The last item in the master list.</param>
+            /// <param name="startItem">The first codeUnit in the master list.</param>
+            /// <param name="endItem">The last codeUnit in the master list.</param>
             public ForwardEnumerable(T startItem, T endItem)
             {
                 Param.Ignore(startItem);
@@ -98,12 +98,12 @@ namespace Microsoft.StyleCop.Collections
             #region Private Fields
 
             /// <summary>
-            /// The first item in the master list.
+            /// The first codeUnit in the master list.
             /// </summary>
             private T startItem;
 
             /// <summary>
-            /// The last item in the master list.
+            /// The last codeUnit in the master list.
             /// </summary>
             private T endItem;
 
@@ -114,8 +114,8 @@ namespace Microsoft.StyleCop.Collections
             /// <summary>
             /// Initializes a new instance of the BackwardEnumerable class.
             /// </summary>
-            /// <param name="startItem">The first item in the master list.</param>
-            /// <param name="endItem">The last item in the master list.</param>
+            /// <param name="startItem">The first codeUnit in the master list.</param>
+            /// <param name="endItem">The last codeUnit in the master list.</param>
             public BackwardEnumerable(T startItem, T endItem)
             {
                 Param.Ignore(startItem);
@@ -162,17 +162,17 @@ namespace Microsoft.StyleCop.Collections
             #region Private Fields
 
             /// <summary>
-            /// The first item in the master list.
+            /// The first codeUnit in the master list.
             /// </summary>
             private T startItem;
 
             /// <summary>
-            /// The last item in the master list.
+            /// The last codeUnit in the master list.
             /// </summary>
             private T endItem;
 
             /// <summary>
-            /// The current item in the collection.
+            /// The current codeUnit in the collection.
             /// </summary>
             private T currentItem;
 
@@ -183,8 +183,8 @@ namespace Microsoft.StyleCop.Collections
             /// <summary>
             /// Initializes a new instance of the ForwardEnumerator class.
             /// </summary>
-            /// <param name="startItem">The first item in the master list.</param>
-            /// <param name="endItem">The last item in the master list.</param>
+            /// <param name="startItem">The first codeUnit in the master list.</param>
+            /// <param name="endItem">The last codeUnit in the master list.</param>
             public ForwardEnumerator(T startItem, T endItem)
             {
                 Param.Ignore(startItem);
@@ -199,7 +199,7 @@ namespace Microsoft.StyleCop.Collections
             #region Public Properties
 
             /// <summary>
-            /// Gets the current item.
+            /// Gets the current codeUnit.
             /// </summary>
             public T Current
             {
@@ -214,7 +214,7 @@ namespace Microsoft.StyleCop.Collections
             #region IEnumerator Interface Properties
 
             /// <summary>
-            /// Gets the current item.
+            /// Gets the current codeUnit.
             /// </summary>
             object System.Collections.IEnumerator.Current
             {
@@ -237,7 +237,7 @@ namespace Microsoft.StyleCop.Collections
             }
 
             /// <summary>
-            /// Moves to the next item in the collection.
+            /// Moves to the next codeUnit in the collection.
             /// </summary>
             /// <returns>Returns false if there are no more items in the collection.</returns>
             public bool MoveNext()
@@ -285,17 +285,17 @@ namespace Microsoft.StyleCop.Collections
             #region Private Fields
 
             /// <summary>
-            /// The first item in the master list.
+            /// The first codeUnit in the master list.
             /// </summary>
             private T startItem;
 
             /// <summary>
-            /// The last item in the master list.
+            /// The last codeUnit in the master list.
             /// </summary>
             private T endItem;
 
             /// <summary>
-            /// The current item in the collection.
+            /// The current codeUnit in the collection.
             /// </summary>
             private T currentItem;
 
@@ -306,8 +306,8 @@ namespace Microsoft.StyleCop.Collections
             /// <summary>
             /// Initializes a new instance of the BackwardEnumerator class.
             /// </summary>
-            /// <param name="startItem">The first item in the master list.</param>
-            /// <param name="endItem">The last item in the master list.</param>
+            /// <param name="startItem">The first codeUnit in the master list.</param>
+            /// <param name="endItem">The last codeUnit in the master list.</param>
             public BackwardEnumerator(T startItem, T endItem)
             {
                 Param.Ignore(startItem);
@@ -322,7 +322,7 @@ namespace Microsoft.StyleCop.Collections
             #region Public Properties
 
             /// <summary>
-            /// Gets the current item.
+            /// Gets the current codeUnit.
             /// </summary>
             public T Current
             {
@@ -337,7 +337,7 @@ namespace Microsoft.StyleCop.Collections
             #region IEnumerator Interface Properties
 
             /// <summary>
-            /// Gets the current item.
+            /// Gets the current codeUnit.
             /// </summary>
             object System.Collections.IEnumerator.Current
             {
@@ -360,7 +360,7 @@ namespace Microsoft.StyleCop.Collections
             }
 
             /// <summary>
-            /// Moves to the next item in the collection.
+            /// Moves to the next codeUnit in the collection.
             /// </summary>
             /// <returns>Returns false if there are no more items in the collection.</returns>
             public bool MoveNext()

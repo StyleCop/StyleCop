@@ -936,7 +936,7 @@ namespace Microsoft.StyleCop.CSharp
         /// Gets an unknown symbol type.
         /// </summary>
         /// <param name="sourceCode">The source code containing the symbols.</param>
-        /// <returns>Returns the item.</returns>
+        /// <returns>Returns the codeUnit.</returns>
         private Symbol GetOtherSymbol(SourceCode sourceCode)
         {
             Param.AssertNotNull(sourceCode, "sourceCode");
@@ -1741,10 +1741,10 @@ namespace Microsoft.StyleCop.CSharp
         /// <param name="sourceCode">The source code being parsed.</param>
         /// <param name="preprocessorSymbol">The preprocessor symbol being parsed.</param>
         /// <param name="configuration">The current code configuration.</param>
-        /// <param name="startIndex">The start index of the item within the symbols.</param>
+        /// <param name="startIndex">The start index of the codeUnit within the symbols.</param>
         /// <param name="type">The type of the preprocessor symbol.</param>
-        /// <param name="skip">Returns a value indicating whether the item should be skipped.</param>
-        /// <returns>Returns a value indicating whether to ignore the item.</returns>
+        /// <param name="skip">Returns a value indicating whether the codeUnit should be skipped.</param>
+        /// <returns>Returns a value indicating whether to ignore the codeUnit.</returns>
         private bool GetIfElsePreprocessorDirectives(
             SourceCode sourceCode, Symbol preprocessorSymbol, Configuration configuration, int startIndex, string type, out bool skip)
         {
@@ -1847,10 +1847,10 @@ namespace Microsoft.StyleCop.CSharp
                 this.defines = new Dictionary<string, string>();
             }
 
-            // Add the item to the list.
+            // Add the codeUnit to the list.
             this.defines.Add(body.Text, body.Text);
 
-            // Remove the item from the undefines list if it exists.
+            // Remove the codeUnit from the undefines list if it exists.
             if (this.undefines != null)
             {
                 this.undefines.Remove(body.Text);
@@ -1885,10 +1885,10 @@ namespace Microsoft.StyleCop.CSharp
                 this.undefines = new Dictionary<string, string>();
             }
 
-            // Add the item to the list.
+            // Add the codeUnit to the list.
             this.undefines.Add(body.Text, body.Text);
 
-            // Remove the item from the defines list if it exists.
+            // Remove the codeUnit from the defines list if it exists.
             if (this.defines != null)
             {
                 this.defines.Remove(body.Text);

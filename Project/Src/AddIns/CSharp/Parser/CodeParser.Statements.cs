@@ -39,8 +39,8 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertNotNull(element, "element");
             Param.Ignore(interfaceType);
             Param.Ignore(unsafeCode);
-
-            // Check to see if the item is unsafe. This is the case if the item's parent is unsafe, or if it
+        
+            // Check to see if the codeUnit is unsafe. This is the case if the codeUnit's parent is unsafe, or if it
             // has the unsafe keyword itself.
             unsafeCode |= element.ContainsModifier(TokenType.Unsafe);
 
@@ -83,7 +83,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Parses the body of an element that contains a list of statements as children.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent item.</param>
+        /// <param name="parentProxy">Represents the parent codeUnit.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
         /// <returns>Returns the closing curly bracket.</returns>
         private BracketToken ParseStatementScope(CodeUnitProxy parentProxy, bool unsafeCode)
@@ -122,7 +122,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Reads the next statement from the file and returns it.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent item.</param>
+        /// <param name="parentProxy">Represents the parent codeUnit.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
         /// <returns>Returns the statement.</returns>
         [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification = "May be simplified later.")]
@@ -285,7 +285,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Reads a statement beginning with an unknown word.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent item.</param>
+        /// <param name="parentProxy">Represents the parent codeUnit.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
         /// <returns>Returns the statement.</returns>
         private Statement GetOtherStatement(CodeUnitProxy parentProxy, bool unsafeCode)
@@ -356,7 +356,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Reads the next variable declaration statement from the file and returns it.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent item.</param>
+        /// <param name="parentProxy">Represents the parent codeUnit.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
         /// <returns>Returns the statement.</returns>
         private VariableDeclarationStatement GetVariableDeclarationStatement(CodeUnitProxy parentProxy, bool unsafeCode)
@@ -411,7 +411,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Reads a label statement.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent item.</param>
+        /// <param name="parentProxy">Represents the parent codeUnit.</param>
         /// <param name="unsafeCode">Indicates whether the code is marked as unsafe.</param>
         /// <returns>Returns the statement.</returns>
         private LabelStatement GetLabelStatement(CodeUnitProxy parentProxy, bool unsafeCode)
@@ -447,7 +447,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Reads the next expression statement from the file and returns it.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent item.</param>
+        /// <param name="parentProxy">Represents the parent codeUnit.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
         /// <returns>Returns the statement.</returns>
         private ExpressionStatement GetExpressionStatement(CodeUnitProxy parentProxy, bool unsafeCode)
@@ -477,7 +477,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Reads the next block statement from the file and returns it.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent item.</param>
+        /// <param name="parentProxy">Represents the parent codeUnit.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
         /// <returns>Returns the statement.</returns>
         private BlockStatement GetBlockStatement(CodeUnitProxy parentProxy, bool unsafeCode)
@@ -513,7 +513,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Reads the next if-statement from the file and returns it.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent item.</param>
+        /// <param name="parentProxy">Represents the parent codeUnit.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
         /// <returns>Returns the statement.</returns>
         private IfStatement GetIfStatement(CodeUnitProxy parentProxy, bool unsafeCode)
@@ -567,7 +567,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Looks for an else-statement, and if it is found, parses and returns it.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent item.</param>
+        /// <param name="parentProxy">Represents the parent codeUnit.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
         /// <returns>Returns the statement.</returns>
         private ElseStatement GetAttachedElseStatement(CodeUnitProxy parentProxy, bool unsafeCode)
@@ -639,7 +639,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Reads the next while-statement from the file and returns it.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent item.</param>
+        /// <param name="parentProxy">Represents the parent codeUnit.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
         /// <returns>Returns the statement.</returns>
         private WhileStatement GetWhileStatement(CodeUnitProxy parentProxy, bool unsafeCode)
@@ -686,7 +686,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Reads the next do-while-statement from the file and returns it.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent item.</param>
+        /// <param name="parentProxy">Represents the parent codeUnit.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
         /// <returns>Returns the statement.</returns>
         private DoWhileStatement GetDoWhileStatement(CodeUnitProxy parentProxy, bool unsafeCode)
@@ -738,7 +738,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Reads the next for-statement from the file and returns it.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent item.</param>
+        /// <param name="parentProxy">Represents the parent codeUnit.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
         /// <returns>Returns the statement.</returns>
         private ForStatement GetForStatement(CodeUnitProxy parentProxy, bool unsafeCode)
@@ -930,7 +930,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Reads the next foreach-statement from the file and returns it.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent item.</param>
+        /// <param name="parentProxy">Represents the parent codeUnit.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
         /// <returns>Returns the statement.</returns>
         private ForeachStatement GetForeachStatement(CodeUnitProxy parentProxy, bool unsafeCode)
@@ -957,7 +957,7 @@ namespace Microsoft.StyleCop.CSharp
             // Get the 'in' keyword.
             this.GetToken(statementProxy, TokenType.In, SymbolType.In);
 
-            // Get the item being iterated over.
+            // Get the codeUnit being iterated over.
             Expression item = this.GetNextExpression(statementProxy, ExpressionPrecedence.None, unsafeCode);
             if (item == null)
             {
@@ -988,7 +988,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Reads the next switch-statement from the file and returns it.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent item.</param>
+        /// <param name="parentProxy">Represents the parent codeUnit.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
         /// <returns>Returns the statement.</returns>
         private SwitchStatement GetSwitchStatement(CodeUnitProxy parentProxy, bool unsafeCode)
@@ -1089,7 +1089,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Reads the next case-statement from the file and returns it.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent item.</param>
+        /// <param name="parentProxy">Represents the parent codeUnit.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
         /// <returns>Returns the statement.</returns>
         private SwitchCaseStatement GetSwitchCaseStatement(CodeUnitProxy parentProxy, bool unsafeCode)
@@ -1154,7 +1154,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Reads the next default-statement from the file and returns it.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent item.</param>
+        /// <param name="parentProxy">Represents the parent codeUnit.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
         /// <returns>Returns the statement.</returns>
         private SwitchDefaultStatement GetSwitchDefaultStatement(CodeUnitProxy parentProxy, bool unsafeCode)
@@ -1202,7 +1202,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Reads the next try-statement from the file and returns it.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent item.</param>
+        /// <param name="parentProxy">Represents the parent codeUnit.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
         /// <returns>Returns the statement.</returns>
         private TryStatement GetTryStatement(CodeUnitProxy parentProxy, bool unsafeCode)
@@ -1253,7 +1253,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Looks for a catch-statement, and if it is found, parses and returns it.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent item.</param>
+        /// <param name="parentProxy">Represents the parent codeUnit.</param>
         /// <param name="tryStatement">The parent try statement.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
         /// <returns>Returns the statement.</returns>
@@ -1315,7 +1315,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Looks for a finally-statement, and if it is found, parses and returns it.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent item.</param>
+        /// <param name="parentProxy">Represents the parent codeUnit.</param>
         /// <param name="tryStatement">The parent try statement.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
         /// <returns>Returns the statement.</returns>
@@ -1355,7 +1355,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Reads the next lock-statement from the file and returns it.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent item.</param>
+        /// <param name="parentProxy">Represents the parent codeUnit.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
         /// <returns>Returns the statement.</returns>
         private LockStatement GetLockStatement(CodeUnitProxy parentProxy, bool unsafeCode)
@@ -1402,7 +1402,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Reads the next using-statement from the file and returns it.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent item.</param>
+        /// <param name="parentProxy">Represents the parent codeUnit.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
         /// <returns>Returns the statement.</returns>
         private UsingStatement GetUsingStatement(CodeUnitProxy parentProxy, bool unsafeCode)
@@ -1449,7 +1449,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Reads the next checked-statement from the file and returns it.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent item.</param>
+        /// <param name="parentProxy">Represents the parent codeUnit.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
         /// <returns>Returns the statement.</returns>
         private CheckedStatement GetCheckedStatement(CodeUnitProxy parentProxy, bool unsafeCode)
@@ -1479,7 +1479,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Reads the next unchecked-statement from the file and returns it.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent item.</param>
+        /// <param name="parentProxy">Represents the parent codeUnit.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
         /// <returns>Returns the statement.</returns>
         private UncheckedStatement GetUncheckedStatement(CodeUnitProxy parentProxy, bool unsafeCode)
@@ -1509,7 +1509,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Reads the next fixed-statement from the file and returns it.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent item.</param>
+        /// <param name="parentProxy">Represents the parent codeUnit.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
         /// <returns>Returns the statement.</returns>
         private FixedStatement GetFixedStatement(CodeUnitProxy parentProxy, bool unsafeCode)
@@ -1557,7 +1557,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Reads the next unsafe-statement from the file and returns it.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent item.</param>
+        /// <param name="parentProxy">Represents the parent codeUnit.</param>
         /// <returns>Returns the statement.</returns>
         private UnsafeStatement GetUnsafeStatement(CodeUnitProxy parentProxy)
         {
@@ -1585,7 +1585,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Reads the next break-statement from the file and returns it.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent item.</param>
+        /// <param name="parentProxy">Represents the parent codeUnit.</param>
         /// <returns>Returns the statement.</returns>
         private BreakStatement GetBreakStatement(CodeUnitProxy parentProxy)
         {
@@ -1609,7 +1609,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Reads the next continue-statement from the file and returns it.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent item.</param>
+        /// <param name="parentProxy">Represents the parent codeUnit.</param>
         /// <returns>Returns the statement.</returns>
         private ContinueStatement GetContinueStatement(CodeUnitProxy parentProxy)
         {
@@ -1633,7 +1633,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Reads the next goto-statement from the file and returns it.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent item.</param>
+        /// <param name="parentProxy">Represents the parent codeUnit.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
         /// <returns>Returns the statement.</returns>
         private GotoStatement GetGotoStatement(CodeUnitProxy parentProxy, bool unsafeCode)
@@ -1679,7 +1679,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Reads the next return-statement from the file and returns it.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent item.</param>
+        /// <param name="parentProxy">Represents the parent codeUnit.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
         /// <returns>Returns the statement.</returns>
         private ReturnStatement GetReturnStatement(CodeUnitProxy parentProxy, bool unsafeCode)
@@ -1718,7 +1718,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Reads the next yield-statement from the file and returns it.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent item.</param>
+        /// <param name="parentProxy">Represents the parent codeUnit.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
         /// <returns>Returns the statement.</returns>
         private YieldStatement GetYieldStatement(CodeUnitProxy parentProxy, bool unsafeCode)
@@ -1772,7 +1772,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Reads the next throw-statement from the file and returns it.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent item.</param>
+        /// <param name="parentProxy">Represents the parent codeUnit.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
         /// <returns>Returns the statement.</returns>
         private ThrowStatement GetThrowStatement(CodeUnitProxy parentProxy, bool unsafeCode)

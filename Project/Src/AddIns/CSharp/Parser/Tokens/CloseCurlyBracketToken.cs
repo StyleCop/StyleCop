@@ -27,7 +27,7 @@ namespace Microsoft.StyleCop.CSharp
         /// </summary>
         /// <param name="text">The text within the bracket.</param>
         /// <param name="location">The location of the bracket.</param>
-        /// <param name="generated">Indicates whether the item lies within a block of generated code.</param>
+        /// <param name="generated">Indicates whether the codeUnit lies within a block of generated code.</param>
         internal CloseCurlyBracketToken(string text, CodeLocation location, bool generated)
             : base(text, TokenType.CloseCurlyBracket, location, generated)
         {

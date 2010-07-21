@@ -27,17 +27,17 @@ namespace Microsoft.StyleCop.CSharp
         #region Private Fields
 
         /// <summary>
-        /// The name of the base class that this item inherits from.
+        /// The name of the base class that this codeUnit inherits from.
         /// </summary>
         private string baseClass = string.Empty;
 
         /// <summary>
-        /// The list of interfaces that this item implements.
+        /// The list of interfaces that this codeUnit implements.
         /// </summary>
         private string[] implementedInterfaces = new string[] { };
 
         /// <summary>
-        /// The list of type constraints on the item, if any.
+        /// The list of type constraints on the codeUnit, if any.
         /// </summary>
         private ICollection<TypeParameterConstraintClause> typeConstraints;
 

@@ -26,7 +26,7 @@ namespace Microsoft.StyleCop.CSharp
         #region Private Fields
 
         /// <summary>
-        /// Represents the item being indexed.
+        /// Represents the codeUnit being indexed.
         /// </summary>
         private Expression array;
 
@@ -43,7 +43,7 @@ namespace Microsoft.StyleCop.CSharp
         /// Initializes a new instance of the ArrayAccessExpression class.
         /// </summary>
         /// <param name="proxy">Proxy object for the expression.</param>
-        /// <param name="array">Represents the item being indexed.</param>
+        /// <param name="array">Represents the codeUnit being indexed.</param>
         internal ArrayAccessExpression(CodeUnitProxy proxy, Expression array)
             : base(proxy, ExpressionType.ArrayAccess)
         {
@@ -58,7 +58,7 @@ namespace Microsoft.StyleCop.CSharp
         #region Public Properties
 
         /// <summary>
-        /// Gets the item being indexed.
+        /// Gets the codeUnit being indexed.
         /// </summary>
         public Expression Array
         {
