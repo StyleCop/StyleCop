@@ -66,6 +66,16 @@ namespace Microsoft.StyleCop.CSharp
         private bool unsafeCode;
 
         /// <summary>
+        /// The contents of the header.
+        /// </summary>
+        private string header;
+
+        /// <summary>
+        /// The lines within the header.
+        /// </summary>
+        private ICollection<Comment> headerLines;
+
+        /// <summary>
         /// The list of violations in this element.
         /// </summary>
         private Dictionary<string, Violation> violations = new Dictionary<string, Violation>();
@@ -123,6 +133,17 @@ namespace Microsoft.StyleCop.CSharp
                     attribute.Element = this;
                 }
             }
+
+            // There is only one type of element which is allowed to have a token
+            // list consisting of nothing other than whitespace, newlines, etc., 
+            // which is the document root. This happens if you have a document which
+            // contains nothing other than whitespace. Due to this we do not want to
+            // trim down the token list for the root element, but we do want to for
+            // all other types of elements.
+            if (this.ElementType == ElementType.Root)
+            {
+                ////this.TrimTokens = false;
+            }
         }
 
         #endregion Internal Constructors
@@ -139,7 +160,7 @@ namespace Microsoft.StyleCop.CSharp
                 string parentFullyQualifiedName = null;
 
                 Element parentElement = this.ParentCastedToElement;
-                if (parentElement != null && parentElement.ElementType != ElementType.Document)
+                if (parentElement != null && parentElement.ElementType != ElementType.Root)
                 {
                     parentFullyQualifiedName = parentElement.FullyQualifiedName;
                 }
@@ -165,7 +186,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Gets or sets the element's access level, without taking into account the access level of the element's parent.
         /// </summary>
-        public virtual AccessModifierType AccessModifierType
+        public virtual AccessModifierType AccessLevel
         {
             get
             {
@@ -195,21 +216,6 @@ namespace Microsoft.StyleCop.CSharp
 
         #endregion ICodeElement Properties
 
-        #region Public Virtual Properties
-
-        /// <summary>
-        /// Gets the document that contains this element.
-        /// </summary>
-        public virtual ICodeDocument Document
-        {
-            get
-            {
-                return this.FindParent<CsDocument>();
-            }
-        }
-
-        #endregion Public Virtual Properties
-
         #region Public Properties
 
         /// <summary>
@@ -235,6 +241,38 @@ namespace Microsoft.StyleCop.CSharp
         }
 
         /// <summary>
+        /// Gets the contents of the Xml header, if any.
+        /// </summary>
+        public string HeaderText
+        {
+            get
+            {
+                if (this.header == null)
+                {
+                    this.GetHeader();
+                }
+
+                return this.header;
+            }
+        }
+
+        /// <summary>
+        /// Gets the collection of header lines from the element's Xml header, if any.
+        /// </summary>
+        public ICollection<Comment> HeaderLines
+        {
+            get
+            {
+                if (this.headerLines == null)
+                {
+                    this.GetHeader();
+                }
+
+                return this.headerLines;
+            }
+        }
+
+        /// <summary>
         /// Gets the type of the element.
         /// </summary>
         public ElementType ElementType
@@ -242,6 +280,28 @@ namespace Microsoft.StyleCop.CSharp
             get 
             {
                 return (ElementType)(this.FundamentalType & (int)FundamentalTypeMasks.Element);
+            }
+        }
+
+        /// <summary>
+        /// Gets the document that contains this element.
+        /// </summary>
+        public virtual ICodeDocument Document
+        {
+            get
+            {
+                Element root = this;
+                while (root != null)
+                {
+                    if (root.ElementType == ElementType.Root)
+                    {
+                        return root.Document;
+                    }
+
+                    root = root.FindParent<Element>();
+                }
+
+                return null;
             }
         }
 
@@ -324,20 +384,17 @@ namespace Microsoft.StyleCop.CSharp
 
         #endregion Public Properties
 
-        #region Protected Virtual Properties
+        #region Protected Abstract Properties
 
         /// <summary>
         /// Gets the collection of modifiers allowed on this element.
         /// </summary>
-        protected virtual IEnumerable<string> AllowedModifiers
+        protected abstract IEnumerable<string> AllowedModifiers
         {
-            get
-            {
-                yield break;
-            }
+            get;
         }
 
-        #endregion Protected Virtual Properties
+        #endregion Protected Abstract Properties
 
         #region Private Properties
 
@@ -394,15 +451,6 @@ namespace Microsoft.StyleCop.CSharp
         #endregion Public Virtual Methods
 
         #region Public Methods
-
-        /// <summary>
-        /// Gets the contents of the Xml header, if any.
-        /// </summary>
-        /// <returns>Returns the header or null if there is none.</returns>
-        public XmlHeader GetHeader()
-        {
-            return this.FindFirstChild<XmlHeader>();
-        }
 
         /// <summary>
         /// Indicates whether the element declaration contains one of the given modifiers.
@@ -715,6 +763,75 @@ namespace Microsoft.StyleCop.CSharp
                         break;
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// Gets the Xml header.
+        /// </summary>
+        private void GetHeader()
+        {
+            List<Comment> lines = null;
+            StringBuilder text = null;
+            int summaryCount = 0;
+
+            for (CodeUnit item = this.FindFirstDescendent<CodeUnit>(); item != null; item = item.FindNextDescendentOf<CodeUnit>(this))
+            {
+                if (item.CodeUnitType == CodeUnitType.Attribute || item.Is(LexicalElementType.Token))
+                {
+                    break;
+                }
+                else if (item.Is(LexicalElementType.PreprocessorDirective))
+                {
+                    // Move past the preprocessor.
+                    item = item.FindLastInTree<CodeUnit>();
+                }
+                else if (item.Is(LexicalElementType.EndOfLine) || 
+                    item.Is(LexicalElementType.WhiteSpace) ||
+                    item.Is(CommentType.SingleLineComment) ||
+                    item.Is(CommentType.MultilineComment))
+                {
+                    continue;
+                }
+                else if (item.Is(CommentType.XmlHeaderLine))
+                {
+                    Comment xmlHeaderLine = (Comment)item;
+                    string headerLineText = xmlHeaderLine.Text;
+                    if (headerLineText.StartsWith("///", StringComparison.Ordinal))
+                    {
+                        headerLineText = headerLineText.Substring(3, headerLineText.Length - 3);
+                    }
+
+                    if (text == null)
+                    {
+                        text = new StringBuilder();
+                        lines = new List<Comment>();
+                    }
+
+                    if (IsXmlHeaderSummaryLine(headerLineText) && ++summaryCount > 1)
+                    {
+                        text = new StringBuilder();
+                        lines = new List<Comment>();
+                    }
+
+                    text.Append(headerLineText);
+                    lines.Add(xmlHeaderLine);
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            if (text != null && text.Length > 0)
+            {
+                this.header = text.ToString();
+                this.headerLines = lines.ToArray();
+            }
+            else
+            {
+                this.header = null;
+                this.headerLines = Comment.EmptyCommentArray;
             }
         }
 

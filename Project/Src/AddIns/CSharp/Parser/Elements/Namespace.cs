@@ -41,7 +41,7 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertValidString(name, "name");
             Param.Ignore(attributes, unsafeCode);
 
-            this.AccessModifierType = AccessModifierType.Public;
+            this.AccessLevel = AccessModifierType.Public;
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace Microsoft.StyleCop.CSharp
             : base(proxy, type, name, attributes, unsafeCode)
         {
             Param.Ignore(proxy, type, name, attributes, unsafeCode);
-            this.AccessModifierType = AccessModifierType.Public;
+            this.AccessLevel = AccessModifierType.Public;
         }
 
         #endregion Internal Constructors

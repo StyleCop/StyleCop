@@ -90,7 +90,7 @@ namespace Microsoft.StyleCop.CSharp
             // is currently set to private because we don't have one, then it should be public instead.
             if (name.IndexOf(".", StringComparison.Ordinal) > -1 && !name.StartsWith("this.", StringComparison.Ordinal))
             {
-                this.AccessModifierType = AccessModifierType.Public;
+                this.AccessLevel = AccessModifierType.Public;
             }
         }
 

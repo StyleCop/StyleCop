@@ -17,7 +17,6 @@ namespace Microsoft.StyleCop.CSharp
     using System;
     using System.Diagnostics;
 
-    /*
     /// <summary>
     /// A reference to a code unit.
     /// </summary>
@@ -26,7 +25,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Gets the referenced target.
         /// </summary>
-        CodeUnitProxy Target
+        CodeUnit Target
         {
             get;
         }
@@ -71,8 +70,7 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                CodeUnitProxy targetProxy = this.targetRef == null ? null : this.targetRef.Target;
-                return targetProxy.Target;
+                return this.targetRef == null ? null : this.targetRef.Target;
             }
         }
 
@@ -92,13 +90,13 @@ namespace Microsoft.StyleCop.CSharp
 
                 // Check whether there is already another reference pointing back to the same target. If so, 
                 // we want to reference that reference rather than referencing the target directly.
-                CodeUnitProxy proxy = value.Target;
-                if (proxy != null)
+                CodeUnit codeUnit = value.Target;
+                if (codeUnit != null)
                 {
-                    CodeUnit child = proxy.Children.First;
+                    CodeUnit child = codeUnit.FindFirstChild<CodeUnit>();
                     if (child != null && child.ParentReference != null && child.ParentReference.Target != null)
                     {
-                        Debug.Assert(child.ParentReference.Target == codeUnit.Proxy, "The child's parent reference is invalid.");
+                        Debug.Assert(child.ParentReference.Target == codeUnit, "The child's parent reference is invalid.");
                         this.targetRef = child.ParentReference;
                     }
                 }
@@ -110,7 +108,6 @@ namespace Microsoft.StyleCop.CSharp
                 }
             }
         }
-    */
 
         /////// <summary>
         /////// Called when the referenced target changes.
@@ -125,5 +122,5 @@ namespace Microsoft.StyleCop.CSharp
         ////        this.ReferenceChanged(this, EventArgs.Empty);
         ////    }
         ////}
-    ////}
+    }
 }

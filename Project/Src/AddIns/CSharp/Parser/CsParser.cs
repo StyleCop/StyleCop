@@ -146,7 +146,8 @@ namespace Microsoft.StyleCop.CSharp
                 catch (SyntaxException syntaxex)
                 {
                     this.AddViolation(syntaxex.SourceCode, syntaxex.LineNumber, Rules.SyntaxException, syntaxex.Message);
-                    var csdocument = new CsDocument(new CodeUnitProxy(), sourceCode, this);
+                    var csdocument = new CsDocument(sourceCode, this);
+                    csdocument.FileHeader = new FileHeader(string.Empty);
                     document = csdocument;
                 }
             }

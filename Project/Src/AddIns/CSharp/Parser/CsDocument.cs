@@ -24,7 +24,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Represents a parsed C# document.
     /// </summary>
     [SuppressMessage("Microsoft.Naming", "CA1706:ShortAcronymsShouldBeUppercase", Justification = "Camel case better serves in this case.")]
-    public sealed partial class CsDocument : Element, ICodeDocument
+    public sealed class CsDocument : ICodeDocument
     {
         #region Private Fields
 
@@ -44,6 +44,16 @@ namespace Microsoft.StyleCop.CSharp
         private bool readOnly = true;
 
         /// <summary>
+        /// The contents at the root of the document.
+        /// </summary>
+        private DocumentRoot contents;
+
+        /// <summary>
+        /// The file header.
+        /// </summary>
+        private FileHeader fileHeader;
+
+        /// <summary>
         /// The parser that created this object.
         /// </summary>        
         private CsParser parser;
@@ -55,13 +65,10 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Initializes a new instance of the CsDocument class.
         /// </summary>
-        /// <param name="proxy">Proxy object for the document.</param>
         /// <param name="sourceCode">The source code that this document represents.</param>
         /// <param name="parser">The parser that is creating this object.</param>
-        internal CsDocument(CodeUnitProxy proxy, SourceCode sourceCode, CsParser parser)
-            : base(proxy, ElementType.Document, sourceCode.Name, null, false)
+        internal CsDocument(SourceCode sourceCode, CsParser parser)
         {
-            Param.AssertNotNull(proxy, "proxy");
             Param.AssertNotNull(sourceCode, "sourceCode");
             Param.AssertNotNull(parser, "parser");
 
@@ -71,31 +78,16 @@ namespace Microsoft.StyleCop.CSharp
 
         #endregion Internal Constructors
 
-        #region Public Override Properties
-
-        /// <summary>
-        /// Gets this document.
-        /// </summary>
-        public override ICodeDocument Document
-        {
-            get
-            {
-                return this;
-            }
-        }
-
-        #endregion Public Override Properties
-
         #region Public Properties
 
         /// <summary>
         /// Gets the contents of the document at the root level.
         /// </summary>
-        ICodeElement ICodeDocument.DocumentContents
+        public ICodeElement DocumentContents
         {
             get
             {
-                return this;
+                return this.contents;
             }
         }
 
@@ -155,13 +147,34 @@ namespace Microsoft.StyleCop.CSharp
         }
 
         /// <summary>
+        /// Gets the root element for this document.
+        /// </summary>
+        public DocumentRoot RootElement
+        {
+            get
+            {
+                return this.contents;
+            }
+
+            internal set
+            {
+                this.contents = value;
+            }
+        }
+
+        /// <summary>
         /// Gets the file header, if any.
         /// </summary>
         public FileHeader FileHeader
         {
             get
             {
-                return this.FindFirstChild<FileHeader>();
+                return this.fileHeader;
+            }
+
+            internal set
+            {
+                this.fileHeader = value;
             }
         }
 
@@ -197,23 +210,26 @@ namespace Microsoft.StyleCop.CSharp
         {
             Param.RequireNotNull(writer, "writer");
 
-            for (LexicalElement item = this.FindFirstInTree<LexicalElement>(); item != null; item = item.FindNext<LexicalElement>())
+            if (this.contents != null)
             {
-                if (item.LexicalElementType == LexicalElementType.PreprocessorDirective || item.Children.LexicalElementCount == 0)
+                for (LexicalElement item = this.contents.FindFirstInTree<LexicalElement>(); item != null; item = item.FindNext<LexicalElement>())
                 {
-                    if (item.LexicalElementType == LexicalElementType.EndOfLine)
+                    if (item.LexicalElementType == LexicalElementType.PreprocessorDirective || item.Children.LexicalElementCount == 0)
                     {
-                        writer.WriteLine();
+                        if (item.LexicalElementType == LexicalElementType.EndOfLine)
+                        {
+                            writer.WriteLine();
+                        }
+                        else
+                        {
+                            writer.Write(item.Text);
+                        }
                     }
-                    else
-                    {
-                        writer.Write(item.Text);
-                    }
-                }
 
-                if (item.LexicalElementType == LexicalElementType.PreprocessorDirective)
-                {
-                    item = item.FindLastInTree<LexicalElement>();
+                    if (item.LexicalElementType == LexicalElementType.PreprocessorDirective)
+                    {
+                        item = item.FindLastInTree<LexicalElement>();
+                    }
                 }
             }
         }
@@ -283,105 +299,14 @@ namespace Microsoft.StyleCop.CSharp
         private void Dispose(bool disposing)
         {
             Param.Ignore(disposing);
+
+            if (disposing)
+            {
+                this.contents = null;
+                this.fileHeader = null;
+            }
         }
 
         #endregion Private Methods
     }
-
-    /*
-    /// <content>
-    /// Implements the ICodeUnit interface for CsDocument.
-    /// </content>
-    public partial class CsDocument : ICodeUnit
-    {
-        /// <summary>
-        /// Gets the collection of children beneath this code unit.
-        /// </summary>
-        CodeUnitCollection ICodeUnit.Children 
-        {
-            get 
-            {
-                this.AssertContent();
-                return this.contents.Children;
-            }
-        }
-
-        CodeUnitType ICodeUnit.CodeUnitType 
-        {
-            get
-            {
-                return CodeUnitType.Document;
-            }
-        }
-
-        string ICodeUnit.FriendlyPluralTypeText 
-        {
-            get
-            {
-            }
-        }
-
-        string ICodeUnit.FriendlyTypeText 
-        {
-            get
-            {
-            }
-        }
-
-        int ICodeUnit.FundamentalType 
-        {
-            get
-            {
-                return (int)CodeUnitType.Documemnt;
-            }
-        }
-
-        bool ICodeUnit.Generated 
-        {
-            get
-            {
-                this.AssertContent();
-                return this.contents.Generated;
-            }
-        }
-
-        int ICodeUnit.LineNumber 
-        {
-            get
-            {
-                return 1;
-            }
-        }
-
-        Microsoft.StyleCop.Collections.LinkNode<CodeUnit> ICodeUnit.LinkNode 
-        {
-            get
-            {
-                this.AssertContent();
-                return this.contents.LinkNode;
-            }
-        }
-
-        Microsoft.StyleCop.CodeLocation ICodeUnit.Location 
-        {
-            get
-            {
-                if (this.contents == null || this.contents.Children.Count == 0)
-                {
-                    return CodeLocation.Empty;
-                }
-
-                return CodeLocation.Join(CodeLocation.Empty, this.contents.Children.Last.Location);
-            }
-        }
-
-        CodeUnit ICodeUnit.Parent 
-        {
-            get
-            {
-                return null;
-            }
-        }
-    }
-     * */
 }
