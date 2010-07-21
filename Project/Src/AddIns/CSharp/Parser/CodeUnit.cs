@@ -30,7 +30,7 @@ namespace Microsoft.StyleCop.CSharp
     /// <summary>
     /// A basic code unit.
     /// </summary>
-    public abstract class CodeUnit : ILinkNode<CodeUnit>
+    public abstract class CodeUnit : ILinkNode<CodeUnit>, ICodeUnitReference
     {
         #region Internal Static Fields
 
@@ -44,11 +44,6 @@ namespace Microsoft.StyleCop.CSharp
         #region Private Fields
 
         /// <summary>
-        /// The proxy for this code unit.
-        /// </summary>
-        private CodeUnitProxy proxy;
-
-        /// <summary>
         /// The friendly name of the type.
         /// </summary>
         private string friendlyTypeName;
@@ -59,10 +54,14 @@ namespace Microsoft.StyleCop.CSharp
         private string friendlyPluralTypeName;
 
         /// <summary>
+        /// The children beneath this code unit.
+        /// </summary>
+        private CodeUnitCollection children;
+
+        /// <summary>
         /// The reference to the parent code unit.
         /// </summary>
-        ////private ICodeUnitReference parentReference;
-        private CodeUnitProxy parentReference;
+        private ICodeUnitReference parentReference;
 
         /// <summary>
         /// The type of the code unit.
@@ -135,10 +134,19 @@ namespace Microsoft.StyleCop.CSharp
             Param.Ignore(generated);
 
             this.linkNode = new LinkNode<CodeUnit>(this);
-            
-            // If this item has no proxy, create one.
-            this.proxy = proxy ?? new CodeUnitProxy();
-            this.proxy.Attach(this);
+
+            // Fill in the values from the proxy of this code unit.
+            if (proxy != null)
+            {
+                this.children = proxy.Children;
+                proxy.Attach(this);
+            }
+            else
+            {
+                this.children = new CodeUnitCollection(this);
+            }
+
+            Debug.Assert(this.children != null, "The child collection must be set");
 
             this.fundamentalType = fundamentalType;
             Debug.Assert(System.Enum.IsDefined(typeof(CodeUnitType), this.CodeUnitType), "The type is invalid.");
@@ -157,8 +165,7 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                Debug.Assert(this.proxy != null, "Proxy has not been set.");
-                return this.proxy.Children;
+                return this.children;
             }
         }
 
@@ -185,9 +192,9 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                if (this.Children.Count > 0)
+                if (this.children != null && this.children.Count > 0)
                 {
-                    return CodeUnit.JoinLocations(this.Children.First, this.Children.Last);
+                    return CodeUnit.JoinLocations(this.children.First, this.children.Last);
                 }
 
                 return CodeLocation.Empty;
@@ -201,9 +208,9 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                if (this.Children.Count > 0)
+                if (this.children != null && this.children.Count > 0)
                 {
-                    return this.Children.First.LineNumber;
+                    return this.children.First.LineNumber;
                 }
 
                 return 0;
@@ -301,25 +308,24 @@ namespace Microsoft.StyleCop.CSharp
 
         #endregion Public Properties
 
-        ////#region IReference Properties 
+        #region IReference Properties 
 
-        /////// <summary>
-        /////// Gets a reference which points back to this object.
-        /////// </summary>
-        ////CodeUnit ICodeUnitReference.Target
-        ////{
-        ////    get { return this; }
-        ////}
+        /// <summary>
+        /// Gets a reference which points back to this object.
+        /// </summary>
+        CodeUnit ICodeUnitReference.Target
+        {
+            get { return this; }
+        }
         
-        ////#endregion IReference Properties
+        #endregion IReference Properties
 
         #region Internal Virtual Properties
 
         /// <summary>
         /// Gets or sets the parent reference.
         /// </summary>
-        ////internal virtual ICodeUnitReference ParentReference
-        internal virtual CodeUnitProxy ParentReference
+        internal virtual ICodeUnitReference ParentReference
         {
             get
             {
@@ -467,9 +473,9 @@ namespace Microsoft.StyleCop.CSharp
         [Conditional("DEBUG")]
         internal void ValidateCodeUnitReference()
         {
-            if ((this.parentReference == null || this.parentReference.Target == null) && !(this is CsDocument))
+            if ((this.parentReference == null || this.parentReference.Target == null) && !(this is DocumentRoot))
             {
-                Debug.Fail("Parent code unit reference has not been set for token. CsDocument is the only code unit type which is allowed to have a null parent.");
+                Debug.Fail("Parent code unit reference has not been set for token. DocumentRoot is the only code unit type which is allowed to have a null parent.");
             }
         }
 
@@ -478,9 +484,9 @@ namespace Microsoft.StyleCop.CSharp
         /// </summary>
         internal void Detach()
         {
-            if (this.parentReference != null)
+            if (this.parentReference != null && this.parentReference.Target != null)
             {
-                this.parentReference.Children.Remove(this);
+                this.parentReference.Target.Children.Remove(this);
             }
 
             this.parentReference = null;
