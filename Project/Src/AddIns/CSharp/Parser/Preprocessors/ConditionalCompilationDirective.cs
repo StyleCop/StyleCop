@@ -29,7 +29,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The expression that makes up the body of the directive.
         /// </summary>
-        private CodeUnitProperty<Expression> body;
+        private Expression body;
 
         #endregion Private Fields
 
@@ -59,7 +59,7 @@ namespace Microsoft.StyleCop.CSharp
                 "The type must be one of the conditional compilation directive types.");
 
             this.Text = text;
-            this.body.Value = body;
+            this.body = body;
         }
 
         #endregion Internal Constructors
@@ -73,12 +73,7 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                if (!this.body.Initialized)
-                {
-                    this.body.Value = this.FindFirstChild<Expression>();
-                }
-
-                return this.body.Value;
+                return this.body;
             }
         }
 
