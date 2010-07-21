@@ -27,7 +27,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The identifier of the label to jump to.
         /// </summary>
-        private CodeUnitProperty<Expression> identifier;
+        private Expression identifier;
 
         #endregion Private Fields
 
@@ -44,7 +44,7 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertNotNull(proxy, "proxy");
             Param.AssertNotNull(identifier, "identifier");
 
-            this.identifier.Value = identifier;
+            this.identifier = identifier;
         }
 
         #endregion Internal Constructors
@@ -58,41 +58,10 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                this.ValidateEditVersion();
-
-                if (!this.identifier.Initialized)
-                {
-                    Token token = this.FindFirstChild<GotoToken>();
-                    if (token == null)
-                    {
-                        throw new SyntaxException(this.Document, this.LineNumber);
-                    }
-
-                    this.identifier.Value = token.FindNextSibling<Expression>();
-                    if (this.identifier.Value == null)
-                    {
-                        throw new SyntaxException(this.Document, this.LineNumber);
-                    }
-                }
-
-                return this.identifier.Value;
+                return this.identifier;
             }
         }
 
         #endregion Public Properties
-
-        #region Protected Override Methods
-
-        /// <summary>
-        /// Resets the contents of the class.
-        /// </summary>
-        protected override void Reset()
-        {
-            base.Reset();
-
-            this.identifier.Reset();
-        }
-
-        #endregion Protected Override Methods
     }
 }
