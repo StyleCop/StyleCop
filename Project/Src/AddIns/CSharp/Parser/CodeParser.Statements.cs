@@ -76,7 +76,7 @@ namespace Microsoft.StyleCop.CSharp
             }
             else
             {
-                throw new SyntaxException(this.document, symbol.LineNumber);
+                throw new SyntaxException(this.document.SourceCode, symbol.LineNumber);
             }
         }
 
@@ -250,7 +250,7 @@ namespace Microsoft.StyleCop.CSharp
                         break;
 
                     case SymbolType.Semicolon:
-                        var emptyStatementProxy = new CodeUnitProxy(this.document);
+                        var emptyStatementProxy = new CodeUnitProxy();
                         this.GetToken(emptyStatementProxy, TokenType.Semicolon, SymbolType.Semicolon);
                         statement = new EmptyStatement(emptyStatementProxy);
                         parentProxy.Children.Add(statement);
@@ -275,7 +275,7 @@ namespace Microsoft.StyleCop.CSharp
                         break;
 
                     default:
-                        throw new SyntaxException(this.document, symbol.LineNumber);
+                        throw new SyntaxException(this.document.SourceCode, symbol.LineNumber);
                 }
             }
 
@@ -365,7 +365,7 @@ namespace Microsoft.StyleCop.CSharp
             Param.Ignore(unsafeCode);
 
             bool constant = false;
-            var statementProxy = new CodeUnitProxy(this.document);
+            var statementProxy = new CodeUnitProxy();
 
             // Get the first symbol and make sure it is an unknown word or a const.
             Symbol symbol = this.PeekNextSymbol();
@@ -388,11 +388,11 @@ namespace Microsoft.StyleCop.CSharp
             }
 
             // Get the expression representing the type.
-            var variableDeclarationExpressionProxy = new CodeUnitProxy(this.document);
+            var variableDeclarationExpressionProxy = new CodeUnitProxy();
             LiteralExpression type = this.GetTypeTokenExpression(variableDeclarationExpressionProxy, unsafeCode, true);
             if (type == null || type.Children.Count == 0)
             {
-                throw new SyntaxException(this.document, firstToken.LineNumber);
+                throw new SyntaxException(this.document.SourceCode, firstToken.LineNumber);
             }
 
             // Get the rest of the declaration.
@@ -419,7 +419,7 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertNotNull(parentProxy, "parentProxy");
             Param.Ignore(unsafeCode);
 
-            var statementProxy = new CodeUnitProxy(this.document);
+            var statementProxy = new CodeUnitProxy();
             
             // The first symbol must be an unknown word.
             Symbol symbol = this.PeekNextSymbol();
@@ -455,7 +455,7 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertNotNull(parentProxy, "parentProxy");
             Param.Ignore(unsafeCode);
 
-            var statementProxy = new CodeUnitProxy(this.document);
+            var statementProxy = new CodeUnitProxy();
 
             // Get the expression.
             Expression expression = this.GetNextExpression(statementProxy, ExpressionPrecedence.None, unsafeCode);
@@ -486,7 +486,7 @@ namespace Microsoft.StyleCop.CSharp
             Param.Ignore(unsafeCode);
 
             // Create the block statement.
-            var statementProxy = new CodeUnitProxy(this.document);
+            var statementProxy = new CodeUnitProxy();
             var block = new BlockStatement(statementProxy);
 
             // Get the opening bracket keyword.
@@ -521,7 +521,7 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertNotNull(parentProxy, "parentProxy");
             Param.Ignore(unsafeCode);
 
-            var statementProxy = new CodeUnitProxy(this.document);
+            var statementProxy = new CodeUnitProxy();
             
             // Move past the if keyword.
             this.GetToken(statementProxy, TokenType.If, SymbolType.If);
@@ -583,7 +583,7 @@ namespace Microsoft.StyleCop.CSharp
             }
 
             this.AdvanceToNextCodeSymbol(parentProxy);
-            var statementProxy = new CodeUnitProxy(this.document);
+            var statementProxy = new CodeUnitProxy();
 
             // Advance to this keyword and add it.
             this.GetToken(statementProxy, TokenType.Else, SymbolType.Else);
@@ -604,7 +604,7 @@ namespace Microsoft.StyleCop.CSharp
                 conditional = this.GetNextExpression(statementProxy, ExpressionPrecedence.None, unsafeCode);
                 if (conditional == null)
                 {
-                    throw new SyntaxException(this.document, symbol.LineNumber);
+                    throw new SyntaxException(this.document.SourceCode, symbol.LineNumber);
                 }
 
                 // Get the closing parenthesis.
@@ -647,7 +647,7 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertNotNull(parentProxy, "parentProxy");
             Param.Ignore(unsafeCode);
 
-            var statementProxy = new CodeUnitProxy(this.document);
+            var statementProxy = new CodeUnitProxy();
             
             // Add the while keyword.
             this.GetToken(statementProxy, TokenType.While, SymbolType.While);
@@ -694,7 +694,7 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertNotNull(parentProxy, "parentProxy");
             Param.Ignore(unsafeCode);
 
-            var statementProxy = new CodeUnitProxy(this.document);
+            var statementProxy = new CodeUnitProxy();
             
             // Add the do keyword.
             this.GetToken(statementProxy, TokenType.Do, SymbolType.Do);
@@ -746,7 +746,7 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertNotNull(parentProxy, "parentProxy");
             Param.Ignore(unsafeCode);
 
-            var statementProxy = new CodeUnitProxy(this.document);
+            var statementProxy = new CodeUnitProxy();
             
             // Add the for keyword.
             this.GetToken(statementProxy, TokenType.For, SymbolType.For);
@@ -823,7 +823,7 @@ namespace Microsoft.StyleCop.CSharp
                 else if (symbol.SymbolType != SymbolType.Semicolon)
                 {
                     // If it's not a comma it must be a semicolon.
-                    throw new SyntaxException(this.document, symbol.LineNumber);
+                    throw new SyntaxException(this.document.SourceCode, symbol.LineNumber);
                 }
             }
 
@@ -860,7 +860,7 @@ namespace Microsoft.StyleCop.CSharp
             // The next symbol must be a semicolon.
             if (symbol.SymbolType != SymbolType.Semicolon)
             {
-                throw new SyntaxException(this.document, symbol.LineNumber);
+                throw new SyntaxException(this.document.SourceCode, symbol.LineNumber);
             }
 
             // Add the semicolon.
@@ -904,7 +904,7 @@ namespace Microsoft.StyleCop.CSharp
                 Expression iterator = this.GetNextExpression(forStatementProxy, ExpressionPrecedence.None, unsafeCode);
                 if (iterator == null || iterator.Children.Count == 0)
                 {
-                    throw new SyntaxException(this.document, symbol.LineNumber);
+                    throw new SyntaxException(this.document.SourceCode, symbol.LineNumber);
                 }
 
                 // Add the initializer to the list.
@@ -920,7 +920,7 @@ namespace Microsoft.StyleCop.CSharp
                 else if (symbol.SymbolType != SymbolType.CloseParenthesis)
                 {
                     // If it's not a comma it must be a closing parenthesis.
-                    throw new SyntaxException(this.document, symbol.LineNumber);
+                    throw new SyntaxException(this.document.SourceCode, symbol.LineNumber);
                 }
             }
 
@@ -938,7 +938,7 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertNotNull(parentProxy, "parentProxy");
             Param.Ignore(unsafeCode);
 
-            var statementProxy = new CodeUnitProxy(this.document);
+            var statementProxy = new CodeUnitProxy();
             
             // Get the foreach keyword.
             this.GetToken(statementProxy, TokenType.Foreach, SymbolType.Foreach);
@@ -996,7 +996,7 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertNotNull(parentProxy, "parentProxy");
             Param.Ignore(unsafeCode);
 
-            var statementProxy = new CodeUnitProxy(this.document);
+            var statementProxy = new CodeUnitProxy();
             
             // Move past the switch keyword.
             this.GetToken(statementProxy, TokenType.Switch, SymbolType.Switch);
@@ -1067,7 +1067,7 @@ namespace Microsoft.StyleCop.CSharp
                 {
                     if (defaultStatement != null)
                     {
-                        throw new SyntaxException(this.document, symbol.LineNumber);
+                        throw new SyntaxException(this.document.SourceCode, symbol.LineNumber);
                     }
 
                     defaultStatement = this.GetSwitchDefaultStatement(switchStatementProxy, unsafeCode);
@@ -1079,7 +1079,7 @@ namespace Microsoft.StyleCop.CSharp
                 else
                 {
                     // Unexpected symbol.
-                    throw new SyntaxException(this.document, symbol.LineNumber);
+                    throw new SyntaxException(this.document.SourceCode, symbol.LineNumber);
                 }
             }
 
@@ -1097,7 +1097,7 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertNotNull(parentProxy, "parentProxy");
             Param.Ignore(unsafeCode);
 
-            var statementProxy = new CodeUnitProxy(this.document);
+            var statementProxy = new CodeUnitProxy();
 
             // Move past the case keyword.
             this.GetToken(statementProxy, TokenType.Case, SymbolType.Case);
@@ -1162,7 +1162,7 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertNotNull(parentProxy, "parentProxy");
             Param.Ignore(unsafeCode);
 
-            var statementProxy = new CodeUnitProxy(this.document);
+            var statementProxy = new CodeUnitProxy();
 
             // Move past the default keyword.
             this.GetToken(statementProxy, TokenType.Default, SymbolType.Default);
@@ -1210,7 +1210,7 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertNotNull(parentProxy, "parentProxy");
             Param.Ignore(unsafeCode);
 
-            var statementProxy = new CodeUnitProxy(this.document);
+            var statementProxy = new CodeUnitProxy();
             
             // Move past the try keyword.
             this.GetToken(statementProxy, TokenType.Try, SymbolType.Try);
@@ -1270,7 +1270,7 @@ namespace Microsoft.StyleCop.CSharp
             if (symbol.SymbolType == SymbolType.Catch)
             {
                 this.AdvanceToNextCodeSymbol(parentProxy);
-                var statementProxy = new CodeUnitProxy(this.document);
+                var statementProxy = new CodeUnitProxy();
 
                 // Move up to the catch keyword and add it.
                 this.GetToken(statementProxy, TokenType.Catch, SymbolType.Catch);
@@ -1332,7 +1332,7 @@ namespace Microsoft.StyleCop.CSharp
             if (symbol.SymbolType == SymbolType.Finally)
             {
                 this.AdvanceToNextCodeSymbol(parentProxy);
-                var statementProxy = new CodeUnitProxy(this.document);
+                var statementProxy = new CodeUnitProxy();
 
                 // Move up to the finally keyword and add it.
                 this.GetToken(statementProxy, TokenType.Finally, SymbolType.Finally);
@@ -1363,7 +1363,7 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertNotNull(parentProxy, "parentProxy");
             Param.Ignore(unsafeCode);
 
-            var statementProxy = new CodeUnitProxy(this.document);
+            var statementProxy = new CodeUnitProxy();
             
             // Move past the lock keyword.
             this.GetToken(statementProxy, TokenType.Lock, SymbolType.Lock);
@@ -1410,7 +1410,7 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertNotNull(parentProxy, "parentProxy");
             Param.Ignore(unsafeCode);
 
-            var statementProxy = new CodeUnitProxy(this.document);
+            var statementProxy = new CodeUnitProxy();
             
             // Move past the using keyword.
             this.GetToken(statementProxy, TokenType.Using, SymbolType.Using);
@@ -1457,7 +1457,7 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertNotNull(parentProxy, "parentProxy");
             Param.Ignore(unsafeCode);
 
-            var statementProxy = new CodeUnitProxy(this.document);
+            var statementProxy = new CodeUnitProxy();
             
             // Move past the checked keyword.
             this.GetToken(statementProxy, TokenType.Checked, SymbolType.Checked);
@@ -1487,7 +1487,7 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertNotNull(parentProxy, "parentProxy");
             Param.Ignore(unsafeCode);
 
-            var statementProxy = new CodeUnitProxy(this.document);
+            var statementProxy = new CodeUnitProxy();
             
             // Move past the unchecked keyword.
             this.GetToken(statementProxy, TokenType.Unchecked, SymbolType.Unchecked);
@@ -1517,7 +1517,7 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertNotNull(parentProxy, "parentProxy");
             Param.Ignore(unsafeCode);
 
-            var statementProxy = new CodeUnitProxy(this.document);
+            var statementProxy = new CodeUnitProxy();
             
             // Move past the fixed keyword.
             this.GetToken(statementProxy, TokenType.Fixed, SymbolType.Fixed);
@@ -1563,7 +1563,7 @@ namespace Microsoft.StyleCop.CSharp
         {
             Param.AssertNotNull(parentProxy, "parentProxy");
 
-            var statementProxy = new CodeUnitProxy(this.document);
+            var statementProxy = new CodeUnitProxy();
             
             // Move past the unsafe keyword.
             this.GetToken(statementProxy, TokenType.Unsafe, SymbolType.Unsafe);
@@ -1591,7 +1591,7 @@ namespace Microsoft.StyleCop.CSharp
         {
             Param.AssertNotNull(parentProxy, "parentProxy");
 
-            var statementProxy = new CodeUnitProxy(this.document);
+            var statementProxy = new CodeUnitProxy();
             
             // Move past the break keyword.
             this.GetToken(statementProxy, TokenType.Break, SymbolType.Break);
@@ -1615,7 +1615,7 @@ namespace Microsoft.StyleCop.CSharp
         {
             Param.AssertNotNull(parentProxy, "parentProxy");
 
-            var statementProxy = new CodeUnitProxy(this.document);
+            var statementProxy = new CodeUnitProxy();
             
             // Move past the continue keyword.
             this.GetToken(statementProxy, TokenType.Continue, SymbolType.Continue);
@@ -1641,7 +1641,7 @@ namespace Microsoft.StyleCop.CSharp
             Param.Ignore(unsafeCode);
             Param.AssertNotNull(parentProxy, "parentProxy");
 
-            var statementProxy = new CodeUnitProxy(this.document);
+            var statementProxy = new CodeUnitProxy();
             
             // Move past the goto keyword.
             this.GetToken(statementProxy, TokenType.Goto, SymbolType.Goto);
@@ -1652,7 +1652,7 @@ namespace Microsoft.StyleCop.CSharp
             Expression identifier = null;
             if (symbol.SymbolType == SymbolType.Default)
             {
-                CodeUnitProxy identifierProxy = new CodeUnitProxy(this.document);
+                CodeUnitProxy identifierProxy = new CodeUnitProxy();
                 Token token = this.GetToken(identifierProxy, TokenType.Literal, SymbolType.Default);
                 identifier = new LiteralExpression(identifierProxy, token);
             }
@@ -1687,7 +1687,7 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertNotNull(parentProxy, "parentProxy");
             Param.Ignore(unsafeCode);
 
-            var statementProxy = new CodeUnitProxy(this.document);
+            var statementProxy = new CodeUnitProxy();
             
             // Move past the return keyword.
             this.GetToken(statementProxy, TokenType.Return, SymbolType.Return);
@@ -1726,7 +1726,7 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertNotNull(parentProxy, "parentProxy");
             Param.Ignore(unsafeCode);
 
-            var statementProxy = new CodeUnitProxy(this.document);
+            var statementProxy = new CodeUnitProxy();
             
             // Move past the yield keyword.
             this.GetToken(statementProxy, TokenType.Yield, SymbolType.Other);
@@ -1780,7 +1780,7 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertNotNull(parentProxy, "parentProxy");
             Param.Ignore(unsafeCode);
 
-            var statementProxy = new CodeUnitProxy(this.document);
+            var statementProxy = new CodeUnitProxy();
             
             // Move past the throw keyword.
             this.GetToken(statementProxy, TokenType.Throw, SymbolType.Throw);

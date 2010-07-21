@@ -425,16 +425,16 @@ namespace Microsoft.StyleCop.CSharp_old
         {
             Debug.Assert(this.document == null, "A CodeParser instance may only be used once.");
 
-            // Create the document object.
-            this.document = new CsDocument(this.lexer.SourceCode, this.parser, this.tokens);
-
             // Find the list of symbols in the document.
             List<Symbol> symbolList = this.lexer.GetSymbols(
-                this.document, this.lexer.SourceCode, this.lexer.SourceCode.Project.Configuration);
+                this.lexer.SourceCode, this.lexer.SourceCode.Project.Configuration);
 
             // Create the symbol manager class.
             this.symbols = new SymbolManager(symbolList);
-           
+
+            // Create the document object.
+            this.document = new CsDocument(this.lexer.SourceCode, this.parser, this.tokens);
+            
             var documentRootReference = new Reference<ICodePart>();
 
             // Get the file header if it exists.

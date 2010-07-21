@@ -25,14 +25,12 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Initializes a new instance of the OpenParenthesisToken class.
         /// </summary>
-        /// <param name="document">The parent document.</param>
         /// <param name="text">The text within the parenthesis.</param>
         /// <param name="location">The location of the parenthesis.</param>
         /// <param name="generated">Indicates whether the item lies within a block of generated code.</param>
-        internal OpenParenthesisToken(CsDocument document, string text, CodeLocation location, bool generated)
-            : base(document, text, TokenType.OpenParenthesis, location, generated)
+        internal OpenParenthesisToken(string text, CodeLocation location, bool generated)
+            : base(text, TokenType.OpenParenthesis, location, generated)
         {
-            Param.AssertNotNull(document, "document");
             Param.AssertValidString(text, "text");
             Param.AssertNotNull(location, "location");
             Param.Ignore(generated);

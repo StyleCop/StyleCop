@@ -51,17 +51,13 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The reference to the parent code unit.
         /// </summary>
+        ////private ICodeUnitReference parentReference;
         private CodeUnitProxy parentReference;
 
         /// <summary>
         /// The type of the code unit.
         /// </summary>
         private int fundamentalType;
-
-        /// <summary>
-        /// The current edit version.
-        /// </summary>
-        private int editVersion;
 
         /// <summary>
         /// The linked list node.
@@ -80,7 +76,7 @@ namespace Microsoft.StyleCop.CSharp
         internal CodeUnit(CodeUnitProxy proxy, CodeUnitType codeUnitType)
             : this(proxy, (int)codeUnitType)
         {
-            Param.AssertNotNull(proxy, "proxy");
+            Param.Ignore(proxy);
             Param.Ignore(codeUnitType);
         }
 
@@ -91,40 +87,17 @@ namespace Microsoft.StyleCop.CSharp
         /// <param name="fundamentalType">The type of the code unit.</param>
         internal CodeUnit(CodeUnitProxy proxy, int fundamentalType)
         {
-            Param.AssertNotNull(proxy, "proxy");
+            Param.Ignore(proxy);
             Param.Ignore(fundamentalType);
 
             this.linkNode = new LinkNode<CodeUnit>(this);
             
-            this.proxy = proxy;
+            // If this item has no proxy, create one.
+            this.proxy = proxy ?? new CodeUnitProxy();
             this.proxy.Attach(this);
 
             this.fundamentalType = fundamentalType;
             Debug.Assert(System.Enum.IsDefined(typeof(CodeUnitType), this.CodeUnitType), "The type is invalid.");
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the CodeUnit class.
-        /// </summary>
-        /// <param name="document">The parent document.</param>
-        /// <param name="codeUnitType">The type of the code unit.</param>
-        internal CodeUnit(CsDocument document, CodeUnitType codeUnitType)
-            : this(document, (int)codeUnitType)
-        {
-            Param.AssertNotNull(document, "document");
-            Param.Ignore(codeUnitType);
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the CodeUnit class.
-        /// </summary>
-        /// <param name="document">The parent document.</param>
-        /// <param name="fundamentalType">The type of the code unit.</param>
-        internal CodeUnit(CsDocument document, int fundamentalType)
-            : this(new CodeUnitProxy(document), fundamentalType)
-        {
-            Param.AssertNotNull(document, "document");
-            Param.Ignore(fundamentalType);
         }
 
         #endregion Internal Constructors
@@ -171,17 +144,6 @@ namespace Microsoft.StyleCop.CSharp
                 }
 
                 return 0;
-            }
-        }
-
-        /// <summary>
-        /// Gets the parent document.
-        /// </summary>
-        public virtual CsDocument Document
-        {
-            get
-            {
-                return this.proxy.Document;
             }
         }
 
@@ -252,6 +214,18 @@ namespace Microsoft.StyleCop.CSharp
 
         #endregion Public Properties
 
+        ////#region IReference Properties 
+
+        /////// <summary>
+        /////// Gets a reference which points back to this object.
+        /////// </summary>
+        ////CodeUnit ICodeUnitReference.Target
+        ////{
+        ////    get { return this; }
+        ////}
+        
+        ////#endregion IReference Properties
+
         #region Internal Virtual Properties
 
         /// <summary>
@@ -289,21 +263,6 @@ namespace Microsoft.StyleCop.CSharp
         }
 
         #endregion Internal Virtual Properties
-
-        #region Protected Properties
-
-        /// <summary>
-        /// Gets the edit version of the code unit.
-        /// </summary>
-        protected int EditVersion
-        {
-            get
-            {
-                return this.editVersion;
-            }
-        }
-
-        #endregion Protected Properties
 
         #region Internal Static Methods
 
@@ -408,6 +367,24 @@ namespace Microsoft.StyleCop.CSharp
 
         #endregion Internal Methods
 
+        #region Protected Virtual Methods
+
+        /////// <summary>
+        /////// Called when the parent of the element changes.
+        /////// </summary>
+        ////protected virtual void OnParentChanged()
+        ////{
+        ////}
+
+        /// <summary>
+        /// Collects the variables declared by the code unit.
+        /// </summary>
+        protected virtual void CollectVariables()
+        {
+        }
+
+        #endregion Protected Virtual Methods
+
         #region Protected Override Methods
 
         /////// <summary>
@@ -430,36 +407,7 @@ namespace Microsoft.StyleCop.CSharp
 
         #endregion Protected Override Methods
 
-        #region Protected Virtual Methods
-
-        /// <summary>
-        /// Collects the variables declared by the code unit.
-        /// </summary>
-        protected virtual void CollectVariables()
-        {
-        }
-
-        /// <summary>
-        /// Resets all properties within the code unit.
-        /// </summary>
-        protected virtual void Reset()
-        {
-        }
-
-        #endregion Protected Virtual Methods
-
         #region Protected Methods
-
-        /// <summary>
-        /// Verifies that the code unit is up to date with the latest edit version of the document.
-        /// </summary>
-        protected void ValidateEditVersion()
-        {
-            if (this.editVersion != this.proxy.Document.EditVersion)
-            {
-                this.Reset();
-            }
-        }
 
         /// <summary>
         /// Iterates through the tokens in the element declaration and extracts the parameters, if any.

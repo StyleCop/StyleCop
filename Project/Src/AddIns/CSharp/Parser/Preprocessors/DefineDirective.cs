@@ -25,14 +25,12 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Initializes a new instance of the DefineDirective class.
         /// </summary>
-        /// <param name="document">The parent document.</param>
         /// <param name="text">The text within the directive.</param>
         /// <param name="location">The location of the preprocessor directive in the code.</param>
         /// <param name="generated">Indicates whether the item is generated.</param>
-        internal DefineDirective(CsDocument document, string text, CodeLocation location, bool generated)
-            : base(document, text, PreprocessorType.Define, location, generated)
+        internal DefineDirective(string text, CodeLocation location, bool generated)
+            : base(text, PreprocessorType.Define, location, generated)
         {
-            Param.AssertNotNull(document, "document");
             Param.Ignore(text, location, generated);
         }
     }

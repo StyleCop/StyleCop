@@ -247,18 +247,22 @@ namespace Microsoft.StyleCop.CSharp
             }
         }
 
+        #endregion ICodeElement Properties
+
+        #region Public Virtual Properties
+
         /// <summary>
-        /// Gets the containing document.
+        /// Gets the document that contains this element.
         /// </summary>
-        ICodeDocument ICodeElement.Document
+        public virtual ICodeDocument Document
         {
             get
             {
-                return this.Document;
+                return this.FindParent<CsDocument>();
             }
         }
 
-        #endregion ICodeElement Properties
+        #endregion Public Virtual Properties
 
         #region Public Properties
 
@@ -737,7 +741,7 @@ namespace Microsoft.StyleCop.CSharp
                     // A public access modifier can only be specified if there have been no other access modifiers.
                     if (accessModifierSeen != null)
                     {
-                        throw new SyntaxException(this.Document, token.LineNumber);
+                        throw new SyntaxException(this.Document.SourceCode, token.LineNumber);
                     }
 
                     this.accessModifier = AccessModifierType.Public;
@@ -749,7 +753,7 @@ namespace Microsoft.StyleCop.CSharp
                     // A private access modifier can only be specified if there have been no other access modifiers.
                     if (accessModifierSeen != null)
                     {
-                        throw new SyntaxException(this.Document, token.LineNumber);
+                        throw new SyntaxException(this.Document.SourceCode, token.LineNumber);
                     }
 
                     this.accessModifier = AccessModifierType.Private;
@@ -770,7 +774,7 @@ namespace Microsoft.StyleCop.CSharp
                     }
                     else
                     {
-                        throw new SyntaxException(this.Document, token.LineNumber);
+                        throw new SyntaxException(this.Document.SourceCode, token.LineNumber);
                     }
 
                     accessModifierSeen = token;
@@ -790,7 +794,7 @@ namespace Microsoft.StyleCop.CSharp
                     }
                     else
                     {
-                        throw new SyntaxException(this.Document, token.LineNumber);
+                        throw new SyntaxException(this.Document.SourceCode, token.LineNumber);
                     }
 
                     accessModifierSeen = token;

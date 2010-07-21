@@ -206,14 +206,14 @@ namespace Microsoft.StyleCop.CSharp
                 Accessor accessor = child as Accessor;
                 if (accessor == null)
                 {
-                    throw new SyntaxException(document, accessor.LineNumber);
+                    throw new SyntaxException(document.SourceCode, accessor.LineNumber);
                 }
 
                 if (accessor.AccessorType == AccessorType.Get)
                 {
                     if (this.get != null)
                     {
-                        throw new SyntaxException(document, accessor.LineNumber);
+                        throw new SyntaxException(document.SourceCode, accessor.LineNumber);
                     }
 
                     this.get = accessor;
@@ -222,14 +222,14 @@ namespace Microsoft.StyleCop.CSharp
                 {
                     if (this.set != null)
                     {
-                        throw new SyntaxException(document, accessor.LineNumber);
+                        throw new SyntaxException(document.SourceCode, accessor.LineNumber);
                     }
 
                     this.set = accessor;
                 }
                 else
                 {
-                    throw new SyntaxException(document, accessor.LineNumber);
+                    throw new SyntaxException(document.SourceCode, accessor.LineNumber);
                 }
             }
         }
