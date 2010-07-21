@@ -42,7 +42,7 @@ namespace Microsoft.StyleCop.CSharp
         /// Initializes a new instance of the LockStatement class.
         /// </summary>
         /// <param name="proxy">Proxy object for the statement.</param>
-        /// <param name="lockedExpression">The item to lock.</param>
+        /// <param name="lockedExpression">The codeUnit to lock.</param>
         internal LockStatement(CodeUnitProxy proxy, Expression lockedExpression)
             : base(proxy, StatementType.Lock)
         {
@@ -57,7 +57,7 @@ namespace Microsoft.StyleCop.CSharp
         #region Public Properties
 
         /// <summary>
-        /// Gets the item to lock.
+        /// Gets the codeUnit to lock.
         /// </summary>
         public Expression LockedExpression
         {

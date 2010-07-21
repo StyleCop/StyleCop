@@ -161,9 +161,9 @@ namespace Microsoft.StyleCop.CSharp
         ////{
         ////    if (codeUnit.Children != null && codeUnit.Children.Count > 0)
         ////    {
-        ////        foreach (CodeUnit item in codeUnit.Children)
+        ////        foreach (CodeUnit codeUnit in codeUnit.Children)
         ////        {
-        ////            this.AddChildTexts(item, textBuilder);
+        ////            this.AddChildTexts(codeUnit, textBuilder);
         ////        }
         ////    }
         ////    else

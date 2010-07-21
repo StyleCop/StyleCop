@@ -31,12 +31,12 @@ namespace Microsoft.StyleCop.CSharp
         private TypeToken type;
 
         /// <summary>
-        /// Indicates whether the item is declared const.
+        /// Indicates whether the codeUnit is declared const.
         /// </summary>
         private bool isConst;
 
         /// <summary>
-        /// Indicates whether the item is declared readonly.
+        /// Indicates whether the codeUnit is declared readonly.
         /// </summary>
         private bool isReadOnly;
 
@@ -63,7 +63,7 @@ namespace Microsoft.StyleCop.CSharp
 
             this.type = fieldType;
 
-            // Determine whether the item is const or readonly.
+            // Determine whether the codeUnit is const or readonly.
             this.isConst = this.ContainsModifier(TokenType.Const);
             this.isReadOnly = this.ContainsModifier(TokenType.Readonly);
         }

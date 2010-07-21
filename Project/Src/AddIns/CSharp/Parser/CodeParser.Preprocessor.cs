@@ -34,7 +34,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Extracts the body of the given preprocessor directive symbol, parses it, and returns the parsed expression.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent item.</param>
+        /// <param name="parentProxy">Represents the parent codeUnit.</param>
         /// <param name="parser">The C# parser.</param>
         /// <param name="sourceCode">The source code containing the preprocessor directive symbol.</param>
         /// <param name="preprocessorSymbol">The preprocessor directive symbol.</param>
@@ -107,7 +107,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Reads the next expression from a conditional preprocessor directive.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent item.</param>
+        /// <param name="parentProxy">Represents the parent codeUnit.</param>
         /// <param name="sourceCode">The source code.</param>
         /// <returns>Returns the expression.</returns>
         internal Expression GetNextConditionalPreprocessorExpression(CodeUnitProxy parentProxy, SourceCode sourceCode)
@@ -124,7 +124,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Reads the next expression from a conditional preprocessor directive.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent item.</param>
+        /// <param name="parentProxy">Represents the parent codeUnit.</param>
         /// <param name="sourceCode">The source code.</param>
         /// <param name="previousPrecedence">The precedence of the expression just before this one.</param>
         /// <returns>Returns the expression.</returns>
@@ -195,7 +195,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Creates a new token and adds it to a new literal expression.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent item.</param>
+        /// <param name="parentProxy">Represents the parent codeUnit.</param>
         /// <param name="symbolType">The type of the symbol.</param>
         /// <param name="tokenType">The type of the token.</param>
         /// <returns>Returns the literal expression.</returns>
@@ -218,7 +218,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Given an expression, reads further to see if it is actually a sub-expression within a larger expression.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent item.</param>
+        /// <param name="parentProxy">Represents the parent codeUnit.</param>
         /// <param name="sourceCode">The source code.</param>
         /// <param name="leftSide">The known expression which might have an extension.</param>
         /// <param name="previousPrecedence">The precedence of the expression just before this one.</param>
@@ -269,7 +269,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Advances past any whitespace and comments in the code.
         /// </summary>
-        /// <param name="parentProxy">Proxy object for the parent item.</param>
+        /// <param name="parentProxy">Proxy object for the parent codeUnit.</param>
         private void AdvanceToNextConditionalDirectiveCodeSymbol(CodeUnitProxy parentProxy)
         {
             Param.Ignore(parentProxy);
@@ -309,7 +309,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Reads an expression starting with an unknown word.
         /// </summary>
-        /// <param name="parentProxy">Proxy object for the parent item.</param>
+        /// <param name="parentProxy">Proxy object for the parent codeUnit.</param>
         /// <returns>Returns the expression.</returns>
         private LiteralExpression GetConditionalPreprocessorConstantExpression(CodeUnitProxy parentProxy)
         {
@@ -338,7 +338,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Reads a NOT expression.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent item.</param>
+        /// <param name="parentProxy">Represents the parent codeUnit.</param>
         /// <param name="sourceCode">The source code containing the expression.</param>
         /// <returns>Returns the expression.</returns>
         private UnaryExpression GetConditionalPreprocessorNotExpression(CodeUnitProxy parentProxy, SourceCode sourceCode)
@@ -376,7 +376,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Reads an expression wrapped in parenthesis.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent item.</param>
+        /// <param name="parentProxy">Represents the parent codeUnit.</param>
         /// <param name="sourceCode">The source code containing the expression.</param>
         /// <returns>Returns the expression.</returns>
         private ParenthesizedExpression GetConditionalPreprocessorParenthesizedExpression(CodeUnitProxy parentProxy, SourceCode sourceCode)
@@ -430,7 +430,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Reads a relational expression.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent item.</param>
+        /// <param name="parentProxy">Represents the parent codeUnit.</param>
         /// <param name="sourceCode">The file containing the expression.</param>
         /// <param name="leftHandSide">The expression on the left hand side of the operator.</param>
         /// <param name="previousPrecedence">The precedence of the previous expression.</param>
@@ -493,7 +493,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Reads a conditional logical expression.
         /// </summary>
-        /// <param name="parentProxy">Represents the parent item.</param>
+        /// <param name="parentProxy">Represents the parent codeUnit.</param>
         /// <param name="sourceCode">The source code containing the expression.</param>
         /// <param name="leftHandSide">The expression on the left hand side of the operator.</param>
         /// <param name="previousPrecedence">The precedence of the expression just before this one.</param>

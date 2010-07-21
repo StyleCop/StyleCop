@@ -91,8 +91,8 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Determines whether the two items are equal.
         /// </summary>
-        /// <param name="item1">The first item.</param>
-        /// <param name="item2">The second item.</param>
+        /// <param name="item1">The first codeUnit.</param>
+        /// <param name="item2">The second codeUnit.</param>
         /// <returns>Returns true if the items are equal.</returns>
         public static bool operator ==(QueryOrderByOrdering item1, QueryOrderByOrdering item2)
         {
@@ -103,8 +103,8 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Determines whether the two items are inequal.
         /// </summary>
-        /// <param name="item1">The first item.</param>
-        /// <param name="item2">The second item.</param>
+        /// <param name="item1">The first codeUnit.</param>
+        /// <param name="item2">The second codeUnit.</param>
         /// <returns>Returns true if the items are not equal.</returns>
         public static bool operator !=(QueryOrderByOrdering item1, QueryOrderByOrdering item2)
         {
@@ -131,7 +131,7 @@ namespace Microsoft.StyleCop.CSharp
         }
 
         /// <summary>
-        /// Gets a unique hash code for the item.
+        /// Gets a unique hash code for the codeUnit.
         /// </summary>
         /// <returns>Returns the hash code.</returns>
         public override int GetHashCode()

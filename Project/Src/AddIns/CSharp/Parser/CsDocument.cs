@@ -239,7 +239,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <param name="callback">Callback executed when a code unit is visited.</param>
         /// <param name="context">The optional visitor context data.</param>
         /// <param name="codeUnitTypes">The types of code units to visit.</param>
-        /// <typeparam name="T">The type of the context item.</typeparam>
+        /// <typeparam name="T">The type of the context codeUnit.</typeparam>
         public void WalkCodeModel<T>(CodeUnitVisitor<T> callback, T context, params CodeUnitType[] codeUnitTypes)
         {
             Param.RequireNotNull(callback, "callback");
@@ -254,7 +254,7 @@ namespace Microsoft.StyleCop.CSharp
         /// </summary>
         /// <param name="callback">Callback executed when a code unit is visited.</param>
         /// <param name="context">The optional visitor context data.</param>
-        /// <typeparam name="T">The type of the context item.</typeparam>
+        /// <typeparam name="T">The type of the context codeUnit.</typeparam>
         public void WalkCodeModel<T>(CodeUnitVisitor<T> callback, T context)
         {
             Param.RequireNotNull(callback, "callback");

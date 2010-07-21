@@ -25,7 +25,7 @@ namespace Microsoft.StyleCop.CSharp
         #region Private Fields
 
         /// <summary>
-        /// The item text.
+        /// The codeUnit text.
         /// </summary>
         private string text = String.Empty;
 
@@ -46,7 +46,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Initializes a new instance of the Symbol class.
         /// </summary>
-        /// <param name="text">The item text.</param>
+        /// <param name="text">The codeUnit text.</param>
         /// <param name="symbolType">The symbol type.</param>
         /// <param name="location">The location of the token within the code document.</param>
         internal Symbol(string text, SymbolType symbolType, CodeLocation location)

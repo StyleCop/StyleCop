@@ -111,7 +111,7 @@
 ////        /// Determines whether a variable with the given name is contained within the collection.
 ////        /// </summary>
 ////        /// <param name="name">The name of the variable.</param>
-////        /// <returns>Returns true if the item is contained within the collection.</returns>
+////        /// <returns>Returns true if the codeUnit is contained within the collection.</returns>
 ////        public bool Contains(string name)
 ////        {
 ////            Param.RequireNotNull(name, "name");
@@ -204,7 +204,7 @@
 ////        /// Removes the given variable.
 ////        /// </summary>
 ////        /// <param name="variable">The variable to remove.</param>
-////        /// <returns>Returns true if the item was removed from the collection.</returns>
+////        /// <returns>Returns true if the codeUnit was removed from the collection.</returns>
 ////        /// <remarks>This method is not supported.</remarks>
 ////        bool ICollection<Variable>.Remove(Variable variable)
 ////        {
@@ -225,7 +225,7 @@
 ////        /// Determines whether the given variable is contained within the collection.
 ////        /// </summary>
 ////        /// <param name="variable">The variable.</param>
-////        /// <returns>Returns true if the item is contained within the collection.</returns>
+////        /// <returns>Returns true if the codeUnit is contained within the collection.</returns>
 ////        /// <remarks>This method is not supported.</remarks>
 ////        bool ICollection<Variable>.Contains(Variable variable)
 ////        {
