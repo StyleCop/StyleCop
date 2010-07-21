@@ -167,10 +167,10 @@ namespace Microsoft.StyleCop.CSharp.CodeModel
         {
             get
             {
-                // Static constructors are always public.
+                // Static constructors are treated as private and handled as a special case for ordering.
                 if (this.ContainsModifier(TokenType.Static))
                 {
-                    return AccessModifierType.Public;
+                    return AccessModifierType.Private;
                 }
 
                 return base.DefaultAccessModifierType;

@@ -117,7 +117,7 @@ namespace Microsoft.StyleCop.CSharp
                 catch (SyntaxException syntaxex)
                 {
                     this.AddViolation(sourceCode, syntaxex.LineNumber, Rules.SyntaxException, syntaxex.Message);
-                    document = new CsDocumentWrapper(this, sourceCode);
+                    document = null;
                 }
             }
 

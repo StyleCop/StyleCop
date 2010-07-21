@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="ParameterList.cs" company="Microsoft">
+// <copyright file="GenericParameterList.cs" company="Microsoft">
 //   Copyright (c) Microsoft Corporation.
 // </copyright>
 // <license>
@@ -20,22 +20,22 @@ namespace Microsoft.StyleCop.CSharp.CodeModel
     using System.Text;
 
     /// <summary>
-    /// Describes a formal parameter list within a method, constructor, or indexer declaration.
+    /// Describes a list of generic parameters within a generic type definition.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class ParameterList : CodeUnit
+    public sealed class GenericTypeParameterList : CodeUnit
     {
         /// <summary>
         /// The collection of parameters in the list.
         /// </summary>
-        private CodeUnitProperty<ICollection<Parameter>> parameters;
+        private CodeUnitProperty<ICollection<GenericTypeParameter>> parameters;
 
         /// <summary>
-        /// Initializes a new instance of the ParameterList class.
+        /// Initializes a new instance of the GenericTypeParameterList class.
         /// </summary>
         /// <param name="proxy">The proxy class.</param>
-        internal ParameterList(CodeUnitProxy proxy)
-            : base(proxy, CodeUnitType.ParameterList)
+        internal GenericTypeParameterList(CodeUnitProxy proxy)
+            : base(proxy, CodeUnitType.GenericTypeParameterList)
         {
             Param.AssertNotNull(proxy, "proxy");
         }
@@ -43,7 +43,7 @@ namespace Microsoft.StyleCop.CSharp.CodeModel
         /// <summary>
         /// Gets the collection of parameters within the list.
         /// </summary>
-        public ICollection<Parameter> Parameters
+        public ICollection<GenericTypeParameter> Parameters
         {
             get
             {
@@ -51,7 +51,7 @@ namespace Microsoft.StyleCop.CSharp.CodeModel
 
                 if (!this.parameters.Initialized)
                 {
-                    this.parameters.Value = new List<Parameter>(this.GetChildren<Parameter>());
+                    this.parameters.Value = new List<GenericTypeParameter>(this.GetChildren<GenericTypeParameter>());
                 }
 
                 return this.parameters.Value;

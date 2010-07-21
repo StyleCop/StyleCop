@@ -30,7 +30,7 @@ namespace Microsoft.StyleCop.CSharp.CodeModel
         /// <summary>
         /// The types within the generic type.
         /// </summary>
-        private CodeUnitProperty<ICollection<string>> types;
+        private CodeUnitProperty<GenericTypeParameterList> types;
 
         #endregion Private Fields
 
@@ -55,7 +55,24 @@ namespace Microsoft.StyleCop.CSharp.CodeModel
         /// <summary>
         /// Gets the types within the generic type.
         /// </summary>
-        public ICollection<string> GenericTypes
+        public ICollection<GenericTypeParameter> GenericTypes
+        {
+            get
+            {
+                GenericTypeParameterList list = this.GenericTypeList;
+                if (list == null)
+                {
+                    return GenericTypeParameter.EmptyGenericTypeParameterArray;
+                }
+
+                return list.Parameters;
+            }
+        }
+
+        /// <summary>
+        /// Gets the generic type list within this token.
+        /// </summary>
+        public GenericTypeParameterList GenericTypeList
         {
             get
             {
@@ -63,7 +80,7 @@ namespace Microsoft.StyleCop.CSharp.CodeModel
 
                 if (!this.types.Initialized)
                 {
-                    this.ExtractGenericTypes();
+                    this.types.Value = this.FindFirstChild<GenericTypeParameterList>();
                 }
 
                 return this.types.Value;
@@ -85,47 +102,5 @@ namespace Microsoft.StyleCop.CSharp.CodeModel
         }
 
         #endregion Protected Override Methods
-        
-        #region Private Methods
-
-        /// <summary>
-        /// Extracts the generic types from the type list and saves them.
-        /// </summary>
-        private void ExtractGenericTypes()
-        {
-            var genericTypes = new List<string>();
-            var type = new StringBuilder();
-
-            for (Token token = this.FindFirstChild<Token>(); token != null; token = token.FindNextSibling<Token>())
-            {
-                if (token.TokenType == TokenType.Comma)
-                {
-                    string trimmedType = CodeParser.TrimType(type.ToString());
-                    if (!string.IsNullOrEmpty(trimmedType))
-                    {
-                        genericTypes.Add(trimmedType);
-                    }
-
-                    type.Remove(0, type.Length);
-                }
-                else
-                {
-                    type.Append(token.Text);
-                }
-            }
-
-            if (type.Length > 0)
-            {
-                string trimmedType = CodeParser.TrimType(type.ToString());
-                if (!string.IsNullOrEmpty(trimmedType))
-                {
-                    genericTypes.Add(trimmedType);
-                }
-            }
-
-            this.types.Value = genericTypes.AsReadOnly();
-        }
-
-        #endregion Private Methods
     }
 }

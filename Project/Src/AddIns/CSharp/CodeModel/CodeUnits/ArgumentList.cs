@@ -25,7 +25,10 @@ namespace Microsoft.StyleCop.CSharp.CodeModel
     /// <subcategory>codeunit</subcategory>
     public sealed class ArgumentList : CodeUnit
     {
-        #region Internal Constructors
+        /// <summary>
+        /// The collection of arguments in the list.
+        /// </summary>
+        private CodeUnitProperty<ICollection<Argument>> arguments;
 
         /// <summary>
         /// Initializes a new instance of the ArgumentList class.
@@ -37,6 +40,31 @@ namespace Microsoft.StyleCop.CSharp.CodeModel
             Param.AssertNotNull(proxy, "proxy");
         }
 
-        #endregion Internal Constructors
-    }
+        /// <summary>
+        /// Gets the collection of arguments within the list.
+        /// </summary>
+        public ICollection<Argument> Arguments
+        {
+            get
+            {
+                this.ValidateEditVersion();
+
+                if (!this.arguments.Initialized)
+                {
+                    this.arguments.Value = new List<Argument>(this.GetChildren<Argument>());
+                }
+
+                return this.arguments.Value;
+            }
+        }
+
+        /// <summary>
+        /// Resets the contents of the item.
+        /// </summary>
+        protected override void Reset()
+        {
+            base.Reset();
+            this.arguments.Reset();
+        }
+   }
 }

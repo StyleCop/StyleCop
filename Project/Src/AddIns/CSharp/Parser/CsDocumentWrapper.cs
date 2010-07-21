@@ -80,6 +80,9 @@ namespace Microsoft.StyleCop.CSharp
             this.parser = parser;
             this.sourceCode = sourceCode;
             this.document = document;
+
+            Debug.Assert(this.document.Tag == null, "Wrapper has already been set!");
+            this.document.Tag = this;
         }
 
         /// <summary>
@@ -104,9 +107,6 @@ namespace Microsoft.StyleCop.CSharp
             }
         }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether the document is read-only.
-        /// </summary>
         /// <summary>
         /// Gets or sets a value indicating whether the document is read-only.
         /// </summary>
