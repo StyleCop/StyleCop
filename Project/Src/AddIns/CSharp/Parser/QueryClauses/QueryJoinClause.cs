@@ -16,7 +16,6 @@ namespace Microsoft.StyleCop.CSharp
 {
     using System;
     using System.Collections.Generic;
-using System.Diagnostics;
 
     /// <summary>
     /// Describes a join clause in a query expression.
@@ -28,32 +27,17 @@ using System.Diagnostics;
         /// <summary>
         /// The expression after the 'in' keyword.
         /// </summary>
-        private CodeUnitProperty<Expression> inExpression;
+        private Expression inExpression;
 
         /// <summary>
         /// The expression after the 'on' keyword.
         /// </summary>
-        private CodeUnitProperty<Expression> onKeyExpression;
+        private Expression onKeyExpression;
 
         /// <summary>
         /// The expression after the 'equals' keyword.
         /// </summary>
-        private CodeUnitProperty<Expression> equalsKeyExpression;
-
-        /// <summary>
-        /// The variable.
-        /// </summary>
-        private CodeUnitProperty<IVariable> rangeVariable;
-
-        /// <summary>
-        /// The into variable.
-        /// </summary>
-        private CodeUnitProperty<IVariable> intoVariable;
-        
-        /// <summary>
-        /// The variables declared within the clause.
-        /// </summary>
-        private CodeUnitProperty<IList<IVariable>> variables;
+        private Expression equalsKeyExpression;
 
         #endregion Private Fields
 
@@ -78,9 +62,9 @@ using System.Diagnostics;
             Param.AssertNotNull(onKeyExpression, "onKeyExpression");
             Param.AssertNotNull(equalsKeyExpression, "equalsKeyExpression");
 
-            this.inExpression.Value = inExpression;
-            this.onKeyExpression.Value = onKeyExpression;
-            this.equalsKeyExpression.Value = equalsKeyExpression;
+            this.inExpression = inExpression;
+            this.onKeyExpression = onKeyExpression;
+            this.equalsKeyExpression = equalsKeyExpression;
         }
 
         #endregion Internal Constructors
@@ -94,35 +78,26 @@ using System.Diagnostics;
         {
             get
             {
-                this.ValidateEditVersion();
+                IVariable rangeVariable = this.RangeVariable;
+                IVariable intoVariable = this.IntoVariable;
 
-                if (!this.variables.Initialized)
+                if (rangeVariable != null)
                 {
-                    IVariable rangeVariable = this.RangeVariable;
-                    IVariable intoVariable = this.IntoVariable;
-
-                    if (rangeVariable != null)
+                    if (intoVariable != null)
                     {
-                        if (intoVariable != null)
-                        {
-                            this.variables.Value = new IVariable[] { rangeVariable, intoVariable };
-                        }
-                        else
-                        {
-                            this.variables.Value = new IVariable[] { rangeVariable };
-                        }
-                    }
-                    else if (intoVariable != null)
-                    {
-                        this.variables.Value = new IVariable[] { intoVariable };
+                        return new IVariable[] { rangeVariable, intoVariable };
                     }
                     else
                     {
-                        this.variables.Value = CsParser.EmptyVariableArray;
+                        return new IVariable[] { rangeVariable };
                     }
                 }
+                else if (intoVariable != null)
+                {
+                    return new IVariable[] { intoVariable };
+                }
 
-                return this.variables.Value;
+                return CsParser.EmptyVariableArray;
             }
         }
 
@@ -137,15 +112,14 @@ using System.Diagnostics;
         {
             get
             {
-                this.ValidateEditVersion();
-
-                if (!this.rangeVariable.Initialized)
+                // Find the 'join' keyword.
+                JoinToken joinToken = this.FindFirstChild<JoinToken>();
+                if (joinToken == null)
                 {
-                    this.Initialize();
-                    Debug.Assert(this.rangeVariable.Value == null, "Failed to initialize");
+                    return null;
                 }
 
-                return this.rangeVariable.Value;
+                return ExtractQueryVariable(joinToken.FindNextSibling<Token>(), true, false);
             }
         }
 
@@ -156,15 +130,7 @@ using System.Diagnostics;
         {
             get
             {
-                this.ValidateEditVersion();
-
-                if (!this.inExpression.Initialized)
-                {
-                    this.Initialize();
-                    Debug.Assert(this.inExpression.Value == null, "Failed to initialize");
-                }
-
-                return this.inExpression.Value;
+                return this.inExpression;
             }
         }
 
@@ -175,15 +141,7 @@ using System.Diagnostics;
         {
             get
             {
-                this.ValidateEditVersion();
-
-                if (!this.onKeyExpression.Initialized)
-                {
-                    this.Initialize();
-                    Debug.Assert(this.onKeyExpression.Value == null, "Failed to initialize");
-                }
-
-                return this.onKeyExpression.Value;
+                return this.onKeyExpression;
             }
         }
 
@@ -194,15 +152,7 @@ using System.Diagnostics;
         {
             get
             {
-                this.ValidateEditVersion();
-
-                if (!this.equalsKeyExpression.Initialized)
-                {
-                    this.Initialize();
-                    Debug.Assert(this.equalsKeyExpression.Value == null, "Failed to initialize");
-                }
-
-                return this.equalsKeyExpression.Value;
+                return this.equalsKeyExpression;
             }
         }
 
@@ -213,126 +163,17 @@ using System.Diagnostics;
         {
             get
             {
-                this.ValidateEditVersion();
-
-                if (!this.intoVariable.Initialized)
+                // Find the 'into' keyword.
+                IntoToken intoToken = this.FindFirstChild<IntoToken>();
+                if (intoToken == null)
                 {
-                    this.Initialize();
-                    Debug.Assert(this.intoVariable.Value == null, "Failed to initialize");
+                    return null;
                 }
 
-                return this.intoVariable.Value;
+                return ExtractQueryVariable(intoToken.FindNextSibling<Token>(), true, true);
             }
         }
 
         #endregion Public Properties
-
-        #region Protected Override Methods
-
-        /// <summary>
-        /// Resets the contents of the class.
-        /// </summary>
-        protected override void Reset()
-        {
-            base.Reset();
-
-            this.inExpression.Reset();
-            this.onKeyExpression.Reset();
-            this.equalsKeyExpression.Reset();
-            this.rangeVariable.Reset();
-            this.intoVariable.Reset();
-            this.variables.Reset();
-        }
-
-        #endregion Protected Override Methods
-
-        #region Private Methods
-
-        /// <summary>
-        /// Initializes the contents of the class.
-        /// </summary>
-        private void Initialize()
-        {
-            JoinToken @join = this.FindFirstChild<JoinToken>();
-            if (@join == null)
-            {
-                throw new SyntaxException(this.Document, this.LineNumber);
-            }
-
-            Token token = @join.FindNextSibling<Token>();
-            if (token == null)
-            {
-                throw new SyntaxException(this.Document, this.LineNumber);
-            }
-
-            this.rangeVariable.Value = ExtractQueryVariable(token, true, false);
-            if (this.rangeVariable.Value == null)
-            {
-                throw new SyntaxException(this.Document, this.LineNumber);
-            }
-
-            InToken @in = token.FindNextSibling<InToken>();
-            if (@in == null)
-            {
-                throw new SyntaxException(this.Document, this.LineNumber);
-            }
-
-            this.inExpression.Value = @in.FindNextSibling<Expression>();
-            if (this.inExpression.Value == null)
-            {
-                throw new SyntaxException(this.Document, this.LineNumber);
-            }
-            
-            OnToken @on = this.inExpression.Value.FindNextSibling<OnToken>();
-            if (@on == null)
-            {
-                throw new SyntaxException(this.Document, this.LineNumber);
-            }
-
-            this.onKeyExpression.Value = @on.FindNextSibling<Expression>();
-            if (this.onKeyExpression.Value == null)
-            {
-                throw new SyntaxException(this.Document, this.LineNumber);
-            }
-
-            EqualsToken equals = this.onKeyExpression.Value.FindNextSibling<EqualsToken>();
-            if (equals == null)
-            {
-                throw new SyntaxException(this.Document, this.LineNumber);
-            }
-
-            this.equalsKeyExpression.Value = equals.FindNextSibling<Expression>();
-            if (this.equalsKeyExpression.Value == null)
-            {
-                throw new SyntaxException(this.Document, this.LineNumber);
-            }
-
-            this.intoVariable.Value = null;
-            for (CodeUnit c = this.equalsKeyExpression.Value.FindNextSibling<CodeUnit>(); c != null; c = c.FindNextSibling<CodeUnit>())
-            {
-                if (c.Is(TokenType.Into))
-                {
-                    token = c.FindNextSibling<Token>();
-                    if (token == null)
-                    {
-                        throw new SyntaxException(this.Document, this.LineNumber);
-                    }
-
-                    this.intoVariable.Value = ExtractQueryVariable(token, true, false);
-                    if (this.intoVariable.Value == null)
-                    {
-                        throw new SyntaxException(this.Document, this.LineNumber);
-                    }
-
-                    break;
-                }
-                else if (!c.Is(CodeUnitType.LexicalElement) || c.Is(LexicalElementType.Token))
-                {
-                    break;
-                }
-            }
-        }
-
-        #endregion Private Methods
     }
 }

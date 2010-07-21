@@ -71,20 +71,6 @@ namespace Microsoft.StyleCop.CSharp
         }
 
         #endregion Public Properties
-
-        #region Protected Override Methods
-
-        /// <summary>
-        /// Resets the contents of the item.
-        /// </summary>
-        protected override void Reset()
-        {
-            base.Reset();
-
-            this.types.Reset();
-        }
-
-        #endregion Protected Override Methods
         
         #region Private Methods
 

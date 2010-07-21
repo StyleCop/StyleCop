@@ -64,8 +64,6 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                this.ValidateEditVersion();
-
                 if (!this.partner.Initialized)
                 {
 
@@ -115,19 +113,5 @@ namespace Microsoft.StyleCop.CSharp
         }
 
         #endregion Public Properties
-
-        #region Protected Override Methods
-
-        /// <summary>
-        /// Resets the contents of the item.
-        /// </summary>
-        protected override void Reset()
-        {
-            base.Reset();
-
-            this.partner.Reset();
-        }
-
-        #endregion Protected Override Methods
     }
 }
