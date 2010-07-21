@@ -33,6 +33,7 @@ namespace StyleCopSettingsEditor
         /// </summary>
         /// <param name="args">The event arguments.</param>
         [SuppressMessage("Microsoft.Globalization", "CA1300:SpecifyMessageBoxOptions", Justification = "The default options are adequate.")]
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "The spelling of args is fine here.")]
         [STAThread]
         public static void Main(string[] args)
         {
