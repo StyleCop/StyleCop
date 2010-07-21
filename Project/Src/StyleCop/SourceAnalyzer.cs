@@ -118,7 +118,7 @@ namespace Microsoft.StyleCop
         /// <param name="document">The document.</param>
         /// <param name="ruleName">The rule to check.</param>
         /// <returns>Returns true if the rule is enabled; otherwise false.</returns>
-        public override bool IsRuleEnabled(ICodeDocument document, string ruleName)
+        public override bool IsRuleEnabled(CodeDocument document, string ruleName)
         {
             Param.RequireNotNull(document, "document");
             Param.RequireValidString(ruleName, "ruleName");
@@ -151,7 +151,7 @@ namespace Microsoft.StyleCop
         /// Analyzes a code document.
         /// </summary>
         /// <param name="document">The document to analyze.</param>
-        public virtual void AnalyzeDocument(ICodeDocument document)
+        public virtual void AnalyzeDocument(CodeDocument document)
         {
             Param.Ignore(document);
         }
@@ -163,7 +163,7 @@ namespace Microsoft.StyleCop
         /// <param name="passNumber">The current pass number.</param>
         /// <returns>Returns true if the analysis should be delayed until the next pass, or
         /// false if the analysis should be performed in the current pass.</returns>
-        public virtual bool DelayAnalysis(ICodeDocument document, int passNumber)
+        public virtual bool DelayAnalysis(CodeDocument document, int passNumber)
         {
             Param.Ignore(document, passNumber);
             return false;
@@ -246,7 +246,7 @@ namespace Microsoft.StyleCop
         /// </summary>
         /// <param name="document">The document containing the data.</param>
         /// <returns>Returns the data if it exists.</returns>
-        protected object GetDocumentData(ICodeDocument document)
+        protected object GetDocumentData(CodeDocument document)
         {
             Param.RequireNotNull(document, "document");
 
@@ -261,7 +261,7 @@ namespace Microsoft.StyleCop
         /// </summary>
         /// <param name="document">The document to store the data within.</param>
         /// <param name="data">The data to store.</param>
-        protected void SetDocumentData(ICodeDocument document, object data)
+        protected void SetDocumentData(CodeDocument document, object data)
         {
             Param.RequireNotNull(document, "document");
             Param.Ignore(data);

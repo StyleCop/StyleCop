@@ -501,7 +501,7 @@ namespace Microsoft.StyleCop
         public void Analyze(IList<CodeProject> projects)
         {
             Param.RequireNotNull(projects, "projects");
-            this.Analyze(projects, false, null, false, false);
+            this.Analyze(projects, false, null);
         }
 
         /// <summary>
@@ -514,7 +514,7 @@ namespace Microsoft.StyleCop
             Param.RequireNotNull(projects, "projects");
             Param.RequireValidString(settingsFilePath, "settingsFilePath");
 
-            this.Analyze(projects, false, settingsFilePath, false, false);
+            this.Analyze(projects, false, settingsFilePath);
         }
 
         /// <summary>
@@ -524,7 +524,7 @@ namespace Microsoft.StyleCop
         public void FullAnalyze(IList<CodeProject> projects)
         {
             Param.RequireNotNull(projects, "projects");
-            this.Analyze(projects, true, null, false, false);
+            this.Analyze(projects, true, null);
         }
 
         /// <summary>
@@ -537,35 +537,7 @@ namespace Microsoft.StyleCop
             Param.RequireNotNull(projects, "projects");
             Param.RequireValidString(settingsFilePath, "settingsFilePath");
 
-            this.Analyze(projects, true, settingsFilePath, false, false);
-        }
-
-        /// <summary>
-        /// Auto-fixes the files within the given projects.
-        /// </summary>
-        /// <param name="projects">The list of code projects to auto-fix.</param>
-        /// <param name="autoSave">Indicates whether to save the document back to the source.</param>
-        public void AutoFix(IList<CodeProject> projects, bool autoSave)
-        {
-            Param.RequireNotNull(projects, "projects");
-            Param.Ignore(autoSave);
-
-            this.Analyze(projects, false, null, true, autoSave);
-        }
-
-        /// <summary>
-        /// Auto-fixes the files within the given projects.
-        /// </summary>
-        /// <param name="projects">The list of code projects to auto-fix.</param>
-        /// <param name="autoSave">Indicates whether to save the fixed document back to the source.</param>
-        /// <param name="settingsFilePath">The path to a StyleCop settings file to use during auto-fixing.</param>
-        public void AutoFix(IList<CodeProject> projects, bool autoSave, string settingsFilePath)
-        {
-            Param.RequireNotNull(projects, "projects");
-            Param.Ignore(autoSave);
-            Param.RequireValidString(settingsFilePath, "settingsFilePath");
-
-            this.Analyze(projects, false, settingsFilePath, true, autoSave);
+            this.Analyze(projects, true, settingsFilePath);
         }
 
         /// <summary>
@@ -1495,16 +1467,12 @@ namespace Microsoft.StyleCop
         /// <param name="projects">The list of code projects to analyze.</param>
         /// <param name="ignoreCache">True if the cache files should be ignored.</param>
         /// <param name="settingsPath">The path to the settings to use during analysis.</param>
-        /// <param name="autoFix">Indicates whether to run auto-fix rather than analysis.</param>
-        /// <param name="autoSave">If autoFix is true, this flag indicates whether to auto-save the document back to the source.</param>
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Cannot allow exception from plug-in to kill VS or build")]
-        private void Analyze(IList<CodeProject> projects, bool ignoreCache, string settingsPath, bool autoFix, bool autoSave)
+        private void Analyze(IList<CodeProject> projects, bool ignoreCache, string settingsPath)
         {
             Param.AssertNotNull(projects, "projects");
             Param.Ignore(ignoreCache);
             Param.Ignore(settingsPath);
-            Param.Ignore(autoFix);
-            Param.Ignore(autoSave);
 
             // Indicate that we're analyzing.
             lock (this)
@@ -1546,7 +1514,7 @@ namespace Microsoft.StyleCop
 
                 // Create a data object which will passed to each worker.
                 StyleCopThread.Data data = new StyleCopThread.Data(
-                    this, projects, resultsCache, autoFix, autoSave, ignoreCache || autoFix, settingsPath);
+                    this, projects, resultsCache, ignoreCache, settingsPath);
 
                 // Initialize each of the projects before analysis.
                 foreach (CodeProject project in projects)

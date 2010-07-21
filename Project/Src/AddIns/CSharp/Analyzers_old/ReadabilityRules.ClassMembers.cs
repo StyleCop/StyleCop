@@ -32,7 +32,7 @@ namespace Microsoft.StyleCop.CSharp_old
         /// <param name="document">The document to analyze.</param>
         /// <param name="passNumber">The current pass number.</param>
         /// <returns>Returns true if analysis should be delayed.</returns>
-        public override bool DelayAnalysis(ICodeDocument document, int passNumber)
+        public override bool DelayAnalysis(CodeDocument document, int passNumber)
         {
             Param.RequireNotNull(document, "document");
             Param.Ignore(passNumber);

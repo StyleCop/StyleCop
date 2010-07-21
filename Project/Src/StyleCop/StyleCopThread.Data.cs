@@ -52,16 +52,6 @@ namespace Microsoft.StyleCop
             private bool ignoreResultsCache;
 
             /// <summary>
-            /// Indicates whether auto-fix is running rather than analysis.
-            /// </summary>
-            private bool autoFixMode;
-
-            /// <summary>
-            /// Indicates whether to auto-save the fixed document, if autoFix is true.
-            /// </summary>
-            private bool autoSaveMode;
-
-            /// <summary>
             /// The path to the settings to use during analysis.
             /// </summary>
             private string settingsPath;
@@ -111,32 +101,24 @@ namespace Microsoft.StyleCop
             /// <param name="core">The StyleCop core instance.</param>
             /// <param name="codeProjects">The list of code projects to analyze.</param>
             /// <param name="resultsCache">The results cache.</param>
-            /// <param name="autoFixMode">Indicates whether auto-fix is running rather than analysis.</param>
-            /// <param name="autoSaveMode">Indicates whether to auto-save the document back to the source, if autoFixMode is true.</param>
             /// <param name="ignoreResultsCache">True to ignore the results cache.</param>
             /// <param name="settingsPath">The path to the settings to use during analysis.</param>
             public Data(
                 StyleCopCore core, 
                 IList<CodeProject> codeProjects,
-                ResultsCache resultsCache,
-                bool autoFixMode,
-                bool autoSaveMode,
+                ResultsCache resultsCache, 
                 bool ignoreResultsCache, 
                 string settingsPath)
             {
                 Param.AssertNotNull(core, "core");
                 Param.AssertNotNull(codeProjects, "codeProjects");
                 Param.Ignore(resultsCache);
-                Param.Ignore(autoFixMode);
-                Param.Ignore(autoSaveMode);
                 Param.Ignore(ignoreResultsCache);
                 Param.Ignore(settingsPath);
 
                 this.core = core;
                 this.projects = codeProjects;
                 this.cache = resultsCache;
-                this.autoFixMode = autoFixMode;
-                this.autoSaveMode = autoSaveMode;
                 this.ignoreResultsCache = ignoreResultsCache;
                 this.settingsPath = settingsPath;
             }
@@ -163,29 +145,6 @@ namespace Microsoft.StyleCop
                 get 
                 { 
                     return this.cache; 
-                }
-            }
-
-            /// <summary>
-            /// Gets a value indicating whether auto-fix is running rather than analysis.
-            /// </summary>
-            public bool AutoFixMode
-            {
-                get
-                {
-                    return this.autoFixMode;
-                }
-            }
-
-            /// <summary>
-            /// Gets a value indicating whether to auto-save the fixed document back to the source,
-            /// if auto-fix is running.
-            /// </summary>
-            public bool AutoSaveMode
-            {
-                get
-                {
-                    return this.autoSaveMode;
                 }
             }
 

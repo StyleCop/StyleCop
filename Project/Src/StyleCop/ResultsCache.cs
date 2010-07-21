@@ -134,7 +134,7 @@ namespace Microsoft.StyleCop
         /// <param name="parser">The parser that created the document.</param>
         /// <param name="settingsTimeStamp">The time when the settings were last updated.</param>
         /// <returns>Returns true if the document was saved.</returns>
-        public bool SaveDocumentResults(ICodeDocument document, SourceParser parser, DateTime settingsTimeStamp)
+        public bool SaveDocumentResults(CodeDocument document, SourceParser parser, DateTime settingsTimeStamp)
         {
             Param.AssertNotNull(document, "document");
             Param.AssertNotNull(parser, "parser");

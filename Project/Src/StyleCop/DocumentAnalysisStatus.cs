@@ -27,7 +27,7 @@ namespace Microsoft.StyleCop
         /// <summary>
         /// The document being parsed.
         /// </summary>
-        private ICodeDocument document;
+        private CodeDocument document;
 
         /// <summary>
         /// Indicates whether the contents of the class have been initialized.
@@ -74,7 +74,7 @@ namespace Microsoft.StyleCop
         /// <summary>
         /// Gets or sets the document being parsed.
         /// </summary>
-        public ICodeDocument Document
+        public CodeDocument Document
         {
             get
             {
