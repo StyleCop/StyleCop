@@ -25,23 +25,22 @@ namespace Microsoft.StyleCop
     /// </summary>
     public sealed class WritableSettings : Settings
     {
-        #region Internal Constructors
+        #region Public Constructors
 
         /// <summary>
         /// Initializes a new instance of the WritableSettings class.
         /// </summary>
         /// <param name="core">The StyleCop core instance.</param>
-        /// <param name="path">The path to the settings document.</param>
-        /// <param name="location">The location where the settings document is contained.</param>
+        /// <param name="location">The location of the settings document.</param>
         /// <param name="contents">The initial contents of the settings document.</param>
         /// <param name="writeTime">The time when the settings were last updated.</param>
-        internal WritableSettings(StyleCopCore core, string path, string location, XmlDocument contents, DateTime writeTime)
-            : base(core, path, location, contents, writeTime)
+        public WritableSettings(StyleCopCore core, string location, XmlDocument contents, DateTime writeTime)
+            : base(core, location, contents, writeTime)
         {
-            Param.Ignore(core, path, location, contents, writeTime);
+            Param.Ignore(core, location, contents, writeTime);
         }
 
-        #endregion Internal Constructors
+        #endregion Public Constructors
 
         #region Public Static Methods
 

@@ -167,7 +167,7 @@ namespace Microsoft.StyleCop
                 // will allow us to do a parent merge from this location.
                 if (settings == null)
                 {
-                    settings = new Settings(this.Core, settingsPath, this.GetSettingsPath(settingsPath));
+                    settings = new Settings(this.Core, settingsPath);
                 }
 
                 // Merge the file and return it.
@@ -366,21 +366,6 @@ namespace Microsoft.StyleCop
         }
 
         #endregion Public Methods
-
-        #region Protected Virtual Methods
-
-        /// <summary>
-        /// Coverts the given path to a suitable settings path.
-        /// </summary>
-        /// <param name="settingsPath">The original settings path.</param>
-        /// <returns>Returns the suiteable settings path.</returns>
-        protected virtual string GetSettingsPath(string settingsPath)
-        {
-            Param.Ignore(settingsPath);
-            return settingsPath;
-        }
-
-        #endregion Protected Virtual Methods
 
         #region Private Methods
 

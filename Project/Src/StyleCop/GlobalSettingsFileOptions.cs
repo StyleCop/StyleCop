@@ -183,7 +183,7 @@ namespace Microsoft.StyleCop
 
                     if (linkedSettingsFile.StartsWith(".", StringComparison.Ordinal))
                     {
-                        linkedSettingsFile = StyleCopCore.MakeAbsolutePath(this.tabControl.LocalSettings.Location, linkedSettingsFile);
+                        linkedSettingsFile = StyleCopCore.MakeAbsolutePath(Path.GetDirectoryName(this.tabControl.LocalSettings.Location), linkedSettingsFile);
                     }
 
                     this.linkedFilePath.Text = linkedSettingsFile;
@@ -290,7 +290,7 @@ namespace Microsoft.StyleCop
                     if (!relativePath.StartsWith(".", StringComparison.Ordinal))
                     {
                         // Create a URI pointing to the local project folder.
-                        string localFolderPath = this.tabControl.LocalSettings.Location;
+                        string localFolderPath = Path.GetDirectoryName(this.tabControl.LocalSettings.Location);
                         if (!localFolderPath.EndsWith("\\", StringComparison.Ordinal))
                         {
                             localFolderPath += "\\";
@@ -632,7 +632,7 @@ namespace Microsoft.StyleCop
 
                 if (expandedPath.StartsWith(".", StringComparison.Ordinal) || !expandedPath.Contains("\\"))
                 {
-                    expandedPath = StyleCopCore.MakeAbsolutePath(this.tabControl.LocalSettings.Location, expandedPath);
+                    expandedPath = StyleCopCore.MakeAbsolutePath(Path.GetDirectoryName(this.tabControl.LocalSettings.Location), expandedPath);
                 }
 
                 // Check if there is a file at the given path. Create the settings file if needed.

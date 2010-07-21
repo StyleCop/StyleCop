@@ -134,7 +134,7 @@ namespace Microsoft.StyleCop
                 // will allow us to do a parent merge from this location.
                 if (settings == null)
                 {
-                    settings = new Settings(this.Core, settingsPath, Path.GetDirectoryName(settingsPath));
+                    settings = new Settings(this.Core, settingsPath);
                 }
 
                 // Merge the file and return it.
@@ -216,7 +216,7 @@ namespace Microsoft.StyleCop
 
             exception = null;
 
-            if (settings.Path == null || settings.Contents == null)
+            if (settings.Location == null || settings.Contents == null)
             {
                 throw new InvalidOperationException(Strings.SettingsFileHasNotBeenLoaded);
             }
@@ -227,10 +227,10 @@ namespace Microsoft.StyleCop
             try
             {
                 // Save the file.
-                document.Save(settings.Path);
+                document.Save(settings.Location);
 
                 // Update the write time.
-                settings.WriteTime = File.GetLastWriteTime(settings.Path);
+                settings.WriteTime = File.GetLastWriteTime(settings.Location);
 
                 return true;
             }
@@ -263,7 +263,7 @@ namespace Microsoft.StyleCop
         {
             Param.RequireValidString(settingsPath, "settingsPath");
 
-            string currentFolder = settingsPath;
+            string currentFolder = Path.GetDirectoryName(settingsPath);
             while (!string.IsNullOrEmpty(currentFolder))
             {
                 DirectoryInfo parentFolder = Directory.GetParent(currentFolder);
@@ -636,7 +636,7 @@ namespace Microsoft.StyleCop
                 // Get the last write time for the file.
                 DateTime writeTime = File.GetLastWriteTime(path);
 
-                return new WritableSettings(this.Core, path, Path.GetDirectoryName(path), document, writeTime);
+                return new WritableSettings(this.Core, path, document, writeTime);
             }
             catch (ArgumentException argex)
             {
@@ -691,16 +691,13 @@ namespace Microsoft.StyleCop
                     XmlDocument document = new XmlDocument();
                     document.Load(settingsFilePath);
 
-                    // Get the folder that contains the file.
-                    string folder = Path.GetDirectoryName(settingsFilePath);
-
                     // Get the last write time for the time.
                     DateTime writeTime = File.GetLastWriteTime(settingsFilePath);
 
                     // Create the settings container.
                     Settings settings = readOnly
-                        ? new Settings(this.Core, settingsFilePath, folder, document, writeTime)
-                        : new WritableSettings(this.Core, settingsFilePath, folder, document, writeTime);
+                        ? new Settings(this.Core, settingsFilePath, document, writeTime)
+                        : new WritableSettings(this.Core, settingsFilePath, document, writeTime);
 
                     return settings;
                 }
