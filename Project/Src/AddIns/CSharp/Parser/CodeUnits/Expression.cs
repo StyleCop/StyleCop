@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="Expression.cs" company="Microsoft">
+// <copyright file="ICodeUnit.cs" company="Microsoft">
 //   Copyright (c) Microsoft Corporation.
 // </copyright>
 // <license>
@@ -33,6 +33,15 @@ namespace Microsoft.StyleCop.CSharp
         internal static readonly Expression[] EmptyExpressionArray = new Expression[] { };
 
         #endregion Internal Static Fields
+
+        #region Private Fields
+
+        /// <summary>
+        /// Stores a text representation of the expression. This is created on demand.
+        /// </summary>
+        ////private string text;
+
+        #endregion Private Fields
 
         #region Internal Constructors
 

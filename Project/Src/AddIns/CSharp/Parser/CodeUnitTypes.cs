@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="CodeUnitTypes.cs" company="Microsoft">
-//     Copyright (c) Microsoft Corporation.
+//     Copyright (c) Microsoft Corporation. All rights reserved.
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -1231,12 +1231,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// A variable declarator expression.
         /// </summary>
-        VariableDeclarator = 0x04250000,
-
-        /// <summary>
-        /// An event declarator expression.
-        /// </summary>
-        EventDeclarator = 0x04260000,
+        VariableDeclarator = 0x04250000
     }
 
     /// <summary>

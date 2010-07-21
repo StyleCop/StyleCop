@@ -46,7 +46,7 @@
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DocumentationFile>$(RootBin)\Debug\Microsoft.StyleCop.CSharp_old.xml</DocumentationFile>
+    <DocumentationFile>$(RootBin)\Debug\Microsoft.StyleCop.CSharp.xml</DocumentationFile>
     <FileAlignment>4096</FileAlignment>
     <NoStdLib>false</NoStdLib>
     <NoWarn>
@@ -70,7 +70,7 @@
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
     <DefineConstants>TRACE</DefineConstants>
-    <DocumentationFile>$(RootBin)\Release\Microsoft.StyleCop.CSharp_old.xml</DocumentationFile>
+    <DocumentationFile>$(RootBin)\Release\Microsoft.StyleCop.CSharp.xml</DocumentationFile>
     <FileAlignment>4096</FileAlignment>
     <NoStdLib>false</NoStdLib>
     <NoWarn>
@@ -78,7 +78,7 @@
     <RegisterForComInterop>false</RegisterForComInterop>
     <RemoveIntegerChecks>false</RemoveIntegerChecks>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>$(RootBin)\Microsoft.StyleCop.CSharp_old.XML</DocumentationFile>
+    <DocumentationFile>$(RootBin)\Microsoft.StyleCop.CSharp.XML</DocumentationFile>
     <CodeAnalysisRuleSet>..\..\..\FxCopRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>

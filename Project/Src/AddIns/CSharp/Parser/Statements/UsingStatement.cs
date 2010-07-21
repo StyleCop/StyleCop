@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------
 // <copyright file="UsingStatement.cs" company="Microsoft">
-//     Copyright (c) Microsoft Corporation.
+//     Copyright (c) Microsoft Corporation. All rights reserved.
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -89,7 +89,7 @@ namespace Microsoft.StyleCop.CSharp
         /// Gets the variables defined within this code unit.
         /// </summary>
         /// <returns>Returns the collection of variables.</returns>
-        public override IList<IVariable> GetVariables()
+        public override IVariable[] GetVariables()
         {
             VariableDeclarationExpression item = this.FindFirstChild<VariableDeclarationExpression>();
             if (item != null)
@@ -97,7 +97,7 @@ namespace Microsoft.StyleCop.CSharp
                 return item.GetVariables();
             }
 
-            return CsParser.EmptyVariableArray;
+            return null;
         }
 
         #endregion Public Properties

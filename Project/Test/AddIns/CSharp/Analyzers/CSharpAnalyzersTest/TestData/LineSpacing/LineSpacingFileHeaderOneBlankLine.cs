@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------
 // <copyright file="LineSpacingFileHeaderOneBlankLine.cs" company="Microsoft">
-//   Copyright (c) Microsoft Corporation.
+//   Copyright (c) Microsoft Corporation. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 

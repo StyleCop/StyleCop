@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="ClassBase.cs" company="Microsoft">
+// <copyright file="ICodeUnit.cs" company="Microsoft">
 //   Copyright (c) Microsoft Corporation.
 // </copyright>
 // <license>
@@ -144,7 +144,7 @@ namespace Microsoft.StyleCop.CSharp
         /// Gets the variables defined within this element.
         /// </summary>
         /// <returns>Returns the collection of variables.</returns>
-        public override IList<IVariable> GetVariables()
+        public override IVariable[] GetVariables()
         {
             if (!this.Is(ElementType.Interface))
             {
@@ -157,11 +157,11 @@ namespace Microsoft.StyleCop.CSharp
 
                 if (variables.Count > 0)
                 {
-                    return variables.AsReadOnly();
+                    return variables.ToArray();
                 }
             }
 
-            return CsParser.EmptyVariableArray;
+            return null;
         }
 
         #endregion Public Override Methods

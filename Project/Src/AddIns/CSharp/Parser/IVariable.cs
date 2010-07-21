@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------
-// <copyright file="IVariable.cs" company="Microsoft">
-//     Copyright (c) Microsoft Corporation.
+// <copyright file="Variable.cs" company="Microsoft">
+//     Copyright (c) Microsoft Corporation. All rights reserved.
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 

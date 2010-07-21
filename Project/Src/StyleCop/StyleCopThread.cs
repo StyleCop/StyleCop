@@ -402,39 +402,35 @@ namespace Microsoft.StyleCop
                             break;
                         }
 
-                        // Only run the analyzers associated with the current parser.
-                        if (analyzer.Parser == parser)
+                        SourceParser.ClearAnalyzerTags(document);
+                        try
                         {
-                            SourceParser.ClearAnalyzerTags(document);
-                            try
+                            // Check whether we are running in auto-fix mode, in which case we should call the
+                            // AutoFixDocument method on analyzers that support it. Otherwise, we are simply running
+                            // the rules and we should call the AnalyzeDocument method instead.
+                            if (this.data.AutoFixMode)
                             {
-                                // Check whether we are running in auto-fix mode, in which case we should call the
-                                // AutoFixDocument method on analyzers that support it. Otherwise, we are simply running
-                                // the rules and we should call the AnalyzeDocument method instead.
-                                if (this.data.AutoFixMode)
+                                ISourceFixer fixer = analyzer as ISourceFixer;
+                                if (fixer != null)
                                 {
-                                    ISourceFixer fixer = analyzer as ISourceFixer;
-                                    if (fixer != null)
-                                    {
-                                        fixer.AutoFixDocument(document);
-                                    }
-                                }
-                                else
-                                {
-                                    analyzer.AnalyzeDocument(document);
+                                    fixer.AutoFixDocument(document);
                                 }
                             }
-                            catch (System.Exception)
+                            else
                             {
-                                string details = string.Format(
-                                        CultureInfo.CurrentCulture,
-                                        "Exception thrown by analyzer '{0}' while processing '{1}'.",
-                                        analyzer.Name,
-                                        document.SourceCode.Path);
+                                analyzer.AnalyzeDocument(document);
+                            }
+                        }
+                        catch (System.Exception)
+                        {
+                            string details = string.Format(
+                                    CultureInfo.CurrentCulture,
+                                    "Exception thrown by analyzer '{0}' while processing '{1}'.",
+                                    analyzer.Name,
+                                    document.SourceCode.Path);
 
-                                this.data.Core.SignalOutput(MessageImportance.High, details);
-                                throw;
-                            }
+                            this.data.Core.SignalOutput(MessageImportance.High, details);
+                            throw;
                         }
                     }
                 }

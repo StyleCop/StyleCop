@@ -16,8 +16,8 @@ namespace Microsoft.StyleCop.CSharp
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using Microsoft.StyleCop.Collections;
+    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// Extension methods for the CodeUnit class.
@@ -145,7 +145,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <param name="codeUnit">The code unit.</param>
         /// <typeparam name="T">The type of the parent to return.</typeparam>
         /// <returns>Returns the parent element or null if there is none.</returns>
-        public static T FindParent<T>(this CodeUnit codeUnit) where T : CodeUnit
+        internal static T FindParent<T>(this CodeUnit codeUnit) where T : CodeUnit
         {
             Param.RequireNotNull(codeUnit, "codeUnit");
 
@@ -818,23 +818,10 @@ namespace Microsoft.StyleCop.CSharp
         /// <typeparam name="T">The type of the items to return.</typeparam>
         /// <returns>Returns the enumerable object.</returns>
         [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "The method does not require a parameter of type T.")]
-        public static IEnumerable<T> GetDescendents<T>(this CodeUnit codeUnit) where T : CodeUnit
+        public static IEnumerable<T> Get<T>(this CodeUnit codeUnit) where T : CodeUnit
         {
             Param.RequireNotNull(codeUnit, "codeUnit");
-            return new CodeUnitDescendentEnumerable<T>(codeUnit);
-        }
-
-        /// <summary>
-        /// Iterates through the direct children of the CodeUnit.
-        /// </summary>
-        /// <param name="codeUnit">The code unit.</param>
-        /// <typeparam name="T">The type of the items to return.</typeparam>
-        /// <returns>Returns the enumerable object.</returns>
-        [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "The method does not require a parameter of type T.")]
-        public static IEnumerable<T> GetChildren<T>(this CodeUnit codeUnit) where T : CodeUnit
-        {
-            Param.RequireNotNull(codeUnit, "codeUnit");
-            return new CodeUnitChildrenEnumerable<T>(codeUnit);
+            return new CodeUnitEnumerable<T>(codeUnit);
         }
 
         /// <summary>
@@ -1070,7 +1057,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <returns>Returns true if the item is of the given type; false otherwise.</returns>
         private static bool Is(this CodeUnit codeUnit, int type, FundamentalTypeMasks mask)
         {
-            Param.AssertNotNull(codeUnit, "codeUnit");
+            Param.RequireNotNull(codeUnit, "codeUnit");
             Param.Ignore(type, mask);
 
             return (codeUnit.FundamentalType & (int)mask) == type;
@@ -1085,7 +1072,7 @@ namespace Microsoft.StyleCop.CSharp
         /// </summary>
         /// <typeparam name="T">The type of CodeUnits the enumerator should return.</typeparam>
         [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "The class is not a collection.")]
-        private class CodeUnitDescendentEnumerable<T> : IEnumerable<T> where T : CodeUnit
+        private class CodeUnitEnumerable<T> : IEnumerable<T> where T : CodeUnit
         {
             /// <summary>
             /// The CodeUnit to iterate through.
@@ -1093,10 +1080,10 @@ namespace Microsoft.StyleCop.CSharp
             private CodeUnit codeUnit;
 
             /// <summary>
-            /// Initializes a new instance of the CodeUnitDescendentEnumerable class.
+            /// Initializes a new instance of the CodeUnitEnumerable class.
             /// </summary>
             /// <param name="codeUnit">The CodeUnit to iterate through.</param>
-            public CodeUnitDescendentEnumerable(CodeUnit codeUnit)
+            public CodeUnitEnumerable(CodeUnit codeUnit)
             {
                 Param.AssertNotNull(codeUnit, "codeUnit");
                 this.codeUnit = codeUnit;
@@ -1108,7 +1095,7 @@ namespace Microsoft.StyleCop.CSharp
             /// <returns>Returns the enumerator.</returns>
             public IEnumerator<T> GetEnumerator()
             {
-                return new CodeUnitDescendentEnumerator<T>(this.codeUnit);
+                return new CodeUnitEnumerator<T>(this.codeUnit);
             }
 
             /// <summary>
@@ -1125,7 +1112,7 @@ namespace Microsoft.StyleCop.CSharp
         /// Enumerates through the descendents of a CodeUnit.
         /// </summary>
         /// <typeparam name="T">The type of the CodeUnits to return.</typeparam>
-        private class CodeUnitDescendentEnumerator<T> : IEnumerator<T> where T : CodeUnit
+        private class CodeUnitEnumerator<T> : IEnumerator<T> where T : CodeUnit
         {
             /// <summary>
             /// The code unit to iterate through.
@@ -1138,10 +1125,10 @@ namespace Microsoft.StyleCop.CSharp
             private T currentItem;
 
             /// <summary>
-            /// Initializes a new instance of the CodeUnitDescendentEnumerator class.
+            /// Initializes a new instance of the CodeUnitEnumerator class.
             /// </summary>
             /// <param name="codeUnit">The code unit to iterate through.</param>
-            public CodeUnitDescendentEnumerator(CodeUnit codeUnit)
+            public CodeUnitEnumerator(CodeUnit codeUnit)
             {
                 Param.AssertNotNull(codeUnit, "codeUnit");
                 this.codeUnit = codeUnit;
@@ -1182,130 +1169,6 @@ namespace Microsoft.StyleCop.CSharp
                 else
                 {
                     this.currentItem = this.currentItem.FindNextDescendentOf<T>(this.codeUnit);
-                }
-
-                return this.currentItem != null;
-            }
-
-            /// <summary>
-            /// Resets the enumerator.
-            /// </summary>
-            public void Reset()
-            {
-                this.currentItem = null;
-            }
-
-            /// <summary>
-            /// Disposes the contents of the class.
-            /// </summary>
-            public void Dispose()
-            {
-                GC.SuppressFinalize(this);
-            }
-        }
-
-        /// <summary>
-        /// Gets an enumerator for iterating through the direct children of a CodeUnit.
-        /// </summary>
-        /// <typeparam name="T">The type of CodeUnits the enumerator should return.</typeparam>
-        [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "The class is not a collection.")]
-        private class CodeUnitChildrenEnumerable<T> : IEnumerable<T> where T : CodeUnit
-        {
-            /// <summary>
-            /// The CodeUnit to iterate through.
-            /// </summary>
-            private CodeUnit codeUnit;
-
-            /// <summary>
-            /// Initializes a new instance of the CodeUnitChildrenEnumerable class.
-            /// </summary>
-            /// <param name="codeUnit">The CodeUnit to iterate through.</param>
-            public CodeUnitChildrenEnumerable(CodeUnit codeUnit)
-            {
-                Param.AssertNotNull(codeUnit, "codeUnit");
-                this.codeUnit = codeUnit;
-            }
-
-            /// <summary>
-            /// Gets an enumerator for iterating through the direct children of the CodeUnit.
-            /// </summary>
-            /// <returns>Returns the enumerator.</returns>
-            public IEnumerator<T> GetEnumerator()
-            {
-                return new CodeUnitChildrenEnumerator<T>(this.codeUnit);
-            }
-
-            /// <summary>
-            /// Gets an enumerator for iterating through the direct children of the CodeUnit.
-            /// </summary>
-            /// <returns>Returns the enumerator.</returns>
-            System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-            {
-                return this.GetEnumerator();
-            }
-        }
-
-        /// <summary>
-        /// Enumerates through the direct children of a CodeUnit.
-        /// </summary>
-        /// <typeparam name="T">The type of the CodeUnits to return.</typeparam>
-        private class CodeUnitChildrenEnumerator<T> : IEnumerator<T> where T : CodeUnit
-        {
-            /// <summary>
-            /// The code unit to iterate through.
-            /// </summary>
-            private CodeUnit codeUnit;
-
-            /// <summary>
-            /// The current item.
-            /// </summary>
-            private T currentItem;
-
-            /// <summary>
-            /// Initializes a new instance of the CodeUnitChildrenEnumerator class.
-            /// </summary>
-            /// <param name="codeUnit">The code unit to iterate through.</param>
-            public CodeUnitChildrenEnumerator(CodeUnit codeUnit)
-            {
-                Param.AssertNotNull(codeUnit, "codeUnit");
-                this.codeUnit = codeUnit;
-            }
-
-            /// <summary>
-            /// Gets the current item.
-            /// </summary>
-            public T Current
-            {
-                get
-                {
-                    return this.currentItem;
-                }
-            }
-
-            /// <summary>
-            /// Gets the current item.
-            /// </summary>
-            object System.Collections.IEnumerator.Current
-            {
-                get
-                {
-                    return this.currentItem;
-                }
-            }
-
-            /// <summary>
-            /// Moves to the next item in the collection.
-            /// </summary>
-            /// <returns>Returns true if the index was moved; false if there are no more items in the collection.</returns>
-            public bool MoveNext()
-            {
-                if (this.currentItem == null)
-                {
-                    this.currentItem = this.codeUnit.FindFirstChild<T>();
-                }
-                else
-                {
-                    this.currentItem = this.currentItem.FindNextSibling<T>();
                 }
 
                 return this.currentItem != null;
