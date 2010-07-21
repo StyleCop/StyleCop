@@ -129,7 +129,7 @@
     <EmbeddedResource Include="ParamCheck.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Parser_old\CSharpParser_old.csproj">
+    <ProjectReference Include="..\Parser\CSharpParser.csproj">
       <Project>{C173ACF5-2CE5-4771-83A4-D01453C8CB09}</Project>
       <Name>CSharpParser</Name>
     </ProjectReference>

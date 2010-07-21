@@ -43,7 +43,7 @@ namespace Microsoft.StyleCop
             // If the PublicAndProtectedOnly property exists on the Documentation analyzer, rename it to IgnorePrivates.
             V41Settings.ChangeAnalyzerSettingName(
                 document,
-                "Microsoft.StyleCop.CSharp_old.Documentation",
+                "Microsoft.StyleCop.CSharp.Documentation",
                 "PublicAndProtectedOnly",
                 "IgnorePrivates");
 
@@ -130,7 +130,7 @@ namespace Microsoft.StyleCop
                         string parserName = parserId.Value;
                         if (parserName.Equals("Microsoft.SourceAnalysis.CSharp.CsParser", StringComparison.Ordinal))
                         {
-                            parserName = "Microsoft.StyleCop.CSharp_old.CsParser";
+                            parserName = "Microsoft.StyleCop.CSharp.CsParser";
                         }
 
                         // Get the parser instance.
@@ -217,63 +217,63 @@ namespace Microsoft.StyleCop
 
             if (string.Equals(analyzerId, "Microsoft.SourceAnalysis.CSharp.AccessModifiers", StringComparison.OrdinalIgnoreCase))
             {
-                return "Microsoft.StyleCop.CSharp_old.MaintainabilityRules";
+                return "Microsoft.StyleCop.CSharp.MaintainabilityRules";
             }
             else if (string.Equals(analyzerId, "Microsoft.SourceAnalysis.CSharp.ClassMembers", StringComparison.OrdinalIgnoreCase))
             {
-                return "Microsoft.StyleCop.CSharp_old.ReadabilityRules";
+                return "Microsoft.StyleCop.CSharp.ReadabilityRules";
             }
             else if (string.Equals(analyzerId, "Microsoft.SourceAnalysis.CSharp.Comments", StringComparison.OrdinalIgnoreCase))
             {
-                return "Microsoft.StyleCop.CSharp_old.ReadabilityRules";
+                return "Microsoft.StyleCop.CSharp.ReadabilityRules";
             }
             else if (string.Equals(analyzerId, "Microsoft.SourceAnalysis.CSharp.CurlyBrackets", StringComparison.OrdinalIgnoreCase))
             {
-                return "Microsoft.StyleCop.CSharp_old.LayoutRules";
+                return "Microsoft.StyleCop.CSharp.LayoutRules";
             }
             else if (string.Equals(analyzerId, "Microsoft.SourceAnalysis.CSharp.DeclarationKeywordOrder", StringComparison.OrdinalIgnoreCase))
             {
-                return "Microsoft.StyleCop.CSharp_old.OrderingRules";
+                return "Microsoft.StyleCop.CSharp.OrderingRules";
             }
             else if (string.Equals(analyzerId, "Microsoft.SourceAnalysis.CSharp.Documentation", StringComparison.OrdinalIgnoreCase))
             {
-                return "Microsoft.StyleCop.CSharp_old.DocumentationRules";
+                return "Microsoft.StyleCop.CSharp.DocumentationRules";
             }
             else if (string.Equals(analyzerId, "Microsoft.SourceAnalysis.CSharp.ElementOrder", StringComparison.OrdinalIgnoreCase))
             {
-                return "Microsoft.StyleCop.CSharp_old.OrderingRules";
+                return "Microsoft.StyleCop.CSharp.OrderingRules";
             }
             else if (string.Equals(analyzerId, "Microsoft.SourceAnalysis.CSharp.FileHeaders", StringComparison.OrdinalIgnoreCase))
             {
-                return "Microsoft.StyleCop.CSharp_old.DocumentationRules";
+                return "Microsoft.StyleCop.CSharp.DocumentationRules";
             }
             else if (string.Equals(analyzerId, "Microsoft.SourceAnalysis.CSharp.LineSpacing", StringComparison.OrdinalIgnoreCase))
             {
-                return "Microsoft.StyleCop.CSharp_old.LayoutRules";
+                return "Microsoft.StyleCop.CSharp.LayoutRules";
             }
             else if (string.Equals(analyzerId, "Microsoft.SourceAnalysis.CSharp.MethodParameters", StringComparison.OrdinalIgnoreCase))
             {
-                return "Microsoft.StyleCop.CSharp_old.ReadabilityRules";
+                return "Microsoft.StyleCop.CSharp.ReadabilityRules";
             }
             else if (string.Equals(analyzerId, "Microsoft.SourceAnalysis.CSharp.Naming", StringComparison.OrdinalIgnoreCase))
             {
-                return "Microsoft.StyleCop.CSharp_old.NamingRules";
+                return "Microsoft.StyleCop.CSharp.NamingRules";
             }
             else if (string.Equals(analyzerId, "Microsoft.SourceAnalysis.CSharp.Parenthesis", StringComparison.OrdinalIgnoreCase))
             {
-                return "Microsoft.StyleCop.CSharp_old.MaintainabilityRules";
+                return "Microsoft.StyleCop.CSharp.MaintainabilityRules";
             }
             else if (string.Equals(analyzerId, "Microsoft.SourceAnalysis.CSharp.Spacing", StringComparison.OrdinalIgnoreCase))
             {
-                return "Microsoft.StyleCop.CSharp_old.SpacingRules";
+                return "Microsoft.StyleCop.CSharp.SpacingRules";
             }
             else if (string.Equals(analyzerId, "Microsoft.SourceAnalysis.CSharp.Statements", StringComparison.OrdinalIgnoreCase))
             {
-                return "Microsoft.StyleCop.CSharp_old.ReadabilityRules";
+                return "Microsoft.StyleCop.CSharp.ReadabilityRules";
             }
             else if (string.Equals(analyzerId, "Microsoft.SourceAnalysis.CSharp.Tabs", StringComparison.OrdinalIgnoreCase))
             {
-                return "Microsoft.StyleCop.CSharp_old.SpacingRules";
+                return "Microsoft.StyleCop.CSharp.SpacingRules";
             }
 
             return analyzerId;

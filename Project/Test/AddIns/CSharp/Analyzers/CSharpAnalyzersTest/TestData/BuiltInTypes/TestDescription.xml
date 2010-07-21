@@ -9,7 +9,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.ReadabilityRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.ReadabilityRules">
           <Rules>
             <Rule Name="UseBuiltInTypeAlias">
               <RuleSettings>

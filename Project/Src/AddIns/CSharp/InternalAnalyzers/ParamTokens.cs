@@ -16,7 +16,7 @@ namespace Microsoft.StyleCop.Internal
 {
     using System;
     using System.Collections.Generic;
-    using Microsoft.StyleCop.CSharp_old;
+    using Microsoft.StyleCop.CSharp;
 
     /// <summary>
     /// Contains tokens inside of a Param statement.
