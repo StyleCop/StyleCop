@@ -751,7 +751,7 @@ namespace Microsoft.StyleCop
                     }
                 }
 
-                this.properties.Add(addIn, storedProperties.AsReadOnly());
+                this.properties.Add(addIn, storedProperties.ToArray());
             }
         }
 

@@ -524,7 +524,7 @@ namespace Microsoft.StyleCop.CSharp
             }
 
             // Create and return the attribute.
-            var attribute = new Attribute(attributeProxy, attributeExpressions.AsReadOnly());
+            var attribute = new Attribute(attributeProxy, attributeExpressions.ToArray());
             parentProxy.Children.Add(attribute);
 
             return attribute;

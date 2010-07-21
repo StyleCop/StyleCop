@@ -3162,8 +3162,8 @@ namespace Microsoft.StyleCop.CSharp
             #endif
 
             // Extract the clauses.
-            ICollection<QueryClause> clauses = this.GetQueryExpressionClauses(expressionProxy, unsafeCode);
-            if (clauses == null || clauses.Count == 0)
+            QueryClause[] clauses = this.GetQueryExpressionClauses(expressionProxy, unsafeCode);
+            if (clauses.Length == 0)
             {
                 throw this.CreateSyntaxException();
             }
@@ -3182,7 +3182,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <param name="unsafeCode">Indicates whether the code being parsed resides 
         /// in an unsafe code block.</param>
         /// <returns>Returns the query clauses.</returns>
-        private ICollection<QueryClause> GetQueryExpressionClauses(CodeUnitProxy parentProxy, bool unsafeCode)
+        private QueryClause[] GetQueryExpressionClauses(CodeUnitProxy parentProxy, bool unsafeCode)
         {
             Param.AssertNotNull(parentProxy, "parentProxy");
             Param.Ignore(unsafeCode);
@@ -3248,7 +3248,7 @@ namespace Microsoft.StyleCop.CSharp
                 clauses.Add(clause);
             }
 
-            return clauses.AsReadOnly();
+            return clauses.ToArray();
         }
 
         /// <summary>
@@ -3278,7 +3278,7 @@ namespace Microsoft.StyleCop.CSharp
             this.GetQueryVariable(queryClauseProxy, unsafeCode, true, true);
 
             // Extract the clauses.
-            ICollection<QueryClause> clauses = this.GetQueryExpressionClauses(queryClauseProxy, unsafeCode);
+            QueryClause[] clauses = this.GetQueryExpressionClauses(queryClauseProxy, unsafeCode);
 
             // Create and return the clause.
             var continuationClause = new QueryContinuationClause(queryClauseProxy, clauses);
