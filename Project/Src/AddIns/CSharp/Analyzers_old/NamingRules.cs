@@ -68,7 +68,7 @@ namespace Microsoft.StyleCop.CSharp_old
         /// Checks the case of element names within the given document.
         /// </summary>
         /// <param name="document">The document to check.</param>
-        public override void AnalyzeDocument(ICodeDocument document)
+        public override void AnalyzeDocument(CodeDocument document)
         {
             Param.RequireNotNull(document, "document");
 

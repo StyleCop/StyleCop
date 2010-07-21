@@ -17,7 +17,6 @@ namespace Microsoft.StyleCop.CSharp_old
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
-    using System.IO;
     using System.Xml;
     using Microsoft.StyleCop;
 
@@ -25,24 +24,9 @@ namespace Microsoft.StyleCop.CSharp_old
     /// Represents a parsed C# document.
     /// </summary>
     [SuppressMessage("Microsoft.Naming", "CA1706:ShortAcronymsShouldBeUppercase", Justification = "Camel case better serves in this case.")]
-    public sealed class CsDocument : ICodeDocument, ICodePart, ITokenContainer
+    public sealed class CsDocument : CodeDocument, ICodePart, ITokenContainer
     {
         #region Private Fields
-
-        /// <summary>
-        /// The original source code document.
-        /// </summary>
-        private SourceCode sourceCode;
-
-        /// <summary>
-        /// Storage space for analyzer data.
-        /// </summary>
-        private Dictionary<string, object> analyzerData = new Dictionary<string, object>();
-
-        /// <summary>
-        /// Indicates whether the document is read-only.
-        /// </summary>
-        private bool readOnly = true;
 
         /// <summary>
         /// The contents at the root of the document.
@@ -75,12 +59,12 @@ namespace Microsoft.StyleCop.CSharp_old
         /// <param name="parser">The parser that is creating this object.</param>
         /// <param name="tokens">The tokens in the document.</param>
         internal CsDocument(SourceCode sourceCode, CsParser parser, MasterList<CsToken> tokens)
+            : base(sourceCode)
         {
             Param.AssertNotNull(sourceCode, "sourceCode");
             Param.AssertNotNull(parser, "parser");
             Param.Ignore(tokens);
 
-            this.sourceCode = sourceCode;
             this.parser = parser;
             this.tokens = tokens;
         }
@@ -96,18 +80,17 @@ namespace Microsoft.StyleCop.CSharp_old
             Param.AssertNotNull(sourceCode, "sourceCode");
             Param.AssertNotNull(parser, "parser");
 
-            this.sourceCode = sourceCode;
             this.tokens = new MasterList<CsToken>();
         }
 
         #endregion Internal Constructors
 
-        #region Public Properties
+        #region Public Override Properties
 
         /// <summary>
         /// Gets the contents of the document at the root level.
         /// </summary>
-        public ICodeElement DocumentContents
+        public override ICodeElement DocumentContents
         {
             get
             {
@@ -115,60 +98,9 @@ namespace Microsoft.StyleCop.CSharp_old
             }
         }
 
-        /// <summary>
-        /// Gets the original source code document.
-        /// </summary>
-        public SourceCode SourceCode
-        {
-            get
-            {
-                return this.sourceCode;
-            }
-        }
+        #endregion Public Override Properties
 
-        /// <summary>
-        /// Gets the settings for the the project that contains the document.
-        /// </summary>
-        public Settings Settings
-        {
-            get
-            {
-                if (this.sourceCode != null)
-                {
-                    return this.sourceCode.Settings;
-                }
-
-                return null;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the document is read-only.
-        /// </summary>
-        public bool ReadOnly
-        {
-            get
-            {
-                return this.readOnly;
-            }
-
-            set
-            {
-                Param.Ignore(value);
-                this.readOnly = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets the analyzer data dictionary for the document.
-        /// </summary>
-        public Dictionary<string, object> AnalyzerData
-        {
-            get
-            {
-                return this.analyzerData;
-            }
-        }
+        #region Public Properties
 
         /// <summary>
         /// Gets the list of tokens in the document.
@@ -303,25 +235,6 @@ namespace Microsoft.StyleCop.CSharp_old
         #region Public Methods
 
         /// <summary>
-        /// Disposes the contents of the class.
-        /// </summary>
-        public void Dispose()
-        {
-            this.Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        /// <summary>
-        /// Writes the contents of the document to the given writer.
-        /// </summary>
-        /// <param name="writer">The writer.</param>
-        public void Write(TextWriter writer)
-        {
-            Param.Ignore(writer);
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
         /// Walks through the code units in the document.
         /// </summary>
         /// <param name="elementCallback">Callback executed when an element is visited.</param>
@@ -446,15 +359,17 @@ namespace Microsoft.StyleCop.CSharp_old
 
         #endregion Public Methods
 
-        #region Private Methods
+        #region Protected Override Methods
 
         /// <summary>
         /// Disposes the contents of the class.
         /// </summary>
         /// <param name="disposing">Indicates whether to dispose unmanaged resources.</param>
-        private void Dispose(bool disposing)
+        [SuppressMessage("Microsoft.Usage", "CA2215:DisposeMethodsShouldCallBaseClassDispose", Justification = "base.Dispose is called")]
+        protected override void Dispose(bool disposing)
         {
             Param.Ignore(disposing);
+            base.Dispose(disposing);
 
             if (disposing)
             {
@@ -464,6 +379,6 @@ namespace Microsoft.StyleCop.CSharp_old
             }
         }
 
-        #endregion Private Methods
+        #endregion Protected Override Methods
     }
 }

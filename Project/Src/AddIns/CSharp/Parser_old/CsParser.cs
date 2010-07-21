@@ -129,7 +129,7 @@ namespace Microsoft.StyleCop.CSharp_old
             "Microsoft.Reliability", 
             "CA2000:Dispose objects before losing scope", 
             Justification = "Documents are returned to the caller and ultimately disposed of by the caller.")]
-        public override bool ParseFile(SourceCode sourceCode, int passNumber, ref ICodeDocument document)
+        public override bool ParseFile(SourceCode sourceCode, int passNumber, ref CodeDocument document)
         {
             Param.RequireNotNull(sourceCode, "sourceCode");
             Param.RequireGreaterThanOrEqualToZero(passNumber, "passNumber");
@@ -195,7 +195,7 @@ namespace Microsoft.StyleCop.CSharp_old
         /// </summary>
         /// <param name="document">The document.</param>
         /// <returns>Returns true to skip analysis on the document.</returns>
-        public override bool SkipAnalysisForDocument(ICodeDocument document)
+        public override bool SkipAnalysisForDocument(CodeDocument document)
         {
             Param.RequireNotNull(document, "document");
 

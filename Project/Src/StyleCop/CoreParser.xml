@@ -37,11 +37,5 @@
     <Rule Name="ExceptionOccurred" CheckId="SA0001">
       <Context>An exception occurred while parsing the file: {0}, {1}.</Context>
     </Rule>
-    <Rule Name="SaveExceptionOccurred" CheckId="SA0002">
-      <Context>A {0} exception occurred while saving the file {1}: {2}.</Context>
-    </Rule>
-    <Rule Name="UnknownSaveExceptionOccurred" CheckId="SA0003">
-      <Context>An unknown error occurred while saving the file {0}.</Context>
-    </Rule>
   </Rules>
 </SourceParser>

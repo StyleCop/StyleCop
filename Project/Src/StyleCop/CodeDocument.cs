@@ -16,156 +16,124 @@ namespace Microsoft.StyleCop
 {
     using System;
     using System.Collections.Generic;
-    using System.IO;
     using System.Text;
     using System.Xml;
 
-////    /// <summary>
-////    /// Contains the parsed object model for a source code document.
-////    /// </summary>
-////    public abstract class CodeDocument : IDisposable, Microsoft.StyleCop.ICodeDocument
-////    {
-////        #region Private Fields
+    /// <summary>
+    /// Contains the parsed object model for a source code document.
+    /// </summary>
+    public abstract class CodeDocument : IDisposable
+    {
+        #region Private Fields
 
-////        /// <summary>
-////        /// The original source code document.
-////        /// </summary>
-////        private SourceCode sourceCode;
+        /// <summary>
+        /// The original source code document.
+        /// </summary>
+        private SourceCode sourceCode;
 
-////        /// <summary>
-////        /// Storage space for analyzer data.
-////        /// </summary>
-////        private Dictionary<string, object> analyzerData = new Dictionary<string, object>();
+        /// <summary>
+        /// Storage space for analyzer data.
+        /// </summary>
+        private Dictionary<string, object> analyzerData = new Dictionary<string, object>();
 
-////        /// <summary>
-////        /// Indicates whether the document is read-only.
-////        /// </summary>
-////        private bool readOnly = true;
+        #endregion Private Fields
 
-////        #endregion Private Fields
+        #region Protected Constructors
 
-////        #region Protected Constructors
+        /// <summary>
+        /// Initializes a new instance of the CodeDocument class.
+        /// </summary>
+        /// <param name="sourceCode">The source code document this instance represents.</param>
+        protected CodeDocument(SourceCode sourceCode)
+        {
+            Param.RequireNotNull(sourceCode, "sourceCode");
+            this.sourceCode = sourceCode;
+        }
 
-////        /// <summary>
-////        /// Initializes a new instance of the CodeDocument class.
-////        /// </summary>
-////        /// <param name="sourceCode">The source code document this instance represents.</param>
-////        protected CodeDocument(SourceCode sourceCode)
-////        {
-////            Param.RequireNotNull(sourceCode, "sourceCode");
-////            this.sourceCode = sourceCode;
-////        }
+        #endregion Protected Constructors
 
-////        #endregion Protected Constructors
+        #region Public Abstract Properties
 
-////        #region Public Abstract Properties
+        /// <summary>
+        /// Gets the parsed contents of the document.
+        /// </summary>
+        public abstract ICodeElement DocumentContents
+        {
+            get;
+        }
 
-////        /// <summary>
-////        /// Gets the parsed contents of the document.
-////        /// </summary>
-////        public abstract ICodeElement DocumentContents
-////        {
-////            get;
-////        }
+        #endregion Public Abstract Properties
 
-////        #endregion Public Abstract Properties
+        #region Public Properties
 
-////        #region Public Properties
+        /// <summary>
+        /// Gets the original source code document.
+        /// </summary>
+        public SourceCode SourceCode
+        {
+            get
+            {
+                return this.sourceCode;
+            }
+        }
 
-////        /// <summary>
-////        /// Gets the original source code document.
-////        /// </summary>
-////        public SourceCode SourceCode
-////        {
-////            get
-////            {
-////                return this.sourceCode;
-////            }
-////        }
+        /// <summary>
+        /// Gets the settings for the the project that contains the document.
+        /// </summary>
+        public Settings Settings
+        {
+            get
+            {
+                if (this.sourceCode != null)
+                {
+                    return this.sourceCode.Settings;
+                }
 
-////        /// <summary>
-////        /// Gets the settings for the the project that contains the document.
-////        /// </summary>
-////        public Settings Settings
-////        {
-////            get
-////            {
-////                if (this.sourceCode != null)
-////                {
-////                    return this.sourceCode.Settings;
-////                }
+                return null;
+            }
+        }
 
-////                return null;
-////            }
-////        }
+        #endregion Public Properties
 
-////        /// <summary>
-////        /// Gets a value indicating whether the document is read-only.
-////        /// </summary>
-////        public bool ReadOnly
-////        {
-////            get
-////            {
-////                return this.readOnly;
-////            }
+        #region Internal Properties
 
-////            internal set
-////            {
-////                this.readOnly = value;
-////            }
-////        }
+        /// <summary>
+        /// Gets the analyzer data dictionary for the document.
+        /// </summary>
+        internal Dictionary<string, object> AnalyzerData
+        {
+            get
+            {
+                return this.analyzerData;
+            }
+        }
 
-////        #endregion Public Properties
+        #endregion Internal Properties
 
-////        #region Internal Properties
+        #region Public Methods
 
-////        /// <summary>
-////        /// Gets the analyzer data dictionary for the document.
-////        /// </summary>
-////        internal Dictionary<string, object> AnalyzerData
-////        {
-////            get
-////            {
-////                return this.analyzerData;
-////            }
-////        }
+        /// <summary>
+        /// Disposes the contents of the class.
+        /// </summary>
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
-////        #endregion Internal Properties
+        #endregion Public Methods
 
-////        #region Public Abstract Methods
+        #region Protected Virtual Methods
 
-////        /// <summary>
-////        /// Writes the contents of the document to the given writer.
-////        /// </summary>
-////        /// <param name="writer">The writer.</param>
-////        public abstract void Write(TextWriter writer);
+        /// <summary>
+        /// Disposes the contents of the class.
+        /// </summary>
+        /// <param name="disposing">Indicates whether to dispose unmanaged resources.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            Param.Ignore(disposing);
+        }
 
-////        #endregion Public Abstract Methods
-
-////        #region Public Methods
-
-////        /// <summary>
-////        /// Disposes the contents of the class.
-////        /// </summary>
-////        public void Dispose()
-////        {
-////            this.Dispose(true);
-////            GC.SuppressFinalize(this);
-////        }
-
-////        #endregion Public Methods
-
-////        #region Protected Virtual Methods
-
-////        /// <summary>
-////        /// Disposes the contents of the class.
-////        /// </summary>
-////        /// <param name="disposing">Indicates whether to dispose unmanaged resources.</param>
-////        protected virtual void Dispose(bool disposing)
-////        {
-////            Param.Ignore(disposing);
-////        }
-
-////        #endregion Protected Virtual Methods
-////    }
+        #endregion Protected Virtual Methods
+    }
 }

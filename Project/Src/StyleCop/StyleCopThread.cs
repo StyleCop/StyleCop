@@ -227,7 +227,7 @@ namespace Microsoft.StyleCop
                 string.Format(CultureInfo.CurrentCulture, "Pass {0}: {1}...\n", this.data.PassNumber + 1, sourceCode.Name));
 
             // Extract the document to parse.
-            ICodeDocument parsedDocument = documentStatus.Document;
+            CodeDocument parsedDocument = documentStatus.Document;
 
             // Get or load the analyzer list.
             IEnumerable<SourceAnalyzer> analyzers = sourceCode.Settings.EnabledAnalyzers;
@@ -256,35 +256,21 @@ namespace Microsoft.StyleCop
                 {
                     documentStatus.Complete = true;
                 }
-                else
+                else if (this.TestAndRunAnalyzers(parsedDocument, sourceCode.Parser, analyzers, this.data.PassNumber))
                 {
-                    if (this.data.AutoFixMode)
-                    {
-                        parsedDocument.ReadOnly = false;
-                    }
+                    // Analysis of this document is completed.
+                    documentStatus.Complete = true;
 
-                    if (this.TestAndRunAnalyzers(parsedDocument, sourceCode.Parser, analyzers, this.data.PassNumber))
+                    // Save the cache for this document and dispose it.
+                    if (parsedDocument != null)
                     {
-                        // Analysis of this document is completed.
-                        documentStatus.Complete = true;
-
-                        // Save the cache for this document and dispose it.
-                        if (parsedDocument != null)
+                        if (this.data.ResultsCache != null && sourceCode.Project.WriteCache)
                         {
-                            if (this.data.ResultsCache != null && sourceCode.Project.WriteCache)
-                            {
-                                this.data.ResultsCache.SaveDocumentResults(parsedDocument, sourceCode.Parser, sourceCode.Settings.WriteTime);
-                            }
-
-                            // If auto-save is true, then save the doc.
-                            if (this.data.AutoFixMode && this.data.AutoSaveMode)
-                            {
-                                this.SaveDocumentToSource(sourceCode, parsedDocument);
-                            }
-
-                            parsedDocument.Dispose();
-                            parsedDocument = null;
+                            this.data.ResultsCache.SaveDocumentResults(parsedDocument, sourceCode.Parser, sourceCode.Settings.WriteTime);
                         }
+
+                        parsedDocument.Dispose();
+                        parsedDocument = null;
                     }
                 }
             }
@@ -304,30 +290,6 @@ namespace Microsoft.StyleCop
         }
 
         /// <summary>
-        /// Saves the fixed document back to the source location.
-        /// </summary>
-        /// <param name="sourceCode">The source code representing the source of the document.</param>
-        /// <param name="document">The document to save to the source code location.</param>
-        private void SaveDocumentToSource(SourceCode sourceCode, ICodeDocument document)
-        {
-            Param.AssertNotNull(sourceCode, "sourceCode");
-            Param.AssertNotNull(document, "document");
-
-            Exception exception;
-            if (!sourceCode.Write(document, out exception))
-            {
-                if (exception != null)
-                {
-                    this.data.Core.CoreViolations.AddViolation(null, 1, Rules.SaveExceptionOccurred, exception.GetType(), sourceCode.Path, exception.Message);
-                }
-                else
-                {
-                    this.data.Core.CoreViolations.AddViolation(null, 1, Rules.UnknownSaveExceptionOccurred, sourceCode.Path);
-                }
-            }
-        }
-
-        /// <summary>
         /// Runs the analyzers against the given document.
         /// </summary>
         /// <param name="document">The document to analyze.</param>
@@ -336,7 +298,7 @@ namespace Microsoft.StyleCop
         /// <param name="passNumber">The current pass number.</param>
         /// <returns>Returns true if analysis was run, or false if analysis was delayed until the next pass.</returns>
         private bool TestAndRunAnalyzers(
-            ICodeDocument document, SourceParser parser, IEnumerable<SourceAnalyzer> analyzers, int passNumber)
+            CodeDocument document, SourceParser parser, IEnumerable<SourceAnalyzer> analyzers, int passNumber)
         {
             Param.AssertNotNull(document, "document");
             Param.AssertNotNull(parser, "parser");
@@ -352,13 +314,10 @@ namespace Microsoft.StyleCop
             bool delay = false;
             foreach (SourceAnalyzer analyzer in analyzers)
             {
-                if (!this.data.AutoFixMode || analyzer is ISourceFixer)
+                if (analyzer.DelayAnalysis(document, passNumber))
                 {
-                    if (analyzer.DelayAnalysis(document, passNumber))
-                    {
-                        delay = true;
-                        break;
-                    }
+                    delay = true;
+                    break;
                 }
             }
 
@@ -377,7 +336,7 @@ namespace Microsoft.StyleCop
         /// <param name="parser">The parser that created the document.</param>
         /// <param name="analyzers">The list of analyzsers to run against the document.</param>
         private void RunAnalyzers(
-            ICodeDocument document, SourceParser parser, IEnumerable<SourceAnalyzer> analyzers)
+            CodeDocument document, SourceParser parser, IEnumerable<SourceAnalyzer> analyzers)
         {
             Param.AssertNotNull(document, "document");
             Param.AssertNotNull(parser, "parser");
@@ -405,21 +364,7 @@ namespace Microsoft.StyleCop
                         SourceParser.ClearAnalyzerTags(document);
                         try
                         {
-                            // Check whether we are running in auto-fix mode, in which case we should call the
-                            // AutoFixDocument method on analyzers that support it. Otherwise, we are simply running
-                            // the rules and we should call the AnalyzeDocument method instead.
-                            if (this.data.AutoFixMode)
-                            {
-                                ISourceFixer fixer = analyzer as ISourceFixer;
-                                if (fixer != null)
-                                {
-                                    fixer.AutoFixDocument(document);
-                                }
-                            }
-                            else
-                            {
-                                analyzer.AnalyzeDocument(document);
-                            }
+                            analyzer.AnalyzeDocument(document);
                         }
                         catch (System.Exception)
                         {
@@ -446,7 +391,7 @@ namespace Microsoft.StyleCop
         {
             Param.AssertNotNull(sourceCode, "sourceCode");
 
-            if (!this.data.IgnoreResultsCache && !this.data.AutoFixMode && this.data.Core.Environment.SupportsResultsCache && this.data.ResultsCache != null)
+            if (!this.data.IgnoreResultsCache && this.data.Core.Environment.SupportsResultsCache && this.data.ResultsCache != null)
             {
                 // Check the project to see if the cache should be ignored.
                 ProjectStatus projectStatus = this.data.GetProjectStatus(sourceCode.Project);
