@@ -49,6 +49,16 @@ namespace Microsoft.StyleCop.CSharp
         private CodeUnitProxy proxy;
 
         /// <summary>
+        /// The friendly name of the type.
+        /// </summary>
+        private string friendlyTypeName;
+
+        /// <summary>
+        /// The friendly name of the type, in plural form.
+        /// </summary>
+        private string friendlyPluralTypeName;
+
+        /// <summary>
         /// The reference to the parent code unit.
         /// </summary>
         ////private ICodeUnitReference parentReference;
@@ -176,6 +186,46 @@ namespace Microsoft.StyleCop.CSharp
                 }
 
                 return this.parentReference.Target;
+            }
+        }
+
+        /// <summary>
+        /// Gets the friendly name of the code unit type, which can be used in user output.
+        /// </summary>
+        public string FriendlyTypeText
+        {
+            get
+            {
+                string text = this.GetFriendlyTypeText(null);
+                if (text != null)
+                {
+                    return text;
+                }
+
+                text = this.GetFriendlyTypeText(this.GetType().Name);
+                Debug.Assert(!string.IsNullOrEmpty(text), "The text should not be empty");
+
+                return text;
+            }
+        }
+
+        /// <summary>
+        /// Gets the friendly name of the code unit type as a plural noun, which can be used in user output.
+        /// </summary>
+        public string FriendlyPluralTypeText
+        {
+            get
+            {
+                string text = this.GetFriendlyPluralTypeText(null);
+                if (text != null)
+                {
+                    return text;
+                }
+
+                text = this.GetFriendlyPluralTypeText(this.GetType().Name);
+                Debug.Assert(!string.IsNullOrEmpty(text), "The text should not be empty");
+
+                return text;
             }
         }
 
@@ -339,6 +389,40 @@ namespace Microsoft.StyleCop.CSharp
         #endregion Internal Static Methods
 
         #region Internal Methods
+
+        /// <summary>
+        /// Gets the friendly name of the code unit type, which can be used in user output.
+        /// </summary>
+        /// <param name="typeName">The name of the type.</param>
+        /// <returns>Returns the friendly name text.</returns>
+        internal string GetFriendlyTypeText(string typeName)
+        {
+            Param.Ignore(typeName);
+
+            if (this.friendlyTypeName == null && typeName != null)
+            {
+                this.friendlyTypeName = TypeNames.ResourceManager.GetString(typeName, TypeNames.Culture);
+            }
+
+            return this.friendlyTypeName;
+        }
+
+        /// <summary>
+        /// Gets the friendly name of the code unit type as a plural noun, which can be used in user output.
+        /// </summary>
+        /// <param name="typeName">The name of the type.</param>
+        /// <returns>Returns the plural friendly name text.</returns>
+        internal string GetFriendlyPluralTypeText(string typeName)
+        {
+            Param.Ignore(typeName);
+
+            if (this.friendlyPluralTypeName == null && typeName != null)
+            {
+                this.friendlyPluralTypeName = TypeNames.ResourceManager.GetString(typeName + "Plural", TypeNames.Culture);
+            }
+
+            return this.friendlyPluralTypeName;
+        }
 
         /// <summary>
         /// Validates that the token's parent code unit references has been set.
