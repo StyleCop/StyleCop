@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes an extern keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class ExternToken : SimpleToken
+    public sealed class ExternToken : Token
     {
         /// <summary>
         /// Initializes a new instance of the ExternToken class.

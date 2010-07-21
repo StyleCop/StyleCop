@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a break keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class BreakToken : SimpleToken
+    public sealed class BreakToken : Token
     {
         /// <summary>
         /// Initializes a new instance of the BreakToken class.

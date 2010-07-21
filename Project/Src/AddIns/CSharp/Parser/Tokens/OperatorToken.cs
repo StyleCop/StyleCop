@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes an operator keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class OperatorToken : SimpleToken
+    public sealed class OperatorToken : Token
     {
         /// <summary>
         /// Initializes a new instance of the OperatorToken class.

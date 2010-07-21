@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a default value keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class DefaultValueToken : SimpleToken
+    public sealed class DefaultValueToken : Token
     {
         /// <summary>
         /// Initializes a new instance of the DefaultValueToken class.

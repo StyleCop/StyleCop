@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a remove keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class RemoveToken : SimpleToken
+    public sealed class RemoveToken : Token
     {
         /// <summary>
         /// Initializes a new instance of the RemoveToken class.

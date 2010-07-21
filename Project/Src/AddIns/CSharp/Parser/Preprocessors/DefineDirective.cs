@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a define directive.
     /// </summary>
     /// <subcategory>preprocessor</subcategory>
-    public sealed class DefineDirective : SimplePreprocessorDirective
+    public sealed class DefineDirective : PreprocessorDirective
     {
         /// <summary>
         /// Initializes a new instance of the DefineDirective class.

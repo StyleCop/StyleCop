@@ -69,17 +69,7 @@ namespace Microsoft.StyleCop.CSharp
                 this.ValidateEditVersion();
                 if (this.type == null)
                 {
-                    // Find the where token.
-                    Token where = this.FindFirstChild<WhereToken>();
-                    if (where != null)
-                    {
-                        this.type = where.FindNextSibling<TypeToken>();
-                    }
-
-                    if (this.type == null)
-                    {
-                        throw new SyntaxException(this.Document, this.LineNumber);
-                    }
+                    this.SetType();
                 }
                 
                 return this.type;
@@ -96,27 +86,7 @@ namespace Microsoft.StyleCop.CSharp
                 this.ValidateEditVersion();
                 if (this.constraints == null)
                 {
-                    List<Token> constraints = new List<Token>(2);
-
-                    // Find the colon.
-                    CodeUnit colon = this.FindFirstChild<WhereColonToken>();
-                    if (colon != null)
-                    {
-                        for (Token constraint = colon.FindNextSibling<Token>(); constraint != null; constraint = constraint.FindNextSibling<Token>())
-                        {
-                            constraints.Add(constraint);
-                        }
-
-                        if (constraints.Count > 0)
-                        {
-                            this.constraints = constraints.AsReadOnly();
-                        }
-                    }
-
-                    if (this.constraints == null)
-                    {
-                        throw new SyntaxException(this.Document, this.LineNumber);
-                    }
+                    this.SetConstraints();
                 }
 
                 return this.constraints;
@@ -139,5 +109,53 @@ namespace Microsoft.StyleCop.CSharp
         }
 
         #endregion Protected Override Methods
+
+        #region Private Methods
+
+        /// <summary>
+        /// Initializes the type field.
+        /// </summary>
+        private void SetType()
+        {
+            // Find the where token.
+            Token where = this.FindFirstChild<WhereToken>();
+            if (where != null)
+            {
+                this.type = where.FindNextSibling<TypeToken>();
+                if (this.type != null)
+                {
+                    return;
+                }
+            }
+
+            throw new InvalidOperationException();
+        }
+
+        /// <summary>
+        /// Initializes the constraints field.
+        /// </summary>
+        private void SetConstraints()
+        {
+            List<Token> constraints = new List<Token>(2);
+
+            // Find the colon.
+            CodeUnit colon = this.FindFirstChild<WhereColonToken>();
+            if (colon != null)
+            {
+                for (Token constraint = colon.FindNextSibling<Token>(); constraint != null; constraint = constraint.FindNextSibling<Token>())
+                {
+                    constraints.Add(constraint);
+                }
+
+                if (constraints.Count > 0)
+                {
+                    this.constraints = constraints.AsReadOnly();
+                }
+            }
+
+            throw new InvalidOperationException();
+        }
+
+        #endregion Private Methods
     }
 }

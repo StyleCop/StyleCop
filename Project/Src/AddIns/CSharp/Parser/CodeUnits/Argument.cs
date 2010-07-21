@@ -32,20 +32,6 @@ namespace Microsoft.StyleCop.CSharp
 
         #endregion Internal Static Fields
 
-        #region Private Fields
-
-        /// <summary>
-        /// The expression within the argument.
-        /// </summary>
-        private Expression argumentExpression;
-
-        /// <summary>
-        /// The optional modifiers on the argument.
-        /// </summary>
-        private ParameterModifiers? modifiers;
-
-        #endregion Private Fields
-
         #region Internal Constructors
 
         /// <summary>
@@ -69,14 +55,7 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                this.ValidateEditVersion();
-
-                if (this.argumentExpression == null)
-                {
-                    this.argumentExpression = this.FindFirstChild<Expression>();
-                }
-
-                return this.argumentExpression;
+                return this.FindFirstChild<Expression>();
             }
         }
 
@@ -87,65 +66,45 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                this.ValidateEditVersion();
+                ParameterModifiers modifiers = ParameterModifiers.None;
 
-                if (this.modifiers == null)
+                for (CodeUnit item = this.FindFirstChild<CodeUnit>(); item != null; item = item.FindNextSibling<CodeUnit>())
                 {
-                    this.modifiers = ParameterModifiers.None;
-
-                    for (CodeUnit item = this.FindFirstChild<CodeUnit>(); item != null; item = item.FindNextSibling<CodeUnit>())
+                    if (item.CodeUnitType != CodeUnitType.LexicalElement)
                     {
-                        if (item.CodeUnitType != CodeUnitType.LexicalElement)
+                        break;
+                    }
+
+                    Token token = item as Token;
+                    if (token != null)
+                    {
+                        if (token.TokenType == TokenType.Ref)
+                        {
+                            modifiers |= ParameterModifiers.Ref;
+                        }
+                        else if (token.TokenType == TokenType.Out)
+                        {
+                            modifiers |= ParameterModifiers.Out;
+                        }
+                        else if (token.TokenType == TokenType.Params)
+                        {
+                            modifiers |= ParameterModifiers.Params;
+                        }
+                        else if (token.TokenType == TokenType.This)
+                        {
+                            modifiers |= ParameterModifiers.This;
+                        }
+                        else
                         {
                             break;
-                        }
-
-                        Token token = item as Token;
-                        if (token != null)
-                        {
-                            if (token.TokenType == TokenType.Ref)
-                            {
-                                this.modifiers |= ParameterModifiers.Ref;
-                            }
-                            else if (token.TokenType == TokenType.Out)
-                            {
-                                this.modifiers |= ParameterModifiers.Out;
-                            }
-                            else if (token.TokenType == TokenType.Params)
-                            {
-                                this.modifiers |= ParameterModifiers.Params;
-                            }
-                            else if (token.TokenType == TokenType.This)
-                            {
-                                this.modifiers |= ParameterModifiers.This;
-                            }
-                            else
-                            {
-                                break;
-                            }
                         }
                     }
                 }
 
-                return this.modifiers.Value;
+                return modifiers;
             }
         }
 
         #endregion Public Properties
-
-        #region Protected Override Methods
-
-        /// <summary>
-        /// Resets the contents of the item.
-        /// </summary>
-        protected override void Reset()
-        {
-            base.Reset();
-
-            this.argumentExpression = null;
-            this.modifiers = null;
-        }
-
-        #endregion Protected Override Methods
     }
 }

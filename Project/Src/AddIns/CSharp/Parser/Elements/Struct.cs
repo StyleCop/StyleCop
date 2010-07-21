@@ -16,7 +16,6 @@ namespace Microsoft.StyleCop.CSharp
 {
     using System;
     using System.Collections.Generic;
-    using System.Threading;
 
     /// <summary>
     /// Describes a struct element.
@@ -74,30 +73,5 @@ namespace Microsoft.StyleCop.CSharp
         }
 
         #endregion Internal Override Methods
-
-        #region Protected Override Methods
-
-        /// <summary>
-        /// Gets the name of the element.
-        /// </summary>
-        /// <returns>The name of the element.</returns>
-        protected override string GetElementName()
-        {
-            // Get the struct keyword.
-            Token structToken = this.FindFirstChild<StructToken>();
-            if (structToken != null)
-            {
-                // The next Token is the name.
-                Token nameToken = structToken.FindNextSibling<Token>();
-                if (nameToken != null)
-                {
-                    return nameToken.Text;
-                }
-            }
-
-            throw new SyntaxException(this.Document, this.LineNumber);
-        }
-
-        #endregion Protected Override Methods
     }
 }

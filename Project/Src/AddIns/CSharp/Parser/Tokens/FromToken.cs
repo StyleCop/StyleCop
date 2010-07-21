@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a from keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class FromToken : SimpleToken
+    public sealed class FromToken : Token
     {
         /// <summary>
         /// Initializes a new instance of the FromToken class.

@@ -163,24 +163,5 @@ namespace Microsoft.StyleCop.CSharp
         }
 
         #endregion Internal Override Methods
-
-        #region Protected Override Methods
-
-        /// <summary>
-        /// Gets the name of the element.
-        /// </summary>
-        /// <returns>The name of the element.</returns>
-        protected override string GetElementName()
-        {
-            string alias = this.Alias;
-            if (alias != null)
-            {
-                return alias;
-            }
-
-            return this.NamespaceType;
-        }
-
-        #endregion Protected Override Methods
     }
 }

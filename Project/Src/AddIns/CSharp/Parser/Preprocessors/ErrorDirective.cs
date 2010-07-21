@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes an error directive.
     /// </summary>
     /// <subcategory>preprocessor</subcategory>
-    public sealed class ErrorDirective : SimplePreprocessorDirective
+    public sealed class ErrorDirective : PreprocessorDirective
     {
         /// <summary>
         /// Initializes a new instance of the ErrorDirective class.

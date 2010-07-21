@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes an implicit keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class ImplicitToken : SimpleToken
+    public sealed class ImplicitToken : Token
     {
         /// <summary>
         /// Initializes a new instance of the ImplicitToken class.

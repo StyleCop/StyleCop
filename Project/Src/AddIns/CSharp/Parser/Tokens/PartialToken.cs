@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a partial keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class PartialToken : SimpleToken
+    public sealed class PartialToken : Token
     {
         /// <summary>
         /// Initializes a new instance of the PartialToken class.

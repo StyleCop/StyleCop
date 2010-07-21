@@ -30,16 +30,42 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Initializes a new instance of the PreprocessorDirective class.
         /// </summary>
+        /// <param name="document">The parent document.</param>
+        /// <param name="text">The line text.</param>
+        /// <param name="preprocessorType">The type of the preprocessor directive.</param>
+        /// <param name="location">The location of the preprocessor in the code.</param>
+        /// <param name="generated">Indicates whether the preprocessor lies within a block of generated code.</param>
+        internal PreprocessorDirective(CsDocument document, string text, PreprocessorType preprocessorType, CodeLocation location, bool generated)
+            : base(document, (int)preprocessorType, location, generated)
+        {
+            Param.AssertNotNull(document, "document");
+            Param.AssertNotNull(text, "text");
+            Param.Ignore(preprocessorType);
+            Param.AssertNotNull(location, "location");
+            Param.Ignore(generated);
+
+            Debug.Assert(System.Enum.IsDefined(typeof(PreprocessorType), this.PreprocessorType), "The type is invalid.");
+
+            this.Text = text;
+            this.Initialize();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the PreprocessorDirective class.
+        /// </summary>
+        /// <param name="text">The line text.</param>
         /// <param name="proxy">Proxy object for the directive.</param>
         /// <param name="preprocessorType">The type of the preprocessor.</param>
-        internal PreprocessorDirective(CodeUnitProxy proxy, PreprocessorType preprocessorType)
-            : base(proxy, (int)preprocessorType)
+        internal PreprocessorDirective(string text, CodeUnitProxy proxy, PreprocessorType preprocessorType)
+            : base((int)preprocessorType, proxy)
         {
+            Param.AssertNotNull(text, "text");
             Param.AssertNotNull(proxy, "proxy");
             Param.Ignore(preprocessorType);
 
             Debug.Assert(System.Enum.IsDefined(typeof(PreprocessorType), this.PreprocessorType), "The type is invalid.");
 
+            this.Text = text;
             this.Initialize();
         }
 

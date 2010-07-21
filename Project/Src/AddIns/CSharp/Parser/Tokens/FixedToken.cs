@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a fixed keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class FixedToken : SimpleToken
+    public sealed class FixedToken : Token
     {
         /// <summary>
         /// Initializes a new instance of the FixedToken class.

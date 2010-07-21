@@ -76,30 +76,5 @@ namespace Microsoft.StyleCop.CSharp
         }
 
         #endregion Internal Override Methods
-
-        #region Protected Override Methods
-
-        /// <summary>
-        /// Gets the name of the element.
-        /// </summary>
-        /// <returns>The name of the element.</returns>
-        protected override string GetElementName()
-        {
-            // Get the class keyword.
-            Token classToken = this.FindFirstChild<ClassToken>();
-            if (classToken != null)
-            {
-                // The next Token is the name.
-                Token nameToken = classToken.FindNextSibling<Token>();
-                if (nameToken != null)
-                {
-                    return nameToken.Text;
-                }
-            }
-
-            throw new SyntaxException(this.Document, this.LineNumber);
-        }
-
-        #endregion Protected Override Methods
     }
 }

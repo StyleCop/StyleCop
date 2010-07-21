@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes an unchecked keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class UncheckedToken : SimpleToken
+    public sealed class UncheckedToken : Token
     {
         /// <summary>
         /// Initializes a new instance of the UncheckedToken class.

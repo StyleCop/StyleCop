@@ -85,6 +85,13 @@ namespace Microsoft.StyleCop.CSharp
                     this.extensionMethod = true;
                 }
             }
+
+            // If this is an explicit interface member implementation and our access modifier
+            // is currently set to private because we don't have one, then it should be public instead.
+            if (name.IndexOf(".", StringComparison.Ordinal) > -1 && !name.StartsWith("this.", StringComparison.Ordinal))
+            {
+                this.AccessModifierType = AccessModifierType.Public;
+            }
         }
 
         #endregion Internal Constructors
@@ -99,17 +106,6 @@ namespace Microsoft.StyleCop.CSharp
             get
             {
                 return CodeParser.AddQualifications(this.Parameters, base.FullyQualifiedName);
-            }
-        }
-
-        /// <summary>
-        /// Gets the variables defined within this element.
-        /// </summary>
-        public override IList<IVariable> Variables
-        {
-            get
-            {
-                return GatherVariablesForElementWithParametersAndChildStatements(this, this.Parameters);
             }
         }
 
@@ -181,27 +177,20 @@ namespace Microsoft.StyleCop.CSharp
             }
         }
 
+        #endregion Protected Override Properties
+
+        #region Public Override Methods
+
         /// <summary>
-        /// Gets the default access modifier for this type.
+        /// Gets the variables defined within this element.
         /// </summary>
-        protected override Microsoft.StyleCop.CSharp.AccessModifierType DefaultAccessModifierType
+        /// <returns>Returns the collection of variables.</returns>
+        public override IList<IVariable> GetVariables()
         {
-            get
-            {
-                string name = this.Name;
-
-                // If this is an explicit interface member implementation and our access modifier
-                // is currently set to private because we don't have one, then it should be public instead.
-                if (name.IndexOf(".", StringComparison.Ordinal) > -1 && !name.StartsWith("this.", StringComparison.Ordinal))
-                {
-                    return AccessModifierType.Public;
-                }
-
-                return base.DefaultAccessModifierType;
-            }
+            return GatherVariablesForElementWithParametersAndChildStatements(this, this.Parameters);
         }
 
-        #endregion Protected Override Properties
+        #endregion Public Override Methods
 
         #region Internal Static Methods
 
@@ -230,54 +219,12 @@ namespace Microsoft.StyleCop.CSharp
                 variableStatement != null;
                 variableStatement = variableStatement.FindNextSibling<VariableDeclarationStatement>())
             {
-                variables.AddRange(variableStatement.Variables);
+                variables.AddRange(variableStatement.GetVariables());
             }
 
             return variables.AsReadOnly();
         }
 
         #endregion Internal Static Methods
-
-        #region Protected Override Methods
-
-        /// <summary>
-        /// Gets the name of the element.
-        /// </summary>
-        /// <returns>The name of the element.</returns>
-        protected override string GetElementName()
-        {
-            CodeUnit start = this.Children.First;
-            if (!this.ContainsModifier(TokenType.Implicit, TokenType.Explicit))
-            {
-                // Get the return type.
-                start = this.FindFirstChild<TypeToken>();
-            }
-
-            if (start != null)
-            {
-                Token next = start.FindNextSibling<Token>();
-                if (next != null)
-                {
-                    if (next.Is(TokenType.Operator))
-                    {
-                        // The next token is the operator name.
-                        Token operatorName = next.FindNextSibling<Token>();
-                        if (operatorName != null)
-                        {
-                            return "operator " + operatorName.Text;
-                        }
-                    }
-                    else
-                    {
-                        // This is a regular method. 
-                        return next.Text;
-                    }
-                }
-            }
-
-            throw new SyntaxException(this.Document, this.LineNumber);
-        }
-
-        #endregion Protected Override Methods
     }
 }

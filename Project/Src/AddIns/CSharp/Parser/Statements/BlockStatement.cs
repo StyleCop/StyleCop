@@ -37,38 +37,36 @@ namespace Microsoft.StyleCop.CSharp
 
         #endregion Internal Constructors
 
-        #region Public Override Properties
+        #region Public Override Methods
 
         /// <summary>
         /// Gets the variables defined within this code unit.
         /// </summary>
-        public override IList<IVariable> Variables
+        /// <returns>Returns the collection of variables.</returns>
+        public override IList<IVariable> GetVariables()
         {
-            get
+            List<IVariable> variables = null;
+
+            for (VariableDeclarationStatement variableStatement = this.FindFirstChild<VariableDeclarationStatement>();
+                variableStatement != null;
+                variableStatement = variableStatement.FindNextSibling<VariableDeclarationStatement>())
             {
-                List<IVariable> variables = null;
-
-                for (VariableDeclarationStatement variableStatement = this.FindFirstChild<VariableDeclarationStatement>();
-                    variableStatement != null;
-                    variableStatement = variableStatement.FindNextSibling<VariableDeclarationStatement>())
+                if (variables == null)
                 {
-                    if (variables == null)
-                    {
-                        variables = new List<IVariable>();
-                    }
-
-                    variables.AddRange(variableStatement.Variables);
+                    variables = new List<IVariable>();
                 }
 
-                if (variables != null && variables.Count > 0)
-                {
-                    return variables.AsReadOnly();
-                }
-
-                return CsParser.EmptyVariableArray;
+                variables.AddRange(variableStatement.GetVariables());
             }
+
+            if (variables != null && variables.Count > 0)
+            {
+                return variables.AsReadOnly();
+            }
+
+            return CsParser.EmptyVariableArray;
         }
 
-        #endregion Public Override Properties
+        #endregion Public Override Methods
     }
 }

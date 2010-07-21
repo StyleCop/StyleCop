@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a delegate keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class DelegateToken : SimpleToken
+    public sealed class DelegateToken : Token
     {
         /// <summary>
         /// Initializes a new instance of the DelegateToken class.

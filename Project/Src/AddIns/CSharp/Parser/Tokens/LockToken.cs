@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a lock keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class LockToken : SimpleToken
+    public sealed class LockToken : Token
     {
         /// <summary>
         /// Initializes a new instance of the LockToken class.

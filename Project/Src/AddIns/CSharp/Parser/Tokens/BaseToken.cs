@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a base keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class BaseToken : SimpleToken
+    public sealed class BaseToken : Token
     {
         /// <summary>
         /// Initializes a new instance of the BaseToken class.

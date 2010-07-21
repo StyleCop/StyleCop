@@ -49,21 +49,6 @@ namespace Microsoft.StyleCop.CSharp
 
         #endregion Internal Constructors
 
-        #region Public Virtual Properties
-
-        /// <summary>
-        /// Gets the variables defined within this code unit.
-        /// </summary>
-        public virtual IList<IVariable> Variables
-        {
-            get
-            {
-                return CsParser.EmptyVariableArray;
-            }
-        }
-
-        #endregion Public Virtual Properties
-
         #region Public Properties
 
         /// <summary>
@@ -77,9 +62,33 @@ namespace Microsoft.StyleCop.CSharp
             }
         }
 
+        /// <summary>
+        /// Gets the query clause that contains this clause, if there is one.
+        /// </summary>
+        public QueryClause ParentQueryClause
+        {
+            get
+            {
+                return this.Parent as QueryClause;
+            }
+        }
+
         #endregion Public Properties
 
-        #region Protected Static Methods
+        #region Public Virtual Methods
+
+        /// <summary>
+        /// Gets the variables defined within this code unit.
+        /// </summary>
+        /// <returns>Returns the collection of variables.</returns>
+        public virtual IList<IVariable> GetVariables()
+        {
+            return CsParser.EmptyVariableArray;
+        }
+
+        #endregion Public Virtual Methods
+
+        #region Protected Methods
 
         /// <summary>
         /// Extracts a variable from the clause.
@@ -88,7 +97,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <param name="allowTypelessVariable">Indicates whether to allow a variable with no type defined.</param>
         /// <param name="onlyTypelessVariable">Indicates whether to only get a typeless variable.</param>
         /// <returns>Returns the variable.</returns>
-        protected static QueryClauseVariable ExtractQueryVariable(Token firstToken, bool allowTypelessVariable, bool onlyTypelessVariable)
+        protected QueryClauseVariable ExtractQueryVariable(Token firstToken, bool allowTypelessVariable, bool onlyTypelessVariable)
         {
             Param.RequireNotNull(firstToken, "firstToken");
             Param.Ignore(allowTypelessVariable);
@@ -118,7 +127,7 @@ namespace Microsoft.StyleCop.CSharp
             }
         }
 
-        #endregion Protected Static Methods
+        #endregion Protected Methods
 
         #region Protected Classes
 

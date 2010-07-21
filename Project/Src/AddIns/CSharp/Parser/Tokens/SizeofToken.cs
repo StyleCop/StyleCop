@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a sizeof keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class SizeofToken : SimpleToken
+    public sealed class SizeofToken : Token
     {
         /// <summary>
         /// Initializes a new instance of the SizeofToken class.

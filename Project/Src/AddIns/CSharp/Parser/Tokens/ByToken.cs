@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a by keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class ByToken : SimpleToken
+    public sealed class ByToken : Token
     {
         /// <summary>
         /// Initializes a new instance of the ByToken class.

@@ -22,7 +22,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes an operator symbol.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public abstract class OperatorSymbolToken : SimpleToken
+    public abstract class OperatorSymbolToken : Token
     {
         #region Private Fields
 

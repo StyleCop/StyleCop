@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes an equals keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class EqualsToken : SimpleToken
+    public sealed class EqualsToken : Token
     {
         /// <summary>
         /// Initializes a new instance of the EqualsToken class.

@@ -78,36 +78,6 @@ namespace Microsoft.StyleCop.CSharp
 
         #endregion Internal Constructors
 
-        #region Public Override Properties
-
-        /// <summary>
-        /// Gets the variables defined within this element.
-        /// </summary>
-        public override IList<IVariable> Variables
-        {
-            get
-            {
-                if (!this.Is(ElementType.Interface))
-                {
-                    var variables = new List<IVariable>();
-
-                    for (Field field = this.FindFirstChild<Field>(); field != null; field = field.FindNextSibling<Field>())
-                    {
-                        variables.AddRange(field.Variables);
-                    }
-
-                    if (variables.Count > 0)
-                    {
-                        return variables.AsReadOnly();
-                    }
-                }
-
-                return CsParser.EmptyVariableArray;
-            }
-        }
-
-        #endregion Public Override Properties
-
         #region Public Properties
 
         /// <summary>
@@ -167,6 +137,34 @@ namespace Microsoft.StyleCop.CSharp
         }
 
         #endregion Public Properties
+
+        #region Public Override Methods
+
+        /// <summary>
+        /// Gets the variables defined within this element.
+        /// </summary>
+        /// <returns>Returns the collection of variables.</returns>
+        public override IList<IVariable> GetVariables()
+        {
+            if (!this.Is(ElementType.Interface))
+            {
+                var variables = new List<IVariable>();
+
+                for (Field field = this.FindFirstChild<Field>(); field != null; field = field.FindNextSibling<Field>())
+                {
+                    variables.AddRange(field.GetVariables());
+                }
+
+                if (variables.Count > 0)
+                {
+                    return variables.AsReadOnly();
+                }
+            }
+
+            return CsParser.EmptyVariableArray;
+        }
+
+        #endregion Public Override Methods
 
         #region Protected Methods
 

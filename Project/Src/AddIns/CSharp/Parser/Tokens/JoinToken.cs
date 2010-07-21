@@ -20,7 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     /// Describes a join keyword.
     /// </summary>
     /// <subcategory>token</subcategory>
-    public sealed class JoinToken : SimpleToken
+    public sealed class JoinToken : Token
     {
         /// <summary>
         /// Initializes a new instance of the JoinToken class.

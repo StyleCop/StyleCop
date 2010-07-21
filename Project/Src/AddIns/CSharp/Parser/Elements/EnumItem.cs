@@ -83,26 +83,5 @@ namespace Microsoft.StyleCop.CSharp
         }
 
         #endregion Protected Override Properties
-
-        #region Protected Override Methods
-
-        /// <summary>
-        /// Gets the name of the element.
-        /// </summary>
-        /// <returns>The name of the element.</returns>
-        protected override string GetElementName()
-        {
-            for (Token token = this.FindFirstChild<Token>(); token != null; token = token.FindNextSibling<Token>())
-            {
-                if (token.Is(TokenType.Literal) || token.Is(TokenType.Type))
-                {
-                    return token.Text;
-                }
-            }
-
-            throw new SyntaxException(this.Document, this.LineNumber);
-        }
-
-        #endregion Protected Override Methods
     }
 }
