@@ -21,9 +21,10 @@ namespace Microsoft.StyleCop.CSharp
     using Microsoft.StyleCop.Collections;
 
     /// <summary>
-    /// A proxy object used to stand in for a <see cref="CodeUnit" /> while it is being created.
+    /// A proxy object used to collect children, variables, etc., for a CodeUnit while that 
+    /// CodeUnit is being created.
     /// </summary>
-    internal class CodeUnitProxy
+    internal class CodeUnitProxy// : CodeUnit
     {
         /// <summary>
         /// The collection of children under the CodeUnit.

@@ -28,7 +28,7 @@ namespace Microsoft.StyleCop.CSharp
     public delegate bool CodeUnitMatchHandler(CodeUnit codeUnit);
 
     /// <summary>
-    /// A basic code unit.
+    /// A basic code unit, either an expression or a statement.
     /// </summary>
     public abstract class CodeUnit : ILinkNode<CodeUnit>
     {
