@@ -32,7 +32,10 @@ namespace Microsoft.StyleCop.CSharp
         /// <param name="location">The location of the end-of-line in the code.</param>
         /// <param name="generated">True if the token is inside of a block of generated code.</param>
         internal EndOfLine(string text, CodeLocation location, bool generated)
-            : base(LexicalElementType.EndOfLine, location, generated)
+            : base(
+            LexicalElementType.EndOfLine,
+            location,
+            generated)
         {
             Param.AssertValidString(text, "text");
             Param.AssertNotNull(location, "location");

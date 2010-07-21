@@ -187,9 +187,9 @@ namespace Microsoft.StyleCop.CSharp
         private TypeToken CreateVoidTypeToken()
         {
             var tokenProxy = new CodeUnitProxy();
-            tokenProxy.Children.Add(new LiteralToken("void", CodeLocation.Empty, this.Generated));
+            tokenProxy.Children.Add(new LiteralToken("void", CodeLocation.Empty, false));
             
-            return new TypeToken(tokenProxy);
+            return new TypeToken(tokenProxy, CodeLocation.Empty, this.Generated);
         }
 
         #endregion Private Methods

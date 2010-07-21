@@ -518,8 +518,11 @@ namespace Microsoft.StyleCop.CSharp
                 }
             }
 
+            // Get the location of the attribute.
+            bool generated = attributeProxy.Children.First.Generated || attributeProxy.Children.Last.Generated;
+
             // Create and return the attribute.
-            var attribute = new Attribute(attributeProxy, attributeExpressions.ToArray());
+            var attribute = new Attribute(attributeProxy, attributeExpressions.ToArray(), generated);
             parentProxy.Children.Add(attribute);
 
             return attribute;
@@ -660,19 +663,23 @@ namespace Microsoft.StyleCop.CSharp
             }
             else if (type == "if")
             {
-                preprocessor = this.GetConditionalCompilationDirective(preprocessorSymbol, PreprocessorType.If, bodyIndex);
+                preprocessor = this.GetConditionalCompilationDirective(
+                    preprocessorSymbol, PreprocessorType.If, bodyIndex, generated);
             }
             else if (type == "elif")
             {
-                preprocessor = this.GetConditionalCompilationDirective(preprocessorSymbol, PreprocessorType.Elif, bodyIndex);
+                preprocessor = this.GetConditionalCompilationDirective(
+                    preprocessorSymbol, PreprocessorType.Elif, bodyIndex, generated);
             }
             else if (type == "else")
             {
-                preprocessor = this.GetConditionalCompilationDirective(preprocessorSymbol, PreprocessorType.Else, bodyIndex);
+                preprocessor = this.GetConditionalCompilationDirective(
+                    preprocessorSymbol, PreprocessorType.Else, bodyIndex, generated);
             }
             else if (type == "endif")
             {
-                preprocessor = this.GetConditionalCompilationDirective(preprocessorSymbol, PreprocessorType.Endif, bodyIndex);
+                preprocessor = this.GetConditionalCompilationDirective(
+                    preprocessorSymbol, PreprocessorType.Endif, bodyIndex, generated);
             }
             else if (type == "pragma")
             {
@@ -712,12 +719,18 @@ namespace Microsoft.StyleCop.CSharp
         /// <param name="preprocessorSymbol">The symbol representing the directive.</param>
         /// <param name="type">The type of the conditional compilation directive.</param>
         /// <param name="startIndex">The start index of the body of the directive.</param>
+        /// <param name="generated">Indicates whether the directive lies within a block of generated code.</param>
         /// <returns>Returns the directive.</returns>
-        private ConditionalCompilationDirective GetConditionalCompilationDirective(Symbol preprocessorSymbol, PreprocessorType type, int startIndex)
+        private ConditionalCompilationDirective GetConditionalCompilationDirective(
+            Symbol preprocessorSymbol, 
+            PreprocessorType type,
+            int startIndex, 
+            bool generated)
         {
             Param.AssertNotNull(preprocessorSymbol, "preprocessorSymbol");
             Param.Ignore(type);
             Param.AssertGreaterThanOrEqualToZero(startIndex, "startIndex");
+            Param.Ignore(generated);
 
             Expression body = null;
 
@@ -734,13 +747,13 @@ namespace Microsoft.StyleCop.CSharp
             switch (type)
             {
                 case PreprocessorType.If:
-                    return new IfDirective(preprocessorSymbol.Text, directiveProxy, body);
+                    return new IfDirective(preprocessorSymbol.Text, directiveProxy, body, preprocessorSymbol.Location, generated);
                 case PreprocessorType.Elif:
-                    return new ElifDirective(preprocessorSymbol.Text, directiveProxy, body);
+                    return new ElifDirective(preprocessorSymbol.Text, directiveProxy, body, preprocessorSymbol.Location, generated);
                 case PreprocessorType.Else:
-                    return new ElseDirective(preprocessorSymbol.Text, directiveProxy, body);
+                    return new ElseDirective(preprocessorSymbol.Text, directiveProxy, body, preprocessorSymbol.Location, generated);
                 case PreprocessorType.Endif:
-                    return new EndifDirective(preprocessorSymbol.Text, directiveProxy, body);
+                    return new EndifDirective(preprocessorSymbol.Text, directiveProxy, body, preprocessorSymbol.Location, generated);
                 default:
                     Debug.Fail("Not a conditional preprocessor type.");
                     return null;
@@ -889,7 +902,10 @@ namespace Microsoft.StyleCop.CSharp
             // Get the argument list. This will return null if this is not a generic.
             if (this.GetGenericArgumentList(genericTokenProxy, unsafeCode, name, startIndex + 1, out lastIndex))
             {
-                generic = new GenericTypeToken(genericTokenProxy);
+                generic = new GenericTypeToken(
+                    genericTokenProxy,
+                    CodeLocation.Join(firstSymbol.Location, genericTokenProxy.Children.Last.Location),
+                    this.symbols.Generated);
             }
 
             return generic;

@@ -31,10 +31,14 @@ namespace Microsoft.StyleCop.CSharp
         /// Initializes a new instance of the TypeToken class.
         /// </summary>
         /// <param name="proxy">Proxy object for the statement.</param>
-        internal TypeToken(CodeUnitProxy proxy)
-            : base(proxy, TokenType.Type)
+        /// <param name="location">The location of the token in the code.</param>
+        /// <param name="generated">True if the token is inside of a block of generated code.</param>
+        internal TypeToken(CodeUnitProxy proxy, CodeLocation location, bool generated)
+            : base(proxy, TokenType.Type, location, generated)
         {
             Param.AssertNotNull(proxy, "proxy");
+            Param.AssertNotNull(location, "location");
+            Param.Ignore(generated);
         }
 
         #endregion Internal Constructors

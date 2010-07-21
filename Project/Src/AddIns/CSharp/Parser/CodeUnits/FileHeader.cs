@@ -27,15 +27,6 @@ namespace Microsoft.StyleCop.CSharp
     /// </summary>
     public sealed class FileHeader : CodeUnit
     {
-        #region Private Fields
-
-        /// <summary>
-        /// Indicates whether this is an auto-generated header.
-        /// </summary>
-        private bool generated;
-
-        #endregion Private Fields
-
         #region Internal Constructors
 
         /// <summary>
@@ -62,7 +53,7 @@ namespace Microsoft.StyleCop.CSharp
                     if (node != null)
                     {
                         // Set this as generated code.
-                        this.generated = true;
+                        this.Generated = true;
                     }
                     else
                     {
@@ -70,7 +61,7 @@ namespace Microsoft.StyleCop.CSharp
                         if (node != null)
                         {
                             // Set this as generated code.
-                            this.generated = true;
+                            this.Generated = true;
                         }
                     }
                 }
@@ -81,26 +72,6 @@ namespace Microsoft.StyleCop.CSharp
         }
 
         #endregion Internal Constructors
-
-        #region Public Override Properties
-
-        /// <summary>
-        /// Gets a value indicating whethre the file header is an auto-generated header.
-        /// </summary>
-        public override bool Generated
-        {
-            get
-            {
-                if (this.generated)
-                {
-                    return true;
-                }
-
-                return base.Generated;
-            }
-        }
-
-        #endregion Public Override Properties
 
         #region Public Properties
 
