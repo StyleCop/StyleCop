@@ -380,8 +380,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <param name="second">The second item to compare.</param>
         /// <param name="foundFirst">Determines whether we've found the first item
         /// in the code that is in the correct order.</param>
-        /// <returns>Returns true if the first time should come before the second item,
-        /// or false if vice-versa.</returns>
+        /// <returns>Returns true if the first item should come before the second item, or false if vice-versa.</returns>
         [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification = "Minimizing refactoring before release.")]
         private bool CompareItems(CsElement first, CsElement second, bool foundFirst)
         {
@@ -399,7 +398,7 @@ namespace Microsoft.StyleCop.CSharp
                 {
                     invalidElement = first;
                 }
-                
+
                 // Check the item types to see if the second item type should appear before the first item type.
                 if (first.ElementType > second.ElementType)
                 {
@@ -409,7 +408,7 @@ namespace Microsoft.StyleCop.CSharp
                         Rules.ElementsMustAppearInTheCorrectOrder,
                         first.FriendlyPluralTypeText,
                         second.FriendlyPluralTypeText);
-                    
+
                     return false;
                 }
                 else if (first.ElementType == second.ElementType)
@@ -420,39 +419,46 @@ namespace Microsoft.StyleCop.CSharp
                         // Check the access modifiers to see if they are in the correct order.
                         if (first.Declaration.AccessModifierType > second.Declaration.AccessModifierType)
                         {
-                            // If one of the elements is partial and does not have an access modifier defined, and the element
-                            // is not a method, show a special message. Partial methods are not allowed to have modifiers and are 
-                            // private by default.
-                            if ((!first.Declaration.AccessModifier && first.ElementType != ElementType.Method && first.Declaration.ContainsModifier(CsTokenType.Partial)) ||
-                                (!second.Declaration.AccessModifier && second.ElementType != ElementType.Method && second.Declaration.ContainsModifier(CsTokenType.Partial)))
+                            // Special case for static constructors, which are always private but should still appear in front of all other constructors.
+                            if (first.ElementType != ElementType.Constructor ||
+                                second.ElementType != ElementType.Constructor ||
+                                !first.Declaration.ContainsModifier(CsTokenType.Static) ||
+                                second.Declaration.ContainsModifier(CsTokenType.Static))
                             {
-                                // Make sure to use the line number of the partial element which does not contain
-                                // an access modifier.
-                                CsElement elementWithoutAccessModifier = first;
-                                if (first.Declaration.AccessModifier || !first.Declaration.ContainsModifier(CsTokenType.Partial))
+                                // If one of the elements is partial and does not have an access modifier defined, and the element
+                                // is not a method, show a special message. Partial methods are not allowed to have modifiers and are 
+                                // private by default.
+                                if ((!first.Declaration.AccessModifier && first.ElementType != ElementType.Method && first.Declaration.ContainsModifier(CsTokenType.Partial)) ||
+                                    (!second.Declaration.AccessModifier && second.ElementType != ElementType.Method && second.Declaration.ContainsModifier(CsTokenType.Partial)))
                                 {
-                                    elementWithoutAccessModifier = second;
+                                    // Make sure to use the line number of the partial element which does not contain
+                                    // an access modifier.
+                                    CsElement elementWithoutAccessModifier = first;
+                                    if (first.Declaration.AccessModifier || !first.Declaration.ContainsModifier(CsTokenType.Partial))
+                                    {
+                                        elementWithoutAccessModifier = second;
+                                    }
+
+                                    this.AddViolation(
+                                        elementWithoutAccessModifier,
+                                        Rules.PartialElementsMustDeclareAccess,
+                                        elementWithoutAccessModifier.FriendlyTypeText,
+                                        elementWithoutAccessModifier.FriendlyPluralTypeText);
+                                }
+                                else
+                                {
+                                    this.AddViolation(
+                                        first,
+                                        invalidElement.LineNumber,
+                                        Rules.ElementsMustBeOrderedByAccess,
+                                        OrderingRules.AccessModifierTypeString(first.Declaration.AccessModifierType),
+                                        first.FriendlyPluralTypeText,
+                                        OrderingRules.AccessModifierTypeString(second.Declaration.AccessModifierType),
+                                        second.FriendlyPluralTypeText);
                                 }
 
-                                this.AddViolation(
-                                    elementWithoutAccessModifier,
-                                    Rules.PartialElementsMustDeclareAccess,
-                                    elementWithoutAccessModifier.FriendlyTypeText,
-                                    elementWithoutAccessModifier.FriendlyPluralTypeText);
+                                return false;
                             }
-                            else
-                            {
-                                this.AddViolation(
-                                    first,
-                                    invalidElement.LineNumber,
-                                    Rules.ElementsMustBeOrderedByAccess,
-                                    OrderingRules.AccessModifierTypeString(first.Declaration.AccessModifierType),
-                                    first.FriendlyPluralTypeText,
-                                    OrderingRules.AccessModifierTypeString(second.Declaration.AccessModifierType),
-                                    second.FriendlyPluralTypeText);
-                            }
-
-                            return false;
                         }
                         else if (first.Declaration.AccessModifierType == second.Declaration.AccessModifierType)
                         {
@@ -466,16 +472,16 @@ namespace Microsoft.StyleCop.CSharp
                             {
                                 firstConstant = firstVariable.Const;
                                 firstReadonly = firstVariable.Readonly;
-                                
+
                                 // Check to make sure that constant and readonly items 
                                 // come before non-constant, non-readonly items
                                 if ((secondVariable.Const || secondVariable.Readonly) && 
                                     !(firstVariable.Const || firstVariable.Readonly))
                                 {
                                     this.AddViolation(
-                                        first, 
+                                        first,
                                         invalidElement.LineNumber,
-                                        Rules.ConstantsMustAppearBeforeFields, 
+                                        Rules.ConstantsMustAppearBeforeFields,
                                         OrderingRules.AccessModifierTypeString(first.Declaration.AccessModifierType),
                                         first.FriendlyPluralTypeText,
                                         OrderingRules.AccessModifierTypeString(second.Declaration.AccessModifierType),
@@ -491,9 +497,9 @@ namespace Microsoft.StyleCop.CSharp
                                 !(first.Declaration.ContainsModifier(CsTokenType.Static) || firstConstant || firstReadonly))
                             {
                                 this.AddViolation(
-                                    first, 
+                                    first,
                                     invalidElement.LineNumber,
-                                    Rules.StaticElementsMustAppearBeforeInstanceElements, 
+                                    Rules.StaticElementsMustAppearBeforeInstanceElements,
                                     OrderingRules.AccessModifierTypeString(first.Declaration.AccessModifierType),
                                     first.FriendlyPluralTypeText,
                                     OrderingRules.AccessModifierTypeString(second.Declaration.AccessModifierType),
@@ -502,10 +508,28 @@ namespace Microsoft.StyleCop.CSharp
                                 return false;
                             }
                         }
+                        else if (first.ElementType == ElementType.Constructor && 
+                            second.ElementType == ElementType.Constructor && 
+                            second.Declaration.ContainsModifier(CsTokenType.Static) &&
+                            !first.Declaration.ContainsModifier(CsTokenType.Static))
+                        {
+                            // If we have 2 constructors and the second one is static then they're in the wrong order, since static 
+                            // constructors must always come in front of all instance constructors.
+                            this.AddViolation(
+                                   first,
+                                   invalidElement.LineNumber,
+                                   Rules.StaticElementsMustAppearBeforeInstanceElements,
+                                   OrderingRules.AccessModifierTypeString(first.Declaration.AccessModifierType),
+                                   first.FriendlyPluralTypeText,
+                                   OrderingRules.AccessModifierTypeString(second.Declaration.AccessModifierType),
+                                   second.FriendlyPluralTypeText);
+
+                            return false;
+                        }
                     }
                 }
             }
-            
+
             return true;
         }
 

@@ -132,6 +132,12 @@ namespace Microsoft.StyleCop
                             fileList.Settings = MergeSettings(mergedSettings, fileList.Settings);
                         }
                     }
+
+                    // Finally, add the merged file list to the new merged settings object.
+                    if (mergedSettings != this.localSettings)
+                    {
+                        mergedSettings.AddSourceFileList(fileList);
+                    }
                 }
 
                 return mergedSettings;
@@ -492,7 +498,7 @@ namespace Microsoft.StyleCop
 
                 if (linkedSettingsFile.StartsWith(".", StringComparison.Ordinal) || !linkedSettingsFile.Contains("\\"))
                 {
-                    linkedSettingsFile = StyleCopCore.MakeAbsolutePath(originalSettings.Location, linkedSettingsFile);
+                    linkedSettingsFile = StyleCopCore.MakeAbsolutePath(Path.GetDirectoryName(originalSettings.Location), linkedSettingsFile);
                 }
 
                 if (File.Exists(linkedSettingsFile))

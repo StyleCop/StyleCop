@@ -19,7 +19,7 @@ namespace ElementOrderStatics1
     public class Class3
     {
         // Correct order.
-        public static Class3()
+        static Class3()
         {
         }
 
@@ -35,7 +35,7 @@ namespace ElementOrderStatics1
         {
         }
 
-        public static Class4()
+        static Class4()
         {
         }
     }

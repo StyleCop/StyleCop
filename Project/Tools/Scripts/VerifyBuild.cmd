@@ -157,7 +157,7 @@ IF EXIST %PROJECTROOT%\%BuildLogFile%.wrn DEL /F /Q %PROJECTROOT%\%BuildLogFile%
 IF EXIST %PROJECTROOT%\%BuildLogFile%.err DEL /F /Q %PROJECTROOT%\%BuildLogFile%.err
 CALL "%windir%\microsoft.net\framework\%FrameworkVersion%\msbuild.exe" %PROJECTROOT%\StyleCop.sln /p:Configuration=%BuildTarget%;CODE_ANALYSIS=true /flp1:warningsonly;logfile=%PROJECTROOT%\%BuildLogFile%.wrn /flp2:errorsonly;logfile=%PROJECTROOT%\%BuildLogFile%.err
 IF "%ERRORLEVEL%" == "0" DEL /F /Q %PROJECTROOT%\%BuildLogFile%.err
-DeleteFileIfEmpty.exe %PROJECTROOT%\%BuildLogFile%.wrn
+CALL %PROJECTROOT%\tools\scripts\DeleteEmptyFile.cmd %PROJECTROOT%\%BuildLogFile%.wrn
 IF "%ERRORLEVEL%" == "1" GOTO SUMMARY
 
 REM Build Setup Solution
@@ -168,7 +168,7 @@ IF EXIST %PROJECTROOT%\src\WixSetup\%BuildLogFile%.err DEL /F /Q %PROJECTROOT%\s
 IF "%SkipWixBuild%" == "1" GOTO PostWixBuild
 CALL "%windir%\microsoft.net\framework\v3.5\msbuild.exe" %PROJECTROOT%\src\wixsetup\StyleCop.Wix.sln /p:Configuration=%BuildTarget% /flp1:warningsonly;logfile=%PROJECTROOT%\src\wixsetup\%buildlogfile%.wrn /flp2:errorsonly;logfile=%PROJECTROOT%\src\wixsetup\%buildlogfile%.err
 IF "%ERRORLEVEL%" == "0" DEL /F /Q %PROJECTROOT%\src\WixSetup\%BuildLogFile%.err
-DeleteFileIfEmpty.exe %PROJECTROOT%\src\WixSetup\%BuildLogFile%.wrn
+CALL %PROJECTROOT%\tools\scripts\DeleteEmptyFile.cmd %PROJECTROOT%\src\WixSetup\%BuildLogFile%.wrn
 IF "%ERRORLEVEL%" == "1" GOTO SUMMARY
 IF %WixBuildOnly%.==1. GOTO SUMMARY
 :PostWixBuild

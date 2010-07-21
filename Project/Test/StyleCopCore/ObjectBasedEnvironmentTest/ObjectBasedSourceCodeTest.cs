@@ -15,18 +15,19 @@ namespace StreamBasedEnvironmentTest
         {
             ObjectBasedEnvironment environment = new ObjectBasedEnvironment(this.SourceCodeFactory, this.ProjectSettingsFactory);
 
-            StyleCopObjectConsole styleCop = new StyleCopObjectConsole(environment, null, new string[] { "%projectroot%\\test\\testbin" }, false);
+            using (StyleCopObjectConsole styleCop = new StyleCopObjectConsole(environment, null, new string[] { "%projectroot%\\test\\testbin" }, false))
+            {
+                // Create the configuration.
+                Configuration configuration = new Configuration(null);
 
-            // Create the configuration.
-            Configuration configuration = new Configuration(null);
+                // Create a CodeProject.
+                CodeProject project = new CodeProject(0, null, configuration);
+                styleCop.Core.Environment.AddSourceCode(project, "source1.cs", 0);
+                styleCop.Core.Environment.AddSourceCode(project, "source2.cs", 1);
+                styleCop.Core.Environment.AddSourceCode(project, "source3.cs", 2);
 
-            // Create a CodeProject.
-            CodeProject project = new CodeProject(0, null, configuration);
-            styleCop.Core.Environment.AddSourceCode(project, "source1.cs", 0);
-            styleCop.Core.Environment.AddSourceCode(project, "source2.cs", 1);
-            styleCop.Core.Environment.AddSourceCode(project, "source3.cs", 2);
-
-            styleCop.Start(new CodeProject[] { project });
+                styleCop.Start(new CodeProject[] { project });
+            }
         }
 
         /// <summary>

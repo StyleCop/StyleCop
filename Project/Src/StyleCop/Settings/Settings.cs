@@ -57,11 +57,6 @@ namespace Microsoft.StyleCop
         /// <summary>
         /// The path to the settings document.
         /// </summary>
-        private string path;
-
-        /// <summary>
-        /// The location where the document is contained.
-        /// </summary>
         private string location;
 
         /// <summary>
@@ -116,6 +111,43 @@ namespace Microsoft.StyleCop
 
         #endregion Private Fields
 
+        #region Public Constructors
+
+        /// <summary>
+        /// Initializes a new instance of the Settings class.
+        /// </summary>
+        /// <param name="core">The StyleCop core instance.</param>
+        /// <param name="location">The location of the settings document.</param>
+        public Settings(StyleCopCore core, string location)
+            : this(core, location, null, new DateTime())
+        {
+            Param.Ignore(core, location);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the Settings class.
+        /// </summary>
+        /// <param name="core">The StyleCop core instance.</param>
+        /// <param name="location">The path to the settings document.</param>
+        /// <param name="contents">The initial contents of the settings document.</param>
+        /// <param name="writeTime">The time when the settings were last updated.</param>
+        public Settings(StyleCopCore core, string location, XmlDocument contents, DateTime writeTime)
+        {
+            Param.RequireNotNull(core, "core");
+            Param.Ignore(location);
+            Param.Ignore(contents);
+            Param.Ignore(writeTime);
+
+            this.core = core;
+            this.location = location;
+            this.contents = contents;
+            this.writeTime = writeTime;
+
+            this.LoadSettingsDocument();
+        }
+
+        #endregion Public Constructors
+
         #region Internal Constructors
 
         /// <summary>
@@ -125,45 +157,7 @@ namespace Microsoft.StyleCop
         internal Settings(StyleCopCore core)
         {
             Param.AssertNotNull(core, "core");
-
             this.core = core;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the Settings class.
-        /// </summary>
-        /// <param name="core">The StyleCop core instance.</param>
-        /// <param name="path">The path to the settings document.</param>
-        /// <param name="location">The location where the settings document is contained.</param>
-        internal Settings(StyleCopCore core, string path, string location)
-            : this(core, path, location, null, new DateTime())
-        {
-            Param.Ignore(core, path, location);
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the Settings class.
-        /// </summary>
-        /// <param name="core">The StyleCop core instance.</param>
-        /// <param name="path">The path to the settings document.</param>
-        /// <param name="location">The location where the settings document is contained.</param>
-        /// <param name="contents">The initial contents of the settings document.</param>
-        /// <param name="writeTime">The time when the settings were last updated.</param>
-        internal Settings(StyleCopCore core, string path, string location, XmlDocument contents, DateTime writeTime)
-        {
-            Param.AssertNotNull(core, "core");
-            Param.Ignore(path);
-            Param.Ignore(location);
-            Param.Ignore(contents);
-            Param.Ignore(writeTime);
-
-            this.core = core;
-            this.path = path;
-            this.location = location;
-            this.contents = contents;
-            this.writeTime = writeTime;
-
-            this.LoadSettingsDocument();
         }
 
         #endregion Internal Constructors
@@ -182,24 +176,13 @@ namespace Microsoft.StyleCop
         }
 
         /// <summary>
-        /// Gets the location where the settings document is contained.
+        /// Gets the location of the settings file.
         /// </summary>
         public string Location
         {
             get
             {
                 return this.location;
-            }
-        }
-
-        /// <summary>
-        /// Gets the path to the settings file.
-        /// </summary>
-        public string Path
-        {
-            get
-            {
-                return this.path;
             }
         }
 
