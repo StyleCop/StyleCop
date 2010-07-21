@@ -18,7 +18,7 @@ namespace Microsoft.StyleCop.CSharp
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
-    using Microsoft.StyleCop.CSharp.Collections;
+    using Microsoft.StyleCop.Collections;
 
     /// <summary>
     /// Delegate used for callbacks from the Next and Previous properties.
@@ -95,12 +95,12 @@ namespace Microsoft.StyleCop.CSharp
             Param.Ignore(fundamentalType);
 
             this.linkNode = new LinkNode<CodeUnit>(this);
+            
+            this.proxy = proxy;
+            this.proxy.Attach(this);
 
             this.fundamentalType = fundamentalType;
             Debug.Assert(System.Enum.IsDefined(typeof(CodeUnitType), this.CodeUnitType), "The type is invalid.");
-
-            this.proxy = proxy;
-            this.proxy.Attach(this);
         }
 
         /// <summary>
@@ -498,7 +498,7 @@ namespace Microsoft.StyleCop.CSharp
                 }
             }
 
-            return list.AsReadOnly();
+            return list.ToArray();
         }
 
         #endregion Protected Methods

@@ -24,15 +24,6 @@ namespace Microsoft.StyleCop.CSharp
     /// <subcategory>element</subcategory>
     public sealed class Destructor : Element
     {
-        #region Private Fields
-
-        /// <summary>
-        /// The variables on the destructor.
-        /// </summary>
-        private CodeUnitProperty<IList<IVariable>> variables;
-
-        #endregion Private Fields
-
         #region Internal Constructors
 
         /// <summary>
@@ -62,14 +53,7 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                this.ValidateEditVersion();
-
-                if (!this.variables.Initialized)
-                {
-                    this.variables.Value = Method.GatherVariablesForElementWithParametersAndChildStatements(this, null);
-                }
-
-                return this.variables.Value;
+                return Method.GatherVariablesForElementWithParametersAndChildStatements(this, null);
             }
         }
 
@@ -124,16 +108,6 @@ namespace Microsoft.StyleCop.CSharp
             }
 
             throw new SyntaxException(this.Document, this.LineNumber);
-        }
-
-        /// <summary>
-        /// Resets the contents of the class.
-        /// </summary>
-        protected override void Reset()
-        {
-            base.Reset();
-
-            this.variables.Reset();
         }
 
         #endregion Protected Override Methods

@@ -44,7 +44,7 @@
       </Analyzers>
     </Settings>
     <ExpectedViolations>
-      <Violation LineNumber="10" RuleNamespace="Microsoft.StyleCop.CSharp.CsParser" Rule="SyntaxException" />
+      <Violation LineNumber="10" RuleNamespace="Microsoft.StyleCop.CSharp_old.CsParser" Rule="SyntaxException" />
     </ExpectedViolations>
   </Test>
 
@@ -70,7 +70,7 @@
       </Analyzers>
     </Settings>
     <ExpectedViolations>
-      <Violation LineNumber="10" RuleNamespace="Microsoft.StyleCop.CSharp.CsParser" Rule="SyntaxException" />
+      <Violation LineNumber="10" RuleNamespace="Microsoft.StyleCop.CSharp_old.CsParser" Rule="SyntaxException" />
     </ExpectedViolations>
   </Test>
 
@@ -96,7 +96,7 @@
       </Analyzers>
     </Settings>
     <ExpectedViolations>
-      <Violation LineNumber="10" RuleNamespace="Microsoft.StyleCop.CSharp.CsParser" Rule="SyntaxException" />
+      <Violation LineNumber="10" RuleNamespace="Microsoft.StyleCop.CSharp_old.CsParser" Rule="SyntaxException" />
     </ExpectedViolations>
   </Test>
 
@@ -122,7 +122,7 @@
       </Analyzers>
     </Settings>
     <ExpectedViolations>
-      <Violation LineNumber="10" RuleNamespace="Microsoft.StyleCop.CSharp.CsParser" Rule="SyntaxException" />
+      <Violation LineNumber="10" RuleNamespace="Microsoft.StyleCop.CSharp_old.CsParser" Rule="SyntaxException" />
     </ExpectedViolations>
   </Test>
 </StyleCopTestDescription>

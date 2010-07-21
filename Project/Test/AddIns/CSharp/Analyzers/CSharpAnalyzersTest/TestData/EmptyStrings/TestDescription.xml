@@ -8,7 +8,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.Rules.ReadabilityRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.ReadabilityRules">
           <Rules>
             <Rule Name="UseStringEmptyForEmptyStrings">
               <RuleSettings>
@@ -20,13 +20,13 @@
       </Analyzers>
     </Settings>
     <ExpectedViolations>
-      <Violation Section="EmptyStrings.Class1.string1" LineNumber="8" Rule="UseStringEmptyForEmptyStrings" />
-      <Violation Section="EmptyStrings.Class1.string2" LineNumber="9" Rule="UseStringEmptyForEmptyStrings" />
-      <Violation Section="EmptyStrings.Class1.Method1%string" LineNumber="16" Rule="UseStringEmptyForEmptyStrings" />
-      <Violation Section="EmptyStrings.Class1.Method1%string" LineNumber="17" Rule="UseStringEmptyForEmptyStrings" />
-      <Violation Section="EmptyStrings.Class1.Method2" LineNumber="25" Rule="UseStringEmptyForEmptyStrings" />
-      <Violation Section="EmptyStrings.Class1.Method2" LineNumber="26" Rule="UseStringEmptyForEmptyStrings" />
-      <Violation Section="EmptyStrings.ConstVariables.y" LineNumber="52" Rule="UseStringEmptyForEmptyStrings" />
+      <Violation Section="Root.EmptyStrings.Class1.string1" LineNumber="8" Rule="UseStringEmptyForEmptyStrings" />
+      <Violation Section="Root.EmptyStrings.Class1.string2" LineNumber="9" Rule="UseStringEmptyForEmptyStrings" />
+      <Violation Section="Root.EmptyStrings.Class1.Method1%string" LineNumber="16" Rule="UseStringEmptyForEmptyStrings" />
+      <Violation Section="Root.EmptyStrings.Class1.Method1%string" LineNumber="17" Rule="UseStringEmptyForEmptyStrings" />
+      <Violation Section="Root.EmptyStrings.Class1.Method2" LineNumber="25" Rule="UseStringEmptyForEmptyStrings" />
+      <Violation Section="Root.EmptyStrings.Class1.Method2" LineNumber="26" Rule="UseStringEmptyForEmptyStrings" />
+      <Violation Section="Root.EmptyStrings.ConstVariables.y" LineNumber="52" Rule="UseStringEmptyForEmptyStrings" />
     </ExpectedViolations>
   </Test>
 </StyleCopTestDescription>

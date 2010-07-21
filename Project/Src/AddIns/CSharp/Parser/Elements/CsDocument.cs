@@ -48,11 +48,6 @@ namespace Microsoft.StyleCop.CSharp
         /// </summary>        
         private CsParser parser;
 
-        /// <summary>
-        /// The optional file header.
-        /// </summary>
-        private CodeUnitProperty<FileHeader> fileHeader;
-
         #endregion Private Fields
 
         #region Internal Constructors
@@ -166,14 +161,7 @@ namespace Microsoft.StyleCop.CSharp
         {
             get
             {
-                this.ValidateEditVersion();
-
-                if (!this.fileHeader.Initialized)
-                {
-                    this.fileHeader.Value = this.FindFirstChild<FileHeader>();
-                }
-
-                return this.fileHeader.Value;
+                return this.FindFirstChild<FileHeader>();
             }
         }
 
@@ -189,21 +177,6 @@ namespace Microsoft.StyleCop.CSharp
         }
 
         #endregion Public Properties
-
-        #region Protected Override Properties
-
-        /// <summary>
-        /// Gets the default access modifier for this type.
-        /// </summary>
-        protected override AccessModifierType DefaultAccessModifierType
-        {
-            get
-            {
-                return AccessModifierType.Public;
-            }
-        }
-
-        #endregion Protected Override Properties
 
         #region Public Methods
 
@@ -310,16 +283,6 @@ namespace Microsoft.StyleCop.CSharp
         protected override string GetElementName()
         {
             return this.sourceCode.Name;
-        }
-
-        /// <summary>
-        /// Resets the contents of the class.
-        /// </summary>
-        protected override void Reset()
-        {
-            base.Reset();
-
-            this.fileHeader.Reset();
         }
 
         #endregion Protected Override Methods

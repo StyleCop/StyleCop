@@ -21,7 +21,7 @@ namespace MS.StyleCop.CSharpParserTest
     using System.Text;
     using System.Xml;
     using Microsoft.StyleCop;
-    using Microsoft.StyleCop.CSharp;
+    using Microsoft.StyleCop.CSharp_old;
 
     /// <summary>
     /// Dumps the parsed object model from the CsParser into an Xml file.
@@ -55,7 +55,10 @@ namespace MS.StyleCop.CSharpParserTest
             contents.AppendChild(root);
 
             CsDocument csdocument = (CsDocument)document;
-            this.ProcessElement(csdocument, root);
+            if (csdocument.RootElement != null)
+            {
+                this.ProcessElement(csdocument.RootElement, root);
+            }
 
             // Get the location where the output file should be stored.
             string testOutputDirectory = (string)this.Core.HostTag;
@@ -81,19 +84,19 @@ namespace MS.StyleCop.CSharpParserTest
         /// </summary>
         /// <param name="element">The element to process.</param>
         /// <param name="parentNode">The Xml node to record this element under.</param>
-        private void ProcessElement(Element element, XmlNode parentNode)
+        private void ProcessElement(CsElement element, XmlNode parentNode)
         {
             Param.AssertNotNull(element, "element");
             Param.AssertNotNull(parentNode, "parentNode");
 
             XmlNode elementNode = RecordElement(element, parentNode);
 
-            foreach (Statement statement in element.GetChildren<Statement>())
+            foreach (Statement statement in element.ChildStatements)
             {
                 this.ProcessStatement(statement, elementNode);
             }
 
-            foreach (Element child in element.GetChildren<Element>())
+            foreach (CsElement child in element.ChildElements)
             {
                 this.ProcessElement(child, elementNode);
             }
@@ -111,17 +114,17 @@ namespace MS.StyleCop.CSharpParserTest
 
             XmlNode statementNode = RecordStatement(statement, parentNode);
 
-            if (statement.Children.ExpressionCount > 0)
+            if (statement.ChildExpressions != null)
             {
-                foreach (Expression expression in statement.GetChildren<Expression>())
+                foreach (Expression expression in statement.ChildExpressions)
                 {
                     this.ProcessExpression(expression, statementNode);
                 }
             }
             
-            if (statement.Children.StatementCount > 0)
+            if (statement.ChildStatements != null)
             {
-                foreach (Statement childStatement in statement.GetChildren<Statement>())
+                foreach (Statement childStatement in statement.ChildStatements)
                 {
                     this.ProcessStatement(childStatement, statementNode);
                 }
@@ -140,12 +143,12 @@ namespace MS.StyleCop.CSharpParserTest
 
             XmlNode expressionNode = RecordExpression(expression, parentNode);
 
-            foreach (Expression childExpression in expression.GetChildren<Expression>())
+            foreach (Expression childExpression in expression.ChildExpressions)
             {
                 this.ProcessExpression(childExpression, expressionNode);
             }
 
-            foreach (Statement childStatement in expression.GetChildren<Statement>())
+            foreach (Statement childStatement in expression.ChildStatements)
             {
                 this.ProcessStatement(childStatement, expressionNode);
             }
@@ -157,7 +160,7 @@ namespace MS.StyleCop.CSharpParserTest
         /// <param name="element">The element to record.</param>
         /// <param name="parentNode">The Xml node to record this element beneath.</param>
         /// <returns>Returns the new Xml node describing this element.</returns>
-        private static XmlNode RecordElement(Element element, XmlNode parentNode)
+        private static XmlNode RecordElement(CsElement element, XmlNode parentNode)
         {
             Param.AssertNotNull(element, "element");
             Param.AssertNotNull(parentNode, "parentNode");
@@ -168,7 +171,7 @@ namespace MS.StyleCop.CSharpParserTest
 
             // Add the name and type of the element.
             XmlAttribute name = parentNode.OwnerDocument.CreateAttribute("Name");
-            name.Value = element.Name;
+            name.Value = element.Declaration.Name;
             elementNode.Attributes.Append(name);
 
             XmlAttribute type = parentNode.OwnerDocument.CreateAttribute("Type");

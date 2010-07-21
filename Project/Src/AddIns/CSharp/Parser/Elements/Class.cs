@@ -59,18 +59,23 @@ namespace Microsoft.StyleCop.CSharp
             }
         }
 
+        #endregion Protected Override Properties
+
+        #region Internal Override Methods
+
         /// <summary>
-        /// Gets the default access modifier for this type.
+        /// Initializes the class object.
         /// </summary>
-        protected override AccessModifierType DefaultAccessModifierType
+        /// <param name="document">The document that contains the element.</param>
+        internal override void Initialize(CsDocument document)
         {
-            get
-            {
-                return AccessModifierType.Internal;
-            }
+            Param.Ignore(document, "document");
+
+            // Gather the inheritance from the declaration.
+            this.SetInheritedItems();
         }
 
-        #endregion Protected Override Properties
+        #endregion Internal Override Methods
 
         #region Protected Override Methods
 

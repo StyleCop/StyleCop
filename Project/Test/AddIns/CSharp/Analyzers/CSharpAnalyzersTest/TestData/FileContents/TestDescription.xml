@@ -13,7 +13,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.Rules.MaintainabilityRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.MaintainabilityRules">
           <Rules>
             <Rule Name="FileMayOnlyContainASingleClass">
               <RuleSettings>
@@ -25,9 +25,9 @@
       </Analyzers>
     </Settings>
     <ExpectedViolations>
-      <Violation Section="FileContentsMultipleClassesNoNamespace2" LineNumber="6" Rule="FileMayOnlyContainASingleClass" />
-      <Violation Section="FileContentsMultipleClasses.Class2" LineNumber="16" Rule="FileMayOnlyContainASingleClass" />
-      <Violation Section="FileContentsPartialClassDifferentTypes.Class2" LineNumber="8" Rule="FileMayOnlyContainASingleClass" />
+      <Violation Section="Root.FileContentsMultipleClassesNoNamespace2" LineNumber="6" Rule="FileMayOnlyContainASingleClass" />
+      <Violation Section="Root.FileContentsMultipleClasses.Class2" LineNumber="16" Rule="FileMayOnlyContainASingleClass" />
+      <Violation Section="Root.FileContentsPartialClassDifferentTypes.Class2" LineNumber="8" Rule="FileMayOnlyContainASingleClass" />
     </ExpectedViolations>
   </Test>
 
@@ -41,7 +41,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.Rules.MaintainabilityRules">
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp_old.MaintainabilityRules">
           <Rules>
             <Rule Name="FileMayOnlyContainASingleNamespace">
               <RuleSettings>
@@ -53,7 +53,7 @@
       </Analyzers>
     </Settings>
     <ExpectedViolations>
-      <Violation Section="FileContentsMultipleNamespaces2" LineNumber="6" Rule="FileMayOnlyContainASingleNamespace" />
+      <Violation Section="Root.FileContentsMultipleNamespaces2" LineNumber="6" Rule="FileMayOnlyContainASingleNamespace" />
     </ExpectedViolations>
   </Test>
 </StyleCopTestDescription>

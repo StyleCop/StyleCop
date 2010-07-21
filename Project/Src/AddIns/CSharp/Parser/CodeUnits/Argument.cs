@@ -37,12 +37,12 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The expression within the argument.
         /// </summary>
-        private CodeUnitProperty<Expression> argumentExpression;
+        private Expression argumentExpression;
 
         /// <summary>
         /// The optional modifiers on the argument.
         /// </summary>
-        private CodeUnitProperty<ParameterModifiers> modifiers;
+        private ParameterModifiers? modifiers;
 
         #endregion Private Fields
 
@@ -71,12 +71,12 @@ namespace Microsoft.StyleCop.CSharp
             {
                 this.ValidateEditVersion();
 
-                if (!this.argumentExpression.Initialized)
+                if (this.argumentExpression == null)
                 {
-                    this.argumentExpression.Value = this.FindFirstChild<Expression>();
+                    this.argumentExpression = this.FindFirstChild<Expression>();
                 }
 
-                return this.argumentExpression.Value;
+                return this.argumentExpression;
             }
         }
 
@@ -89,9 +89,9 @@ namespace Microsoft.StyleCop.CSharp
             {
                 this.ValidateEditVersion();
 
-                if (!this.modifiers.Initialized)
+                if (this.modifiers == null)
                 {
-                    this.modifiers.Value = ParameterModifiers.None;
+                    this.modifiers = ParameterModifiers.None;
 
                     for (CodeUnit item = this.FindFirstChild<CodeUnit>(); item != null; item = item.FindNextSibling<CodeUnit>())
                     {
@@ -105,19 +105,19 @@ namespace Microsoft.StyleCop.CSharp
                         {
                             if (token.TokenType == TokenType.Ref)
                             {
-                                this.modifiers.Value |= ParameterModifiers.Ref;
+                                this.modifiers |= ParameterModifiers.Ref;
                             }
                             else if (token.TokenType == TokenType.Out)
                             {
-                                this.modifiers.Value |= ParameterModifiers.Out;
+                                this.modifiers |= ParameterModifiers.Out;
                             }
                             else if (token.TokenType == TokenType.Params)
                             {
-                                this.modifiers.Value |= ParameterModifiers.Params;
+                                this.modifiers |= ParameterModifiers.Params;
                             }
                             else if (token.TokenType == TokenType.This)
                             {
-                                this.modifiers.Value |= ParameterModifiers.This;
+                                this.modifiers |= ParameterModifiers.This;
                             }
                             else
                             {
@@ -142,8 +142,8 @@ namespace Microsoft.StyleCop.CSharp
         {
             base.Reset();
 
-            this.argumentExpression.Reset();
-            this.modifiers.Reset();
+            this.argumentExpression = null;
+            this.modifiers = null;
         }
 
         #endregion Protected Override Methods
