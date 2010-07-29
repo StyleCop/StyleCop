@@ -755,7 +755,10 @@ namespace Microsoft.StyleCop.CSharp
                     // as long as the parenthesized expression is within another expression. They are not allowed
                     // to be within parenthesis within a variable declarator expression. For example:
                     // int x = (2 + 3);
-                    if (!(parenthesizedExpression.Parent is Expression) || parenthesizedExpression.Parent is VariableDeclaratorExpression)
+                    if (!(parenthesizedExpression.Parent is Expression) ||
+                        parenthesizedExpression.Parent is VariableDeclaratorExpression ||
+                        parenthesizedExpression.Parent is CheckedExpression ||
+                        parenthesizedExpression.Parent is UncheckedExpression)
                     {
                         this.AddViolation(element, parenthesizedExpression.LineNumber, Rules.StatementMustNotUseUnnecessaryParenthesis);
                     }

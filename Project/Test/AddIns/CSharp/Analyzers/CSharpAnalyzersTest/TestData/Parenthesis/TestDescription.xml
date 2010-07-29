@@ -25,23 +25,27 @@
       <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="114" Rule="StatementMustNotUseUnnecessaryParenthesis" />
       <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="118" Rule="StatementMustNotUseUnnecessaryParenthesis" />
       <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="121" Rule="StatementMustNotUseUnnecessaryParenthesis" />
-      <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="124" Rule="StatementMustNotUseUnnecessaryParenthesis" />
+      <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="122" Rule="StatementMustNotUseUnnecessaryParenthesis" />
+      <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="123" Rule="StatementMustNotUseUnnecessaryParenthesis" />
+      <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="126" Rule="StatementMustNotUseUnnecessaryParenthesis" />
       <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="127" Rule="StatementMustNotUseUnnecessaryParenthesis" />
-      <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="130" Rule="StatementMustNotUseUnnecessaryParenthesis" />
-      <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="133" Rule="StatementMustNotUseUnnecessaryParenthesis" />
-      <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="136" Rule="StatementMustNotUseUnnecessaryParenthesis" />
+      <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="128" Rule="StatementMustNotUseUnnecessaryParenthesis" />
+      <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="131" Rule="StatementMustNotUseUnnecessaryParenthesis" />
+      <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="134" Rule="StatementMustNotUseUnnecessaryParenthesis" />
       <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="137" Rule="StatementMustNotUseUnnecessaryParenthesis" />
-      <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="138" Rule="StatementMustNotUseUnnecessaryParenthesis" />
+      <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="140" Rule="StatementMustNotUseUnnecessaryParenthesis" />
       <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="141" Rule="StatementMustNotUseUnnecessaryParenthesis" />
-      <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="144" Rule="StatementMustNotUseUnnecessaryParenthesis" />
-      <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="147" Rule="StatementMustNotUseUnnecessaryParenthesis" />
-      <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="152" Rule="StatementMustNotUseUnnecessaryParenthesis" />
+      <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="142" Rule="StatementMustNotUseUnnecessaryParenthesis" />
+      <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="145" Rule="StatementMustNotUseUnnecessaryParenthesis" />
+      <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="148" Rule="StatementMustNotUseUnnecessaryParenthesis" />
+      <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="151" Rule="StatementMustNotUseUnnecessaryParenthesis" />
       <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="156" Rule="StatementMustNotUseUnnecessaryParenthesis" />
-      <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="161" Rule="StatementMustNotUseUnnecessaryParenthesis" />
-      <Violation Section="Root.Parenthesis1.Class1.InvalidAsChild" LineNumber="174" Rule="StatementMustNotUseUnnecessaryParenthesis" />
-      <Violation Section="Root.Parenthesis1.Class1.Lambdas" LineNumber="180" Rule="StatementMustNotUseUnnecessaryParenthesis" />
-      <Violation Section="Root.Parenthesis1.Class1.Lambdas" LineNumber="181" Rule="StatementMustNotUseUnnecessaryParenthesis" />
-      <Violation Section="Root.Parenthesis1.Class1.Lambdas" LineNumber="189" Rule="StatementMustNotUseUnnecessaryParenthesis" />
+      <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="160" Rule="StatementMustNotUseUnnecessaryParenthesis" />
+      <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="165" Rule="StatementMustNotUseUnnecessaryParenthesis" />
+      <Violation Section="Root.Parenthesis1.Class1.InvalidAsChild" LineNumber="178" Rule="StatementMustNotUseUnnecessaryParenthesis" />
+      <Violation Section="Root.Parenthesis1.Class1.Lambdas" LineNumber="184" Rule="StatementMustNotUseUnnecessaryParenthesis" />
+      <Violation Section="Root.Parenthesis1.Class1.Lambdas" LineNumber="185" Rule="StatementMustNotUseUnnecessaryParenthesis" />
+      <Violation Section="Root.Parenthesis1.Class1.Lambdas" LineNumber="193" Rule="StatementMustNotUseUnnecessaryParenthesis" />
     </ExpectedViolations>
   </Test>
 
