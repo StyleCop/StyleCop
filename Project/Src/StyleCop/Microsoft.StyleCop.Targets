@@ -88,6 +88,10 @@
       <Output TaskParameter="Include" ItemName="StyleCopExcludedFiles"/>
     </CreateItem>
 
+    <ItemGroup>
+       <StyleCopFiles Remove="@(ExcludeFromStyleCop)" />    
+    </ItemGroup>
+
     <Message Text="Excluding @(StyleCopExcludedFiles)" Importance="Normal" />
 
     <!-- Run the StyleCop MSBuild task. -->
