@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="TestData\Documentation\DocumentationIgnores.cs" />
     <None Include="TestData\Documentation\DocumentationInheritdoc.cs" />
     <None Include="Spacing.GenericTest" />
     <None Include="TestData\Spacing\CloseParenthesis.cs" />

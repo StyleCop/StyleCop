@@ -243,29 +243,29 @@ namespace CSharpAnalyzersTest.TestData
 
     #endregion 
 
-    #region Test that we are allowed to have private elements without headers, but not classes, structs, or interfaces
+    #region Test that we are allowed to have private elements without headers
 
-    private class InvalidDocumentationIgnorePrivatesClass1ClassesMustHaveHeaderAlways
+    private class ValidDocumentationIgnorePrivatesClass1
     {
     }
 
-    private class InvalidDocumentationIgnorePrivatesClass2ClassesMustHaveHeaderAlways
+    private class ValidDocumentationIgnorePrivatesClass2
     {
     }
 
-    private struct InvalidDocumentationIgnorePrivatesStruct1StructsMustHaveHeaderAlways
+    private struct ValidDocumentationIgnorePrivatesStruct1
     {
     }
 
-    private struct InvalidDocumentationIgnorePrivatesStruct2StructsMustHaveHeaderAlways
+    private struct ValidDocumentationIgnorePrivatesStruct2
     {
     }
 
-    private interface InvalidDocumentationIgnorePrivatesInterface1InterfacesMustHaveHeaderAlways
+    private interface ValidDocumentationIgnorePrivatesInterface1
     {
     }
 
-    private interface InvalidDocumentationIgnorePrivatesInterface2InterfacesMustHaveHeaderAlways
+    private interface ValidDocumentationIgnorePrivatesInterface2
     {
     }
 
@@ -306,27 +306,27 @@ namespace CSharpAnalyzersTest.TestData
     /// </summary>
     protected class ValidDocumentationIgnorePrivatesProtectedClass1
     {
-        private class InvalidDocumentationIgnorePrivatesClass1ClassesMustHaveHeaderAlways
+        private class ValidDocumentationIgnorePrivatesClass1
         {
         }
 
-        private class InvalidDocumentationIgnorePrivatesClass2ClassesMustHaveHeaderAlways
+        private class ValidDocumentationIgnorePrivatesClass2
         {
         }
 
-        private struct InvalidDocumentationIgnorePrivatesStruct1StructsMustHaveHeaderAlways
+        private struct ValidDocumentationIgnorePrivatesStruct1
         {
         }
 
-        private struct InvalidDocumentationIgnorePrivatesStruct2StructsMustHaveHeaderAlways
+        private struct ValidDocumentationIgnorePrivatesStruct2
         {
         }
 
-        private interface InvalidDocumentationIgnorePrivatesInterface1InterfacesMustHaveHeaderAlways
+        private interface ValidDocumentationIgnorePrivatesInterface1
         {
         }
 
-        private interface InvalidDocumentationIgnorePrivatesInterface2InterfacesMustHaveHeaderAlways
+        private interface ValidDocumentationIgnorePrivatesInterface2
         {
         }
 
@@ -1103,7 +1103,7 @@ namespace CSharpAnalyzersTest.TestData
 
     #endregion
 
-    #region Tests that headers are still required for classes, structs, and interfaces, even if they are private
+    #region Tests that headers are not required for classes, structs, and interfaces, even if they are private
     /// <summary>
     /// This is header for this class.
     /// </summary>

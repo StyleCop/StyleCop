@@ -257,7 +257,9 @@
     <Content Include="SdkContent\StyleCopHost.xml" />
     <Content Include="SdkContent\SourceAnalyzer.xml" />
     <Content Include="SdkContent\SourceParser.xml" />
-    <None Include="Settings\DefaultSettings.xml" />
+    <None Include="Settings\DefaultSettings.xml">
+      <SubType>Designer</SubType>
+    </None>
     <EmbeddedResource Include="StyleCopAddIn.xml" />
   </ItemGroup>
   <ItemGroup>

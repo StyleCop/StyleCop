@@ -1032,21 +1032,6 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationIgnorePrivatesClassMissingAccessModifer1.InvalidDocumentationIgnorePrivatesField2" LineNumber="1087" Rule="ElementsMustBeDocumented" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationIgnorePrivatesClassMissingAccessModifer1.InvalidDocumentationIgnorePrivatesField3" LineNumber="1089" Rule="ElementsMustBeDocumented" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationIgnorePrivatesStructMissingAccessModifer1.Field1" LineNumber="1101" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationIgnorePrivatesClass1ClassesMustHaveHeaderAlways" LineNumber="248" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationIgnorePrivatesClass2ClassesMustHaveHeaderAlways" LineNumber="252" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationIgnorePrivatesStruct1StructsMustHaveHeaderAlways" LineNumber="256" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationIgnorePrivatesStruct2StructsMustHaveHeaderAlways" LineNumber="260" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationIgnorePrivatesInterface1InterfacesMustHaveHeaderAlways" LineNumber="264" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationIgnorePrivatesInterface2InterfacesMustHaveHeaderAlways" LineNumber="268" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.ValidDocumentationIgnorePrivatesProtectedClass1.InvalidDocumentationIgnorePrivatesClass1ClassesMustHaveHeaderAlways" LineNumber="309" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.ValidDocumentationIgnorePrivatesProtectedClass1.InvalidDocumentationIgnorePrivatesClass2ClassesMustHaveHeaderAlways" LineNumber="313" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.ValidDocumentationIgnorePrivatesProtectedClass1.InvalidDocumentationIgnorePrivatesStruct1StructsMustHaveHeaderAlways" LineNumber="317" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.ValidDocumentationIgnorePrivatesProtectedClass1.InvalidDocumentationIgnorePrivatesStruct2StructsMustHaveHeaderAlways" LineNumber="321" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.ValidDocumentationIgnorePrivatesProtectedClass1.InvalidDocumentationIgnorePrivatesInterface1InterfacesMustHaveHeaderAlways" LineNumber="325" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.ValidDocumentationIgnorePrivatesProtectedClass1.InvalidDocumentationIgnorePrivatesInterface2InterfacesMustHaveHeaderAlways" LineNumber="329" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationIgnorePrivatesPrivateClassInterfaceAndStruct.PrivateClassMissingHeader" LineNumber="1112" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationIgnorePrivatesPrivateClassInterfaceAndStruct.PrivateInterfaceMissingHeader" LineNumber="1116" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationIgnorePrivatesPrivateClassInterfaceAndStruct.PrivateStructMissingHeader" LineNumber="1120" Rule="ElementsMustBeDocumented" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationIgnorePrivatesPrivateClassInterfaceAndStruct.PrivateClassEmptyHeader" LineNumber="1127" Rule="ElementDocumentationMustHaveSummaryText" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationIgnorePrivatesPrivateClassInterfaceAndStruct.PrivateInterfaceEmptyHeader" LineNumber="1134" Rule="ElementDocumentationMustHaveSummaryText" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationIgnorePrivatesPrivateClassInterfaceAndStruct.PrivateStructEmptyHeader" LineNumber="1141" Rule="ElementDocumentationMustHaveSummaryText" />
@@ -3061,6 +3046,938 @@
       <Violation Section="Root.CSharpAnalyzersTest.InvalidTestData.InvalidInheritDoc6.Method1" LineNumber="82" Rule="InheritDocMustBeUsedWithInheritingClass" />
       <Violation Section="Root.CSharpAnalyzersTest.InvalidTestData.InvalidInheritDoc7.Method1" LineNumber="88" Rule="InheritDocMustBeUsedWithInheritingClass" />
       <Violation Section="Root.CSharpAnalyzersTest.InvalidTestData.InvalidInheritDoc8.InternalClass.Method1" LineNumber="96" Rule="InheritDocMustBeUsedWithInheritingClass" />
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Tests that the correct headers are required when IgnorePrivates and IgnoreInternals are both false. -->
+  <Test Name="DocumentationIgnoresWithEverythingEnforced">
+    <TestCodeFile>DocumentationIgnores.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
+          <AnalyzerSettings>
+            <BooleanProperty Name="IgnorePrivates">False</BooleanProperty>
+            <BooleanProperty Name="IgnoreInternals">False</BooleanProperty>
+            <BooleanProperty Name="IncludeFields">True</BooleanProperty>
+          </AnalyzerSettings>
+          <Rules>
+            <Rule Name="ElementsMustBeDocumented">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="PartialElementsMustBeDocumented">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="EnumerationItemsMustBeDocumented">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="DocumentationMustContainValidXml">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementDocumentationMustHaveSummary">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="PartialElementDocumentationMustHaveSummary">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementDocumentationMustHaveSummaryText">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="PartialElementDocumentationMustHaveSummaryText">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementDocumentationMustNotHaveDefaultSummary">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="PropertyDocumentationMustHaveValue">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="PropertyDocumentationMustHaveValueText">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementParametersMustBeDocumented">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementParameterDocumentationMustMatchElementParameters">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementParameterDocumentationMustDeclareParameterName">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementParameterDocumentationMustHaveText">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementReturnValueMustBeDocumented">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementReturnValueDocumentationMustHaveText">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="VoidReturnValueMustNotBeDocumented">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="GenericTypeParametersMustBeDocumented">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="GenericTypeParametersMustBeDocumentedPartialClass">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="GenericTypeParameterDocumentationMustMatchTypeParameters">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="GenericTypeParameterDocumentationMustDeclareParameterName">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="GenericTypeParameterDocumentationMustHaveText">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="PropertySummaryDocumentationMustMatchAccessors">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="PropertySummaryDocumentationMustOmitSetAccessorWithRestrictedAccess">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementDocumentationMustNotBeCopiedAndPasted">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="SingleLineCommentsMustNotUseDocumentationStyleSlashes">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="DocumentationTextMustNotBeEmpty">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="DocumentationTextMustBeginWithACapitalLetter">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="DocumentationTextMustEndWithAPeriod">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="DocumentationTextMustContainWhitespace">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="DocumentationMustMeetCharacterPercentage">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="DocumentationTextMustMeetMinimumCharacterLength">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass" LineNumber="7" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicMethod" LineNumber="9" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.InternalMethod" LineNumber="10" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedMethod" LineNumber="11" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalMethod" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PrivateMethod" LineNumber="13" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicClass" LineNumber="15" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicClass.PublicMethod" LineNumber="17" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicClass.InternalMethod" LineNumber="18" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicClass.ProtectedMethod" LineNumber="19" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicClass.ProtectedInternalMethod" LineNumber="20" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicClass.PrivateMethod" LineNumber="21" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedClass" LineNumber="24" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedClass.PublicMethod" LineNumber="26" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedClass.InternalMethod" LineNumber="27" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedClass.ProtectedMethod" LineNumber="28" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedClass.ProtectedInternalMethod" LineNumber="29" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedClass.PrivateMethod" LineNumber="30" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.InternalClass" LineNumber="33" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.InternalClass.PublicMethod" LineNumber="35" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.InternalClass.InternalMethod" LineNumber="36" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.InternalClass.ProtectedMethod" LineNumber="37" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.InternalClass.ProtectedInternalMethod" LineNumber="38" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.InternalClass.PrivateMethod" LineNumber="39" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalClass" LineNumber="42" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalClass.PublicMethod" LineNumber="44" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalClass.InternalMethod" LineNumber="45" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalClass.ProtectedMethod" LineNumber="46" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalClass.ProtectedInternalMethod" LineNumber="47" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalClass.PrivateMethod" LineNumber="48" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PrivateClass" LineNumber="51" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PrivateClass.PublicMethod" LineNumber="53" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PrivateClass.InternalMethod" LineNumber="54" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PrivateClass.ProtectedMethod" LineNumber="55" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PrivateClass.ProtectedInternalMethod" LineNumber="56" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PrivateClass.PrivateMethod" LineNumber="57" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass" LineNumber="61" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PublicMethod" LineNumber="63" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.InternalMethod" LineNumber="64" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedMethod" LineNumber="65" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedInternalMethod" LineNumber="66" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PrivateMethod" LineNumber="67" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PublicClass" LineNumber="69" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PublicClass.PublicMethod" LineNumber="71" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PublicClass.InternalMethod" LineNumber="72" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PublicClass.ProtectedMethod" LineNumber="73" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PublicClass.ProtectedInternalMethod" LineNumber="74" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PublicClass.PrivateMethod" LineNumber="75" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedClass" LineNumber="78" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedClass.PublicMethod" LineNumber="80" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedClass.InternalMethod" LineNumber="81" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedClass.ProtectedMethod" LineNumber="82" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedClass.ProtectedInternalMethod" LineNumber="83" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedClass.PrivateMethod" LineNumber="84" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.InternalClass" LineNumber="87" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.InternalClass.PublicMethod" LineNumber="89" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.InternalClass.InternalMethod" LineNumber="90" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.InternalClass.ProtectedMethod" LineNumber="91" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.InternalClass.ProtectedInternalMethod" LineNumber="92" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.InternalClass.PrivateMethod" LineNumber="93" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedInternalClass" LineNumber="96" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedInternalClass.PublicMethod" LineNumber="98" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedInternalClass.InternalMethod" LineNumber="99" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedInternalClass.ProtectedMethod" LineNumber="100" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedInternalClass.ProtectedInternalMethod" LineNumber="101" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedInternalClass.PrivateMethod" LineNumber="102" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PrivateClass" LineNumber="105" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PrivateClass.PublicMethod" LineNumber="107" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PrivateClass.InternalMethod" LineNumber="108" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PrivateClass.ProtectedMethod" LineNumber="109" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PrivateClass.ProtectedInternalMethod" LineNumber="110" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PrivateClass.PrivateMethod" LineNumber="111" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Tests that the correct headers are required when IgnorePrivates is true and IgnoreInternals is false. -->
+  <Test Name="DocumentationIgnoresWithPrivatesIgnored">
+    <TestCodeFile>DocumentationIgnores.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
+          <AnalyzerSettings>
+            <BooleanProperty Name="IgnorePrivates">True</BooleanProperty>
+            <BooleanProperty Name="IgnoreInternals">False</BooleanProperty>
+            <BooleanProperty Name="IncludeFields">True</BooleanProperty>
+          </AnalyzerSettings>
+          <Rules>
+            <Rule Name="ElementsMustBeDocumented">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="PartialElementsMustBeDocumented">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="EnumerationItemsMustBeDocumented">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="DocumentationMustContainValidXml">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementDocumentationMustHaveSummary">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="PartialElementDocumentationMustHaveSummary">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementDocumentationMustHaveSummaryText">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="PartialElementDocumentationMustHaveSummaryText">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementDocumentationMustNotHaveDefaultSummary">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="PropertyDocumentationMustHaveValue">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="PropertyDocumentationMustHaveValueText">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementParametersMustBeDocumented">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementParameterDocumentationMustMatchElementParameters">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementParameterDocumentationMustDeclareParameterName">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementParameterDocumentationMustHaveText">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementReturnValueMustBeDocumented">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementReturnValueDocumentationMustHaveText">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="VoidReturnValueMustNotBeDocumented">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="GenericTypeParametersMustBeDocumented">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="GenericTypeParametersMustBeDocumentedPartialClass">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="GenericTypeParameterDocumentationMustMatchTypeParameters">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="GenericTypeParameterDocumentationMustDeclareParameterName">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="GenericTypeParameterDocumentationMustHaveText">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="PropertySummaryDocumentationMustMatchAccessors">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="PropertySummaryDocumentationMustOmitSetAccessorWithRestrictedAccess">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementDocumentationMustNotBeCopiedAndPasted">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="SingleLineCommentsMustNotUseDocumentationStyleSlashes">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="DocumentationTextMustNotBeEmpty">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="DocumentationTextMustBeginWithACapitalLetter">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="DocumentationTextMustEndWithAPeriod">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="DocumentationTextMustContainWhitespace">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="DocumentationMustMeetCharacterPercentage">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="DocumentationTextMustMeetMinimumCharacterLength">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass" LineNumber="7" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicMethod" LineNumber="9" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.InternalMethod" LineNumber="10" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedMethod" LineNumber="11" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalMethod" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicClass" LineNumber="15" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicClass.PublicMethod" LineNumber="17" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicClass.InternalMethod" LineNumber="18" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicClass.ProtectedMethod" LineNumber="19" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicClass.ProtectedInternalMethod" LineNumber="20" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedClass" LineNumber="24" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedClass.PublicMethod" LineNumber="26" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedClass.InternalMethod" LineNumber="27" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedClass.ProtectedMethod" LineNumber="28" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedClass.ProtectedInternalMethod" LineNumber="29" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.InternalClass" LineNumber="33" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.InternalClass.PublicMethod" LineNumber="35" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.InternalClass.InternalMethod" LineNumber="36" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.InternalClass.ProtectedMethod" LineNumber="37" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.InternalClass.ProtectedInternalMethod" LineNumber="38" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalClass" LineNumber="42" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalClass.PublicMethod" LineNumber="44" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalClass.InternalMethod" LineNumber="45" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalClass.ProtectedMethod" LineNumber="46" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalClass.ProtectedInternalMethod" LineNumber="47" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass" LineNumber="61" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PublicMethod" LineNumber="63" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.InternalMethod" LineNumber="64" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedMethod" LineNumber="65" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedInternalMethod" LineNumber="66" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PublicClass" LineNumber="69" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PublicClass.PublicMethod" LineNumber="71" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PublicClass.InternalMethod" LineNumber="72" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PublicClass.ProtectedMethod" LineNumber="73" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PublicClass.ProtectedInternalMethod" LineNumber="74" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedClass" LineNumber="78" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedClass.PublicMethod" LineNumber="80" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedClass.InternalMethod" LineNumber="81" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedClass.ProtectedMethod" LineNumber="82" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedClass.ProtectedInternalMethod" LineNumber="83" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.InternalClass" LineNumber="87" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.InternalClass.PublicMethod" LineNumber="89" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.InternalClass.InternalMethod" LineNumber="90" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.InternalClass.ProtectedMethod" LineNumber="91" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.InternalClass.ProtectedInternalMethod" LineNumber="92" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedInternalClass" LineNumber="96" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedInternalClass.PublicMethod" LineNumber="98" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedInternalClass.InternalMethod" LineNumber="99" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedInternalClass.ProtectedMethod" LineNumber="100" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedInternalClass.ProtectedInternalMethod" LineNumber="101" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Tests that the correct headers are required when IgnorePrivates is false and IgnoreInternals is true. -->
+  <Test Name="DocumentationIgnoresWithInternalsIgnored">
+    <TestCodeFile>DocumentationIgnores.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
+          <AnalyzerSettings>
+            <BooleanProperty Name="IgnorePrivates">False</BooleanProperty>
+            <BooleanProperty Name="IgnoreInternals">True</BooleanProperty>
+            <BooleanProperty Name="IncludeFields">True</BooleanProperty>
+          </AnalyzerSettings>
+          <Rules>
+            <Rule Name="ElementsMustBeDocumented">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="PartialElementsMustBeDocumented">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="EnumerationItemsMustBeDocumented">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="DocumentationMustContainValidXml">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementDocumentationMustHaveSummary">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="PartialElementDocumentationMustHaveSummary">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementDocumentationMustHaveSummaryText">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="PartialElementDocumentationMustHaveSummaryText">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementDocumentationMustNotHaveDefaultSummary">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="PropertyDocumentationMustHaveValue">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="PropertyDocumentationMustHaveValueText">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementParametersMustBeDocumented">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementParameterDocumentationMustMatchElementParameters">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementParameterDocumentationMustDeclareParameterName">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementParameterDocumentationMustHaveText">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementReturnValueMustBeDocumented">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementReturnValueDocumentationMustHaveText">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="VoidReturnValueMustNotBeDocumented">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="GenericTypeParametersMustBeDocumented">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="GenericTypeParametersMustBeDocumentedPartialClass">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="GenericTypeParameterDocumentationMustMatchTypeParameters">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="GenericTypeParameterDocumentationMustDeclareParameterName">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="GenericTypeParameterDocumentationMustHaveText">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="PropertySummaryDocumentationMustMatchAccessors">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="PropertySummaryDocumentationMustOmitSetAccessorWithRestrictedAccess">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementDocumentationMustNotBeCopiedAndPasted">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="SingleLineCommentsMustNotUseDocumentationStyleSlashes">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="DocumentationTextMustNotBeEmpty">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="DocumentationTextMustBeginWithACapitalLetter">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="DocumentationTextMustEndWithAPeriod">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="DocumentationTextMustContainWhitespace">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="DocumentationMustMeetCharacterPercentage">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="DocumentationTextMustMeetMinimumCharacterLength">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass" LineNumber="7" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicMethod" LineNumber="9" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedMethod" LineNumber="11" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalMethod" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PrivateMethod" LineNumber="13" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicClass" LineNumber="15" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicClass.PublicMethod" LineNumber="17" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicClass.ProtectedMethod" LineNumber="19" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicClass.ProtectedInternalMethod" LineNumber="20" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicClass.PrivateMethod" LineNumber="21" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedClass" LineNumber="24" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedClass.PublicMethod" LineNumber="26" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedClass.ProtectedMethod" LineNumber="28" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedClass.ProtectedInternalMethod" LineNumber="29" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedClass.PrivateMethod" LineNumber="30" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.InternalClass.PrivateMethod" LineNumber="39" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalClass" LineNumber="42" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalClass.PublicMethod" LineNumber="44" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalClass.ProtectedMethod" LineNumber="46" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalClass.ProtectedInternalMethod" LineNumber="47" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalClass.PrivateMethod" LineNumber="48" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PrivateClass" LineNumber="51" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PrivateClass.PublicMethod" LineNumber="53" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PrivateClass.InternalMethod" LineNumber="54" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PrivateClass.ProtectedMethod" LineNumber="55" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PrivateClass.ProtectedInternalMethod" LineNumber="56" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PrivateClass.PrivateMethod" LineNumber="57" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PrivateMethod" LineNumber="67" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PublicClass.PrivateMethod" LineNumber="75" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedClass.PrivateMethod" LineNumber="84" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.InternalClass.PrivateMethod" LineNumber="93" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedInternalClass.PrivateMethod" LineNumber="102" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PrivateClass" LineNumber="105" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PrivateClass.PublicMethod" LineNumber="107" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PrivateClass.InternalMethod" LineNumber="108" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PrivateClass.ProtectedMethod" LineNumber="109" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PrivateClass.ProtectedInternalMethod" LineNumber="110" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PrivateClass.PrivateMethod" LineNumber="111" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Tests that the correct headers are required when IgnorePrivates and IgnoreInternals are both true. -->
+  <Test Name="DocumentationIgnoresWithInternalsAndPrivatesIgnored">
+    <TestCodeFile>DocumentationIgnores.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
+          <AnalyzerSettings>
+            <BooleanProperty Name="IgnorePrivates">True</BooleanProperty>
+            <BooleanProperty Name="IgnoreInternals">True</BooleanProperty>
+            <BooleanProperty Name="IncludeFields">True</BooleanProperty>
+          </AnalyzerSettings>
+          <Rules>
+            <Rule Name="ElementsMustBeDocumented">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="PartialElementsMustBeDocumented">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="EnumerationItemsMustBeDocumented">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="DocumentationMustContainValidXml">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementDocumentationMustHaveSummary">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="PartialElementDocumentationMustHaveSummary">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementDocumentationMustHaveSummaryText">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="PartialElementDocumentationMustHaveSummaryText">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementDocumentationMustNotHaveDefaultSummary">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="PropertyDocumentationMustHaveValue">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="PropertyDocumentationMustHaveValueText">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementParametersMustBeDocumented">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementParameterDocumentationMustMatchElementParameters">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementParameterDocumentationMustDeclareParameterName">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementParameterDocumentationMustHaveText">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementReturnValueMustBeDocumented">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementReturnValueDocumentationMustHaveText">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="VoidReturnValueMustNotBeDocumented">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="GenericTypeParametersMustBeDocumented">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="GenericTypeParametersMustBeDocumentedPartialClass">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="GenericTypeParameterDocumentationMustMatchTypeParameters">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="GenericTypeParameterDocumentationMustDeclareParameterName">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="GenericTypeParameterDocumentationMustHaveText">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="PropertySummaryDocumentationMustMatchAccessors">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="PropertySummaryDocumentationMustOmitSetAccessorWithRestrictedAccess">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementDocumentationMustNotBeCopiedAndPasted">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="SingleLineCommentsMustNotUseDocumentationStyleSlashes">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="DocumentationTextMustNotBeEmpty">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="DocumentationTextMustBeginWithACapitalLetter">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="DocumentationTextMustEndWithAPeriod">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="DocumentationTextMustContainWhitespace">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="DocumentationMustMeetCharacterPercentage">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="DocumentationTextMustMeetMinimumCharacterLength">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass" LineNumber="7" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicMethod" LineNumber="9" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedMethod" LineNumber="11" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalMethod" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicClass" LineNumber="15" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicClass.PublicMethod" LineNumber="17" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicClass.ProtectedMethod" LineNumber="19" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicClass.ProtectedInternalMethod" LineNumber="20" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedClass" LineNumber="24" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedClass.PublicMethod" LineNumber="26" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedClass.ProtectedMethod" LineNumber="28" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedClass.ProtectedInternalMethod" LineNumber="29" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalClass" LineNumber="42" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalClass.PublicMethod" LineNumber="44" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalClass.ProtectedMethod" LineNumber="46" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalClass.ProtectedInternalMethod" LineNumber="47" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
     </ExpectedViolations>
   </Test>
 

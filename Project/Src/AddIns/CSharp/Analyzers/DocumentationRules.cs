@@ -1176,14 +1176,12 @@ namespace Microsoft.StyleCop.CSharp
             if (null == element.Header || element.Header.Text.Length == 0)
             {
                 // Empty or missing header is a violation if:
-                // 1. The element is a class, interface, or struct
-                // 2. The element is a field and the RequireFields flag is set
-                // 3. The element is not private, or the element is private but the IgnorePrivates flag is not set
-                // 4. The element is not internal, or the element is internal but the IgnoreInternals flag is not set
-                if ((element.ElementType == ElementType.Class || element.ElementType == ElementType.Interface || element.ElementType == ElementType.Struct) ||
-                    ((settings.RequireFields || element.ElementType != ElementType.Field) &&
-                     (!settings.IgnorePrivates || element.Declaration.AccessModifierType != AccessModifierType.Private) &&
-                     (!settings.IgnoreInternals || element.Declaration.AccessModifierType != AccessModifierType.Internal)))
+                // 1. The element is a field and the RequireFields flag is set
+                // 2. The element is not private, or the element is private but the IgnorePrivates flag is not set
+                // 3. The element is not internal, or the element is internal but the IgnoreInternals flag is not set
+                if ((settings.RequireFields || element.ElementType != ElementType.Field) &&
+                    (!settings.IgnorePrivates || element.ActualAccess != AccessModifierType.Private) &&
+                    (!settings.IgnoreInternals || (element.ActualAccess != AccessModifierType.Internal && element.ActualAccess != AccessModifierType.ProtectedAndInternal)))
                 {
                     if (partialElement)
                     {
