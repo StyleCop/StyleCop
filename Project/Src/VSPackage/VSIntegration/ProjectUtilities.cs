@@ -35,6 +35,21 @@ namespace Microsoft.StyleCop.VisualStudio
         private static IServiceProvider serviceProvider;
 
         /// <summary>
+        /// The next time to refresh the "project enabled" cache.
+        /// </summary>
+        private static DateTime projectEnabledCacheRegenTime = DateTime.Now;
+        
+        /// <summary>
+        /// The "project enabled" cache synchronization locking object to prevent any simultaneous alteration/reading.
+        /// </summary>
+        private static object projectEnabledCacheLockObject = new object();
+
+        /// <summary>
+        /// The "project enabled" cache used to prevent costly deep COM interactions after the "project enabled" data has already been collected.
+        /// </summary>
+        private static Dictionary<string, bool> projectEnabledCache;
+
+        /// <summary>
         /// Keeps a collection of projects which do not contain the BuildAction property.
         /// </summary>
         private static Dictionary<string, List<string>> projectsMissingProperties;
@@ -206,19 +221,42 @@ namespace Microsoft.StyleCop.VisualStudio
                     enumerator.SelectedProjects = (System.Collections.IEnumerable)applicationObject.ActiveSolutionProjects;
                 }
 
+                // If our project cache is out of date, go ahead and allow it to regenerate from scratch.
+                if (DateTime.Now >= projectEnabledCacheRegenTime)
+                {
+                    lock (projectEnabledCacheLockObject)
+                    {
+                        projectEnabledCache = new Dictionary<string, bool>();
+                    }
+
+                    projectEnabledCacheRegenTime = DateTime.Now.AddMinutes(5);
+                }
+
                 // Enumerate through the VS projects.
                 foreach (Project project in enumerator)
                 {
                     if (project != null)
                     {
-                        if (EnumerateProject(
-                            project,
-                            new ProjectInvoker(IsKnownProjectTypeVisitor),
-                            new ProjectItemInvoker(IsKnownFileTypeVisitor),
-                            helper,
-                            null) != null)
+                        lock (projectEnabledCacheLockObject)
                         {
-                            return true;
+                            // If we've already cached a value for whether this project supports StyleCop, use it, since it is very
+                            // expensive to constantly scan massive unmanaged project trees through COM.  This used to render Visual 
+                            // Studio unusable in largely unmanaged solutions (http://stylecop.codeplex.com/workitem/6662).
+                            if (projectEnabledCache.ContainsKey(project.UniqueName))
+                            {
+                                return projectEnabledCache[project.UniqueName];
+                            }
+                            else
+                            {
+                                bool isEnabled = EnumerateProject(
+                                            project,
+                                            new ProjectInvoker(IsKnownProjectTypeVisitor),
+                                            new ProjectItemInvoker(IsKnownFileTypeVisitor),
+                                            helper,
+                                            null) != null;
+                                projectEnabledCache.Add(project.UniqueName, isEnabled);
+                                return isEnabled;
+                            }
                         }
                     }
                 }
