@@ -103,7 +103,7 @@ namespace CSharpAnalyzersTest.TestData.Violations
         {
         }
     }
-    
+
     public class SimpleClassWithNamespace
     {
         /// <summary>
@@ -303,7 +303,7 @@ namespace CSharpAnalyzersTest.TestData.Violations
         {
         }
     }
-    
+
     public class MultiGenericClassCrefWithltgtAndNamespace<T, S, R>
     {
         /// <summary>
@@ -334,7 +334,7 @@ namespace CSharpAnalyzersTest.TestData.Violations
         }
     }
 
-    public class MultiGenericClassCrefWithCurlies<T,S,R>
+    public class MultiGenericClassCrefWithCurlies<T, S, R>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MultiGenericClassCrefWithCurliesT,S,R}" /> class.
@@ -344,7 +344,7 @@ namespace CSharpAnalyzersTest.TestData.Violations
         }
     }
 
-    public class MultiGenericClassCrefWithCurliesAndMultiCharParams<TItem,SItem, RItem>
+    public class MultiGenericClassCrefWithCurliesAndMultiCharParams<TItem, SItem, RItem>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MultiGenericClassCrefWithCurliesAndMultiCharParams{TItem, SItem RItem}" /> class.
@@ -373,7 +373,7 @@ namespace CSharpAnalyzersTest.TestData.Violations
         {
         }
     }
-    
+
     public class MultiGenericClassCrefWithCurliesAndNamespace<T, S, R>
     {
         /// <summary>

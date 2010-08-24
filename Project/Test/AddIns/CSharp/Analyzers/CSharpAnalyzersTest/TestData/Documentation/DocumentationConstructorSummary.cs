@@ -335,7 +335,7 @@ namespace CSharpAnalyzersTest.TestData
             /// <summary>
             /// Initializes a new instance of the <see cref="TestData.NestedClassesConstructorSummary.Class5"/> class.
             /// </summary>
-            /// <remarks>invalid</remarks>
+            /// <remarks>valid</remarks>
             public Class5()
             {
             }
@@ -347,6 +347,14 @@ namespace CSharpAnalyzersTest.TestData
                 /// </summary>
                 /// <remarks>valid</remarks>
                 public Class6()
+                {
+                }
+
+                /// <summary>
+                /// Initializes a new instance of the <see cref="Class6"/> class.
+                /// </summary>
+                /// <remarks>valid</remarks>
+                public Class6(int a)
                 {
                 }
             }

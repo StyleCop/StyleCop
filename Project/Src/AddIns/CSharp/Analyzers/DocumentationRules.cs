@@ -79,23 +79,21 @@ namespace Microsoft.StyleCop.CSharp
         #endregion Internal Constants
 
         #region Private Constants
-
         /// <summary>
         /// A regular expression to match a type reference included within a cref attribute.
         /// </summary>
         /// <remarks>
-        /// {0}: namespace (A.B)
-        /// {1}: type name (like Foo or Foo.Bar without any generics on it)
-        /// {2}: typename with generic parameters regex already on it ( like Foo{A,B} or Foo{A,B}.Bar{C,D} )
-        /// {3}: typename with the number of generic parameters on it too (like Foo`3 or Foo`2.Bar`3)
+        /// Consider a namespace A.B and type Foo.Bar
+        /// Foo has 2 generic params and Bar has 3 generic params
+        /// {0}: qualified typename with the number of generic parameters on it too (like A.B.Foo`2.Bar`3)
+        /// {1}: type name options with generics removed (like A.B.Foo.Bar | B.Foo.Bar | Foo.Bar | Bar)
+        /// {2}: typename with generic parameters regex already on it ( like A.B.Foo{A,B}.Bar{C,D,E} | B.Foo{A,B}.Bar{C,D,E} | Foo{A,B}.Bar{C,D,E} | Bar{C,D,E} )
         /// </remarks>
         private const string CrefRegex =
             @"(?'see'<see\s+cref\s*=\s*"")?" +      // Optionally matches '<see cref="'
-            @"(((({0})?(?(see)({2})|({1}))))" +     // Optional namespace and then  matches 'type', or, if <see> tag is included, matches 'type&lt;T,S&gt;', 'type&lt;T,S>', or 'type{T,S}'
-            @"|" +
-            @"(?(see)T:(({0})?{3})))" +             // Matches T:type'N, only if <see> tag is included.
+            @"(?(see)({2}|(T:{0}))|({1}))" +        // if <see> tag then either the typename or the T:typename, or if no <see> tag then the typename with no generics.   
             @"(?(see)(""\s*(/>|>[\w\s]*</see>)))";  // Optionally matches '"/>' or '">some text</see>' if <see> tag is included.
-
+        
         /// <summary>
         /// A regular expression to match the generic parameters list for a type. Needs the outer paranthesis as its inserted into other RegExs.
         /// </summary>
@@ -582,28 +580,13 @@ namespace Microsoft.StyleCop.CSharp
         private static string BuildCrefValidationStringForType(ClassBase type)
         {
             Param.AssertNotNull(type, "type");
-
-            // We get the actual type name. For nested types this is A.B rather than just B.
-            string actualTypeName = GetActualClassName(type, false);
-            string[] typeNameParts = actualTypeName.Split('.');
-
-            StringBuilder actualTypeNameWithoutGenerics = new StringBuilder();
-            StringBuilder typeNameWithGenerics = new StringBuilder();
-
-            for (int i = 0; i < typeNameParts.Length; ++i)
-            {
-                typeNameWithGenerics.Append(BuildTypeNameStringWithGenerics(typeNameParts[i]));
-                actualTypeNameWithoutGenerics.Append(RemoveGenericsFromTypeName(typeNameParts[i]));
-
-                if (i < typeNameParts.Length - 1)
-                {
-                    typeNameWithGenerics.Append(@"\.");
-                    actualTypeNameWithoutGenerics.Append(@"\.");
-                }
-            }
-
+            
             StringBuilder typeNameWithParamsNumber = new StringBuilder();
-            for (int i = 0; i < typeNameParts.Length; i++)
+
+            string[] typeNameParts = type.FullyQualifiedName.Split('.');
+
+            // Start at index 1 to skip the 'Root'
+            for (int i = 1; i < typeNameParts.Length; i++)
             {
                 typeNameWithParamsNumber.Append(BuildTypeNameStringWithParamsNumber(typeNameParts[i]));
 
@@ -612,12 +595,14 @@ namespace Microsoft.StyleCop.CSharp
                     typeNameWithParamsNumber.Append(@"\.");
                 }
             }
+            
+            string regexWithGenerics;
+            string regexWithoutGenerics;
 
-            // Also capture the fully qualified name of the type, without generic parameters included.
-            string namespaceRegex = BuildNamespaceRegex(type);
+            BuildRegExForAllTypeOptions(type, out regexWithGenerics, out regexWithoutGenerics);
 
             // Build the regex string to match all possible formats for the type name.
-            return string.Format(CultureInfo.InvariantCulture, CrefRegex, namespaceRegex, actualTypeNameWithoutGenerics, typeNameWithGenerics, typeNameWithParamsNumber);
+            return string.Format(CultureInfo.InvariantCulture, CrefRegex, typeNameWithParamsNumber, regexWithoutGenerics, regexWithGenerics);
         }
         
         /// <summary>
@@ -649,6 +634,84 @@ namespace Microsoft.StyleCop.CSharp
                 string remainder = type.FullyQualifiedName.Substring(lastIndexOfDot + 1);
                 return showPlusInTypeName ? remainder.Replace('.', '+') : remainder;
             }
+        }
+
+        /// <summary>
+        /// For a type Foo.Bar in namespace A.B this returns (A.B.Foo.Bar | B.Foo.Bar | Foo.Bar | Bar) and (A.B.Foo{E,F}.Bar | B.Foo{E,F}.Bar | Foo{E,F}.Bar | Bar)
+        /// </summary>
+        /// <param name="type">
+        /// The type to build the RegExs for.
+        /// </param>
+        /// <param name="regexWithGenerics">
+        /// The regex with generics.
+        /// </param>
+        /// <param name="regexWithoutGenerics">
+        /// The regex without generics.
+        /// </param>
+        private static void BuildRegExForAllTypeOptions(ClassBase type, out string regexWithGenerics, out string regexWithoutGenerics)
+        {
+            Param.AssertNotNull(type, "type");
+
+            string[] typeNameParts = type.FullyQualifiedName.Split('.');
+            
+            StringBuilder actualTypeNameWithoutGenerics = new StringBuilder();
+            StringBuilder typeNameWithGenerics = new StringBuilder();
+
+            for (int i = 0; i < typeNameParts.Length; ++i)
+            {
+                typeNameWithGenerics.Append(BuildTypeNameStringWithGenerics(typeNameParts[i]));
+                actualTypeNameWithoutGenerics.Append(RemoveGenericsFromTypeName(typeNameParts[i]));
+
+                if (i < typeNameParts.Length - 1)
+                {
+                    typeNameWithGenerics.Append(".");
+                    actualTypeNameWithoutGenerics.Append(".");
+                }
+            }
+
+            regexWithGenerics = BuildRegExStringFromTypeName(typeNameWithGenerics.ToString());
+            regexWithoutGenerics = BuildRegExStringFromTypeName(actualTypeNameWithoutGenerics.ToString());
+        }
+
+        /// <summary>
+        /// Builds a RegEx string from the typename passed in.
+        /// </summary>
+        /// <param name="qualifiedTypeName">
+        /// The qualified typename to build a RegEx for.
+        /// </param>
+        /// <returns>
+        /// The RegEx string.
+        /// </returns>
+        private static string BuildRegExStringFromTypeName(string qualifiedTypeName)
+        {
+            Param.AssertNotNull(qualifiedTypeName, "qualifiedTypeName");
+
+            string[] typeNameParts = qualifiedTypeName.Split('.');
+            
+            StringBuilder returnValue = new StringBuilder();
+
+            for (int i = 1; i < typeNameParts.Length; i++)
+            {
+                returnValue.Append("(");
+
+                // Start at index 1 to skip the 'Root' entry.
+                for (int j = i; j < typeNameParts.Length; j++)
+                {
+                  returnValue.Append(typeNameParts[j]);
+                    if (j < typeNameParts.Length - 1)
+                    {
+                        returnValue.Append(@"\.");
+                    }
+                }
+
+                returnValue.Append(")");
+                if (i < typeNameParts.Length - 1)
+                {
+                    returnValue.Append("|");
+                }
+            }
+
+            return "(" + returnValue.ToString() + ")";
         }
 
         /// <summary>

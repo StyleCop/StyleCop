@@ -1873,8 +1873,6 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.Class2.Class2" LineNumber="155" Rule="ConstructorSummaryDocumentationMustBeginWithStandardText" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.Class2.Class2" LineNumber="162" Rule="ConstructorSummaryDocumentationMustBeginWithStandardText" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.Class2.Class2" LineNumber="169" Rule="ConstructorSummaryDocumentationMustBeginWithStandardText" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.NestedClassesConstructorSummary.Class5.Class5" LineNumber="339" Rule="ConstructorSummaryDocumentationMustBeginWithStandardText" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.NestedClassesConstructorSummary.Class5.Class6.Class6" LineNumber="349" Rule="ConstructorSummaryDocumentationMustBeginWithStandardText" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.Violations.SimpleClass.SimpleClass" LineNumber="12" Rule="ConstructorSummaryDocumentationMustBeginWithStandardText" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.Violations.SimpleClassWithCref.SimpleClassWithCref" LineNumber="22" Rule="ConstructorSummaryDocumentationMustBeginWithStandardText" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.Violations.SimpleClassWithCrefAndFalseGenerics1.SimpleClassWithCrefAndFalseGenerics1" LineNumber="32" Rule="ConstructorSummaryDocumentationMustBeginWithStandardText" />
@@ -1918,7 +1916,6 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.Violations.MultiGenericClassCrefWithHardcodedRef`T`S`R.MultiGenericClassCrefWithHardcodedRef" LineNumber="392" Rule="ConstructorSummaryDocumentationMustBeginWithStandardText" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.Violations.MultiGenericClassCrefWithHardcodedRefAndNamespace`T`S`R.MultiGenericClassCrefWithHardcodedRefAndNamespace" LineNumber="402" Rule="ConstructorSummaryDocumentationMustBeginWithStandardText" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.Violations.MultiGenericClassCrefWithHardcodedRefAndMultiCharParams`TItem`S`RItem.MultiGenericClassCrefWithHardcodedRefAndMultiCharParams" LineNumber="412" Rule="ConstructorSummaryDocumentationMustBeginWithStandardText" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.Violations.NestedMultiGenericClassCrefWithltgtAndNamespace`T`S`R.NestedMultiGenericClassCrefWithltgtAndNamespaceClass2`D`E`F.NestedMultiGenericClassCrefWithltgtAndNamespaceClass2" LineNumber="424" Rule="ConstructorSummaryDocumentationMustBeginWithStandardText" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.Violations.NestedMultiGenericClassCrefWithltgtAndNamespace`T`S`R.NestedMultiGenericClassCrefWithltgtAndNamespaceClass3`G`H.NestedMultiGenericClassCrefWithltgtAndNamespaceClass3" LineNumber="434" Rule="ConstructorSummaryDocumentationMustBeginWithStandardText" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.Violations.NestedMultiGenericClassCrefWithltgtAndNamespace`T`S`R.NestedMultiGenericClassCrefWithltgtAndNamespaceClass3`G`H.NestedMultiGenericClassCrefWithltgtAndNamespaceClass3%int" LineNumber="441" Rule="ConstructorSummaryDocumentationMustBeginWithStandardText" />
     </ExpectedViolations>
