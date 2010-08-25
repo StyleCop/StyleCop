@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <StyleCopTestDescription TestName="Naming">
   <!-- Tests valid naming.  -->
-  <Test Name="ValidNaming">
+  <!--<Test Name="ValidNaming">
     <TestCodeFile>ValidNaming.cs</TestCodeFile>
     <Settings>
       <GlobalSettings>
@@ -73,7 +73,7 @@
     <ExpectedViolations>
       <Violation Section="Root.ValidNaming1.class0" LineNumber="7" Rule="ElementMustBeginWithUpperCaseLetter" />
     </ExpectedViolations>
-  </Test>
+  </Test>-->
 
   <!-- Tests valid hungarian.  -->
   <Test Name="ValidHungarian">
@@ -112,6 +112,7 @@
       <Violation Section="Root.ValidHungarian1.Class2.Method20" LineNumber="72" Rule="FieldNamesMustNotUseHungarianNotation" />
       <Violation Section="Root.ValidHungarian1.Class2.Property20.set" LineNumber="81" Rule="FieldNamesMustNotUseHungarianNotation" />
       <Violation Section="Root.ValidHungarian1.Class2.Property20.set" LineNumber="82" Rule="FieldNamesMustNotUseHungarianNotation" />
+      <Violation Section="Root.ValidHungarian1.Class3.Method2%string%int" LineNumber="92" Rule="FieldNamesMustNotUseHungarianNotation" />
     </ExpectedViolations>
   </Test>
 
