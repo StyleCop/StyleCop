@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <StyleCopTestDescription TestName="Naming">
   <!-- Tests valid naming.  -->
-  <!--<Test Name="ValidNaming">
+  <Test Name="ValidNaming">
     <TestCodeFile>ValidNaming.cs</TestCodeFile>
     <Settings>
       <GlobalSettings>
@@ -73,7 +73,7 @@
     <ExpectedViolations>
       <Violation Section="Root.ValidNaming1.class0" LineNumber="7" Rule="ElementMustBeginWithUpperCaseLetter" />
     </ExpectedViolations>
-  </Test>-->
+  </Test>
 
   <!-- Tests valid hungarian.  -->
   <Test Name="ValidHungarian">
