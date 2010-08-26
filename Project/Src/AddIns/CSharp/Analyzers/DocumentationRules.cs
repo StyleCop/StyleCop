@@ -1387,27 +1387,25 @@ namespace Microsoft.StyleCop.CSharp
 
             if (element.ElementType == ElementType.Class)
             {
-                if (string.IsNullOrEmpty(((Class)element).BaseClass))
+                if (!((Class)element).HasBaseClass && !((Class)element).ImplementsAnInterface)
                 {
                     this.AddViolation(element, Rules.InheritDocMustBeUsedWithInheritingClass);
                 }
             }
-            else if (element.ElementType == ElementType.Interface)
+            else if (element.ElementType == ElementType.Interface || element.ElementType == ElementType.Struct)
             {
-                if (((Interface)element).ImplementedInterfaces.Count == 0)
+                if (!((ClassBase)element).ImplementsAnInterface)
                 {
                     this.AddViolation(element, Rules.InheritDocMustBeUsedWithInheritingClass);
                 }
-            }
-            else if (element.ElementType == ElementType.Struct)
-            {
-                this.AddViolation(element, Rules.InheritDocMustBeUsedWithInheritingClass);
             }
             else
             {
                 // Find the parent class.
                 ClassBase parentClass = element.Parent as ClassBase;
-                if (parentClass == null || parentClass.ElementType != ElementType.Class || string.IsNullOrEmpty(parentClass.BaseClass))
+                if (parentClass == null ||
+                    ((parentClass.ElementType == ElementType.Class && (!parentClass.HasBaseClass && !parentClass.ImplementsAnInterface)) ||
+                    ((parentClass.ElementType == ElementType.Interface || parentClass.ElementType == ElementType.Struct) && !parentClass.ImplementsAnInterface)))
                 {
                     this.AddViolation(element, Rules.InheritDocMustBeUsedWithInheritingClass);
                 }
