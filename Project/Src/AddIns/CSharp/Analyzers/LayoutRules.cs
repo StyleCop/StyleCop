@@ -123,6 +123,7 @@ namespace Microsoft.StyleCop.CSharp
                 if (!allowTrailingCharacters ||
                     (nextToken.CsTokenType != CsTokenType.Semicolon &&
                      nextToken.CsTokenType != CsTokenType.Comma &&
+                     nextToken.CsTokenType != CsTokenType.OperatorSymbol &&
                      nextToken.CsTokenType != CsTokenType.CloseParenthesis &&
                      nextToken.CsTokenType != CsTokenType.CloseSquareBracket))
                 {

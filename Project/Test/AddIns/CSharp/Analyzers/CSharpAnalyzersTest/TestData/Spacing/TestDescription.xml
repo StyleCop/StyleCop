@@ -53,4 +53,27 @@
       <Violation Section="Root.CloseParenthesisSpacing.CWA" LineNumber="137" Rule="ClosingParenthesisMustBeSpacedCorrectly" /> 
     </ExpectedViolations>
   </Test>
+  <Test Name="CloseCulyBracket">
+    <TestCodeFile>CloseCurlyBracket.cs</TestCodeFile>
+    <Settings>
+        <GlobalSettings>
+            <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+            <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+        </GlobalSettings>
+        <Analyzers>
+            <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.SpacingRules">
+                <Rules>
+                    <Rule Name="ClosingCurlyBracketsMustBeSpacedCorrectly">
+                        <RuleSettings>
+                            <BooleanProperty Name="Enabled">True</BooleanProperty>
+                        </RuleSettings>
+                    </Rule>
+                </Rules>
+            </Analyzer>
+        </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Spacing.CloseCurlyBracket.Method1" LineNumber="14" Rule="ClosingCurlyBracketsMustBeSpacedCorrectly" />
+    </ExpectedViolations>
+  </Test>
 </StyleCopTestDescription>

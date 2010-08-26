@@ -103,5 +103,23 @@ namespace CSharpAnalyzersTest.TestData
 
             this.Method1((a, b) => { int x; }, () => { int y; }, (() => { int z; }));
         }
+
+        public static Dictionary<Enum, ValidationType> Rules
+        {
+            get
+            {
+                return
+                    new List<ValidationType>
+                            {
+                                new ValidationType
+                                    {
+                                        Key = Keys.validatePinValid,
+                                        ServerFunction = failsOnExceptionServerFunc,
+                                        ClientFunction = failsOnServerClientScript,
+                                        ErrorMessage = DataEntryResources.PinCorrectError
+                                    },
+                            }.ToDictionary(i => i.Key);
+            }
+        }
     }
 }
