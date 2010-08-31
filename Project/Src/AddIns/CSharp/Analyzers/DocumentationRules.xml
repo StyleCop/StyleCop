@@ -202,8 +202,8 @@
         <Description>Verifies that an 'include' tag contains a valid file and path attribute.</Description>
       </Rule>
       <Rule Name="InheritDocMustBeUsedWithInheritingClass" CheckId="SA1648">
-        <Context>The 'inheritdoc' tag should not be used when the class does not inherit from a base class.</Context>
-        <Description>Verifies that an 'includedoc' tag is not used when the class does not inherit from a base class.</Description>
+        <Context>The 'inheritdoc' tag should not be used when the class or interface does not inherit from a base class or interface.</Context>
+        <Description>Verifies that an 'inheritdoc' tag is not used when the class or interface does not inherit from a base class or interface.</Description>
       </Rule>
     </RuleGroup>
     <RuleGroup Name="File Headers">

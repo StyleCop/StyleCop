@@ -145,6 +145,33 @@ namespace Microsoft.StyleCop.CSharp
             return false;
         }
 
+        /// <summary>
+        /// Determines whether the node is part of a method parameter.
+        /// </summary>
+        /// <param name="node">The node to check to see if its part of a method parameter.</param>
+        /// <returns>Returns true if the node is part of a method parameter, false otherwise.</returns>
+        private static bool IsMethodParameterDeclaration(Node<CsToken> node)
+        {
+            Param.Ignore(node);
+
+            if (node != null && node.Value != null)
+            {
+                ICodePart parent = node.Value.Parent;
+
+                while (parent != null)
+                {
+                    if (parent.CodePartType == CodePartType.Parameter)
+                    {
+                        return true;
+                    }
+
+                    parent = parent.Parent;
+                }
+            }
+
+            return false;
+        }
+
         #endregion Private Static Methods
 
         #region Private Methods
@@ -323,7 +350,8 @@ namespace Microsoft.StyleCop.CSharp
                 string.Equals(@string.Text, "@\"\"", StringComparison.Ordinal))
             {
                 // Look at the previous non-whitespace token. If it is the 'case' keyword, then do not throw this
-                // exception. It is illegal to write case: String.Empty and instead case: "" must be written.
+                // exception. It is illegal to write case String.Empty : and instead case "": must be written.
+                // We also check that the node is not part of a method parameter as these must be "" also.
                 Node<CsToken> previousToken = null;
                 for (Node<CsToken> previousNode = stringNode.Previous; previousNode != null; previousNode = previousNode.Previous)
                 {
@@ -337,7 +365,7 @@ namespace Microsoft.StyleCop.CSharp
                     }
                 }
 
-                if (previousToken == null || (previousToken.Value.CsTokenType != CsTokenType.Case && !IsConstVariableDeclaration(previousToken)))
+                if (previousToken == null || (previousToken.Value.CsTokenType != CsTokenType.Case && !IsConstVariableDeclaration(previousToken) && !IsMethodParameterDeclaration(previousToken)))
                 {
                     this.AddViolation(@string.FindParentElement(), @string.LineNumber, Rules.UseStringEmptyForEmptyStrings);
                 }

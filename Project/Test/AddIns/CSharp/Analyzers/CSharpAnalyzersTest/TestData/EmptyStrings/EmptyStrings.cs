@@ -59,4 +59,11 @@ namespace EmptyStrings
             const string xx = "";
         }
     }
+
+    class DefaultParameters
+    {
+        public void Method1(string parameter1 = "")
+        {
+        }        
+    }   
 }

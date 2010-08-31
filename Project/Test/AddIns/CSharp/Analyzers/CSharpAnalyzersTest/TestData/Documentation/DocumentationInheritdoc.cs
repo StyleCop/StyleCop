@@ -12,12 +12,7 @@ namespace CSharpAnalyzersTest.ValidTestData
     }
 
     /// <inheritdoc />
-    public interface ValidInheritDoc2 : ISomeInterface
-    {
-    }
-
-    /// <inheritdoc />
-    public class ValidInheritDoc3 : SomeClass, IWhatever
+    public class ValidInheritDoc2 : ISomeInterface
     {
         /// <inheritdoc />
         public void Method1()
@@ -26,8 +21,35 @@ namespace CSharpAnalyzersTest.ValidTestData
     }
 
     /// <inheritdoc />
-    public interface ValidInheritDoc4 : ISomeInterface, IWhatever
+    public interface ValidInheritDoc3 : ISomeInterface
     {
+    }
+
+    /// <inheritdoc />
+    public class ValidInheritDoc4 : SomeClass, IWhatever
+    {
+        /// <inheritdoc />
+        public void Method1()
+        {
+        }
+    }
+
+    /// <inheritdoc />
+    public interface ValidInheritDoc5 : ISomeInterface, IWhatever
+    {
+    }
+
+    public interface ValidInheritDoc6 : IWhatever
+    {
+        /// <inheritdoc />
+        public void Method1();
+    }
+
+    /// <inheritdoc />
+    public struct ValidInheritDoc7 : IWhatever
+    {
+        /// <inheritdoc />
+        public void Method1();
     }
 }
 
@@ -75,20 +97,8 @@ namespace CSharpAnalyzersTest.InvalidTestData
         /// <inheritdoc />
         public void Method1();
     }
-
-    public interface InvalidInheritDoc6 : IWhatever
-    {
-        /// <inheritdoc />
-        public void Method1();
-    }
-
-    public struct InvalidInheritDoc7 : IWhatever
-    {
-        /// <inheritdoc />
-        public void Method1();
-    }
-
-    public class InvalidInheritDoc8 : BaseClass
+    
+    public class InvalidInheritDoc6 : BaseClass
     {
         public class InternalClass
         {
