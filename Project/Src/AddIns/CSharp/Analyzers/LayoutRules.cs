@@ -86,6 +86,25 @@ namespace Microsoft.StyleCop.CSharp
         }
 
         /// <summary>
+        /// Compares the token to the Operator symbol and to a dot '.'.
+        /// </summary>
+        /// <param name="token">The token to check.</param>
+        /// <returns>True is the token is an operator and a dot '.', otherwise false.</returns>
+        private static bool IsTokenADot(CsToken token)
+        {
+            Param.AssertNotNull(token, "token");
+
+            if (token.CsTokenType == CsTokenType.OperatorSymbol)
+            {
+                OperatorSymbol symbol = (OperatorSymbol)token;
+
+                return symbol.SymbolType == OperatorType.MemberAccess;
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Determines whether the given bracket is the only thing on its line or whether it shares the line.
         /// </summary>
         /// <param name="bracketNode">The bracket to check.</param>
@@ -123,7 +142,7 @@ namespace Microsoft.StyleCop.CSharp
                 if (!allowTrailingCharacters ||
                     (nextToken.CsTokenType != CsTokenType.Semicolon &&
                      nextToken.CsTokenType != CsTokenType.Comma &&
-                     nextToken.CsTokenType != CsTokenType.OperatorSymbol &&
+                     !IsTokenADot(nextToken) &&
                      nextToken.CsTokenType != CsTokenType.CloseParenthesis &&
                      nextToken.CsTokenType != CsTokenType.CloseSquareBracket))
                 {

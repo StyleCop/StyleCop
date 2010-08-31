@@ -7,13 +7,8 @@ namespace CSharpAnalyzersTest.TestData.Spacing
 {
     using System.Xml;
 
-    class CloseCurlyBracket
+    class MemberAccessSymbol
     {
-        public void Method1()
-        {
-            while (true) {} //invalid
-        }
-
         public static Dictionary<Enum, ValidationType> Rules
         {
             get
@@ -28,7 +23,7 @@ namespace CSharpAnalyzersTest.TestData.Spacing
                                         ClientFunction = failsOnServerClientScript,
                                         ErrorMessage = DataEntryResources.PinCorrectError
                                     },
-                            }.ToDictionary(i => i.Key); // valid spacing after the closing curly bracket
+                            }.ToDictionary(i => i.Key); // valid spacing around the member accesss symbol
             }
         }
 
@@ -46,7 +41,7 @@ namespace CSharpAnalyzersTest.TestData.Spacing
                                         ClientFunction = failsOnServerClientScript,
                                         ErrorMessage = DataEntryResources.PinCorrectError
                                     },
-                            } .ToDictionary(i => i.Key); // invalid spacing after the closing curly bracket
+                            } .ToDictionary(i => i.Key); // invalid spacing around the member accesss symbol
             }
         }
 
@@ -64,8 +59,45 @@ namespace CSharpAnalyzersTest.TestData.Spacing
                                         ClientFunction = failsOnServerClientScript,
                                         ErrorMessage = DataEntryResources.PinCorrectError
                                     },
-                            } . ToDictionary(i => i.Key); // invalid spacing after the closing curly bracket
+                            }. ToDictionary(i => i.Key); // invalid spacing around the member accesss symbol
             }
-        }        
+        }
+
+        public static Dictionary<Enum, ValidationType> Rules
+        {
+            get
+            {
+                return
+                    new List<ValidationType>
+                            {
+                                new ValidationType
+                                    {
+                                        Key = Keys.validatePinValid,
+                                        ServerFunction = failsOnExceptionServerFunc,
+                                        ClientFunction = failsOnServerClientScript,
+                                        ErrorMessage = DataEntryResources.PinCorrectError
+                                    },
+                            } . ToDictionary(i => i.Key); // invalid spacing around the member accesss symbol
+            }
+        }
+
+        public static Dictionary<Enum, ValidationType> Rules
+        {
+            get
+            {
+                return
+                    new List<ValidationType>
+                            {
+                                new ValidationType
+                                    {
+                                        Key = Keys.validatePinValid,
+                                        ServerFunction = failsOnExceptionServerFunc,
+                                        ClientFunction = failsOnServerClientScript,
+                                        ErrorMessage = DataEntryResources.PinCorrectError
+                                    },
+                            }
+                            .ToDictionary(i => i.Key); // invalid spacing around the member accesss symbol
+            }
+        }
     }
 }

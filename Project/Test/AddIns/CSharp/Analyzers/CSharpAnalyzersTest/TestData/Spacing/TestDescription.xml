@@ -53,7 +53,7 @@
       <Violation Section="Root.CloseParenthesisSpacing.CWA" LineNumber="137" Rule="ClosingParenthesisMustBeSpacedCorrectly" /> 
     </ExpectedViolations>
   </Test>
-  <Test Name="CloseCulyBracket">
+  <Test Name="CloseCurlyBracket">
     <TestCodeFile>CloseCurlyBracket.cs</TestCodeFile>
     <Settings>
         <GlobalSettings>
@@ -74,6 +74,34 @@
     </Settings>
     <ExpectedViolations>
       <Violation Section="Root.CSharpAnalyzersTest.TestData.Spacing.CloseCurlyBracket.Method1" LineNumber="14" Rule="ClosingCurlyBracketsMustBeSpacedCorrectly" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Spacing.CloseCurlyBracket.Rules.get" LineNumber="49" Rule="ClosingCurlyBracketsMustBeSpacedCorrectly" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Spacing.CloseCurlyBracket.Rules.get" LineNumber="67" Rule="ClosingCurlyBracketsMustBeSpacedCorrectly" />
     </ExpectedViolations>
   </Test>
+  <Test Name="MemberAccessSymbol">
+    <TestCodeFile>MemberAccessSymbol.cs</TestCodeFile>
+    <Settings>
+        <GlobalSettings>
+            <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+            <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+        </GlobalSettings>
+        <Analyzers>
+            <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.SpacingRules">
+                <Rules>
+                    <Rule Name="MemberAccessSymbolsMustBeSpacedCorrectly">
+                        <RuleSettings>
+                            <BooleanProperty Name="Enabled">True</BooleanProperty>
+                        </RuleSettings>
+                    </Rule>
+                </Rules>
+            </Analyzer>
+        </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+        <Violation Section="Root.CSharpAnalyzersTest.TestData.Spacing.MemberAccessSymbol.Rules.get" LineNumber="44" Rule="MemberAccessSymbolsMustBeSpacedCorrectly" />
+        <Violation Section="Root.CSharpAnalyzersTest.TestData.Spacing.MemberAccessSymbol.Rules.get" LineNumber="62" Rule="MemberAccessSymbolsMustBeSpacedCorrectly" />
+        <Violation Section="Root.CSharpAnalyzersTest.TestData.Spacing.MemberAccessSymbol.Rules.get" LineNumber="80" Rule="MemberAccessSymbolsMustBeSpacedCorrectly" />
+        <Violation Section="Root.CSharpAnalyzersTest.TestData.Spacing.MemberAccessSymbol.Rules.get" LineNumber="99" Rule="MemberAccessSymbolsMustBeSpacedCorrectly" />
+    </ExpectedViolations>
+  </Test> 
 </StyleCopTestDescription>
