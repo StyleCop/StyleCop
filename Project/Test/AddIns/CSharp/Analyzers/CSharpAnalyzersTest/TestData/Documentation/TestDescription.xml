@@ -3035,17 +3035,15 @@
       </Analyzers>
     </Settings>
     <ExpectedViolations>
-      <Violation Section="Root.CSharpAnalyzersTest.InvalidTestData.Handler" LineNumber="37" Rule="InheritDocMustBeUsedWithInheritingClass" />
-      <Violation Section="Root.CSharpAnalyzersTest.InvalidTestData.Enum1" LineNumber="40" Rule="InheritDocMustBeUsedWithInheritingClass" />
-      <Violation Section="Root.CSharpAnalyzersTest.InvalidTestData.Enum2.Item" LineNumber="47" Rule="InheritDocMustBeUsedWithInheritingClass" />
-      <Violation Section="Root.CSharpAnalyzersTest.InvalidTestData.InvalidInheritDoc1" LineNumber="51" Rule="InheritDocMustBeUsedWithInheritingClass" />
-      <Violation Section="Root.CSharpAnalyzersTest.InvalidTestData.InvalidInheritDoc2" LineNumber="56" Rule="InheritDocMustBeUsedWithInheritingClass" />
-      <Violation Section="Root.CSharpAnalyzersTest.InvalidTestData.InvalidInheritDoc3" LineNumber="61" Rule="InheritDocMustBeUsedWithInheritingClass" />
-      <Violation Section="Root.CSharpAnalyzersTest.InvalidTestData.InvalidInheritDoc4.Method1" LineNumber="68" Rule="InheritDocMustBeUsedWithInheritingClass" />
-      <Violation Section="Root.CSharpAnalyzersTest.InvalidTestData.InvalidInheritDoc5.Method1" LineNumber="76" Rule="InheritDocMustBeUsedWithInheritingClass" />
-      <Violation Section="Root.CSharpAnalyzersTest.InvalidTestData.InvalidInheritDoc6.Method1" LineNumber="82" Rule="InheritDocMustBeUsedWithInheritingClass" />
-      <Violation Section="Root.CSharpAnalyzersTest.InvalidTestData.InvalidInheritDoc7.Method1" LineNumber="88" Rule="InheritDocMustBeUsedWithInheritingClass" />
-      <Violation Section="Root.CSharpAnalyzersTest.InvalidTestData.InvalidInheritDoc8.InternalClass.Method1" LineNumber="96" Rule="InheritDocMustBeUsedWithInheritingClass" />
+      <Violation Section="Root.CSharpAnalyzersTest.InvalidTestData.Handler" LineNumber="59" Rule="InheritDocMustBeUsedWithInheritingClass" />
+      <Violation Section="Root.CSharpAnalyzersTest.InvalidTestData.Enum1" LineNumber="62" Rule="InheritDocMustBeUsedWithInheritingClass" />
+      <Violation Section="Root.CSharpAnalyzersTest.InvalidTestData.Enum2.Item" LineNumber="69" Rule="InheritDocMustBeUsedWithInheritingClass" />
+      <Violation Section="Root.CSharpAnalyzersTest.InvalidTestData.InvalidInheritDoc1" LineNumber="73" Rule="InheritDocMustBeUsedWithInheritingClass" />
+      <Violation Section="Root.CSharpAnalyzersTest.InvalidTestData.InvalidInheritDoc2" LineNumber="78" Rule="InheritDocMustBeUsedWithInheritingClass" />
+      <Violation Section="Root.CSharpAnalyzersTest.InvalidTestData.InvalidInheritDoc3" LineNumber="83" Rule="InheritDocMustBeUsedWithInheritingClass" />
+      <Violation Section="Root.CSharpAnalyzersTest.InvalidTestData.InvalidInheritDoc4.Method1" LineNumber="90" Rule="InheritDocMustBeUsedWithInheritingClass" />
+      <Violation Section="Root.CSharpAnalyzersTest.InvalidTestData.InvalidInheritDoc5.Method1" LineNumber="98" Rule="InheritDocMustBeUsedWithInheritingClass" />
+      <Violation Section="Root.CSharpAnalyzersTest.InvalidTestData.InvalidInheritDoc6.InternalClass.Method1" LineNumber="106" Rule="InheritDocMustBeUsedWithInheritingClass" />
     </ExpectedViolations>
   </Test>
 

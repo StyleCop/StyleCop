@@ -114,6 +114,28 @@ namespace Microsoft.StyleCop.CSharp
         }
 
         /// <summary>
+        /// Gets a value indicating whether this element implements at least 1 interface.
+        /// </summary>
+        public bool ImplementsAnInterface
+        {
+            get
+            {
+                return this.implementedInterfaces.Length > 0;
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether this element has a BaseClass.
+        /// </summary>
+        public bool HasBaseClass
+        {
+            get
+            {
+                return !string.IsNullOrEmpty(this.baseClass);
+            }
+        }
+
+        /// <summary>
         /// Gets the list of partial interfaces with the same fully qualified name as this element.
         /// </summary>
         /// <remarks>If this is not a partial element, this property returns null.</remarks>
