@@ -28,6 +28,41 @@ namespace Microsoft.StyleCop
     /// </summary>
     internal static class V43Settings
     {
+        #region Private Enums
+
+        /// <summary>
+        /// The types of settings properties.
+        /// </summary>
+        private enum PropertyType
+        {
+            /// <summary>
+            /// A property containing a boolean value.
+            /// </summary>
+            Boolean,
+
+            /// <summary>
+            /// A property containing an integer value.
+            /// </summary>
+            Integer,
+
+            /// <summary>
+            /// A property containing a string value.
+            /// </summary>
+            String,
+
+            /// <summary>
+            /// A property containing a collection of properties.
+            /// </summary>
+            Collection,
+
+            /// <summary>
+            /// Not a valid property.
+            /// </summary>
+            None
+        }
+
+        #endregion Private Enums
+
         #region Public Static Methods
 
         /// <summary>
@@ -227,42 +262,79 @@ namespace Microsoft.StyleCop
 
             foreach (XmlNode propertyNode in propertyCollectionNode.ChildNodes)
             {
-                // Get the property name.
-                XmlAttribute propertyName = propertyNode.Attributes["Name"];
-                if (propertyName != null && !string.IsNullOrEmpty(propertyName.Value))
+                PropertyType type = DeterminePropertyNodeType(propertyNode.Name);
+                if (type != PropertyType.None)
                 {
-                    // Prepend the rule name to the property name if necessary.
-                    string adjustedPropertyName = propertyName.InnerText;
-
-                    if (!string.IsNullOrEmpty(ruleName))
+                    // Get the property name.
+                    XmlAttribute propertyName = propertyNode.Attributes["Name"];
+                    if (propertyName != null && !string.IsNullOrEmpty(propertyName.Value))
                     {
-                        adjustedPropertyName = ruleName + "#" + propertyName.InnerText;
-                    }
+                        // Prepend the rule name to the property name if necessary.
+                        string adjustedPropertyName = propertyName.InnerText;
 
-                    // Load the property.
-                    switch (propertyNode.Name)
-                    {
-                        case "BooleanProperty":
-                            LoadBooleanProperty(adjustedPropertyName, propertyNode, properties, propertyDescriptors);
-                            break;
+                        if (!string.IsNullOrEmpty(ruleName))
+                        {
+                            adjustedPropertyName = ruleName + "#" + propertyName.InnerText;
+                        }
 
-                        case "IntegerProperty":
-                            LoadIntProperty(adjustedPropertyName, propertyNode, properties, propertyDescriptors);
-                            break;
+                        // Load the property.
+                        switch (type)
+                        {
+                            case PropertyType.Boolean:
+                                LoadBooleanProperty(adjustedPropertyName, propertyNode, properties, propertyDescriptors);
+                                break;
 
-                        case "StringProperty":
-                            LoadStringProperty(adjustedPropertyName, propertyNode, properties, propertyDescriptors);
-                            break;
+                            case PropertyType.Integer:
+                                LoadIntProperty(adjustedPropertyName, propertyNode, properties, propertyDescriptors);
+                                break;
 
-                        case "CollectionProperty":
-                            LoadCollectionProperty(adjustedPropertyName, propertyNode, properties, propertyDescriptors);
-                            break;
+                            case PropertyType.String:
+                                LoadStringProperty(adjustedPropertyName, propertyNode, properties, propertyDescriptors);
+                                break;
 
-                        default:
-                            // Ignore any unexpected settings.
-                            break;
+                            case PropertyType.Collection:
+                                LoadCollectionProperty(adjustedPropertyName, propertyNode, properties, propertyDescriptors);
+                                break;
+
+                            default:
+                                // Ignore any unexpected settings.
+                                break;
+                        }
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// Determines the type of property represented by the property type name.
+        /// </summary>
+        /// <param name="propertyType">The property type name.</param>
+        /// <returns>Returns the well-known property type.</returns>
+        private static PropertyType DeterminePropertyNodeType(string propertyType)
+        {
+            Param.Ignore(propertyType);
+
+            if (string.IsNullOrEmpty(propertyType))
+            {
+                return PropertyType.None;
+            }
+
+            switch (propertyType)
+            {
+                case "BooleanProperty":
+                    return PropertyType.Boolean;
+
+                case "IntegerProperty":
+                    return PropertyType.Integer;
+
+                case "StringProperty":
+                    return PropertyType.String;
+
+                case "CollectionProperty":
+                    return PropertyType.Collection;
+
+                default:
+                    return PropertyType.None;
             }
         }
 
