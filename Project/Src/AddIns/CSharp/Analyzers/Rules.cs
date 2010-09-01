@@ -798,6 +798,11 @@ namespace Microsoft.StyleCop.CSharp
         AvoidVarType,
 
         /// <summary>
+        /// Enforces the use of the shorthand for a nullable type.
+        /// </summary>
+        UseShorthandForNullableTypes,
+
+        /// <summary>
         /// Use the String.Empty property rather than "".
         /// </summary>
         UseStringEmptyForEmptyStrings,

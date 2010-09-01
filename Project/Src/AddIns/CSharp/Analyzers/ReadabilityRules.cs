@@ -223,6 +223,11 @@ namespace Microsoft.StyleCop.CSharp
                 {
                     // Check that the type is using the built-in types, if applicable.
                     this.CheckBuiltInType(tokenNode, document);
+
+                    if (token.CsTokenClass == CsTokenClass.GenericType)
+                    {
+                        this.CheckShorthandForNullableTypes(tokenNode);
+                    }
                 }
                 else if (token.CsTokenType == CsTokenType.String)
                 {
@@ -238,6 +243,22 @@ namespace Microsoft.StyleCop.CSharp
                         this.AddViolation(token.FindParentElement(), token.LineNumber, Rules.DoNotUseRegions);
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// Checks the generic type uses the shorthand declaration format.
+        /// </summary>
+        /// <param name="type">The node to check.</param>
+        private void CheckShorthandForNullableTypes(Node<CsToken> type)
+        {
+            Param.AssertNotNull(type, "type");
+
+            TypeToken typeToken = (TypeToken)type.Value;
+
+            if (typeToken.Text.StartsWith("Nullable"))
+            {
+                this.AddViolation(typeToken.FindParentElement(), typeToken.LineNumber, Rules.UseShorthandForNullableTypes);
             }
         }
 

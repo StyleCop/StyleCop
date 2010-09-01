@@ -1,5 +1,29 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <StyleCopTestDescription TestName="BuiltInTypes">
+  <Test Name="ShorthandForNullableTypes">
+    <TestCodeFile>ShorthandForNullableTypes.cs</TestCodeFile>
+    <Settings>
+        <GlobalSettings>
+            <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+            <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+        </GlobalSettings>
+        <Analyzers>
+            <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.ReadabilityRules">
+                <Rules>
+                    <Rule Name="UseShorthandForNullableTypes">
+                        <RuleSettings>
+                            <BooleanProperty Name="Enabled">True</BooleanProperty>
+                        </RuleSettings>
+                    </Rule>
+                </Rules>
+            </Analyzer>
+        </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.BuiltInTypes.ShorthandForNullableTypes.d2" LineNumber="12" Rule="UseShorthandForNullableTypes" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.BuiltInTypes.ShorthandForNullableTypes.i1" LineNumber="14" Rule="UseShorthandForNullableTypes" />
+    </ExpectedViolations>
+  </Test>
   <Test Name="BuiltInTypes">
     <TestCodeFile>ValidBuiltInTypes.cs</TestCodeFile>
     <TestCodeFile>InvalidBuiltInTypes.cs</TestCodeFile>

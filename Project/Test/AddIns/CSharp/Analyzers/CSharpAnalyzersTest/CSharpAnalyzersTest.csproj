@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="TestData\BuiltInTypes\ShorthandForNullableTypes.cs" />
     <None Include="TestData\Documentation\DocumentationIgnores.cs" />
     <None Include="TestData\Documentation\DocumentationInheritdoc.cs" />
     <None Include="Spacing.GenericTest" />
@@ -285,7 +286,9 @@
     <Content Include="TestData\LineSpacing\TestDescription.xml" />
     <Content Include="TestData\MethodParameters\TestDescription.xml" />
     <Content Include="TestData\Naming\TestDescription.xml" />
-    <Content Include="TestData\Parenthesis\TestDescription.xml" />
+    <Content Include="TestData\Parenthesis\TestDescription.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="TestData\QueryClauses\TestDescription.xml" />
     <Content Include="TestData\Regions\TestDescription.xml" />
     <Content Include="TestData\Spacing\TestDescription.xml" />
