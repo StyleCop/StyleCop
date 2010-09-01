@@ -1845,6 +1845,7 @@
   <!-- Tests constructor summary text rules. -->
   <Test Name="DocumentationConstructorSummary">
     <TestCodeFile>DocumentationConstructorSummary.cs</TestCodeFile>
+    <TestCodeFile>DocumentationConstructorSummaryDetailed.cs</TestCodeFile>
     <TestCodeFile>DocumentationConstructorSummaryForGenericType.cs</TestCodeFile>
     <TestCodeFile>DocumentationConstructorSummaryForGenericTypeViolations.cs</TestCodeFile>
     <Settings>
@@ -1918,6 +1919,42 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.Violations.MultiGenericClassCrefWithHardcodedRefAndMultiCharParams`TItem`S`RItem.MultiGenericClassCrefWithHardcodedRefAndMultiCharParams" LineNumber="412" Rule="ConstructorSummaryDocumentationMustBeginWithStandardText" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.Violations.NestedMultiGenericClassCrefWithltgtAndNamespace`T`S`R.NestedMultiGenericClassCrefWithltgtAndNamespaceClass3`G`H.NestedMultiGenericClassCrefWithltgtAndNamespaceClass3" LineNumber="434" Rule="ConstructorSummaryDocumentationMustBeginWithStandardText" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.Violations.NestedMultiGenericClassCrefWithltgtAndNamespace`T`S`R.NestedMultiGenericClassCrefWithltgtAndNamespaceClass3`G`H.NestedMultiGenericClassCrefWithltgtAndNamespaceClass3%int" LineNumber="441" Rule="ConstructorSummaryDocumentationMustBeginWithStandardText" />
+      <Violation Section="Root.N1.N2.A.B.C.C" LineNumber="62" Rule="ConstructorSummaryDocumentationMustBeginWithStandardText" />
+      <Violation Section="Root.N1.N2.A.B.C.C" LineNumber="66" Rule="ConstructorSummaryDocumentationMustBeginWithStandardText" />
+      <Violation Section="Root.N1.N2.A.B.C.C" LineNumber="70" Rule="ConstructorSummaryDocumentationMustBeginWithStandardText" />
+      <Violation Section="Root.N1.N2.A.B.C.C" LineNumber="74" Rule="ConstructorSummaryDocumentationMustBeginWithStandardText" />
+      <Violation Section="Root.N1.N2.A.B.C.C" LineNumber="125" Rule="ConstructorSummaryDocumentationMustBeginWithStandardText" />
+      <Violation Section="Root.N1.N2.A.B.C.C" LineNumber="129" Rule="ConstructorSummaryDocumentationMustBeginWithStandardText" />
+      <Violation Section="Root.N1.N2.A.B.C.C" LineNumber="133" Rule="ConstructorSummaryDocumentationMustBeginWithStandardText" />
+      <Violation Section="Root.N1.N2.A.B.C.C" LineNumber="137" Rule="ConstructorSummaryDocumentationMustBeginWithStandardText" />
+      <Violation Section="Root.N1.N2.A.B.C.C" LineNumber="188" Rule="ConstructorSummaryDocumentationMustBeginWithStandardText" />
+      <Violation Section="Root.N1.N2.A.B.C.C" LineNumber="192" Rule="ConstructorSummaryDocumentationMustBeginWithStandardText" />
+      <Violation Section="Root.N1.N2.A.B.C.C" LineNumber="196" Rule="ConstructorSummaryDocumentationMustBeginWithStandardText" />
+      <Violation Section="Root.N1.N2.A.B.C.C" LineNumber="200" Rule="ConstructorSummaryDocumentationMustBeginWithStandardText" />
+      <Violation Section="Root.N1.N2.A.B.C.C" LineNumber="251" Rule="ConstructorSummaryDocumentationMustBeginWithStandardText" />
+      <Violation Section="Root.N1.N2.A.B.C.C" LineNumber="255" Rule="ConstructorSummaryDocumentationMustBeginWithStandardText" />
+      <Violation Section="Root.N1.N2.A.B.C.C" LineNumber="259" Rule="ConstructorSummaryDocumentationMustBeginWithStandardText" />
+      <Violation Section="Root.N1.N2.A.B.C.C" LineNumber="263" Rule="ConstructorSummaryDocumentationMustBeginWithStandardText" />
+      <Violation Section="Root.N1.N2.A.B.C.C" LineNumber="314" Rule="ConstructorSummaryDocumentationMustBeginWithStandardText" />
+      <Violation Section="Root.N1.N2.A.B.C.C" LineNumber="318" Rule="ConstructorSummaryDocumentationMustBeginWithStandardText" />
+      <Violation Section="Root.N1.N2.A.B.C.C" LineNumber="322" Rule="ConstructorSummaryDocumentationMustBeginWithStandardText" />
+      <Violation Section="Root.N1.N2.A.B.C.C" LineNumber="326" Rule="ConstructorSummaryDocumentationMustBeginWithStandardText" />
+      <Violation Section="Root.N1.N2.A.B.C.C" LineNumber="377" Rule="ConstructorSummaryDocumentationMustBeginWithStandardText" />
+      <Violation Section="Root.N1.N2.A.B.C.C" LineNumber="381" Rule="ConstructorSummaryDocumentationMustBeginWithStandardText" />
+      <Violation Section="Root.N1.N2.A.B.C.C" LineNumber="385" Rule="ConstructorSummaryDocumentationMustBeginWithStandardText" />
+      <Violation Section="Root.N1.N2.A.B.C.C" LineNumber="389" Rule="ConstructorSummaryDocumentationMustBeginWithStandardText" />
+      <Violation Section="Root.N1.N2.A.D`S`T.E`P`Q`R.E" LineNumber="464" Rule="ConstructorSummaryDocumentationMustBeginWithStandardText" />
+      <Violation Section="Root.N1.N2.A.D`S`T.E`P`Q`R.E" LineNumber="468" Rule="ConstructorSummaryDocumentationMustBeginWithStandardText" />
+      <Violation Section="Root.N1.N2.A.D`S`T.E`P`Q`R.E" LineNumber="472" Rule="ConstructorSummaryDocumentationMustBeginWithStandardText" />
+      <Violation Section="Root.N1.N2.A.D`S`T.E`P`Q`R.E" LineNumber="476" Rule="ConstructorSummaryDocumentationMustBeginWithStandardText" />
+      <Violation Section="Root.N1.N2.A.D`S`T.E`P`Q`R.E" LineNumber="548" Rule="ConstructorSummaryDocumentationMustBeginWithStandardText" />
+      <Violation Section="Root.N1.N2.A.D`S`T.E`P`Q`R.E" LineNumber="552" Rule="ConstructorSummaryDocumentationMustBeginWithStandardText" />
+      <Violation Section="Root.N1.N2.A.D`S`T.E`P`Q`R.E" LineNumber="556" Rule="ConstructorSummaryDocumentationMustBeginWithStandardText" />
+      <Violation Section="Root.N1.N2.A.D`S`T.E`P`Q`R.E" LineNumber="560" Rule="ConstructorSummaryDocumentationMustBeginWithStandardText" />
+      <Violation Section="Root.N1.N2.A.D`S`T.E`P`Q`R.E" LineNumber="632" Rule="ConstructorSummaryDocumentationMustBeginWithStandardText" />
+      <Violation Section="Root.N1.N2.A.D`S`T.E`P`Q`R.E" LineNumber="636" Rule="ConstructorSummaryDocumentationMustBeginWithStandardText" />
+      <Violation Section="Root.N1.N2.A.D`S`T.E`P`Q`R.E" LineNumber="640" Rule="ConstructorSummaryDocumentationMustBeginWithStandardText" />
+      <Violation Section="Root.N1.N2.A.D`S`T.E`P`Q`R.E" LineNumber="644" Rule="ConstructorSummaryDocumentationMustBeginWithStandardText" />
     </ExpectedViolations>
   </Test>
 
