@@ -1,5 +1,31 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <StyleCopTestDescription TestName="Parenthesis">
+    <Test Name="AttributeConstructorParenthesis">
+        <TestCodeFile>AttributeConstructorParenthesis.cs</TestCodeFile>
+        <Settings>
+            <GlobalSettings>
+                <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+                <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+            </GlobalSettings>
+            <Analyzers>
+                <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
+                    <Rules>
+                        <Rule Name="AttributeConstructorMustNotUseUnnecessaryParenthesis">
+                            <RuleSettings>
+                                <BooleanProperty Name="Enabled">True</BooleanProperty>
+                            </RuleSettings>
+                        </Rule>
+                    </Rules>
+                </Analyzer>
+            </Analyzers>
+        </Settings>
+        <ExpectedViolations>
+          <Violation Section="Root.CSharpAnalyzersTest.TestData.Parenthesis.AttributeConstructorParenthesisInvalid1" LineNumber="26" Rule="AttributeConstructorMustNotUseUnnecessaryParenthesis" />
+          <Violation Section="Root.CSharpAnalyzersTest.TestData.Parenthesis.AttributeConstructorParenthesisInvalid1.InvalidMethod1" LineNumber="29" Rule="AttributeConstructorMustNotUseUnnecessaryParenthesis" />
+          <Violation Section="Root.CSharpAnalyzersTest.TestData.Parenthesis.AttributeConstructorParenthesisInvalid1" LineNumber="53" Rule="AttributeConstructorMustNotUseUnnecessaryParenthesis" />
+          <Violation Section="Root.CSharpAnalyzersTest.TestData.Parenthesis.AttributeConstructorParenthesisInvalid1.InvalidMethod1" LineNumber="56" Rule="AttributeConstructorMustNotUseUnnecessaryParenthesis" />
+        </ExpectedViolations>
+    </Test>
   <!-- Tests valid and invalid use of parenthesis. -->
   <Test Name="Parenthesis">
     <TestCodeFile>Parenthesis.cs</TestCodeFile>

@@ -317,7 +317,55 @@ namespace Microsoft.StyleCop.CSharp
             this.CheckForEmptyElements(element);
             CheckFileContents(element, parentElement, topLevelElements);
 
+            this.CheckParenthesisForAttributeConstructors(element);
             return true;
+        }
+
+        /// <summary>
+        /// Checks that empty parenthesis do not exist for attributes.
+        /// </summary>
+        /// <param name="element">The element to check.</param>
+        private void CheckParenthesisForAttributeConstructors(CsElement element)
+        {
+            Param.AssertNotNull(element, "element");
+
+            if (element.Attributes != null && element.Attributes.Count > 0)
+            {
+                foreach (var attribute in element.Attributes)
+                {
+                    var attributeExpressions = attribute.AttributeExpressions;
+
+                    foreach (var attributeExpression in attributeExpressions)
+                    {
+                        if (attributeExpression.Initialization.ExpressionType == ExpressionType.MethodInvocation)
+                        {
+                            var invocationExpression = (MethodInvocationExpression)attributeExpression.Initialization;
+
+                            if (invocationExpression.Arguments.Count == 0)
+                            {
+                                var elementTokens = attribute.ChildTokens;
+
+                                // Check for parenthesis.
+                                for (Node<CsToken> tokenNode = elementTokens.First; tokenNode != elementTokens.Last; tokenNode = tokenNode.Next)
+                                {
+                                    if (tokenNode.Value.CsTokenType == CsTokenType.OpenParenthesis)
+                                    {
+                                        Node<CsToken> nextToken = tokenNode.Next;
+                                        if (nextToken.Value.CsTokenType == CsTokenType.CloseParenthesis)
+                                        {
+                                            this.AddViolation(element, tokenNode.Value.LineNumber, Rules.AttributeConstructorMustNotUseUnnecessaryParenthesis);
+                                        }
+
+                                        break;
+                                    }
+                                }
+                            }
+
+                            break;
+                        }
+                    }
+                }
+            }
         }
 
         /// <summary>

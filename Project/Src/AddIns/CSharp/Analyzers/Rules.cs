@@ -810,6 +810,11 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Prevents the use of regions anywhere within the code.
         /// </summary>
-        DoNotUseRegions
+        DoNotUseRegions,
+
+        /// <summary>
+        /// Prevents the use of paranthesis on attribute constructors when they are not required.
+        /// </summary>
+        AttributeConstructorMustNotUseUnnecessaryParenthesis
     }
 }
