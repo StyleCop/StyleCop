@@ -30,7 +30,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The curly bracket must be on a line by itself, unless the entire statement is on a single line.
         /// </summary>
-        CurlyBracketsForMultiLineStatementsMustNotShareLine,    
+        CurlyBracketsForMultiLineStatementsMustNotShareLine,
 
         /// <summary>
         /// The statement wrapped in curly brackets must not be entirely on the same line.
@@ -226,7 +226,7 @@ namespace Microsoft.StyleCop.CSharp
         /// Verifies that an 'includedoc' tag is not used when the class does not inherit from a base class.
         /// </summary>
         InheritDocMustBeUsedWithInheritingClass,
-        
+
         /// <summary>
         /// The property's summary tag starts with invalid text.
         /// </summary>
@@ -275,7 +275,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The copyright's file attribute does not contain the name of the file.
         /// </summary>
-        FileHeaderFileNameDocumentationMustMatchFileName,       
+        FileHeaderFileNameDocumentationMustMatchFileName,
 
         /// <summary>
         /// The copyright's company tag is missing or empty.
@@ -376,7 +376,7 @@ namespace Microsoft.StyleCop.CSharp
         /// Blank line after an opening curly bracket.
         /// </summary>
         OpeningCurlyBracketsMustNotBeFollowedByBlankLine,
- 
+
         /// <summary>
         /// A closing curly bracket is not followed by a blank line.
         /// </summary>
@@ -474,7 +474,7 @@ namespace Microsoft.StyleCop.CSharp
         /// Insert parenthesis within the conditional AND and OR expressions to declare the operator precedence.
         /// </summary>
         ConditionalExpressionsMustDeclarePrecedence,
-        
+
         /// <summary>
         /// Verifies that the code does not contain empty elements or statements which can be safely removed.
         /// </summary>
@@ -810,6 +810,16 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// Prevents the use of regions anywhere within the code.
         /// </summary>
-        DoNotUseRegions
+        DoNotUseRegions,
+
+        /// <summary>
+        /// The code must not contain blank lines at the start of the file.
+        /// </summary>
+        CodeMustNotContainBlankLinesAtStartOfFile,
+
+        /// <summary>
+        /// The code must not contain blank lines at the end of the file.
+        /// </summary>
+        CodeMustNotContainBlankLinesAtEndOfFile
     }
 }
