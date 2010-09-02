@@ -227,9 +227,40 @@ namespace Microsoft.StyleCop.CSharp
                 {
                     this.CheckMethodInvocationParameters(parentElement, (MethodInvocationExpression)expression);
                 }
+                else if (expression.ExpressionType == ExpressionType.MemberAccess)
+                {
+                    this.CheckBuiltInTypeForMemberAccessExpressions(((MemberAccessExpression)expression).LeftHandSide.Tokens.First);
+                }
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Checks a type to determine whether it should use one of the built-in types.
+        /// </summary>
+        /// <param name="type">The type to check.</param>
+        private void CheckBuiltInTypeForMemberAccessExpressions(Node<CsToken> type)
+        {
+            Param.AssertNotNull(type, "type");
+
+            for (int i = 0; i < this.builtInTypes.Length; ++i)
+            {
+                string[] builtInType = this.builtInTypes[i];
+
+                if (CsTokenList.MatchTokens(type, builtInType[0]) ||
+                    CsTokenList.MatchTokens(type, "System", ".", builtInType[0]))
+                {
+                    this.AddViolation(
+                        type.Value.FindParentElement(),
+                        type.Value.LineNumber,
+                        Rules.UseBuiltInTypeAlias,
+                        builtInType[2],
+                        builtInType[0],
+                        builtInType[1]);
+                    break;
+                }
+            }
         }
 
         /// <summary>

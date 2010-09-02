@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 
-namespace ValidBuildInTypes
+namespace InvalidBuildInTypes
 {
     #region The base class of a class or interface.
-    
+
     public class Class1 : List<Boolean>
     {
     }
@@ -13,7 +13,7 @@ namespace ValidBuildInTypes
     {
     }
 
-    #endregion 
+    #endregion
 
     #region Implemented interfaces on a class or interface
 
@@ -29,26 +29,26 @@ namespace ValidBuildInTypes
 
     #region Type constraint clauses on a class, interface, struct, method, or delegate
 
-    public class Class3<T, S> 
-        where T : string 
+    public class Class3<T, S>
+        where T : string
         where S : List<List<String>>
     {
     }
 
-    public interface Interface3<T, S> 
-        where T : String 
+    public interface Interface3<T, S>
+        where T : String
         where S : List<List<string>>
     {
     }
 
-    public struct Struct3<T, S> 
-        where T : string 
+    public struct Struct3<T, S>
+        where T : string
         where S : List<List<System.String>>
     {
     }
 
-    public delegate void Delegate1<T, S>(T x) 
-        where T : Int16 
+    public delegate void Delegate1<T, S>(T x)
+        where T : Int16
         where S : List<List<short>>;
 
     public delegate void Delegate2<T, S>(T x)
@@ -80,7 +80,7 @@ namespace ValidBuildInTypes
         }
     }
 
-    #endregion 
+    #endregion
 
     #region Parameter list on method, indexer, constructor, or delegate
 
@@ -155,11 +155,11 @@ namespace ValidBuildInTypes
         public delegate void Delegate4(float x, Dictionary<Single, List<List<float>>> y);
 
         public delegate void Delegate5(float x, Dictionary<float, List<List<Single>>> y);
-        
+
         public delegate void Delegate6(System.Single x, Dictionary<float, List<List<float>>> y);
     }
 
-    #endregion 
+    #endregion
 
     #region Parameter list on anonymous method and lambda expression
 
@@ -201,7 +201,7 @@ namespace ValidBuildInTypes
         public event EventHandler<Dictionary<Object, List<List<object>>>> Event5;
     }
 
-    #endregion 
+    #endregion
 
     #region Type of Field
 
@@ -215,7 +215,7 @@ namespace ValidBuildInTypes
         private readonly String field6;
     }
 
-    #endregion 
+    #endregion
 
     #region Generic types on class, interface, struct, method, or delegate
 
@@ -288,7 +288,7 @@ namespace ValidBuildInTypes
             // As expression
             Object z = null;
             object x = z as List<List<String>>;
-            
+
             // Is expression
             bool t = z is List<List<String>>;
 
@@ -321,7 +321,23 @@ namespace ValidBuildInTypes
         }
     }
 
-    #endregion
+    #endregion    
 
+    #region Method Access Expressions
 
+    public class Class13
+    {
+        public void Method1()
+        {
+            var a = String.Format("");
+
+            var b = System.String.Format(""); 
+
+            object o = Object.Equals(a, b);
+
+            object o = System.Object.Equals(a, b);
+        }
+    }
+
+    #endregion  
 }
