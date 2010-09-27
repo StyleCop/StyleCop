@@ -143,17 +143,7 @@ namespace CSharpAnalyzersTest.TestData
         {
         }
     }
-
-    public class SingleGenericClassCrefWithHardcodedRef<T>
-    {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="T:SingleGenericClassCrefWithHardcodedRef`1" /> class.
-        /// </summary>
-        public SingleGenericClassCrefWithHardcodedRef()
-        {
-        }
-    }
-
+    
     public class SingleGenericClassCrefWithHardcodedRefAndNamespace<T>
     {
         /// <summary>
@@ -302,12 +292,26 @@ namespace CSharpAnalyzersTest.TestData
         public MultiGenericClassCrefWithCurliesAndNamespace()
         {
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TestData.MultiGenericClassCrefWithCurliesAndNamespace{T, S, R}" /> class.
+        /// </summary>
+        public MultiGenericClassCrefWithCurliesAndNamespace(int a)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MultiGenericClassCrefWithCurliesAndNamespace{T, S, R}" /> class.
+        /// </summary>
+        public MultiGenericClassCrefWithCurliesAndNamespace(int a, int b)
+        {
+        }
     }
 
     public class MultiGenericClassCrefWithHardcodedRef<T, S, R>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:MultiGenericClassCrefWithHardcodedRef`3" /> class.
+        /// Initializes a new instance of the <see cref="T:CSharpAnalyzersTest.TestData.MultiGenericClassCrefWithHardcodedRef`3" /> class.
         /// </summary>
         public MultiGenericClassCrefWithHardcodedRef()
         {
@@ -327,7 +331,7 @@ namespace CSharpAnalyzersTest.TestData
     public class MultiGenericClassCrefWithHardcodedRefAndMultiCharParams<TItem, S, RItem>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:MultiGenericClassCrefWithHardcodedRefAndMultiCharParams`3" /> class.
+        /// Initializes a new instance of the <see cref="T:CSharpAnalyzersTest.TestData.MultiGenericClassCrefWithHardcodedRefAndMultiCharParams`3" /> class.
         /// </summary>
         public MultiGenericClassCrefWithHardcodedRefAndMultiCharParams()
         {
@@ -347,6 +351,13 @@ namespace CSharpAnalyzersTest.TestData
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="CSharpAnalyzersTest.TestData.NestedMultiGenericClassCrefWithltgtAndNamespace&lt;T,S,R&gt;.NestedMultiGenericClassCrefWithltgtAndNamespaceClass1&lt;A,B,C&gt;" /> class.
+            /// </summary>
+            public NestedMultiGenericClassCrefWithltgtAndNamespaceClass1()
+            {
+            }
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="NestedMultiGenericClassCrefWithltgtAndNamespace&lt;T,S,R&gt;.NestedMultiGenericClassCrefWithltgtAndNamespaceClass1&lt;A,B,C&gt;" /> class.
             /// </summary>
             public NestedMultiGenericClassCrefWithltgtAndNamespaceClass1()
             {
@@ -373,7 +384,7 @@ namespace CSharpAnalyzersTest.TestData
             }
 
             /// <summary>
-            /// Initializes a new instance of the <see cref="T:NestedMultiGenericClassCrefWithltgtAndNamespace`3.NestedMultiGenericClassCrefWithltgtAndNamespaceClass3`2" /> class.
+            /// Initializes a new instance of the <see cref="T:CSharpAnalyzersTest.TestData.NestedMultiGenericClassCrefWithltgtAndNamespace`3.NestedMultiGenericClassCrefWithltgtAndNamespaceClass3`2" /> class.
             /// </summary>
             public NestedMultiGenericClassCrefWithltgtAndNamespaceClass3(int i)
             {

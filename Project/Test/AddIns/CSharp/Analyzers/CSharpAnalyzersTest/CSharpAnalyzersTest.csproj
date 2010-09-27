@@ -64,6 +64,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <None Include="TestData\Parenthesis\AttributeConstructorParenthesis.cs" />
+    <None Include="TestData\Documentation\DocumentationConstructorSummaryDetailed.cs" />
     <None Include="TestData\BuiltInTypes\ShorthandForNullableTypes.cs" />
     <None Include="TestData\Spacing\MemberAccessSymbol.cs" />
     <None Include="TestData\Spacing\CloseCurlyBracket.cs" />
