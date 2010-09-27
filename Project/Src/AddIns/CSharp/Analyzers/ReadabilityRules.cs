@@ -281,9 +281,10 @@ namespace Microsoft.StyleCop.CSharp
         {
             Param.AssertNotNull(type, "type");
 
+            Debug.Assert(type.Value.CsTokenClass == CsTokenClass.GenericType, "Expected a generic type.");
             TypeToken typeToken = (TypeToken)type.Value;
 
-            if (typeToken.Text.StartsWith("Nullable"))
+            if (typeToken.ChildTokens.Count > 0 && typeToken.ChildTokens.First.Value.Text.Equals("Nullable", StringComparison.Ordinal))
             {
                 this.AddViolation(typeToken.FindParentElement(), typeToken.LineNumber, Rules.UseShorthandForNullableTypes);
             }

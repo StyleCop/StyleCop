@@ -22,6 +22,8 @@
     <ExpectedViolations>
       <Violation Section="Root.CSharpAnalyzersTest.TestData.BuiltInTypes.ShorthandForNullableTypes.d2" LineNumber="12" Rule="UseShorthandForNullableTypes" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.BuiltInTypes.ShorthandForNullableTypes.i1" LineNumber="14" Rule="UseShorthandForNullableTypes" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.BuiltInTypes.ShorthandForNullableTypes.Method%Nullable`bool%bool?" LineNumber="21" Rule="UseShorthandForNullableTypes" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.BuiltInTypes.ShorthandForNullableTypes.Method%Nullable`bool%bool?" LineNumber="24" Rule="UseShorthandForNullableTypes" />
     </ExpectedViolations>
   </Test>
   <Test Name="BuiltInTypes">
