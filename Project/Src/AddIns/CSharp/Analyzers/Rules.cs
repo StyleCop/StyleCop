@@ -820,10 +820,10 @@ namespace Microsoft.StyleCop.CSharp
         /// <summary>
         /// The code must not contain blank lines at the end of the file.
         /// </summary>
-        CodeMustNotContainBlankLinesAtEndOfFile
+        CodeMustNotContainBlankLinesAtEndOfFile,
 
         /// <summary>
-        /// Prevents the use of paranthesis on attribute constructors when they are not required.
+        /// Prevents the use of parenthesis on attribute constructors when they are not required.
         /// </summary>
         AttributeConstructorMustNotUseUnnecessaryParenthesis
     }

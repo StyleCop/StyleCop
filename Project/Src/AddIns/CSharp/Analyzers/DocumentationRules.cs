@@ -97,7 +97,7 @@ namespace Microsoft.StyleCop.CSharp
             @"(?(see)(""\s*(/>|>[\w\s]*</see>)))";  // Optionally matches '"/>' or '">some text</see>' if <see> tag is included.
 
         /// <summary>
-        /// A regular expression to match the generic parameters list for a type. Needs the outer paranthesis as its inserted into other RegExs.
+        /// A regular expression to match the generic parameters list for a type. Needs the outer parenthesis as its inserted into other RegExs.
         /// </summary>
         private const string CrefGenericParamsRegex =
             @"((\s*(<|&lt;)\s*{0}\s*(>|&gt;))|(\s*{{\s*{0}\s*}}))";

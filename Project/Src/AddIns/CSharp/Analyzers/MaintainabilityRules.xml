@@ -56,7 +56,7 @@
         <Description>Verifies that parenthesis are removed from anonymous methods when there are no method parameters.</Description>
       </Rule>
       <Rule Name="AttributeConstructorMustNotUseUnnecessaryParenthesis" CheckId="SA1411">
-        <Context>The attribute constructor does not need paranthesis, since it's parameter list is empty.</Context>
+        <Context>The attribute constructor does not need parenthesis, since it's parameter list is empty.</Context>
         <Description>Verifies that parenthesis are removed from attribute constructors when there are no parameters.</Description>
       </Rule>
     </RuleGroup>
