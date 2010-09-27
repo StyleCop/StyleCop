@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="TestData\Parenthesis\AttributeConstructorParenthesis.cs" />
     <None Include="TestData\Spacing\MemberAccessSymbol.cs" />
     <None Include="TestData\Spacing\CloseCurlyBracket.cs" />
     <None Include="TestData\LineSpacing\BlankLinesAtStartAndEndOfFile1.cs" />
@@ -297,10 +298,14 @@
     <Content Include="TestData\LineSpacing\TestDescription.xml" />
     <Content Include="TestData\MethodParameters\TestDescription.xml" />
     <Content Include="TestData\Naming\TestDescription.xml" />
-    <Content Include="TestData\Parenthesis\TestDescription.xml" />
+    <Content Include="TestData\Parenthesis\TestDescription.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="TestData\QueryClauses\TestDescription.xml" />
     <Content Include="TestData\Regions\TestDescription.xml" />
-    <Content Include="TestData\Spacing\TestDescription.xml" />
+    <Content Include="TestData\Spacing\TestDescription.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="TestData\Statements\TestDescription.xml" />
     <Content Include="TestData\Tabs\TestDescription.xml" />
     <Content Include="TestData\UnnecessaryCode\TestDescription.xml" />
