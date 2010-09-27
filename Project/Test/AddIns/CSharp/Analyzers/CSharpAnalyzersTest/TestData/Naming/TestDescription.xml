@@ -112,6 +112,7 @@
       <Violation Section="Root.ValidHungarian1.Class2.Method20" LineNumber="72" Rule="FieldNamesMustNotUseHungarianNotation" />
       <Violation Section="Root.ValidHungarian1.Class2.Property20.set" LineNumber="81" Rule="FieldNamesMustNotUseHungarianNotation" />
       <Violation Section="Root.ValidHungarian1.Class2.Property20.set" LineNumber="82" Rule="FieldNamesMustNotUseHungarianNotation" />
+      <Violation Section="Root.ValidHungarian1.Class3.Method2%string%int" LineNumber="92" Rule="FieldNamesMustNotUseHungarianNotation" />
     </ExpectedViolations>
   </Test>
 

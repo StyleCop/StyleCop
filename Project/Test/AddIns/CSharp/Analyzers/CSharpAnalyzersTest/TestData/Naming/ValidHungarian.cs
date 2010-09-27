@@ -19,7 +19,7 @@ namespace ValidHungarian1
         public void Method1(int xVariable)
         {
         }
-        
+
         public void Method2(int xxVariable)
         {
         }
@@ -27,7 +27,7 @@ namespace ValidHungarian1
         public void Method3(int yVariable)
         {
         }
-        
+
         public void Method4(int yyVariable)
         {
         }
@@ -43,7 +43,7 @@ namespace ValidHungarian1
         public delegate void Delegate3(int yVariable);
 
         public delegate void Delegate4(int yyVariable);
-        
+
         public bool this[int xVariable]
         {
             get { return true; }
@@ -81,6 +81,16 @@ namespace ValidHungarian1
                 int yField;
                 int yyField;
             }
+        }
+    }
+
+    public class Class3
+    {
+        public static void Method1(string l‰nge, int a) //valid
+        {
+        }
+        public static void Method2(string ‰Lange, int a) //invalid
+        {
         }
     }
 }

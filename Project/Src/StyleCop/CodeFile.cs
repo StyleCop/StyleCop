@@ -18,6 +18,7 @@ namespace Microsoft.StyleCop
     using System.Collections.Generic;
     using System.IO;
     using System.Security;
+    using System.Text;
 
     /// <summary>
     /// Describes a source code file on disk.
@@ -263,7 +264,10 @@ namespace Microsoft.StyleCop
                 try
                 {
                     // Read the file from the disk.
-                    return new StreamReader(this.path, true);
+                    // Using the StreamReader to auto-detect the Encoding was failing. Internally the StreamReader defaults to UTF8 until you actually
+                    // read from it. We now detect it ourselves.
+                    Encoding encoding = GetFileEncoding(this.path);
+                    return new StreamReader(this.path, encoding);
                 }
                 catch (UnauthorizedAccessException)
                 {
@@ -274,6 +278,42 @@ namespace Microsoft.StyleCop
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Detects the encoding used by the file at the path provided.
+        /// </summary>
+        /// <param name="path">A path to a file.</param>
+        /// <returns>An Encoding of the file passed in.</returns>
+        private static Encoding GetFileEncoding(string path)
+        {
+            Param.AssertNotNull(path, "path");
+
+            var encoding = Encoding.Default;
+
+            var buffer = new byte[5];
+            var file = new FileStream(path, FileMode.Open);
+            file.Read(buffer, 0, 5);
+            file.Close();
+
+            if (buffer[0] == 0xef && buffer[1] == 0xbb && buffer[2] == 0xbf)
+            {
+                encoding = Encoding.UTF8;
+            }
+            else if (buffer[0] == 0xfe && buffer[1] == 0xff)
+            {
+                encoding = Encoding.Unicode;
+            }
+            else if (buffer[0] == 0 && buffer[1] == 0 && buffer[2] == 0xfe && buffer[3] == 0xff)
+            {
+                encoding = Encoding.UTF32;
+            }
+            else if (buffer[0] == 0x2b && buffer[1] == 0x2f && buffer[2] == 0x76)
+            {
+                encoding = Encoding.UTF7;
+            }
+
+            return encoding;
         }
 
         #endregion Public Override Methods
