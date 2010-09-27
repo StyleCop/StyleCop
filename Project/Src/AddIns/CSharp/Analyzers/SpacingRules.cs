@@ -96,6 +96,25 @@ namespace Microsoft.StyleCop.CSharp
             return false;
         }
 
+        /// <summary>
+        /// Compares the token to the Operator symbol and to a dot '.'.
+        /// </summary>
+        /// <param name="token">The token to check.</param>
+        /// <returns>True is the token is an operator and a dot '.', otherwise false.</returns>
+        private static bool IsTokenADot(CsToken token)
+        {
+            Param.AssertNotNull(token, "token");
+
+            if (token.CsTokenType == CsTokenType.OperatorSymbol)
+            {
+                OperatorSymbol symbol = (OperatorSymbol)token;
+
+                return symbol.SymbolType == OperatorType.MemberAccess;
+            }
+
+            return false;
+        }
+
         #endregion Private Static Methods
 
         #region Private Methods
@@ -1214,7 +1233,7 @@ namespace Microsoft.StyleCop.CSharp
                 this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.LineNumber, Rules.OpeningCurlyBracketsMustBeSpacedCorrectly);
             }
         }
-
+        
         /// <summary>
         /// Checks a close bracket for spacing.
         /// </summary>
@@ -1234,7 +1253,7 @@ namespace Microsoft.StyleCop.CSharp
                 this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.LineNumber, Rules.ClosingCurlyBracketsMustBeSpacedCorrectly);
             }
 
-            // Close curly brackets should be followed either by whitespace, a close paren,
+            // Close curly brackets should be followed either by whitespace, a close paren, a dot,
             // a semicolon, or a comma.
             Node<CsToken> nextNode = tokenNode.Next;
             if (nextNode != null)
@@ -1243,6 +1262,7 @@ namespace Microsoft.StyleCop.CSharp
                 if (nextType != CsTokenType.WhiteSpace &&
                     nextType != CsTokenType.EndOfLine &&
                     nextType != CsTokenType.CloseParenthesis &&
+                    !IsTokenADot(nextNode.Value) &&
                     nextType != CsTokenType.Semicolon &&
                     nextType != CsTokenType.Comma)
                 {
@@ -1252,13 +1272,14 @@ namespace Microsoft.StyleCop.CSharp
                 if (nextType == CsTokenType.WhiteSpace)
                 {
                     // If this is followed by whitespace, make sure that the character just
-                    // after the whitespace is not a close paren, semicolon, or comma.
+                    // after the whitespace is not a close paren, semicolon, comma or dot.
                     foreach (CsToken item in tokens.ForwardIterator(tokenNode.Next.Next))
                     {
                         CsTokenType itemType = item.CsTokenType;
                         if (itemType == CsTokenType.CloseParenthesis ||
                             itemType == CsTokenType.Semicolon ||
-                            itemType == CsTokenType.Comma)
+                            itemType == CsTokenType.Comma ||
+                            IsTokenADot(item))
                         {
                             this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.LineNumber, Rules.ClosingCurlyBracketsMustBeSpacedCorrectly);
                         }
@@ -1385,7 +1406,7 @@ namespace Microsoft.StyleCop.CSharp
 
             // Member access symbols should not have any whitespace on either side.
             Node<CsToken> previousNode = tokenNode.Previous;
-            if (previousNode == null)
+            if (previousNode != null)
             {
                 CsTokenType tokenType = previousNode.Value.CsTokenType;
                 if (tokenType == CsTokenType.WhiteSpace ||
@@ -1398,7 +1419,7 @@ namespace Microsoft.StyleCop.CSharp
             }
 
             Node<CsToken> nextNode = tokenNode.Next;
-            if (nextNode == null)
+            if (nextNode != null)
             {
                 CsTokenType tokenType = nextNode.Value.CsTokenType;
                 if (tokenType == CsTokenType.WhiteSpace ||

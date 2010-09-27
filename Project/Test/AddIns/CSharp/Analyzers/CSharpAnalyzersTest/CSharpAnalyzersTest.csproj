@@ -63,6 +63,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="TestData\Spacing\MemberAccessSymbol.cs" />
+    <None Include="TestData\Spacing\CloseCurlyBracket.cs" />
     <None Include="TestData\Documentation\DocumentationIgnores.cs" />
     <None Include="TestData\Documentation\DocumentationInheritdoc.cs" />
     <None Include="Spacing.GenericTest" />
