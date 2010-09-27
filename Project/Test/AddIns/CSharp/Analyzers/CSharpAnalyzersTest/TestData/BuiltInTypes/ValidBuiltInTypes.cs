@@ -263,5 +263,17 @@ namespace ValidBuildInTypes
 
     #endregion
 
+    #region Method Access Expressions
 
+    public class Class13
+    {
+        public void Method1()
+        {
+            string c = string.Format("");
+
+            object o = object.Equals(a, b);
+        }
+    }
+
+    #endregion
 }
