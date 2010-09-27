@@ -65,6 +65,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <None Include="TestData\Spacing\MemberAccessSymbol.cs" />
     <None Include="TestData\Spacing\CloseCurlyBracket.cs" />
+    <None Include="TestData\LineSpacing\BlankLinesAtStartAndEndOfFile1.cs" />
+    <None Include="TestData\LineSpacing\BlankLinesAtStartAndEndOfFile2.cs" />
+    <None Include="TestData\LineSpacing\BlankLinesAtStartAndEndOfFile3.cs" />
+    <None Include="TestData\LineSpacing\BlankLinesAtStartAndEndOfFile4.cs" />
+    <None Include="TestData\LineSpacing\BlankLinesAtStartAndEndOfFile5.cs" />
+    <None Include="TestData\LineSpacing\BlankLinesAtStartAndEndOfFile6.cs" />
+    <None Include="TestData\LineSpacing\BlankLinesAtStartAndEndOfFile7.cs" />
+    <None Include="TestData\LineSpacing\BlankLinesAtStartAndEndOfFile8.cs" />
     <None Include="TestData\Documentation\DocumentationIgnores.cs" />
     <None Include="TestData\Documentation\DocumentationInheritdoc.cs" />
     <None Include="Spacing.GenericTest" />
@@ -272,7 +280,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="TestData\AccessModifiers\TestDescription.xml" />
-    <Content Include="TestData\BuiltInTypes\TestDescription.xml" />
+    <Content Include="TestData\BuiltInTypes\TestDescription.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="TestData\ClassMembers\TestDescription.xml" />
     <Content Include="TestData\Comments\TestDescription.xml" />
     <Content Include="TestData\CurlyBrackets\TestDescription.xml" />

@@ -794,6 +794,9 @@ namespace Microsoft.StyleCop.CSharp
             Node<CsToken> precedingTokenNode = null;
             bool fileHeader = true;
             bool firstTokenOnLine = true;
+            bool lineHasNonWhiteSpace = false;
+            bool onlyBlankLinesProcessed = true;
+            bool thrownBlankLinesViolation = false;
 
             // Loop through all the tokens in the document.
             for (Node<CsToken> tokenNode = document.Tokens.First; tokenNode != null; tokenNode = tokenNode.Next)
@@ -816,19 +819,40 @@ namespace Microsoft.StyleCop.CSharp
                     fileHeader = false;
                 }
 
+                if (tokenNode == document.Tokens.Last &&
+                    ((token.CsTokenType == CsTokenType.EndOfLine) ||
+                     (token.CsTokenType == CsTokenType.WhiteSpace && precedingTokenNode != null && precedingTokenNode.Value.LineNumber != token.LineNumber)))
+                {
+                    this.AddViolation(token.FindParentElement(), token.LineNumber, Rules.CodeMustNotContainBlankLinesAtEndOfFile);
+                }
+
                 // Check whether this token is an end-of-line character.
                 if (token.Text == "\n")
                 {
                     ++count;
 
+                    if (!lineHasNonWhiteSpace && onlyBlankLinesProcessed && !thrownBlankLinesViolation)
+                    {
+                        this.AddViolation(
+                           token.FindParentElement(),
+                           token.LineNumber,
+                           Rules.CodeMustNotContainBlankLinesAtStartOfFile);
+                        thrownBlankLinesViolation = true;
+                    }
+
                     // This sets up for the next token, which will the be first token on its line.
                     firstTokenOnLine = true;
+
+                    lineHasNonWhiteSpace = false;
                     
                     // Process the newline character.
                     this.CheckLineSpacingNewline(precedingTokenNode, token, count);
                 }
                 else if (token.CsTokenType != CsTokenType.WhiteSpace)
                 {
+                    lineHasNonWhiteSpace = true;
+                    onlyBlankLinesProcessed = false;
+
                     // Process the non-whitespace character.
                     this.CheckLineSpacingNonWhitespace(document, precedingTokenNode, token, fileHeader, firstTokenOnLine, count);
 

@@ -75,6 +75,14 @@
         <Context>Adjacent elements must be separated by a blank line.</Context>
         <Description>Validates that adjacent elements are separated by a blank line.</Description>
       </Rule>
+      <Rule Name="CodeMustNotContainBlankLinesAtStartOfFile" CheckId="SA1517">
+        <Context>The code must not contain blank lines at the start of the file.</Context>
+        <Description>Validates that the code does not contain blank lines at the start of the file.</Description>
+      </Rule>
+      <Rule Name="CodeMustNotContainBlankLinesAtEndOfFile" CheckId="SA1518">
+        <Context>The code must not contain blank lines at the start of the file.</Context>
+        <Description>Validates that the code does not contain blank lines at the start of the file.</Description>
+      </Rule>      
     </RuleGroup>
   </Rules>
 </SourceAnalyzer>

@@ -1,6 +1,50 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <StyleCopTestDescription TestName="LineSpacing">
-  <!-- Tests the line spacing around curly brackets. -->
+  <!-- Tests for blank lines at start and end of files -->
+  <Test Name="BlankLinesAtStartAndEndOfFile">
+    <TestCodeFile>BlankLinesAtStartAndEndOfFile1.cs</TestCodeFile>
+    <TestCodeFile>BlankLinesAtStartAndEndOfFile2.cs</TestCodeFile>
+    <TestCodeFile>BlankLinesAtStartAndEndOfFile3.cs</TestCodeFile>
+    <TestCodeFile>BlankLinesAtStartAndEndOfFile4.cs</TestCodeFile>
+    <TestCodeFile>BlankLinesAtStartAndEndOfFile5.cs</TestCodeFile>
+    <TestCodeFile>BlankLinesAtStartAndEndOfFile6.cs</TestCodeFile>
+    <TestCodeFile>BlankLinesAtStartAndEndOfFile7.cs</TestCodeFile>
+    <TestCodeFile>BlankLinesAtStartAndEndOfFile8.cs</TestCodeFile>
+    <TestCodeFile>LineSpacingBlankLineCurly.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.LayoutRules">
+          <Rules>
+            <Rule Name="CodeMustNotContainBlankLinesAtStartOfFile">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="CodeMustNotContainBlankLinesAtEndOfFile">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>                  
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root" LineNumber="1" Rule="CodeMustNotContainBlankLinesAtStartOfFile" />
+      <Violation Section="Root" LineNumber="1" Rule="CodeMustNotContainBlankLinesAtStartOfFile" />
+      <Violation Section="Root" LineNumber="1" Rule="CodeMustNotContainBlankLinesAtStartOfFile" />
+      <Violation Section="Root" LineNumber="1" Rule="CodeMustNotContainBlankLinesAtStartOfFile" />
+      <Violation Section="Root" LineNumber="13" Rule="CodeMustNotContainBlankLinesAtEndOfFile" />
+      <Violation Section="Root" LineNumber="14" Rule="CodeMustNotContainBlankLinesAtEndOfFile" />
+      <Violation Section="Root" LineNumber="12" Rule="CodeMustNotContainBlankLinesAtEndOfFile" />
+      <Violation Section="Root" LineNumber="13" Rule="CodeMustNotContainBlankLinesAtEndOfFile" />
+    </ExpectedViolations>
+  </Test>
+  <!-- Tests the line spacing around curly brackets. -->     
   <Test Name="LineSpacingCurlyBrackets">
     <TestCodeFile>LineSpacingBlankLineCurly.cs</TestCodeFile>
     <Settings>
