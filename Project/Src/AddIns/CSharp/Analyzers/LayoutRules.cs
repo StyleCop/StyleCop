@@ -97,8 +97,10 @@ namespace Microsoft.StyleCop.CSharp
             if (token.CsTokenType == CsTokenType.OperatorSymbol)
             {
                 OperatorSymbol symbol = (OperatorSymbol)token;
-
-                return symbol.SymbolType == OperatorType.MemberAccess;
+                if (symbol.SymbolType == OperatorType.MemberAccess)
+                {
+                    return symbol.Text == ".";
+                }
             }
 
             return false;
