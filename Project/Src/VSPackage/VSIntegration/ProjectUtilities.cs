@@ -15,6 +15,7 @@
 namespace Microsoft.StyleCop.VisualStudio
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
@@ -33,6 +34,21 @@ namespace Microsoft.StyleCop.VisualStudio
         /// System Service provider.
         /// </summary>
         private static IServiceProvider serviceProvider;
+
+        /// <summary>
+        /// The "project enabled" cache synchronization locking object to prevent any simultaneous alteration/reading.
+        /// </summary>
+        private static object projectEnabledCacheLockObject = new object();
+
+        /// <summary>
+        /// The "project enabled" cache used to prevent costly deep COM interactions after the "project enabled" data has already been collected.
+        /// </summary>
+        private static Dictionary<string, bool> projectEnabledCache;
+
+        /// <summary>
+        /// The EnvDTE class used to register ItemsAdded, ItemsRemoved, and ItemsRenamed events.
+        /// </summary>
+        private static ProjectItemsEventsClass projectItemsEventsClass;
 
         /// <summary>
         /// Keeps a collection of projects which do not contain the BuildAction property.
@@ -67,6 +83,27 @@ namespace Microsoft.StyleCop.VisualStudio
         #endregion Private Delegates
 
         #region Internal Static Methods
+
+        /// <summary>
+        /// Setup the "project enabled" cache, if it has not already been set up.
+        /// </summary>
+        internal static void SetupProjectEnabledCache()
+        {
+            lock (projectEnabledCacheLockObject)
+            {
+                if (projectEnabledCache == null)
+                {
+                    projectEnabledCache = new Dictionary<string, bool>();
+
+                    // Our "project enabled cache" is invalidated whenever the projects change, so clear our cached
+                    // values any time one an event for project changes occur.
+                    projectItemsEventsClass = new ProjectItemsEventsClass();
+                    projectItemsEventsClass.ItemAdded += new _dispProjectItemsEvents_ItemAddedEventHandler(ProjectItemsEventsClass_ItemAdded);
+                    projectItemsEventsClass.ItemRemoved += new _dispProjectItemsEvents_ItemRemovedEventHandler(ProjectItemsEventsClass_ItemRemoved);
+                    projectItemsEventsClass.ItemRenamed += new _dispProjectItemsEvents_ItemRenamedEventHandler(ProjectItemsEventsClass_ItemRenamed);
+                }
+            }
+        }
 
         /// <summary>
         /// Sets the service provider.
@@ -158,7 +195,7 @@ namespace Microsoft.StyleCop.VisualStudio
 
             if (path == filePath)
             {
-                projectItem.Open(EnvDTE.Constants.vsViewKindCode);
+                projectItem.Open(Constants.vsViewKindCode);
                 return projectItem.Document;
             }
 
@@ -169,15 +206,15 @@ namespace Microsoft.StyleCop.VisualStudio
         /// Gets the currently active project from the solution explorer.
         /// </summary>
         /// <returns>Returns the active project.</returns>
-        internal static EnvDTE.Project GetActiveProject()
+        internal static Project GetActiveProject()
         {
-            EnvDTE.DTE applicationObject = GetDTE();
+            DTE applicationObject = GetDTE();
 
             // Get the selected project.
             Array projects = (Array)applicationObject.ActiveSolutionProjects;
-            System.Diagnostics.Debug.Assert(projects.Length == 1, "More than one project is selected");
+            Debug.Assert(projects.Length == 1, "More than one project is selected");
 
-            return (EnvDTE.Project)projects.GetValue(0);
+            return (Project)projects.GetValue(0);
         }
 
         /// <summary>
@@ -192,6 +229,8 @@ namespace Microsoft.StyleCop.VisualStudio
 
             DTE applicationObject = GetDTE();
 
+            SetupProjectEnabledCache();
+
             if (type == AnalysisType.Solution || type == AnalysisType.Project)
             {
                 // Create a project enumerator for the correct VS project list.
@@ -203,7 +242,7 @@ namespace Microsoft.StyleCop.VisualStudio
                 }
                 else
                 {
-                    enumerator.SelectedProjects = (System.Collections.IEnumerable)applicationObject.ActiveSolutionProjects;
+                    enumerator.SelectedProjects = (IEnumerable)applicationObject.ActiveSolutionProjects;
                 }
 
                 // Enumerate through the VS projects.
@@ -211,14 +250,26 @@ namespace Microsoft.StyleCop.VisualStudio
                 {
                     if (project != null)
                     {
-                        if (EnumerateProject(
-                            project,
-                            new ProjectInvoker(IsKnownProjectTypeVisitor),
-                            new ProjectItemInvoker(IsKnownFileTypeVisitor),
-                            helper,
-                            null) != null)
+                        lock (projectEnabledCacheLockObject)
                         {
-                            return true;
+                            // If we've already cached a value for whether this project supports StyleCop, use it, since it is very
+                            // expensive to constantly scan massive unmanaged project trees through COM.  This used to render Visual 
+                            // Studio unusable in largely unmanaged solutions (http://stylecop.codeplex.com/workitem/6662).
+                            if (projectEnabledCache.ContainsKey(project.UniqueName))
+                            {
+                                return projectEnabledCache[project.UniqueName];
+                            }
+                            else
+                            {
+                                bool isEnabled = EnumerateProject(
+                                            project,
+                                            new ProjectInvoker(IsKnownProjectTypeVisitor),
+                                            new ProjectItemInvoker(IsKnownFileTypeVisitor),
+                                            helper,
+                                            null) != null;
+                                projectEnabledCache.Add(project.UniqueName, isEnabled);
+                                return isEnabled;
+                            }
                         }
                     }
                 }
@@ -278,7 +329,7 @@ namespace Microsoft.StyleCop.VisualStudio
                 }
                 else
                 {
-                    enumerator.SelectedProjects = (System.Collections.IEnumerable)applicationObject.ActiveSolutionProjects;
+                    enumerator.SelectedProjects = (IEnumerable)applicationObject.ActiveSolutionProjects;
                 }
 
                 // Enumerate through the VS projects.
@@ -546,7 +597,7 @@ namespace Microsoft.StyleCop.VisualStudio
                     if (!IsProjectMissingProperty(project, "DefineConstants"))
                     {
                         // Check whether there is an active configuration.
-                        EnvDTE.Configuration activeConfiguration = project.ConfigurationManager.ActiveConfiguration;
+                        Configuration activeConfiguration = project.ConfigurationManager.ActiveConfiguration;
                         if (activeConfiguration != null)
                         {
                             // Make sure the configuration has properties.
@@ -598,10 +649,10 @@ namespace Microsoft.StyleCop.VisualStudio
         /// This is not thread safe and should only be called from the UI thread. 
         /// </remarks>
         /// <returns>An instance of <see cref="T:EnvDTE.DTE."/>.</returns>
-        private static EnvDTE.DTE GetDTE()
+        private static DTE GetDTE()
         {
             Debug.Assert(serviceProvider != null, "serviceProvider is null");
-            EnvDTE.DTE applicationObject = (EnvDTE.DTE)serviceProvider.GetService(typeof(EnvDTE.DTE));
+            DTE applicationObject = (DTE)serviceProvider.GetService(typeof(DTE));
             Debug.Assert(applicationObject != null, "No DTE service available.");
             return applicationObject;
         }
@@ -628,9 +679,9 @@ namespace Microsoft.StyleCop.VisualStudio
             Param.Ignore(projectContext);
             Param.Ignore(fileContext);
 
-            EnvDTE.DTE applicationObject = GetDTE();
+            DTE applicationObject = GetDTE();
 
-            if (project.Kind == EnvDTE.Constants.vsProjectKindSolutionItems)
+            if (project.Kind == Constants.vsProjectKindSolutionItems)
             {
                 // Figure out the path to the solution.
                 string solutionPath = Path.GetDirectoryName(applicationObject.Solution.FullName);
@@ -745,7 +796,7 @@ namespace Microsoft.StyleCop.VisualStudio
                 {
                     switch (item.Kind)
                     {
-                        case EnvDTE.Constants.vsProjectItemKindSubProject:
+                        case Constants.vsProjectItemKindSubProject:
                             if (item.SubProject != null)
                             {
                                 object temp = EnumerateProject(item.SubProject, projectCallback, projectItemCallback, projectContext, fileContext);
@@ -757,8 +808,8 @@ namespace Microsoft.StyleCop.VisualStudio
 
                             break;
 
-                        case EnvDTE.Constants.vsProjectItemKindPhysicalFolder:
-                        case EnvDTE.Constants.vsProjectItemKindVirtualFolder:
+                        case Constants.vsProjectItemKindPhysicalFolder:
+                        case Constants.vsProjectItemKindVirtualFolder:
                             if (item.ProjectItems != null)
                             {
                                 object temp = EnumerateSolutionProjectItems(
@@ -784,8 +835,8 @@ namespace Microsoft.StyleCop.VisualStudio
                             }
 
                             // If this is a physical file, check whether it has any sub-files.
-                            if (item.Kind == EnvDTE.Constants.vsProjectItemKindPhysicalFile ||
-                                item.Kind == EnvDTE.Constants.vsProjectItemKindSolutionItems)
+                            if (item.Kind == Constants.vsProjectItemKindPhysicalFile ||
+                                item.Kind == Constants.vsProjectItemKindSolutionItems)
                             {
                                 if (item.ProjectItems != null && item.ProjectItems.Count > 0)
                                 {
@@ -868,7 +919,7 @@ namespace Microsoft.StyleCop.VisualStudio
         /// <param name="fileContext">File-specific context information.</param>
         /// <returns>If an object is returned, enumeration should end.</returns>
         private static object EnumerateProjectItem(
-            EnvDTE.ProjectItem item,
+            ProjectItem item,
             string name,
             ProjectInvoker projectCallback,
             ProjectItemInvoker projectItemCallback,
@@ -886,7 +937,7 @@ namespace Microsoft.StyleCop.VisualStudio
             {
                 switch (item.Kind)
                 {
-                    case EnvDTE.Constants.vsProjectItemKindSubProject:
+                    case Constants.vsProjectItemKindSubProject:
                         if (item.SubProject != null)
                         {
                             object temp = EnumerateProject(item.SubProject, projectCallback, projectItemCallback, projectContext, fileContext);
@@ -898,8 +949,8 @@ namespace Microsoft.StyleCop.VisualStudio
 
                         break;
 
-                    case EnvDTE.Constants.vsProjectItemKindPhysicalFolder:
-                    case EnvDTE.Constants.vsProjectItemKindVirtualFolder:
+                    case Constants.vsProjectItemKindPhysicalFolder:
+                    case Constants.vsProjectItemKindVirtualFolder:
                         if (item.ProjectItems != null)
                         {
                             object temp = EnumerateProjectItems(item.ProjectItems, name, projectCallback, projectItemCallback, projectContext, fileContext);
@@ -1268,7 +1319,7 @@ namespace Microsoft.StyleCop.VisualStudio
 
                 // Add the file to the code project.
                 StyleCopVSPackage package = serviceProvider.GetService(typeof(StyleCopVSPackage)) as StyleCopVSPackage;
-                System.Diagnostics.Debug.Assert(package != null, "package is null");
+                Debug.Assert(package != null, "package is null");
                 package.Core.Environment.AddSourceCode(codeProject, path, null);
             }
 
@@ -1402,6 +1453,49 @@ namespace Microsoft.StyleCop.VisualStudio
             return null;
         }
 
+        /// <summary>
+        /// The ProjectItemsEventClass ItemAdded event handler.
+        /// </summary>
+        /// <param name="projectItem">The item added.</param>
+        private static void ProjectItemsEventsClass_ItemAdded(ProjectItem projectItem)
+        {
+            Param.AssertNotNull(projectItem, "projectItem");
+            ClearProjectEnabledCache();
+        }
+
+        /// <summary>
+        /// The ProjectItemsEventClass ItemRenamed event handler.
+        /// </summary>
+        /// <param name="projectItem">The item renamed.</param>
+        /// <param name="oldName">The old name of the item.</param>
+        private static void ProjectItemsEventsClass_ItemRenamed(ProjectItem projectItem, string oldName)
+        {
+            Param.AssertNotNull(projectItem, "projectItem");
+            Param.AssertNotNull(oldName, "oldName");
+            ClearProjectEnabledCache();
+        }
+
+        /// <summary>
+        /// The ProjectItemsEventClass ItemRemoved event handler.
+        /// </summary>
+        /// <param name="projectItem">The item removed.</param>
+        private static void ProjectItemsEventsClass_ItemRemoved(ProjectItem projectItem)
+        {
+            Param.AssertNotNull(projectItem, "projectItem");
+            ClearProjectEnabledCache();
+        }
+
+        /// <summary>
+        /// Clear the static "project enabled" cache.  Use in reaction to events which invalidate the old cache.
+        /// </summary>
+        private static void ClearProjectEnabledCache()
+        {
+            lock (projectEnabledCacheLockObject)
+            {
+                projectEnabledCache = new Dictionary<string, bool>();
+            }
+        }
+
         #endregion Private Static Methods
 
         /*
@@ -1428,12 +1522,12 @@ namespace Microsoft.StyleCop.VisualStudio
                 uint itemCount = 0;
                 int singleHierarchy = 0;
                 hr = multiSelect.GetSelectionInfo(out itemCount, out singleHierarchy);
-                System.Diagnostics.Debug.Assert(hr == VSConstants.S_OK, "GetSelectionInfo failed.");
+                Debug.Assert(hr == VSConstants.S_OK, "GetSelectionInfo failed.");
                 ErrorHandler.ThrowOnFailure(hr);
 
                 VSITEMSELECTION[] items = new VSITEMSELECTION[itemCount];
                 hr = multiSelect.GetSelectedItems(0, itemCount, items);
-                System.Diagnostics.Debug.Assert(hr == VSConstants.S_OK, "GetSelectedItems failed.");
+                Debug.Assert(hr == VSConstants.S_OK, "GetSelectedItems failed.");
                 ErrorHandler.ThrowOnFailure(hr);
 
                 foreach (VSITEMSELECTION item in items)
@@ -1470,7 +1564,7 @@ namespace Microsoft.StyleCop.VisualStudio
 
             Debug.Assert(itemID != VSConstants.VSITEMID_SELECTION, "This should only be called on single item selections.");
             Debug.Assert(multiSelect == null, "Internal error multi select is supposed to be null here");
-            if (hierarchyPtr == System.IntPtr.Zero)
+            if (hierarchyPtr == IntPtr.Zero)
             {
                 Debug.Assert(itemID != VSConstants.VSITEMID_ROOT, "This was called on the solution node.");
                 throw new InvalidOperationException();
@@ -1517,18 +1611,18 @@ namespace Microsoft.StyleCop.VisualStudio
                 Marshal.Release(containerPtr);
                 containerPtr = IntPtr.Zero;
             }
-            System.Diagnostics.Debug.Assert(hr == VSConstants.S_OK, "GetCurrentSelection failed.");
+            Debug.Assert(hr == VSConstants.S_OK, "GetCurrentSelection failed.");
 
             if (itemID == HierarchyConstants.VSITEMID_SELECTION)
             {
                 uint itemCount = 0;
                 int fSingleHierarchy = 0;
                 hr = multiSelect.GetSelectionInfo(out itemCount, out fSingleHierarchy);
-                System.Diagnostics.Debug.Assert(hr == VSConstants.S_OK, "GetSelectionInfo failed.");
+                Debug.Assert(hr == VSConstants.S_OK, "GetSelectionInfo failed.");
 
                 VSITEMSELECTION[] items = new VSITEMSELECTION[itemCount];
                 hr = multiSelect.GetSelectedItems(0, itemCount, items);
-                System.Diagnostics.Debug.Assert(hr == VSConstants.S_OK, "GetSelectedItems failed.");
+                Debug.Assert(hr == VSConstants.S_OK, "GetSelectedItems failed.");
 
                 foreach (VSITEMSELECTION item in items)
                 {
@@ -1542,7 +1636,7 @@ namespace Microsoft.StyleCop.VisualStudio
             else
             {
                 //case where no visible project is open (single file)
-                if (hierarchyPtr != System.IntPtr.Zero)
+                if (hierarchyPtr != IntPtr.Zero)
                 {
                     IVsHierarchy hierarchy = (IVsHierarchy)Marshal.GetUniqueObjectForIUnknown(hierarchyPtr);
                     results.Add(GetProjectOfItem(hierarchy, itemID));
@@ -1556,7 +1650,7 @@ namespace Microsoft.StyleCop.VisualStudio
         {
             string path = string.Empty;
             int hr = project.GetMkDocument(HierarchyConstants.VSITEMID_ROOT, out path);
-            System.Diagnostics.Debug.Assert(hr == VSConstants.S_OK || hr == VSConstants.E_NOTIMPL, "GetMkDocument failed for project.");
+            Debug.Assert(hr == VSConstants.S_OK || hr == VSConstants.E_NOTIMPL, "GetMkDocument failed for project.");
 
             return path;
         }
@@ -1578,7 +1672,7 @@ namespace Microsoft.StyleCop.VisualStudio
             IVsSolution3 solution = serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution3;
             string name = null;
             int hr = solution.GetUniqueUINameOfProject((IVsHierarchy)project, out name);
-            System.Diagnostics.Debug.Assert(hr == VSConstants.S_OK, "GetUniqueUINameOfProject failed.");
+            Debug.Assert(hr == VSConstants.S_OK, "GetUniqueUINameOfProject failed.");
             return name;
         }
 
