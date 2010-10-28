@@ -64,7 +64,7 @@ namespace Microsoft.StyleCop.VisualStudio
         /// the Initialize method.</remarks>
         public StyleCopVSPackage()
         {
-            ProjectUtilities.SetServiceProvider(this);
+            ProjectUtilities.Initialize(this);
         }
 
         #endregion Public Constructors

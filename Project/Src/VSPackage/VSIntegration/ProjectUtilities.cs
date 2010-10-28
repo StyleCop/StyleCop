@@ -36,19 +36,14 @@ namespace Microsoft.StyleCop.VisualStudio
         private static IServiceProvider serviceProvider;
 
         /// <summary>
-        /// The "project enabled" cache synchronization locking object to prevent any simultaneous alteration/reading.
-        /// </summary>
-        private static object projectEnabledCacheLockObject = new object();
-
-        /// <summary>
         /// The "project enabled" cache used to prevent costly deep COM interactions after the "project enabled" data has already been collected.
         /// </summary>
-        private static Dictionary<string, bool> projectEnabledCache;
+        private static Dictionary<string, bool> projectEnabledCache = new Dictionary<string, bool>();
 
         /// <summary>
         /// The EnvDTE class used to register ItemsAdded, ItemsRemoved, and ItemsRenamed events.
         /// </summary>
-        private static ProjectItemsEventsClass projectItemsEventsClass;
+        private static ProjectItemsEventsClass projectItemsEvents = new ProjectItemsEventsClass();
 
         /// <summary>
         /// Keeps a collection of projects which do not contain the BuildAction property.
@@ -85,34 +80,19 @@ namespace Microsoft.StyleCop.VisualStudio
         #region Internal Static Methods
 
         /// <summary>
-        /// Setup the "project enabled" cache, if it has not already been set up.
-        /// </summary>
-        internal static void SetupProjectEnabledCache()
-        {
-            lock (projectEnabledCacheLockObject)
-            {
-                if (projectEnabledCache == null)
-                {
-                    projectEnabledCache = new Dictionary<string, bool>();
-
-                    // Our "project enabled cache" is invalidated whenever the projects change, so clear our cached
-                    // values any time one an event for project changes occur.
-                    projectItemsEventsClass = new ProjectItemsEventsClass();
-                    projectItemsEventsClass.ItemAdded += new _dispProjectItemsEvents_ItemAddedEventHandler(ProjectItemsEventsClass_ItemAdded);
-                    projectItemsEventsClass.ItemRemoved += new _dispProjectItemsEvents_ItemRemovedEventHandler(ProjectItemsEventsClass_ItemRemoved);
-                    projectItemsEventsClass.ItemRenamed += new _dispProjectItemsEvents_ItemRenamedEventHandler(ProjectItemsEventsClass_ItemRenamed);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Sets the service provider.
+        /// Initializes this static class.
         /// </summary>
         /// <param name="provider">The service provider to set.</param>
-        internal static void SetServiceProvider(IServiceProvider provider)
+        internal static void Initialize(IServiceProvider provider)
         {
             Param.AssertNotNull(provider, "provider");
             serviceProvider = provider;
+
+            // Our "project enabled cache" is invalidated whenever the projects change, so clear our cached
+            // values any time one an event for project changes occur.
+            projectItemsEvents.ItemAdded += ProjectItemsEventsClassItemAdded;
+            projectItemsEvents.ItemRemoved += ProjectItemsEventsClassItemRemoved;
+            projectItemsEvents.ItemRenamed += ProjectItemsEventsClassItemRenamed;
         }
 
         /// <summary>
@@ -229,8 +209,6 @@ namespace Microsoft.StyleCop.VisualStudio
 
             DTE applicationObject = GetDTE();
 
-            SetupProjectEnabledCache();
-
             if (type == AnalysisType.Solution || type == AnalysisType.Project)
             {
                 // Create a project enumerator for the correct VS project list.
@@ -250,26 +228,23 @@ namespace Microsoft.StyleCop.VisualStudio
                 {
                     if (project != null)
                     {
-                        lock (projectEnabledCacheLockObject)
+                        // If we've already cached a value for whether this project supports StyleCop, use it, since it is very
+                        // expensive to constantly scan massive unmanaged project trees through COM.  This used to render Visual 
+                        // Studio unusable in largely unmanaged solutions (http://stylecop.codeplex.com/workitem/6662).
+                        if (projectEnabledCache.ContainsKey(project.UniqueName))
                         {
-                            // If we've already cached a value for whether this project supports StyleCop, use it, since it is very
-                            // expensive to constantly scan massive unmanaged project trees through COM.  This used to render Visual 
-                            // Studio unusable in largely unmanaged solutions (http://stylecop.codeplex.com/workitem/6662).
-                            if (projectEnabledCache.ContainsKey(project.UniqueName))
-                            {
-                                return projectEnabledCache[project.UniqueName];
-                            }
-                            else
-                            {
-                                bool isEnabled = EnumerateProject(
-                                            project,
-                                            new ProjectInvoker(IsKnownProjectTypeVisitor),
-                                            new ProjectItemInvoker(IsKnownFileTypeVisitor),
-                                            helper,
-                                            null) != null;
-                                projectEnabledCache.Add(project.UniqueName, isEnabled);
-                                return isEnabled;
-                            }
+                            return projectEnabledCache[project.UniqueName];
+                        }
+                        else
+                        {
+                            bool isEnabled = EnumerateProject(
+                                        project,
+                                        new ProjectInvoker(IsKnownProjectTypeVisitor),
+                                        new ProjectItemInvoker(IsKnownFileTypeVisitor),
+                                        helper,
+                                        null) != null;
+                            projectEnabledCache.Add(project.UniqueName, isEnabled);
+                            return isEnabled;
                         }
                     }
                 }
@@ -1454,10 +1429,18 @@ namespace Microsoft.StyleCop.VisualStudio
         }
 
         /// <summary>
+        /// Clear the static "project enabled" cache.  Use in reaction to events which invalidate the old cache.
+        /// </summary>
+        private static void ClearProjectEnabledCache()
+        {
+            projectEnabledCache.Clear();
+        }
+
+        /// <summary>
         /// The ProjectItemsEventClass ItemAdded event handler.
         /// </summary>
         /// <param name="projectItem">The item added.</param>
-        private static void ProjectItemsEventsClass_ItemAdded(ProjectItem projectItem)
+        private static void ProjectItemsEventsClassItemAdded(ProjectItem projectItem)
         {
             Param.AssertNotNull(projectItem, "projectItem");
             ClearProjectEnabledCache();
@@ -1468,7 +1451,7 @@ namespace Microsoft.StyleCop.VisualStudio
         /// </summary>
         /// <param name="projectItem">The item renamed.</param>
         /// <param name="oldName">The old name of the item.</param>
-        private static void ProjectItemsEventsClass_ItemRenamed(ProjectItem projectItem, string oldName)
+        private static void ProjectItemsEventsClassItemRenamed(ProjectItem projectItem, string oldName)
         {
             Param.AssertNotNull(projectItem, "projectItem");
             Param.AssertNotNull(oldName, "oldName");
@@ -1479,21 +1462,10 @@ namespace Microsoft.StyleCop.VisualStudio
         /// The ProjectItemsEventClass ItemRemoved event handler.
         /// </summary>
         /// <param name="projectItem">The item removed.</param>
-        private static void ProjectItemsEventsClass_ItemRemoved(ProjectItem projectItem)
+        private static void ProjectItemsEventsClassItemRemoved(ProjectItem projectItem)
         {
             Param.AssertNotNull(projectItem, "projectItem");
             ClearProjectEnabledCache();
-        }
-
-        /// <summary>
-        /// Clear the static "project enabled" cache.  Use in reaction to events which invalidate the old cache.
-        /// </summary>
-        private static void ClearProjectEnabledCache()
-        {
-            lock (projectEnabledCacheLockObject)
-            {
-                projectEnabledCache = new Dictionary<string, bool>();
-            }
         }
 
         #endregion Private Static Methods

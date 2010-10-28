@@ -147,7 +147,7 @@ namespace VSPackageUnitTest
             mockVirtualPoint.ImplementExpr(vp => vp.TryToShow(EnvDTE.vsPaneShowHow.vsPaneShowCentered, 0));
 
             this.mockServiceProvider.ImplementExpr(sp => sp.GetService(typeof(EnvDTE.DTE)), mockDte.Instance);
-            ProjectUtilities_Accessor.SetServiceProvider(this.mockServiceProvider.Instance);
+            ProjectUtilities_Accessor.Initialize(this.mockServiceProvider.Instance);
 
             // Execute
             this.taskUnderTest.OnNavigate(EventArgs.Empty);
@@ -222,7 +222,7 @@ namespace VSPackageUnitTest
             mockVirtualPoint.ImplementExpr(vp => vp.TryToShow(EnvDTE.vsPaneShowHow.vsPaneShowCentered, 0));
 
             this.mockServiceProvider.ImplementExpr(sp => sp.GetService(typeof(EnvDTE.DTE)), mockDte.Instance);
-            ProjectUtilities_Accessor.SetServiceProvider(this.mockServiceProvider.Instance);
+            ProjectUtilities_Accessor.Initialize(this.mockServiceProvider.Instance);
 
             // Execute
             this.taskUnderTest.OnNavigate(EventArgs.Empty);
@@ -248,7 +248,7 @@ namespace VSPackageUnitTest
             bool eventFired = false;
             analysisHelper.core.OutputGenerated += (sender, args) => { eventFired = true; };
 
-            ProjectUtilities_Accessor.SetServiceProvider(this.mockServiceProvider.Instance);
+            ProjectUtilities_Accessor.Initialize(this.mockServiceProvider.Instance);
 
             // Does nothing - included for code coverage and to catch it if it starts doing something unexpectedtly
             this.taskUnderTestShell.Document = null;
@@ -279,7 +279,7 @@ namespace VSPackageUnitTest
             AnalysisHelper_Accessor analysisHelper = SetCoreNoUI();
             analysisHelper.core.OutputGenerated += (sender, args) => { eventFired = true; };
 
-            ProjectUtilities_Accessor.SetServiceProvider(this.mockServiceProvider.Instance);
+            ProjectUtilities_Accessor.Initialize(this.mockServiceProvider.Instance);
 
             // Does nothing - included for code coverage and to catch it if it starts doing something unexpectedtly
             this.taskUnderTestShell.Document = string.Empty;
