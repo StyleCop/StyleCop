@@ -9,7 +9,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="MS.StyleCop.CSharpParserTest.CsParserDump">
+        <Analyzer AnalyzerId="StyleCop.CSharpParserTest.CsParserDump">
           <Rules>
             <Rule Name="CsParserDumpRule">
               <RuleSettings>
@@ -32,7 +32,7 @@
       </GlobalSettings>
       <Analyzers>
         <!-- The output of the parser dump analyzer is not checked, but we must have at least one analyzer enabled so we use this one. -->
-        <Analyzer AnalyzerId="MS.StyleCop.CSharpParserTest.CsParserDump">
+        <Analyzer AnalyzerId="StyleCop.CSharpParserTest.CsParserDump">
           <Rules>
             <Rule Name="CsParserDumpRule">
               <RuleSettings>
@@ -44,7 +44,7 @@
       </Analyzers>
     </Settings>
     <ExpectedViolations>
-      <Violation LineNumber="10" RuleNamespace="Microsoft.StyleCop.CSharp.CsParser" Rule="SyntaxException" />
+      <Violation LineNumber="10" RuleNamespace="StyleCop.CSharp.CsParser" Rule="SyntaxException" />
     </ExpectedViolations>
   </Test>
 
@@ -58,7 +58,7 @@
       </GlobalSettings>
       <Analyzers>
         <!-- The output of the parser dump analyzer is not checked, but we must have at least one analyzer enabled so we use this one. -->
-        <Analyzer AnalyzerId="MS.StyleCop.CSharpParserTest.CsParserDump">
+        <Analyzer AnalyzerId="StyleCop.CSharpParserTest.CsParserDump">
           <Rules>
             <Rule Name="CsParserDumpRule">
               <RuleSettings>
@@ -70,7 +70,7 @@
       </Analyzers>
     </Settings>
     <ExpectedViolations>
-      <Violation LineNumber="10" RuleNamespace="Microsoft.StyleCop.CSharp.CsParser" Rule="SyntaxException" />
+      <Violation LineNumber="10" RuleNamespace="StyleCop.CSharp.CsParser" Rule="SyntaxException" />
     </ExpectedViolations>
   </Test>
 
@@ -84,7 +84,7 @@
       </GlobalSettings>
       <Analyzers>
         <!-- The output of the parser dump analyzer is not checked, but we must have at least one analyzer enabled so we use this one. -->
-        <Analyzer AnalyzerId="MS.StyleCop.CSharpParserTest.CsParserDump">
+        <Analyzer AnalyzerId="StyleCop.CSharpParserTest.CsParserDump">
           <Rules>
             <Rule Name="CsParserDumpRule">
               <RuleSettings>
@@ -96,7 +96,7 @@
       </Analyzers>
     </Settings>
     <ExpectedViolations>
-      <Violation LineNumber="10" RuleNamespace="Microsoft.StyleCop.CSharp.CsParser" Rule="SyntaxException" />
+      <Violation LineNumber="10" RuleNamespace="StyleCop.CSharp.CsParser" Rule="SyntaxException" />
     </ExpectedViolations>
   </Test>
 
@@ -110,7 +110,7 @@
       </GlobalSettings>
       <Analyzers>
         <!-- The output of the parser dump analyzer is not checked, but we must have at least one analyzer enabled so we use this one. -->
-        <Analyzer AnalyzerId="MS.StyleCop.CSharpParserTest.CsParserDump">
+        <Analyzer AnalyzerId="StyleCop.CSharpParserTest.CsParserDump">
           <Rules>
             <Rule Name="CsParserDumpRule">
               <RuleSettings>
@@ -122,7 +122,7 @@
       </Analyzers>
     </Settings>
     <ExpectedViolations>
-      <Violation LineNumber="10" RuleNamespace="Microsoft.StyleCop.CSharp.CsParser" Rule="SyntaxException" />
+      <Violation LineNumber="10" RuleNamespace="StyleCop.CSharp.CsParser" Rule="SyntaxException" />
     </ExpectedViolations>
   </Test>
 </StyleCopTestDescription>

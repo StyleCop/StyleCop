@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="UpdateSolutionListenerTest.cs" company="Microsoft">
-//   Copyright (c) Microsoft Corporation.
+// <copyright file="UpdateSolutionListenerTest.cs">
+//   MS-PL
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -15,13 +15,13 @@
 namespace VSPackageUnitTest
 {
     using System;
-    using Microsoft.StyleCop.VisualStudio;
+    using System.Diagnostics;
+    using Microsoft.VisualStudio;
     using Microsoft.VisualStudio.Shell.Interop;
     using Microsoft.VisualStudio.TestTools.MockObjects;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using StyleCop.VisualStudio;
     using VSPackageUnitTest.Mocks;
-    using System.Diagnostics;
-    using Microsoft.VisualStudio;
 
     /// <summary>
     /// This is a test class for UpdateSolutionListenerTest and is intended
@@ -34,7 +34,7 @@ namespace VSPackageUnitTest
         ///A test for UpdateSolution_StartUpdate
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("Microsoft.StyleCop.VSPackage.dll")]
+        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void UpdateSolution_StartUpdateTest()
         {
             IServiceProvider serviceProvider = this.PrepareServiceProvider();
@@ -56,7 +56,7 @@ namespace VSPackageUnitTest
         ///A test for UpdateSolution_Done
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("Microsoft.StyleCop.VSPackage.dll")]
+        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void UpdateSolution_DoneTest()
         {
             IServiceProvider serviceProvider = this.PrepareServiceProvider();
@@ -73,7 +73,7 @@ namespace VSPackageUnitTest
         ///A test for UpdateSolution_Cancel
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("Microsoft.StyleCop.VSPackage.dll")]
+        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void UpdateSolution_CancelTest()
         {
             IServiceProvider serviceProvider = this.PrepareServiceProvider();
@@ -88,7 +88,7 @@ namespace VSPackageUnitTest
         ///A test for UpdateSolution_Begin
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("Microsoft.StyleCop.VSPackage.dll")]
+        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void UpdateSolution_BeginTest()
         {
             IServiceProvider serviceProvider = this.PrepareServiceProvider();
@@ -105,7 +105,7 @@ namespace VSPackageUnitTest
         ///A test for OnActiveProjectCfgChange
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("Microsoft.StyleCop.VSPackage.dll")]
+        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void OnActiveProjectCfgChangeTest()
         {
             IServiceProvider serviceProvider = this.PrepareServiceProvider();
@@ -119,7 +119,7 @@ namespace VSPackageUnitTest
         ///A test for Initialize
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("Microsoft.StyleCop.VSPackage.dll")]
+        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void InitializeTest()
         {
             var serviceProvider = new MockServiceProvider();
@@ -135,7 +135,7 @@ namespace VSPackageUnitTest
         ///A test for Dispose
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("Microsoft.StyleCop.VSPackage.dll")]
+        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void DisposeTest()
         {
             var serviceProvider = new MockServiceProvider();
@@ -155,7 +155,7 @@ namespace VSPackageUnitTest
         ///A test for UpdateSolutionListener Constructor
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("Microsoft.StyleCop.VSPackage.dll")]
+        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void UpdateSolutionListenerConstructorTest()
         {
             IServiceProvider serviceProvider = this.PrepareServiceProvider();

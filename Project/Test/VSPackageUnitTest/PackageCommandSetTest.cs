@@ -1,6 +1,6 @@
 ﻿//--------------------------------------------------------------------------
-// <copyright file="PackageCommandSetTest.cs" company="Microsoft">
-//   Copyright (c) Microsoft Corporation.
+// <copyright file="PackageCommandSetTest.cs">
+//   MS-PL
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -14,10 +14,10 @@
 //-----------------------------------------------------------------------
 namespace VSPackageUnitTest
 {
-    using Microsoft.StyleCop.VisualStudio;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
     using Microsoft.VisualStudio.TestTools.MockObjects;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using StyleCop.VisualStudio;
     using VSPackageUnitTest.Mocks;
 
     /// <summary>
@@ -35,7 +35,7 @@ namespace VSPackageUnitTest
         ///</summary>
         [TestMethod()]
         [Ignore()]
-        [DeploymentItem("Microsoft.StyleCop.VSPackage.dll")]
+        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void StatusAnalyzeSingleFileTest()
         {
             PackageCommandSet_Accessor target = new PackageCommandSet_Accessor(this.serviceProvider);
@@ -47,7 +47,7 @@ namespace VSPackageUnitTest
         /// A test for PackageCommandSet Constructor
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("Microsoft.StyleCop.VSPackage.dll")]
+        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void PackageCommandSetConstructorTest()
         {
             PackageCommandSet_Accessor target = new PackageCommandSet_Accessor(this.serviceProvider);

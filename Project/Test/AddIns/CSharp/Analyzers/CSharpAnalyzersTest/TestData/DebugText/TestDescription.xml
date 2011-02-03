@@ -8,7 +8,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
+        <Analyzer AnalyzerId="StyleCop.CSharp.MaintainabilityRules">
           <Rules>
             <Rule Name="CodeAnalysisSuppressionMustHaveJustification">
               <RuleSettings>
@@ -81,7 +81,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
+        <Analyzer AnalyzerId="StyleCop.CSharp.MaintainabilityRules">
           <Rules>
             <Rule Name="DebugAssertMustProvideMessageText">
               <RuleSettings>

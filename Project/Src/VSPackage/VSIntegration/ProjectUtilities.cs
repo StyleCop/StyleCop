@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="ProjectUtilities.cs" company="Microsoft">
-//   Copyright (c) Microsoft Corporation.
+// <copyright file="ProjectUtilities.cs">
+//   MS-PL
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -12,7 +12,7 @@
 //   notice, or any other, from this software.
 // </license>
 //-----------------------------------------------------------------------
-namespace Microsoft.StyleCop.VisualStudio
+namespace StyleCop.VisualStudio
 {
     using System;
     using System.Collections;
@@ -345,7 +345,7 @@ namespace Microsoft.StyleCop.VisualStudio
                         codeProject = new CodeProject(
                             document.FullName.GetHashCode(),
                             Path.GetDirectoryName(document.FullName),
-                            new Microsoft.StyleCop.Configuration(null));
+                            new StyleCop.Configuration(null));
                     }
 
                     if (codeProject != null)
@@ -560,7 +560,7 @@ namespace Microsoft.StyleCop.VisualStudio
         /// </summary>
         /// <param name="project">The project.</param>
         /// <returns>Returns the active configuration.</returns>
-        internal static Microsoft.StyleCop.Configuration GetProjectConfiguration(Project project)
+        internal static StyleCop.Configuration GetProjectConfiguration(Project project)
         {
             Param.AssertNotNull(project, "project");
 
@@ -586,7 +586,7 @@ namespace Microsoft.StyleCop.VisualStudio
                                     if (constantList != null)
                                     {
                                         // Add each constants from this configuration and return it.
-                                        return new Microsoft.StyleCop.Configuration(constantList.Split(';'));
+                                        return new StyleCop.Configuration(constantList.Split(';'));
                                     }
                                 }
                             }
@@ -610,7 +610,7 @@ namespace Microsoft.StyleCop.VisualStudio
             }
 
             // There is no active configuration. Just return an empty configuration object.
-            return new Microsoft.StyleCop.Configuration(null);
+            return new StyleCop.Configuration(null);
         }
 
         #endregion Internal Static Methods

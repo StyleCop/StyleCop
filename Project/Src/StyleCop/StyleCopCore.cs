@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------
-// <copyright file="StyleCopCore.cs" company="Microsoft">
-//   Copyright (c) Microsoft Corporation.
+// <copyright file="StyleCopCore.cs">
+//   MS-PL
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -12,7 +12,7 @@
 //   notice, or any other, from this software.
 // </license>
 //-----------------------------------------------------------------------
-namespace Microsoft.StyleCop
+namespace StyleCop
 {
     using System;
     using System.Collections;
@@ -151,7 +151,7 @@ namespace Microsoft.StyleCop
             // Load the core xml initialization document.
             try
             {
-                using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Microsoft.StyleCop.CoreParser.xml"))
+                using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("StyleCop.CoreParser.xml"))
                 using (StreamReader reader = new StreamReader(stream))
                 {
                     string xml = reader.ReadToEnd();
@@ -1053,7 +1053,7 @@ namespace Microsoft.StyleCop
         {
             int count = 1;
 
-            RegistryKey key = Win32.Registry.LocalMachine.OpenSubKey(@"HARDWARE\DESCRIPTION\System\CentralProcessor", false);
+            RegistryKey key = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(@"HARDWARE\DESCRIPTION\System\CentralProcessor", false);
             if (key != null)
             {
                 if (key.SubKeyCount >= 1)

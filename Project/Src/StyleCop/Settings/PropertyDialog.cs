@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------
-// <copyright file="PropertyDialog.cs" company="Microsoft">
-//   Copyright (c) Microsoft Corporation.
+// <copyright file="PropertyDialog.cs">
+//   MS-PL
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -12,7 +12,7 @@
 //   notice, or any other, from this software.
 // </license>
 //-----------------------------------------------------------------------
-namespace Microsoft.StyleCop
+namespace StyleCop
 {
     using System;
     using System.Collections.Generic;
@@ -304,7 +304,7 @@ namespace Microsoft.StyleCop
             this.cancel = new System.Windows.Forms.Button();
             this.ok = new System.Windows.Forms.Button();
             this.apply = new System.Windows.Forms.Button();
-            this.properties = new Microsoft.StyleCop.PropertyControl();
+            this.properties = new StyleCop.PropertyControl();
             this.SuspendLayout();
             // 
             // help

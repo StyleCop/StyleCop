@@ -23,7 +23,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="MS.StyleCop.CSharpParserTest.CsParserDump">
+        <Analyzer AnalyzerId="StyleCop.CSharpParserTest.CsParserDump">
           <Rules>
             <Rule Name="CsParserDumpRule">
               <RuleSettings>

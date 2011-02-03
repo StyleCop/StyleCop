@@ -69,7 +69,7 @@
           <td align="left">
             <a href="#exampleToggle" onclick="OpenSection(exampleToggle)">Example</a>  
               <span id="headfeedbackarea" class="feedbackhead">
-              <a href="javascript:SubmitFeedback('DevDocs@Microsoft.com','','','','','%0\dThank%20you%20for%20your%20feedback.%20The%20developer%20writing%20teams%20use%20your%20feedback%20to%20improve%20documentation.%20While%20we%20are%20reviewing%20your%20feedback,%20we%20may%20send%20you%20e-mail%20to%20ask%20for%20clarification%20or%20feedback%20on%20a%20solution.%20We%20do%20not%20use%20your%20e-mail%20address%20for%20any%20other%20purpose%20and%20we%20delete%20it%20after%20we%20finish%20our%20review.%0\AFor%20further%20information%20about%20the%20privacy%20policies%20of%20Microsoft,%20please%20see%20http://privacy.microsoft.com/en-us/default.aspx.%0\A%0\d','Customer%20Feedback');">
+              <a href="javascript:SubmitFeedback('','','','','','%0\dThank%20you%20for%20your%20feedback.%20The%20developer%20writing%20teams%20use%20your%20feedback%20to%20improve%20documentation.%20While%20we%20are%20reviewing%20your%20feedback,%20we%20may%20send%20you%20e-mail%20to%20ask%20for%20clarification%20or%20feedback%20on%20a%20solution.%20We%20do%20not%20use%20your%20e-mail%20address%20for%20any%20other%20purpose%20and%20we%20delete%20it%20after%20we%20finish%20our%20review.%0\AFor%20further%20information%20about%20the%20privacy%20policies%20of%20Microsoft,%20please%20see%20http://privacy.microsoft.com/en-us/default.aspx.%0\A%0\d','Customer%20Feedback');">
         
         &nbsp;</a></span></td>
         </tr>
@@ -103,9 +103,9 @@
     <h1 class="heading"><span onclick="ExpandCollapse(sectionToggle0)" style="cursor:default;" onkeypress="ExpandCollapse_CheckKey(sectionToggle0, event)" tabindex="0"><img id="sectionToggle0" class="toggle" name="toggleSwitch" src="../icons/collapse_all.gif" />Building a Custom StyleCop Rules Analyzer</span></h1><div id="sectionSection0" class="section" name="collapseableSection" style="">
         <p>
           To create a custom StyleCop rule, create a new ClassLibrary project in Visual Studio, and set up
-          references to Microsoft.StyleCop.dll and Microsoft.StyleCop.CSharp.dll. Next, create a new C# class
-          within the project. The class must inherit from <span sdata="cer" target="T:Microsoft.StyleCop.SourceAnalyzer"><a href="T_Microsoft_StyleCop_SourceAnalyzer.htm">SourceAnalyzer</a></span>,
-          and contain an instance of the <span sdata="cer" target="T:Microsoft.StyleCop.SourceAnalyzerAttribute"><a href="T_Microsoft_StyleCop_SourceAnalyzerAttribute.htm">SourceAnalyzerAttribute</a></span>
+          references to StyleCop.dll and StyleCop.CSharp.dll. Next, create a new C# class
+          within the project. The class must inherit from <span sdata="cer" target="T:StyleCop.SourceAnalyzer"><a href="T_StyleCop_SourceAnalyzer.htm">SourceAnalyzer</a></span>,
+          and contain an instance of the <span sdata="cer" target="T:StyleCop.SourceAnalyzerAttribute"><a href="T_StyleCop_SourceAnalyzerAttribute.htm">SourceAnalyzerAttribute</a></span>
           attribute which specifies the code parser that the analyzer will be associated with. For C# code, the analyzer
           will always be associated with the CsParser type. For example:
         </p>
@@ -119,10 +119,10 @@ public class MyCustomRules : SourceAnalyzer
           </pre></td></tr></table></span></div>
         </p>
         <p>
-          Next, implement an override of the <span sdata="cer" target="M:Microsoft.StyleCop.SourceAnalyzer.AnalyzeDocument(Microsoft.StyleCop.CodeDocument)"><a href="M_Microsoft_StyleCop_SourceAnalyzer_AnalyzeDocument.htm">AnalyzeDocument(CodeDocument)</a></span>
+          Next, implement an override of the <span sdata="cer" target="M:StyleCop.SourceAnalyzer.AnalyzeDocument(StyleCop.CodeDocument)"><a href="M_StyleCop_SourceAnalyzer_AnalyzeDocument.htm">AnalyzeDocument(CodeDocument)</a></span>
           method. This method will be called by StyleCop whenever the custom analyzer should run its rules against a code
-          document. The AnalyzeDocument method receives an instance of a <span sdata="cer" target="T:Microsoft.StyleCop.CodeDocument"><a href="T_Microsoft_StyleCop_CodeDocument.htm">CodeDocument</a></span>
-          class. For C# code, this should be casted to <span sdata="cer" target="T:Microsoft.StyleCop.CSharp.CsDocument"><a href="T_Microsoft_StyleCop_CSharp_CsDocument.htm">CsDocument</a></span>.
+          document. The AnalyzeDocument method receives an instance of a <span sdata="cer" target="T:StyleCop.CodeDocument"><a href="T_StyleCop_CodeDocument.htm">CodeDocument</a></span>
+          class. For C# code, this should be casted to <span sdata="cer" target="T:StyleCop.CSharp.CsDocument"><a href="T_StyleCop_CSharp_CsDocument.htm">CsDocument</a></span>.
           This object will contain an object model representing the C# code to be analyzed.
         </p>
         <p>
@@ -143,7 +143,7 @@ public class CustomRules : SourceAnalyzer
         </p>
         <p>
           As shown in the code example above, the custom rules analyzer should first check to ensure that the
-          <span sdata="cer" target="P:Microsoft.StyleCop.CSharp.CsDocument.RootElement"><a href="P_Microsoft_StyleCop_CSharp_CsDocument_RootElement.htm">RootElement</a></span> property is not
+          <span sdata="cer" target="P:StyleCop.CSharp.CsDocument.RootElement"><a href="P_StyleCop_CSharp_CsDocument_RootElement.htm">RootElement</a></span> property is not
           null, indicating that the code file is empty. In most cases the code should also verify that the contents of
           the file have not been auto-generated by a tool, which is done by checking the value of the
           CsDocument.RootElement.Generated property. Generally, auto-generated code should not be checked for style
@@ -153,11 +153,11 @@ public class CustomRules : SourceAnalyzer
           There are two common ways for a custom rules analyzer to iterate through the code object model and discover
           rules violations. The first method uses the built-in code walkers. A code walker can be instantiated from
           the root of any document, element, statement, expression, or clause, by calling
-          <span sdata="cer" target="Overload:Microsoft.StyleCop.CSharp.CsDocument.WalkDocument"><a href="Overload_Microsoft_StyleCop_CSharp_CsDocument_WalkDocument.htm">WalkDocument</a></span>, 
-          <span sdata="cer" target="Overload:Microsoft.StyleCop.CSharp.CsElement.WalkElement"><a href="Overload_Microsoft_StyleCop_CSharp_CsElement_WalkElement.htm">WalkElement</a></span>, 
-          <span sdata="cer" target="Overload:Microsoft.StyleCop.CSharp.Statement.WalkStatement"><a href="Overload_Microsoft_StyleCop_CSharp_Statement_WalkStatement.htm">WalkStatement</a></span>, 
-          <span sdata="cer" target="Overload:Microsoft.StyleCop.CSharp.Expression.WalkExpression"><a href="Overload_Microsoft_StyleCop_CSharp_Expression_WalkExpression.htm">WalkExpression</a></span>, 
-          or <span sdata="cer" target="Overload:Microsoft.StyleCop.CSharp.QueryClause.WalkQueryClause"><a href="Overload_Microsoft_StyleCop_CSharp_QueryClause_WalkQueryClause.htm">WalkQueryClause</a></span>.
+          <span sdata="cer" target="Overload:StyleCop.CSharp.CsDocument.WalkDocument"><a href="Overload_StyleCop_CSharp_CsDocument_WalkDocument.htm">WalkDocument</a></span>, 
+          <span sdata="cer" target="Overload:StyleCop.CSharp.CsElement.WalkElement"><a href="Overload_StyleCop_CSharp_CsElement_WalkElement.htm">WalkElement</a></span>, 
+          <span sdata="cer" target="Overload:StyleCop.CSharp.Statement.WalkStatement"><a href="Overload_StyleCop_CSharp_Statement_WalkStatement.htm">WalkStatement</a></span>, 
+          <span sdata="cer" target="Overload:StyleCop.CSharp.Expression.WalkExpression"><a href="Overload_StyleCop_CSharp_Expression_WalkExpression.htm">WalkExpression</a></span>, 
+          or <span sdata="cer" target="Overload:StyleCop.CSharp.QueryClause.WalkQueryClause"><a href="Overload_StyleCop_CSharp_QueryClause_WalkQueryClause.htm">WalkQueryClause</a></span>.
           In each case, the walker method takes a series of delegate callbacks, which will be called each time the walker
           discovers an element, statement, expression, or query clause in the code. For example:
         </p>
@@ -209,7 +209,7 @@ private bool VisitStatement(Statement statement, Expression parentExpression, St
         <p>
           StyleCop provides a second way to interate through a code object model. This involves viewing the code token by token,
           rather than viewing the code model organized by elements, statements, expressions, etc. Every code model object
-          inheriting from the <span sdata="cer" target="T:Microsoft.StyleCop.CSharp.CodeUnit"><a href="T_Microsoft_StyleCop_CSharp_CodeUnit.htm">CodeUnit</a></span> type contains
+          inheriting from the <span sdata="cer" target="T:StyleCop.CSharp.CodeUnit"><a href="T_StyleCop_CSharp_CodeUnit.htm">CodeUnit</a></span> type contains
           a Tokens property, which exposes a linked-list of all the tokens within that section of code. This list can be
           iterated over to view each of the tokens one-by-one. For example:
         </p>

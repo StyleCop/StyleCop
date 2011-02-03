@@ -158,8 +158,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Shadow Include="TestReferences\Microsoft.StyleCop.accessor" />
-    <Shadow Include="TestReferences\Microsoft.StyleCop.VSPackage.accessor" />
+    <Shadow Include="TestReferences\StyleCop.accessor" />
+    <Shadow Include="TestReferences\StyleCop.VSPackage.accessor" />
     <Shadow Include="TestReferences\Microsoft.VisualStudio.Shell.accessor" />
   </ItemGroup>
   <ItemGroup>

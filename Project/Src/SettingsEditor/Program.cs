@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------
-// <copyright file="Program.cs" company="Microsoft">
-//   Copyright (c) Microsoft Corporation.
+// <copyright file="Program.cs">
+//   MS-PL
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -20,8 +20,8 @@ namespace StyleCopSettingsEditor
     using System.IO;
     using System.Security;
     using System.Windows.Forms;
-    using Microsoft.StyleCop;
-    using Microsoft.StyleCop.SettingsEditor.Properties;
+    using StyleCop;
+    using StyleCop.SettingsEditor.Properties;
 
     /// <summary>
     /// The main entrypoint class.

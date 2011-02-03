@@ -7,7 +7,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{5970CD94-2C7C-4F83-8C15-A0B3148E631C}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>MS.StyleCop.CSharpParserTest</RootNamespace>
+    <RootNamespace>StyleCop.CSharpParserTest</RootNamespace>
     <AssemblyName>CSharpParserTest</AssemblyName>
     <WarningLevel>4</WarningLevel>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>

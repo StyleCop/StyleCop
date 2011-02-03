@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------
-// <copyright file="RegistryUtils.Permissions.cs" company="Microsoft">
-//   Copyright (c) Microsoft Corporation.
+// <copyright file="RegistryUtils.Permissions.cs">
+//   MS-PL
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -12,7 +12,7 @@
 //   notice, or any other, from this software.
 // </license>
 //-----------------------------------------------------------------------
-namespace Microsoft.StyleCop
+namespace StyleCop
 {
     using System;
     using System.Security.Permissions;
@@ -47,7 +47,7 @@ namespace Microsoft.StyleCop
             public static void Demand()
             {
                 // Create permission objects for the registry keys we're about to use.
-                string fullRegistryPath = @"HKEY_CURRENT_USER\Software\Microsoft\" + ApplicationAcronym;
+                string fullRegistryPath = @"HKEY_CURRENT_USER\Software\" + ApplicationAcronym;
                 RegistryPermission fullPermissions = 
                     new RegistryPermission(RegistryPermissionAccess.AllAccess, fullRegistryPath);
             

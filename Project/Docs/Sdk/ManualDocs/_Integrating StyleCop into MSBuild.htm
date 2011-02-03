@@ -94,7 +94,7 @@
         <p>
           The first step in integrating StyleCop into an MSBuild system is to obtain the default StyleCop MSBuild targets file. To do so,
           run the StyleCop installer, and select the MSBuild files option on the Custom Setup page. This will install the StyleCop MSBuild files
-          into the {Program Files}\MSBuild\Microsoft\StyleCop folder.
+          into the {Program Files}\MSBuild\StyleCop folder.
         </p>
       </div>
     <h1 class="heading"><span onclick="ExpandCollapse(sectionToggle1)" style="cursor:default;" onkeypress="ExpandCollapse_CheckKey(sectionToggle1, event)" tabindex="0"><img id="sectionToggle1" class="toggle" name="toggleSwitch" src="../icons/collapse_all.gif" />Adding the Import Tag</span></h1><div id="sectionSection1" class="section" name="collapseableSection" style="">
@@ -104,7 +104,7 @@
         </p>
         <p>
           For example, to integrate StyleCop to the project SampleProject, open the project file SampleProject.csproj within your favorite text 
-          editor. Scroll down to the bottom of the file and add a new tag to import the Microsoft.StyleCop.targets file. This import tag should be 
+          editor. Scroll down to the bottom of the file and add a new tag to import the StyleCop.targets file. This import tag should be 
           added just below the import of Microsoft.CSharp.targets:
         </p>
         <p>
@@ -112,7 +112,7 @@
 &lt;Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003"&gt;
   ...Contents Removed...
   &lt;Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" /&gt;
-  &lt;Import Project="$(ProgramFiles)\MSBuild\Microsoft\StyleCop\v4.4\Microsoft.StyleCop.targets" /&gt;
+  &lt;Import Project="$(ProgramFiles)\MSBuild\StyleCop\v4.4\StyleCop.targets" /&gt;
   ...Contents Removed...
 &lt;/Project&gt;
           </pre></td></tr></table></span></div>
@@ -158,12 +158,12 @@
           so that each developer does not have to manually install StyleCop on his machine.
         </p>
         <p>
-          To do this, copy all of the files from {Program Files}\MSBuild\Microsoft\StyleCop into a custom folder within your build environment, 
+          To do this, copy all of the files from {Program Files}\MSBuild\StyleCop into a custom folder within your build environment, 
           and check all of these files into your source control system. Next, define an environment variable within your development environment 
           which points to the location of the StyleCop targets file. For example:
         </p>
         <p>
-          <span class="code">set StyleCopTargets=%enlistmentroot%\ExternalTools\StyleCop\v4.4\Microsoft.StyleCop.targets</span>
+          <span class="code">set StyleCopTargets=%enlistmentroot%\ExternalTools\StyleCop\v4.4\StyleCop.targets</span>
         </p>
         <p>
           With this configuration in place, it is simply a matter of adding the following import tag to each .csproj file within your development environment:

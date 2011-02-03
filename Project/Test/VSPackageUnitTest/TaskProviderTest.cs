@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="TaskProviderTest.cs" company="Microsoft">
-//   Copyright (c) Microsoft Corporation.
+// <copyright file="TaskProviderTest.cs">
+//   MS-PL
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -18,10 +18,10 @@ namespace VSPackageUnitTest
     using System.Collections.Generic;
     using System.Runtime.InteropServices;
     using Microsoft.Build.BuildEngine;
-    using Microsoft.StyleCop.VisualStudio;
     using Microsoft.VisualStudio;
     using Microsoft.VisualStudio.Shell.Interop;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using StyleCop.VisualStudio;
     using VSPackageUnitTest.Mocks;
 
     /// <summary>
@@ -30,7 +30,7 @@ namespace VSPackageUnitTest
     ///</summary>
     [TestClass()]
     [DeploymentItem("Microsoft.VisualStudio.QualityTools.MockObjectFramework.dll")]
-    [DeploymentItem("Microsoft.StyleCop.VSPackage.dll")]
+    [DeploymentItem("StyleCop.VSPackage.dll")]
     public class TaskProviderTest : BasicUnitTest
     {
         private MockServiceProvider serviceProvider;

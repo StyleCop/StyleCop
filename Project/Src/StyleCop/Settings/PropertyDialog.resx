@@ -244,7 +244,7 @@
     <value>properties</value>
   </data>
   <data name="&gt;&gt;properties.Type" xml:space="preserve">
-    <value>Microsoft.StyleCop.PropertyControl, Microsoft.StyleCop, Version=4.3.0.5, Culture=neutral, PublicKeyToken=31bf3856ad364e35</value>
+    <value>StyleCop.PropertyControl, StyleCop, Version=4.3.0.5, Culture=neutral, PublicKeyToken=31bf3856ad364e35</value>
   </data>
   <data name="&gt;&gt;properties.Parent" xml:space="preserve">
     <value>$this</value>

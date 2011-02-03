@@ -21,6 +21,6 @@ function WritePageTop(title)
 
 function WritePageFooter()
 {
-    document.write("<div id='pagefooter'><p>&nbsp;</p><p>&nbsp;</p><hr size=1><p>&copy; 2002-2010 Microsoft Corporation. All Rights Reserved.</p></div>");
+    document.write("<div id='pagefooter'><p>&nbsp;</p><p>&nbsp;</p><hr size=1><p>&copy;</p></div>");
     return;
 }

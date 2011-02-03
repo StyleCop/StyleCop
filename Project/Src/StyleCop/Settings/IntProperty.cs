@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------
-// <copyright file="IntProperty.cs" company="Microsoft">
-//   Copyright (c) Microsoft Corporation.
+// <copyright file="IntProperty.cs">
+//   MS-PL
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -12,7 +12,7 @@
 //   notice, or any other, from this software.
 // </license>
 //-----------------------------------------------------------------------
-namespace Microsoft.StyleCop
+namespace StyleCop
 {
     /// <summary>
     /// An integer property.

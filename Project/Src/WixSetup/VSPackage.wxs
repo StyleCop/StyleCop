@@ -10,12 +10,12 @@
 
           <Component Id="VisualStudioPackageCommon" Guid="3c439240-494f-423d-bcc5-8247e4c21076">
             <!-- The VSPackageComponent is the component for installing the shared parts of the VS package. -->
-            <File Id='VsPackageDll'      Name='Microsoft.StyleCop.VSPackage.dll' Checksum="yes" Vital='yes' />
-            <File Id='AnalysisEngineDll' Name='Microsoft.StyleCop.dll'           Checksum="yes" Vital='yes' />
+            <File Id='VsPackageDll'      Name='StyleCop.VSPackage.dll' Checksum="yes" Vital='yes' />
+            <File Id='AnalysisEngineDll' Name='StyleCop.dll'           Checksum="yes" Vital='yes' />
 
             <!-- The CSharpAnalyzerComponent is the component for installing the C# files. -->
-            <File Id='CSharpParser'   Name='Microsoft.StyleCop.CSharp.dll'       Checksum="yes" Vital='yes' />
-            <File Id='CSharpAnalyzer' Name='Microsoft.StyleCop.CSharp.Rules.dll' Checksum="yes" Vital='yes' />
+            <File Id='CSharpParser'   Name='StyleCop.CSharp.dll'       Checksum="yes" Vital='yes' />
+            <File Id='CSharpAnalyzer' Name='StyleCop.CSharp.Rules.dll' Checksum="yes" Vital='yes' />
 
             <File Id='Settings' Name='Settings.StyleCop' Checksum="yes" Vital='yes' />
           </Component>

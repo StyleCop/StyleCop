@@ -8,7 +8,7 @@
     <ProjectGuid>{88BEE003-4764-455A-9705-B65D3521984F}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Microsoft.StyleCop.SettingsEditor</RootNamespace>
+    <RootNamespace>StyleCop.SettingsEditor</RootNamespace>
     <AssemblyName>StyleCopSettingsEditor</AssemblyName>
     <ApplicationIcon>..\VSPackage\Resources\StyleCop.ico</ApplicationIcon>
     <SignAssembly>true</SignAssembly>

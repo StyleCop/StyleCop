@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="MockTerm.cs" company="Microsoft">
-//   Copyright (c) Microsoft Corporation.
+// <copyright file="MockTerm.cs">
+//   MS-PL
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 

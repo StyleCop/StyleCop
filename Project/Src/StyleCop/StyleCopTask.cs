@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------
-// <copyright file="StyleCopTask.cs" company="Microsoft">
-//   Copyright (c) Microsoft Corporation.
+// <copyright file="StyleCopTask.cs">
+//   MS-PL
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -12,7 +12,7 @@
 //   notice, or any other, from this software.
 // </license>
 //-----------------------------------------------------------------------
-namespace Microsoft.StyleCop
+namespace StyleCop
 {
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;

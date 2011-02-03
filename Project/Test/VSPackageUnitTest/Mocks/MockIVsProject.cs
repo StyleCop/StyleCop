@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="MockIVsProject.cs" company="Microsoft">
-//   Copyright (c) Microsoft Corporation.
+//   MS-PL
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -16,9 +16,9 @@ namespace VSPackageUnitTest.Mocks
 {
     using System;
     using System.Collections.Generic;
-    using Microsoft.StyleCop.VisualStudio;
     using Microsoft.VisualStudio;
     using Microsoft.VisualStudio.Shell.Interop;
+    using StyleCop.VisualStudio;
 
     class MockIVsProject : IVsProject, IVsHierarchy
     {

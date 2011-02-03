@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="SolutionListenerTest.cs" company="Microsoft">
-//   Copyright (c) Microsoft Corporation.
+// <copyright file="SolutionListenerTest.cs">
+//   MS-PL
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -16,11 +16,11 @@ namespace VSPackageUnitTest
 {
     using System;
     using System.Diagnostics;
-    using Microsoft.StyleCop.VisualStudio;
     using Microsoft.VisualStudio;
     using Microsoft.VisualStudio.Shell.Interop;
     using Microsoft.VisualStudio.TestTools.MockObjects;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using StyleCop.VisualStudio;
     using VSPackageUnitTest.Mocks;
 
     /// <summary>
@@ -44,7 +44,7 @@ namespace VSPackageUnitTest
         /// A test for Solution
         /// </summary>
         [TestMethod()]
-        [DeploymentItem("Microsoft.StyleCop.VSPackage.dll")]
+        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void SolutionTest()
         {
             IServiceProvider serviceProvider = this.PrepareServiceProvider();
@@ -57,7 +57,7 @@ namespace VSPackageUnitTest
         /// A test for EventsCookie
         /// </summary>
         [TestMethod()]
-        [DeploymentItem("Microsoft.StyleCop.VSPackage.dll")]
+        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void EventsCookieTest()
         {
             var serviceProvider = new MockServiceProvider();
@@ -77,7 +77,7 @@ namespace VSPackageUnitTest
         /// A test for OnQueryUnloadProject
         /// </summary>
         [TestMethod()]
-        [DeploymentItem("Microsoft.StyleCop.VSPackage.dll")]
+        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void OnQueryUnloadProjectTest()
         {
             IServiceProvider serviceProvider = this.PrepareServiceProvider();
@@ -96,7 +96,7 @@ namespace VSPackageUnitTest
         /// A test for OnQueryCloseSolution
         /// </summary>
         [TestMethod()]
-        [DeploymentItem("Microsoft.StyleCop.VSPackage.dll")]
+        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void OnQueryCloseSolutionTest()
         {
             IServiceProvider serviceProvider = this.PrepareServiceProvider();
@@ -115,7 +115,7 @@ namespace VSPackageUnitTest
         /// A test for OnQueryCloseProject
         /// </summary>
         [TestMethod()]
-        [DeploymentItem("Microsoft.StyleCop.VSPackage.dll")]
+        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void OnQueryCloseProjectTest()
         {
             IServiceProvider serviceProvider = this.PrepareServiceProvider();
@@ -135,7 +135,7 @@ namespace VSPackageUnitTest
         /// A test for OnQueryChangeProjectParent
         /// </summary>
         [TestMethod()]
-        [DeploymentItem("Microsoft.StyleCop.VSPackage.dll")]
+        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void OnQueryChangeProjectParentTest()
         {
             IServiceProvider serviceProvider = this.PrepareServiceProvider();
@@ -155,7 +155,7 @@ namespace VSPackageUnitTest
         /// A test for OnBeforeUnloadProject
         /// </summary>
         [TestMethod()]
-        [DeploymentItem("Microsoft.StyleCop.VSPackage.dll")]
+        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void OnBeforeUnloadProjectTest()
         {
             IServiceProvider serviceProvider = this.PrepareServiceProvider();
@@ -172,7 +172,7 @@ namespace VSPackageUnitTest
         /// A test for OnBeforeOpeningChildren
         /// </summary>
         [TestMethod()]
-        [DeploymentItem("Microsoft.StyleCop.VSPackage.dll")]
+        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void OnBeforeOpeningChildrenTest()
         {
             IServiceProvider serviceProvider = this.PrepareServiceProvider();
@@ -188,7 +188,7 @@ namespace VSPackageUnitTest
         /// A test for OnBeforeClosingChildren
         /// </summary>
         [TestMethod()]
-        [DeploymentItem("Microsoft.StyleCop.VSPackage.dll")]
+        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void OnBeforeClosingChildrenTest()
         {
             IServiceProvider serviceProvider = this.PrepareServiceProvider();
@@ -204,7 +204,7 @@ namespace VSPackageUnitTest
         /// A test for OnBeforeCloseSolution
         /// </summary>
         [TestMethod()]
-        [DeploymentItem("Microsoft.StyleCop.VSPackage.dll")]
+        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void OnBeforeCloseSolutionTest()
         {
             var serviceProvider = new MockServiceProvider();
@@ -223,7 +223,7 @@ namespace VSPackageUnitTest
         /// A test for OnBeforeCloseProject
         /// </summary>
         [TestMethod()]
-        [DeploymentItem("Microsoft.StyleCop.VSPackage.dll")]
+        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void OnBeforeCloseProjectTest()
         {
             IServiceProvider serviceProvider = this.PrepareServiceProvider();
@@ -240,7 +240,7 @@ namespace VSPackageUnitTest
         /// A test for OnAfterRenameProject
         /// </summary>
         [TestMethod()]
-        [DeploymentItem("Microsoft.StyleCop.VSPackage.dll")]
+        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void OnAfterRenameProjectTest()
         {
             IServiceProvider serviceProvider = this.PrepareServiceProvider();
@@ -256,7 +256,7 @@ namespace VSPackageUnitTest
         /// A test for OnAfterOpenSolution
         /// </summary>
         [TestMethod()]
-        [DeploymentItem("Microsoft.StyleCop.VSPackage.dll")]
+        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void OnAfterOpenSolutionTest()
         {
             IServiceProvider serviceProvider = this.PrepareServiceProvider();
@@ -274,7 +274,7 @@ namespace VSPackageUnitTest
         /// A test for OnAfterOpenProject
         /// </summary>
         [TestMethod()]
-        [DeploymentItem("Microsoft.StyleCop.VSPackage.dll")]
+        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void OnAfterOpenProjectTest()
         {
             IServiceProvider serviceProvider = this.PrepareServiceProvider();
@@ -291,7 +291,7 @@ namespace VSPackageUnitTest
         /// A test for OnAfterOpeningChildren
         /// </summary>
         [TestMethod()]
-        [DeploymentItem("Microsoft.StyleCop.VSPackage.dll")]
+        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void OnAfterOpeningChildrenTest()
         {
             IServiceProvider serviceProvider = this.PrepareServiceProvider();
@@ -307,7 +307,7 @@ namespace VSPackageUnitTest
         /// A test for OnAfterMergeSolution
         /// </summary>
         [TestMethod()]
-        [DeploymentItem("Microsoft.StyleCop.VSPackage.dll")]
+        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void OnAfterMergeSolutionTest()
         {
             IServiceProvider serviceProvider = this.PrepareServiceProvider();
@@ -323,7 +323,7 @@ namespace VSPackageUnitTest
         /// A test for OnAfterLoadProject
         /// </summary>
         [TestMethod()]
-        [DeploymentItem("Microsoft.StyleCop.VSPackage.dll")]
+        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void OnAfterLoadProjectTest()
         {
             IServiceProvider serviceProvider = this.PrepareServiceProvider();
@@ -340,7 +340,7 @@ namespace VSPackageUnitTest
         /// A test for OnAfterClosingChildren
         /// </summary>
         [TestMethod()]
-        [DeploymentItem("Microsoft.StyleCop.VSPackage.dll")]
+        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void OnAfterClosingChildrenTest()
         {
             IServiceProvider serviceProvider = this.PrepareServiceProvider();
@@ -356,7 +356,7 @@ namespace VSPackageUnitTest
         /// A test for OnAfterCloseSolution
         /// </summary>
         [TestMethod()]
-        [DeploymentItem("Microsoft.StyleCop.VSPackage.dll")]
+        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void OnAfterCloseSolutionTest()
         {
             IServiceProvider serviceProvider = this.PrepareServiceProvider();
@@ -372,7 +372,7 @@ namespace VSPackageUnitTest
         /// A test for OnAfterChangeProjectParent
         /// </summary>
         [TestMethod()]
-        [DeploymentItem("Microsoft.StyleCop.VSPackage.dll")]
+        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void OnAfterChangeProjectParentTest()
         {
             IServiceProvider serviceProvider = this.PrepareServiceProvider();
@@ -388,7 +388,7 @@ namespace VSPackageUnitTest
         /// A test for OnAfterAsynchOpenProject
         /// </summary>
         [TestMethod()]
-        [DeploymentItem("Microsoft.StyleCop.VSPackage.dll")]
+        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void OnAfterAsynchOpenProjectTest()
         {
             IServiceProvider serviceProvider = this.PrepareServiceProvider();
@@ -405,7 +405,7 @@ namespace VSPackageUnitTest
         /// A test for Initialize
         /// </summary>
         [TestMethod()]
-        [DeploymentItem("Microsoft.StyleCop.VSPackage.dll")]
+        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void InitializeTest()
         {
             var serviceProvider = new MockServiceProvider();
@@ -423,7 +423,7 @@ namespace VSPackageUnitTest
         /// A test for Dispose
         /// </summary>
         [TestMethod()]
-        [DeploymentItem("Microsoft.StyleCop.VSPackage.dll")]
+        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void DisposeTest()
         {
             var serviceProvider = new MockServiceProvider();
@@ -445,7 +445,7 @@ namespace VSPackageUnitTest
         /// A test for SolutionListener Constructor
         /// </summary>
         [TestMethod()]
-        [DeploymentItem("Microsoft.StyleCop.VSPackage.dll")]
+        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void SolutionListenerConstructorTest()
         {
             IServiceProvider serviceProvider = this.PrepareServiceProvider();

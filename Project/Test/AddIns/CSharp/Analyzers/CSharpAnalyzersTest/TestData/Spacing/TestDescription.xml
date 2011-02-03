@@ -8,7 +8,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.SpacingRules">
+        <Analyzer AnalyzerId="StyleCop.CSharp.SpacingRules">
           <Rules>
             <Rule Name="ClosingParenthesisMustBeSpacedCorrectly">
               <RuleSettings>
@@ -61,7 +61,7 @@
             <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
         </GlobalSettings>
         <Analyzers>
-            <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.SpacingRules">
+            <Analyzer AnalyzerId="StyleCop.CSharp.SpacingRules">
                 <Rules>
                     <Rule Name="ClosingCurlyBracketsMustBeSpacedCorrectly">
                         <RuleSettings>
@@ -86,7 +86,7 @@
             <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
         </GlobalSettings>
         <Analyzers>
-            <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.SpacingRules">
+            <Analyzer AnalyzerId="StyleCop.CSharp.SpacingRules">
                 <Rules>
                     <Rule Name="MemberAccessSymbolsMustBeSpacedCorrectly">
                         <RuleSettings>

@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------
-// <copyright file="Accessor.cs" company="Microsoft">
-//   Copyright (c) Microsoft Corporation.
+// <copyright file="Accessor.cs">
+//   MS-PL
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -12,7 +12,7 @@
 //   notice, or any other, from this software.
 // </license>
 //-----------------------------------------------------------------------
-namespace Microsoft.StyleCop.CSharp
+namespace StyleCop.CSharp
 {
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -183,7 +183,7 @@ namespace Microsoft.StyleCop.CSharp
         [SuppressMessage(
             "Microsoft.Globalization", 
             "CA1303:Do not pass literals as localized parameters", 
-            MessageId = "Microsoft.StyleCop.CSharp.CsToken.#ctor(System.String,Microsoft.StyleCop.CSharp.CsTokenType,Microsoft.StyleCop.CSharp.CsTokenClass,Microsoft.StyleCop.CodeLocation,Microsoft.StyleCop.CSharp.Reference<Microsoft.StyleCop.CSharp.ICodePart>,System.Boolean)",
+            MessageId = "StyleCop.CSharp.CsToken.#ctor(System.String,StyleCop.CSharp.CsTokenType,StyleCop.CSharp.CsTokenClass,StyleCop.CodeLocation,StyleCop.CSharp.Reference<StyleCop.CSharp.ICodePart>,System.Boolean)",
             Justification = "void is a standard C# keyword")]
         private static TypeToken CreateVoidTypeToken(Reference<ICodePart> parentReference)
         {

@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="MockTermTable.cs" company="Microsoft">
-//   Copyright (c) Microsoft Corporation.
+// <copyright file="MockTermTable.cs">
+//   MS-PL
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 

@@ -7,8 +7,8 @@
     <SchemaVersion>2.0</SchemaVersion>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Microsoft.StyleCop.VisualStudio</RootNamespace>
-    <AssemblyName>Microsoft.StyleCop.VSPackage</AssemblyName>
+    <RootNamespace>StyleCop.VisualStudio</RootNamespace>
+    <AssemblyName>StyleCop.VSPackage</AssemblyName>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>$(SAAssemblyOriginatorKeyFile)</AssemblyOriginatorKeyFile>
     <DelaySign>$(SADelaySign)</DelaySign>

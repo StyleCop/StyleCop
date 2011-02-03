@@ -1,17 +1,17 @@
 //-----------------------------------------------------------------------
-// <copyright file="ParamCheck.cs" company="Microsoft">
-//   Copyright (c) Microsoft Corporation.
+// <copyright file="ParamCheck.cs">
+//   MS-PL
 // </copyright>
 // <author>Jason Allor</author>
 //-----------------------------------------------------------------------
-namespace Microsoft.StyleCop.Internal
+namespace StyleCop.Internal
 {
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
-    using Microsoft.StyleCop;
-    using Microsoft.StyleCop.CSharp;
+    using StyleCop;
+    using StyleCop.CSharp;
 
     /// <summary>
     /// Checks the usage of the Param class to verify method parameters.

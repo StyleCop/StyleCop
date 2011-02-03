@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="StyleCopVSPackage.cs" company="Microsoft">
-//   Copyright (c) Microsoft Corporation.
+// <copyright file="StyleCopVSPackage.cs">
+//   MS-PL
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -12,15 +12,15 @@
 //   notice, or any other, from this software.
 // </license>
 //-----------------------------------------------------------------------
-namespace Microsoft.StyleCop.VisualStudio
+namespace StyleCop.VisualStudio
 {
     using System;
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
     using System.Runtime.InteropServices;
-    using Microsoft.StyleCop;
     using Microsoft.VisualStudio.Shell;
     using Microsoft.VisualStudio.Shell.Interop;
+    using StyleCop;
 
     /// <summary>
     /// Provides a Visual Studio package for StyleCop.
@@ -29,7 +29,7 @@ namespace Microsoft.StyleCop.VisualStudio
     [DefaultRegistryRoot("Software\\Microsoft\\VisualStudio\\10.0")]
     [InstalledProductRegistration(false, "#110", "#112", "4.4", IconResourceID = 400)]
     [ProvideAutoLoad(/*UICONTEXT_SolutionExists*/ "f1536ef8-92ec-443c-9ed7-fdadf150da82")]
-    [ProvideLoadKey("Standard", "4.4", "Microsoft StyleCop", "Microsoft PLK", 200)]
+    [ProvideLoadKey("Standard", "4.4", "StyleCop", "Microsoft PLK", 200)]
     [ProvideMenuResource(1000, 1)]
     [Guid(GuidList.StyleCopPackageIdString)]
     [SuppressMessage("Microsoft.Maintainability", "CA1506:AvoidExcessiveClassCoupling", Justification = "The class is complex.")]

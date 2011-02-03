@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------
-// <copyright file="V43Settings.cs" company="Microsoft">
-//   Copyright (c) Microsoft Corporation.
+// <copyright file="V43Settings.cs">
+//   MS-PL
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -12,7 +12,7 @@
 //   notice, or any other, from this software.
 // </license>
 //-----------------------------------------------------------------------
-namespace Microsoft.StyleCop
+namespace StyleCop
 {
     using System;
     using System.Collections.Generic;
@@ -535,7 +535,7 @@ namespace Microsoft.StyleCop
 
             if (addInName.StartsWith(LegacyPrefix, StringComparison.Ordinal))
             {
-                return "Microsoft.StyleCop" + addInName.Substring(LegacyPrefix.Length, addInName.Length - LegacyPrefix.Length);
+                return "StyleCop" + addInName.Substring(LegacyPrefix.Length, addInName.Length - LegacyPrefix.Length);
             }
 
             return addInName;

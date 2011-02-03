@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microsoft.StyleCop.SettingsEditor.Properties {
+namespace StyleCop.SettingsEditor.Properties {
     using System;
     
     

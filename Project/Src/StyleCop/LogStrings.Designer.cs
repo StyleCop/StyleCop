@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microsoft.StyleCop {
+namespace StyleCop {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Microsoft.StyleCop {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Microsoft.StyleCop.LogStrings", typeof(LogStrings).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("StyleCop.LogStrings", typeof(LogStrings).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

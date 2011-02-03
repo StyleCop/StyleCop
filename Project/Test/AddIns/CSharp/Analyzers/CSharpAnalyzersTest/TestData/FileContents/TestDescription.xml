@@ -13,7 +13,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
+        <Analyzer AnalyzerId="StyleCop.CSharp.MaintainabilityRules">
           <Rules>
             <Rule Name="FileMayOnlyContainASingleClass">
               <RuleSettings>
@@ -41,7 +41,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.MaintainabilityRules">
+        <Analyzer AnalyzerId="StyleCop.CSharp.MaintainabilityRules">
           <Rules>
             <Rule Name="FileMayOnlyContainASingleNamespace">
               <RuleSettings>

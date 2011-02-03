@@ -8,8 +8,8 @@
     <ProjectGuid>{DE988D84-EAF4-4FD7-A33A-9EE0E6DE752C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Microsoft.StyleCop.CSharp</RootNamespace>
-    <AssemblyName>Microsoft.StyleCop.CSharp.Rules</AssemblyName>
+    <RootNamespace>StyleCop.CSharp</RootNamespace>
+    <AssemblyName>StyleCop.CSharp.Rules</AssemblyName>
     <OldToolsVersion>3.5</OldToolsVersion>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <SignAssembly>true</SignAssembly>

@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="Utilities.cs" company="Microsoft">
-//   Copyright (c) Microsoft Corporation.
+// <copyright file="Utilities.cs">
+//   MS-PL
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -24,7 +24,7 @@ namespace VSPackageUnitTest
     using Microsoft.VisualStudio;
     using Microsoft.VisualStudio.Shell;
     using Microsoft.VisualStudio.Shell.Interop;
-    using Microsoft.StyleCop.VisualStudio;
+    using StyleCop.VisualStudio;
 
     internal static class Utilities
     {

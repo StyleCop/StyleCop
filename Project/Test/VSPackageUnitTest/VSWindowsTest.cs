@@ -1,6 +1,6 @@
 ﻿//--------------------------------------------------------------------------
-// <copyright file="VSWindowsTest.cs" company="Microsoft">
-//   Copyright (c) Microsoft Corporation.
+// <copyright file="VSWindowsTest.cs">
+//   MS-PL
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -14,9 +14,9 @@
 //-----------------------------------------------------------------------
 namespace VSPackageUnitTest
 {
-    using Microsoft.StyleCop.VisualStudio;
     using Microsoft.VisualStudio.TestTools.MockObjects;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using StyleCop.VisualStudio;
     using VSPackageUnitTest.Mocks;
 
     /// <summary>
@@ -32,7 +32,7 @@ namespace VSPackageUnitTest
         /// A test for GetInstance
         /// </summary>
         [TestMethod()]
-        [DeploymentItem("Microsoft.StyleCop.VSPackage.dll")]
+        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void GetInstanceTest()
         {
             VSWindows_Accessor actual = VSWindows_Accessor.GetInstance(this.serviceProvider);

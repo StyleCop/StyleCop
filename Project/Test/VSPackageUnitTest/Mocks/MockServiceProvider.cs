@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="MockServiceProvider.cs" company="Microsoft">
-//   Copyright (c) Microsoft Corporation.
+// <copyright file="MockServiceProvider.cs">
+//   MS-PL
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -16,14 +16,14 @@ namespace VSPackageUnitTest.Mocks
 {
     using System;
     using System.Collections.Generic;
-    using System.Text;
-    using Microsoft.VisualStudio.Shell.Interop;
-    using EnvDTE;
-    using Microsoft.VisualStudio.TextManager.Interop;
-    using Microsoft.VisualStudio.Shell;
     using System.ComponentModel.Design;
     using System.Diagnostics;
+    using System.Text;
+    using EnvDTE;
+    using Microsoft.VisualStudio.Shell;
+    using Microsoft.VisualStudio.Shell.Interop;
     using Microsoft.VisualStudio.TestTools.MockObjects;
+    using Microsoft.VisualStudio.TextManager.Interop;
 
     internal class MockServiceProvider : IServiceProvider
     {

@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="AnalysisThreadTest.cs" company="Microsoft">
-//   Copyright (c) Microsoft Corporation.
+//   MS-PL
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -16,10 +16,10 @@ namespace VSPackageUnitTest
 {
     using System;
     using System.Collections.Generic;
-    using Microsoft.StyleCop;
-    using Microsoft.StyleCop.VisualStudio;
     using Microsoft.VisualStudio.TestTools.MockObjects;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using StyleCop;
+    using StyleCop.VisualStudio;
     
     /// <summary>
     ///This is a test class for AnalysisThreadTest and is intended

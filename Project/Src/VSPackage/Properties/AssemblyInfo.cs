@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="AssemblyInfo.cs" company="Microsoft">
-//   Copyright (c) Microsoft Corporation.
+// <copyright file="AssemblyInfo.cs">
+//   MS-PL
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -21,13 +21,13 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Microsoft StyleCop for Visual Studio")]
+[assembly: AssemblyTitle("StyleCop for Visual Studio")]
 [assembly: AssemblyDescription("StyleCop package for Visual Studio")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft Corporation")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("StyleCop for Visual Studio")]
-[assembly: AssemblyCopyright("Copyright © Microsoft Corporation 2010")]
-[assembly: AssemblyTrademark("Microsoft Corporation")]
+[assembly: AssemblyCopyright("MS-PL")]
+[assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]   
 [assembly: CLSCompliant(false)]
 [assembly: ComVisible(false)]

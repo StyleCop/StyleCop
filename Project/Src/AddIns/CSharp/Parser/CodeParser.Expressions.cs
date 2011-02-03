@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------
-// <copyright file="CodeParser.Expressions.cs" company="Microsoft">
-//   Copyright (c) Microsoft Corporation.
+// <copyright file="CodeParser.Expressions.cs">
+//   MS-PL
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -12,7 +12,7 @@
 //   notice, or any other, from this software.
 // </license>
 //-----------------------------------------------------------------------
-namespace Microsoft.StyleCop.CSharp
+namespace StyleCop.CSharp
 {
     using System;
     using System.Collections;
@@ -23,7 +23,7 @@ namespace Microsoft.StyleCop.CSharp
     using System.Text;
     using System.Threading;
     using System.Xml;
-    using Microsoft.StyleCop;
+    using StyleCop;
 
     /// <content>
     /// Contains code for parsing expressions within a C# code file.
@@ -510,7 +510,7 @@ namespace Microsoft.StyleCop.CSharp
         [SuppressMessage(
             "Microsoft.Globalization", 
             "CA1303:DoNotPassLiteralsAsLocalizedParameters",
-            MessageId = "Microsoft.StyleCop.CSharp.SymbolManager.Combine(System.Int32,System.Int32,System.String,Microsoft.StyleCop.CSharp.SymbolType)",
+            MessageId = "StyleCop.CSharp.SymbolManager.Combine(System.Int32,System.Int32,System.String,StyleCop.CSharp.SymbolType)",
             Justification = "The literal represents a non-localizable C# operator symbol")]
         private Expression GetExpressionExtension(
             Expression leftSide, 

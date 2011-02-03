@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microsoft.StyleCop.CSharp {
+namespace StyleCop.CSharp {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Microsoft.StyleCop.CSharp {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Microsoft.StyleCop.CSharp.TypeNames", typeof(TypeNames).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("StyleCop.CSharp.TypeNames", typeof(TypeNames).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

@@ -1,9 +1,9 @@
-<SourceAnalysisSettings Version="4.2">
+<StyleCopSettings Version="4.3">
   <GlobalSettings>
     <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
   </GlobalSettings>
   <Analyzers>
-    <Analyzer AnalyzerId="Microsoft.SourceAnalysis.CSharp.NamingRules">
+    <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.NamingRules">
       <AnalyzerSettings>
         <CollectionProperty Name="Hungarian">
           <Value>if</Value>
@@ -14,36 +14,15 @@
         </CollectionProperty>
       </AnalyzerSettings>
     </Analyzer>
-    <Analyzer AnalyzerId="Microsoft.SourceAnalysis.CSharp.DocumentationRules">
-      <AnalyzerSettings>
-        <StringProperty Name="CompanyName">Microsoft</StringProperty>
-        <StringProperty Name="Copyright">Copyright (c) Microsoft Corporation.</StringProperty>
-      </AnalyzerSettings>
-    </Analyzer>
-    <Analyzer AnalyzerId="Microsoft.SourceAnalysis.Internal.ParamCheck">
+    <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
       <Rules>
-        <Rule Name="OutParametersMustNotBeVerified">
+        <Rule Name="FileHeaderMustHaveValidCompanyText">
           <RuleSettings>
-            <BooleanProperty Name="Enabled">True</BooleanProperty>
-          </RuleSettings>
-        </Rule>
-        <Rule Name="ParametersMustBeVerified">
-          <RuleSettings>
-            <BooleanProperty Name="Enabled">True</BooleanProperty>
-          </RuleSettings>
-        </Rule>
-        <Rule Name="PrivateMethodsMustUseAsserts">
-          <RuleSettings>
-            <BooleanProperty Name="Enabled">True</BooleanProperty>
-          </RuleSettings>
-        </Rule>
-        <Rule Name="PublicMethodsMustUseRequires">
-          <RuleSettings>
-            <BooleanProperty Name="Enabled">True</BooleanProperty>
+            <BooleanProperty Name="Enabled">False</BooleanProperty>
           </RuleSettings>
         </Rule>
       </Rules>
       <AnalyzerSettings />
     </Analyzer>
   </Analyzers>
-</SourceAnalysisSettings>
+</StyleCopSettings>

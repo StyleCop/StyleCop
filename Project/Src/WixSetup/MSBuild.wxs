@@ -11,16 +11,15 @@
               <Component Id="StyleCopMSBuildBinaries" Guid="855AFA48-D08E-4D77-9809-38C149EA3F2E">
                 
                 <!-- List component files -->
-                <File Id="MBuild_Assembly" Name="Microsoft.StyleCop.dll" Checksum="yes" Vital="yes" />
-                <File Id="MBuild_Targets" Name="Microsoft.StyleCop.Targets" Vital="yes" />
-                <File Id="MBuild_Legacy_Targets" Name="Microsoft.SourceAnalysis.Targets" Vital="yes" />
-                <File Id='MBuild_CSharpParser' Name='Microsoft.StyleCop.CSharp.dll' Checksum="yes" Vital='yes' />
-                <File Id='MBuild_CSharpAnalyzer' Name='Microsoft.StyleCop.CSharp.Rules.dll' Checksum="yes" Vital='yes' />
+                <File Id="MBuild_Assembly" Name="StyleCop.dll" Checksum="yes" Vital="yes" />
+                <File Id="MBuild_Targets" Name="StyleCop.Targets" Vital="yes" />
+                <File Id='MBuild_CSharpParser' Name='StyleCop.CSharp.dll' Checksum="yes" Vital='yes' />
+                <File Id='MBuild_CSharpAnalyzer' Name='StyleCop.CSharp.Rules.dll' Checksum="yes" Vital='yes' />
                 <File Id='MBuild_Settings' Name='Settings.StyleCop' Checksum="yes" Vital='yes' />
 
                 <!-- List component registry settings -->
-                <RegistryValue Root='HKLM' Key='Software\Microsoft\VisualStudio\8.0\MSBuild\SafeImports' Type='string' Name='StyleCop.v$(var.WixVersionShort)' Value='[MSBuildBinDir]Microsoft.StyleCop.Targets' Id='SafeImport_001' />
-                <RegistryValue Root='HKLM' Key='Software\Microsoft\VisualStudio\9.0\MSBuild\SafeImports' Type='string' Name='StyleCop.v$(var.WixVersionShort)' Value='[MSBuildBinDir]Microsoft.StyleCop.Targets' Id='SafeImport_002' />
+                <RegistryValue Root='HKLM' Key='Software\Microsoft\VisualStudio\8.0\MSBuild\SafeImports' Type='string' Name='StyleCop.v$(var.WixVersionShort)' Value='[MSBuildBinDir]StyleCop.Targets' Id='SafeImport_001' />
+                <RegistryValue Root='HKLM' Key='Software\Microsoft\VisualStudio\9.0\MSBuild\SafeImports' Type='string' Name='StyleCop.v$(var.WixVersionShort)' Value='[MSBuildBinDir]StyleCop.Targets' Id='SafeImport_002' />
 
               </Component>
 

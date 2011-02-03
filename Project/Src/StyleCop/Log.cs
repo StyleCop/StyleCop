@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="Log.cs" company="Microsoft">
-//   Copyright (c) Microsoft Corporation.
+// <copyright file="Log.cs">
+//   MS-PL
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -12,7 +12,7 @@
 //   notice, or any other, from this software.
 // </license>
 //-----------------------------------------------------------------------
-namespace Microsoft.StyleCop
+namespace StyleCop
 {
     using System;
     using System.Diagnostics;
@@ -200,7 +200,6 @@ namespace Microsoft.StyleCop
                 Debug.Assert(this.writer == null, "The log file has already been created.");
 
                 string applicationData = System.Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData);
-                applicationData = Path.Combine(applicationData, "Microsoft");
                 applicationData = Path.Combine(applicationData, "StyleCop");
 
                 try

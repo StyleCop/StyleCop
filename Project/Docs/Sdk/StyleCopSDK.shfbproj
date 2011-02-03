@@ -17,17 +17,17 @@
     <OutputPath>.\Help\</OutputPath>
     <HtmlHelpName>StyleCopSDKDocumentation</HtmlHelpName>
     <DocumentationSources>
-      <DocumentationSource sourceFile="..\..\bin\Debug\Microsoft.StyleCop.CSharp.dll" />
-      <DocumentationSource sourceFile="..\..\bin\Debug\Microsoft.StyleCop.CSharp.Rules.dll" />
-      <DocumentationSource sourceFile="..\..\bin\Debug\Microsoft.StyleCop.CSharp.Rules.xml" />
-      <DocumentationSource sourceFile="..\..\bin\Debug\Microsoft.StyleCop.CSharp.xml" />
-      <DocumentationSource sourceFile="..\..\bin\Debug\Microsoft.StyleCop.dll" />
-      <DocumentationSource sourceFile="..\..\bin\Debug\Microsoft.StyleCop.xml" />
+      <DocumentationSource sourceFile="..\..\bin\Debug\StyleCop.CSharp.dll" />
+      <DocumentationSource sourceFile="..\..\bin\Debug\StyleCop.CSharp.Rules.dll" />
+      <DocumentationSource sourceFile="..\..\bin\Debug\StyleCop.CSharp.Rules.xml" />
+      <DocumentationSource sourceFile="..\..\bin\Debug\StyleCop.CSharp.xml" />
+      <DocumentationSource sourceFile="..\..\bin\Debug\StyleCop.dll" />
+      <DocumentationSource sourceFile="..\..\bin\Debug\StyleCop.xml" />
     </DocumentationSources>
     <FrameworkVersion>4.0.30319</FrameworkVersion>
     <HelpTitle>StyleCop SDK Documentation</HelpTitle>
     <MissingTags>Parameter, Returns, AutoDocumentCtors, Namespace, TypeParameter, AutoDocumentDispose</MissingTags>
-    <CopyrightText>(c) 2002-2010 Microsoft Corporation. All Rights Reserved.</CopyrightText>
+    <CopyrightText></CopyrightText>
     <RootNamespaceContainer>True</RootNamespaceContainer>
     <RootNamespaceTitle>API Reference</RootNamespaceTitle>
     <NamingMethod>MemberName</NamingMethod>
