@@ -164,7 +164,7 @@
     <None Include="StyleCop.snk" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(PROJECTROOT)\Tools\msbuild\MS.StyleCop.Build.Targets" />
+  <Import Project="$(PROJECTROOT)\Tools\msbuild\StyleCop.Build.Targets" />
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>

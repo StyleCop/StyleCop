@@ -5,7 +5,6 @@
   <Fragment>
     <DirectoryRef Id="ProgramFilesFolder">
       <Directory Id="Dir_MSBuild" Name="MSBuild">
-        <Directory Id="Dir_MSBuildMS" Name="Microsoft">
           <Directory Id="Dir_MSBuildMSStyleCop" Name="StyleCop">
             <Directory Id="MSBuildBinDir" Name="v$(var.WixVersionShort)" FileSource="$(var.DropDir)">
               <Component Id="StyleCopMSBuildBinaries" Guid="855AFA48-D08E-4D77-9809-38C149EA3F2E">
@@ -28,7 +27,6 @@
                   <File Id='MSBuild_RulesChm' Name='StyleCop.chm' Checksum="yes" Vital='yes' />
                 </Component>
               </Directory>
-            </Directory>
           </Directory>
         </Directory>
       </Directory>
