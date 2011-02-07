@@ -107,9 +107,9 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertNotNull(location, "location");
             Param.Ignore(tokens);
             Param.Ignore(generated);
-            
+
             this.type = type;
-            this.name = name;
+            this.name = CodeLexer.DecodeEscapedText(name, true);
             this.parent = parent;
             this.modifiers = modifiers;
             this.defaultArgument = defaultArgument;

@@ -212,7 +212,8 @@ namespace Microsoft.StyleCop.CSharp
                     token.CsTokenType != CsTokenType.MultiLineComment &&
                     token.CsTokenType != CsTokenType.PreprocessorDirective)
                 {
-                    tokenText.Append(token.Text);
+                    string decodedText = CodeLexer.DecodeEscapedText(token.Text, true);
+                    tokenText.Append(decodedText);
                 }
             }
 

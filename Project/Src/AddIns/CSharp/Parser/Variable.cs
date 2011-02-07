@@ -78,7 +78,7 @@ namespace Microsoft.StyleCop.CSharp
             Param.Ignore(generated);
 
             this.type = type;
-            this.name = name;
+            this.name = CodeLexer.DecodeEscapedText(name, true);
             this.modifiers = modifiers;
             this.location = location;
             this.parent = parent;

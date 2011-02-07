@@ -92,7 +92,7 @@ namespace Microsoft.StyleCop.CSharp
             Param.AssertNotNull(modifiers, "modifiers");
 
             this.tokens = tokens;
-            this.name = name;
+            this.name = CodeLexer.DecodeEscapedText(name, true);
             this.elementType = elementType;
             this.accessModifierType = accessModifierType;
             this.modifiers = modifiers;

@@ -276,6 +276,67 @@ namespace Microsoft.StyleCop.CSharp
 
         #endregion Internal Methods
 
+        #region Internal Static Methods
+
+        /// <summary>
+        /// Decodes escaping characters in specified text.
+        /// </summary>
+        /// <param name="text">The text containing encoded characters.</param>
+        /// <returns>Returns decoded text.</returns>
+        internal static string DecodeEscapedText(string text, bool allowRemoveAt)
+        {
+            // Check whether unescaping is needed.
+            if (!text.Contains("@")
+                && !text.Contains("\\"))
+            {
+                return text;
+            }
+
+            // Perform unescaping process.
+            StringBuilder sb = new StringBuilder();
+            bool canRemoveAt = true;
+            for (int i = 0; i < text.Length; i++)
+            {
+                char c = text[i];
+
+                // Remove "at" sign from beginning.
+                if (allowRemoveAt && canRemoveAt && c == '@')
+                {
+                    canRemoveAt = false;
+                    continue;
+                }
+
+                if (i < text.Length - 5)
+                {
+                    char[] sequence = new char[]
+                    {
+                        c,
+                        text[i + 1],
+                        text[i + 2],
+                        text[i + 3],
+                        text[i + 4],
+                        text[i + 5],
+                    };
+
+                    char value;
+                    if (IsLetterEncoded(sequence, out value))
+                    {
+                        i += 5;
+                        sb.Append(value);
+                        continue;
+                    }
+                }
+
+                canRemoveAt = c == '.';
+
+                sb.Append(c);
+            }
+
+            return sb.ToString();
+        }
+
+        #endregion Internal Static Methods
+
         #region Private Static Methods
 
         /// <summary>
@@ -519,6 +580,55 @@ namespace Microsoft.StyleCop.CSharp
                 category == UnicodeCategory.NonSpacingMark ||
                 category == UnicodeCategory.SpacingCombiningMark ||
                 category == UnicodeCategory.EnclosingMark)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Indicates whether specified character sequence represents encoded character value.
+        /// </summary>
+        /// <param name="sequence">Specified character sequence.</param>
+        /// <param name="character">Reference parameter holding character value.</param>
+        /// <returns>Returns true if code reader contains encoded letter.</returns>
+        private static bool IsLetterEncoded(char[] sequence, out char character)
+        {
+            Param.AssertNotNull(sequence, "sequence");
+
+            character = char.MinValue;
+
+            if (sequence.Length == 6 &&
+                sequence[0] == '\\' &&
+                sequence[1] == 'u' &&
+                IsHexadecimalChar(sequence[2]) &&
+                IsHexadecimalChar(sequence[3]) &&
+                IsHexadecimalChar(sequence[4]) &&
+                IsHexadecimalChar(sequence[5]))
+            {
+                character = (char)Convert.ToInt32(
+                    new string(new char[] { sequence[2], sequence[3], sequence[4], sequence[5] }),
+                    16);
+
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Indicates whether specified character can be used as hexadecimal digit.
+        /// </summary>
+        /// <param name="character">The character.</param>
+        /// <returns>Returns true if the character looks like hexadecimal digit.</returns>
+        private static bool IsHexadecimalChar(char character)
+        {
+            Param.Ignore(character);
+
+            if (Char.IsNumber(character)
+                || character >= 'a' && character <= 'f'
+                || character >= 'A' && character <= 'F')
             {
                 return true;
             }
@@ -989,17 +1099,36 @@ namespace Microsoft.StyleCop.CSharp
             // Loop until we find the end of the word.
             while (true)
             {
-                char character = this.codeReader.Peek();
-                if (character == char.MinValue)
+                // Check whether there is no more code.
+                if (this.codeReader.Peek() == char.MinValue)
                 {
                     break;
                 }
-                else if (IsLetterExtended(character))
+
+                char characterValue = Char.MinValue;
+                char[] characterSequence = null;
+
+                // Read character sequence as well as character value from code reader.
+                // If usual character is being read then sequence array will contain the same character as value.
+                // If Unicode character escape sequence is being read then sequence array will contain
+                // exact characters from the reader and value character will contain character represented by the sequence.
+                if (IsLetterEncoded(ref characterSequence, ref characterValue))
+                {
+                    // All required data has been already stored into variables.
+                }
+                else
+                {
+                    characterValue = this.codeReader.Peek();
+                    characterSequence = new char[] { characterValue };
+                }
+
+                // Decide whether we should stop continuing the current word.
+                if (IsLetterExtended(characterValue))
                 {
                     // Mark that we've seen a letter in this word, and continue.
                     seenLetter = true;
                 }
-                else if (seenLetter && char.IsNumber(character))
+                else if (seenLetter && char.IsNumber(characterValue))
                 {
                     // Numbers are ok as long as we've previously seen at least one
                     // letter in this word.
@@ -1010,10 +1139,34 @@ namespace Microsoft.StyleCop.CSharp
                     break;
                 }
 
-                // Add the character to the text buffer and advance the reader past it.
-                text.Append(character);
-                this.codeReader.ReadNext();
+                // Add the character(s) to the text buffer and advance the reader past it.
+                foreach (char c in characterSequence)
+                {
+                    text.Append(c);
+                    this.codeReader.ReadNext();
+                }
             }
+        }
+
+        /// <summary>
+        /// Checks whether code reader contains encoded letter at the current position.
+        /// </summary>
+        /// <param name="sequence">Reference parameter holding character sequence.</param>
+        /// <param name="character">Reference parameter holding character value.</param>
+        /// <returns>Returns true if code reader contains encoded letter.</returns>
+        private bool IsLetterEncoded(ref char[] sequence, ref char character)
+        {
+            sequence = new char[]
+            {
+                this.codeReader.Peek(0),
+                this.codeReader.Peek(1),
+                this.codeReader.Peek(2),
+                this.codeReader.Peek(3),
+                this.codeReader.Peek(4),
+                this.codeReader.Peek(5)
+            };
+
+            return IsLetterEncoded(sequence, out character);
         }
 
         /// <summary>

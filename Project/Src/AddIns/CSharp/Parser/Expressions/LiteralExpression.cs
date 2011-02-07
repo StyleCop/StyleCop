@@ -97,7 +97,7 @@ namespace Microsoft.StyleCop.CSharp
         /// <returns>Returns the string.</returns>
         public override string ToString()
         {
-            return this.tokenNode.Value.Text;
+            return CodeLexer.DecodeEscapedText(this.tokenNode.Value.Text, false);
         }
 
         #endregion Public Override Methods

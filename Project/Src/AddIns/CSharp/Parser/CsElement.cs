@@ -165,7 +165,7 @@ namespace Microsoft.StyleCop.CSharp
             }
 
             this.type = type;
-            this.name = name;
+            this.name = CodeLexer.DecodeEscapedText(name, true);
             this.header = header;
             this.attributes = attributes;
             this.declaration = declaration;

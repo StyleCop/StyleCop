@@ -144,7 +144,7 @@ namespace Microsoft.StyleCop.CSharp
 
         #region Public Virtual Properties
 
-     /// <summary>
+        /// <summary>
         /// Gets or sets the token string.
         /// </summary>
         public virtual string Text
