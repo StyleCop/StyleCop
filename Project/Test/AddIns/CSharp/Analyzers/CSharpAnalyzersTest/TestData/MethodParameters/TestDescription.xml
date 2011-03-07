@@ -2784,4 +2784,68 @@
       <Violation Section="Root.MethodCallMultiLineParameter.Class1.Method1" LineNumber="105" Rule="ParameterMustNotSpanMultipleLines" />
     </ExpectedViolations>
   </Test>
+  
+  <!-- Tests multi-line parameters to Constructor Initializer -->
+  <Test Name="ConstructorInitializerSpanningMultipleLines">
+        <TestCodeFile>ConstructorInitializerSpanningMultipleLines.cs</TestCodeFile>
+        <Settings>
+            <GlobalSettings>
+                <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+                <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+            </GlobalSettings>
+            <Analyzers>
+                <Analyzer AnalyzerId="StyleCop.CSharp.ReadabilityRules">
+                    <Rules>
+                        <Rule Name="OpeningParenthesisMustBeOnDeclarationLine">
+                            <RuleSettings>
+                                <BooleanProperty Name="Enabled">True</BooleanProperty>
+                            </RuleSettings>
+                        </Rule>
+                        <Rule Name="ClosingParenthesisMustBeOnLineOfLastParameter">
+                            <RuleSettings>
+                                <BooleanProperty Name="Enabled">True</BooleanProperty>
+                            </RuleSettings>
+                        </Rule>
+                        <Rule Name="ClosingParenthesisMustBeOnLineOfOpeningParenthesis">
+                            <RuleSettings>
+                                <BooleanProperty Name="Enabled">True</BooleanProperty>
+                            </RuleSettings>
+                        </Rule>
+                        <Rule Name="CommaMustBeOnSameLineAsPreviousParameter">
+                            <RuleSettings>
+                                <BooleanProperty Name="Enabled">True</BooleanProperty>
+                            </RuleSettings>
+                        </Rule>
+                        <Rule Name="ParameterListMustFollowDeclaration">
+                            <RuleSettings>
+                                <BooleanProperty Name="Enabled">True</BooleanProperty>
+                            </RuleSettings>
+                        </Rule>
+                        <Rule Name="ParameterMustFollowComma">
+                            <RuleSettings>
+                                <BooleanProperty Name="Enabled">True</BooleanProperty>
+                            </RuleSettings>
+                        </Rule>
+                        <Rule Name="SplitParametersMustStartOnLineAfterDeclaration">
+                            <RuleSettings>
+                                <BooleanProperty Name="Enabled">True</BooleanProperty>
+                            </RuleSettings>
+                        </Rule>
+                        <Rule Name="ParametersMustBeOnSameLineOrSeparateLines">
+                            <RuleSettings>
+                                <BooleanProperty Name="Enabled">True</BooleanProperty>
+                            </RuleSettings>
+                        </Rule>
+                        <Rule Name="ParameterMustNotSpanMultipleLines">
+                            <RuleSettings>
+                                <BooleanProperty Name="Enabled">True</BooleanProperty>
+                            </RuleSettings>
+                        </Rule>
+                    </Rules>
+                </Analyzer>
+            </Analyzers>
+        </Settings>
+        <ExpectedViolations>           
+        </ExpectedViolations>
+    </Test>    
 </StyleCopTestDescription>

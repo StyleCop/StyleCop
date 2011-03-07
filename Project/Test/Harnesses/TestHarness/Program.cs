@@ -15,6 +15,7 @@
 namespace StyleCop.TestHarness
 {
     using System;
+    using System.Diagnostics;
     using System.IO;
     using System.Security;
     using System.Xml;
@@ -42,7 +43,6 @@ namespace StyleCop.TestHarness
             string testroot = null;
             string testname = null;
             bool help = false;
-
             foreach (string arg in args)
             {
                 if (arg.StartsWith("/i:", StringComparison.OrdinalIgnoreCase))

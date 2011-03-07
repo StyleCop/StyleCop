@@ -906,8 +906,10 @@ namespace StyleCop.CSharp
 
                 // An anonymous method expression or lambda expression passed in as an argument is always allowed
                 // to span multiple lines. Other types of arguments are not.
+                // Multi line arguments to a constructor initializer are allowed.
                 Expression expression = this.arguments[index].Expression;
-                return expression.ExpressionType == ExpressionType.Lambda || expression.ExpressionType == ExpressionType.AnonymousMethod;
+                
+                return expression.ExpressionType == ExpressionType.Lambda || expression.ExpressionType == ExpressionType.AnonymousMethod || expression.ExpressionType == ExpressionType.New;
             }
         }
 
