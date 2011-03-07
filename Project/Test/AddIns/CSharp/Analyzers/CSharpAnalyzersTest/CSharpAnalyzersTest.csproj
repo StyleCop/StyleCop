@@ -299,7 +299,9 @@
     <Content Include="TestData\FileContents\TestDescription.xml" />
     <Content Include="TestData\FileHeaders\TestDescription.xml" />
     <Content Include="TestData\LineSpacing\TestDescription.xml" />
-    <Content Include="TestData\MethodParameters\TestDescription.xml" />
+    <Content Include="TestData\MethodParameters\TestDescription.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="TestData\Naming\TestDescription.xml" />
     <Content Include="TestData\Parenthesis\TestDescription.xml">
       <SubType>Designer</SubType>

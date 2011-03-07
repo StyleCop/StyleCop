@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="110" xml:space="preserve">
-    <value>Microsoft StyleCop</value>
+    <value>StyleCop</value>
   </data>
   <data name="112" xml:space="preserve">
     <value>Provides source code style and consistency tools.</value>
@@ -134,12 +134,12 @@
     <value>Resources\StyleCop.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="200" xml:space="preserve">
-    <value>E0E8MPI3ZAM8H2EHECADCTHDKJDRCRRPQPAZD8H8HJC8JDI1ZPQRE2HMZREEDEM9RQQDECQTDKA0HTPCARRAKTM8H3AQQAJ9CPIPMPA9RII8AMK8A0AQRDK8Q8CRKKIM</value>
-    <comment>Package Load Key (PLK)	E0E8MPI3ZAM8H2EHECADCTHDKJDRCRRPQPAZD8H8HJC8JDI1ZPQRE2HMZREEDEM9RQQDECQTDKA0HTPCARRAKTM8H3AQQAJ9CPIPMPA9RII8AMK8A0AQRDK8Q8CRKKIM
-Company Name	Microsoft PLK
-Package Name	Microsoft StyleCop
+    <value>APM1C2P1QJMIE1C8J3HPC1PICHQZI9EEJCEEH3H1Q2QEM8DAE0EHCMERCKQAJ0RQDKPDAMM3I0JMPQMRJMHJDJKHA2MIMRJZZRHRKZMKCMI9IEIKZPJMPMP9P0DMHAQQ</value>
+    <comment>Package Load Key (PLK)	APM1C2P1QJMIE1C8J3HPC1PICHQZI9EEJCEEH3H1Q2QEM8DAE0EHCMERCKQAJ0RQDKPDAMM3I0JMPQMRJMHJDJKHA2MIMRJZZRHRKZMKCMI9IEIKZPJMPMP9P0DMHAQQ
+Company Name	stylecop.codeplex.com
+Package Name	StyleCop
 Package GUID	{629EB7CC-69C2-43AC-9BC9-482B0F810C4E}
-PLK Version	4.4
+PLK Version	4.5
 Min. Visual Studio Version	Visual Studio 2008
 Minimum Product Edition	Standard</comment>
   </data>
