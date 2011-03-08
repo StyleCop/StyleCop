@@ -31,15 +31,15 @@ namespace StyleCop.VisualStudio
         #region Private Static Fields
 
         /// <summary>
-        /// System Service provider.
-        /// </summary>
-        private static IServiceProvider serviceProvider;
-
-        /// <summary>
         /// The "project enabled" cache used to prevent costly deep COM interactions after the "project enabled" data has already been collected.
         /// </summary>
         private static readonly Dictionary<string, bool> projectEnabledCache = new Dictionary<string, bool>();
 
+        /// <summary>
+        /// System Service provider.
+        /// </summary>
+        private static IServiceProvider serviceProvider;
+       
         /// <summary>
         /// The EnvDTE class used to register ItemsAdded, ItemsRemoved, and ItemsRenamed events.
         /// </summary>
