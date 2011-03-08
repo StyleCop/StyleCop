@@ -1292,8 +1292,8 @@ namespace StyleCop
                     foreach (string assemblyPath in assemblyPaths)
                     {
                         // We want to skip the StyleCop assemblies.
-                        if (!assemblyPath.EndsWith("\\microsoft.stylecop.dll", StringComparison.OrdinalIgnoreCase) &&
-                            !assemblyPath.EndsWith("\\microsoft.stylecop.vspackage.dll", StringComparison.OrdinalIgnoreCase))
+                        if (!assemblyPath.EndsWith("\\stylecop.dll", StringComparison.OrdinalIgnoreCase) &&
+                            !assemblyPath.EndsWith("\\stylecop.vspackage.dll", StringComparison.OrdinalIgnoreCase))
                         {
                             try
                             {

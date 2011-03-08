@@ -38,12 +38,17 @@ namespace StyleCop.VisualStudio
         /// <summary>
         /// The "project enabled" cache used to prevent costly deep COM interactions after the "project enabled" data has already been collected.
         /// </summary>
-        private static Dictionary<string, bool> projectEnabledCache = new Dictionary<string, bool>();
+        private static readonly Dictionary<string, bool> projectEnabledCache = new Dictionary<string, bool>();
 
         /// <summary>
         /// The EnvDTE class used to register ItemsAdded, ItemsRemoved, and ItemsRenamed events.
         /// </summary>
-        private static ProjectItemsEventsClass projectItemsEvents = new ProjectItemsEventsClass();
+        private static ProjectItemsEvents projectItemsEvents;
+
+        /// <summary>
+        /// The Solution events.
+        /// </summary>
+        private static SolutionEvents solutionEvents;
 
         /// <summary>
         /// Keeps a collection of projects which do not contain the BuildAction property.
@@ -88,13 +93,27 @@ namespace StyleCop.VisualStudio
             Param.AssertNotNull(provider, "provider");
             serviceProvider = provider;
 
+            if (projectItemsEvents == null)
+            {
+                projectItemsEvents = (ProjectItemsEvents)GetDTE().Events.GetObject("ProjectItemsEvents");
+            }
+
+            if (solutionEvents == null)
+            {
+                solutionEvents = GetDTE().Events.SolutionEvents;
+            }
+
             // Our "project enabled cache" is invalidated whenever the projects change, so clear our cached
             // values any time one an event for project changes occur.
             projectItemsEvents.ItemAdded += ProjectItemsEventsClassItemAdded;
             projectItemsEvents.ItemRemoved += ProjectItemsEventsClassItemRemoved;
             projectItemsEvents.ItemRenamed += ProjectItemsEventsClassItemRenamed;
-        }
 
+            solutionEvents.ProjectAdded += SolutionEvents_ProjectAdded;
+            solutionEvents.ProjectRemoved += SolutionEvents_ProjectRemoved;
+            solutionEvents.ProjectRenamed += SolutionEvents_ProjectRenamed;
+        }
+        
         /// <summary>
         /// Gets the VS Document for the given file.
         /// </summary>
@@ -1465,6 +1484,34 @@ namespace StyleCop.VisualStudio
         private static void ProjectItemsEventsClassItemRemoved(ProjectItem projectItem)
         {
             Param.AssertNotNull(projectItem, "projectItem");
+            ClearProjectEnabledCache();
+        }
+
+        /// <summary>
+        /// The SolutionEventsProjectRenamed handler.
+        /// </summary>
+        /// <param name="project">The project that was renamed.</param>
+        /// <param name="oldName">The old name.</param>
+        private static void SolutionEvents_ProjectRenamed(Project project, string oldName)
+        {
+            ClearProjectEnabledCache();
+        }
+
+        /// <summary>
+        /// The SolutionEventsProjectRemoved handler.
+        /// </summary>
+        /// <param name="project">The project that was removed.</param>
+        private static void SolutionEvents_ProjectRemoved(Project project)
+        {
+            ClearProjectEnabledCache();
+        }
+
+        /// <summary>
+        /// The SolutionEventsProjecAdded handler.
+        /// </summary>
+        /// <param name="project">The project that was added.</param>
+        private static void SolutionEvents_ProjectAdded(Project project)
+        {
             ClearProjectEnabledCache();
         }
 

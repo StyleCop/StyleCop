@@ -80,8 +80,8 @@
         <Description>Validates that the code does not contain blank lines at the start of the file.</Description>
       </Rule>
       <Rule Name="CodeMustNotContainBlankLinesAtEndOfFile" CheckId="SA1518">
-        <Context>The code must not contain blank lines at the start of the file.</Context>
-        <Description>Validates that the code does not contain blank lines at the start of the file.</Description>
+        <Context>The code must not contain blank lines at the end of the file.</Context>
+        <Description>Validates that the code does not contain blank lines at the end of the file.</Description>
       </Rule>      
     </RuleGroup>
   </Rules>

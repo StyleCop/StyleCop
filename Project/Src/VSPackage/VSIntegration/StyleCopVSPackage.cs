@@ -64,7 +64,6 @@ namespace StyleCop.VisualStudio
         /// the Initialize method.</remarks>
         public StyleCopVSPackage()
         {
-            ProjectUtilities.Initialize(this);
         }
 
         #endregion Public Constructors
@@ -198,6 +197,8 @@ namespace StyleCop.VisualStudio
                 {
                     throw new InvalidOperationException(Strings.CouldNotGetVSEnvironment);
                 }
+
+                ProjectUtilities.Initialize(this);
 
                 this.Core.Initialize(null, true);
 

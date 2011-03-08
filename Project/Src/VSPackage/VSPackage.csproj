@@ -57,7 +57,7 @@
     <CodeAnalysisRuleSet>..\FxCopRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EnvDTE" />
+    <Reference Include="EnvDTE" />     
     <Reference Include="Microsoft.Build.Framework" />
     <Reference Include="Microsoft.Build.Utilities" />
     <Reference Include="Microsoft.VisualStudio.OLE.Interop">
