@@ -19,7 +19,7 @@
                 <!-- List component registry settings -->
                 <RegistryValue Root='HKLM' Key='Software\Microsoft\VisualStudio\8.0\MSBuild\SafeImports' Type='string' Name='StyleCop.v$(var.WixVersionShort)' Value='[MSBuildBinDir]StyleCop.Targets' Id='SafeImport_001' />
                 <RegistryValue Root='HKLM' Key='Software\Microsoft\VisualStudio\9.0\MSBuild\SafeImports' Type='string' Name='StyleCop.v$(var.WixVersionShort)' Value='[MSBuildBinDir]StyleCop.Targets' Id='SafeImport_002' />
-
+              
               </Component>
 
               <Directory Id="MSBuild_DOCS" Name="Docs" FileSource="$(var.RootDir)\Docs\Bin">
@@ -35,6 +35,7 @@
     <ComponentGroup Id="MSBuild_Common" >
       <ComponentRef Id="StyleCopMSBuildBinaries" />
       <ComponentRef Id="MSBuild_StyleCopDocs" />
+      <ComponentRef Id="StandardRegistryKeys" />
     </ComponentGroup>
 
   </Fragment>
