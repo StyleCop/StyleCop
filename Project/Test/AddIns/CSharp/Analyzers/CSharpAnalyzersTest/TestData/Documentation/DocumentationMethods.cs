@@ -549,5 +549,41 @@ namespace CSharpAnalyzersTest.TestData
         public void InvalidMethod53(int x, int y, int z)
         {
         }
+
+        class StyleCopTest<T, I> : IFooDoStuff<T, I>
+            where T : FooWrapper<I>
+            where I : IFooWrapped
+        {
+            // HACK: The following XML comment will crash StyleCop
+            /// <summary>
+            /// My summary content
+            /// </summary>
+            /// <typeparam name="E">My type param content.</typeparam>
+            /// <returns>My returns content.</returns>
+            E IFooDoStuff<T, I>.DoStuff<E>()
+            {
+                return default(E);
+            }
+
+        }
+
+        class FooWrapper<I>
+        {
+        }
+
+        interface IFooWrapped
+        {
+        }
+
+        public interface IFooDoStuff<T, I>
+            where T : FooWrapper<I>
+            where I : IFooWrapped
+        {
+            E DoStuff<E>() where E : FooDoStuffConstraint;
+        }
+
+        public class FooDoStuffConstraint
+        {
+        }
     }
 }

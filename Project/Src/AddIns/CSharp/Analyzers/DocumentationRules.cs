@@ -231,7 +231,8 @@ namespace StyleCop.CSharp
                         }
                         else
                         {
-                            int closeBracket = name.IndexOf(">", StringComparison.Ordinal);
+                            // Bugfix for 6783. Need to look for the closing angle bracket after the position of the open bracket.
+                            int closeBracket = name.IndexOf(">", index + 1, StringComparison.Ordinal);
                             if (closeBracket != -1)
                             {
                                 types.Add(ExtractGenericTypeParameter(name, index, closeBracket));
