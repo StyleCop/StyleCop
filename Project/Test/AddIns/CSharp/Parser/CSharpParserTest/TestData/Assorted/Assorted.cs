@@ -1,4 +1,4 @@
-namespace MS.StyleCop.CSharpParserTest.TestData
+namespace StyleCop.CSharpParserTest.TestData
 {
     using System;
 

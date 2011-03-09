@@ -1,15 +1,15 @@
 // Usual name.
-namespace Microsoft.StyleCop.CSharp
+namespace StyleCop.CSharp
 {
 }
 
 // Name prefixed with "at" sign.
-namespace @Microsoft.StyleCop.CSharp
+namespace @StyleCop.CSharp
 {
 }
 
 // Names prefixed with "at" sign.
-namespace Microsoft.@StyleCop.@CSharp
+namespace StyleCop.@CSharp
 {
 }
 
@@ -27,7 +27,7 @@ namespace @Micr\u006Fs\u006fft.@StyleCop.CSh\u0061rp
 // - identifiers
 // - charater literals
 // - regular string literals
-namespace Microsoft.StyleCop.CSharp
+namespace StyleCop.CSharp
 {
     class Cl\u0061ss1<TK\u0065y> where TKe\u0079 : IDisposa\u0062le
     {

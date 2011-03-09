@@ -1,6 +1,6 @@
 ﻿<StyleCopCsParserObjectModel>
   <Element Name="Root" Type="DocumentRoot">
-    <Element Name="MS.StyleCop.CSharpParserTest.TestData" Type="Namespace">
+    <Element Name="StyleCop.CSharpParserTest.TestData" Type="Namespace">
       <Element Name="System" Type="UsingDirective" />
       <Element Name="AsType" Type="Class">
         <Element Name="Method" Type="Method">
@@ -143,7 +143,5 @@
         </Element>
       </Element>
     </Element>
-
-  </Element>
-  
+  </Element>  
 </StyleCopCsParserObjectModel>
