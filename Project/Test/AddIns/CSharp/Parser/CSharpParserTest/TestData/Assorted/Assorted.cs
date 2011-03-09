@@ -34,4 +34,13 @@ namespace StyleCop.CSharpParserTest.TestData
         fixed byte data[DATA_SIZE];
         fixed byte data2[1024];
     }
+
+    class Program
+    {
+        static void Main()
+        {
+            // The number one formatted as string
+            1.ToString();
+        }
+    }
 }
