@@ -4125,7 +4125,15 @@ namespace StyleCop.CSharp
                                             {
                                                 // This could be an expression like:
                                                 // from type in x where (type.IsClass) select type;
-                                                if (previousPrecedence != ExpressionPrecedence.Query ||
+                                                // bug 6711
+                                                // if the expression is like:
+                                                // from type in x where true && (type.IsClass) select type;
+                                                // from type in x where true || (type.IsClass) select type;
+                                                // then the previous precendence in not query but ConditionalAnd, ConditionalOr
+                                                if ((previousPrecedence != ExpressionPrecedence.Query &&
+                                                     previousPrecedence != ExpressionPrecedence.ConditionalAnd &&
+                                                     previousPrecedence != ExpressionPrecedence.ConditionalOr &&
+                                                     previousPrecedence != ExpressionPrecedence.Equality) ||
                                                     (nextSymbol.Text != "where" &&
                                                      nextSymbol.Text != "select" &&
                                                      nextSymbol.Text != "group" &&

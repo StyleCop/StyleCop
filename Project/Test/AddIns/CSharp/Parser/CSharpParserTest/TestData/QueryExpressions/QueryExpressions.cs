@@ -1,4 +1,4 @@
-namespace MS.StyleCop.CSharpParserTest.TestData
+namespace StyleCop.CSharpParserTest.TestData
 {
     using System;
 
@@ -73,6 +73,18 @@ namespace MS.StyleCop.CSharpParserTest.TestData
             from itm in new int[] { 1, 2, 3, 4, 5 }
             let i = itm == 1 ? 1 : 0
             select i;
+            
+            // Bug 6711 This was failing because the check for casting thought b.Equals was a cast of select
+            var a = (from b in new int[] { 1, 2, 3, 4, 5}
+            where true && (b.Equals)select b).First();
+
+            // Bug 6711 This was failing because the check for casting thought b.Equals was a cast of select
+            var a = (from b in new int[] { 1, 2, 3, 4, 5}
+            where true || (b.Equals)select b).First();
+
+            // Bug 6711 This was failing because the check for casting thought b.Equals was a cast of select
+            var a = (from b in new int[] { 1, 2, 3, 4, 5}
+            where true != (b.Equals)select b).First();
         }
     }
 }
