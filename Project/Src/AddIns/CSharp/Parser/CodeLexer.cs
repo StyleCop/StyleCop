@@ -1325,8 +1325,8 @@ namespace StyleCop.CSharp
             Symbol token = new Symbol(text.ToString(), SymbolType.String, location);
 
             // Update the marker.
-            this.marker.Index = endIndex + 1;
-            this.marker.IndexOnLine = endIndexOnLine + 1;
+            this.marker.Index = endIndex;
+            this.marker.IndexOnLine = endIndexOnLine;
             this.marker.LineNumber = endLineNumber;
 
             // Return the token.
