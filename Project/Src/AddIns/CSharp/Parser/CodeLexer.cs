@@ -19,7 +19,6 @@ namespace Microsoft.StyleCop.CSharp
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
-    using System.IO;
     using System.Text;
 
     /// <summary>
@@ -101,6 +100,70 @@ namespace Microsoft.StyleCop.CSharp
         }
 
         #endregion Internal Properties
+
+        #region Internal Static Methods
+
+        /// <summary>
+        /// Decodes escaping characters in specified text.
+        /// </summary>
+        /// <param name="text">The text containing encoded characters.</param>
+        /// <param name="allowRemoveAt">True if the at sign can be removed.</param>
+        /// <returns>Returns decoded text.</returns>
+        internal static string DecodeEscapedText(string text, bool allowRemoveAt)
+        {
+            Param.AssertNotNull(text, "text");
+            Param.Ignore(allowRemoveAt);
+
+            // Check whether unescaping is needed.
+            if (!text.Contains("@") && !text.Contains("\\"))
+            {
+                return text;
+            }
+
+            // Perform unescaping process.
+            StringBuilder sb = new StringBuilder();
+            bool canRemoveAt = true;
+            for (int i = 0; i < text.Length; i++)
+            {
+                char c = text[i];
+
+                // Remove "at" sign from beginning.
+                if (allowRemoveAt && canRemoveAt && c == '@')
+                {
+                    canRemoveAt = false;
+                    continue;
+                }
+
+                if (i < text.Length - 5)
+                {
+                    char[] sequence = new char[]
+                    {
+                        c,
+                        text[i + 1],
+                        text[i + 2],
+                        text[i + 3],
+                        text[i + 4],
+                        text[i + 5],
+                    };
+
+                    char value;
+                    if (IsLetterEncoded(sequence, out value))
+                    {
+                        i += 5;
+                        sb.Append(value);
+                        continue;
+                    }
+                }
+
+                canRemoveAt = c == '.';
+
+                sb.Append(c);
+            }
+
+            return sb.ToString();
+        }
+
+        #endregion Internal Static Methods
 
         #region Internal Methods
 
@@ -275,68 +338,7 @@ namespace Microsoft.StyleCop.CSharp
         }
 
         #endregion Internal Methods
-
-        #region Internal Static Methods
-
-        /// <summary>
-        /// Decodes escaping characters in specified text.
-        /// </summary>
-        /// <param name="text">The text containing encoded characters.</param>
-        /// <returns>Returns decoded text.</returns>
-        internal static string DecodeEscapedText(string text, bool allowRemoveAt)
-        {
-            // Check whether unescaping is needed.
-            if (!text.Contains("@")
-                && !text.Contains("\\"))
-            {
-                return text;
-            }
-
-            // Perform unescaping process.
-            StringBuilder sb = new StringBuilder();
-            bool canRemoveAt = true;
-            for (int i = 0; i < text.Length; i++)
-            {
-                char c = text[i];
-
-                // Remove "at" sign from beginning.
-                if (allowRemoveAt && canRemoveAt && c == '@')
-                {
-                    canRemoveAt = false;
-                    continue;
-                }
-
-                if (i < text.Length - 5)
-                {
-                    char[] sequence = new char[]
-                    {
-                        c,
-                        text[i + 1],
-                        text[i + 2],
-                        text[i + 3],
-                        text[i + 4],
-                        text[i + 5],
-                    };
-
-                    char value;
-                    if (IsLetterEncoded(sequence, out value))
-                    {
-                        i += 5;
-                        sb.Append(value);
-                        continue;
-                    }
-                }
-
-                canRemoveAt = c == '.';
-
-                sb.Append(c);
-            }
-
-            return sb.ToString();
-        }
-
-        #endregion Internal Static Methods
-
+        
         #region Private Static Methods
 
         /// <summary>
@@ -626,9 +628,7 @@ namespace Microsoft.StyleCop.CSharp
         {
             Param.Ignore(character);
 
-            if (Char.IsNumber(character)
-                || character >= 'a' && character <= 'f'
-                || character >= 'A' && character <= 'F')
+            if (Char.IsNumber(character) || (character >= 'a' && character <= 'f') || (character >= 'A' && character <= 'F'))
             {
                 return true;
             }
@@ -1156,6 +1156,8 @@ namespace Microsoft.StyleCop.CSharp
         /// <returns>Returns true if code reader contains encoded letter.</returns>
         private bool IsLetterEncoded(ref char[] sequence, ref char character)
         {
+            Param.Ignore(sequence, character);
+
             sequence = new char[]
             {
                 this.codeReader.Peek(0),
