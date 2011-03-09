@@ -148,7 +148,9 @@
     <None Include="TestData\Assorted\TestDescription.xml">
       <SubType>Designer</SubType>
     </None>
-    <None Include="TestData\Assorted\EscapedNamesObjectModel.xml" />
+    <None Include="TestData\Assorted\EscapedNamesObjectModel.xml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="TestData\Assorted\InvalidEscapedName1ObjectModel.xml" />
     <None Include="TestData\Assorted\InvalidEscapedName2ObjectModel.xml" />
     <None Include="TestData\Assorted\InvalidEscapedName3ObjectModel.xml" />

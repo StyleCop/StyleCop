@@ -105,11 +105,7 @@
       <Rule Name="UseShorthandForNullableTypes" CheckId="SA1125">
         <Context>Use the shorthand of the nullable type.</Context>
         <Description>Enforces the use of the shorthand of a nullable type rather than the Nullable&lt;T&gt;.</Description>
-      </Rule>
-      <!--<Rule Name="AvoidVarType" CheckId="SA11##">
-        <Context>The var type reduces code readability and should only be used with anonymous types and query expressions.</Context>
-        <Description>Prohibits the use of the var type outside of anonymous types and query expressions.</Description>
-      </Rule>-->
+      </Rule>      
     </RuleGroup>
     <RuleGroup Name="Strings">
       <Rule Name="UseStringEmptyForEmptyStrings" CheckId="SA1122">
