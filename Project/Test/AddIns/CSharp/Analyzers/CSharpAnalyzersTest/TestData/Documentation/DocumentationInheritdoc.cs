@@ -106,4 +106,50 @@ namespace CSharpAnalyzersTest.InvalidTestData
             public void Method1();
         }
     }
+    public class ValidInheritDoc6
+    {
+        public class InternalClass
+        {
+            /// <inheritdoc />
+            public override bool Equals(object obj)
+            {
+            }
+
+            /// <inheritdoc />
+            public override int GetHashCode()
+            {
+            }
+
+            /// <inheritdoc />
+            public override string ToString()
+            {
+            }
+        }
+    }
+
+    public class InvalidInheritDoc6
+    {
+        public class InternalClass
+        {
+            /// <inheritdoc />
+            public bool Equals(Object obj)
+            {
+            }            
+
+            /// <inheritdoc />
+            public override bool Equals(object obj1, object obj2)
+            {
+            }
+
+            /// <inheritdoc />
+            public override int GetHashCode(string a)
+            {
+            }
+
+            /// <inheritdoc />
+            public override string ToString(bool a)
+            {
+            }
+        }
+    }
 }

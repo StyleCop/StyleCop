@@ -1449,19 +1449,21 @@ namespace StyleCop.CSharp
         {
             Param.AssertNotNull(element, "element");
 
+            var throwViolation = false;
+
             if (element.ElementType == ElementType.Class)
             {
                 Class c = (Class)element;
                 if (string.IsNullOrEmpty(c.BaseClass) && c.ImplementedInterfaces.Count == 0)
                 {
-                    this.AddViolation(element, Rules.InheritDocMustBeUsedWithInheritingClass);
+                    throwViolation = true;
                 }
             }
             else if (element.ElementType == ElementType.Interface || element.ElementType == ElementType.Struct)
             {
                 if (((ClassBase)element).ImplementedInterfaces.Count == 0)
                 {
-                    this.AddViolation(element, Rules.InheritDocMustBeUsedWithInheritingClass);
+                    throwViolation = true;
                 }
             }
             else
@@ -1470,10 +1472,57 @@ namespace StyleCop.CSharp
                 ClassBase parentClass = element.Parent as ClassBase;
                 if (parentClass == null ||
                     ((parentClass.ElementType == ElementType.Class && (string.IsNullOrEmpty(parentClass.BaseClass) && parentClass.ImplementedInterfaces.Count == 0)) ||
-                    ((parentClass.ElementType == ElementType.Interface || parentClass.ElementType == ElementType.Struct) && parentClass.ImplementedInterfaces.Count == 0)))
+                     ((parentClass.ElementType == ElementType.Interface || parentClass.ElementType == ElementType.Struct) && parentClass.ImplementedInterfaces.Count == 0)))
                 {
-                    this.AddViolation(element, Rules.InheritDocMustBeUsedWithInheritingClass);
+                    if (element.ElementType != ElementType.Method)
+                    {
+                        throwViolation = true;
+                    }
+                    else
+                    {
+                        Method item = element as Method;
+
+                        if (!element.Declaration.ContainsModifier(CsTokenType.Override) && !element.Declaration.ContainsModifier(CsTokenType.Public))
+                        {
+                            throwViolation = true;
+                        }
+                        else
+                        {
+                            switch (element.Declaration.Name)
+                            {
+                                case "Equals":
+                                    if (item.ReturnType.Text != "bool" || item.Parameters.Count != 1 || item.Parameters[0].Type.Text != "object")
+                                    {
+                                        throwViolation = true;
+                                    }
+
+                                    break;
+                                case "GetHashCode":
+                                    if (item.ReturnType.Text != "int" || item.Parameters.Count > 0)
+                                    {
+                                        throwViolation = true;
+                                    }
+
+                                    break;
+                                case "ToString":
+                                    if (item.ReturnType.Text != "string" || item.Parameters.Count > 0)
+                                    {
+                                        throwViolation = true;
+                                    }
+
+                                    break;
+                                default:
+                                    throwViolation = true;
+                                    break;
+                            }
+                        }
+                    }
                 }
+            }
+
+            if (throwViolation)
+            {
+                this.AddViolation(element, Rules.InheritDocMustBeUsedWithInheritingClass);
             }
         }
 

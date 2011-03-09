@@ -3085,6 +3085,10 @@
       <Violation Section="Root.CSharpAnalyzersTest.InvalidTestData.InvalidInheritDoc4.Method1" LineNumber="90" Rule="InheritDocMustBeUsedWithInheritingClass" />
       <Violation Section="Root.CSharpAnalyzersTest.InvalidTestData.InvalidInheritDoc5.Method1" LineNumber="98" Rule="InheritDocMustBeUsedWithInheritingClass" />
       <Violation Section="Root.CSharpAnalyzersTest.InvalidTestData.InvalidInheritDoc6.InternalClass.Method1" LineNumber="106" Rule="InheritDocMustBeUsedWithInheritingClass" />
+      <Violation Section="Root.CSharpAnalyzersTest.InvalidTestData.InvalidInheritDoc6.InternalClass.Equals%Object" LineNumber="135" Rule="InheritDocMustBeUsedWithInheritingClass" />
+      <Violation Section="Root.CSharpAnalyzersTest.InvalidTestData.InvalidInheritDoc6.InternalClass.Equals%object%object" LineNumber="140" Rule="InheritDocMustBeUsedWithInheritingClass" />
+      <Violation Section="Root.CSharpAnalyzersTest.InvalidTestData.InvalidInheritDoc6.InternalClass.GetHashCode%string" LineNumber="145" Rule="InheritDocMustBeUsedWithInheritingClass" />
+      <Violation Section="Root.CSharpAnalyzersTest.InvalidTestData.InvalidInheritDoc6.InternalClass.ToString%bool" LineNumber="150" Rule="InheritDocMustBeUsedWithInheritingClass" />
     </ExpectedViolations>
   </Test>
 
