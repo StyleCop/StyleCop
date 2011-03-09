@@ -153,7 +153,10 @@
             </Expression>
           </Statement>
         </Element>
-      </Element>  
+      </Element>
+      <Element Name="MyDictionary&lt;TKey,TValue&gt;" Type="Class">
+        <Element Name="MyDictionary" Type="Constructor" />
+      </Element>
     </Element>
   </Element>  
 </StyleCopCsParserObjectModel>

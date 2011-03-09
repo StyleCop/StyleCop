@@ -43,4 +43,11 @@ namespace StyleCop.CSharpParserTest.TestData
             1.ToString();
         }
     }
+
+    public class MyDictionary<TKey, TValue> : INotifyPropertyChanged, INotifyCollectionChanged, IDictionary<TKey, TValue>, ICollection<KeyValuePair<TKey, TValue>>, IDictionary
+    {
+        public MyDictionary(IDictionary<TKey, TValue> dictionary = null, IEqualityComparer<TKey> comparer = null)
+        {
+        }
+    }
 }
