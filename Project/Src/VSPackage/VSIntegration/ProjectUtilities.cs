@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="ProjectUtilities.cs" company="Microsoft">
-//   Copyright (c) Microsoft Corporation.
+// <copyright file="ProjectUtilities.cs">
+//   MS-PL
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -12,7 +12,7 @@
 //   notice, or any other, from this software.
 // </license>
 //-----------------------------------------------------------------------
-namespace Microsoft.StyleCop.VisualStudio
+namespace StyleCop.VisualStudio
 {
     using System;
     using System.Collections;
@@ -31,19 +31,24 @@ namespace Microsoft.StyleCop.VisualStudio
         #region Private Static Fields
 
         /// <summary>
+        /// The "project enabled" cache used to prevent costly deep COM interactions after the "project enabled" data has already been collected.
+        /// </summary>
+        private static readonly Dictionary<string, bool> projectEnabledCache = new Dictionary<string, bool>();
+
+        /// <summary>
         /// System Service provider.
         /// </summary>
         private static IServiceProvider serviceProvider;
-
-        /// <summary>
-        /// The "project enabled" cache used to prevent costly deep COM interactions after the "project enabled" data has already been collected.
-        /// </summary>
-        private static Dictionary<string, bool> projectEnabledCache = new Dictionary<string, bool>();
-
+       
         /// <summary>
         /// The EnvDTE class used to register ItemsAdded, ItemsRemoved, and ItemsRenamed events.
         /// </summary>
-        private static ProjectItemsEventsClass projectItemsEvents = new ProjectItemsEventsClass();
+        private static ProjectItemsEvents projectItemsEvents;
+
+        /// <summary>
+        /// The Solution events.
+        /// </summary>
+        private static SolutionEvents solutionEvents;
 
         /// <summary>
         /// Keeps a collection of projects which do not contain the BuildAction property.
@@ -88,13 +93,27 @@ namespace Microsoft.StyleCop.VisualStudio
             Param.AssertNotNull(provider, "provider");
             serviceProvider = provider;
 
+            if (projectItemsEvents == null)
+            {
+                projectItemsEvents = (ProjectItemsEvents)GetDTE().Events.GetObject("ProjectItemsEvents");
+            }
+
+            if (solutionEvents == null)
+            {
+                solutionEvents = GetDTE().Events.SolutionEvents;
+            }
+
             // Our "project enabled cache" is invalidated whenever the projects change, so clear our cached
             // values any time one an event for project changes occur.
             projectItemsEvents.ItemAdded += ProjectItemsEventsClassItemAdded;
             projectItemsEvents.ItemRemoved += ProjectItemsEventsClassItemRemoved;
             projectItemsEvents.ItemRenamed += ProjectItemsEventsClassItemRenamed;
-        }
 
+            solutionEvents.ProjectAdded += SolutionEvents_ProjectAdded;
+            solutionEvents.ProjectRemoved += SolutionEvents_ProjectRemoved;
+            solutionEvents.ProjectRenamed += SolutionEvents_ProjectRenamed;
+        }
+        
         /// <summary>
         /// Gets the VS Document for the given file.
         /// </summary>
@@ -345,7 +364,7 @@ namespace Microsoft.StyleCop.VisualStudio
                         codeProject = new CodeProject(
                             document.FullName.GetHashCode(),
                             Path.GetDirectoryName(document.FullName),
-                            new Microsoft.StyleCop.Configuration(null));
+                            new StyleCop.Configuration(null));
                     }
 
                     if (codeProject != null)
@@ -560,7 +579,7 @@ namespace Microsoft.StyleCop.VisualStudio
         /// </summary>
         /// <param name="project">The project.</param>
         /// <returns>Returns the active configuration.</returns>
-        internal static Microsoft.StyleCop.Configuration GetProjectConfiguration(Project project)
+        internal static StyleCop.Configuration GetProjectConfiguration(Project project)
         {
             Param.AssertNotNull(project, "project");
 
@@ -586,7 +605,7 @@ namespace Microsoft.StyleCop.VisualStudio
                                     if (constantList != null)
                                     {
                                         // Add each constants from this configuration and return it.
-                                        return new Microsoft.StyleCop.Configuration(constantList.Split(';'));
+                                        return new StyleCop.Configuration(constantList.Split(';'));
                                     }
                                 }
                             }
@@ -610,7 +629,7 @@ namespace Microsoft.StyleCop.VisualStudio
             }
 
             // There is no active configuration. Just return an empty configuration object.
-            return new Microsoft.StyleCop.Configuration(null);
+            return new StyleCop.Configuration(null);
         }
 
         #endregion Internal Static Methods
@@ -1465,6 +1484,34 @@ namespace Microsoft.StyleCop.VisualStudio
         private static void ProjectItemsEventsClassItemRemoved(ProjectItem projectItem)
         {
             Param.AssertNotNull(projectItem, "projectItem");
+            ClearProjectEnabledCache();
+        }
+
+        /// <summary>
+        /// The SolutionEventsProjectRenamed handler.
+        /// </summary>
+        /// <param name="project">The project that was renamed.</param>
+        /// <param name="oldName">The old name.</param>
+        private static void SolutionEvents_ProjectRenamed(Project project, string oldName)
+        {
+            ClearProjectEnabledCache();
+        }
+
+        /// <summary>
+        /// The SolutionEventsProjectRemoved handler.
+        /// </summary>
+        /// <param name="project">The project that was removed.</param>
+        private static void SolutionEvents_ProjectRemoved(Project project)
+        {
+            ClearProjectEnabledCache();
+        }
+
+        /// <summary>
+        /// The SolutionEventsProjecAdded handler.
+        /// </summary>
+        /// <param name="project">The project that was added.</param>
+        private static void SolutionEvents_ProjectAdded(Project project)
+        {
             ClearProjectEnabledCache();
         }
 

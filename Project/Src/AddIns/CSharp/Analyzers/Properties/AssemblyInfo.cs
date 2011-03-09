@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------
-// <copyright file="AssemblyInfo.cs" company="Microsoft">
-//   Copyright (c) Microsoft Corporation.
+// <copyright file="AssemblyInfo.cs">
+//   MS-PL
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -21,13 +21,13 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Microsoft StyleCop C# Analyzers")]
-[assembly: AssemblyDescription("Source code analyzers for use with Microsoft StyleCop")]
+[assembly: AssemblyTitle("StyleCop C# Analyzers")]
+[assembly: AssemblyDescription("Source code analyzers for use with StyleCop")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft Corporation")]
-[assembly: AssemblyProduct("Microsoft StyleCop")]
-[assembly: AssemblyCopyright("Copyright © Microsoft Corporation 2010")]
-[assembly: AssemblyTrademark("Microsoft StyleCop")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("StyleCop")]
+[assembly: AssemblyCopyright("MS-PL")]
+[assembly: AssemblyTrademark("StyleCop")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 

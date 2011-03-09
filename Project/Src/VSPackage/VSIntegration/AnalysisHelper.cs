@@ -1,6 +1,6 @@
 ﻿//--------------------------------------------------------------------------
-// <copyright file="AnalysisHelper.cs" company="Microsoft">
-//   Copyright (c) Microsoft Corporation.
+// <copyright file="AnalysisHelper.cs">
+//   MS-PL
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -12,7 +12,7 @@
 //   notice, or any other, from this software.
 // </license>
 //-----------------------------------------------------------------------
-namespace Microsoft.StyleCop.VisualStudio
+namespace StyleCop.VisualStudio
 {
     using System;
     using System.Collections.Generic;
@@ -34,7 +34,7 @@ namespace Microsoft.StyleCop.VisualStudio
         /// <summary>
         /// The default maximum number of violations we can encounter in one run before we quit.
         /// </summary>
-        private const int DefaultMaxViolationCount = 1000;
+        private const int DefaultMaxViolationCount = 1500;
 
         #endregion Private Constants
 
@@ -515,14 +515,14 @@ namespace Microsoft.StyleCop.VisualStudio
             {
                 if (this.core.Cancel)
                 {
-                    pane.OutputString(string.Format(
-                        CultureInfo.InvariantCulture, Strings.LogBreak, Strings.Cancelled));
+                    pane.OutputString("\n" + string.Format(
+                        CultureInfo.InvariantCulture, Strings.MiniLogBreak, Strings.Cancelled));
                 }
                 else
                 {
-                    pane.OutputString(string.Format(
-                        CultureInfo.InvariantCulture, Strings.LogBreak, Strings.Done));
-
+                    pane.OutputString("\n" + string.Format(
+                        CultureInfo.InvariantCulture, Strings.MiniLogBreak, Strings.Done));
+                   
                     pane.OutputString(string.Format(CultureInfo.InvariantCulture, Strings.ViolationCount, this.violationCount) + "\n\n\n");
                 }
             }

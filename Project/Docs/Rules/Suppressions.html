@@ -22,7 +22,7 @@
                 <P><i>[SuppressMessage("Rule Category, "Rule Id", "Justification")]</i></P>
                 <P>Where:</P>
                 <ul>
-                    <li><B>Rule Category -</B>The StyleCop rule namespace in which the rule is defined. For example, <I>Microsoft.StyleCop.CSharp.DocumentationRules</I></li>
+                    <li><B>Rule Category -</B>The StyleCop rule namespace in which the rule is defined. For example, <I>StyleCop.CSharp.DocumentationRules</I></li>
                     <li><B>Rule Id -</B>The identifier for the rule, using the format <I>shortname:longname</I>. For example, <I>SA1600:ElementsMustBeDocumented</I></li>
                     <li><B>Justification -</B>The text that is used to document the reason for suppressing the message.</li>
                 </ul>
@@ -43,7 +43,7 @@
                 <p></p>
                 <P><b>Examples:</B></P>
                 <P>The following code suppresses the ElementsMustBeDocumented rule for the given class and all its contents:</P>
-                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes">[SuppressMessage(<SPAN style="COLOR: #a31515">"Microsoft.StyleCop.CSharp.DocumentationRules"</SPAN>, <SPAN style="COLOR: #a31515">"SA1600:ElementsMustBeDocumented"</SPAN>)]<o:p></o:p></SPAN></P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes">[SuppressMessage(<SPAN style="COLOR: #a31515">"StyleCop.CSharp.DocumentationRules"</SPAN>, <SPAN style="COLOR: #a31515">"SA1600:ElementsMustBeDocumented"</SPAN>)]<o:p></o:p></SPAN></P>
                 <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; COLOR: blue; FONT-SIZE: 10pt; mso-no-proof: yes">public</SPAN><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes"> <SPAN style="COLOR: blue">class</SPAN> <SPAN style="COLOR: #2b91af">MyUndocumentedClass<o:p></o:p></SPAN></SPAN></P>
                 <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes">{<o:p></o:p></SPAN></P>
                 <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes"><SPAN style="mso-spacerun: yes">&nbsp;&nbsp; </SPAN><SPAN style="mso-spacerun: yes">&nbsp;</SPAN><SPAN style="COLOR: blue">public</SPAN> <SPAN style="COLOR: blue">void</SPAN> MyUndocumentedMethod<o:p></o:p></SPAN></P>
@@ -62,7 +62,7 @@
                 <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; COLOR: blue; FONT-SIZE: 10pt; mso-no-proof: yes">public</SPAN><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes"> <SPAN style="COLOR: blue">class</SPAN>
                     <SPAN style="COLOR: #2b91af">OuterClass<o:p></o:p></SPAN></SPAN></P>
                 <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes">{<o:p></o:p></SPAN></P>
-                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes">&nbsp;&nbsp;&nbsp; [SuppressMessage(<SPAN style="COLOR: #a31515">"Microsoft.StyleCop.CSharp.DocumentationRules"</SPAN>, <SPAN style="COLOR: #a31515">"*&quot;</SPAN>)]<o:p></o:p></SPAN></P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes">&nbsp;&nbsp;&nbsp; [SuppressMessage(<SPAN style="COLOR: #a31515">"StyleCop.CSharp.DocumentationRules"</SPAN>, <SPAN style="COLOR: #a31515">"*&quot;</SPAN>)]<o:p></o:p></SPAN></P>
                 <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; COLOR: blue; FONT-SIZE: 10pt; mso-no-proof: yes">&nbsp;&nbsp;&nbsp; public</SPAN><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes"> <SPAN style="COLOR: blue">class</SPAN>
                     <SPAN style="COLOR: #2b91af">InnerClass<o:p></o:p></SPAN></SPAN></P>
                 <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes">&nbsp;&nbsp;&nbsp; {<o:p></o:p></SPAN></P>

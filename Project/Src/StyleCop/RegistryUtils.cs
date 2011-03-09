@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------
-// <copyright file="RegistryUtils.cs" company="Microsoft">
-//   Copyright (c) Microsoft Corporation.
+// <copyright file="RegistryUtils.cs">
+//   MS-PL
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -12,7 +12,7 @@
 //   notice, or any other, from this software.
 // </license>
 //-----------------------------------------------------------------------
-namespace Microsoft.StyleCop
+namespace StyleCop
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
@@ -63,7 +63,7 @@ namespace Microsoft.StyleCop
             // Demand our permissions
             Permissions.Demand();
 
-            string path = @"Software\Microsoft\" + ApplicationAcronym;
+            string path = @"Software\" + ApplicationAcronym;
             this.curoot = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(path, true);
             if (null == this.curoot)
             {

@@ -127,13 +127,13 @@
     <value>Build Integration</value>
   </data>
   <data name="Cancelled" xml:space="preserve">
-    <value>Cancelled</value>
+    <value>StyleCop cancelled</value>
   </data>
   <data name="CantGetProjectPath" xml:space="preserve">
     <value>Unable to get the path to the project.</value>
   </data>
   <data name="CouldNotGetVSEnvironment" xml:space="preserve">
-    <value>Microsoft StyleCop could not get the Visual Studio environment service.</value>
+    <value>StyleCop could not get the Visual Studio environment service.</value>
   </data>
   <data name="CouldNotNavigateToFile" xml:space="preserve">
     <value>Could not navigate to the file.</value>
@@ -142,7 +142,7 @@
     <value>The file {0} could not be saved. Cancelling StyleCop.</value>
   </data>
   <data name="Done" xml:space="preserve">
-    <value>Done</value>
+    <value>StyleCop completed</value>
   </data>
   <data name="EmptyChildNode" xml:space="preserve">
     <value>Found an empty child node '{0}'.</value>
@@ -177,7 +177,7 @@
     <value>No files to analyze</value>
   </data>
   <data name="NoInvisbileForm" xml:space="preserve">
-    <value>Microsoft StyleCop could not get the invisible form.</value>
+    <value>StyleCop could not get the invisible form.</value>
     <comment>Internal violation. SHOULD NEVER BE SURFACED TO THE USER</comment>
   </data>
   <data name="NoProjectKindNodeFound" xml:space="preserve">
@@ -193,7 +193,7 @@
     <value>StyleCop started</value>
   </data>
   <data name="Title" xml:space="preserve">
-    <value>Microsoft StyleCop</value>
+    <value>StyleCop</value>
   </data>
   <data name="UnableToGetProjectPath" xml:space="preserve">
     <value>Unable to get the path to the project.</value>
@@ -202,7 +202,7 @@
     <value>The file is unknown.</value>
   </data>
   <data name="ViolationCount" xml:space="preserve">
-    <value>Violation Count: {0}</value>
+    <value>========== Violation Count: {0} ==========</value>
   </data>
   <data name="ViolationWindowCaption" xml:space="preserve">
     <value>StyleCop</value>

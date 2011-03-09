@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------
-// <copyright file="StyleCopThread.cs" company="Microsoft">
-//   Copyright (c) Microsoft Corporation.
+// <copyright file="StyleCopThread.cs">
+//   MS-PL
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -12,7 +12,7 @@
 //   notice, or any other, from this software.
 // </license>
 //-----------------------------------------------------------------------
-namespace Microsoft.StyleCop
+namespace StyleCop
 {
     using System;
     using System.Collections.Generic;
@@ -224,7 +224,7 @@ namespace Microsoft.StyleCop
             // Signal the output for this document.
             this.data.Core.SignalOutput(
                 MessageImportance.Low,
-                string.Format(CultureInfo.CurrentCulture, "Pass {0}: {1}...\n", this.data.PassNumber + 1, sourceCode.Name));
+                string.Format(CultureInfo.CurrentCulture, "Pass {0}: {1}\n", this.data.PassNumber + 1, sourceCode.Name));
 
             // Extract the document to parse.
             CodeDocument parsedDocument = documentStatus.Document;

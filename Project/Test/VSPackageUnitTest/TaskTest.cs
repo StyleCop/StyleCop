@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="TaskTest.cs" company="Microsoft">
-//   Copyright (c) Microsoft Corporation.
+// <copyright file="TaskTest.cs">
+//   MS-PL
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -14,9 +14,9 @@
 //-----------------------------------------------------------------------
 namespace VSPackageUnitTest
 {
-    using Microsoft.StyleCop.VisualStudio;
     using Microsoft.VisualStudio.Shell.Interop;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using StyleCop.VisualStudio;
     using VSPackageUnitTest.Mocks;
 
     [TestClass()]

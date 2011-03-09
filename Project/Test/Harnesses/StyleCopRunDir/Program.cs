@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="Program.cs" company="Microsoft">
-//   Copyright (c) Microsoft Corporation.
+// <copyright file="Program.cs">
+//   MS-PL
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -12,15 +12,15 @@
 //   notice, or any other, from this software.
 // </license>
 //-----------------------------------------------------------------------
-namespace MS.StyleCop.StyleCopRunDir
+namespace StyleCop.StyleCopRunDir
 {
     using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
     using System.IO;
     using System.Reflection;
     using System.Xml;
-    using Microsoft.StyleCop;
-    using System.Diagnostics;
-    using System.Collections.Generic;
+    using StyleCop;
 
     /// <summary>
     /// The main entrypoint into the program.

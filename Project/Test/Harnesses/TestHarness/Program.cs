@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------
-// <copyright file="Program.cs" company="Microsoft">
-//   Copyright (c) Microsoft Corporation.
+// <copyright file="Program.cs">
+//   MS-PL
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -12,9 +12,10 @@
 //   notice, or any other, from this software.
 // </license>
 //-----------------------------------------------------------------------
-namespace MS.StyleCop.TestHarness
+namespace StyleCop.TestHarness
 {
     using System;
+    using System.Diagnostics;
     using System.IO;
     using System.Security;
     using System.Xml;
@@ -42,7 +43,6 @@ namespace MS.StyleCop.TestHarness
             string testroot = null;
             string testname = null;
             bool help = false;
-
             foreach (string arg in args)
             {
                 if (arg.StartsWith("/i:", StringComparison.OrdinalIgnoreCase))

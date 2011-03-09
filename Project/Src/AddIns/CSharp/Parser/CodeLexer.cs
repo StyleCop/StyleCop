@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------
-// <copyright file="CodeLexer.cs" company="Microsoft">
-//   Copyright (c) Microsoft Corporation.
+// <copyright file="CodeLexer.cs">
+//   MS-PL
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -12,7 +12,7 @@
 //   notice, or any other, from this software.
 // </license>
 //-----------------------------------------------------------------------
-namespace Microsoft.StyleCop.CSharp
+namespace StyleCop.CSharp
 {
     using System;
     using System.Collections.Generic;
@@ -1178,7 +1178,7 @@ namespace Microsoft.StyleCop.CSharp
         [SuppressMessage(
             "Microsoft.Globalization", 
             "CA1303:DoNotPassLiteralsAsLocalizedParameters",
-            MessageId = "Microsoft.StyleCop.CSharp.Symbol.#ctor(System.String,Microsoft.StyleCop.CSharp.SymbolType,Microsoft.StyleCop.CodeLocation)",
+            MessageId = "StyleCop.CSharp.Symbol.#ctor(System.String,StyleCop.CSharp.SymbolType,StyleCop.CodeLocation)",
             Justification = "The literal is a non-localizable newline character")]
         private Symbol GetNewLine()
         {
@@ -1480,8 +1480,8 @@ namespace Microsoft.StyleCop.CSharp
             Symbol token = new Symbol(text.ToString(), SymbolType.String, location);
 
             // Update the marker.
-            this.marker.Index = endIndex + 1;
-            this.marker.IndexOnLine = endIndexOnLine + 1;
+            this.marker.Index = endIndex;
+            this.marker.IndexOnLine = endIndexOnLine;
             this.marker.LineNumber = endLineNumber;
 
             // Return the token.

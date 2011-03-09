@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="ProjectCollectionTest.cs" company="Microsoft">
-//   Copyright (c) Microsoft Corporation.
+// <copyright file="ProjectCollectionTest.cs">
+//   MS-PL
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -16,9 +16,9 @@ namespace VSPackageUnitTest
 {
     using System.Collections;
     using EnvDTE;
-    using Microsoft.StyleCop.VisualStudio;
     using Microsoft.VisualStudio.TestTools.MockObjects;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using StyleCop.VisualStudio;
 
     /// <summary>
     ///This is a test class for ProjectCollectionTest and is intended
@@ -26,7 +26,7 @@ namespace VSPackageUnitTest
     ///</summary>
     [TestClass()]
     [DeploymentItem("Microsoft.VisualStudio.QualityTools.MockObjectFramework.dll")]
-    [DeploymentItem("Microsoft.StyleCop.VSPackage.dll")]
+    [DeploymentItem("StyleCop.VSPackage.dll")]
     public class ProjectCollectionTest
     {
         /// <summary>

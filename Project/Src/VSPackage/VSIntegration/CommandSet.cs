@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------
-// <copyright file="CommandSet.cs" company="Microsoft">
-//  Copyright (c) Microsoft Corporation.
+// <copyright file="CommandSet.cs">
+//  MS-PL
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -12,14 +12,14 @@
 //   notice, or any other, from this software.
 // </license>
 //-----------------------------------------------------------------------
-namespace Microsoft.StyleCop.VisualStudio
+namespace StyleCop.VisualStudio
 {
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.ComponentModel.Design;
-    using Microsoft.StyleCop;
     using Microsoft.VisualStudio.Shell;
+    using StyleCop;
 
     /// <summary>
     /// Abstract CommandSet.

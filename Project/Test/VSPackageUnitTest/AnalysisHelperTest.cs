@@ -1,6 +1,6 @@
 ﻿//--------------------------------------------------------------------------
 // <copyright file="AnalysisHelperTest.cs" company="Microsoft">
-//   Copyright (c) Microsoft Corporation.
+//   MS-PL
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -15,12 +15,12 @@
 namespace VSPackageUnitTest
 {
     using System;
-    using Microsoft.StyleCop.VisualStudio;
     using Microsoft.VisualStudio.Shell.Interop;
     using Microsoft.VisualStudio.TestTools.MockObjects;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using VSPackageUnitTest.Mocks;
-    using Microsoft.StyleCop;
+    using StyleCop;
+    using StyleCop.VisualStudio;
 
     /// <summary>
     ///This is a test class for AnalysisHelperTest and is intended
@@ -33,7 +33,7 @@ namespace VSPackageUnitTest
         ///A test for AnalysisHelper Constructor
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("Microsoft.StyleCop.VSPackage.dll")]
+        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void AnalysisHelperConstructorTest()
         {
             IServiceProvider serviceProvider = new MockServiceProvider();
@@ -49,7 +49,7 @@ namespace VSPackageUnitTest
         ///A test for AnalysisSupported
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("Microsoft.StyleCop.VSPackage.dll")]
+        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void AnalysisSupportedSingleItemTrueTest()
         {
             IVsHierarchy hierarchy = CreateHierarchyItem("MyCodeFile.cs");
@@ -62,7 +62,7 @@ namespace VSPackageUnitTest
         ///A test for AnalysisSupported
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("Microsoft.StyleCop.VSPackage.dll")]
+        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void AnalysisSupportedSingleItemFalseCppTest()
         {
             IVsHierarchy hierarchy = CreateHierarchyItem("MyCodeFile.cpp");
@@ -75,7 +75,7 @@ namespace VSPackageUnitTest
         ///A test for AnalysisSupported
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("Microsoft.StyleCop.VSPackage.dll")]
+        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void AnalysisSupportedSingleItemTrueCppTest()
         {
             IVsHierarchy hierarchy = CreateHierarchyItem("MyProjectFile.csproj");
@@ -88,7 +88,7 @@ namespace VSPackageUnitTest
         ///A test for AnalysisSupported
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("Microsoft.StyleCop.VSPackage.dll")]
+        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void AnalysisSupportedMultiSelectionItemTrueTest()
         {
             IVsMultiItemSelect multiSelection = null; // TODO: Initialize to an appropriate value
@@ -101,7 +101,7 @@ namespace VSPackageUnitTest
         ///A test for AnalysisSupported
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("Microsoft.StyleCop.VSPackage.dll")]
+        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void AnalysisSupportedMultiSelectionItemFalseTest()
         {
             IVsMultiItemSelect multiSelection = null; // TODO: Initialize to an appropriate value

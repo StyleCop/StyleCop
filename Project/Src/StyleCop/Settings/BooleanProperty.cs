@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------
-// <copyright file="BooleanProperty.cs" company="Microsoft">
-//   Copyright (c) Microsoft Corporation.
+// <copyright file="BooleanProperty.cs">
+//   MS-PL
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -12,7 +12,7 @@
 //   notice, or any other, from this software.
 // </license>
 //-----------------------------------------------------------------------
-namespace Microsoft.StyleCop
+namespace StyleCop
 {
     /// <summary>
     /// A boolean property.

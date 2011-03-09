@@ -1,6 +1,6 @@
 ﻿//--------------------------------------------------------------------------
 // <copyright file="InvisibleFormTest.cs" company="Microsoft">
-//   Copyright (c) Microsoft Corporation.
+//   MS-PL
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -14,9 +14,9 @@
 //-----------------------------------------------------------------------
 namespace VSPackageUnitTest
 {
-    using Microsoft.StyleCop.VisualStudio;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System.Windows.Forms;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using StyleCop.VisualStudio;
 
     /// <summary>
     /// This is a test class for InvisibleFormTest and is intended
@@ -29,7 +29,7 @@ namespace VSPackageUnitTest
         /// A test for Instance
         /// </summary>
         [TestMethod()]
-        [DeploymentItem("Microsoft.StyleCop.VSPackage.dll")]
+        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void InstanceTest()
         {
             InvisibleForm_Accessor actual;

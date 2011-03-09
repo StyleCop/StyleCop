@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------
-// <copyright file="CodeParser.cs" company="Microsoft">
-//   Copyright (c) Microsoft Corporation.
+// <copyright file="CodeParser.cs">
+//   MS-PL
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -12,7 +12,7 @@
 //   notice, or any other, from this software.
 // </license>
 //-----------------------------------------------------------------------
-namespace Microsoft.StyleCop.CSharp
+namespace StyleCop.CSharp
 {
     using System;
     using System.Collections;
@@ -26,7 +26,7 @@ namespace Microsoft.StyleCop.CSharp
     using System.Text;
     using System.Threading;
     using System.Xml;
-    using Microsoft.StyleCop;
+    using StyleCop;
 
     /// <summary>
     /// Parses a C# code file.

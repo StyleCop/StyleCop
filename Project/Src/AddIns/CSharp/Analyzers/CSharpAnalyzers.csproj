@@ -8,8 +8,8 @@
     <ProjectGuid>{DE988D84-EAF4-4FD7-A33A-9EE0E6DE752C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Microsoft.StyleCop.CSharp</RootNamespace>
-    <AssemblyName>Microsoft.StyleCop.CSharp.Rules</AssemblyName>
+    <RootNamespace>StyleCop.CSharp</RootNamespace>
+    <AssemblyName>StyleCop.CSharp.Rules</AssemblyName>
     <OldToolsVersion>3.5</OldToolsVersion>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <SignAssembly>true</SignAssembly>
@@ -199,8 +199,8 @@
     </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(PROJECTROOT)\Tools\msbuild\MS.StyleCop.Build.Targets" />
-  <Import Project="$(PROJECTROOT)\Tools\msbuild\Microsoft.StyleCop.Shipping.Targets" />
+  <Import Project="$(PROJECTROOT)\Tools\msbuild\StyleCop.Build.Targets" />
+  <Import Project="$(PROJECTROOT)\Tools\msbuild\StyleCop.Shipping.Targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy /y "$(TargetPath)" "$(TestBin)"</PostBuildEvent>
   </PropertyGroup>
@@ -209,7 +209,7 @@
   <Target Name="BeforeBuild">
   </Target>
   <Target Name="AfterBuild">
-	Dont use this here - Used in Microsoft.StyleCop.Shipping.Targets
+	Dont use this here - Used in StyleCop.Shipping.Targets
   </Target>
   -->
 </Project>

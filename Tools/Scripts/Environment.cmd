@@ -74,9 +74,9 @@ set WixToolsDirectory=%ENLISTMENTROOT%\Tools\wix\wix.3.5.1526.0
 REM --------------------------------------------------------------------------------------
 REM Set up the Signing environment variables
 
-set SAAssemblyOriginatorKeyFile=%PROJECTROOT%\src\35MSSharedLib1024.snk
+set SAAssemblyOriginatorKeyFile=%PROJECTROOT%\src\StyleCop.snk
 set SAInternalKeyFile=%PROJECTROOT%\src\StyleCop.snk
-set SADelaySign=true
+set SADelaySign=false
 
 REM --------------------------------------------------------------------------------------
 REM Set path and user environment

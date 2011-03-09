@@ -8,7 +8,7 @@
     <ProjectGuid>{C938AB10-78BE-46FC-8ACF-00D02C576BAF}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MS.StyleCop.PerfHarness</RootNamespace>
+    <RootNamespace>StyleCop.PerfHarness</RootNamespace>
     <AssemblyName>StyleCopPerfHarness</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

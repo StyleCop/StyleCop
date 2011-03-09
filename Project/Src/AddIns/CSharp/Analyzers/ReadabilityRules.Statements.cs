@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------
-// <copyright file="ReadabilityRules.Statements.cs" company="Microsoft">
-//   Copyright (c) Microsoft Corporation.
+// <copyright file="ReadabilityRules.Statements.cs">
+//   MS-PL
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -12,12 +12,12 @@
 //   notice, or any other, from this software.
 // </license>
 //-----------------------------------------------------------------------
-namespace Microsoft.StyleCop.CSharp
+namespace StyleCop.CSharp
 {
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
-    using Microsoft.StyleCop;
+    using StyleCop;
 
     /// <content>
     /// Checks rules related to formatting of statements.

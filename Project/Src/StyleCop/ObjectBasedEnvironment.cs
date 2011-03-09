@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="ObjectBasedEnvironment.cs" company="Microsoft">
-//   Copyright (c) Microsoft Corporation.
+// <copyright file="ObjectBasedEnvironment.cs">
+//   MS-PL
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -12,7 +12,7 @@
 //   notice, or any other, from this software.
 // </license>
 //-----------------------------------------------------------------------
-namespace Microsoft.StyleCop
+namespace StyleCop
 {
     using System;
     using System.Collections.Generic;
@@ -61,6 +61,11 @@ namespace Microsoft.StyleCop
         /// Callback which is used to retrieve Settings objects on demand.
         /// </summary>
         private ProjectSettingsFactory settingsFactory;
+
+        /// <summary>
+        /// The path to the default settings file, if any.
+        /// </summary>
+        private string defaultSettingsFilePath;
 
         #endregion Private Fields
 
@@ -241,8 +246,37 @@ namespace Microsoft.StyleCop
         /// <returns>Returns the path or an empty string if there is none.</returns>
         public override string GetDefaultSettingsPath()
         {
-            // The default object-based environment does not support the concept of a default settings path.
-            return null;
+            if (this.defaultSettingsFilePath == null)
+            {
+                this.defaultSettingsFilePath = string.Empty;
+                string location = Assembly.GetExecutingAssembly().Location;
+
+                if (!string.IsNullOrEmpty(location))
+                {
+                    string directoryName = Path.GetDirectoryName(location);
+
+                    if (!string.IsNullOrEmpty(directoryName) && Directory.Exists(directoryName))
+                    {
+                        string path = Path.Combine(directoryName, "Settings.StyleCop");
+
+                        if (File.Exists(path))
+                        {
+                            this.defaultSettingsFilePath = path;
+                        }
+                        else
+                        {
+                            path = Path.Combine(directoryName, "Settings.SourceAnalysis");
+
+                            if (File.Exists(path))
+                            {
+                                this.defaultSettingsFilePath = path;
+                            }
+                        }
+                    }
+                }
+            }
+
+            return this.defaultSettingsFilePath;
         }
 
         /// <summary>

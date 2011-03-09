@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------
-// <copyright file="ReadabilityRules.ClassMembers.cs" company="Microsoft">
-//   Copyright (c) Microsoft Corporation.
+// <copyright file="ReadabilityRules.ClassMembers.cs">
+//   MS-PL
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -12,12 +12,12 @@
 //   notice, or any other, from this software.
 // </license>
 //-----------------------------------------------------------------------
-namespace Microsoft.StyleCop.CSharp
+namespace StyleCop.CSharp
 {
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
-    using Microsoft.StyleCop;
+    using StyleCop;
 
     /// <content>
     /// Checks rules related to class member calls.

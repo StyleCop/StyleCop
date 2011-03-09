@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="AssemblyInfo.cs" company="Microsoft">
-//   Copyright (c) Microsoft Corporation.
+// <copyright file="AssemblyInfo.cs">
+//   MS-PL
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -24,9 +24,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("StyleCopSettingsEditor")]
 [assembly: AssemblyDescription("Displays StyleCop project settings")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("StyleCopSettingsEditor")]
-[assembly: AssemblyCopyright("Copyright © Microsoft Corp 2010")]
+[assembly: AssemblyCopyright("MS-PL")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

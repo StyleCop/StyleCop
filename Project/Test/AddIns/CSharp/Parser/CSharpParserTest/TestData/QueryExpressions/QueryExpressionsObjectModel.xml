@@ -1,6 +1,6 @@
 ﻿<StyleCopCsParserObjectModel>
   <Element Name="Root" Type="DocumentRoot">
-    <Element Name="MS.StyleCop.CSharpParserTest.TestData" Type="Namespace">
+    <Element Name="StyleCop.CSharpParserTest.TestData" Type="Namespace">
       <Element Name="System" Type="UsingDirective" />
       <Element Name="QueryExpressions" Type="Class">
         <Element Name="Method" Type="Method">
@@ -212,6 +212,123 @@
               </Expression>
             </Expression>
           </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="var" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="a" Type="LiteralExpression" />
+                <Expression Type="MethodInvocationExpression">
+                  <Expression Type="MemberAccessExpression">
+                    <Expression Type="ParenthesizedExpression">
+                      <Expression Type="QueryExpression">
+                        <Expression Type="NewArrayExpression">
+                          <Expression Type="ArrayAccessExpression">
+                            <Expression Text="int" Type="LiteralExpression" />
+                          </Expression>
+                          <Expression Type="ArrayInitializerExpression">
+                            <Expression Text="1" Type="LiteralExpression" />
+                            <Expression Text="2" Type="LiteralExpression" />
+                            <Expression Text="3" Type="LiteralExpression" />
+                            <Expression Text="4" Type="LiteralExpression" />
+                            <Expression Text="5" Type="LiteralExpression" />
+                          </Expression>
+                        </Expression>
+                        <Expression Type="ConditionalLogicalExpression">
+                          <Expression Text="true" Type="LiteralExpression" />
+                          <Expression Type="ParenthesizedExpression">
+                            <Expression Type="MemberAccessExpression">
+                              <Expression Text="b" Type="LiteralExpression" />
+                              <Expression Text="Equals" Type="LiteralExpression" />
+                            </Expression>
+                          </Expression>
+                        </Expression>
+                        <Expression Text="b" Type="LiteralExpression" />
+                      </Expression>
+                    </Expression>
+                    <Expression Text="First" Type="LiteralExpression" />
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+<Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="var" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="a" Type="LiteralExpression" />
+                <Expression Type="MethodInvocationExpression">
+                  <Expression Type="MemberAccessExpression">
+                    <Expression Type="ParenthesizedExpression">
+                      <Expression Type="QueryExpression">
+                        <Expression Type="NewArrayExpression">
+                          <Expression Type="ArrayAccessExpression">
+                            <Expression Text="int" Type="LiteralExpression" />
+                          </Expression>
+                          <Expression Type="ArrayInitializerExpression">
+                            <Expression Text="1" Type="LiteralExpression" />
+                            <Expression Text="2" Type="LiteralExpression" />
+                            <Expression Text="3" Type="LiteralExpression" />
+                            <Expression Text="4" Type="LiteralExpression" />
+                            <Expression Text="5" Type="LiteralExpression" />
+                          </Expression>
+                        </Expression>
+                        <Expression Type="ConditionalLogicalExpression">
+                          <Expression Text="true" Type="LiteralExpression" />
+                          <Expression Type="ParenthesizedExpression">
+                            <Expression Type="MemberAccessExpression">
+                              <Expression Text="b" Type="LiteralExpression" />
+                              <Expression Text="Equals" Type="LiteralExpression" />
+                            </Expression>
+                          </Expression>
+                        </Expression>
+                        <Expression Text="b" Type="LiteralExpression" />
+                      </Expression>
+                    </Expression>
+                    <Expression Text="First" Type="LiteralExpression" />
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="var" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="a" Type="LiteralExpression" />
+                <Expression Type="MethodInvocationExpression">
+                  <Expression Type="MemberAccessExpression">
+                    <Expression Type="ParenthesizedExpression">
+                      <Expression Type="QueryExpression">
+                        <Expression Type="NewArrayExpression">
+                          <Expression Type="ArrayAccessExpression">
+                            <Expression Text="int" Type="LiteralExpression" />
+                          </Expression>
+                          <Expression Type="ArrayInitializerExpression">
+                            <Expression Text="1" Type="LiteralExpression" />
+                            <Expression Text="2" Type="LiteralExpression" />
+                            <Expression Text="3" Type="LiteralExpression" />
+                            <Expression Text="4" Type="LiteralExpression" />
+                            <Expression Text="5" Type="LiteralExpression" />
+                          </Expression>
+                        </Expression>
+                        <Expression Type="RelationalExpression">
+                          <Expression Text="true" Type="LiteralExpression" />
+                          <Expression Type="ParenthesizedExpression">
+                            <Expression Type="MemberAccessExpression">
+                              <Expression Text="b" Type="LiteralExpression" />
+                              <Expression Text="Equals" Type="LiteralExpression" />
+                            </Expression>
+                          </Expression>
+                        </Expression>
+                        <Expression Text="b" Type="LiteralExpression" />
+                      </Expression>
+                    </Expression>
+                    <Expression Text="First" Type="LiteralExpression" />
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement> 
         </Element>
       </Element>
     </Element>

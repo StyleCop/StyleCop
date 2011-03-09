@@ -8,7 +8,7 @@
     <ProjectGuid>{40EDAB29-01CA-4135-A330-E63F0E99D9FF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MS.StyleCop.CSharpParserTest</RootNamespace>
+    <RootNamespace>StyleCop.CSharpParserTest</RootNamespace>
     <AssemblyName>CSharpParserTestRules</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

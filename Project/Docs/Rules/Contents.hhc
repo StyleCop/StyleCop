@@ -527,7 +527,7 @@
 <param name="Local" value="SA1117.html">
 </OBJECT>
 <LI><OBJECT type="text/sitemap">
-<param name="Name" value="SA1118: ParametersMustNotSpanMultipleLines">
+<param name="Name" value="SA1118: ParameterMustNotSpanMultipleLines">
 <param name="Local" value="SA1118.html">
 </OBJECT>
 <LI><OBJECT type="text/sitemap">

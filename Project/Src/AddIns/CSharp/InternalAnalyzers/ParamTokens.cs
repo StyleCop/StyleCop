@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------
-// <copyright file="ParamTokens.cs" company="Microsoft">
-//   Copyright (c) Microsoft Corporation.
+// <copyright file="ParamTokens.cs">
+//   MS-PL
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -12,11 +12,11 @@
 //   notice, or any other, from this software.
 // </license>
 //-----------------------------------------------------------------------
-namespace Microsoft.StyleCop.Internal
+namespace StyleCop.Internal
 {
     using System;
     using System.Collections.Generic;
-    using Microsoft.StyleCop.CSharp;
+    using StyleCop.CSharp;
 
     /// <summary>
     /// Contains tokens inside of a Param statement.

@@ -17,7 +17,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.LayoutRules">
+        <Analyzer AnalyzerId="StyleCop.CSharp.LayoutRules">
           <Rules>
             <Rule Name="CodeMustNotContainBlankLinesAtStartOfFile">
               <RuleSettings>
@@ -53,7 +53,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.LayoutRules">
+        <Analyzer AnalyzerId="StyleCop.CSharp.LayoutRules">
           <Rules>
             <Rule Name="OpeningCurlyBracketsMustNotBeFollowedByBlankLine">
               <RuleSettings>
@@ -188,7 +188,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.LayoutRules">
+        <Analyzer AnalyzerId="StyleCop.CSharp.LayoutRules">
           <Rules>
             <Rule Name="OpeningCurlyBracketsMustNotBeFollowedByBlankLine">
               <RuleSettings>
@@ -294,7 +294,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.LayoutRules">
+        <Analyzer AnalyzerId="StyleCop.CSharp.LayoutRules">
           <Rules>
             <Rule Name="OpeningCurlyBracketsMustNotBeFollowedByBlankLine">
               <RuleSettings>
@@ -399,7 +399,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.LayoutRules">
+        <Analyzer AnalyzerId="StyleCop.CSharp.LayoutRules">
           <Rules>
             <Rule Name="OpeningCurlyBracketsMustNotBeFollowedByBlankLine">
               <RuleSettings>
@@ -503,7 +503,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.LayoutRules">
+        <Analyzer AnalyzerId="StyleCop.CSharp.LayoutRules">
           <Rules>
             <Rule Name="OpeningCurlyBracketsMustNotBeFollowedByBlankLine">
               <RuleSettings>
@@ -602,7 +602,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.LayoutRules">
+        <Analyzer AnalyzerId="StyleCop.CSharp.LayoutRules">
           <Rules>
             <Rule Name="OpeningCurlyBracketsMustNotBeFollowedByBlankLine">
               <RuleSettings>
@@ -683,7 +683,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.LayoutRules">
+        <Analyzer AnalyzerId="StyleCop.CSharp.LayoutRules">
           <Rules>
             <Rule Name="OpeningCurlyBracketsMustNotBeFollowedByBlankLine">
               <RuleSettings>
@@ -764,7 +764,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.LayoutRules">
+        <Analyzer AnalyzerId="StyleCop.CSharp.LayoutRules">
           <Rules>
             <Rule Name="OpeningCurlyBracketsMustNotBeFollowedByBlankLine">
               <RuleSettings>
@@ -844,7 +844,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.LayoutRules">
+        <Analyzer AnalyzerId="StyleCop.CSharp.LayoutRules">
           <Rules>
             <Rule Name="OpeningCurlyBracketsMustNotBeFollowedByBlankLine">
               <RuleSettings>
@@ -929,7 +929,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.LayoutRules">
+        <Analyzer AnalyzerId="StyleCop.CSharp.LayoutRules">
           <Rules>
             <Rule Name="OpeningCurlyBracketsMustNotBeFollowedByBlankLine">
               <RuleSettings>
@@ -1004,7 +1004,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.LayoutRules">
+        <Analyzer AnalyzerId="StyleCop.CSharp.LayoutRules">
           <Rules>
             <Rule Name="ElementsMustBeSeparatedByBlankLine">
               <RuleSettings>

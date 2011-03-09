@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------
-// <copyright file="CsParserDump.cs" company="Microsoft">
-//   Copyright (c) Microsoft Corporation.
+// <copyright file="CsParserDump.cs">
+//   MS-PL
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -12,7 +12,7 @@
 //   notice, or any other, from this software.
 // </license>
 //-----------------------------------------------------------------------
-namespace MS.StyleCop.CSharpParserTest
+namespace StyleCop.CSharpParserTest
 {
     using System;
     using System.Collections.Generic;
@@ -20,8 +20,8 @@ namespace MS.StyleCop.CSharpParserTest
     using System.IO;
     using System.Text;
     using System.Xml;
-    using Microsoft.StyleCop;
-    using Microsoft.StyleCop.CSharp;
+    using StyleCop;
+    using StyleCop.CSharp;
 
     /// <summary>
     /// Dumps the parsed object model from the CsParser into an Xml file.

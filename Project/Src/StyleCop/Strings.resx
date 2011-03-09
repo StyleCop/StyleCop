@@ -166,7 +166,7 @@
     <value>Could not save the violations file. An exception occurred: {0}</value>
   </data>
   <data name="DefaultSettingsDialogTitle" xml:space="preserve">
-    <value>Microsoft StyleCop Default Settings</value>
+    <value>StyleCop Default Settings</value>
   </data>
   <data name="DisabledByDefaultAttributeDeprecatedForAddIns" xml:space="preserve">
     <value>Analyzers are no longer allowed by be disabled by default. The DisableByDefault attribute has been deprecated and is not allowed to appear on a SourceAnalyzer node. Instead, place a DisabledByDefault attribute on Rule nodes to indicate individual rules which are disabled by default.</value>
@@ -199,10 +199,10 @@
     <value>Is invalid</value>
   </data>
   <data name="LinkedSettingsDialogTitle" xml:space="preserve">
-    <value>Microsoft StyleCop Linked Settings</value>
+    <value>StyleCop Linked Settings</value>
   </data>
   <data name="LocalSettingsDialogTitle" xml:space="preserve">
-    <value>Microsoft StyleCop Project Settings</value>
+    <value>StyleCop Project Settings</value>
   </data>
   <data name="LocalSettingsNotOpenedOrCreated" xml:space="preserve">
     <value>The local settings file could not be opened or created: {0}</value>
@@ -247,7 +247,7 @@
     <value>No violations encountered</value>
   </data>
   <data name="ParentSettingsDialogTitle" xml:space="preserve">
-    <value>Microsoft StyleCop Parent Settings</value>
+    <value>StyleCop Parent Settings</value>
   </data>
   <data name="ParentSettingsEditedByAdministrator" xml:space="preserve">
     <value>The parent settings file should only be edited by a build administrator, as the changes may apply to many projects. Are you sure you want to do this?</value>
@@ -325,7 +325,7 @@
     <value>GetCodeEditor is not implemented by StyleCopConsole.</value>
   </data>
   <data name="StyleCopUnableToLoad" xml:space="preserve">
-    <value>Microsoft StyleCop is unable to load. An unexpected error occurred. {0}</value>
+    <value>StyleCop is unable to load. An unexpected error occurred. {0}</value>
   </data>
   <data name="SourceAnalyzerAttributeMissing" xml:space="preserve">
     <value>The analyzer type does not have a properly formatted SourceAnalyzer attribute.</value>
@@ -346,7 +346,7 @@
     <value>A syntax error has been discovered in file {0} on line {1}: {2}</value>
   </data>
   <data name="Title" xml:space="preserve">
-    <value>Microsoft StyleCop</value>
+    <value>StyleCop</value>
   </data>
   <data name="ViolationsEncountered" xml:space="preserve">
     <value>{0} violations encountered.</value>

@@ -8,7 +8,7 @@
     <ProjectGuid>{AC9B2C98-D783-49FF-B531-0C1E07BADBBE}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MS.StyleCop.StyleCopRunDir</RootNamespace>
+    <RootNamespace>StyleCop.StyleCopRunDir</RootNamespace>
     <AssemblyName>StyleCopRunDir</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

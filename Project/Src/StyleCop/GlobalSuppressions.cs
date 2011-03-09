@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="GlobalSuppressions.cs" company="Microsoft">
-//   Copyright (c) Microsoft Corporation.
+// <copyright file="GlobalSuppressions.cs">
+//   MS-PL
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -15,6 +15,6 @@
 using System.Diagnostics.CodeAnalysis;
 
 [assembly: SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "StyleCop")]
-[assembly: SuppressMessage("Microsoft.Naming", "CA1701:ResourceStringCompoundWordsShouldBeCasedCorrectly", MessageId = "StyleCop", Scope = "resource", Target = "Microsoft.StyleCop.Strings.resources")]
-[assembly: SuppressMessage("Microsoft.Naming", "CA1701:ResourceStringCompoundWordsShouldBeCasedCorrectly", MessageId = "StyleCop", Scope = "resource", Target = "Microsoft.StyleCop.CacheOptions.resources")]
-[assembly: SuppressMessage("Microsoft.Naming", "CA1701:ResourceStringCompoundWordsShouldBeCasedCorrectly", MessageId = "StyleCop", Scope = "resource", Target = "Microsoft.StyleCop.LogStrings.resources")]
+[assembly: SuppressMessage("Microsoft.Naming", "CA1701:ResourceStringCompoundWordsShouldBeCasedCorrectly", MessageId = "StyleCop", Scope = "resource", Target = "StyleCop.Strings.resources")]
+[assembly: SuppressMessage("Microsoft.Naming", "CA1701:ResourceStringCompoundWordsShouldBeCasedCorrectly", MessageId = "StyleCop", Scope = "resource", Target = "StyleCop.CacheOptions.resources")]
+[assembly: SuppressMessage("Microsoft.Naming", "CA1701:ResourceStringCompoundWordsShouldBeCasedCorrectly", MessageId = "StyleCop", Scope = "resource", Target = "StyleCop.LogStrings.resources")]

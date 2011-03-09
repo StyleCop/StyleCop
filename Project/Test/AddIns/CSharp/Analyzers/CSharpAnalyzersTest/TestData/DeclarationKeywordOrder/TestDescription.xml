@@ -17,7 +17,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.OrderingRules">
+        <Analyzer AnalyzerId="StyleCop.CSharp.OrderingRules">
           <Rules>
             <Rule Name="DeclarationKeywordsMustFollowOrder">
               <RuleSettings>

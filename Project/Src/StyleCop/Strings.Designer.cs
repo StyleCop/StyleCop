@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microsoft.StyleCop {
+namespace StyleCop {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Microsoft.StyleCop {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Microsoft.StyleCop.Strings", typeof(Strings).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("StyleCop.Strings", typeof(Strings).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -205,7 +205,7 @@ namespace Microsoft.StyleCop {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Microsoft StyleCop Default Settings.
+        ///   Looks up a localized string similar to StyleCop Default Settings.
         /// </summary>
         internal static string DefaultSettingsDialogTitle {
             get {
@@ -313,7 +313,7 @@ namespace Microsoft.StyleCop {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Microsoft StyleCop Linked Settings.
+        ///   Looks up a localized string similar to StyleCop Linked Settings.
         /// </summary>
         internal static string LinkedSettingsDialogTitle {
             get {
@@ -322,7 +322,7 @@ namespace Microsoft.StyleCop {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Microsoft StyleCop Project Settings.
+        ///   Looks up a localized string similar to StyleCop Project Settings.
         /// </summary>
         internal static string LocalSettingsDialogTitle {
             get {
@@ -484,7 +484,7 @@ namespace Microsoft.StyleCop {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Microsoft StyleCop Parent Settings.
+        ///   Looks up a localized string similar to StyleCop Parent Settings.
         /// </summary>
         internal static string ParentSettingsDialogTitle {
             get {
@@ -808,7 +808,7 @@ namespace Microsoft.StyleCop {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Microsoft StyleCop is unable to load. An unexpected error occurred. {0}.
+        ///   Looks up a localized string similar to StyleCop is unable to load. An unexpected error occurred. {0}.
         /// </summary>
         internal static string StyleCopUnableToLoad {
             get {
@@ -835,7 +835,7 @@ namespace Microsoft.StyleCop {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Microsoft StyleCop.
+        ///   Looks up a localized string similar to StyleCop.
         /// </summary>
         internal static string Title {
             get {

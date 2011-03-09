@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="ViolationTaskTest.cs" company="Microsoft">
-//   Copyright (c) Microsoft Corporation.
+// <copyright file="ViolationTaskTest.cs">
+//   MS-PL
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -16,12 +16,12 @@ namespace VSPackageUnitTest
 {
     using System;
     using System.Collections;
-    using Microsoft.StyleCop;
-    using Microsoft.StyleCop.VisualStudio;
     using Microsoft.VisualStudio.Shell;
     using Microsoft.VisualStudio.Shell.Interop;
     using Microsoft.VisualStudio.TestTools.MockObjects;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using StyleCop;
+    using StyleCop.VisualStudio;
     using VSPackageUnitTest.Mocks;
 
     /// <summary>
@@ -29,9 +29,9 @@ namespace VSPackageUnitTest
     ///to contain all ViolationTaskTest Unit Tests
     ///</summary>
     [TestClass()]
-    [DeploymentItem("Microsoft.StyleCop.VSPackage.dll")]
-    [DeploymentItem("Microsoft.StyleCop.VSPackage_Accessor.dll")]
-    [DeploymentItem("Microsoft.StyleCop_Accessor.dll")]
+    [DeploymentItem("StyleCop.VSPackage.dll")]
+    [DeploymentItem("StyleCop.VSPackage_Accessor.dll")]
+    [DeploymentItem("StyleCop_Accessor.dll")]
     [DeploymentItem("Microsoft.VisualStudio.Shell_Accessor.dll")]
     public class ViolationTaskTest
     {

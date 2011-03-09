@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="Program.cs" company="Microsoft">
-//   Copyright (c) Microsoft Corporation.
+// <copyright file="Program.cs">
+//   MS-PL
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -16,7 +16,7 @@ namespace PerfHarness
 {
     using System;
     using System.IO;
-    using Microsoft.StyleCop;
+    using StyleCop;
 
     /// <summary>
     /// The main entrypoint to the application.

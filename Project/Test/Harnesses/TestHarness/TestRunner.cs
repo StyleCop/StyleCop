@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------
 // <copyright file="TestRunner.cs" company="Microsoft">
-//   Copyright (c) Microsoft Corporation.
+//   MS-PL
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -12,7 +12,7 @@
 //   notice, or any other, from this software.
 // </license>
 //-----------------------------------------------------------------------
-namespace MS.StyleCop.TestHarness
+namespace StyleCop.TestHarness
 {
     using System;
     using System.Collections.Generic;
@@ -24,7 +24,7 @@ namespace MS.StyleCop.TestHarness
     using System.Security;
     using System.Threading;
     using System.Xml;
-    using Microsoft.StyleCop;
+    using StyleCop;
 
     /// <summary>
     /// Runs the test.

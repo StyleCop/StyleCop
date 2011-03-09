@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------
-// <copyright file="ReadabilityRules.cs" company="Microsoft">
-//   Copyright (c) Microsoft Corporation.
+// <copyright file="ReadabilityRules.cs">
+//   MS-PL
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -12,7 +12,7 @@
 //   notice, or any other, from this software.
 // </license>
 //-----------------------------------------------------------------------
-namespace Microsoft.StyleCop.CSharp
+namespace StyleCop.CSharp
 {
     using System;
     using System.Collections;
@@ -20,8 +20,8 @@ namespace Microsoft.StyleCop.CSharp
     using System.Diagnostics;
     using System.IO;
     using System.Xml;
-    using Microsoft.StyleCop;
-    using Microsoft.StyleCop.CSharp;
+    using StyleCop;
+    using StyleCop.CSharp;
 
     /// <summary>
     /// Checks rules which improve readability in the code.

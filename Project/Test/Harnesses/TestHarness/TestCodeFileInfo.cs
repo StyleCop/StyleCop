@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------
 // <copyright file="TestCodeFileInfo.cs" company="Microsoft">
-//   Copyright (c) Microsoft Corporation.
+//   MS-PL
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -12,7 +12,7 @@
 //   notice, or any other, from this software.
 // </license>
 //-----------------------------------------------------------------------
-namespace MS.StyleCop.TestHarness
+namespace StyleCop.TestHarness
 {
     using System;
     using System.Collections.Generic;

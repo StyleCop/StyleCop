@@ -5,7 +5,7 @@
     <ProductVersion>3.0</ProductVersion>
     <ProjectGuid>{c6d48ff0-2189-4038-90bd-0751f327c482}</ProjectGuid>
     <SchemaVersion>2.0</SchemaVersion>
-    <OutputName>Microsoft.StyleCop</OutputName>
+    <OutputName>StyleCop</OutputName>
     <OutputType>Package</OutputType>
     <WixTargetsPath>$(WixToolsDirectory)\Wix2010.targets</WixTargetsPath>
     <WixTasksPath>$(WixToolsDirectory)\WixTasks.dll</WixTasksPath>

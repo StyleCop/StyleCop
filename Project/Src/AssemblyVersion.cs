@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------
-// <copyright file="AssemblyVersion.cs" company="Microsoft">
-//   Copyright (c) Microsoft Corporation.
+// <copyright file="AssemblyVersion.cs">
+//   MS-PL
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -14,4 +14,4 @@
 //-----------------------------------------------------------------------
 using System.Reflection;
 
-[assembly: AssemblyVersion("4.4.1.2")]
+[assembly: AssemblyVersion("4.5.0.0")]

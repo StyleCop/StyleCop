@@ -20,7 +20,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
+        <Analyzer AnalyzerId="StyleCop.CSharp.DocumentationRules">
           <AnalyzerSettings>
             <BooleanProperty Name="IgnorePrivates">False</BooleanProperty>
             <BooleanProperty Name="IgnoreInternals">False</BooleanProperty>
@@ -672,7 +672,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
+        <Analyzer AnalyzerId="StyleCop.CSharp.DocumentationRules">
           <AnalyzerSettings>
             <BooleanProperty Name="IgnorePrivates">True</BooleanProperty>
             <BooleanProperty Name="IgnoreInternals">False</BooleanProperty>
@@ -1047,7 +1047,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
+        <Analyzer AnalyzerId="StyleCop.CSharp.DocumentationRules">
           <AnalyzerSettings>
             <BooleanProperty Name="IgnorePrivates">False</BooleanProperty>
             <BooleanProperty Name="IncludeFields">False</BooleanProperty>
@@ -1239,7 +1239,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
+        <Analyzer AnalyzerId="StyleCop.CSharp.DocumentationRules">
           <AnalyzerSettings>
             <BooleanProperty Name="IgnorePrivates">False</BooleanProperty>
             <BooleanProperty Name="IncludeFields">True</BooleanProperty>
@@ -1278,7 +1278,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
+        <Analyzer AnalyzerId="StyleCop.CSharp.DocumentationRules">
           <AnalyzerSettings>
             <BooleanProperty Name="IgnorePrivates">False</BooleanProperty>
             <BooleanProperty Name="IncludeFields">True</BooleanProperty>
@@ -1469,7 +1469,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
+        <Analyzer AnalyzerId="StyleCop.CSharp.DocumentationRules">
           <AnalyzerSettings>
             <BooleanProperty Name="IgnorePrivates">False</BooleanProperty>
             <BooleanProperty Name="IncludeFields">True</BooleanProperty>
@@ -1660,7 +1660,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
+        <Analyzer AnalyzerId="StyleCop.CSharp.DocumentationRules">
           <AnalyzerSettings>
             <BooleanProperty Name="IgnorePrivates">False</BooleanProperty>
             <BooleanProperty Name="IncludeFields">True</BooleanProperty>
@@ -1854,7 +1854,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
+        <Analyzer AnalyzerId="StyleCop.CSharp.DocumentationRules">
           <Rules>
             <Rule Name="ConstructorSummaryDocumentationMustBeginWithStandardText">
               <RuleSettings>
@@ -1967,7 +1967,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
+        <Analyzer AnalyzerId="StyleCop.CSharp.DocumentationRules">
           <Rules>
             <Rule Name="DestructorSummaryDocumentationMustBeginWithStandardText">
               <RuleSettings>
@@ -1993,7 +1993,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
+        <Analyzer AnalyzerId="StyleCop.CSharp.DocumentationRules">
           <Rules>
             <Rule Name="DocumentationHeadersMustNotContainBlankLines">
               <RuleSettings>
@@ -2002,7 +2002,7 @@
             </Rule>
           </Rules>
         </Analyzer>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.LayoutRules">
+        <Analyzer AnalyzerId="StyleCop.CSharp.LayoutRules">
           <Rules>
             <Rule Name="CodeMustNotContainMultipleBlankLinesInARow">
               <!-- This rule is enabled here to ensure that it does not fire within the code sections of these headers. -->
@@ -2036,7 +2036,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
+        <Analyzer AnalyzerId="StyleCop.CSharp.DocumentationRules">
           <AnalyzerSettings>
             <BooleanProperty Name="IgnorePrivates">False</BooleanProperty>
             <BooleanProperty Name="IncludeFields">True</BooleanProperty>
@@ -2069,7 +2069,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
+        <Analyzer AnalyzerId="StyleCop.CSharp.DocumentationRules">
           <AnalyzerSettings>
             <BooleanProperty Name="IgnorePrivates">False</BooleanProperty>
             <BooleanProperty Name="IgnoreInternals">False</BooleanProperty>
@@ -2289,7 +2289,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
+        <Analyzer AnalyzerId="StyleCop.CSharp.DocumentationRules">
           <AnalyzerSettings>
             <BooleanProperty Name="IgnorePrivates">False</BooleanProperty>
             <BooleanProperty Name="IgnoreInternals">False</BooleanProperty>
@@ -2803,7 +2803,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
+        <Analyzer AnalyzerId="StyleCop.CSharp.DocumentationRules">
           <AnalyzerSettings>
             <BooleanProperty Name="IgnorePrivates">False</BooleanProperty>
             <BooleanProperty Name="IgnoreInternals">False</BooleanProperty>
@@ -3053,7 +3053,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
+        <Analyzer AnalyzerId="StyleCop.CSharp.DocumentationRules">
           <AnalyzerSettings>
             <BooleanProperty Name="IgnorePrivates">False</BooleanProperty>
             <BooleanProperty Name="IgnoreInternals">False</BooleanProperty>
@@ -3090,7 +3090,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
+        <Analyzer AnalyzerId="StyleCop.CSharp.DocumentationRules">
           <AnalyzerSettings>
             <BooleanProperty Name="IgnorePrivates">False</BooleanProperty>
             <BooleanProperty Name="IgnoreInternals">False</BooleanProperty>
@@ -3267,78 +3267,78 @@
       </Analyzers>
     </Settings>
     <ExpectedViolations>
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass" LineNumber="7" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicMethod" LineNumber="9" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.InternalMethod" LineNumber="10" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedMethod" LineNumber="11" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalMethod" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PrivateMethod" LineNumber="13" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicClass" LineNumber="15" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicClass.PublicMethod" LineNumber="17" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicClass.InternalMethod" LineNumber="18" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicClass.ProtectedMethod" LineNumber="19" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicClass.ProtectedInternalMethod" LineNumber="20" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicClass.PrivateMethod" LineNumber="21" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedClass" LineNumber="24" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedClass.PublicMethod" LineNumber="26" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedClass.InternalMethod" LineNumber="27" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedClass.ProtectedMethod" LineNumber="28" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedClass.ProtectedInternalMethod" LineNumber="29" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedClass.PrivateMethod" LineNumber="30" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.InternalClass" LineNumber="33" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.InternalClass.PublicMethod" LineNumber="35" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.InternalClass.InternalMethod" LineNumber="36" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.InternalClass.ProtectedMethod" LineNumber="37" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.InternalClass.ProtectedInternalMethod" LineNumber="38" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.InternalClass.PrivateMethod" LineNumber="39" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalClass" LineNumber="42" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalClass.PublicMethod" LineNumber="44" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalClass.InternalMethod" LineNumber="45" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalClass.ProtectedMethod" LineNumber="46" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalClass.ProtectedInternalMethod" LineNumber="47" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalClass.PrivateMethod" LineNumber="48" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PrivateClass" LineNumber="51" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PrivateClass.PublicMethod" LineNumber="53" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PrivateClass.InternalMethod" LineNumber="54" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PrivateClass.ProtectedMethod" LineNumber="55" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PrivateClass.ProtectedInternalMethod" LineNumber="56" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PrivateClass.PrivateMethod" LineNumber="57" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass" LineNumber="61" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PublicMethod" LineNumber="63" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.InternalMethod" LineNumber="64" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedMethod" LineNumber="65" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedInternalMethod" LineNumber="66" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PrivateMethod" LineNumber="67" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PublicClass" LineNumber="69" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PublicClass.PublicMethod" LineNumber="71" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PublicClass.InternalMethod" LineNumber="72" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PublicClass.ProtectedMethod" LineNumber="73" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PublicClass.ProtectedInternalMethod" LineNumber="74" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PublicClass.PrivateMethod" LineNumber="75" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedClass" LineNumber="78" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedClass.PublicMethod" LineNumber="80" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedClass.InternalMethod" LineNumber="81" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedClass.ProtectedMethod" LineNumber="82" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedClass.ProtectedInternalMethod" LineNumber="83" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedClass.PrivateMethod" LineNumber="84" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.InternalClass" LineNumber="87" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.InternalClass.PublicMethod" LineNumber="89" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.InternalClass.InternalMethod" LineNumber="90" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.InternalClass.ProtectedMethod" LineNumber="91" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.InternalClass.ProtectedInternalMethod" LineNumber="92" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.InternalClass.PrivateMethod" LineNumber="93" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedInternalClass" LineNumber="96" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedInternalClass.PublicMethod" LineNumber="98" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedInternalClass.InternalMethod" LineNumber="99" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedInternalClass.ProtectedMethod" LineNumber="100" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedInternalClass.ProtectedInternalMethod" LineNumber="101" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedInternalClass.PrivateMethod" LineNumber="102" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PrivateClass" LineNumber="105" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PrivateClass.PublicMethod" LineNumber="107" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PrivateClass.InternalMethod" LineNumber="108" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PrivateClass.ProtectedMethod" LineNumber="109" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PrivateClass.ProtectedInternalMethod" LineNumber="110" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PrivateClass.PrivateMethod" LineNumber="111" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass" LineNumber="7" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicMethod" LineNumber="9" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.InternalMethod" LineNumber="10" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedMethod" LineNumber="11" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalMethod" LineNumber="12" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PrivateMethod" LineNumber="13" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicClass" LineNumber="15" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicClass.PublicMethod" LineNumber="17" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicClass.InternalMethod" LineNumber="18" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicClass.ProtectedMethod" LineNumber="19" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicClass.ProtectedInternalMethod" LineNumber="20" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicClass.PrivateMethod" LineNumber="21" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedClass" LineNumber="24" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedClass.PublicMethod" LineNumber="26" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedClass.InternalMethod" LineNumber="27" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedClass.ProtectedMethod" LineNumber="28" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedClass.ProtectedInternalMethod" LineNumber="29" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedClass.PrivateMethod" LineNumber="30" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.InternalClass" LineNumber="33" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.InternalClass.PublicMethod" LineNumber="35" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.InternalClass.InternalMethod" LineNumber="36" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.InternalClass.ProtectedMethod" LineNumber="37" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.InternalClass.ProtectedInternalMethod" LineNumber="38" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.InternalClass.PrivateMethod" LineNumber="39" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalClass" LineNumber="42" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalClass.PublicMethod" LineNumber="44" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalClass.InternalMethod" LineNumber="45" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalClass.ProtectedMethod" LineNumber="46" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalClass.ProtectedInternalMethod" LineNumber="47" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalClass.PrivateMethod" LineNumber="48" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PrivateClass" LineNumber="51" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PrivateClass.PublicMethod" LineNumber="53" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PrivateClass.InternalMethod" LineNumber="54" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PrivateClass.ProtectedMethod" LineNumber="55" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PrivateClass.ProtectedInternalMethod" LineNumber="56" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PrivateClass.PrivateMethod" LineNumber="57" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass" LineNumber="61" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PublicMethod" LineNumber="63" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.InternalMethod" LineNumber="64" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedMethod" LineNumber="65" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedInternalMethod" LineNumber="66" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PrivateMethod" LineNumber="67" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PublicClass" LineNumber="69" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PublicClass.PublicMethod" LineNumber="71" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PublicClass.InternalMethod" LineNumber="72" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PublicClass.ProtectedMethod" LineNumber="73" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PublicClass.ProtectedInternalMethod" LineNumber="74" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PublicClass.PrivateMethod" LineNumber="75" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedClass" LineNumber="78" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedClass.PublicMethod" LineNumber="80" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedClass.InternalMethod" LineNumber="81" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedClass.ProtectedMethod" LineNumber="82" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedClass.ProtectedInternalMethod" LineNumber="83" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedClass.PrivateMethod" LineNumber="84" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.InternalClass" LineNumber="87" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.InternalClass.PublicMethod" LineNumber="89" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.InternalClass.InternalMethod" LineNumber="90" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.InternalClass.ProtectedMethod" LineNumber="91" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.InternalClass.ProtectedInternalMethod" LineNumber="92" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.InternalClass.PrivateMethod" LineNumber="93" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedInternalClass" LineNumber="96" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedInternalClass.PublicMethod" LineNumber="98" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedInternalClass.InternalMethod" LineNumber="99" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedInternalClass.ProtectedMethod" LineNumber="100" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedInternalClass.ProtectedInternalMethod" LineNumber="101" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedInternalClass.PrivateMethod" LineNumber="102" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PrivateClass" LineNumber="105" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PrivateClass.PublicMethod" LineNumber="107" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PrivateClass.InternalMethod" LineNumber="108" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PrivateClass.ProtectedMethod" LineNumber="109" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PrivateClass.ProtectedInternalMethod" LineNumber="110" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PrivateClass.PrivateMethod" LineNumber="111" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
     </ExpectedViolations>
   </Test>
 
@@ -3351,7 +3351,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
+        <Analyzer AnalyzerId="StyleCop.CSharp.DocumentationRules">
           <AnalyzerSettings>
             <BooleanProperty Name="IgnorePrivates">True</BooleanProperty>
             <BooleanProperty Name="IgnoreInternals">False</BooleanProperty>
@@ -3528,56 +3528,56 @@
       </Analyzers>
     </Settings>
     <ExpectedViolations>
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass" LineNumber="7" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicMethod" LineNumber="9" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.InternalMethod" LineNumber="10" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedMethod" LineNumber="11" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalMethod" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicClass" LineNumber="15" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicClass.PublicMethod" LineNumber="17" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicClass.InternalMethod" LineNumber="18" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicClass.ProtectedMethod" LineNumber="19" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicClass.ProtectedInternalMethod" LineNumber="20" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedClass" LineNumber="24" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedClass.PublicMethod" LineNumber="26" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedClass.InternalMethod" LineNumber="27" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedClass.ProtectedMethod" LineNumber="28" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedClass.ProtectedInternalMethod" LineNumber="29" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.InternalClass" LineNumber="33" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.InternalClass.PublicMethod" LineNumber="35" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.InternalClass.InternalMethod" LineNumber="36" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.InternalClass.ProtectedMethod" LineNumber="37" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.InternalClass.ProtectedInternalMethod" LineNumber="38" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalClass" LineNumber="42" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalClass.PublicMethod" LineNumber="44" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalClass.InternalMethod" LineNumber="45" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalClass.ProtectedMethod" LineNumber="46" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalClass.ProtectedInternalMethod" LineNumber="47" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass" LineNumber="61" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PublicMethod" LineNumber="63" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.InternalMethod" LineNumber="64" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedMethod" LineNumber="65" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedInternalMethod" LineNumber="66" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PublicClass" LineNumber="69" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PublicClass.PublicMethod" LineNumber="71" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PublicClass.InternalMethod" LineNumber="72" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PublicClass.ProtectedMethod" LineNumber="73" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PublicClass.ProtectedInternalMethod" LineNumber="74" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedClass" LineNumber="78" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedClass.PublicMethod" LineNumber="80" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedClass.InternalMethod" LineNumber="81" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedClass.ProtectedMethod" LineNumber="82" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedClass.ProtectedInternalMethod" LineNumber="83" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.InternalClass" LineNumber="87" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.InternalClass.PublicMethod" LineNumber="89" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.InternalClass.InternalMethod" LineNumber="90" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.InternalClass.ProtectedMethod" LineNumber="91" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.InternalClass.ProtectedInternalMethod" LineNumber="92" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedInternalClass" LineNumber="96" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedInternalClass.PublicMethod" LineNumber="98" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedInternalClass.InternalMethod" LineNumber="99" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedInternalClass.ProtectedMethod" LineNumber="100" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedInternalClass.ProtectedInternalMethod" LineNumber="101" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass" LineNumber="7" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicMethod" LineNumber="9" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.InternalMethod" LineNumber="10" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedMethod" LineNumber="11" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalMethod" LineNumber="12" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicClass" LineNumber="15" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicClass.PublicMethod" LineNumber="17" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicClass.InternalMethod" LineNumber="18" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicClass.ProtectedMethod" LineNumber="19" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicClass.ProtectedInternalMethod" LineNumber="20" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedClass" LineNumber="24" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedClass.PublicMethod" LineNumber="26" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedClass.InternalMethod" LineNumber="27" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedClass.ProtectedMethod" LineNumber="28" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedClass.ProtectedInternalMethod" LineNumber="29" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.InternalClass" LineNumber="33" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.InternalClass.PublicMethod" LineNumber="35" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.InternalClass.InternalMethod" LineNumber="36" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.InternalClass.ProtectedMethod" LineNumber="37" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.InternalClass.ProtectedInternalMethod" LineNumber="38" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalClass" LineNumber="42" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalClass.PublicMethod" LineNumber="44" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalClass.InternalMethod" LineNumber="45" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalClass.ProtectedMethod" LineNumber="46" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalClass.ProtectedInternalMethod" LineNumber="47" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass" LineNumber="61" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PublicMethod" LineNumber="63" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.InternalMethod" LineNumber="64" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedMethod" LineNumber="65" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedInternalMethod" LineNumber="66" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PublicClass" LineNumber="69" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PublicClass.PublicMethod" LineNumber="71" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PublicClass.InternalMethod" LineNumber="72" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PublicClass.ProtectedMethod" LineNumber="73" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PublicClass.ProtectedInternalMethod" LineNumber="74" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedClass" LineNumber="78" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedClass.PublicMethod" LineNumber="80" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedClass.InternalMethod" LineNumber="81" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedClass.ProtectedMethod" LineNumber="82" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedClass.ProtectedInternalMethod" LineNumber="83" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.InternalClass" LineNumber="87" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.InternalClass.PublicMethod" LineNumber="89" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.InternalClass.InternalMethod" LineNumber="90" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.InternalClass.ProtectedMethod" LineNumber="91" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.InternalClass.ProtectedInternalMethod" LineNumber="92" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedInternalClass" LineNumber="96" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedInternalClass.PublicMethod" LineNumber="98" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedInternalClass.InternalMethod" LineNumber="99" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedInternalClass.ProtectedMethod" LineNumber="100" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedInternalClass.ProtectedInternalMethod" LineNumber="101" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
     </ExpectedViolations>
   </Test>
 
@@ -3590,7 +3590,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
+        <Analyzer AnalyzerId="StyleCop.CSharp.DocumentationRules">
           <AnalyzerSettings>
             <BooleanProperty Name="IgnorePrivates">False</BooleanProperty>
             <BooleanProperty Name="IgnoreInternals">True</BooleanProperty>
@@ -3767,44 +3767,44 @@
       </Analyzers>
     </Settings>
     <ExpectedViolations>
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass" LineNumber="7" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicMethod" LineNumber="9" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedMethod" LineNumber="11" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalMethod" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PrivateMethod" LineNumber="13" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicClass" LineNumber="15" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicClass.PublicMethod" LineNumber="17" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicClass.ProtectedMethod" LineNumber="19" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicClass.ProtectedInternalMethod" LineNumber="20" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicClass.PrivateMethod" LineNumber="21" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedClass" LineNumber="24" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedClass.PublicMethod" LineNumber="26" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedClass.ProtectedMethod" LineNumber="28" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedClass.ProtectedInternalMethod" LineNumber="29" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedClass.PrivateMethod" LineNumber="30" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.InternalClass.PrivateMethod" LineNumber="39" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalClass" LineNumber="42" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalClass.PublicMethod" LineNumber="44" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalClass.ProtectedMethod" LineNumber="46" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalClass.ProtectedInternalMethod" LineNumber="47" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalClass.PrivateMethod" LineNumber="48" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PrivateClass" LineNumber="51" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PrivateClass.PublicMethod" LineNumber="53" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PrivateClass.InternalMethod" LineNumber="54" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PrivateClass.ProtectedMethod" LineNumber="55" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PrivateClass.ProtectedInternalMethod" LineNumber="56" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PrivateClass.PrivateMethod" LineNumber="57" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PrivateMethod" LineNumber="67" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PublicClass.PrivateMethod" LineNumber="75" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedClass.PrivateMethod" LineNumber="84" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.InternalClass.PrivateMethod" LineNumber="93" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedInternalClass.PrivateMethod" LineNumber="102" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PrivateClass" LineNumber="105" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PrivateClass.PublicMethod" LineNumber="107" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PrivateClass.InternalMethod" LineNumber="108" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PrivateClass.ProtectedMethod" LineNumber="109" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PrivateClass.ProtectedInternalMethod" LineNumber="110" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PrivateClass.PrivateMethod" LineNumber="111" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass" LineNumber="7" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicMethod" LineNumber="9" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedMethod" LineNumber="11" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalMethod" LineNumber="12" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PrivateMethod" LineNumber="13" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicClass" LineNumber="15" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicClass.PublicMethod" LineNumber="17" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicClass.ProtectedMethod" LineNumber="19" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicClass.ProtectedInternalMethod" LineNumber="20" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicClass.PrivateMethod" LineNumber="21" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedClass" LineNumber="24" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedClass.PublicMethod" LineNumber="26" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedClass.ProtectedMethod" LineNumber="28" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedClass.ProtectedInternalMethod" LineNumber="29" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedClass.PrivateMethod" LineNumber="30" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.InternalClass.PrivateMethod" LineNumber="39" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalClass" LineNumber="42" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalClass.PublicMethod" LineNumber="44" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalClass.ProtectedMethod" LineNumber="46" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalClass.ProtectedInternalMethod" LineNumber="47" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalClass.PrivateMethod" LineNumber="48" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PrivateClass" LineNumber="51" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PrivateClass.PublicMethod" LineNumber="53" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PrivateClass.InternalMethod" LineNumber="54" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PrivateClass.ProtectedMethod" LineNumber="55" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PrivateClass.ProtectedInternalMethod" LineNumber="56" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PrivateClass.PrivateMethod" LineNumber="57" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PrivateMethod" LineNumber="67" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PublicClass.PrivateMethod" LineNumber="75" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedClass.PrivateMethod" LineNumber="84" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.InternalClass.PrivateMethod" LineNumber="93" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.ProtectedInternalClass.PrivateMethod" LineNumber="102" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PrivateClass" LineNumber="105" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PrivateClass.PublicMethod" LineNumber="107" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PrivateClass.InternalMethod" LineNumber="108" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PrivateClass.ProtectedMethod" LineNumber="109" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PrivateClass.ProtectedInternalMethod" LineNumber="110" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InternalClass.PrivateClass.PrivateMethod" LineNumber="111" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
     </ExpectedViolations>
   </Test>
 
@@ -3817,7 +3817,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
+        <Analyzer AnalyzerId="StyleCop.CSharp.DocumentationRules">
           <AnalyzerSettings>
             <BooleanProperty Name="IgnorePrivates">True</BooleanProperty>
             <BooleanProperty Name="IgnoreInternals">True</BooleanProperty>
@@ -3994,22 +3994,22 @@
       </Analyzers>
     </Settings>
     <ExpectedViolations>
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass" LineNumber="7" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicMethod" LineNumber="9" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedMethod" LineNumber="11" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalMethod" LineNumber="12" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicClass" LineNumber="15" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicClass.PublicMethod" LineNumber="17" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicClass.ProtectedMethod" LineNumber="19" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicClass.ProtectedInternalMethod" LineNumber="20" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedClass" LineNumber="24" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedClass.PublicMethod" LineNumber="26" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedClass.ProtectedMethod" LineNumber="28" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedClass.ProtectedInternalMethod" LineNumber="29" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalClass" LineNumber="42" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalClass.PublicMethod" LineNumber="44" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalClass.ProtectedMethod" LineNumber="46" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalClass.ProtectedInternalMethod" LineNumber="47" RuleNamespace="Microsoft.StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass" LineNumber="7" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicMethod" LineNumber="9" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedMethod" LineNumber="11" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalMethod" LineNumber="12" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicClass" LineNumber="15" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicClass.PublicMethod" LineNumber="17" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicClass.ProtectedMethod" LineNumber="19" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.PublicClass.ProtectedInternalMethod" LineNumber="20" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedClass" LineNumber="24" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedClass.PublicMethod" LineNumber="26" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedClass.ProtectedMethod" LineNumber="28" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedClass.ProtectedInternalMethod" LineNumber="29" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalClass" LineNumber="42" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalClass.PublicMethod" LineNumber="44" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalClass.ProtectedMethod" LineNumber="46" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalClass.ProtectedInternalMethod" LineNumber="47" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
     </ExpectedViolations>
   </Test>
 

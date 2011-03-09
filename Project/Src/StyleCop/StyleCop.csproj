@@ -5,8 +5,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace>Microsoft.StyleCop</RootNamespace>
-    <AssemblyName>Microsoft.StyleCop</AssemblyName>
+    <RootNamespace>StyleCop</RootNamespace>
+    <AssemblyName>StyleCop</AssemblyName>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>$(SAAssemblyOriginatorKeyFile)</AssemblyOriginatorKeyFile>
     <DelaySign>$(SADelaySign)</DelaySign>
@@ -52,7 +52,7 @@
     <CodeAnalysisRules>
     </CodeAnalysisRules>
     <CodeAnalysisRuleSet>..\FxCopRules.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>$(RootBin)\Debug\Microsoft.StyleCop.xml</DocumentationFile>
+    <DocumentationFile>$(RootBin)\Debug\StyleCop.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>$(RootBin)\Release\</OutputPath>
@@ -60,7 +60,7 @@
     <BaseAddress>285212672</BaseAddress>
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
     <DefineConstants>TRACE;VS2005</DefineConstants>
-    <DocumentationFile>$(RootBin)\Release\Microsoft.StyleCop.xml</DocumentationFile>
+    <DocumentationFile>$(RootBin)\Release\StyleCop.xml</DocumentationFile>
     <DebugSymbols>true</DebugSymbols>
     <FileAlignment>4096</FileAlignment>
     <NoStdLib>false</NoStdLib>
@@ -232,6 +232,7 @@
     <EmbeddedResource Include="LogStrings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>LogStrings.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Settings\PropertyControl.resx">
       <DependentUpon>PropertyControl.cs</DependentUpon>
@@ -263,10 +264,7 @@
     <EmbeddedResource Include="StyleCopAddIn.xml" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Microsoft.SourceAnalysis.Targets">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Microsoft.StyleCop.Targets">
+    <None Include="StyleCop.Targets">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -293,10 +291,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
-  <Import Project="$(PROJECTROOT)\Tools\msbuild\MS.StyleCop.Build.Targets" />
-  <Import Project="$(PROJECTROOT)\Tools\msbuild\Microsoft.StyleCop.Shipping.Targets" />
+  <Import Project="$(PROJECTROOT)\Tools\msbuild\StyleCop.Build.Targets" />
+  <Import Project="$(PROJECTROOT)\Tools\msbuild\StyleCop.Shipping.Targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy /y "$(TargetPath)" "$(TestBin)"&amp;copy /y "$(ProjectDir)\Settings\DefaultSettings.xml" "$(TargetDir)\Settings.StyleCop"&amp;copy /y "$(TargetDir)\Settings.StyleCop" "$(PROJECTROOT)\BuildDrop\$(Configuration)\"&amp;copy /y "$(TargetDir)\Microsoft.StyleCop.Targets" "$(PROJECTROOT)\BuildDrop\$(Configuration)\"&amp;copy /y "$(TargetDir)\Microsoft.SourceAnalysis.Targets" "$(PROJECTROOT)\BuildDrop\$(Configuration)\"</PostBuildEvent>
+    <PostBuildEvent>xcopy /y "$(TargetPath)" "$(TestBin)"&amp;copy /y "$(ProjectDir)\Settings\DefaultSettings.xml" "$(TargetDir)\Settings.StyleCop"&amp;copy /y "$(TargetDir)\Settings.StyleCop" "$(PROJECTROOT)\BuildDrop\$(Configuration)\"&amp;copy /y "$(TargetDir)\StyleCop.Targets" "$(PROJECTROOT)\BuildDrop\$(Configuration)\"</PostBuildEvent>
   </PropertyGroup>
   <Target Name="BeforeBuild">
     <!-- Since we copy to this directory in the post build event,

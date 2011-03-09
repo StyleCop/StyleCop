@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="MockTextLines.cs" company="Microsoft">
-//   Copyright (c) Microsoft Corporation.
+// <copyright file="MockTextLines.cs">
+//   MS-PL
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 

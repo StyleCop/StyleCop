@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microsoft.StyleCop.VisualStudio {
+namespace StyleCop.VisualStudio {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Microsoft.StyleCop.VisualStudio {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Microsoft.StyleCop.VisualStudio.Strings", typeof(Strings).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("StyleCop.VisualStudio.Strings", typeof(Strings).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -88,7 +88,7 @@ namespace Microsoft.StyleCop.VisualStudio {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cancelled.
+        ///   Looks up a localized string similar to StyleCop cancelled.
         /// </summary>
         internal static string Cancelled {
             get {
@@ -106,7 +106,7 @@ namespace Microsoft.StyleCop.VisualStudio {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Microsoft StyleCop could not get the Visual Studio environment service..
+        ///   Looks up a localized string similar to StyleCop could not get the Visual Studio environment service..
         /// </summary>
         internal static string CouldNotGetVSEnvironment {
             get {
@@ -133,7 +133,7 @@ namespace Microsoft.StyleCop.VisualStudio {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Done.
+        ///   Looks up a localized string similar to StyleCop completed.
         /// </summary>
         internal static string Done {
             get {
@@ -228,7 +228,7 @@ namespace Microsoft.StyleCop.VisualStudio {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Microsoft StyleCop could not get the invisible form..
+        ///   Looks up a localized string similar to StyleCop could not get the invisible form..
         /// </summary>
         internal static string NoInvisbileForm {
             get {
@@ -273,7 +273,7 @@ namespace Microsoft.StyleCop.VisualStudio {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Microsoft StyleCop.
+        ///   Looks up a localized string similar to StyleCop.
         /// </summary>
         internal static string Title {
             get {
@@ -300,7 +300,7 @@ namespace Microsoft.StyleCop.VisualStudio {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Violation Count: {0}.
+        ///   Looks up a localized string similar to ========== Violation Count: {0} ==========.
         /// </summary>
         internal static string ViolationCount {
             get {

@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------
-// <copyright file="ReadabilityRules.MethodParameters.cs" company="Microsoft">
-//   Copyright (c) Microsoft Corporation.
+// <copyright file="ReadabilityRules.MethodParameters.cs">
+//   MS-PL
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -12,7 +12,7 @@
 //   notice, or any other, from this software.
 // </license>
 //-----------------------------------------------------------------------
-namespace Microsoft.StyleCop.CSharp
+namespace StyleCop.CSharp
 {
     using System;
     using System.Collections;
@@ -20,8 +20,7 @@ namespace Microsoft.StyleCop.CSharp
     using System.Diagnostics;
     using System.IO;
     using System.Xml;
-    using Microsoft.StyleCop;
-    using Microsoft.StyleCop.CSharp;
+    using StyleCop;
 
     /// <content>
     /// Checks rules related to placement of method parameters.
@@ -907,8 +906,10 @@ namespace Microsoft.StyleCop.CSharp
 
                 // An anonymous method expression or lambda expression passed in as an argument is always allowed
                 // to span multiple lines. Other types of arguments are not.
+                // Multi line arguments to a constructor initializer are allowed.
                 Expression expression = this.arguments[index].Expression;
-                return expression.ExpressionType == ExpressionType.Lambda || expression.ExpressionType == ExpressionType.AnonymousMethod;
+                
+                return expression.ExpressionType == ExpressionType.Lambda || expression.ExpressionType == ExpressionType.AnonymousMethod || expression.ExpressionType == ExpressionType.New;
             }
         }
 

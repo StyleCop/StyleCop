@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------
-// <copyright file="DocumentationRules.cs" company="Microsoft">
-//   Copyright (c) Microsoft Corporation.
+// <copyright file="DocumentationRules.cs">
+//   MS-PL
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -12,7 +12,7 @@
 //   notice, or any other, from this software.
 // </license>
 //-----------------------------------------------------------------------
-namespace Microsoft.StyleCop.CSharp
+namespace StyleCop.CSharp
 {
     using System;
     using System.Collections.Generic;
@@ -26,7 +26,7 @@ namespace Microsoft.StyleCop.CSharp
     using System.Threading;
     using System.Xml;
     using System.Xml.XPath;
-    using Microsoft.StyleCop;
+    using StyleCop;
 
     /// <summary>
     /// Checks element documentation for the correct contents.
@@ -1181,7 +1181,7 @@ namespace Microsoft.StyleCop.CSharp
 
                 if (element.ElementType == ElementType.Enum)
                 {
-                    this.CheckEnumHeaders(element as Microsoft.StyleCop.CSharp.Enum, settings);
+                    this.CheckEnumHeaders(element as StyleCop.CSharp.Enum, settings);
                 }
 
                 // Check the comments within the element, only for
@@ -1271,7 +1271,7 @@ namespace Microsoft.StyleCop.CSharp
         /// </summary>
         /// <param name="element">The element to parse.</param>
         /// <param name="settings">The analyzer settings.</param>
-        private void CheckEnumHeaders(Microsoft.StyleCop.CSharp.Enum element, AnalyzerSettings settings)
+        private void CheckEnumHeaders(StyleCop.CSharp.Enum element, AnalyzerSettings settings)
         {
             Param.AssertNotNull(element, "element");
             Param.Ignore(settings);
@@ -1392,7 +1392,7 @@ namespace Microsoft.StyleCop.CSharp
                         }
                         else if (element.ElementType == ElementType.Delegate)
                         {
-                            Microsoft.StyleCop.CSharp.Delegate item = element as Microsoft.StyleCop.CSharp.Delegate;
+                            StyleCop.CSharp.Delegate item = element as StyleCop.CSharp.Delegate;
                             this.CheckHeaderParams(element, item.Parameters, formattedDocs);
                             this.CheckHeaderReturnValue(element, item.ReturnType, formattedDocs);
                         }
