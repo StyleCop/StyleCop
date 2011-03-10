@@ -860,28 +860,22 @@ namespace StyleCop.CSharp
                 ICollection<CsElement> classMembers = ReadabilityRules.FindClassMember(word, parentClass, members, false);
                 if (classMembers != null)
                 {
-                    if (classMembers != null)
+                    foreach (CsElement classMember in classMembers)
                     {
-                        foreach (CsElement classMember in classMembers)
+                        if (classMember.Declaration.ContainsModifier(CsTokenType.Static) || (classMember.ElementType == ElementType.Field && ((Field)classMember).Const))
                         {
-                            if (classMember.Declaration.ContainsModifier(CsTokenType.Static) ||
-                                (classMember.ElementType == ElementType.Field && ((Field)classMember).Const))
+                            // There is a member with a matching name that is static or is a const field. In this case, 
+                            // ignore the issue and quit.
+                            foundMember = null;
+                            break;
+                        }
+                        else if (classMember.ElementType != ElementType.Class && classMember.ElementType != ElementType.Struct && classMember.ElementType != ElementType.Delegate &&
+                                 classMember.ElementType != ElementType.Enum)
+                        {
+                            // Found a matching member.
+                            if (foundMember == null)
                             {
-                                // There is a member with a matching name that is static or is a const field. In this case, 
-                                // ignore the issue and quit.
-                                foundMember = null;
-                                break;
-                            }
-                            else if (classMember.ElementType != ElementType.Class &&
-                                classMember.ElementType != ElementType.Struct &&
-                                classMember.ElementType != ElementType.Delegate &&
-                                classMember.ElementType != ElementType.Enum)
-                            {
-                                // Found a matching member.
-                                if (foundMember == null)
-                                {
-                                    foundMember = classMember;
-                                }
+                                foundMember = classMember;
                             }
                         }
                     }

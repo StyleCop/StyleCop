@@ -13,7 +13,7 @@ namespace CSharpAnalyzersTest.TestData
             // Should be allowed to call base.OnLoad here since there is a local implementation.
             base.OnLoad();
 
-            // Should not be allowed to call base.OnLoad here since there is not a local implementation.
+            // Should not be allowed to call base.OnCreateControl here since there is not a local implementation.
             base.OnCreateControl();
         }
 
