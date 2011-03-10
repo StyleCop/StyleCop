@@ -63,6 +63,11 @@
                 <BooleanProperty Name="Enabled">True</BooleanProperty>
               </RuleSettings>
             </Rule>
+            <Rule Name="ClosingCurlyBracketMustBeFollowedByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>         
           </Rules>
         </Analyzer>
       </Analyzers>

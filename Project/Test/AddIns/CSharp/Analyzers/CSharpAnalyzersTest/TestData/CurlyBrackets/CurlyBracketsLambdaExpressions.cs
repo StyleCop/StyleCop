@@ -121,5 +121,18 @@ namespace CSharpAnalyzersTest.TestData
                             }.ToDictionary(i => i.Key);
             }
         }
+
+        // THis tests that the select on the newline after the closing curly bracket is allowed
+        public void TestClosingCurlyBracketFollowedBySelect()
+        {
+            var enumValues = from frameworkName in frameworks.Cast<string>()
+            let fx = new FrameworkName(frameworkName)
+            let ev = new EnumValue
+            {
+                Name = fx.FullName,
+                DisplayName = string.IsNullOrEmpty(fx.Profile) ? string.Format(CultureInfo.InvariantCulture, "{0} {1}", fx.Identifier, fx.Version) : string.Format(CultureInfo.InvariantCulture, "{0} {1} ({2})", fx.Identifier, fx.Version, fx.Profile),
+            }
+            select new PageEnumValue(ev);
+        }
     }
 }
