@@ -15,7 +15,7 @@
     <AssemblyOriginatorKeyFile>$(SAAssemblyOriginatorKeyFile)</AssemblyOriginatorKeyFile>
     <DelaySign>$(SADelaySign)</DelaySign>
     <TargetZone>LocalIntranet</TargetZone>
-    <GenerateManifests>true</GenerateManifests>
+    <GenerateManifests>false</GenerateManifests>
     <OldToolsVersion>3.5</OldToolsVersion>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileUpgradeFlags>
