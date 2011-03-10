@@ -429,6 +429,10 @@
 <param name="Local" value="SA1204.html">
 </OBJECT>
 <LI><OBJECT type="text/sitemap">
+<param name="Name" value="SA1205: PartialElementsMustDeclareAccess">
+<param name="Local" value="SA1205.html">
+</OBJECT>
+<LI><OBJECT type="text/sitemap">
 <param name="Name" value="SA1206: DeclarationKeywordsMustFollowOrder">
 <param name="Local" value="SA1206.html">
 </OBJECT>

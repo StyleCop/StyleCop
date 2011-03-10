@@ -157,7 +157,9 @@
     <EmbeddedResource Include="ReadabilityRules.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="LayoutRules.xml" />
+    <EmbeddedResource Include="LayoutRules.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DocumentationRules.xml">

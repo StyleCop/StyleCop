@@ -289,7 +289,9 @@
     </Content>
     <Content Include="TestData\ClassMembers\TestDescription.xml" />
     <Content Include="TestData\Comments\TestDescription.xml" />
-    <Content Include="TestData\CurlyBrackets\TestDescription.xml" />
+    <Content Include="TestData\CurlyBrackets\TestDescription.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="TestData\DebugText\TestDescription.xml" />
     <Content Include="TestData\DeclarationKeywordOrder\TestDescription.xml" />
     <Content Include="TestData\Documentation\IncludedDocumentation.xml" />
