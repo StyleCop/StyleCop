@@ -77,9 +77,7 @@ namespace StyleCop
             Param.RequireNotNull(project, "project");
             Param.RequireNotNull(parser, "parser");
             Param.Ignore(configurations);
-
-            this.path = path;
-
+            
             // If this is not a full path, then we need to add the current directory.
             if (!path.StartsWith(@"\\", StringComparison.Ordinal) && path.Length >= 2 && path[1] != ':')
             {
@@ -104,6 +102,9 @@ namespace StyleCop
                     path = newPath;
                 }
             }
+
+            // BugFix 6777 - Update the path field after correcting the local path variable
+            this.path = path;
 
             // Strip out the name of the file.
             int index = path.LastIndexOf(@"\", StringComparison.Ordinal);
