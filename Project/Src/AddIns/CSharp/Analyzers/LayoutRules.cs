@@ -1039,6 +1039,7 @@ namespace StyleCop.CSharp
                             token.CsTokenType != CsTokenType.Else &&
                             token.CsTokenType != CsTokenType.PreprocessorDirective &&
                             token.CsTokenType != CsTokenType.Select &&
+                            token.CsTokenType != CsTokenType.Let &&
                             token.CsTokenType != CsTokenType.OperatorSymbol)
                         {
                             this.AddViolation(
