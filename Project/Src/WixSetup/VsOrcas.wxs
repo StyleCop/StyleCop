@@ -29,7 +29,7 @@
         <RegistryValue Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\Packages\{629EB7CC-69C2-43AC-9BC9-482B0F810C4E}' Type='string' Name='ProductVersion' Value='$(var.WixVersionShort)' Id='Package_$(var.VsVersion)_002' />
         <RegistryValue Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\Packages\{629EB7CC-69C2-43AC-9BC9-482B0F810C4E}' Type='string' Name='MinEdition' Value='Standard' Id='Package_$(var.VsVersion)_003' />
         <RegistryValue Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\Packages\{629EB7CC-69C2-43AC-9BC9-482B0F810C4E}' Type='string' Name='ProductName' Value='StyleCop' Id='Package_$(var.VsVersion)_004' />
-        <RegistryValue Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\Packages\{629EB7CC-69C2-43AC-9BC9-482B0F810C4E}' Type='string' Name='CompanyName' Value='Microsoft PLK' Id='Package_$(var.VsVersion)_005' />
+        <RegistryValue Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\Packages\{629EB7CC-69C2-43AC-9BC9-482B0F810C4E}' Type='string' Name='CompanyName' Value='stylecop.codeplex.com' Id='Package_$(var.VsVersion)_005' />
         <RegistryValue Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\Packages\{629EB7CC-69C2-43AC-9BC9-482B0F810C4E}' Type='string' Name='Class' Value='StyleCop.VisualStudio.StyleCopVSPackage' Id='Package_$(var.VsVersion)_006' />
         <RegistryValue Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\Packages\{629EB7CC-69C2-43AC-9BC9-482B0F810C4E}' Type='string'
                   Value='StyleCop.VisualStudio.StyleCopVSPackage, StyleCop.VSPackage, Version=$(var.WixVersionLong), Culture=neutral, PublicKeyToken=f904653c63bc2738' Id='Package_$(var.VsVersion)_007' />
