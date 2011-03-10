@@ -134,5 +134,20 @@ namespace CSharpAnalyzersTest.TestData
             }
             select new PageEnumValue(ev);
         }
+
+        public void a()
+        {
+            var aValue = aBoolean
+            ? new MyType
+            {
+                Something = SomeValue,
+                SomethingElse = SomethingOtherValue
+            }
+            : new MyType
+            {
+                Something = SomeValue2,
+                SomethingElse = SomethingOtherValue2
+            };
+        }
     }
 }

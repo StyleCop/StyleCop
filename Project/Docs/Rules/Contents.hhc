@@ -271,7 +271,7 @@
 <param name="Local" value="SA1512.html">
 </OBJECT>
 <LI><OBJECT type="text/sitemap">
-<param name="Name" value="SA1513: ClosingCurlyBracketsMustNotBeFollowedByBlankLine">
+<param name="Name" value="SA1513: ClosingCurlyBracketMustBeFollowedByBlankLine">
 <param name="Local" value="SA1513.html">
 </OBJECT>
 <LI><OBJECT type="text/sitemap">
