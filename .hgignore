@@ -5,3 +5,4 @@ syntax: glob
 *.suo
 *\BuildDrop\*
 *\InstallDrop\*
+*.db
