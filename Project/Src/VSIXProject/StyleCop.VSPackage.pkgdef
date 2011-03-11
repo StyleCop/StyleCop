@@ -1,0 +1,14 @@
+[$RootKey$\InstalledProducts\StyleCop]
+@="#110"
+"Package"="{629EB7CC-69C2-43AC-9BC9-482B0F810C4E}"
+"PID"="4.5"
+"ProductDetails"="#112"
+"LogoID"="#400"
+[$RootKey$\Packages\{629EB7CC-69C2-43AC-9BC9-482B0F810C4E}]
+@="StyleCop.VisualStudio.StyleCopVSPackage, StyleCop.VSPackage, Version=4.5.0.0, Culture=neutral, PublicKeyToken=f904653c63bc2738"
+"InprocServer32"="$WinDir$\SYSTEM32\MSCOREE.DLL"
+"Class"="StyleCop.VisualStudio.StyleCopVSPackage"
+"CodeBase"="$PackageFolder$\StyleCop.VSPackage.dll"
+[$RootKey$\Menus]
+"{629EB7CC-69C2-43AC-9BC9-482B0F810C4E}"=", 1000, 1"
+

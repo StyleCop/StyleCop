@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Vsix xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+      Version="1.0.0"
+      xmlns="http://schemas.microsoft.com/developer/vsx-schema/2010">
+    <Identifier Id="629EB7CC-69C2-43AC-9BC9-482B0F810C4E">
+        <Name>StyleCop</Name>
+        <Author>stylecop.codeplex.com</Author>
+        <Version>4.5</Version>
+        <Description xml:space="preserve">Empty VSIX Project.</Description>
+        <Locale>1033</Locale>
+        <SupportedProducts>
+            <VisualStudio Version="10.0">
+                <Edition>Pro</Edition>
+            </VisualStudio>
+        </SupportedProducts>
+        <SupportedFrameworkRuntimeEdition MinVersion="3.5"
+                                          MaxVersion="4.0" />
+    </Identifier>
+    <References />
+    <Content>
+        <VsPackage>StyleCop.VSPackage.pkgdef</VsPackage>
+    </Content>
+</Vsix>

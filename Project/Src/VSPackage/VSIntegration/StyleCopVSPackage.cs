@@ -15,7 +15,6 @@
 namespace StyleCop.VisualStudio
 {
     using System;
-    using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
     using System.Runtime.InteropServices;
     using Microsoft.VisualStudio.Shell;
@@ -79,7 +78,7 @@ namespace StyleCop.VisualStudio
         #endregion Private Delegates
 
         #region Internal Properties
-
+        
         /// <summary>
         /// Gets the StyleCop core object.
         /// </summary>
