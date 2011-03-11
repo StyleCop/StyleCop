@@ -1,1 +1,7 @@
 relre:(?i).*/(obj|bin|testbin)/.+
+syntax: glob
+*.user
+*.cache
+*.suo
+*\BuildDrop\*
+*\InstallDrop\*
