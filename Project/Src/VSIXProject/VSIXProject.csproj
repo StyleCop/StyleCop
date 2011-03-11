@@ -51,17 +51,17 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\..\bin\Debug\StyleCop.CSharp.dll">
+    <Content Include="..\..\bin\$(Configuration)\StyleCop.CSharp.dll">
       <Link>StyleCop.CSharp.dll</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="..\..\bin\Debug\StyleCop.CSharp.Rules.dll">
+    <Content Include="..\..\bin\$(Configuration)\StyleCop.CSharp.Rules.dll">
       <Link>StyleCop.CSharp.Rules.dll</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="..\..\bin\Debug\StyleCop.dll">
+    <Content Include="..\..\bin\$(Configuration)\StyleCop.dll">
       <Link>StyleCop.dll</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>

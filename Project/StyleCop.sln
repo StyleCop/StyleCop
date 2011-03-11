@@ -39,6 +39,11 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObjectBasedEnvironmentTest", "Test\StyleCopCore\ObjectBasedEnvironmentTest\ObjectBasedEnvironmentTest.csproj", "{321E62EE-A371-4CD7-93A9-4DF91BA092EA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VSIXProject", "Src\VSIXProject\VSIXProject.csproj", "{9CD07D44-5890-45D5-AB29-7B105F1BB6AE}"
+	ProjectSection(ProjectDependencies) = postProject
+		{DE988D84-EAF4-4FD7-A33A-9EE0E6DE752C} = {DE988D84-EAF4-4FD7-A33A-9EE0E6DE752C}
+		{AF7A7FEA-C07B-456A-B072-C7E795A6CBD4} = {AF7A7FEA-C07B-456A-B072-C7E795A6CBD4}
+		{C173ACF5-2CE5-4771-83A4-D01453C8CB09} = {C173ACF5-2CE5-4771-83A4-D01453C8CB09}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
