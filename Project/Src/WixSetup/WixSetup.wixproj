@@ -7,7 +7,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <OutputName>StyleCop</OutputName>
     <OutputType>Package</OutputType>
-    <WixTargetsPath>$(WixToolsDirectory)\Wix2010.targets</WixTargetsPath>
+    <WixTargetsPath>$(WixToolsDirectory)\Wix.targets</WixTargetsPath>
     <WixTasksPath>$(WixToolsDirectory)\WixTasks.dll</WixTasksPath>
     <WixToolPath>$(WixToolsDirectory)\</WixToolPath>
     <DefineSolutionProperties>false</DefineSolutionProperties>
@@ -35,7 +35,8 @@
     <SuppressDroppingUnrealTables>False</SuppressDroppingUnrealTables>
     <SuppressFileHashAndInfo>False</SuppressFileHashAndInfo>
     <SuppressFiles>False</SuppressFiles>
-    <SuppressIces></SuppressIces>
+    <SuppressIces>
+    </SuppressIces>
     <LinkerSuppressIntermediateFileVersionMatching>False</LinkerSuppressIntermediateFileVersionMatching>
     <SuppressLayout>False</SuppressLayout>
     <SuppressMsiAssemblyTableProcessing>False</SuppressMsiAssemblyTableProcessing>
@@ -80,7 +81,8 @@
     <SuppressDroppingUnrealTables>False</SuppressDroppingUnrealTables>
     <SuppressFileHashAndInfo>False</SuppressFileHashAndInfo>
     <SuppressFiles>False</SuppressFiles>
-    <SuppressIces></SuppressIces>
+    <SuppressIces>
+    </SuppressIces>
     <LinkerSuppressIntermediateFileVersionMatching>False</LinkerSuppressIntermediateFileVersionMatching>
     <SuppressLayout>False</SuppressLayout>
     <SuppressMsiAssemblyTableProcessing>False</SuppressMsiAssemblyTableProcessing>

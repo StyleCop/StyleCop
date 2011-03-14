@@ -5,7 +5,7 @@
 
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 
-  <Product Name="$(var.ProductName)" Id='3175553C-88D5-453B-93CB-4012A827533A' Language='1033' Version='$(var.WixVersionLong)' Manufacturer='http://stylecop.codeplex.com' UpgradeCode='A8783A1F-D366-494b-90E7-84360AC18603'>
+  <Product Name="$(var.ProductName)" Id='$(var.ProductCode)' Language='1033' Version='$(var.WixVersionLong)' Manufacturer='$(var.Manufacturer)' UpgradeCode='A8783A1F-D366-494b-90E7-84360AC18603'>
     <Package InstallerVersion="200" Compressed="yes" />
 
     <!-- You must be an admin to execute devenv /setup -->
@@ -65,10 +65,10 @@
     <Icon Id="WixIcon" SourceFile="..\VSPackage\Resources\StyleCop.ico" />
 
     <!-- Properties -->
-    <Property Id="ARPHELPLINK" Value="http://blogs.msdn.com/sourceanalysis/" />
+    <Property Id="ARPHELPLINK" Value='$(var.Manufacturer)' />
     <Property Id="ARPPRODUCTICON" Value="WixIcon" />
-    <Property Id="ARPURLINFOABOUT" Value="http://blogs.msdn.com/sourceanalysis/" />
-    <Property Id="ARPURLUPDATEINFO" Value="http://blogs.msdn.com/sourceanalysis/" />
+    <Property Id="ARPURLINFOABOUT" Value='$(var.Manufacturer)'/>
+    <Property Id="ARPURLUPDATEINFO" Value='$(var.Manufacturer)' />
 
   </Product>
 </Wix>
