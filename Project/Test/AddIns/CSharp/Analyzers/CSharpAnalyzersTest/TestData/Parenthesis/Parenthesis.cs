@@ -227,5 +227,10 @@ namespace Parenthesis1
                 var xn = (IntPtr*)&rc.left;
             }
         }
+        
+        public void M(Action a)
+        {
+            M(a: () => Console.WriteLine());
+        }
     }
 }

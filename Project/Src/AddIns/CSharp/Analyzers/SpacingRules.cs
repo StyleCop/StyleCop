@@ -959,7 +959,8 @@ namespace StyleCop.CSharp
                             itemType == CsTokenType.Where ||
                             itemType == CsTokenType.While ||
                             itemType == CsTokenType.WhileDo ||
-                            itemType == CsTokenType.Yield)
+                            itemType == CsTokenType.Yield ||
+                            itemType == CsTokenType.LabelColon)
                         {
                             break;
                         }

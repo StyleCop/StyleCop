@@ -2,6 +2,7 @@
 <StyleCopTestDescription TestName="Spacing">
   <Test Name="CloseParenthesis">
     <TestCodeFile>CloseParenthesis.cs</TestCodeFile>
+    <TestCodeFile>OpenParenthesis.cs</TestCodeFile>
     <Settings>
       <GlobalSettings>
         <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
@@ -11,6 +12,11 @@
         <Analyzer AnalyzerId="StyleCop.CSharp.SpacingRules">
           <Rules>
             <Rule Name="ClosingParenthesisMustBeSpacedCorrectly">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="OpeningParenthesisMustBeSpacedCorrectly">
               <RuleSettings>
                 <BooleanProperty Name="Enabled">True</BooleanProperty>
               </RuleSettings>
@@ -32,11 +38,13 @@
       <Violation Section="Root.CloseParenthesisSpacing.Class1.ClosingParensPrecededByWhitespace" LineNumber="41" Rule="ClosingParenthesisMustBeSpacedCorrectly" />
       <Violation Section="Root.CloseParenthesisSpacing.Class1.CastsFollowedByWhitespace" LineNumber="47" Rule="ClosingParenthesisMustBeSpacedCorrectly" />
       <Violation Section="Root.CloseParenthesisSpacing.Class1.CastsFollowedByWhitespace" LineNumber="55" Rule="ClosingParenthesisMustBeSpacedCorrectly" />
+      <Violation Section="Root.CloseParenthesisSpacing.Class1.CastsFollowedByWhitespace" LineNumber="55" Rule="OpeningParenthesisMustBeSpacedCorrectly" />
       <Violation Section="Root.CloseParenthesisSpacing.Class1.NonCastFollowedByWhitespace" LineNumber="61" Rule="ClosingParenthesisMustBeSpacedCorrectly" />
       <Violation Section="Root.CloseParenthesisSpacing.Class1.NonCastFollowedByWhitespace" LineNumber="62" Rule="ClosingParenthesisMustBeSpacedCorrectly" />
       <Violation Section="Root.CloseParenthesisSpacing.Class1.NonCastFollowedByWhitespace" LineNumber="64" Rule="ClosingParenthesisMustBeSpacedCorrectly" />
       <Violation Section="Root.CloseParenthesisSpacing.Class1.NonCastFollowedByWhitespace" LineNumber="66" Rule="ClosingParenthesisMustBeSpacedCorrectly" />
       <Violation Section="Root.CloseParenthesisSpacing.Class1.NonCastFollowedByWhitespace" LineNumber="68" Rule="ClosingParenthesisMustBeSpacedCorrectly" />
+      <Violation Section="Root.CloseParenthesisSpacing.Class1.SpaceBetweenParensInMethodDeclaration" LineNumber="71" Rule="OpeningParenthesisMustBeSpacedCorrectly" />
       <Violation Section="Root.CloseParenthesisSpacing.Class1.SpaceBetweenParensInMethodDeclaration" LineNumber="71" Rule="ClosingParenthesisMustBeSpacedCorrectly" />
       <Violation Section="Root.CloseParenthesisSpacing.Class1.Colon" LineNumber="83" Rule="ClosingParenthesisMustBeSpacedCorrectly" />
       <Violation Section="Root.CloseParenthesisSpacing.Class1.Colon" LineNumber="87" Rule="ClosingParenthesisMustBeSpacedCorrectly" />
