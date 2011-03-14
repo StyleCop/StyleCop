@@ -358,7 +358,7 @@ namespace StyleCop
 
             // Skip corrupted properties.
             bool value;
-            if (Boolean.TryParse(propertyNode.InnerText, out value))
+            if (bool.TryParse(propertyNode.InnerText, out value))
             {            
                 // Get the property descriptor.
                 PropertyDescriptor<bool> descriptor = propertyDescriptors[propertyName] as PropertyDescriptor<bool>;

@@ -628,7 +628,7 @@ namespace StyleCop.CSharp
         {
             Param.Ignore(character);
 
-            if (Char.IsNumber(character) || (character >= 'a' && character <= 'f') || (character >= 'A' && character <= 'F'))
+            if (char.IsNumber(character) || (character >= 'a' && character <= 'f') || (character >= 'A' && character <= 'F'))
             {
                 return true;
             }
@@ -1105,7 +1105,7 @@ namespace StyleCop.CSharp
                     break;
                 }
 
-                char characterValue = Char.MinValue;
+                char characterValue = char.MinValue;
                 char[] characterSequence = null;
 
                 // Read character sequence as well as character value from code reader.

@@ -31,7 +31,7 @@ namespace StyleCop
         /// The pages that have been added.
         /// </summary>
         private List<IPropertyControlPage> pages = new List<IPropertyControlPage>();
-        
+
         /// <summary>
         /// Initializes a new instance of the AddSettingsPagesEventArgs class.
         /// </summary>

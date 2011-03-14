@@ -617,7 +617,7 @@ namespace StyleCop
 
             // Skip corrupted properties.
             bool value;
-            if (Boolean.TryParse(propertyNode.InnerText, out value))
+            if (bool.TryParse(propertyNode.InnerText, out value))
             {
                 if (string.IsNullOrEmpty(legacyAnalyzerId))
                 {

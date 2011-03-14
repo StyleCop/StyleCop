@@ -1074,7 +1074,7 @@ namespace StyleCop.CSharp
         {
             Param.Ignore(text, stringToFind);
 
-            if (String.IsNullOrEmpty(text) || String.IsNullOrEmpty(stringToFind))
+            if (string.IsNullOrEmpty(text) || string.IsNullOrEmpty(stringToFind))
             {
                 return 0;
             }

@@ -27,7 +27,7 @@ namespace StyleCop.CSharp
         /// <summary>
         /// The item text.
         /// </summary>
-        private string text = String.Empty;
+        private string text = string.Empty;
 
         /// <summary>
         /// The location of this token in the code document.
