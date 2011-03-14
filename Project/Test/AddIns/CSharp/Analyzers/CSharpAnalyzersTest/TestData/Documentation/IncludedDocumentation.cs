@@ -76,13 +76,13 @@ namespace CSharpAnalyzersTest.TestData
         }
 
         // An include tag with a valid file and path, but missing the required elements for the method.
-        /// <include file="IncludedDocumentation.xml" path="root/SummaryOnly" />
+        /// <include file="IncludedDocumentation.xml" path="root/SummaryOnly/*" />
         public int Method12(int x, int y)
         {
         }
 
         // A header with a valid include tag containing the summary, and a second include tag which is invalid.
-        /// <include file="IncludedDocumentation.xml" path="root/SummaryOnly" />
+        /// <include file="IncludedDocumentation.xml" path="root/SummaryOnly/*" />
         /// <param name="x"><include file="missingfile.xml" path="somethinginvalid" /></param>
         /// <param name="y">The second parameter.</param>
         /// <returns>Returns an int.</returns>
@@ -91,13 +91,13 @@ namespace CSharpAnalyzersTest.TestData
         }
 
         // An empty summary.
-        /// <include file="IncludedDocumentation.xml" path="root/EmptySummary" />
+        /// <include file="IncludedDocumentation.xml" path="root/EmptySummary/*" />
         public void Method1()
         {
         }
 
         // Summary text starting with a lower-case letter.
-        /// <include file="IncludedDocumentation.xml" path="root/LowerCaseSummary" />
+        /// <include file="IncludedDocumentation.xml" path="root/LowerCaseSummary/*" />
         public void Method1()
         {
         }
@@ -106,8 +106,8 @@ namespace CSharpAnalyzersTest.TestData
         /// <summary>
         /// This is a summary.
         /// </summary>
-        /// <include file="IncludedDocumentation.xml" path="root/Param1" />
-        /// <include file="IncludedDocumentation.xml" path="root/Param2" />
+        /// <include file="IncludedDocumentation.xml" path="root/Param1/*" />
+        /// <include file="IncludedDocumentation.xml" path="root/Param2/*" />
         public void Method1(int param1, int param2)
         {
         }
@@ -118,7 +118,7 @@ namespace CSharpAnalyzersTest.TestData
     /// </summary>
     public class ValidIncludedDocumentation
     {
-        /// <include file="IncludedDocumentation.xml" path="root/SummaryOnly" />
+        /// <include file="IncludedDocumentation.xml" path="root/SummaryOnly/*" />
         public void Method1()
         {
         }
@@ -126,33 +126,33 @@ namespace CSharpAnalyzersTest.TestData
         /// <summary>
         /// This is a summary.
         /// </summary>
-        /// <include file="IncludedDocumentation.xml" path="root/NameParameter" />
-        /// <include file="IncludedDocumentation.xml" path="root/TypeParameter" />
+        /// <include file="IncludedDocumentation.xml" path="root/NameParameter/*" />
+        /// <include file="IncludedDocumentation.xml" path="root/TypeParameter/*" />
         public void Method1(string name, string type)
         {
         }
 
-        /// <include file="IncludedDocumentation.xml" path="root/SummaryOnly" />
-        /// <include file="IncludedDocumentation.xml" path="root/NameParameter" />
-        /// <include file="IncludedDocumentation.xml" path="root/TypeParameter" />
+        /// <include file="IncludedDocumentation.xml" path="root/SummaryOnly/*" />
+        /// <include file="IncludedDocumentation.xml" path="root/NameParameter/*" />
+        /// <include file="IncludedDocumentation.xml" path="root/TypeParameter/*" />
         public void Method1(string name, string type)
         {
         }
 
-        /// <include file="IncludedDocumentation.xml" path="root/SummaryOnly" />
-        /// <include file="IncludedDocumentation.xml" path="root/TwoParameters" />
+        /// <include file="IncludedDocumentation.xml" path="root/SummaryOnly/*" />
+        /// <include file="IncludedDocumentation.xml" path="root/TwoParameters/*" />
         public void Method1(string name, string type)
         {
         }
 
-        /// <include file="IncludedDocumentation.xml" path="root/SummaryOnly" />
-        /// <include file="IncludedDocumentation.xml" path="root/TwoParameters" />
+        /// <include file="IncludedDocumentation.xml" path="root/SummaryOnly/*" />
+        /// <include file="IncludedDocumentation.xml" path="root/TwoParameters/*" />
         /// <returns>A return value.</returns>
         public int Method1(string name, string type)
         {
         }
 
-        /// <include file="IncludedDocumentation.xml" path="root/FullMethodHeader" />
+        /// <include file="IncludedDocumentation.xml" path="root/FullMethodHeader/*" />
         public int Method1(string name, string type)
         {
         }

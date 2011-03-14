@@ -378,18 +378,24 @@ namespace StyleCop.CSharp
         /// </summary>
         /// <param name="document">The included documentation object.</param>
         /// <param name="xpath">The xpath pointing to the documentation node to load from the file.</param>
-        /// <returns>Returns the included documentation node.</returns>
-        private static XmlNode ExtractDocumentationNodeFromIncludedFile(XmlDocument document, string xpath)
+        /// <returns>Returns the included documentation nodes.</returns>
+        private static XmlNodeList ExtractDocumentationNodeFromIncludedFile(XmlDocument document, string xpath)
         {
             Param.AssertNotNull(document, "document");
             Param.AssertValidString(xpath, "xpath");
 
-            XmlNode node = null;
+            XmlNodeList nodes = null;
 
             // Navigate the xpath to find the documentation node.
+            // The xpath should select 1 or more nodes that then get inserted.
+            // If the count is zero we return null.
             try
             {
-                node = document.SelectSingleNode(xpath);
+                nodes = document.SelectNodes(xpath);
+                if (nodes == null || nodes.Count == 0)
+                {
+                    return null;
+                }
             }
             catch (XPathException)
             {
@@ -401,7 +407,7 @@ namespace StyleCop.CSharp
             {
             }
 
-            return node;
+            return nodes;
         }
 
         /// <summary>
@@ -2433,14 +2439,14 @@ namespace StyleCop.CSharp
                 else
                 {
                     // Extract the documentation node from the file.
-                    XmlNode includedDocumentationNode = ExtractDocumentationNodeFromIncludedFile(includedDocument.Document, path);
-                    if (includedDocumentationNode == null)
+                    XmlNodeList includedDocumentationNodes = ExtractDocumentationNodeFromIncludedFile(includedDocument.Document, path);
+                    if (includedDocumentationNodes == null)
                     {
                         this.AddViolation(element, Rules.IncludedDocumentationXPathDoesNotExist, path, file);
                     }
                     else
                     {
-                        if (!this.ReplaceIncludeTagWithIncludedDocumentationContents(element, documentationNode, includedDocument, includedDocumentationNode))
+                        if (!this.ReplaceIncludeTagWithIncludedDocumentationContents(element, documentationNode, includedDocument, includedDocumentationNodes))
                         {
                             this.AddViolation(element, Rules.IncludedDocumentationXPathDoesNotExist, path, file);
                         }
@@ -2461,34 +2467,32 @@ namespace StyleCop.CSharp
         /// <param name="element">The element containing the documentation.</param>
         /// <param name="documentationNode">The documentation node within the documentation.</param>
         /// <param name="includedDocument">The included document.</param>
-        /// <param name="includedDocumentationNode">The included node within the included document.</param>
+        /// <param name="includedDocumentationNodes">The included nodes within the included document.</param>
         /// <returns>Returns true on success; false otherwise.</returns>
-        private bool ReplaceIncludeTagWithIncludedDocumentationContents(CsElement element, XmlNode documentationNode, CachedXmlDocument includedDocument, XmlNode includedDocumentationNode)
+        private bool ReplaceIncludeTagWithIncludedDocumentationContents(CsElement element, XmlNode documentationNode, CachedXmlDocument includedDocument, XmlNodeList includedDocumentationNodes)
         {
             Param.AssertNotNull(element, "element");
             Param.AssertNotNull(documentationNode, "documentationNode");
             Param.AssertNotNull(includedDocument, "includedDocument");
-            Param.AssertNotNull(includedDocumentationNode, "includedDocumentationNode");
+            Param.AssertNotNull(includedDocumentationNodes, "includedDocumentationNode");
 
             try
             {
-                // Insert the contents of the included documentation node immediately after the 'include' node.
                 XmlNode previousNode = documentationNode;
 
-                foreach (XmlNode includedDocumentationNodeChild in includedDocumentationNode.ChildNodes)
+                foreach (XmlNode includedDocumentationNode in includedDocumentationNodes)
                 {
-                    // Import the linked documentation node into the element's documentation object.
-                    XmlNode importedNode = documentationNode.OwnerDocument.ImportNode(includedDocumentationNodeChild, true);
+                XmlNode importedNode = documentationNode.OwnerDocument.ImportNode(includedDocumentationNode, true);
 
-                    // Resolve any 'include' tags within the linked documentation.
-                    this.InsertIncludedDocumentationForNode(element, Path.GetDirectoryName(includedDocument.FilePath), importedNode);
+                // Resolve any 'include' tags within the linked documentation.
+                this.InsertIncludedDocumentationForNode(element, Path.GetDirectoryName(includedDocument.FilePath), importedNode);
 
-                    // Replace the original 'include' tag with the linked documentation contents.
-                    documentationNode.ParentNode.InsertAfter(importedNode, previousNode);
+                // Replace the original 'include' tag with the linked documentation contents.
+                documentationNode.ParentNode.InsertAfter(importedNode, previousNode);
 
                     previousNode = importedNode;
                 }
-
+                
                 // Remove the original 'include' node.
                 documentationNode.ParentNode.RemoveChild(documentationNode);
             }
