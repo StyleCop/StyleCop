@@ -295,7 +295,9 @@
     </Content>
     <Content Include="TestData\DebugText\TestDescription.xml" />
     <Content Include="TestData\DeclarationKeywordOrder\TestDescription.xml" />
-    <Content Include="TestData\Documentation\IncludedDocumentation.xml" />
+    <Content Include="TestData\Documentation\IncludedDocumentation.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="TestData\Documentation\TestDescription.xml">
       <SubType>Designer</SubType>
     </Content>

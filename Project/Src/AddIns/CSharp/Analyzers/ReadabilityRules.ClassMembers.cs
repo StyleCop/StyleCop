@@ -112,9 +112,17 @@ namespace StyleCop.CSharp
             {
                 foreach (CsElement match in matches)
                 {
+                    string trimmedName = match.Declaration.Name;
+
+                    int angleBracketPosition = trimmedName.IndexOf('<');
+                    if (angleBracketPosition > -1)
+                    {
+                        trimmedName = trimmedName.Substring(0, angleBracketPosition);
+                    }
+
                     // Check if there is a match.
                     if (match.ElementType == ElementType.Field ||
-                        match.Declaration.Name == word ||
+                        trimmedName == word ||
                        (interfaces && match.Declaration.Name.EndsWith("." + word, StringComparison.Ordinal)))
                     {
                         if (matchesFound == null)
@@ -229,12 +237,15 @@ namespace StyleCop.CSharp
             Param.AssertNotNull(members, "members");
             Param.AssertNotNull(child, "member");
             Param.AssertValidString(name, "name");
-
+            
+            int angleBracketPosition = name.IndexOf('<');
+            string trimmedName = angleBracketPosition > -1 ? name.Substring(0, angleBracketPosition) : name;
+            
             List<CsElement> items = null;
-            if (!members.TryGetValue(name, out items))
+            if (!members.TryGetValue(trimmedName, out items))
             {
                 items = new List<CsElement>(1);
-                members.Add(name, items);
+                members.Add(trimmedName, items);
             }
 
             items.Add(child);
