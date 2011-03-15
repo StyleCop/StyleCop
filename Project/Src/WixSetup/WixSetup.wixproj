@@ -112,15 +112,17 @@
     <Compile Include="Product.wxs" />
     <Compile Include="SettingsEditor.wxs" />
     <Compile Include="Vs2010.wxs" />
-    <Compile Include="VsOrcas.wxs" />
+    <Compile Include="Vs2008.wxs" />
     <Compile Include="VSPackage.wxs" />
   </ItemGroup>
   <ItemGroup>
     <WixExtension Include="WixUIExtension">
       <Name>WixUIExtension</Name>
+      <HintPath>WixUIExtension</HintPath>
     </WixExtension>
     <WixExtension Include="WixVSExtension">
       <Name>WixVSExtension</Name>
+      <HintPath>WixVSExtension</HintPath>
     </WixExtension>
   </ItemGroup>
   <ItemGroup>

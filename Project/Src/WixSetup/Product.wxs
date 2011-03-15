@@ -50,6 +50,7 @@
       <FindRelatedProducts Before="LaunchConditions" />
     </InstallUISequence>
 
+    <WixVariable Id="WixUISupportPerUser" Value="0" />
     <WixVariable Id="WixUILicenseRtf" Value="License.rtf" />
     <WixVariable Id="WixUIBannerBmp" Value="Bitmaps\bannrbmp.bmp" /> 
     <WixVariable Id="WixUIDialogBmp" Value="Bitmaps\dlgbmp.bmp" /> 
@@ -65,6 +66,7 @@
     <Icon Id="WixIcon" SourceFile="..\VSPackage\Resources\StyleCop.ico" />
 
     <!-- Properties -->
+    <Property Id="ALLUSERS" Value='1' />
     <Property Id="ARPHELPLINK" Value='$(var.Manufacturer)' />
     <Property Id="ARPPRODUCTICON" Value="WixIcon" />
     <Property Id="ARPURLINFOABOUT" Value='$(var.Manufacturer)'/>
