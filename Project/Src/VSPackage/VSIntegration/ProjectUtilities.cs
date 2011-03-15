@@ -263,20 +263,25 @@ namespace StyleCop.VisualStudio
                         // If we've already cached a value for whether this project supports StyleCop, use it, since it is very
                         // expensive to constantly scan massive unmanaged project trees through COM.  This used to render Visual 
                         // Studio unusable in largely unmanaged solutions (http://stylecop.codeplex.com/workitem/6662).
+                        bool isEnabled;
                         if (projectEnabledCache.ContainsKey(project.UniqueName))
                         {
-                            return projectEnabledCache[project.UniqueName];
+                            isEnabled = projectEnabledCache[project.UniqueName];
                         }
                         else
                         {
-                            bool isEnabled = EnumerateProject(
+                            isEnabled = EnumerateProject(
                                         project,
                                         new ProjectInvoker(IsKnownProjectTypeVisitor),
                                         new ProjectItemInvoker(IsKnownFileTypeVisitor),
                                         helper,
                                         null) != null;
                             projectEnabledCache.Add(project.UniqueName, isEnabled);
-                            return isEnabled;
+                        }
+
+                        if (isEnabled)
+                        {
+                            return true;
                         }
                     }
                 }

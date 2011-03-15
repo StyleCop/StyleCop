@@ -34,7 +34,7 @@ namespace StyleCop.VisualStudio
         /// <summary>
         /// The default maximum number of violations we can encounter in one run before we quit.
         /// </summary>
-        private const int DefaultMaxViolationCount = 1500;
+        private const int DefaultMaxViolationCount = 1000;
 
         #endregion Private Constants
 
