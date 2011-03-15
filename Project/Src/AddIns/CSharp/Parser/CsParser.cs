@@ -199,6 +199,11 @@ namespace StyleCop.CSharp
         {
             Param.RequireNotNull(document, "document");
 
+            if (document == null || document.SourceCode == null || document.SourceCode.Name == null || !FileTypes.Contains(Path.GetExtension(document.SourceCode.Name).Trim('.').ToUpperInvariant()))
+            {
+                return true;
+            }
+
             // Get the property indicating whether to analyze designer files.
             BooleanProperty analyzeDesignerFilesProperty = this.GetSetting(
                 document.Settings, CsParser.AnalyzeDesignerFilesProperty) as BooleanProperty;
