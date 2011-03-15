@@ -268,7 +268,7 @@ namespace StyleCop
                     // Using the StreamReader to auto-detect the Encoding was failing. Internally the StreamReader defaults to UTF8 until you actually
                     // read from it. We now detect it ourselves.
                     Encoding encoding = GetFileEncoding(this.path);
-                    return new StreamReader(this.path, encoding);
+                    return new StreamReader(File.OpenRead(this.path), encoding);
                 }
                 catch (UnauthorizedAccessException)
                 {
@@ -293,7 +293,7 @@ namespace StyleCop
             var encoding = Encoding.Default;
 
             var buffer = new byte[5];
-            var file = new FileStream(path, FileMode.Open);
+            var file = File.OpenRead(path);
             file.Read(buffer, 0, 5);
             file.Close();
 
