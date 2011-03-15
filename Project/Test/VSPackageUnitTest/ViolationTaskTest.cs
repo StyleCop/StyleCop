@@ -147,7 +147,7 @@ namespace VSPackageUnitTest
             mockVirtualPoint.ImplementExpr(vp => vp.TryToShow(EnvDTE.vsPaneShowHow.vsPaneShowCentered, 0));
 
             this.mockServiceProvider.ImplementExpr(sp => sp.GetService(typeof(EnvDTE.DTE)), mockDte.Instance);
-            ProjectUtilities_Accessor.SetProvider(this.mockServiceProvider.Instance);
+            ProjectUtilities_Accessor.serviceProvider = this.mockServiceProvider.Instance;
 
             // Execute
             this.taskUnderTest.OnNavigate(EventArgs.Empty);
@@ -227,7 +227,7 @@ namespace VSPackageUnitTest
             mockVirtualPoint.ImplementExpr(vp => vp.TryToShow(EnvDTE.vsPaneShowHow.vsPaneShowCentered, 0));
 
             this.mockServiceProvider.ImplementExpr(sp => sp.GetService(typeof(EnvDTE.DTE)), mockDte.Instance);
-            ProjectUtilities_Accessor.SetProvider(this.mockServiceProvider.Instance);
+            ProjectUtilities_Accessor.serviceProvider = this.mockServiceProvider.Instance;
 
             // Execute
             this.taskUnderTest.OnNavigate(EventArgs.Empty);

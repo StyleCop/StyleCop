@@ -83,13 +83,7 @@ namespace StyleCop.VisualStudio
         #endregion Private Delegates
 
         #region Internal Static Methods
-
-        internal static void SetProvider(IServiceProvider provider)
-        {
-            Param.AssertNotNull(provider, "provider");
-            serviceProvider = provider;
-        }
-
+        
         /// <summary>
         /// Initializes this static class.
         /// </summary>
@@ -97,8 +91,7 @@ namespace StyleCop.VisualStudio
         internal static void Initialize(IServiceProvider provider)
         {
             Param.AssertNotNull(provider, "provider");
-            
-            SetProvider(provider);
+            serviceProvider = provider;
 
             DTE dte = GetDTE();
             if (dte != null)
