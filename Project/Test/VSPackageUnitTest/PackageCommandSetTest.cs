@@ -18,7 +18,6 @@ namespace VSPackageUnitTest
     using Microsoft.VisualStudio.TestTools.MockObjects;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using StyleCop.VisualStudio;
-    using VSPackageUnitTest.Mocks;
 
     /// <summary>
     ///This is a test class for PackageCommandSetTest and is intended
@@ -27,31 +26,25 @@ namespace VSPackageUnitTest
     [TestClass()]
     public class PackageCommandSetTest : BasicUnitTest
     {
-        private MockServiceProvider mockServiceProvider;
-        private IServiceProvider serviceProvider;
-
-        /// <summary>
-        ///A test for StatusAnalyzeThisFile
-        ///</summary>
-        [TestMethod()]
-        [Ignore()]
-        [DeploymentItem("StyleCop.VSPackage.dll")]
-        public void StatusAnalyzeSingleFileTest()
-        {
-            PackageCommandSet_Accessor target = new PackageCommandSet_Accessor(this.serviceProvider);
-            target.StatusAnalyzeThisFile(this, EventArgs.Empty);
-            Assert.Inconclusive("A method that does not return a value cannot be verified.");
-        }
-
+        private Mock<IServiceProvider> mockServiceProvider;
+        
         /// <summary>
         /// A test for PackageCommandSet Constructor
         ///</summary>
         [TestMethod()]
         [DeploymentItem("StyleCop.VSPackage.dll")]
+        [DeploymentItem("Microsoft.VisualStudio.QualityTools.MockObjectFramework.dll")]
         public void PackageCommandSetConstructorTest()
         {
-            PackageCommandSet_Accessor target = new PackageCommandSet_Accessor(this.serviceProvider);
-            CommandSet_Accessor innerTarget = new PackageCommandSet_Accessor(this.serviceProvider);
+            var mockActiveDocument = new Mock<EnvDTE.Document>();
+            var mockDte = new Mock<EnvDTE.DTE>();
+            
+            mockDte.ImplementExpr(dte => dte.ActiveDocument, mockActiveDocument.Instance);
+
+            this.mockServiceProvider.ImplementExpr(sp => sp.GetService(typeof(EnvDTE.DTE)), mockDte.Instance);
+
+            PackageCommandSet_Accessor target = new PackageCommandSet_Accessor(this.mockServiceProvider.Instance);
+            CommandSet_Accessor innerTarget = new PackageCommandSet_Accessor(this.mockServiceProvider.Instance);
             Assert.IsNotNull(target.CommandList, "CommandList was not created.");
             Assert.IsNotNull(innerTarget.ServiceProvider, "Service provider not stored by the constructor");
         }
@@ -62,9 +55,8 @@ namespace VSPackageUnitTest
         [TestInitialize()]
         public void TestInitialize()
         {
-            this.mockServiceProvider = new MockServiceProvider();
-            this.serviceProvider = this.mockServiceProvider;
-            ProjectUtilities_Accessor.serviceProvider = this.serviceProvider;
+            this.mockServiceProvider = new Mock<IServiceProvider>();
+            ProjectUtilities_Accessor.serviceProvider = this.mockServiceProvider.Instance;
         }
         
         /// <summary>

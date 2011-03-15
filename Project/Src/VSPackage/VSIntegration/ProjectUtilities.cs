@@ -84,6 +84,12 @@ namespace StyleCop.VisualStudio
 
         #region Internal Static Methods
 
+        internal static void SetProvider(IServiceProvider provider)
+        {
+            Param.AssertNotNull(provider, "provider");
+            serviceProvider = provider;
+        }
+
         /// <summary>
         /// Initializes this static class.
         /// </summary>
@@ -91,27 +97,41 @@ namespace StyleCop.VisualStudio
         internal static void Initialize(IServiceProvider provider)
         {
             Param.AssertNotNull(provider, "provider");
-            serviceProvider = provider;
+            
+            SetProvider(provider);
 
-            if (projectItemsEvents == null)
+            DTE dte = GetDTE();
+            if (dte != null)
             {
-                projectItemsEvents = (ProjectItemsEvents)GetDTE().Events.GetObject("ProjectItemsEvents");
+                Events events = dte.Events;
+
+                // Our "project enabled cache" is invalidated whenever the projects change, so clear our cached
+                // values any time one an event for project changes occur.
+                if (events != null)
+                {
+                    if (projectItemsEvents == null)
+                    {
+                        projectItemsEvents = (ProjectItemsEvents)events.GetObject("ProjectItemsEvents");
+                        if (projectItemsEvents != null)
+                        {
+                            projectItemsEvents.ItemAdded += ProjectItemsEventsClassItemAdded;
+                            projectItemsEvents.ItemRemoved += ProjectItemsEventsClassItemRemoved;
+                            projectItemsEvents.ItemRenamed += ProjectItemsEventsClassItemRenamed;
+                        }
+                    }
+
+                    if (solutionEvents == null)
+                    {
+                        solutionEvents = events.SolutionEvents;
+                        if (solutionEvents != null)
+                        {
+                            solutionEvents.ProjectAdded += SolutionEvents_ProjectAdded;
+                            solutionEvents.ProjectRemoved += SolutionEvents_ProjectRemoved;
+                            solutionEvents.ProjectRenamed += SolutionEvents_ProjectRenamed;
+                        }
+                    }
+                }
             }
-
-            if (solutionEvents == null)
-            {
-                solutionEvents = GetDTE().Events.SolutionEvents;
-            }
-
-            // Our "project enabled cache" is invalidated whenever the projects change, so clear our cached
-            // values any time one an event for project changes occur.
-            projectItemsEvents.ItemAdded += ProjectItemsEventsClassItemAdded;
-            projectItemsEvents.ItemRemoved += ProjectItemsEventsClassItemRemoved;
-            projectItemsEvents.ItemRenamed += ProjectItemsEventsClassItemRenamed;
-
-            solutionEvents.ProjectAdded += SolutionEvents_ProjectAdded;
-            solutionEvents.ProjectRemoved += SolutionEvents_ProjectRemoved;
-            solutionEvents.ProjectRenamed += SolutionEvents_ProjectRenamed;
         }
         
         /// <summary>

@@ -79,7 +79,7 @@ namespace StyleCop.VisualStudio
         }
 
         /// <summary>
-        /// Gets an interal list of commands that this class should add to the MenuService when <seealso cref="Initialize"/>is called.
+        /// Gets an interal list of commands that this class should add to the MenuService when <seealso cref="Initialize"/> is called.
         /// </summary>
         protected IList<OleMenuCommand> CommandList
         {

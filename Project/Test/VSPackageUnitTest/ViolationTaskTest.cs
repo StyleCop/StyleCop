@@ -70,7 +70,7 @@ namespace VSPackageUnitTest
         [TestInitialize()]
         public void MyTestInitialize()
         {
-            // Creating a package wil lset the facoctory service provider.
+            // Creating a package will set the factory service provider.
             this.package = new StyleCopVSPackage();
 
             this.mockServiceProvider = new Mock<IServiceProvider>();
@@ -147,7 +147,7 @@ namespace VSPackageUnitTest
             mockVirtualPoint.ImplementExpr(vp => vp.TryToShow(EnvDTE.vsPaneShowHow.vsPaneShowCentered, 0));
 
             this.mockServiceProvider.ImplementExpr(sp => sp.GetService(typeof(EnvDTE.DTE)), mockDte.Instance);
-            ProjectUtilities_Accessor.Initialize(this.mockServiceProvider.Instance);
+            ProjectUtilities_Accessor.SetProvider(this.mockServiceProvider.Instance);
 
             // Execute
             this.taskUnderTest.OnNavigate(EventArgs.Empty);
@@ -165,9 +165,13 @@ namespace VSPackageUnitTest
             var mockProject = new Mock<EnvDTE.Project>();
             var mockProjectEnumerator = new SequenceMock<IEnumerator>();
 
+            //var mockEvents = new Mock<EnvDTE.Events>();
+
             mockDte.ImplementExpr(dte => dte.Solution, mockSolution.Instance);
             mockDte.ImplementExpr(dte => dte.Documents, mockDocuments.Instance);
             mockDte.ImplementExpr(dte => dte.ActiveDocument, mockActiveDocument.Instance);
+
+            //mockDte.ImplementExpr(dte => dte.Events, mockEvents.Instance);
 
             mockSolution.ImplementExpr(sol => sol.Projects, mockProjects.Instance);
             mockProjects.ImplementExpr(e => e.GetEnumerator(), mockProjectEnumerator.Instance);
@@ -192,6 +196,7 @@ namespace VSPackageUnitTest
         ///A test for OnNavigate
         ///</summary>
         [TestMethod()]
+        [DeploymentItem("Microsoft.VisualStudio.QualityTools.MockObjectFramework.dll")]
         public void OnNavigateToDocNotInProjectTest()
         {
             var mockDocumentEnumerator = new SequenceMock<IEnumerator>();
@@ -222,7 +227,7 @@ namespace VSPackageUnitTest
             mockVirtualPoint.ImplementExpr(vp => vp.TryToShow(EnvDTE.vsPaneShowHow.vsPaneShowCentered, 0));
 
             this.mockServiceProvider.ImplementExpr(sp => sp.GetService(typeof(EnvDTE.DTE)), mockDte.Instance);
-            ProjectUtilities_Accessor.Initialize(this.mockServiceProvider.Instance);
+            ProjectUtilities_Accessor.SetProvider(this.mockServiceProvider.Instance);
 
             // Execute
             this.taskUnderTest.OnNavigate(EventArgs.Empty);
@@ -239,6 +244,7 @@ namespace VSPackageUnitTest
         ///A test for OnNavigate
         ///</summary>
         [TestMethod()]
+        [DeploymentItem("Microsoft.VisualStudio.QualityTools.MockObjectFramework.dll")]
         public void OnNavigateNoDocumentTest()
         {
             var mockDte = new Mock<EnvDTE.DTE>();
@@ -248,7 +254,7 @@ namespace VSPackageUnitTest
             bool eventFired = false;
             analysisHelper.core.OutputGenerated += (sender, args) => { eventFired = true; };
 
-            ProjectUtilities_Accessor.Initialize(this.mockServiceProvider.Instance);
+            //ProjectUtilities_Accessor.Initialize(this.mockServiceProvider.Instance);
 
             // Does nothing - included for code coverage and to catch it if it starts doing something unexpectedtly
             this.taskUnderTestShell.Document = null;
@@ -270,6 +276,7 @@ namespace VSPackageUnitTest
         ///A test for OnNavigate
         ///</summary>
         [TestMethod()]
+        [DeploymentItem("Microsoft.VisualStudio.QualityTools.MockObjectFramework.dll")]
         public void OnNavigateEmptyDocumentTest()
         {
             bool eventFired = false;
@@ -278,9 +285,7 @@ namespace VSPackageUnitTest
             this.mockServiceProvider.ImplementExpr(sp => sp.GetService(typeof(SVsSolutionBuildManager)), new MockSolutionBuildManager());
             AnalysisHelper_Accessor analysisHelper = SetCoreNoUI();
             analysisHelper.core.OutputGenerated += (sender, args) => { eventFired = true; };
-
-            ProjectUtilities_Accessor.Initialize(this.mockServiceProvider.Instance);
-
+            
             // Does nothing - included for code coverage and to catch it if it starts doing something unexpectedtly
             this.taskUnderTestShell.Document = string.Empty;
             this.taskUnderTest.OnNavigate(EventArgs.Empty);
