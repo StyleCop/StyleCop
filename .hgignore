@@ -8,3 +8,5 @@ syntax: glob
 *.db
 *\TestResults\*
 errors.log
+*.err
+*.wrn
