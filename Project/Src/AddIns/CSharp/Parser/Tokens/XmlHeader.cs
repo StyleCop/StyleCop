@@ -170,7 +170,7 @@ namespace StyleCop.CSharp
                 "originalText",
                 "Expected the text to start with ///");
 
-            // Typically, the header line will begin with a single space after the three slashes. We sohuld not
+            // Typically, the header line will begin with a single space after the three slashes. We should not
             // consider this space to be part of the documentation, so skip past it.
             int startIndex = 3;
             if (originalText.Length > 3 && originalText[3] == ' ')

@@ -1622,21 +1622,68 @@ namespace StyleCop.CSharp
             Param.AssertGreaterThanZero(lineNumber, "lineNumber");
 
             rawDocs = new XmlDocument();
-            formattedDocs = new XmlDocument();
-
+            
             try
             {
                 string correctxml = "<root>" + header.RawText + "</root>";
                 rawDocs.LoadXml(correctxml);
+                
+                formattedDocs = FormatXmlDocument(rawDocs);
 
-                correctxml = "<root>" + header.Text + "</root>";
-                formattedDocs.LoadXml(correctxml);
             }
             catch (XmlException xmlex)
             {
                 this.AddViolation(element, lineNumber, Rules.DocumentationMustContainValidXml, xmlex.Message);
                 rawDocs = formattedDocs = null;
             }
+        }
+
+        /// <summary>
+        /// Takes an xml doc and trims whitespace from its children and removes any newlines
+        /// </summary>
+        /// <param name="doc">The XmlDocument to format.</param>
+        /// <returns>An XmlDocument nicely formatted.</returns>
+        private static XmlDocument FormatXmlDocument(XmlDocument doc)
+        {
+            var formattedDoc = (XmlDocument)doc.Clone();
+
+            // merge consecutive text nodes so avoid handling whitespace between
+            // those
+            formattedDoc.Normalize();
+
+            var queue = new Queue<XmlNode>();
+            queue.Enqueue(formattedDoc.DocumentElement);
+
+            while (queue.Count > 0)
+            {
+                XmlNode currentNode = queue.Dequeue();
+                var childNodes = currentNode.ChildNodes;
+                for (int i = 0; i < childNodes.Count; ++i)
+                {
+                    XmlNode child = childNodes[i];
+                    if (child.NodeType != XmlNodeType.Text)
+                    {
+                        queue.Enqueue(child);
+                        continue;
+                    }
+
+                    string text = child.InnerText.Trim().Replace("\n", string.Empty);
+                    
+                    if (i != 0)
+                    {
+                        text = " " + text;
+                    }
+
+                    if (i != childNodes.Count - 1)
+                    {
+                        text = text + " ";
+                    }
+                    
+                    child.InnerText = text;
+                }
+            }
+
+            return formattedDoc;
         }
 
         /// <summary>
