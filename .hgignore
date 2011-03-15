@@ -7,3 +7,4 @@ syntax: glob
 *\InstallDrop\*
 *.db
 *\TestResults\*
+errors.log
