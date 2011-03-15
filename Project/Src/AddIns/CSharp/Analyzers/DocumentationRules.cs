@@ -1379,7 +1379,7 @@ namespace StyleCop.CSharp
                 else
                 {
                     // Insert any documentation present in 'include' tags.
-                    if (this.InsertIncludedDocumentation(element, Path.GetDirectoryName(element.Document.SourceCode.Path), formattedDocs))
+                    if (this.InsertIncludedDocumentation(element, formattedDocs))
                     {
                         this.CheckForBlankLinesInDocumentationHeader(element, header);
                         this.CheckHeaderSummary(element, lineNumber, partialElement, formattedDocs);
@@ -2312,29 +2312,25 @@ namespace StyleCop.CSharp
         /// Inserts any included documentation into the given documentation header.
         /// </summary>
         /// <param name="element">The element containing the documentation.</param>
-        /// <param name="basePath">The base path where the includer is located.</param>
         /// <param name="documentation">The documentation header.</param>
         /// <returns>Returns false if a violation was found.</returns>
-        private bool InsertIncludedDocumentation(CsElement element, string basePath, XmlDocument documentation)
+        private bool InsertIncludedDocumentation(CsElement element, XmlDocument documentation)
         {
             Param.AssertNotNull(element, "element");
-            Param.AssertValidString(basePath, "basePath");
             Param.AssertNotNull(documentation, "documentation");
 
-            return this.InsertIncludedDocumentationForNode(element, basePath, documentation.DocumentElement);
+            return this.InsertIncludedDocumentationForNode(element, documentation.DocumentElement);
         }
 
         /// <summary>
         /// Inserts any included documentation under the given documentation node.
         /// </summary>
         /// <param name="element">The element containing the documentation.</param>
-        /// <param name="basePath">The base path where the includer is located.</param>
         /// <param name="documentationNode">The documentation node.</param>
         /// <returns>Returns false if a violation was found.</returns>
-        private bool InsertIncludedDocumentationForNode(CsElement element, string basePath, XmlNode documentationNode)
+        private bool InsertIncludedDocumentationForNode(CsElement element, XmlNode documentationNode)
         {
             Param.AssertNotNull(element, "element");
-            Param.AssertValidString(basePath, "basePath");
             Param.AssertNotNull(documentationNode, "documentationNode");
 
             bool result = true;
@@ -2342,11 +2338,11 @@ namespace StyleCop.CSharp
             if (documentationNode.NodeType == XmlNodeType.Element && documentationNode.Name == "include")
             {
                 // Handle the include tag.
-                result = this.LoadAndReplaceIncludeTag(element, basePath, documentationNode);
+                result = this.LoadAndReplaceIncludeTag(element, documentationNode);
             }
             else
             {
-                result = this.InsertIncludedDocumentationForChildNodes(element, basePath, documentationNode);
+                result = this.InsertIncludedDocumentationForChildNodes(element, documentationNode);
             }
 
             return result;
@@ -2356,13 +2352,11 @@ namespace StyleCop.CSharp
         /// Iterates through the children of the given documentation node, and replaces any include tags found there.
         /// </summary>
         /// <param name="element">The element containing the documentation.</param>
-        /// <param name="basePath">The base path where the includer is located.</param>
         /// <param name="documentationNode">The documentation node.</param>
         /// <returns>Returns true of success; false otherwise.</returns>
-        private bool InsertIncludedDocumentationForChildNodes(CsElement element, string basePath, XmlNode documentationNode)
+        private bool InsertIncludedDocumentationForChildNodes(CsElement element, XmlNode documentationNode)
         {
             Param.AssertNotNull(element, "element");
-            Param.AssertValidString(basePath, "basePath");
             Param.AssertNotNull(documentationNode, "documentationNode");
 
             // This method is optimized for performance. It loops through the collection of child nodes under the given
@@ -2373,7 +2367,7 @@ namespace StyleCop.CSharp
             // We omit this step whenever there is only a single child node.
             if (documentationNode.ChildNodes.Count == 1)
             {
-                if (!this.InsertIncludedDocumentationForNode(element, basePath, documentationNode.FirstChild))
+                if (!this.InsertIncludedDocumentationForNode(element, documentationNode.FirstChild))
                 {
                     return false;
                 }
@@ -2394,7 +2388,7 @@ namespace StyleCop.CSharp
                 // Loop through each of the nodes in the array and check for includes.
                 for (int i = 0; i < childNodes.Length; ++i)
                 {
-                    if (!this.InsertIncludedDocumentationForNode(element, basePath, childNodes[i]))
+                    if (!this.InsertIncludedDocumentationForNode(element, childNodes[i]))
                     {
                         return false;
                     }
@@ -2408,16 +2402,18 @@ namespace StyleCop.CSharp
         /// Loads and inserts included documentation.
         /// </summary>
         /// <param name="element">The element containing the documentation.</param>
-        /// <param name="basePath">The base path to the file containing the element.</param>
         /// <param name="documentationNode">The 'include' tag node.</param>
         /// <returns>Returns true on success.</returns>
-        private bool LoadAndReplaceIncludeTag(CsElement element, string basePath, XmlNode documentationNode)
+        private bool LoadAndReplaceIncludeTag(CsElement element, XmlNode documentationNode)
         {
             Param.AssertNotNull(element, "element");
-            Param.AssertValidString(basePath, "basePath");
             Param.AssertNotNull(documentationNode, "documentationNode");
 
             Debug.Assert(documentationNode.Name == "include", "The node is not an include tag.");
+
+            // The path we use to load the included xml from should be relative to the project location not
+            // the location that the element is from, so here we calculate the base path from the element
+            string basePath = element.Document.SourceCode.Project.Location;
 
             // Extract and validate the file and path values.
             string file;
@@ -2485,7 +2481,7 @@ namespace StyleCop.CSharp
                 XmlNode importedNode = documentationNode.OwnerDocument.ImportNode(includedDocumentationNode, true);
 
                 // Resolve any 'include' tags within the linked documentation.
-                this.InsertIncludedDocumentationForNode(element, Path.GetDirectoryName(includedDocument.FilePath), importedNode);
+                this.InsertIncludedDocumentationForNode(element, importedNode);
 
                 // Replace the original 'include' tag with the linked documentation contents.
                 documentationNode.ParentNode.InsertAfter(importedNode, previousNode);
