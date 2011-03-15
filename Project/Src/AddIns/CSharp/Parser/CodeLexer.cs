@@ -184,7 +184,7 @@ namespace StyleCop.CSharp
             // Loop until all the symbols have been read.
             while (true)
             {
-                Symbol symbol = this.GetSymbol(sourceCode, configuration, true);
+                Symbol symbol = this.GetSymbol(sourceCode, configuration);
                 if (symbol == null)
                 {
                     break;
@@ -202,21 +202,19 @@ namespace StyleCop.CSharp
         /// </summary>
         /// <param name="sourceCode">The source code containing the symbol.</param>
         /// <param name="configuration">The active configuration.</param>
-        /// <param name="evaluatePreprocessors">Indicates whether to evaluate preprocessor symbols.</param>
         /// <returns>Returns the next symbol in the document.</returns>
         [SuppressMessage(
-            "Microsoft.Maintainability", 
+            "Microsoft.Maintainability",
             "CA1502:AvoidExcessiveComplexity",
             Justification = "The method is not overly complex.")]
         [SuppressMessage(
-            "Microsoft.Globalization", 
-            "CA1303:DoNotPassLiteralsAsLocalizedParameters", 
+            "Microsoft.Globalization",
+            "CA1303:DoNotPassLiteralsAsLocalizedParameters",
             Justification = "The literals represent non-localizable C# operators.")]
-        internal Symbol GetSymbol(SourceCode sourceCode, Configuration configuration, bool evaluatePreprocessors)
+        internal Symbol GetSymbol(SourceCode sourceCode, Configuration configuration)
         {
             Param.AssertNotNull(sourceCode, "sourceCode");
             Param.Ignore(configuration);
-            Param.Ignore(evaluatePreprocessors);
 
             Symbol symbol = null;
 
@@ -273,9 +271,9 @@ namespace StyleCop.CSharp
                         break;
 
                     case '#':
-                        symbol = this.GetPreprocessorDirectiveSymbol(sourceCode, configuration, evaluatePreprocessors);
+                        symbol = this.GetPreprocessorDirectiveSymbol(sourceCode, configuration);
                         break;
-                        
+
                     case '(':
                         symbol = this.CreateAndMovePastSymbol("(", SymbolType.OpenParenthesis);
                         break;
@@ -338,7 +336,7 @@ namespace StyleCop.CSharp
         }
 
         #endregion Internal Methods
-        
+
         #region Private Static Methods
 
         /// <summary>
@@ -576,7 +574,7 @@ namespace StyleCop.CSharp
             UnicodeCategory category = char.GetUnicodeCategory(character);
             if (category == UnicodeCategory.LowercaseLetter ||
                 category == UnicodeCategory.UppercaseLetter ||
-                category == UnicodeCategory.OtherSymbol || 
+                category == UnicodeCategory.OtherSymbol ||
                 category == UnicodeCategory.OtherLetter ||
                 category == UnicodeCategory.ModifierLetter ||
                 category == UnicodeCategory.NonSpacingMark ||
@@ -963,7 +961,7 @@ namespace StyleCop.CSharp
             Param.AssertGreaterThanOrEqualToZero(index, "index");
 
             int startIndex = index;
-            
+
             while (true)
             {
                 char character = this.codeReader.Peek(index - this.marker.Index);
@@ -1176,7 +1174,7 @@ namespace StyleCop.CSharp
         /// </summary>
         /// <returns>Returns the newline.</returns>
         [SuppressMessage(
-            "Microsoft.Globalization", 
+            "Microsoft.Globalization",
             "CA1303:DoNotPassLiteralsAsLocalizedParameters",
             MessageId = "StyleCop.CSharp.Symbol.#ctor(System.String,StyleCop.CSharp.SymbolType,StyleCop.CodeLocation)",
             Justification = "The literal is a non-localizable newline character")]
@@ -1245,7 +1243,7 @@ namespace StyleCop.CSharp
                 }
 
                 text.Append(character);
-                
+
                 // Advance past this character.
                 this.codeReader.ReadNext();
             }
@@ -1282,7 +1280,7 @@ namespace StyleCop.CSharp
             char quoteType = this.codeReader.ReadNext();
             Debug.Assert(quoteType == '\'' || quoteType == '\"', "Expected a quote character");
             text.Append(quoteType);
-            
+
             bool slash = false;
 
             // Read through to the end of the string.
@@ -1538,10 +1536,10 @@ namespace StyleCop.CSharp
             Debug.Assert(this.codeReader.Peek() == '/', "Expected a forward slash character");
 
             StringBuilder text = new StringBuilder();
-            
+
             // Peek at the type of the next character.
             char character = this.codeReader.Peek(1);
-           
+
             if (character != char.MinValue)
             {
                 if (character == '*')
@@ -1756,15 +1754,12 @@ namespace StyleCop.CSharp
         /// </summary>
         /// <param name="sourceCode">The source code.</param>
         /// <param name="configuration">The active configuration.</param>
-        /// <param name="evaluate">Indicates whether to evaluate the preprocessor symbol if it is a conditional
-        /// directive.</param>
         /// <returns>Returns the next preprocessor directive keyword.</returns>
         private Symbol GetPreprocessorDirectiveSymbol(
-            SourceCode sourceCode, Configuration configuration, bool evaluate)
+            SourceCode sourceCode, Configuration configuration)
         {
             Param.AssertNotNull(sourceCode, "sourceCode");
             Param.Ignore(configuration);
-            Param.Ignore(evaluate);
 
             // Find the end of the current line.
             StringBuilder text = new StringBuilder();
@@ -1790,7 +1785,7 @@ namespace StyleCop.CSharp
             this.marker.Index += text.Length;
             this.marker.IndexOnLine += text.Length;
 
-            if (evaluate && configuration != null)
+            if (configuration != null)
             {
                 // Check the type of the symbol. If this is a conditional preprocessor symbol which resolves to false,
                 // then we need to advance past all of the code which is not in scope.
@@ -1852,7 +1847,7 @@ namespace StyleCop.CSharp
                         while (true)
                         {
                             // Get the next symbol.
-                            Symbol symbol = this.GetSymbol(sourceCode, configuration, false);
+                            Symbol symbol = this.GetSymbol(sourceCode, configuration);
                             if (symbol == null)
                             {
                                 throw new SyntaxException(sourceCode, preprocessorSymbol.LineNumber);
@@ -1912,11 +1907,11 @@ namespace StyleCop.CSharp
         /// <param name="skip">Returns a value indicating whether the item should be skipped.</param>
         /// <returns>Returns a value indicating whether to ignore the item.</returns>
         private bool GetIfElsePreprocessorDirectives(
-            SourceCode sourceCode, 
-            Symbol preprocessorSymbol, 
-            Configuration configuration, 
-            int startIndex, 
-            string type, 
+            SourceCode sourceCode,
+            Symbol preprocessorSymbol,
+            Configuration configuration,
+            int startIndex,
+            string type,
             out bool skip)
         {
             Param.AssertNotNull(sourceCode, "sourceCode");
