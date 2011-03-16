@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<?include AssemblyVersion.wxi ?>
+<Include>
+  <?define MediumProductName = "StyleCop" ?>
+  <?define ProductName = "$(var.MediumProductName) $(var.WixVersionLong)" ?>
+</Include>

@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<StyleCopTestDescription TestName="BuiltInTypes">
+  <Test Name="BuiltInTypes">
+    <TestCodeFile>ValidBuiltInTypes.cs</TestCodeFile>
+    <TestCodeFile>InvalidBuiltInTypes.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.Rules.ReadabilityRules">
+          <Rules>
+            <Rule Name="UseBuiltInTypeAlias">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+    </ExpectedViolations>
+  </Test>
+</StyleCopTestDescription>

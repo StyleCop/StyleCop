@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace StreamBasedEnvironmentTest
+namespace ObjectBasedEnvironmentTest
 {
     public static class StaticSource
     {
@@ -13,7 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace StreamBasedEnvironmentTest
+namespace ObjectBasedEnvironmentTest
 {
     class Class1
     {
@@ -26,7 +26,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace StreamBasedEnvironmentTest
+namespace ObjectBasedEnvironmentTest
 {
     class Class2
     {
@@ -39,7 +39,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace StreamBasedEnvironmentTest
+namespace ObjectBasedEnvironmentTest
 {
     class Class3
     {

@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SourceAnalyzer Name="Maintainability Rules">
+  <Description>
+    Rules which improve code maintainability.
+  </Description>
+  <Rules>
+    <RuleGroup Name="Access Modifiers">
+      <Rule Name="AccessModifierMustBeDeclared" CheckId="SA1400">
+        <Context>The {0} must have an access modifier.</Context>
+        <Description>Validates that an access modifier is declared for an element.</Description>
+      </Rule>
+      <Rule Name="FieldsMustBePrivate" CheckId="SA1401">
+        <Context>Fields must be declared with private access. Use properties to expose fields.</Context>
+        <Description>Validates that a field is declared with private access.</Description>
+      </Rule>
+    </RuleGroup>
+    <RuleGroup Name="File Contents">
+      <Rule Name="FileMayOnlyContainASingleClass" CheckId="SA1402">
+        <Context>A C# document may only contain a single class at the root level unless all of the classes are partial and are of the same type.</Context>
+        <Description>Validates that a C# document does not contain more than one class at the root level.</Description>
+      </Rule>
+      <Rule Name="FileMayOnlyContainASingleNamespace" CheckId="SA1403">
+        <Context>A C# document may only contain a single namespace.</Context>
+        <Description>Validates that a C# document does not contain more than one namespace directive.</Description>
+      </Rule>
+    </RuleGroup>
+    <RuleGroup Name="Debug Text">
+      <Rule Name="CodeAnalysisSuppressionMustHaveJustification" CheckId="SA1404">
+        <Context>A Code Analysis suppression must contain a non-empty justification describing the reason for the suppression.</Context>
+        <Description>Validates that a Code Analysis suppression contains a justifiction describing the reason for the suppression.</Description>
+      </Rule>
+      <Rule Name="DebugAssertMustProvideMessageText" CheckId="SA1405">
+        <Context>A call to Debug.Assert must provide a message in the second parameter describing the reason for the assert.</Context>
+        <Description>Validates that calls to Debug.Assert provide a message in the second parameter describing the reason for the assert.</Description>
+      </Rule>
+      <Rule Name="DebugFailMustProvideMessageText" CheckId="SA1406">
+        <Context>A call to Debug.Fail must provide a message in the first parameter describing the reason for the failure.</Context>
+        <Description>Validates that calls to Debug.Fail provide a message in the first parameter describing the reason for the failure.</Description>
+      </Rule>
+    </RuleGroup>
+    <RuleGroup Name="Parenthesis">
+      <Rule Name="StatementMustNotUseUnnecessaryParenthesis" CheckId="SA1119">
+        <Context>The line contains unnecessary parenthesis.</Context>
+        <Description>Verifies that the code does not contain extra, unnecessary parenthesis.</Description>
+      </Rule>
+      <Rule Name="ArithmeticExpressionsMustDeclarePrecedence" CheckId="SA1407">
+        <Context>Insert parenthesis within the arithmetic expression to declare the operator precedence.</Context>
+        <Description>Verifies that the code does not rely on implied arithmetic operator precedence.</Description>
+      </Rule>
+      <Rule Name="ConditionalExpressionsMustDeclarePrecedence" CheckId="SA1408">
+        <Context>Insert parenthesis within the conditional AND and OR expressions to declare the operator precedence.</Context>
+        <Description>Verifies that the code does not rely on implied conditional operator precedence.</Description>
+      </Rule>
+      <Rule Name="RemoveDelegateParenthesisWhenPossible" CheckId="SA1410">
+        <Context>Remove the parenthesis from the anonymous method, since the delegate's parameter list is empty.</Context>
+        <Description>Verifies that parenthesis are removed from anonymous methods when there are no method parameters.</Description>
+      </Rule>
+    </RuleGroup>
+    <RuleGroup Name="Removable Code">
+      <Rule Name="RemoveUnnecessaryCode" CheckId="SA1409">
+        <Context>The {0} should be removed as it is either empty or unnecessary.</Context>
+        <Description>Verifies that the code does not contain empty or unnecessary code elements.</Description>
+      </Rule>
+    </RuleGroup>
+  </Rules>
+</SourceAnalyzer>
+

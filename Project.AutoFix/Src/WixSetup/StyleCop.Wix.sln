@@ -1,0 +1,19 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "WixSetup", "WixSetup.wixproj", "{C6D48FF0-2189-4038-90BD-0751F327C482}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C6D48FF0-2189-4038-90BD-0751F327C482}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6D48FF0-2189-4038-90BD-0751F327C482}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6D48FF0-2189-4038-90BD-0751F327C482}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6D48FF0-2189-4038-90BD-0751F327C482}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

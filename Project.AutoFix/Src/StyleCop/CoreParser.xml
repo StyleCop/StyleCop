@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SourceParser Name="NotUsed">
+  <Description>
+    Global settings.
+  </Description>
+  <FileType>.b4d21706-e5eb-4d66-a73a-a4ee90f21af2</FileType>
+  <Properties>
+    <StringProperty
+      Name="MergeSettingsFiles"
+      DefaultValue="Parent"
+      FriendlyName="Merge"
+      Description="The type of merging to perform."
+      Merge="False"
+    />
+    <StringProperty
+      Name="LinkedSettingsFile"
+      DefaultValue=""
+      FriendlyName="LinkedSettings"
+      Description="The path to the linked settings file."
+      Merge="False"
+    />
+    <BooleanProperty
+      Name="WriteCache"
+      DefaultValue="true"
+      FriendlyName="Write Results Cache"
+      Description="Indicates whether to cache analysis results."
+      DisplaySettings="False"
+    />
+    <BooleanProperty
+      Name="RulesEnabledByDefault"
+      DefaultValue="true"
+      FriendlyName="Rules Enabled By Default"
+      Description="Indicates rules are enabled or disabled by default."
+    />
+  </Properties>
+  <Rules>
+    <Rule Name="ExceptionOccurred" CheckId="SA0001">
+      <Context>An exception occurred while parsing the file: {0}, {1}.</Context>
+    </Rule>
+    <Rule Name="SaveExceptionOccurred" CheckId="SA0002">
+      <Context>A {0} exception occurred while saving the file {1}: {2}.</Context>
+    </Rule>
+    <Rule Name="UnknownSaveExceptionOccurred" CheckId="SA0003">
+      <Context>An unknown error occurred while saving the file {0}.</Context>
+    </Rule>
+  </Rules>
+</SourceParser>

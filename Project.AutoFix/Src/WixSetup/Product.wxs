@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?include AssemblyVersion.wxi ?>
+<?include SharedIncludes.wxi ?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+
+  <Product Name="$(var.ProductName)" Id='3175553C-88D5-453B-93CB-4012A827533A' Language='1033' Version='$(var.WixVersionLong)' Manufacturer='stylecop.codeplex.com' UpgradeCode='A8783A1F-D366-494b-90E7-84360AC18603'>
+    <Package InstallerVersion="200" Compressed="yes" />
+
+    <!-- You must be an admin to execute devenv /setup -->
+    <Condition Message="You need to be an administrator to install [ProductName].">
+      Privileged
+    </Condition>
+
+    <!-- Disallow installing an older version over a newer version -->
+    <Condition Message="A later version of [ProductName] is already installed.">
+      NOT NEWERVERSIONDETECTED
+    </Condition>
+
+    <Feature Id='Feature_StyleCopPackage'
+             Title='Visual Studio integration'
+             Description="StyleCop. Requires Visual Studio 2008 or Visual Studio 2010 to be installed."
+             Level="1" Display='expand' ConfigurableDirectory='INSTALLDIR'>
+      <ComponentGroupRef Id="StyleCopCommon" />
+
+      <!-- Require VS 2008 or VS 2010 to be installed -->
+      <Condition Level="1"><![CDATA[VS90DEVENV<>"" OR VS2010DEVENV<>""]]></Condition>
+      <Condition Level="0"><![CDATA[VS90DEVENV="" AND VS2010DEVENV=""]]></Condition>
+    </Feature>
+
+    <Feature Id='Feature_MSBuild'
+             Title='MSBuild integration files'
+             Description='Files for setting up StyleCop integration with MSBuild.'
+             Level='500' AllowAdvertise="no" Display="expand" InstallDefault="local" TypicalDefault="install">
+      <ComponentGroupRef Id="MSBuild_Common" />
+      <ComponentRef Id="SettingsEditorMSBuildComponent" />
+    </Feature>
+
+    <!-- Install Sequences -->
+    <InstallExecuteSequence>
+      <FindRelatedProducts Before="LaunchConditions" />
+      <RemoveExistingProducts After="InstallValidate" />
+      <!--  We replace the use of VS90Setup with StyleCopVS90Setup to add support for the devenv.exe flag /nosetupvstemplates -->
+      <Custom Action="StyleCopVS90Setup" Before="InstallFinalize"><![CDATA[&Feature_StyleCopPackage > 1 AND VS90DEVENV<>""]]></Custom>
+      <Custom Action="StyleCopVS10Setup" Before="InstallFinalize"><![CDATA[&Feature_StyleCopPackage > 1 AND VS2010DEVENV<>""]]></Custom>
+    </InstallExecuteSequence>
+
+    <InstallUISequence>
+      <FindRelatedProducts Before="LaunchConditions" />
+    </InstallUISequence>
+
+    <WixVariable Id="WixUILicenseRtf" Value="License.rtf" />
+    <WixVariable Id="WixUIBannerBmp" Value="Bitmaps\bannrbmp.bmp" /> 
+    <WixVariable Id="WixUIDialogBmp" Value="Bitmaps\dlgbmp.bmp" /> 
+
+    <UI>
+      <UIRef Id="WixUI_FeatureTree" />
+      <UIRef Id="WixUI_ErrorProgressText" />
+    </UI>
+
+    <Media Id="1" Cabinet="WixSetup.cab" EmbedCab="yes" />
+
+    <!-- Icons -->
+    <Icon Id="WixIcon" SourceFile="..\VSPackage\Resources\StyleCop.ico" />
+
+    <!-- Properties -->
+    <Property Id="ARPHELPLINK" Value="http://blogs.msdn.com/sourceanalysis/" />
+    <Property Id="ARPPRODUCTICON" Value="WixIcon" />
+    <Property Id="ARPURLINFOABOUT" Value="http://blogs.msdn.com/sourceanalysis/" />
+    <Property Id="ARPURLUPDATEINFO" Value="http://blogs.msdn.com/sourceanalysis/" />
+
+  </Product>
+</Wix>

@@ -1,0 +1,148 @@
+﻿<StyleCopCsParserObjectModel>
+  <CodeUnit Type="CsDocument">
+    <CodeUnit Type="FileHeader" />
+    <CodeUnit Type="UsingDirective">
+      <CodeUnit Text="using" Type="UsingDirectiveToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="System" Type="TypeToken">
+        <CodeUnit Text="System" Type="LiteralToken" />
+      </CodeUnit>
+      <CodeUnit Text=";" Type="SemicolonToken" />
+    </CodeUnit>
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Type="UsingDirective">
+      <CodeUnit Text="using" Type="UsingDirectiveToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="System.Windows.Forms" Type="TypeToken">
+        <CodeUnit Text="System" Type="TypeToken">
+          <CodeUnit Text="System" Type="LiteralToken" />
+        </CodeUnit>
+        <CodeUnit Text="." Type="MemberAccessOperator" />
+        <CodeUnit Text="Windows" Type="TypeToken">
+          <CodeUnit Text="Windows" Type="LiteralToken" />
+        </CodeUnit>
+        <CodeUnit Text="." Type="MemberAccessOperator" />
+        <CodeUnit Text="Forms" Type="TypeToken">
+          <CodeUnit Text="Forms" Type="LiteralToken" />
+        </CodeUnit>
+      </CodeUnit>
+      <CodeUnit Text=";" Type="SemicolonToken" />
+    </CodeUnit>
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Type="UsingDirective">
+      <CodeUnit Text="using" Type="UsingDirectiveToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="System . Diagnostics . CodeAnalysis" Type="TypeToken">
+        <CodeUnit Text="System" Type="TypeToken">
+          <CodeUnit Text="System" Type="LiteralToken" />
+        </CodeUnit>
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="." Type="MemberAccessOperator" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="Diagnostics" Type="TypeToken">
+          <CodeUnit Text="Diagnostics" Type="LiteralToken" />
+        </CodeUnit>
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="." Type="MemberAccessOperator" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="CodeAnalysis" Type="TypeToken">
+          <CodeUnit Text="CodeAnalysis" Type="LiteralToken" />
+        </CodeUnit>
+      </CodeUnit>
+      <CodeUnit Text="  " Type="Whitespace" />
+      <CodeUnit Text=";" Type="SemicolonToken" />
+    </CodeUnit>
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Type="UsingDirective">
+      <CodeUnit Text="using" Type="UsingDirectiveToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="System .&#xA;    Diagnostics&#xA;        . CodeAnalysis" Type="TypeToken">
+        <CodeUnit Text="System" Type="TypeToken">
+          <CodeUnit Text="System" Type="LiteralToken" />
+        </CodeUnit>
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="." Type="MemberAccessOperator" />
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="    " Type="Whitespace" />
+        <CodeUnit Text="Diagnostics" Type="TypeToken">
+          <CodeUnit Text="Diagnostics" Type="LiteralToken" />
+        </CodeUnit>
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="        " Type="Whitespace" />
+        <CodeUnit Text="." Type="MemberAccessOperator" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="CodeAnalysis" Type="TypeToken">
+          <CodeUnit Text="CodeAnalysis" Type="LiteralToken" />
+        </CodeUnit>
+      </CodeUnit>
+      <CodeUnit Text=";" Type="SemicolonToken" />
+    </CodeUnit>
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Type="UsingDirective">
+      <CodeUnit Text="using" Type="UsingDirectiveToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="Whatever" Type="LiteralToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="=" Type="EqualsOperator" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="System.WeakReference" Type="TypeToken">
+        <CodeUnit Text="System" Type="TypeToken">
+          <CodeUnit Text="System" Type="LiteralToken" />
+        </CodeUnit>
+        <CodeUnit Text="." Type="MemberAccessOperator" />
+        <CodeUnit Text="WeakReference" Type="TypeToken">
+          <CodeUnit Text="WeakReference" Type="LiteralToken" />
+        </CodeUnit>
+      </CodeUnit>
+      <CodeUnit Text=";" Type="SemicolonToken" />
+    </CodeUnit>
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Type="UsingDirective">
+      <CodeUnit Text="using" Type="UsingDirectiveToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="Whatever2" Type="LiteralToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="=" Type="EqualsOperator" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="System . WeakReference" Type="TypeToken">
+        <CodeUnit Text="System" Type="TypeToken">
+          <CodeUnit Text="System" Type="LiteralToken" />
+        </CodeUnit>
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="." Type="MemberAccessOperator" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="WeakReference" Type="TypeToken">
+          <CodeUnit Text="WeakReference" Type="LiteralToken" />
+        </CodeUnit>
+      </CodeUnit>
+      <CodeUnit Text="   " Type="Whitespace" />
+      <CodeUnit Text=";" Type="SemicolonToken" />
+    </CodeUnit>
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Type="Namespace">
+      <CodeUnit Text="namespace" Type="NamespaceToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="Namespace1" Type="LiteralToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Type="UsingDirective">
+        <CodeUnit Text="using" Type="UsingDirectiveToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="System" Type="TypeToken">
+          <CodeUnit Text="System" Type="LiteralToken" />
+        </CodeUnit>
+        <CodeUnit Text=";" Type="SemicolonToken" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+    </CodeUnit>
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+  </CodeUnit>
+</StyleCopCsParserObjectModel>

@@ -1,0 +1,793 @@
+﻿<StyleCopCsParserObjectModel>
+  <CodeUnit Type="CsDocument">
+    <CodeUnit Type="FileHeader" />
+    <CodeUnit Type="Namespace">
+      <CodeUnit Text="namespace" Type="NamespaceToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="StyleCop.CSharpParserTest.TestData" Type="TypeToken">
+        <CodeUnit Text="MS" Type="TypeToken">
+          <CodeUnit Text="MS" Type="LiteralToken" />
+        </CodeUnit>
+        <CodeUnit Text="." Type="MemberAccessOperator" />
+        <CodeUnit Text="StyleCop" Type="TypeToken">
+          <CodeUnit Text="StyleCop" Type="LiteralToken" />
+        </CodeUnit>
+        <CodeUnit Text="." Type="MemberAccessOperator" />
+        <CodeUnit Text="CSharpParserTest" Type="TypeToken">
+          <CodeUnit Text="CSharpParserTest" Type="LiteralToken" />
+        </CodeUnit>
+        <CodeUnit Text="." Type="MemberAccessOperator" />
+        <CodeUnit Text="TestData" Type="TypeToken">
+          <CodeUnit Text="TestData" Type="LiteralToken" />
+        </CodeUnit>
+      </CodeUnit>
+      <CodeUnit Type="ElementBody">
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="    " Type="Whitespace" />
+        <CodeUnit Type="UsingDirective">
+          <CodeUnit Text="using" Type="UsingDirectiveToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="System" Type="TypeToken">
+            <CodeUnit Text="System" Type="LiteralToken" />
+          </CodeUnit>
+          <CodeUnit Type="ElementBody">
+            <CodeUnit Text=";" Type="SemicolonToken" />
+          </CodeUnit>
+        </CodeUnit>
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="    " Type="Whitespace" />
+        <CodeUnit Type="Class">
+          <CodeUnit Text="public" Type="PublicToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="class" Type="ClassToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="AsType" Type="LiteralToken" />
+          <CodeUnit Type="ElementBody">
+            <CodeUnit Text="&#xA;" Type="EndOfLine" />
+            <CodeUnit Text="    " Type="Whitespace" />
+            <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+            <CodeUnit Text="&#xA;" Type="EndOfLine" />
+            <CodeUnit Text="        " Type="Whitespace" />
+            <CodeUnit Type="Method">
+              <CodeUnit Text="public" Type="PublicToken" />
+              <CodeUnit Text=" " Type="Whitespace" />
+              <CodeUnit Text="Type" Type="TypeToken">
+                <CodeUnit Text="Type" Type="LiteralToken" />
+              </CodeUnit>
+              <CodeUnit Text=" " Type="Whitespace" />
+              <CodeUnit Text="Method" Type="LiteralToken" />
+              <CodeUnit Text="(" Type="OpenParenthesisToken" />
+              <CodeUnit Type="ParameterList" />
+              <CodeUnit Text=")" Type="CloseParenthesisToken" />
+              <CodeUnit Type="ElementBody">
+                <CodeUnit Text="&#xA;" Type="EndOfLine" />
+                <CodeUnit Text="        " Type="Whitespace" />
+                <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+                <CodeUnit Text="&#xA;" Type="EndOfLine" />
+                <CodeUnit Text="            " Type="Whitespace" />
+                <CodeUnit Text="// Tests complex type tokens used with as." Type="SingleLineComment" />
+                <CodeUnit Text="&#xA;" Type="EndOfLine" />
+                <CodeUnit Text="            " Type="Whitespace" />
+                <CodeUnit Type="ReturnStatement">
+                  <CodeUnit Text="return" Type="ReturnToken" />
+                  <CodeUnit Text=" " Type="Whitespace" />
+                  <CodeUnit Type="AsExpression">
+                    <CodeUnit Type="MethodInvocationExpression">
+                      <CodeUnit Type="ChildAccessExpression">
+                        <CodeUnit Type="LiteralExpression">
+                          <CodeUnit Text="categoryIds" Type="LiteralToken" />
+                        </CodeUnit>
+                        <CodeUnit Text="." Type="MemberAccessOperator" />
+                        <CodeUnit Type="LiteralExpression">
+                          <CodeUnit Text="ToArray" Type="LiteralToken" />
+                        </CodeUnit>
+                      </CodeUnit>
+                      <CodeUnit Text="(" Type="OpenParenthesisToken" />
+                      <CodeUnit Type="ArgumentList">
+                        <CodeUnit Type="Argument">
+                          <CodeUnit Type="TypeofExpression">
+                            <CodeUnit Text="typeof" Type="TypeofToken" />
+                            <CodeUnit Text="(" Type="OpenParenthesisToken" />
+                            <CodeUnit Type="LiteralExpression">
+                              <CodeUnit Text="Guid?" Type="TypeToken">
+                                <CodeUnit Text="Guid" Type="LiteralToken" />
+                                <CodeUnit Text="?" Type="NullableTypeToken" />
+                              </CodeUnit>
+                            </CodeUnit>
+                            <CodeUnit Text=")" Type="CloseParenthesisToken" />
+                          </CodeUnit>
+                        </CodeUnit>
+                      </CodeUnit>
+                      <CodeUnit Text=")" Type="CloseParenthesisToken" />
+                    </CodeUnit>
+                    <CodeUnit Text=" " Type="Whitespace" />
+                    <CodeUnit Text="as" Type="AsToken" />
+                    <CodeUnit Text=" " Type="Whitespace" />
+                    <CodeUnit Type="LiteralExpression">
+                      <CodeUnit Text="Guid?[]" Type="TypeToken">
+                        <CodeUnit Text="Guid" Type="LiteralToken" />
+                        <CodeUnit Text="?" Type="NullableTypeToken" />
+                        <CodeUnit Text="[" Type="OpenSquareBracketToken" />
+                        <CodeUnit Text="]" Type="CloseSquareBracketToken" />
+                      </CodeUnit>
+                    </CodeUnit>
+                  </CodeUnit>
+                  <CodeUnit Text=";" Type="SemicolonToken" />
+                </CodeUnit>
+                <CodeUnit Text="&#xA;" Type="EndOfLine" />
+                <CodeUnit Text="        " Type="Whitespace" />
+                <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+              </CodeUnit>
+            </CodeUnit>
+            <CodeUnit Text="&#xA;" Type="EndOfLine" />
+            <CodeUnit Text="&#xA;" Type="EndOfLine" />
+            <CodeUnit Text="        " Type="Whitespace" />
+            <CodeUnit Type="Method">
+              <CodeUnit Text="public" Type="PublicToken" />
+              <CodeUnit Text=" " Type="Whitespace" />
+              <CodeUnit Text="void" Type="TypeToken">
+                <CodeUnit Text="void" Type="LiteralToken" />
+              </CodeUnit>
+              <CodeUnit Text=" " Type="Whitespace" />
+              <CodeUnit Text="Method2" Type="LiteralToken" />
+              <CodeUnit Text="(" Type="OpenParenthesisToken" />
+              <CodeUnit Type="ParameterList" />
+              <CodeUnit Text=")" Type="CloseParenthesisToken" />
+              <CodeUnit Type="ElementBody">
+                <CodeUnit Text="&#xA;" Type="EndOfLine" />
+                <CodeUnit Text="        " Type="Whitespace" />
+                <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+                <CodeUnit Text="&#xA;" Type="EndOfLine" />
+                <CodeUnit Text="            " Type="Whitespace" />
+                <CodeUnit Text="// Tests the use of the nullable type operator with a generic type." Type="SingleLineComment" />
+                <CodeUnit Text="&#xA;" Type="EndOfLine" />
+                <CodeUnit Text="            " Type="Whitespace" />
+                <CodeUnit Type="VariableDeclarationStatement">
+                  <CodeUnit Type="VariableDeclarationExpression">
+                    <CodeUnit Type="LiteralExpression">
+                      <CodeUnit Text="Foo&lt;short&gt;?" Type="TypeToken">
+                        <CodeUnit Text="Foo&lt;short&gt;" Type="GenericTypeToken">
+                          <CodeUnit Text="Foo" Type="LiteralToken" />
+                          <CodeUnit Text="&lt;" Type="OpenGenericBracketToken" />
+                          <CodeUnit Type="GenericTypeParameterList">
+                            <CodeUnit Type="GenericTypeParameter">
+                              <CodeUnit Text="short" Type="TypeToken">
+                                <CodeUnit Text="short" Type="LiteralToken" />
+                              </CodeUnit>
+                            </CodeUnit>
+                          </CodeUnit>
+                          <CodeUnit Text="&gt;" Type="CloseGenericBracketToken" />
+                        </CodeUnit>
+                        <CodeUnit Text="?" Type="NullableTypeToken" />
+                      </CodeUnit>
+                    </CodeUnit>
+                    <CodeUnit Text=" " Type="Whitespace" />
+                    <CodeUnit Type="VariableDeclaratorExpression">
+                      <CodeUnit Type="LiteralExpression">
+                        <CodeUnit Text="foo1" Type="LiteralToken" />
+                      </CodeUnit>
+                      <CodeUnit Text=" " Type="Whitespace" />
+                      <CodeUnit Text="=" Type="EqualsOperator" />
+                      <CodeUnit Text=" " Type="Whitespace" />
+                      <CodeUnit Type="NewExpression">
+                        <CodeUnit Text="new" Type="NewToken" />
+                        <CodeUnit Text=" " Type="Whitespace" />
+                        <CodeUnit Type="LiteralExpression">
+                          <CodeUnit Text="Foo&lt;short&gt;" Type="GenericTypeToken">
+                            <CodeUnit Text="Foo" Type="LiteralToken" />
+                            <CodeUnit Text="&lt;" Type="OpenGenericBracketToken" />
+                            <CodeUnit Type="GenericTypeParameterList">
+                              <CodeUnit Type="GenericTypeParameter">
+                                <CodeUnit Text="short" Type="TypeToken">
+                                  <CodeUnit Text="short" Type="LiteralToken" />
+                                </CodeUnit>
+                              </CodeUnit>
+                            </CodeUnit>
+                            <CodeUnit Text="&gt;" Type="CloseGenericBracketToken" />
+                          </CodeUnit>
+                        </CodeUnit>
+                        <CodeUnit Text="(" Type="OpenParenthesisToken" />
+                        <CodeUnit Type="ArgumentList" />
+                        <CodeUnit Text=")" Type="CloseParenthesisToken" />
+                      </CodeUnit>
+                    </CodeUnit>
+                  </CodeUnit>
+                  <CodeUnit Text=";" Type="SemicolonToken" />
+                </CodeUnit>
+                <CodeUnit Text="&#xA;" Type="EndOfLine" />
+                <CodeUnit Text="&#xA;" Type="EndOfLine" />
+                <CodeUnit Text="            " Type="Whitespace" />
+                <CodeUnit Text="// Tests the ability to create variables with complex names including generics." Type="SingleLineComment" />
+                <CodeUnit Text="&#xA;" Type="EndOfLine" />
+                <CodeUnit Text="            " Type="Whitespace" />
+                <CodeUnit Type="VariableDeclarationStatement">
+                  <CodeUnit Type="VariableDeclarationExpression">
+                    <CodeUnit Type="LiteralExpression">
+                      <CodeUnit Text="Type1.Type2.Type3" Type="TypeToken">
+                        <CodeUnit Text="Type1" Type="TypeToken">
+                          <CodeUnit Text="Type1" Type="LiteralToken" />
+                        </CodeUnit>
+                        <CodeUnit Text="." Type="MemberAccessOperator" />
+                        <CodeUnit Text="Type2" Type="TypeToken">
+                          <CodeUnit Text="Type2" Type="LiteralToken" />
+                        </CodeUnit>
+                        <CodeUnit Text="." Type="MemberAccessOperator" />
+                        <CodeUnit Text="Type3" Type="TypeToken">
+                          <CodeUnit Text="Type3" Type="LiteralToken" />
+                        </CodeUnit>
+                      </CodeUnit>
+                    </CodeUnit>
+                    <CodeUnit Text=" " Type="Whitespace" />
+                    <CodeUnit Type="VariableDeclaratorExpression">
+                      <CodeUnit Type="LiteralExpression">
+                        <CodeUnit Text="aa" Type="LiteralToken" />
+                      </CodeUnit>
+                      <CodeUnit Text=" " Type="Whitespace" />
+                      <CodeUnit Text="=" Type="EqualsOperator" />
+                      <CodeUnit Text=" " Type="Whitespace" />
+                      <CodeUnit Type="LiteralExpression">
+                        <CodeUnit Text="null" Type="NullToken" />
+                      </CodeUnit>
+                    </CodeUnit>
+                  </CodeUnit>
+                  <CodeUnit Text=";" Type="SemicolonToken" />
+                </CodeUnit>
+                <CodeUnit Text="&#xA;" Type="EndOfLine" />
+                <CodeUnit Text="            " Type="Whitespace" />
+                <CodeUnit Type="VariableDeclarationStatement">
+                  <CodeUnit Type="VariableDeclarationExpression">
+                    <CodeUnit Type="LiteralExpression">
+                      <CodeUnit Text="Type1&lt;int, string&gt;.Type2.Type3" Type="TypeToken">
+                        <CodeUnit Text="Type1&lt;int, string&gt;" Type="GenericTypeToken">
+                          <CodeUnit Text="Type1" Type="LiteralToken" />
+                          <CodeUnit Text="&lt;" Type="OpenGenericBracketToken" />
+                          <CodeUnit Type="GenericTypeParameterList">
+                            <CodeUnit Type="GenericTypeParameter">
+                              <CodeUnit Text="int" Type="TypeToken">
+                                <CodeUnit Text="int" Type="LiteralToken" />
+                              </CodeUnit>
+                            </CodeUnit>
+                            <CodeUnit Text="," Type="CommaToken" />
+                            <CodeUnit Text=" " Type="Whitespace" />
+                            <CodeUnit Type="GenericTypeParameter">
+                              <CodeUnit Text="string" Type="TypeToken">
+                                <CodeUnit Text="string" Type="LiteralToken" />
+                              </CodeUnit>
+                            </CodeUnit>
+                          </CodeUnit>
+                          <CodeUnit Text="&gt;" Type="CloseGenericBracketToken" />
+                        </CodeUnit>
+                        <CodeUnit Text="." Type="MemberAccessOperator" />
+                        <CodeUnit Text="Type2" Type="TypeToken">
+                          <CodeUnit Text="Type2" Type="LiteralToken" />
+                        </CodeUnit>
+                        <CodeUnit Text="." Type="MemberAccessOperator" />
+                        <CodeUnit Text="Type3" Type="TypeToken">
+                          <CodeUnit Text="Type3" Type="LiteralToken" />
+                        </CodeUnit>
+                      </CodeUnit>
+                    </CodeUnit>
+                    <CodeUnit Text=" " Type="Whitespace" />
+                    <CodeUnit Type="VariableDeclaratorExpression">
+                      <CodeUnit Type="LiteralExpression">
+                        <CodeUnit Text="bb" Type="LiteralToken" />
+                      </CodeUnit>
+                      <CodeUnit Text=" " Type="Whitespace" />
+                      <CodeUnit Text="=" Type="EqualsOperator" />
+                      <CodeUnit Text=" " Type="Whitespace" />
+                      <CodeUnit Type="LiteralExpression">
+                        <CodeUnit Text="null" Type="NullToken" />
+                      </CodeUnit>
+                    </CodeUnit>
+                  </CodeUnit>
+                  <CodeUnit Text=";" Type="SemicolonToken" />
+                </CodeUnit>
+                <CodeUnit Text="&#xA;" Type="EndOfLine" />
+                <CodeUnit Text="            " Type="Whitespace" />
+                <CodeUnit Type="VariableDeclarationStatement">
+                  <CodeUnit Type="VariableDeclarationExpression">
+                    <CodeUnit Type="LiteralExpression">
+                      <CodeUnit Text="Type1.Type2&lt;int, string&gt;.Type3" Type="TypeToken">
+                        <CodeUnit Text="Type1" Type="TypeToken">
+                          <CodeUnit Text="Type1" Type="LiteralToken" />
+                        </CodeUnit>
+                        <CodeUnit Text="." Type="MemberAccessOperator" />
+                        <CodeUnit Text="Type2&lt;int, string&gt;" Type="GenericTypeToken">
+                          <CodeUnit Text="Type2" Type="LiteralToken" />
+                          <CodeUnit Text="&lt;" Type="OpenGenericBracketToken" />
+                          <CodeUnit Type="GenericTypeParameterList">
+                            <CodeUnit Type="GenericTypeParameter">
+                              <CodeUnit Text="int" Type="TypeToken">
+                                <CodeUnit Text="int" Type="LiteralToken" />
+                              </CodeUnit>
+                            </CodeUnit>
+                            <CodeUnit Text="," Type="CommaToken" />
+                            <CodeUnit Text=" " Type="Whitespace" />
+                            <CodeUnit Type="GenericTypeParameter">
+                              <CodeUnit Text="string" Type="TypeToken">
+                                <CodeUnit Text="string" Type="LiteralToken" />
+                              </CodeUnit>
+                            </CodeUnit>
+                          </CodeUnit>
+                          <CodeUnit Text="&gt;" Type="CloseGenericBracketToken" />
+                        </CodeUnit>
+                        <CodeUnit Text="." Type="MemberAccessOperator" />
+                        <CodeUnit Text="Type3" Type="TypeToken">
+                          <CodeUnit Text="Type3" Type="LiteralToken" />
+                        </CodeUnit>
+                      </CodeUnit>
+                    </CodeUnit>
+                    <CodeUnit Text=" " Type="Whitespace" />
+                    <CodeUnit Type="VariableDeclaratorExpression">
+                      <CodeUnit Type="LiteralExpression">
+                        <CodeUnit Text="cc" Type="LiteralToken" />
+                      </CodeUnit>
+                      <CodeUnit Text=" " Type="Whitespace" />
+                      <CodeUnit Text="=" Type="EqualsOperator" />
+                      <CodeUnit Text=" " Type="Whitespace" />
+                      <CodeUnit Type="LiteralExpression">
+                        <CodeUnit Text="null" Type="NullToken" />
+                      </CodeUnit>
+                    </CodeUnit>
+                  </CodeUnit>
+                  <CodeUnit Text=";" Type="SemicolonToken" />
+                </CodeUnit>
+                <CodeUnit Text="&#xA;" Type="EndOfLine" />
+                <CodeUnit Text="            " Type="Whitespace" />
+                <CodeUnit Type="VariableDeclarationStatement">
+                  <CodeUnit Type="VariableDeclarationExpression">
+                    <CodeUnit Type="LiteralExpression">
+                      <CodeUnit Text="Type1.Type2.Type3&lt;int, string&gt;" Type="TypeToken">
+                        <CodeUnit Text="Type1" Type="TypeToken">
+                          <CodeUnit Text="Type1" Type="LiteralToken" />
+                        </CodeUnit>
+                        <CodeUnit Text="." Type="MemberAccessOperator" />
+                        <CodeUnit Text="Type2" Type="TypeToken">
+                          <CodeUnit Text="Type2" Type="LiteralToken" />
+                        </CodeUnit>
+                        <CodeUnit Text="." Type="MemberAccessOperator" />
+                        <CodeUnit Text="Type3&lt;int, string&gt;" Type="GenericTypeToken">
+                          <CodeUnit Text="Type3" Type="LiteralToken" />
+                          <CodeUnit Text="&lt;" Type="OpenGenericBracketToken" />
+                          <CodeUnit Type="GenericTypeParameterList">
+                            <CodeUnit Type="GenericTypeParameter">
+                              <CodeUnit Text="int" Type="TypeToken">
+                                <CodeUnit Text="int" Type="LiteralToken" />
+                              </CodeUnit>
+                            </CodeUnit>
+                            <CodeUnit Text="," Type="CommaToken" />
+                            <CodeUnit Text=" " Type="Whitespace" />
+                            <CodeUnit Type="GenericTypeParameter">
+                              <CodeUnit Text="string" Type="TypeToken">
+                                <CodeUnit Text="string" Type="LiteralToken" />
+                              </CodeUnit>
+                            </CodeUnit>
+                          </CodeUnit>
+                          <CodeUnit Text="&gt;" Type="CloseGenericBracketToken" />
+                        </CodeUnit>
+                      </CodeUnit>
+                    </CodeUnit>
+                    <CodeUnit Text=" " Type="Whitespace" />
+                    <CodeUnit Type="VariableDeclaratorExpression">
+                      <CodeUnit Type="LiteralExpression">
+                        <CodeUnit Text="dd" Type="LiteralToken" />
+                      </CodeUnit>
+                      <CodeUnit Text=" " Type="Whitespace" />
+                      <CodeUnit Text="=" Type="EqualsOperator" />
+                      <CodeUnit Text=" " Type="Whitespace" />
+                      <CodeUnit Type="LiteralExpression">
+                        <CodeUnit Text="null" Type="NullToken" />
+                      </CodeUnit>
+                    </CodeUnit>
+                  </CodeUnit>
+                  <CodeUnit Text=";" Type="SemicolonToken" />
+                </CodeUnit>
+                <CodeUnit Text="&#xA;" Type="EndOfLine" />
+                <CodeUnit Text="            " Type="Whitespace" />
+                <CodeUnit Type="VariableDeclarationStatement">
+                  <CodeUnit Type="VariableDeclarationExpression">
+                    <CodeUnit Type="LiteralExpression">
+                      <CodeUnit Text="Type1&lt;int, string&gt;.Type2&lt;int, string&gt;.Type3" Type="TypeToken">
+                        <CodeUnit Text="Type1&lt;int, string&gt;" Type="GenericTypeToken">
+                          <CodeUnit Text="Type1" Type="LiteralToken" />
+                          <CodeUnit Text="&lt;" Type="OpenGenericBracketToken" />
+                          <CodeUnit Type="GenericTypeParameterList">
+                            <CodeUnit Type="GenericTypeParameter">
+                              <CodeUnit Text="int" Type="TypeToken">
+                                <CodeUnit Text="int" Type="LiteralToken" />
+                              </CodeUnit>
+                            </CodeUnit>
+                            <CodeUnit Text="," Type="CommaToken" />
+                            <CodeUnit Text=" " Type="Whitespace" />
+                            <CodeUnit Type="GenericTypeParameter">
+                              <CodeUnit Text="string" Type="TypeToken">
+                                <CodeUnit Text="string" Type="LiteralToken" />
+                              </CodeUnit>
+                            </CodeUnit>
+                          </CodeUnit>
+                          <CodeUnit Text="&gt;" Type="CloseGenericBracketToken" />
+                        </CodeUnit>
+                        <CodeUnit Text="." Type="MemberAccessOperator" />
+                        <CodeUnit Text="Type2&lt;int, string&gt;" Type="GenericTypeToken">
+                          <CodeUnit Text="Type2" Type="LiteralToken" />
+                          <CodeUnit Text="&lt;" Type="OpenGenericBracketToken" />
+                          <CodeUnit Type="GenericTypeParameterList">
+                            <CodeUnit Type="GenericTypeParameter">
+                              <CodeUnit Text="int" Type="TypeToken">
+                                <CodeUnit Text="int" Type="LiteralToken" />
+                              </CodeUnit>
+                            </CodeUnit>
+                            <CodeUnit Text="," Type="CommaToken" />
+                            <CodeUnit Text=" " Type="Whitespace" />
+                            <CodeUnit Type="GenericTypeParameter">
+                              <CodeUnit Text="string" Type="TypeToken">
+                                <CodeUnit Text="string" Type="LiteralToken" />
+                              </CodeUnit>
+                            </CodeUnit>
+                          </CodeUnit>
+                          <CodeUnit Text="&gt;" Type="CloseGenericBracketToken" />
+                        </CodeUnit>
+                        <CodeUnit Text="." Type="MemberAccessOperator" />
+                        <CodeUnit Text="Type3" Type="TypeToken">
+                          <CodeUnit Text="Type3" Type="LiteralToken" />
+                        </CodeUnit>
+                      </CodeUnit>
+                    </CodeUnit>
+                    <CodeUnit Text=" " Type="Whitespace" />
+                    <CodeUnit Type="VariableDeclaratorExpression">
+                      <CodeUnit Type="LiteralExpression">
+                        <CodeUnit Text="ee" Type="LiteralToken" />
+                      </CodeUnit>
+                      <CodeUnit Text=" " Type="Whitespace" />
+                      <CodeUnit Text="=" Type="EqualsOperator" />
+                      <CodeUnit Text=" " Type="Whitespace" />
+                      <CodeUnit Type="LiteralExpression">
+                        <CodeUnit Text="null" Type="NullToken" />
+                      </CodeUnit>
+                    </CodeUnit>
+                  </CodeUnit>
+                  <CodeUnit Text=";" Type="SemicolonToken" />
+                </CodeUnit>
+                <CodeUnit Text="&#xA;" Type="EndOfLine" />
+                <CodeUnit Text="            " Type="Whitespace" />
+                <CodeUnit Type="VariableDeclarationStatement">
+                  <CodeUnit Type="VariableDeclarationExpression">
+                    <CodeUnit Type="LiteralExpression">
+                      <CodeUnit Text="Type1&lt;int, string&gt;.Type2.Type3&lt;int, string&gt;" Type="TypeToken">
+                        <CodeUnit Text="Type1&lt;int, string&gt;" Type="GenericTypeToken">
+                          <CodeUnit Text="Type1" Type="LiteralToken" />
+                          <CodeUnit Text="&lt;" Type="OpenGenericBracketToken" />
+                          <CodeUnit Type="GenericTypeParameterList">
+                            <CodeUnit Type="GenericTypeParameter">
+                              <CodeUnit Text="int" Type="TypeToken">
+                                <CodeUnit Text="int" Type="LiteralToken" />
+                              </CodeUnit>
+                            </CodeUnit>
+                            <CodeUnit Text="," Type="CommaToken" />
+                            <CodeUnit Text=" " Type="Whitespace" />
+                            <CodeUnit Type="GenericTypeParameter">
+                              <CodeUnit Text="string" Type="TypeToken">
+                                <CodeUnit Text="string" Type="LiteralToken" />
+                              </CodeUnit>
+                            </CodeUnit>
+                          </CodeUnit>
+                          <CodeUnit Text="&gt;" Type="CloseGenericBracketToken" />
+                        </CodeUnit>
+                        <CodeUnit Text="." Type="MemberAccessOperator" />
+                        <CodeUnit Text="Type2" Type="TypeToken">
+                          <CodeUnit Text="Type2" Type="LiteralToken" />
+                        </CodeUnit>
+                        <CodeUnit Text="." Type="MemberAccessOperator" />
+                        <CodeUnit Text="Type3&lt;int, string&gt;" Type="GenericTypeToken">
+                          <CodeUnit Text="Type3" Type="LiteralToken" />
+                          <CodeUnit Text="&lt;" Type="OpenGenericBracketToken" />
+                          <CodeUnit Type="GenericTypeParameterList">
+                            <CodeUnit Type="GenericTypeParameter">
+                              <CodeUnit Text="int" Type="TypeToken">
+                                <CodeUnit Text="int" Type="LiteralToken" />
+                              </CodeUnit>
+                            </CodeUnit>
+                            <CodeUnit Text="," Type="CommaToken" />
+                            <CodeUnit Text=" " Type="Whitespace" />
+                            <CodeUnit Type="GenericTypeParameter">
+                              <CodeUnit Text="string" Type="TypeToken">
+                                <CodeUnit Text="string" Type="LiteralToken" />
+                              </CodeUnit>
+                            </CodeUnit>
+                          </CodeUnit>
+                          <CodeUnit Text="&gt;" Type="CloseGenericBracketToken" />
+                        </CodeUnit>
+                      </CodeUnit>
+                    </CodeUnit>
+                    <CodeUnit Text=" " Type="Whitespace" />
+                    <CodeUnit Type="VariableDeclaratorExpression">
+                      <CodeUnit Type="LiteralExpression">
+                        <CodeUnit Text="ff" Type="LiteralToken" />
+                      </CodeUnit>
+                      <CodeUnit Text=" " Type="Whitespace" />
+                      <CodeUnit Text="=" Type="EqualsOperator" />
+                      <CodeUnit Text=" " Type="Whitespace" />
+                      <CodeUnit Type="LiteralExpression">
+                        <CodeUnit Text="null" Type="NullToken" />
+                      </CodeUnit>
+                    </CodeUnit>
+                  </CodeUnit>
+                  <CodeUnit Text=";" Type="SemicolonToken" />
+                </CodeUnit>
+                <CodeUnit Text="&#xA;" Type="EndOfLine" />
+                <CodeUnit Text="            " Type="Whitespace" />
+                <CodeUnit Type="VariableDeclarationStatement">
+                  <CodeUnit Type="VariableDeclarationExpression">
+                    <CodeUnit Type="LiteralExpression">
+                      <CodeUnit Text="Type1.Type2&lt;int, string&gt;.Type3&lt;int, string&gt;" Type="TypeToken">
+                        <CodeUnit Text="Type1" Type="TypeToken">
+                          <CodeUnit Text="Type1" Type="LiteralToken" />
+                        </CodeUnit>
+                        <CodeUnit Text="." Type="MemberAccessOperator" />
+                        <CodeUnit Text="Type2&lt;int, string&gt;" Type="GenericTypeToken">
+                          <CodeUnit Text="Type2" Type="LiteralToken" />
+                          <CodeUnit Text="&lt;" Type="OpenGenericBracketToken" />
+                          <CodeUnit Type="GenericTypeParameterList">
+                            <CodeUnit Type="GenericTypeParameter">
+                              <CodeUnit Text="int" Type="TypeToken">
+                                <CodeUnit Text="int" Type="LiteralToken" />
+                              </CodeUnit>
+                            </CodeUnit>
+                            <CodeUnit Text="," Type="CommaToken" />
+                            <CodeUnit Text=" " Type="Whitespace" />
+                            <CodeUnit Type="GenericTypeParameter">
+                              <CodeUnit Text="string" Type="TypeToken">
+                                <CodeUnit Text="string" Type="LiteralToken" />
+                              </CodeUnit>
+                            </CodeUnit>
+                          </CodeUnit>
+                          <CodeUnit Text="&gt;" Type="CloseGenericBracketToken" />
+                        </CodeUnit>
+                        <CodeUnit Text="." Type="MemberAccessOperator" />
+                        <CodeUnit Text="Type3&lt;int, string&gt;" Type="GenericTypeToken">
+                          <CodeUnit Text="Type3" Type="LiteralToken" />
+                          <CodeUnit Text="&lt;" Type="OpenGenericBracketToken" />
+                          <CodeUnit Type="GenericTypeParameterList">
+                            <CodeUnit Type="GenericTypeParameter">
+                              <CodeUnit Text="int" Type="TypeToken">
+                                <CodeUnit Text="int" Type="LiteralToken" />
+                              </CodeUnit>
+                            </CodeUnit>
+                            <CodeUnit Text="," Type="CommaToken" />
+                            <CodeUnit Text=" " Type="Whitespace" />
+                            <CodeUnit Type="GenericTypeParameter">
+                              <CodeUnit Text="string" Type="TypeToken">
+                                <CodeUnit Text="string" Type="LiteralToken" />
+                              </CodeUnit>
+                            </CodeUnit>
+                          </CodeUnit>
+                          <CodeUnit Text="&gt;" Type="CloseGenericBracketToken" />
+                        </CodeUnit>
+                      </CodeUnit>
+                    </CodeUnit>
+                    <CodeUnit Text=" " Type="Whitespace" />
+                    <CodeUnit Type="VariableDeclaratorExpression">
+                      <CodeUnit Type="LiteralExpression">
+                        <CodeUnit Text="gg" Type="LiteralToken" />
+                      </CodeUnit>
+                      <CodeUnit Text=" " Type="Whitespace" />
+                      <CodeUnit Text="=" Type="EqualsOperator" />
+                      <CodeUnit Text=" " Type="Whitespace" />
+                      <CodeUnit Type="LiteralExpression">
+                        <CodeUnit Text="null" Type="NullToken" />
+                      </CodeUnit>
+                    </CodeUnit>
+                  </CodeUnit>
+                  <CodeUnit Text=";" Type="SemicolonToken" />
+                </CodeUnit>
+                <CodeUnit Text="&#xA;" Type="EndOfLine" />
+                <CodeUnit Text="            " Type="Whitespace" />
+                <CodeUnit Type="VariableDeclarationStatement">
+                  <CodeUnit Type="VariableDeclarationExpression">
+                    <CodeUnit Type="LiteralExpression">
+                      <CodeUnit Text="Type1&lt;int, string&gt;.Type2&lt;int, string&gt;.Type3&lt;int, string&gt;" Type="TypeToken">
+                        <CodeUnit Text="Type1&lt;int, string&gt;" Type="GenericTypeToken">
+                          <CodeUnit Text="Type1" Type="LiteralToken" />
+                          <CodeUnit Text="&lt;" Type="OpenGenericBracketToken" />
+                          <CodeUnit Type="GenericTypeParameterList">
+                            <CodeUnit Type="GenericTypeParameter">
+                              <CodeUnit Text="int" Type="TypeToken">
+                                <CodeUnit Text="int" Type="LiteralToken" />
+                              </CodeUnit>
+                            </CodeUnit>
+                            <CodeUnit Text="," Type="CommaToken" />
+                            <CodeUnit Text=" " Type="Whitespace" />
+                            <CodeUnit Type="GenericTypeParameter">
+                              <CodeUnit Text="string" Type="TypeToken">
+                                <CodeUnit Text="string" Type="LiteralToken" />
+                              </CodeUnit>
+                            </CodeUnit>
+                          </CodeUnit>
+                          <CodeUnit Text="&gt;" Type="CloseGenericBracketToken" />
+                        </CodeUnit>
+                        <CodeUnit Text="." Type="MemberAccessOperator" />
+                        <CodeUnit Text="Type2&lt;int, string&gt;" Type="GenericTypeToken">
+                          <CodeUnit Text="Type2" Type="LiteralToken" />
+                          <CodeUnit Text="&lt;" Type="OpenGenericBracketToken" />
+                          <CodeUnit Type="GenericTypeParameterList">
+                            <CodeUnit Type="GenericTypeParameter">
+                              <CodeUnit Text="int" Type="TypeToken">
+                                <CodeUnit Text="int" Type="LiteralToken" />
+                              </CodeUnit>
+                            </CodeUnit>
+                            <CodeUnit Text="," Type="CommaToken" />
+                            <CodeUnit Text=" " Type="Whitespace" />
+                            <CodeUnit Type="GenericTypeParameter">
+                              <CodeUnit Text="string" Type="TypeToken">
+                                <CodeUnit Text="string" Type="LiteralToken" />
+                              </CodeUnit>
+                            </CodeUnit>
+                          </CodeUnit>
+                          <CodeUnit Text="&gt;" Type="CloseGenericBracketToken" />
+                        </CodeUnit>
+                        <CodeUnit Text="." Type="MemberAccessOperator" />
+                        <CodeUnit Text="Type3&lt;int, string&gt;" Type="GenericTypeToken">
+                          <CodeUnit Text="Type3" Type="LiteralToken" />
+                          <CodeUnit Text="&lt;" Type="OpenGenericBracketToken" />
+                          <CodeUnit Type="GenericTypeParameterList">
+                            <CodeUnit Type="GenericTypeParameter">
+                              <CodeUnit Text="int" Type="TypeToken">
+                                <CodeUnit Text="int" Type="LiteralToken" />
+                              </CodeUnit>
+                            </CodeUnit>
+                            <CodeUnit Text="," Type="CommaToken" />
+                            <CodeUnit Text=" " Type="Whitespace" />
+                            <CodeUnit Type="GenericTypeParameter">
+                              <CodeUnit Text="string" Type="TypeToken">
+                                <CodeUnit Text="string" Type="LiteralToken" />
+                              </CodeUnit>
+                            </CodeUnit>
+                          </CodeUnit>
+                          <CodeUnit Text="&gt;" Type="CloseGenericBracketToken" />
+                        </CodeUnit>
+                      </CodeUnit>
+                    </CodeUnit>
+                    <CodeUnit Text=" " Type="Whitespace" />
+                    <CodeUnit Type="VariableDeclaratorExpression">
+                      <CodeUnit Type="LiteralExpression">
+                        <CodeUnit Text="hh" Type="LiteralToken" />
+                      </CodeUnit>
+                      <CodeUnit Text=" " Type="Whitespace" />
+                      <CodeUnit Text="=" Type="EqualsOperator" />
+                      <CodeUnit Text=" " Type="Whitespace" />
+                      <CodeUnit Type="LiteralExpression">
+                        <CodeUnit Text="null" Type="NullToken" />
+                      </CodeUnit>
+                    </CodeUnit>
+                  </CodeUnit>
+                  <CodeUnit Text=";" Type="SemicolonToken" />
+                </CodeUnit>
+                <CodeUnit Text="&#xA;" Type="EndOfLine" />
+                <CodeUnit Text="        " Type="Whitespace" />
+                <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+              </CodeUnit>
+            </CodeUnit>
+            <CodeUnit Text="&#xA;" Type="EndOfLine" />
+            <CodeUnit Text="    " Type="Whitespace" />
+            <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+          </CodeUnit>
+        </CodeUnit>
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="    " Type="Whitespace" />
+        <CodeUnit Text="// The ability to create a fixed array using a hardcoded number or a const." Type="SingleLineComment" />
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="    " Type="Whitespace" />
+        <CodeUnit Type="Struct">
+          <CodeUnit Text="unsafe" Type="UnsafeToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="struct" Type="StructToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="MyStruct" Type="LiteralToken" />
+          <CodeUnit Type="ElementBody">
+            <CodeUnit Text="&#xA;" Type="EndOfLine" />
+            <CodeUnit Text="    " Type="Whitespace" />
+            <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+            <CodeUnit Text="&#xA;" Type="EndOfLine" />
+            <CodeUnit Text="        " Type="Whitespace" />
+            <CodeUnit Type="Field">
+              <CodeUnit Text="const" Type="ConstToken" />
+              <CodeUnit Type="VariableDeclarationStatement">
+                <CodeUnit Type="VariableDeclarationExpression">
+                  <CodeUnit Type="LiteralExpression">
+                    <CodeUnit Text=" " Type="Whitespace" />
+                    <CodeUnit Text="int" Type="TypeToken">
+                      <CodeUnit Text="int" Type="LiteralToken" />
+                    </CodeUnit>
+                  </CodeUnit>
+                  <CodeUnit Text=" " Type="Whitespace" />
+                  <CodeUnit Type="VariableDeclaratorExpression">
+                    <CodeUnit Type="LiteralExpression">
+                      <CodeUnit Text="DATA_SIZE" Type="LiteralToken" />
+                    </CodeUnit>
+                    <CodeUnit Text=" " Type="Whitespace" />
+                    <CodeUnit Text="=" Type="EqualsOperator" />
+                    <CodeUnit Text=" " Type="Whitespace" />
+                    <CodeUnit Type="LiteralExpression">
+                      <CodeUnit Text="1024" Type="NumberToken" />
+                    </CodeUnit>
+                  </CodeUnit>
+                </CodeUnit>
+              </CodeUnit>
+              <CodeUnit Type="ElementBody">
+                <CodeUnit Text=";" Type="SemicolonToken" />
+              </CodeUnit>
+            </CodeUnit>
+            <CodeUnit Text="&#xA;" Type="EndOfLine" />
+            <CodeUnit Text="        " Type="Whitespace" />
+            <CodeUnit Type="Field">
+              <CodeUnit Text="fixed" Type="FixedToken" />
+              <CodeUnit Type="VariableDeclarationStatement">
+                <CodeUnit Type="VariableDeclarationExpression">
+                  <CodeUnit Type="LiteralExpression">
+                    <CodeUnit Text=" " Type="Whitespace" />
+                    <CodeUnit Text="byte" Type="TypeToken">
+                      <CodeUnit Text="byte" Type="LiteralToken" />
+                    </CodeUnit>
+                  </CodeUnit>
+                  <CodeUnit Text=" " Type="Whitespace" />
+                  <CodeUnit Type="VariableDeclaratorExpression">
+                    <CodeUnit Type="LiteralExpression">
+                      <CodeUnit Text="data[DATA_SIZE]" Type="TypeToken">
+                        <CodeUnit Text="data" Type="LiteralToken" />
+                        <CodeUnit Text="[" Type="OpenSquareBracketToken" />
+                        <CodeUnit Text="DATA_SIZE" Type="LiteralToken" />
+                        <CodeUnit Text="]" Type="CloseSquareBracketToken" />
+                      </CodeUnit>
+                    </CodeUnit>
+                  </CodeUnit>
+                </CodeUnit>
+              </CodeUnit>
+              <CodeUnit Type="ElementBody">
+                <CodeUnit Text=";" Type="SemicolonToken" />
+              </CodeUnit>
+            </CodeUnit>
+            <CodeUnit Text="&#xA;" Type="EndOfLine" />
+            <CodeUnit Text="        " Type="Whitespace" />
+            <CodeUnit Type="Field">
+              <CodeUnit Text="fixed" Type="FixedToken" />
+              <CodeUnit Type="VariableDeclarationStatement">
+                <CodeUnit Type="VariableDeclarationExpression">
+                  <CodeUnit Type="LiteralExpression">
+                    <CodeUnit Text=" " Type="Whitespace" />
+                    <CodeUnit Text="byte" Type="TypeToken">
+                      <CodeUnit Text="byte" Type="LiteralToken" />
+                    </CodeUnit>
+                  </CodeUnit>
+                  <CodeUnit Text=" " Type="Whitespace" />
+                  <CodeUnit Type="VariableDeclaratorExpression">
+                    <CodeUnit Type="LiteralExpression">
+                      <CodeUnit Text="data2[1024]" Type="TypeToken">
+                        <CodeUnit Text="data2" Type="LiteralToken" />
+                        <CodeUnit Text="[" Type="OpenSquareBracketToken" />
+                        <CodeUnit Text="1024" Type="NumberToken" />
+                        <CodeUnit Text="]" Type="CloseSquareBracketToken" />
+                      </CodeUnit>
+                    </CodeUnit>
+                  </CodeUnit>
+                </CodeUnit>
+              </CodeUnit>
+              <CodeUnit Type="ElementBody">
+                <CodeUnit Text=";" Type="SemicolonToken" />
+              </CodeUnit>
+            </CodeUnit>
+            <CodeUnit Text="&#xA;" Type="EndOfLine" />
+            <CodeUnit Text="    " Type="Whitespace" />
+            <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+          </CodeUnit>
+        </CodeUnit>
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+      </CodeUnit>
+    </CodeUnit>
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+  </CodeUnit>
+</StyleCopCsParserObjectModel>

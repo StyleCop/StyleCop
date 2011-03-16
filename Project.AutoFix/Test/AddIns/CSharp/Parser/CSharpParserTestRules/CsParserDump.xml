@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SourceAnalyzer Name="CsParserDump">
+  <Description>
+    Dumps the parses contents of a C# file into an Xml document.
+  </Description>
+  <Rules>
+    <Rule Name="CsParserDumpRule" CheckId="TH0000" DisabledByDefault="true">
+      <Context>A blank rule.</Context>
+      <Description>A blank rule.</Description>
+    </Rule>
+  </Rules>
+</SourceAnalyzer>

@@ -1,0 +1,290 @@
+﻿<html xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:MSHelp="http://msdn.microsoft.com/mshelp" xmlns:mshelp="http://msdn.microsoft.com/mshelp" xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
+  <head>
+    <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8" />
+    <META NAME="save" CONTENT="history" />
+    <title>Authoring a Custom StyleCop Rule</title>
+    <link rel="stylesheet" type="text/css" href="../styles/presentation.css" />
+    <link rel="stylesheet" type="text/css" href="ms-help://Hx/HxRuntime/HxLink.css" />
+    <script type="text/javascript" src="../scripts/EventUtilities.js"> </script>
+    <script type="text/javascript" src="../scripts/SplitScreen.js"> </script>
+    <script type="text/javascript" src="../scripts/Dropdown.js"> </script>
+    <script type="text/javascript" src="../scripts/script_manifold.js"> </script>
+    <script type="text/javascript" src="../scripts/script_feedBack.js"> </script>
+    <script type="text/javascript" src="../scripts/CheckboxMenu.js"> </script>
+    <script type="text/javascript" src="../scripts/CommonUtilities.js"> </script>
+    
+  </head>
+  <body>
+    <input type="hidden" id="userDataCache" class="userDataStyle" />
+    <input type="hidden" id="hiddenScrollOffset" />
+    <img id="collapseImage" style="display:none; height:0; width:0;" src="../icons/collapse_all.gif" title="Collapse image" />
+    <img id="expandImage" style="display:none; height:0; width:0;" src="../icons/expand_all.gif" title="Expand Image" />
+    <img id="collapseAllImage" style="display:none; height:0; width:0;" src="../icons/collapse_all.gif" />
+    <img id="expandAllImage" style="display:none; height:0; width:0;" src="../icons/expand_all.gif" />
+    <img id="dropDownImage" style="display:none; height:0; width:0;" src="../icons/dropdown.gif" />
+    <img id="dropDownHoverImage" style="display:none; height:0; width:0;" src="../icons/dropdownHover.gif" />
+    <img id="copyImage" style="display:none; height:0; width:0;" src="../icons/copycode.gif" title="Copy image" />
+    <img id="copyHoverImage" style="display:none; height:0; width:0;" src="../icons/copycodeHighlight.gif" title="CopyHover image" />
+    <div id="header">
+      <table id="topTable" cellspacing="0" cellpadding="0">
+        <tr>
+          <td>
+            <span onclick="ExpandCollapseAll(toggleAllImage)" style="cursor:default;" onkeypress="ExpandCollapseAll_CheckKey(toggleAllImage, event)" tabindex="0">
+              <img ID="toggleAllImage" class="toggleAll" src="../icons/collapse_all.gif" /> <label id="collapseAllLabel" for="toggleAllImage" style="display: none;">Collapse All</label><label id="expandAllLabel" for="toggleAllImage" style="display: none;">Expand All</label> </span>
+            <span>    </span>
+            <span id="devlangsDropdown" class="filter" tabindex="0">
+              <img id="devlangsDropdownImage" src="../icons/dropdown.gif" /> <label id="devlangsMenuAllLabel" for="devlangsDropdownImage" style="display: none;"><nobr>Code: All </nobr></label><label id="devlangsMenuMultipleLabel" for="devlangsDropdownImage" style="display: none;"><nobr>Code: Multiple </nobr></label><label id="devlangsMenuVisualBasicLabel" for="devlangsDropdownImage" style="display: none;"><nobr>Code: Visual Basic </nobr></label><label id="devlangsMenuCSharpLabel" for="devlangsDropdownImage" style="display: none;"><nobr>Code: C# </nobr></label><label id="devlangsMenuManagedCPlusPlusLabel" for="devlangsDropdownImage" style="display: none;"><nobr>Code: Visual C++ </nobr></label><label id="devlangsMenuJSharpLabel" for="devlangsDropdownImage" style="display: none;"><nobr>Code: J# </nobr></label><label id="devlangsMenuJScriptLabel" for="devlangsDropdownImage" style="display: none;"><nobr>Code: JScript </nobr></label></span>
+          </td>
+        </tr>
+      </table>
+      <div id="devlangsMenu">
+        <input id="VisualBasicCheckbox" type="checkbox" data="VisualBasic,vb,'persist'" value="on" onClick="SetLanguage(this)" />
+        <label class="checkboxLabel" for="VisualBasicCheckbox">Visual Basic</label>
+        <br />
+        <input id="CSharpCheckbox" type="checkbox" data="CSharp,cs,'persist'" value="on" onClick="SetLanguage(this)" />
+        <label class="checkboxLabel" for="CSharpCheckbox">C#</label>
+        <br />
+        <input id="ManagedCPlusPlusCheckbox" type="checkbox" data="ManagedCPlusPlus,cpp,'persist'" value="on" onClick="SetLanguage(this)" />
+        <label class="checkboxLabel" for="ManagedCPlusPlusCheckbox">Visual C++</label>
+        <br />
+        <input id="JSharpCheckbox" type="checkbox" data="JSharp,cs,'persist'" value="on" onClick="SetLanguage(this)" />
+        <label class="checkboxLabel" for="JSharpCheckbox">J#</label>
+        <br />
+        <input id="JScriptCheckbox" type="checkbox" data="JScript,cs,'persist'" value="on" onClick="SetLanguage(this)" />
+        <label class="checkboxLabel" for="JScriptCheckbox">JScript</label>
+        <br />
+      </div>
+      <table id="bottomTable" cellpadding="0" cellspacing="0">
+        <tr id="headerTableRow1">
+          <td align="left">
+            <span id="runningHeaderText" />
+          </td>
+        </tr>
+        <tr id="headerTableRow2">
+          <td align="left">
+            <span id="nsrTitle">Authoring a Custom StyleCop Rule</span>
+          </td>
+        </tr>
+        <tr id="headerTableRow3">
+          <td align="left">
+            <a href="#exampleToggle" onclick="OpenSection(exampleToggle)">Example</a>  
+              <span id="headfeedbackarea" class="feedbackhead">
+              <a href="javascript:SubmitFeedback('DevDocs@Microsoft.com','','','','','%0\dThank%20you%20for%20your%20feedback.%20The%20developer%20writing%20teams%20use%20your%20feedback%20to%20improve%20documentation.%20While%20we%20are%20reviewing%20your%20feedback,%20we%20may%20send%20you%20e-mail%20to%20ask%20for%20clarification%20or%20feedback%20on%20a%20solution.%20We%20do%20not%20use%20your%20e-mail%20address%20for%20any%20other%20purpose%20and%20we%20delete%20it%20after%20we%20finish%20our%20review.%0\AFor%20further%20information%20about%20the%20privacy%20policies%20of%20Microsoft,%20please%20see%20http://privacy.microsoft.com/en-us/default.aspx.%0\A%0\d','Customer%20Feedback');">
+        
+        &nbsp;</a></span></td>
+        </tr>
+      </table>
+      <table id="gradientTable">
+        <tr>
+          <td class="nsrBottom" background="../icons/gradient.gif" />
+        </tr>
+      </table>
+    </div>
+    <div id="mainSection">
+      <div id="mainBody">
+        <div id="allHistory" class="saveHistory" onsave="saveAll()" onload="loadAll()" />
+        <font color="DarkGray"></font>
+        <p /> 
+  
+    <div class="introduction">
+      <p>
+        StyleCop provides an extensible framework for plugging in custom rules. A custom rules analyzer
+        checks the contents of a source code file for adherence to one or more rules which are not already
+        covered by the default set of rules shipping with the tool. Custom StyleCop rules will typically
+        cover style and consistency guidelines, similar to the default rules.
+      </p>
+      <p>
+        StyleCop provides a mechanism for custom rules analyzers to flag violations found within the source code. When flagging
+        a rules violation, the analyzer will provide the location in the code where the violation occurs, as well as a
+        description of the problem. This allows the user to browse to the code and fix the issue.
+      </p>
+    </div>
+
+    <h1 class="heading"><span onclick="ExpandCollapse(sectionToggle0)" style="cursor:default;" onkeypress="ExpandCollapse_CheckKey(sectionToggle0, event)" tabindex="0"><img id="sectionToggle0" class="toggle" name="toggleSwitch" src="../icons/collapse_all.gif" />Building a Custom StyleCop Rules Analyzer</span></h1><div id="sectionSection0" class="section" name="collapseableSection" style="">
+        <p>
+          To create a custom StyleCop rule, create a new ClassLibrary project in Visual Studio, and set up
+          references to StyleCop.dll and StyleCop.CSharp.dll. Next, create a new C# class
+          within the project. The class must inherit from <span sdata="cer" target="T:StyleCop.SourceAnalyzer"><a href="T_StyleCop_SourceAnalyzer.htm">SourceAnalyzer</a></span>,
+          and contain an instance of the <span sdata="cer" target="T:StyleCop.SourceAnalyzerAttribute"><a href="T_StyleCop_SourceAnalyzerAttribute.htm">SourceAnalyzerAttribute</a></span>
+          attribute which specifies the code parser that the analyzer will be associated with. For C# code, the analyzer
+          will always be associated with the CsParser type. For example:
+        </p>
+        <p>
+          <div class="code"><span codeLanguage="other"><table width="100%" cellspacing="0" cellpadding="0"><tr><th> </th><th><span class="copyCode" onclick="CopyCode(this)" onkeypress="CopyCode_CheckKey(this, event)" onmouseover="ChangeCopyCodeIcon(this)" onmouseout="ChangeCopyCodeIcon(this)" tabindex="0"><img class="copyCodeImage" name="ccImage" align="absmiddle" title="Copy image" src="../icons/copycode.gif" />Copy Code</span></th></tr><tr><td colspan="2"><pre>
+[SourceAnalyzer(typeof(CsParser))]
+public class MyCustomRules : SourceAnalyzer
+{
+    // Implements one or more custom rules.
+}
+          </pre></td></tr></table></span></div>
+        </p>
+        <p>
+          Next, implement an override of the <span sdata="cer" target="M:StyleCop.SourceAnalyzer.AnalyzeDocument(StyleCop.CodeDocument)"><a href="M_StyleCop_SourceAnalyzer_AnalyzeDocument.htm">AnalyzeDocument(CodeDocument)</a></span>
+          method. This method will be called by StyleCop whenever the custom analyzer should run its rules against a code
+          document. The AnalyzeDocument method receives an instance of a <span sdata="cer" target="T:StyleCop.CodeDocument"><a href="T_StyleCop_CodeDocument.htm">CodeDocument</a></span>
+          class. For C# code, this should be casted to <span sdata="cer" target="T:StyleCop.CSharp.CsDocument"><a href="T_StyleCop_CSharp_CsDocument.htm">CsDocument</a></span>.
+          This object will contain an object model representing the C# code to be analyzed.
+        </p>
+        <p>
+          <div class="code"><span codeLanguage="other"><table width="100%" cellspacing="0" cellpadding="0"><tr><th> </th><th><span class="copyCode" onclick="CopyCode(this)" onkeypress="CopyCode_CheckKey(this, event)" onmouseover="ChangeCopyCodeIcon(this)" onmouseout="ChangeCopyCodeIcon(this)" tabindex="0"><img class="copyCodeImage" name="ccImage" align="absmiddle" title="Copy image" src="../icons/copycode.gif" />Copy Code</span></th></tr><tr><td colspan="2"><pre>
+[SourceAnalyzer(typeof(CsParser))]
+public class CustomRules : SourceAnalyzer
+{
+    public override void AnalyzeDocument(CodeDocument document)
+    {
+        CsDocument csharpDocument = (CsDocument)document;
+        if (csharpDocument.RootElement != null &amp;&amp; !csharpDocument.RootElement.Generated)
+        {
+            // Run the custom rules against the code.
+        }
+    }
+}
+</pre></td></tr></table></span></div>
+        </p>
+        <p>
+          As shown in the code example above, the custom rules analyzer should first check to ensure that the
+          <span sdata="cer" target="P:StyleCop.CSharp.CsDocument.RootElement"><a href="P_StyleCop_CSharp_CsDocument_RootElement.htm">RootElement</a></span> property is not
+          null, indicating that the code file is empty. In most cases the code should also verify that the contents of
+          the file have not been auto-generated by a tool, which is done by checking the value of the
+          CsDocument.RootElement.Generated property. Generally, auto-generated code should not be checked for style
+          errors, as it was generated by a tool and not written manually.
+        </p>
+        <p>
+          There are two common ways for a custom rules analyzer to iterate through the code object model and discover
+          rules violations. The first method uses the built-in code walkers. A code walker can be instantiated from
+          the root of any document, element, statement, expression, or clause, by calling
+          <span sdata="cer" target="Overload:StyleCop.CSharp.CsDocument.WalkDocument"><a href="Overload_StyleCop_CSharp_CsDocument_WalkDocument.htm">WalkDocument</a></span>, 
+          <span sdata="cer" target="Overload:StyleCop.CSharp.CsElement.WalkElement"><a href="Overload_StyleCop_CSharp_CsElement_WalkElement.htm">WalkElement</a></span>, 
+          <span sdata="cer" target="Overload:StyleCop.CSharp.Statement.WalkStatement"><a href="Overload_StyleCop_CSharp_Statement_WalkStatement.htm">WalkStatement</a></span>, 
+          <span sdata="cer" target="Overload:StyleCop.CSharp.Expression.WalkExpression"><a href="Overload_StyleCop_CSharp_Expression_WalkExpression.htm">WalkExpression</a></span>, 
+          or <span sdata="cer" target="Overload:StyleCop.CSharp.QueryClause.WalkQueryClause"><a href="Overload_StyleCop_CSharp_QueryClause_WalkQueryClause.htm">WalkQueryClause</a></span>.
+          In each case, the walker method takes a series of delegate callbacks, which will be called each time the walker
+          discovers an element, statement, expression, or query clause in the code. For example:
+        </p>
+        <p>
+          <div class="code"><span codeLanguage="other"><table width="100%" cellspacing="0" cellpadding="0"><tr><th> </th><th><span class="copyCode" onclick="CopyCode(this)" onkeypress="CopyCode_CheckKey(this, event)" onmouseover="ChangeCopyCodeIcon(this)" onmouseout="ChangeCopyCodeIcon(this)" tabindex="0"><img class="copyCodeImage" name="ccImage" align="absmiddle" title="Copy image" src="../icons/copycode.gif" />Copy Code</span></th></tr><tr><td colspan="2"><pre>
+public override void AnalyzeDocument(CodeDocument document)
+{
+    CsDocument csharpDocument = (CsDocument)document;
+    if (csharpDocument.RootElement != null &amp;&amp; !csharpDocument.RootElement.Generated)
+    {
+        csdocument.WalkDocument(
+            new CodeWalkerElementVisitor&lt;object&gt;(this.VisitElement),
+            new CodeWalkerStatementVisitor&lt;object&gt;(this.VisitStatement),
+            new CodeWalkerExpressionVisitor&lt;object&gt;(this.VisitExpression));
+    }
+}
+          </pre></td></tr></table></span></div>
+        </p>
+        <p>
+          In the previous example, the VisitElement method will be called for every element discovered in the code,
+          VisitStatement will be called for every statement, and VisitExpression will be called for every expression.
+          This provides a simple way for the custom rules analyzer to iterate through all of the code within the document.
+          It is also possible to pass null to any of these arguments, if the rules analyzer is not interested in visiting
+          code units of that type.
+        </p>
+        <p>
+          Whenever the walker discovers an element, statement, or expression within the code, it will call the
+          appropriate callback for that type of code unit. This allows the custom rules analyzer to analyze the code
+          within that code unit. For example, the following method would be called for every statement discovered within
+          the code:
+        </p>
+        <p>
+          <div class="code"><span codeLanguage="other"><table width="100%" cellspacing="0" cellpadding="0"><tr><th> </th><th><span class="copyCode" onclick="CopyCode(this)" onkeypress="CopyCode_CheckKey(this, event)" onmouseover="ChangeCopyCodeIcon(this)" onmouseout="ChangeCopyCodeIcon(this)" tabindex="0"><img class="copyCodeImage" name="ccImage" align="absmiddle" title="Copy image" src="../icons/copycode.gif" />Copy Code</span></th></tr><tr><td colspan="2"><pre>
+private bool VisitStatement(Statement statement, Expression parentExpression, Statement parentStatement, CsElement parentElement, object context)
+{
+    if (statement.StatementType == StatementType.Block &amp;&amp; statement.ChildStatements.Count == 0)
+    {
+        this.AddViolation(parentElement, statement.LineNumber, "BlockStatementsShouldNotBeEmpty");
+    }
+}
+          </pre></td></tr></table></span></div>
+        </p>
+        <p>
+          The code example above also illustrates how to file a violation against the code. In this example, a custom
+          rule is checking to make sure that the code does not contain any empty block statements. It does this by checking
+          whether the given statement is a block statement, then checking to see whether the statement contains any child
+          statements. If not, the "BlockStatementsShouldNotBeEmpty" rule violation is flagged against the parent element.
+        </p>
+        <p>
+          StyleCop provides a second way to interate through a code object model. This involves viewing the code token by token,
+          rather than viewing the code model organized by elements, statements, expressions, etc. Every code model object
+          inheriting from the <span sdata="cer" target="T:StyleCop.CSharp.CodeUnit"><a href="T_StyleCop_CSharp_CodeUnit.htm">CodeUnit</a></span> type contains
+          a Tokens property, which exposes a linked-list of all the tokens within that section of code. This list can be
+          iterated over to view each of the tokens one-by-one. For example:
+        </p>
+        <p>
+          <div class="code"><span codeLanguage="other"><table width="100%" cellspacing="0" cellpadding="0"><tr><th> </th><th><span class="copyCode" onclick="CopyCode(this)" onkeypress="CopyCode_CheckKey(this, event)" onmouseover="ChangeCopyCodeIcon(this)" onmouseout="ChangeCopyCodeIcon(this)" tabindex="0"><img class="copyCodeImage" name="ccImage" align="absmiddle" title="Copy image" src="../icons/copycode.gif" />Copy Code</span></th></tr><tr><td colspan="2"><pre>
+public override void AnalyzeDocument(CodeDocument document)
+{
+    CsDocument csharpDocument = (CsDocument)document;
+
+    // Loop through all of the tokens in the document.
+    for (Node&lt;CsToken&gt; tokenNode = document.Tokens.First; tokenNode != null; tokenNode = tokenNode.Next)
+    {
+        if (tokenNode.Value.CsTokenType == CsTokenType.String)
+        {
+            this.AddViolation(tokenNode.Value, tokenNode.Value.LineNumber, "CodeMustNotContainHardcodedStrings");
+        }
+    }
+}
+          </pre></td></tr></table></span></div>
+        </p>
+        <p>
+          The code example above iterates through all of the code in the document and flags a custom rule violation if
+          the file contains any strings.
+        </p>
+      </div>
+
+    <h1 class="heading"><span onclick="ExpandCollapse(sectionToggle1)" style="cursor:default;" onkeypress="ExpandCollapse_CheckKey(sectionToggle1, event)" tabindex="0"><img id="sectionToggle1" class="toggle" name="toggleSwitch" src="../icons/collapse_all.gif" />Completing the Custom Rules Analyzer</span></h1><div id="sectionSection1" class="section" name="collapseableSection" style="">
+        <p>
+          To learn how to complete the custom rules analyzer and install it, read the <span sdata="link"><a href="_Writing Custom Rules for StyleCop.htm">Writing Custom Rules for StyleCop</a></span> topic.
+        </p>
+      </div>
+
+    <h1 class="heading"><span onclick="ExpandCollapse(exampleToggle)" style="cursor:default;" onkeypress="ExpandCollapse_CheckKey(exampleToggle, event)" tabindex="0"><img id="exampleToggle" class="toggle" name="toggleSwitch" src="../icons/collapse_all.gif" />Example</span></h1><div id="exampleSection" class="section" name="collapseableSection" style="">
+      <div class="code"><span codeLanguage="other"><table width="100%" cellspacing="0" cellpadding="0"><tr><th> </th><th><span class="copyCode" onclick="CopyCode(this)" onkeypress="CopyCode_CheckKey(this, event)" onmouseover="ChangeCopyCodeIcon(this)" onmouseout="ChangeCopyCodeIcon(this)" tabindex="0"><img class="copyCodeImage" name="ccImage" align="absmiddle" title="Copy image" src="../icons/copycode.gif" />Copy Code</span></th></tr><tr><td colspan="2"><pre>
+// Checks for the presence of access modifiers on all elements.
+[SourceAnalyzer(typeof(CsParser))]
+public class AccessModifiers : SourceAnalyzer
+{
+    public AccessModifiers()
+    {
+    }
+
+    public override void AnalyzeDocument(CodeDocument document)
+    {
+        CsDocument csdocument = (CsDocument)document;
+        if (csdocument.RootElement != null &amp;&amp; !csdocument.RootElement.Generated)
+        {
+            csdocument.WalkDocument(
+                new CodeWalkerElementVisitor&lt;object&gt;(this.VisitElement),
+                null,
+                null);
+        }
+    }
+
+    private bool VisitElement(CsElement element, CsElement parentElement, object context)
+    {
+        // Make sure this element is not generated.
+        if (!element.Generated)
+        {
+            // Flag a violation if the element does not have an access modifier.
+            if (!element.Declaration.AccessModifier)
+            {
+                this.AddViolation(element, "AccessModifiersMustBeDeclared");
+            }
+        }
+    }
+}
+      </pre></td></tr></table></span></div>
+    </div>
+  
+</div>
+      <div id="footer">
+        <div class="footerLine">
+        </div>
+</div>
+    </div>
+  </body>
+</html>

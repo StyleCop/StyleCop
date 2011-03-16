@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?include AssemblyVersion.wxi ?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Fragment>
+    <DirectoryRef Id="ProgramFilesFolder">
+      <Directory Id="Dir_MSBuild" Name="MSBuild">
+          <Directory Id="Dir_MSBuildMSStyleCop" Name="StyleCop">
+            <Directory Id="MSBuildBinDir" Name="v$(var.WixVersionShort)" FileSource="$(var.DropDir)">
+              <Component Id="StyleCopMSBuildBinaries" Guid="855AFA48-D08E-4D77-9809-38C149EA3F2E">
+                
+                <!-- List component files -->
+                <File Id="MBuild_Assembly" Name="StyleCop.dll" Checksum="yes" Vital="yes" />
+                <File Id="MBuild_Targets" Name="StyleCop.Targets" Vital="yes" />
+                <File Id='MBuild_CSharpParser' Name='StyleCop.CSharp.dll' Checksum="yes" Vital='yes' />
+                <File Id='MBuild_CSharpCodeModel' Name='StyleCop.CSharp.CodeModel.dll' Checksum="yes" Vital='yes' />
+                <File Id='MBuild_CSharpAnalyzer' Name='StyleCop.CSharp.Rules.dll' Checksum="yes" Vital='yes' />
+                <File Id='MBuild_Settings' Name='Settings.StyleCop' Checksum="yes" Vital='yes' />
+
+                <!-- List component registry settings -->
+                <RegistryValue Root='HKLM' Key='Software\Microsoft\VisualStudio\8.0\MSBuild\SafeImports' Type='string' Name='StyleCop.v$(var.WixVersionShort)' Value='[MSBuildBinDir]StyleCop.Targets' Id='SafeImport_001' />
+                <RegistryValue Root='HKLM' Key='Software\Microsoft\VisualStudio\9.0\MSBuild\SafeImports' Type='string' Name='StyleCop.v$(var.WixVersionShort)' Value='[MSBuildBinDir]StyleCop.Targets' Id='SafeImport_002' />
+
+              </Component>
+
+              <Directory Id="MSBuild_DOCS" Name="Docs" FileSource="$(var.RootDir)\Docs\Bin">
+                <Component Id="MSBuild_StyleCopDocs" Guid="354AA9FB-EF0E-472F-AF73-6CC3BF0D252A">
+                  <File Id='MSBuild_RulesChm' Name='StyleCop.chm' Checksum="yes" Vital='yes' />
+                </Component>
+            </Directory>
+          </Directory>
+        </Directory>
+      </Directory>
+    </DirectoryRef>
+
+    <ComponentGroup Id="MSBuild_Common" >
+      <ComponentRef Id="StyleCopMSBuildBinaries" />
+      <ComponentRef Id="MSBuild_StyleCopDocs" />
+    </ComponentGroup>
+
+  </Fragment>
+</Wix>

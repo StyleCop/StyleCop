@@ -1,0 +1,197 @@
+﻿<html xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:MSHelp="http://msdn.microsoft.com/mshelp" xmlns:mshelp="http://msdn.microsoft.com/mshelp" xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
+  <head>
+    <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8" />
+    <META NAME="save" CONTENT="history" />
+    <title>Integrating StyleCop into MSBuild</title>
+    <link rel="stylesheet" type="text/css" href="../styles/presentation.css" />
+    <link rel="stylesheet" type="text/css" href="ms-help://Hx/HxRuntime/HxLink.css" />
+    <script type="text/javascript" src="../scripts/EventUtilities.js"> </script>
+    <script type="text/javascript" src="../scripts/SplitScreen.js"> </script>
+    <script type="text/javascript" src="../scripts/Dropdown.js"> </script>
+    <script type="text/javascript" src="../scripts/script_manifold.js"> </script>
+    <script type="text/javascript" src="../scripts/script_feedBack.js"> </script>
+    <script type="text/javascript" src="../scripts/CheckboxMenu.js"> </script>
+    <script type="text/javascript" src="../scripts/CommonUtilities.js"> </script>
+    
+  </head>
+  <body>
+    <input type="hidden" id="userDataCache" class="userDataStyle" />
+    <input type="hidden" id="hiddenScrollOffset" />
+    <img id="collapseImage" style="display:none; height:0; width:0;" src="../icons/collapse_all.gif" title="Collapse image" />
+    <img id="expandImage" style="display:none; height:0; width:0;" src="../icons/expand_all.gif" title="Expand Image" />
+    <img id="collapseAllImage" style="display:none; height:0; width:0;" src="../icons/collapse_all.gif" />
+    <img id="expandAllImage" style="display:none; height:0; width:0;" src="../icons/expand_all.gif" />
+    <img id="dropDownImage" style="display:none; height:0; width:0;" src="../icons/dropdown.gif" />
+    <img id="dropDownHoverImage" style="display:none; height:0; width:0;" src="../icons/dropdownHover.gif" />
+    <img id="copyImage" style="display:none; height:0; width:0;" src="../icons/copycode.gif" title="Copy image" />
+    <img id="copyHoverImage" style="display:none; height:0; width:0;" src="../icons/copycodeHighlight.gif" title="CopyHover image" />
+    <div id="header">
+      <table id="topTable" cellspacing="0" cellpadding="0">
+        <tr>
+          <td>
+            <span onclick="ExpandCollapseAll(toggleAllImage)" style="cursor:default;" onkeypress="ExpandCollapseAll_CheckKey(toggleAllImage, event)" tabindex="0">
+              <img ID="toggleAllImage" class="toggleAll" src="../icons/collapse_all.gif" /> <label id="collapseAllLabel" for="toggleAllImage" style="display: none;">Collapse All</label><label id="expandAllLabel" for="toggleAllImage" style="display: none;">Expand All</label> </span>
+            <span>    </span>
+            <span id="devlangsDropdown" class="filter" tabindex="0">
+              <img id="devlangsDropdownImage" src="../icons/dropdown.gif" /> <label id="devlangsMenuAllLabel" for="devlangsDropdownImage" style="display: none;"><nobr>Code: All </nobr></label><label id="devlangsMenuMultipleLabel" for="devlangsDropdownImage" style="display: none;"><nobr>Code: Multiple </nobr></label><label id="devlangsMenuVisualBasicLabel" for="devlangsDropdownImage" style="display: none;"><nobr>Code: Visual Basic </nobr></label><label id="devlangsMenuCSharpLabel" for="devlangsDropdownImage" style="display: none;"><nobr>Code: C# </nobr></label><label id="devlangsMenuManagedCPlusPlusLabel" for="devlangsDropdownImage" style="display: none;"><nobr>Code: Visual C++ </nobr></label><label id="devlangsMenuJSharpLabel" for="devlangsDropdownImage" style="display: none;"><nobr>Code: J# </nobr></label><label id="devlangsMenuJScriptLabel" for="devlangsDropdownImage" style="display: none;"><nobr>Code: JScript </nobr></label></span>
+          </td>
+        </tr>
+      </table>
+      <div id="devlangsMenu">
+        <input id="VisualBasicCheckbox" type="checkbox" data="VisualBasic,vb,'persist'" value="on" onClick="SetLanguage(this)" />
+        <label class="checkboxLabel" for="VisualBasicCheckbox">Visual Basic</label>
+        <br />
+        <input id="CSharpCheckbox" type="checkbox" data="CSharp,cs,'persist'" value="on" onClick="SetLanguage(this)" />
+        <label class="checkboxLabel" for="CSharpCheckbox">C#</label>
+        <br />
+        <input id="ManagedCPlusPlusCheckbox" type="checkbox" data="ManagedCPlusPlus,cpp,'persist'" value="on" onClick="SetLanguage(this)" />
+        <label class="checkboxLabel" for="ManagedCPlusPlusCheckbox">Visual C++</label>
+        <br />
+        <input id="JSharpCheckbox" type="checkbox" data="JSharp,cs,'persist'" value="on" onClick="SetLanguage(this)" />
+        <label class="checkboxLabel" for="JSharpCheckbox">J#</label>
+        <br />
+        <input id="JScriptCheckbox" type="checkbox" data="JScript,cs,'persist'" value="on" onClick="SetLanguage(this)" />
+        <label class="checkboxLabel" for="JScriptCheckbox">JScript</label>
+        <br />
+      </div>
+      <table id="bottomTable" cellpadding="0" cellspacing="0">
+        <tr id="headerTableRow1">
+          <td align="left">
+            <span id="runningHeaderText" />
+          </td>
+        </tr>
+        <tr id="headerTableRow2">
+          <td align="left">
+            <span id="nsrTitle">Integrating StyleCop into MSBuild</span>
+          </td>
+        </tr>
+        <tr id="headerTableRow3">
+          <td align="left">
+              &nbsp;</td>
+        </tr>
+      </table>
+      <table id="gradientTable">
+        <tr>
+          <td class="nsrBottom" background="../icons/gradient.gif" />
+        </tr>
+      </table>
+    </div>
+    <div id="mainSection">
+      <div id="mainBody">
+        <div id="allHistory" class="saveHistory" onsave="saveAll()" onload="loadAll()" />
+        <font color="DarkGray"></font>
+        <p /> 
+  
+    <div class="introduction">
+      <p>
+        StyleCop provides a default MSBuild task and targets file which can be used in most common scenarios to integrate StyleCop into an
+        MSBuild-based build environment. To enable more advanced MSBuild scenarios, see the <span sdata="link"><a href="_Custom MSBuild Integration.htm">Custom MSBuild Integration</a></span>
+        topic.
+      </p>
+    </div>
+
+    <h1 class="heading"><span onclick="ExpandCollapse(sectionToggle0)" style="cursor:default;" onkeypress="ExpandCollapse_CheckKey(sectionToggle0, event)" tabindex="0"><img id="sectionToggle0" class="toggle" name="toggleSwitch" src="../icons/collapse_all.gif" />Setup</span></h1><div id="sectionSection0" class="section" name="collapseableSection" style="">
+        <p>
+          The first step in integrating StyleCop into an MSBuild system is to obtain the default StyleCop MSBuild targets file. To do so,
+          run the StyleCop installer, and select the MSBuild files option on the Custom Setup page. This will install the StyleCop MSBuild files
+          into the {Program Files}\MSBuild\StyleCop folder.
+        </p>
+      </div>
+    <h1 class="heading"><span onclick="ExpandCollapse(sectionToggle1)" style="cursor:default;" onkeypress="ExpandCollapse_CheckKey(sectionToggle1, event)" tabindex="0"><img id="sectionToggle1" class="toggle" name="toggleSwitch" src="../icons/collapse_all.gif" />Adding the Import Tag</span></h1><div id="sectionSection1" class="section" name="collapseableSection" style="">
+        <p>
+          Once the StyleCop MSBuild files are installed, the next step is to import the StyleCop targets file into your C# projects. This is done by
+          adding an Import tag to each C# project file.
+        </p>
+        <p>
+          For example, to integrate StyleCop to the project SampleProject, open the project file SampleProject.csproj within your favorite text 
+          editor. Scroll down to the bottom of the file and add a new tag to import the StyleCop.targets file. This import tag should be 
+          added just below the import of Microsoft.CSharp.targets:
+        </p>
+        <p>
+          <div class="code"><span codeLanguage="other"><table width="100%" cellspacing="0" cellpadding="0"><tr><th> </th><th><span class="copyCode" onclick="CopyCode(this)" onkeypress="CopyCode_CheckKey(this, event)" onmouseover="ChangeCopyCodeIcon(this)" onmouseout="ChangeCopyCodeIcon(this)" tabindex="0"><img class="copyCodeImage" name="ccImage" align="absmiddle" title="Copy image" src="../icons/copycode.gif" />Copy Code</span></th></tr><tr><td colspan="2"><pre>
+&lt;Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003"&gt;
+  ...Contents Removed...
+  &lt;Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" /&gt;
+  &lt;Import Project="$(ProgramFiles)\MSBuild\StyleCop\v6.0\StyleCop.targets" /&gt;
+  ...Contents Removed...
+&lt;/Project&gt;
+          </pre></td></tr></table></span></div>
+        </p>
+        <p>
+          Save the modified .csproj file. The next time you build this project either within Visual Studio or on the command line, StyleCop will run 
+          automatically against all of the C# source files within the project.
+        </p>
+      </div>
+    <h1 class="heading"><span onclick="ExpandCollapse(sectionToggle2)" style="cursor:default;" onkeypress="ExpandCollapse_CheckKey(sectionToggle2, event)" tabindex="0"><img id="sectionToggle2" class="toggle" name="toggleSwitch" src="../icons/collapse_all.gif" />Build Warnings Vs Errors</span></h1><div id="sectionSection2" class="section" name="collapseableSection" style="">
+        <p>
+          By default, StyleCop violations will show up as build warnings. To turn StyleCop violations into build errors, the flag 
+          StyleCopTreatErrorsAsWarnings must be set to false. This flag can be set as an environment variable on the machine, or within the 
+          build environment command window. Setting the flag this way will cause StyleCop violations to appear as build errors automatically 
+          for all projects where StyleCop build integration is enabled.
+        </p>
+        <p>
+          Alternately, this flag can be set within the project file for a particular project. Open the .csproj file for your project again, 
+          and find the first PropertyGroup section within the file. Add a new tag to set the StyleCopTreatErrorsAsWarnings flag to false. For example:
+        </p>
+        <p>
+          <div class="code"><span codeLanguage="other"><table width="100%" cellspacing="0" cellpadding="0"><tr><th> </th><th><span class="copyCode" onclick="CopyCode(this)" onkeypress="CopyCode_CheckKey(this, event)" onmouseover="ChangeCopyCodeIcon(this)" onmouseout="ChangeCopyCodeIcon(this)" tabindex="0"><img class="copyCodeImage" name="ccImage" align="absmiddle" title="Copy image" src="../icons/copycode.gif" />Copy Code</span></th></tr><tr><td colspan="2"><pre>
+&lt;Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003"&gt;
+  &lt;PropertyGroup&gt;
+    &lt;Configuration Condition=" '$(Configuration)' == '' "&gt;Debug&lt;/Configuration&gt;
+    &lt;Platform Condition=" '$(Platform)' == '' "&gt;AnyCPU&lt;/Platform&gt;
+    &lt;ProductVersion&gt;8.0.50727&lt;/ProductVersion&gt;
+    &lt;SchemaVersion&gt;2.0&lt;/SchemaVersion&gt;
+    &lt;ProjectGuid&gt;{4B4DB6AA-A021-4F95-92B7-B88B5B360228}&lt;/ProjectGuid&gt;
+    &lt;OutputType&gt;WinExe&lt;/OutputType&gt;
+    &lt;AppDesignerFolder&gt;Properties&lt;/AppDesignerFolder&gt;
+    &lt;RootNamespace&gt;SampleProject&lt;/RootNamespace&gt;
+    &lt;AssemblyName&gt;SampleProject&lt;/AssemblyName&gt;
+    &lt;StyleCopTreatErrorsAsWarnings&gt;false&lt;/StyleCopTreatErrorsAsWarnings&gt;
+  &lt;/PropertyGroup&gt;
+            </pre></td></tr></table></span></div>
+        </p>
+      </div>
+    <h1 class="heading"><span onclick="ExpandCollapse(sectionToggle3)" style="cursor:default;" onkeypress="ExpandCollapse_CheckKey(sectionToggle3, event)" tabindex="0"><img id="sectionToggle3" class="toggle" name="toggleSwitch" src="../icons/collapse_all.gif" />Team Development</span></h1><div id="sectionSection3" class="section" name="collapseableSection" style="">
+        <p>
+          The configuration described above will suffice to enable StyleCop build integration on an individual development machine. However, 
+          development teams working within a well-defined development environment can set up the build integration in a more global way, 
+          so that each developer does not have to manually install StyleCop on his machine.
+        </p>
+        <p>
+          To do this, copy all of the files from {Program Files}\MSBuild\StyleCop into a custom folder within your build environment, 
+          and check all of these files into your source control system. Next, define an environment variable within your development environment 
+          which points to the location of the StyleCop targets file. For example:
+        </p>
+        <p>
+          <span class="code">set StyleCopTargets=%enlistmentroot%\ExternalTools\StyleCop\v6.0\StyleCop.targets</span>
+        </p>
+        <p>
+          With this configuration in place, it is simply a matter of adding the following import tag to each .csproj file within your development environment:
+        </p>
+        <p>
+          <div class="code"><span codeLanguage="other"><table width="100%" cellspacing="0" cellpadding="0"><tr><th> </th><th><span class="copyCode" onclick="CopyCode(this)" onkeypress="CopyCode_CheckKey(this, event)" onmouseover="ChangeCopyCodeIcon(this)" onmouseout="ChangeCopyCodeIcon(this)" tabindex="0"><img class="copyCodeImage" name="ccImage" align="absmiddle" title="Copy image" src="../icons/copycode.gif" />Copy Code</span></th></tr><tr><td colspan="2"><pre>
+&lt;Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" /&gt;
+&lt;Import Project="$(StyleCopTargets)" /&gt;
+          </pre></td></tr></table></span></div>
+        </p>
+        <p>
+          StyleCop will automatically run each time this project is built, no matter which developer is building the project. There is no need for each 
+          developer to install StyleCop manually, since the StyleCop binaries are checked directly into your source control system and are centrally 
+          integrated into your build environment.
+        </p>
+      </div>
+    <h1 class="heading"><span onclick="ExpandCollapse(sectionToggle4)" style="cursor:default;" onkeypress="ExpandCollapse_CheckKey(sectionToggle4, event)" tabindex="0"><img id="sectionToggle4" class="toggle" name="toggleSwitch" src="../icons/collapse_all.gif" />Advanced</span></h1><div id="sectionSection4" class="section" name="collapseableSection" style="">
+        <p>
+          To enable more advanced MSBuild scenarios, see the <span sdata="link">
+            <a href="_Custom%20MSBuild%20Integration.htm">Custom MSBuild Integration</a></span> topic.
+        </p>
+      </div>
+  
+</div>
+      <div id="footer">
+        <div class="footerLine">
+        </div>
+</div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,221 @@
+﻿<html xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:MSHelp="http://msdn.microsoft.com/mshelp" xmlns:mshelp="http://msdn.microsoft.com/mshelp" xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
+  <head>
+    <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8" />
+    <META NAME="save" CONTENT="history" />
+    <title>Adding Custom Rule Settings</title>
+    <link rel="stylesheet" type="text/css" href="../styles/presentation.css" />
+    <link rel="stylesheet" type="text/css" href="ms-help://Hx/HxRuntime/HxLink.css" />
+    <script type="text/javascript" src="../scripts/EventUtilities.js"> </script>
+    <script type="text/javascript" src="../scripts/SplitScreen.js"> </script>
+    <script type="text/javascript" src="../scripts/Dropdown.js"> </script>
+    <script type="text/javascript" src="../scripts/script_manifold.js"> </script>
+    <script type="text/javascript" src="../scripts/script_feedBack.js"> </script>
+    <script type="text/javascript" src="../scripts/CheckboxMenu.js"> </script>
+    <script type="text/javascript" src="../scripts/CommonUtilities.js"> </script>
+    
+  </head>
+  <body>
+    <input type="hidden" id="userDataCache" class="userDataStyle" />
+    <input type="hidden" id="hiddenScrollOffset" />
+    <img id="collapseImage" style="display:none; height:0; width:0;" src="../icons/collapse_all.gif" title="Collapse image" />
+    <img id="expandImage" style="display:none; height:0; width:0;" src="../icons/expand_all.gif" title="Expand Image" />
+    <img id="collapseAllImage" style="display:none; height:0; width:0;" src="../icons/collapse_all.gif" />
+    <img id="expandAllImage" style="display:none; height:0; width:0;" src="../icons/expand_all.gif" />
+    <img id="dropDownImage" style="display:none; height:0; width:0;" src="../icons/dropdown.gif" />
+    <img id="dropDownHoverImage" style="display:none; height:0; width:0;" src="../icons/dropdownHover.gif" />
+    <img id="copyImage" style="display:none; height:0; width:0;" src="../icons/copycode.gif" title="Copy image" />
+    <img id="copyHoverImage" style="display:none; height:0; width:0;" src="../icons/copycodeHighlight.gif" title="CopyHover image" />
+    <div id="header">
+      <table id="topTable" cellspacing="0" cellpadding="0">
+        <tr>
+          <td>
+            <span onclick="ExpandCollapseAll(toggleAllImage)" style="cursor:default;" onkeypress="ExpandCollapseAll_CheckKey(toggleAllImage, event)" tabindex="0">
+              <img ID="toggleAllImage" class="toggleAll" src="../icons/collapse_all.gif" /> <label id="collapseAllLabel" for="toggleAllImage" style="display: none;">Collapse All</label><label id="expandAllLabel" for="toggleAllImage" style="display: none;">Expand All</label> </span>
+            <span>    </span>
+            <span id="devlangsDropdown" class="filter" tabindex="0">
+              <img id="devlangsDropdownImage" src="../icons/dropdown.gif" /> <label id="devlangsMenuAllLabel" for="devlangsDropdownImage" style="display: none;"><nobr>Code: All </nobr></label><label id="devlangsMenuMultipleLabel" for="devlangsDropdownImage" style="display: none;"><nobr>Code: Multiple </nobr></label><label id="devlangsMenuVisualBasicLabel" for="devlangsDropdownImage" style="display: none;"><nobr>Code: Visual Basic </nobr></label><label id="devlangsMenuCSharpLabel" for="devlangsDropdownImage" style="display: none;"><nobr>Code: C# </nobr></label><label id="devlangsMenuManagedCPlusPlusLabel" for="devlangsDropdownImage" style="display: none;"><nobr>Code: Visual C++ </nobr></label><label id="devlangsMenuJSharpLabel" for="devlangsDropdownImage" style="display: none;"><nobr>Code: J# </nobr></label><label id="devlangsMenuJScriptLabel" for="devlangsDropdownImage" style="display: none;"><nobr>Code: JScript </nobr></label></span>
+          </td>
+        </tr>
+      </table>
+      <div id="devlangsMenu">
+        <input id="VisualBasicCheckbox" type="checkbox" data="VisualBasic,vb,'persist'" value="on" onClick="SetLanguage(this)" />
+        <label class="checkboxLabel" for="VisualBasicCheckbox">Visual Basic</label>
+        <br />
+        <input id="CSharpCheckbox" type="checkbox" data="CSharp,cs,'persist'" value="on" onClick="SetLanguage(this)" />
+        <label class="checkboxLabel" for="CSharpCheckbox">C#</label>
+        <br />
+        <input id="ManagedCPlusPlusCheckbox" type="checkbox" data="ManagedCPlusPlus,cpp,'persist'" value="on" onClick="SetLanguage(this)" />
+        <label class="checkboxLabel" for="ManagedCPlusPlusCheckbox">Visual C++</label>
+        <br />
+        <input id="JSharpCheckbox" type="checkbox" data="JSharp,cs,'persist'" value="on" onClick="SetLanguage(this)" />
+        <label class="checkboxLabel" for="JSharpCheckbox">J#</label>
+        <br />
+        <input id="JScriptCheckbox" type="checkbox" data="JScript,cs,'persist'" value="on" onClick="SetLanguage(this)" />
+        <label class="checkboxLabel" for="JScriptCheckbox">JScript</label>
+        <br />
+      </div>
+      <table id="bottomTable" cellpadding="0" cellspacing="0">
+        <tr id="headerTableRow1">
+          <td align="left">
+            <span id="runningHeaderText" />
+          </td>
+        </tr>
+        <tr id="headerTableRow2">
+          <td align="left">
+            <span id="nsrTitle">Adding Custom Rule Settings</span>
+          </td>
+        </tr>
+        <tr id="headerTableRow3">
+          <td align="left">
+              &nbsp;</td>
+        </tr>
+      </table>
+      <table id="gradientTable">
+        <tr>
+          <td class="nsrBottom" background="../icons/gradient.gif" />
+        </tr>
+      </table>
+    </div>
+    <div id="mainSection">
+      <div id="mainBody">
+        <div id="allHistory" class="saveHistory" onsave="saveAll()" onload="loadAll()" />
+        <font color="DarkGray"></font>
+        <p /> 
+  
+    <div class="introduction">
+      <p>
+        Custom StyleCop rules analyzers can define optional settings which the end-user can configure to control
+        the behavior of rules.
+      </p>
+      <p>
+        This article describes how to add settable properties to your custom rules analyzer. To learn how to create a 
+        custom StyleCop rules analyzer, see the <span sdata="link"><a href="_Writing Custom Rules for StyleCop.htm">Writing Custom Rules for StyleCop</a></span>
+        article.
+      </p>
+    </div>
+
+    <h1 class="heading"><span onclick="ExpandCollapse(sectionToggle0)" style="cursor:default;" onkeypress="ExpandCollapse_CheckKey(sectionToggle0, event)" tabindex="0"><img id="sectionToggle0" class="toggle" name="toggleSwitch" src="../icons/collapse_all.gif" />Creating Custom Properties</span></h1><div id="sectionSection0" class="section" name="collapseableSection" style="">
+        <p>
+          A custom rules property must be defined within the analyzer's Xml metadata file. Each property will be given a unique name, which can be used
+          to get or set the value of the property within the rule analyzer code. The property can be exposed on the StyleCop settings dialog, allowing
+          the end-user to set the value of the property. The value set by the user will be stored within a StyleCop settings file, and loaded by StyleCop
+          when the tool is run.
+        </p>
+        <p>
+          To add a custom property for a rules analyzer, open the rule analyzer's <span sdata="link"><a href="_Authoring Rules Metadata.htm">Authoring Rules Metadata</a></span>, 
+          and add a Properties section, as shown below:
+        </p>
+        <p>
+          <div class="code"><span codeLanguage="other"><table width="100%" cellspacing="0" cellpadding="0"><tr><th> </th><th><span class="copyCode" onclick="CopyCode(this)" onkeypress="CopyCode_CheckKey(this, event)" onmouseover="ChangeCopyCodeIcon(this)" onmouseout="ChangeCopyCodeIcon(this)" tabindex="0"><img class="copyCodeImage" name="ccImage" align="absmiddle" title="Copy image" src="../icons/copycode.gif" />Copy Code</span></th></tr><tr><td colspan="2"><pre>
+&lt;SourceAnalyzer Name="MyCustomRules"&gt;
+  &lt;Description&gt;
+    ...
+  &lt;/Description&gt;
+  &lt;Properties&gt;
+    &lt;!-- Defines the settable properties for this rules analyzer --&gt;
+  &lt;/Properties&gt;
+  &lt;Rules&gt;
+    ...
+  &lt;/Rules&gt;
+&lt;/SourceAnalyzer&gt;
+              </pre></td></tr></table></span></div>
+        </p>
+        <p>
+          There are four types of properties which can be defined for a rules analyzer: BooleanProperty, IntProperty, StringProperty, and CollectionProperty. 
+          A property is defined using the following syntax:
+        </p>
+        <p>
+          <div class="code"><span codeLanguage="other"><table width="100%" cellspacing="0" cellpadding="0"><tr><th> </th><th><span class="copyCode" onclick="CopyCode(this)" onkeypress="CopyCode_CheckKey(this, event)" onmouseover="ChangeCopyCodeIcon(this)" onmouseout="ChangeCopyCodeIcon(this)" tabindex="0"><img class="copyCodeImage" name="ccImage" align="absmiddle" title="Copy image" src="../icons/copycode.gif" />Copy Code</span></th></tr><tr><td colspan="2"><pre>
+&lt;PropertyType
+  Name=value
+  DefaultValue=value
+  FriendlyName=value
+  Description=value
+  DisplaySettings=value
+  Merge=value
+  Aggregate=value
+/&gt;
+          </pre></td></tr></table></span></div>
+          </p>
+        <p>
+          The Name attribute defines the name of the property. This name will be used to access the property within the rules analyzer code.
+          The DefaultValue attribute is optional, and defines the default value for the property. This value will be used if the property
+          has not been set by the user. The FriendlyName attribute defines a short friendly name to display to the user. The Description
+          attribute defines a longer description of the property. The DisplaySettings attribute indicates whether to display the property
+          on the default StyleCop settings page. The DisplaySettings property is currently only valid for boolean properties, and will be
+          ignored for other property types. The Merge property is also optional, and determines whether to merge the value of the property
+          together if multiple StyleCop settings files are loaded for a project. If the value is set to false, the most local value of 
+          the property will be used, and all other values set for this property will be ignored. The Aggregate attribute is only valid
+          for the CollectionProperty type. If this attribute is set to true and the property is set within multiple settings files which are
+          loaded for a project, all of the values within each of the collections will be aggregated together. If the value is set to false,
+          only the values from the most local settings file will be used, and all other values will be ignored.
+        </p>
+        <p>
+          For example, the following code defines each of the four types of properties.
+        </p>
+        <p>
+          <div class="code"><span codeLanguage="other"><table width="100%" cellspacing="0" cellpadding="0"><tr><th> </th><th><span class="copyCode" onclick="CopyCode(this)" onkeypress="CopyCode_CheckKey(this, event)" onmouseover="ChangeCopyCodeIcon(this)" onmouseout="ChangeCopyCodeIcon(this)" tabindex="0"><img class="copyCodeImage" name="ccImage" align="absmiddle" title="Copy image" src="../icons/copycode.gif" />Copy Code</span></th></tr><tr><td colspan="2"><pre>
+&lt;Properties&gt;
+  &lt;BooleanProperty
+    Name="CheckPrivateMembers"
+    DefaultValue="true"
+    FriendlyName="Check Privates"
+    Description="Indicates whether to enforce the rules on private members."
+  /&gt;
+  &lt;StringProperty
+    Name="CompanyName"
+    DefaultValue=""
+    FriendlyName="Company Name"
+    Description="The required company name which must appear in the file header."
+    /&gt;
+  &lt;IntProperty
+    Name="ClassCount"
+    DefaultValue="1"
+    FriendlyName="Class Count"
+    Description="The maximum number of classes which may appear in a single file."
+    /&gt;
+  &lt;CollectionProperty
+    Name="Prefixes"
+    Aggregate="True"
+    FriendlyName="Valid prefixes"
+    Description="The list of allowed prefixes for variable and field names."&gt;
+  &lt;/CollectionProperty&gt;
+&lt;/Properties&gt;
+          </pre></td></tr></table></span></div>
+        </p>
+        <p>
+          Once a property has been defined in the analyzer's Xml metadata file, the property must be exposed on the StyleCop settings dialog to
+          allow the end-user to set the value of the property. For boolean properties, StyleCop will automatically display the property on the 
+          Rules page of the settings dialog when the analyzer node is selected, unless the DisplaySettings attribute on the property is set to false.
+        </p>
+        <p>
+          For non-boolean properties, or boolean properties with the DisplaySettings attribute set to false, custom UI must be written to expose
+          the property to the end-user. To learn how to expose properties on a custom settings page, see the <span sdata="link"><a href="_Adding a Custom StyleCop Settings Page.htm">Adding a Custom StyleCop Settings Page</a></span> page.
+        </p>
+        <p>
+          Once a property has been defined within an analyzer's metadata Xml file, the property value can be read within the rule analyzer code through the 
+          <span sdata="cer" target="M:StyleCop.StyleCopAddIn.GetSetting(StyleCop.Settings,System.String)"><a href="M_StyleCop_StyleCopAddIn_GetSetting.htm">GetSetting(Settings, String)</a></span> method. For example,
+          to read the currently set value for the boolean CheckPrivateMembers property defined above, the rule analyzer could execute the following code:
+        </p>
+        <p>
+          <div class="code"><span codeLanguage="other"><table width="100%" cellspacing="0" cellpadding="0"><tr><th> </th><th><span class="copyCode" onclick="CopyCode(this)" onkeypress="CopyCode_CheckKey(this, event)" onmouseover="ChangeCopyCodeIcon(this)" onmouseout="ChangeCopyCodeIcon(this)" tabindex="0"><img class="copyCodeImage" name="ccImage" align="absmiddle" title="Copy image" src="../icons/copycode.gif" />Copy Code</span></th></tr><tr><td colspan="2"><pre>
+public override void AnalyzeDocument(CodeDocument document)
+{
+    BooleanProperty checkPrivatesProperty = this.GetSetting(document.Settings, "CheckPrivateMembers") as BooleanProperty;
+    if (value != null)
+    {
+        Console.WriteLine("The property value is set to: " + checkPrivatesProperty.Value);
+    }
+}
+          </pre></td></tr></table></span></div>
+        </p>
+      </div>
+  
+</div>
+      <div id="footer">
+        <div class="footerLine">
+        </div>
+</div>
+    </div>
+  </body>
+</html>

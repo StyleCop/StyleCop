@@ -1,0 +1,774 @@
+﻿<StyleCopCsParserObjectModel>
+  <CodeUnit Type="CsDocument">
+    <CodeUnit Text="#region Normal Enums" Type="RegionDirective" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Type="FileHeader" />
+    <CodeUnit Type="Enum">
+      <CodeUnit Text="enum" Type="EnumToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="Enum1" Type="LiteralToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+    </CodeUnit>
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Type="Enum">
+      <CodeUnit Text="enum" Type="EnumToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="Enum2" Type="LiteralToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Type="EnumItem">
+        <CodeUnit Text="Item1" Type="LiteralToken" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+    </CodeUnit>
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Type="Enum">
+      <CodeUnit Text="enum" Type="EnumToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="Enum3" Type="LiteralToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Type="EnumItem">
+        <CodeUnit Text="Item1" Type="LiteralToken" />
+      </CodeUnit>
+      <CodeUnit Text="," Type="CommaToken" />
+      <CodeUnit Type="EnumItem">
+        <CodeUnit Text="Item2" Type="LiteralToken" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+    </CodeUnit>
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Type="Enum">
+      <CodeUnit Text="enum" Type="EnumToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="Enum4" Type="LiteralToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Type="EnumItem">
+        <CodeUnit Text="Item1" Type="LiteralToken" />
+      </CodeUnit>
+      <CodeUnit Text="," Type="CommaToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Type="EnumItem">
+        <CodeUnit Text="Item2" Type="LiteralToken" />
+      </CodeUnit>
+      <CodeUnit Text="," Type="CommaToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Type="EnumItem">
+        <CodeUnit Text="Item3" Type="LiteralToken" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+    </CodeUnit>
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Type="Enum">
+      <CodeUnit Text="enum" Type="EnumToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="Enum5" Type="LiteralToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text=":" Type="BaseColonToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="int" Type="TypeToken">
+        <CodeUnit Text="int" Type="LiteralToken" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Type="EnumItem">
+        <CodeUnit Text="Item1" Type="LiteralToken" />
+      </CodeUnit>
+      <CodeUnit Text="," Type="CommaToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Type="EnumItem">
+        <CodeUnit Text="Item2" Type="LiteralToken" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+    </CodeUnit>
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Type="Enum">
+      <CodeUnit Text="enum" Type="EnumToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="Enum6" Type="LiteralToken" />
+      <CodeUnit Text=":" Type="BaseColonToken" />
+      <CodeUnit Text="uint" Type="TypeToken">
+        <CodeUnit Text="uint" Type="LiteralToken" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Type="EnumItem">
+        <CodeUnit Text="Item1" Type="LiteralToken" />
+        <CodeUnit Text="=" Type="EqualsOperator" />
+        <CodeUnit Type="LiteralExpression">
+          <CodeUnit Text="4" Type="NumberToken" />
+        </CodeUnit>
+      </CodeUnit>
+      <CodeUnit Text="," Type="CommaToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Type="EnumItem">
+        <CodeUnit Text="Item2" Type="LiteralToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="=" Type="EqualsOperator" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Type="ArithmeticExpression">
+          <CodeUnit Type="LiteralExpression">
+            <CodeUnit Text="4" Type="NumberToken" />
+          </CodeUnit>
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="+" Type="PlusOperator" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Type="LiteralExpression">
+            <CodeUnit Text="2" Type="NumberToken" />
+          </CodeUnit>
+        </CodeUnit>
+      </CodeUnit>
+      <CodeUnit Text="," Type="CommaToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Type="EnumItem">
+        <CodeUnit Text="Item3" Type="LiteralToken" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+    </CodeUnit>
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Type="Enum">
+      <CodeUnit Text="enum" Type="EnumToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="Enum7" Type="LiteralToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Type="EnumItem">
+        <CodeUnit Text="Item1" Type="LiteralToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="=" Type="EqualsOperator" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Type="LiteralExpression">
+          <CodeUnit Text="&quot;hello&quot;" Type="StringToken" />
+        </CodeUnit>
+      </CodeUnit>
+      <CodeUnit Text="," Type="CommaToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Type="EnumItem">
+        <CodeUnit Text="Item2" Type="LiteralToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="=" Type="EqualsOperator" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Type="ArithmeticExpression">
+          <CodeUnit Type="ArithmeticExpression">
+            <CodeUnit Type="LiteralExpression">
+              <CodeUnit Text="@&quot;goodbye&quot;" Type="StringToken" />
+            </CodeUnit>
+            <CodeUnit Text=" " Type="Whitespace" />
+            <CodeUnit Text="+" Type="PlusOperator" />
+            <CodeUnit Text=" " Type="Whitespace" />
+            <CodeUnit Type="LiteralExpression">
+              <CodeUnit Text="&quot;see you&quot;" Type="StringToken" />
+            </CodeUnit>
+          </CodeUnit>
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="+" Type="PlusOperator" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Type="LiteralExpression">
+            <CodeUnit Text="1" Type="NumberToken" />
+          </CodeUnit>
+        </CodeUnit>
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+    </CodeUnit>
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="#endregion" Type="EndRegionDirective" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="#region Enum with trailing semicolon" Type="RegionDirective" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Type="Enum">
+      <CodeUnit Text="enum" Type="EnumToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="EnumWithSemicolon" Type="LiteralToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Type="EnumItem">
+        <CodeUnit Text="Item1" Type="LiteralToken" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+    </CodeUnit>
+    <CodeUnit Type="EmptyElement">
+      <CodeUnit Text=";" Type="SemicolonToken" />
+    </CodeUnit>
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="#endregion" Type="EndRegionDirective" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="#region Enum with extra comma" Type="RegionDirective" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Type="Enum">
+      <CodeUnit Text="enum" Type="EnumToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="EnumWithExtraComma" Type="LiteralToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Type="EnumItem">
+        <CodeUnit Text="Item1" Type="LiteralToken" />
+      </CodeUnit>
+      <CodeUnit Text="," Type="CommaToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Type="EnumItem">
+        <CodeUnit Text="Item2" Type="LiteralToken" />
+      </CodeUnit>
+      <CodeUnit Text="," Type="CommaToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+    </CodeUnit>
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="#endregion" Type="EndRegionDirective" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="#region Nested enum" Type="RegionDirective" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Type="Class">
+      <CodeUnit Text="class" Type="ClassToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="ClassWithNestedEnum1" Type="LiteralToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Type="Enum">
+        <CodeUnit Text="enum" Type="EnumToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="NestedEnum1" Type="LiteralToken" />
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="    " Type="Whitespace" />
+        <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="        " Type="Whitespace" />
+        <CodeUnit Type="EnumItem">
+          <CodeUnit Text="Item2" Type="LiteralToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="=" Type="EqualsOperator" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Type="LiteralExpression">
+            <CodeUnit Text="2" Type="NumberToken" />
+          </CodeUnit>
+        </CodeUnit>
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="    " Type="Whitespace" />
+        <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+    </CodeUnit>
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="#endregion" Type="EndRegionDirective" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="#region Enums with access modifiers" Type="RegionDirective" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Type="Enum">
+      <CodeUnit Text="public" Type="PublicToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="enum" Type="EnumToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="EnumWithAccessModifier1" Type="LiteralToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Type="EnumItem">
+        <CodeUnit Text="Item1" Type="LiteralToken" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+    </CodeUnit>
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Type="Enum">
+      <CodeUnit Text="internal" Type="InternalToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="enum" Type="EnumToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="EnumWithAccessModifier2" Type="LiteralToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Type="EnumItem">
+        <CodeUnit Text="Item1" Type="LiteralToken" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+    </CodeUnit>
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Type="Enum">
+      <CodeUnit Text="protected" Type="ProtectedToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="enum" Type="EnumToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="EnumWithAccessModifier3" Type="LiteralToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Type="EnumItem">
+        <CodeUnit Text="Item1" Type="LiteralToken" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+    </CodeUnit>
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Type="Enum">
+      <CodeUnit Text="protected" Type="ProtectedToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="internal" Type="InternalToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="enum" Type="EnumToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="EnumWithAccessModifier4" Type="LiteralToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Type="EnumItem">
+        <CodeUnit Text="Item1" Type="LiteralToken" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+    </CodeUnit>
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Type="Enum">
+      <CodeUnit Text="internal" Type="InternalToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="protected" Type="ProtectedToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="enum" Type="EnumToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="EnumWithAccessModifier5" Type="LiteralToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Type="EnumItem">
+        <CodeUnit Text="Item1" Type="LiteralToken" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+    </CodeUnit>
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Type="Enum">
+      <CodeUnit Text="private" Type="PrivateToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="enum" Type="EnumToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="EnumWithAccessModifier6" Type="LiteralToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Type="EnumItem">
+        <CodeUnit Text="Item1" Type="LiteralToken" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+    </CodeUnit>
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="#endregion" Type="EndRegionDirective" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="#region Enums with other modifiers" Type="RegionDirective" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Type="Class">
+      <CodeUnit Text="public" Type="PublicToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="class" Type="ClassToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="ClassWithNestedEnum2" Type="LiteralToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Type="Enum">
+        <CodeUnit Text="public" Type="PublicToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="new" Type="NewToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="enum" Type="EnumToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="EnumWithNewModifier" Type="LiteralToken" />
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="    " Type="Whitespace" />
+        <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="        " Type="Whitespace" />
+        <CodeUnit Type="EnumItem">
+          <CodeUnit Text="Item1" Type="LiteralToken" />
+        </CodeUnit>
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="    " Type="Whitespace" />
+        <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+    </CodeUnit>
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="#endregion " Type="EndRegionDirective" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="#region Enums with Attributes" Type="RegionDirective" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Type="Enum">
+      <CodeUnit Type="Attribute">
+        <CodeUnit Text="[" Type="OpenAttributeBracketToken" />
+        <CodeUnit Type="AttributeExpression">
+          <CodeUnit Type="MethodInvocationExpression">
+            <CodeUnit Type="LiteralExpression">
+              <CodeUnit Text="Attribute1" Type="LiteralToken" />
+            </CodeUnit>
+            <CodeUnit Text="(" Type="OpenParenthesisToken" />
+            <CodeUnit Type="ArgumentList">
+              <CodeUnit Type="Argument">
+                <CodeUnit Type="LiteralExpression">
+                  <CodeUnit Text="false" Type="FalseToken" />
+                </CodeUnit>
+              </CodeUnit>
+            </CodeUnit>
+            <CodeUnit Text=")" Type="CloseParenthesisToken" />
+          </CodeUnit>
+        </CodeUnit>
+        <CodeUnit Text="," Type="CommaToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Type="AttributeExpression">
+          <CodeUnit Type="MethodInvocationExpression">
+            <CodeUnit Type="MemberAccessExpression">
+              <CodeUnit Type="LiteralExpression">
+                <CodeUnit Text="System" Type="LiteralToken" />
+              </CodeUnit>
+              <CodeUnit Text="." Type="MemberAccessOperator" />
+              <CodeUnit Type="LiteralExpression">
+                <CodeUnit Text="Attribute2" Type="LiteralToken" />
+              </CodeUnit>
+            </CodeUnit>
+            <CodeUnit Text="(" Type="OpenParenthesisToken" />
+            <CodeUnit Type="ArgumentList">
+              <CodeUnit Type="Argument">
+                <CodeUnit Type="LiteralExpression">
+                  <CodeUnit Text="true" Type="TrueToken" />
+                </CodeUnit>
+              </CodeUnit>
+              <CodeUnit Text="," Type="CommaToken" />
+              <CodeUnit Text=" " Type="Whitespace" />
+              <CodeUnit Type="Argument">
+                <CodeUnit Type="LiteralExpression">
+                  <CodeUnit Text="2" Type="NumberToken" />
+                </CodeUnit>
+              </CodeUnit>
+            </CodeUnit>
+            <CodeUnit Text=")" Type="CloseParenthesisToken" />
+          </CodeUnit>
+        </CodeUnit>
+        <CodeUnit Text="]" Type="CloseAttributeBracketToken" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Type="Attribute">
+        <CodeUnit Text="[" Type="OpenAttributeBracketToken" />
+        <CodeUnit Type="AttributeExpression">
+          <CodeUnit Type="LiteralExpression">
+            <CodeUnit Text="Attribute3" Type="LiteralToken" />
+          </CodeUnit>
+        </CodeUnit>
+        <CodeUnit Text="]" Type="CloseAttributeBracketToken" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="public" Type="PublicToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="enum" Type="EnumToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="EnumWithAttributes" Type="LiteralToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+    </CodeUnit>
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="#endregion" Type="EndRegionDirective" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="#region Enums with headers" Type="RegionDirective" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Type="Enum">
+      <CodeUnit Type="ElementHeader">
+        <CodeUnit Text="/// &lt;summary&gt;" Type="ElementHeaderLine" />
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="/// An enum header." Type="ElementHeaderLine" />
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="/// &lt;/summary&gt;" Type="ElementHeaderLine" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="public" Type="PublicToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="enum" Type="EnumToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="EnumWithHeader" Type="LiteralToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Type="EnumItem">
+        <CodeUnit Type="ElementHeader">
+          <CodeUnit Text="/// &lt;summary&gt;" Type="ElementHeaderLine" />
+          <CodeUnit Text="&#xA;" Type="EndOfLine" />
+          <CodeUnit Text="    " Type="Whitespace" />
+          <CodeUnit Text="/// ITem 1 header." Type="ElementHeaderLine" />
+          <CodeUnit Text="&#xA;" Type="EndOfLine" />
+          <CodeUnit Text="    " Type="Whitespace" />
+          <CodeUnit Text="/// &lt;/summary&gt;" Type="ElementHeaderLine" />
+        </CodeUnit>
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="    " Type="Whitespace" />
+        <CodeUnit Text="Item1" Type="LiteralToken" />
+      </CodeUnit>
+      <CodeUnit Text="," Type="CommaToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Type="EnumItem">
+        <CodeUnit Type="ElementHeader">
+          <CodeUnit Text="/// &lt;summary&gt;" Type="ElementHeaderLine" />
+          <CodeUnit Text="&#xA;" Type="EndOfLine" />
+          <CodeUnit Text="    " Type="Whitespace" />
+          <CodeUnit Text="/// Item2 header." Type="ElementHeaderLine" />
+          <CodeUnit Text="&#xA;" Type="EndOfLine" />
+          <CodeUnit Text="    " Type="Whitespace" />
+          <CodeUnit Text="/// &lt;/summary&gt;" Type="ElementHeaderLine" />
+        </CodeUnit>
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="    " Type="Whitespace" />
+        <CodeUnit Text="Item2" Type="LiteralToken" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+    </CodeUnit>
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="#endregion" Type="EndRegionDirective" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="#region Enums with headers and attributes" Type="RegionDirective" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Type="Enum">
+      <CodeUnit Type="ElementHeader">
+        <CodeUnit Text="/// &lt;summary&gt;" Type="ElementHeaderLine" />
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="/// An enum header." Type="ElementHeaderLine" />
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="/// &lt;/summary&gt;" Type="ElementHeaderLine" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Type="Attribute">
+        <CodeUnit Text="[" Type="OpenAttributeBracketToken" />
+        <CodeUnit Type="AttributeExpression">
+          <CodeUnit Type="MethodInvocationExpression">
+            <CodeUnit Type="LiteralExpression">
+              <CodeUnit Text="Attribute1" Type="LiteralToken" />
+            </CodeUnit>
+            <CodeUnit Text="(" Type="OpenParenthesisToken" />
+            <CodeUnit Type="ArgumentList">
+              <CodeUnit Type="Argument">
+                <CodeUnit Type="LiteralExpression">
+                  <CodeUnit Text="false" Type="FalseToken" />
+                </CodeUnit>
+              </CodeUnit>
+            </CodeUnit>
+            <CodeUnit Text=")" Type="CloseParenthesisToken" />
+          </CodeUnit>
+        </CodeUnit>
+        <CodeUnit Text="," Type="CommaToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Type="AttributeExpression">
+          <CodeUnit Type="MethodInvocationExpression">
+            <CodeUnit Type="ChildAccessExpression">
+              <CodeUnit Type="LiteralExpression">
+                <CodeUnit Text="System" Type="LiteralToken" />
+              </CodeUnit>
+              <CodeUnit Text="." Type="MemberAccessOperator" />
+              <CodeUnit Type="LiteralExpression">
+                <CodeUnit Text="Attribute2" Type="LiteralToken" />
+              </CodeUnit>
+            </CodeUnit>
+            <CodeUnit Text="(" Type="OpenParenthesisToken" />
+            <CodeUnit Type="ArgumentList">
+              <CodeUnit Type="Argument">
+                <CodeUnit Type="LiteralExpression">
+                  <CodeUnit Text="true" Type="TrueToken" />
+                </CodeUnit>
+              </CodeUnit>
+              <CodeUnit Text="," Type="CommaToken" />
+              <CodeUnit Text=" " Type="Whitespace" />
+              <CodeUnit Type="Argument">
+                <CodeUnit Type="LiteralExpression">
+                  <CodeUnit Text="2" Type="NumberToken" />
+                </CodeUnit>
+              </CodeUnit>
+            </CodeUnit>
+            <CodeUnit Text=")" Type="CloseParenthesisToken" />
+          </CodeUnit>
+        </CodeUnit>
+        <CodeUnit Text="]" Type="CloseAttributeBracketToken" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Type="Attribute">
+        <CodeUnit Text="[" Type="OpenAttributeBracketToken" />
+        <CodeUnit Type="AttributeExpression">
+          <CodeUnit Type="LiteralExpression">
+            <CodeUnit Text="Attribute3" Type="LiteralToken" />
+          </CodeUnit>
+        </CodeUnit>
+        <CodeUnit Text="]" Type="CloseAttributeBracketToken" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="public" Type="PublicToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="enum" Type="EnumToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="EnumWithHeaderAndAttributes" Type="LiteralToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Type="EnumItem">
+        <CodeUnit Type="ElementHeader">
+          <CodeUnit Text="/// &lt;summary&gt;" Type="ElementHeaderLine" />
+          <CodeUnit Text="&#xA;" Type="EndOfLine" />
+          <CodeUnit Text="    " Type="Whitespace" />
+          <CodeUnit Text="/// Item header" Type="ElementHeaderLine" />
+          <CodeUnit Text="&#xA;" Type="EndOfLine" />
+          <CodeUnit Text="    " Type="Whitespace" />
+          <CodeUnit Text="/// &lt;/summary&gt;" Type="ElementHeaderLine" />
+        </CodeUnit>
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="    " Type="Whitespace" />
+        <CodeUnit Text="Item1" Type="LiteralToken" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+    </CodeUnit>
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="#endregion" Type="EndRegionDirective" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="#region Enums with extra tokens" Type="RegionDirective" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Type="Enum">
+      <CodeUnit Text="public" Type="PublicToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="enum" Type="EnumToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="EnumWithExtraTokens" Type="LiteralToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Text="// extra stuff" Type="SingleLineComment" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Type="EnumItem">
+        <CodeUnit Type="ElementHeader">
+          <CodeUnit Text="/// &lt;summary&gt;" Type="ElementHeaderLine" />
+          <CodeUnit Text="&#xA;" Type="EndOfLine" />
+          <CodeUnit Text="    " Type="Whitespace" />
+          <CodeUnit Text="/// Item header" Type="ElementHeaderLine" />
+          <CodeUnit Text="&#xA;" Type="EndOfLine" />
+          <CodeUnit Text="    " Type="Whitespace" />
+          <CodeUnit Text="/// &lt;/summary&gt;" Type="ElementHeaderLine" />
+        </CodeUnit>
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="    " Type="Whitespace" />
+        <CodeUnit Text="// extra stuff" Type="SingleLineComment" />
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="    " Type="Whitespace" />
+        <CodeUnit Text="Item1" Type="LiteralToken" />
+      </CodeUnit>
+      <CodeUnit Text="," Type="CommaToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Text="// extra stuff" Type="SingleLineComment" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Type="EnumItem">
+        <CodeUnit Text="item2" Type="LiteralToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="/*extra*/" Type="MultilineComment" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="=" Type="EqualsOperator" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="/*extra*/" Type="MultilineComment" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Type="LiteralExpression">
+          <CodeUnit Text="1" Type="NumberToken" />
+        </CodeUnit>
+      </CodeUnit>
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="," Type="CommaToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Text="// extra" Type="SingleLineComment" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+    </CodeUnit>
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="#endregion" Type="EndRegionDirective" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+  </CodeUnit>
+</StyleCopCsParserObjectModel>

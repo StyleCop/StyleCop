@@ -1,0 +1,19 @@
+[OPTIONS]
+Auto Index=Yes
+Compatibility=1.1 or later
+Compiled file=StyleCopSDK.chm
+Contents file=StyleCopSDKDocumentation.hhc
+Default Window=MsdnHelp
+Display compile progress=No
+Error log file=errors.log
+Full-text search=Yes
+Index file=StyleCopSDKDocumentation.hhk
+Language=0x409 English (United States)
+Title=StyleCop SDK
+
+[WINDOWS]
+MsdnHelp="StyleCop SDK","StyleCopSDKDocumentation.hhc","StyleCopSDKDocumentation.hhk","html\_StyleCopSDK.htm","html\_StyleCopSDK.htm",,,,,0x62520,220,0x387e,[86,51,872,558],,,,,,,0
+
+
+[INFOTYPES]
+

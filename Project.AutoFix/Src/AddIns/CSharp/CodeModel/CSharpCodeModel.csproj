@@ -1,0 +1,482 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{27990660-AC31-4622-A971-FE2BE70844CF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>StyleCop.CSharp.CodeModel</RootNamespace>
+    <AssemblyName>StyleCop.CSharp.CodeModel</AssemblyName>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>$(SAAssemblyOriginatorKeyFile)</AssemblyOriginatorKeyFile>
+    <DelaySign>$(SADelaySign)</DelaySign>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>$(RootBin)\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>$(RootBin)\Debug\StyleCop.CSharp.CodeModel.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>$(RootBin)\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>$(RootBin)\Release\StyleCop.CSharp.CodeModel.xml</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\..\AssemblyVersion.cs">
+      <Link>Properties\AssemblyVersion.cs</Link>
+    </Compile>
+    <Compile Include="AccessModifierType.cs" />
+    <Compile Include="Accessors\SetAccessor.cs" />
+    <Compile Include="Accessors\AddAccessor.cs" />
+    <Compile Include="Accessors\RemoveAccessor.cs" />
+    <Compile Include="Accessors\GetAccessor.cs" />
+    <Compile Include="Code.cs" />
+    <Compile Include="CodeLexer.cs" />
+    <Compile Include="CodeLexer.MarkerData.cs" />
+    <Compile Include="CodeLocation.cs" />
+    <Compile Include="CodeModelAssertException.cs" />
+    <Compile Include="CodeModelException.cs" />
+    <Compile Include="CodeParser.cs" />
+    <Compile Include="CodeParser.Elements.cs" />
+    <Compile Include="CodeParser.Expressions.cs" />
+    <Compile Include="CodeParser.Preprocessor.cs" />
+    <Compile Include="CodeParser.Statements.cs" />
+    <Compile Include="CodeParser.Symbols.cs" />
+    <Compile Include="CodePoint.cs" />
+    <Compile Include="CodeReader.cs" />
+    <Compile Include="CodeUnit.cs" />
+    <Compile Include="CodeUnitCollection.cs" />
+    <Compile Include="CodeUnitExtensions.cs" />
+    <Compile Include="CodeUnitLocationMarker.cs" />
+    <Compile Include="CodeUnitProperty.cs" />
+    <Compile Include="CodeUnitProxy.cs" />
+    <Compile Include="CodeUnits\Argument.cs" />
+    <Compile Include="CodeUnits\ArgumentList.cs" />
+    <Compile Include="CodeUnits\Attribute.cs" />
+    <Compile Include="CodeUnits\ElementHeader.cs" />
+    <Compile Include="CodeUnits\GenericParameterList.cs" />
+    <Compile Include="CodeUnits\GenericTypeParameter.cs" />
+    <Compile Include="Comments\MultilineComment.cs" />
+    <Compile Include="CsDebug.cs" />
+    <Compile Include="DocumentCodeModelExtensions.cs" />
+    <Compile Include="Expressions\AdditionExpression.cs" />
+    <Compile Include="Expressions\AddressOfExpression.cs" />
+    <Compile Include="Expressions\AndEqualsExpression.cs" />
+    <Compile Include="Expressions\BitwiseComplementExpression.cs" />
+    <Compile Include="Expressions\ChildAccessExpression.cs" />
+    <Compile Include="Expressions\ConditionalAndExpression.cs" />
+    <Compile Include="Expressions\ConditionalOrExpression.cs" />
+    <Compile Include="Expressions\DereferenceExpression.cs" />
+    <Compile Include="Expressions\DivisionEqualsExpression.cs" />
+    <Compile Include="Expressions\DivisionExpression.cs" />
+    <Compile Include="Expressions\EqualsExpression.cs" />
+    <Compile Include="Expressions\EqualToExpression.cs" />
+    <Compile Include="Expressions\GreaterThanExpression.cs" />
+    <Compile Include="Expressions\GreaterThanOrEqualToExpression.cs" />
+    <Compile Include="Expressions\LeftShiftEqualsExpression.cs" />
+    <Compile Include="Expressions\LeftShiftExpression.cs" />
+    <Compile Include="Expressions\LessThanExpression.cs" />
+    <Compile Include="Expressions\LessThanOrEqualToExpression.cs" />
+    <Compile Include="Expressions\LogicalAndExpression.cs" />
+    <Compile Include="Expressions\LogicalOrExpression.cs" />
+    <Compile Include="Expressions\LogicalXorExpression.cs" />
+    <Compile Include="Expressions\MemberAccessExpression.cs" />
+    <Compile Include="Expressions\MinusEqualsExpression.cs" />
+    <Compile Include="Expressions\ModEqualsExpression.cs" />
+    <Compile Include="Expressions\ModExpression.cs" />
+    <Compile Include="Expressions\MultiplicationEqualsExpression.cs" />
+    <Compile Include="Expressions\MultiplicationExpression.cs" />
+    <Compile Include="Expressions\NegativeExpression.cs" />
+    <Compile Include="Expressions\NotEqualToExpression.cs" />
+    <Compile Include="Expressions\NotExpression.cs" />
+    <Compile Include="Expressions\OrEqualsExpression.cs" />
+    <Compile Include="Expressions\PlusEqualsExpression.cs" />
+    <Compile Include="Expressions\PointerAccessExpression.cs" />
+    <Compile Include="Expressions\PositiveExpression.cs" />
+    <Compile Include="Expressions\QualifiedAliasExpression.cs" />
+    <Compile Include="Expressions\RightShiftEqualsExpression.cs" />
+    <Compile Include="Expressions\RightShiftExpression.cs" />
+    <Compile Include="Expressions\SubtractionExpression.cs" />
+    <Compile Include="Expressions\XorEqualsExpression.cs" />
+    <Compile Include="ICSharpCodeModelService.cs" />
+    <Compile Include="LexicalElements\SkippedSection.cs" />
+    <Compile Include="CsLanguageService.cs" />
+    <Compile Include="LexicalElements\SimpleLexicalElement.cs" />
+    <Compile Include="CodeUnits\FileHeader.cs" />
+    <Compile Include="CodeUnits\Element.cs" />
+    <Compile Include="CodeUnits\Expression.cs" />
+    <Compile Include="CodeUnits\LexicalElement.cs" />
+    <Compile Include="CodeUnits\Parameter.cs" />
+    <Compile Include="CodeUnits\ParameterList.cs" />
+    <Compile Include="CodeUnits\ParameterModifiers.cs" />
+    <Compile Include="CodeUnits\QueryClause.cs" />
+    <Compile Include="CodeUnits\Statement.cs" />
+    <Compile Include="CodeUnits\TypeParameterConstraintClause.cs" />
+    <Compile Include="CodeUnitTypes.cs" />
+    <Compile Include="CodeWalker.cs" />
+    <Compile Include="Collections\ILinkNode.cs" />
+    <Compile Include="Collections\LinkedItemList.cs" />
+    <Compile Include="Collections\LinkedItemList.Enumerators.cs" />
+    <Compile Include="Collections\LinkNode.cs" />
+    <Compile Include="Comments\SingleLineComment.cs" />
+    <Compile Include="Comments\XmlHeaderLine.cs" />
+    <Compile Include="Elements\Accessor.cs" />
+    <Compile Include="Elements\Class.cs" />
+    <Compile Include="Elements\ClassBase.cs" />
+    <Compile Include="Elements\Constructor.cs" />
+    <Compile Include="Elements\CsDocument.cs" />
+    <Compile Include="Elements\Delegate.cs" />
+    <Compile Include="Elements\Destructor.cs" />
+    <Compile Include="Elements\EmptyElement.cs" />
+    <Compile Include="Elements\Enum.cs" />
+    <Compile Include="Elements\EnumItem.cs" />
+    <Compile Include="Elements\Event.cs" />
+    <Compile Include="Elements\ExternAliasDirective.cs" />
+    <Compile Include="Elements\Field.cs" />
+    <Compile Include="Elements\Indexer.cs" />
+    <Compile Include="Elements\Interface.cs" />
+    <Compile Include="Elements\Method.cs" />
+    <Compile Include="Elements\Namespace.cs" />
+    <Compile Include="Elements\Property.cs" />
+    <Compile Include="Elements\Struct.cs" />
+    <Compile Include="Elements\UsingDirective.cs" />
+    <Compile Include="Expressions\AnonymousMethodExpression.cs" />
+    <Compile Include="Expressions\ArithmeticExpression.cs" />
+    <Compile Include="Expressions\ArrayAccessExpression.cs" />
+    <Compile Include="Expressions\ArrayInitializerExpression.cs" />
+    <Compile Include="Expressions\AsExpression.cs" />
+    <Compile Include="Expressions\AssignmentExpression.cs" />
+    <Compile Include="Expressions\AttributeExpression.cs" />
+    <Compile Include="Expressions\CastExpression.cs" />
+    <Compile Include="Expressions\CheckedExpression.cs" />
+    <Compile Include="Expressions\CollectionInitializerExpression.cs" />
+    <Compile Include="Expressions\ConditionalExpression.cs" />
+    <Compile Include="Expressions\ConditionalLogicalExpression.cs" />
+    <Compile Include="Expressions\EventDeclaratorExpression.cs" />
+    <Compile Include="Expressions\DecrementExpression.cs" />
+    <Compile Include="Expressions\DefaultValueExpression.cs" />
+    <Compile Include="Expressions\ExpressionWithParameters.cs" />
+    <Compile Include="Expressions\IncrementExpression.cs" />
+    <Compile Include="Expressions\IsExpression.cs" />
+    <Compile Include="Expressions\LambdaExpression.cs" />
+    <Compile Include="Expressions\LiteralExpression.cs" />
+    <Compile Include="Expressions\LogicalExpression.cs" />
+    <Compile Include="Expressions\MethodInvocationExpression.cs" />
+    <Compile Include="Expressions\NewArrayExpression.cs" />
+    <Compile Include="Expressions\NewExpression.cs" />
+    <Compile Include="Expressions\NullCoalescingExpression.cs" />
+    <Compile Include="Expressions\ObjectInitializerExpression.cs" />
+    <Compile Include="Expressions\ParenthesizedExpression.cs" />
+    <Compile Include="Expressions\QueryExpression.cs" />
+    <Compile Include="Expressions\RelationalExpression.cs" />
+    <Compile Include="Expressions\SizeofExpression.cs" />
+    <Compile Include="Expressions\StackallocExpression.cs" />
+    <Compile Include="Expressions\TypeofExpression.cs" />
+    <Compile Include="Expressions\UnaryExpression.cs" />
+    <Compile Include="Expressions\UncheckedExpression.cs" />
+    <Compile Include="Expressions\UnsafeAccessExpression.cs" />
+    <Compile Include="Expressions\VariableDeclarationExpression.cs" />
+    <Compile Include="Expressions\VariableDeclaratorExpression.cs" />
+    <Compile Include="ITypeConstraintContainer.cs" />
+    <Compile Include="IVariable.cs" />
+    <Compile Include="LexicalElements\Comment.cs" />
+    <Compile Include="LexicalElements\EndOfLine.cs" />
+    <Compile Include="LexicalElements\PreprocessorDirective.cs" />
+    <Compile Include="LexicalElements\Token.cs" />
+    <Compile Include="LexicalElements\Whitespace.cs" />
+    <Compile Include="Operators\AddressOfOperator.cs" />
+    <Compile Include="Operators\AndEqualsOperator.cs" />
+    <Compile Include="Operators\BitwiseComplementOperator.cs" />
+    <Compile Include="Operators\ConditionalAndOperator.cs" />
+    <Compile Include="Operators\ConditionalColonOperator.cs" />
+    <Compile Include="Operators\ConditionalEqualsOperator.cs" />
+    <Compile Include="Operators\ConditionalOrOperator.cs" />
+    <Compile Include="Operators\ConditionalQuestionMarkOperator.cs" />
+    <Compile Include="Operators\DecrementOperator.cs" />
+    <Compile Include="Operators\DereferenceOperator.cs" />
+    <Compile Include="Operators\DivisionEqualsOperator.cs" />
+    <Compile Include="Operators\DivisionOperator.cs" />
+    <Compile Include="Operators\EqualsOperator.cs" />
+    <Compile Include="Operators\GreaterThanOperator.cs" />
+    <Compile Include="Operators\GreaterThanOrEqualsOperator.cs" />
+    <Compile Include="Operators\IncrementOperator.cs" />
+    <Compile Include="Operators\LambdaOperator.cs" />
+    <Compile Include="Operators\LeftShiftEqualsOperator.cs" />
+    <Compile Include="Operators\LeftShiftOperator.cs" />
+    <Compile Include="Operators\LessThanOperator.cs" />
+    <Compile Include="Operators\LessThanOrEqualsOperator.cs" />
+    <Compile Include="Operators\LogicalAndOperator.cs" />
+    <Compile Include="Operators\LogicalOrOperator.cs" />
+    <Compile Include="Operators\LogicalXorOperator.cs" />
+    <Compile Include="Operators\MemberAccessOperator.cs" />
+    <Compile Include="Operators\MinusEqualsOperator.cs" />
+    <Compile Include="Operators\MinusOperator.cs" />
+    <Compile Include="Operators\ModEqualsOperator.cs" />
+    <Compile Include="Operators\ModOperator.cs" />
+    <Compile Include="Operators\MultiplicationEqualsOperator.cs" />
+    <Compile Include="Operators\MultiplicationOperator.cs" />
+    <Compile Include="Operators\NegativeOperator.cs" />
+    <Compile Include="Operators\NotEqualsOperator.cs" />
+    <Compile Include="Operators\NotOperator.cs" />
+    <Compile Include="Operators\NullCoalescingSymbolOperator.cs" />
+    <Compile Include="Operators\OperatorCategory.cs" />
+    <Compile Include="Operators\OrEqualsOperator.cs" />
+    <Compile Include="Operators\PlusEqualsOperator.cs" />
+    <Compile Include="Operators\PlusOperator.cs" />
+    <Compile Include="Operators\PointerOperator.cs" />
+    <Compile Include="Operators\PositiveOperator.cs" />
+    <Compile Include="Operators\QualifiedAliasOperator.cs" />
+    <Compile Include="Operators\RightShiftEqualsOperator.cs" />
+    <Compile Include="Operators\RightShiftOperator.cs" />
+    <Compile Include="Operators\XorEqualsOperator.cs" />
+    <Compile Include="Param.cs" />
+    <Compile Include="ParamStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ParamStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="PartialElementsService.cs" />
+    <Compile Include="Expressions\PostfixDecrementExpression.cs" />
+    <Compile Include="Expressions\PostfixIncrementExpression.cs" />
+    <Compile Include="Expressions\PrefixDecrementExpression.cs" />
+    <Compile Include="Expressions\PrefixIncrementExpression.cs" />
+    <Compile Include="PreprocessorDefinition.cs" />
+    <Compile Include="Preprocessors\ConditionalCompilationDirective.cs" />
+    <Compile Include="Preprocessors\DefineDirective.cs" />
+    <Compile Include="Preprocessors\ElifDirective.cs" />
+    <Compile Include="Preprocessors\ElseDirective.cs" />
+    <Compile Include="Preprocessors\EndifDirective.cs" />
+    <Compile Include="Preprocessors\EndRegionDirective.cs" />
+    <Compile Include="Preprocessors\ErrorDirective.cs" />
+    <Compile Include="Preprocessors\IfDirective.cs" />
+    <Compile Include="Preprocessors\LineDirective.cs" />
+    <Compile Include="Preprocessors\PragmaDirective.cs" />
+    <Compile Include="Preprocessors\RegionDirective.cs" />
+    <Compile Include="Preprocessors\SimplePreprocessorDirective.cs" />
+    <Compile Include="Preprocessors\UndefDirective.cs" />
+    <Compile Include="Preprocessors\WarningDirective.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QueryClauses\QueryContinuationClause.cs" />
+    <Compile Include="QueryClauses\QueryFromClause.cs" />
+    <Compile Include="QueryClauses\QueryGroupClause.cs" />
+    <Compile Include="QueryClauses\QueryJoinClause.cs" />
+    <Compile Include="QueryClauses\QueryLetClause.cs" />
+    <Compile Include="QueryClauses\QueryOrderByClause.cs" />
+    <Compile Include="QueryClauses\QuerySelectClause.cs" />
+    <Compile Include="QueryClauses\QueryWhereClause.cs" />
+    <Compile Include="Strings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Statements\BlockStatement.cs" />
+    <Compile Include="Statements\BreakStatement.cs" />
+    <Compile Include="Statements\CatchStatement.cs" />
+    <Compile Include="Statements\CheckedStatement.cs" />
+    <Compile Include="Statements\ConstructorInitializerStatement.cs" />
+    <Compile Include="Statements\ContinueStatement.cs" />
+    <Compile Include="Statements\DoWhileStatement.cs" />
+    <Compile Include="Statements\ElseStatement.cs" />
+    <Compile Include="Statements\EmptyStatement.cs" />
+    <Compile Include="Statements\ExpressionStatement.cs" />
+    <Compile Include="Statements\FinallyStatement.cs" />
+    <Compile Include="Statements\FixedStatement.cs" />
+    <Compile Include="Statements\ForeachStatement.cs" />
+    <Compile Include="Statements\ForStatement.cs" />
+    <Compile Include="Statements\GotoStatement.cs" />
+    <Compile Include="Statements\IfStatement.cs" />
+    <Compile Include="Statements\LabelStatement.cs" />
+    <Compile Include="Statements\LockStatement.cs" />
+    <Compile Include="Statements\ReturnStatement.cs" />
+    <Compile Include="Statements\SwitchCaseStatement.cs" />
+    <Compile Include="Statements\SwitchDefaultStatement.cs" />
+    <Compile Include="Statements\SwitchStatement.cs" />
+    <Compile Include="Statements\ThrowStatement.cs" />
+    <Compile Include="Statements\TryStatement.cs" />
+    <Compile Include="Statements\UncheckedStatement.cs" />
+    <Compile Include="Statements\UnsafeStatement.cs" />
+    <Compile Include="Statements\UsingStatement.cs" />
+    <Compile Include="Statements\VariableDeclarationStatement.cs" />
+    <Compile Include="Statements\WhileStatement.cs" />
+    <Compile Include="Statements\YieldStatement.cs" />
+    <Compile Include="Symbol.cs" />
+    <Compile Include="SymbolManager.cs" />
+    <Compile Include="SymbolType.cs" />
+    <Compile Include="SyntaxException.cs" />
+    <Compile Include="Tokens\AbstractToken.cs" />
+    <Compile Include="Tokens\AddToken.cs" />
+    <Compile Include="Tokens\AliasToken.cs" />
+    <Compile Include="Tokens\AscendingToken.cs" />
+    <Compile Include="Tokens\AsToken.cs" />
+    <Compile Include="Tokens\AttributeColonToken.cs" />
+    <Compile Include="Tokens\BaseColonToken.cs" />
+    <Compile Include="Tokens\BaseToken.cs" />
+    <Compile Include="Tokens\BracketToken.cs" />
+    <Compile Include="Tokens\BreakToken.cs" />
+    <Compile Include="Tokens\ByToken.cs" />
+    <Compile Include="Tokens\CaseToken.cs" />
+    <Compile Include="Tokens\CatchToken.cs" />
+    <Compile Include="Tokens\CheckedToken.cs" />
+    <Compile Include="Tokens\ClassToken.cs" />
+    <Compile Include="Tokens\CloseAttributeBracketToken.cs" />
+    <Compile Include="Tokens\CloseCurlyBracketToken.cs" />
+    <Compile Include="Tokens\CloseGenericBracketToken.cs" />
+    <Compile Include="Tokens\CloseParenthesisToken.cs" />
+    <Compile Include="Tokens\CloseSquareBracketToken.cs" />
+    <Compile Include="Tokens\CommaToken.cs" />
+    <Compile Include="Tokens\ComplexToken.cs" />
+    <Compile Include="Tokens\ConstructorConstraintToken.cs" />
+    <Compile Include="Tokens\ConstToken.cs" />
+    <Compile Include="Tokens\ContinueToken.cs" />
+    <Compile Include="Tokens\CloseBracketToken.cs" />
+    <Compile Include="Tokens\OpenBracketToken.cs" />
+    <Compile Include="Tokens\DefaultToken.cs" />
+    <Compile Include="Tokens\DefaultValueToken.cs" />
+    <Compile Include="Tokens\DelegateToken.cs" />
+    <Compile Include="Tokens\DescendingToken.cs" />
+    <Compile Include="Tokens\DestructorTildeToken.cs" />
+    <Compile Include="Tokens\DoToken.cs" />
+    <Compile Include="Tokens\ElseToken.cs" />
+    <Compile Include="Tokens\EnumToken.cs" />
+    <Compile Include="Tokens\EqualsToken.cs" />
+    <Compile Include="Tokens\EventToken.cs" />
+    <Compile Include="Tokens\ExplicitToken.cs" />
+    <Compile Include="Tokens\ExternDirectiveToken.cs" />
+    <Compile Include="Tokens\ExternToken.cs" />
+    <Compile Include="Tokens\FalseToken.cs" />
+    <Compile Include="Tokens\FinallyToken.cs" />
+    <Compile Include="Tokens\FixedToken.cs" />
+    <Compile Include="Tokens\ForeachToken.cs" />
+    <Compile Include="Tokens\ForToken.cs" />
+    <Compile Include="Tokens\FromToken.cs" />
+    <Compile Include="Tokens\GenericTypeToken.cs" />
+    <Compile Include="Tokens\GetToken.cs" />
+    <Compile Include="Tokens\GotoToken.cs" />
+    <Compile Include="Tokens\GroupToken.cs" />
+    <Compile Include="Tokens\IfToken.cs" />
+    <Compile Include="Tokens\ImplicitToken.cs" />
+    <Compile Include="Tokens\InterfaceToken.cs" />
+    <Compile Include="Tokens\InternalToken.cs" />
+    <Compile Include="Tokens\InToken.cs" />
+    <Compile Include="Tokens\IntoToken.cs" />
+    <Compile Include="Tokens\IsToken.cs" />
+    <Compile Include="Tokens\JoinToken.cs" />
+    <Compile Include="Tokens\LabelColonToken.cs" />
+    <Compile Include="Tokens\LetToken.cs" />
+    <Compile Include="Tokens\LiteralToken.cs" />
+    <Compile Include="Tokens\LockToken.cs" />
+    <Compile Include="Tokens\NamespaceToken.cs" />
+    <Compile Include="Tokens\NewToken.cs" />
+    <Compile Include="Tokens\NullableTypeToken.cs" />
+    <Compile Include="Tokens\NullToken.cs" />
+    <Compile Include="Tokens\NumberToken.cs" />
+    <Compile Include="Tokens\OnToken.cs" />
+    <Compile Include="Tokens\OpenAttributeBracketToken.cs" />
+    <Compile Include="Tokens\OpenCurlyBracketToken.cs" />
+    <Compile Include="Tokens\OpenGenericBracketToken.cs" />
+    <Compile Include="Tokens\OpenParenthesisToken.cs" />
+    <Compile Include="Tokens\OpenSquareBracketToken.cs" />
+    <Compile Include="Tokens\OperatorSymbolToken.cs" />
+    <Compile Include="Tokens\OperatorToken.cs" />
+    <Compile Include="Tokens\OrderByToken.cs" />
+    <Compile Include="Tokens\OutToken.cs" />
+    <Compile Include="Tokens\OverrideToken.cs" />
+    <Compile Include="Tokens\ParamsToken.cs" />
+    <Compile Include="Tokens\PartialToken.cs" />
+    <Compile Include="Tokens\PrivateToken.cs" />
+    <Compile Include="Tokens\ProtectedToken.cs" />
+    <Compile Include="Tokens\PublicToken.cs" />
+    <Compile Include="Tokens\ReadonlyToken.cs" />
+    <Compile Include="Tokens\RefToken.cs" />
+    <Compile Include="Tokens\RemoveToken.cs" />
+    <Compile Include="Tokens\ReturnToken.cs" />
+    <Compile Include="Tokens\SealedToken.cs" />
+    <Compile Include="Tokens\SelectToken.cs" />
+    <Compile Include="Tokens\SemicolonToken.cs" />
+    <Compile Include="Tokens\SetToken.cs" />
+    <Compile Include="Tokens\SimpleToken.cs" />
+    <Compile Include="Tokens\SizeofToken.cs" />
+    <Compile Include="Tokens\StackallocToken.cs" />
+    <Compile Include="Tokens\StaticToken.cs" />
+    <Compile Include="Tokens\StringToken.cs" />
+    <Compile Include="Tokens\StructToken.cs" />
+    <Compile Include="Tokens\SwitchToken.cs" />
+    <Compile Include="Tokens\ThisToken.cs" />
+    <Compile Include="Tokens\ThrowToken.cs" />
+    <Compile Include="Tokens\TrueToken.cs" />
+    <Compile Include="Tokens\TryToken.cs" />
+    <Compile Include="Tokens\TypeofToken.cs" />
+    <Compile Include="Tokens\TypeToken.cs" />
+    <Compile Include="Tokens\UncheckedToken.cs" />
+    <Compile Include="Tokens\UnsafeToken.cs" />
+    <Compile Include="Tokens\UsingDirectiveToken.cs" />
+    <Compile Include="Tokens\UsingToken.cs" />
+    <Compile Include="Tokens\VirtualToken.cs" />
+    <Compile Include="Tokens\VolatileToken.cs" />
+    <Compile Include="Tokens\WhereColonToken.cs" />
+    <Compile Include="Tokens\WhereToken.cs" />
+    <Compile Include="Tokens\WhileDoToken.cs" />
+    <Compile Include="Tokens\WhileToken.cs" />
+    <Compile Include="Tokens\YieldToken.cs" />
+    <Compile Include="TypeNames.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TypeNames.resx</DependentUpon>
+    </Compile>
+    <Compile Include="VariableCollection.cs" />
+    <Compile Include="VariableModifiers.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="CodeAnalysisDictionary.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ParamStrings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ParamStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Strings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TypeNames.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>TypeNames.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(PROJECTROOT)\Tools\msbuild\StyleCop.Build.Targets" />
+  <Import Project="$(PROJECTROOT)\Tools\msbuild\StyleCop.Shipping.Targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy /y "$(TargetPath)" "$(TestBin)"</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

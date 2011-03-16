@@ -3,7 +3,7 @@
 SETLOCAL
 
 REM Default value for parameters
-SET BuildTarget=debug
+SET BuildTarget=CodeAnalysis
 SET SkipBuild=0
 SET SkipTests=0
 SET NoInstall=1
@@ -69,7 +69,7 @@ FOR %%a IN (.- ./) DO IF /I ".%1" == "%%aBUILDANDDEPLOY" ( SET BuildAndDeploy=tr
 
 :ParamsDone
 
-GOTO ParametersListDone
+REM GOTO ParametersListDone
 ECHO BuildTarget     : %BuildTarget%
 ECHO SkipBuild       : %SkipBuild%
 ECHO SkipTests       : %SkipTests%
@@ -166,7 +166,12 @@ IF EXIST %PROJECTROOT%\src\WixSetup\%BuildLogFile%.wrn DEL /F /Q %PROJECTROOT%\s
 IF EXIST %PROJECTROOT%\src\WixSetup\%BuildLogFile%.err DEL /F /Q %PROJECTROOT%\src\WixSetup\%BuildLogFile%.err
 
 IF "%SkipWixBuild%" == "1" GOTO PostWixBuild
-CALL "%windir%\microsoft.net\framework\v3.5\msbuild.exe" %PROJECTROOT%\src\wixsetup\StyleCop.Wix.sln /p:Configuration=%BuildTarget% /flp1:warningsonly;logfile=%PROJECTROOT%\src\wixsetup\%buildlogfile%.wrn /flp2:errorsonly;logfile=%PROJECTROOT%\src\wixsetup\%buildlogfile%.err
+
+SET WixBuildTarget=%BuildTarget%
+
+IF "%BuildTarget%" == "CodeAnalysis" SET WixBuildTarget=debug
+
+CALL "%windir%\microsoft.net\framework\v3.5\msbuild.exe" %PROJECTROOT%\src\wixsetup\StyleCop.Wix.sln /p:Configuration=%WixBuildTarget% /flp1:warningsonly;logfile=%PROJECTROOT%\src\wixsetup\%buildlogfile%.wrn /flp2:errorsonly;logfile=%PROJECTROOT%\src\wixsetup\%buildlogfile%.err
 IF "%ERRORLEVEL%" == "0" DEL /F /Q %PROJECTROOT%\src\WixSetup\%BuildLogFile%.err
 CALL %PROJECTROOT%\tools\scripts\DeleteEmptyFile.cmd %PROJECTROOT%\src\WixSetup\%BuildLogFile%.wrn
 IF "%ERRORLEVEL%" == "1" GOTO SUMMARY
@@ -191,7 +196,9 @@ REM
 REM 
 ECHO **** Run tests END *************************************************************
 
-:SUMMARY
+IF "%BuildTarget%" neq "Release" GOTO SUMMARY
+
+:SIGNING
 
 echo Checking Code Signing...
 
@@ -206,7 +213,7 @@ signtool.exe sign /f "c:\AndrewReevesCodeSigning.pfx" /t "http://timestamp.veris
 
 echo Done.
 
-
+:SUMMARY
 
 IF "%SkipBuild%" == "1" Goto :END
 

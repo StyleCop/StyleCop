@@ -1,19 +1,19 @@
-//-----------------------------------------------------------------------
-// <copyright file="TestInfo.cs" company="Microsoft">
+﻿//-----------------------------------------------------------------------
+// <copyright file="TestInfo.cs">
 //   MS-PL
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
 //   Public License. A copy of the license can be found in the License.html 
-//   file at the root of this distribution. If you cannot locate the  
-//   Microsoft Public License, please send an email to dlr@microsoft.com. 
+//   file at the root of this distribution. 
 //   By using this source code in any fashion, you are agreeing to be bound 
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
 //-----------------------------------------------------------------------
-namespace StyleCop.TestHarness
+namespace StyleCop.Test
 {
+    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
@@ -24,8 +24,6 @@ namespace StyleCop.TestHarness
     /// </summary>
     internal class TestInfo
     {
-        #region Private Fields
-
         /// <summary>
         /// The name of the test.
         /// </summary>
@@ -45,10 +43,6 @@ namespace StyleCop.TestHarness
         /// Contains information about the test to run.
         /// </summary>
         private XmlNode testDescription;
-
-        #endregion Private Field
-
-        #region Public Constructors
 
         /// <summary>
         /// Initializes a new instance of the TestInfo class.
@@ -70,10 +64,6 @@ namespace StyleCop.TestHarness
             this.testOutputPath = testOutputPath;
         }
 
-        #endregion Public Constructors
-
-        #region Public Properties
-
         /// <summary>
         /// Gets a node containing information about the test to run.
         /// </summary>
@@ -93,6 +83,17 @@ namespace StyleCop.TestHarness
             get
             {
                 return this.testName;
+            }
+        }
+
+        /// <summary>
+        /// Gets an extension which is added to the name of auto-fixed files.
+        /// </summary>
+        public string AutoFixFileExtension
+        {
+            get
+            {
+                return "_AutoFixFiles_" + this.testName;
             }
         }
 
@@ -140,6 +141,20 @@ namespace StyleCop.TestHarness
             }
         }
 
-        #endregion Public Properties
+        /// <summary>
+        /// Gets a name which can be used for an autoFix version of the given file.
+        /// </summary>
+        /// <param name="filePath">The path to the original file.</param>
+        /// <returns>Returns the new file name.</returns>
+        public string AutoFixFileName(string filePath)
+        {
+            string originalPath = Path.GetDirectoryName(filePath);
+            if (originalPath.EndsWith("\\_OriginalFiles", StringComparison.OrdinalIgnoreCase))
+            {
+                originalPath = originalPath.Substring(0, originalPath.Length - 15);
+            }
+
+            return Path.Combine(Path.Combine(originalPath, this.AutoFixFileExtension), Path.GetFileName(filePath));
+        }
     }
 }

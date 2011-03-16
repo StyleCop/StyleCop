@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?include SharedIncludes.wxi ?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Fragment Id="VsPackageFragment">
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="INSTALLDIR" Name="$(var.ProductName)" FileSource="$(var.DropDir)">
+
+          <Component Id="VisualStudioPackageCommon" Guid="3c439240-494f-423d-bcc5-8247e4c21076">
+            <!-- The VSPackageComponent is the component for installing the shared parts of the VS package. -->
+            <File Id='VsPackageDll'      Name='StyleCop.VSPackage.dll' Checksum="yes" Vital='yes' />
+            <File Id='AnalysisEngineDll' Name='StyleCop.dll'           Checksum="yes" Vital='yes' />
+
+            <!-- The CSharpAnalyzerComponent is the component for installing the C# files. -->
+            <File Id='CSharpParser'   Name='StyleCop.CSharp.dll'              Checksum="yes" Vital='yes' />
+            <File Id='CSharpCodeModel'   Name='StyleCop.CSharp.CodeModel.dll' Checksum="yes" Vital='yes' />
+            <File Id='CSharpAnalyzer' Name='StyleCop.CSharp.Rules.dll'        Checksum="yes" Vital='yes' />
+
+            <File Id='Settings' Name='Settings.StyleCop' Checksum="yes" Vital='yes' />
+          </Component>
+
+          <Directory Id="DOCS" Name="Docs" FileSource="$(var.RootDir)\Docs\Bin">
+            <Component Id="StyleCopDocs" Guid="9E101542-FD36-4586-8AD7-2BFBD1D2387D">
+              <File Id='RulesChm' Name='StyleCop.chm' Checksum="yes" Vital='yes' />
+            </Component>
+          </Directory>
+
+        </Directory>
+      </Directory>
+
+    </Directory>
+
+    <ComponentGroup Id="StyleCopCommon">
+      <ComponentRef Id="VisualStudioPackageCommon" />
+      <ComponentRef Id="VisualStudioOrcasComponent" />
+      <ComponentRef Id="VisualStudio2010Component" />
+      <ComponentRef Id="SettingsEditorProgFilesComponent" />
+      <ComponentRef Id="StyleCopDocs" />
+    </ComponentGroup>
+  </Fragment>
+</Wix>

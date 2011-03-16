@@ -1,0 +1,301 @@
+﻿<StyleCopCsParserObjectModel>
+  <Element Name="Root" Type="DocumentRoot">
+    <Element Name="CSharpParserTest.TestData" Type="Namespace">
+      <Element Name="LambdaExpressions" Type="Class">
+        <Element Name="Method" Type="Method">
+          <Statement Type="ExpressionStatement">
+            <Expression Type="LambdaExpression">
+              <Expression Type="ArithmeticExpression">
+                <Expression Text="x" Type="LiteralExpression" />
+                <Expression Text="1" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="LambdaExpression">
+              <Statement Type="BlockStatement">
+                <Statement Type="ReturnStatement">
+                  <Expression Type="ArithmeticExpression">
+                    <Expression Text="x" Type="LiteralExpression" />
+                    <Expression Text="1" Type="LiteralExpression" />
+                  </Expression>
+                </Statement>
+              </Statement>
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="LambdaExpression">
+              <Expression Type="ArithmeticExpression">
+                <Expression Text="x" Type="LiteralExpression" />
+                <Expression Text="1" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="LambdaExpression">
+              <Statement Type="BlockStatement">
+                <Statement Type="ReturnStatement">
+                  <Expression Type="ArithmeticExpression">
+                    <Expression Text="x" Type="LiteralExpression" />
+                    <Expression Text="1" Type="LiteralExpression" />
+                  </Expression>
+                </Statement>
+              </Statement>
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="LambdaExpression">
+              <Expression Type="ArithmeticExpression">
+                <Expression Text="x" Type="LiteralExpression" />
+                <Expression Text="y" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="LambdaExpression">
+              <Statement Type="BlockStatement">
+                <Statement Type="ReturnStatement">
+                  <Expression Type="ArithmeticExpression">
+                    <Expression Text="x" Type="LiteralExpression" />
+                    <Expression Text="y" Type="LiteralExpression" />
+                  </Expression>
+                </Statement>
+              </Statement>
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="LambdaExpression">
+              <Expression Type="ArithmeticExpression">
+                <Expression Text="x" Type="LiteralExpression" />
+                <Expression Text="y" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="LambdaExpression">
+              <Statement Type="BlockStatement">
+                <Statement Type="ReturnStatement">
+                  <Expression Type="ArithmeticExpression">
+                    <Expression Text="x" Type="LiteralExpression" />
+                    <Expression Text="y" Type="LiteralExpression" />
+                  </Expression>
+                </Statement>
+              </Statement>
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="LambdaExpression">
+              <Expression Type="MethodInvocationExpression">
+                <Expression Type="MemberAccessExpression">
+                  <Expression Text="Console" Type="LiteralExpression" />
+                  <Expression Text="WriteLine" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="LambdaExpression">
+              <Statement Type="BlockStatement">
+                <Statement Type="ExpressionStatement">
+                  <Expression Type="MethodInvocationExpression">
+                    <Expression Type="MemberAccessExpression">
+                      <Expression Text="Console" Type="LiteralExpression" />
+                      <Expression Text="WriteLine" Type="LiteralExpression" />
+                    </Expression>
+                  </Expression>
+                </Statement>
+              </Statement>
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="LambdaExpression">
+              <Expression Type="ArithmeticExpression">
+                <Expression Text="x" Type="LiteralExpression" />
+                <Expression Text="1" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="LambdaExpression">
+              <Statement Type="BlockStatement">
+                <Statement Type="ReturnStatement">
+                  <Expression Type="ArithmeticExpression">
+                    <Expression Text="x" Type="LiteralExpression" />
+                    <Expression Text="1" Type="LiteralExpression" />
+                  </Expression>
+                </Statement>
+              </Statement>
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="LambdaExpression">
+              <Expression Type="ArithmeticExpression">
+                <Expression Text="x" Type="LiteralExpression" />
+                <Expression Text="1" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="LambdaExpression">
+              <Statement Type="BlockStatement">
+                <Statement Type="ReturnStatement">
+                  <Expression Type="ArithmeticExpression">
+                    <Expression Text="x" Type="LiteralExpression" />
+                    <Expression Text="1" Type="LiteralExpression" />
+                  </Expression>
+                </Statement>
+              </Statement>
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="LambdaExpression">
+              <Expression Type="ArithmeticExpression">
+                <Expression Text="x" Type="LiteralExpression" />
+                <Expression Text="y" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="LambdaExpression">
+              <Statement Type="BlockStatement">
+                <Statement Type="ReturnStatement">
+                  <Expression Type="ArithmeticExpression">
+                    <Expression Text="x" Type="LiteralExpression" />
+                    <Expression Text="y" Type="LiteralExpression" />
+                  </Expression>
+                </Statement>
+              </Statement>
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="LambdaExpression">
+              <Expression Type="ArithmeticExpression">
+                <Expression Text="x" Type="LiteralExpression" />
+                <Expression Text="y" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="LambdaExpression">
+              <Statement Type="BlockStatement">
+                <Statement Type="ReturnStatement">
+                  <Expression Type="ArithmeticExpression">
+                    <Expression Text="x" Type="LiteralExpression" />
+                    <Expression Text="y" Type="LiteralExpression" />
+                  </Expression>
+                </Statement>
+              </Statement>
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="LambdaExpression">
+              <Expression Type="MethodInvocationExpression">
+                <Expression Type="MemberAccessExpression">
+                  <Expression Text="Console" Type="LiteralExpression" />
+                  <Expression Text="WriteLine" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="LambdaExpression">
+              <Statement Type="BlockStatement">
+                <Statement Type="ExpressionStatement">
+                  <Expression Type="MethodInvocationExpression">
+                    <Expression Type="MemberAccessExpression">
+                      <Expression Text="Console" Type="LiteralExpression" />
+                      <Expression Text="WriteLine" Type="LiteralExpression" />
+                    </Expression>
+                  </Expression>
+                </Statement>
+              </Statement>
+            </Expression>
+          </Statement>
+        </Element>
+        <Element Name="AdvancedLambdas" Type="Method">
+          <Statement Type="ExpressionStatement">
+            <Expression Type="MethodInvocationExpression">
+              <Expression Type="MemberAccessExpression">
+                <Expression Text="duplicateProjects" Type="LiteralExpression" />
+                <Expression Text="Iterate" Type="LiteralExpression" />
+              </Expression>
+              <Expression Type="LambdaExpression">
+                <Statement Type="BlockStatement">
+                  <Statement Type="ForeachStatement">
+                    <Expression Type="VariableDeclarationExpression">
+                      <Expression Text="EnvDTE.ProjectItem" Type="LiteralExpression" />
+                      <Expression Type="VariableDeclaratorExpression">
+                        <Expression Text="item" Type="LiteralExpression" />
+                      </Expression>
+                    </Expression>
+                    <Expression Type="MemberAccessExpression">
+                      <Expression Text="duplicateProject" Type="LiteralExpression" />
+                      <Expression Text="ProjectItems" Type="LiteralExpression" />
+                    </Expression>
+                    <Statement Type="BlockStatement">
+                      <Statement Type="ExpressionStatement">
+                        <Expression Type="MethodInvocationExpression">
+                          <Expression Type="MemberAccessExpression">
+                            <Expression Type="MemberAccessExpression">
+                              <Expression Text="item" Type="LiteralExpression" />
+                              <Expression Text="SubProject" Type="LiteralExpression" />
+                            </Expression>
+                            <Expression Text="Save" Type="LiteralExpression" />
+                          </Expression>
+                          <Expression Type="MemberAccessExpression">
+                            <Expression Type="MemberAccessExpression">
+                              <Expression Text="item" Type="LiteralExpression" />
+                              <Expression Text="SubProject" Type="LiteralExpression" />
+                            </Expression>
+                            <Expression Text="FileName" Type="LiteralExpression" />
+                          </Expression>
+                        </Expression>
+                      </Statement>
+                    </Statement>
+                  </Statement>
+                </Statement>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="AssignmentExpression">
+              <Expression Type="MemberAccessExpression">
+                <Expression Text="codeModelEvents" Type="LiteralExpression" />
+                <Expression Text="ElementChanged" Type="LiteralExpression" />
+              </Expression>
+              <Expression Type="LambdaExpression">
+                <Statement Type="BlockStatement">
+                  <Statement Type="ExpressionStatement">
+                    <Expression Type="MethodInvocationExpression">
+                      <Expression Text="elementChangedHandler" Type="LiteralExpression" />
+                      <Expression Text="element" Type="LiteralExpression" />
+                    </Expression>
+                  </Statement>
+                </Statement>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="AssignmentExpression">
+              <Expression Type="MemberAccessExpression">
+                <Expression Text="codeModelEvents" Type="LiteralExpression" />
+                <Expression Text="ElementChanged" Type="LiteralExpression" />
+              </Expression>
+              <Expression Type="LambdaExpression">
+                <Statement Type="BlockStatement">
+                  <Statement Type="ExpressionStatement">
+                    <Expression Type="MethodInvocationExpression">
+                      <Expression Text="elementChangedHandler" Type="LiteralExpression" />
+                      <Expression Text="element" Type="LiteralExpression" />
+                      <Expression Text="change" Type="LiteralExpression" />
+                    </Expression>
+                  </Statement>
+                </Statement>
+              </Expression>
+            </Expression>
+          </Statement>
+        </Element>
+      </Element>
+    </Element>
+  </Element>
+</StyleCopCsParserObjectModel>

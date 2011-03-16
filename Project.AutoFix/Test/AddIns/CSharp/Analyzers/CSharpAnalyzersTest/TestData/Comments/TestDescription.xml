@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<StyleCopTestDescription TestName="Comments">
+  <!-- Tests the use of empty comments. -->
+  <Test Name="CommentsMustContainText">
+    <TestCodeFile>CommentsMustContainText.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.Rules.ReadabilityRules">
+          <Rules>
+            <Rule Name="CommentsMustContainText">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="CSharpAnalyzersTest.TestData.CommentsMustContainText.InvalidComments" LineNumber="49" Rule="CommentsMustContainText" />
+      <Violation Section="CSharpAnalyzersTest.TestData.CommentsMustContainText.InvalidComments" LineNumber="51" Rule="CommentsMustContainText" />
+      <Violation Section="CSharpAnalyzersTest.TestData.CommentsMustContainText.InvalidComments" LineNumber="55" Rule="CommentsMustContainText" />
+      <Violation Section="CSharpAnalyzersTest.TestData.CommentsMustContainText.InvalidComments" LineNumber="57" Rule="CommentsMustContainText" />
+      <Violation Section="CSharpAnalyzersTest.TestData.CommentsMustContainText.InvalidComments" LineNumber="59" Rule="CommentsMustContainText" />
+      <Violation Section="CSharpAnalyzersTest.TestData.CommentsMustContainText.InvalidComments" LineNumber="62" Rule="CommentsMustContainText" />
+      <Violation Section="CSharpAnalyzersTest.TestData.CommentsMustContainText.InvalidComments" LineNumber="66" Rule="CommentsMustContainText" />
+      <Violation Section="CSharpAnalyzersTest.TestData.CommentsMustContainText.InvalidComments" LineNumber="68" Rule="CommentsMustContainText" />
+      <Violation Section="CSharpAnalyzersTest.TestData.CommentsMustContainText.InvalidComments" LineNumber="70" Rule="CommentsMustContainText" />
+      <Violation Section="CSharpAnalyzersTest.TestData.CommentsMustContainText.InvalidComments" LineNumber="73" Rule="CommentsMustContainText" />
+    </ExpectedViolations>
+  </Test>
+</StyleCopTestDescription>

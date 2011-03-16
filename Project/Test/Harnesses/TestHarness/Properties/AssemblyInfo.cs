@@ -5,8 +5,7 @@
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
 //   Public License. A copy of the license can be found in the License.html 
-//   file at the root of this distribution. If you cannot locate the  
-//   Microsoft Public License, please send an email to dlr@microsoft.com. 
+//   file at the root of this distribution. 
 //   By using this source code in any fashion, you are agreeing to be bound 
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
@@ -21,11 +20,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("StyleCopTestHarness")]
+[assembly: AssemblyTitle("StyleCopTest")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("StyleCopTestHarness")]
+[assembly: AssemblyProduct("StyleCopTest")]
 [assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -38,7 +37,7 @@ using System.Runtime.InteropServices;
 [assembly: CLSCompliant(true)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("0ad6c75b-49b4-4031-a2af-f5df87a8a526")]
+[assembly: Guid("4200009d-4998-40f5-b398-9bf0324dfd19")]
 
 // Version information for an assembly consists of the following four values:
 //

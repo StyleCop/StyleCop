@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<StyleCopTestDescription TestName="ClassMembers">
+  <!-- Tests that local member calls are prefixed with this. -->
+  <Test Name="ClassMembersPrefixLocalCallsWithThis">
+    <TestCodeFile>ClassMembersPrefixLocalCallsWithThis.cs</TestCodeFile>
+    <TestCodeFile>ClassMembersLocalVariables.cs</TestCodeFile>
+    <TestCodeFile>ClassMembersMethodArguments.cs</TestCodeFile>
+    <TestCodeFile>ClassMembersCollectionInitializers.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.Rules.ReadabilityRules">
+          <Rules>
+            <Rule Name="PrefixLocalCallsWithThis">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+    </ExpectedViolations>
+  </Test>
+</StyleCopTestDescription>

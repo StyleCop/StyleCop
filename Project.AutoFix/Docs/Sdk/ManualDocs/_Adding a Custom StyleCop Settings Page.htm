@@ -1,0 +1,379 @@
+﻿<html xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:MSHelp="http://msdn.microsoft.com/mshelp" xmlns:mshelp="http://msdn.microsoft.com/mshelp" xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
+  <head>
+    <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8" />
+    <META NAME="save" CONTENT="history" />
+    <title>Adding a Custom StyleCop Settings Page</title>
+    <link rel="stylesheet" type="text/css" href="../styles/presentation.css" />
+    <link rel="stylesheet" type="text/css" href="ms-help://Hx/HxRuntime/HxLink.css" />
+    <script type="text/javascript" src="../scripts/EventUtilities.js"> </script>
+    <script type="text/javascript" src="../scripts/SplitScreen.js"> </script>
+    <script type="text/javascript" src="../scripts/Dropdown.js"> </script>
+    <script type="text/javascript" src="../scripts/script_manifold.js"> </script>
+    <script type="text/javascript" src="../scripts/script_feedBack.js"> </script>
+    <script type="text/javascript" src="../scripts/CheckboxMenu.js"> </script>
+    <script type="text/javascript" src="../scripts/CommonUtilities.js"> </script>
+    
+  </head>
+  <body>
+    <input type="hidden" id="userDataCache" class="userDataStyle" />
+    <input type="hidden" id="hiddenScrollOffset" />
+    <img id="collapseImage" style="display:none; height:0; width:0;" src="../icons/collapse_all.gif" title="Collapse image" />
+    <img id="expandImage" style="display:none; height:0; width:0;" src="../icons/expand_all.gif" title="Expand Image" />
+    <img id="collapseAllImage" style="display:none; height:0; width:0;" src="../icons/collapse_all.gif" />
+    <img id="expandAllImage" style="display:none; height:0; width:0;" src="../icons/expand_all.gif" />
+    <img id="dropDownImage" style="display:none; height:0; width:0;" src="../icons/dropdown.gif" />
+    <img id="dropDownHoverImage" style="display:none; height:0; width:0;" src="../icons/dropdownHover.gif" />
+    <img id="copyImage" style="display:none; height:0; width:0;" src="../icons/copycode.gif" title="Copy image" />
+    <img id="copyHoverImage" style="display:none; height:0; width:0;" src="../icons/copycodeHighlight.gif" title="CopyHover image" />
+    <div id="header">
+      <table id="topTable" cellspacing="0" cellpadding="0">
+        <tr>
+          <td>
+            <span onclick="ExpandCollapseAll(toggleAllImage)" style="cursor:default;" onkeypress="ExpandCollapseAll_CheckKey(toggleAllImage, event)" tabindex="0">
+              <img ID="toggleAllImage" class="toggleAll" src="../icons/collapse_all.gif" /> <label id="collapseAllLabel" for="toggleAllImage" style="display: none;">Collapse All</label><label id="expandAllLabel" for="toggleAllImage" style="display: none;">Expand All</label> </span>
+            <span>    </span>
+            <span id="devlangsDropdown" class="filter" tabindex="0">
+              <img id="devlangsDropdownImage" src="../icons/dropdown.gif" /> <label id="devlangsMenuAllLabel" for="devlangsDropdownImage" style="display: none;"><nobr>Code: All </nobr></label><label id="devlangsMenuMultipleLabel" for="devlangsDropdownImage" style="display: none;"><nobr>Code: Multiple </nobr></label><label id="devlangsMenuVisualBasicLabel" for="devlangsDropdownImage" style="display: none;"><nobr>Code: Visual Basic </nobr></label><label id="devlangsMenuCSharpLabel" for="devlangsDropdownImage" style="display: none;"><nobr>Code: C# </nobr></label><label id="devlangsMenuManagedCPlusPlusLabel" for="devlangsDropdownImage" style="display: none;"><nobr>Code: Visual C++ </nobr></label><label id="devlangsMenuJSharpLabel" for="devlangsDropdownImage" style="display: none;"><nobr>Code: J# </nobr></label><label id="devlangsMenuJScriptLabel" for="devlangsDropdownImage" style="display: none;"><nobr>Code: JScript </nobr></label></span>
+          </td>
+        </tr>
+      </table>
+      <div id="devlangsMenu">
+        <input id="VisualBasicCheckbox" type="checkbox" data="VisualBasic,vb,'persist'" value="on" onClick="SetLanguage(this)" />
+        <label class="checkboxLabel" for="VisualBasicCheckbox">Visual Basic</label>
+        <br />
+        <input id="CSharpCheckbox" type="checkbox" data="CSharp,cs,'persist'" value="on" onClick="SetLanguage(this)" />
+        <label class="checkboxLabel" for="CSharpCheckbox">C#</label>
+        <br />
+        <input id="ManagedCPlusPlusCheckbox" type="checkbox" data="ManagedCPlusPlus,cpp,'persist'" value="on" onClick="SetLanguage(this)" />
+        <label class="checkboxLabel" for="ManagedCPlusPlusCheckbox">Visual C++</label>
+        <br />
+        <input id="JSharpCheckbox" type="checkbox" data="JSharp,cs,'persist'" value="on" onClick="SetLanguage(this)" />
+        <label class="checkboxLabel" for="JSharpCheckbox">J#</label>
+        <br />
+        <input id="JScriptCheckbox" type="checkbox" data="JScript,cs,'persist'" value="on" onClick="SetLanguage(this)" />
+        <label class="checkboxLabel" for="JScriptCheckbox">JScript</label>
+        <br />
+      </div>
+      <table id="bottomTable" cellpadding="0" cellspacing="0">
+        <tr id="headerTableRow1">
+          <td align="left">
+            <span id="runningHeaderText" />
+          </td>
+        </tr>
+        <tr id="headerTableRow2">
+          <td align="left">
+            <span id="nsrTitle">Adding a Custom StyleCop Settings Page</span>
+          </td>
+        </tr>
+        <tr id="headerTableRow3">
+          <td align="left">
+            <a href="#exampleToggle" onclick="OpenSection(exampleToggle)">Example</a>  
+  </td>
+        </tr>
+      </table>
+      <table id="gradientTable">
+        <tr>
+          <td class="nsrBottom" background="../icons/gradient.gif" />
+        </tr>
+      </table>
+    </div>
+    <div id="mainSection">
+      <div id="mainBody">
+        <div id="allHistory" class="saveHistory" onsave="saveAll()" onload="loadAll()" />
+        <font color="DarkGray"></font>
+        <p /> 
+  
+    <div class="introduction">
+      <p>
+        StyleCop provides a mechanism for custom rules analyzers to expose settings pages containing advanced 
+        options, allowing the user to control the behavior of rules. An end-user can access the 
+          custom settings page by 
+        right-clicking on a project in Visual Studio and selecting the StyleCop Settings menu item, then switching 
+        to the custom settings page.
+      </p>
+      <p>
+        This topic assumes that you have already built a custom StyleCop rules project, as described within the
+        <span sdata="link"><a href="_Writing Custom Rules for StyleCop.htm">Writing Custom Rules for StyleCop</a></span> topic.
+      </p>
+    </div>
+
+    <h3 class="procedureSubHeading">Building a Custom StyleCop Settings Page</h3><div class="subSection"><ol><li>
+          
+            <p>
+              Before creating a custom settings page, define the properties the user will configure on the page,
+              as described in the <span sdata="link"><a href="_Adding Custom Rule Settings.htm">Adding Custom Rule Settings</a></span> topic.
+            </p>
+          
+        </li><li>
+          
+            <p>
+              After defining the custom properties for your rules analyzer, open the project containing your rules analyer in Visual Studio and
+              add a new UserControl to the project.
+            </p>
+          
+        </li><li>
+          
+            <p>
+              Add UI controls to the new UserControl which the user will interact with to set the appropriate settings for your rules analyzer.
+            </p>
+          
+        </li><li>
+          
+            <p>
+              Make the UserControl class implement the <span sdata="cer" target="T:StyleCop.IPropertyControlPage"><a href="T_StyleCop_IPropertyControlPage.htm">IPropertyControlPage</a></span> interface.
+            </p>
+            <div class="code"><span codeLanguage="other"><table width="100%" cellspacing="0" cellpadding="0"><tr><th> </th><th><span class="copyCode" onclick="CopyCode(this)" onkeypress="CopyCode_CheckKey(this, event)" onmouseover="ChangeCopyCodeIcon(this)" onmouseout="ChangeCopyCodeIcon(this)" tabindex="0"><img class="copyCodeImage" name="ccImage" align="absmiddle" title="Copy image" src="../icons/copycode.gif" />Copy Code</span></th></tr><tr><td colspan="2"><pre>
+public partial class MyCustomSettingsPage : UserControl, IPropertyControlPage
+            </pre></td></tr></table></span></div>
+          
+        </li><li>
+          <p>
+            Pass an instance of your custom rules analyzer into the constructor of the settings page class, and save it.
+          </p>
+          <div class="code"><span codeLanguage="other"><table width="100%" cellspacing="0" cellpadding="0"><tr><th> </th><th><span class="copyCode" onclick="CopyCode(this)" onkeypress="CopyCode_CheckKey(this, event)" onmouseover="ChangeCopyCodeIcon(this)" onmouseout="ChangeCopyCodeIcon(this)" tabindex="0"><img class="copyCodeImage" name="ccImage" align="absmiddle" title="Copy image" src="../icons/copycode.gif" />Copy Code</span></th></tr><tr><td colspan="2"><pre>
+public MyCustomSettingsPage(MyCustomRulesAnalyzer analyzer)
+{
+    this.analyzer = analyzer;
+}
+          </pre></td></tr></table></span></div>
+        </li><li>
+          
+            <p>
+              Implement the <span sdata="cer" target="M:StyleCop.IPropertyControlPage.Initialize(StyleCop.PropertyControl)"><a href="M_StyleCop_IPropertyControlPage_Initialize.htm">Initialize(PropertyControl)</a></span> method. 
+              This method is called by the framework to allow the settings page to load the current settings and initialize the controls on the page. The framework 
+              will pass an instance of the <span sdata="cer" target="T:StyleCop.PropertyControl"><a href="T_StyleCop_PropertyControl.htm">PropertyControl</a></span> which is hosting the page. This reference 
+              should be saved for later use.
+            </p>
+            <div class="code"><span codeLanguage="other"><table width="100%" cellspacing="0" cellpadding="0"><tr><th> </th><th><span class="copyCode" onclick="CopyCode(this)" onkeypress="CopyCode_CheckKey(this, event)" onmouseover="ChangeCopyCodeIcon(this)" onmouseout="ChangeCopyCodeIcon(this)" tabindex="0"><img class="copyCodeImage" name="ccImage" align="absmiddle" title="Copy image" src="../icons/copycode.gif" />Copy Code</span></th></tr><tr><td colspan="2"><pre>
+public void Initialize(PropertyControl propertyControl)
+{
+    // Save the property control.
+    this.tabControl = propertyControl;
+
+    // Load the current settings and initialize the controls on the form.
+    this.InitializeSettings();
+
+    // Put the form into 'not-dirty' state.
+    this.dirty = false;
+    this.tabControl.DirtyChanged();
+}
+
+private void InitializeSettings()
+{
+    // Load the current setting of my custom string property.
+    StringProperty customSettingProperty = this.analyzer.GetSetting(
+        this.tabControl.MergedSettings, "MyCustomPropertyName") as StringProperty;
+
+    if (companySettingProperty != null)
+    {
+        // Set the value of the property into an edit box on the page.
+        this.customPropertyEditBox.Text = companySettingProperty.Value;
+    }
+}
+            </pre></td></tr></table></span></div>
+          
+        </li><li>
+          <p>
+            Implement the <span sdata="cer" target="M:StyleCop.IPropertyControlPage.Apply"><a href="M_StyleCop_IPropertyControlPage_Apply.htm">Apply</a></span> method. This method is called by 
+            the framework when the user selects the OK or Apply buttons on the settings dialog. The custom settings page should save
+            any settings changes made by the user.
+          </p>
+          <div class="code"><span codeLanguage="other"><table width="100%" cellspacing="0" cellpadding="0"><tr><th> </th><th><span class="copyCode" onclick="CopyCode(this)" onkeypress="CopyCode_CheckKey(this, event)" onmouseover="ChangeCopyCodeIcon(this)" onmouseout="ChangeCopyCodeIcon(this)" tabindex="0"><img class="copyCodeImage" name="ccImage" align="absmiddle" title="Copy image" src="../icons/copycode.gif" />Copy Code</span></th></tr><tr><td colspan="2"><pre>
+public bool Apply()
+{
+    if (this.analyzer != null)
+    {
+        if (this.customPropertyEditBox.Text.Length == 0)
+        {
+            this.analyzer.ClearSetting(this.tabControl.LocalSettings, "MyCustomPropertyName");
+        }
+        else
+        {
+            this.analyzer.SetSetting(
+                this.tabControl.LocalSettings,
+                new StringProperty(this.analyzer, "MyCustomPropertyName", this.customPropertyEditBox.Text));
+        }
+    }
+
+    this.dirty = false;
+    this.tabControl.DirtyChanged();
+
+    return true;
+}
+          </pre></td></tr></table></span></div>
+        </li><li>
+          <p>
+            Implement event handlers for each control on the page, and set the dirty property whenever the user 
+            changes a setting on the page.
+          </p>
+          <div class="code"><span codeLanguage="other"><table width="100%" cellspacing="0" cellpadding="0"><tr><th> </th><th><span class="copyCode" onclick="CopyCode(this)" onkeypress="CopyCode_CheckKey(this, event)" onmouseover="ChangeCopyCodeIcon(this)" onmouseout="ChangeCopyCodeIcon(this)" tabindex="0"><img class="copyCodeImage" name="ccImage" align="absmiddle" title="Copy image" src="../icons/copycode.gif" />Copy Code</span></th></tr><tr><td colspan="2"><pre>
+private void CustomPropertyEditBoxTextChanged(object sender, System.EventArgs e)
+{
+    this.dirty = true;
+    this.tabControl.DirtyChanged();
+}
+          </pre></td></tr></table></span></div>
+        </li><li>
+          
+            <p>
+              Implement the <span sdata="cer" target="P:StyleCop.IPropertyControlPage.Dirty"><a href="P_StyleCop_IPropertyControlPage_Dirty.htm">Dirty</a></span> property. This property is 
+              accessed by the framework to determine whether the user has changed any setting on the page.
+            </p>
+            <div class="code"><span codeLanguage="other"><table width="100%" cellspacing="0" cellpadding="0"><tr><th> </th><th><span class="copyCode" onclick="CopyCode(this)" onkeypress="CopyCode_CheckKey(this, event)" onmouseover="ChangeCopyCodeIcon(this)" onmouseout="ChangeCopyCodeIcon(this)" tabindex="0"><img class="copyCodeImage" name="ccImage" align="absmiddle" title="Copy image" src="../icons/copycode.gif" />Copy Code</span></th></tr><tr><td colspan="2"><pre>
+public bool Dirty
+{
+    get { return this.dirty; }
+
+    set
+    {
+        if (this.dirty != value)
+        {
+            this.dirty = value;
+            this.tabControl.DirtyChanged();
+        }
+    }
+}
+            </pre></td></tr></table></span></div>
+          
+        </li><li>
+          <p>
+            Implement each of the other members of the <span sdata="cer" target="T:StyleCop.IPropertyControlPage"><a href="T_StyleCop_IPropertyControlPage.htm">IPropertyControlPage</a></span> interface 
+            (most can be left empty). 
+          </p>
+        </li><li>
+          <p>
+            Implement an override of the <span sdata="cer" target="P:StyleCop.StyleCopAddIn.SettingsPages"><a href="P_StyleCop_StyleCopAddIn_SettingsPages.htm">SettingsPages</a></span> property 
+            within your custom rules analyzer class, and return an instance of your new settings page.
+          </p>
+          <div class="code"><span codeLanguage="other"><table width="100%" cellspacing="0" cellpadding="0"><tr><th> </th><th><span class="copyCode" onclick="CopyCode(this)" onkeypress="CopyCode_CheckKey(this, event)" onmouseover="ChangeCopyCodeIcon(this)" onmouseout="ChangeCopyCodeIcon(this)" tabindex="0"><img class="copyCodeImage" name="ccImage" align="absmiddle" title="Copy image" src="../icons/copycode.gif" />Copy Code</span></th></tr><tr><td colspan="2"><pre>
+public override ICollection&lt;IPropertyControlPage&gt; SettingsPages
+{
+    get
+    {
+        return new IPropertyControlPage[] { new MyCustomSettingsPage(this) };
+    }
+}
+          </pre></td></tr></table></span></div>
+        </li></ol></div>
+
+    <h1 class="heading"><span onclick="ExpandCollapse(exampleToggle)" style="cursor:default;" onkeypress="ExpandCollapse_CheckKey(exampleToggle, event)" tabindex="0"><img id="exampleToggle" class="toggle" name="toggleSwitch" src="../icons/collapse_all.gif" />Example</span></h1><div id="exampleSection" class="section" name="collapseableSection" style="">
+      <div class="code"><span codeLanguage="other"><table width="100%" cellspacing="0" cellpadding="0"><tr><th> </th><th><span class="copyCode" onclick="CopyCode(this)" onkeypress="CopyCode_CheckKey(this, event)" onmouseover="ChangeCopyCodeIcon(this)" onmouseout="ChangeCopyCodeIcon(this)" tabindex="0"><img class="copyCodeImage" name="ccImage" align="absmiddle" title="Copy image" src="../icons/copycode.gif" />Copy Code</span></th></tr><tr><td colspan="2"><pre>
+namespace MyCustomNamespace
+{
+    using System;
+    using System.Drawing;
+    using System.Windows.Forms;
+    using StyleCop;
+
+    public partial class MyCustomSettingsPage : UserControl, IPropertyControlPage
+    {
+        private PropertyControl tabControl;
+        private bool dirty;
+        private MyCustomRulesAnalyzer analyzer;
+
+        public MyCustomSettingsPage(MyCustomRulesAnalyzer analyzer)
+        {
+            this.analyzer = analyzer;
+        }
+
+        public string TabName
+        {
+            get { return "My Settings"; }
+        }
+
+        public bool Dirty
+        {
+            get 
+            { 
+                return this.dirty; 
+            }
+
+            set
+            {
+                if (this.dirty != value)
+                {
+                    this.dirty = value;
+                    this.tabControl.DirtyChanged();
+                }
+            }
+        }
+
+        public void Initialize(PropertyControl propertyControl)
+        {
+            this.tabControl = propertyControl;
+
+            this.InitializeSettings();
+
+            this.dirty = false;
+            this.tabControl.DirtyChanged();
+        }
+
+        public bool PreApply()
+        {
+            return true;
+        }
+
+        public void PostApply(bool wasDirty)
+        {
+        }
+
+        public bool Apply()
+        {
+            if (this.analyzer != null)
+            {
+                if (this.customPropertyEditBox.Text.Length == 0)
+                {
+                    this.analyzer.ClearSetting(this.tabControl.LocalSettings, "MyCustomPropertyName");
+                }
+                else
+                {
+                    this.analyzer.SetSetting(
+                        this.tabControl.LocalSettings,
+                        new StringProperty(this.analyzer, "MyCustomPropertyName", this.customPropertyEditBox.Text));
+                }
+            }
+
+            this.dirty = false;
+            this.tabControl.DirtyChanged();
+
+            return true;
+        }
+
+        public void Activate(bool activated)
+        {
+        }
+
+        public void RefreshSettingsOverrideState()
+        {
+        }
+
+        private void InitializeSettings()
+        {
+            // Load the current setting of my custom string property.
+            StringProperty customSettingProperty = this.analyzer.GetSetting(
+                this.tabControl.MergedSettings, "MyCustomPropertyName") as StringProperty;
+
+            if (companySettingProperty != null)
+            {
+                // Set the value of the property into an edit box on the page.
+                this.customPropertyEditBox.Text = companySettingProperty.Value;
+            }
+        }
+
+        private void CustomPropertyEditBoxTextChanged(object sender, System.EventArgs e)
+        {
+            this.dirty = true;
+            this.tabControl.DirtyChanged();
+        }
+    }
+}
+      </pre></td></tr></table></span></div>
+    </div>
+
+    
+    
+  
+</div>
+    </div>
+  </body>
+</html>

@@ -1,5 +1,0 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<GenericTest name="NamedArguments" storage="c:\depot\stylecop\v4.3\test\addins\csharp\parser\csharpparsertest\namedarguments.generictest" id="09cab3f7-94f7-461f-8157-b8a104570574" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
-  <Command filename="%TestBin%\StyleCopTestHarness.exe" arguments="/testname:NamedArguments /i:&quot;%TestDeploymentDir%&quot; /o:&quot;%TestOutputDirectory%&quot; /testroot:%TestLocation%" workingDirectory="%TestOutputDirectory%" />
-  <SummaryXmlFile enabled="true" path="%TestOutputDirectory%\NamedArgumentsResults.xml" />
-</GenericTest>

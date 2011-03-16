@@ -5,7 +5,7 @@ using System.Text;
 using StyleCop;
 using System.IO;
 
-namespace StreamBasedEnvironmentTest
+namespace ObjectBasedEnvironmentTest
 {
     internal class ObjectBasedSourceCode : SourceCode
     {

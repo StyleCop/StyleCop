@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<GenericTest name="queryexpressions" storage="c:\depot\stylecop\v4.3\test\addins\csharp\parser\csharpparsertest\queryexpressions.generictest" id="4ba6af13-9cea-477a-bd6d-ff40ddd34779" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
-  <Css projectStructure="" iteration="" />
-  <Owners>
-    <Owner name="" />
-  </Owners>
-  <Command filename="%TestBin%\StyleCopTestHarness.exe" arguments="/testname:QueryExpressions /i:&quot;%TestDeploymentDir%&quot; /o:&quot;%TestOutputDirectory%&quot;  /testroot:%TestLocation%" workingDirectory="%TestOutputDirectory%" />
-  <SummaryXmlFile enabled="true" path="%TestOutputDirectory%\QueryExpressionsResults.xml" />
-</GenericTest>

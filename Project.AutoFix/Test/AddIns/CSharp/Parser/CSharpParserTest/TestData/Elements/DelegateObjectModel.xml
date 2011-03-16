@@ -1,0 +1,958 @@
+﻿<StyleCopCsParserObjectModel>
+  <CodeUnit Type="CsDocument">
+    <CodeUnit Text="#region Normal Delegates" Type="RegionDirective" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Type="FileHeader" />
+    <CodeUnit Type="Delegate">
+      <CodeUnit Text="delegate" Type="DelegateToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="void" Type="TypeToken">
+        <CodeUnit Text="void" Type="LiteralToken" />
+      </CodeUnit>
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="Delegate1" Type="LiteralToken" />
+      <CodeUnit Text="(" Type="OpenParenthesisToken" />
+      <CodeUnit Type="ParameterList" />
+      <CodeUnit Text=")" Type="CloseParenthesisToken" />
+      <CodeUnit Text=";" Type="SemicolonToken" />
+    </CodeUnit>
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Type="Delegate">
+      <CodeUnit Text="delegate" Type="DelegateToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="void" Type="TypeToken">
+        <CodeUnit Text="void" Type="LiteralToken" />
+      </CodeUnit>
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="Delegate2" Type="LiteralToken" />
+      <CodeUnit Text="(" Type="OpenParenthesisToken" />
+      <CodeUnit Type="ParameterList">
+        <CodeUnit Type="Parameter">
+          <CodeUnit Text="int" Type="TypeToken">
+            <CodeUnit Text="int" Type="LiteralToken" />
+          </CodeUnit>
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="x" Type="LiteralToken" />
+        </CodeUnit>
+      </CodeUnit>
+      <CodeUnit Text=")" Type="CloseParenthesisToken" />
+      <CodeUnit Text=";" Type="SemicolonToken" />
+    </CodeUnit>
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Type="Delegate">
+      <CodeUnit Text="delegate" Type="DelegateToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="void" Type="TypeToken">
+        <CodeUnit Text="void" Type="LiteralToken" />
+      </CodeUnit>
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="Delegate3" Type="LiteralToken" />
+      <CodeUnit Text="(" Type="OpenParenthesisToken" />
+      <CodeUnit Type="ParameterList">
+        <CodeUnit Type="Parameter">
+          <CodeUnit Text="int[][]" Type="TypeToken">
+            <CodeUnit Text="int" Type="LiteralToken" />
+            <CodeUnit Text="[" Type="OpenSquareBracketToken" />
+            <CodeUnit Text="]" Type="CloseSquareBracketToken" />
+            <CodeUnit Text="[" Type="OpenSquareBracketToken" />
+            <CodeUnit Text="]" Type="CloseSquareBracketToken" />
+          </CodeUnit>
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="x" Type="LiteralToken" />
+        </CodeUnit>
+        <CodeUnit Text="," Type="CommaToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Type="Parameter">
+          <CodeUnit Text="ref" Type="RefToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="string" Type="TypeToken">
+            <CodeUnit Text="string" Type="LiteralToken" />
+          </CodeUnit>
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="y" Type="LiteralToken" />
+        </CodeUnit>
+      </CodeUnit>
+      <CodeUnit Text=")" Type="CloseParenthesisToken" />
+      <CodeUnit Text=";" Type="SemicolonToken" />
+    </CodeUnit>
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Type="Delegate">
+      <CodeUnit Text="delegate" Type="DelegateToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="void" Type="TypeToken">
+        <CodeUnit Text="void" Type="LiteralToken" />
+      </CodeUnit>
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="Delegate4" Type="LiteralToken" />
+      <CodeUnit Text="(" Type="OpenParenthesisToken" />
+      <CodeUnit Type="ParameterList">
+        <CodeUnit Type="Parameter">
+          <CodeUnit Text="short?" Type="TypeToken">
+            <CodeUnit Text="short" Type="LiteralToken" />
+            <CodeUnit Text="?" Type="NullableTypeToken" />
+          </CodeUnit>
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="@class" Type="LiteralToken" />
+        </CodeUnit>
+        <CodeUnit Text="," Type="CommaToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Type="Parameter">
+          <CodeUnit Text="out" Type="OutToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="string" Type="TypeToken">
+            <CodeUnit Text="string" Type="LiteralToken" />
+          </CodeUnit>
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="y" Type="LiteralToken" />
+        </CodeUnit>
+      </CodeUnit>
+      <CodeUnit Text=")" Type="CloseParenthesisToken" />
+      <CodeUnit Text=";" Type="SemicolonToken" />
+    </CodeUnit>
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Type="Delegate">
+      <CodeUnit Text="delegate" Type="DelegateToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="void" Type="TypeToken">
+        <CodeUnit Text="void" Type="LiteralToken" />
+      </CodeUnit>
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="Delegate5" Type="LiteralToken" />
+      <CodeUnit Text="(" Type="OpenParenthesisToken" />
+      <CodeUnit Type="ParameterList">
+        <CodeUnit Type="Parameter">
+          <CodeUnit Text="int" Type="TypeToken">
+            <CodeUnit Text="int" Type="LiteralToken" />
+          </CodeUnit>
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="x" Type="LiteralToken" />
+        </CodeUnit>
+        <CodeUnit Text="," Type="CommaToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Type="Parameter">
+          <CodeUnit Text="params" Type="ParamsToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="object[]" Type="TypeToken">
+            <CodeUnit Text="object" Type="LiteralToken" />
+            <CodeUnit Text="[" Type="OpenSquareBracketToken" />
+            <CodeUnit Text="]" Type="CloseSquareBracketToken" />
+          </CodeUnit>
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="items" Type="LiteralToken" />
+        </CodeUnit>
+      </CodeUnit>
+      <CodeUnit Text=")" Type="CloseParenthesisToken" />
+      <CodeUnit Text=";" Type="SemicolonToken" />
+    </CodeUnit>
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Type="Delegate">
+      <CodeUnit Text="delegate" Type="DelegateToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="void" Type="TypeToken">
+        <CodeUnit Text="void" Type="LiteralToken" />
+      </CodeUnit>
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="Delegate6&lt;T&gt;" Type="GenericTypeToken">
+        <CodeUnit Text="Delegate6" Type="LiteralToken" />
+        <CodeUnit Text="&lt;" Type="OpenGenericBracketToken" />
+        <CodeUnit Type="GenericTypeParameterList">
+          <CodeUnit Type="GenericTypeParameter">
+            <CodeUnit Text="T" Type="TypeToken">
+              <CodeUnit Text="T" Type="LiteralToken" />
+            </CodeUnit>
+          </CodeUnit>
+        </CodeUnit>
+        <CodeUnit Text="&gt;" Type="CloseGenericBracketToken" />
+      </CodeUnit>
+      <CodeUnit Text="(" Type="OpenParenthesisToken" />
+      <CodeUnit Type="ParameterList">
+        <CodeUnit Type="Parameter">
+          <CodeUnit Text="T" Type="TypeToken">
+            <CodeUnit Text="T" Type="LiteralToken" />
+          </CodeUnit>
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="x" Type="LiteralToken" />
+        </CodeUnit>
+      </CodeUnit>
+      <CodeUnit Text=")" Type="CloseParenthesisToken" />
+      <CodeUnit Text=";" Type="SemicolonToken" />
+    </CodeUnit>
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Type="Delegate">
+      <CodeUnit Text="delegate" Type="DelegateToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="void" Type="TypeToken">
+        <CodeUnit Text="void" Type="LiteralToken" />
+      </CodeUnit>
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="Delegate7&lt;T, S&gt;" Type="GenericTypeToken">
+        <CodeUnit Text="Delegate7" Type="LiteralToken" />
+        <CodeUnit Text="&lt;" Type="OpenGenericBracketToken" />
+        <CodeUnit Type="GenericTypeParameterList">
+          <CodeUnit Type="GenericTypeParameter">
+            <CodeUnit Text="T" Type="TypeToken">
+              <CodeUnit Text="T" Type="LiteralToken" />
+            </CodeUnit>
+          </CodeUnit>
+          <CodeUnit Text="," Type="CommaToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Type="GenericTypeParameter">
+            <CodeUnit Text="S" Type="TypeToken">
+              <CodeUnit Text="S" Type="LiteralToken" />
+            </CodeUnit>
+          </CodeUnit>
+        </CodeUnit>
+        <CodeUnit Text="&gt;" Type="CloseGenericBracketToken" />
+      </CodeUnit>
+      <CodeUnit Text="(" Type="OpenParenthesisToken" />
+      <CodeUnit Type="ParameterList">
+        <CodeUnit Type="Parameter">
+          <CodeUnit Text="T" Type="TypeToken">
+            <CodeUnit Text="T" Type="LiteralToken" />
+          </CodeUnit>
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="x" Type="LiteralToken" />
+        </CodeUnit>
+        <CodeUnit Text="," Type="CommaToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Type="Parameter">
+          <CodeUnit Text="int" Type="TypeToken">
+            <CodeUnit Text="int" Type="LiteralToken" />
+          </CodeUnit>
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="y" Type="LiteralToken" />
+        </CodeUnit>
+      </CodeUnit>
+      <CodeUnit Text=")" Type="CloseParenthesisToken" />
+      <CodeUnit Text=";" Type="SemicolonToken" />
+    </CodeUnit>
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Type="Delegate">
+      <CodeUnit Text="delegate" Type="DelegateToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="int?" Type="TypeToken">
+        <CodeUnit Text="int" Type="LiteralToken" />
+        <CodeUnit Text="?" Type="NullableTypeToken" />
+      </CodeUnit>
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="Delegate8" Type="LiteralToken" />
+      <CodeUnit Text="(" Type="OpenParenthesisToken" />
+      <CodeUnit Type="ParameterList" />
+      <CodeUnit Text=")" Type="CloseParenthesisToken" />
+      <CodeUnit Text=";" Type="SemicolonToken" />
+    </CodeUnit>
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Type="Delegate">
+      <CodeUnit Text="delegate" Type="DelegateToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="string[,,,]" Type="TypeToken">
+        <CodeUnit Text="string" Type="LiteralToken" />
+        <CodeUnit Text="[" Type="OpenSquareBracketToken" />
+        <CodeUnit Text="," Type="CommaToken" />
+        <CodeUnit Text="," Type="CommaToken" />
+        <CodeUnit Text="," Type="CommaToken" />
+        <CodeUnit Text="]" Type="CloseSquareBracketToken" />
+      </CodeUnit>
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="Delegate9" Type="LiteralToken" />
+      <CodeUnit Text="(" Type="OpenParenthesisToken" />
+      <CodeUnit Type="ParameterList" />
+      <CodeUnit Text=")" Type="CloseParenthesisToken" />
+      <CodeUnit Text=";" Type="SemicolonToken" />
+    </CodeUnit>
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="#endregion" Type="EndRegionDirective" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="#region Delegates with type constraints" Type="RegionDirective" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Type="Delegate">
+      <CodeUnit Text="delegate" Type="DelegateToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="void" Type="TypeToken">
+        <CodeUnit Text="void" Type="LiteralToken" />
+      </CodeUnit>
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="DelegateWithTypeConstraint1&lt;T&gt;" Type="GenericTypeToken">
+        <CodeUnit Text="DelegateWithTypeConstraint1" Type="LiteralToken" />
+        <CodeUnit Text="&lt;" Type="OpenGenericBracketToken" />
+        <CodeUnit Type="GenericTypeParameterList">
+          <CodeUnit Type="GenericTypeParameter">
+            <CodeUnit Text="T" Type="TypeToken">
+              <CodeUnit Text="T" Type="LiteralToken" />
+            </CodeUnit>
+          </CodeUnit>
+        </CodeUnit>
+        <CodeUnit Text="&gt;" Type="CloseGenericBracketToken" />
+      </CodeUnit>
+      <CodeUnit Text="(" Type="OpenParenthesisToken" />
+      <CodeUnit Type="ParameterList">
+        <CodeUnit Type="Parameter">
+          <CodeUnit Text="int" Type="TypeToken">
+            <CodeUnit Text="int" Type="LiteralToken" />
+          </CodeUnit>
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="x" Type="LiteralToken" />
+        </CodeUnit>
+      </CodeUnit>
+      <CodeUnit Text=")" Type="CloseParenthesisToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Type="TypeParameterConstraintClause">
+        <CodeUnit Text="where" Type="LiteralToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="T" Type="LiteralToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text=":" Type="WhereColonToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="class" Type="ClassToken" />
+      </CodeUnit>
+      <CodeUnit Text=";" Type="SemicolonToken" />
+    </CodeUnit>
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Type="Delegate">
+      <CodeUnit Text="delegate" Type="DelegateToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="void" Type="TypeToken">
+        <CodeUnit Text="void" Type="LiteralToken" />
+      </CodeUnit>
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="DelegateWithTypeConstraint2&lt;T&gt;" Type="GenericTypeToken">
+        <CodeUnit Text="DelegateWithTypeConstraint2" Type="LiteralToken" />
+        <CodeUnit Text="&lt;" Type="OpenGenericBracketToken" />
+        <CodeUnit Type="GenericTypeParameterList">
+          <CodeUnit Type="GenericTypeParameter">
+            <CodeUnit Text="T" Type="TypeToken">
+              <CodeUnit Text="T" Type="LiteralToken" />
+            </CodeUnit>
+          </CodeUnit>
+        </CodeUnit>
+        <CodeUnit Text="&gt;" Type="CloseGenericBracketToken" />
+      </CodeUnit>
+      <CodeUnit Text="(" Type="OpenParenthesisToken" />
+      <CodeUnit Type="ParameterList">
+        <CodeUnit Type="Parameter">
+          <CodeUnit Text="int" Type="TypeToken">
+            <CodeUnit Text="int" Type="LiteralToken" />
+          </CodeUnit>
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="x" Type="LiteralToken" />
+        </CodeUnit>
+      </CodeUnit>
+      <CodeUnit Text=")" Type="CloseParenthesisToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Type="TypeParameterConstraintClause">
+        <CodeUnit Text="where" Type="LiteralToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="T" Type="LiteralToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text=":" Type="WhereColonToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="struct" Type="StructToken" />
+      </CodeUnit>
+      <CodeUnit Text=";" Type="SemicolonToken" />
+    </CodeUnit>
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Type="Delegate">
+      <CodeUnit Text="delegate" Type="DelegateToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="void" Type="TypeToken">
+        <CodeUnit Text="void" Type="LiteralToken" />
+      </CodeUnit>
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="DelegateWithTypeConstraint3&lt;T&gt;" Type="GenericTypeToken">
+        <CodeUnit Text="DelegateWithTypeConstraint3" Type="LiteralToken" />
+        <CodeUnit Text="&lt;" Type="OpenGenericBracketToken" />
+        <CodeUnit Type="GenericTypeParameterList">
+          <CodeUnit Type="GenericTypeParameter">
+            <CodeUnit Text="T" Type="TypeToken">
+              <CodeUnit Text="T" Type="LiteralToken" />
+            </CodeUnit>
+          </CodeUnit>
+        </CodeUnit>
+        <CodeUnit Text="&gt;" Type="CloseGenericBracketToken" />
+      </CodeUnit>
+      <CodeUnit Text="(" Type="OpenParenthesisToken" />
+      <CodeUnit Type="ParameterList">
+        <CodeUnit Type="Parameter">
+          <CodeUnit Text="int" Type="TypeToken">
+            <CodeUnit Text="int" Type="LiteralToken" />
+          </CodeUnit>
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="x" Type="LiteralToken" />
+        </CodeUnit>
+      </CodeUnit>
+      <CodeUnit Text=")" Type="CloseParenthesisToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Type="TypeParameterConstraintClause">
+        <CodeUnit Text="where" Type="LiteralToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="T" Type="LiteralToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text=":" Type="WhereColonToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text=" new()" Type="ConstructorConstraintToken">
+          <CodeUnit Text="new" Type="NewToken" />
+          <CodeUnit Text="(" Type="OpenParenthesisToken" />
+          <CodeUnit Text=")" Type="CloseParenthesisToken" />
+        </CodeUnit>
+      </CodeUnit>
+      <CodeUnit Text=";" Type="SemicolonToken" />
+    </CodeUnit>
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Type="Delegate">
+      <CodeUnit Text="delegate" Type="DelegateToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="void" Type="TypeToken">
+        <CodeUnit Text="void" Type="LiteralToken" />
+      </CodeUnit>
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="DelegateWithTypeConstraint4&lt;T, S&gt;" Type="GenericTypeToken">
+        <CodeUnit Text="DelegateWithTypeConstraint4" Type="LiteralToken" />
+        <CodeUnit Text="&lt;" Type="OpenGenericBracketToken" />
+        <CodeUnit Type="GenericTypeParameterList">
+          <CodeUnit Type="GenericTypeParameter">
+            <CodeUnit Text="T" Type="TypeToken">
+              <CodeUnit Text="T" Type="LiteralToken" />
+            </CodeUnit>
+          </CodeUnit>
+          <CodeUnit Text="," Type="CommaToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Type="GenericTypeParameter">
+            <CodeUnit Text="S" Type="TypeToken">
+              <CodeUnit Text="S" Type="LiteralToken" />
+            </CodeUnit>
+          </CodeUnit>
+        </CodeUnit>
+        <CodeUnit Text="&gt;" Type="CloseGenericBracketToken" />
+      </CodeUnit>
+      <CodeUnit Text="(" Type="OpenParenthesisToken" />
+      <CodeUnit Type="ParameterList" />
+      <CodeUnit Text=")" Type="CloseParenthesisToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Type="TypeParameterConstraintClause">
+        <CodeUnit Text="where" Type="LiteralToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="T" Type="LiteralToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text=":" Type="WhereColonToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="System.IServiceProvider" Type="TypeToken">
+          <CodeUnit Text="System" Type="TypeToken">
+            <CodeUnit Text="System" Type="LiteralToken" />
+          </CodeUnit>
+          <CodeUnit Text="." Type="MemberAccessOperator" />
+          <CodeUnit Text="IServiceProvider" Type="TypeToken">
+            <CodeUnit Text="IServiceProvider" Type="LiteralToken" />
+          </CodeUnit>
+        </CodeUnit>
+        <CodeUnit Text="," Type="CommaToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text=" new()" Type="ConstructorConstraintToken">
+          <CodeUnit Text="new" Type="NewToken" />
+          <CodeUnit Text="(" Type="OpenParenthesisToken" />
+          <CodeUnit Text=")" Type="CloseParenthesisToken" />
+        </CodeUnit>
+      </CodeUnit>
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Type="TypeParameterConstraintClause">
+        <CodeUnit Text="where" Type="LiteralToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="S" Type="LiteralToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text=":" Type="WhereColonToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="Type1" Type="TypeToken">
+          <CodeUnit Text="Type1" Type="LiteralToken" />
+        </CodeUnit>
+      </CodeUnit>
+      <CodeUnit Text=";" Type="SemicolonToken" />
+    </CodeUnit>
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="#endregion" Type="EndRegionDirective" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="#region Nested delegate" Type="RegionDirective" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Type="Class">
+      <CodeUnit Text="class" Type="ClassToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="ClassWithNestedDelegate1" Type="LiteralToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Type="Delegate">
+        <CodeUnit Text="delegate" Type="DelegateToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="bool" Type="TypeToken">
+          <CodeUnit Text="bool" Type="LiteralToken" />
+        </CodeUnit>
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="NestedDelegate1" Type="LiteralToken" />
+        <CodeUnit Text="(" Type="OpenParenthesisToken" />
+        <CodeUnit Type="ParameterList" />
+        <CodeUnit Text=")" Type="CloseParenthesisToken" />
+        <CodeUnit Text=";" Type="SemicolonToken" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Type="Delegate">
+        <CodeUnit Text="public" Type="PublicToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="delegate" Type="DelegateToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="bool" Type="TypeToken">
+          <CodeUnit Text="bool" Type="LiteralToken" />
+        </CodeUnit>
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="NestedDelegate2" Type="LiteralToken" />
+        <CodeUnit Text="(" Type="OpenParenthesisToken" />
+        <CodeUnit Type="ParameterList" />
+        <CodeUnit Text=")" Type="CloseParenthesisToken" />
+        <CodeUnit Text=";" Type="SemicolonToken" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Type="Delegate">
+        <CodeUnit Text="private" Type="PrivateToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="delegate" Type="DelegateToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="bool" Type="TypeToken">
+          <CodeUnit Text="bool" Type="LiteralToken" />
+        </CodeUnit>
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="NestedDelegate3" Type="LiteralToken" />
+        <CodeUnit Text="(" Type="OpenParenthesisToken" />
+        <CodeUnit Type="ParameterList" />
+        <CodeUnit Text=")" Type="CloseParenthesisToken" />
+        <CodeUnit Text=";" Type="SemicolonToken" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+    </CodeUnit>
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="#endregion" Type="EndRegionDirective" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="#region Delegates with access modifiers" Type="RegionDirective" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Type="Delegate">
+      <CodeUnit Text="public" Type="PublicToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="delegate" Type="DelegateToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="void" Type="TypeToken">
+        <CodeUnit Text="void" Type="LiteralToken" />
+      </CodeUnit>
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="DelegateWithAccessModifier1" Type="LiteralToken" />
+      <CodeUnit Text="(" Type="OpenParenthesisToken" />
+      <CodeUnit Type="ParameterList" />
+      <CodeUnit Text=")" Type="CloseParenthesisToken" />
+      <CodeUnit Text=";" Type="SemicolonToken" />
+    </CodeUnit>
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Type="Delegate">
+      <CodeUnit Text="internal" Type="InternalToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="delegate" Type="DelegateToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="void" Type="TypeToken">
+        <CodeUnit Text="void" Type="LiteralToken" />
+      </CodeUnit>
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="DelegateWithAccessModifier2" Type="LiteralToken" />
+      <CodeUnit Text="(" Type="OpenParenthesisToken" />
+      <CodeUnit Type="ParameterList" />
+      <CodeUnit Text=")" Type="CloseParenthesisToken" />
+      <CodeUnit Text=";" Type="SemicolonToken" />
+    </CodeUnit>
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Type="Delegate">
+      <CodeUnit Text="protected" Type="ProtectedToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="delegate" Type="DelegateToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="void" Type="TypeToken">
+        <CodeUnit Text="void" Type="LiteralToken" />
+      </CodeUnit>
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="DelegateWithAccessModifier3" Type="LiteralToken" />
+      <CodeUnit Text="(" Type="OpenParenthesisToken" />
+      <CodeUnit Type="ParameterList" />
+      <CodeUnit Text=")" Type="CloseParenthesisToken" />
+      <CodeUnit Text=";" Type="SemicolonToken" />
+    </CodeUnit>
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Type="Delegate">
+      <CodeUnit Text="protected" Type="ProtectedToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="internal" Type="InternalToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="delegate" Type="DelegateToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="void" Type="TypeToken">
+        <CodeUnit Text="void" Type="LiteralToken" />
+      </CodeUnit>
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="DelegateWithAccessModifier4" Type="LiteralToken" />
+      <CodeUnit Text="(" Type="OpenParenthesisToken" />
+      <CodeUnit Type="ParameterList" />
+      <CodeUnit Text=")" Type="CloseParenthesisToken" />
+      <CodeUnit Text=";" Type="SemicolonToken" />
+    </CodeUnit>
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Type="Delegate">
+      <CodeUnit Text="internal" Type="InternalToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="protected" Type="ProtectedToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="delegate" Type="DelegateToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="void" Type="TypeToken">
+        <CodeUnit Text="void" Type="LiteralToken" />
+      </CodeUnit>
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="DelegateWithAccessModifier5" Type="LiteralToken" />
+      <CodeUnit Text="(" Type="OpenParenthesisToken" />
+      <CodeUnit Type="ParameterList" />
+      <CodeUnit Text=")" Type="CloseParenthesisToken" />
+      <CodeUnit Text=";" Type="SemicolonToken" />
+    </CodeUnit>
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Type="Delegate">
+      <CodeUnit Text="private" Type="PrivateToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="delegate" Type="DelegateToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="void" Type="TypeToken">
+        <CodeUnit Text="void" Type="LiteralToken" />
+      </CodeUnit>
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="DelegateWithAccessModifier6" Type="LiteralToken" />
+      <CodeUnit Text="(" Type="OpenParenthesisToken" />
+      <CodeUnit Type="ParameterList" />
+      <CodeUnit Text=")" Type="CloseParenthesisToken" />
+      <CodeUnit Text=";" Type="SemicolonToken" />
+    </CodeUnit>
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="#endregion" Type="EndRegionDirective" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="#region Delegates with other modifiers" Type="RegionDirective" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Type="Class">
+      <CodeUnit Text="public" Type="PublicToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="class" Type="ClassToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="ClassWithNestedDelegate2" Type="LiteralToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Type="Delegate">
+        <CodeUnit Text="public" Type="PublicToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="new" Type="NewToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="delegate" Type="DelegateToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="void" Type="TypeToken">
+          <CodeUnit Text="void" Type="LiteralToken" />
+        </CodeUnit>
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="DelegateWithModifier1" Type="LiteralToken" />
+        <CodeUnit Text="(" Type="OpenParenthesisToken" />
+        <CodeUnit Type="ParameterList" />
+        <CodeUnit Text=")" Type="CloseParenthesisToken" />
+        <CodeUnit Text=";" Type="SemicolonToken" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Type="Delegate">
+        <CodeUnit Text="public" Type="PublicToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="unsafe" Type="UnsafeToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="delegate" Type="DelegateToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="short*" Type="TypeToken">
+          <CodeUnit Text="short" Type="LiteralToken" />
+          <CodeUnit Text="*" Type="DereferenceOperator" />
+        </CodeUnit>
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="DelegateWithModifier2" Type="LiteralToken" />
+        <CodeUnit Text="(" Type="OpenParenthesisToken" />
+        <CodeUnit Type="ParameterList">
+          <CodeUnit Type="Parameter">
+            <CodeUnit Text="int**" Type="TypeToken">
+              <CodeUnit Text="int" Type="LiteralToken" />
+              <CodeUnit Text="*" Type="DereferenceOperator" />
+              <CodeUnit Text="*" Type="DereferenceOperator" />
+            </CodeUnit>
+            <CodeUnit Text=" " Type="Whitespace" />
+            <CodeUnit Text="x" Type="LiteralToken" />
+          </CodeUnit>
+        </CodeUnit>
+        <CodeUnit Text=")" Type="CloseParenthesisToken" />
+        <CodeUnit Text=";" Type="SemicolonToken" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+    </CodeUnit>
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="#endregion " Type="EndRegionDirective" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="#region Delegate with Attributes" Type="RegionDirective" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Type="Delegate">
+      <CodeUnit Type="Attribute">
+        <CodeUnit Text="[" Type="OpenAttributeBracketToken" />
+        <CodeUnit Type="AttributeExpression">
+          <CodeUnit Type="MethodInvocationExpression">
+            <CodeUnit Type="LiteralExpression">
+              <CodeUnit Text="Attribute1" Type="LiteralToken" />
+            </CodeUnit>
+            <CodeUnit Text="(" Type="OpenParenthesisToken" />
+            <CodeUnit Type="ArgumentList">
+              <CodeUnit Type="Argument">
+                <CodeUnit Type="LiteralExpression">
+                  <CodeUnit Text="false" Type="FalseToken" />
+                </CodeUnit>
+              </CodeUnit>
+            </CodeUnit>
+            <CodeUnit Text=")" Type="CloseParenthesisToken" />
+          </CodeUnit>
+        </CodeUnit>
+        <CodeUnit Text="," Type="CommaToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Type="AttributeExpression">
+          <CodeUnit Type="MethodInvocationExpression">
+            <CodeUnit Type="ChildAccessExpression">
+              <CodeUnit Type="LiteralExpression">
+                <CodeUnit Text="System" Type="LiteralToken" />
+              </CodeUnit>
+              <CodeUnit Text="." Type="MemberAccessOperator" />
+              <CodeUnit Type="LiteralExpression">
+                <CodeUnit Text="Attribute2" Type="LiteralToken" />
+              </CodeUnit>
+            </CodeUnit>
+            <CodeUnit Text="(" Type="OpenParenthesisToken" />
+            <CodeUnit Type="ArgumentList">
+              <CodeUnit Type="Argument">
+                <CodeUnit Type="LiteralExpression">
+                  <CodeUnit Text="true" Type="TrueToken" />
+                </CodeUnit>
+              </CodeUnit>
+              <CodeUnit Text="," Type="CommaToken" />
+              <CodeUnit Text=" " Type="Whitespace" />
+              <CodeUnit Type="Argument">
+                <CodeUnit Type="LiteralExpression">
+                  <CodeUnit Text="2" Type="NumberToken" />
+                </CodeUnit>
+              </CodeUnit>
+            </CodeUnit>
+            <CodeUnit Text=")" Type="CloseParenthesisToken" />
+          </CodeUnit>
+        </CodeUnit>
+        <CodeUnit Text="]" Type="CloseAttributeBracketToken" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Type="Attribute">
+        <CodeUnit Text="[" Type="OpenAttributeBracketToken" />
+        <CodeUnit Type="AttributeExpression">
+          <CodeUnit Type="LiteralExpression">
+            <CodeUnit Text="Attribute3" Type="LiteralToken" />
+          </CodeUnit>
+        </CodeUnit>
+        <CodeUnit Text="]" Type="CloseAttributeBracketToken" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="public" Type="PublicToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="delegate" Type="DelegateToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="void" Type="TypeToken">
+        <CodeUnit Text="void" Type="LiteralToken" />
+      </CodeUnit>
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="DelegateWithAttributes" Type="LiteralToken" />
+      <CodeUnit Text="(" Type="OpenParenthesisToken" />
+      <CodeUnit Type="ParameterList" />
+      <CodeUnit Text=")" Type="CloseParenthesisToken" />
+      <CodeUnit Text=";" Type="SemicolonToken" />
+    </CodeUnit>
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="#endregion" Type="EndRegionDirective" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="#region Delegate with headers" Type="RegionDirective" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Type="Delegate">
+      <CodeUnit Type="ElementHeader">
+        <CodeUnit Text="/// &lt;summary&gt;" Type="ElementHeaderLine" />
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="/// A delegate header." Type="ElementHeaderLine" />
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="/// &lt;/summary&gt;" Type="ElementHeaderLine" />
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="/// &lt;param name=&quot;x&quot;&gt;A parameter.&lt;/param&gt;" Type="ElementHeaderLine" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="// Comment" Type="SingleLineComment" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="public" Type="PublicToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="delegate" Type="DelegateToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="void" Type="TypeToken">
+        <CodeUnit Text="void" Type="LiteralToken" />
+      </CodeUnit>
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="DelegateWithHeader" Type="LiteralToken" />
+      <CodeUnit Text="(" Type="OpenParenthesisToken" />
+      <CodeUnit Type="ParameterList">
+        <CodeUnit Type="Parameter">
+          <CodeUnit Text="int" Type="TypeToken">
+            <CodeUnit Text="int" Type="LiteralToken" />
+          </CodeUnit>
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="x" Type="LiteralToken" />
+        </CodeUnit>
+      </CodeUnit>
+      <CodeUnit Text=")" Type="CloseParenthesisToken" />
+      <CodeUnit Text=";" Type="SemicolonToken" />
+    </CodeUnit>
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="#endregion" Type="EndRegionDirective" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="#region Delegates with headers and attributes" Type="RegionDirective" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Type="Delegate">
+      <CodeUnit Type="ElementHeader">
+        <CodeUnit Text="/// &lt;summary&gt;" Type="ElementHeaderLine" />
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="/// A delegate header." Type="ElementHeaderLine" />
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="/// &lt;/summary&gt;" Type="ElementHeaderLine" />
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="/// &lt;param name=&quot;x&quot;&gt;A parameter.&lt;/param&gt;" Type="ElementHeaderLine" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Type="Attribute">
+        <CodeUnit Text="[" Type="OpenAttributeBracketToken" />
+        <CodeUnit Type="AttributeExpression">
+          <CodeUnit Type="MethodInvocationExpression">
+            <CodeUnit Type="LiteralExpression">
+              <CodeUnit Text="Attribute1" Type="LiteralToken" />
+            </CodeUnit>
+            <CodeUnit Text="(" Type="OpenParenthesisToken" />
+            <CodeUnit Type="ArgumentList">
+              <CodeUnit Type="Argument">
+                <CodeUnit Type="LiteralExpression">
+                  <CodeUnit Text="false" Type="FalseToken" />
+                </CodeUnit>
+              </CodeUnit>
+            </CodeUnit>
+            <CodeUnit Text=")" Type="CloseParenthesisToken" />
+          </CodeUnit>
+        </CodeUnit>
+        <CodeUnit Text="," Type="CommaToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Type="AttributeExpression">
+          <CodeUnit Type="MethodInvocationExpression">
+            <CodeUnit Type="ChildAccessExpression">
+              <CodeUnit Type="LiteralExpression">
+                <CodeUnit Text="System" Type="LiteralToken" />
+              </CodeUnit>
+              <CodeUnit Text="." Type="MemberAccessOperator" />
+              <CodeUnit Type="LiteralExpression">
+                <CodeUnit Text="Attribute2" Type="LiteralToken" />
+              </CodeUnit>
+            </CodeUnit>
+            <CodeUnit Text="(" Type="OpenParenthesisToken" />
+            <CodeUnit Type="ArgumentList">
+              <CodeUnit Type="Argument">
+                <CodeUnit Type="LiteralExpression">
+                  <CodeUnit Text="true" Type="TrueToken" />
+                </CodeUnit>
+              </CodeUnit>
+              <CodeUnit Text="," Type="CommaToken" />
+              <CodeUnit Text=" " Type="Whitespace" />
+              <CodeUnit Type="Argument">
+                <CodeUnit Type="LiteralExpression">
+                  <CodeUnit Text="2" Type="NumberToken" />
+                </CodeUnit>
+              </CodeUnit>
+            </CodeUnit>
+            <CodeUnit Text=")" Type="CloseParenthesisToken" />
+          </CodeUnit>
+        </CodeUnit>
+        <CodeUnit Text="]" Type="CloseAttributeBracketToken" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Type="Attribute">
+        <CodeUnit Text="[" Type="OpenAttributeBracketToken" />
+        <CodeUnit Type="AttributeExpression">
+          <CodeUnit Type="LiteralExpression">
+            <CodeUnit Text="Attribute3" Type="LiteralToken" />
+          </CodeUnit>
+        </CodeUnit>
+        <CodeUnit Text="]" Type="CloseAttributeBracketToken" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="public" Type="PublicToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="delegate" Type="DelegateToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="void" Type="TypeToken">
+        <CodeUnit Text="void" Type="LiteralToken" />
+      </CodeUnit>
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="DelegateWithHeaderAndAttributes" Type="LiteralToken" />
+      <CodeUnit Text="(" Type="OpenParenthesisToken" />
+      <CodeUnit Type="ParameterList">
+        <CodeUnit Type="Parameter">
+          <CodeUnit Text="int" Type="TypeToken">
+            <CodeUnit Text="int" Type="LiteralToken" />
+          </CodeUnit>
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="x" Type="LiteralToken" />
+        </CodeUnit>
+      </CodeUnit>
+      <CodeUnit Text=")" Type="CloseParenthesisToken" />
+      <CodeUnit Text=";" Type="SemicolonToken" />
+    </CodeUnit>
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="#endregion" Type="EndRegionDirective" />
+  </CodeUnit>
+</StyleCopCsParserObjectModel>

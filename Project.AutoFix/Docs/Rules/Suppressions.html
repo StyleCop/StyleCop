@@ -1,0 +1,79 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <head>
+        <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
+        <meta content="history" name="save">
+        <title>Rule Suppressions</title>
+        <link rel="stylesheet" type="text/css" href="stylesheets/helpstudio.css">
+        <link rel="stylesheet" type="text/css" href="styles/Presentation.css">
+        <script src="script/helpstudio.js" type="text/javascript"></script>
+        <script src="script/StandardText.js" type="text/javascript"></script>    
+    </head>
+    <body id="hsbody" topmargin="0">
+        <input type="hidden" id="userDataCache" class="userDataStyle" NAME="userDataCache"></input>
+        <div id="allHistory" class="saveHistory" onsave="saveScrollPosition()" onload="loadScrollPosition()"></div>
+        <script type="text/javascript">WritePageTop(document.title);</script>  
+        <div id="pagebody" valign="bottom">
+            <div id="mainbody">
+                <P>Starting with StyleCop 4.3.2, it is possible to suppress the reporting of rule violations by adding suppression attributes within the source code. The syntax for these suppressions is similar to that for Visual Studio Code Analysis, or FxCop. For more information about Code Analysis suppressions, see the following article: <A href="http://msdn.microsoft.com/en-us/library/ms244717.aspx"><SPAN style="COLOR: blue">In Source Suppressions Overview</SPAN></A>.</P>
+                <P>StyleCop rule suppressions are registered in code using the <B>SuppressMessage</B> attribute. The <B>SuppressMessage </B>attribute is a conditional attribute, which is included in the IL metadata of your managed code assembly only if the CODE_ANALYSIS compilation symbol is defined at compile time.<o:p></o:p></SPAN></P>
+                <P>We recommend using in-source suppressions on debug builds, in order to eliminate the possibility of mistakenly shipping the in-source suppression metadata and compromising execution or performance because of the metadata bloat.</P>
+                <P>The <B>SuppressMessage</B> attribute has the following format:</P>
+                <P><i>[SuppressMessage("Rule Category, "Rule Id", "Justification")]</i></P>
+                <P>Where:</P>
+                <ul>
+                    <li><B>Rule Category -</B>The StyleCop rule namespace in which the rule is defined. For example, <I>StyleCop.CSharp.DocumentationRules</I></li>
+                    <li><B>Rule Id -</B>The identifier for the rule, using the format <I>shortname:longname</I>. For example, <I>SA1600:ElementsMustBeDocumented</I></li>
+                    <li><B>Justification -</B>The text that is used to document the reason for suppressing the message.</li>
+                </ul>
+                <p></p>
+                <P>The <B>SuppressMessage<I> </I></B>attribute also takes the following optional parameters. These parameters are completely ignored by StyleCop and do not need to be filled in for StyleCop suppressions.</P>
+                <ul>
+                    <li><B>Message Id</B></li>
+                    <li><b>Scope</B></li>
+                    <li><b>Target</B></li>
+                </ul>
+                <P></P>
+                <P><b>SuppressMessage Usage</B></P>
+                <P>StyleCop violations are suppressed at the level to which an instance of the <B>SuppressMessage</B> attribute is applied. The purpose of this is to tightly couple the suppression information to the code where the violation occurs.</P>
+                <P>For example, a StyleCop <B style="mso-bidi-font-weight: normal">SuppressMessage</B> attribute placed on a class will suppress the rule for all contents of the class. The same attribute placed on a method will only suppress the rule within the method.</P>
+                <p></p>
+                <P><B>Global Suppressions</B></P>
+                <P>StyleCop does not support the notion of global suppressions or file-level suppressions. Suppressions must be placed on a code element.</P>
+                <p></p>
+                <P><b>Examples:</B></P>
+                <P>The following code suppresses the ElementsMustBeDocumented rule for the given class and all its contents:</P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes">[SuppressMessage(<SPAN style="COLOR: #a31515">"StyleCop.CSharp.DocumentationRules"</SPAN>, <SPAN style="COLOR: #a31515">"SA1600:ElementsMustBeDocumented"</SPAN>)]<o:p></o:p></SPAN></P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; COLOR: blue; FONT-SIZE: 10pt; mso-no-proof: yes">public</SPAN><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes"> <SPAN style="COLOR: blue">class</SPAN> <SPAN style="COLOR: #2b91af">MyUndocumentedClass<o:p></o:p></SPAN></SPAN></P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes">{<o:p></o:p></SPAN></P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes"><SPAN style="mso-spacerun: yes">&nbsp;&nbsp; </SPAN><SPAN style="mso-spacerun: yes">&nbsp;</SPAN><SPAN style="COLOR: blue">public</SPAN> <SPAN style="COLOR: blue">void</SPAN> MyUndocumentedMethod<o:p></o:p></SPAN></P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes"><SPAN style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </SPAN>{<o:p></o:p></SPAN></P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes"><SPAN style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </SPAN>}<o:p></o:p></SPAN></P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes">}</SPAN></P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN class=label></P></SPAN>
+                <p></p>
+                <P>Beginning with StyleCop 4.4.0, it is also possible to suppress all of the rules 
+                    within a rule namespace, using a single suppression attribute. This is indicated 
+                    by replacing the rule CheckID and rule name with a single asterisk. The 
+                    following code example suppresses all of StyleCop&#39;s default documentation rules 
+                    within the inner class. In this case, StyleCop would still flag a violation 
+                    indicating that the outer class is missing documentation, but it would ignore 
+                    all documentation rules for the inner class and its contents.</P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; COLOR: blue; FONT-SIZE: 10pt; mso-no-proof: yes">public</SPAN><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes"> <SPAN style="COLOR: blue">class</SPAN>
+                    <SPAN style="COLOR: #2b91af">OuterClass<o:p></o:p></SPAN></SPAN></P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes">{<o:p></o:p></SPAN></P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes">&nbsp;&nbsp;&nbsp; [SuppressMessage(<SPAN style="COLOR: #a31515">"StyleCop.CSharp.DocumentationRules"</SPAN>, <SPAN style="COLOR: #a31515">"*&quot;</SPAN>)]<o:p></o:p></SPAN></P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; COLOR: blue; FONT-SIZE: 10pt; mso-no-proof: yes">&nbsp;&nbsp;&nbsp; public</SPAN><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes"> <SPAN style="COLOR: blue">class</SPAN>
+                    <SPAN style="COLOR: #2b91af">InnerClass<o:p></o:p></SPAN></SPAN></P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes">&nbsp;&nbsp;&nbsp; {<o:p></o:p></SPAN></P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes"><SPAN style="mso-spacerun: yes">&nbsp;&nbsp; </SPAN><SPAN style="mso-spacerun: yes">&nbsp;</SPAN><SPAN style="COLOR: blue">&nbsp;&nbsp;&nbsp; public</SPAN> <SPAN style="COLOR: blue">void</SPAN> MyUndocumentedMethod<o:p></o:p></SPAN></P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes"><SPAN style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; </SPAN>{<o:p></o:p></SPAN></P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes"><SPAN style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </SPAN>}<o:p></o:p></SPAN></P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes">&nbsp;&nbsp;&nbsp; }</SPAN></P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes">}</SPAN></P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN class=label></P></SPAN>
+            </div>
+            <script type="text/javascript">WritePageFooter();</script> 
+        </div>
+    </body>
+</html>

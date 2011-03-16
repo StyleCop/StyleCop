@@ -1,0 +1,37 @@
+namespace StyleCop.CSharpParserTest.TestData
+{
+    using System;
+
+    public class AsType
+    {
+        public Type Method()
+        {
+            // Tests complex type tokens used with as.
+            return categoryIds.ToArray(typeof(Guid?)) as Guid?[];
+        }
+
+        public void Method2()
+        {
+            // Tests the use of the nullable type operator with a generic type.
+            Foo<short>? foo1 = new Foo<short>();
+
+            // Tests the ability to create variables with complex names including generics.
+            Type1.Type2.Type3 aa = null;
+            Type1<int, string>.Type2.Type3 bb = null;
+            Type1.Type2<int, string>.Type3 cc = null;
+            Type1.Type2.Type3<int, string> dd = null;
+            Type1<int, string>.Type2<int, string>.Type3 ee = null;
+            Type1<int, string>.Type2.Type3<int, string> ff = null;
+            Type1.Type2<int, string>.Type3<int, string> gg = null;
+            Type1<int, string>.Type2<int, string>.Type3<int, string> hh = null;
+        }
+    }
+
+    // The ability to create a fixed array using a hardcoded number or a const.
+    unsafe struct MyStruct
+    {
+        const int DATA_SIZE = 1024;
+        fixed byte data[DATA_SIZE];
+        fixed byte data2[1024];
+    }
+}

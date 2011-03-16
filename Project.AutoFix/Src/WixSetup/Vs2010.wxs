@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?include AssemblyVersion.wxi ?>
+<?define VsVersion = "10.0" ?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Fragment>
+    <DirectoryRef Id='TARGETDIR'>
+      <Component Id="VisualStudio2010Component" Guid="6823F737-6FA6-4A3F-915C-CCEA746B6CDF">
+        <!-- The VisualStudio2010Component is the component for installing the VS 2010 specific parts of the VS package.  -->
+        
+        <!-- Installed products -->
+        <RegistryKey Action='createAndRemoveOnUninstall' Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\InstalledProducts\StyleCop' Id='InstalledProducts_$(var.VsVersion)_001' />
+        <RegistryValue Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\InstalledProducts\StyleCop' Type='string' Value='#110' Id='InstalledProducts_$(var.VsVersion)_002' />
+        <RegistryValue Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\InstalledProducts\StyleCop' Type='string' Name='Package' Value='{629EB7CC-69C2-43AC-9BC9-482B0F810C4E}' Id='InstalledProducts_$(var.VsVersion)_003' />
+        <RegistryValue Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\InstalledProducts\StyleCop' Type='string' Name='LogoID' Value='#400' Id='InstalledProducts_$(var.VsVersion)_004' />
+        <RegistryValue Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\InstalledProducts\StyleCop' Type='string' Name='ProductDetails' Value='#112' Id='InstalledProducts_$(var.VsVersion)_005' />
+        <RegistryValue Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\InstalledProducts\StyleCop' Type='string' Name='PID' Value='$(var.WixVersionShort)' Id='InstalledProducts_$(var.VsVersion)_006' />
+
+        <!-- Menus -->
+        <RegistryValue Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\Menus' Type='string' Name='{629EB7CC-69C2-43AC-9BC9-482B0F810C4E}' Value=', 1000, 1' Id='Menus_$(var.VsVersion)' />
+
+        <!-- Autoload the first time a solution is loaded -->
+        <RegistryKey Action='create' Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\AutoLoadPackages\{f1536ef8-92ec-443c-9ed7-fdadf150da82}' Id='AutoLoadPackages_$(var.VsVersion)_001' />
+        <RegistryValue Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\AutoLoadPackages\{f1536ef8-92ec-443c-9ed7-fdadf150da82}' Type='integer' Name='{629EB7CC-69C2-43AC-9BC9-482B0F810C4E}' Value='0' Id='AutoLoadPackages_$(var.VsVersion)_002' />
+
+        <!-- Package -->
+        <RegistryKey Action='createAndRemoveOnUninstall' Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\Packages\{629EB7CC-69C2-43AC-9BC9-482B0F810C4E}' Id='Package_$(var.VsVersion)' />
+        <RegistryValue Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\Packages\{629EB7CC-69C2-43AC-9BC9-482B0F810C4E}' Type='integer' Name='ID' Value='200' Id='Package_$(var.VsVersion)_001' />
+        <RegistryValue Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\Packages\{629EB7CC-69C2-43AC-9BC9-482B0F810C4E}' Type='string' Name='ProductVersion' Value='$(var.WixVersionShort)' Id='Package_$(var.VsVersion)_002' />
+        <RegistryValue Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\Packages\{629EB7CC-69C2-43AC-9BC9-482B0F810C4E}' Type='string' Name='MinEdition' Value='Standard' Id='Package_$(var.VsVersion)_003' />
+        <RegistryValue Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\Packages\{629EB7CC-69C2-43AC-9BC9-482B0F810C4E}' Type='string' Name='ProductName' Value='StyleCop' Id='Package_$(var.VsVersion)_004' />
+        <RegistryValue Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\Packages\{629EB7CC-69C2-43AC-9BC9-482B0F810C4E}' Type='string' Name='CompanyName' Value='Microsoft PLK' Id='Package_$(var.VsVersion)_005' />
+        <RegistryValue Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\Packages\{629EB7CC-69C2-43AC-9BC9-482B0F810C4E}' Type='string' Name='Class' Value='StyleCop.VisualStudio.StyleCopVSPackage' Id='Package_$(var.VsVersion)_006' />
+        <RegistryValue Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\Packages\{629EB7CC-69C2-43AC-9BC9-482B0F810C4E}' Type='string'
+                  Value='StyleCop.VisualStudio.StyleCopVSPackage, StyleCop.VSPackage, Version=$(var.WixVersionLong), Culture=neutral, PublicKeyToken=f904653c63bc2738' Id='Package_$(var.VsVersion)_007' />
+        <RegistryValue Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\Packages\{629EB7CC-69C2-43AC-9BC9-482B0F810C4E}' Type='string' Name='InprocServer32' Value='[SystemFolder]mscoree.dll' Id='Package_$(var.VsVersion)_008' />
+        <RegistryValue Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\Packages\{629EB7CC-69C2-43AC-9BC9-482B0F810C4E}' Type='string' Name='CodeBase' Value='[INSTALLDIR]StyleCop.VSPackage.dll' Id='Package_$(var.VsVersion)_009' />
+
+        <!-- Only install this component if the right VS version is installed -->
+        <Condition>VS2010DEVENV</Condition>
+
+      </Component>
+    </DirectoryRef>
+
+    <!-- We need to customize the VS10Setup from VSExtension because it doesnt support the flag /nosetupvstemplates  -->
+    <CustomAction Id="StyleCopVS10Setup" Property="VS2010DEVENV" ExeCommand="/setup /nosetupvstemplates" Execute="deferred" Return="ignore" Impersonate="no" />
+    <PropertyRef Id="VS2010DEVENV" />
+
+  </Fragment>
+</Wix>

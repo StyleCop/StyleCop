@@ -1,0 +1,19 @@
+[OPTIONS]
+Auto Index=Yes
+Compatibility=1.1 or later
+Compiled file=bin\StyleCop.chm
+Contents file=Contents.hhc
+Default Window=MsdnHelp
+Display compile progress=No
+Error log file=errors.log
+Full-text search=Yes
+Index file=Index.hhk
+Language=0x409 English (United States)
+Title=StyleCop
+
+[WINDOWS]
+MsdnHelp="StyleCop","Contents.hhc","Index.hhk","StyleCop.html","StyleCop.html",,,,,0x62520,220,0x387e,[86,51,872,558],,,,,,,0
+
+
+[INFOTYPES]
+

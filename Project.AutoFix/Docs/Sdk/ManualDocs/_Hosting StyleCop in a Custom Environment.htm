@@ -1,0 +1,213 @@
+﻿<html xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:MSHelp="http://msdn.microsoft.com/mshelp" xmlns:mshelp="http://msdn.microsoft.com/mshelp" xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
+  <head>
+    <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8" />
+    <META NAME="save" CONTENT="history" />
+    <title>Hosting StyleCop in a Custom Environment</title>
+    <link rel="stylesheet" type="text/css" href="../styles/presentation.css" />
+    <link rel="stylesheet" type="text/css" href="ms-help://Hx/HxRuntime/HxLink.css" />
+    <script type="text/javascript" src="../scripts/EventUtilities.js"> </script>
+    <script type="text/javascript" src="../scripts/SplitScreen.js"> </script>
+    <script type="text/javascript" src="../scripts/Dropdown.js"> </script>
+    <script type="text/javascript" src="../scripts/script_manifold.js"> </script>
+    <script type="text/javascript" src="../scripts/script_feedBack.js"> </script>
+    <script type="text/javascript" src="../scripts/CheckboxMenu.js"> </script>
+    <script type="text/javascript" src="../scripts/CommonUtilities.js"> </script>
+    
+  </head>
+  <body>
+    <input type="hidden" id="userDataCache" class="userDataStyle" />
+    <input type="hidden" id="hiddenScrollOffset" />
+    <img id="collapseImage" style="display:none; height:0; width:0;" src="../icons/collapse_all.gif" title="Collapse image" />
+    <img id="expandImage" style="display:none; height:0; width:0;" src="../icons/expand_all.gif" title="Expand Image" />
+    <img id="collapseAllImage" style="display:none; height:0; width:0;" src="../icons/collapse_all.gif" />
+    <img id="expandAllImage" style="display:none; height:0; width:0;" src="../icons/expand_all.gif" />
+    <img id="dropDownImage" style="display:none; height:0; width:0;" src="../icons/dropdown.gif" />
+    <img id="dropDownHoverImage" style="display:none; height:0; width:0;" src="../icons/dropdownHover.gif" />
+    <img id="copyImage" style="display:none; height:0; width:0;" src="../icons/copycode.gif" title="Copy image" />
+    <img id="copyHoverImage" style="display:none; height:0; width:0;" src="../icons/copycodeHighlight.gif" title="CopyHover image" />
+    <div id="header">
+      <table id="topTable" cellspacing="0" cellpadding="0">
+        <tr>
+          <td>
+            <span onclick="ExpandCollapseAll(toggleAllImage)" style="cursor:default;" onkeypress="ExpandCollapseAll_CheckKey(toggleAllImage, event)" tabindex="0">
+              <img ID="toggleAllImage" class="toggleAll" src="../icons/collapse_all.gif" /> <label id="collapseAllLabel" for="toggleAllImage" style="display: none;">Collapse All</label><label id="expandAllLabel" for="toggleAllImage" style="display: none;">Expand All</label> </span>
+            <span>    </span>
+            <span id="devlangsDropdown" class="filter" tabindex="0">
+              <img id="devlangsDropdownImage" src="../icons/dropdown.gif" /> <label id="devlangsMenuAllLabel" for="devlangsDropdownImage" style="display: none;"><nobr>Code: All </nobr></label><label id="devlangsMenuMultipleLabel" for="devlangsDropdownImage" style="display: none;"><nobr>Code: Multiple </nobr></label><label id="devlangsMenuVisualBasicLabel" for="devlangsDropdownImage" style="display: none;"><nobr>Code: Visual Basic </nobr></label><label id="devlangsMenuCSharpLabel" for="devlangsDropdownImage" style="display: none;"><nobr>Code: C# </nobr></label><label id="devlangsMenuManagedCPlusPlusLabel" for="devlangsDropdownImage" style="display: none;"><nobr>Code: Visual C++ </nobr></label><label id="devlangsMenuJSharpLabel" for="devlangsDropdownImage" style="display: none;"><nobr>Code: J# </nobr></label><label id="devlangsMenuJScriptLabel" for="devlangsDropdownImage" style="display: none;"><nobr>Code: JScript </nobr></label></span>
+          </td>
+        </tr>
+      </table>
+      <div id="devlangsMenu">
+        <input id="VisualBasicCheckbox" type="checkbox" data="VisualBasic,vb,'persist'" value="on" onClick="SetLanguage(this)" />
+        <label class="checkboxLabel" for="VisualBasicCheckbox">Visual Basic</label>
+        <br />
+        <input id="CSharpCheckbox" type="checkbox" data="CSharp,cs,'persist'" value="on" onClick="SetLanguage(this)" />
+        <label class="checkboxLabel" for="CSharpCheckbox">C#</label>
+        <br />
+        <input id="ManagedCPlusPlusCheckbox" type="checkbox" data="ManagedCPlusPlus,cpp,'persist'" value="on" onClick="SetLanguage(this)" />
+        <label class="checkboxLabel" for="ManagedCPlusPlusCheckbox">Visual C++</label>
+        <br />
+        <input id="JSharpCheckbox" type="checkbox" data="JSharp,cs,'persist'" value="on" onClick="SetLanguage(this)" />
+        <label class="checkboxLabel" for="JSharpCheckbox">J#</label>
+        <br />
+        <input id="JScriptCheckbox" type="checkbox" data="JScript,cs,'persist'" value="on" onClick="SetLanguage(this)" />
+        <label class="checkboxLabel" for="JScriptCheckbox">JScript</label>
+        <br />
+      </div>
+      <table id="bottomTable" cellpadding="0" cellspacing="0">
+        <tr id="headerTableRow1">
+          <td align="left">
+            <span id="runningHeaderText" />
+          </td>
+        </tr>
+        <tr id="headerTableRow2">
+          <td align="left">
+            <span id="nsrTitle">Hosting StyleCop in a Custom Environment</span>
+          </td>
+        </tr>
+        <tr id="headerTableRow3">
+          <td align="left">
+              &nbsp;</td>
+        </tr>
+      </table>
+      <table id="gradientTable">
+        <tr>
+          <td class="nsrBottom" background="../icons/gradient.gif" />
+        </tr>
+      </table>
+    </div>
+    <div id="mainSection">
+      <div id="mainBody">
+        <div id="allHistory" class="saveHistory" onsave="saveAll()" onload="loadAll()" />
+        <font color="DarkGray"></font>
+        <p /> 
+  
+    <div class="introduction">
+      <p>
+        This article explains how to create a custom wrapper which loads and runs the StyleCop toolset, allowing StyleCop
+        to be integrated into a custom build environment. To learn how to integrate StyleCop into an MSBuild-based
+        build environment, see the <span sdata="link">
+          <a href="_Integrating%20StyleCop%20into%20MSBuild.htm">Integrating StyleCop into MSBuild</a></span>
+        topic.
+      </p>
+    </div>
+
+    <h3 class="procedureSubHeading">Creating a Custom StyleCop Wrapper</h3><div class="subSection"><ol><li>
+          
+            <p>
+              The first step in creating custom wrapper code for StyleCop is to create an instance of the
+              <span sdata="cer" target="T:StyleCop.StyleCopConsole"><a href="T_StyleCop_StyleCopConsole.htm">StyleCopConsole</a></span> class. The StyleCopConsole
+              instance provides functionality for running StyleCop in a command-line based application, suitable
+              for a custom build environment.
+            </p>
+            <p>
+              <div class="code"><span codeLanguage="other"><table width="100%" cellspacing="0" cellpadding="0"><tr><th> </th><th><span class="copyCode" onclick="CopyCode(this)" onkeypress="CopyCode_CheckKey(this, event)" onmouseover="ChangeCopyCodeIcon(this)" onmouseout="ChangeCopyCodeIcon(this)" tabindex="0"><img class="copyCodeImage" name="ccImage" align="absmiddle" title="Copy image" src="../icons/copycode.gif" />Copy Code</span></th></tr><tr><td colspan="2"><pre>
+StyleCopConsole console = new StyleCopConsole(null, true, null, null, true);
+              </pre></td></tr></table></span></div>
+            </p>
+            <p>
+              The code example above will create an instance of the <span sdata="cer" target="T:StyleCop.StyleCopConsole"><a href="T_StyleCop_StyleCopConsole.htm">StyleCopConsole</a></span>
+              class with the default settings. It is possible to control the input and output of StyleCop by passing values into
+              the StyleCopConsole constructor. For example, it is possible to provide the path to a StyleCop settings file containing
+              the settings to be used during the analysis, rather than the default settings files. It is also possible to provide
+              an alternate path for the output file containing the analysis results. Finally, it is possible to provide a
+              collection of paths where StyleCop should search for assemblies containing StyleCop rules analyzers. Furthermore,
+              it is possible to instruct StyleCop to skip loading rules analyzers from the default location.
+            </p>
+          
+        </li><li>
+          
+            <p>
+              The next step in creating a custom StyleCop wrapper is to create an instance of the <span sdata="cer" target="T:StyleCop.Configuration"><a href="T_StyleCop_Configuration.htm">Configuration</a></span>
+              class. This object will specify the collection of preprocessor flags that should be set while performing the 
+              style analysis. For example, it is common for code to include <span class="code">#if DEBUG</span> statements.
+              By creating a Configuration class which defines the DEBUG flag, StyleCop will include code within <span class="code">#if DEBUG</span>
+              regions during the analysis.
+            </p>
+            <p>
+              <div class="code"><span codeLanguage="other"><table width="100%" cellspacing="0" cellpadding="0"><tr><th> </th><th><span class="copyCode" onclick="CopyCode(this)" onkeypress="CopyCode_CheckKey(this, event)" onmouseover="ChangeCopyCodeIcon(this)" onmouseout="ChangeCopyCodeIcon(this)" tabindex="0"><img class="copyCodeImage" name="ccImage" align="absmiddle" title="Copy image" src="../icons/copycode.gif" />Copy Code</span></th></tr><tr><td colspan="2"><pre>
+Configuration configuration = new Configuration(new string[] { "DEBUG" });
+              </pre></td></tr></table></span></div>
+            </p>
+          
+        </li><li>
+          
+            <p>
+              Next, create one or more <span sdata="cer" target="T:StyleCop.CodeProject"><a href="T_StyleCop_CodeProject.htm">CodeProject</a></span> objects
+              and add the collection of source code files to analyze within each project. A CodeProject class represents
+              a collection of code files located beneath a common root path.
+            </p>
+            <p>
+              <div class="code"><span codeLanguage="other"><table width="100%" cellspacing="0" cellpadding="0"><tr><th> </th><th><span class="copyCode" onclick="CopyCode(this)" onkeypress="CopyCode_CheckKey(this, event)" onmouseover="ChangeCopyCodeIcon(this)" onmouseout="ChangeCopyCodeIcon(this)" tabindex="0"><img class="copyCodeImage" name="ccImage" align="absmiddle" title="Copy image" src="../icons/copycode.gif" />Copy Code</span></th></tr><tr><td colspan="2"><pre>
+List&lt;CodeProject&gt; projects = new List&lt;CodeProject&gt;();                
+foreach (string myProject in this.myProjects)
+{
+    CodeProject project = new CodeProject(myProject.Path.GetHashCode(), myProject.Path, configuration);
+
+    // Add each source file to this project.
+    foreach (string sourceFilePath in myProject.FilesToAnalyze)
+    {
+        console.Core.Environment.AddSourceCode(project, sourceFilePath, null);
+    }
+    
+    projects.Add(project);
+}
+              </pre></td></tr></table></span></div>
+            </p>
+          
+        </li><li>
+          
+            <p>
+              After submitting each of the source code files to analyze, the next step is to register for StyleCop
+              output events. These events will be called whenever output is generated from StyleCop during the style analysis.
+            </p>
+            <p>
+              <div class="code"><span codeLanguage="other"><table width="100%" cellspacing="0" cellpadding="0"><tr><th> </th><th><span class="copyCode" onclick="CopyCode(this)" onkeypress="CopyCode_CheckKey(this, event)" onmouseover="ChangeCopyCodeIcon(this)" onmouseout="ChangeCopyCodeIcon(this)" tabindex="0"><img class="copyCodeImage" name="ccImage" align="absmiddle" title="Copy image" src="../icons/copycode.gif" />Copy Code</span></th></tr><tr><td colspan="2"><pre>
+console.OutputGenerated += this.OnOutputGenerated;
+console.ViolationEncountered += this.OnViolationEncountered;
+              </pre></td></tr></table></span></div>
+            </p>
+            <p>
+              The <span sdata="cer" target="E:StyleCop.StyleCopConsole.OutputGenerated"><a href="E_StyleCop_StyleCopConsole_OutputGenerated.htm">OutputGenerated</a></span> event
+              is called whenever textual output is generated during an analysis. This output should typically be written
+              into a log file. The <span sdata="cer" target="E:StyleCop.StyleCopConsole.ViolationEncountered"><a href="E_StyleCop_StyleCopConsole_ViolationEncountered.htm">ViolationEncountered</a></span>
+              event is fired whenever a rules violation is discovered in one of the source code files being analyzed.
+              Register to this event to publish StyleCop rules violations to your build system.
+            </p>
+          
+        </li><li>
+          
+            <p>
+              The final step in creating the StyleCop wrapper is to start the analysis. This is done by executing the 
+              <span sdata="cer" target="M:StyleCop.StyleCopConsole.Start(System.Collections.Generic.IList{StyleCop.CodeProject},System.Boolean)"><a href="M_StyleCop_StyleCopConsole_Start.htm">Start(IList<span class="languageSpecificText"><span class="cs">&lt;</span><span class="vb">(Of </span><span class="cpp">&lt;</span><span class="nu">(</span></span>CodeProject<span class="languageSpecificText"><span class="cs">&gt;</span><span class="vb">)</span><span class="cpp">&gt;</span><span class="nu">)</span></span>, Boolean)</a></span>
+              method.
+            </p>
+            <p>
+              <div class="code"><span codeLanguage="other"><table width="100%" cellspacing="0" cellpadding="0"><tr><th> </th><th><span class="copyCode" onclick="CopyCode(this)" onkeypress="CopyCode_CheckKey(this, event)" onmouseover="ChangeCopyCodeIcon(this)" onmouseout="ChangeCopyCodeIcon(this)" tabindex="0"><img class="copyCodeImage" name="ccImage" align="absmiddle" title="Copy image" src="../icons/copycode.gif" />Copy Code</span></th></tr><tr><td colspan="2"><pre>
+console.Start(projects, false);
+              </pre></td></tr></table></span></div>
+            </p>
+          
+        </li><li>
+          
+            <p>
+              Finally, clean up after running the tool by unregistering for events and disposing the console object.
+            </p>
+            <p>
+              <div class="code"><span codeLanguage="other"><table width="100%" cellspacing="0" cellpadding="0"><tr><th> </th><th><span class="copyCode" onclick="CopyCode(this)" onkeypress="CopyCode_CheckKey(this, event)" onmouseover="ChangeCopyCodeIcon(this)" onmouseout="ChangeCopyCodeIcon(this)" tabindex="0"><img class="copyCodeImage" name="ccImage" align="absmiddle" title="Copy image" src="../icons/copycode.gif" />Copy Code</span></th></tr><tr><td colspan="2"><pre>
+console.OutputGenerated -= this.OnOutputGenerated;
+console.ViolationEncountered -= this.OnViolationEncountered;
+console.Dispose();
+              </pre></td></tr></table></span></div>
+            </p>
+          
+        </li></ol></div>
+  
+</div>
+      <div id="footer">
+        <div class="footerLine">
+        </div>
+</div>
+    </div>
+  </body>
+</html>

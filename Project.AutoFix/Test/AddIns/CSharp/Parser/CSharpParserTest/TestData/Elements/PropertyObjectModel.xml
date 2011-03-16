@@ -1,0 +1,1555 @@
+﻿<StyleCopCsParserObjectModel>
+  <CodeUnit Type="CsDocument">
+    <CodeUnit Text="#region Normal Properties" Type="RegionDirective" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Type="FileHeader" />
+    <CodeUnit Type="Class">
+      <CodeUnit Text="public" Type="PublicToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="class" Type="ClassToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="Class1" Type="LiteralToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Type="Property">
+        <CodeUnit Text="bool" Type="TypeToken">
+          <CodeUnit Text="bool" Type="LiteralToken" />
+        </CodeUnit>
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="Property1" Type="LiteralToken" />
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="    " Type="Whitespace" />
+        <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="        " Type="Whitespace" />
+        <CodeUnit Type="GetAccessor">
+          <CodeUnit Text="get" Type="GetToken" />
+          <CodeUnit Text="&#xA;" Type="EndOfLine" />
+          <CodeUnit Text="        " Type="Whitespace" />
+          <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+          <CodeUnit Text="&#xA;" Type="EndOfLine" />
+          <CodeUnit Text="            " Type="Whitespace" />
+          <CodeUnit Type="ReturnStatement">
+            <CodeUnit Text="return" Type="ReturnToken" />
+            <CodeUnit Text=" " Type="Whitespace" />
+            <CodeUnit Type="LiteralExpression">
+              <CodeUnit Text="true" Type="TrueToken" />
+            </CodeUnit>
+            <CodeUnit Text=";" Type="SemicolonToken" />
+          </CodeUnit>
+          <CodeUnit Text="&#xA;" Type="EndOfLine" />
+          <CodeUnit Text="        " Type="Whitespace" />
+          <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+        </CodeUnit>
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="    " Type="Whitespace" />
+        <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Type="Property">
+        <CodeUnit Text="bool" Type="TypeToken">
+          <CodeUnit Text="bool" Type="LiteralToken" />
+        </CodeUnit>
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="Property2" Type="LiteralToken" />
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="    " Type="Whitespace" />
+        <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="        " Type="Whitespace" />
+        <CodeUnit Type="SetAccessor">
+          <CodeUnit Text="set" Type="SetToken" />
+          <CodeUnit Text="&#xA;" Type="EndOfLine" />
+          <CodeUnit Text="        " Type="Whitespace" />
+          <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+          <CodeUnit Text="&#xA;" Type="EndOfLine" />
+          <CodeUnit Text="        " Type="Whitespace" />
+          <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+        </CodeUnit>
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="    " Type="Whitespace" />
+        <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Type="Property">
+        <CodeUnit Text="bool" Type="TypeToken">
+          <CodeUnit Text="bool" Type="LiteralToken" />
+        </CodeUnit>
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="Property3" Type="LiteralToken" />
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="    " Type="Whitespace" />
+        <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="        " Type="Whitespace" />
+        <CodeUnit Type="GetAccessor">
+          <CodeUnit Text="get" Type="GetToken" />
+          <CodeUnit Text="&#xA;" Type="EndOfLine" />
+          <CodeUnit Text="        " Type="Whitespace" />
+          <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+          <CodeUnit Text="&#xA;" Type="EndOfLine" />
+          <CodeUnit Text="            " Type="Whitespace" />
+          <CodeUnit Type="ReturnStatement">
+            <CodeUnit Text="return" Type="ReturnToken" />
+            <CodeUnit Text=" " Type="Whitespace" />
+            <CodeUnit Type="LiteralExpression">
+              <CodeUnit Text="false" Type="FalseToken" />
+            </CodeUnit>
+            <CodeUnit Text=";" Type="SemicolonToken" />
+          </CodeUnit>
+          <CodeUnit Text="&#xA;" Type="EndOfLine" />
+          <CodeUnit Text="        " Type="Whitespace" />
+          <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+        </CodeUnit>
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="        " Type="Whitespace" />
+        <CodeUnit Type="SetAccessor">
+          <CodeUnit Text="set" Type="SetToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Type="VariableDeclarationStatement">
+            <CodeUnit Type="VariableDeclarationExpression">
+              <CodeUnit Type="LiteralExpression">
+                <CodeUnit Text="int" Type="TypeToken">
+                  <CodeUnit Text="int" Type="LiteralToken" />
+                </CodeUnit>
+              </CodeUnit>
+              <CodeUnit Text=" " Type="Whitespace" />
+              <CodeUnit Type="VariableDeclaratorExpression">
+                <CodeUnit Type="LiteralExpression">
+                  <CodeUnit Text="x" Type="LiteralToken" />
+                </CodeUnit>
+                <CodeUnit Text=" " Type="Whitespace" />
+                <CodeUnit Text="=" Type="EqualsOperator" />
+                <CodeUnit Text=" " Type="Whitespace" />
+                <CodeUnit Type="LiteralExpression">
+                  <CodeUnit Text="value" Type="LiteralToken" />
+                </CodeUnit>
+              </CodeUnit>
+            </CodeUnit>
+            <CodeUnit Text=";" Type="SemicolonToken" />
+          </CodeUnit>
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+        </CodeUnit>
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="    " Type="Whitespace" />
+        <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+    </CodeUnit>
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="#endregion" Type="EndRegionDirective" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="#region Properties with access modifiers" Type="RegionDirective" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Type="Class">
+      <CodeUnit Text="public" Type="PublicToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="class" Type="ClassToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="Class3" Type="LiteralToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Type="Property">
+        <CodeUnit Text="public" Type="PublicToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="bool" Type="TypeToken">
+          <CodeUnit Text="bool" Type="LiteralToken" />
+        </CodeUnit>
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="PropertyWithAccessModifier1" Type="LiteralToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Type="GetAccessor">
+          <CodeUnit Text="get" Type="GetToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Type="ReturnStatement">
+            <CodeUnit Text="return" Type="ReturnToken" />
+            <CodeUnit Text=" " Type="Whitespace" />
+            <CodeUnit Type="LiteralExpression">
+              <CodeUnit Text="true" Type="TrueToken" />
+            </CodeUnit>
+            <CodeUnit Text=";" Type="SemicolonToken" />
+          </CodeUnit>
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+        </CodeUnit>
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Type="Property">
+        <CodeUnit Text="internal" Type="InternalToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="bool" Type="TypeToken">
+          <CodeUnit Text="bool" Type="LiteralToken" />
+        </CodeUnit>
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="PropertyWithAccessModifier2" Type="LiteralToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Type="GetAccessor">
+          <CodeUnit Text="get" Type="GetToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Type="ReturnStatement">
+            <CodeUnit Text="return" Type="ReturnToken" />
+            <CodeUnit Text=" " Type="Whitespace" />
+            <CodeUnit Type="LiteralExpression">
+              <CodeUnit Text="true" Type="TrueToken" />
+            </CodeUnit>
+            <CodeUnit Text=";" Type="SemicolonToken" />
+          </CodeUnit>
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+        </CodeUnit>
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Type="Property">
+        <CodeUnit Text="protected" Type="ProtectedToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="bool" Type="TypeToken">
+          <CodeUnit Text="bool" Type="LiteralToken" />
+        </CodeUnit>
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="PropertyWithAccessModifier3" Type="LiteralToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Type="GetAccessor">
+          <CodeUnit Text="get" Type="GetToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Type="ReturnStatement">
+            <CodeUnit Text="return" Type="ReturnToken" />
+            <CodeUnit Text=" " Type="Whitespace" />
+            <CodeUnit Type="LiteralExpression">
+              <CodeUnit Text="true" Type="TrueToken" />
+            </CodeUnit>
+            <CodeUnit Text=";" Type="SemicolonToken" />
+          </CodeUnit>
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+        </CodeUnit>
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Type="Property">
+        <CodeUnit Text="protected" Type="ProtectedToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="internal" Type="InternalToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="bool" Type="TypeToken">
+          <CodeUnit Text="bool" Type="LiteralToken" />
+        </CodeUnit>
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="PropertyWithAccessModifier4" Type="LiteralToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Type="GetAccessor">
+          <CodeUnit Text="get" Type="GetToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Type="ReturnStatement">
+            <CodeUnit Text="return" Type="ReturnToken" />
+            <CodeUnit Text=" " Type="Whitespace" />
+            <CodeUnit Type="LiteralExpression">
+              <CodeUnit Text="true" Type="TrueToken" />
+            </CodeUnit>
+            <CodeUnit Text=";" Type="SemicolonToken" />
+          </CodeUnit>
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+        </CodeUnit>
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Type="Property">
+        <CodeUnit Text="internal" Type="InternalToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="protected" Type="ProtectedToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="bool" Type="TypeToken">
+          <CodeUnit Text="bool" Type="LiteralToken" />
+        </CodeUnit>
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="PropertyWithAccessModifier5" Type="LiteralToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Type="GetAccessor">
+          <CodeUnit Text="get" Type="GetToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Type="ReturnStatement">
+            <CodeUnit Text="return" Type="ReturnToken" />
+            <CodeUnit Text=" " Type="Whitespace" />
+            <CodeUnit Type="LiteralExpression">
+              <CodeUnit Text="true" Type="TrueToken" />
+            </CodeUnit>
+            <CodeUnit Text=";" Type="SemicolonToken" />
+          </CodeUnit>
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+        </CodeUnit>
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Type="Property">
+        <CodeUnit Text="private" Type="PrivateToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="bool" Type="TypeToken">
+          <CodeUnit Text="bool" Type="LiteralToken" />
+        </CodeUnit>
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="PropertyWithAccessModifier6" Type="LiteralToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Type="GetAccessor">
+          <CodeUnit Text="get" Type="GetToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Type="ReturnStatement">
+            <CodeUnit Text="return" Type="ReturnToken" />
+            <CodeUnit Text=" " Type="Whitespace" />
+            <CodeUnit Type="LiteralExpression">
+              <CodeUnit Text="true" Type="TrueToken" />
+            </CodeUnit>
+            <CodeUnit Text=";" Type="SemicolonToken" />
+          </CodeUnit>
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+        </CodeUnit>
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Type="Property">
+        <CodeUnit Text="public" Type="PublicToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="bool" Type="TypeToken">
+          <CodeUnit Text="bool" Type="LiteralToken" />
+        </CodeUnit>
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="PropertyWithAccessModifier7" Type="LiteralToken" />
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="    " Type="Whitespace" />
+        <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="        " Type="Whitespace" />
+        <CodeUnit Type="GetAccessor">
+          <CodeUnit Text="get" Type="GetToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Type="ReturnStatement">
+            <CodeUnit Text="return" Type="ReturnToken" />
+            <CodeUnit Text=" " Type="Whitespace" />
+            <CodeUnit Type="LiteralExpression">
+              <CodeUnit Text="true" Type="TrueToken" />
+            </CodeUnit>
+            <CodeUnit Text=";" Type="SemicolonToken" />
+          </CodeUnit>
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+        </CodeUnit>
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="        " Type="Whitespace" />
+        <CodeUnit Type="SetAccessor">
+          <CodeUnit Text="internal" Type="InternalToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="set" Type="SetToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+        </CodeUnit>
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="    " Type="Whitespace" />
+        <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Type="Property">
+        <CodeUnit Text="protected" Type="ProtectedToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="bool" Type="TypeToken">
+          <CodeUnit Text="bool" Type="LiteralToken" />
+        </CodeUnit>
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="PropertyWithAccessModifier8" Type="LiteralToken" />
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="    " Type="Whitespace" />
+        <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="        " Type="Whitespace" />
+        <CodeUnit Type="GetAccessor">
+          <CodeUnit Text="get" Type="GetToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Type="ReturnStatement">
+            <CodeUnit Text="return" Type="ReturnToken" />
+            <CodeUnit Text=" " Type="Whitespace" />
+            <CodeUnit Type="LiteralExpression">
+              <CodeUnit Text="true" Type="TrueToken" />
+            </CodeUnit>
+            <CodeUnit Text=";" Type="SemicolonToken" />
+          </CodeUnit>
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+        </CodeUnit>
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="        " Type="Whitespace" />
+        <CodeUnit Type="SetAccessor">
+          <CodeUnit Text="internal" Type="InternalToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="set" Type="SetToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+        </CodeUnit>
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="    " Type="Whitespace" />
+        <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Type="Property">
+        <CodeUnit Text="public" Type="PublicToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="bool" Type="TypeToken">
+          <CodeUnit Text="bool" Type="LiteralToken" />
+        </CodeUnit>
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="PropertyWithAccessModifier9" Type="LiteralToken" />
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="    " Type="Whitespace" />
+        <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="        " Type="Whitespace" />
+        <CodeUnit Type="GetAccessor">
+          <CodeUnit Text="get" Type="GetToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Type="ReturnStatement">
+            <CodeUnit Text="return" Type="ReturnToken" />
+            <CodeUnit Text=" " Type="Whitespace" />
+            <CodeUnit Type="LiteralExpression">
+              <CodeUnit Text="true" Type="TrueToken" />
+            </CodeUnit>
+            <CodeUnit Text=";" Type="SemicolonToken" />
+          </CodeUnit>
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+        </CodeUnit>
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="        " Type="Whitespace" />
+        <CodeUnit Type="SetAccessor">
+          <CodeUnit Text="protected" Type="ProtectedToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="internal" Type="InternalToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="set" Type="SetToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+        </CodeUnit>
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="    " Type="Whitespace" />
+        <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Type="Property">
+        <CodeUnit Text="public" Type="PublicToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="bool" Type="TypeToken">
+          <CodeUnit Text="bool" Type="LiteralToken" />
+        </CodeUnit>
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="PropertyWithAccessModifier10" Type="LiteralToken" />
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="    " Type="Whitespace" />
+        <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="        " Type="Whitespace" />
+        <CodeUnit Type="GetAccessor">
+          <CodeUnit Text="get" Type="GetToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Type="ReturnStatement">
+            <CodeUnit Text="return" Type="ReturnToken" />
+            <CodeUnit Text=" " Type="Whitespace" />
+            <CodeUnit Type="LiteralExpression">
+              <CodeUnit Text="true" Type="TrueToken" />
+            </CodeUnit>
+            <CodeUnit Text=";" Type="SemicolonToken" />
+          </CodeUnit>
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+        </CodeUnit>
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="        " Type="Whitespace" />
+        <CodeUnit Type="SetAccessor">
+          <CodeUnit Text="internal" Type="InternalToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="protected" Type="ProtectedToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="set" Type="SetToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+        </CodeUnit>
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="    " Type="Whitespace" />
+        <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Type="Property">
+        <CodeUnit Text="internal" Type="InternalToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="bool" Type="TypeToken">
+          <CodeUnit Text="bool" Type="LiteralToken" />
+        </CodeUnit>
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="PropertyWithAccessModifier11" Type="LiteralToken" />
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="    " Type="Whitespace" />
+        <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="        " Type="Whitespace" />
+        <CodeUnit Type="GetAccessor">
+          <CodeUnit Text="get" Type="GetToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Type="ReturnStatement">
+            <CodeUnit Text="return" Type="ReturnToken" />
+            <CodeUnit Text=" " Type="Whitespace" />
+            <CodeUnit Type="LiteralExpression">
+              <CodeUnit Text="true" Type="TrueToken" />
+            </CodeUnit>
+            <CodeUnit Text=";" Type="SemicolonToken" />
+          </CodeUnit>
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+        </CodeUnit>
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="        " Type="Whitespace" />
+        <CodeUnit Type="SetAccessor">
+          <CodeUnit Text="private" Type="PrivateToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="set" Type="SetToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+        </CodeUnit>
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="    " Type="Whitespace" />
+        <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+    </CodeUnit>
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="#endregion" Type="EndRegionDirective" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="#region Properties with other modifiers" Type="RegionDirective" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Type="Class">
+      <CodeUnit Text="public" Type="PublicToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="abstract" Type="AbstractToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="class" Type="ClassToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="Class4" Type="LiteralToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Type="Property">
+        <CodeUnit Text="public" Type="PublicToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="new" Type="NewToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="bool" Type="TypeToken">
+          <CodeUnit Text="bool" Type="LiteralToken" />
+        </CodeUnit>
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="PropertyWithNewModifier" Type="LiteralToken" />
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="    " Type="Whitespace" />
+        <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="        " Type="Whitespace" />
+        <CodeUnit Type="GetAccessor">
+          <CodeUnit Text="get" Type="GetToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Type="ReturnStatement">
+            <CodeUnit Text="return" Type="ReturnToken" />
+            <CodeUnit Text=" " Type="Whitespace" />
+            <CodeUnit Type="LiteralExpression">
+              <CodeUnit Text="true" Type="TrueToken" />
+            </CodeUnit>
+            <CodeUnit Text=";" Type="SemicolonToken" />
+          </CodeUnit>
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+        </CodeUnit>
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="    " Type="Whitespace" />
+        <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Type="Property">
+        <CodeUnit Text="public" Type="PublicToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="unsafe" Type="UnsafeToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="short*" Type="TypeToken">
+          <CodeUnit Text="short" Type="LiteralToken" />
+          <CodeUnit Text="*" Type="DereferenceOperator" />
+        </CodeUnit>
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="PropertyWithUnsafeModifier2" Type="LiteralToken" />
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="    " Type="Whitespace" />
+        <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="        " Type="Whitespace" />
+        <CodeUnit Type="GetAccessor">
+          <CodeUnit Text="get" Type="GetToken" />
+          <CodeUnit Text="&#xA;" Type="EndOfLine" />
+          <CodeUnit Text="        " Type="Whitespace" />
+          <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+          <CodeUnit Text="&#xA;" Type="EndOfLine" />
+          <CodeUnit Text="            " Type="Whitespace" />
+          <CodeUnit Type="VariableDeclarationStatement">
+            <CodeUnit Type="VariableDeclarationExpression">
+              <CodeUnit Type="LiteralExpression">
+                <CodeUnit Text="short" Type="TypeToken">
+                  <CodeUnit Text="short" Type="LiteralToken" />
+                </CodeUnit>
+              </CodeUnit>
+              <CodeUnit Text=" " Type="Whitespace" />
+              <CodeUnit Type="VariableDeclaratorExpression">
+                <CodeUnit Type="LiteralExpression">
+                  <CodeUnit Text="y" Type="LiteralToken" />
+                </CodeUnit>
+                <CodeUnit Text=" " Type="Whitespace" />
+                <CodeUnit Text="=" Type="EqualsOperator" />
+                <CodeUnit Text=" " Type="Whitespace" />
+                <CodeUnit Type="LiteralExpression">
+                  <CodeUnit Text="2" Type="NumberToken" />
+                </CodeUnit>
+              </CodeUnit>
+            </CodeUnit>
+            <CodeUnit Text=";" Type="SemicolonToken" />
+          </CodeUnit>
+          <CodeUnit Text="&#xA;" Type="EndOfLine" />
+          <CodeUnit Text="            " Type="Whitespace" />
+          <CodeUnit Type="ReturnStatement">
+            <CodeUnit Text="return" Type="ReturnToken" />
+            <CodeUnit Text=" " Type="Whitespace" />
+            <CodeUnit Type="UnsafeAccessExpression">
+              <CodeUnit Text="&amp;" Type="AddressOfOperator" />
+              <CodeUnit Type="LiteralExpression">
+                <CodeUnit Text="x" Type="LiteralToken" />
+              </CodeUnit>
+            </CodeUnit>
+            <CodeUnit Text=";" Type="SemicolonToken" />
+          </CodeUnit>
+          <CodeUnit Text="&#xA;" Type="EndOfLine" />
+          <CodeUnit Text="        " Type="Whitespace" />
+          <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+        </CodeUnit>
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="    " Type="Whitespace" />
+        <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Type="Property">
+        <CodeUnit Text="public" Type="PublicToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="static" Type="StaticToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="int" Type="TypeToken">
+          <CodeUnit Text="int" Type="LiteralToken" />
+        </CodeUnit>
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="PropertyWithStaticModifier" Type="LiteralToken" />
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="    " Type="Whitespace" />
+        <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="        " Type="Whitespace" />
+        <CodeUnit Type="SetAccessor">
+          <CodeUnit Text="set" Type="SetToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+        </CodeUnit>
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="    " Type="Whitespace" />
+        <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Type="Property">
+        <CodeUnit Text="public" Type="PublicToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="virtual" Type="VirtualToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="string" Type="TypeToken">
+          <CodeUnit Text="string" Type="LiteralToken" />
+        </CodeUnit>
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="PropertyWithVirtualModifier" Type="LiteralToken" />
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="    " Type="Whitespace" />
+        <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="        " Type="Whitespace" />
+        <CodeUnit Type="GetAccessor">
+          <CodeUnit Text="get" Type="GetToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Type="ReturnStatement">
+            <CodeUnit Text="return" Type="ReturnToken" />
+            <CodeUnit Text=" " Type="Whitespace" />
+            <CodeUnit Type="LiteralExpression">
+              <CodeUnit Text="&quot;&quot;" Type="StringToken" />
+            </CodeUnit>
+            <CodeUnit Text=";" Type="SemicolonToken" />
+          </CodeUnit>
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+        </CodeUnit>
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="    " Type="Whitespace" />
+        <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Type="Property">
+        <CodeUnit Text="public" Type="PublicToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="sealed" Type="SealedToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="string" Type="TypeToken">
+          <CodeUnit Text="string" Type="LiteralToken" />
+        </CodeUnit>
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="PropertyWithSealedModifier" Type="LiteralToken" />
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="    " Type="Whitespace" />
+        <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="        " Type="Whitespace" />
+        <CodeUnit Type="GetAccessor">
+          <CodeUnit Text="get" Type="GetToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Type="ReturnStatement">
+            <CodeUnit Text="return" Type="ReturnToken" />
+            <CodeUnit Text=" " Type="Whitespace" />
+            <CodeUnit Type="LiteralExpression">
+              <CodeUnit Text="@&quot;hello&quot;" Type="StringToken" />
+            </CodeUnit>
+            <CodeUnit Text=";" Type="SemicolonToken" />
+          </CodeUnit>
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+        </CodeUnit>
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="    " Type="Whitespace" />
+        <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Type="Property">
+        <CodeUnit Text="public" Type="PublicToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="override" Type="OverrideToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="void" Type="TypeToken">
+          <CodeUnit Text="void" Type="LiteralToken" />
+        </CodeUnit>
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="PropertyWithOverrideModifier" Type="LiteralToken" />
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="    " Type="Whitespace" />
+        <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="        " Type="Whitespace" />
+        <CodeUnit Type="SetAccessor">
+          <CodeUnit Text="set" Type="SetToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+        </CodeUnit>
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="    " Type="Whitespace" />
+        <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Type="Property">
+        <CodeUnit Text="public" Type="PublicToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="abstract" Type="AbstractToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="void" Type="TypeToken">
+          <CodeUnit Text="void" Type="LiteralToken" />
+        </CodeUnit>
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="PropertyWithAbstractModifier" Type="LiteralToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Type="GetAccessor">
+          <CodeUnit Text="get" Type="GetToken" />
+          <CodeUnit Text=";" Type="SemicolonToken" />
+        </CodeUnit>
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Type="SetAccessor">
+          <CodeUnit Text="set" Type="SetToken" />
+          <CodeUnit Text=";" Type="SemicolonToken" />
+        </CodeUnit>
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Type="Property">
+        <CodeUnit Text="public" Type="PublicToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="extern" Type="ExternToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="int" Type="TypeToken">
+          <CodeUnit Text="int" Type="LiteralToken" />
+        </CodeUnit>
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="PropertyWithExternModifier" Type="LiteralToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Type="SetAccessor">
+          <CodeUnit Text="set" Type="SetToken" />
+          <CodeUnit Text=";" Type="SemicolonToken" />
+        </CodeUnit>
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Type="GetAccessor">
+          <CodeUnit Text="get" Type="GetToken" />
+          <CodeUnit Text=";" Type="SemicolonToken" />
+        </CodeUnit>
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+    </CodeUnit>
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Type="Class">
+      <CodeUnit Text="public" Type="PublicToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="unsafe" Type="UnsafeToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="class" Type="ClassToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="UnsafeClass" Type="LiteralToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Type="Property">
+        <CodeUnit Text="public" Type="PublicToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="short*" Type="TypeToken">
+          <CodeUnit Text="short" Type="LiteralToken" />
+          <CodeUnit Text="*" Type="DereferenceOperator" />
+        </CodeUnit>
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="PropertyWithUnsafeModifier2" Type="LiteralToken" />
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="    " Type="Whitespace" />
+        <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="        " Type="Whitespace" />
+        <CodeUnit Type="GetAccessor">
+          <CodeUnit Text="get" Type="GetToken" />
+          <CodeUnit Text="&#xA;" Type="EndOfLine" />
+          <CodeUnit Text="        " Type="Whitespace" />
+          <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+          <CodeUnit Text="&#xA;" Type="EndOfLine" />
+          <CodeUnit Text="            " Type="Whitespace" />
+          <CodeUnit Type="VariableDeclarationStatement">
+            <CodeUnit Type="VariableDeclarationExpression">
+              <CodeUnit Type="LiteralExpression">
+                <CodeUnit Text="short" Type="TypeToken">
+                  <CodeUnit Text="short" Type="LiteralToken" />
+                </CodeUnit>
+              </CodeUnit>
+              <CodeUnit Text=" " Type="Whitespace" />
+              <CodeUnit Type="VariableDeclaratorExpression">
+                <CodeUnit Type="LiteralExpression">
+                  <CodeUnit Text="y" Type="LiteralToken" />
+                </CodeUnit>
+                <CodeUnit Text=" " Type="Whitespace" />
+                <CodeUnit Text="=" Type="EqualsOperator" />
+                <CodeUnit Text=" " Type="Whitespace" />
+                <CodeUnit Type="LiteralExpression">
+                  <CodeUnit Text="2" Type="NumberToken" />
+                </CodeUnit>
+              </CodeUnit>
+            </CodeUnit>
+            <CodeUnit Text=";" Type="SemicolonToken" />
+          </CodeUnit>
+          <CodeUnit Text="&#xA;" Type="EndOfLine" />
+          <CodeUnit Text="            " Type="Whitespace" />
+          <CodeUnit Type="ReturnStatement">
+            <CodeUnit Text="return" Type="ReturnToken" />
+            <CodeUnit Text=" " Type="Whitespace" />
+            <CodeUnit Type="UnsafeAccessExpression">
+              <CodeUnit Text="&amp;" Type="AddressOfOperator" />
+              <CodeUnit Type="LiteralExpression">
+                <CodeUnit Text="x" Type="LiteralToken" />
+              </CodeUnit>
+            </CodeUnit>
+            <CodeUnit Text=";" Type="SemicolonToken" />
+          </CodeUnit>
+          <CodeUnit Text="&#xA;" Type="EndOfLine" />
+          <CodeUnit Text="        " Type="Whitespace" />
+          <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+        </CodeUnit>
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="    " Type="Whitespace" />
+        <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+    </CodeUnit>
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="#endregion " Type="EndRegionDirective" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="#region Properties with sttributes and headers" Type="RegionDirective" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Type="Class">
+      <CodeUnit Text="public" Type="PublicToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="class" Type="ClassToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="Class5" Type="LiteralToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Type="Property">
+        <CodeUnit Type="Attribute">
+          <CodeUnit Text="[" Type="OpenAttributeBracketToken" />
+          <CodeUnit Type="AttributeExpression">
+            <CodeUnit Type="MethodInvocationExpression">
+              <CodeUnit Type="LiteralExpression">
+                <CodeUnit Text="Attribute1" Type="LiteralToken" />
+              </CodeUnit>
+              <CodeUnit Text="(" Type="OpenParenthesisToken" />
+              <CodeUnit Type="ArgumentList">
+                <CodeUnit Type="Argument">
+                  <CodeUnit Type="LiteralExpression">
+                    <CodeUnit Text="false" Type="FalseToken" />
+                  </CodeUnit>
+                </CodeUnit>
+              </CodeUnit>
+              <CodeUnit Text=")" Type="CloseParenthesisToken" />
+            </CodeUnit>
+          </CodeUnit>
+          <CodeUnit Text="," Type="CommaToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Type="AttributeExpression">
+            <CodeUnit Type="MethodInvocationExpression">
+              <CodeUnit Type="MemberAccessExpression">
+                <CodeUnit Type="LiteralExpression">
+                  <CodeUnit Text="System" Type="LiteralToken" />
+                </CodeUnit>
+                <CodeUnit Text="." Type="MemberAccessOperator" />
+                <CodeUnit Type="LiteralExpression">
+                  <CodeUnit Text="Attribute2" Type="LiteralToken" />
+                </CodeUnit>
+              </CodeUnit>
+              <CodeUnit Text="(" Type="OpenParenthesisToken" />
+              <CodeUnit Type="ArgumentList">
+                <CodeUnit Type="Argument">
+                  <CodeUnit Type="LiteralExpression">
+                    <CodeUnit Text="true" Type="TrueToken" />
+                  </CodeUnit>
+                </CodeUnit>
+                <CodeUnit Text="," Type="CommaToken" />
+                <CodeUnit Text=" " Type="Whitespace" />
+                <CodeUnit Type="Argument">
+                  <CodeUnit Type="LiteralExpression">
+                    <CodeUnit Text="2" Type="NumberToken" />
+                  </CodeUnit>
+                </CodeUnit>
+              </CodeUnit>
+              <CodeUnit Text=")" Type="CloseParenthesisToken" />
+            </CodeUnit>
+          </CodeUnit>
+          <CodeUnit Text="]" Type="CloseAttributeBracketToken" />
+        </CodeUnit>
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="    " Type="Whitespace" />
+        <CodeUnit Type="Attribute">
+          <CodeUnit Text="[" Type="OpenAttributeBracketToken" />
+          <CodeUnit Type="AttributeExpression">
+            <CodeUnit Type="LiteralExpression">
+              <CodeUnit Text="Attribute3" Type="LiteralToken" />
+            </CodeUnit>
+          </CodeUnit>
+          <CodeUnit Text="]" Type="CloseAttributeBracketToken" />
+        </CodeUnit>
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="    " Type="Whitespace" />
+        <CodeUnit Text="public" Type="PublicToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="bool" Type="TypeToken">
+          <CodeUnit Text="bool" Type="LiteralToken" />
+        </CodeUnit>
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="PropertyWithAttributes" Type="LiteralToken" />
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="    " Type="Whitespace" />
+        <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="        " Type="Whitespace" />
+        <CodeUnit Type="GetAccessor">
+          <CodeUnit Type="Attribute">
+            <CodeUnit Text="[" Type="OpenAttributeBracketToken" />
+            <CodeUnit Type="AttributeExpression">
+              <CodeUnit Type="MethodInvocationExpression">
+                <CodeUnit Type="LiteralExpression">
+                  <CodeUnit Text="Attribute1" Type="LiteralToken" />
+                </CodeUnit>
+                <CodeUnit Text="(" Type="OpenParenthesisToken" />
+                <CodeUnit Type="ArgumentList">
+                  <CodeUnit Type="Argument">
+                    <CodeUnit Type="LiteralExpression">
+                      <CodeUnit Text="false" Type="FalseToken" />
+                    </CodeUnit>
+                  </CodeUnit>
+                </CodeUnit>
+                <CodeUnit Text=")" Type="CloseParenthesisToken" />
+              </CodeUnit>
+            </CodeUnit>
+            <CodeUnit Text="," Type="CommaToken" />
+            <CodeUnit Text=" " Type="Whitespace" />
+            <CodeUnit Type="AttributeExpression">
+              <CodeUnit Type="MethodInvocationExpression">
+                <CodeUnit Type="MemberAccessExpression">
+                  <CodeUnit Type="LiteralExpression">
+                    <CodeUnit Text="System" Type="LiteralToken" />
+                  </CodeUnit>
+                  <CodeUnit Text="." Type="MemberAccessOperator" />
+                  <CodeUnit Type="LiteralExpression">
+                    <CodeUnit Text="Attribute2" Type="LiteralToken" />
+                  </CodeUnit>
+                </CodeUnit>
+                <CodeUnit Text="(" Type="OpenParenthesisToken" />
+                <CodeUnit Type="ArgumentList">
+                  <CodeUnit Type="Argument">
+                    <CodeUnit Type="LiteralExpression">
+                      <CodeUnit Text="true" Type="TrueToken" />
+                    </CodeUnit>
+                  </CodeUnit>
+                  <CodeUnit Text="," Type="CommaToken" />
+                  <CodeUnit Text=" " Type="Whitespace" />
+                  <CodeUnit Type="Argument">
+                    <CodeUnit Type="LiteralExpression">
+                      <CodeUnit Text="2" Type="NumberToken" />
+                    </CodeUnit>
+                  </CodeUnit>
+                </CodeUnit>
+                <CodeUnit Text=")" Type="CloseParenthesisToken" />
+              </CodeUnit>
+            </CodeUnit>
+            <CodeUnit Text="]" Type="CloseAttributeBracketToken" />
+          </CodeUnit>
+          <CodeUnit Text="&#xA;" Type="EndOfLine" />
+          <CodeUnit Text="        " Type="Whitespace" />
+          <CodeUnit Type="Attribute">
+            <CodeUnit Text="[" Type="OpenAttributeBracketToken" />
+            <CodeUnit Type="AttributeExpression">
+              <CodeUnit Type="LiteralExpression">
+                <CodeUnit Text="Attribute3" Type="LiteralToken" />
+              </CodeUnit>
+            </CodeUnit>
+            <CodeUnit Text="]" Type="CloseAttributeBracketToken" />
+          </CodeUnit>
+          <CodeUnit Text="&#xA;" Type="EndOfLine" />
+          <CodeUnit Text="        " Type="Whitespace" />
+          <CodeUnit Text="get" Type="GetToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Type="ReturnStatement">
+            <CodeUnit Text="return" Type="ReturnToken" />
+            <CodeUnit Text=" " Type="Whitespace" />
+            <CodeUnit Type="LiteralExpression">
+              <CodeUnit Text="false" Type="FalseToken" />
+            </CodeUnit>
+            <CodeUnit Text=";" Type="SemicolonToken" />
+          </CodeUnit>
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+        </CodeUnit>
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="        " Type="Whitespace" />
+        <CodeUnit Type="SetAccessor">
+          <CodeUnit Type="Attribute">
+            <CodeUnit Text="[" Type="OpenAttributeBracketToken" />
+            <CodeUnit Type="AttributeExpression">
+              <CodeUnit Type="MethodInvocationExpression">
+                <CodeUnit Type="LiteralExpression">
+                  <CodeUnit Text="Attribute1" Type="LiteralToken" />
+                </CodeUnit>
+                <CodeUnit Text="(" Type="OpenParenthesisToken" />
+                <CodeUnit Type="ArgumentList">
+                  <CodeUnit Type="Argument">
+                    <CodeUnit Type="LiteralExpression">
+                      <CodeUnit Text="false" Type="FalseToken" />
+                    </CodeUnit>
+                  </CodeUnit>
+                </CodeUnit>
+                <CodeUnit Text=")" Type="CloseParenthesisToken" />
+              </CodeUnit>
+            </CodeUnit>
+            <CodeUnit Text="," Type="CommaToken" />
+            <CodeUnit Text=" " Type="Whitespace" />
+            <CodeUnit Type="AttributeExpression">
+              <CodeUnit Type="MethodInvocationExpression">
+                <CodeUnit Type="MemberAccessExpression">
+                  <CodeUnit Type="LiteralExpression">
+                    <CodeUnit Text="System" Type="LiteralToken" />
+                  </CodeUnit>
+                  <CodeUnit Text="." Type="MemberAccessOperator" />
+                  <CodeUnit Type="LiteralExpression">
+                    <CodeUnit Text="Attribute2" Type="LiteralToken" />
+                  </CodeUnit>
+                </CodeUnit>
+                <CodeUnit Text="(" Type="OpenParenthesisToken" />
+                <CodeUnit Type="ArgumentList">
+                  <CodeUnit Type="Argument">
+                    <CodeUnit Type="LiteralExpression">
+                      <CodeUnit Text="true" Type="TrueToken" />
+                    </CodeUnit>
+                  </CodeUnit>
+                  <CodeUnit Text="," Type="CommaToken" />
+                  <CodeUnit Text=" " Type="Whitespace" />
+                  <CodeUnit Type="Argument">
+                    <CodeUnit Type="LiteralExpression">
+                      <CodeUnit Text="2" Type="NumberToken" />
+                    </CodeUnit>
+                  </CodeUnit>
+                </CodeUnit>
+                <CodeUnit Text=")" Type="CloseParenthesisToken" />
+              </CodeUnit>
+            </CodeUnit>
+            <CodeUnit Text="]" Type="CloseAttributeBracketToken" />
+          </CodeUnit>
+          <CodeUnit Text="&#xA;" Type="EndOfLine" />
+          <CodeUnit Text="        " Type="Whitespace" />
+          <CodeUnit Type="Attribute">
+            <CodeUnit Text="[" Type="OpenAttributeBracketToken" />
+            <CodeUnit Type="AttributeExpression">
+              <CodeUnit Type="LiteralExpression">
+                <CodeUnit Text="Attribute3" Type="LiteralToken" />
+              </CodeUnit>
+            </CodeUnit>
+            <CodeUnit Text="]" Type="CloseAttributeBracketToken" />
+          </CodeUnit>
+          <CodeUnit Text="&#xA;" Type="EndOfLine" />
+          <CodeUnit Text="        " Type="Whitespace" />
+          <CodeUnit Text="set" Type="SetToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+        </CodeUnit>
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="    " Type="Whitespace" />
+        <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Type="Property">
+        <CodeUnit Type="ElementHeader">
+          <CodeUnit Text="/// &lt;summary&gt;" Type="ElementHeaderLine" />
+          <CodeUnit Text="&#xA;" Type="EndOfLine" />
+          <CodeUnit Text="    " Type="Whitespace" />
+          <CodeUnit Text="/// A header." Type="ElementHeaderLine" />
+          <CodeUnit Text="&#xA;" Type="EndOfLine" />
+          <CodeUnit Text="    " Type="Whitespace" />
+          <CodeUnit Text="/// &lt;/summary&gt;" Type="ElementHeaderLine" />
+        </CodeUnit>
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="    " Type="Whitespace" />
+        <CodeUnit Text="// Comment" Type="SingleLineComment" />
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="    " Type="Whitespace" />
+        <CodeUnit Text="public" Type="PublicToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="bool" Type="TypeToken">
+          <CodeUnit Text="bool" Type="LiteralToken" />
+        </CodeUnit>
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="PropertyWithHeader" Type="LiteralToken" />
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="    " Type="Whitespace" />
+        <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Type="GetAccessor">
+          <CodeUnit Text="get" Type="GetToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Type="ReturnStatement">
+            <CodeUnit Text="return" Type="ReturnToken" />
+            <CodeUnit Text=" " Type="Whitespace" />
+            <CodeUnit Type="LiteralExpression">
+              <CodeUnit Text="true" Type="TrueToken" />
+            </CodeUnit>
+            <CodeUnit Text=";" Type="SemicolonToken" />
+          </CodeUnit>
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+        </CodeUnit>
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Type="Property">
+        <CodeUnit Type="ElementHeader">
+          <CodeUnit Text="/// &lt;summary&gt;" Type="ElementHeaderLine" />
+          <CodeUnit Text="&#xA;" Type="EndOfLine" />
+          <CodeUnit Text="    " Type="Whitespace" />
+          <CodeUnit Text="/// A header." Type="ElementHeaderLine" />
+          <CodeUnit Text="&#xA;" Type="EndOfLine" />
+          <CodeUnit Text="    " Type="Whitespace" />
+          <CodeUnit Text="/// &lt;/summary&gt;" Type="ElementHeaderLine" />
+        </CodeUnit>
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="    " Type="Whitespace" />
+        <CodeUnit Type="Attribute">
+          <CodeUnit Text="[" Type="OpenAttributeBracketToken" />
+          <CodeUnit Type="AttributeExpression">
+            <CodeUnit Type="MethodInvocationExpression">
+              <CodeUnit Type="LiteralExpression">
+                <CodeUnit Text="Attribute1" Type="LiteralToken" />
+              </CodeUnit>
+              <CodeUnit Text="(" Type="OpenParenthesisToken" />
+              <CodeUnit Type="ArgumentList">
+                <CodeUnit Type="Argument">
+                  <CodeUnit Type="LiteralExpression">
+                    <CodeUnit Text="false" Type="FalseToken" />
+                  </CodeUnit>
+                </CodeUnit>
+              </CodeUnit>
+              <CodeUnit Text=")" Type="CloseParenthesisToken" />
+            </CodeUnit>
+          </CodeUnit>
+          <CodeUnit Text="," Type="CommaToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Type="AttributeExpression">
+            <CodeUnit Type="MethodInvocationExpression">
+              <CodeUnit Type="MemberAccessExpression">
+                <CodeUnit Type="LiteralExpression">
+                  <CodeUnit Text="System" Type="LiteralToken" />
+                </CodeUnit>
+                <CodeUnit Text="." Type="MemberAccessOperator" />
+                <CodeUnit Type="LiteralExpression">
+                  <CodeUnit Text="Attribute2" Type="LiteralToken" />
+                </CodeUnit>
+              </CodeUnit>
+              <CodeUnit Text="(" Type="OpenParenthesisToken" />
+              <CodeUnit Type="ArgumentList">
+                <CodeUnit Type="Argument">
+                  <CodeUnit Type="LiteralExpression">
+                    <CodeUnit Text="true" Type="TrueToken" />
+                  </CodeUnit>
+                </CodeUnit>
+                <CodeUnit Text="," Type="CommaToken" />
+                <CodeUnit Text=" " Type="Whitespace" />
+                <CodeUnit Type="Argument">
+                  <CodeUnit Type="LiteralExpression">
+                    <CodeUnit Text="2" Type="NumberToken" />
+                  </CodeUnit>
+                </CodeUnit>
+              </CodeUnit>
+              <CodeUnit Text=")" Type="CloseParenthesisToken" />
+            </CodeUnit>
+          </CodeUnit>
+          <CodeUnit Text="]" Type="CloseAttributeBracketToken" />
+        </CodeUnit>
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="    " Type="Whitespace" />
+        <CodeUnit Type="Attribute">
+          <CodeUnit Text="[" Type="OpenAttributeBracketToken" />
+          <CodeUnit Type="AttributeExpression">
+            <CodeUnit Type="LiteralExpression">
+              <CodeUnit Text="Attribute3" Type="LiteralToken" />
+            </CodeUnit>
+          </CodeUnit>
+          <CodeUnit Text="]" Type="CloseAttributeBracketToken" />
+        </CodeUnit>
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="    " Type="Whitespace" />
+        <CodeUnit Text="public" Type="PublicToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="void" Type="TypeToken">
+          <CodeUnit Text="void" Type="LiteralToken" />
+        </CodeUnit>
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="PropertyWithHeaderAndAttributes" Type="LiteralToken" />
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="    " Type="Whitespace" />
+        <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="        " Type="Whitespace" />
+        <CodeUnit Type="SetAccessor">
+          <CodeUnit Type="Attribute">
+            <CodeUnit Text="[" Type="OpenAttributeBracketToken" />
+            <CodeUnit Type="AttributeExpression">
+              <CodeUnit Type="MethodInvocationExpression">
+                <CodeUnit Type="LiteralExpression">
+                  <CodeUnit Text="Attribute1" Type="LiteralToken" />
+                </CodeUnit>
+                <CodeUnit Text="(" Type="OpenParenthesisToken" />
+                <CodeUnit Type="ArgumentList">
+                  <CodeUnit Type="Argument">
+                    <CodeUnit Type="LiteralExpression">
+                      <CodeUnit Text="false" Type="FalseToken" />
+                    </CodeUnit>
+                  </CodeUnit>
+                </CodeUnit>
+                <CodeUnit Text=")" Type="CloseParenthesisToken" />
+              </CodeUnit>
+            </CodeUnit>
+            <CodeUnit Text="," Type="CommaToken" />
+            <CodeUnit Text=" " Type="Whitespace" />
+            <CodeUnit Type="AttributeExpression">
+              <CodeUnit Type="MethodInvocationExpression">
+                <CodeUnit Type="MemberAccessExpression">
+                  <CodeUnit Type="LiteralExpression">
+                    <CodeUnit Text="System" Type="LiteralToken" />
+                  </CodeUnit>
+                  <CodeUnit Text="." Type="MemberAccessOperator" />
+                  <CodeUnit Type="LiteralExpression">
+                    <CodeUnit Text="Attribute2" Type="LiteralToken" />
+                  </CodeUnit>
+                </CodeUnit>
+                <CodeUnit Text="(" Type="OpenParenthesisToken" />
+                <CodeUnit Type="ArgumentList">
+                  <CodeUnit Type="Argument">
+                    <CodeUnit Type="LiteralExpression">
+                      <CodeUnit Text="true" Type="TrueToken" />
+                    </CodeUnit>
+                  </CodeUnit>
+                  <CodeUnit Text="," Type="CommaToken" />
+                  <CodeUnit Text=" " Type="Whitespace" />
+                  <CodeUnit Type="Argument">
+                    <CodeUnit Type="LiteralExpression">
+                      <CodeUnit Text="2" Type="NumberToken" />
+                    </CodeUnit>
+                  </CodeUnit>
+                </CodeUnit>
+                <CodeUnit Text=")" Type="CloseParenthesisToken" />
+              </CodeUnit>
+            </CodeUnit>
+            <CodeUnit Text="]" Type="CloseAttributeBracketToken" />
+          </CodeUnit>
+          <CodeUnit Text="&#xA;" Type="EndOfLine" />
+          <CodeUnit Text="        " Type="Whitespace" />
+          <CodeUnit Text="set" Type="SetToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+        </CodeUnit>
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="    " Type="Whitespace" />
+        <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+    </CodeUnit>
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="#endregion" Type="EndRegionDirective" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="#region Properties in Structs" Type="RegionDirective" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Type="Struct">
+      <CodeUnit Text="public" Type="PublicToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="struct" Type="StructToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="Struct1" Type="LiteralToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Type="Property">
+        <CodeUnit Text="internal" Type="InternalToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="int" Type="TypeToken">
+          <CodeUnit Text="int" Type="LiteralToken" />
+        </CodeUnit>
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="Property1" Type="LiteralToken" />
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="    " Type="Whitespace" />
+        <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="        " Type="Whitespace" />
+        <CodeUnit Type="GetAccessor">
+          <CodeUnit Text="get" Type="GetToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Type="ReturnStatement">
+            <CodeUnit Text="return" Type="ReturnToken" />
+            <CodeUnit Text=" " Type="Whitespace" />
+            <CodeUnit Type="LiteralExpression">
+              <CodeUnit Text="2" Type="NumberToken" />
+            </CodeUnit>
+            <CodeUnit Text=";" Type="SemicolonToken" />
+          </CodeUnit>
+          <CodeUnit Text=" " Type="Whitespace" />
+          <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+        </CodeUnit>
+        <CodeUnit Text="&#xA;" Type="EndOfLine" />
+        <CodeUnit Text="    " Type="Whitespace" />
+        <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+    </CodeUnit>
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="#endregion " Type="EndRegionDirective" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="#region Properties in Interfaces" Type="RegionDirective" />
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Type="Interface">
+      <CodeUnit Text="public" Type="PublicToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="interface" Type="InterfaceToken" />
+      <CodeUnit Text=" " Type="Whitespace" />
+      <CodeUnit Text="Interface1" Type="LiteralToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="    " Type="Whitespace" />
+      <CodeUnit Type="Property">
+        <CodeUnit Text="int" Type="TypeToken">
+          <CodeUnit Text="int" Type="LiteralToken" />
+        </CodeUnit>
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="Property1" Type="LiteralToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="{" Type="OpenCurlyBracketToken" />
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Type="SetAccessor">
+          <CodeUnit Text="set" Type="SetToken" />
+          <CodeUnit Text=";" Type="SemicolonToken" />
+        </CodeUnit>
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Type="GetAccessor">
+          <CodeUnit Text="get" Type="GetToken" />
+          <CodeUnit Text=";" Type="SemicolonToken" />
+        </CodeUnit>
+        <CodeUnit Text=" " Type="Whitespace" />
+        <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+      </CodeUnit>
+      <CodeUnit Text="&#xA;" Type="EndOfLine" />
+      <CodeUnit Text="}" Type="CloseCurlyBracketToken" />
+    </CodeUnit>
+    <CodeUnit Text="&#xA;" Type="EndOfLine" />
+    <CodeUnit Text="#endregion" Type="EndRegionDirective" />
+  </CodeUnit>
+</StyleCopCsParserObjectModel>

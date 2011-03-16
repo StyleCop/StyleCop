@@ -5,7 +5,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StyleCop;
 
-namespace StreamBasedEnvironmentTest
+namespace ObjectBasedEnvironmentTest
 {
     [TestClass]
     public class ObjectBasedSourceCodeTest

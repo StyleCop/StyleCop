@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SourceParser Name="C#">
+  <PassCount>2</PassCount>
+  <Properties>
+    <BooleanProperty
+      Name="AnalyzeDesignerFiles"
+      DefaultValue="True"
+      FriendlyName="Analyze designer files"
+      Description="Indicates whether to include designer files (*.Designer.cs)."
+    />
+    <BooleanProperty
+      Name="AnalyzeGeneratedFiles"
+      DefaultValue="False"
+      FriendlyName="Analyze generated files"
+      Description="Indicates whether to include generated files (*.g.cs and *.generated.cs)."
+    />
+  </Properties>
+  <FileTypes>
+    <FileType>.cs</FileType>
+  </FileTypes>
+  <VsProjectTypes>
+    <!--A standard C# project-->
+    <VsProjectType ProjectKind="{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}">
+      <ProjectPathPropertyName>FullPath</ProjectPathPropertyName>
+    </VsProjectType>
+    <!--An ASP.Net C# Web Site project-->
+    <VsProjectType ProjectKind="{E24C65DC-7377-472b-9ABA-BC803B73C61A}">
+      <ProjectPathPropertyName>FullPath</ProjectPathPropertyName>
+    </VsProjectType>
+  </VsProjectTypes>
+  <Description>
+    StyleCop rules for C# code.
+  </Description>
+  <Rules>
+    <Rule Name="FileMustBeReadable" CheckId="SA0100">
+      <Context>The file could not be read.</Context>
+    </Rule>
+    <Rule Name="ExceptionOccurred" CheckId="SA0101">
+      <Context>An exception occurred while parsing the file: {0}, {1}.</Context>
+    </Rule>
+    <Rule Name="SyntaxException" CheckId="SA0102">
+      <Context>{0}</Context>
+    </Rule>
+  </Rules>
+</SourceParser>
+

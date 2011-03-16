@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<StyleCopTestDescription TestName="EmptyStrings">
+  <Test Name="EmptyStrings">
+    <TestCodeFile>EmptyStrings.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.Rules.ReadabilityRules">
+          <Rules>
+            <Rule Name="UseStringEmptyForEmptyStrings">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="EmptyStrings.Class1.string1" LineNumber="8" Rule="UseStringEmptyForEmptyStrings" />
+      <Violation Section="EmptyStrings.Class1.string2" LineNumber="9" Rule="UseStringEmptyForEmptyStrings" />
+      <Violation Section="EmptyStrings.Class1.Method1%string" LineNumber="16" Rule="UseStringEmptyForEmptyStrings" />
+      <Violation Section="EmptyStrings.Class1.Method1%string" LineNumber="17" Rule="UseStringEmptyForEmptyStrings" />
+      <Violation Section="EmptyStrings.Class1.Method2" LineNumber="25" Rule="UseStringEmptyForEmptyStrings" />
+      <Violation Section="EmptyStrings.Class1.Method2" LineNumber="26" Rule="UseStringEmptyForEmptyStrings" />
+      <Violation Section="EmptyStrings.ConstVariables.y" LineNumber="52" Rule="UseStringEmptyForEmptyStrings" />
+    </ExpectedViolations>
+  </Test>
+</StyleCopTestDescription>

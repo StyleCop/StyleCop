@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<SourceAnalyzer Name="Parameter Verification Rules">
+  <Description>Validates that parameters are verified using the Param class.</Description>
+  <Rules>
+    <Rule Name="ParametersMustBeVerified" CheckId="PC0001" DisabledByDefault="true">
+      <Context>The parameter '{0}' is not verified using the Param class.</Context>
+    </Rule>
+    <Rule Name="OutParametersMustNotBeVerified" CheckId="PC0002" DisabledByDefault="true">
+      <Context>Out parameters do not need to be verified: '{0}'.</Context>
+    </Rule>
+    <Rule Name="PrivateMethodsMustUseAsserts" CheckId="PC0003" DisabledByDefault="true">
+      <Context>Methods with private or internal visibility should use Param.Assert... rather than Param.Require...</Context>
+    </Rule>
+    <Rule Name="PublicMethodsMustUseRequires" CheckId="PC0004" DisabledByDefault="true">
+      <Context>Methods with public or protected visibility should use Param.Require... rather than Param.Assert...</Context>
+    </Rule>
+    <!--
+    <Rule Name="ParamCheckPublicAssertWarning" warning="true">
+      <Context>The call has been changed from Param.Assert... to Param.Require...</Context>
+    </Rule>
+    <Rule Name="ParamCheckPrivateRequireWarning" warning="true">
+      <Context>The call has been changed from Param.Require... to Param.Assert...</Context>
+    </Rule>
+    -->
+  </Rules>
+</SourceAnalyzer>
