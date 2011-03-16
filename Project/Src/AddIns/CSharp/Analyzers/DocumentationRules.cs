@@ -1064,7 +1064,8 @@ namespace StyleCop.CSharp
 
             string lineText = token.Text;
 
-            int openCodeTagCount = CountOfStringInStringOccurrences(lineText, "<code>");
+            // Search for '<code ' without the closing tag because sometimes users have added attributes like <code lang="C#"> and <code> too
+            int openCodeTagCount = CountOfStringInStringOccurrences(lineText, "<code ", "<code>");
             int closeCodeTagCount = CountOfStringInStringOccurrences(lineText, "</code>");
 
             return openCodeTagCount - closeCodeTagCount;
@@ -1074,24 +1075,27 @@ namespace StyleCop.CSharp
         /// Returns the count of occurences of stringToFind in the provided string.
         /// </summary>
         /// <param name="text">The text to search through.</param>
-        /// <param name="stringToFind">The string to count.</param>
+        /// <param name="stringsToFind">The strings to count.</param>
         /// <returns>The count of stringToFind in the text. If text or stringToFind are empty or null then return 0.</returns>
-        private static int CountOfStringInStringOccurrences(string text, string stringToFind)
+        private static int CountOfStringInStringOccurrences(string text, params string[] stringsToFind)
         {
-            Param.Ignore(text, stringToFind);
+            Param.Ignore(text, stringsToFind);
 
-            if (string.IsNullOrEmpty(text) || string.IsNullOrEmpty(stringToFind))
+            if (string.IsNullOrEmpty(text) || stringsToFind == null || stringsToFind.Length == 0)
             {
                 return 0;
             }
 
             int count = 0;
-            int i = 0;
 
-            while ((i = text.IndexOf(stringToFind, i)) != -1)
+            foreach (var stringToFind in stringsToFind)
             {
-                i += stringToFind.Length;
-                count++;
+                int i = 0;
+                while ((i = text.IndexOf(stringToFind, i)) != -1)
+                {
+                    i += stringToFind.Length;
+                    count++;
+                }
             }
 
             return count;

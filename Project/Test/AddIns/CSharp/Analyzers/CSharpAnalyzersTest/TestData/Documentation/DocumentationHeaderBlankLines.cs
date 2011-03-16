@@ -202,7 +202,7 @@ namespace CSharpAnalyzersTest.TestData
     /// : base(identifier)
     /// {
     /// }
-    /// } </code><code><code><code>
+    /// } </code><code lang="c#><code><code>
     /// </code></code>
     /// 
     /// 
