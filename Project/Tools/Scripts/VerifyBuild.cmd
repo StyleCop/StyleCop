@@ -192,6 +192,22 @@ REM
 ECHO **** Run tests END *************************************************************
 
 :SUMMARY
+
+echo Checking Code Signing...
+
+if "%USERNAME%" neq "andy" goto :done
+if not exist "c:\AndrewReevesCodeSigning.pfx" goto :done
+
+echo Signing msi...
+
+signtool.exe sign /f "c:\AndrewReevesCodeSigning.pfx" /t "http://timestamp.verisign.com/scripts/timestamp.dll" /d "StyleCop" /du "http://stylecop.codeplex.com" "%PROJECTROOT%\InstallDrop\%BuildTarget%\StyleCop.msi"
+
+:done
+
+echo Done.
+
+
+
 IF "%SkipBuild%" == "1" Goto :END
 
 ECHO.
