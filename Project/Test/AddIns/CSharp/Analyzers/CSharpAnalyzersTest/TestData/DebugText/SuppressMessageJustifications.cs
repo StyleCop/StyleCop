@@ -168,5 +168,64 @@ namespace SuppressMessageJustifications
         }
     }
 
-    #endregion Valid Justifications
+    #endregion Invalid Justifications
+
+    #region More Valid Justifications
+    [SuppressMessage("x", "y", Justification = "This is the justification")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("x", "y", Justification = "This is the justification")]
+    public class Class1
+    {
+        private const string CA1008NoDefaultValue="This is OK here.";
+
+        [SuppressMessage("x", "y", Justification = Class1.CA1008NoDefaultValue)]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("x", "y", Justification = Class1.CA1008NoDefaultValue)]
+        public int field1;
+
+        [SuppressMessage("x", "y", Justification = CA1008NoDefaultValue)]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("x", "y", Justification = CA1008NoDefaultValue)]
+        public Class1()
+        {
+        }
+
+        [SuppressMessage("x", "y", Justification = "This is the justification")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("x", "y", Justification = "This is the justification")]
+        public delegate int Delegate1();
+
+        [SuppressMessage("x", "y", Justification = "This is the justification")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("x", "y", Justification = "This is the justification")]
+        public event EventHandler Event1;
+
+        [SuppressMessage("x", "y", Justification = "This is the justification")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("x", "y", Justification = "This is the justification")]
+        public enum Enum1
+        {
+        }
+
+        [SuppressMessage("x", "y", Justification = "This is the justification")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("x", "y", Justification = "This is the justification")]
+        public int this[int x]
+        {
+            get { return 1; }
+        }
+
+        [SuppressMessage("x", "y", Justification = "This is the justification")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("x", "y", Justification = "This is the justification")]
+        public int Property1
+        {
+            get { return 1; }
+        }
+
+        [SuppressMessage("x", "y", Justification = "This is the justification")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("x", "y", Justification = "This is the justification")]
+        public void Method1()
+        {
+        }
+
+        [SuppressMessage("x", "y", Justification = "This is the justification")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("x", "y", Justification = "This is the justification")]
+        public struct Struct1
+        {
+        }
+    }
+    #endregion More Valid Justifications
 }

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <StyleCopTestDescription TestName="DebugText">
-  <Test Name="SuppressMessage Justifictions">
+  <Test Name="SuppressMessage Justifications">
     <TestCodeFile>SuppressMessageJustifications.cs</TestCodeFile>
     <Settings>
       <GlobalSettings>
@@ -104,12 +104,21 @@
       <Violation Section="Root.DebugAssertMessages.Class2.Method1" LineNumber="38" Rule="DebugAssertMustProvideMessageText" />
       <Violation Section="Root.DebugAssertMessages.Class2.Method1" LineNumber="39" Rule="DebugAssertMustProvideMessageText" />
       <Violation Section="Root.DebugAssertMessages.Class2.Method1" LineNumber="40" Rule="DebugAssertMustProvideMessageText" />
-      <Violation Section="Root.DebugAssertMessages.Class2.Method1" LineNumber="42" Rule="DebugFailMustProvideMessageText" />
-      <Violation Section="Root.DebugAssertMessages.Class2.Method1" LineNumber="43" Rule="DebugFailMustProvideMessageText" />
-      <Violation Section="Root.DebugAssertMessages.Class2.Method1" LineNumber="44" Rule="DebugFailMustProvideMessageText" />
-      <Violation Section="Root.DebugAssertMessages.Class2.Method1" LineNumber="45" Rule="DebugFailMustProvideMessageText" />
+      <Violation Section="Root.DebugAssertMessages.Class2.Method1" LineNumber="41" Rule="DebugAssertMustProvideMessageText" />
+      <Violation Section="Root.DebugAssertMessages.Class2.Method1" LineNumber="42" Rule="DebugAssertMustProvideMessageText" />
+      <Violation Section="Root.DebugAssertMessages.Class2.Method1" LineNumber="43" Rule="DebugAssertMustProvideMessageText" />
+      <Violation Section="Root.DebugAssertMessages.Class2.Method1" LineNumber="44" Rule="DebugAssertMustProvideMessageText" />
+
       <Violation Section="Root.DebugAssertMessages.Class2.Method1" LineNumber="46" Rule="DebugFailMustProvideMessageText" />
       <Violation Section="Root.DebugAssertMessages.Class2.Method1" LineNumber="47" Rule="DebugFailMustProvideMessageText" />
+      <Violation Section="Root.DebugAssertMessages.Class2.Method1" LineNumber="48" Rule="DebugFailMustProvideMessageText" />
+      <Violation Section="Root.DebugAssertMessages.Class2.Method1" LineNumber="49" Rule="DebugFailMustProvideMessageText" />
+      <Violation Section="Root.DebugAssertMessages.Class2.Method1" LineNumber="50" Rule="DebugFailMustProvideMessageText" />
+      <Violation Section="Root.DebugAssertMessages.Class2.Method1" LineNumber="51" Rule="DebugFailMustProvideMessageText" />
+      <Violation Section="Root.DebugAssertMessages.Class2.Method1" LineNumber="52" Rule="DebugFailMustProvideMessageText" />
+      <Violation Section="Root.DebugAssertMessages.Class2.Method1" LineNumber="53" Rule="DebugFailMustProvideMessageText" />
+      <Violation Section="Root.DebugAssertMessages.Class2.Method1" LineNumber="54" Rule="DebugFailMustProvideMessageText" />
+      <Violation Section="Root.DebugAssertMessages.Class2.Method1" LineNumber="55" Rule="DebugFailMustProvideMessageText" />
     </ExpectedViolations>
   </Test>
 </StyleCopTestDescription>

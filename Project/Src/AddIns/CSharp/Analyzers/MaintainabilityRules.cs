@@ -533,7 +533,7 @@ namespace StyleCop.CSharp
             Param.AssertNotNull(element, "element");
             Param.AssertNotNull(suppression, "suppression");
 
-            bool justifiction = false;
+            bool justification = false;
             foreach (Argument argument in suppression.Arguments)
             {
                 if (argument.Expression.ExpressionType == ExpressionType.Assignment)
@@ -541,20 +541,41 @@ namespace StyleCop.CSharp
                     AssignmentExpression assignmentExpression = (AssignmentExpression)argument.Expression;
                     if (assignmentExpression.LeftHandSide.Tokens.First.Value.Text.Equals("Justification", StringComparison.Ordinal))
                     {
-                        Node<CsToken> rightSideTokenNode = assignmentExpression.RightHandSide.Tokens.First;
-                        if (rightSideTokenNode != null &&
-                            rightSideTokenNode.Value.CsTokenType == CsTokenType.String &&
-                            rightSideTokenNode.Value.Text != null &&
-                            !IsEmptyString(rightSideTokenNode.Value.Text))
+                        Expression rightHandSide = assignmentExpression.RightHandSide;
+
+                        if (rightHandSide == null || rightHandSide.Tokens == null)
                         {
-                            justifiction = true;
+                            break;
+                        }
+
+                        Node<CsToken> rightSideTokenNode = rightHandSide.Tokens.First;
+                        if (rightSideTokenNode == null)
+                        {
+                            break;
+                        }
+
+                        if (rightHandSide.ExpressionType == ExpressionType.MemberAccess)
+                        {
+                            justification = true;
+                            break;
+                        }
+
+                        if (rightSideTokenNode.Value.CsTokenType == CsTokenType.Other && rightHandSide.ExpressionType == ExpressionType.Literal)
+                        {
+                            justification = true;
+                            break;
+                        }
+
+                        if (rightSideTokenNode.Value.CsTokenType == CsTokenType.String && rightSideTokenNode.Value.Text != null && !IsEmptyString(rightSideTokenNode.Value.Text)) 
+                        {
+                            justification = true;
                             break;
                         }
                     }
                 }
             }
 
-            if (!justifiction)
+            if (!justification)
             {
                 this.AddViolation(element, suppression.LineNumber, Rules.CodeAnalysisSuppressionMustHaveJustification);
             }
@@ -722,10 +743,11 @@ namespace StyleCop.CSharp
                 // There is no message argument or the message argument is empty.
                 this.AddViolation(element, debugAssertMethodCall.LineNumber, Rules.DebugAssertMustProvideMessageText);
             }
-            else if (secondArgument.Tokens.First.Value.CsTokenType == CsTokenType.String &&
-                IsEmptyString(secondArgument.Tokens.First.Value.Text))
+            else if ((secondArgument.Tokens.First.Value.CsTokenType == CsTokenType.String && IsEmptyString(secondArgument.Tokens.First.Value.Text)) ||
+                     (secondArgument.Tokens.First.Value.CsTokenType == CsTokenType.Null) ||
+                     secondArgument.Tokens.MatchTokens("string", ".", "Empty"))
             {
-                // The message argument contains an empty string.
+                // The message argument contains an empty string or null.
                 this.AddViolation(element, debugAssertMethodCall.LineNumber, Rules.DebugAssertMustProvideMessageText);
             }
         }
@@ -753,10 +775,11 @@ namespace StyleCop.CSharp
                 // There is no message argument or the message argument is empty.
                 this.AddViolation(element, debugFailMethodCall.LineNumber, Rules.DebugFailMustProvideMessageText);
             }
-            else if (firstArgument.Tokens.First.Value.CsTokenType == CsTokenType.String &&
-                IsEmptyString(firstArgument.Tokens.First.Value.Text))
+            else if ((firstArgument.Tokens.First.Value.CsTokenType == CsTokenType.String && IsEmptyString(firstArgument.Tokens.First.Value.Text)) ||
+                     (firstArgument.Tokens.First.Value.CsTokenType == CsTokenType.Null) ||
+                     firstArgument.Tokens.MatchTokens("string", ".", "Empty"))
             {
-                // The message argument contains an empty string.
+                // The message argument contains an empty string or null.
                 this.AddViolation(element, debugFailMethodCall.LineNumber, Rules.DebugFailMustProvideMessageText);
             }
         }

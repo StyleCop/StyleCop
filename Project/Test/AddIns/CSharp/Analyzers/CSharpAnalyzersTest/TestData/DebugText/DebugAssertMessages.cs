@@ -35,16 +35,24 @@ namespace DebugAssertMessages
             Debug.Assert(true);
             Debug.Assert(true, "");
             Debug.Assert(true, @"");
+            Debug.Assert(true, string.Empty);
+            Debug.Assert(true, null);
             System.Diagnostics.Debug.Assert(true);
             System.Diagnostics.Debug.Assert(true, "");
             System.Diagnostics.Debug.Assert(true, @"");
+            System.Diagnostics.Debug.Assert(true, string.Empty);
+            System.Diagnostics.Debug.Assert(true, null);
 
             Debug.Fail();
             Debug.Fail("");
             Debug.Fail(@"");
+            Debug.Fail(string.Empty);
+            Debug.Fail(null);
             System.Diagnostics.Debug.Fail();
             System.Diagnostics.Debug.Fail("");
             System.Diagnostics.Debug.Fail(@"");
+            System.Diagnostics.Debug.Fail(string.Empty);
+            System.Diagnostics.Debug.Fail(null);
         }
     }
 
