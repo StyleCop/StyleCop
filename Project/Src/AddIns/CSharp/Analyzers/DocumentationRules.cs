@@ -2131,8 +2131,9 @@ namespace StyleCop.CSharp
                     {
                         this.AddViolation(element, Rules.ElementReturnValueMustBeDocumented);
                     }
-                    else if (returnNode.InnerText == null || returnNode.InnerText.Length == 0)
+                    else if (returnNode.InnerXml == null || returnNode.InnerXml.Length == 0)
                     {
+                        // Use InnerXml here because it might just contain a <seeref>
                         this.AddViolation(element, Rules.ElementReturnValueDocumentationMustHaveText);
                     }
                     else
