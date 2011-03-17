@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="V43Settings.cs">
+// <copyright file="V105Settings.cs">
 //   MS-PL
 // </copyright>
 // <license>
@@ -16,17 +16,13 @@ namespace StyleCop
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
-    using System.IO;
-    using System.Security;
     using System.Xml;
 
     /// <summary>
-    /// Represents a single StyleCop settings file in read-only mode.
+    /// Loads settings from a version 105 settings document.
     /// </summary>
-    internal static class V43Settings
+    internal static class V105Settings
     {
         #region Private Enums
 
@@ -466,7 +462,7 @@ namespace StyleCop
                 }
             }
 
-            // If at least one value was loaded, save the proeprty.
+            // If at least one value was loaded, save the property.
             if (innerCollection.Count > 0)
             {
                 // Get the property descriptor.
@@ -504,7 +500,7 @@ namespace StyleCop
                     XmlNode settingsNode = fileListNode.SelectSingleNode("Settings");
                     if (settingsNode != null)
                     {
-                        V43Settings.Load(settingsNode, settingsForFileList);
+                        V105Settings.Load(settingsNode, settingsForFileList);
                     }
 
                     SourceFileListSettings sourceFileListSettings = new SourceFileListSettings(settingsForFileList);
@@ -523,19 +519,22 @@ namespace StyleCop
         }
 
         /// <summary>
-        /// Converts a legacy "Microsoft.SourceAnalysis" AddIn name to the new name.
+        /// Converts a legacy "Microsoft.SourceAnalysis" or "Microsoft.StyleCop" AddIn name to the new name.
         /// </summary>
         /// <param name="addInName">The original name.</param>
         /// <returns>Returns the converted name.</returns>
         private static string ConvertLegacyAddInName(string addInName)
         {
             Param.AssertNotNull(addInName, "addInName");
+            
+            string[] legacyPrefixes = new[] { "Microsoft.SourceAnalysis", "Microsoft.StyleCop" };
 
-            const string LegacyPrefix = "Microsoft.SourceAnalysis";
-
-            if (addInName.StartsWith(LegacyPrefix, StringComparison.Ordinal))
+            foreach (var legacyPrefix in legacyPrefixes)
             {
-                return "StyleCop" + addInName.Substring(LegacyPrefix.Length, addInName.Length - LegacyPrefix.Length);
+                if (addInName.StartsWith(legacyPrefix, StringComparison.Ordinal))
+                {
+                    return "StyleCop" + addInName.Substring(legacyPrefix.Length, addInName.Length - legacyPrefix.Length);
+                }
             }
 
             return addInName;

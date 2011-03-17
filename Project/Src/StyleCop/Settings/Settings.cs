@@ -570,21 +570,25 @@ namespace StyleCop
                 // Check the version number of the file.
                 XmlAttribute versionAttribute = this.contents.DocumentElement.Attributes["Version"];
                 string version = versionAttribute == null ? string.Empty : versionAttribute.Value;
-                if (string.Equals(version, "4.3", StringComparison.Ordinal))
+                if (string.Equals(version, "105", StringComparison.Ordinal))
                 {
-                    V43Settings.Load(this.contents, this);
+                    V105Settings.Load(this.contents, this);
+                }
+                else if (string.Equals(version, "4.3", StringComparison.Ordinal))
+                {
+                    V104Settings.Load(this.contents, this);
                 }
                 else if (string.Equals(version, "4.2", StringComparison.Ordinal))
                 {
-                    V42Settings.Load(this.contents, this);
+                    V103Settings.Load(this.contents, this);
                 }
                 else if (string.Equals(version, "4.1", StringComparison.Ordinal))
                 {
-                    V41Settings.Load(this.contents, this);
+                    V102Settings.Load(this.contents, this);
                 }
                 else
                 {
-                    V40Settings.Load(this.contents, this);
+                    V101Settings.Load(this.contents, this);
                 }
             }
         }

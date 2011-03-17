@@ -25,6 +25,11 @@ namespace StyleCop
     /// </summary>
     public sealed class WritableSettings : Settings
     {
+        /// <summary>
+        /// This is the StyleCop.Settings file version number written into files.
+        /// </summary>
+        private const string CurrentSettingsVersion = "105";
+
         #region Public Constructors
 
         /// <summary>
@@ -60,7 +65,8 @@ namespace StyleCop
             document.AppendChild(root);
 
             XmlAttribute version = document.CreateAttribute("Version");
-            version.Value = "4.3";
+
+            version.Value = CurrentSettingsVersion;
 
             root.Attributes.Append(version);
 

@@ -236,7 +236,7 @@ namespace StyleCop.VisualStudio
                     }
                     else
                     {
-                        deprecatedSettingsFile = Path.Combine(localSettingsFileFolder, V40Settings.DefaultFileName);
+                        deprecatedSettingsFile = Path.Combine(localSettingsFileFolder, V101Settings.DefaultFileName);
                         if (File.Exists(deprecatedSettingsFile))
                         {
                             settingsFilePath = deprecatedSettingsFile;

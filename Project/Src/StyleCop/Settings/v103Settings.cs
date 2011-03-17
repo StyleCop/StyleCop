@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="V42Settings.cs" company="Microsoft">
+// <copyright file="V103Settings.cs" company="Microsoft">
 //   MS-PL
 // </copyright>
 // <license>
@@ -24,9 +24,9 @@ namespace StyleCop
     using System.Xml;
 
     /// <summary>
-    /// Represents a single StyleCop settings file in read-only mode.
+    /// Loads settings from a version 4.2 settings document.
     /// </summary>
-    internal static class V42Settings
+    internal static class V103Settings
     {
         #region Public Static Methods
 
@@ -49,14 +49,14 @@ namespace StyleCop
                 "StatementMustNotUseUnnecessaryParenthesis");
 
             // If the PublicAndProtectedOnly property exists on the DocumentationRules analyzer, rename it to IgnorePrivates.
-            V41Settings.ChangeAnalyzerSettingName(
+            V102Settings.ChangeAnalyzerSettingName(
                 document,
                 "Microsoft.SourceAnalysis.CSharp.DocumentationRules",
                 "PublicAndProtectedOnly",
                 "IgnorePrivates");
 
             // Forward this call to the V4.3 rule class for parsing.
-            V43Settings.Load(document, settings);
+            V104Settings.Load(document, settings);
         }
 
         /// <summary>

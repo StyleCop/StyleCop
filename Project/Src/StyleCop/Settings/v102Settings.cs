@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="V41Settings.cs">
+// <copyright file="V102Settings.cs">
 //   MS-PL
 // </copyright>
 // <license>
@@ -26,7 +26,7 @@ namespace StyleCop
     /// <summary>
     /// Loads settings from a version 4.1 settings document.
     /// </summary>
-    internal static class V41Settings
+    internal static class V102Settings
     {
         #region Public Static Methods
 
@@ -41,7 +41,7 @@ namespace StyleCop
             Param.AssertNotNull(settings, "settings");
 
             // If the PublicAndProtectedOnly property exists on the Documentation analyzer, rename it to IgnorePrivates.
-            V41Settings.ChangeAnalyzerSettingName(
+            V102Settings.ChangeAnalyzerSettingName(
                 document,
                 "StyleCop.CSharp.Documentation",
                 "PublicAndProtectedOnly",

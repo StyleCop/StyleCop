@@ -170,7 +170,7 @@ namespace StyleCop
                 }
                 else
                 {
-                    deprecatedSettingsFilePath = Path.Combine(project.Location, V40Settings.DefaultFileName);
+                    deprecatedSettingsFilePath = Path.Combine(project.Location, V101Settings.DefaultFileName);
                     if (File.Exists(deprecatedSettingsFilePath))
                     {
                         path = deprecatedSettingsFilePath;
@@ -284,7 +284,7 @@ namespace StyleCop
                     }
                     else
                     {
-                        deprecatedSettingsFilePath = Path.Combine(currentFolder, V40Settings.DefaultFileName);
+                        deprecatedSettingsFilePath = Path.Combine(currentFolder, V101Settings.DefaultFileName);
                         if (File.Exists(deprecatedSettingsFilePath))
                         {
                             parentPath = deprecatedSettingsFilePath;

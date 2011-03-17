@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="V40Settings.cs">
+// <copyright file="V101Settings.cs">
 //   MS-PL
 // </copyright>
 // <license>
@@ -20,7 +20,7 @@ namespace StyleCop
     /// <summary>
     /// Loads settings from a pre-version 4.1 settings document.
     /// </summary>
-    public static class V40Settings
+    public static class V101Settings
     {
         #region Public Constants
 

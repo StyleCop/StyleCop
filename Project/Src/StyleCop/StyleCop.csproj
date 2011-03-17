@@ -99,6 +99,7 @@
     <Compile Include="CacheOptions.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Settings\v105Settings.cs" />
     <Compile Include="StyleCopRunner.cs" />
     <Compile Include="StyleCopObjectConsole.cs" />
     <Compile Include="ObjectBasedEnvironment.cs" />
@@ -115,9 +116,9 @@
       <DependentUpon>LogStrings.resx</DependentUpon>
     </Compile>
     <Compile Include="Settings\SourceFileList.cs" />
-    <Compile Include="Settings\v43Settings.cs" />
-    <Compile Include="Settings\v41Settings.cs" />
-    <Compile Include="Settings\v42Settings.cs" />
+    <Compile Include="Settings\v104Settings.cs" />
+    <Compile Include="Settings\v102Settings.cs" />
+    <Compile Include="Settings\v103Settings.cs" />
     <Compile Include="Settings\IPropertyContainer.cs" />
     <Compile Include="ResultsCache.cs" />
     <Compile Include="Settings\AddInPropertyCollection.cs" />
@@ -126,7 +127,7 @@
     <Compile Include="Settings\PropertyDescriptorCollection.cs" />
     <Compile Include="Settings\PropertyDescriptor`1.cs" />
     <Compile Include="Settings\PropertyValue`1.cs" />
-    <Compile Include="Settings\v40Settings.cs" />
+    <Compile Include="Settings\v101Settings.cs" />
     <Compile Include="StyleCopAddInAttribute.cs" />
     <Compile Include="StyleCopEnvironment.cs" />
     <Compile Include="SourceCode.cs" />
