@@ -365,7 +365,21 @@ namespace StyleCop.CSharp
                         }
                     }
 
-                    if (foundNamespace)
+                    // Its also acceptable if there is an assembly attribute too.
+                    bool foundAssemblyAttribute = false;
+                    if (parentElement.ElementType == ElementType.Root)
+                    {
+                        foreach (CsElement child in parentElement.ChildElements)
+                        {
+                            if (child.ElementType == ElementType.AssemblyAttribute)
+                            {
+                                foundAssemblyAttribute = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (foundNamespace && !foundAssemblyAttribute)
                     {
                         this.AddViolation(element, Rules.UsingDirectivesMustBePlacedWithinNamespace);
                     }

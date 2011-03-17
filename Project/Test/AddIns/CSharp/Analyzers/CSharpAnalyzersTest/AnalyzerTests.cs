@@ -163,18 +163,17 @@
 
         private void RunTest(string testName, params string[] testfilesToCopy)
         {
-            string[] a3 = new string[testfilesToCopy.Length + 2];
-            a3[0] = Path.Combine(TestBin, "StyleCop.CSharp.dll");
-            a3[1] = Path.Combine(TestBin, "StyleCop.CSharp.Rules.dll");
-            testfilesToCopy.CopyTo(a3, 2);
+            string[] files = new string[testfilesToCopy.Length + 2];
+            files[0] = Path.Combine(TestBin, "StyleCop.CSharp.dll");
+            files[1] = Path.Combine(TestBin, "StyleCop.CSharp.Rules.dll");
+            testfilesToCopy.CopyTo(files, 2);
             
-
             bool result = StyleCopTestRunner.Run(
                 testName, 
                 TestRoot, 
                 TestContext.DeploymentDirectory, 
                 TestContext.TestResultsDirectory, 
-                false, a3
+                false, files
                 );
             
             Assert.IsTrue(result, TestContext.TestResultsDirectory);

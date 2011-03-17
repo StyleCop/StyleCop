@@ -43,88 +43,93 @@ namespace StyleCop.CSharp
         UsingDirective = 3,
        
         /// <summary>
+        /// An assembly attribute.
+        /// </summary>
+        AssemblyAttribute = 4,
+
+        /// <summary>
         /// A namespace element.
         /// </summary>
-        Namespace = 4,
+        Namespace = 5,
 
         /// <summary>
         /// A field element.
         /// </summary>
-        Field = 5,
+        Field = 6,
 
         /// <summary>
         /// A constructor element. 
         /// </summary>
-        Constructor = 6,
+        Constructor = 7,
 
         /// <summary>
         /// A destructor element.
         /// </summary>
-        Destructor = 7,
+        Destructor = 8,
 
         /// <summary>
         /// A delegate element.
         /// </summary>
-        Delegate = 8,
+        Delegate = 9,
 
         /// <summary>
         /// An event element.
         /// </summary>
-        Event = 9,
+        Event = 10,
 
         /// <summary>
         /// An enum element.
         /// </summary>
-        Enum = 10,
+        Enum = 11,
 
         /// <summary>
         /// An interface element.
         /// </summary>
-        Interface = 11,
+        Interface = 12,
 
         /// <summary>
         /// A property element.
         /// </summary>
-        Property = 12,
+        Property = 13,
 
         /// <summary>
         /// An accessor inside of a property, indexer, or event.
         /// </summary>
-        Accessor = 13,
+        Accessor = 14,
 
         /// <summary>
         /// An indexer element.
         /// </summary>
-        Indexer = 14,
+        Indexer = 15,
 
         /// <summary>
         /// A method element.
         /// </summary>
-        Method = 15,
+        Method = 16,
 
         /// <summary>
         /// A struct element.
         /// </summary>
-        Struct = 16,
+        Struct = 17,
 
         /// <summary>
         /// A class element.
         /// </summary>
-        Class = 17,
+        Class = 18,
 
         /// <summary>
         /// An item in an enumeration.
         /// </summary>
-        EnumItem = 18,
+        EnumItem = 19,
 
         /// <summary>
         /// The initialization code within a constructor's declaration.
         /// </summary>
-        ConstructorInitializer = 19,
+        ConstructorInitializer = 20,
 
         /// <summary>
         /// An element consisting only of a single semicolon.
         /// </summary>
-        EmptyElement = 20,
+        EmptyElement = 21,
     }
 }

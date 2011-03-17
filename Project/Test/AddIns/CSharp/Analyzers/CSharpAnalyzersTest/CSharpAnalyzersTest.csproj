@@ -64,6 +64,7 @@
   <ItemGroup>
     <Compile Include="AnalyzerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="TestData\ElementOrder\ElementOrderUsingDirectives3.cs" />
     <Compile Include="TestData\MethodParameters\ConstructorInitializerSpanningMultipleLines.cs" />
     <Compile Include="TestData\Spacing\OpenParenthesis.cs" />
     <None Include="TestData\Parenthesis\AttributeConstructorParenthesis.cs" />
@@ -323,6 +324,18 @@
     <Content Include="TestData\UnnecessaryCode\TestDescription.xml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\Src\AddIns\CSharp\Analyzers\CSharpAnalyzers.csproj">
+      <Project>{DE988D84-EAF4-4FD7-A33A-9EE0E6DE752C}</Project>
+      <Name>CSharpAnalyzers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\Src\AddIns\CSharp\Parser\CSharpParser.csproj">
+      <Project>{C173ACF5-2CE5-4771-83A4-D01453C8CB09}</Project>
+      <Name>CSharpParser</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\Src\StyleCop\StyleCop.csproj">
+      <Project>{AF7A7FEA-C07B-456A-B072-C7E795A6CBD4}</Project>
+      <Name>StyleCop</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\Harnesses\TestHarness\StyleCopTest.csproj">
       <Project>{73E4EB43-7B77-4084-81F9-35BA8241B686}</Project>
       <Name>StyleCopTest</Name>

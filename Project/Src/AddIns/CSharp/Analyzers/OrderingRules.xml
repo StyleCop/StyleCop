@@ -15,7 +15,7 @@
     <RuleGroup Name="Element Order">
       <Rule Name="UsingDirectivesMustBePlacedWithinNamespace" CheckId="SA1200">
         <Context>All using directives must be placed inside of the namespace.</Context>
-        <Description>Validates that all using directives are placed within a namespace, if a namespace exists in the file.</Description>
+        <Description>Validates that all using directives are placed within a namespace, if a namespace exists in the file unless used in an assembly attribute.</Description>
       </Rule>
       <Rule Name="ElementsMustAppearInTheCorrectOrder" CheckId="SA1201">
         <Context>All {0} must be placed after all {1}.</Context>

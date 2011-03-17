@@ -4,6 +4,7 @@
   <Test Name="ElementOrderUsingDirectives">
     <TestCodeFile>ElementOrderUsingDirectives.cs</TestCodeFile>
     <TestCodeFile>ElementOrderUsingDirectives2.cs</TestCodeFile>
+    <TestCodeFile>ElementOrderUsingDirectives3.cs</TestCodeFile>
     <Settings>
       <GlobalSettings>
         <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>

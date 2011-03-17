@@ -116,6 +116,7 @@
     <Compile Include="Argument.cs" />
     <Compile Include="CsToken.cs" />
     <Compile Include="CsTokenList.cs" />
+    <Compile Include="Elements\AssemblyAttribute.cs" />
     <Compile Include="Expressions\CollectionInitializerExpression.cs" />
     <Compile Include="Expressions\EventDeclaratorExpression.cs" />
     <Compile Include="Expressions\ExpressionWithParameters.cs" />

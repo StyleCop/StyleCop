@@ -232,22 +232,22 @@ namespace StyleCop.CSharp
                         parent != null &&
                         parent.ElementType == ElementType.Enum;
 
-                case ElementType.ExternAliasDirective:
-                    return
-                        parent != null &&
-                        (parent.ElementType == ElementType.Namespace ||
-                         parent.ElementType == ElementType.Root);
-
                 case ElementType.File:
                 case ElementType.Root:
                     return parent == null;
 
+                case ElementType.ExternAliasDirective:
                 case ElementType.Namespace:
                 case ElementType.UsingDirective:
                     return
                         parent != null &&
                         (parent.ElementType == ElementType.Root ||
                          parent.ElementType == ElementType.Namespace);
+
+                case ElementType.AssemblyAttribute:
+                    return
+                        parent != null &&
+                        parent.ElementType == ElementType.Root;
 
                 case ElementType.EmptyElement:
                     break;
@@ -456,10 +456,9 @@ namespace StyleCop.CSharp
 
                 var childElementReference = new Reference<ICodePart>();
 
-                // Move past whitespace, preprocessors, comments, xml headers, and attributes, up to the 
-                // start of the element.
-                this.MoveToElementDeclaration(elementReference, childElementReference, unsafeCode, out xmlHeader, out attributes);
-
+                // Move past whitespace, preprocessors, comments and xml headers up to the start of the element.
+                this.MoveToElementDeclaration(element, elementReference, childElementReference, unsafeCode, out xmlHeader, out attributes);
+                
                 // Now record whether the element is within a generated code block.
                 bool generated = this.symbols.Generated;
 
@@ -538,19 +537,20 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Moves past whitespace, comments, preprocessors, xml headers, and attributes, 
-        /// up to the start of the next element.
+        /// Moves past whitespace, comments, preprocessors and xml headers up to the start of the next element.
         /// </summary>
+        /// <param name="element">The parent element.</param>
         /// <param name="parentElementReference">A reference to the parent element.</param>
         /// <param name="childElementReference">A reference to the child element about to be created.</param>
         /// <param name="unsafeCode">Indicates whether the code is unsafe.</param>
         /// <param name="xmlHeader">Returns the xml header, if any.</param>
         /// <param name="attributes">Returns the list of attributes, if any.</param>
         private void MoveToElementDeclaration(
+            CsElement element,
             Reference<ICodePart> parentElementReference,
             Reference<ICodePart> childElementReference,
             bool unsafeCode,
-            out XmlHeader xmlHeader, 
+            out XmlHeader xmlHeader,
             out ICollection<Attribute> attributes)
         {
             Param.AssertNotNull(parentElementReference, "parentElementReference");
@@ -560,7 +560,7 @@ namespace StyleCop.CSharp
             // Initialize the out parameters.
             xmlHeader = null;
 
-            List<Attribute> tempAttributes = new List<Attribute>(); 
+            List<Attribute> tempAttributes = new List<Attribute>();
 
             SkipSymbols skip = SkipSymbols.All;
             skip &= ~SkipSymbols.XmlHeader;
@@ -589,32 +589,31 @@ namespace StyleCop.CSharp
                         break;
 
                     case SymbolType.OpenSquareBracket:
-                        // Get the attribute statement.
-                        currentElementReference = childElementReference;
-                        Attribute attribute = this.GetAttribute(childElementReference, unsafeCode);
-                        if (attribute == null)
-                        {
-                            throw new SyntaxException(this.document.SourceCode, symbol.LineNumber);
-                        }
 
-                        // Add the attribute to the list of attributes for this element.
-                        bool assemblyAttribute = false;
-                        foreach (AttributeExpression attributeExpression in attribute.AttributeExpressions)
+                        // Need to see if its an assembly attribute.
+                        // If it is don't process it here.
+                        ElementType? nextElementType = this.GetElementType(element, unsafeCode);
+
+                        if (nextElementType == ElementType.AssemblyAttribute)
                         {
-                            if (attributeExpression.IsAssemblyAttribute)
+                            loop = false;
+                        }
+                        else
+                        {
+                            // Get the attribute statement.
+                            currentElementReference = childElementReference;
+                            Attribute attribute = this.GetAttribute(childElementReference, unsafeCode);
+                            if (attribute == null)
                             {
-                                assemblyAttribute = true;
-                                break;
+                                throw new SyntaxException(this.document.SourceCode, symbol.LineNumber);
                             }
-                        }
 
-                        if (!assemblyAttribute)
-                        {
                             tempAttributes.Add(attribute);
+
+                            // Add the attribute to the document.
+                            this.tokens.Add(attribute);
                         }
 
-                        // Add the attribute to the document.
-                        this.tokens.Add(attribute);
                         break;
 
                     default:
@@ -625,18 +624,9 @@ namespace StyleCop.CSharp
 
                 symbol = this.GetNextSymbol(skip, currentElementReference, true);
             }
-
-            // If there aren't any attributes, we want to send null. Otherwise,
-            // trim the collection of attributes down to a small array.
-            if (tempAttributes == null)
-            {
-                attributes = null;
-            }
-            else
-            {
-                // Set the attributes as a read-only collection.
-                attributes = tempAttributes.ToArray();
-            }
+            
+            // Set the attributes as a read-only collection.
+            attributes = tempAttributes.ToArray();
         }
 
         /// <summary>
@@ -646,7 +636,7 @@ namespace StyleCop.CSharp
         /// <param name="unsafeCode">Indicates whether the element is contained within a block of unsafe code.</param>
         /// <returns>Returns the element type or null if the element type cannot be determined..</returns>
         /// <remarks>This method assumes that the symbol manager has been advanced past all whitespace,
-        /// comments, headers, preprocessors, attributes, etc., and that it is sitting at the beginning
+        /// comments, headers, preprocessors etc., and that it is sitting at the beginning
         /// of the next element.</remarks>
         [SuppressMessage(
             "Microsoft.Maintainability", 
@@ -670,6 +660,9 @@ namespace StyleCop.CSharp
 
             // Indicates whether this looks like an extern alias directive.
             bool externAlias = false;
+
+            // Indicates we've found an assembly attribute.
+            bool assemblyAttribute = false;
 
             // Indicates whether we've seen an operator keyword.
             bool operatorKeyword = false;
@@ -760,6 +753,15 @@ namespace StyleCop.CSharp
                         operatorKeyword = false;
                         loop = false;
                         break;
+                    
+                    case SymbolType.OpenSquareBracket:
+                        temp = this.GetNextCodeSymbolIndex(index + 1);
+                        if (temp != -1 && this.symbols.Peek(temp).Text == "assembly")
+                        {
+                            assemblyAttribute = true;
+                        }
+
+                        break;
 
                     case SymbolType.WhiteSpace:
                     case SymbolType.EndOfLine:
@@ -783,7 +785,6 @@ namespace StyleCop.CSharp
                     case SymbolType.GreaterThan:
                     case SymbolType.LessThan:
                     case SymbolType.Comma:
-                    case SymbolType.OpenSquareBracket:
                     case SymbolType.CloseSquareBracket:
                     case SymbolType.MultiLineComment:
                     case SymbolType.SingleLineComment:
@@ -851,6 +852,10 @@ namespace StyleCop.CSharp
                 else if (externAlias)
                 {
                     elementType = ElementType.ExternAliasDirective;
+                }
+                else if (assemblyAttribute)
+                {
+                    elementType = ElementType.AssemblyAttribute;
                 }
                 else if (index == 2)
                 {
@@ -969,6 +974,9 @@ namespace StyleCop.CSharp
 
                 case ElementType.UsingDirective:
                     return this.ParseUsingDirective(parent, elementReference, unsafeCode, generated);
+
+                case ElementType.AssemblyAttribute:
+                    return this.ParseAssemblyAttribute(parent, elementReference, generated);
 
                 case ElementType.Class:
                 case ElementType.Struct:
@@ -1122,6 +1130,32 @@ namespace StyleCop.CSharp
             var element = new UsingDirective(this.document, parent, declaration, generated, @namespace.Text, alias == null ? null : alias.Text);
             elementReference.Target = element;
 
+            return element;
+        }
+
+        /// <summary>
+        /// Parses and returns an assembly attribute.
+        /// </summary>
+        /// <param name="parent">The parent of the namespace.</param>
+        /// <param name="elementReference">A reference to the element being created.</param>
+        /// <param name="generated">Indicates whether the code is marked as generated code.</param>
+        /// <returns>Returns the element.</returns>
+        private AssemblyAttribute ParseAssemblyAttribute(CsElement parent, Reference<ICodePart> elementReference, bool generated)
+        {
+            Param.AssertNotNull(parent, "parent");
+            Param.AssertNotNull(elementReference, "elementReference");
+            Param.Ignore(generated);
+
+            var a = this.GetAttribute(elementReference, false);
+            Node<CsToken> firstToken = this.tokens.InsertLast(a);
+
+            // Create the declaration.
+            CsTokenList declarationTokens = new CsTokenList(this.tokens, firstToken, this.tokens.Last);
+            
+            var declaration = new Declaration(declarationTokens, a.Text, ElementType.AssemblyAttribute, AccessModifierType.Public);
+
+            var element = new AssemblyAttribute(this.document, parent, declaration, generated);
+            elementReference.Target = element;
             return element;
         }
 
@@ -1404,7 +1438,7 @@ namespace StyleCop.CSharp
 
                 var enumItemReference = new Reference<ICodePart>();
 
-                this.MoveToElementDeclaration(parentReference, enumItemReference, unsafeCode, out xmlHeader, out attributes);
+                this.MoveToElementDeclaration(parent, parentReference, enumItemReference, unsafeCode, out xmlHeader, out attributes);
 
                 // If the next symbol is a close curly bracket, quit.
                 symbol = this.GetNextSymbol(enumItemReference);
