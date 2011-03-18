@@ -172,9 +172,9 @@
         <Description>Verifies that the documentation text within a documentation section does not contain an excessive amount of symbols, making it difficult to read.</Description>
       </Rule>
       <Rule Name="DocumentationTextMustMeetMinimumCharacterLength" CheckId="SA1632">
-        <Context>The documentation text within the {0} tag must be at least {1} characters in length. Documentation
+        <Context>The documentation text within the {0} tag must be at least {1} characters in length or at least 2 words. Documentation
           failing to meet this guideline most likely does not follow a proper grammatical structure required for documentation text.</Context>
-        <Description>Verifies that the documentation text within a documentation section meets or exceeds a minimum length.</Description>
+        <Description>Verifies that the documentation text within a documentation section meets or exceeds the minimum length or number of words.</Description>
       </Rule>
       <Rule Name="ConstructorSummaryDocumentationMustBeginWithStandardText" CheckId="SA1642">
         <Context>The documentation text within the constructor's summary tag must begin with the text: {0}.</Context>

@@ -438,5 +438,15 @@ namespace CSharpAnalyzersTest.TestData
             // Inherit documentation from the base Exception class matching
             // this constructor's signature.
         }
+
+        /// <summary>
+        /// The ID.
+        /// </summary>
+        /// <remarks>
+        /// The summary above is OK as text must be 10 characters long or at least 2 words.
+        /// </remarks>
+        public class InvalidDocumentationClass6
+        {
+        }
     }
 }
