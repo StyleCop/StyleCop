@@ -114,6 +114,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
+    <Compile Include="Utils.cs" />
     <Compile Include="ValidPrefixes.cs">
       <SubType>UserControl</SubType>
     </Compile>

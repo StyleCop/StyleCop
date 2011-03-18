@@ -59,140 +59,7 @@ namespace StyleCop.CSharp
         #endregion Public Override Methods
 
         #region Private Static Methods
-
-        /// <summary>
-        /// Finds the given class member in the given class.
-        /// </summary>
-        /// <param name="word">The word to check.</param>
-        /// <param name="parentClass">The class the word appears in.</param>
-        /// <param name="members">The collection of members of the parent class.</param>
-        /// <param name="interfaces">True if interface implementations should be included.</param>
-        /// <returns>Returns the class members that match against the given name.</returns>
-        private static ICollection<CsElement> FindClassMember(
-            string word, ClassBase parentClass, Dictionary<string, List<CsElement>> members, bool interfaces)
-        {
-            Param.AssertNotNull(word, "word");
-            Param.AssertNotNull(parentClass, "parentClass");
-            Param.AssertNotNull(members, "members");
-            Param.Ignore(interfaces);
-
-            // If the word is the same as the class name, then this is a constructor and we
-            // don't want to match against it.
-            if (word != parentClass.Declaration.Name)
-            {
-                ICollection<CsElement> matches = ReadabilityRules.MatchClassMember(word, members, interfaces);
-                if (matches != null && matches.Count > 0)
-                {
-                    return matches;
-                }
-            }
-
-            return null;
-        }
-
-        /// <summary>
-        /// Matches the given word with members of the given class.
-        /// </summary>
-        /// <param name="word">The word to check.</param>
-        /// <param name="members">The collection of members of the parent class.</param>
-        /// <param name="interfaces">True if interface implementations should be included.</param>
-        /// <returns>Returns the class members that matches against the given name.</returns>
-        private static ICollection<CsElement> MatchClassMember(string word, Dictionary<string, List<CsElement>> members, bool interfaces)
-        {
-            Param.AssertNotNull(word, "word");
-            Param.AssertNotNull(members, "members");
-            Param.Ignore(interfaces);
-
-            List<CsElement> matchesFound = null;
-
-            // Look through all the children of this class to see if the word matches
-            // against any item in the class.
-            List<CsElement> matches = null;
-            if (members.TryGetValue(word, out matches))
-            {
-                foreach (CsElement match in matches)
-                {
-                    string trimmedName = match.Declaration.Name;
-
-                    int angleBracketPosition = trimmedName.IndexOf('<');
-                    if (angleBracketPosition > -1)
-                    {
-                        trimmedName = trimmedName.Substring(0, angleBracketPosition);
-                    }
-
-                    // Check if there is a match.
-                    if (match.ElementType == ElementType.Field ||
-                        trimmedName == word ||
-                       (interfaces && match.Declaration.Name.EndsWith("." + word, StringComparison.Ordinal)))
-                    {
-                        if (matchesFound == null)
-                        {
-                            matchesFound = new List<CsElement>();
-                        }
-
-                        matchesFound.Add(match);
-                    }
-                }
-            }
-
-            return matchesFound;
-        }
-
-        /// <summary>
-        /// Extracts the name of the member being called from the base class.
-        /// </summary>
-        /// <param name="parentExpression">The expression containing the tokens.</param>
-        /// <param name="baseTokenNode">The 'base' keyword token.</param>
-        /// <returns>Returns the name of the member or null if there is no member name.</returns>
-        private static CsToken ExtractBaseClassMemberName(Expression parentExpression, Node<CsToken> baseTokenNode)
-        {
-            Param.AssertNotNull(parentExpression, "parentExpression");
-            Param.AssertNotNull(baseTokenNode, "baseTokenNode");
-
-            bool foundMemberAccessSymbol = false;
-            foreach (CsToken token in parentExpression.Tokens.ForwardIterator(baseTokenNode.Next))
-            {
-                if (token.CsTokenType != CsTokenType.WhiteSpace &&
-                    token.CsTokenType != CsTokenType.EndOfLine &&
-                    token.CsTokenType != CsTokenType.SingleLineComment &&
-                    token.CsTokenType != CsTokenType.MultiLineComment &&
-                    token.CsTokenType != CsTokenType.PreprocessorDirective)
-                {
-                    if (foundMemberAccessSymbol)
-                    {
-                        if (token.CsTokenType == CsTokenType.Other)
-                        {
-                            return token;
-                        }
-                        else
-                        {
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        if (token.CsTokenType == CsTokenType.OperatorSymbol)
-                        {
-                            if (((OperatorSymbol)token).SymbolType == OperatorType.MemberAccess)
-                            {
-                                foundMemberAccessSymbol = true;
-                            }
-                            else
-                            {
-                                break;
-                            }
-                        }
-                        else
-                        {
-                            break;
-                        }
-                    }
-                }
-            }
-
-            return null;
-        }
-
+        
         /// <summary>
         /// Determines whether a matching local variable is contained in the given variable list.
         /// </summary>
@@ -225,93 +92,7 @@ namespace StyleCop.CSharp
 
             return false;
         }
-
-        /// <summary>
-        /// Adds a class members to the dictionary.
-        /// </summary>
-        /// <param name="members">The dictionary of class members.</param>
-        /// <param name="child">The class member.</param>
-        /// <param name="name">The name of the class member.</param>
-        private static void AddClassMember(Dictionary<string, List<CsElement>> members, CsElement child, string name)
-        {
-            Param.AssertNotNull(members, "members");
-            Param.AssertNotNull(child, "member");
-            Param.AssertValidString(name, "name");
-            
-            int angleBracketPosition = name.IndexOf('<');
-            string trimmedName = angleBracketPosition > -1 ? name.Substring(0, angleBracketPosition) : name;
-            
-            List<CsElement> items = null;
-            if (!members.TryGetValue(trimmedName, out items))
-            {
-                items = new List<CsElement>(1);
-                members.Add(trimmedName, items);
-            }
-
-            items.Add(child);
-        }
-
-        /// <summary>
-        /// Adds all members of a class to a dictionary, taking into account partial classes.
-        /// </summary>
-        /// <param name="parentClass">The class to collect.</param>
-        /// <returns>Returns the dictionary of class members.</returns>
-        private static Dictionary<string, List<CsElement>> CollectClassMembers(ClassBase parentClass)
-        {
-            Param.AssertNotNull(parentClass, "parentClass");
-
-            Dictionary<string, List<CsElement>> members = new Dictionary<string, List<CsElement>>();
-
-            if (parentClass.Declaration.ContainsModifier(CsTokenType.Partial))
-            {
-                foreach (ClassBase @class in parentClass.PartialElementList)
-                {
-                    CollectClassMembersAux(@class, members);
-                }
-            }
-            else
-            {
-                CollectClassMembersAux(parentClass, members);
-            }
-
-            return members;
-        }
-
-        /// <summary>
-        /// Adds all members of a class to a dictionary.
-        /// </summary>
-        /// <param name="class">The class to collect.</param>
-        /// <param name="members">Adds all members of the class to the given dictionary.</param>
-        private static void CollectClassMembersAux(ClassBase @class, Dictionary<string, List<CsElement>> members)
-        {
-            Param.AssertNotNull(@class, "class");
-            Param.AssertNotNull(members, "members");
-
-            foreach (CsElement child in @class.ChildElements)
-            {
-                if (child.ElementType == ElementType.Field)
-                {
-                    // Look through each of the declarators in the field.
-                    foreach (VariableDeclaratorExpression declarator in ((Field)child).VariableDeclarationStatement.Declarators)
-                    {
-                        AddClassMember(members, child, declarator.Identifier.Text);
-                    }
-                }
-                else if (child.ElementType == ElementType.Event)
-                {
-                    // Look through each of the declarators in the event.
-                    foreach (EventDeclaratorExpression declarator in ((Event)child).Declarators)
-                    {
-                        AddClassMember(members, child, declarator.Identifier.Text);
-                    }
-                }
-                else if (child.ElementType != ElementType.EmptyElement)
-                {
-                    AddClassMember(members, child, child.Declaration.Name);
-                }
-            }
-        }
-
+        
         /// <summary>
         /// Determines whether the given word is the name of a local variable.
         /// </summary>
@@ -489,7 +270,7 @@ namespace StyleCop.CSharp
                 element.ElementType == ElementType.Interface)
             {
                 parentClass = element as ClassBase;
-                members = CollectClassMembers(parentClass);
+                members = Utils.CollectClassMembers(parentClass);
             }
 
             foreach (CsElement child in element.ChildElements)
@@ -794,10 +575,10 @@ namespace StyleCop.CSharp
                         // item in the local class and the caller is trying to explicitly call the base
                         // class implementation instead of the local class implementation. Extract the name
                         // of the item being accessed.
-                        CsToken name = ReadabilityRules.ExtractBaseClassMemberName(parentExpression, tokenNode);
+                        CsToken name = Utils.ExtractBaseClassMemberName(parentExpression, tokenNode);
                         if (name != null)
                         {
-                            ICollection<CsElement> matches = ReadabilityRules.FindClassMember(name.Text, parentClass, members, true);
+                            ICollection<CsElement> matches = Utils.FindClassMember(name.Text, parentClass, members, true);
 
                             // Check to see if there is a non-static match.
                             bool found = false;
@@ -868,7 +649,7 @@ namespace StyleCop.CSharp
             {
                 // Determine if this is a member of our class.
                 CsElement foundMember = null;
-                ICollection<CsElement> classMembers = ReadabilityRules.FindClassMember(word, parentClass, members, false);
+                ICollection<CsElement> classMembers = Utils.FindClassMember(word, parentClass, members, false);
                 if (classMembers != null)
                 {
                     foreach (CsElement classMember in classMembers)

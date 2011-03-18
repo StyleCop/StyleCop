@@ -18,4 +18,42 @@ namespace UnnecessaryCheckedAndUnchecked
             this.Method2(delegate(int x) { }, delegate() { });
         }
     }
+
+    public class Class2
+    {
+        public bool MethodName(Func<bool> predicate)
+        {
+            return predicate();
+        }
+
+        public bool MethodName(Func<int, bool> predicate)
+        {
+            return predicate(10);
+        }
+
+        private bool Test()
+        {
+            // This is valid as MethodName as 2 signatures on this class.
+            return this.MethodName(delegate() { return true; });
+        }
+    }
+
+    public class Class3
+    {
+        public bool MethodName(Func<bool> predicate)
+        {
+            return predicate();
+        }
+
+        public bool MethodName2(Func<int, bool> predicate)
+        {
+            return predicate(10);
+        }
+
+        private bool Test()
+        {
+            // This is invalid.
+            return this.MethodName(delegate() { return true; });
+        }
+    }
 }

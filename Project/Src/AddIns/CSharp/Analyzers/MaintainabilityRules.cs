@@ -989,13 +989,33 @@ namespace StyleCop.CSharp
                     }
                     else if (tokenNode.Value.CsTokenType == CsTokenType.OpenParenthesis)
                     {
+                        // If we're inside a MethodInvocation and the method being called is a method on our class
+                        // with at least 2 signatures then the parens are required.
+                        if (expression.Parent is MethodInvocationExpression)
+                        {
+                            MethodInvocationExpression parentExpression = expression.Parent as MethodInvocationExpression;
+
+                            CsToken classMemberName = Utils.ExtractBaseClassMemberName(parentExpression, parentExpression.Tokens.First);
+
+                            ClassBase classBase = Utils.GetClassBase(element);
+
+                            Dictionary<string, List<CsElement>> allClassMembers = Utils.CollectClassMembers(classBase);
+
+                            var classMembers = Utils.FindClassMember(classMemberName.Text, classBase, allClassMembers, false);
+
+                            if (classMembers != null && classMembers.Count > 1)
+                            {
+                                break;
+                            }
+                        }
+
                         this.AddViolation(element, tokenNode.Value.LineNumber, Rules.RemoveDelegateParenthesisWhenPossible);
                         break;
                     }
                 }
             }
         }
-
+       
         #endregion Private Methods
 
         #region Private Structs

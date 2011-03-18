@@ -160,6 +160,7 @@
     </Settings>
     <ExpectedViolations>
       <Violation Section="Root.UnnecessaryCheckedAndUnchecked.Class1.Method2" LineNumber="18" Rule="RemoveDelegateParenthesisWhenPossible" />
+      <Violation Section="Root.UnnecessaryCheckedAndUnchecked.Class3.Test" LineNumber="56" Rule="RemoveDelegateParenthesisWhenPossible" />
     </ExpectedViolations>
   </Test>
 </StyleCopTestDescription>
