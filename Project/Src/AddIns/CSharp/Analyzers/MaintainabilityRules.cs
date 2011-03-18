@@ -192,7 +192,7 @@ namespace StyleCop.CSharp
                     return true;
                 }
 
-                if (expression.Name.Text.EndsWith("SuppressMessage", StringComparison.Ordinal))
+                if (expression.Name.Text.EndsWith(".SuppressMessage", StringComparison.Ordinal))
                 {
                     return true;
                 }
