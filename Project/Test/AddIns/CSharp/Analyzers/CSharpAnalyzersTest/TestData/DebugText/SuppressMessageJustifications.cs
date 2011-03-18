@@ -227,5 +227,16 @@ namespace SuppressMessageJustifications
         {
         }
     }
+        
     #endregion More Valid Justifications
+}
+namespace SA1404
+{
+    using System;
+    using Alias = System.Diagnostics.CodeAnalysis;
+
+    [Alias.SuppressMessage("Microsoft.StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented")]
+    public class SA1404Test
+    {
+    }
 }

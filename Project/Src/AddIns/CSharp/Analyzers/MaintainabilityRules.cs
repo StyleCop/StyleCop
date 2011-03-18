@@ -191,7 +191,13 @@ namespace StyleCop.CSharp
                 {
                     return true;
                 }
-                else if (first.Value.Text.Equals("System"))
+
+                if (expression.Name.Text.EndsWith("SuppressMessage", StringComparison.Ordinal))
+                {
+                    return true;
+                }
+
+                if (first.Value.Text.Equals("System"))
                 {
                     return expression.Name.Tokens.MatchTokens("System", ".", "Diagnostics", ".", "CodeAnalysis", ".", "SuppressMessage");
                 }

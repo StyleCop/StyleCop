@@ -70,6 +70,7 @@
       <Violation Section="Root.SuppressMessageJustifications.Class2.Struct1" LineNumber="161" Rule="CodeAnalysisSuppressionMustHaveJustification" />
       <Violation Section="Root.SuppressMessageJustifications.Class2.Struct1" LineNumber="162" Rule="CodeAnalysisSuppressionMustHaveJustification" />
       <Violation Section="Root.SuppressMessageJustifications.Class2.Struct1" LineNumber="163" Rule="CodeAnalysisSuppressionMustHaveJustification" />
+      <Violation Section="Root.SA1404.SA1404Test" LineNumber="238" Rule="CodeAnalysisSuppressionMustHaveJustification" />
     </ExpectedViolations>
   </Test>
 
