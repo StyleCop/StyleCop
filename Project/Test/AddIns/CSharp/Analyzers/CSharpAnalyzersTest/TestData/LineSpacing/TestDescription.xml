@@ -141,7 +141,6 @@
       <Violation Section="Root.LineSpacingBlankLineCurly4.Class1.this%float.set" LineNumber="141" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
       <Violation Section="Root.LineSpacingBlankLineCurly4.Class1.Enum1" LineNumber="150" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
       <Violation Section="Root.LineSpacingBlankLineCurly4.Class1.Enum1" LineNumber="152" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
-      <Violation Section="Root.LineSpacingBlankLineCurly5.Class1.Method1" LineNumber="170" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
       <Violation Section="Root.LineSpacingBlankLineCurly5.Class1.Method1" LineNumber="170" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
       <Violation Section="Root.LineSpacingBlankLineCurly5.Class1.Method1" LineNumber="172" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
       <Violation Section="Root.LineSpacingBlankLineCurly5.Class1.Method1" LineNumber="186" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
@@ -176,6 +175,20 @@
       <Violation Section="Root.LineSpacingBlankLineCurly6.Class1.Event2" LineNumber="327" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
       <Violation Section="Root.LineSpacingBlankLineCurly6.Class1.Event4.add" LineNumber="339" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
       <Violation Section="Root.LineSpacingBlankLineCurly6.Class1.Event4.add" LineNumber="341" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly6.Class1.Method1" LineNumber="353" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly6.Class1.Method1" LineNumber="357" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly6.Class1.Method1" LineNumber="361" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly6.Class1.Method1" LineNumber="367" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly6.Class1.Method1" LineNumber="374" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly6.Class1.Method1" LineNumber="378" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly6.Class1.Method1" LineNumber="382" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly6.Class1.Method1" LineNumber="388" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly6.Class1.Method1" LineNumber="395" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly6.Class1.Method1" LineNumber="401" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly6.Class1.Method1" LineNumber="407" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly6.Class1.Method1" LineNumber="413" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly6.Class1.Method1" LineNumber="419" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly6.Class1.Method1" LineNumber="426" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
     </ExpectedViolations>
   </Test>
 
@@ -263,7 +276,6 @@
       <Violation Section="Root.LineSpacingClosingCurly4.Class1.this%short" LineNumber="149" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
       <Violation Section="Root.LineSpacingClosingCurly4.Class1.this%float.get" LineNumber="165" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
       <Violation Section="Root.LineSpacingClosingCurly4.Class1.Enum1" LineNumber="178" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
-      <Violation Section="Root.LineSpacingClosingCurly5.Class1.Method1" LineNumber="197" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
       <Violation Section="Root.LineSpacingClosingCurly5.Class1.Method1" LineNumber="200" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
       <Violation Section="Root.LineSpacingClosingCurly5.Class1.Method1" LineNumber="220" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
       <Violation Section="Root.LineSpacingClosingCurly5.Class1.Method1" LineNumber="225" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
@@ -369,7 +381,6 @@
       <Violation Section="Root.LineSpacingOpeningCurly4.Class1.this%short" LineNumber="146" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
       <Violation Section="Root.LineSpacingOpeningCurly4.Class1.this%float.get" LineNumber="162" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
       <Violation Section="Root.LineSpacingOpeningCurly4.Class1.Enum1" LineNumber="175" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
-      <Violation Section="Root.LineSpacingOpeningCurly5.Class1.Method1" LineNumber="197" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
       <Violation Section="Root.LineSpacingOpeningCurly5.Class1.Method1" LineNumber="197" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
       <Violation Section="Root.LineSpacingOpeningCurly5.Class1.Method1" LineNumber="217" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
       <Violation Section="Root.LineSpacingOpeningCurly5.Class1.Method1" LineNumber="222" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
@@ -474,7 +485,6 @@
       <Violation Section="Root.LineSpacingCurlyPrecedingBlankLine4.Class1.this%short" LineNumber="126" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
       <Violation Section="Root.LineSpacingCurlyPrecedingBlankLine4.Class1.this%float.set" LineNumber="140" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
       <Violation Section="Root.LineSpacingCurlyPrecedingBlankLine4.Class1.Enum1" LineNumber="151" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
-      <Violation Section="Root.LineSpacingCurlyPrecedingBlankLine5.Class1.Method1" LineNumber="170" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
       <Violation Section="Root.LineSpacingCurlyPrecedingBlankLine5.Class1.Method1" LineNumber="186" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
       <Violation Section="Root.LineSpacingCurlyPrecedingBlankLine5.Class1.Method1" LineNumber="190" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
       <Violation Section="Root.LineSpacingCurlyPrecedingBlankLine5.Class1.Method1" LineNumber="194" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />

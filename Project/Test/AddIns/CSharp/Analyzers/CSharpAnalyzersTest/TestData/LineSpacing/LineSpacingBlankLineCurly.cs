@@ -340,6 +340,92 @@ namespace LineSpacingBlankLineCurly6
 
             }
         }
+
+        // These are all invalid blank lines before opening curly brackets
+        public void Method1()
+        {            
+            {
+            }
+
+            // try/catch/finally
+            try
+            
+            {
+            }
+            catch (System.Exception ex)
+            
+            {
+            }
+            finally
+            
+            {
+            }
+
+            // Do-while
+            do
+            
+            {
+            }
+            while (true);
+
+            // if-else
+            if (true)
+            
+            {
+            }
+            else if (false)
+            
+            {
+            }
+            else
+            
+            {
+            }
+
+            // lock
+            lock (this)
+            
+            {
+            }
+
+            // switch
+            int switcher = 0;
+            switch (switcher)
+            
+            {
+            }
+
+            // unsafe
+            unsafe
+            
+            {
+            }
+
+            // using
+            using (Form form1 = new Form())
+            
+            {
+            }
+
+            // while
+            while (true)
+            
+            {
+            }
+
+            // Array initializer.
+            int[] t = new int[]
+            
+            {
+            };
+
+            // Anonymous method.
+            Form form3 = new Form();
+            form3.BeginInvoke((MethodInvoker)delegate
+            
+            {
+            });
+        }
     }
 }
 

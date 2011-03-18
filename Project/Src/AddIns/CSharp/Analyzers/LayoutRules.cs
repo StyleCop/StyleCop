@@ -906,11 +906,39 @@ namespace StyleCop.CSharp
                     }
                     else if (token.CsTokenType == CsTokenType.OpenCurlyBracket)
                     {
+                        bool throwViolation = false;
+
                         // The blank line is just before an opening curly bracket.
-                        this.AddViolation(
-                            token.FindParentElement(),
-                            token.LineNumber,
-                            Rules.OpeningCurlyBracketsMustNotBePrecededByBlankLine);
+                        // If next element back is if,while,catch,try,finally,do,else,lock,switch,unsafe, using, array init, delegate, it's a violation.
+                        if (precedingTokenNode == null)
+                        {
+                            throwViolation = true;
+                        }
+                        else
+                        {
+                            Statement parentStatement = precedingTokenNode.Value.FindParentStatement();
+                            if (parentStatement == null)
+                            {
+                                throwViolation = true;
+                            }
+                            else
+                            {
+                                StatementType statementType = parentStatement.StatementType;
+
+                                if (statementType != StatementType.Block)
+                                {
+                                    if (statementType != StatementType.VariableDeclaration || (statementType == StatementType.VariableDeclaration && precedingTokenNode.Value.CsTokenType != CsTokenType.Semicolon))
+                                    {
+                                        throwViolation = true;
+                                    }
+                                }
+                            }
+                        }
+
+                        if (throwViolation)
+                        {
+                            this.AddViolation(token.FindParentElement(), token.LineNumber, Rules.OpeningCurlyBracketsMustNotBePrecededByBlankLine);
+                        }
                     }
                     else if (token.CsTokenType == CsTokenType.Else ||
                         token.CsTokenType == CsTokenType.Catch ||
