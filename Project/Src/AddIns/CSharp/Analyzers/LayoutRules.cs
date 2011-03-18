@@ -17,6 +17,8 @@ namespace StyleCop.CSharp
     using System;
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
+
     using StyleCop;
 
     /// <summary>
@@ -681,10 +683,25 @@ namespace StyleCop.CSharp
                     }
                     else
                     {
-                        // The brackets are only allowed to be on the same line if the entire statement is on the same line.
+                        // The brackets are only allowed to be on the same line if the entire statement is on the same line
+                        // or if the next line contains property initializers.
                         if (tokens.First.Value.LineNumber != tokens.Last.Value.LineNumber)
                         {
-                            this.AddViolation(parentElement, openBracket.LineNumber, Rules.CurlyBracketsForMultiLineStatementsMustNotShareLine, GetOpeningOrClosingBracketText(openBracket));
+                            bool foundObjectInializer = false;
+                            if (parentStatement is VariableDeclarationStatement)
+                            {
+                                var variableDeclarationStatement = parentStatement as VariableDeclarationStatement;
+
+                                foreach (var declarator in variableDeclarationStatement.Declarators)
+                                {
+                                    foundObjectInializer = declarator.Initializer.ChildExpressions.Any(initializerExpressions => initializerExpressions.ExpressionType == ExpressionType.ObjectInitializer);
+                                }
+                            }
+
+                            if (!(parentStatement is VariableDeclarationStatement) || !foundObjectInializer)
+                            {
+                                this.AddViolation(parentElement, openBracket.LineNumber, Rules.CurlyBracketsForMultiLineStatementsMustNotShareLine, GetOpeningOrClosingBracketText(openBracket));
+                            }
                         }
                     }
                 }

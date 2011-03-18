@@ -11,5 +11,10 @@ namespace CSharpAnalyzersTest.TestData
             : base(delegate() { return true; })
         {
         }
+
+        var obj = new MyObject(new[] { 1 })
+        {
+            Name = "Ex1"
+        };
     }
 }
