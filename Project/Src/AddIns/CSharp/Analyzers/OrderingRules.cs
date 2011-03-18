@@ -758,8 +758,8 @@ namespace StyleCop.CSharp
             {
                 if (string.IsNullOrEmpty(secondUsing.Alias))
                 {
-                    bool isFirstSystem = firstUsing.NamespaceType.StartsWith("System", StringComparison.Ordinal) || firstUsing.NamespaceType.StartsWith("System.", StringComparison.Ordinal);
-                    bool isSecondSystem = secondUsing.NamespaceType.Equals("System", StringComparison.Ordinal) || secondUsing.NamespaceType.StartsWith("System.", StringComparison.Ordinal);
+                    bool isFirstSystem = firstUsing.NamespaceType.StartsWith("System", StringComparison.Ordinal) || firstUsing.NamespaceType.StartsWith("global::System", StringComparison.Ordinal);
+                    bool isSecondSystem = secondUsing.NamespaceType.StartsWith("System", StringComparison.Ordinal) || secondUsing.NamespaceType.StartsWith("global::System", StringComparison.Ordinal);
 
                     // Neither of the usings is an alias. First, ensure that System namespaces are placed above all
                     // non-System namespaces.
