@@ -65,6 +65,7 @@
     <Compile Include="AnalyzerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <None Include="TestData\ElementOrder\ElementOrderUsingDirectives3.cs" />
+    <Compile Include="TestData\ClassMembers\ClassMembersPrefixLocalCallsWithThis2.cs" />
     <Compile Include="TestData\MethodParameters\ConstructorInitializerSpanningMultipleLines.cs" />
     <Compile Include="TestData\Spacing\OpenParenthesis.cs" />
     <None Include="TestData\Parenthesis\AttributeConstructorParenthesis.cs" />

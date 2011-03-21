@@ -610,7 +610,8 @@ namespace StyleCop.CSharp
                             expression,
                             parentElement,
                             parentClass,
-                            members);
+                            members,
+                            parentExpression);
                     }
                 }
             }
@@ -626,6 +627,7 @@ namespace StyleCop.CSharp
         /// <param name="parentElement">The element that contains the word.</param>
         /// <param name="parentClass">The parent class that this element belongs to.</param>
         /// <param name="members">The collection of members of the parent class.</param>
+        /// <param name="parentExpression">The parent expression of the expression being checked.</param>
         private void CheckWordUsageAgainstClassMemberRules(
             string word,
             CsToken item,
@@ -633,7 +635,8 @@ namespace StyleCop.CSharp
             Expression expression,
             CsElement parentElement,
             ClassBase parentClass,
-            Dictionary<string, List<CsElement>> members)
+            Dictionary<string, List<CsElement>> members,
+            Expression parentExpression)
         {
             Param.AssertValidString(word, "word");
             Param.AssertNotNull(item, "item");
@@ -686,7 +689,24 @@ namespace StyleCop.CSharp
                         }
                         else
                         {
-                            this.AddViolation(parentElement, line, Rules.PrefixLocalCallsWithThis, word);
+                            bool addViolation = true;
+
+                            if (parentExpression != null && parentExpression.ExpressionType == ExpressionType.MethodInvocation && foundMember is Method)
+                            {
+                                var methodInvocationExpression = (MethodInvocationExpression)parentExpression;
+                                
+                                var foundMethod = (Method)foundMember;
+
+                                if (methodInvocationExpression.Arguments.Count != foundMethod.Parameters.Count)
+                                {
+                                    addViolation = false;
+                                }
+                            }
+
+                            if (addViolation)
+                            {
+                                this.AddViolation(parentElement, line, Rules.PrefixLocalCallsWithThis, word);
+                            }
                         }
                     }
                 }

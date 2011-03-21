@@ -157,30 +157,38 @@
   <ItemGroup>
     <EmbeddedResource Include="ReadabilityRules.xml">
       <SubType>Designer</SubType>
+      <CustomToolNamespace>SA1100</CustomToolNamespace>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="LayoutRules.xml">
       <SubType>Designer</SubType>
+      <CustomToolNamespace>SA1500</CustomToolNamespace>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DocumentationRules.xml">
       <SubType>Designer</SubType>
+      <CustomToolNamespace>SA1600</CustomToolNamespace>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="NamingRules.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="OrderingRules.xml" />
+    <EmbeddedResource Include="OrderingRules.xml">
+      <CustomToolNamespace>SA1200</CustomToolNamespace>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="SpacingRules.xml" />
+    <EmbeddedResource Include="SpacingRules.xml">
+      <CustomToolNamespace>SA1000</CustomToolNamespace>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MaintainabilityRules.xml">
       <SubType>Designer</SubType>
+      <CustomToolNamespace>SA1400</CustomToolNamespace>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
