@@ -72,7 +72,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(PROJECTROOT)\Tools\msbuild\StyleCop.Build.Targets" />
+  <Import Project="..\..\..\..\Tools\msbuild\StyleCop.Build.Targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy /y "$(TargetPath)" "$(TestBin)"</PostBuildEvent>
   </PropertyGroup>

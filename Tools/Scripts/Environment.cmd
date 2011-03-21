@@ -138,7 +138,7 @@ if "%IsWoW64%" == "1"  (
 
 Echo.
 Echo Ensuring powershell scripts can be executed
-call %PROJECTROOT%\tools\Scripts\ensure-powershell.cmd
+call %PROJECTROOT%\..\tools\Scripts\ensure-powershell.cmd
 :----------------------------------------------------------------------
 
 goto :EOF

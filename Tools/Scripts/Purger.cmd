@@ -37,4 +37,4 @@ del /q %PROJECTROOT%\Src\VSPackage\StyleCop.Cache
 del /q %PROJECTROOT%\Src\WixSetup\Build.debug.wrn
 del /q %PROJECTROOT%\Src\WixSetup\Build.Release.wrn
 del /q %PROJECTROOT%\Test\Harnesses\TestHarness\StyleCop.Cache
-del /q %PROJECTROOT%\Tools\Scripts\Log.Uninstall.txt
+REM del /q %PROJECTROOT%\Tools\Scripts\Log.Uninstall.txt

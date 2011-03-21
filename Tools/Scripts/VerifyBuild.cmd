@@ -117,7 +117,7 @@ IF %NoNuke%.==1. GOTO POSTNUKE
 Echo.
 ECHO **** Purge enlistment BEGIN **********************************************
 Echo Purge enlistment
-CALL %PROJECTROOT%\Tools\Scripts\Purger.cmd
+CALL %STTOOLS%\Scripts\Purger.cmd
 :POSTNUKE
 
 :SYNC
@@ -157,7 +157,7 @@ IF EXIST %PROJECTROOT%\%BuildLogFile%.wrn DEL /F /Q %PROJECTROOT%\%BuildLogFile%
 IF EXIST %PROJECTROOT%\%BuildLogFile%.err DEL /F /Q %PROJECTROOT%\%BuildLogFile%.err
 CALL "%windir%\microsoft.net\framework\%FrameworkVersion%\msbuild.exe" %PROJECTROOT%\StyleCop.sln /p:Configuration=%BuildTarget%;CODE_ANALYSIS=true /flp1:warningsonly;logfile=%PROJECTROOT%\%BuildLogFile%.wrn /flp2:errorsonly;logfile=%PROJECTROOT%\%BuildLogFile%.err
 IF "%ERRORLEVEL%" == "0" DEL /F /Q %PROJECTROOT%\%BuildLogFile%.err
-CALL %PROJECTROOT%\tools\scripts\DeleteEmptyFile.cmd %PROJECTROOT%\%BuildLogFile%.wrn
+CALL %STTOOLS%\Scripts\DeleteEmptyFile.cmd %PROJECTROOT%\%BuildLogFile%.wrn
 IF "%ERRORLEVEL%" == "1" GOTO SUMMARY
 
 REM Build Setup Solution
@@ -173,7 +173,7 @@ IF "%BuildTarget%" == "CodeAnalysis" SET WixBuildTarget=debug
 
 CALL "%windir%\microsoft.net\framework\v3.5\msbuild.exe" %PROJECTROOT%\src\wixsetup\StyleCop.Wix.sln /p:Configuration=%WixBuildTarget% /flp1:warningsonly;logfile=%PROJECTROOT%\src\wixsetup\%buildlogfile%.wrn /flp2:errorsonly;logfile=%PROJECTROOT%\src\wixsetup\%buildlogfile%.err
 IF "%ERRORLEVEL%" == "0" DEL /F /Q %PROJECTROOT%\src\WixSetup\%BuildLogFile%.err
-CALL %PROJECTROOT%\tools\scripts\DeleteEmptyFile.cmd %PROJECTROOT%\src\WixSetup\%BuildLogFile%.wrn
+CALL %STTOOLS%\Scripts\DeleteEmptyFile.cmd %PROJECTROOT%\src\WixSetup\%BuildLogFile%.wrn
 IF "%ERRORLEVEL%" == "1" GOTO SUMMARY
 IF %WixBuildOnly%.==1. GOTO SUMMARY
 :PostWixBuild
@@ -182,7 +182,7 @@ ECHO **** Build %BuildTarget% END **********************************************
 
 :INSTALL
 IF %NoInstall%.==1. GOTO PostInstall
-CALL %PROJECTROOT%\tools\scripts\InstallProduct.cmd
+CALL %STTOOLS%\Scripts\InstallProduct.cmd
 :PostInstall
 
 IF %SkipTests%.==1. GOTO SUMMARY
@@ -190,7 +190,7 @@ IF %SkipTests%.==1. GOTO SUMMARY
 :TEST
 Echo.
 ECHO **** Run tests BEGIN ***********************************************************
-CALL %PROJECTROOT%\tools\scripts\RunTests.cmd
+CALL %STTOOLS%\Scripts\RunTests.cmd
 IF "%ERRORLEVEL%" == "1" GOTO SUMMARY
 REM 
 REM 

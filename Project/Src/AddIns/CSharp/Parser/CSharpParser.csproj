@@ -328,8 +328,8 @@
     </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
-  <Import Project="$(PROJECTROOT)\Tools\msbuild\StyleCop.Build.Targets" />
-  <Import Project="$(PROJECTROOT)\Tools\msbuild\StyleCop.Shipping.Targets" />
+  <Import Project="..\..\..\..\..\Tools\msbuild\StyleCop.Build.Targets" />
+  <Import Project="..\..\..\..\..\Tools\msbuild\StyleCop.Shipping.Targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy /y "$(TargetPath)" "$(TestBin)"</PostBuildEvent>
   </PropertyGroup>
