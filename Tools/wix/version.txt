@@ -1,1 +1,0 @@
-wix 3.0 build 3530.0 from \\wixbuild\releases\wix\3.0.3530.0

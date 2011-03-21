@@ -1,3 +1,0 @@
-The following files may be redistributed with integrated applications.
-
-VSSDKTestHost.exe

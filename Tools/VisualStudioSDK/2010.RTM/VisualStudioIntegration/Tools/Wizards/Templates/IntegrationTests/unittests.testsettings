@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<TestSettings
-  id="906380a7-c058-43a6-8f36-966013e5a9eb"
-  name="UnitTests"
-  enableDefaultDataCollectors="false"
-  xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
-  <Deployment enabled="false" />
-  <Description>This test run configuration is used for running the unit tests</Description>
-</TestSettings>
