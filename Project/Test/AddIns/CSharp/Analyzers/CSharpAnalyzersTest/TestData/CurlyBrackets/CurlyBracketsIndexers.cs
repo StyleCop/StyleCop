@@ -118,4 +118,9 @@ namespace CSharpAnalyzersTest.TestData
             }
         }
     }
+
+    interface IFoo
+    {
+        int this[int index] { get; set; }
+    }
 }

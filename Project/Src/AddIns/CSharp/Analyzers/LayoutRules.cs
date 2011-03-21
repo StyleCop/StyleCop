@@ -400,8 +400,21 @@ namespace StyleCop.CSharp
                     element.ElementType == ElementType.Namespace ||
                     element.ElementType == ElementType.Struct)
                 {
+                    bool allowOnOneLine = false;
+
                     // Curly brackets for these types cannot be all on one line.
-                    this.CheckElementBracketPlacement(element, false);
+                    if (element.ElementType == ElementType.Indexer)
+                    {
+                        var parentElement = element.FindParentElement();
+                        
+                        // If its an indexer on an interface then it can be on one line.
+                        if (parentElement != null && parentElement.ElementType == ElementType.Interface)
+                        {
+                            allowOnOneLine = true;
+                        }
+                    }
+
+                    this.CheckElementBracketPlacement(element, allowOnOneLine);
                 }
                 else if (element.ElementType == ElementType.Property)
                 {
