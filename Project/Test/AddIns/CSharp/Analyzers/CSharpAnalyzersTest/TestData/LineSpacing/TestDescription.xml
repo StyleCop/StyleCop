@@ -1008,6 +1008,7 @@
   <!-- Tests the line spacing between elements. -->
   <Test Name="LineSpacingBetweenElements">
     <TestCodeFile>LineSpacingBetweenElements.cs</TestCodeFile>
+    <TestCodeFile>LineSpacingBetweenAssemblyAttributes.cs</TestCodeFile>
     <Settings>
       <GlobalSettings>
         <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>

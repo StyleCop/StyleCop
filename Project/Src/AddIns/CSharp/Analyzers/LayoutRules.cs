@@ -351,7 +351,8 @@ namespace StyleCop.CSharp
                           childElement.ElementType != ElementType.ExternAliasDirective &&
                           childElement.ElementType != ElementType.Accessor &&
                           childElement.ElementType != ElementType.EnumItem &&
-                          childElement.ElementType != ElementType.Field)))
+                          childElement.ElementType != ElementType.Field &&
+                          childElement.ElementType != ElementType.AssemblyAttribute)))
                     {
                         // The start line of this element is the first line of the header if there is one,
                         // or the first line of the element itself if there is no header.
