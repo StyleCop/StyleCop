@@ -34,7 +34,7 @@ namespace StyleCop
         /// <summary>
         /// The current file cache version.
         /// </summary>
-        internal const string Version = "10";
+        internal const string Version = "11";
 
         #endregion Internal Constants
 

@@ -187,19 +187,25 @@ namespace StyleCop.CSharp
             Node<CsToken> first = expression.Name.Tokens.First;
             if (first != null)
             {
-                if (first.Value.Text.Equals("SuppressMessage", StringComparison.Ordinal))
+                string text = first.Value.Text;
+                if (text.Equals("SuppressMessage", StringComparison.Ordinal) || text.Equals("SuppressMessageAttribute", StringComparison.Ordinal))
                 {
                     return true;
                 }
 
-                if (expression.Name.Text.EndsWith(".SuppressMessage", StringComparison.Ordinal))
+                string expressionText = expression.Name.Text;
+                if (expressionText.EndsWith(".SuppressMessage", StringComparison.Ordinal) || expressionText.EndsWith(".SuppressMessageAttribute", StringComparison.Ordinal))
                 {
                     return true;
                 }
 
-                if (first.Value.Text.Equals("System"))
+                if (text.Equals("System"))
                 {
-                    return expression.Name.Tokens.MatchTokens("System", ".", "Diagnostics", ".", "CodeAnalysis", ".", "SuppressMessage");
+                    if (expression.Name.Tokens.MatchTokens(new[] { "System", ".", "Diagnostics", ".", "CodeAnalysis", ".", "SuppressMessage" }) ||
+                   expression.Name.Tokens.MatchTokens(new[] { "System", ".", "Diagnostics", ".", "CodeAnalysis", ".", "SuppressMessageAttribute" }))
+                    {
+                        return true;
+                    }
                 }
             }
 

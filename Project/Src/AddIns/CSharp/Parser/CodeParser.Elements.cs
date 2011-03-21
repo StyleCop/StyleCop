@@ -280,7 +280,9 @@ namespace StyleCop.CSharp
             else if (name.ExpressionType == ExpressionType.MemberAccess)
             {
                 if (name.Tokens.MatchTokens(new string[] { "System", ".", "Diagnostics", ".", "CodeAnalysis", ".", "SuppressMessage" }) ||
-                    name.Tokens.MatchTokens(new string[] { "System", ".", "Diagnostics", ".", "CodeAnalysis", ".", "SuppressMessageAttribute" }))
+                    name.Tokens.MatchTokens(new string[] { "System", ".", "Diagnostics", ".", "CodeAnalysis", ".", "SuppressMessageAttribute" }) ||
+                    name.Tokens.Last.Value.Text.EndsWith("SuppressMessage", StringComparison.Ordinal) ||
+                    name.Tokens.Last.Value.Text.EndsWith("SuppressMessageAttribute", StringComparison.Ordinal))
                 {
                     return true;
                 }
@@ -311,6 +313,12 @@ namespace StyleCop.CSharp
                 if (string.IsNullOrEmpty(ruleNamespace))
                 {
                     return false;
+                }
+
+                // Here we support the old SupressMessage format for Microsoft.StyleCop
+                if (ruleNamespace.StartsWith("Microsoft.StyleCop."))
+                {
+                    ruleNamespace = ruleNamespace.Substring("Microsoft.".Length);
                 }
 
                 // The checkID and rule name sit in the second argument.
