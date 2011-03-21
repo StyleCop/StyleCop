@@ -2982,9 +2982,9 @@ namespace StyleCop.CSharp
             CsTokenList partialTokens = new CsTokenList(this.tokens, firstTokenNode, this.tokens.Last);
 
             // Create and return the expression.
-            var expression = new DefaultValueExpression(partialTokens, typeTokenExpression);
+            var expression = new DefaultValueExpression(partialTokens, typeTokenExpression, parentReference);
             expressionReference.Target = expression;
-
+            
             return expression;
         }
 

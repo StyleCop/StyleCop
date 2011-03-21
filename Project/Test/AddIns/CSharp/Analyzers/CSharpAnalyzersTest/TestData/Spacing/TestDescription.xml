@@ -58,7 +58,8 @@
       <Violation Section="Root.CloseParenthesisSpacing.Class1.Others" LineNumber="119" Rule="ClosingParenthesisMustBeSpacedCorrectly" /> 
       <Violation Section="Root.CloseParenthesisSpacing.Class1.Others" LineNumber="120" Rule="ClosingParenthesisMustBeSpacedCorrectly" /> 
       <Violation Section="Root.CloseParenthesisSpacing.Class1.Others" LineNumber="131" Rule="ClosingParenthesisMustBeSpacedCorrectly" /> 
-      <Violation Section="Root.CloseParenthesisSpacing.CWA" LineNumber="137" Rule="ClosingParenthesisMustBeSpacedCorrectly" /> 
+      <Violation Section="Root.CloseParenthesisSpacing.CWA" LineNumber="137" Rule="ClosingParenthesisMustBeSpacedCorrectly" />
+      <Violation Section="Root.CloseParenthesisSpacing.Class21.Test`T%T" LineNumber="144" Rule="ClosingParenthesisMustBeSpacedCorrectly" />
     </ExpectedViolations>
   </Test>
   <Test Name="CloseCurlyBracket">

@@ -20,15 +20,20 @@ namespace StyleCop.CSharp
     /// An expression representing a default value operation.
     /// </summary>
     /// <subcategory>expression</subcategory>
-    public sealed class DefaultValueExpression : Expression
+    public sealed class DefaultValueExpression : Expression, ICodePart
     {
+        /// <summary>
+        /// The parent of the parameter.
+        /// </summary>
+        private readonly Reference<ICodePart> parent;
+
         #region Private Fields
 
         /// <summary>
         /// The type to obtain the default value of.
         /// </summary>
         private TypeToken type;
-
+        
         #endregion Private Fields
 
         #region Internal Constructors
@@ -38,7 +43,8 @@ namespace StyleCop.CSharp
         /// </summary>
         /// <param name="tokens">The list of tokens that form the expression.</param>
         /// <param name="type">The type to obtain the default value of.</param>
-        internal DefaultValueExpression(CsTokenList tokens, LiteralExpression type)
+        /// <param name="parent">The parent reference of this expression.</param>
+        internal DefaultValueExpression(CsTokenList tokens, LiteralExpression type, Reference<ICodePart> parent)
             : base(ExpressionType.DefaultValue, tokens)
         {
             Param.AssertNotNull(tokens, "tokens");
@@ -46,8 +52,21 @@ namespace StyleCop.CSharp
 
             this.type = CodeParser.ExtractTypeTokenFromLiteralExpression(type);
             this.AddExpression(type);
-        }
 
+            this.parent = parent;
+        }
+        
+        /// <summary>
+        /// Gets the actual parent codepartof this expression. Normally a Parameter.
+        /// </summary>
+        ICodePart ICodePart.Parent
+        {
+            get
+            {
+                return this.parent.Target;
+            }
+        }
+   
         #endregion Internal Constructors
 
         #region Public Properties
@@ -66,7 +85,7 @@ namespace StyleCop.CSharp
                 return this.type;
             }
         }
-
+        
         #endregion Public Properties
     }
 }

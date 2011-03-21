@@ -138,4 +138,11 @@ null;
     class CWA
     {
     }
+
+    public class Class21
+    {     
+        public static void Test<T>(T value = default(T) )
+        {
+        }
+    }
 }
