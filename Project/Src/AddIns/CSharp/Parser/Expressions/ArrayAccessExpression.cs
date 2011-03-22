@@ -29,11 +29,11 @@ namespace StyleCop.CSharp
         /// Represents the item being indexed.
         /// </summary>
         private Expression array;
-
+        
         /// <summary>
-        /// The array access arguments.
+        /// The arguments passed to the method.
         /// </summary>
-        private ICollection<Argument> arguments;
+        private IList<Argument> arguments;
 
         #endregion Private Fields
 
@@ -45,7 +45,7 @@ namespace StyleCop.CSharp
         /// <param name="tokens">The list of tokens that form the expression.</param>
         /// <param name="array">Represents the item being indexed.</param>
         /// <param name="arguments">The array access arguments.</param>
-        internal ArrayAccessExpression(CsTokenList tokens, Expression array, ICollection<Argument> arguments)
+        internal ArrayAccessExpression(CsTokenList tokens, Expression array, IList<Argument> arguments)
             : base(ExpressionType.ArrayAccess, tokens)
         {
             Param.AssertNotNull(tokens, "tokens");
@@ -58,9 +58,9 @@ namespace StyleCop.CSharp
 
             this.AddExpression(array);
 
-            foreach (Argument argument in arguments)
+            for (int i = 0; i < arguments.Count; ++i)
             {
-                this.AddExpression(argument.Expression);
+                this.AddExpression(arguments[i].Expression);
             }
         }
 
@@ -82,7 +82,7 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Gets the array access arguments.
         /// </summary>
-        public ICollection<Argument> Arguments
+        public IList<Argument> Arguments
         {
             get
             {

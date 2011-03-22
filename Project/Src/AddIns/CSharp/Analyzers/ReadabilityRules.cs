@@ -231,6 +231,15 @@ namespace StyleCop.CSharp
                 {
                     this.CheckBuiltInTypeForMemberAccessExpressions(((MemberAccessExpression)expression).LeftHandSide.Tokens.First);
                 }
+                else if (expression.ExpressionType == ExpressionType.ArrayAccess)
+                {
+                    // Calling this[x] shows up as an ArrayAcessExpression.
+                    var a  = (ArrayAccessExpression)expression;
+                    if (a.Array.Text == "this")
+                    {
+                        this.CheckIndexerAccessParameters(parentElement, ((ArrayAccessExpression)expression));
+                    }
+                }
             }
 
             return true;

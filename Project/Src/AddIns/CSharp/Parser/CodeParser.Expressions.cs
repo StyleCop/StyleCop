@@ -890,7 +890,7 @@ namespace StyleCop.CSharp
                 Node<CsToken> openingBracketNode = this.tokens.InsertLast(openingBracket);
 
                 // Get the argument list now.
-                ICollection<Argument> argumentList = this.GetArgumentList(SymbolType.CloseSquareBracket, expressionReference, unsafeCode);
+                IList<Argument> argumentList = this.GetArgumentList(SymbolType.CloseSquareBracket, expressionReference, unsafeCode);
 
                 // Get the closing bracket.
                 Bracket closingBracket = this.GetBracketToken(CsTokenType.CloseSquareBracket, SymbolType.CloseSquareBracket, expressionReference);

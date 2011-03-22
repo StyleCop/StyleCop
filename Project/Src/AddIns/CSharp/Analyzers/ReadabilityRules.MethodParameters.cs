@@ -370,7 +370,29 @@ namespace StyleCop.CSharp
                 CsTokenList parameterListTokens = GetParameterListTokens(element.Declaration.Tokens, openBracketType, closeBracketType);
                 if (parameterListTokens != null)
                 {
-                    this.CheckParameters(element, parameterListTokens, parameterList, element.LineNumber, openBracketType, closeBracketType);
+                    this.CheckParameters(element, parameterListTokens, parameterList, element.LineNumber, openBracketType, closeBracketType, element.FriendlyTypeText);
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Checks an array access expression to make that the parameters are positioned correctly.
+        /// </summary>
+        /// <param name="element">The element containing the expression.</param>
+        /// <param name="expression">The expression to check.</param>
+        private void CheckIndexerAccessParameters(CsElement element, ArrayAccessExpression expression)
+        {
+            Param.AssertNotNull(element, "element");
+            Param.AssertNotNull(expression, "expression");
+
+            if (expression.Tokens.First != null && !expression.Tokens.First.Value.Generated)
+            {
+                var argumentList = new ArgumentList(expression.Arguments);
+                CsTokenList argumentListTokens = GetArgumentListTokens(expression.Tokens, expression.Array.Tokens.Last, CsTokenType.OpenSquareBracket, CsTokenType.CloseSquareBracket);
+
+                if (argumentListTokens != null)
+                {
+                    this.CheckParameters(element, argumentListTokens, argumentList, expression.LineNumber, CsTokenType.OpenSquareBracket, CsTokenType.CloseSquareBracket, "indexer");
                 }
             }
         }
@@ -392,7 +414,7 @@ namespace StyleCop.CSharp
 
                 if (argumentListTokens != null)
                 {
-                    this.CheckParameters(element, argumentListTokens, argumentList, expression.LineNumber, CsTokenType.OpenParenthesis, CsTokenType.CloseParenthesis);
+                    this.CheckParameters(element, argumentListTokens, argumentList, expression.LineNumber, CsTokenType.OpenParenthesis, CsTokenType.CloseParenthesis, element.FriendlyTypeText);
                 }
             }
         }
@@ -406,13 +428,15 @@ namespace StyleCop.CSharp
         /// <param name="methodStartLineNumber">The line number on which the method begins.</param>
         /// <param name="openBracketType">The type of the parameter list opening bracket.</param>
         /// <param name="closeBracketType">The type of the parameter list closing bracket.</param>
+        /// <param name="textToUseForContainingElement">THe text ot use for violations.</param>
         private void CheckParameters(
             CsElement element, 
             CsTokenList parameterListTokens, 
             IArgumentList methodArguments, 
             int methodStartLineNumber, 
             CsTokenType openBracketType, 
-            CsTokenType closeBracketType)
+            CsTokenType closeBracketType,
+            string textToUseForContainingElement)
         {
             Param.AssertNotNull(element, "element");
             Param.AssertNotNull(parameterListTokens, "parameterListTokens");
@@ -421,7 +445,7 @@ namespace StyleCop.CSharp
             Param.Ignore(openBracketType);
             Param.Ignore(closeBracketType);
 
-            Node<CsToken> openingBracketNode = this.CheckMethodOpeningBracket(element, parameterListTokens, openBracketType);
+            Node<CsToken> openingBracketNode = this.CheckMethodOpeningBracket(element, parameterListTokens, openBracketType, textToUseForContainingElement);
 
             if (openingBracketNode != null)
             {
@@ -442,8 +466,9 @@ namespace StyleCop.CSharp
         /// <param name="element">The element containing the expression.</param>
         /// <param name="parameterListTokens">The tokens in the parameter list.</param>
         /// <param name="openingBracketType">The type of the bracket that opens the parameter list.</param>
+        /// <param name="textToUseForContainingElement">The text to use in the violation.</param>
         /// <returns>Returns the opening bracket.</returns>
-        private Node<CsToken> CheckMethodOpeningBracket(CsElement element, CsTokenList parameterListTokens, CsTokenType openingBracketType)
+        private Node<CsToken> CheckMethodOpeningBracket(CsElement element, CsTokenList parameterListTokens, CsTokenType openingBracketType, string textToUseForContainingElement)
         {
             Param.AssertNotNull(element, "element");
             Param.AssertNotNull(parameterListTokens, "parameterListTokens");
@@ -487,7 +512,7 @@ namespace StyleCop.CSharp
                         element,
                         openingBracketNode.Value.LineNumber,
                         Rules.OpeningParenthesisMustBeOnDeclarationLine,
-                        element.FriendlyTypeText);
+                        textToUseForContainingElement);
                 }
             }
 

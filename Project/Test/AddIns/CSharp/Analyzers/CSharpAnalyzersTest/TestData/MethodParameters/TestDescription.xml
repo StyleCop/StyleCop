@@ -1558,7 +1558,8 @@
   <!-- Tests the placement of the opening parenthesis in a indexer declaration.  -->
   <Test Name="IndexerDeclarationOpeningParenthesisPlacement">
     <TestCodeFile>IndexerDeclarationOpeningParenthesisPlacement.cs</TestCodeFile>
-    <Settings>
+    <TestCodeFile>IndexerAccessBracketPlacement.cs</TestCodeFile>
+      <Settings>
       <GlobalSettings>
         <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
@@ -1619,6 +1620,44 @@
       <Violation Section="Root.IndexerDeclarationOpeningParenthesisPlacement1.NormalMethods1.this%int" LineNumber="8" Rule="OpeningParenthesisMustBeOnDeclarationLine" />
       <Violation Section="Root.IndexerDeclarationOpeningParenthesisPlacement1.NormalMethods1.this%short" LineNumber="14" Rule="OpeningParenthesisMustBeOnDeclarationLine" />
       <Violation Section="Root.IndexerDeclarationOpeningParenthesisPlacement1.NormalMethods1.this%long" LineNumber="22" Rule="OpeningParenthesisMustBeOnDeclarationLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.IndexerAccessBracketPlacement.SA1110TestCode.this%int" LineNumber="15"  Rule="OpeningParenthesisMustBeOnDeclarationLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.IndexerAccessBracketPlacement.SA1110TestCode.this%int.get" LineNumber="20"  Rule="OpeningParenthesisMustBeOnDeclarationLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.IndexerAccessBracketPlacement.SA1110TestCode.JoinStrings%string%string" LineNumber="25"  Rule="OpeningParenthesisMustBeOnDeclarationLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.IndexerAccessBracketPlacement.SA1110TestCode.JoinStrings%string%string" LineNumber="28"  Rule="OpeningParenthesisMustBeOnDeclarationLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.IndexerAccessBracketPlacement.SA1111TestCode.this%int" LineNumber="35"  Rule="ClosingParenthesisMustBeOnLineOfLastParameter" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.IndexerAccessBracketPlacement.SA1111TestCode.this%int.get" LineNumber="40"  Rule="ClosingParenthesisMustBeOnLineOfLastParameter" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.IndexerAccessBracketPlacement.SA1111TestCode.JoinStrings%string%string" LineNumber="45"  Rule="ClosingParenthesisMustBeOnLineOfLastParameter" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.IndexerAccessBracketPlacement.SA1111TestCode.JoinStrings%string%string" LineNumber="48"  Rule="ClosingParenthesisMustBeOnLineOfLastParameter" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.IndexerAccessBracketPlacement.SA1113TestCode.this%int%int" LineNumber="54"  Rule="SplitParametersMustStartOnLineAfterDeclaration" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.IndexerAccessBracketPlacement.SA1113TestCode.this%int%int" LineNumber="55"  Rule="CommaMustBeOnSameLineAsPreviousParameter" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.IndexerAccessBracketPlacement.SA1113TestCode.this%int%int.get" LineNumber="59"  Rule="SplitParametersMustStartOnLineAfterDeclaration" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.IndexerAccessBracketPlacement.SA1113TestCode.this%int%int.get" LineNumber="60"  Rule="CommaMustBeOnSameLineAsPreviousParameter" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.IndexerAccessBracketPlacement.SA1113TestCode.JoinStrings%string%string" LineNumber="66"  Rule="CommaMustBeOnSameLineAsPreviousParameter" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.IndexerAccessBracketPlacement.SA1113TestCode.JoinStrings%string%string" LineNumber="70"  Rule="CommaMustBeOnSameLineAsPreviousParameter" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.IndexerAccessBracketPlacement.SA1114TestCode.this%int" LineNumber="81"  Rule="ParameterListMustFollowDeclaration" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.IndexerAccessBracketPlacement.SA1114TestCode.this%int.get" LineNumber="87"  Rule="ParameterListMustFollowDeclaration" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.IndexerAccessBracketPlacement.SA1114TestCode.JoinStrings%string" LineNumber="93"  Rule="ParameterListMustFollowDeclaration" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.IndexerAccessBracketPlacement.SA1114TestCode.JoinStrings%string" LineNumber="97"  Rule="ParameterListMustFollowDeclaration" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.IndexerAccessBracketPlacement.SA1115TestCode.this%int%int" LineNumber="109"  Rule="ParameterMustFollowComma" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.IndexerAccessBracketPlacement.SA1115TestCode.this%int%int.get" LineNumber="116"  Rule="ParameterMustFollowComma" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.IndexerAccessBracketPlacement.SA1115TestCode.JoinStrings%string%string" LineNumber="123"  Rule="ParameterMustFollowComma" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.IndexerAccessBracketPlacement.SA1115TestCode.JoinStrings%string%string" LineNumber="128"  Rule="ParameterMustFollowComma" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.IndexerAccessBracketPlacement.SA1116TestCode.this%int%int" LineNumber="137"  Rule="SplitParametersMustStartOnLineAfterDeclaration" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.IndexerAccessBracketPlacement.SA1116TestCode.this%int%int.get" LineNumber="142"  Rule="SplitParametersMustStartOnLineAfterDeclaration" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.IndexerAccessBracketPlacement.SA1116TestCode.JoinStrings%string%string" LineNumber="147"  Rule="SplitParametersMustStartOnLineAfterDeclaration" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.IndexerAccessBracketPlacement.SA1116TestCode.JoinStrings%string%string" LineNumber="150"  Rule="SplitParametersMustStartOnLineAfterDeclaration" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.IndexerAccessBracketPlacement.SA1117TestCode.this%int%int%int" LineNumber="160"  Rule="ParametersMustBeOnSameLineOrSeparateLines" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.IndexerAccessBracketPlacement.SA1117TestCode.this%int%int%int" LineNumber="161"  Rule="ParameterMustFollowComma" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.IndexerAccessBracketPlacement.SA1117TestCode.this%int%int%int.get" LineNumber="166"  Rule="ParametersMustBeOnSameLineOrSeparateLines" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.IndexerAccessBracketPlacement.SA1117TestCode.this%int%int%int.get" LineNumber="167"  Rule="ParameterMustFollowComma" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.IndexerAccessBracketPlacement.SA1117TestCode.JoinStrings%string%string%string" LineNumber="172"  Rule="ParametersMustBeOnSameLineOrSeparateLines" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.IndexerAccessBracketPlacement.SA1117TestCode.JoinStrings%string%string%string" LineNumber="173"  Rule="ParameterMustFollowComma" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.IndexerAccessBracketPlacement.SA1117TestCode.JoinStrings%string%string%string" LineNumber="176"  Rule="ParametersMustBeOnSameLineOrSeparateLines" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.IndexerAccessBracketPlacement.SA1117TestCode.JoinStrings%string%string%string" LineNumber="177"  Rule="ParameterMustFollowComma" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.IndexerAccessBracketPlacement.SA1118TestCode.this%int%int" LineNumber="189"  Rule="ParameterMustNotSpanMultipleLines" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.IndexerAccessBracketPlacement.SA1118TestCode.this%int%int.get" LineNumber="196"  Rule="ParameterMustNotSpanMultipleLines" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.IndexerAccessBracketPlacement.SA1118TestCode.JoinStrings%string%string" LineNumber="203"  Rule="ParameterMustNotSpanMultipleLines" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.IndexerAccessBracketPlacement.SA1118TestCode.JoinStrings%string%string" LineNumber="208"  Rule="ParameterMustNotSpanMultipleLines" />
     </ExpectedViolations>
   </Test>
 
