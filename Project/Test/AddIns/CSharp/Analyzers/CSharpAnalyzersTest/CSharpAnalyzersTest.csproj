@@ -67,6 +67,7 @@
     <None Include="TestData\ElementOrder\ElementOrderUsingDirectives3.cs" />
     <Compile Include="TestData\ClassMembers\ClassMembersPrefixLocalCallsWithThis2.cs" />
     <None Include="TestData\LineSpacing\LineSpacingBetweenAssemblyAttributes.cs" />
+    <Compile Include="TestData\FileHeaders\FileHeadersValidFilename.cs" />
     <Compile Include="TestData\MethodParameters\ConstructorInitializerSpanningMultipleLines.cs" />
     <Compile Include="TestData\Spacing\OpenParenthesis.cs" />
     <None Include="TestData\Parenthesis\AttributeConstructorParenthesis.cs" />

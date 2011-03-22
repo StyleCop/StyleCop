@@ -4,7 +4,7 @@
     ToolsVersion="4.0">
 
     <Import
-        Project="$(PROJECTROOT)\tools\SDcTasks\Microsoft.Sdc.Common.tasks" />
+        Project="$(STTOOLS)\SDcTasks\Microsoft.Sdc.Common.tasks" />
 
     <PropertyGroup>
         <SandcastleVersion>2.4.10520</SandcastleVersion>

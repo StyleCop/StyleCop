@@ -830,6 +830,11 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Prevents the use of parenthesis on attribute constructors when they are not required.
         /// </summary>
-        AttributeConstructorMustNotUseUnnecessaryParenthesis
+        AttributeConstructorMustNotUseUnnecessaryParenthesis,
+
+        /// <summary>
+        /// Ensures the file header filename attribute matches the name of the type in the file.
+        /// </summary>
+        FileHeaderFileNameDocumentationMustMatchTypeName
     }
 }

@@ -212,6 +212,14 @@
 <param name="Name" value="SA1647: IncludeNodeDoesNotContainValidFileAndPath">
 <param name="Local" value="SA1647.html">
 </OBJECT>
+<LI><OBJECT type="text/sitemap">
+<param name="Name" value="SA1648: InheritDocMustBeUsedWithInheritingClass">
+<param name="Local" value="SA1648.html">
+</OBJECT>
+<LI><OBJECT type="text/sitemap">
+<param name="Name" value="SA1649: FileHeaderFileNameDocumentationMustMatchTypeName">
+<param name="Local" value="SA1649.html">
+</OBJECT>
 </UL>
 <LI><OBJECT type="text/sitemap">
 <param name="Name" value="Layout Rules">

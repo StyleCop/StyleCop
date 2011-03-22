@@ -9,7 +9,7 @@ namespace TestFile2
     using System.Text;
     using System.Collections.Generic;
 
-    class ClassMissingAccessModifier
+    class TestFile2
     {
     }
 }

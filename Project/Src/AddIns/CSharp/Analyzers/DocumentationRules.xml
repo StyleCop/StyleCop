@@ -243,6 +243,10 @@
         <Context>The company attribute in the file header must contain the following company name: {0}</Context>
         <Description>Validates that a file header contains a company attribute which contains a specific company name.</Description>
       </Rule>
+      <Rule Name="FileHeaderFileNameDocumentationMustMatchTypeName" CheckId="SA1649" CanDisable="false">
+            <Context>The file attribute in the file header's copyright tag must contain the name of the first type in the file.</Context>
+            <Description>Validates that a file header contains a file attribute which contains the name of the first type in the file.</Description>
+        </Rule>
     </RuleGroup>
   </Rules>
 </SourceAnalyzer>

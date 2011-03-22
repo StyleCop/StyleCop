@@ -850,11 +850,12 @@ namespace StyleCop.CSharp
                     fileHeader = false;
                 }
 
-                if (tokenNode == document.Tokens.Last &&
-                    ((token.CsTokenType == CsTokenType.EndOfLine) ||
-                     (token.CsTokenType == CsTokenType.WhiteSpace && precedingTokenNode != null && precedingTokenNode.Value.LineNumber != token.LineNumber)))
+                if (tokenNode == document.Tokens.Last)
                 {
-                    this.AddViolation(token.FindParentElement(), token.LineNumber, Rules.CodeMustNotContainBlankLinesAtEndOfFile);
+                    if ((token.CsTokenType == CsTokenType.EndOfLine || token.CsTokenType == CsTokenType.WhiteSpace) && precedingTokenNode != null && precedingTokenNode.Value.LineNumber != token.LineNumber)
+                    {
+                        this.AddViolation(token.FindParentElement(), token.LineNumber, Rules.CodeMustNotContainBlankLinesAtEndOfFile);
+                    }
                 }
 
                 // Check whether this token is an end-of-line character.

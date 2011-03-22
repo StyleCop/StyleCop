@@ -2317,6 +2317,16 @@ namespace StyleCop.CSharp
                             {
                                 this.AddViolation(document.RootElement, document.FileHeader.LineNumber, Rules.FileHeaderFileNameDocumentationMustMatchFileName);
                             }
+
+                            // Make sure the filename matches the name of the first type in the file.
+                            string firstTypeName = this.GetFirstTypeName(document.RootElement);
+                            
+                            string trimmedFilename = Path.GetFileNameWithoutExtension(attribute.InnerText);
+                            
+                            if (firstTypeName != null && string.Compare(trimmedFilename, firstTypeName, StringComparison.OrdinalIgnoreCase) != 0)
+                            {
+                                this.AddViolation(document.RootElement, document.FileHeader.LineNumber, Rules.FileHeaderFileNameDocumentationMustMatchTypeName);
+                            }
                         }
 
                         // Check the company attribute.
@@ -2356,6 +2366,33 @@ namespace StyleCop.CSharp
                     this.AddViolation(document.RootElement, 1, Rules.FileMustHaveHeader);
                 }
             }
+        }
+        
+        /// <summary>
+        /// Returns the first type name in the document.
+        /// </summary>
+        /// <param name="parentElement">The element to start at.</param>
+        /// <returns>The firt type name or null if no type defined.</returns>
+        private string GetFirstTypeName(CsElement parentElement)
+        {
+            foreach (var element in parentElement.ChildElements)
+            {
+                if (element.ElementType == ElementType.Namespace)
+                {
+                    string a = this.GetFirstTypeName(element);
+                    if (a != null)
+                    {
+                        return a;
+                    }
+                }
+                else if (element.ElementType == ElementType.Class || element.ElementType == ElementType.Enum ||
+                    element.ElementType == ElementType.Interface || element.ElementType == ElementType.Struct)
+                {
+                    return element.FullyQualifiedName.Substring(element.FullyQualifiedName.LastIndexOf('.') + 1);
+                }
+            }
+
+            return null;
         }
 
         /// <summary>

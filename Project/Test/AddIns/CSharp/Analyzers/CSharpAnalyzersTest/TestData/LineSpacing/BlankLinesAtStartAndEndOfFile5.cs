@@ -9,4 +9,4 @@ namespace CSharpAnalyzersTest.TestData.LineSpacing
     {
     }
 }
-// This file has 1 blank line at the end after this one
+// This line has a CR at the end of this line and so is OK

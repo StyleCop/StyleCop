@@ -173,7 +173,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="NamingRules.xml" />
+    <EmbeddedResource Include="NamingRules.xml">
+      <CustomToolNamespace>SA1300</CustomToolNamespace>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="OrderingRules.xml">

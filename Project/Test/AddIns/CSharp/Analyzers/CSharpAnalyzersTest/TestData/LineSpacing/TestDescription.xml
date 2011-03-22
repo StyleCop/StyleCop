@@ -40,7 +40,6 @@
       <Violation Section="Root" LineNumber="1" Rule="CodeMustNotContainBlankLinesAtStartOfFile" />
       <Violation Section="Root" LineNumber="13" Rule="CodeMustNotContainBlankLinesAtEndOfFile" />
       <Violation Section="Root" LineNumber="14" Rule="CodeMustNotContainBlankLinesAtEndOfFile" />
-      <Violation Section="Root" LineNumber="12" Rule="CodeMustNotContainBlankLinesAtEndOfFile" />
       <Violation Section="Root" LineNumber="13" Rule="CodeMustNotContainBlankLinesAtEndOfFile" />
     </ExpectedViolations>
   </Test>

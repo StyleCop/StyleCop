@@ -4,7 +4,7 @@
     ToolsVersion="4.0">
 
     <Import
-        Project="$(PROJECTROOT)\tools\SDcTasks\Microsoft.Sdc.Common.tasks" />
+        Project="$(STTOOLS)\SDcTasks\Microsoft.Sdc.Common.tasks" />
 
     <Target Name="Docs">
         <Error Condition="!Exists('$(ProgramFiles)\HTML Help Workshop\hhc.exe')" Text="Please ensure the Microsoft HTML Help Workshop is installed." />   
