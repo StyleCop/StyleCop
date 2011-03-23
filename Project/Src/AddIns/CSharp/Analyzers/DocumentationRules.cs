@@ -2388,7 +2388,7 @@ namespace StyleCop.CSharp
                 else if (element.ElementType == ElementType.Class || element.ElementType == ElementType.Enum ||
                     element.ElementType == ElementType.Interface || element.ElementType == ElementType.Struct)
                 {
-                    return element.FullyQualifiedName.Substring(element.FullyQualifiedName.LastIndexOf('.') + 1);
+                    return element.FullyQualifiedName.SubstringAfterLast('.').SubstringBefore('<');
                 }
             }
 
