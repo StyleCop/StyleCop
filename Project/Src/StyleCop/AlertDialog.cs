@@ -107,7 +107,7 @@ namespace StyleCop
                         buttons,
                         icon,
                         MessageBoxDefaultButton.Button1,
-                        MessageBoxOptions.RtlReading | MessageBoxOptions.RightAlign);
+                        MessageBoxOptions.RtlReading | MessageBoxOptions.RightAlign | MessageBoxOptions.ServiceNotification);
                 }
                 else
                 {
@@ -117,7 +117,7 @@ namespace StyleCop
             }
 
             // Show the dialog in the default mode.
-            return MessageBox.Show(parent, message, title, buttons, icon);
+            return MessageBox.Show(parent, message, title, buttons, icon, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification);
         }
 
         /// <summary>
