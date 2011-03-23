@@ -3,7 +3,7 @@
   <?ifdef WixVersionLong ?>
     <?undef WixVersionLong?>
   <?endif?>
-  <?define WixVersionLong = "4.5.0.5" ?>
+  <?define WixVersionLong = "4.5.0.6" ?>
   <?ifdef WixVersionShort ?>
     <?undef WixVersionShort?>
   <?endif?>

@@ -852,9 +852,19 @@ namespace StyleCop.CSharp
 
                 if (tokenNode == document.Tokens.Last)
                 {
-                    if ((token.CsTokenType == CsTokenType.EndOfLine || token.CsTokenType == CsTokenType.WhiteSpace) && precedingTokenNode != null && precedingTokenNode.Value.LineNumber != token.LineNumber)
+                    if (token.CsTokenType == CsTokenType.EndOfLine || token.CsTokenType == CsTokenType.WhiteSpace)
                     {
-                        this.AddViolation(token.FindParentElement(), token.LineNumber, Rules.CodeMustNotContainBlankLinesAtEndOfFile);
+                        if (precedingTokenNode != null)
+                        {
+                            int preceedingLineLumber = precedingTokenNode.Value is ITokenContainer
+                                                           ? ((ITokenContainer)precedingTokenNode.Value).Tokens.Last().LineNumber
+                                                           : precedingTokenNode.Value.LineNumber;
+
+                            if (preceedingLineLumber != token.LineNumber)
+                            {
+                                this.AddViolation(token.FindParentElement(), token.LineNumber, Rules.CodeMustNotContainBlankLinesAtEndOfFile);
+                            }
+                        }
                     }
                 }
 
