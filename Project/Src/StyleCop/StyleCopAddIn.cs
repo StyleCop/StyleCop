@@ -212,11 +212,13 @@ namespace StyleCop
         /// Gets a value indicating whether the given rule is suppressed for the given element.
         /// </summary>
         /// <param name="element">The element to check.</param>
-        /// <param name="rule">The rule to check.</param>
+        /// <param name="ruleCheckId">The Id of the rule to check.</param>
+        /// <param name="ruleName">The Name of the rule to check.</param>
+        /// <param name="ruleNamespace">The Namespace of the rule to check.</param>
         /// <returns>Returns true if the rule is suppressed; otherwise false.</returns>
-        public virtual bool IsRuleSuppressed(ICodeElement element, Rule rule)
+        public virtual bool IsRuleSuppressed(ICodeElement element, string ruleCheckId, string ruleName, string ruleNamespace)
         {
-            Param.Ignore(element, rule);
+            Param.Ignore(element, ruleCheckId, ruleName, ruleNamespace);
             return false;
         }
 
@@ -347,7 +349,7 @@ namespace StyleCop
                     throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Strings.RuleDoesNotExist, ruleName), "ruleName");
                 }
 
-                if (!this.IsRuleSuppressed(element, rule))
+                if (!this.IsRuleSuppressed(element, rule.CheckId, ruleName, rule.Namespace))
                 {
                     // Look up this violation type.
                     this.core.AddViolation(element, rule, line, values);

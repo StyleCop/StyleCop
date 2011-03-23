@@ -15,18 +15,12 @@
 namespace StyleCop.CSharp
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
-    using System.Globalization;
     using System.IO;
-    using System.Reflection;
-    using System.Text;
     using System.Text.RegularExpressions;
     using System.Threading;
-    using System.Xml;
     using StyleCop;
 
     /// <summary>
@@ -78,15 +72,15 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Stores collection of suppressions for individual elements.
         /// </summary>
-        private Dictionary<int, List<CsElement>> suppressions;
-
+        private Dictionary<SuppressedRule, List<CsElement>> suppressions;
+        
         /// <summary>
         /// Lock object for suppressions dictionary
         /// </summary>
         private ReaderWriterLock suppressionsLock = new ReaderWriterLock();
 
         #endregion Private Fields
-
+        
         #region Public Constructors
 
         /// <summary>
@@ -178,7 +172,7 @@ namespace StyleCop.CSharp
         public override void PreParse()
         {
             this.partialElements = new Dictionary<string, List<CsElement>>();
-            this.suppressions = new Dictionary<int, List<CsElement>>();
+            this.suppressions = new Dictionary<SuppressedRule, List<CsElement>>();
         }
 
         /// <summary>
@@ -260,29 +254,23 @@ namespace StyleCop.CSharp
         /// Determines whether the given rule is suppressed for the given element.
         /// </summary>
         /// <param name="element">The element to check.</param>
-        /// <param name="rule">The rule to check.</param>
+        /// <param name="ruleCheckId">The Id of the rule to check.</param>
+        /// <param name="ruleName">The Name of the rule to check.</param>
+        /// <param name="ruleNamespace">The Namespace of the rule to check.</param>
         /// <returns>Returns true is the rule is suppressed; otherwise false.</returns>
-        public override bool IsRuleSuppressed(ICodeElement element, Rule rule)
+        public override bool IsRuleSuppressed(ICodeElement element, string ruleCheckId, string ruleName, string ruleNamespace)
         {
-            Param.Ignore(element, rule);
-
-            if (element != null && rule != null)
+            if (((element != null) && !string.IsNullOrEmpty(ruleCheckId)) && (!string.IsNullOrEmpty(ruleName) && !string.IsNullOrEmpty(ruleNamespace)))
             {
-                // If the lock throws we are okay with it unwinding
-                this.suppressionsLock.AcquireReaderLock(Timeout.Infinite);
+                SuppressedRule suppressedRule = new SuppressedRule { RuleId = ruleCheckId, RuleName = ruleName, RuleNamespace = ruleNamespace };
 
+                this.suppressionsLock.AcquireReaderLock(Timeout.Infinite);
                 try
                 {
-                    // First, check whether the entire rule namespace is suppressed for this element.
-                    if (this.IsRuleSuppressed(element, rule.UniqueRuleNamespaceId))
+                    List<CsElement> list = null;
+                    if ((this.suppressions.Count != 0) && this.suppressions.TryGetValue(suppressedRule, out list))
                     {
-                        return true;
-                    }
-
-                    // Now determine whether the specific rule is suppressed.
-                    if (this.IsRuleSuppressed(element, rule.UniqueRuleId))
-                    {
-                        return true;
+                        return MatchElementWithPossibleElementsTraversingParents((CsElement)element, list);
                     }
                 }
                 finally
@@ -369,22 +357,21 @@ namespace StyleCop.CSharp
             Param.Assert(ruleId == "*" || !string.IsNullOrEmpty(ruleName), "ruleName", "Rule name is invalid.");
             Param.AssertValidString(ruleNamespace, "ruleNamespace");
 
+            SuppressedRule suppressedRule = new SuppressedRule { RuleId = ruleId, RuleName = ruleName, RuleNamespace = ruleNamespace };
+
             // Need a writer lock arond this entire section to ensure thread safety of dictionary
             // and the lists contained inside.
             this.suppressionsLock.AcquireWriterLock(Timeout.Infinite);
 
             try
             {
-                // Generate the hashcode for the rule being suppressed.
-                int uniqueRuleID = Rule.GenerateUniqueId(ruleNamespace, ruleId, ruleName);
-
                 // Determine whether there is already at least one suppression for some element for this rule.
                 List<CsElement> elementsContainingSuppressedRule = null;
                 bool foundElementList = false;
 
                 if (this.suppressions.Count != 0)
                 {
-                    foundElementList = this.suppressions.TryGetValue(uniqueRuleID, out elementsContainingSuppressedRule);
+                    foundElementList = this.suppressions.TryGetValue(suppressedRule, out elementsContainingSuppressedRule);
                 }
 
                 Debug.Assert(
@@ -395,7 +382,7 @@ namespace StyleCop.CSharp
                 {
                     // This is the first suppression for this rule type.
                     elementsContainingSuppressedRule = new List<CsElement>();
-                    this.suppressions.Add(uniqueRuleID, elementsContainingSuppressedRule);
+                    this.suppressions.Add(suppressedRule, elementsContainingSuppressedRule);
                 }
 
                 elementsContainingSuppressedRule.Add(element);
@@ -470,30 +457,34 @@ namespace StyleCop.CSharp
 
         #endregion Private Static Methods
 
-        #region Private Methods
-
         /// <summary>
-        /// Determines whether the given element contains a suppression for the given rule.
+        /// This is used to keep track of which rules have been suppressed.
         /// </summary>
-        /// <param name="element">The element to check.</param>
-        /// <param name="ruleHashCode">The rule hash code.</param>
-        /// <returns>Returns true if the rule is suppressed; false otherwise.</returns>
-        private bool IsRuleSuppressed(ICodeElement element, int ruleHashCode)
+        private struct SuppressedRule
         {
-            Param.AssertNotNull(element, "element");
-            Param.Ignore(ruleHashCode);
+            /// <summary>
+            /// The rule id.
+            /// </summary>
+            public string RuleId;
 
-            List<CsElement> elementsContainingSuppressedRule = null;
+            /// <summary>
+            /// The rule name.
+            /// </summary>
+            public string RuleName;
 
-            if (this.suppressions.Count != 0 && this.suppressions.TryGetValue(ruleHashCode, out elementsContainingSuppressedRule))
+            /// <summary>
+            /// The rule namespace.
+            /// </summary>
+            public string RuleNamespace;
+
+            /// <summary>
+            /// Generates a unique hashcode for this struct.
+            /// </summary>
+            /// <returns>An int of the unique hashcode.</returns>
+            public override int GetHashCode()
             {
-                Debug.Assert(elementsContainingSuppressedRule != null, "The returned list of elements containing the suppressed rule should never be null.");
-                return MatchElementWithPossibleElementsTraversingParents((CsElement)element, elementsContainingSuppressedRule);
+                return (this.RuleId + ":" + this.RuleNamespace + "." + this.RuleName).GetHashCode();
             }
-
-            return false;
         }
-
-        #endregion Private Methods
     }
 }
