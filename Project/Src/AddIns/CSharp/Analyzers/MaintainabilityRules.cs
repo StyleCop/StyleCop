@@ -757,7 +757,7 @@ namespace StyleCop.CSharp
             }
             else if ((secondArgument.Tokens.First.Value.CsTokenType == CsTokenType.String && IsEmptyString(secondArgument.Tokens.First.Value.Text)) ||
                      (secondArgument.Tokens.First.Value.CsTokenType == CsTokenType.Null) ||
-                     secondArgument.Tokens.MatchTokens("string", ".", "Empty"))
+                     secondArgument.Tokens.MatchTokens(StringComparison.OrdinalIgnoreCase, "string", ".", "Empty"))
             {
                 // The message argument contains an empty string or null.
                 this.AddViolation(element, debugAssertMethodCall.LineNumber, Rules.DebugAssertMustProvideMessageText);
@@ -789,7 +789,7 @@ namespace StyleCop.CSharp
             }
             else if ((firstArgument.Tokens.First.Value.CsTokenType == CsTokenType.String && IsEmptyString(firstArgument.Tokens.First.Value.Text)) ||
                      (firstArgument.Tokens.First.Value.CsTokenType == CsTokenType.Null) ||
-                     firstArgument.Tokens.MatchTokens("string", ".", "Empty"))
+                     firstArgument.Tokens.MatchTokens(StringComparison.OrdinalIgnoreCase, "string", ".", "Empty"))
             {
                 // The message argument contains an empty string or null.
                 this.AddViolation(element, debugFailMethodCall.LineNumber, Rules.DebugFailMustProvideMessageText);

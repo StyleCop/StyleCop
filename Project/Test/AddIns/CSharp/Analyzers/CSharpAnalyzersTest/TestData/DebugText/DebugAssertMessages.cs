@@ -53,6 +53,11 @@ namespace DebugAssertMessages
             System.Diagnostics.Debug.Fail(@"");
             System.Diagnostics.Debug.Fail(string.Empty);
             System.Diagnostics.Debug.Fail(null);
+
+            Debug.Assert(true, String.Empty);
+            System.Diagnostics.Debug.Assert(true, String.Empty);
+            Debug.Fail(String.Empty);
+            System.Diagnostics.Debug.Fail(String.Empty);
         }
     }
 

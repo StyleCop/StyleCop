@@ -66,12 +66,29 @@ namespace StyleCop.CSharp
             Param.RequireNotNull(start, "start");
             Param.RequireNotNull(values, "values");
 
+            return CsTokenList.MatchTokens(StringComparison.Ordinal, start, values);
+        }
+
+        /// <summary>
+        /// Determines whether the given token list contains the given strings, skipping whitespace tokens and
+        /// comments.
+        /// </summary>
+        /// <param name="comparisonType">The string comparison type to use.</param>
+        /// <param name="start">Begins matching the given strings with this token.</param>
+        /// <param name="values">The collection of strings to match against.</param>
+        /// <returns>Returns true if the tokens match the collection of strings.</returns>
+        public static bool MatchTokens(StringComparison comparisonType, Node<CsToken> start, params string[] values)
+        {
+            Param.Ignore(comparisonType);
+            Param.RequireNotNull(start, "start");
+            Param.RequireNotNull(values, "values");
+
             int index = 0;
             Node<CsToken> token = start;
 
             while (token != null && index < values.Length)
             {
-                if (!token.Value.Text.Equals(values[index], StringComparison.Ordinal))
+                if (!token.Value.Text.Equals(values[index], comparisonType))
                 {
                     return false;
                 }
@@ -124,6 +141,21 @@ namespace StyleCop.CSharp
             Param.RequireNotNull(values, "values");
 
             return CsTokenList.MatchTokens(this.First, values);
+        }
+
+        /// <summary>
+        /// Determines whether the token list contains the given strings, skipping whitespace tokens and
+        /// comments.
+        /// </summary>
+        /// <param name="comparisonType">The string comparison type to use.</param>
+        /// <param name="values">The collection of strings to match against.</param>
+        /// <returns>Returns true if the tokens match the collection of strings.</returns>
+        public bool MatchTokens(StringComparison comparisonType, params string[] values)
+        {
+            Param.RequireNotNull(values, "values");
+            Param.Ignore(comparisonType);
+
+            return CsTokenList.MatchTokens(comparisonType, this.First, values);
         }
 
         #endregion Public Methods
