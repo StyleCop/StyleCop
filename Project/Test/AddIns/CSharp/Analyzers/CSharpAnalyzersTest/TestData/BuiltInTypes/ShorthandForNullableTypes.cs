@@ -24,5 +24,10 @@ namespace CSharpAnalyzersTest.TestData.BuiltInTypes
             Nullable<bool> c1 = null; // invalid
             bool? c2 = null; // valid
         }
+
+        public void Method2()
+        {
+            var a = typeof(Nullable<>); // valid
+        }
     }
 }

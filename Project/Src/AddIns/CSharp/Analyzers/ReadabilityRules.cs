@@ -326,7 +326,10 @@ namespace StyleCop.CSharp
 
             if (typeToken.ChildTokens.Count > 0 && typeToken.ChildTokens.First.Value.Text.Equals("Nullable", StringComparison.Ordinal))
             {
-                this.AddViolation(typeToken.FindParentElement(), typeToken.LineNumber, Rules.UseShorthandForNullableTypes);
+                if (typeToken.Parent == null || !(typeToken.Parent is TypeofExpression))
+                {
+                    this.AddViolation(typeToken.FindParentElement(), typeToken.LineNumber, Rules.UseShorthandForNullableTypes);
+                }
             }
         }
 

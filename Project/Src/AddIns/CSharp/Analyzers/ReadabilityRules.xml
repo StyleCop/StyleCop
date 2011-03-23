@@ -104,7 +104,7 @@
       </Rule>
       <Rule Name="UseShorthandForNullableTypes" CheckId="SA1125">
         <Context>Use the shorthand of the nullable type.</Context>
-        <Description>Enforces the use of the shorthand of a nullable type rather than the Nullable&lt;T&gt;.</Description>
+        <Description>Enforces the use of the shorthand of a nullable type rather than the Nullable&lt;T&gt; except inside a typeof().</Description>
       </Rule>      
     </RuleGroup>
     <RuleGroup Name="Strings">
