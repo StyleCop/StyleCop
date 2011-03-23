@@ -433,7 +433,7 @@
   </Test>
 
  <Test Name="FileHeadersValidGenerics">
-    <TestCodeFile>FileHeadersValidGenerics.cs</TestCodeFile>
+    <TestCodeFile>FileHeadersValidGenerics{T}.cs</TestCodeFile>
     <Settings>
       <GlobalSettings>
         <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
@@ -492,9 +492,134 @@
       </Analyzers>
     </Settings>
     <ExpectedViolations>
-     </ExpectedViolations>
+    </ExpectedViolations>
   </Test>
 
+ <Test Name="FileHeadersValidAspx">
+    <TestCodeFile>FileHeadersValidAspxStyle.aspx.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.DocumentationRules">
+          <Rules>
+            <Rule Name="FileMustHaveHeader">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="FileHeaderMustShowCopyright">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="FileHeaderMustHaveCopyrightText">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="FileHeaderCopyrightTextMustMatch">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="FileHeaderMustContainFileName">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="FileHeaderFileNameDocumentationMustMatchFileName">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="FileHeaderMustHaveValidCompanyText">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="FileHeaderCompanyNameTextMustMatch">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+              <Rule Name="FileHeaderFileNameDocumentationMustMatchTypeName">
+                  <RuleSettings>
+                      <BooleanProperty Name="Enabled">True</BooleanProperty>
+                  </RuleSettings>
+              </Rule>              
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+    </ExpectedViolations>
+  </Test>
+
+<Test Name="FileHeadersValidAspx">
+    <TestCodeFile>FileHeadersValidPartial.Nested.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.DocumentationRules">
+          <Rules>
+            <Rule Name="FileMustHaveHeader">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="FileHeaderMustShowCopyright">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="FileHeaderMustHaveCopyrightText">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="FileHeaderCopyrightTextMustMatch">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="FileHeaderMustContainFileName">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="FileHeaderFileNameDocumentationMustMatchFileName">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="FileHeaderMustHaveValidCompanyText">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="FileHeaderCompanyNameTextMustMatch">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+              <Rule Name="FileHeaderFileNameDocumentationMustMatchTypeName">
+                  <RuleSettings>
+                      <BooleanProperty Name="Enabled">True</BooleanProperty>
+                  </RuleSettings>
+              </Rule>              
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+    </ExpectedViolations>
+  </Test>
 
   <!-- Tests that violations are thrown if the company is missing. -->
   <Test Name="FileHeadersCompany">

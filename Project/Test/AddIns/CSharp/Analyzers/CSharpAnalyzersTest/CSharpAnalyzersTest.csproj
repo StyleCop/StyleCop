@@ -68,8 +68,10 @@
     <None Include="TestData\ClassMembers\ClassMembersPrefixLocalCallsWithThis2.cs" />
     <None Include="TestData\LineSpacing\LineSpacingBetweenAssemblyAttributes.cs" />
     <None Include="TestData\FileHeaders\FileHeadersValidFilename.cs" />
-    <None Include="TestData\FileHeaders\FileHeadersValidGenerics.cs" />
+    <None Include="TestData\FileHeaders\FileHeadersValidGenerics{T}.cs" />
     <None Include="TestData\LineSpacing\BlankLinesAtStartAndEndOfFile9.cs" />
+    <None Include="TestData\FileHeaders\FileHeadersValidAspxStyle.aspx.cs" />
+    <None Include="TestData\FileHeaders\FileHeadersValidPartial.Nested.cs" />
     <Compile Include="TestData\MethodParameters\ConstructorInitializerSpanningMultipleLines.cs" />
     <None Include="TestData\MethodParameters\IndexerAccessBracketPlacement.cs" />
     <Compile Include="TestData\Spacing\OpenParenthesis.cs" />

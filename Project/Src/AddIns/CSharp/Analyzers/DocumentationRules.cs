@@ -2320,12 +2320,18 @@ namespace StyleCop.CSharp
 
                             // Make sure the filename matches the name of the first type in the file.
                             string firstTypeName = this.GetFirstTypeName(document.RootElement);
-                            
-                            string trimmedFilename = Path.GetFileNameWithoutExtension(attribute.InnerText);
-                            
-                            if (firstTypeName != null && string.Compare(trimmedFilename, firstTypeName, StringComparison.OrdinalIgnoreCase) != 0)
+
+                            string trimmedFilename = this.RemoveExtensions(attribute.InnerText);
+
+                            if (firstTypeName != null)
                             {
-                                this.AddViolation(document.RootElement, document.FileHeader.LineNumber, Rules.FileHeaderFileNameDocumentationMustMatchTypeName);
+                                // Typename may contain generics so replace any <> with {}
+                                firstTypeName = firstTypeName.Replace('<', '{').Replace('>', '}');
+
+                                if (string.Compare(trimmedFilename, firstTypeName, StringComparison.OrdinalIgnoreCase) != 0)
+                                {
+                                    this.AddViolation(document.RootElement, document.FileHeader.LineNumber, Rules.FileHeaderFileNameDocumentationMustMatchTypeName);
+                                }
                             }
                         }
 
@@ -2367,9 +2373,33 @@ namespace StyleCop.CSharp
                 }
             }
         }
-        
+
         /// <summary>
-        /// Returns the first type name in the document.
+        /// Removes all known extensions from the path provided.
+        /// </summary>
+        /// <param name="path">The path to remove the extensions from.</param>
+        /// <returns>The path without any extensions.</returns>
+        private string RemoveExtensions(string path)
+        {
+            if (string.IsNullOrEmpty(path))
+            {
+                return path;
+            }
+
+            IList<string> knownExtensions = new[] { ".asax", ".ascx", ".ashx", ".asmx", ".aspx", ".axd", ".browser", ".cd", ".compile", ".config", ".master", ".msgx", ".svc", ".cs" };
+
+            string extension = Path.GetExtension(path).ToLowerInvariant();
+            
+            if (knownExtensions.Contains(extension))
+            {
+                return this.RemoveExtensions(Path.GetFileNameWithoutExtension(path));
+            }
+
+            return path;
+        }
+
+        /// <summary>
+        /// Returns the first type name in the document. For partial classes it returns the name of the partial class concatenated with its first non-partial child.
         /// </summary>
         /// <param name="parentElement">The element to start at.</param>
         /// <returns>The firt type name or null if no type defined.</returns>
@@ -2379,16 +2409,23 @@ namespace StyleCop.CSharp
             {
                 if (element.ElementType == ElementType.Namespace)
                 {
-                    string a = this.GetFirstTypeName(element);
-                    if (a != null)
+                    string firstTypeName = this.GetFirstTypeName(element);
+                    if (firstTypeName != null)
                     {
-                        return a;
+                        return firstTypeName;
                     }
                 }
                 else if (element.ElementType == ElementType.Class || element.ElementType == ElementType.Enum ||
                     element.ElementType == ElementType.Interface || element.ElementType == ElementType.Struct)
                 {
-                    return element.FullyQualifiedName.SubstringAfterLast('.').SubstringBefore('<');
+                    if (element.Declaration.ContainsModifier(CsTokenType.Partial))
+                    {
+                        var partialTypeName = element.FullyQualifiedName.SubstringAfterLast('.');
+                        string childTypeName = this.GetFirstTypeName(element);
+                        return childTypeName != null ? partialTypeName + "." + childTypeName : partialTypeName;
+                    }
+
+                    return element.FullyQualifiedName.SubstringAfterLast('.');
                 }
             }
 

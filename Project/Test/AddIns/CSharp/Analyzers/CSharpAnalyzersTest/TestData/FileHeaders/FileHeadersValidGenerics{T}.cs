@@ -1,4 +1,4 @@
-﻿// <copyright file="FileHeadersValidGenerics.cs" company="Microsoft">
+﻿// <copyright file="FileHeadersValidGenerics{T}.cs" company="Microsoft">
 //   Copyright (c) Microsoft Corporation. All rights reserved.
 // </copyright>
 
