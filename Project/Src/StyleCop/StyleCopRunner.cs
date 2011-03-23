@@ -161,7 +161,7 @@ namespace StyleCop
         #region Protected Methods
 
         /// <summary>
-        /// Called when output is generated during an analysis.
+        /// Called when output is generated during an analysis. This can be called simultaneously from several threads and so any code must be thread safe.
         /// </summary>
         /// <param name="e">The event arguments.</param>
         protected void OnOutputGenerated(OutputEventArgs e)
@@ -175,7 +175,7 @@ namespace StyleCop
         }
 
         /// <summary>
-        /// Called when a violation is encountered during an analysis.
+        /// Called when a violation is encountered during an analysis. This can be called simultaneously from several threads and so any code must be thread safe.
         /// </summary>
         /// <param name="e">The event arguments.</param>
         protected void OnViolationEncountered(ViolationEventArgs e)
