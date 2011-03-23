@@ -2318,19 +2318,23 @@ namespace StyleCop.CSharp
                                 this.AddViolation(document.RootElement, document.FileHeader.LineNumber, Rules.FileHeaderFileNameDocumentationMustMatchFileName);
                             }
 
+                            string firstTypeName;
+
                             // Make sure the filename matches the name of the first type in the file.
-                            string firstTypeName = this.GetFirstTypeName(document.RootElement);
-
-                            string trimmedFilename = this.RemoveExtensions(attribute.InnerText);
-
-                            if (firstTypeName != null)
+                            // If its a partial class we do nothing.
+                            if (!this.GetFirstTypeName(document.RootElement, out firstTypeName))
                             {
-                                // Typename may contain generics so replace any <> with {}
-                                firstTypeName = firstTypeName.Replace('<', '{').Replace('>', '}');
-
-                                if (string.Compare(trimmedFilename, firstTypeName, StringComparison.OrdinalIgnoreCase) != 0)
+                                if (firstTypeName != null)
                                 {
-                                    this.AddViolation(document.RootElement, document.FileHeader.LineNumber, Rules.FileHeaderFileNameDocumentationMustMatchTypeName);
+                                    string trimmedFilename = this.RemoveExtensions(attribute.InnerText);
+
+                                    // Typename may contain generics so replace any <> with {}
+                                    firstTypeName = firstTypeName.Replace('<', '{').Replace('>', '}');
+
+                                    if (string.Compare(trimmedFilename, firstTypeName, StringComparison.OrdinalIgnoreCase) != 0)
+                                    {
+                                        this.AddViolation(document.RootElement, document.FileHeader.LineNumber, Rules.FileHeaderFileNameDocumentationMustMatchTypeName);
+                                    }
                                 }
                             }
                         }
@@ -2402,17 +2406,21 @@ namespace StyleCop.CSharp
         /// Returns the first type name in the document. For partial classes it returns the name of the partial class concatenated with its first non-partial child.
         /// </summary>
         /// <param name="parentElement">The element to start at.</param>
-        /// <returns>The firt type name or null if no type defined.</returns>
-        private string GetFirstTypeName(CsElement parentElement)
+        /// <param name="firstTypeName">The first type name found or null if no type defined.</param>
+        /// <returns>True if the first tpe defined is partial, otherwise false.</returns>
+        private bool GetFirstTypeName(CsElement parentElement, out string firstTypeName)
         {
+            bool partial = false;
+            firstTypeName = null;
+
             foreach (var element in parentElement.ChildElements)
             {
                 if (element.ElementType == ElementType.Namespace)
                 {
-                    string firstTypeName = this.GetFirstTypeName(element);
+                    partial = this.GetFirstTypeName(element, out firstTypeName);
                     if (firstTypeName != null)
                     {
-                        return firstTypeName;
+                        return partial;
                     }
                 }
                 else if (element.ElementType == ElementType.Class || element.ElementType == ElementType.Enum ||
@@ -2420,16 +2428,14 @@ namespace StyleCop.CSharp
                 {
                     if (element.Declaration.ContainsModifier(CsTokenType.Partial))
                     {
-                        var partialTypeName = element.FullyQualifiedName.SubstringAfterLast('.');
-                        string childTypeName = this.GetFirstTypeName(element);
-                        return childTypeName != null ? partialTypeName + "." + childTypeName : partialTypeName;
+                        partial = true;
                     }
 
-                    return element.FullyQualifiedName.SubstringAfterLast('.');
+                    firstTypeName = element.FullyQualifiedName.SubstringAfterLast('.');
                 }
             }
 
-            return null;
+            return partial;
         }
 
         /// <summary>
