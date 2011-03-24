@@ -434,6 +434,9 @@
 
  <Test Name="FileHeadersValidGenerics">
     <TestCodeFile>FileHeadersValidGenerics{T}.cs</TestCodeFile>
+    <TestCodeFile>FileHeadersValidDingbatItems{TKey,TValue}.cs</TestCodeFile>
+    <TestCodeFile>FileHeadersValidIGenericContravariant{T}.cs</TestCodeFile>
+    <TestCodeFile>FileHeadersValidIGenericCovariant{T}.cs</TestCodeFile>
     <Settings>
       <GlobalSettings>
         <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>

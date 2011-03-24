@@ -2328,8 +2328,12 @@ namespace StyleCop.CSharp
                                 {
                                     string trimmedFilename = this.RemoveExtensions(attribute.InnerText);
 
-                                    // Typename may contain generics so replace any <> with {}
-                                    firstTypeName = firstTypeName.Replace('<', '{').Replace('>', '}');
+                                    // Do we have some generics to look at?
+                                    if (firstTypeName.IndexOf('<') > -1)
+                                    {
+                                        // Remove any 'out ' or 'in ' from generics and then swap '<' and '>' for '{' and '}'
+                                        firstTypeName = firstTypeName.Replace("out ", string.Empty).Replace("in ", string.Empty).Replace('<', '{').Replace('>', '}');
+                                    }
 
                                     if (string.Compare(trimmedFilename, firstTypeName, StringComparison.OrdinalIgnoreCase) != 0)
                                     {

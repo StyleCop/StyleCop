@@ -72,6 +72,9 @@
     <None Include="TestData\LineSpacing\BlankLinesAtStartAndEndOfFile9.cs" />
     <None Include="TestData\FileHeaders\FileHeadersValidAspxStyle.aspx.cs" />
     <None Include="TestData\FileHeaders\FileHeadersValidPartial.Nested.cs" />
+    <None Include="TestData\FileHeaders\FileHeadersValidDingbatItems{TKey,TValue}.cs" />
+    <None Include="TestData\FileHeaders\FileHeadersValidIGenericContravariant{T}.cs" />
+    <None Include="TestData\FileHeaders\FileHeadersValidIGenericCovariant{T}.cs" />
     <Compile Include="TestData\MethodParameters\ConstructorInitializerSpanningMultipleLines.cs" />
     <None Include="TestData\MethodParameters\IndexerAccessBracketPlacement.cs" />
     <Compile Include="TestData\Spacing\OpenParenthesis.cs" />
