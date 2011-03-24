@@ -1411,13 +1411,13 @@ namespace StyleCop.CSharp
             Node<CsToken> previousNode = tokenNode.Previous;
             if (previousNode != null)
             {
-                CsTokenType tokenType = previousNode.Value.CsTokenType;
-                if (tokenType == CsTokenType.WhiteSpace ||
-                    tokenType == CsTokenType.EndOfLine ||
-                    tokenType == CsTokenType.SingleLineComment ||
-                    tokenType == CsTokenType.MultiLineComment)
+                CsTokenType previousTokenType = previousNode.Value.CsTokenType;
+                if (previousTokenType == CsTokenType.WhiteSpace || previousTokenType == CsTokenType.EndOfLine || previousTokenType == CsTokenType.SingleLineComment || previousTokenType == CsTokenType.MultiLineComment)
                 {
-                    this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.LineNumber, Rules.MemberAccessSymbolsMustBeSpacedCorrectly);
+                    if (!this.IsTokenFirstNonWhitespaceTokenOnLine(tokens, tokenNode))
+                    {
+                        this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.LineNumber, Rules.MemberAccessSymbolsMustBeSpacedCorrectly);
+                    }
                 }
             }
 
@@ -1454,6 +1454,38 @@ namespace StyleCop.CSharp
                 }
             }
         }    
+
+        /// <summary>
+        /// Checks to see if the passed in node is the first node on its line.
+        /// </summary>
+        /// <param name="tokens">The masterlist of tokens.</param>
+        /// <param name="node">The node to check.</param>
+        /// <returns>True if this node is the first on the line, otherwise false.</returns>
+        private bool IsTokenFirstNonWhitespaceTokenOnLine(MasterList<CsToken> tokens, Node<CsToken> node)
+        {
+            var previousNode = node.Previous;
+            if (previousNode == null)
+            {
+                return true;
+            }
+
+            bool returnValue = true;
+            foreach (CsToken item in tokens.ReverseIterator(previousNode))
+            {
+                if (item.LineNumber != node.Value.LineNumber)
+                {
+                    break;
+                }
+
+                if (item.CsTokenType != CsTokenType.WhiteSpace)
+                {
+                    returnValue = false;
+                    break;
+                }
+            }
+
+            return returnValue;
+        }
 
         /// <summary>
         /// Checks an increment or decrement sign for spacing.

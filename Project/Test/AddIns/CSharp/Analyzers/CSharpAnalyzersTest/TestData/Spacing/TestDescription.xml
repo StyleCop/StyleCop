@@ -110,7 +110,6 @@
         <Violation Section="Root.CSharpAnalyzersTest.TestData.Spacing.MemberAccessSymbol.Rules.get" LineNumber="44" Rule="MemberAccessSymbolsMustBeSpacedCorrectly" />
         <Violation Section="Root.CSharpAnalyzersTest.TestData.Spacing.MemberAccessSymbol.Rules.get" LineNumber="62" Rule="MemberAccessSymbolsMustBeSpacedCorrectly" />
         <Violation Section="Root.CSharpAnalyzersTest.TestData.Spacing.MemberAccessSymbol.Rules.get" LineNumber="80" Rule="MemberAccessSymbolsMustBeSpacedCorrectly" />
-        <Violation Section="Root.CSharpAnalyzersTest.TestData.Spacing.MemberAccessSymbol.Rules.get" LineNumber="99" Rule="MemberAccessSymbolsMustBeSpacedCorrectly" />
     </ExpectedViolations>
   </Test> 
 </StyleCopTestDescription>
