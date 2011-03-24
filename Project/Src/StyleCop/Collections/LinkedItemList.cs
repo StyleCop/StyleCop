@@ -688,10 +688,14 @@ namespace StyleCop
         protected virtual void OnNodeIndexesReset(EventArgs e)
         {
             Param.RequireNotNull(e, "e");
+            
+            // Make sure we cache the delegate locally to avoid other threads unsubscribing before we call them.
+            // See http://piers7.blogspot.com/2010/03/3-races-with-net-events.html for info.
+            EventHandler handlers = this.NodeIndexesReset;
 
-            if (this.NodeIndexesReset != null)
+            if (handlers != null)
             {
-                this.NodeIndexesReset(this, e);
+                handlers(this, e);
             }
         }
 

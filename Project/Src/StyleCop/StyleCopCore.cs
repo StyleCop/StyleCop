@@ -1210,44 +1210,56 @@ namespace StyleCop
         #region Private Methods
 
         /// <summary>
-        /// Called when a violation is encountered while analyzing a code document.
+        /// Called when a violation is encountered while analyzing a code document. This can be called simultaneously from several threads and so any code must be thread safe.
         /// </summary>
         /// <param name="e">The event arguments.</param>
         private void OnViolationEncountered(ViolationEventArgs e)
         {
             Param.AssertNotNull(e, "e");
 
-            if (this.ViolationEncountered != null)
+            // Make sure we cache the delegate locally to avoid other threads unsubscribing before we call them.
+            // See http://piers7.blogspot.com/2010/03/3-races-with-net-events.html for info.
+            EventHandler<ViolationEventArgs> handlers = this.ViolationEncountered;
+
+            if (handlers != null)
             {
-                this.ViolationEncountered(this, e);
+                handlers(this, e);
             }
         }
 
         /// <summary>
-        /// Called when a line of output is generated while analyzing a code document.
+        /// Called when a line of output is generated while analyzing a code document. This can be called simultaneously from several threads and so any code must be thread safe.
         /// </summary>
         /// <param name="e">The event arguments.</param>
         private void OnOutputGenerated(OutputEventArgs e)
         {
             Param.AssertNotNull(e, "e");
 
-            if (this.OutputGenerated != null)
+            // Make sure we cache the delegate locally to avoid other threads unsubscribing before we call them.
+            // See http://piers7.blogspot.com/2010/03/3-races-with-net-events.html for info.
+            EventHandler<OutputEventArgs> handlers = this.OutputGenerated;
+
+            if (handlers != null)
             {
-                this.OutputGenerated(this, e);
+                handlers(this, e);
             }
         }
 
         /// <summary>
-        /// Called when the settings are changed for one or more projects.
+        /// Called when the settings are changed for one or more projects. This can be called simultaneously from several threads and so any code must be thread safe.
         /// </summary>
         /// <param name="e">The event arguments.</param>
         private void OnProjectSettingsChanged(EventArgs e)
         {
             Param.AssertNotNull(e, "e");
+            
+            // Make sure we cache the delegate locally to avoid other threads unsubscribing before we call them.
+            // See http://piers7.blogspot.com/2010/03/3-races-with-net-events.html for info.
+            EventHandler handlers = this.ProjectSettingsChanged;
 
-            if (this.ProjectSettingsChanged != null)
+            if (handlers != null)
             {
-                this.ProjectSettingsChanged(this, e);
+                handlers(this, e);
             }
         }
 
@@ -1260,9 +1272,13 @@ namespace StyleCop
         {
             Param.AssertNotNull(e, "e");
 
-            if (this.AddSettingsPages != null)
+            // Make sure we cache the delegate locally to avoid other threads unsubscribing before we call them.
+            // See http://piers7.blogspot.com/2010/03/3-races-with-net-events.html for info.
+            EventHandler<AddSettingsPagesEventArgs> handlers = this.AddSettingsPages;
+
+            if (handlers != null)
             {
-                this.AddSettingsPages(this, e);
+                handlers(this, e);
             }
         }
 

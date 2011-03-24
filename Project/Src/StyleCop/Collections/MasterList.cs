@@ -567,9 +567,13 @@ namespace StyleCop
         {
             Param.RequireNotNull(e, "e");
 
-            if (this.NodeIndexesReset != null)
+            // Make sure we cache the delegate locally to avoid other threads unsubscribing before we call them.
+            // See http://piers7.blogspot.com/2010/03/3-races-with-net-events.html for info.
+            EventHandler handlers = this.NodeIndexesReset;
+
+            if (handlers != null)
             {
-                this.NodeIndexesReset(this, e);
+                handlers(this, e);
             }
         }
 

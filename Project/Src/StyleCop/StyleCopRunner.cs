@@ -168,9 +168,13 @@ namespace StyleCop
         {
             Param.RequireNotNull(e, "e");
 
-            if (this.OutputGenerated != null)
+            // Make sure we cache the delegate locally to avoid other threads unsubscribing before we call them.
+            // See http://piers7.blogspot.com/2010/03/3-races-with-net-events.html for info.
+            EventHandler<OutputEventArgs> handlers = this.OutputGenerated;
+            
+            if (handlers != null)
             {
-                this.OutputGenerated(this, e);
+                handlers(this, e);
             }
         }
 
@@ -181,10 +185,14 @@ namespace StyleCop
         protected void OnViolationEncountered(ViolationEventArgs e)
         {
             Param.RequireNotNull(e, "e");
+            
+            // Make sure we cache the delegate locally to avoid other threads unsubscribing before we call them.
+            // See http://piers7.blogspot.com/2010/03/3-races-with-net-events.html for info.
+            EventHandler<ViolationEventArgs> handlers = this.ViolationEncountered;
 
-            if (this.ViolationEncountered != null)
+            if (handlers != null)
             {
-                this.ViolationEncountered(this, e);
+                handlers(this, e);
             }
         }
 
