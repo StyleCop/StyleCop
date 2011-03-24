@@ -111,7 +111,8 @@
     <Compile Include="CodeParser.Preprocessor.cs" />
     <Compile Include="CodeParser.Statements.cs" />
     <Compile Include="CodeParser.Symbols.cs" />
-    <Compile Include="CodeWalker.cs" />
+    <Compile Include="CodePartType.cs" />
+    <Compile Include="CodeWalker{T}.cs" />
     <Compile Include="CodeUnit.cs" />
     <Compile Include="Argument.cs" />
     <Compile Include="CsToken.cs" />
@@ -124,7 +125,9 @@
     <Compile Include="Expressions\ObjectInitializerExpression.cs" />
     <Compile Include="Expressions\QueryExpression.cs" />
     <Compile Include="ICodePart.cs" />
+    <Compile Include="ICodePartExtensions.cs" />
     <Compile Include="ICodeUnit.cs" />
+    <Compile Include="IWriteableCodeUnit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -148,9 +151,9 @@
     <Compile Include="QueryClauses\QueryOrderByClause.cs" />
     <Compile Include="QueryClauses\QuerySelectClause.cs" />
     <Compile Include="QueryClauses\QueryWhereClause.cs" />
-    <Compile Include="CodeUnitCollection.cs" />
+    <Compile Include="CodeUnitCollection{T}.cs" />
     <Compile Include="QueryClauseType.cs" />
-    <Compile Include="Reference.cs" />
+    <Compile Include="Reference{T}.cs" />
     <Compile Include="Rules.cs" />
     <Compile Include="Statements\ConstructorInitializerStatement.cs" />
     <Compile Include="StatementType.cs" />

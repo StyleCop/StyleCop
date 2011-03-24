@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="PropertyDescriptor`1.cs">
+// <copyright file="PropertyDescriptor{T}.cs">
 //   MS-PL
 // </copyright>
 // <license>

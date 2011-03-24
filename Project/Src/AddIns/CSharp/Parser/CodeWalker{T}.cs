@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="CodeWalker.cs">
+// <copyright file="CodeWalker{T}.cs">
 //   MS-PL
 // </copyright>
 // <license>

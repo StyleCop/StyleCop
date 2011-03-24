@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="PropertyValue`1.cs">
+// <copyright file="PropertyValue{T}.cs">
 //   MS-PL
 // </copyright>
 // <license>
@@ -15,9 +15,7 @@
 namespace StyleCop
 {
     using System;
-    using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
-    using System.Text;
 
     /// <summary>
     /// A simple property.

@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="MasterList.cs">
+// <copyright file="MasterList{T}.cs">
 //   MS-PL
 // </copyright>
 // <license>
@@ -15,7 +15,6 @@
 namespace StyleCop
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
 

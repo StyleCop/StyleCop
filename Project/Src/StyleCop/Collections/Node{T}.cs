@@ -1,5 +1,5 @@
 //--------------------------------------------------------------------------
-// <copyright file="Node.cs">
+// <copyright file="Node{T}.cs">
 //   MS-PL
 // </copyright>
 // <license>
@@ -14,9 +14,6 @@
 //-----------------------------------------------------------------------
 namespace StyleCop
 {
-    using System;
-    using System.Diagnostics;
-
     /// <summary>
     /// Interface which is implemented by a node class to be used with the LinkedItemList class.
     /// </summary>

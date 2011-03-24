@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="INodeList.cs">
+// <copyright file="INodeList{T}.cs">
 //   MS-PL
 // </copyright>
 // <license>
@@ -14,7 +14,6 @@
 //-----------------------------------------------------------------------
 namespace StyleCop
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
 

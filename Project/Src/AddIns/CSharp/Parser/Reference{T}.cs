@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="Reference.cs">
+// <copyright file="Reference{T}.cs">
 //   MS-PL
 // </copyright>
 // <license>
@@ -14,8 +14,6 @@
 //-----------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
-
     /// <summary>
     /// Provides a reference to another object.
     /// </summary>

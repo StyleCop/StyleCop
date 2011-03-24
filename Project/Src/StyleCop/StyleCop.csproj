@@ -88,13 +88,12 @@
     <Compile Include="CodeLocation.cs" />
     <Compile Include="CodePoint.cs" />
     <Compile Include="CodeReader.cs" />
-    <Compile Include="Collections\INodeList.cs" />
+    <Compile Include="Collections\INodeList{T}.cs" />
     <Compile Include="Collections\ItemList.cs" />
     <Compile Include="Collections\LinkedItemList.cs" />
-    <Compile Include="Collections\LinkedItemList.Enumerators.cs">
-      <DependentUpon>LinkedItemList.cs</DependentUpon>
+    <Compile Include="Collections\LinkedItemListEnumerators{T}.cs">
     </Compile>
-    <Compile Include="Collections\Node.cs" />
+    <Compile Include="Collections\Node{T}.cs" />
     <Compile Include="Collections\NodeIndex.cs" />
     <Compile Include="CacheOptions.cs">
       <SubType>UserControl</SubType>
@@ -116,7 +115,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>LogStrings.resx</DependentUpon>
     </Compile>
-    <Compile Include="Settings\SourceFileList.cs" />
+    <Compile Include="Settings\SourceFileListSettings.cs" />
     <Compile Include="Settings\v104Settings.cs" />
     <Compile Include="Settings\v102Settings.cs" />
     <Compile Include="Settings\v103Settings.cs" />
@@ -126,8 +125,8 @@
     <Compile Include="Settings\CollectionPropertyDescriptor.cs" />
     <Compile Include="Settings\PropertyDescriptor.cs" />
     <Compile Include="Settings\PropertyDescriptorCollection.cs" />
-    <Compile Include="Settings\PropertyDescriptor`1.cs" />
-    <Compile Include="Settings\PropertyValue`1.cs" />
+    <Compile Include="Settings\PropertyDescriptor{T}.cs" />
+    <Compile Include="Settings\PropertyValue{T}.cs" />
     <Compile Include="Settings\v101Settings.cs" />
     <Compile Include="StyleCopAddInAttribute.cs" />
     <Compile Include="StyleCopEnvironment.cs" />
@@ -213,7 +212,7 @@
     </Compile>
     <Compile Include="StyleCopThreadCompletedEventArgs.cs" />
     <Compile Include="StyleCopTask.cs" />
-    <Compile Include="Collections\MasterList.cs" />
+    <Compile Include="Collections\MasterList{T}.cs" />
     <Compile Include="Violation.cs">
       <SubType>Code</SubType>
     </Compile>

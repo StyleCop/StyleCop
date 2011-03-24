@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="LinkedItemList.Enumerators.cs">
+// <copyright file="LinkedItemListEnumerators{T}.cs">
 //   MS-PL
 // </copyright>
 // <license>

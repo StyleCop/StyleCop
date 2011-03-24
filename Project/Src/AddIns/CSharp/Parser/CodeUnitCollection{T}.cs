@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="CodeUnitCollection.cs">
+// <copyright file="CodeUnitCollection{T}.cs">
 //   MS-PL
 // </copyright>
 // <license>

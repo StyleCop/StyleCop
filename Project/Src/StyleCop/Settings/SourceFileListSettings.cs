@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="SourceFileList.cs">
+// <copyright file="SourceFileListSettings.cs">
 //   MS-PL
 // </copyright>
 // <license>
