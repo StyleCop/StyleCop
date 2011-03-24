@@ -193,7 +193,7 @@ namespace StyleCop.VisualStudio
 
                         this.violations = new List<ViolationInfo>();
 
-#if DEBUGTHREADING
+#if DEBUG
                     analyze.AnalyzeProc();
 #else
                         thread.Start();

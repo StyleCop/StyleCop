@@ -20,6 +20,7 @@ namespace StyleCop
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
+    using System.Linq;
     using System.Text;
     using System.Threading;
     using Microsoft.Build.Framework;
@@ -334,7 +335,7 @@ namespace StyleCop
         /// </summary>
         /// <param name="document">The document to analyze.</param>
         /// <param name="parser">The parser that created the document.</param>
-        /// <param name="analyzers">The list of analyzsers to run against the document.</param>
+        /// <param name="analyzers">The list of analyzers to run against the document.</param>
         private void RunAnalyzers(
             CodeDocument document, SourceParser parser, IEnumerable<SourceAnalyzer> analyzers)
         {
@@ -352,30 +353,31 @@ namespace StyleCop
                 }
                 else
                 {
-                    // Loop through each of the analyzers attached to the parser.
-                    foreach (SourceAnalyzer analyzer in analyzers)
+                    // Loop through each of the parser's analyzers. 
+                    // Only call analyzers that are also in the enabled list.
+                    foreach (SourceAnalyzer analyzer in parser.Analyzers)
                     {
-                        // Make sure the user hasn't cancelled us.
-                        if (this.data.Core.Cancel)
+                        SourceAnalyzer localAnalyzer = analyzer;
+                        if (analyzers.Any(enabledAnalyzers => enabledAnalyzers.Id == localAnalyzer.Id))
                         {
-                            break;
-                        }
+                            // Make sure the user hasn't cancelled us.
+                            if (this.data.Core.Cancel)
+                            {
+                                break;
+                            }
 
-                        SourceParser.ClearAnalyzerTags(document);
-                        try
-                        {
-                            analyzer.AnalyzeDocument(document);
-                        }
-                        catch (System.Exception)
-                        {
-                            string details = string.Format(
-                                    CultureInfo.CurrentCulture,
-                                    "Exception thrown by analyzer '{0}' while processing '{1}'.",
-                                    analyzer.Name,
-                                    document.SourceCode.Path);
+                            SourceParser.ClearAnalyzerTags(document);
+                            try
+                            {
+                                analyzer.AnalyzeDocument(document);
+                            }
+                            catch (System.Exception)
+                            {
+                                string details = string.Format(CultureInfo.CurrentCulture, "Exception thrown by analyzer '{0}' while processing '{1}'.", analyzer.Name, document.SourceCode.Path);
 
-                            this.data.Core.SignalOutput(MessageImportance.High, details);
-                            throw;
+                                this.data.Core.SignalOutput(MessageImportance.High, details);
+                                throw;
+                            }
                         }
                     }
                 }

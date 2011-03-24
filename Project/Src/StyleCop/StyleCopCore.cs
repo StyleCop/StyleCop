@@ -1044,7 +1044,7 @@ namespace StyleCop
 
         #region Private Static Methods
 
-        #if !DEBUGTHREADING
+        #if !DEBUG
         /// <summary>
         /// Gets the number of CPUs on the machine.
         /// </summary>
@@ -1498,7 +1498,7 @@ namespace StyleCop
             }
 
             // Get the CPU count.
-            #if DEBUGTHREADING
+            #if DEBUG
             // For debugging, only create a single worker thread.
             int threadCount = 1;
             #else
