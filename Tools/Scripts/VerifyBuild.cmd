@@ -2,6 +2,8 @@
 
 SETLOCAL
 
+SET /p AssemblyVersion=<"%PROJECTROOT%\src\AssemblyVersion.txt"
+
 REM Default value for parameters
 SET BuildTarget=CodeAnalysis
 SET SkipBuild=0
@@ -69,7 +71,7 @@ FOR %%a IN (.- ./) DO IF /I ".%1" == "%%aBUILDANDDEPLOY" ( SET BuildAndDeploy=tr
 
 :ParamsDone
 
-REM GOTO ParametersListDone
+GOTO ParametersListDone
 ECHO BuildTarget     : %BuildTarget%
 ECHO SkipBuild       : %SkipBuild%
 ECHO SkipTests       : %SkipTests%
@@ -208,6 +210,11 @@ if not exist "c:\AndrewReevesCodeSigning.pfx" goto :done
 echo Signing msi...
 
 signtool.exe sign /f "c:\AndrewReevesCodeSigning.pfx" /t "http://timestamp.verisign.com/scripts/timestamp.dll" /d "StyleCop" /du "http://stylecop.codeplex.com" "%PROJECTROOT%\InstallDrop\%BuildTarget%\StyleCop.msi"
+
+echo Renaming StyleCop.msi as StyleCop%AssemblyVersion%.msi
+
+COPY "%PROJECTROOT%\InstallDrop\%BuildTarget%\StyleCop.msi" "%PROJECTROOT%\InstallDrop\%BuildTarget%\StyleCop%AssemblyVersion%.msi"
+DEL "%PROJECTROOT%\InstallDrop\%BuildTarget%\StyleCop.msi"
 
 :done
 
