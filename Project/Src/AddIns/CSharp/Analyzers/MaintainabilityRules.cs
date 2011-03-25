@@ -1009,6 +1009,11 @@ namespace StyleCop.CSharp
 
                             CsToken classMemberName = Utils.ExtractBaseClassMemberName(parentExpression, parentExpression.Tokens.First);
 
+                            if (classMemberName == null)
+                            {
+                                break;
+                            }
+
                             ClassBase classBase = Utils.GetClassBase(element);
 
                             Dictionary<string, List<CsElement>> allClassMembers = Utils.CollectClassMembers(classBase);

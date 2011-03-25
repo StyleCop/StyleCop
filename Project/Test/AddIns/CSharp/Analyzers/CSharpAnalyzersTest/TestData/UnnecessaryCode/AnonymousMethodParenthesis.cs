@@ -56,4 +56,13 @@ namespace UnnecessaryCheckedAndUnchecked
             return this.MethodName(delegate() { return true; });
         }
     }
+
+    public class Class4
+    { 
+        private bool Test()
+        {
+            // This is valid.
+            return MethodNameC(delegate() { return true; });
+        }
+    }
 }
