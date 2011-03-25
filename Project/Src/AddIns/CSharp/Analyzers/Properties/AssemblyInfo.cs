@@ -27,7 +27,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("StyleCop")]
 [assembly: AssemblyCopyright("MS-PL")]
-[assembly: AssemblyTrademark("StyleCop")]
+[assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 

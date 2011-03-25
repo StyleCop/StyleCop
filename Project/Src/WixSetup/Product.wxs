@@ -20,22 +20,31 @@
 
     <Feature Id='Feature_StyleCopPackage'
              Title='Visual Studio integration'
-             Description="StyleCop. Requires Visual Studio 2008 or Visual Studio 2010 to be installed."
+             Description="Files for setting up StyleCop integration with Microsoft Visual Studio 2008 and Microsoft Visual Studio 2010."
              Level="1" Display='expand' ConfigurableDirectory='INSTALLDIR'>
-      <ComponentGroupRef Id="StyleCopCommon" />
+        <ComponentGroupRef Id="StyleCopCommon" />
 
-      <!-- Require VS 2008 or VS 2010 to be installed -->
-      <Condition Level="1"><![CDATA[VS90DEVENV<>"" OR VS2010DEVENV<>""]]></Condition>
-      <Condition Level="0"><![CDATA[VS90DEVENV="" AND VS2010DEVENV=""]]></Condition>
+        <!-- Require VS 2008 or VS 2010 to be installed -->
+        <Condition Level="1"><![CDATA[VS90DEVENV<>"" OR VS2010DEVENV<>""]]></Condition>
+        <Condition Level="0"><![CDATA[VS90DEVENV="" AND VS2010DEVENV=""]]></Condition>
+        <Feature Id='Feature_ReSharper'
+                 Title='R# integration'
+                 Description='Files for setting up StyleCop integration with JetBrains ReSharper 5.1.'
+                 Level='500' AllowAdvertise="no" Display="expand" InstallDefault="local" TypicalDefault="install">
+            <ComponentGroupRef Id="ReSharper_Common" />
+            <Condition Level="1"><![CDATA[RESHARPER51_VS90_VERSION<>"" OR RESHARPER51_VS100_VERSION<>""]]></Condition>
+            <Condition Level="0"><![CDATA[RESHARPER51_VS90_VERSION="" AND RESHARPER51_VS100_VERSION=""]]></Condition>        
+        </Feature>
     </Feature>
 
     <Feature Id='Feature_MSBuild'
-             Title='MSBuild integration files'
-             Description='Files for setting up StyleCop integration with MSBuild.'
+             Title='MSBuild integration'
+             Description='Files for setting up StyleCop integration with Microsoft MSBuild.'
              Level='500' AllowAdvertise="no" Display="expand" InstallDefault="local" TypicalDefault="install">
       <ComponentGroupRef Id="MSBuild_Common" />
       <ComponentRef Id="SettingsEditorMSBuildComponent" />
     </Feature>
+  
 
     <!-- Install Sequences -->
     <InstallExecuteSequence>
@@ -71,6 +80,22 @@
     <Property Id="ARPPRODUCTICON" Value="WixIcon" />
     <Property Id="ARPURLINFOABOUT" Value='$(var.Manufacturer)'/>
     <Property Id="ARPURLUPDATEINFO" Value='$(var.Manufacturer)' />
+
+    <Property Id="RESHARPER51_VS100_VERSION">
+        <RegistrySearch Id="REG_RESHARPER51_VS100_VERSION"
+                    Root="HKLM"
+                    Key="Software\JetBrains\ReSharper\v5.1\vs10.0"
+                    Name="ProductVersion"
+                    Type="raw" />
+    </Property>
+
+    <Property Id="RESHARPER51_VS90_VERSION">
+        <RegistrySearch Id="REG_RESHARPER51_VS90_VERSION"
+                    Root="HKLM"
+                    Key="Software\JetBrains\ReSharper\v5.1\vs9.0"
+                    Name="ProductVersion"
+                    Type="raw" />
+    </Property>    
 
   </Product>
 </Wix>

@@ -2,9 +2,9 @@
 
 <?include AssemblyVersion.wxi ?>
 <Include>
-  <?define MediumProductName = "StyleCop" ?>
-  <?define ProductName = "$(var.MediumProductName) $(var.WixVersionLong)" ?>
-  <?define ProductNameShort = "$(var.MediumProductName) $(var.WixVersionShort)" ?>
-  <?define ProductCode = "3175553C-88D5-453B-93CB-4012A827533A" ?>
-  <?define Manufacturer = "http://stylecop.codeplex.com" ?>
+    <?define MediumProductName = "StyleCop" ?>
+    <?define ProductName = "$(var.MediumProductName) $(var.WixVersionLong)" ?>
+    <?define ProductNameShort = "$(var.MediumProductName) $(var.WixVersionShort)" ?>
+    <?define ProductCode = "3175553C-88D5-453B-93CB-4012A827533A" ?>
+    <?define Manufacturer = "http://stylecop.codeplex.com" ?>
 </Include>

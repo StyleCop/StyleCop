@@ -190,7 +190,7 @@
     <value>Unable to find the child node 'ProjectPathPropertyName'.</value>
   </data>
   <data name="StyleCopStarted" xml:space="preserve">
-    <value>StyleCop started</value>
+    <value>StyleCop {0} (build {1}) started</value>
   </data>
   <data name="Title" xml:space="preserve">
     <value>StyleCop</value>

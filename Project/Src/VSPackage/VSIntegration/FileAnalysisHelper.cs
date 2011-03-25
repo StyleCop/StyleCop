@@ -19,6 +19,7 @@ namespace StyleCop.VisualStudio
     using System.Diagnostics;
     using System.Globalization;
     using System.IO;
+    using System.Reflection;
     using System.Runtime.InteropServices;
     using System.Windows.Forms;
     using EnvDTE;
@@ -29,6 +30,16 @@ namespace StyleCop.VisualStudio
     internal class FileAnalysisHelper : AnalysisHelper
     {
         #region Fields
+
+        /// <summary>
+        /// The Major.Minor parts of the StyleCop version number ie. 4.3 or 4.5.
+        /// </summary>
+        private string versionNumberMajorMinor;
+
+        /// <summary>
+        /// The full version number of StyleCop i.e. 4.3.1.3 or 4.5.0.23.
+        /// </summary>
+        private string versionNumberFull;
 
         /// <summary>
         /// The object that manages the task/error list.
@@ -63,6 +74,28 @@ namespace StyleCop.VisualStudio
         #endregion Constructors
 
         #region Properties
+
+        /// <summary>
+        /// Gets the Major.Minor parts of the StyleCop version number ie. 4.3 or 4.5.
+        /// </summary>
+        private string VersionNumberMajorMinor
+        {
+            get
+            {
+                return this.versionNumberMajorMinor ?? (this.versionNumberMajorMinor = Assembly.GetExecutingAssembly().GetName().Version.ToString(2));
+            }
+        }
+
+        /// <summary>
+        /// Gets the full version number of StyleCop i.e. 4.3.1.3 or 4.5.0.23.
+        /// </summary>
+        private string VersionNumberFull
+        {
+            get
+            {
+                return this.versionNumberFull ?? (this.versionNumberFull = Assembly.GetExecutingAssembly().GetName().Version.ToString(4));
+            }
+        }
 
         /// <summary>
         /// Gets and instance of the TaskProvider class.
@@ -208,10 +241,10 @@ namespace StyleCop.VisualStudio
                 VSWindows.GetInstance(this.ServiceProvider).OutputWindow.Activate();
 
                 pane.OutputString(string.Format(
-                    CultureInfo.InvariantCulture, Strings.MiniLogBreak, Strings.StyleCopStarted));
+                    CultureInfo.InvariantCulture, Strings.MiniLogBreak, string.Format(CultureInfo.InvariantCulture, Strings.StyleCopStarted, this.VersionNumberMajorMinor, this.VersionNumberFull)));
             }
         }
-
+        
         /// <summary>
         /// Signals the helper to output that no files were avaliable for analysis.
         /// </summary>

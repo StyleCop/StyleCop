@@ -264,7 +264,7 @@ namespace StyleCop.VisualStudio {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to StyleCop started.
+        ///   Looks up a localized string similar to StyleCop {0} (build {1}) started.
         /// </summary>
         internal static string StyleCopStarted {
             get {
