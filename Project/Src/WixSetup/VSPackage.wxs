@@ -6,7 +6,7 @@
 
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="ProgramFilesFolder">
-        <Directory Id="INSTALLDIR" Name="$(var.ProductName)" FileSource="$(var.DropDir)">
+        <Directory Id="INSTALLDIR" Name="$(var.ProductNameShort)" FileSource="$(var.DropDir)">
 
           <Component Id="VisualStudioPackageCommon" Guid="3c439240-494f-423d-bcc5-8247e4c21076">
             <!-- The VSPackageComponent is the component for installing the shared parts of the VS package. -->
