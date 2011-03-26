@@ -1,0 +1,38 @@
+
+The following files are required to compile the official release of the solution - but they cannot be included.
+
+Environment.cmd finds them and copies them to the required location.
+
+StyleCop.ReSharper requires:
+
+
+  JetBrains.Platform.ReSharper.DocumentManager.dll
+  JetBrains.Platform.ReSharper.DocumentModel.dll
+  JetBrains.Platform.ReSharper.ProjectModel.dll
+  JetBrains.Platform.ReSharper.Shell.dll
+  JetBrains.Platform.ReSharper.TextControl.dll
+  JetBrains.Platform.ReSharper.UI.dll
+
+  JetBrains.Platform.ReSharper.Util.dll 
+  JetBrains.ReSharper.Daemon.dll
+
+  JetBrains.ReSharper.Feature.Services.CSharp.dll
+
+  JetBrains.ReSharper.Feature.Services.dll
+  JetBrains.ReSharper.Intentions.dll
+
+  JetBrains.ReSharper.Psi.dll
+
+  JetBrains.ReSharper.Psi.CSharp.dll
+
+StyleCop.ReSharper.Tests need:
+  JetBrains.ReSharper.Intentions.Csharp.dll
+
+  JetBrains.ReSharper.TestFramework.dll
+
+  nunit.framework.dll;
+
+
+
+
+

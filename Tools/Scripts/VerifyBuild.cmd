@@ -92,6 +92,22 @@ ECHO Usage:
 Echo VerifyBuild.cmd [retail] [-NoSync] [-NoNuke] [-TestOnly] [-NoBuild] [-NoTests] [-Retail] [-SkipWixBuild] [-WixBuildOnly] [-NoCodeAnalysis]
 REM [-BuildAndDeploy] [-NoInstall] [-NoUninstall]
 
+IF "%BuildTarget%"=="Release" (
+	IF %ReSharperFound%==0 (
+                echo .
+		echo Cannot continue with Release build unless ReSharper is installed.
+		echo .
+		EXIT /B
+	)
+)
+
+IF "%BuildTarget%"=="CodeAnalysis" (
+	IF %ReSharperFound%==0 (
+                SET BuildTarget=CodeAnalysisNoReSharper
+		SET SkipWixBuild=1
+	)
+)
+
 PUSHD %PROJECTROOT%\
 
 IF %WixBuildOnly%.==1. GOTO WIXBUILD
