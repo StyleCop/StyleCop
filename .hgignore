@@ -10,3 +10,4 @@ syntax: glob
 errors.log
 *.err
 *.wrn
+*\ReferencedAssemblies\*.dll

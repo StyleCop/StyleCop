@@ -35,4 +35,3 @@ StyleCop.ReSharper.Tests need:
 
 
 
-
