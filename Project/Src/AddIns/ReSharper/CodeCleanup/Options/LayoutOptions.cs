@@ -97,7 +97,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Options
         {
             get
             {
-                return "Microsoft.StyleCop.CSharp.LayoutRules";
+                return "StyleCop.CSharp.LayoutRules";
             }
         }
 

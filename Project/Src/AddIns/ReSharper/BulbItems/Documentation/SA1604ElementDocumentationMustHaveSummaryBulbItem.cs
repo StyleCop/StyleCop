@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SA1604ElementDocumentationMustHaveSummaryBulbItem.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,11 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   BulbItem - SA1604ElementDocumentationMustHaveSummaryBulbItem
+//   Also fixes SA1605PartialElementDocumentationMustHaveSummary.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.BulbItems.Documentation
 {
@@ -32,6 +36,9 @@ namespace StyleCop.ReSharper.BulbItems.Documentation
     /// </summary>
     internal class SA1604ElementDocumentationMustHaveSummaryBulbItem : V5BulbItemImpl
     {
+        #region Public Methods
+
+        /// <inheritdoc />
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
             var declaration = Utils.GetDeclarationClosestToTextControl(solution, textControl);
@@ -39,5 +46,7 @@ namespace StyleCop.ReSharper.BulbItems.Documentation
             // Fixes SA1604, 1605
             new DocumentationRules().InsertMissingSummaryElement(declaration);
         }
+
+        #endregion
     }
 }

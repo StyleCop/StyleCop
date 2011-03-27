@@ -153,7 +153,7 @@
     <Compile Include="..\..\AssemblyVersion.cs">
       <Link>Properties\AssemblyVersion.cs</Link>
     </Compile>
-    <Compile Include="BulbItems\Documentation\SA1605ElementDocumentationMustHaveSummaryBulbItem.cs" />
+    <Compile Include="BulbItems\Documentation\SA1605PartialElementDocumentationMustHaveSummaryBulbItem.cs" />
     <Compile Include="BulbItems\Documentation\SA1641FileHeaderCompanyNameTextMustMatchBulbItem.cs" />
     <Compile Include="BulbItems\Documentation\SA1609PropertyDocumentationMustHaveValue.cs" />
     <Compile Include="BulbItems\Documentation\SA1636FileHeaderCopyrightTextMustMatchBulbItem.cs" />

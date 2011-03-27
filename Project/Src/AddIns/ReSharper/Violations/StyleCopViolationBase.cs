@@ -38,13 +38,13 @@ namespace StyleCop.ReSharper.Violations
         /// Initializes a new instance of the <see cref="StyleCopViolationBase"/> class.
         /// </summary>
         /// <param name="violation">
-        /// The <see cref="Microsoft.StyleCop.ViolationEventArgs"/> instance containing the Violation data.
+        /// The <see cref="StyleCop.ViolationEventArgs"/> instance containing the Violation data.
         /// </param>
         /// <param name="documentRange">
         /// Range where the Violation happened.
         /// </param>
-        /// <param name="element">
-        /// <see cref="CsElement"/>of the violation.
+        /// <param name="filename">
+        /// The file with the violation.
         /// </param>
         /// <param name="lineNumber">
         /// Line number of where the violation happened.
@@ -63,7 +63,7 @@ namespace StyleCop.ReSharper.Violations
         /// Initializes a new instance of the <see cref="StyleCopViolationBase"/> class.
         /// </summary>
         /// <param name="violation">
-        /// The <see cref="Microsoft.StyleCop.ViolationEventArgs"/> instance containing the Violation data.
+        /// The <see cref="StyleCop.ViolationEventArgs"/> instance containing the Violation data.
         /// </param>
         protected StyleCopViolationBase(ViolationEventArgs violation)
         {

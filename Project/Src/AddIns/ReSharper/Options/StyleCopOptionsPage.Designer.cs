@@ -106,8 +106,8 @@ namespace StyleCop.ReSharper.Options
             // StyleCopLocationDialog
             // 
             this.StyleCopLocationDialog.DefaultExt = "dll";
-            this.StyleCopLocationDialog.FileName = "Microsoft.StyleCop.dll";
-            this.StyleCopLocationDialog.Filter = "StyleCop Assembly|Microsoft.StyleCop.dll";
+            this.StyleCopLocationDialog.FileName = "StyleCop.dll";
+            this.StyleCopLocationDialog.Filter = "StyleCop Assembly|StyleCop.dll";
             this.StyleCopLocationDialog.Title = "StyleCop Location";
             // 
             // BrowseButton

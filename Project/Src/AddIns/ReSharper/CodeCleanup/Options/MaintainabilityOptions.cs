@@ -53,7 +53,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Options
         /// </summary>
         protected override string AnalyzerName
         {
-            get { return "Microsoft.StyleCop.CSharp.MaintainabilityRules"; }
+            get { return "StyleCop.CSharp.MaintainabilityRules"; }
         }
 
         #endregion

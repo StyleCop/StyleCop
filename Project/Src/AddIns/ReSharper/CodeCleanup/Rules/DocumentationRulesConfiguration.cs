@@ -32,7 +32,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
     {
         #region Constants and Fields
 
-        private const string AnalyzerName = "Microsoft.StyleCop.CSharp.DocumentationRules";
+        private const string AnalyzerName = "StyleCop.CSharp.DocumentationRules";
 
         private Settings settings;
 

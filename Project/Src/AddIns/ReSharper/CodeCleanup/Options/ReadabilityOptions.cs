@@ -127,7 +127,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Options
         {
             get
             {
-                return "Microsoft.StyleCop.CSharp.ReadabilityRules";
+                return "StyleCop.CSharp.ReadabilityRules";
             }
         }
 

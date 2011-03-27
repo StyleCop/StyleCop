@@ -101,7 +101,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Options
         /// </summary>
         protected override string AnalyzerName
         {
-            get { return "Microsoft.StyleCop.CSharp.SpacingRules"; }
+            get { return "StyleCop.CSharp.SpacingRules"; }
         }
 
         #endregion

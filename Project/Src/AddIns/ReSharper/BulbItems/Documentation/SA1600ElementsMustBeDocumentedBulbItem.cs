@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SA1600ElementsMustBeDocumentedBulbItem.cs" company="">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,7 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.BulbItems.Documentation
 {
@@ -31,6 +31,7 @@ namespace StyleCop.ReSharper.BulbItems.Documentation
     /// </summary>
     internal class SA1600ElementsMustBeDocumentedBulbItem : V5BulbItemImpl
     {
+        /// <inheritdoc />
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
             var file = Utils.GetCSharpFile(solution, textControl);

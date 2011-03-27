@@ -36,7 +36,7 @@ namespace StyleCop.ReSharper.Core
         private static readonly Dictionary<string, string> StringCache = new Dictionary<string, string>();
         private static readonly Dictionary<string, Settings> SettingsCache = new Dictionary<string, Settings>();
         private readonly StyleCopCore styleCopCore;
-        private const string CsParserId = "Microsoft.StyleCop.CSharp.CsParser";
+        private const string CsParserId = "StyleCop.CSharp.CsParser";
 
         public StyleCopSettings(StyleCopCore styleCopCore)
         {

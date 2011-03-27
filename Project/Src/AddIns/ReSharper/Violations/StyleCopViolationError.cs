@@ -46,7 +46,7 @@ namespace StyleCop.ReSharper.Violations
         /// Initializes a new instance of the <see cref="StyleCopViolationError"/> class.
         /// </summary>
         /// <param name="violation">
-        /// The <see cref="Microsoft.StyleCop.ViolationEventArgs"/> instance containing the event data.
+        /// The <see cref="StyleCop.ViolationEventArgs"/> instance containing the event data.
         /// </param>
         /// <param name="documentRange">
         /// Range where the Violation happened.

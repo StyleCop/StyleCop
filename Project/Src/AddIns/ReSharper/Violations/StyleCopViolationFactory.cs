@@ -38,7 +38,7 @@ namespace StyleCop.ReSharper.Violations
         /// Gets the highlight for the specified StyleCop Violation.
         /// </summary>
         /// <param name="violation">
-        /// The <see cref="Microsoft.StyleCop.ViolationEventArgs"/> instance containing the event data.
+        /// The <see cref="StyleCop.ViolationEventArgs"/> instance containing the event data.
         /// </param>
         /// <param name="documentRange">
         /// <see cref="DocumentRange"/>where the Violation happened.
