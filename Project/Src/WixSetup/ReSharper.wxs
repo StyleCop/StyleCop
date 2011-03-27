@@ -2,40 +2,40 @@
 
 <?include SharedIncludes.wxi ?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-	<Fragment>
-        <Property Id="RESHARPER_INSTALLDIRVS9">
-            <RegistrySearch Id="ReSharperInstallIdVs9" Type="directory" Root="HKLM" Key="SOFTWARE\JetBrains\ReSharper\v5.1\vs9.0" Name="InstallDir" />
-        </Property>
-        <Property Id="RESHARPER_INSTALLDIRVS10">
-            <RegistrySearch Id="ReSharperInstallIdVs10" Type="directory" Root="HKLM" Key="SOFTWARE\JetBrains\ReSharper\v5.1\vs10.0" Name="InstallDir" />
-        </Property>
-		<DirectoryRef Id="ProgramFilesFolder">                   
-            <Directory Id="RESHARPER_INSTALLDIRVS9" Name="[RESHARPER_INSTALLDIRVS9]">
-                <Directory Id="Dir_PluginsVS9" Name="Plugins">
-                    <Directory Id="Dir_StyleCopVS9" Name="$(var.ProductNameShort)" FileSource="$(var.DropDir)">
-                        <Component Id="StyleCopReSharperBinariesVS9" Guid="BD280C22-5570-45BF-B5DF-480A0C195457">
-                            <File Id="ReSharper_AssemblyVS9" Name="StyleCop.ReSharper.dll" Checksum="yes" Vital="yes" />
-                            <Condition>RESHARPER51_VS90_VERSION</Condition>
-                        </Component>                   
-                    </Directory>
-                </Directory>
-            </Directory>
-            <Directory Id="RESHARPER_INSTALLDIRVS10" Name="[RESHARPER_INSTALLDIRVS10]">
-                <Directory Id="Dir_PluginsVS10" Name="Plugins">
-                    <Directory Id="Dir_StyleCopVS10" Name="$(var.ProductNameShort)" FileSource="$(var.DropDir)">
-                        <Component Id="StyleCopReSharperBinariesVS10" Guid="D699ADA4-13C4-46D4-8992-0BF7B19B2B66">
-                            <File Id="ReSharper_AssemblyVS10" Name="StyleCop.ReSharper.dll" Checksum="yes" Vital="yes" />
-                            <Condition>RESHARPER51_VS100_VERSION</Condition>
-                        </Component>                   
-                    </Directory>
-                </Directory>
-            </Directory>                    
-        </DirectoryRef>
+  <Fragment>
+    <Property Id="RESHARPER_INSTALLDIRVS90">
+      <RegistrySearch Id="ReSharperInstallIdVs90" Type="directory" Root="HKLM" Key="SOFTWARE\JetBrains\ReSharper\v5.1\vs9.0" Name="InstallDir" />
+    </Property>
+    <Property Id="RESHARPER_INSTALLDIRVS100">
+      <RegistrySearch Id="ReSharperInstallIdVs100" Type="directory" Root="HKLM" Key="SOFTWARE\JetBrains\ReSharper\v5.1\vs10.0" Name="InstallDir" />
+    </Property>
+    <DirectoryRef Id="ProgramFilesFolder">
+      <Directory Id="RESHARPER_INSTALLDIRVS90" Name="[RESHARPER_INSTALLDIRVS90]">
+        <Directory Id="Dir_PluginsVS90" Name="Plugins">
+          <Directory Id="Dir_StyleCopVS90" Name="$(var.ProductNameShort)" FileSource="$(var.DropDir)">
+            <Component Id="StyleCopReSharperBinariesVS90" Guid="BD280C22-5570-45BF-B5DF-480A0C195457">
+              <File Id="ReSharper_AssemblyVS90" Name="StyleCop.ReSharper.dll" Checksum="yes" Vital="yes" />
+              <Condition>RESHARPER51_VS90_VERSION</Condition>
+            </Component>
+          </Directory>
+        </Directory>
+      </Directory>
+      <Directory Id="RESHARPER_INSTALLDIRVS100" Name="[RESHARPER_INSTALLDIRVS100]">
+        <Directory Id="Dir_PluginsVS100" Name="Plugins">
+          <Directory Id="Dir_StyleCopVS100" Name="$(var.ProductNameShort)" FileSource="$(var.DropDir)">
+            <Component Id="StyleCopReSharperBinariesVS100" Guid="D699ADA4-13C4-46D4-8992-0BF7B19B2B66">
+              <File Id="ReSharper_AssemblyVS100" Name="StyleCop.ReSharper.dll" Checksum="yes" Vital="yes" />
+              <Condition>RESHARPER51_VS100_VERSION</Condition>
+            </Component>
+          </Directory>
+        </Directory>
+      </Directory>
+    </DirectoryRef>
 
-        <ComponentGroup Id="ReSharper_Common" >
-            <ComponentRef Id="StyleCopReSharperBinariesVS9" />
-            <ComponentRef Id="StyleCopReSharperBinariesVS10" />
-        </ComponentGroup>
+    <ComponentGroup Id="ReSharper_Common" >
+      <ComponentRef Id="StyleCopReSharperBinariesVS90" />
+      <ComponentRef Id="StyleCopReSharperBinariesVS100" />
+    </ComponentGroup>
 
-	</Fragment>
+  </Fragment>
 </Wix>

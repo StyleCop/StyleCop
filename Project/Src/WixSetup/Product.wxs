@@ -4,37 +4,37 @@
 <?include SharedIncludes.wxi ?>
 
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Name="$(var.ProductName)" Id='$(var.ProductCode)' Language='1033' Version='$(var.WixVersionLong)' Manufacturer='$(var.Manufacturer)' UpgradeCode='$(var.UpgradeCode)'>
+    <Package Languages='1033' InstallerVersion="200" Compressed="yes" />
 
-  <Product Name="$(var.ProductName)" Id='$(var.ProductCode)' Language='1033' Version='$(var.WixVersionLong)' Manufacturer='$(var.Manufacturer)' UpgradeCode='A8783A1F-D366-494b-90E7-84360AC18603'>
-    <Package InstallerVersion="200" Compressed="yes" />
+    <Upgrade Id='$(var.UpgradeCode)'>
+      <UpgradeVersion OnlyDetect='yes' Minimum='$(var.WixVersionLong)' IncludeMinimum='no' Property='NEWERVERSIONDETECTED' />
+      <UpgradeVersion OnlyDetect='no' Minimum='0.0.0' IncludeMinimum='yes' Maximum='$(var.WixVersionLong)' IncludeMaximum='no' Property='OLDERVERSIONBEINGUPGRADED' />
+    </Upgrade>
 
     <!-- You must be an admin to execute devenv /setup -->
-    <Condition Message="You need to be an administrator to install [ProductName].">
-      Privileged
-    </Condition>
+    <Condition Message="You need to be an administrator to install [ProductName].">Privileged</Condition>
 
     <!-- Disallow installing an older version over a newer version -->
-    <Condition Message="A later version of [ProductName] is already installed.">
-      NOT NEWERVERSIONDETECTED
-    </Condition>
+    <Condition Message="A later version of [ProductName] is already installed.">NOT NEWERVERSIONDETECTED</Condition>
 
     <Feature Id='Feature_StyleCopPackage'
              Title='Visual Studio integration'
              Description="Files for setting up StyleCop integration with Microsoft Visual Studio 2008 and Microsoft Visual Studio 2010."
              Level="1" Display='expand' ConfigurableDirectory='INSTALLDIR'>
-        <ComponentGroupRef Id="StyleCopCommon" />
+      <ComponentGroupRef Id="StyleCopCommon" />
 
-        <!-- Require VS 2008 or VS 2010 to be installed -->
-        <Condition Level="1"><![CDATA[VS90DEVENV<>"" OR VS2010DEVENV<>""]]></Condition>
-        <Condition Level="0"><![CDATA[VS90DEVENV="" AND VS2010DEVENV=""]]></Condition>
-        <Feature Id='Feature_ReSharper'
-                 Title='R# integration'
-                 Description='Files for setting up StyleCop integration with JetBrains ReSharper 5.1.'
-                 Level='500' AllowAdvertise="no" Display="expand" InstallDefault="local" TypicalDefault="install">
-            <ComponentGroupRef Id="ReSharper_Common" />
-            <Condition Level="1"><![CDATA[RESHARPER51_VS90_VERSION<>"" OR RESHARPER51_VS100_VERSION<>""]]></Condition>
-            <Condition Level="0"><![CDATA[RESHARPER51_VS90_VERSION="" AND RESHARPER51_VS100_VERSION=""]]></Condition>        
-        </Feature>
+      <!-- Require VS 2008 or VS 2010 to be installed -->
+      <Condition Level="1"><![CDATA[VS90DEVENV<>"" OR VS2010DEVENV<>""]]></Condition>
+      <Condition Level="0"><![CDATA[VS90DEVENV="" AND VS2010DEVENV=""]]></Condition>
+      <Feature Id='Feature_ReSharper'
+               Title='R# integration'
+               Description='Files for setting up StyleCop integration with JetBrains ReSharper 5.1.'
+               Level='500' AllowAdvertise="no" Display="expand" InstallDefault="local" TypicalDefault="install">
+        <ComponentGroupRef Id="ReSharper_Common" />
+        <Condition Level="1"><![CDATA[RESHARPER51_VS90_VERSION<>"" OR RESHARPER51_VS100_VERSION<>""]]></Condition>
+        <Condition Level="0"><![CDATA[RESHARPER51_VS90_VERSION="" AND RESHARPER51_VS100_VERSION=""]]></Condition>
+      </Feature>
     </Feature>
 
     <Feature Id='Feature_MSBuild'
@@ -44,25 +44,29 @@
       <ComponentGroupRef Id="MSBuild_Common" />
       <ComponentRef Id="SettingsEditorMSBuildComponent" />
     </Feature>
-  
 
-    <!-- Install Sequences -->
+    <InstallUISequence>
+      <Custom Action="ToggleALLUSERSToPerUser" Before="FindRelatedProducts">STYLECOP_PREVIOUS_INSTALL_PER_USER AND NOT Installed</Custom>
+      <Custom Action="RevertALLUSERSToPerMachine" After="FindRelatedProducts">STYLECOP_PREVIOUS_INSTALL_PER_USER AND NOT Installed</Custom>
+      <!-- Move AppSearch to before FindRelatedProduct so that RegistrySearch properties get evaluated before they are used -->      
+      <AppSearch Before="FindRelatedProducts" />
+    </InstallUISequence>
+
     <InstallExecuteSequence>
-      <FindRelatedProducts Before="LaunchConditions" />
-      <RemoveExistingProducts After="InstallValidate" />
+      <Custom Action="ToggleALLUSERSToPerUser" Before="FindRelatedProducts">STYLECOP_PREVIOUS_INSTALL_PER_USER AND NOT Installed</Custom>
+      <Custom Action="RevertALLUSERSToPerMachine" After="FindRelatedProducts">STYLECOP_PREVIOUS_INSTALL_PER_USER AND NOT Installed</Custom>
+      <!-- Move AppSearch to before FindRelatedProduct so that RegistrySearch properties get evaluated before they are used -->      
+      <AppSearch Before="FindRelatedProducts" />
+      <RemoveExistingProducts After="InstallInitialize" />
       <!--  We replace the use of VS90Setup with StyleCopVS90Setup to add support for the devenv.exe flag /nosetupvstemplates -->
       <Custom Action="StyleCopVS90Setup" Before="InstallFinalize"><![CDATA[&Feature_StyleCopPackage > 1 AND VS90DEVENV<>""]]></Custom>
       <Custom Action="StyleCopVS10Setup" Before="InstallFinalize"><![CDATA[&Feature_StyleCopPackage > 1 AND VS2010DEVENV<>""]]></Custom>
     </InstallExecuteSequence>
 
-    <InstallUISequence>
-      <FindRelatedProducts Before="LaunchConditions" />
-    </InstallUISequence>
-
     <WixVariable Id="WixUISupportPerUser" Value="0" />
     <WixVariable Id="WixUILicenseRtf" Value="License.rtf" />
-    <WixVariable Id="WixUIBannerBmp" Value="Bitmaps\bannrbmp.bmp" /> 
-    <WixVariable Id="WixUIDialogBmp" Value="Bitmaps\dlgbmp.bmp" /> 
+    <WixVariable Id="WixUIBannerBmp" Value="Bitmaps\bannrbmp.bmp" />
+    <WixVariable Id="WixUIDialogBmp" Value="Bitmaps\dlgbmp.bmp" />
 
     <UI>
       <UIRef Id="WixUI_FeatureTree" />
@@ -71,31 +75,29 @@
 
     <Media Id="1" Cabinet="WixSetup.cab" EmbedCab="yes" />
 
-    <!-- Icons -->
     <Icon Id="WixIcon" SourceFile="..\VSPackage\Resources\StyleCop.ico" />
 
-    <!-- Properties -->
     <Property Id="ALLUSERS" Value='1' />
     <Property Id="ARPHELPLINK" Value='$(var.Manufacturer)' />
     <Property Id="ARPPRODUCTICON" Value="WixIcon" />
     <Property Id="ARPURLINFOABOUT" Value='$(var.Manufacturer)'/>
     <Property Id="ARPURLUPDATEINFO" Value='$(var.Manufacturer)' />
 
-    <Property Id="RESHARPER51_VS100_VERSION">
-        <RegistrySearch Id="REG_RESHARPER51_VS100_VERSION"
-                    Root="HKLM"
-                    Key="Software\JetBrains\ReSharper\v5.1\vs10.0"
-                    Name="ProductVersion"
-                    Type="raw" />
+    <Property Id="RESHARPER51_VS100_VERSION" Admin="yes" Secure="yes">
+      <RegistrySearch Id="REG_RESHARPER51_VS100_VERSION" Root="HKLM" Key="Software\JetBrains\ReSharper\v5.1\vs10.0" Name="ProductVersion" Type="raw" />
     </Property>
 
-    <Property Id="RESHARPER51_VS90_VERSION">
-        <RegistrySearch Id="REG_RESHARPER51_VS90_VERSION"
-                    Root="HKLM"
-                    Key="Software\JetBrains\ReSharper\v5.1\vs9.0"
-                    Name="ProductVersion"
-                    Type="raw" />
-    </Property>    
+    <Property Id="RESHARPER51_VS90_VERSION" Admin="yes" Secure="yes">
+      <RegistrySearch Id="REG_RESHARPER51_VS90_VERSION" Root="HKLM" Key="Software\JetBrains\ReSharper\v5.1\vs9.0" Name="ProductVersion" Type="raw" />
+    </Property>
+
+    <!-- This property is used to detect versions of StyleCop < 4.5 that had per user installs -->
+    <Property Id="STYLECOP_PREVIOUS_INSTALL_PER_USER" Admin="yes" Secure="yes">
+      <RegistrySearch Id="RegSearchForStyleCopPreviousInstallPerUser" Root="HKCU" Key="Software\Microsoft\Installer\Products\C35557135D88B35439BC04218A7235A3" Name="ProductName" Type="raw" />
+    </Property>
+
+    <CustomAction Id="ToggleALLUSERSToPerUser" Property="ALLUSERS" Value=""/>
+    <CustomAction Id="RevertALLUSERSToPerMachine" Property="ALLUSERS" Value="1"/>
 
   </Product>
 </Wix>

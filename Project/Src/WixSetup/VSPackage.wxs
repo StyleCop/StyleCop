@@ -9,20 +9,15 @@
         <Directory Id="INSTALLDIR" Name="$(var.ProductNameShort)" FileSource="$(var.DropDir)">
 
           <Component Id="VisualStudioPackageCommon" Guid="3c439240-494f-423d-bcc5-8247e4c21076">
-            <!-- The VSPackageComponent is the component for installing the shared parts of the VS package. -->
-            <File Id='VsPackageDll'      Name='StyleCop.VSPackage.dll' Checksum="yes" Vital='yes' />
-            <File Id='AnalysisEngineDll' Name='StyleCop.dll'           Checksum="yes" Vital='yes' />
-
-            <!-- The CSharpAnalyzerComponent is the component for installing the C# files. -->
-            <File Id='CSharpParser'   Name='StyleCop.CSharp.dll'       Checksum="yes" Vital='yes' />
+            <File Id='VsPackageDll' Name='StyleCop.VSPackage.dll' Checksum="yes" Vital='yes' />
+            <File Id='AnalysisEngineDll' Name='StyleCop.dll' Checksum="yes" Vital='yes' />
+            <File Id='CSharpParser' Name='StyleCop.CSharp.dll' Checksum="yes" Vital='yes' />
             <File Id='CSharpAnalyzer' Name='StyleCop.CSharp.Rules.dll' Checksum="yes" Vital='yes' />
-
             <File Id='Settings' Name='Settings.StyleCop' Checksum="yes" Vital='yes' />
-                      
           </Component>
 
           <Component Id="StandardRegistryKeys" Guid="3c439240-494f-423d-bcc5-8247e4c21077">
-            <RegistryKey Action='createAndRemoveOnUninstall' Root='HKLM' Key='Software\CodePlex\StyleCop' Id='InstallLocation' />        
+            <RegistryKey Action='createAndRemoveOnUninstall' Root='HKLM' Key='Software\CodePlex\StyleCop' Id='InstallLocation' />
             <RegistryValue Root='HKLM' Key='Software\CodePlex\StyleCop' Type='string' Name='InstallLocation' Value='[INSTALLDIR]' Id='InstallLocation_001' />
           </Component>
 
@@ -45,5 +40,6 @@
       <ComponentRef Id="StyleCopDocs" />
       <ComponentRef Id="StandardRegistryKeys" />
     </ComponentGroup>
+
   </Fragment>
 </Wix>

@@ -13,7 +13,7 @@
 
         <!-- The Settings Editor allows editing of the settings files without VS. -->
         <File Id='SettingsEditorProgFiles' Name='StyleCopSettingsEditor.exe' Checksum="yes" Vital='yes' />
-        
+
         <RegistryKey Action='createAndRemoveOnUninstall' Root='HKCR' Key='.SourceAnalysis' Id='ProgFilesEditor_001' />
         <RegistryValue Root='HKCR' Key='.SourceAnalysis' Type='string' Value='Settings.SourceAnalysis' Id='ProgFilesEditor_002' />
         <RegistryValue Root='HKCR' Key='.SourceAnalysis' Type='string' Name='ContentType' Value='text/xml' Id='ProgFilesEditor_003' />

@@ -6,8 +6,7 @@
   <Fragment>
     <DirectoryRef Id='TARGETDIR'>
       <Component Id="VisualStudio2010Component" Guid="6823F737-6FA6-4A3F-915C-CCEA746B6CDF">
-        <!-- The VisualStudio2010Component is the component for installing the VS 2010 specific parts of the VS package.  -->
-        
+
         <!-- Installed products -->
         <RegistryKey Action='createAndRemoveOnUninstall' Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\InstalledProducts\StyleCop' Id='InstalledProducts_$(var.VsVersion)_001' />
         <RegistryValue Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\InstalledProducts\StyleCop' Type='string' Value='#110' Id='InstalledProducts_$(var.VsVersion)_002' />

@@ -6,7 +6,6 @@
   <Fragment>
     <DirectoryRef Id='TARGETDIR'>
       <Component Id="VisualStudioOrcasComponent" Guid="BD5DFD65-4E12-4117-8CA7-41A229B97A5B">
-        <!-- The VisualStudioOrcasComponent is the component for installing the Orcas specific parts of the VS package.  -->
         
         <!-- Installed products -->
         <RegistryKey Action='createAndRemoveOnUninstall' Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\InstalledProducts\StyleCop' Id='InstalledProducts_$(var.VsVersion)_001' />
