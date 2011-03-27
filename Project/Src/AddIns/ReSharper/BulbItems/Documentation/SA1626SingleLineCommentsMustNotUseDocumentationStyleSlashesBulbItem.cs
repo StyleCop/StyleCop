@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SA1626SingleLineCommentsMustNotUseDocumentationStyleSlashesBulbItem.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   BulbItem - SA1626SingleLineCommentsMustNotUseDocumentationStyleSlashesBulbItem.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.BulbItems.Documentation
 {
@@ -31,11 +34,24 @@ namespace StyleCop.ReSharper.BulbItems.Documentation
     /// </summary>
     internal class SA1626SingleLineCommentsMustNotUseDocumentationStyleSlashesBulbItem : V5BulbItemImpl
     {
+        #region Public Methods
+
+        /// <summary>
+        /// The execute transaction inner.
+        /// </summary>
+        /// <param name="solution">
+        /// The solution.
+        /// </param>
+        /// <param name="textControl">
+        /// The text control.
+        /// </param>
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
             var element = Utils.GetElementAtCaret(solution, textControl);
 
             new DocumentationRules().SwapDocCommentNodeToCommentNode(element.ToTreeNode());
         }
+
+        #endregion
     }
 }

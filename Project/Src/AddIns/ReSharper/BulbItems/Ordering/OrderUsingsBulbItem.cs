@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="OrderUsingsBulbItem.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   BulbItem - OrderUsingsBulbItem : Qualifies all usings, the orders them, groups them and removes duplicates.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.BulbItems.Ordering
 {
@@ -33,6 +36,17 @@ namespace StyleCop.ReSharper.BulbItems.Ordering
     /// </summary>
     public class OrderUsingsBulbItem : V5BulbItemImpl
     {
+        #region Public Methods
+
+        /// <summary>
+        /// The execute transaction inner.
+        /// </summary>
+        /// <param name="solution">
+        /// The solution.
+        /// </param>
+        /// <param name="textControl">
+        /// The text control.
+        /// </param>
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
             var file = Utils.GetCSharpFile(solution, textControl);
@@ -42,5 +56,7 @@ namespace StyleCop.ReSharper.BulbItems.Ordering
             // Fixes SA1208, SA1209, SA1210, SA1211
             new OrderingRules().Execute(options, file);
         }
+
+        #endregion
     }
 }

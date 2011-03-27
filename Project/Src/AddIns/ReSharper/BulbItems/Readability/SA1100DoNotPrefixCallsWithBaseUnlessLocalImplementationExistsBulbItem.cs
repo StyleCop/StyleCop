@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SA1100DoNotPrefixCallsWithBaseUnlessLocalImplementationExistsBulbItem.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   QuickFix action which replaces base. with this.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.BulbItems.Readability
 {
@@ -32,6 +35,17 @@ namespace StyleCop.ReSharper.BulbItems.Readability
     /// </summary>
     public class SA1100DoNotPrefixCallsWithBaseUnlessLocalImplementationExistsBulbItem : V5BulbItemImpl
     {
+        #region Public Methods
+
+        /// <summary>
+        /// The execute transaction inner.
+        /// </summary>
+        /// <param name="solution">
+        /// The solution.
+        /// </param>
+        /// <param name="textControl">
+        /// The text control.
+        /// </param>
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
             var element = Utils.GetElementAtCaret(solution, textControl);
@@ -42,5 +56,7 @@ namespace StyleCop.ReSharper.BulbItems.Readability
                 ReadabilityRules.SwapBaseToThisUnlessLocalImplementation(invocationExpression);
             }
         }
+
+        #endregion
     }
 }

@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="StyleCopViolationTokenFactory.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Factory class for getting HighLights for StyleCop violations.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.Violations
 {

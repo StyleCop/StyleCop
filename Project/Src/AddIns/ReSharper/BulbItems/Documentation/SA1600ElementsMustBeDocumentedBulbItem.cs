@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="SA1600ElementsMustBeDocumentedBulbItem.cs" company="">
+// <copyright file="SA1600ElementsMustBeDocumentedBulbItem.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,6 +11,9 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
+// <summary>
+//   BulbItem - SA1600ElementsMustBeDocumentedBulbItem : Inserts an empty element doc header.
+// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.BulbItems.Documentation
@@ -31,6 +34,8 @@ namespace StyleCop.ReSharper.BulbItems.Documentation
     /// </summary>
     internal class SA1600ElementsMustBeDocumentedBulbItem : V5BulbItemImpl
     {
+        #region Public Methods
+
         /// <inheritdoc />
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
@@ -44,5 +49,7 @@ namespace StyleCop.ReSharper.BulbItems.Documentation
                 new DocumentationRules().InsertMissingDeclarationHeader(file, declaration);
             }
         }
+
+        #endregion
     }
 }

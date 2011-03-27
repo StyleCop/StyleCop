@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SA1515SingleLineCommentsMustBePrecededByBlankLineBulbItem.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,27 +11,42 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   The s a 1515 single line comments must be preceded by blank line bulb item.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.BulbItems.Layout
 {
     #region Using Directives
 
-    using Extensions;
-
     using JetBrains.ProjectModel;
-    using JetBrains.ReSharper.Psi.CSharp.CodeStyle;
     using JetBrains.ReSharper.Psi.Impl.CodeStyle;
     using JetBrains.ReSharper.Psi.Tree;
     using JetBrains.TextControl;
 
     using StyleCop.ReSharper.BulbItems.Framework;
     using StyleCop.ReSharper.Core;
+    using StyleCop.ReSharper.Extensions;
 
     #endregion
 
+    /// <summary>
+    /// The s a 1515 single line comments must be preceded by blank line bulb item.
+    /// </summary>
     public class SA1515SingleLineCommentsMustBePrecededByBlankLineBulbItem : V5BulbItemImpl
     {
+        #region Public Methods
+
+        /// <summary>
+        /// The execute transaction inner.
+        /// </summary>
+        /// <param name="solution">
+        /// The solution.
+        /// </param>
+        /// <param name="textControl">
+        /// The text control.
+        /// </param>
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
             var element = Utils.GetElementAtCaret(solution, textControl);
@@ -40,5 +55,7 @@ namespace StyleCop.ReSharper.BulbItems.Layout
 
             currentNode.FindFormattingRangeToLeft().InsertNewLineAfter();
         }
+
+        #endregion
     }
 }

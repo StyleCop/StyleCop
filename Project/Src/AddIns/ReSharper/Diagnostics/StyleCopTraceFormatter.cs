@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="StyleCopTraceFormatter.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Style cop trace.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.Diagnostics
 {
@@ -250,7 +253,9 @@ namespace StyleCop.ReSharper.Diagnostics
                         return;
                     }
 
-#if DEBUG // in debug builds sensitive data may be traced with the appropriate switch; in release builds it may not
+#if DEBUG
+
+                    // in debug builds sensitive data may be traced with the appropriate switch; in release builds it may not
                     if (sensitive && !StyleCopTrace.Switch.TraceSensitiveData)
 #else
                     if (sensitive) 

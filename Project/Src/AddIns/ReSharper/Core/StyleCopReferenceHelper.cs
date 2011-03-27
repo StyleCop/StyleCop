@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="StyleCopReferenceHelper.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,8 +11,13 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
-
+// <summary>
+//   Helper class to allow the StyleCop assembly references
+//   to be resolved to the StyleCop installation directory.
+//   This means that the plugin does not need local copies
+//   of the StyleCop assemblies.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 extern alias JB;
 
 namespace StyleCop.ReSharper.Core
@@ -22,8 +27,6 @@ namespace StyleCop.ReSharper.Core
     using System;
     using System.IO;
     using System.Reflection;
-
-    using StyleCop;
 
     using StyleCop.ReSharper.Diagnostics;
     using StyleCop.ReSharper.Options;
@@ -211,10 +214,6 @@ namespace StyleCop.ReSharper.Core
             AppDomain.CurrentDomain.AssemblyResolve += OnEventHandler;
             StyleCopTrace.Out();
         }
-
-        #endregion
-
-        #region Event Handlers
 
         /// <summary>
         /// On event handler.

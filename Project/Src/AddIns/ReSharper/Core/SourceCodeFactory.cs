@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SourceCodeFactory.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,29 +11,54 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   The source code factory.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.Core
 {
     #region Using Directives
 
-    using StyleCop;
-
     using StyleCop.ReSharper.Diagnostics;
 
     #endregion
 
+    /// <summary>
+    /// The source code factory.
+    /// </summary>
     public class SourceCodeFactory
     {
+        #region Public Methods
+
+        /// <summary>
+        /// The create.
+        /// </summary>
+        /// <param name="path">
+        /// The path.
+        /// </param>
+        /// <param name="project">
+        /// The project.
+        /// </param>
+        /// <param name="parser">
+        /// The parser.
+        /// </param>
+        /// <param name="context">
+        /// The context.
+        /// </param>
+        /// <returns>
+        /// </returns>
         public SourceCode Create(string path, CodeProject project, SourceParser parser, object context)
         {
             StyleCopTrace.In();
 
             var source = (string)context;
-            
+
             StyleCopTrace.Out();
 
             return new StringBasedSourceCode(project, parser, path, source);
         }
+
+        #endregion
     }
 }

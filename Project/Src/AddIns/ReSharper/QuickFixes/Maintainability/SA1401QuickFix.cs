@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SA1401QuickFix.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   QuickFi for StyleCop Rule SA1401.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.QuickFixes.Maintainability
 {
@@ -106,13 +109,7 @@ namespace StyleCop.ReSharper.QuickFixes.Maintainability
         /// </summary>
         protected override void InitialiseBulbItems()
         {
-            this.BulbItems = new List<IBulbItem>
-                {
-                    new SA1401FieldsMustBePrivateBulbItem
-                        {
-                            Description = "Make Private : " + this.Violation.ToolTip
-                        }
-                };
+            this.BulbItems = new List<IBulbItem> { new SA1401FieldsMustBePrivateBulbItem { Description = "Make Private : " + this.Violation.ToolTip } };
         }
 
         #endregion

@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SA1605QuickFix.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   QuickFix - SA1605: PartialElementDocumentationMustHaveSummary.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.QuickFixes.Documentation
 {
@@ -43,7 +46,8 @@ namespace StyleCop.ReSharper.QuickFixes.Documentation
         /// <param name="highlight">
         /// <see cref="StyleCopViolationError"/>that has been detected.
         /// </param>
-        public SA1605QuickFix(StyleCopViolationError highlight) : base(highlight)
+        public SA1605QuickFix(StyleCopViolationError highlight)
+            : base(highlight)
         {
         }
 
@@ -54,7 +58,8 @@ namespace StyleCop.ReSharper.QuickFixes.Documentation
         /// <param name="highlight">
         /// <see cref="StyleCopViolationHint"/>that has been detected.
         /// </param>
-        public SA1605QuickFix(StyleCopViolationHint highlight) : base(highlight)
+        public SA1605QuickFix(StyleCopViolationHint highlight)
+            : base(highlight)
         {
         }
 
@@ -65,7 +70,8 @@ namespace StyleCop.ReSharper.QuickFixes.Documentation
         /// <param name="highlight">
         /// <see cref="StyleCopViolationInfo"/>that has been detected.
         /// </param>
-        public SA1605QuickFix(StyleCopViolationInfo highlight) : base(highlight)
+        public SA1605QuickFix(StyleCopViolationInfo highlight)
+            : base(highlight)
         {
         }
 
@@ -76,7 +82,8 @@ namespace StyleCop.ReSharper.QuickFixes.Documentation
         /// <param name="highlight">
         /// <see cref="StyleCopViolationSuggestion"/>that has been detected.
         /// </param>
-        public SA1605QuickFix(StyleCopViolationSuggestion highlight) : base(highlight)
+        public SA1605QuickFix(StyleCopViolationSuggestion highlight)
+            : base(highlight)
         {
         }
 
@@ -87,7 +94,8 @@ namespace StyleCop.ReSharper.QuickFixes.Documentation
         /// <param name="highlight">
         /// <see cref="StyleCopViolationWarning"/>that has been detected.
         /// </param>
-        public SA1605QuickFix(StyleCopViolationWarning highlight) : base(highlight)
+        public SA1605QuickFix(StyleCopViolationWarning highlight)
+            : base(highlight)
         {
         }
 
@@ -101,13 +109,7 @@ namespace StyleCop.ReSharper.QuickFixes.Documentation
         /// </summary>
         protected override void InitialiseBulbItems()
         {
-            this.BulbItems = new List<IBulbItem>
-                {
-                    new SA1605PartialElementDocumentationMustHaveSummaryBulbItem
-                        {
-                            Description = "Insert <summary> into header : " + this.Violation.ToolTip
-                        }
-                };
+            this.BulbItems = new List<IBulbItem> { new SA1605PartialElementDocumentationMustHaveSummaryBulbItem { Description = "Insert <summary> into header : " + this.Violation.ToolTip } };
         }
 
         #endregion

@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="StringExtensions.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,15 +11,16 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Extension methods for the <see cref="string" /> class.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace System
 {
     #region Using Directives
 
-    using System.Collections.Generic;
     using System.Globalization;
-    using System.Linq;
     using System.Text.RegularExpressions;
 
     #endregion
@@ -151,24 +152,12 @@ namespace System
         /// <summary>
         /// Concatenates a specified separator string between each element of a specified sequence, yielding a single concatenated string.
         /// </summary>
-        /// <param name="source">
-        /// The sequence of strings to join.
-        /// </param>
-        /// <param name="separator">
-        /// The separator to join the strings with.
-        /// </param>
         /// <returns>
         /// A single concatenated string.
         /// </returns>
         /// <exception cref="ArgumentNullException">
         /// Either <paramref name="source"/> or <paramref name="separator"/> is <c>Null.</c>.
         /// </exception>
-        //public static string JoinWith(this IEnumerable<string> source, string separator)
-        //{
-        //    var array = source as string[] ?? source.ToArray();
-        //    return string.Join(separator, array);
-        //}
-
         /// <summary>
         /// Retrieves a substring after the first instance of a character.
         /// </summary>
@@ -236,12 +225,6 @@ namespace System
         /// <exception cref="ArgumentNullException">
         /// <paramref name="s"/>is <c>Null.</c>.
         /// </exception>
-        //public static string SubstringBefore(this string s, char c)
-        //{
-        //    var index = s.IndexOf(c);
-        //    return index != -1 ? s.Substring(0, index) : s;
-        //}
-
         /// <summary>
         /// Retrieves a substring before the last instance of a character.
         /// </summary>

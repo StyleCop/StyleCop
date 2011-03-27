@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="StyleCopForReSharperCodeCleanupModule.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,8 +11,11 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
-
+// <summary>
+//   Custom StyleCop for ReSharper CodeCleanUp module to fix StyleCop violations.
+//   We ensure that most of the ReSharper modules are run before we are so we can.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 extern alias JB;
 
 namespace StyleCop.ReSharper.CodeCleanup
@@ -163,7 +166,8 @@ namespace StyleCop.ReSharper.CodeCleanup
         /// <param name="progressIndicator">
         /// The progress indicator.
         /// </param>
-        public void Process(IProjectFile projectFile, IPsiRangeMarker range, CodeCleanupProfile profile, out bool canIncrementalUpdate, JB::JetBrains.Application.Progress.IProgressIndicator progressIndicator)
+        public void Process(
+            IProjectFile projectFile, IPsiRangeMarker range, CodeCleanupProfile profile, out bool canIncrementalUpdate, JB::JetBrains.Application.Progress.IProgressIndicator progressIndicator)
         {
             StyleCopTrace.In(projectFile, range, profile, progressIndicator);
             canIncrementalUpdate = true;

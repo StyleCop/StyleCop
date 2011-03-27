@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SA1400QuickFix.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   QuickFi for StyleCop Rule SA1400.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.QuickFixes.Maintainability
 {
@@ -106,12 +109,11 @@ namespace StyleCop.ReSharper.QuickFixes.Maintainability
         /// </summary>
         protected override void InitialiseBulbItems()
         {
-            this.BulbItems = new List<IBulbItem>
-                {
-                    new SA1400AccessModifierMustBeDeclaredBulbItem { Modifier = "public", DocumentRange = this.Violation.DocumentRange, Description = "Make Public : " + this.Violation.ToolTip },
-                    new SA1400AccessModifierMustBeDeclaredBulbItem { Modifier = "private", DocumentRange = this.Violation.DocumentRange, Description = "Make Private : " + this.Violation.ToolTip },
-                    new SA1400AccessModifierMustBeDeclaredBulbItem { Modifier = "protected", DocumentRange = this.Violation.DocumentRange, Description = "Make Protected : " + this.Violation.ToolTip },
-                    new SA1400AccessModifierMustBeDeclaredBulbItem { Modifier = "internal", DocumentRange = this.Violation.DocumentRange, Description = "Make Internal : " + this.Violation.ToolTip },
+            this.BulbItems = new List<IBulbItem> {
+                    new SA1400AccessModifierMustBeDeclaredBulbItem { Modifier = "public", DocumentRange = this.Violation.DocumentRange, Description = "Make Public : " + this.Violation.ToolTip }, 
+                    new SA1400AccessModifierMustBeDeclaredBulbItem { Modifier = "private", DocumentRange = this.Violation.DocumentRange, Description = "Make Private : " + this.Violation.ToolTip }, 
+                    new SA1400AccessModifierMustBeDeclaredBulbItem { Modifier = "protected", DocumentRange = this.Violation.DocumentRange, Description = "Make Protected : " + this.Violation.ToolTip }, 
+                    new SA1400AccessModifierMustBeDeclaredBulbItem { Modifier = "internal", DocumentRange = this.Violation.DocumentRange, Description = "Make Internal : " + this.Violation.ToolTip }, 
                 };
         }
 

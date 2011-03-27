@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SA1119StatementMustNotUseUnnecessaryParenthesisBulbItem.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   The s a 1119 statement must not use unnecessary parenthesis bulb item.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.BulbItems.Maintainability
 {
@@ -27,8 +30,22 @@ namespace StyleCop.ReSharper.BulbItems.Maintainability
 
     #endregion
 
+    /// <summary>
+    /// The s a 1119 statement must not use unnecessary parenthesis bulb item.
+    /// </summary>
     internal class SA1119StatementMustNotUseUnnecessaryParenthesisBulbItem : V5BulbItemImpl
     {
+        #region Public Methods
+
+        /// <summary>
+        /// The execute transaction inner.
+        /// </summary>
+        /// <param name="solution">
+        /// The solution.
+        /// </param>
+        /// <param name="textControl">
+        /// The text control.
+        /// </param>
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
             var tokensForLine = Utils.GetTokensForLineFromTextControl(solution, textControl);
@@ -39,5 +56,7 @@ namespace StyleCop.ReSharper.BulbItems.Maintainability
                 MaintainabilityRules.RemoveParenthesisFromNode(parenthesizedExpressionNode);
             }
         }
+
+        #endregion
     }
 }

@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="AssemblyInfo.cs">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="AssemblyInfo.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,11 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   AssemblyInfo.cs
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 #region Using Directives
 
 using System;
@@ -30,12 +34,9 @@ using StyleCop.ReSharper.Properties;
 [assembly: AssemblyCopyright("MS-PL")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-
 [assembly: ComVisible(false)]
 
 // Many of the R# base types are not CLS compliant so we can't be.
 [assembly: CLSCompliant(false)]
-
-//[assembly: NeutralResourcesLanguage("en-US")]
 
 [assembly: Guid("8c180a9c-bd4d-45eb-becf-02f78e57ed91")]

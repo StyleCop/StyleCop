@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="StyleCopSwitch.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   A custom <see cref="TraceSwitch" /> class allowing more trace levels than the default switch.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.Diagnostics
 {
@@ -110,14 +113,14 @@ namespace StyleCop.ReSharper.Diagnostics
         public bool TraceError { get; private set; }
 
         /// <summary>
-        /// Gets a value indicating whether tracing of informational messages is enabled.
-        /// </summary>
-        public bool TraceInfo { get; private set; }
-
-        /// <summary>
         /// Gets a value indicating whether tracing in and out of method bodies is enabled.
         /// </summary>
         public bool TraceInOut { get; private set; }
+
+        /// <summary>
+        /// Gets a value indicating whether tracing of informational messages is enabled.
+        /// </summary>
+        public bool TraceInfo { get; private set; }
 
         /// <summary>
         /// Gets a value indicating whether tracing of sensitive data is enabled.

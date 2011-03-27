@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SA1109QuickFix.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   QuickFix.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.QuickFixes.Readability
 {
@@ -106,13 +109,7 @@ namespace StyleCop.ReSharper.QuickFixes.Readability
         /// </summary>
         protected override void InitialiseBulbItems()
         {
-            this.BulbItems = new List<IBulbItem>
-                {
-                    new SA1109BlockStatementsMustNotContainEmbeddedRegionsBulbItem
-                        {
-                            Description = "Move region inside code block: " + this.Violation.ToolTip
-                        }
-                };
+            this.BulbItems = new List<IBulbItem> { new SA1109BlockStatementsMustNotContainEmbeddedRegionsBulbItem { Description = "Move region inside code block: " + this.Violation.ToolTip } };
         }
 
         #endregion

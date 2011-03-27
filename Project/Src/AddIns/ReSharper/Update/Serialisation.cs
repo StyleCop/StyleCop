@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="Serialisation.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Serialisation.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,11 +11,14 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Utility that allows you to retrieve and create mock data from XML files containing serialized type instances.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.Update
 {
-    #region Directives
+    #region Using Directives
 
     using System.IO;
     using System.Xml;
@@ -24,16 +27,24 @@ namespace StyleCop.ReSharper.Update
     #endregion
 
     /// <summary>
-    /// Utility that allows you to retrieve and create mock data from XML files containing serialized type instances
+    /// Utility that allows you to retrieve and create mock data from XML files containing serialized type instances.
     /// </summary>
     public static class Serialisation
     {
+        #region Public Methods
+
         /// <summary>
-        /// Deserializes a Type
+        /// Deserializes a Type.
         /// </summary>
-        /// <typeparam name="T">Type to deserialize</typeparam>
-        /// <param name="serializedType">serialized version of the type</param>
-        /// <returns>DeSerialized version of the type</returns>
+        /// <typeparam name="T">
+        /// Type to deserialize.
+        /// </typeparam>
+        /// <param name="serializedType">
+        /// Serialized version of the type.
+        /// </param>
+        /// <returns>
+        /// DeSerialized version of the type.
+        /// </returns>
         public static T CreateInstance<T>(string serializedType) where T : new()
         {
             var serializer = new XmlSerializer(typeof(T));
@@ -44,5 +55,7 @@ namespace StyleCop.ReSharper.Update
 
             return customType;
         }
+
+        #endregion
     }
 }

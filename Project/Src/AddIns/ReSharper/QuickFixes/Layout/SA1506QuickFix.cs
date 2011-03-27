@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SA1506QuickFix.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   QuickFix - SA1506.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.QuickFixes.Layout
 {
@@ -22,7 +25,6 @@ namespace StyleCop.ReSharper.QuickFixes.Layout
     using JetBrains.ReSharper.Feature.Services.Bulbs;
 
     using StyleCop.ReSharper.BulbItems.Layout;
-    using StyleCop.ReSharper.BulbItems.Readability;
     using StyleCop.ReSharper.QuickFixes.Framework;
     using StyleCop.ReSharper.Violations;
 
@@ -107,13 +109,10 @@ namespace StyleCop.ReSharper.QuickFixes.Layout
         /// </summary>
         protected override void InitialiseBulbItems()
         {
-            this.BulbItems = new List<IBulbItem>
-                {
+            this.BulbItems = new List<IBulbItem> {
                     new SA1506DocumentationHeaderLineMustNotBeFollowedByABlankLineBulbItem
-                        { 
-                            Description = "Format line : " + this.Violation.ToolTip, 
-                            DocumentRange = this.Violation.DocumentRange, 
-                            LineNumber = this.Violation.LineNumber
+                        {
+                           Description = "Format line : " + this.Violation.ToolTip, DocumentRange = this.Violation.DocumentRange, LineNumber = this.Violation.LineNumber 
                         }
                 };
         }

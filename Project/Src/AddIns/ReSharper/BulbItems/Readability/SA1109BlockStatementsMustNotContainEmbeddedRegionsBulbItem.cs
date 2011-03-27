@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SA1109BlockStatementsMustNotContainEmbeddedRegionsBulbItem.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   The s a 1109 block statements must not contain embedded regions bulb item.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.BulbItems.Readability
 {
@@ -27,8 +30,22 @@ namespace StyleCop.ReSharper.BulbItems.Readability
 
     #endregion
 
+    /// <summary>
+    /// The s a 1109 block statements must not contain embedded regions bulb item.
+    /// </summary>
     public class SA1109BlockStatementsMustNotContainEmbeddedRegionsBulbItem : V5BulbItemImpl
     {
+        #region Public Methods
+
+        /// <summary>
+        /// The execute transaction inner.
+        /// </summary>
+        /// <param name="solution">
+        /// The solution.
+        /// </param>
+        /// <param name="textControl">
+        /// The text control.
+        /// </param>
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
             var element = Utils.GetElementAtCaret(solution, textControl);
@@ -38,5 +55,7 @@ namespace StyleCop.ReSharper.BulbItems.Readability
                 ReadabilityRules.MoveRegionInsideNextOpenCurlyBracket(startRegionNode);
             }
         }
+
+        #endregion
     }
 }

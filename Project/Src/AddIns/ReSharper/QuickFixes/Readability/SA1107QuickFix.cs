@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SA1107QuickFix.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   QuickFix - SA1101: UseStringEmptyForEmptyStrings.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.QuickFixes.Readability
 {
@@ -106,11 +109,10 @@ namespace StyleCop.ReSharper.QuickFixes.Readability
         /// </summary>
         protected override void InitialiseBulbItems()
         {
-            this.BulbItems = new List<IBulbItem>
-                {
+            this.BulbItems = new List<IBulbItem> {
                     new FormatLineBulbItem
                         {
-                            FileName = this.Violation.FileName,
+                            FileName = this.Violation.FileName, 
                             LineNumber = this.Violation.LineNumber, 
                             DocumentRange = this.Violation.DocumentRange, 
                             Description = "Format line : " + this.Violation.ToolTip

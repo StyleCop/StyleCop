@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="MaintainabilityOptions.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Defines options for SCfR#.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.CodeCleanup.Options
 {
@@ -53,7 +56,10 @@ namespace StyleCop.ReSharper.CodeCleanup.Options
         /// </summary>
         protected override string AnalyzerName
         {
-            get { return "StyleCop.CSharp.MaintainabilityRules"; }
+            get
+            {
+                return "StyleCop.CSharp.MaintainabilityRules";
+            }
         }
 
         #endregion

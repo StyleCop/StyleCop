@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SA1510ChainedStatementBlocksMustNotBePrecededByBlankLineBulbItem.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   The s a 1510 chained statement blocks must not be preceded by blank line bulb item.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.BulbItems.Layout
 {
@@ -26,12 +29,28 @@ namespace StyleCop.ReSharper.BulbItems.Layout
 
     #endregion
 
+    /// <summary>
+    /// The s a 1510 chained statement blocks must not be preceded by blank line bulb item.
+    /// </summary>
     public class SA1510ChainedStatementBlocksMustNotBePrecededByBlankLineBulbItem : V5BulbItemImpl
     {
+        #region Public Methods
+
+        /// <summary>
+        /// The execute transaction inner.
+        /// </summary>
+        /// <param name="solution">
+        /// The solution.
+        /// </param>
+        /// <param name="textControl">
+        /// The text control.
+        /// </param>
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
             var element = Utils.GetElementAtCaret(solution, textControl);
             Utils.RemoveNewLineBefore((ITreeNode)element);
         }
+
+        #endregion
     }
 }

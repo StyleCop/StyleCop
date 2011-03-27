@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="TraceTypes.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Represents the binary switch values used to turn on/off the various types of trace message.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.Diagnostics
 {
@@ -30,48 +33,48 @@ namespace StyleCop.ReSharper.Diagnostics
         /// <summary>
         /// No Tracing.
         /// </summary>
-        None = 0,
+        None = 0, 
 
         /// <summary>
         /// Trace in and out of methods and code blocks.
         /// </summary>
-        InOut = 1,
+        InOut = 1, 
 
         /// <summary>
         /// Trace output of error conditions.
         /// </summary>
-        Error = 2,
+        Error = 2, 
 
         /// <summary>
         /// Trace output of warning conditions.
         /// </summary>
-        Warning = 4,
+        Warning = 4, 
 
         /// <summary>
         /// Trace output of general information.
         /// </summary>
-        Info = 8,
+        Info = 8, 
 
         /// <summary>
         /// Trace the full details of sensitive information. This flag only has an effect in debug
         /// builds - release builds will always obscure sensitive information.
         /// </summary>
-        SensitiveData = 64,
+        SensitiveData = 64, 
 
         /// <summary>
         /// Includes the .NET Thread name with the message output.
         /// </summary>
-        IncludeThreadName = 128,
+        IncludeThreadName = 128, 
 
         /// <summary>
         /// Include the .Net Thread Hash with the message output.
         /// </summary>
-        IncludeThreadId = 256,
+        IncludeThreadId = 256, 
 
         /// <summary>
         /// Trace output that is considered highly verbose.
         /// Also modifies the tracing produced from In/Out so that reference types are expanded.  
         /// </summary>
-        Verbose = 512,
+        Verbose = 512, 
     }
 }

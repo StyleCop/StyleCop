@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SA1507CodeMustNotContainMultipleBlankLinesInARowBulbItem.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,15 +11,16 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   The s a 1507 code must not contain multiple blank lines in a row bulb item.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.BulbItems.Layout
 {
     #region Using Directives
 
     using JetBrains.ProjectModel;
-    using JetBrains.ReSharper.Psi.CSharp.CodeStyle;
-    using JetBrains.ReSharper.Psi.Impl.CodeStyle;
     using JetBrains.ReSharper.Psi.Tree;
     using JetBrains.TextControl;
 
@@ -28,15 +29,31 @@ namespace StyleCop.ReSharper.BulbItems.Layout
 
     #endregion
 
+    /// <summary>
+    /// The s a 1507 code must not contain multiple blank lines in a row bulb item.
+    /// </summary>
     public class SA1507CodeMustNotContainMultipleBlankLinesInARowBulbItem : V5BulbItemImpl
     {
+        #region Public Methods
+
+        /// <summary>
+        /// The execute transaction inner.
+        /// </summary>
+        /// <param name="solution">
+        /// The solution.
+        /// </param>
+        /// <param name="textControl">
+        /// The text control.
+        /// </param>
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
             var element = Utils.GetElementAtCaret(solution, textControl);
 
             var currentNode = (ITreeNode)element;
-            
+
             Utils.RemoveNewLineBefore(currentNode);
         }
+
+        #endregion
     }
 }

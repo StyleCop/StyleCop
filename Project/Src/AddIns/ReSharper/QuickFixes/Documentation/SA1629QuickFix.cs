@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SA1629QuickFix.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   QuickFix - SA1629: DocumentationTextMustEndWithAPeriod.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.QuickFixes.Documentation
 {
@@ -106,13 +109,7 @@ namespace StyleCop.ReSharper.QuickFixes.Documentation
         /// </summary>
         protected override void InitialiseBulbItems()
         {
-            this.BulbItems = new List<IBulbItem>
-                {
-                    new SA1629DocumentationTextMustEndWithAPeriodBulbItem
-                        {
-                            Description = "Documentation text must end with a '.' : " + this.Violation.ToolTip
-                        }
-                };
+            this.BulbItems = new List<IBulbItem> { new SA1629DocumentationTextMustEndWithAPeriodBulbItem { Description = "Documentation text must end with a '.' : " + this.Violation.ToolTip } };
         }
 
         #endregion

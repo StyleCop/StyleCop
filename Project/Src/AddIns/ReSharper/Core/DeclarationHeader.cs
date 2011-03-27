@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="DeclarationHeader.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Provides a wrapper for a declaration elements documentation comments.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.Core
 {
@@ -31,11 +34,9 @@ namespace StyleCop.ReSharper.Core
     using JetBrains.ReSharper.Psi.ExtensionsAPI.Tree;
     using JetBrains.ReSharper.Psi.Tree;
 
-    using StyleCop;
-
     using StyleCop.ReSharper.CodeCleanup.Rules;
     using StyleCop.ReSharper.Options;
-    
+
     #endregion
 
     /// <summary>
@@ -48,7 +49,7 @@ namespace StyleCop.ReSharper.Core
         private static readonly ArrayList elementsThatStartOnNewLine;
 
         private static readonly ArrayList elementsThatStartOnNewLineAndHaveNewLineOnInnerXml;
-        
+
         #endregion
 
         #region Constructors and Destructors
@@ -68,7 +69,7 @@ namespace StyleCop.ReSharper.Core
                 new ArrayList(
                     new[]
                         {
-                            "code", "event", "example", "exception", "item", "list", "listheader", "note", "overloads", "para", "param", "permission", "preliminary", "remarks", "returns", "summary",
+                            "code", "event", "example", "exception", "item", "list", "listheader", "note", "overloads", "para", "param", "permission", "preliminary", "remarks", "returns", "summary", 
                             "typeparam", "value"
                         });
         }
@@ -205,7 +206,7 @@ namespace StyleCop.ReSharper.Core
                 var declarationTreeNode = declaration.ToTreeNode();
 
                 var middleText = StyleCopOptions.Instance.UseSingleLineDeclarationComments ? String.Empty : Environment.NewLine;
-                
+
                 var emptyDocHeader = string.Format("<summary>{0}</summary>", middleText);
 
                 if (!(declarationTreeNode is IMultipleDeclarationMemberNode))

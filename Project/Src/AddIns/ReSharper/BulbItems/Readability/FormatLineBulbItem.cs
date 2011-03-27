@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="FormatLineBulbItem.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,22 +11,22 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
-
+// <summary>
+//   QuickFix action which formats multiple statements on a single line.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 extern alias JB;
 
 namespace StyleCop.ReSharper.BulbItems.Readability
 {
     #region Using Directives
 
-    using CodeCleanup.Rules;
-
-    using JetBrains.DocumentModel;
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
     using JetBrains.TextControl;
 
     using StyleCop.ReSharper.BulbItems.Framework;
+    using StyleCop.ReSharper.CodeCleanup.Rules;
     using StyleCop.ReSharper.Core;
 
     #endregion
@@ -36,17 +36,23 @@ namespace StyleCop.ReSharper.BulbItems.Readability
     /// </summary>
     public class FormatLineBulbItem : V5BulbItemImpl
     {
+        #region Public Methods
+
         /// <summary>
-        /// Formats the current line using the settings as defined in ReSharper > Option > Languages > Common > Code Style Sharing.
+        /// Formats the current line using the settings as defined in ReSharper &gt; Option &gt; Languages &gt; Common &gt; Code Style Sharing.
         /// </summary>
-        /// <param name="solution">Current Solution</param>
-        /// <param name="textControl">Current Text Control</param>
+        /// <param name="solution">
+        /// Current Solution.
+        /// </param>
+        /// <param name="textControl">
+        /// Current Text Control.
+        /// </param>
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
-            JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> line = Utils.GetLineNumberForTextControl(textControl);
+            var line = Utils.GetLineNumberForTextControl(textControl);
             var element = Utils.GetElementAtCaret(solution, textControl);
             var containingElement = element.GetContainingElement<IUsingDirectiveNode>(true);
-                    
+
             Utils.FormatLines(solution, textControl.Document, line.Minus1(), line.Plus1());
 
             if (containingElement != null)
@@ -54,5 +60,7 @@ namespace StyleCop.ReSharper.BulbItems.Readability
                 new SpacingRules().EqualsMustBeSpacedCorrectly(containingElement.ToTreeNode());
             }
         }
+
+        #endregion
     }
 }

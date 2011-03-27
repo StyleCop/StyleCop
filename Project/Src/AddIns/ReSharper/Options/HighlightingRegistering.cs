@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="HighlightingRegistering.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Registers StyleCop Highlighters to allow their severity to be set.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.Options
 {
@@ -24,8 +27,6 @@ namespace StyleCop.ReSharper.Options
     using JetBrains.Application;
     using JetBrains.ComponentModel;
     using JetBrains.ReSharper.Daemon;
-
-    using StyleCop;
 
     using StyleCop.ReSharper.Core;
 
@@ -59,13 +60,6 @@ namespace StyleCop.ReSharper.Options
         #region Public Methods
 
         /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        public void Dispose()
-        {
-        }
-
-        /// <summary>
         /// Gets the highlight ID for this rule.
         /// </summary>
         /// <param name="ruleID">
@@ -89,6 +83,12 @@ namespace StyleCop.ReSharper.Options
             return highlighID;
         }
 
+        #endregion
+
+        #region Implemented Interfaces
+
+        #region IComponent
+
         /// <summary>
         /// Inits this instance.
         /// </summary>
@@ -99,6 +99,19 @@ namespace StyleCop.ReSharper.Options
                 this.AddHighlights();
             }
         }
+
+        #endregion
+
+        #region IDisposable
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+        }
+
+        #endregion
 
         #endregion
 
@@ -114,13 +127,48 @@ namespace StyleCop.ReSharper.Options
         {
             const string RuleName = "Default Violation Severity";
             const string GroupName = "StyleCop - Defaults (Requires VS Restart)";
-            const string Description = "Sets the default severity for StyleCop violations. This will be used for any Violation where you have not explicitly set a severity. <strong>Changes to this setting will not take effect until the next time you start Visual Studio.</strong>";
+            const string Description =
+                "Sets the default severity for StyleCop violations. This will be used for any Violation where you have not explicitly set a severity. <strong>Changes to this setting will not take effect until the next time you start Visual Studio.</strong>";
             const string HighlightID = DefaultSeverityId;
 
             if (!SettingExists(highlightManager, HighlightID))
             {
                 highlightManager.RegisterConfigurableSeverity(HighlightID, GroupName, RuleName, Description, Severity.SUGGESTION);
             }
+        }
+
+        /// <summary>
+        /// Checks if the highlight setting already exists in the HighlightingSettingsManager.
+        /// </summary>
+        /// <param name="highlightManager">
+        /// The highlight manager.
+        /// </param>
+        /// <param name="highlightID">
+        /// The highlight ID.
+        /// </param>
+        /// <returns>
+        /// Boolean to say if this setting already exists in the HighlightingSettingsManager.
+        /// </returns>
+        private static bool SettingExists(HighlightingSettingsManager highlightManager, string highlightID)
+        {
+            var item = highlightManager.GetSeverityItem(highlightID);
+            return item != null;
+        }
+
+        /// <summary>
+        /// Splits the camel case.
+        /// </summary>
+        /// <param name="input">
+        /// The text to split.
+        /// </param>
+        /// <returns>
+        /// The split text.
+        /// </returns>
+        private static string SplitCamelCase(string input)
+        {
+            var output = Regex.Replace(input, "([A-Z])", " $1", RegexOptions.Compiled).Trim();
+
+            return output;
         }
 
         /// <summary>
@@ -174,40 +222,6 @@ namespace StyleCop.ReSharper.Options
                     }
                 }
             }
-        }
-
-        /// <summary>
-        /// Checks if the highlight setting already exists in the HighlightingSettingsManager.
-        /// </summary>
-        /// <param name="highlightManager">
-        /// The highlight manager.
-        /// </param>
-        /// <param name="highlightID">
-        /// The highlight ID.
-        /// </param>
-        /// <returns>
-        /// Boolean to say if this setting already exists in the HighlightingSettingsManager.
-        /// </returns>
-        private static bool SettingExists(HighlightingSettingsManager highlightManager, string highlightID)
-        {
-            var item = highlightManager.GetSeverityItem(highlightID);
-            return item != null;
-        }
-
-        /// <summary>
-        /// Splits the camel case.
-        /// </summary>
-        /// <param name="input">
-        /// The text to split.
-        /// </param>
-        /// <returns>
-        /// The split text.
-        /// </returns>
-        private static string SplitCamelCase(string input)
-        {
-            var output = Regex.Replace(input, "([A-Z])", " $1", RegexOptions.Compiled).Trim();
-
-            return output;
         }
 
         #endregion

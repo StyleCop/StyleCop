@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="DocumentationRules.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,11 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Declaration comments fixes SA1600, SA1602, SA1611, SA1615, SA1617, SA1642.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 extern alias JB;
 
 namespace StyleCop.ReSharper.CodeCleanup.Rules
@@ -31,8 +35,6 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
     using JetBrains.ReSharper.Psi.ExtensionsAPI;
     using JetBrains.ReSharper.Psi.Impl.Types;
     using JetBrains.ReSharper.Psi.Tree;
-
-    using StyleCop;
 
     using StyleCop.ReSharper.CodeCleanup.Options;
     using StyleCop.ReSharper.CodeCleanup.Styles;
@@ -1099,8 +1101,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         {
             Param.RequireNotNull(xmlNode, "xmlNode");
 
-            var elementsThatHaveInnerTextEndingWithPeriod =
-                new List<string>(new[] { "description", "exception", "para", "param", "permission", "remarks", "returns", "summary", "typeparam", "value" });
+            var elementsThatHaveInnerTextEndingWithPeriod = new List<string>(new[] { "description", "exception", "para", "param", "permission", "remarks", "returns", "summary", "typeparam", "value" });
 
             for (var i = 0; i < xmlNode.ChildNodes.Count; i++)
             {

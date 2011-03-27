@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="DocumentationOptions.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Defines options for SCfR#.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.CodeCleanup.Options
 {
@@ -116,7 +119,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Options
         /// </summary>
         [DisplayName("1639: File Header Must Have Summary")]
         public bool SA1639FileHeaderMustHaveSummary { get; set; }
-        
+
         /// <summary>
         /// Gets or sets a value indicating whether SA1642ConstructorSummaryDocumentationMustBeginWithStandardText.
         /// </summary>
@@ -140,7 +143,10 @@ namespace StyleCop.ReSharper.CodeCleanup.Options
         /// </summary>
         protected override string AnalyzerName
         {
-            get { return "StyleCop.CSharp.DocumentationRules"; }
+            get
+            {
+                return "StyleCop.CSharp.DocumentationRules";
+            }
         }
 
         /// <summary>
@@ -150,11 +156,8 @@ namespace StyleCop.ReSharper.CodeCleanup.Options
         {
             get
             {
-                return !this.IsPropertyEnabled("FileMustHaveHeader") && 
-                       !this.IsPropertyEnabled("FileHeaderMustShowCopyright") && 
-                       !this.IsPropertyEnabled("FileHeaderMustHaveCopyrightText") &&
-                       !this.IsPropertyEnabled("FileHeaderMustContainFileName") && 
-                       !this.IsPropertyEnabled("FileHeaderFileNameDocumentationMustMatchFileName") &&
+                return !this.IsPropertyEnabled("FileMustHaveHeader") && !this.IsPropertyEnabled("FileHeaderMustShowCopyright") && !this.IsPropertyEnabled("FileHeaderMustHaveCopyrightText") &&
+                       !this.IsPropertyEnabled("FileHeaderMustContainFileName") && !this.IsPropertyEnabled("FileHeaderFileNameDocumentationMustMatchFileName") &&
                        !this.IsPropertyEnabled("FileHeaderMustHaveValidCompanyText");
             }
         }
@@ -208,7 +211,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Options
             var propName = string.Empty;
             var propValue = string.Empty;
             var displayNameAttributes = (DisplayNameAttribute[])propertyInfo.GetCustomAttributes(typeof(DisplayNameAttribute), false);
-            
+
             if (displayNameAttributes.Length == 1)
             {
                 propName = displayNameAttributes[0].DisplayName;

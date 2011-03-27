@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SpacingDescriptor.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,8 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
-
+// <summary>
+//   Code Clean Up Description.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 extern alias JB;
 
 namespace StyleCop.ReSharper.CodeCleanup.Descriptors
@@ -24,7 +26,6 @@ namespace StyleCop.ReSharper.CodeCleanup.Descriptors
     using System.Xml;
 
     using JetBrains.ReSharper.Feature.Services.CodeCleanup;
-    using JetBrains.Util;
 
     using StyleCop.ReSharper.CodeCleanup.Options;
 
@@ -43,7 +44,8 @@ namespace StyleCop.ReSharper.CodeCleanup.Descriptors
         /// <summary>
         /// Initializes a new instance of the <see cref="SpacingDescriptor"/> class. 
         /// </summary>
-        public SpacingDescriptor() : base("StyleCopForReSharperSpacing")
+        public SpacingDescriptor()
+            : base("StyleCopForReSharperSpacing")
         {
         }
 
@@ -70,8 +72,10 @@ namespace StyleCop.ReSharper.CodeCleanup.Descriptors
                 try
                 {
                     options.SA1001CommasMustBeSpacedCorrectly = bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(optionsElement, "SA1001CommasMustBeSpacedCorrectly"));
-                    options.SA1005SingleLineCommentsMustBeginWithSingleSpace = bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(optionsElement, "SA1005SingleLineCommentsMustBeginWithSingleSpace"));
-                    options.SA1006PreprocessorKeywordsMustNotBePrecededBySpace = bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(optionsElement, "SA1006PreprocessorKeywordsMustNotBePrecededBySpace"));
+                    options.SA1005SingleLineCommentsMustBeginWithSingleSpace =
+                        bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(optionsElement, "SA1005SingleLineCommentsMustBeginWithSingleSpace"));
+                    options.SA1006PreprocessorKeywordsMustNotBePrecededBySpace =
+                        bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(optionsElement, "SA1006PreprocessorKeywordsMustNotBePrecededBySpace"));
                     options.SA1021NegativeSignsMustBeSpacedCorrectly = bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(optionsElement, "SA1021NegativeSignsMustBeSpacedCorrectly"));
                     options.SA1022PositiveSignsMustBeSpacedCorrectly = bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(optionsElement, "SA1022PositiveSignsMustBeSpacedCorrectly"));
                 }
@@ -112,8 +116,10 @@ namespace StyleCop.ReSharper.CodeCleanup.Descriptors
             var optionsElement = JB::JetBrains.Util.XmlUtil.CreateElement(element, this.Name);
 
             JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(optionsElement, "SA1001CommasMustBeSpacedCorrectly", options.SA1001CommasMustBeSpacedCorrectly.ToString());
-            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(optionsElement, "SA1005SingleLineCommentsMustBeginWithSingleSpace", options.SA1005SingleLineCommentsMustBeginWithSingleSpace.ToString());
-            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(optionsElement, "SA1006PreprocessorKeywordsMustNotBePrecededBySpace", options.SA1006PreprocessorKeywordsMustNotBePrecededBySpace.ToString());
+            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(
+                optionsElement, "SA1005SingleLineCommentsMustBeginWithSingleSpace", options.SA1005SingleLineCommentsMustBeginWithSingleSpace.ToString());
+            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(
+                optionsElement, "SA1006PreprocessorKeywordsMustNotBePrecededBySpace", options.SA1006PreprocessorKeywordsMustNotBePrecededBySpace.ToString());
             JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(optionsElement, "SA1021NegativeSignsMustBeSpacedCorrectly", options.SA1021NegativeSignsMustBeSpacedCorrectly.ToString());
             JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(optionsElement, "SA1022PositiveSignsMustBeSpacedCorrectly", options.SA1022PositiveSignsMustBeSpacedCorrectly.ToString());
         }

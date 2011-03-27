@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SA1618GenericTypeParametersMustBeDocumentedBulbItem.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   BulbItem - SA1618GenericTypeParametersMustBeDocumentedBulbItem : Inserts a param into the header.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.BulbItems.Documentation
 {
@@ -32,6 +35,17 @@ namespace StyleCop.ReSharper.BulbItems.Documentation
     /// </summary>
     internal class SA1618GenericTypeParametersMustBeDocumentedBulbItem : V5BulbItemImpl
     {
+        #region Public Methods
+
+        /// <summary>
+        /// The execute transaction inner.
+        /// </summary>
+        /// <param name="solution">
+        /// The solution.
+        /// </param>
+        /// <param name="textControl">
+        /// The text control.
+        /// </param>
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
             var element = Utils.GetElementAtCaret(solution, textControl);
@@ -40,5 +54,7 @@ namespace StyleCop.ReSharper.BulbItems.Documentation
 
             new DocumentationRules().InsertMissingTypeParamElement(declaration);
         }
+
+        #endregion
     }
 }

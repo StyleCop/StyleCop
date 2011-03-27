@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="StyleCopLocator.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,24 +11,28 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   The style cop locator.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.Core
 {
     #region Using Directives
 
-    using System;
-    using System.Collections.Generic;
     using System.IO;
 
     using Microsoft.Win32;
 
-    using StyleCop.ReSharper.Properties;
-
     #endregion
 
+    /// <summary>
+    /// The style cop locator.
+    /// </summary>
     public static class StyleCopLocator
     {
+        #region Public Methods
+
         /// <summary>
         /// Gets the StyleCop assembly path.
         /// </summary>
@@ -41,11 +45,17 @@ namespace StyleCop.ReSharper.Core
 
             return Path.Combine(directory, StyleCopReferenceHelper.StyleCopAssemblyName);
         }
-        
+
+        #endregion
+
+        #region Methods
+
         /// <summary>
         /// Gets the StyleCop install location from the registry. This reg key is created by StyleCop 4.5 during install.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>
+        /// The retrieve from registry.
+        /// </returns>
         private static string RetrieveFromRegistry()
         {
             var subKey = @"SOFTWARE\CodePlex\StyleCop";
@@ -53,5 +63,7 @@ namespace StyleCop.ReSharper.Core
 
             return Registry.LocalMachine.OpenSubKey(subKey).GetValue(key) as string;
         }
+
+        #endregion
     }
 }

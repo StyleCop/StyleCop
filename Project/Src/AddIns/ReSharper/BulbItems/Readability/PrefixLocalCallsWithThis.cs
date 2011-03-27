@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="PrefixLocalCallsWithThis.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   QuickFix action which prefixing the local call with "this.".
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.BulbItems.Readability
 {
@@ -20,7 +23,6 @@ namespace StyleCop.ReSharper.BulbItems.Readability
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Psi;
     using JetBrains.ReSharper.Psi.CSharp.CodeStyle;
-    using JetBrains.ReSharper.Psi.CSharp.Impl.CodeStyle;
     using JetBrains.TextControl;
 
     using StyleCop.ReSharper.BulbItems.Framework;
@@ -33,7 +35,18 @@ namespace StyleCop.ReSharper.BulbItems.Readability
     /// </summary>
     public class PrefixLocalCallsWithThis : V5BulbItemImpl
     {
-       public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
+        #region Public Methods
+
+        /// <summary>
+        /// The execute transaction inner.
+        /// </summary>
+        /// <param name="solution">
+        /// The solution.
+        /// </param>
+        /// <param name="textControl">
+        /// The text control.
+        /// </param>
+        public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
             var file = Utils.GetCSharpFile(solution, textControl);
 
@@ -41,5 +54,7 @@ namespace StyleCop.ReSharper.BulbItems.Readability
 
             file.ArrangeThisQualifier(marker);
         }
+
+        #endregion
     }
 }

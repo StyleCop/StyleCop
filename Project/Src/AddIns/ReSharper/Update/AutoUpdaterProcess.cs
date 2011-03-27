@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="AutoUpdaterProcess.cs">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="AutoUpdaterProcess.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Provides automatic updating functionality for the plugin.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.Update
 {
@@ -45,13 +48,15 @@ namespace StyleCop.ReSharper.Update
         /// <summary>
         /// Question text.
         /// </summary>
-        private const string QuestionText = "StyleCop {0} is now available.\r\n\nStyleCop {1} is currently installed.\r\n\r\nOnce downloaded and installed you'll need to restart Visual Studio.\r\n\r\nTo cofigure when new version are checked for go to ReSharper->Options->Tools->StyleCop.\r\n\r\nDo you wish to download the latest version?";
+        private const string QuestionText =
+            "StyleCop {0} is now available.\r\n\nStyleCop {1} is currently installed.\r\n\r\nOnce downloaded and installed you'll need to restart Visual Studio.\r\n\r\nTo cofigure when new version are checked for go to ReSharper->Options->Tools->StyleCop.\r\n\r\nDo you wish to download the latest version?";
 
 #if DEBUG
         private const string VersionUrl = "http://www.stylecop.com/updates/4.5/version.dev.xml";
 #else
         private const string VersionUrl = "http://www.stylecop.com/updates/4.5/version.xml";
 #endif
+
         /// <summary>
         /// Initialises this IShellComponent.
         /// </summary>
@@ -82,13 +87,25 @@ namespace StyleCop.ReSharper.Update
         /// <summary>
         /// Disposes any resources.
         /// </summary>
-        public void Dispose() { }
+        public void Dispose()
+        {
+        }
 
-        /// <summary>Prompt user for download.</summary>
-        /// <param name="currentVersionNumber">The current version number.</param>
-        /// <param name="newVersionNumber">The new version number.</param>
-        /// <param name="messageText">The message text.</param>
-        /// <returns>The prompt user for download.</returns>
+        /// <summary>
+        /// Prompt user for download.
+        /// </summary>
+        /// <param name="currentVersionNumber">
+        /// The current version number.
+        /// </param>
+        /// <param name="newVersionNumber">
+        /// The new version number.
+        /// </param>
+        /// <param name="messageText">
+        /// The message text.
+        /// </param>
+        /// <returns>
+        /// The prompt user for download.
+        /// </returns>
         private static bool PromptUserForDownload(string currentVersionNumber, string newVersionNumber, string messageText)
         {
             if (string.IsNullOrEmpty(messageText))

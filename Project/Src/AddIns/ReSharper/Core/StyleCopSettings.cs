@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="StyleCopSettings.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   The style cop settings.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.Core
 {
@@ -23,25 +26,46 @@ namespace StyleCop.ReSharper.Core
 
     using JetBrains.ProjectModel;
 
-    using StyleCop;
-
     using StyleCop.ReSharper.Diagnostics;
     using StyleCop.ReSharper.Options;
 
     #endregion
 
+    /// <summary>
+    /// The style cop settings.
+    /// </summary>
     public class StyleCopSettings
     {
-        private static readonly Dictionary<string, bool> BoolCache = new Dictionary<string, bool>();
-        private static readonly Dictionary<string, string> StringCache = new Dictionary<string, string>();
-        private static readonly Dictionary<string, Settings> SettingsCache = new Dictionary<string, Settings>();
-        private readonly StyleCopCore styleCopCore;
+        #region Constants and Fields
+
         private const string CsParserId = "StyleCop.CSharp.CsParser";
 
+        private static readonly Dictionary<string, bool> BoolCache = new Dictionary<string, bool>();
+
+        private static readonly Dictionary<string, Settings> SettingsCache = new Dictionary<string, Settings>();
+
+        private static readonly Dictionary<string, string> StringCache = new Dictionary<string, string>();
+
+        private readonly StyleCopCore styleCopCore;
+
+        #endregion
+
+        #region Constructors and Destructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StyleCopSettings"/> class.
+        /// </summary>
+        /// <param name="styleCopCore">
+        /// The style cop core.
+        /// </param>
         public StyleCopSettings(StyleCopCore styleCopCore)
         {
             this.styleCopCore = styleCopCore;
         }
+
+        #endregion
+
+        #region Public Methods
 
         /// <summary>
         /// Searches directorys of the project items project file and the parents thereof to see 
@@ -57,7 +81,7 @@ namespace StyleCop.ReSharper.Core
         {
             StyleCopTrace.In(projectItem);
 
-            string cacheKey = string.Format("{0}::{1}", "FindSettingsFilePath", projectItem.Location.FullPath.ToLowerInvariant());
+            var cacheKey = string.Format("{0}::{1}", "FindSettingsFilePath", projectItem.Location.FullPath.ToLowerInvariant());
 
             string settings;
 
@@ -101,11 +125,20 @@ namespace StyleCop.ReSharper.Core
             return StyleCopTrace.Out(this.styleCopCore.Environment.GetSettings(settingsFile, true));
         }
 
+        /// <summary>
+        /// The load settings files.
+        /// </summary>
+        /// <param name="projects">
+        /// The projects.
+        /// </param>
+        /// <param name="settingsPath">
+        /// The settings path.
+        /// </param>
         public void LoadSettingsFiles(IEnumerable<CodeProject> projects, string settingsPath)
         {
             StyleCopTrace.In(projects, settingsPath);
 
-            var mergedSettings = GetMergedSettings(settingsPath);
+            var mergedSettings = this.GetMergedSettings(settingsPath);
 
             foreach (var project in projects)
             {
@@ -121,49 +154,20 @@ namespace StyleCop.ReSharper.Core
             StyleCopTrace.Out();
         }
 
-        private Settings GetMergedSettings(string settingsPath)
-        {
-            StyleCopTrace.In(settingsPath);
-
-            string cacheKey = string.Empty;
-
-            if (string.IsNullOrEmpty(settingsPath))
-            {
-                cacheKey = string.Format("{0}::EMPTY", "GetMergedSettings");
-            }
-            else
-            {
-                cacheKey = string.Format("{0}::{1}", "GetMergedSettings", settingsPath.ToLowerInvariant());
-            }
-
-            Settings mergedSettings = null;
-
-            if (SettingsCache.TryGetValue(cacheKey, out mergedSettings))
-            {
-                StyleCopTrace.Out();
-
-                return mergedSettings;
-            }
-            
-            var localSettings = this.styleCopCore.Environment.GetSettings(settingsPath, false);
-
-            if (localSettings != null)
-            {
-                var merger = new SettingsMerger(localSettings, this.styleCopCore.Environment);
-
-                mergedSettings = merger.MergedSettings;
-            }
-            
-            SettingsCache[cacheKey] = mergedSettings;
-
-            return StyleCopTrace.Out(mergedSettings);
-        }
-
+        /// <summary>
+        /// The skip analysis for document.
+        /// </summary>
+        /// <param name="projectFile">
+        /// The project file.
+        /// </param>
+        /// <returns>
+        /// The skip analysis for document.
+        /// </returns>
         public bool SkipAnalysisForDocument(IProjectFile projectFile)
         {
             StyleCopTrace.In(projectFile);
 
-            string cacheKey = string.Format("{0}::{1}", "SkipAnalysisForDocument", projectFile.Location.FullPath.ToLowerInvariant());
+            var cacheKey = string.Format("{0}::{1}", "SkipAnalysisForDocument", projectFile.Location.FullPath.ToLowerInvariant());
 
             bool result;
 
@@ -176,8 +180,7 @@ namespace StyleCop.ReSharper.Core
 
             if (projectFile.Name.EndsWith(".cs"))
             {
-                if (!StyleCopOptions.Instance.UseExcludeFromStyleCopSetting ||
-                    !projectFile.ProjectFileIsExcludedFromStyleCop())
+                if (!StyleCopOptions.Instance.UseExcludeFromStyleCopSetting || !projectFile.ProjectFileIsExcludedFromStyleCop())
                 {
                     var analyzeDesignerFiles = true;
                     var analyzeGeneratedFiles = false;
@@ -199,8 +202,7 @@ namespace StyleCop.ReSharper.Core
                         }
 
                         if (analyzeGeneratedFiles ||
-                            (!projectFile.Name.EndsWith(".g.cs", StringComparison.OrdinalIgnoreCase) &&
-                             !projectFile.Name.EndsWith(".generated.cs", StringComparison.OrdinalIgnoreCase)))
+                            (!projectFile.Name.EndsWith(".g.cs", StringComparison.OrdinalIgnoreCase) && !projectFile.Name.EndsWith(".generated.cs", StringComparison.OrdinalIgnoreCase)))
                         {
                             BoolCache[cacheKey] = false;
 
@@ -217,6 +219,40 @@ namespace StyleCop.ReSharper.Core
             StyleCopTrace.Out();
 
             return true;
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Gets the settings file if it exists in this directory.
+        /// </summary>
+        /// <param name="directory">
+        /// The directory.
+        /// </param>
+        /// <returns>
+        /// The FileInfo for the settings file if one exists in this directory.
+        /// </returns>
+        private static FileInfo GetSettingsFileForDirectoryInfo(DirectoryInfo directory)
+        {
+            StyleCopTrace.In();
+
+            var settingsFileNames = new[] { "Settings.StyleCop", "Settings.SourceAnalysis" };
+
+            foreach (var settingsFileName in settingsFileNames)
+            {
+                var foundSettingsFiles = directory.GetFiles(settingsFileName, SearchOption.TopDirectoryOnly);
+
+                if (foundSettingsFiles.Length > 0)
+                {
+                    return StyleCopTrace.Out(foundSettingsFiles[0]);
+                }
+            }
+
+            StyleCopTrace.Out();
+
+            return null;
         }
 
         /// <summary>
@@ -277,6 +313,44 @@ namespace StyleCop.ReSharper.Core
             return null;
         }
 
+        private Settings GetMergedSettings(string settingsPath)
+        {
+            StyleCopTrace.In(settingsPath);
+
+            var cacheKey = string.Empty;
+
+            if (string.IsNullOrEmpty(settingsPath))
+            {
+                cacheKey = string.Format("{0}::EMPTY", "GetMergedSettings");
+            }
+            else
+            {
+                cacheKey = string.Format("{0}::{1}", "GetMergedSettings", settingsPath.ToLowerInvariant());
+            }
+
+            Settings mergedSettings = null;
+
+            if (SettingsCache.TryGetValue(cacheKey, out mergedSettings))
+            {
+                StyleCopTrace.Out();
+
+                return mergedSettings;
+            }
+
+            var localSettings = this.styleCopCore.Environment.GetSettings(settingsPath, false);
+
+            if (localSettings != null)
+            {
+                var merger = new SettingsMerger(localSettings, this.styleCopCore.Environment);
+
+                mergedSettings = merger.MergedSettings;
+            }
+
+            SettingsCache[cacheKey] = mergedSettings;
+
+            return StyleCopTrace.Out(mergedSettings);
+        }
+
         private PropertyValue GetParserSetting(IProjectFile projectFile, string propertyName)
         {
             StyleCopTrace.In(projectFile, propertyName);
@@ -302,34 +376,6 @@ namespace StyleCop.ReSharper.Core
             return StyleCopTrace.Out(returnValue);
         }
 
-        /// <summary>
-        /// Gets the settings file if it exists in this directory.
-        /// </summary>
-        /// <param name="directory">
-        /// The directory.
-        /// </param>
-        /// <returns>
-        /// The FileInfo for the settings file if one exists in this directory.
-        /// </returns>
-        private static FileInfo GetSettingsFileForDirectoryInfo(DirectoryInfo directory)
-        {
-            StyleCopTrace.In();
-
-            var settingsFileNames = new[] { "Settings.StyleCop", "Settings.SourceAnalysis" };
-
-            foreach (var settingsFileName in settingsFileNames)
-            {
-                var foundSettingsFiles = directory.GetFiles(settingsFileName, SearchOption.TopDirectoryOnly);
-
-                if (foundSettingsFiles.Length > 0)
-                {
-                    return StyleCopTrace.Out(foundSettingsFiles[0]);
-                }
-            }
-
-            StyleCopTrace.Out();
-
-            return null;
-        }
+        #endregion
     }
 }

@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="IUsingDirectiveExtensions.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Extension methods for the <see cref="IUsingDirective" /> class.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace JetBrains.ReSharper.Psi.CSharp.Tree
 {

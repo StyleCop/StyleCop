@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SA1026QuickFix.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   QuickFix - SA1026: CodeMustNotContainSpaceAfterNewKeywordInImplicitlyTypedArrayAllocation.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.QuickFixes.Spacing
 {
@@ -106,15 +109,7 @@ namespace StyleCop.ReSharper.QuickFixes.Spacing
         /// </summary>
         protected override void InitialiseBulbItems()
         {
-            this.BulbItems = new List<IBulbItem>
-                {
-                    new FormatLineBulbItem
-                        {
-                            DocumentRange = this.Violation.DocumentRange,
-                            Description = "Fix Spacing : " + this.Violation.ToolTip,
-                            LineNumber = this.Violation.LineNumber
-                        }
-                };
+            this.BulbItems = new List<IBulbItem> { new FormatLineBulbItem { DocumentRange = this.Violation.DocumentRange, Description = "Fix Spacing : " + this.Violation.ToolTip, LineNumber = this.Violation.LineNumber } };
         }
 
         #endregion

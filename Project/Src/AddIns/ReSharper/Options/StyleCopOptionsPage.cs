@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="StyleCopOptionsPage.cs" company="StyleCop for ReSharper Development Team">
-//   Copyright (c) StyleCop for ReSharper Development Team. All rights reserved.
+// <copyright file="StyleCopOptionsPage.cs" company="http://stylecop.codeplex.com">
+//   MS-PL
 // </copyright>
 // <summary>
 //   Defines the StyleCopOptionsPage type.
@@ -312,7 +312,7 @@ namespace StyleCop.ReSharper.Options
         {
             this.ShowFileDialog();
         }
-        
+
         private void DashesCountMaskedTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             this.toolTip.Hide(this.dashesCountMaskedTextBox);

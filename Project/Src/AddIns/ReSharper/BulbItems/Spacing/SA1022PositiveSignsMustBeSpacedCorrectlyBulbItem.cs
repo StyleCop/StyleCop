@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SA1022PositiveSignsMustBeSpacedCorrectlyBulbItem.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   The s a 1022 positive signs must be spaced correctly bulb item.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.BulbItems.Spacing
 {
@@ -28,8 +31,22 @@ namespace StyleCop.ReSharper.BulbItems.Spacing
 
     #endregion
 
+    /// <summary>
+    /// The s a 1022 positive signs must be spaced correctly bulb item.
+    /// </summary>
     public class SA1022PositiveSignsMustBeSpacedCorrectlyBulbItem : V5BulbItemImpl
     {
+        #region Public Methods
+
+        /// <summary>
+        /// The execute transaction inner.
+        /// </summary>
+        /// <param name="solution">
+        /// The solution.
+        /// </param>
+        /// <param name="textControl">
+        /// The text control.
+        /// </param>
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
             Utils.FormatLineForTextControl(solution, textControl);
@@ -41,5 +58,7 @@ namespace StyleCop.ReSharper.BulbItems.Spacing
                 new SpacingRules().NegativeAndPositiveSignsMustBeSpacedCorrectly(containingBlock.ToTreeNode(), CSharpTokenType.PLUS);
             }
         }
+
+        #endregion
     }
 }

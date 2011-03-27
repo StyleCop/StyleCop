@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SA1500QuickFix.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   QuickFix - SA1500.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.QuickFixes.Layout
 {
@@ -106,13 +109,10 @@ namespace StyleCop.ReSharper.QuickFixes.Layout
         /// </summary>
         protected override void InitialiseBulbItems()
         {
-            this.BulbItems = new List<IBulbItem>
-                {
+            this.BulbItems = new List<IBulbItem> {
                     new SA1500CurlyBracketsForMultiLineStatementsMustNotShareLineBulbItem
                         {
-                            Description = "Format line : " + this.Violation.ToolTip,
-                            DocumentRange = this.Violation.DocumentRange, 
-                            LineNumber = this.Violation.LineNumber
+                           Description = "Format line : " + this.Violation.ToolTip, DocumentRange = this.Violation.DocumentRange, LineNumber = this.Violation.LineNumber 
                         }
                 };
         }

@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="OptionsBase.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Defines the base options class for SCfR#.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.CodeCleanup.Options
 {
@@ -19,8 +22,6 @@ namespace StyleCop.ReSharper.CodeCleanup.Options
 
     using System.Linq;
     using System.Reflection;
-
-    using StyleCop;
 
     using StyleCop.ReSharper.Core;
     using StyleCop.ReSharper.Diagnostics;
@@ -104,7 +105,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Options
             {
                 return property.Value;
             }
-           
+
             var defaultPropertyDecriptor = this.analyzerSettingsProperties.AddIn.PropertyDescriptors[propertyName + "#Enabled"] as PropertyDescriptor<bool>;
 
             if (defaultPropertyDecriptor != null)

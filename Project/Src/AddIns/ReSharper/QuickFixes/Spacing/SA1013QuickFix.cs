@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SA1013QuickFix.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   QuickFix - SA1013: ClosingCurlyBracketsMustBeSpacedCorrectly.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.QuickFixes.Spacing
 {
@@ -24,7 +27,6 @@ namespace StyleCop.ReSharper.QuickFixes.Spacing
     using StyleCop.ReSharper.BulbItems.Readability;
     using StyleCop.ReSharper.QuickFixes.Framework;
     using StyleCop.ReSharper.Violations;
-    using StyleCop.ReSharper.QuickFixes.Framework;
 
     #endregion
 
@@ -107,15 +109,14 @@ namespace StyleCop.ReSharper.QuickFixes.Spacing
         /// </summary>
         protected override void InitialiseBulbItems()
         {
-            this.BulbItems = new List<IBulbItem>
-                {
+            this.BulbItems = new List<IBulbItem> {
                     new FormatLineBulbItem
                         {
-                            DocumentRange = this.Violation.DocumentRange,
-                            Description = "Fix Spacing : " + this.Violation.ToolTip,
-                            LineNumber = this.Violation.LineNumber,
-                            Prefix = " ",
-                            Suffix = string.Empty,
+                            DocumentRange = this.Violation.DocumentRange, 
+                            Description = "Fix Spacing : " + this.Violation.ToolTip, 
+                            LineNumber = this.Violation.LineNumber, 
+                            Prefix = " ", 
+                            Suffix = string.Empty, 
                             Target = "}"
                         }
                 };

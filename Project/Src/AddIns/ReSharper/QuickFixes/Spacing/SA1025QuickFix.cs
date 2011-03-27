@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SA1025QuickFix.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   QuickFix - SA1025: CodeMustNotContainMultipleWhitespaceInARow.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.QuickFixes.Spacing
 {
@@ -19,11 +22,9 @@ namespace StyleCop.ReSharper.QuickFixes.Spacing
 
     using System.Collections.Generic;
 
-    using BulbItems.Spacing;
-
     using JetBrains.ReSharper.Feature.Services.Bulbs;
 
-    using StyleCop.ReSharper.BulbItems.Readability;
+    using StyleCop.ReSharper.BulbItems.Spacing;
     using StyleCop.ReSharper.QuickFixes.Framework;
     using StyleCop.ReSharper.Violations;
 
@@ -108,13 +109,10 @@ namespace StyleCop.ReSharper.QuickFixes.Spacing
         /// </summary>
         protected override void InitialiseBulbItems()
         {
-            this.BulbItems = new List<IBulbItem>
-                {
+            this.BulbItems = new List<IBulbItem> {
                     new SA1025CodeMustNotContainMultipleWhitespaceInARowBulbItem
                         {
-                            DocumentRange = this.Violation.DocumentRange, 
-                            Description = "Fix Spacing : " + this.Violation.ToolTip,
-                            LineNumber = this.Violation.LineNumber 
+                           DocumentRange = this.Violation.DocumentRange, Description = "Fix Spacing : " + this.Violation.ToolTip, LineNumber = this.Violation.LineNumber 
                         }
                 };
         }

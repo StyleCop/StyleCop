@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="QuickFixBase.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,8 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
-
+// <summary>
+//   Basic Textual Quick Fix Example for rule SA1400QuickFix.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 extern alias JB;
 
 namespace StyleCop.ReSharper.QuickFixes.Framework
@@ -22,7 +24,6 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
     using System.Collections.Generic;
 
     using JetBrains.ReSharper.Feature.Services.Bulbs;
-    using JetBrains.Util;
 
     using StyleCop.ReSharper.Violations;
 
@@ -56,7 +57,8 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
         /// <param name="highlight">
         /// <see cref="StyleCopViolationError"/>that has been detected.
         /// </param>
-        protected QuickFixBase(StyleCopViolationError highlight) : this(highlight, true)
+        protected QuickFixBase(StyleCopViolationError highlight)
+            : this(highlight, true)
         {
         }
 
@@ -67,7 +69,8 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
         /// <param name="highlight">
         /// <see cref="StyleCopViolationHint"/>that has been detected.
         /// </param>
-        protected QuickFixBase(StyleCopViolationHint highlight) : this(highlight, true)
+        protected QuickFixBase(StyleCopViolationHint highlight)
+            : this(highlight, true)
         {
         }
 
@@ -78,7 +81,8 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
         /// <param name="highlight">
         /// <see cref="StyleCopViolationInfo"/>that has been detected.
         /// </param>
-        protected QuickFixBase(StyleCopViolationInfo highlight) : this(highlight, true)
+        protected QuickFixBase(StyleCopViolationInfo highlight)
+            : this(highlight, true)
         {
         }
 
@@ -89,7 +93,8 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
         /// <param name="highlight">
         /// <see cref="StyleCopViolationSuggestion"/>that has been detected.
         /// </param>
-        protected QuickFixBase(StyleCopViolationSuggestion highlight) : this(highlight, true)
+        protected QuickFixBase(StyleCopViolationSuggestion highlight)
+            : this(highlight, true)
         {
         }
 
@@ -100,7 +105,8 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
         /// <param name="highlight">
         /// <see cref="StyleCopViolationWarning"/>that has been detected.
         /// </param>
-        protected QuickFixBase(StyleCopViolationWarning highlight) : this(highlight, true)
+        protected QuickFixBase(StyleCopViolationWarning highlight)
+            : this(highlight, true)
         {
         }
 
@@ -124,12 +130,17 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
 
         #endregion
 
+        #region Properties
+
         /// <summary>
         /// Gets a list of BulbItems to display in the IDE.
         /// </summary>
         public IBulbItem[] Items
         {
-            get { return this.BulbItems.ToArray(); }
+            get
+            {
+                return this.BulbItems.ToArray();
+            }
         }
 
         /// <summary>
@@ -141,9 +152,22 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
         /// </remarks>
         protected List<IBulbItem> BulbItems
         {
-            get { return this.bulbItems; }
-            set { this.bulbItems = value; }
+            get
+            {
+                return this.bulbItems;
+            }
+
+            set
+            {
+                this.bulbItems = value;
+            }
         }
+
+        #endregion
+
+        #region Implemented Interfaces
+
+        #region IBulbAction
 
         /// <summary>
         /// Determines whether the current QuickFix is available for the violation.
@@ -171,6 +195,18 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
             return this.GetType().Name.StartsWith(this.Violation.CheckId);
         }
 
+        #endregion
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Abstract Initialisation method that must be called by all
+        /// derived types.
+        /// </summary>
+        protected abstract void InitialiseBulbItems();
+
         /// <summary>
         /// Ensures that the QF are only shown is they are applicable for the current violation.
         /// </summary>
@@ -182,10 +218,6 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
             }
         }
 
-        /// <summary>
-        /// Abstract Initialisation method that must be called by all
-        /// derived types.
-        /// </summary>
-        protected abstract void InitialiseBulbItems();
+        #endregion
     }
 }

@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SuppressMessageBulbItem.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   BulbItem - SuppressMessageBulbItem.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.BulbItems.Framework
 {
@@ -24,8 +27,6 @@ namespace StyleCop.ReSharper.BulbItems.Framework
     using JetBrains.ReSharper.Psi.CSharp.CodeStyle;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
     using JetBrains.TextControl;
-
-    using StyleCop;
 
     using StyleCop.ReSharper.Core;
     using StyleCop.ReSharper.Options;
@@ -89,7 +90,8 @@ namespace StyleCop.ReSharper.BulbItems.Framework
 
                     var file = declaration.ToTreeNode().GetContainingFile();
 
-                     CSharpFormatterHelper.FormatterInstance.FormatFile(file, SolutionCodeStyleSettings.GetInstance(solution).CodeStyleSettings, CodeFormatProfile.DEFAULT, NullProgressIndicator.Instance);
+                    CSharpFormatterHelper.FormatterInstance.FormatFile(
+                        file, SolutionCodeStyleSettings.GetInstance(solution).CodeStyleSettings, CodeFormatProfile.DEFAULT, NullProgressIndicator.Instance);
                 }
             }
         }

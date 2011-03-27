@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="AccessorsMustFollowOrderBulbItem.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   The accessors must follow order bulb item.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.BulbItems.Ordering
 {
@@ -27,8 +30,22 @@ namespace StyleCop.ReSharper.BulbItems.Ordering
 
     #endregion
 
+    /// <summary>
+    /// The accessors must follow order bulb item.
+    /// </summary>
     internal class AccessorsMustFollowOrderBulbItem : V5BulbItemImpl
     {
+        #region Public Methods
+
+        /// <summary>
+        /// The execute transaction inner.
+        /// </summary>
+        /// <param name="solution">
+        /// The solution.
+        /// </param>
+        /// <param name="textControl">
+        /// The text control.
+        /// </param>
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
             var element = Utils.GetElementAtCaret(solution, textControl);
@@ -40,5 +57,7 @@ namespace StyleCop.ReSharper.BulbItems.Ordering
                 OrderingRules.CheckAccessorOrder(declaration);
             }
         }
+
+        #endregion
     }
 }

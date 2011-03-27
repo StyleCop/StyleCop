@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="FormatDocumentationHeader.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   BulbItem - FormatDocumentationHeader : Fixes documention headers.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.BulbItems.Spacing
 {
@@ -31,6 +34,17 @@ namespace StyleCop.ReSharper.BulbItems.Spacing
     /// </summary>
     internal class FormatDocumentationHeader : V5BulbItemImpl
     {
+        #region Public Methods
+
+        /// <summary>
+        /// The execute transaction inner.
+        /// </summary>
+        /// <param name="solution">
+        /// The solution.
+        /// </param>
+        /// <param name="textControl">
+        /// The text control.
+        /// </param>
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
             var documentation = this.DocumentRange.GetText();
@@ -38,5 +52,7 @@ namespace StyleCop.ReSharper.BulbItems.Spacing
             documentation = regEx.Replace(documentation, "/// ");
             textControl.Document.ReplaceText(this.DocumentRange.TextRange, documentation);
         }
+
+        #endregion
     }
 }

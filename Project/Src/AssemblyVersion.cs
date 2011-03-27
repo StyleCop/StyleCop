@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="AssemblyVersion.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="AssemblyVersion.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,15 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   AssemblyVersion.cs
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+#region Using Directives
+
 using System.Reflection;
+
+#endregion
 
 [assembly: AssemblyVersion("4.5.3.0")]

@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="StyleCopRunnerInt.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,8 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
-
+// <summary>
+//   Executes Microsoft StyleCop within the Resharper Environment.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 extern alias JB;
 
 namespace StyleCop.ReSharper.Core
@@ -21,24 +23,16 @@ namespace StyleCop.ReSharper.Core
 
     using System;
     using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using System.Security;
-    using System.Xml;
 
     using JetBrains.DocumentModel;
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Daemon;
 
-    using StyleCop;
-    using StyleCop.CSharp;
-
     using StyleCop.ReSharper.Diagnostics;
-    using StyleCop.ReSharper.Options;
     using StyleCop.ReSharper.Violations;
 
     #endregion
-    
+
     /// <summary>
     /// Executes Microsoft StyleCop within the Resharper Environment.
     /// </summary>
@@ -53,12 +47,6 @@ namespace StyleCop.ReSharper.Core
         #region Constants and Fields
 
         /// <summary>
-        /// List of encountered violations, passed back to <see cref="StyleCopStageProcess"/> so that
-        /// violations can be highlighted within the IDE.
-        /// </summary>
-        private List<HighlightingInfo> violationHighlights = new List<HighlightingInfo>();
-
-        /// <summary>
         /// Reference to the file currently being parsed by ReSharper.
         /// </summary>
         private IProjectFile file;
@@ -67,12 +55,18 @@ namespace StyleCop.ReSharper.Core
 
         private StyleCopSettings styleCopSettings;
 
+        /// <summary>
+        /// List of encountered violations, passed back to <see cref="StyleCopStageProcess"/> so that
+        /// violations can be highlighted within the IDE.
+        /// </summary>
+        private List<HighlightingInfo> violationHighlights = new List<HighlightingInfo>();
+
         #endregion
 
         #region Properties
-       
+
         /// <summary>
-        /// A StyleCopCore instance.
+        /// Gets a  StyleCopCore instance.
         /// </summary>
         public StyleCopCore StyleCopCore
         {
@@ -108,21 +102,6 @@ namespace StyleCop.ReSharper.Core
         #endregion
 
         #region Public Methods
-
-        public void Dispose()
-        {
-            this.file = null;
-
-            if (this.styleCopCore != null)
-            {
-                this.styleCopCore.ViolationEncountered -= this.OnViolationEncountered;
-                this.styleCopCore.Dispose();
-            }
-
-            this.styleCopCore = null;
-            this.violationHighlights.Clear();
-            this.violationHighlights = null;
-        }
 
         /// <summary>
         /// Executes <see cref="styleCopCore"/> within the <see cref="OnViolationEncountered"/>.
@@ -164,14 +143,34 @@ namespace StyleCop.ReSharper.Core
             StyleCopTrace.Out();
         }
 
-        private void Initialize()
+        #endregion
+
+        #region Implemented Interfaces
+
+        #region IDisposable
+
+        /// <summary>
+        /// The dispose.
+        /// </summary>
+        public void Dispose()
         {
-            //make sure we do
-            var initialize = this.StyleCopCore;
+            this.file = null;
+
+            if (this.styleCopCore != null)
+            {
+                this.styleCopCore.ViolationEncountered -= this.OnViolationEncountered;
+                this.styleCopCore.Dispose();
+            }
+
+            this.styleCopCore = null;
+            this.violationHighlights.Clear();
+            this.violationHighlights = null;
         }
 
         #endregion
-        
+
+        #endregion
+
         #region Methods
 
         /// <summary>
@@ -189,7 +188,13 @@ namespace StyleCop.ReSharper.Core
         {
             this.violationHighlights.Add(new HighlightingInfo(range, highlighting));
         }
-        
+
+        private void Initialize()
+        {
+            // make sure we do
+            var initialize = this.StyleCopCore;
+        }
+
         /// <summary>
         /// Called when the StyleCopCore.ViolationEncountered event is raised. Converts
         /// <see cref="ViolationEventArgs"/>into ReSharper Violation.

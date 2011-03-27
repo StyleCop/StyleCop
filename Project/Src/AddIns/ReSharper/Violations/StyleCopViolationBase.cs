@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="StyleCopViolationBase.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Highlights the StyleCop Violation within the IDE.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.Violations
 {
@@ -21,9 +24,6 @@ namespace StyleCop.ReSharper.Violations
 
     using JetBrains.DocumentModel;
     using JetBrains.ReSharper.Daemon;
-
-    using StyleCop;
-    using StyleCop.CSharp;
 
     #endregion
 
@@ -43,8 +43,8 @@ namespace StyleCop.ReSharper.Violations
         /// <param name="documentRange">
         /// Range where the Violation happened.
         /// </param>
-        /// <param name="filename">
-        /// The file with the violation.
+        /// <param name="fileName">
+        /// The file Name.
         /// </param>
         /// <param name="lineNumber">
         /// Line number of where the violation happened.
@@ -121,11 +121,6 @@ namespace StyleCop.ReSharper.Violations
         public string CheckId { get; private set; }
 
         /// <summary>
-        /// Gets the rule that the violation is for.
-        /// </summary>
-        public Rule Rule { get; private set; }
-
-        /// <summary>
         /// Gets the color on stripe.
         /// </summary>
         /// <value>
@@ -144,8 +139,6 @@ namespace StyleCop.ReSharper.Violations
         /// </summary>
         public DocumentRange DocumentRange { get; set; }
 
-        public string FileName { get; set; }
-
         /// <summary>
         /// Gets the tooltip to be displayed on the error stripe within the IDE.
         /// </summary>
@@ -156,6 +149,11 @@ namespace StyleCop.ReSharper.Violations
                 return this.ToolTip;
             }
         }
+
+        /// <summary>
+        /// Gets or sets FileName.
+        /// </summary>
+        public string FileName { get; set; }
 
         /// <summary>
         /// Gets or sets the line number where the Violation happened.
@@ -172,6 +170,11 @@ namespace StyleCop.ReSharper.Violations
                 return 0;
             }
         }
+
+        /// <summary>
+        /// Gets the rule that the violation is for.
+        /// </summary>
+        public Rule Rule { get; private set; }
 
         /// <summary>
         /// Gets the severity of this highlighting.

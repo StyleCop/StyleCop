@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SA1020QuickFix.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,8 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
-
+// <summary>
+//   QuickFix - SA1020: IncrementDecrementSymbolsMustBeSpacedCorrectly.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 extern alias JB;
 
 namespace StyleCop.ReSharper.QuickFixes.Spacing
@@ -111,17 +113,13 @@ namespace StyleCop.ReSharper.QuickFixes.Spacing
         {
             var line = (JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine>)this.Violation.LineNumber;
 
-            string target = this.Violation.DocumentRange.Document.GetLineText(line.Minus1());
+            var target = this.Violation.DocumentRange.Document.GetLineText(line.Minus1());
             target = target.Contains("++") ? "++" : "--";
 
-            this.BulbItems = new List<IBulbItem>
-                {
+            this.BulbItems = new List<IBulbItem> {
                     new FormatLineBulbItem
                         {
-                            DocumentRange = this.Violation.DocumentRange, 
-                            Description = "Fix Spacing : " + this.Violation.ToolTip, 
-                            LineNumber = this.Violation.LineNumber, 
-                            Target = target
+                           DocumentRange = this.Violation.DocumentRange, Description = "Fix Spacing : " + this.Violation.ToolTip, LineNumber = this.Violation.LineNumber, Target = target 
                         }
                 };
         }

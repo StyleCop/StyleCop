@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SpacingRules.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,8 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
-
+// <summary>
+//   Spacing rules.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 extern alias JB;
 
 namespace StyleCop.ReSharper.CodeCleanup.Rules
@@ -30,8 +32,6 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
     using JetBrains.ReSharper.Psi.Parsing;
     using JetBrains.ReSharper.Psi.Tree;
 
-    using StyleCop;
-
     using StyleCop.ReSharper.CodeCleanup.Options;
     using StyleCop.ReSharper.Diagnostics;
 
@@ -44,6 +44,12 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
     {
         #region Public Methods
 
+        /// <summary>
+        /// The code must not contain multiple whitespace in a row.
+        /// </summary>
+        /// <param name="node">
+        /// The node.
+        /// </param>
         public void CodeMustNotContainMultipleWhitespaceInARow(ITreeNode node)
         {
             for (var currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
@@ -80,10 +86,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// </param>
         public void CommasMustBeSpacedCorrectly(ITreeNode node)
         {
-            var tokensThatCanBeRightSideOfComma = new List<TokenNodeType>
-                {
-                    CSharpTokenType.WHITE_SPACE, CSharpTokenType.RBRACKET, CSharpTokenType.GT, CSharpTokenType.COMMA, CSharpTokenType.RPARENTH 
-                };
+            var tokensThatCanBeRightSideOfComma = new List<TokenNodeType> { CSharpTokenType.WHITE_SPACE, CSharpTokenType.RBRACKET, CSharpTokenType.GT, CSharpTokenType.COMMA, CSharpTokenType.RPARENTH };
 
             const string WhiteSpace = " ";
 
@@ -102,11 +105,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
                             using (WriteLockCookie.Create(true))
                             {
                                 // insert a space
-                                var leafElement = TreeElementFactory.CreateLeafElement(
-                                    CSharpTokenType.WHITE_SPACE,
-                                    new JB::JetBrains.Text.StringBuffer(WhiteSpace),
-                                    0,
-                                    WhiteSpace.Length);
+                                var leafElement = TreeElementFactory.CreateLeafElement(CSharpTokenType.WHITE_SPACE, new JB::JetBrains.Text.StringBuffer(WhiteSpace), 0, WhiteSpace.Length);
                                 LowLevelModificationUtil.AddChildBefore(nextToken, new ITreeNode[] { leafElement });
                             }
                         }
@@ -149,11 +148,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
                             using (WriteLockCookie.Create(true))
                             {
                                 // insert a space
-                                var leafElement = TreeElementFactory.CreateLeafElement(
-                                    CSharpTokenType.WHITE_SPACE,
-                                    new JB::JetBrains.Text.StringBuffer(WhiteSpace),
-                                    0,
-                                    WhiteSpace.Length);
+                                var leafElement = TreeElementFactory.CreateLeafElement(CSharpTokenType.WHITE_SPACE, new JB::JetBrains.Text.StringBuffer(WhiteSpace), 0, WhiteSpace.Length);
                                 LowLevelModificationUtil.AddChildBefore(nextToken, new ITreeNode[] { leafElement });
                             }
                         }
@@ -163,11 +158,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
                             using (WriteLockCookie.Create(true))
                             {
                                 // insert a space
-                                var leafElement = TreeElementFactory.CreateLeafElement(
-                                    CSharpTokenType.WHITE_SPACE,
-                                    new JB::JetBrains.Text.StringBuffer(WhiteSpace),
-                                    0,
-                                    WhiteSpace.Length);
+                                var leafElement = TreeElementFactory.CreateLeafElement(CSharpTokenType.WHITE_SPACE, new JB::JetBrains.Text.StringBuffer(WhiteSpace), 0, WhiteSpace.Length);
                                 LowLevelModificationUtil.AddChildBefore(tokenNode, new ITreeNode[] { leafElement });
                             }
                         }
@@ -350,7 +341,8 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
                                 using (WriteLockCookie.Create(true))
                                 {
                                     var newText = string.Format("// {0}", trimmedCommentText);
-                                    var newCommentNode = (ICommentNode)CSharpTokenType.END_OF_LINE_COMMENT.Create(new JB::JetBrains.Text.StringBuffer(newText), new TreeOffset(0), new TreeOffset(newText.Length));
+                                    var newCommentNode =
+                                        (ICommentNode)CSharpTokenType.END_OF_LINE_COMMENT.Create(new JB::JetBrains.Text.StringBuffer(newText), new TreeOffset(0), new TreeOffset(newText.Length));
                                     LowLevelModificationUtil.ReplaceChildRange(currentNode, currentNode, new ITreeNode[] { newCommentNode });
 
                                     currentNode = newCommentNode;

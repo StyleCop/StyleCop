@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="DocumentationIssues.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,13 +11,15 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   The documentation issues.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.CodeIssues
 {
     #region Using Directives
 
-    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Text;
@@ -27,34 +29,65 @@ namespace StyleCop.ReSharper.CodeIssues
     using JetBrains.ComponentModel;
     using JetBrains.ReSharper.Daemon;
 
-    using StyleCop;
-
-    using StyleCop.ReSharper.Core;
     using StyleCop.ReSharper.Options;
 
     #endregion
 
+    /// <summary>
+    /// The documentation issues.
+    /// </summary>
     [ShellComponentImplementation(ProgramConfigurations.ALL)]
     public class DocumentationIssues : IShellComponent
     {
+        #region Constants and Fields
+
         private const string GroupTitleTemplate = "StyleCop - {0}";
+
         private const string HighlightIdTemplate = "StyleCop.{0}";
 
-        public void Init()        
+        #endregion
+
+        #region Implemented Interfaces
+
+        #region IComponent
+
+        /// <summary>
+        /// The init.
+        /// </summary>
+        public void Init()
         {
-           //var core = StyleCopReferenceHelper.GetStyleCopCore();
+            // var core = StyleCopReferenceHelper.GetStyleCopCore();
 
-           //core.Initialize(new List<string>(), true);
+            // core.Initialize(new List<string>(), true);
 
-           //var rules = StyleCopRule.GetRules(core);
+            // var rules = StyleCopRule.GetRules(core);
 
-           //this.RegisterRuleConfigurations(rules, Severity.SUGGESTION);
+            // this.RegisterRuleConfigurations(rules, Severity.SUGGESTION);
         }
 
+        #endregion
+
+        #region IDisposable
+
+        /// <summary>
+        /// The dispose.
+        /// </summary>
         public void Dispose()
         {
         }
 
+        #endregion
+
+        #endregion
+
+        #region Methods
+
+        private static string SplitCamelCase(string input)
+        {
+            var output = Regex.Replace(input, "([A-Z])", " $1", RegexOptions.Compiled).Trim();
+
+            return output;
+        }
 
         private void RegisterRuleConfigurations(Dictionary<SourceAnalyzer, List<StyleCopRule>> rulesDictionary, Severity defaultSeverity)
         {
@@ -86,11 +119,6 @@ namespace StyleCop.ReSharper.CodeIssues
             File.WriteAllText(@"c:\temp\rules.txt", sb.ToString());
         }
 
-        private static string SplitCamelCase(string input)
-        {
-            var output = Regex.Replace(input, "([A-Z])", " $1", RegexOptions.Compiled).Trim();
-
-            return output;
-        }
+        #endregion
     }
 }

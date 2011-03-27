@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ProjectSettingsFactory.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   The project settings factory.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.Core
 {
@@ -23,23 +26,48 @@ namespace StyleCop.ReSharper.Core
     using System.Security;
     using System.Xml;
 
-    using StyleCop;
-
     using StyleCop.ReSharper.Diagnostics;
 
     #endregion
 
+    /// <summary>
+    /// The project settings factory.
+    /// </summary>
     public class ProjectSettingsFactory
     {
-        private readonly static Dictionary<string, Settings> Cache = new Dictionary<string, Settings>();
+        #region Constants and Fields
 
+        private static readonly Dictionary<string, Settings> Cache = new Dictionary<string, Settings>();
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets or sets StyleCopCore.
+        /// </summary>
         public StyleCopCore StyleCopCore { get; set; }
 
+        #endregion
+
+        #region Public Methods
+
+        /// <summary>
+        /// The create.
+        /// </summary>
+        /// <param name="settingsFilePath">
+        /// The settings file path.
+        /// </param>
+        /// <param name="readOnly">
+        /// The read only.
+        /// </param>
+        /// <returns>
+        /// </returns>
         public Settings Create(string settingsFilePath, bool readOnly)
         {
             StyleCopTrace.In(settingsFilePath);
 
-            string cacheKey = string.Format("{0}::{1}", settingsFilePath, readOnly);
+            var cacheKey = string.Format("{0}::{1}", settingsFilePath, readOnly);
 
             Settings result;
 
@@ -47,7 +75,7 @@ namespace StyleCop.ReSharper.Core
             {
                 StyleCopTrace.Out();
 
-                return result;   
+                return result;
             }
 
             try
@@ -60,11 +88,10 @@ namespace StyleCop.ReSharper.Core
                     document.Load(settingsFilePath);
 
                     // Get the last write time for the time.
-                    DateTime writeTime = File.GetLastWriteTime(settingsFilePath);
+                    var writeTime = File.GetLastWriteTime(settingsFilePath);
 
                     // Create the settings container.
-                    var settings = readOnly ? new Settings(this.StyleCopCore, settingsFilePath, document, writeTime)
-                                            : new WritableSettings(this.StyleCopCore, settingsFilePath, document, writeTime);
+                    var settings = readOnly ? new Settings(this.StyleCopCore, settingsFilePath, document, writeTime) : new WritableSettings(this.StyleCopCore, settingsFilePath, document, writeTime);
 
                     StyleCopTrace.Out();
 
@@ -77,7 +104,6 @@ namespace StyleCop.ReSharper.Core
 
                 // The file does not exist.
                 return null;
-
             }
             catch (IOException)
             {
@@ -104,5 +130,7 @@ namespace StyleCop.ReSharper.Core
                 return null;
             }
         }
+
+        #endregion
     }
 }

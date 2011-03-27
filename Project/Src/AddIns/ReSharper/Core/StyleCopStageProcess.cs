@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="StyleCopStageProcess.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,11 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Stage Process that execute the Microsoft StyleCop against the
+//   specified file.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.Core
 {
@@ -21,7 +25,6 @@ namespace StyleCop.ReSharper.Core
     using System.Diagnostics;
     using System.Linq;
 
-    using JetBrains.Application.Progress;
     using JetBrains.ReSharper.Daemon;
     using JetBrains.ReSharper.Psi;
     using JetBrains.ReSharper.Psi.ExtensionsAPI.Tree;
@@ -84,6 +87,16 @@ namespace StyleCop.ReSharper.Core
 
         #endregion
 
+        #region Implemented Interfaces
+
+        #region IDaemonStageProcess
+
+        /// <summary>
+        /// The execute.
+        /// </summary>
+        /// <param name="commiter">
+        /// The commiter.
+        /// </param>
         public void Execute(Action<DaemonStageResult> commiter)
         {
             StyleCopTrace.In();
@@ -110,12 +123,8 @@ namespace StyleCop.ReSharper.Core
 
                 styleCopRunner.Execute(this.daemonProcess.ProjectFile, this.daemonProcess.Document);
 
-                var violations = (from info in styleCopRunner.ViolationHighlights
-                                   let range = info.Range
-                                   let highlighting = info.Highlighting
-                                   select new HighlightingInfo(range, highlighting)).ToList();
+                var violations = (from info in styleCopRunner.ViolationHighlights let range = info.Range let highlighting = info.Highlighting select new HighlightingInfo(range, highlighting)).ToList();
 
-                
                 commiter(new DaemonStageResult(violations));
 
                 ResetPerformanceStopWatch();
@@ -125,6 +134,12 @@ namespace StyleCop.ReSharper.Core
 
             StyleCopTrace.Out();
         }
+
+        #endregion
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Initialises the static timers used to regulate performance of file scavenging 
@@ -174,5 +189,7 @@ namespace StyleCop.ReSharper.Core
 
             return !hasErrorElements;
         }
+
+        #endregion
     }
 }

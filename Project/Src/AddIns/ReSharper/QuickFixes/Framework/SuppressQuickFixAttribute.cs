@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SuppressQuickFixAttribute.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,14 +11,16 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   ReSharper Attribute that allows you to define a custom Icon for a Suppress QuickFix.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.QuickFixes.Framework
 {
     #region Using Directives
 
     using System.Drawing;
-    using System.IO;
     using System.Reflection;
 
     using JetBrains.ReSharper.Feature.Services.Bulbs;
@@ -26,29 +28,42 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
     #endregion
 
     /// <summary>
-    /// ReSharper Attribute that allows you to define a custom Icon for a Suppress QuickFix
+    /// ReSharper Attribute that allows you to define a custom Icon for a Suppress QuickFix.
     /// </summary>
     public class SuppressQuickFixAttribute : FunctionalGroupAttribute
     {
+        #region Properties
+
         /// <summary>
         /// Sets the order the QuickFix should appear. 0 being highest.
         /// </summary>
         public override int Order
         {
-            get { return 10; }
+            get
+            {
+                return 10;
+            }
         }
+
+        #endregion
+
+        #region Public Methods
 
         /// <summary>
         /// Returns an image that represents an Icon that will be displayed in the QuickFix
         /// Context Menu.
         /// </summary>
-        /// <param name="reason">Availablity Reason for the QF.</param>
-        /// <returns>Image representing the icon.</returns>
+        /// <param name="reason">
+        /// Availablity Reason for the QF.
+        /// </param>
+        /// <returns>
+        /// Image representing the icon.
+        /// </returns>
         public override Image IconForReason(ActionAvailabilityReason reason)
         {
             Image image = null;
 
-            Stream resourceStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("StyleCop.ReSharper.Resources.SuppressQuickFix.png");
+            var resourceStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("StyleCop.ReSharper.Resources.SuppressQuickFix.png");
 
             if (resourceStream != null)
             {
@@ -57,5 +72,7 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
 
             return image;
         }
+
+        #endregion
     }
 }

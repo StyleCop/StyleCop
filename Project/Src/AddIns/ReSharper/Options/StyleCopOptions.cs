@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="StyleCopOptions.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,8 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
-
+// <summary>
+//   Class to hold all of the Configurable options for this addin.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 extern alias JB;
 
 namespace StyleCop.ReSharper.Options
@@ -20,19 +22,13 @@ namespace StyleCop.ReSharper.Options
     #region Using Directives
 
     using System;
-    using System.Collections.Generic;
-    using System.IO;
     using System.Windows.Forms;
     using System.Xml;
 
     using JetBrains.Application;
     using JetBrains.ComponentModel;
-    using JetBrains.Util;
 
     using StyleCop.ReSharper.Core;
-    using StyleCop.ReSharper.Properties;
-
-    using MessageBox = System.Windows.Forms.MessageBox;
 
     #endregion
 
@@ -113,12 +109,6 @@ namespace StyleCop.ReSharper.Options
         public bool InsertTextIntoDocumentation { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether declaration comments should be multi line or single line.
-        /// </summary>
-        [JB::JetBrains.Util.XmlExternalizableAttribute(false)]
-        public bool UseSingleLineDeclarationComments { get; set; }
-        
-        /// <summary>
         /// Gets or sets the last update check date.
         /// </summary>
         [JB::JetBrains.Util.XmlExternalizableAttribute("1900-01-01")]
@@ -184,6 +174,12 @@ namespace StyleCop.ReSharper.Options
         [JB::JetBrains.Util.XmlExternalizableAttribute(true)]
         public bool UseExcludeFromStyleCopSetting { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether declaration comments should be multi line or single line.
+        /// </summary>
+        [JB::JetBrains.Util.XmlExternalizableAttribute(false)]
+        public bool UseSingleLineDeclarationComments { get; set; }
+
         #endregion
 
         #region Public Methods
@@ -224,10 +220,7 @@ namespace StyleCop.ReSharper.Options
             if (string.IsNullOrEmpty(foundPath))
             {
                 MessageBox.Show(
-                    string.Format("Failed to find the StyleCop Assembly. Please check your StyleCop installation."),
-                    "Error Finding StyleCop Assembly.",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                    string.Format("Failed to find the StyleCop Assembly. Please check your StyleCop installation."), "Error Finding StyleCop Assembly.", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             return foundPath;

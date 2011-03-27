@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ITreeNodeExtensions.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,8 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
-
+// <summary>
+//   Extension Methods for ITreeNode types.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 extern alias JB;
 
 namespace StyleCop.ReSharper.Extensions
@@ -29,11 +31,13 @@ namespace StyleCop.ReSharper.Extensions
 
     #endregion
 
-    ///<summary>
-    /// Extension Methods for ITreeNode types
-    ///</summary>
+    /// <summary>
+    /// Extension Methods for ITreeNode types.
+    /// </summary>
     public static class ITreeNodeExtensions
     {
+        #region Public Methods
+
         /// <summary>
         /// Inserts a newline after the Node provided.
         /// </summary>
@@ -45,11 +49,12 @@ namespace StyleCop.ReSharper.Extensions
         /// </returns>
         public static ITreeNode InsertNewLineAfter(this ITreeNode currentNode)
         {
-            LeafElementBase leafElement = GetLeafElement();
+            var leafElement = GetLeafElement();
             using (WriteLockCookie.Create(true))
             {
                 LowLevelModificationUtil.AddChildAfter(currentNode, new[] { leafElement });
             }
+
             return leafElement;
         }
 
@@ -64,7 +69,7 @@ namespace StyleCop.ReSharper.Extensions
         /// </returns>
         public static ITreeNode InsertNewLineBefore(this ITreeNode currentNode)
         {
-            LeafElementBase leafElement = GetLeafElement();
+            var leafElement = GetLeafElement();
 
             using (WriteLockCookie.Create(true))
             {
@@ -74,14 +79,22 @@ namespace StyleCop.ReSharper.Extensions
             return leafElement;
         }
 
+        #endregion
+
+        #region Methods
+
         /// <summary>
         /// Returns a LeafElementBase which contains a NewLine character.
         /// </summary>
-        /// <returns>LeafElementBase containing a NewLine character.</returns>
+        /// <returns>
+        /// LeafElementBase containing a NewLine character.
+        /// </returns>
         private static LeafElementBase GetLeafElement()
         {
             var newText = Environment.NewLine;
             return TreeElementFactory.CreateLeafElement(CSharpTokenType.NEW_LINE, new JB::JetBrains.Text.StringBuffer(newText), 0, newText.Length);
         }
+
+        #endregion
     }
 }

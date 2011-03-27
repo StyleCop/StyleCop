@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="UpdateFileHeaderStyle.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Enumeration to define the behaviour for updating the file header.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.CodeCleanup.Styles
 {
@@ -30,19 +33,19 @@ namespace StyleCop.ReSharper.CodeCleanup.Styles
         /// Do not change.
         /// </summary>
         [Description("Do not change")]
-        Ignore,
+        Ignore, 
 
         /// <summary>
         /// Only insert if missing.
         /// </summary>
         [Description("Insert header if it's missing")]
-        InsertMissing,
+        InsertMissing, 
 
         /// <summary>
         /// Replaces the copyright element completely.
         /// </summary>
         [Description("Replace copyright element completely")]
-        ReplaceCopyrightElement,
+        ReplaceCopyrightElement, 
 
         /// <summary>
         /// Replace all.

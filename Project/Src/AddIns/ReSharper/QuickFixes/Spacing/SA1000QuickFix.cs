@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SA1000QuickFix.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   QuickFix - SA1000: KeywordsMustBeSpacedCorrectly.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.QuickFixes.Spacing
 {
@@ -43,7 +46,10 @@ namespace StyleCop.ReSharper.QuickFixes.Spacing
         /// <param name="highlight">
         /// <see cref="StyleCopViolationError"/>that has been detected.
         /// </param>
-        public SA1000QuickFix(StyleCopViolationError highlight) : base(highlight) { }
+        public SA1000QuickFix(StyleCopViolationError highlight)
+            : base(highlight)
+        {
+        }
 
         /// <summary>
         /// Initializes a new instance of the SA1000QuickFix class that can handle
@@ -52,7 +58,10 @@ namespace StyleCop.ReSharper.QuickFixes.Spacing
         /// <param name="highlight">
         /// <see cref="StyleCopViolationHint"/>that has been detected.
         /// </param>
-        public SA1000QuickFix(StyleCopViolationHint highlight) : base(highlight) { }
+        public SA1000QuickFix(StyleCopViolationHint highlight)
+            : base(highlight)
+        {
+        }
 
         /// <summary>
         /// Initializes a new instance of the SA1000QuickFix class that can handle
@@ -61,7 +70,10 @@ namespace StyleCop.ReSharper.QuickFixes.Spacing
         /// <param name="highlight">
         /// <see cref="StyleCopViolationInfo"/>that has been detected.
         /// </param>
-        public SA1000QuickFix(StyleCopViolationInfo highlight) : base(highlight) { }
+        public SA1000QuickFix(StyleCopViolationInfo highlight)
+            : base(highlight)
+        {
+        }
 
         /// <summary>
         /// Initializes a new instance of the SA1000QuickFix class that can handle
@@ -70,7 +82,10 @@ namespace StyleCop.ReSharper.QuickFixes.Spacing
         /// <param name="highlight">
         /// <see cref="StyleCopViolationSuggestion"/>that has been detected.
         /// </param>
-        public SA1000QuickFix(StyleCopViolationSuggestion highlight) : base(highlight) { }
+        public SA1000QuickFix(StyleCopViolationSuggestion highlight)
+            : base(highlight)
+        {
+        }
 
         /// <summary>
         /// Initializes a new instance of the SA1000QuickFix class that can handle
@@ -79,7 +94,10 @@ namespace StyleCop.ReSharper.QuickFixes.Spacing
         /// <param name="highlight">
         /// <see cref="StyleCopViolationWarning"/>that has been detected.
         /// </param>
-        public SA1000QuickFix(StyleCopViolationWarning highlight) : base(highlight) { }
+        public SA1000QuickFix(StyleCopViolationWarning highlight)
+            : base(highlight)
+        {
+        }
 
         #endregion
 
@@ -91,15 +109,7 @@ namespace StyleCop.ReSharper.QuickFixes.Spacing
         /// </summary>
         protected override void InitialiseBulbItems()
         {
-            this.BulbItems = new List<IBulbItem>
-                {
-                    new FormatLineBulbItem
-                        {
-                            Description = "Fix Spacing : " + this.Violation.ToolTip,
-                            DocumentRange = this.Violation.DocumentRange,
-                            LineNumber = this.Violation.LineNumber
-                        }
-                };
+            this.BulbItems = new List<IBulbItem> { new FormatLineBulbItem { Description = "Fix Spacing : " + this.Violation.ToolTip, DocumentRange = this.Violation.DocumentRange, LineNumber = this.Violation.LineNumber } };
         }
 
         #endregion

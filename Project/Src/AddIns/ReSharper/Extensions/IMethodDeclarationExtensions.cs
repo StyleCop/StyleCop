@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="IMethodDeclarationExtensions.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,11 +11,18 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   I method declaration extensions.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace JetBrains.ReSharper.Psi.CSharp.Tree.Extensions
 {
-    using Impl;
+    #region Using Directives
+
+    using JetBrains.ReSharper.Psi.CSharp.Impl;
+
+    #endregion
 
     /// <summary>
     /// I method declaration extensions.
@@ -58,7 +65,7 @@ namespace JetBrains.ReSharper.Psi.CSharp.Tree.Extensions
         /// The method to check.
         /// </param>
         /// <returns>
-        /// <c>true</c> if the declaration is declared with new otherwise <c>false</c>
+        /// <c>true</c> if the declaration is declared with new otherwise <c>false</c>.
         /// </returns>
         public static bool IsNew(this IMethodDeclaration declaration)
         {

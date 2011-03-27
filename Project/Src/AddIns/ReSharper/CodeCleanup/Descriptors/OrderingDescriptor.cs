@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="OrderingDescriptor.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,8 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
-
+// <summary>
+//   Code Clean Up Description.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 extern alias JB;
 
 namespace StyleCop.ReSharper.CodeCleanup.Descriptors
@@ -24,7 +26,6 @@ namespace StyleCop.ReSharper.CodeCleanup.Descriptors
     using System.Xml;
 
     using JetBrains.ReSharper.Feature.Services.CodeCleanup;
-    using JetBrains.Util;
 
     using StyleCop.ReSharper.CodeCleanup.Options;
     using StyleCop.ReSharper.CodeCleanup.Styles;
@@ -44,7 +45,8 @@ namespace StyleCop.ReSharper.CodeCleanup.Descriptors
         /// <summary>
         /// Initializes a new instance of the <see cref="OrderingDescriptor"/> class.
         /// </summary>
-        public OrderingDescriptor() : base("StyleCopForReSharperOrdering")
+        public OrderingDescriptor()
+            : base("StyleCopForReSharperOrdering")
         {
         }
 
@@ -70,7 +72,8 @@ namespace StyleCop.ReSharper.CodeCleanup.Descriptors
             {
                 try
                 {
-                    options.AlphabeticalUsingDirectives = (AlphabeticalUsingsStyle)Enum.Parse(typeof(AlphabeticalUsingsStyle), JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(optionsElement, "AlphabeticalUsingDirectives"));
+                    options.AlphabeticalUsingDirectives =
+                        (AlphabeticalUsingsStyle)Enum.Parse(typeof(AlphabeticalUsingsStyle), JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(optionsElement, "AlphabeticalUsingDirectives"));
                     options.ExpandUsingDirectives = (ExpandUsingsStyle)Enum.Parse(typeof(ExpandUsingsStyle), JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(optionsElement, "ExpandUsingDirectives"));
                     options.SA1212PropertyAccessorsMustFollowOrder = bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(optionsElement, "SA1212PropertyAccessorsMustFollowOrder"));
                     options.SA1213EventAccessorsMustFollowOrder = bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(optionsElement, "SA1213EventAccessorsMustFollowOrder"));

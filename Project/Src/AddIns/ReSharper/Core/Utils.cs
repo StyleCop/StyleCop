@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Utils.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,8 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
-
+// <summary>
+//   Utilities for many of our QuickFixes.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 extern alias JB;
 
 namespace StyleCop.ReSharper.Core
@@ -45,13 +47,9 @@ namespace StyleCop.ReSharper.Core
     using JetBrains.ReSharper.Psi.Tree;
     using JetBrains.ReSharper.Psi.Util;
     using JetBrains.TextControl;
-    
-    using StyleCop;
 
     using StyleCop.ReSharper.Diagnostics;
     using StyleCop.ReSharper.Options;
-
-    using CodeFormatterHelper = JetBrains.ReSharper.Psi.CodeStyle.CodeFormatterHelper;
 
     #endregion
 
@@ -67,7 +65,7 @@ namespace StyleCop.ReSharper.Core
         /// </summary>
         public static readonly char[] TrimChars = new[]
             {
-                '/', '\t', '\n', '\v', '\f', '\r', ' ', '\x0085', '\x00a0', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '​', '\u2028', '\u2029', '　', '﻿' 
+               '/', '\t', '\n', '\v', '\f', '\r', ' ', '\x0085', '\x00a0', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '​', '\u2028', '\u2029', '　', '﻿' 
             };
 
         private const string HeaderSummaryForDestructorXml = "Finalizes an instance of the <see cref=\"{0}\" /> class.";
@@ -494,7 +492,7 @@ namespace StyleCop.ReSharper.Core
             var tokens = Utils.GetTokensForLineFromTextControl(solution, textControl).ToArray();
             if (tokens.Length > 0)
             {
-                CodeFormatterHelper.Format(CSharpFormatterHelper.FormatterInstance, tokens[0], tokens[tokens.Length - 1]);
+                CSharpFormatterHelper.FormatterInstance.Format(tokens[0], tokens[tokens.Length - 1]);
             }
         }
 
@@ -513,7 +511,8 @@ namespace StyleCop.ReSharper.Core
         /// <param name="endLine">
         /// The line to end the formatting.
         /// </param>
-        public static void FormatLines(ISolution solution, IDocument document, JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> startLine, JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> endLine)
+        public static void FormatLines(
+            ISolution solution, IDocument document, JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> startLine, JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> endLine)
         {
             var lineCount = document.GetLineCount();
 
@@ -531,12 +530,12 @@ namespace StyleCop.ReSharper.Core
             var endOffset = document.GetLineEndOffsetNoLineBreak(endLine);
 
             CSharpFormatterHelper.FormatterInstance.Format(
-                solution,
-                new DocumentRange(document, new JB::JetBrains.Util.TextRange(startOffset, endOffset)),
-                SolutionCodeStyleSettings.GetInstance(solution).CodeStyleSettings,
-                CodeFormatProfile.DEFAULT,
-                true,
-                true,
+                solution, 
+                new DocumentRange(document, new JB::JetBrains.Util.TextRange(startOffset, endOffset)), 
+                SolutionCodeStyleSettings.GetInstance(solution).CodeStyleSettings, 
+                CodeFormatProfile.DEFAULT, 
+                true, 
+                true, 
                 NullProgressIndicator.Instance);
         }
 
@@ -718,7 +717,7 @@ namespace StyleCop.ReSharper.Core
         public static IElement GetElementAtCaret(ISolution solution, ITextControl textControl)
         {
             var file = Utils.GetCSharpFile(solution, textControl);
-            
+
             if (file == null)
             {
                 return null;
@@ -733,7 +732,6 @@ namespace StyleCop.ReSharper.Core
 
             return element;
         }
-        
 
         /// <summary>
         /// Gets the file header of the provided file.
@@ -1102,9 +1100,15 @@ namespace StyleCop.ReSharper.Core
         /// StyleCopCore.Analyze(IList{CodeProject}) method contract to parse the
         /// current file.
         /// </summary>
-        /// <param name="core">StyleCopCore which performs the Source Analysis.</param>
-        /// <param name="projectFile">The project file we are checking.</param>
-        /// <param name="document">The document.</param>
+        /// <param name="core">
+        /// StyleCopCore which performs the Source Analysis.
+        /// </param>
+        /// <param name="projectFile">
+        /// The project file we are checking.
+        /// </param>
+        /// <param name="document">
+        /// The document.
+        /// </param>
         /// <returns>
         /// Returns an array of <see cref="CodeProject"/>.
         /// </returns>
@@ -1133,29 +1137,6 @@ namespace StyleCop.ReSharper.Core
             }
 
             return StyleCopTrace.Out(codeProjects);
-        }
-
-        /// <summary>
-        /// The passed in file is always index 0 in the returned IList.
-        /// </summary>
-        /// <param name="projectFile"></param>
-        /// <returns></returns>
-        private static IList<IProjectFile> GetAllFilesForFile(IProjectFile projectFile)
-        {
-            var rootDependsItem = projectFile.GetDependsUponItemForItem();
-
-            if (rootDependsItem == null)
-            {
-                return new List<IProjectFile> { projectFile };
-            }
-
-            var dependentFiles = rootDependsItem.GetDependentFiles();
-
-            var list = new List<IProjectFile> { projectFile };
-
-            list.AddRange(dependentFiles.Where(file => !file.Equals(projectFile)));
-
-            return list;
         }
 
         /// <summary>
@@ -1515,6 +1496,20 @@ namespace StyleCop.ReSharper.Core
         }
 
         /// <summary>
+        /// Indicates if the project item passed in is CSharp 3.0 or greater.
+        /// </summary>
+        /// <param name="projectItem">
+        /// The project item to check.
+        /// </param>
+        /// <returns>
+        /// <c>true</c>if the project item is CSharp 3.0 or greater else <c>false</c>.
+        /// </returns>
+        public static bool IsCSharp30(IProjectItem projectItem)
+        {
+            return CSharpProjectFileLanguageService.Instance.GetLanguageLevel(projectItem) > CSharpLanguageLevel.CSharp20;
+        }
+
+        /// <summary>
         /// Indicates whether the type of the constructor passed in is a struct.
         /// </summary>
         /// <param name="constructorDeclaration">
@@ -1528,20 +1523,6 @@ namespace StyleCop.ReSharper.Core
             var typeDeclaration = constructorDeclaration.GetContainingTypeDeclaration();
 
             return typeDeclaration is IStructDeclaration;
-        }
-
-        /// <summary>
-        /// Indicates if the project item passed in is CSharp 3.0 or greater.
-        /// </summary>
-        /// <param name="projectItem">
-        /// The project item to check.
-        /// </param>
-        /// <returns>
-        /// <c>true</c>if the project item is CSharp 3.0 or greater else <c>false</c>.
-        /// </returns>
-        public static bool IsCSharp30(IProjectItem projectItem)
-        {
-            return CSharpProjectFileLanguageService.Instance.GetLanguageLevel(projectItem) > CSharpLanguageLevel.CSharp20;
         }
 
         /// <summary>
@@ -1873,6 +1854,31 @@ namespace StyleCop.ReSharper.Core
             }
 
             return 0;
+        }
+
+        /// <summary>
+        /// The passed in file is always index 0 in the returned IList.
+        /// </summary>
+        /// <param name="projectFile">
+        /// </param>
+        /// <returns>
+        /// </returns>
+        private static IList<IProjectFile> GetAllFilesForFile(IProjectFile projectFile)
+        {
+            var rootDependsItem = projectFile.GetDependsUponItemForItem();
+
+            if (rootDependsItem == null)
+            {
+                return new List<IProjectFile> { projectFile };
+            }
+
+            var dependentFiles = rootDependsItem.GetDependentFiles();
+
+            var list = new List<IProjectFile> { projectFile };
+
+            list.AddRange(dependentFiles.Where(file => !file.Equals(projectFile)));
+
+            return list;
         }
 
         /// <summary>

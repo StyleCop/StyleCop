@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="StyleCopViolationWarning.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Highlighting class for a StyleCop Violation set to severity level Warning.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.Violations
 {
@@ -20,7 +23,6 @@ namespace StyleCop.ReSharper.Violations
     using JetBrains.DocumentModel;
     using JetBrains.ReSharper.Daemon;
 
-    using StyleCop;
     using StyleCop.CSharp;
 
     #endregion
@@ -29,7 +31,7 @@ namespace StyleCop.ReSharper.Violations
     /// Highlighting class for a StyleCop Violation set to severity level Warning.
     /// </summary>
     [StaticSeverityHighlighting(ViolationSeverity)]
-    //[ConfigurableSeverityHighlighting("SA1600",)]
+    // [ConfigurableSeverityHighlighting("SA1600",)]
     public class StyleCopViolationWarning : StyleCopViolationBase
     {
         #region Constants and Fields
@@ -52,8 +54,8 @@ namespace StyleCop.ReSharper.Violations
         /// <param name="documentRange">
         /// Range where the Violation happened.
         /// </param>
-        /// <param name="element">
-        /// <see cref="CsElement"/>of the violation.
+        /// <param name="fileName">
+        /// The file Name.
         /// </param>
         /// <param name="lineNumber">
         /// Line number of the violation.

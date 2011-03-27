@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="LayoutRules.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Layout rules.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.CodeCleanup.Rules
 {
@@ -19,11 +22,8 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
 
     using System.Collections.Generic;
 
-    using Extensions;
-
-    using JetBrains.Application;
-    using JetBrains.ReSharper.Psi.CSharp.CodeStyle;
     using JetBrains.ReSharper.Psi.CodeStyle;
+    using JetBrains.ReSharper.Psi.CSharp.CodeStyle;
     using JetBrains.ReSharper.Psi.CSharp.Impl.Tree;
     using JetBrains.ReSharper.Psi.CSharp.Parsing;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
@@ -31,11 +31,10 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
     using JetBrains.ReSharper.Psi.Parsing;
     using JetBrains.ReSharper.Psi.Tree;
 
-    using StyleCop;
-
     using StyleCop.ReSharper.CodeCleanup.Options;
     using StyleCop.ReSharper.Core;
     using StyleCop.ReSharper.Diagnostics;
+    using StyleCop.ReSharper.Extensions;
 
     #endregion
 
@@ -62,33 +61,30 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
             // rbrace
             // dowhile
             // preprocessor directives
-            var tokensThatFollowClosingCurlyBracketWithoutNewLine = new List<TokenNodeType>
-                {
-                    CSharpTokenType.RBRACE, CSharpTokenType.DO_KEYWORD, CSharpTokenType.ELSE_KEYWORD, CSharpTokenType.CATCH_KEYWORD, CSharpTokenType.FINALLY_KEYWORD 
-                };
+            var tokensThatFollowClosingCurlyBracketWithoutNewLine = new List<TokenNodeType> { CSharpTokenType.RBRACE, CSharpTokenType.DO_KEYWORD, CSharpTokenType.ELSE_KEYWORD, CSharpTokenType.CATCH_KEYWORD, CSharpTokenType.FINALLY_KEYWORD };
 
             var objectInitializerFollowers = new List<TokenNodeType>
                 {
-                    CSharpTokenType.AS_KEYWORD, 
-                    CSharpTokenType.IS_KEYWORD, 
-                    CSharpTokenType.COMMA, 
-                    CSharpTokenType.SEMICOLON, 
-                    CSharpTokenType.DOT, 
-                    CSharpTokenType.QUEST, 
-                    CSharpTokenType.COLON, 
-                    CSharpTokenType.RPARENTH, 
-                    CSharpTokenType.EQEQ, 
-                    CSharpTokenType.GE, 
-                    CSharpTokenType.GT, 
-                    CSharpTokenType.LE, 
-                    CSharpTokenType.LT, 
-                    CSharpTokenType.NE, 
-                    CSharpTokenType.MINUS, 
-                    CSharpTokenType.PLUS, 
-                    CSharpTokenType.DIV, 
-                    CSharpTokenType.ASTERISK, 
-                    CSharpTokenType.PERC, 
-                    CSharpTokenType.MINUSMINUS, 
+                    CSharpTokenType.AS_KEYWORD,
+                    CSharpTokenType.IS_KEYWORD,
+                    CSharpTokenType.COMMA,
+                    CSharpTokenType.SEMICOLON,
+                    CSharpTokenType.DOT,
+                    CSharpTokenType.QUEST,
+                    CSharpTokenType.COLON,
+                    CSharpTokenType.RPARENTH,
+                    CSharpTokenType.EQEQ,
+                    CSharpTokenType.GE,
+                    CSharpTokenType.GT,
+                    CSharpTokenType.LE,
+                    CSharpTokenType.LT,
+                    CSharpTokenType.NE,
+                    CSharpTokenType.MINUS,
+                    CSharpTokenType.PLUS,
+                    CSharpTokenType.DIV,
+                    CSharpTokenType.ASTERISK,
+                    CSharpTokenType.PERC,
+                    CSharpTokenType.MINUSMINUS,
                     CSharpTokenType.PLUSPLUS
                 };
 
@@ -473,8 +469,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
                         // if we're the start of a code block then don't insert a new line.
                         if (!tokenBeforeNewLine.IsNewLine() && tokenBeforeNewLine.GetTokenType() != CSharpTokenType.LBRACE && tokenBeforeNewLine.GetTokenType() != CSharpTokenType.END_OF_LINE_COMMENT)
                         {
-                            firstNewLineToLeft.GetNextToken()
-                                              .InsertNewLineBefore();
+                            firstNewLineToLeft.GetNextToken().InsertNewLineBefore();
                         }
                     }
                 }

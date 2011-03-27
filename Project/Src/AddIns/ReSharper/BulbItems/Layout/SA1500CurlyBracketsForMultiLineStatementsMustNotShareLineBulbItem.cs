@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SA1500CurlyBracketsForMultiLineStatementsMustNotShareLineBulbItem.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,17 +11,20 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   The s a 1500 curly brackets for multi line statements must not share line bulb item.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.BulbItems.Layout
 {
     #region Using Directives
 
     using JetBrains.ProjectModel;
+    using JetBrains.ReSharper.Psi.CodeStyle;
+    using JetBrains.ReSharper.Psi.CSharp.CodeStyle;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
     using JetBrains.TextControl;
-    using JetBrains.ReSharper.Psi.CSharp.CodeStyle;
-    using JetBrains.ReSharper.Psi.CodeStyle;
 
     using StyleCop.ReSharper.BulbItems.Framework;
     using StyleCop.ReSharper.CodeCleanup.Rules;
@@ -29,8 +32,22 @@ namespace StyleCop.ReSharper.BulbItems.Layout
 
     #endregion
 
+    /// <summary>
+    /// The s a 1500 curly brackets for multi line statements must not share line bulb item.
+    /// </summary>
     public class SA1500CurlyBracketsForMultiLineStatementsMustNotShareLineBulbItem : V5BulbItemImpl
     {
+        #region Public Methods
+
+        /// <summary>
+        /// The execute transaction inner.
+        /// </summary>
+        /// <param name="solution">
+        /// The solution.
+        /// </param>
+        /// <param name="textControl">
+        /// The text control.
+        /// </param>
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
             var element = Utils.GetElementAtCaret(solution, textControl);
@@ -51,5 +68,7 @@ namespace StyleCop.ReSharper.BulbItems.Layout
                 }
             }
         }
+
+        #endregion
     }
 }

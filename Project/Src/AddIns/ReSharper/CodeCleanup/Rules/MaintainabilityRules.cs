@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="MaintainabilityRules.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Maintainability rules.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.CodeCleanup.Rules
 {
@@ -55,28 +58,17 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
                     {
                         var innerExpressionNodeType = (innerExpression as TreeElement).NodeType;
 
-                        if (innerExpressionNodeType != ElementType.ADDITIVE_EXPRESSION &&
-                            innerExpressionNodeType != ElementType.MULTIPLICATIVE_EXPRESSION &&
-                            innerExpressionNodeType != ElementType.SHIFT_EXPRESSION &&
-                            innerExpressionNodeType != ElementType.AS_EXPRESSION &&
-                            innerExpressionNodeType != ElementType.ASSIGNMENT_EXPRESSION &&
-                            innerExpressionNodeType != ElementType.CAST_EXPRESSION &&
-                            innerExpressionNodeType != ElementType.CONDITIONAL_AND_EXPRESSION &&
-                            innerExpressionNodeType != ElementType.CONDITIONAL_OR_EXPRESSION &&
-                            innerExpressionNodeType != ElementType.CONDITIONAL_TERNARY_EXPRESSION &&
-                            innerExpressionNodeType != ElementType.POSTFIX_OPERATOR_EXPRESSION &&
-                            innerExpressionNodeType != ElementType.PREFIX_OPERATOR_EXPRESSION &&
-                            innerExpressionNodeType != ElementType.IS_EXPRESSION &&
-                            innerExpressionNodeType != ElementType.LAMBDA_EXPRESSION &&
-                            innerExpressionNodeType != ElementType.BITWISE_AND_EXPRESSION &&
-                            innerExpressionNodeType != ElementType.BITWISE_INCLUSIVE_OR_EXPRESSION &&
-                            innerExpressionNodeType != ElementType.BITWISE_EXCLUSIVE_OR_EXPRESSION &&
-                            innerExpressionNodeType != ElementType.OBJECT_CREATION_EXPRESSION &&
-                            innerExpressionNodeType != ElementType.ARRAY_CREATION_EXPRESSION &&
-                            innerExpressionNodeType != ElementType.NULL_COALESCING_EXPRESSION &&
-                            innerExpressionNodeType != ElementType.QUERY_EXPRESSION &&
-                            innerExpressionNodeType != ElementType.RELATIONAL_EXPRESSION &&
-                            innerExpressionNodeType != ElementType.UNARY_OPERATOR_EXPRESSION &&
+                        if (innerExpressionNodeType != ElementType.ADDITIVE_EXPRESSION && innerExpressionNodeType != ElementType.MULTIPLICATIVE_EXPRESSION &&
+                            innerExpressionNodeType != ElementType.SHIFT_EXPRESSION && innerExpressionNodeType != ElementType.AS_EXPRESSION &&
+                            innerExpressionNodeType != ElementType.ASSIGNMENT_EXPRESSION && innerExpressionNodeType != ElementType.CAST_EXPRESSION &&
+                            innerExpressionNodeType != ElementType.CONDITIONAL_AND_EXPRESSION && innerExpressionNodeType != ElementType.CONDITIONAL_OR_EXPRESSION &&
+                            innerExpressionNodeType != ElementType.CONDITIONAL_TERNARY_EXPRESSION && innerExpressionNodeType != ElementType.POSTFIX_OPERATOR_EXPRESSION &&
+                            innerExpressionNodeType != ElementType.PREFIX_OPERATOR_EXPRESSION && innerExpressionNodeType != ElementType.IS_EXPRESSION &&
+                            innerExpressionNodeType != ElementType.LAMBDA_EXPRESSION && innerExpressionNodeType != ElementType.BITWISE_AND_EXPRESSION &&
+                            innerExpressionNodeType != ElementType.BITWISE_INCLUSIVE_OR_EXPRESSION && innerExpressionNodeType != ElementType.BITWISE_EXCLUSIVE_OR_EXPRESSION &&
+                            innerExpressionNodeType != ElementType.OBJECT_CREATION_EXPRESSION && innerExpressionNodeType != ElementType.ARRAY_CREATION_EXPRESSION &&
+                            innerExpressionNodeType != ElementType.NULL_COALESCING_EXPRESSION && innerExpressionNodeType != ElementType.QUERY_EXPRESSION &&
+                            innerExpressionNodeType != ElementType.RELATIONAL_EXPRESSION && innerExpressionNodeType != ElementType.UNARY_OPERATOR_EXPRESSION &&
                             innerExpressionNodeType != ElementType.EQUALITY_EXPRESSION)
                         {
                             LowLevelModificationUtil.ReplaceChildRange(node, node, new ITreeNode[] { innerExpression });

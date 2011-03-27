@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ParameterInfoExtensions.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,13 +11,16 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Extension methods for the <see cref="ParameterInfo" /> type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace System.Reflection
 {
     #region Using Directives
 
-    using Linq;
+    using System.Linq;
 
     #endregion
 

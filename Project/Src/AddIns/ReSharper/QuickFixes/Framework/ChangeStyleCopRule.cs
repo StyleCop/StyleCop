@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ChangeStyleCopRule.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,8 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
-
+// <summary>
+//   DisableHighlightingActionProvider for StyleCop rules.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 extern alias JB;
 
 namespace StyleCop.ReSharper.QuickFixes.Framework
@@ -24,7 +26,6 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
     using JetBrains.DocumentModel;
     using JetBrains.ReSharper.Daemon;
     using JetBrains.ReSharper.Feature.Services.Bulbs;
-    using JetBrains.Util;
 
     using StyleCop.ReSharper.Options;
     using StyleCop.ReSharper.Violations;
@@ -37,6 +38,10 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
     [DisableHighlightingActionProvider]
     public class ChangeStyleCopRule : IDisableHighlightingActionProvider
     {
+        #region Implemented Interfaces
+
+        #region IDisableHighlightingActionProvider
+
         /// <summary>
         /// Gets the actions for changing the highlight options for StyleCop rules.
         /// </summary>
@@ -63,5 +68,9 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
 
             return new IDisableHighlightingAction[] { new ChangeStyleCopRuleAction { HighlightID = highlightID, Text = "Inspection Options for \"" + violation.ToolTip + "\"" } };
         }
+
+        #endregion
+
+        #endregion
     }
 }

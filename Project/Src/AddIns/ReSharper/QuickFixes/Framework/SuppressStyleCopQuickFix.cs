@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SuppressStyleCopQuickFix.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,8 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
-
+// <summary>
+//   QuickFix - SuppressStyleCopQuickFix. Priority set to 0 to push it down the list.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 extern alias JB;
 
 namespace StyleCop.ReSharper.QuickFixes.Framework
@@ -22,7 +24,6 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
     using System.Collections.Generic;
 
     using JetBrains.ReSharper.Feature.Services.Bulbs;
-    using JetBrains.Util;
 
     using StyleCop.ReSharper.BulbItems.Framework;
     using StyleCop.ReSharper.Violations;
@@ -193,13 +194,7 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
         /// </summary>
         protected void InitialiseBulbItems()
         {
-            this.BulbItems = new List<IBulbItem>
-                {
-                    new SuppressMessageBulbItem
-                        {
-                            Description = "Suppress : " + this.Violation.ToolTip, Rule = this.Violation.Rule
-                        }
-                };
+            this.BulbItems = new List<IBulbItem> { new SuppressMessageBulbItem { Description = "Suppress : " + this.Violation.ToolTip, Rule = this.Violation.Rule } };
         }
 
         #endregion

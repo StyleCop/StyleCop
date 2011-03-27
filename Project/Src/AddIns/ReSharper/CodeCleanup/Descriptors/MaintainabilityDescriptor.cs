@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="MaintainabilityDescriptor.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,8 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
-
+// <summary>
+//   Code Clean Up Description.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 extern alias JB;
 
 namespace StyleCop.ReSharper.CodeCleanup.Descriptors
@@ -24,7 +26,6 @@ namespace StyleCop.ReSharper.CodeCleanup.Descriptors
     using System.Xml;
 
     using JetBrains.ReSharper.Feature.Services.CodeCleanup;
-    using JetBrains.Util;
 
     using StyleCop.ReSharper.CodeCleanup.Options;
 
@@ -43,7 +44,8 @@ namespace StyleCop.ReSharper.CodeCleanup.Descriptors
         /// <summary>
         /// Initializes a new instance of the <see cref="MaintainabilityDescriptor"/> class. 
         /// </summary>
-        public MaintainabilityDescriptor() : base("StyleCopForReSharperMaintainability")
+        public MaintainabilityDescriptor()
+            : base("StyleCopForReSharperMaintainability")
         {
         }
 
@@ -69,7 +71,8 @@ namespace StyleCop.ReSharper.CodeCleanup.Descriptors
             {
                 try
                 {
-                    options.SA1119StatementMustNotUseUnnecessaryParenthesis = bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(optionsElement, "SA1119StatementMustNotUseUnnecessaryParenthesis"));
+                    options.SA1119StatementMustNotUseUnnecessaryParenthesis =
+                        bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(optionsElement, "SA1119StatementMustNotUseUnnecessaryParenthesis"));
                 }
                 catch (ArgumentException)
                 {

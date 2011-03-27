@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="StyleCopStage.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,8 +11,11 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
-
+// <summary>
+//   Daemon stage for StyleCop. This class is automatically loaded by ReSharper daemon
+//   because it's marked with the <see cref="DaemonStageAttribute" /> attribute.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 extern alias JB;
 
 namespace StyleCop.ReSharper.Core
@@ -23,7 +26,6 @@ namespace StyleCop.ReSharper.Core
 
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Daemon;
-    using JetBrains.Util;
 
     using StyleCop.ReSharper.Diagnostics;
 
@@ -46,7 +48,10 @@ namespace StyleCop.ReSharper.Core
         /// </remarks>
         public bool RunForInvisibleDocuments
         {
-            get { return false; }
+            get
+            {
+                return false;
+            }
         }
 
         /// <summary>
@@ -54,7 +59,10 @@ namespace StyleCop.ReSharper.Core
         /// </summary>
         public Type[] StagesAfter
         {
-            get { return JB::JetBrains.Util.EmptyArray<Type>.Instance; }
+            get
+            {
+                return JB::JetBrains.Util.EmptyArray<Type>.Instance;
+            }
         }
 
         /// <summary>
@@ -65,10 +73,17 @@ namespace StyleCop.ReSharper.Core
         /// </remarks>
         public Type[] StagesBefore
         {
-            get { return new[] { typeof(LanguageSpecificDaemonStage) }; }
+            get
+            {
+                return new[] { typeof(LanguageSpecificDaemonStage) };
+            }
         }
 
         #endregion
+
+        #region Implemented Interfaces
+
+        #region IDaemonStage
 
         /// <summary>
         /// This method provides a <see cref="IDaemonStageProcess"/> instance which is assigned to highlighting a single document.
@@ -114,5 +129,9 @@ namespace StyleCop.ReSharper.Core
         {
             return ErrorStripeRequest.STRIPE_AND_ERRORS;
         }
+
+        #endregion
+
+        #endregion
     }
 }

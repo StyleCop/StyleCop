@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="StyleCopTrace.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   The central manager class for application tracing, through which all application tracing should be done.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.Diagnostics
 {
@@ -66,9 +69,9 @@ namespace StyleCop.ReSharper.Diagnostics
 #endif
 
             var logPath = ConfigurationManager.AppSettings["TraceLogPath"];
-            
+
             var dtl = Trace.Listeners["Default"] as DefaultTraceListener;
-            
+
             if (dtl != null && level > 0 && !string.IsNullOrEmpty(logPath))
             {
                 Directory.CreateDirectory(logPath);

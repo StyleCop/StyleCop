@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ReadabilityRules.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,8 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
-
+// <summary>
+//   Readability rules.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 extern alias JB;
 
 namespace StyleCop.ReSharper.CodeCleanup.Rules
@@ -21,7 +23,6 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
 
     using System.Collections.Generic;
 
-    using Extensions;
     using JetBrains.Application;
     using JetBrains.ReSharper.Psi;
     using JetBrains.ReSharper.Psi.CodeStyle;
@@ -37,6 +38,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
     using StyleCop.ReSharper.CodeCleanup.Options;
     using StyleCop.ReSharper.Core;
     using StyleCop.ReSharper.Diagnostics;
+    using StyleCop.ReSharper.Extensions;
 
     #endregion
 
@@ -68,11 +70,11 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
                 var tokenNodeToInsertAfter = Utils.GetFirstNewLineTokenToRight(openCurlyBracketTokenNode);
                 LowLevelModificationUtil.AddChildAfter(tokenNodeToInsertAfter, new[] { newCommentTokenNode });
                 LowLevelModificationUtil.AddChildAfter(newCommentTokenNode, newCommentTokenNode.InsertNewLineAfter());
-               
+
                 DeleteChildRange(startOfTokensToDelete, endOfTokensToDelete);
                 var endOfTokensToFormat = newCommentTokenNode;
 
-                 CSharpFormatterHelper.FormatterInstance.Format(startOfTokensToFormat, endOfTokensToFormat);
+                CSharpFormatterHelper.FormatterInstance.Format(startOfTokensToFormat, endOfTokensToFormat);
             }
         }
 
@@ -101,8 +103,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
 
                 LowLevelModificationUtil.AddChildBefore(firstNonWhitespaceAfterBracket, new[] { newStartRegionNode });
 
-                newStartRegionNode.ToTreeNode()
-                                  .InsertNewLineAfter();
+                newStartRegionNode.ToTreeNode().InsertNewLineAfter();
 
                 LowLevelModificationUtil.DeleteChildRange(startOfTokensToDelete, endOfTokensToDelete);
                 var endOfTokensToFormat = (IElement)newStartRegionNode;
@@ -117,7 +118,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
                     LowLevelModificationUtil.AddChildBefore(newLineToken, new[] { newEndRegionNode });
 
                     newEndRegionNode.InsertNewLineAfter();
-                    
+
                     LowLevelModificationUtil.DeleteChildRange(startOfTokensToDelete, endOfTokensToDelete);
                     endOfTokensToFormat = newLineToken;
                 }
@@ -148,7 +149,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
                             var leftToken = Utils.GetFirstNewLineTokenToLeft((ITokenNode)currentNode);
 
                             var rightToken = Utils.GetFirstNewLineTokenToRight((ITokenNode)currentNode);
-                            
+
                             if (leftToken == null)
                             {
                                 leftToken = (ITokenNode)currentNode;
@@ -157,7 +158,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
                             {
                                 leftToken = leftToken.GetNextToken();
                             }
-                            
+
                             if (rightToken == null)
                             {
                                 rightToken = (ITokenNode)currentNode;
@@ -236,9 +237,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
                                 using (WriteLockCookie.Create(true))
                                 {
                                     // swap the base to this
-                                    var expression =
-                                        CSharpElementFactory.GetInstance(invocationExpression.GetPsiModule()).
-                                            CreateExpression("this");
+                                    var expression = CSharpElementFactory.GetInstance(invocationExpression.GetPsiModule()).CreateExpression("this");
 
                                     referenceExpression.SetQualifierExpression(expression);
                                 }
@@ -443,9 +442,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
 
                 using (WriteLockCookie.Create(true))
                 {
-                    multipleDeclaration.SetTypeUsage(
-                        CSharpElementFactory.GetInstance(localVariableDeclaration.GetPsiModule()).CreateTypeUsageNode(
-                            newType));
+                    multipleDeclaration.SetTypeUsage(CSharpElementFactory.GetInstance(localVariableDeclaration.GetPsiModule()).CreateTypeUsageNode(newType));
                 }
             }
             else
@@ -842,7 +839,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
                         var attribute = tokenNode.GetContainingElement<IAttribute>(true);
                         var switchLabelStatement = tokenNode.GetContainingElement<ISwitchLabelStatement>(true);
                         var constantDeclaration = tokenNode.GetContainingElement<IConstantDeclaration>(true);
-                        
+
                         // Not for attributes switch labels or constant declarations
                         if (attribute == null && switchLabelStatement == null && constantDeclaration == null)
                         {
@@ -854,8 +851,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
 
                                 using (WriteLockCookie.Create(true))
                                 {
-                                    LowLevelModificationUtil.ReplaceChildRange(
-                                        currentNode, currentNode, new ITreeNode[] { newLiteral });
+                                    LowLevelModificationUtil.ReplaceChildRange(currentNode, currentNode, new ITreeNode[] { newLiteral });
                                 }
                             }
                         }

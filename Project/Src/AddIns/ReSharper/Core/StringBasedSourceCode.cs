@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="StringBasedSourceCode.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   The string based source code.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.Core
 {
@@ -20,10 +23,11 @@ namespace StyleCop.ReSharper.Core
     using System;
     using System.IO;
 
-    using StyleCop;
-
     #endregion
 
+    /// <summary>
+    /// The string based source code.
+    /// </summary>
     internal class StringBasedSourceCode : SourceCode
     {
         #region Constants and Fields
@@ -40,6 +44,23 @@ namespace StyleCop.ReSharper.Core
 
         #endregion
 
+        #region Constructors and Destructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StringBasedSourceCode"/> class.
+        /// </summary>
+        /// <param name="project">
+        /// The project.
+        /// </param>
+        /// <param name="parser">
+        /// The parser.
+        /// </param>
+        /// <param name="path">
+        /// The path.
+        /// </param>
+        /// <param name="source">
+        /// The source.
+        /// </param>
         public StringBasedSourceCode(CodeProject project, SourceParser parser, string path, string source)
             : base(project, parser)
         {
@@ -79,8 +100,13 @@ namespace StyleCop.ReSharper.Core
             }
         }
 
+        #endregion
+
         #region Properties
 
+        /// <summary>
+        /// Gets a value indicating whether Exists.
+        /// </summary>
         public override bool Exists
         {
             get
@@ -89,6 +115,9 @@ namespace StyleCop.ReSharper.Core
             }
         }
 
+        /// <summary>
+        /// Gets Name.
+        /// </summary>
         public override string Name
         {
             get
@@ -97,6 +126,9 @@ namespace StyleCop.ReSharper.Core
             }
         }
 
+        /// <summary>
+        /// Gets Path.
+        /// </summary>
         public override string Path
         {
             get
@@ -105,6 +137,9 @@ namespace StyleCop.ReSharper.Core
             }
         }
 
+        /// <summary>
+        /// Gets TimeStamp.
+        /// </summary>
         public override DateTime TimeStamp
         {
             get
@@ -113,6 +148,9 @@ namespace StyleCop.ReSharper.Core
             }
         }
 
+        /// <summary>
+        /// Gets Type.
+        /// </summary>
         public override string Type
         {
             get
@@ -123,16 +161,31 @@ namespace StyleCop.ReSharper.Core
 
         #endregion
 
+        #region Public Methods
+
+        /// <summary>
+        /// The read.
+        /// </summary>
+        /// <returns>
+        /// </returns>
         public override TextReader Read()
         {
             return new StringReader(this.source);
         }
 
+        #endregion
+
+        #region Methods
+
         /// <summary>
         /// Cleans up the given path so that it can always be matched against other paths.
         /// </summary>
-        /// <param name="path">The path to clean.</param>
-        /// <returns>Returns the cleaned path.</returns>
+        /// <param name="path">
+        /// The path to clean.
+        /// </param>
+        /// <returns>
+        /// Returns the cleaned path.
+        /// </returns>
         internal static string CleanPath(string path)
         {
             Param.Ignore(path);
@@ -151,5 +204,7 @@ namespace StyleCop.ReSharper.Core
 
             return cleanedPath;
         }
+
+        #endregion
     }
 }

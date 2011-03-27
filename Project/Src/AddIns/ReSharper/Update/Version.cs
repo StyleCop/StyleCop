@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Version.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,19 +11,34 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Represents an Auto Update Version Document.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.Update
 {
+    #region Using Directives
+
     using System;
     using System.Xml.Serialization;
 
+    #endregion
+
     /// <summary>
-    /// Represents an Auto Update Version Document
+    /// Represents an Auto Update Version Document.
     /// </summary>
     [XmlRoot("version")]
     public class AutoUpdateVersion
     {
+        #region Properties
+
+        /// <summary>
+        /// Gets or sets the build number.
+        /// </summary>
+        [XmlElement(ElementName = "build")]
+        public int Build { get; set; }
+
         /// <summary>
         /// Gets or sets the major number.
         /// </summary>
@@ -37,16 +52,14 @@ namespace StyleCop.ReSharper.Update
         public int Minor { get; set; }
 
         /// <summary>
-        /// Gets or sets the build number.
-        /// </summary>
-        [XmlElement(ElementName = "build")]
-        public int Build { get; set; }
-
-        /// <summary>
         /// Gets or sets revision number.
         /// </summary>
         [XmlElement(ElementName = "revision")]
         public int Revision { get; set; }
+
+        #endregion
+
+        #region Public Methods
 
         /// <summary>
         /// Converts the document to an assembly version type.
@@ -55,5 +68,7 @@ namespace StyleCop.ReSharper.Update
         {
             return new Version(this.Major, this.Minor, this.Build, this.Revision);
         }
+
+        #endregion
     }
 }

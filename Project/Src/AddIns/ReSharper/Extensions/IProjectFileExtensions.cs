@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="IProjectFileExtensions.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Extension methods for IProjectFile types.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace JetBrains.ProjectModel
 {
@@ -78,7 +81,7 @@ namespace JetBrains.ProjectModel
                 var namespaceManager = new XmlNamespaceManager(xmlDocument.NameTable);
                 namespaceManager.AddNamespace("a", "http://schemas.microsoft.com/developer/msbuild/2003");
                 var xmlNode = xmlDocument.SelectSingleNode(String.Format("//a:Project/a:ItemGroup/a:Compile[@Include='{0}'][a:ExcludeFromStyleCop='true']", relativePathToCsFile), namespaceManager);
-                
+
                 if (xmlNode != null)
                 {
                     StyleCopTrace.Out();
@@ -86,7 +89,9 @@ namespace JetBrains.ProjectModel
                     return true;
                 }
             }
-            catch { }
+            catch
+            {
+            }
 
             StyleCopTrace.Out();
             return false;

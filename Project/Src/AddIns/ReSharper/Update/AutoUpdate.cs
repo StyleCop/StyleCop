@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="AutoUpdate.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="AutoUpdate.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,11 +11,18 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Defines an Auto Update Document.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.Update
 {
+    #region Using Directives
+
     using System.Xml.Serialization;
+
+    #endregion
 
     /// <summary>
     /// Defines an Auto Update Document.
@@ -23,11 +30,7 @@ namespace StyleCop.ReSharper.Update
     [XmlRoot("autoupdate")]
     public class AutoUpdate
     {
-        /// <summary>
-        /// Gets or sets the Version of the Document.
-        /// </summary>
-        [XmlElement(ElementName = "version")]
-        public AutoUpdateVersion Version { get; set; }
+        #region Properties
 
         /// <summary>
         /// Gets or sets the Url to download an update.
@@ -40,5 +43,13 @@ namespace StyleCop.ReSharper.Update
         /// </summary>
         [XmlElement(ElementName = "message")]
         public string Message { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Version of the Document.
+        /// </summary>
+        [XmlElement(ElementName = "version")]
+        public AutoUpdateVersion Version { get; set; }
+
+        #endregion
     }
 }

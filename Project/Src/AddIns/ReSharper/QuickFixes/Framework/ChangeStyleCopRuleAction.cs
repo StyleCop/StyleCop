@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ChangeStyleCopRuleAction.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,8 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
-
+// <summary>
+//   Adds changing the display option for the style cop rule as context menu.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 extern alias JB;
 
 namespace StyleCop.ReSharper.QuickFixes.Framework
@@ -27,7 +29,6 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
     using JetBrains.ReSharper.Feature.Services.Bulbs;
     using JetBrains.TextControl;
     using JetBrains.UI.Application;
-    using JetBrains.Util;
 
     #endregion
 
@@ -54,7 +55,10 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
         /// </value>
         public IBulbItem[] Items
         {
-            get { return new IBulbItem[] { this }; }
+            get
+            {
+                return new IBulbItem[] { this };
+            }
         }
 
         /// <summary>
@@ -66,6 +70,10 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
         public string Text { get; set; }
 
         #endregion
+
+        #region Implemented Interfaces
+
+        #region IBulbAction
 
         /// <summary>
         /// Determines whether the specified cache is available.
@@ -81,6 +89,10 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
         {
             return true;
         }
+
+        #endregion
+
+        #region IBulbItem
 
         /// <summary>
         /// Performs the QuickFix, inserts the configured modifier into the location specified by
@@ -115,5 +127,9 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
                 }
             }
         }
+
+        #endregion
+
+        #endregion
     }
 }

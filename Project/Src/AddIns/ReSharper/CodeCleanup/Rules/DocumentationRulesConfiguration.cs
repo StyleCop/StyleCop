@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="DocumentationRulesConfiguration.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,15 +11,16 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   A class that exposes the current Documentation configuration for the file provided.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.CodeCleanup.Rules
 {
     #region Using Directives
 
     using JetBrains.ProjectModel;
-
-    using StyleCop;
 
     using StyleCop.ReSharper.Core;
 
@@ -34,7 +35,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
 
         private const string AnalyzerName = "StyleCop.CSharp.DocumentationRules";
 
-        private Settings settings;
+        private readonly Settings settings;
 
         #endregion
 

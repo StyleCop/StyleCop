@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="StyleCopCoreFactory.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,22 +11,31 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   The style cop core factory.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.Core
 {
     #region Using Directives
 
-    using System.Collections.Generic;
-
-    using StyleCop;
-
     using StyleCop.ReSharper.Diagnostics;
 
     #endregion
 
+    /// <summary>
+    /// The style cop core factory.
+    /// </summary>
     public static class StyleCopCoreFactory
     {
+        #region Public Methods
+
+        /// <summary>
+        /// The create.
+        /// </summary>
+        /// <returns>
+        /// </returns>
         public static StyleCopCore Create()
         {
             StyleCopTrace.In();
@@ -42,5 +51,7 @@ namespace StyleCop.ReSharper.Core
 
             return StyleCopTrace.Out(styleCop.Core);
         }
+
+        #endregion
     }
 }

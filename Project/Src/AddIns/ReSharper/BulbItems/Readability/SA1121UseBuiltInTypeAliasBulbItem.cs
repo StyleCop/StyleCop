@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SA1121UseBuiltInTypeAliasBulbItem.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   The s a 1121 use built in type alias bulb item.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.BulbItems.Readability
 {
@@ -28,8 +31,22 @@ namespace StyleCop.ReSharper.BulbItems.Readability
 
     #endregion
 
+    /// <summary>
+    /// The s a 1121 use built in type alias bulb item.
+    /// </summary>
     public class SA1121UseBuiltInTypeAliasBulbItem : V5BulbItemImpl
     {
+        #region Public Methods
+
+        /// <summary>
+        /// The execute transaction inner.
+        /// </summary>
+        /// <param name="solution">
+        /// The solution.
+        /// </param>
+        /// <param name="textControl">
+        /// The text control.
+        /// </param>
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
             var tokensForLine = Utils.GetTokensForLineFromTextControl(solution, textControl);
@@ -79,5 +96,7 @@ namespace StyleCop.ReSharper.BulbItems.Readability
                 }
             }
         }
+
+        #endregion
     }
 }

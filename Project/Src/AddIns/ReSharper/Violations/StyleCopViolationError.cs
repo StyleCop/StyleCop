@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="StyleCopViolationError.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Highlighting class for a StyleCop Violation set to severity level Error.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.Violations
 {
@@ -20,7 +23,6 @@ namespace StyleCop.ReSharper.Violations
     using JetBrains.DocumentModel;
     using JetBrains.ReSharper.Daemon;
 
-    using StyleCop;
     using StyleCop.CSharp;
 
     #endregion
@@ -51,13 +53,14 @@ namespace StyleCop.ReSharper.Violations
         /// <param name="documentRange">
         /// Range where the Violation happened.
         /// </param>
-        /// <param name="element">
-        /// <see cref="CsElement"/>of the violation.
+        /// <param name="fileName">
+        /// The file Name.
         /// </param>
         /// <param name="lineNumber">
         /// Line number of the violation.
         /// </param>
-        public StyleCopViolationError(ViolationEventArgs violation, DocumentRange documentRange, string fileName, int lineNumber) : base(violation, documentRange, fileName, lineNumber)
+        public StyleCopViolationError(ViolationEventArgs violation, DocumentRange documentRange, string fileName, int lineNumber)
+            : base(violation, documentRange, fileName, lineNumber)
         {
         }
 
@@ -67,7 +70,8 @@ namespace StyleCop.ReSharper.Violations
         /// <param name="tooltip">
         /// The tooltip.
         /// </param>
-        public StyleCopViolationError(string tooltip) : base(tooltip)
+        public StyleCopViolationError(string tooltip)
+            : base(tooltip)
         {
         }
 
@@ -82,7 +86,10 @@ namespace StyleCop.ReSharper.Violations
         /// </value>
         public override Severity Severity
         {
-            get { return ViolationSeverity; }
+            get
+            {
+                return ViolationSeverity;
+            }
         }
 
         #endregion
