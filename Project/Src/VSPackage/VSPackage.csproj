@@ -57,9 +57,9 @@
     <CodeAnalysisRuleSet>..\FxCopRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EnvDTE" />     
+    <Reference Include="EnvDTE" />
     <Reference Include="Microsoft.Build.Framework" />
-    <Reference Include="Microsoft.Build.Utilities" />
+    <Reference Include="Microsoft.Build.Utilities.v3.5" />
     <Reference Include="Microsoft.VisualStudio.OLE.Interop">
       <HintPath>$(VsSDKCommonAssemblies)\Microsoft.VisualStudio.OLE.Interop.dll</HintPath>
     </Reference>

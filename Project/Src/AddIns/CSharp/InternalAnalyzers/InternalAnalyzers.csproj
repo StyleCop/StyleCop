@@ -93,7 +93,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Build.Framework" />
-    <Reference Include="Microsoft.Build.Utilities" />
+    <Reference Include="Microsoft.Build.Utilities.v3.5" />
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
