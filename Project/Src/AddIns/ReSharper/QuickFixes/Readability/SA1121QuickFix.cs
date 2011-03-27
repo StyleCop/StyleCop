@@ -109,10 +109,11 @@ namespace StyleCop.ReSharper.QuickFixes.Readability
         /// </summary>
         protected override void InitialiseBulbItems()
         {
-            this.BulbItems = new List<IBulbItem> {
+            this.BulbItems = new List<IBulbItem>
+                {
                     new SA1121UseBuiltInTypeAliasBulbItem
                         {
-                           Description = "Convert to built in type: " + this.Violation.ToolTip, DocumentRange = this.Violation.DocumentRange, LineNumber = this.Violation.LineNumber, 
+                            Description = "Convert to built in type: " + this.Violation.ToolTip, DocumentRange = this.Violation.DocumentRange, LineNumber = this.Violation.LineNumber,
                         }
                 };
         }

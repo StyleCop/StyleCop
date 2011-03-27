@@ -149,7 +149,7 @@ namespace StyleCop.ReSharper.Options
         /// </summary>
         public void Display()
         {
-            this.autoDetectCheckBox.Checked = String.IsNullOrEmpty(StyleCopOptions.Instance.SpecifiedAssemblyPath);
+            this.autoDetectCheckBox.Checked = string.IsNullOrEmpty(StyleCopOptions.Instance.SpecifiedAssemblyPath);
 
             if (this.autoDetectCheckBox.Checked)
             {
@@ -354,11 +354,11 @@ namespace StyleCop.ReSharper.Options
         /// </summary>
         private void ShowFileDialog()
         {
-            if (!String.IsNullOrEmpty(this.StyleCopLocationTextBox.Text))
+            if (!string.IsNullOrEmpty(this.StyleCopLocationTextBox.Text))
             {
                 var dir = Path.GetDirectoryName(this.StyleCopLocationTextBox.Text);
 
-                if (!String.IsNullOrEmpty(dir))
+                if (!string.IsNullOrEmpty(dir))
                 {
                     this.StyleCopLocationDialog.InitialDirectory = dir;
                 }

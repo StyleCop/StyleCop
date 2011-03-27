@@ -861,7 +861,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
             for (var i = 0; i < parameters.Count; i++)
             {
                 var parameter = parameters[i];
-                var node = xmlNode.SelectSingleNode(String.Format("//param[@name='{0}']", parameter.DeclaredName));
+                var node = xmlNode.SelectSingleNode(string.Format("//param[@name='{0}']", parameter.DeclaredName));
 
                 if (i == 0)
                 {
@@ -896,7 +896,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
             for (var i = 0; i < typeParameters.Length; i++)
             {
                 var typeParameter = typeParameters[i];
-                var node = xmlNode.SelectSingleNode(String.Format("//typeparam[@name='{0}']", typeParameter.ShortName));
+                var node = xmlNode.SelectSingleNode(string.Format("//typeparam[@name='{0}']", typeParameter.ShortName));
 
                 if (i == 0)
                 {

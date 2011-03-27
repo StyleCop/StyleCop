@@ -110,7 +110,7 @@ namespace StyleCop.ReSharper.Update
         {
             if (string.IsNullOrEmpty(messageText))
             {
-                return MessageBox.Show(String.Format(QuestionText, newVersionNumber, currentVersionNumber), MessageBoxTitle, MessageBoxButtons.YesNo) == DialogResult.Yes;
+                return MessageBox.Show(string.Format(QuestionText, newVersionNumber, currentVersionNumber), MessageBoxTitle, MessageBoxButtons.YesNo) == DialogResult.Yes;
             }
 
             MessageBox.Show(messageText, MessageBoxTitle, MessageBoxButtons.OK);

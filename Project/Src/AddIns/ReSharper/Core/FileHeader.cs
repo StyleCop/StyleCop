@@ -476,6 +476,7 @@ namespace StyleCop.ReSharper.Core
         /// Ensure company attribute.
         /// </summary>
         /// <returns>
+        /// An updated XmlAttribute for the company text.
         /// </returns>
         private XmlAttribute EnsureCompanyAttribute()
         {
@@ -495,6 +496,7 @@ namespace StyleCop.ReSharper.Core
         /// Ensure copyright element.
         /// </summary>
         /// <returns>
+        /// An updated XmlElement for the copyright text.
         /// </returns>
         private XmlElement EnsureCopyrightElement()
         {
@@ -536,6 +538,7 @@ namespace StyleCop.ReSharper.Core
         /// Ensure file attribute.
         /// </summary>
         /// <returns>
+        /// An updated XmlElement with the file element updated.
         /// </returns>
         private XmlAttribute EnsureFileAttribute()
         {
@@ -558,6 +561,7 @@ namespace StyleCop.ReSharper.Core
         /// The new Summary Element.
         /// </param>
         /// <returns>
+        /// An updated XmlElement with the summary inserted.
         /// </returns>
         private XmlElement EnsureSummaryElement(XmlElement newSummaryElement)
         {

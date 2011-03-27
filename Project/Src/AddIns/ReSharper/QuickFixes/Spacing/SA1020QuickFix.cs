@@ -116,10 +116,11 @@ namespace StyleCop.ReSharper.QuickFixes.Spacing
             var target = this.Violation.DocumentRange.Document.GetLineText(line.Minus1());
             target = target.Contains("++") ? "++" : "--";
 
-            this.BulbItems = new List<IBulbItem> {
+            this.BulbItems = new List<IBulbItem>
+                {
                     new FormatLineBulbItem
                         {
-                           DocumentRange = this.Violation.DocumentRange, Description = "Fix Spacing : " + this.Violation.ToolTip, LineNumber = this.Violation.LineNumber, Target = target 
+                            DocumentRange = this.Violation.DocumentRange, Description = "Fix Spacing : " + this.Violation.ToolTip, LineNumber = this.Violation.LineNumber, Target = target
                         }
                 };
         }

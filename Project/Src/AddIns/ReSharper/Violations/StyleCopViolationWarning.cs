@@ -31,7 +31,6 @@ namespace StyleCop.ReSharper.Violations
     /// Highlighting class for a StyleCop Violation set to severity level Warning.
     /// </summary>
     [StaticSeverityHighlighting(ViolationSeverity)]
-    // [ConfigurableSeverityHighlighting("SA1600",)]
     public class StyleCopViolationWarning : StyleCopViolationBase
     {
         #region Constants and Fields

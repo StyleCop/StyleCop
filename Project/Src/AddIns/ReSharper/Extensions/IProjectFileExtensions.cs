@@ -80,7 +80,7 @@ namespace JetBrains.ProjectModel
 
                 var namespaceManager = new XmlNamespaceManager(xmlDocument.NameTable);
                 namespaceManager.AddNamespace("a", "http://schemas.microsoft.com/developer/msbuild/2003");
-                var xmlNode = xmlDocument.SelectSingleNode(String.Format("//a:Project/a:ItemGroup/a:Compile[@Include='{0}'][a:ExcludeFromStyleCop='true']", relativePathToCsFile), namespaceManager);
+                var xmlNode = xmlDocument.SelectSingleNode(string.Format("//a:Project/a:ItemGroup/a:Compile[@Include='{0}'][a:ExcludeFromStyleCop='true']", relativePathToCsFile), namespaceManager);
 
                 if (xmlNode != null)
                 {

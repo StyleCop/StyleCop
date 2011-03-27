@@ -109,12 +109,13 @@ namespace StyleCop.ReSharper.QuickFixes.Documentation
         /// </summary>
         protected override void InitialiseBulbItems()
         {
-            this.BulbItems = new List<IBulbItem> {
+            this.BulbItems = new List<IBulbItem>
+                {
                     new SA1633FileMustHaveHeaderBulbItem
                         {
-                            FileName = this.Violation.FileName, 
-                            LineNumber = this.Violation.LineNumber, 
-                            DocumentRange = this.Violation.DocumentRange, 
+                            FileName = this.Violation.FileName,
+                            LineNumber = this.Violation.LineNumber,
+                            DocumentRange = this.Violation.DocumentRange,
                             Description = "Insert/replace header : " + this.Violation.ToolTip
                         }
                 };

@@ -109,12 +109,13 @@ namespace StyleCop.ReSharper.QuickFixes.Readability
         /// </summary>
         protected override void InitialiseBulbItems()
         {
-            this.BulbItems = new List<IBulbItem> {
+            this.BulbItems = new List<IBulbItem>
+                {
                     new FormatLineBulbItem
                         {
-                            FileName = this.Violation.FileName, 
-                            LineNumber = this.Violation.LineNumber, 
-                            DocumentRange = this.Violation.DocumentRange, 
+                            FileName = this.Violation.FileName,
+                            LineNumber = this.Violation.LineNumber,
+                            DocumentRange = this.Violation.DocumentRange,
                             Description = "Format line : " + this.Violation.ToolTip
                         }
                 };

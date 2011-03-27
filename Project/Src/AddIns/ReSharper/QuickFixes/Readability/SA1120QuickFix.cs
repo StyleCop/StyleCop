@@ -109,10 +109,11 @@ namespace StyleCop.ReSharper.QuickFixes.Readability
         /// </summary>
         protected override void InitialiseBulbItems()
         {
-            this.BulbItems = new List<IBulbItem> {
+            this.BulbItems = new List<IBulbItem>
+                {
                     new SA1120CommentsMustContainTextBulbItem
                         {
-                           Description = "Delete empty comment: " + this.Violation.ToolTip, DocumentRange = this.Violation.DocumentRange, LineNumber = this.Violation.LineNumber, 
+                            Description = "Delete empty comment: " + this.Violation.ToolTip, DocumentRange = this.Violation.DocumentRange, LineNumber = this.Violation.LineNumber,
                         }
                 };
         }

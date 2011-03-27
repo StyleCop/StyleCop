@@ -173,6 +173,7 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
         /// True if this quickfix is available.
         /// </summary>
         /// <param name="cache">
+        /// The chache object to use.
         /// </param>
         /// <returns>
         /// The is available.

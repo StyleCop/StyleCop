@@ -109,10 +109,11 @@ namespace StyleCop.ReSharper.QuickFixes.Layout
         /// </summary>
         protected override void InitialiseBulbItems()
         {
-            this.BulbItems = new List<IBulbItem> {
+            this.BulbItems = new List<IBulbItem>
+                {
                     new SA1509OpeningCurlyBracketsMustNotBePrecededByBlankLineBulbItem
                         {
-                           Description = "Remove blank line: " + this.Violation.ToolTip, DocumentRange = this.Violation.DocumentRange, LineNumber = this.Violation.LineNumber 
+                            Description = "Remove blank line: " + this.Violation.ToolTip, DocumentRange = this.Violation.DocumentRange, LineNumber = this.Violation.LineNumber
                         }
                 };
         }

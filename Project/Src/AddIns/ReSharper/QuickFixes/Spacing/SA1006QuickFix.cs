@@ -109,14 +109,15 @@ namespace StyleCop.ReSharper.QuickFixes.Spacing
         /// </summary>
         protected override void InitialiseBulbItems()
         {
-            this.BulbItems = new List<IBulbItem> {
+            this.BulbItems = new List<IBulbItem>
+                {
                     new SA1006PreprocessorKeywordsMustNotBePrecededBySpaceBulbItem
                         {
-                            DocumentRange = this.Violation.DocumentRange, 
-                            Description = "Fix Spacing : " + this.Violation.ToolTip, 
-                            LineNumber = this.Violation.LineNumber, 
-                            Prefix = string.Empty, 
-                            Suffix = string.Empty, 
+                            DocumentRange = this.Violation.DocumentRange,
+                            Description = "Fix Spacing : " + this.Violation.ToolTip,
+                            LineNumber = this.Violation.LineNumber,
+                            Prefix = string.Empty,
+                            Suffix = string.Empty,
                             Target = "#"
                         }
                 };

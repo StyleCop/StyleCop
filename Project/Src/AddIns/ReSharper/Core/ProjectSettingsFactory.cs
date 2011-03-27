@@ -62,6 +62,7 @@ namespace StyleCop.ReSharper.Core
         /// The read only.
         /// </param>
         /// <returns>
+        /// A Settings object.
         /// </returns>
         public Settings Create(string settingsFilePath, bool readOnly)
         {

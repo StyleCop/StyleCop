@@ -205,7 +205,7 @@ namespace StyleCop.ReSharper.Core
             {
                 var declarationTreeNode = declaration.ToTreeNode();
 
-                var middleText = StyleCopOptions.Instance.UseSingleLineDeclarationComments ? String.Empty : Environment.NewLine;
+                var middleText = StyleCopOptions.Instance.UseSingleLineDeclarationComments ? string.Empty : Environment.NewLine;
 
                 var emptyDocHeader = string.Format("<summary>{0}</summary>", middleText);
 

@@ -35,6 +35,7 @@ namespace StyleCop.ReSharper.Core
         /// The create.
         /// </summary>
         /// <returns>
+        /// A new StyleCopCore object.
         /// </returns>
         public static StyleCopCore Create()
         {

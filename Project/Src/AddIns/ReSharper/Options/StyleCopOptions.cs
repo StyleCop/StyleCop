@@ -48,7 +48,7 @@ namespace StyleCop.ReSharper.Options
         public StyleCopOptions()
         {
             this.ParsingPerformance = 9;
-            this.SpecifiedAssemblyPath = String.Empty;
+            this.SpecifiedAssemblyPath = string.Empty;
             this.InsertTextIntoDocumentation = true;
             this.AutomaticallyCheckForUpdates = true;
             this.AlwaysCheckForUpdatesWhenVisualStudioStarts = true;

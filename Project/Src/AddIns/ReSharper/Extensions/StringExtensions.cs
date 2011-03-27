@@ -209,22 +209,7 @@ namespace System
 
             return index < s.Length - 1 ? s.Substring(index + 1) : string.Empty;
         }
-
-        /// <summary>
-        /// Retrieves a substring before the first instance of a character.
-        /// </summary>
-        /// <param name="s">
-        /// The string to retrieve the substring from.
-        /// </param>
-        /// <param name="c">
-        /// The character to seek.
-        /// </param>
-        /// <returns>
-        /// The substring before the first occurrence of <paramref name="c"/>, or <paramref name="s"/> if <paramref name="c"/> is not found.
-        /// </returns>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="s"/>is <c>Null.</c>.
-        /// </exception>
+  
         /// <summary>
         /// Retrieves a substring before the last instance of a character.
         /// </summary>

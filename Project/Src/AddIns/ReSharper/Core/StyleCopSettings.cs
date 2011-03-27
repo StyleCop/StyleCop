@@ -161,7 +161,7 @@ namespace StyleCop.ReSharper.Core
         /// The project file.
         /// </param>
         /// <returns>
-        /// The skip analysis for document.
+        /// True if analysis should be skipped.
         /// </returns>
         public bool SkipAnalysisForDocument(IProjectFile projectFile)
         {

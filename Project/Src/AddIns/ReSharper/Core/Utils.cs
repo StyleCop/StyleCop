@@ -1819,7 +1819,7 @@ namespace StyleCop.ReSharper.Core
             for (var i = 0; i < s.Length; i++)
             {
                 var c = s[i];
-                if (!Char.IsWhiteSpace(c))
+                if (!char.IsWhiteSpace(c))
                 {
                     return i;
                 }
@@ -1847,7 +1847,7 @@ namespace StyleCop.ReSharper.Core
             for (var i = s.Length - 1; i >= 0; i--)
             {
                 var c = s[i];
-                if (!Char.IsWhiteSpace(c))
+                if (!char.IsWhiteSpace(c))
                 {
                     return s.Length - i - 1;
                 }
@@ -1860,8 +1860,10 @@ namespace StyleCop.ReSharper.Core
         /// The passed in file is always index 0 in the returned IList.
         /// </summary>
         /// <param name="projectFile">
+        /// The IProjectFile to get the files for.
         /// </param>
         /// <returns>
+        /// A List of Project files.
         /// </returns>
         private static IList<IProjectFile> GetAllFilesForFile(IProjectFile projectFile)
         {
