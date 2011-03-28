@@ -6,7 +6,7 @@
     <?define ProductName = "$(var.MediumProductName) $(var.WixVersionLong)" ?>
     <?define ProductNameShort = "$(var.MediumProductName) $(var.WixVersionShort)" ?>
     <!-- ProductCode is automatically changed for each build. This ensures that the Upgrade section works and removes previous versions. -->
-    <?define ProductCode = "{????????-????-????-????-????????????}" ?>
+    <?define ProductCode = "*" ?>
     <?define Manufacturer = "http://stylecop.codeplex.com" ?>
     <!-- Never change the UpgradeCode. It is used to automatically remove previous versions of the product. -->
     <!-- Remember - only Major.Minor.Build is used to determine an automatic upgrade so never only change Revision or upgrades won't work. -->
