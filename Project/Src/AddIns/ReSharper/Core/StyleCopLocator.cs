@@ -21,6 +21,7 @@ namespace StyleCop.ReSharper.Core
     #region Using Directives
 
     using System.IO;
+    using System.Reflection;
 
     using Microsoft.Win32;
 
@@ -37,13 +38,13 @@ namespace StyleCop.ReSharper.Core
         /// Gets the StyleCop assembly path.
         /// </summary>
         /// <returns>
-        /// The path to the StyleCop assembly.
+        /// The path to the StyleCop assembly or null if not found.
         /// </returns>
         public static string GetStyleCopPath()
         {
-            var directory = RetrieveFromRegistry();
+            var directory = RetrieveFromRegistry() ?? Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
-            return Path.Combine(directory, StyleCopReferenceHelper.StyleCopAssemblyName);
+            return directory == null ? directory : Path.Combine(directory, StyleCopReferenceHelper.StyleCopAssemblyName);
         }
 
         #endregion
@@ -54,14 +55,15 @@ namespace StyleCop.ReSharper.Core
         /// Gets the StyleCop install location from the registry. This reg key is created by StyleCop 4.5 during install.
         /// </summary>
         /// <returns>
-        /// The retrieve from registry.
+        /// Returns the regkey value or null if not found.
         /// </returns>
         private static string RetrieveFromRegistry()
         {
-            var subKey = @"SOFTWARE\CodePlex\StyleCop";
-            var key = "InstallLocation";
+            const string SubKey = @"SOFTWARE\CodePlex\StyleCop";
+            const string Key = "InstallLocation";
 
-            return Registry.LocalMachine.OpenSubKey(subKey).GetValue(key) as string;
+            RegistryKey registryKey = Registry.LocalMachine.OpenSubKey(SubKey);
+            return registryKey == null ? null : registryKey.GetValue(Key) as string;
         }
 
         #endregion

@@ -21,7 +21,6 @@ namespace StyleCop.ReSharper.Options
 {
     #region Using Directives
 
-    using System;
     using System.Windows.Forms;
     using System.Xml;
 
@@ -39,6 +38,16 @@ namespace StyleCop.ReSharper.Options
     [ShellComponentImplementation]
     public class StyleCopOptions : IXmlExternalizableShellComponent
     {
+        /// <summary>
+        /// The value of the detected path for StyleCop.
+        /// </summary>
+        private string styleCopDetectedPath;
+
+        /// <summary>
+        /// Set to true when we've attempted to get the StyleCop path.
+        /// </summary>
+        private bool attemptedToGetStyleCopPath;
+
         #region Constructors and Destructors
 
         /// <summary>
@@ -61,7 +70,7 @@ namespace StyleCop.ReSharper.Options
         }
 
         #endregion
-
+        
         #region Properties
 
         /// <summary>
@@ -204,26 +213,32 @@ namespace StyleCop.ReSharper.Options
         /// </returns>
         public string GetAssemblyPath()
         {
-            if (!string.IsNullOrEmpty(this.SpecifiedAssemblyPath))
+            if (!this.attemptedToGetStyleCopPath)
             {
-                if (StyleCopReferenceHelper.LocationValid(this.SpecifiedAssemblyPath))
+                this.attemptedToGetStyleCopPath = true;
+
+                if (!string.IsNullOrEmpty(this.SpecifiedAssemblyPath))
                 {
-                    return this.SpecifiedAssemblyPath;
+                    if (StyleCopReferenceHelper.LocationValid(this.SpecifiedAssemblyPath))
+                    {
+                        this.styleCopDetectedPath = this.SpecifiedAssemblyPath;
+                        return this.styleCopDetectedPath;
+                    }
+
+                    // Location not valid. Blank it and automatically get location
+                    this.SpecifiedAssemblyPath = null;
                 }
 
-                // Location not valid. Blank it and automatically get location
-                this.SpecifiedAssemblyPath = null;
+                this.styleCopDetectedPath = this.DetectStyleCopPath();
+
+                if (string.IsNullOrEmpty(this.styleCopDetectedPath))
+                {
+                    MessageBox.Show(
+                        string.Format("Failed to find the StyleCop Assembly. Please check your StyleCop installation."), "Error Finding StyleCop Assembly", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
 
-            var foundPath = this.DetectStyleCopPath();
-
-            if (string.IsNullOrEmpty(foundPath))
-            {
-                MessageBox.Show(
-                    string.Format("Failed to find the StyleCop Assembly. Please check your StyleCop installation."), "Error Finding StyleCop Assembly.", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-            return foundPath;
+            return this.styleCopDetectedPath;
         }
 
         #endregion

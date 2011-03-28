@@ -154,6 +154,11 @@ namespace StyleCop.ReSharper.Core
         /// </returns>
         public static bool LocationValid(string assemblyPath)
         {
+            if (assemblyPath == null)
+            {
+                return false;
+            }
+
             var filename = Path.GetFileName(assemblyPath);
 
             if (string.IsNullOrEmpty(filename) || filename.ToUpper() != StyleCopAssemblyName.ToUpper())
