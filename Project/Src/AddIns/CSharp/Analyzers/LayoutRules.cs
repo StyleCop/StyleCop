@@ -1110,7 +1110,8 @@ namespace StyleCop.CSharp
                             token.CsTokenType != CsTokenType.PreprocessorDirective &&
                             token.CsTokenType != CsTokenType.Select &&
                             token.CsTokenType != CsTokenType.Let &&
-                            token.CsTokenType != CsTokenType.OperatorSymbol)
+                            token.CsTokenType != CsTokenType.OperatorSymbol &&
+                            token.CsTokenType != CsTokenType.By)
                         {
                             this.AddViolation(
                                 closingCurlyBracket.FindParentElement(),

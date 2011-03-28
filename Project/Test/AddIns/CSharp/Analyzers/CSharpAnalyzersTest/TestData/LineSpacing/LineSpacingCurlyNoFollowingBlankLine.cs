@@ -272,3 +272,23 @@ namespace LineSpacingCurlyNoFollowingBlankLine6
 }
 
 #endregion Events
+
+namespace A
+{
+    class B
+    {
+        var items = from item in this.DataContext.Items
+                    join location in this.DataContext.Locations on item.ProductId equals location.ProductId
+                    join shelf in this.DataContext.Shelfs on location.ShelfId equals shelf.Id
+                    join price in this.DataContext.Prices on item.Id equals price.ItemId
+                    where shelf.SubcategoryId == subcategoryId && price.RegionId == region.Id
+                    orderby shelf.Position
+                    group new ItemViewModel
+                    {
+                        Item = item,
+                        Image = item.Image,
+                        Price = price
+                    }
+                    by shelf;
+    }
+}
