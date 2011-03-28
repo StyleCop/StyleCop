@@ -68,8 +68,8 @@
         <Description>Verifies that a comma between two parameters is placed just after the previous parameter, on the same line.</Description>
       </Rule>
       <Rule Name="ParameterListMustFollowDeclaration" CheckId="SA1114">
-        <Context>The first parameter in the parameter list must be placed on the same line as the opening bracket, or on the next line.</Context>
-        <Description>Verifies that the first parameter in a parameter list is placed on the same line as the opening bracket, or on the next line.</Description>
+        <Context>The first parameter in the parameter list must be placed on the same line as the opening bracket, parenthesis or on the next line.</Context>
+        <Description>Verifies that the first parameter in a parameter list is placed on the same line as the opening bracket, parenthesis or on the next line.</Description>
       </Rule>
       <Rule Name="ParameterMustFollowComma" CheckId="SA1115">
         <Context>The parameter must begin on the line after the previous parameter.</Context>

@@ -428,7 +428,7 @@ namespace StyleCop.CSharp
         /// <param name="methodStartLineNumber">The line number on which the method begins.</param>
         /// <param name="openBracketType">The type of the parameter list opening bracket.</param>
         /// <param name="closeBracketType">The type of the parameter list closing bracket.</param>
-        /// <param name="textToUseForContainingElement">THe text ot use for violations.</param>
+        /// <param name="friendlyTypeText">The text to use for violations.</param>
         private void CheckParameters(
             CsElement element, 
             CsTokenList parameterListTokens, 
@@ -436,7 +436,7 @@ namespace StyleCop.CSharp
             int methodStartLineNumber, 
             CsTokenType openBracketType, 
             CsTokenType closeBracketType,
-            string textToUseForContainingElement)
+            string friendlyTypeText)
         {
             Param.AssertNotNull(element, "element");
             Param.AssertNotNull(parameterListTokens, "parameterListTokens");
@@ -445,7 +445,7 @@ namespace StyleCop.CSharp
             Param.Ignore(openBracketType);
             Param.Ignore(closeBracketType);
 
-            Node<CsToken> openingBracketNode = this.CheckMethodOpeningBracket(element, parameterListTokens, openBracketType, textToUseForContainingElement);
+            Node<CsToken> openingBracketNode = this.CheckMethodOpeningBracket(element, parameterListTokens, openBracketType, friendlyTypeText);
 
             if (openingBracketNode != null)
             {
@@ -454,7 +454,7 @@ namespace StyleCop.CSharp
 
                 if (methodArguments.Count > 0)
                 {
-                    this.CheckMethodArgumentList(element, methodArguments, openingBracketNode, methodStartLineNumber);
+                    this.CheckMethodArgumentList(element, methodArguments, openingBracketNode, methodStartLineNumber, friendlyTypeText);
                 }
             }
         }
@@ -590,7 +590,8 @@ namespace StyleCop.CSharp
         /// <param name="arguments">The arguments to the method.</param>
         /// <param name="openingBracketNode">The opening bracket token.</param>
         /// <param name="methodLineNumber">The line number on which the method begins.</param>
-        private void CheckMethodArgumentList(CsElement element, IArgumentList arguments, Node<CsToken> openingBracketNode, int methodLineNumber)
+        /// <param name="friendlyTypeText">The text to use for the type in reporting violations.</param>
+        private void CheckMethodArgumentList(CsElement element, IArgumentList arguments, Node<CsToken> openingBracketNode, int methodLineNumber, string friendlyTypeText)
         {
             Param.AssertNotNull(element, "element");
             Param.AssertNotNull(arguments, "arguments");
@@ -611,13 +612,13 @@ namespace StyleCop.CSharp
                     element,
                     methodLineNumber,
                     Rules.ParametersMustBeOnSameLineOrSeparateLines,
-                    element.FriendlyTypeText);
+                    friendlyTypeText);
             }
 
             // Determine whether all of the parameters are on the same line as one another.
             if (someParameterOnDifferentLines)
             {
-                this.CheckSplitMethodArgumentList(element, arguments, openingBracketNode);
+                this.CheckSplitMethodArgumentList(element, arguments, openingBracketNode, friendlyTypeText);
             }
             else if (arguments.Count > 0)
             {
@@ -644,7 +645,8 @@ namespace StyleCop.CSharp
         /// <param name="element">The element.</param>
         /// <param name="arguments">The method arguments.</param>
         /// <param name="openingBracketNode">The opening bracket token.</param>
-        private void CheckSplitMethodArgumentList(CsElement element, IArgumentList arguments, Node<CsToken> openingBracketNode)
+        /// <param name="friendlyTypeText">The friendly type text to use in reporting violations.</param>
+        private void CheckSplitMethodArgumentList(CsElement element, IArgumentList arguments, Node<CsToken> openingBracketNode, string friendlyTypeText)
         {
             Param.AssertNotNull(element, "element");
             Param.AssertNotNull(arguments, "arguments");
@@ -675,7 +677,7 @@ namespace StyleCop.CSharp
 
                         if (argumentStartLine != openingBracketNode.Value.LineNumber + commentLineSpan + 1)
                         {
-                            this.AddViolation(element, argumentStartLine, Rules.SplitParametersMustStartOnLineAfterDeclaration, element.FriendlyTypeText);
+                            this.AddViolation(element, argumentStartLine, Rules.SplitParametersMustStartOnLineAfterDeclaration, friendlyTypeText);
                         }
                     }
                 }
