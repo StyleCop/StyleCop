@@ -55,13 +55,13 @@
     <RunCodeAnalysis>false</RunCodeAnalysis>
     <WarningLevel>0</WarningLevel>
     <CodeAnalysisRuleSet>..\..\FxCopRules.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>D:\Dev\stylecop-main\Tools\Scripts\..\..\Project\bin\Debug\StyleCop.ReSharper.xml</DocumentationFile>
+    <DocumentationFile>$(RootBin)\Debug\StyleCop.ReSharper.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>$(RootBin)\Release\</OutputPath>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
-    <DocumentationFile>D:\Dev\stylecop-main\Tools\Scripts\..\..\Project\bin\Release\StyleCop.ReSharper.xml</DocumentationFile>
+    <DocumentationFile>$(RootBin)\Release\StyleCop.ReSharper.xml</DocumentationFile>
     <DebugType>pdbonly</DebugType>
     <DebugSymbols>true</DebugSymbols>
     <FileAlignment>4096</FileAlignment>
