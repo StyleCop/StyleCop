@@ -26,12 +26,13 @@ namespace JetBrains.ReSharper.Psi.CSharp.Tree
         #region Public Methods
 
         /// <summary>
-        /// Getter.
+        /// Gets an IAccessor for the Getter.
         /// </summary>
         /// <param name="propertyDeclaration">
         /// The property declaration.
         /// </param>
         /// <returns>
+        /// An IAccessor for the getter.
         /// </returns>
         public static IAccessor Getter(this IPropertyDeclaration propertyDeclaration)
         {
@@ -49,12 +50,13 @@ namespace JetBrains.ReSharper.Psi.CSharp.Tree
         }
 
         /// <summary>
-        /// Setter.
+        /// Returns an IAccessor for the Setter.
         /// </summary>
         /// <param name="propertyDeclaration">
         /// The property declaration.
         /// </param>
         /// <returns>
+        /// An IAccessor for the setter.
         /// </returns>
         public static IAccessor Setter(this IPropertyDeclaration propertyDeclaration)
         {

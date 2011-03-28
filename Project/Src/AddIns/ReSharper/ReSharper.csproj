@@ -389,7 +389,7 @@
     <Compile Include="Update\AutoUpdate.cs" />
     <Compile Include="Update\AutoUpdaterProcess.cs" />
     <Compile Include="Update\Serialisation.cs" />
-    <Compile Include="Update\Version.cs" />
+    <Compile Include="Update\AutoUpdateVersion.cs" />
     <Compile Include="Violations\StyleCopViolationTokenFactory.cs" />
     <Compile Include="Violations\StyleCopViolationDoNotShow.cs" />
     <Compile Include="Violations\StyleCopViolationInfo.cs" />

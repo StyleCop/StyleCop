@@ -47,6 +47,7 @@ namespace StyleCop.ReSharper.Core
         /// The context.
         /// </param>
         /// <returns>
+        /// A new StringBasedSourcecode object.
         /// </returns>
         public SourceCode Create(string path, CodeProject project, SourceParser parser, object context)
         {

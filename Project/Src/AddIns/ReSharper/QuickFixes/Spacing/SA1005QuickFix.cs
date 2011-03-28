@@ -111,7 +111,7 @@ namespace StyleCop.ReSharper.QuickFixes.Spacing
         {
             this.BulbItems = new List<IBulbItem>
                 {
-                    new SA1005SingleLineCommentsMustBeginWithSingeSpace
+                    new SA1005SingleLineCommentsMustBeginWithSingeSpaceBulbItem
                         {
                             DocumentRange = this.Violation.DocumentRange, Description = "Fix Spacing : " + this.Violation.ToolTip, LineNumber = this.Violation.LineNumber
                         }

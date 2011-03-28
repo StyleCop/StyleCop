@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Version.cs" company="http://stylecop.codeplex.com">
+// <copyright file="AutoUpdateVersion.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -64,6 +64,9 @@ namespace StyleCop.ReSharper.Update
         /// <summary>
         /// Converts the document to an assembly version type.
         /// </summary>
+        /// <returns>
+        /// The Version as a System.Version instance.
+        /// </returns>
         public Version CastAsSystemVersion()
         {
             return new Version(this.Major, this.Minor, this.Build, this.Revision);

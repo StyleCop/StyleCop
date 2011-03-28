@@ -167,6 +167,7 @@ namespace StyleCop.ReSharper.Core
         /// The read.
         /// </summary>
         /// <returns>
+        /// A TextReader instance.
         /// </returns>
         public override TextReader Read()
         {

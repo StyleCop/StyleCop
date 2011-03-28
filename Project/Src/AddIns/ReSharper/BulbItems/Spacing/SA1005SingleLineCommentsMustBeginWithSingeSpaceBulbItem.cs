@@ -33,7 +33,7 @@ namespace StyleCop.ReSharper.BulbItems.Spacing
     /// <summary>
     /// The s a 1005 single line comments must begin with singe space.
     /// </summary>
-    public class SA1005SingleLineCommentsMustBeginWithSingeSpace : V5BulbItemImpl
+    public class SA1005SingleLineCommentsMustBeginWithSingeSpaceBulbItem : V5BulbItemImpl
     {
         #region Public Methods
 

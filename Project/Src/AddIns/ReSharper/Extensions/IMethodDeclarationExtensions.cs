@@ -38,6 +38,7 @@ namespace JetBrains.ReSharper.Psi.CSharp.Tree.Extensions
         /// The declaration.
         /// </param>
         /// <returns>
+        /// An IType for the return type.
         /// </returns>
         public static IType GetReturnType(this IMethodDeclaration declaration)
         {

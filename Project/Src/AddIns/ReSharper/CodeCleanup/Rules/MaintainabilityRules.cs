@@ -113,7 +113,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         }
 
         /// <summary>
-        /// Execute.
+        /// The Execute method.
         /// </summary>
         /// <param name="options">
         /// The options.

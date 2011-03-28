@@ -31,7 +31,7 @@ namespace StyleCop.ReSharper.QuickFixes.Readability
     #endregion
 
     /// <summary>
-    /// QuickFix.
+    /// The QuickFix.
     /// </summary>
     [ShowQuickFix]
     [QuickFix]
