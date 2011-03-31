@@ -2320,6 +2320,8 @@ namespace StyleCop.CSharp
 
                             string firstTypeName;
 
+                            string firstTypeNameWithoutGenerics = string.Empty;
+
                             // Make sure the filename matches the name of the first type in the file.
                             // If its a partial class we do nothing.
                             if (!this.GetFirstTypeName(document.RootElement, out firstTypeName))
@@ -2333,9 +2335,11 @@ namespace StyleCop.CSharp
                                     {
                                         // Remove any 'out ' or 'in ' from generics and then swap '<' and '>' for '{' and '}'
                                         firstTypeName = firstTypeName.Replace("out ", string.Empty).Replace("in ", string.Empty).Replace('<', '{').Replace('>', '}');
+
+                                        firstTypeNameWithoutGenerics = firstTypeName.SubstringBefore('{');
                                     }
 
-                                    if (string.Compare(trimmedFilename, firstTypeName, StringComparison.OrdinalIgnoreCase) != 0)
+                                    if (string.Compare(trimmedFilename, firstTypeName, StringComparison.OrdinalIgnoreCase) != 0 && string.Compare(trimmedFilename, firstTypeNameWithoutGenerics, StringComparison.OrdinalIgnoreCase) != 0)
                                     {
                                         this.AddViolation(document.RootElement, document.FileHeader.LineNumber, Rules.FileHeaderFileNameDocumentationMustMatchTypeName);
                                     }

@@ -433,6 +433,7 @@
   </Test>
 
  <Test Name="FileHeadersValidGenerics">
+    <TestCodeFile>FileHeadersValidGenerics.cs</TestCodeFile>
     <TestCodeFile>FileHeadersValidGenerics{T}.cs</TestCodeFile>
     <TestCodeFile>FileHeadersValidDingbatItems{TKey,TValue}.cs</TestCodeFile>
     <TestCodeFile>FileHeadersValidIGenericContravariant{T}.cs</TestCodeFile>

@@ -75,6 +75,7 @@
     <None Include="TestData\FileHeaders\FileHeadersValidDingbatItems{TKey,TValue}.cs" />
     <None Include="TestData\FileHeaders\FileHeadersValidIGenericContravariant{T}.cs" />
     <None Include="TestData\FileHeaders\FileHeadersValidIGenericCovariant{T}.cs" />
+    <None Include="TestData\FileHeaders\FileHeadersValidGenerics.cs" />
     <Compile Include="TestData\MethodParameters\ConstructorInitializerSpanningMultipleLines.cs" />
     <None Include="TestData\MethodParameters\IndexerAccessBracketPlacement.cs" />
     <Compile Include="TestData\Spacing\OpenParenthesis.cs" />
