@@ -5,7 +5,7 @@ SETLOCAL
 SET /p AssemblyVersion=<"%PROJECTROOT%\src\AssemblyVersion.txt"
 
 REM Default value for parameters
-SET BuildTarget=CodeAnalysis
+SET BuildTarget=Debug
 SET SkipBuild=0
 SET SkipTests=0
 SET NoInstall=1
@@ -101,9 +101,9 @@ IF "%BuildTarget%"=="Release" (
 	)
 )
 
-IF "%BuildTarget%"=="CodeAnalysis" (
+IF "%BuildTarget%"=="Debug" (
 	IF %ReSharperFound%==0 (
-                SET BuildTarget=CodeAnalysisNoReSharper
+                SET BuildTarget=Debug.NoReSharper
 		SET SkipWixBuild=1
 	)
 )
@@ -187,7 +187,7 @@ IF "%SkipWixBuild%" == "1" GOTO PostWixBuild
 
 SET WixBuildTarget=%BuildTarget%
 
-IF "%BuildTarget%" == "CodeAnalysis" SET WixBuildTarget=debug
+IF "%BuildTarget%" == "Debug.NoReSharper" SET WixBuildTarget=Debug
 
 CALL "%windir%\microsoft.net\framework\v3.5\msbuild.exe" %PROJECTROOT%\src\wixsetup\StyleCop.Wix.sln /p:Configuration=%WixBuildTarget% /flp1:warningsonly;logfile=%PROJECTROOT%\src\wixsetup\%buildlogfile%.wrn /flp2:errorsonly;logfile=%PROJECTROOT%\src\wixsetup\%buildlogfile%.err
 IF "%ERRORLEVEL%" == "0" DEL /F /Q %PROJECTROOT%\src\WixSetup\%BuildLogFile%.err

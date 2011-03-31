@@ -49,13 +49,7 @@ namespace StyleCop.ReSharper.Update
         /// Question text.
         /// </summary>
         private const string QuestionText =
-            "StyleCop {0} is now available.\r\n\nStyleCop {1} is currently installed.\r\n\r\nOnce downloaded and installed you'll need to restart Visual Studio.\r\n\r\nTo cofigure when new version are checked for go to ReSharper->Options->Tools->StyleCop.\r\n\r\nDo you wish to download the latest version?";
-
-#if DEBUG
-        private const string VersionUrl = "http://www.stylecop.com/updates/4.5/version.dev.xml";
-#else
-        private const string VersionUrl = "http://www.stylecop.com/updates/4.5/version.xml";
-#endif
+            "StyleCop {0} is now available.\r\n\nStyleCop {1} is currently installed.\r\n\r\nOnce downloaded and installed you'll need to restart Visual Studio.\r\n\r\nTo configure when new versions are checked for go to ReSharper->Options->Tools->StyleCop.\r\n\r\nDo you wish to download the latest version?";
 
         /// <summary>
         /// Initialises this IShellComponent.
@@ -69,12 +63,14 @@ namespace StyleCop.ReSharper.Update
 
                 if (StyleCopOptions.Instance.AlwaysCheckForUpdatesWhenVisualStudioStarts || DateTime.UtcNow > lastUpdateCheckDate.AddDays(daysBetweenUpdateChecks))
                 {
-                    var client = new WebClient();
-                    client.DownloadStringCompleted += this.DownloadStringCompleted;
-
                     try
                     {
-                        client.DownloadStringAsync(new Uri(VersionUrl));
+                        new StyleCop.AutoUpdater().CheckForUpdate(QuestionText);
+                        
+                        if (!StyleCopOptions.Instance.AlwaysCheckForUpdatesWhenVisualStudioStarts)
+                        {
+                            StyleCopOptions.Instance.LastUpdateCheckDate = DateTime.UtcNow.ToString("yyyy-MM-dd");
+                        }
                     }
                     catch (Exception exception)
                     {
@@ -90,68 +86,5 @@ namespace StyleCop.ReSharper.Update
         public void Dispose()
         {
         }
-
-        /// <summary>
-        /// Prompt user for download.
-        /// </summary>
-        /// <param name="currentVersionNumber">
-        /// The current version number.
-        /// </param>
-        /// <param name="newVersionNumber">
-        /// The new version number.
-        /// </param>
-        /// <param name="messageText">
-        /// The message text.
-        /// </param>
-        /// <returns>
-        /// The prompt user for download.
-        /// </returns>
-        private static bool PromptUserForDownload(string currentVersionNumber, string newVersionNumber, string messageText)
-        {
-            if (string.IsNullOrEmpty(messageText))
-            {
-                return MessageBox.Show(string.Format(QuestionText, newVersionNumber, currentVersionNumber), MessageBoxTitle, MessageBoxButtons.YesNo) == DialogResult.Yes;
-            }
-
-            MessageBox.Show(messageText, MessageBoxTitle, MessageBoxButtons.OK);
-
-            return false;
-        }
-
-        #region Event Handlers
-
-        private void DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
-        {
-            try
-            {
-                if (e.Error != null)
-                {
-                    return;
-                }
-
-                if (!StyleCopOptions.Instance.AlwaysCheckForUpdatesWhenVisualStudioStarts)
-                {
-                    StyleCopOptions.Instance.LastUpdateCheckDate = DateTime.UtcNow.ToString("yyyy-MM-dd");
-                }
-
-                var autoUpdate = Serialisation.CreateInstance<AutoUpdate>(e.Result);
-                var currentVersionNumber = this.GetType().Assembly.GetName().Version;
-                var newVersionNumber = autoUpdate.Version.CastAsSystemVersion();
-                var newerPlugInAvailable = newVersionNumber.CompareTo(currentVersionNumber) > 0;
-
-                if (newerPlugInAvailable && PromptUserForDownload(currentVersionNumber.ToString(), newVersionNumber.ToString(), autoUpdate.Message))
-                {
-                    // this will launch the default browser at the download url
-                    Process.Start(autoUpdate.DownloadUrl);
-                }
-            }
-            catch
-            {
-                // if anything at all goes wrong in here we just consume it and say nothing
-                return;
-            }
-        }
-
-        #endregion
     }
 }

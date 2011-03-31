@@ -85,6 +85,7 @@
     </Compile>
     <Compile Include="AlertDialog.cs" />
     <Compile Include="AddSettingsPagesEventArgs.cs" />
+    <Compile Include="AutoUpdater.cs" />
     <Compile Include="CodeLocation.cs" />
     <Compile Include="CodePoint.cs" />
     <Compile Include="CodeReader.cs" />

@@ -16,9 +16,14 @@ namespace StyleCop.VisualStudio
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
+    using System.Globalization;
     using System.Runtime.InteropServices;
+    using System.Windows.Forms;
+
     using Microsoft.VisualStudio.Shell;
     using Microsoft.VisualStudio.Shell.Interop;
+    using Microsoft.Win32;
+
     using StyleCop;
 
     /// <summary>
@@ -27,13 +32,29 @@ namespace StyleCop.VisualStudio
     [PackageRegistration(UseManagedResourcesOnly = true)]
     [DefaultRegistryRoot("Software\\Microsoft\\VisualStudio\\10.0")]
     [InstalledProductRegistration(false, "#110", "#112", "4.5", IconResourceID = 400)]
-    [ProvideAutoLoad(/*UICONTEXT_SolutionExists*/ "f1536ef8-92ec-443c-9ed7-fdadf150da82")]
+    [ProvideAutoLoad(/*UICONTEXT_SolutionExists*/ "{f1536ef8-92ec-443c-9ed7-fdadf150da82}")]
+    [ProvideAutoLoad(/*UICONTEXT_NoSolution*/ "{ADFC4E64-0397-11D1-9F4E-00A0C911004F}")]
     [ProvideLoadKey("Standard", "4.5", "StyleCop", "stylecop.codeplex.com", 200)]
     [ProvideMenuResource(1000, 1)]
     [Guid(GuidList.StyleCopPackageIdString)]
     [SuppressMessage("Microsoft.Maintainability", "CA1506:AvoidExcessiveClassCoupling", Justification = "The class is complex.")]
     public sealed class StyleCopVSPackage : Package, IDisposable
     {
+        /// <summary>
+        /// Default of 2 days between update checks.
+        /// </summary>
+        private const int DefaultDaysBetweenUpdateChecks = 2;
+
+        /// <summary>
+        /// This defaults to true.
+        /// </summary>
+        private const bool DefaultAutomaticallyCheckForUpdates = true;
+
+        /// <summary>
+        /// This defaults to false.
+        /// </summary>
+        private const bool DefaultAlwaysCheckForUpdatesWhenVisualStudioStarts = false;
+
         #region Private Fields
 
         /// <summary>
@@ -50,7 +71,7 @@ namespace StyleCop.VisualStudio
         /// Handles the menu commands at the Package level.
         /// </summary>
         private PackageCommandSet commandSet;
-
+        
         #endregion Private Fields
 
         #region Public Constructors
@@ -175,7 +196,7 @@ namespace StyleCop.VisualStudio
         #endregion Internal Methods
 
         #region Protected Override Methods
-
+       
         /// <summary>
         /// Initializes the package.
         /// </summary>
@@ -183,6 +204,23 @@ namespace StyleCop.VisualStudio
         /// code that relies on services provided by Visual Studio.</remarks>
         protected override void Initialize()
         {
+            bool automaticallyCheckForUpdates = GetAutomaticallyCheckForUpdates();
+
+            if (automaticallyCheckForUpdates)
+            {
+                DateTime lastUpdateCheckDate = GetLastUpdateCheckDate();
+                int daysBetweenUpdateChecks = GetDaysBetweenUpdateChecks();
+
+                bool alwaysCheckForUpdatesWhenVisualStudioStarts = GetAlwaysCheckForUpdatesWhenVisualStudioStarts();
+
+                if (alwaysCheckForUpdatesWhenVisualStudioStarts || DateTime.UtcNow > lastUpdateCheckDate.AddDays(daysBetweenUpdateChecks))
+                {
+                    new StyleCop.AutoUpdater().CheckForUpdate();
+
+                    SetLastUpdateCheckDate(DateTime.UtcNow);
+                }
+            }
+
             base.Initialize();
 
             if (!this.SetupMode)
@@ -242,6 +280,138 @@ namespace StyleCop.VisualStudio
         #endregion Protected Override Methods
 
         #region Private Methods
+
+        /// <summary>
+        /// Retrieves a RegKey value for the registry.
+        /// </summary>
+        /// <param name="key">The subkey to open.</param>
+        /// <returns>The value of the regkey.</returns>
+        private static object RetrieveFromRegistry(string key)
+        {
+            const string SubKey = @"SOFTWARE\CodePlex\StyleCop";
+
+            RegistryKey registryKey = Registry.LocalMachine.OpenSubKey(SubKey);
+            return registryKey == null ? null : registryKey.GetValue(key);
+        }
+
+        /// <summary>
+        /// Sets a regkey value in the registry.
+        /// </summary>
+        /// <param name="key">The subkey to create.</param>
+        /// <param name="value">The value to use</param>
+        /// <param name="valueKind">The type of regkey value to set.</param>
+        private static void SetRegistry(string key, object value, RegistryValueKind valueKind)
+        {
+            const string SubKey = @"SOFTWARE\CodePlex\StyleCop";
+
+            RegistryKey registryKey = Registry.LocalMachine.CreateSubKey(SubKey);
+            if (registryKey != null)
+            {
+                registryKey.SetValue(key, value, valueKind);
+            }
+        }
+
+        /// <summary>
+        /// Gets the AutomaticallyCheckForUpdates value from the registry.
+        /// </summary>
+        /// <returns>The value.</returns>
+        private static bool GetAutomaticallyCheckForUpdates()
+        {
+            var a = RetrieveFromRegistry("AutomaticallyCheckForUpdates");
+            if (a == null)
+            {
+                SetAutomaticallyCheckForUpdates(DefaultAutomaticallyCheckForUpdates);
+                return DefaultAutomaticallyCheckForUpdates;
+            }
+
+            return Convert.ToBoolean(a, CultureInfo.InvariantCulture);
+        }
+
+        /// <summary>
+        /// Sets the AutomaticallyCheckForUpdates value in the registry.
+        /// </summary>
+        /// <param name="value">The new value.</param>
+        private static void SetAutomaticallyCheckForUpdates(bool value)
+        {
+            SetRegistry("AutomaticallyCheckForUpdates", value, RegistryValueKind.DWord);
+        }
+
+        /// <summary>
+        /// Gets the LastUpdateCheckDate value from the registry.
+        /// </summary>
+        /// <returns>The value.</returns>
+        private static DateTime GetLastUpdateCheckDate()
+        {
+            var dateTime = RetrieveFromRegistry("LastUpdateCheckDate");
+            if (dateTime == null)
+            {
+                // Default to now.
+                dateTime = DateTime.UtcNow;
+                SetLastUpdateCheckDate((DateTime)dateTime);
+            }
+
+            return Convert.ToDateTime(dateTime, CultureInfo.InvariantCulture);
+        }
+
+        /// <summary>
+        /// Sets the LastUpdateCheckDate value in the registry.
+        /// </summary>
+        /// <param name="dateTime">The new value.</param>
+        private static void SetLastUpdateCheckDate(DateTime dateTime)
+        {
+            SetRegistry("LastUpdateCheckDate", dateTime.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture), RegistryValueKind.String);
+        }
+
+        /// <summary>
+        /// Gets the DaysBetweenUpdateChecks value from the registry.
+        /// </summary>
+        /// <returns>The value.</returns>
+        private static int GetDaysBetweenUpdateChecks()
+        {
+            var value = RetrieveFromRegistry("DaysBetweenUpdateChecks");
+            if (value == null)
+            {
+                SetDaysBetweenUpdateChecks(DefaultDaysBetweenUpdateChecks);
+                return DefaultDaysBetweenUpdateChecks;
+            }
+
+            return Convert.ToInt32(value, CultureInfo.InvariantCulture);
+        }
+
+        /// <summary>
+        /// Sets the DaysBetweenUpdateChecks value in the registry.
+        /// </summary>
+        /// <param name="days">The new value.</param>
+        private static void SetDaysBetweenUpdateChecks(int days)
+        {
+            SetRegistry("DaysBetweenUpdateChecks", days, RegistryValueKind.DWord);
+        }
+
+        /// <summary>
+        /// Gets the AlwaysCheckForUpdatesWhenVisualStudioStarts value from the registry.
+        /// </summary>
+        /// <returns>The value.</returns>
+        private static bool GetAlwaysCheckForUpdatesWhenVisualStudioStarts()
+        {
+            var a = RetrieveFromRegistry("AlwaysCheckForUpdatesWhenVisualStudioStarts");
+
+            if (a == null)
+            {
+                SetAlwaysCheckForUpdatesWhenVisualStudioStarts(DefaultAlwaysCheckForUpdatesWhenVisualStudioStarts);
+                return DefaultAlwaysCheckForUpdatesWhenVisualStudioStarts;
+            }
+
+            return Convert.ToBoolean(a, CultureInfo.InvariantCulture);
+        }
+
+        /// <summary>
+        /// Sets the AlwaysCheckForUpdatesWhenVisualStudioStarts value in the registry.
+        /// </summary>
+        /// <param name="value">The new value.</param>
+        private static void SetAlwaysCheckForUpdatesWhenVisualStudioStarts(bool value)
+        {
+            SetRegistry("AlwaysCheckForUpdatesWhenVisualStudioStarts", value, RegistryValueKind.DWord);
+        }
 
         /// <summary>
         /// Adds the menu items for this package.

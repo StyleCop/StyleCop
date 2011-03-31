@@ -21,6 +21,7 @@
         <!-- Autoload the first time a solution is loaded -->
         <RegistryKey Action='create' Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\AutoLoadPackages\{f1536ef8-92ec-443c-9ed7-fdadf150da82}' Id='AutoLoadPackages_$(var.VsVersion)_001' />
         <RegistryValue Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\AutoLoadPackages\{f1536ef8-92ec-443c-9ed7-fdadf150da82}' Type='integer' Name='{629EB7CC-69C2-43AC-9BC9-482B0F810C4E}' Value='0' Id='AutoLoadPackages_$(var.VsVersion)_002' />
+        <RegistryValue Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\AutoLoadPackages\{ADFC4E64-0397-11D1-9F4E-00A0C911004F}' Type='integer' Name='{629EB7CC-69C2-43AC-9BC9-482B0F810C4E}' Value='0' Id='AutoLoadPackages_$(var.VsVersion)_003' />
 
         <!-- Package -->
         <RegistryKey Action='createAndRemoveOnUninstall' Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\Packages\{629EB7CC-69C2-43AC-9BC9-482B0F810C4E}' Id='Package_$(var.VsVersion)' />
