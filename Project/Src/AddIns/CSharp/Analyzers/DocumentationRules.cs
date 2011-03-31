@@ -2440,6 +2440,7 @@ namespace StyleCop.CSharp
                     }
 
                     firstTypeName = element.FullyQualifiedName.SubstringAfterLast('.');
+                    break;
                 }
             }
 

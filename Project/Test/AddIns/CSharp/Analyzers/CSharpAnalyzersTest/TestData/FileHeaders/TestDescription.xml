@@ -242,8 +242,9 @@
 
 <!-- Tests that violations are thrown if the filename is incorrect. -->
   <Test Name="FileHeadersValidFileName">
-    <TestCodeFile>FileHeadersValidFilename.cs</TestCodeFile>-->    
-    <Settings>
+    <TestCodeFile>FileHeadersValidFilename.cs</TestCodeFile>
+    <TestCodeFile>IFileHeadersValidMultipleTypes.cs</TestCodeFile>
+      <Settings>
       <GlobalSettings>
         <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
