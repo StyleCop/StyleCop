@@ -250,6 +250,7 @@
       <Violation Section="Root.invalidNaming1.CheckEvents.event9" LineNumber="194" Rule="ElementMustBeginWithUpperCaseLetter" />
       <Violation Section="Root.invalidNaming1.CheckEvents.Event11" LineNumber="195" Rule="ElementMustBeginWithUpperCaseLetter" />
       <Violation Section="Root.invalidNaming1.CheckEvents.Event14" LineNumber="196" Rule="ElementMustBeginWithUpperCaseLetter" />
+      <Violation Section="Root.invalidNaming1.InvalidIndexerParameterNaming.this%char.get" LineNumber="206" Rule="FieldNamesMustBeginWithLowerCaseLetter" />
     </ExpectedViolations>
   </Test>
 </StyleCopTestDescription>

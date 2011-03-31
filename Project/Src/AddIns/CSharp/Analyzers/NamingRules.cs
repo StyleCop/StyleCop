@@ -433,11 +433,20 @@ namespace StyleCop.CSharp
                 nativeMethods = true;
             }
 
+            bool doneAccessor = false;
             foreach (CsElement child in element.ChildElements)
             {
-                if (!this.ProcessElement(child, validPrefixes, nativeMethods))
+                if ((element.ElementType == ElementType.Indexer && !doneAccessor) || element.ElementType != ElementType.Indexer)
                 {
-                    return false;
+                    if (child.ElementType == ElementType.Accessor)
+                    {
+                        doneAccessor = true;
+                    }
+
+                    if (!this.ProcessElement(child, validPrefixes, nativeMethods))
+                    {
+                        return false;
+                    }
                 }
             }
 

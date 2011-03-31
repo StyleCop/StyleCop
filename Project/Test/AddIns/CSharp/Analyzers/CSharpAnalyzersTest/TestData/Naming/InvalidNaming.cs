@@ -195,4 +195,24 @@ namespace invalidNaming1
         public event EventHandler Event11, Event12, event13;
         public event EventHandler Event14 = null, event15 = null;
     }
+
+    public class InvalidIndexerParameterNaming
+    {
+        /// <summary>
+        /// Test comment 1
+        /// </summary>
+        /// <param name="Index">Parameter 1</param>
+        /// <returns>Return value 1</returns>
+        public char this[char Index]
+        {
+            get
+            {
+                return ' ';
+            }
+
+            set
+            {
+            }
+        }
+    }
 }
