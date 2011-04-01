@@ -247,6 +247,10 @@
 	<param name="Local" value="SA1124.html">
 	</OBJECT>
 <LI> <OBJECT type="text/sitemap">
+	<param name="Name" value="SA1125: UseShorthandForNullableTypes">
+	<param name="Local" value="SA1125.html">
+	</OBJECT>
+<LI> <OBJECT type="text/sitemap">
 	<param name="Name" value="SA1200: UsingDirectivesMustBePlacedWithinNamespace">
 	<param name="Local" value="SA1200.html">
 	</OBJECT>
@@ -265,6 +269,10 @@
 <LI> <OBJECT type="text/sitemap">
 	<param name="Name" value="SA1204: StaticElementsMustAppearBeforeInstanceElements">
 	<param name="Local" value="SA1204.html">
+	</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+	<param name="Name" value="SA1205: PartialElementsMustDeclareAccess">
+	<param name="Local" value="SA1205.html">
 	</OBJECT>
 <LI> <OBJECT type="text/sitemap">
 	<param name="Name" value="SA1206: DeclarationKeywordsMustFollowOrder">
@@ -387,6 +395,10 @@
 	<param name="Local" value="SA1410.html">
 	</OBJECT>
 <LI> <OBJECT type="text/sitemap">
+	<param name="Name" value="SA1411: AttributeConstructorMustNotUseUnnecessaryParenthesis">
+	<param name="Local" value="SA1411.html">
+	</OBJECT>
+<LI> <OBJECT type="text/sitemap">
 	<param name="Name" value="SA1500: CurlyBracketsForMultiLineStatementsMustNotShareLine">
 	<param name="Local" value="SA1500.html">
 	</OBJECT>
@@ -453,6 +465,14 @@
 <LI> <OBJECT type="text/sitemap">
 	<param name="Name" value="SA1516: ElementsMustBeSeparatedByBlankLine">
 	<param name="Local" value="SA1516.html">
+	</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+	<param name="Name" value="SA1517: CodeMustNotContainBlankLinesAtStartOfFile">
+	<param name="Local" value="SA1517.html">
+	</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+	<param name="Name" value="SA1518: CodeMustNotContainBlankLinesAtEndOfFile">
+	<param name="Local" value="SA1518.html">
 	</OBJECT>
 <LI> <OBJECT type="text/sitemap">
 	<param name="Name" value="SA1600: ElementsMustBeDocumented">
@@ -645,6 +665,14 @@
 <LI> <OBJECT type="text/sitemap">
 	<param name="Name" value="SA1647: IncludeNodeDoesNotContainValidFileAndPath">
 	<param name="Local" value="SA1647.html">
+	</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+	<param name="Name" value="SA1648: InheritDocMustBeUsedWithInheritingClass">
+	<param name="Local" value="SA1648.html">
+	</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+	<param name="Name" value="SA1649: FileHeaderFileNameDocumentationMustMatchTypeName">
+	<param name="Local" value="SA1649.html">
 	</OBJECT>
 <LI> <OBJECT type="text/sitemap">
 	<param name="Name" value="Spacing Rules">
