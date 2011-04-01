@@ -260,13 +260,22 @@ namespace StyleCop.CSharp
         /// <returns>Returns true is the rule is suppressed; otherwise false.</returns>
         public override bool IsRuleSuppressed(ICodeElement element, string ruleCheckId, string ruleName, string ruleNamespace)
         {
-            if (((element != null) && !string.IsNullOrEmpty(ruleCheckId)) && (!string.IsNullOrEmpty(ruleName) && !string.IsNullOrEmpty(ruleNamespace)))
+            if (element != null && !string.IsNullOrEmpty(ruleCheckId) && ruleName != string.Empty && !string.IsNullOrEmpty(ruleNamespace))
             {
                 SuppressedRule suppressedRule = new SuppressedRule { RuleId = ruleCheckId, RuleName = ruleName, RuleNamespace = ruleNamespace };
 
                 this.suppressionsLock.AcquireReaderLock(Timeout.Infinite);
                 try
                 {
+                    if (ruleCheckId != "*")
+                    {
+                        // See if this namespace is suppressed completely.
+                        if (this.IsRuleSuppressed(element, "*", null, ruleNamespace))
+                        {
+                            return true;
+                        }
+                    }
+
                     List<CsElement> list = null;
                     if ((this.suppressions.Count != 0) && this.suppressions.TryGetValue(suppressedRule, out list))
                     {
