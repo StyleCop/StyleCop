@@ -100,6 +100,8 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Settings\IPropertyControlHost.cs" />
+    <Compile Include="Settings\PropertyControlSaveResult.cs" />
     <Compile Include="Settings\v105Settings.cs" />
     <Compile Include="StyleCopRunner.cs" />
     <Compile Include="StyleCopObjectConsole.cs" />

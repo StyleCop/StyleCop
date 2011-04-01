@@ -19,49 +19,7 @@ namespace StyleCop
     using System.Drawing;
     using System.Globalization;
     using System.Windows.Forms;
-
-    /// <summary>
-    /// The possible results of saving the settings.
-    /// </summary>
-    internal enum PropertyControlSaveResult
-    {
-        /// <summary>
-        /// The save succeeded.
-        /// </summary>
-        Success,
-
-        /// <summary>
-        /// One of the pages aborted the save operation.
-        /// </summary>
-        PageAbort,
-
-        /// <summary>
-        /// An error occurred while saving the file.
-        /// </summary>
-        SaveError
-    }
-
-    /// <summary>
-    /// Interface which must be implemented by a host of the <see cref="PropertyControl"/>.
-    /// </summary>
-    internal interface IPropertyControlHost
-    {
-        #region Methods
-
-        /// <summary>
-        /// Called when the combined dirty status of the pages changes.
-        /// </summary>
-        /// <param name="isDirty">True if any of the pages are dirty, false if not.</param>
-        void Dirty(bool isDirty);
-
-        /// <summary>
-        /// Called to cancel the host.
-        /// </summary>
-        void Cancel();
-
-        #endregion Methods
-    }
-
+    
     /// <summary>
     /// Hosts property pages.
     /// </summary>
