@@ -15,6 +15,7 @@
 //   Class to hold all of the Configurable options for this addin.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 extern alias JB;
 
 namespace StyleCop.ReSharper.Options
@@ -27,6 +28,8 @@ namespace StyleCop.ReSharper.Options
     using JetBrains.Application;
     using JetBrains.ComponentModel;
 
+    using Microsoft.Win32;
+
     using StyleCop.ReSharper.Core;
 
     #endregion
@@ -38,15 +41,36 @@ namespace StyleCop.ReSharper.Options
     [ShellComponentImplementation]
     public class StyleCopOptions : IXmlExternalizableShellComponent
     {
-        /// <summary>
-        /// The value of the detected path for StyleCop.
-        /// </summary>
-        private string styleCopDetectedPath;
+        #region Constants and Fields
+
+        private bool alwaysCheckForUpdatesWhenVisualStudioStarts;
 
         /// <summary>
         /// Set to true when we've attempted to get the StyleCop path.
         /// </summary>
         private bool attemptedToGetStyleCopPath;
+
+        /// <summary>
+        /// Tracks whether we should check for updates.
+        /// </summary>
+        private bool automaticallyCheckForUpdates;
+
+        /// <summary>
+        /// The number of days between update checks.
+        /// </summary>
+        private int daysBetweenUpdateChecks;
+
+        /// <summary>
+        /// The last date we checked for an update.
+        /// </summary>
+        private string lastUpdateCheckDate;
+
+        /// <summary>
+        /// The value of the detected path for StyleCop.
+        /// </summary>
+        private string styleCopDetectedPath;
+
+        #endregion
 
         #region Constructors and Destructors
 
@@ -70,7 +94,7 @@ namespace StyleCop.ReSharper.Options
         }
 
         #endregion
-        
+
         #region Properties
 
         /// <summary>
@@ -91,13 +115,38 @@ namespace StyleCop.ReSharper.Options
         /// Gets or sets a value indicating whether AlwaysCheckForUpdatesWhenVisualStudioStarts.
         /// </summary>
         [JB::JetBrains.Util.XmlExternalizableAttribute(true)]
-        public bool AlwaysCheckForUpdatesWhenVisualStudioStarts { get; set; }
+        public bool AlwaysCheckForUpdatesWhenVisualStudioStarts
+        {
+            get
+            {
+                return this.alwaysCheckForUpdatesWhenVisualStudioStarts;
+            }
+
+            set
+            {
+                this.alwaysCheckForUpdatesWhenVisualStudioStarts = value;
+
+                SetRegistry("AlwaysCheckForUpdatesWhenVisualStudioStarts", value, RegistryValueKind.DWord);
+            }
+        }
 
         /// <summary>
         /// Gets or sets a value indicating whether we check for updates when plugin starts.
         /// </summary>
         [JB::JetBrains.Util.XmlExternalizableAttribute(true)]
-        public bool AutomaticallyCheckForUpdates { get; set; }
+        public bool AutomaticallyCheckForUpdates
+        {
+            get
+            {
+                return this.automaticallyCheckForUpdates;
+            }
+
+            set
+            {
+                this.automaticallyCheckForUpdates = value;
+                SetRegistry("AutomaticallyCheckForUpdates", value, RegistryValueKind.DWord);
+            }
+        }
 
         /// <summary>
         /// Gets or sets DashesCountInFileHeader.
@@ -109,7 +158,19 @@ namespace StyleCop.ReSharper.Options
         /// Gets or sets DaysBetweenUpdateChecks.
         /// </summary>
         [JB::JetBrains.Util.XmlExternalizableAttribute(2)]
-        public int DaysBetweenUpdateChecks { get; set; }
+        public int DaysBetweenUpdateChecks
+        {
+            get
+            {
+                return this.daysBetweenUpdateChecks;
+            }
+
+            set
+            {
+                this.daysBetweenUpdateChecks = value;
+                SetRegistry("DaysBetweenUpdateChecks", value, RegistryValueKind.DWord);
+            }
+        }
 
         /// <summary>
         /// Gets or sets a value indicating whether descriptive text should be inserted into missing documentation headers.
@@ -121,7 +182,19 @@ namespace StyleCop.ReSharper.Options
         /// Gets or sets the last update check date.
         /// </summary>
         [JB::JetBrains.Util.XmlExternalizableAttribute("1900-01-01")]
-        public string LastUpdateCheckDate { get; set; }
+        public string LastUpdateCheckDate
+        {
+            get
+            {
+                return this.lastUpdateCheckDate;
+            }
+
+            set
+            {
+                this.lastUpdateCheckDate = value;
+                SetRegistry("LastUpdateCheckDate", value, RegistryValueKind.String);
+            }
+        }
 
         /// <summary>
         /// Gets or sets the ParsingPerformance value.
@@ -297,6 +370,33 @@ namespace StyleCop.ReSharper.Options
         }
 
         #endregion
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Sets a regkey value in the registry.
+        /// </summary>
+        /// <param name="key">
+        /// The subkey to create.
+        /// </param>
+        /// <param name="value">
+        /// The value to use.
+        /// </param>
+        /// <param name="valueKind">
+        /// The type of regkey value to set.
+        /// </param>
+        private static void SetRegistry(string key, object value, RegistryValueKind valueKind)
+        {
+            const string SubKey = @"SOFTWARE\CodePlex\StyleCop";
+
+            var registryKey = Registry.LocalMachine.CreateSubKey(SubKey);
+            if (registryKey != null)
+            {
+                registryKey.SetValue(key, value, valueKind);
+            }
+        }
 
         #endregion
     }

@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="V103Settings.cs" company="Microsoft">
+// <copyright file="V103Settings.cs" company="">
 //   MS-PL
 // </copyright>
 // <license>
