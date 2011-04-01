@@ -74,6 +74,7 @@
     </Compile>
     <Compile Include="CachedCodeStrings.cs" />
     <Compile Include="DocumentationRules.cs" />
+    <Compile Include="InvalidCommentType.cs" />
     <Compile Include="LayoutRules.cs" />
     <Compile Include="MaintainabilityRules.cs" />
     <Compile Include="NamingRules.cs" />

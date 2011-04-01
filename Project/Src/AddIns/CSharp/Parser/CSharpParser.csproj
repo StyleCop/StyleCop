@@ -149,6 +149,8 @@
     <Compile Include="QueryClauses\QueryJoinClause.cs" />
     <Compile Include="QueryClauses\QueryLetClause.cs" />
     <Compile Include="QueryClauses\QueryOrderByClause.cs" />
+    <Compile Include="QueryClauses\QueryOrderByDirection.cs" />
+    <Compile Include="QueryClauses\QueryOrderByOrdering.cs" />
     <Compile Include="QueryClauses\QuerySelectClause.cs" />
     <Compile Include="QueryClauses\QueryWhereClause.cs" />
     <Compile Include="CodeUnitCollection{T}.cs" />
