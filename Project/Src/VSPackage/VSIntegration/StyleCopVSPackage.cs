@@ -15,11 +15,15 @@
 namespace StyleCop.VisualStudio
 {
     using System;
+    using System.ComponentModel.Design;
     using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.Runtime.InteropServices;
     using System.Windows.Forms;
 
+    using EnvDTE;
+
+    using Microsoft.VisualStudio;
     using Microsoft.VisualStudio.Shell;
     using Microsoft.VisualStudio.Shell.Interop;
     using Microsoft.Win32;
@@ -38,7 +42,7 @@ namespace StyleCop.VisualStudio
     [ProvideMenuResource(1000, 1)]
     [Guid(GuidList.StyleCopPackageIdString)]
     [SuppressMessage("Microsoft.Maintainability", "CA1506:AvoidExcessiveClassCoupling", Justification = "The class is complex.")]
-    public sealed class StyleCopVSPackage : Package, IDisposable
+    public sealed class StyleCopVSPackage : Package, IDisposable, IVsShellPropertyEvents
     {
         /// <summary>
         /// Default of 2 days between update checks.
@@ -71,6 +75,8 @@ namespace StyleCop.VisualStudio
         /// Handles the menu commands at the Package level.
         /// </summary>
         private PackageCommandSet commandSet;
+
+        private uint cookie;
         
         #endregion Private Fields
 
@@ -220,36 +226,68 @@ namespace StyleCop.VisualStudio
                     SetLastUpdateCheckDate(DateTime.UtcNow);
                 }
             }
-
+            
             base.Initialize();
+            
+            // Set an eventlistener for shell property changes
+            // We do this to wait for VS to leave its zombie state
+            IVsShell shellService = GetService(typeof(SVsShell)) as IVsShell;
 
-            if (!this.SetupMode)
+            if (shellService != null)
             {
-                System.ComponentModel.Design.IServiceContainer sc = (System.ComponentModel.Design.IServiceContainer)this;
-                sc.AddService(typeof(IVsPackage), this, false);
-
-                // Ensure that the IDE enviroment is available.
-                EnvDTE.DTE dte = (EnvDTE.DTE)this.GetService(typeof(EnvDTE.DTE));
-                if (dte == null)
-                {
-                    throw new InvalidOperationException(Strings.CouldNotGetVSEnvironment);
-                }
-
-                ProjectUtilities.Initialize(this);
-
-                this.Core.Initialize(null, true);
-
-                this.Helper.Initialize();
-
-                // Ensuring that the form is created on the UI thread.
-                if (InvisibleForm.Instance == null)
-                {
-                    throw new InvalidOperationException(Strings.NoInvisbileForm);
-                }
-
-                // Set up the menu items.
-                this.AddMenuItems();
+                ErrorHandler.ThrowOnFailure(shellService.AdviseShellPropertyChanges(this, out cookie));
             }
+        }
+
+        /// <summary>
+        /// Called when VS properties change. We use this to wait for VS to finish its setup and leave its 'zombie' state
+        /// </summary>
+        /// <param name="propid">The property id that has changed.</param>
+        /// <param name="var">The new value of the property.</param>
+        /// <returns>S_OK is successful</returns>
+        public int OnShellPropertyChange(int propid, object var)
+        {
+            // When the Visual Studio zombie state is false we can finish our init
+            if (propid == (int)__VSSPROPID.VSSPROPID_Zombie && (bool)var == false)
+            {
+                if (!this.SetupMode)
+                {
+                    IServiceContainer sc = this;
+                    sc.AddService(typeof(IVsPackage), this, false);
+
+                    // Ensure that the IDE enviroment is available.
+                    EnvDTE.DTE dte = (EnvDTE.DTE)this.GetService(typeof(EnvDTE.DTE));
+                    if (dte == null)
+                    {
+                        throw new InvalidOperationException(Strings.CouldNotGetVSEnvironment);
+                    }
+
+                    ProjectUtilities.Initialize(this);
+                    this.Core.Initialize(null, true);
+                    this.Helper.Initialize();
+
+                    // Ensuring that the form is created on the UI thread.
+                    if (InvisibleForm.Instance == null)
+                    {
+                        throw new InvalidOperationException(Strings.NoInvisbileForm);
+                    }
+
+                    // Set up the menu items.
+                    this.AddMenuItems();
+                }
+
+                // Our VS Shell EventListener is no longer needed
+                IVsShell shellService = this.GetService(typeof(SVsShell)) as IVsShell;
+
+                if (shellService != null)
+                {
+                    ErrorHandler.ThrowOnFailure(shellService.UnadviseShellPropertyChanges(this.cookie));
+                }
+
+                this.cookie = 0;
+            }
+
+            return VSConstants.S_OK;
         }
 
         /// <summary>
