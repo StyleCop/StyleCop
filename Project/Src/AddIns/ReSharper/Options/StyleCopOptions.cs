@@ -61,11 +61,6 @@ namespace StyleCop.ReSharper.Options
         private int daysBetweenUpdateChecks;
 
         /// <summary>
-        /// The last date we checked for an update.
-        /// </summary>
-        private string lastUpdateCheckDate;
-
-        /// <summary>
         /// The value of the detected path for StyleCop.
         /// </summary>
         private string styleCopDetectedPath;
@@ -182,19 +177,7 @@ namespace StyleCop.ReSharper.Options
         /// Gets or sets the last update check date.
         /// </summary>
         [JB::JetBrains.Util.XmlExternalizableAttribute("1900-01-01")]
-        public string LastUpdateCheckDate
-        {
-            get
-            {
-                return this.lastUpdateCheckDate;
-            }
-
-            set
-            {
-                this.lastUpdateCheckDate = value;
-                SetRegistry("LastUpdateCheckDate", value, RegistryValueKind.String);
-            }
-        }
+        public string LastUpdateCheckDate { get; set; }
 
         /// <summary>
         /// Gets or sets the ParsingPerformance value.
@@ -391,7 +374,7 @@ namespace StyleCop.ReSharper.Options
         {
             const string SubKey = @"SOFTWARE\CodePlex\StyleCop";
 
-            var registryKey = Registry.LocalMachine.CreateSubKey(SubKey);
+            var registryKey = Registry.CurrentUser.CreateSubKey(SubKey);
             if (registryKey != null)
             {
                 registryKey.SetValue(key, value, valueKind);

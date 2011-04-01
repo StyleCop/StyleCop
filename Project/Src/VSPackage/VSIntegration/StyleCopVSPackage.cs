@@ -18,6 +18,7 @@ namespace StyleCop.VisualStudio
     using System.ComponentModel.Design;
     using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
+    using System.IO;
     using System.Runtime.InteropServices;
 
     using Microsoft.VisualStudio;
@@ -210,28 +211,28 @@ namespace StyleCop.VisualStudio
                 {
                     IServiceContainer sc = this;
                     sc.AddService(typeof(IVsPackage), this, false);
-
+                    
                     // Ensure that the IDE enviroment is available.
                     EnvDTE.DTE dte = (EnvDTE.DTE)this.GetService(typeof(EnvDTE.DTE));
                     if (dte == null)
                     {
                         throw new InvalidOperationException(Strings.CouldNotGetVSEnvironment);
                     }
-
+                    
                     ProjectUtilities.Initialize(this);
                     this.Core.Initialize(null, true);
                     this.Helper.Initialize();
-
+                    
                     // Ensuring that the form is created on the UI thread.
                     if (InvisibleForm.Instance == null)
                     {
                         throw new InvalidOperationException(Strings.NoInvisbileForm);
                     }
-
+                    
                     // Set up the menu items.
                     this.AddMenuItems();
                 }
-
+                
                 // Our VS Shell EventListener is no longer needed
                 IVsShell shellService = this.GetService(typeof(SVsShell)) as IVsShell;
 
@@ -239,10 +240,10 @@ namespace StyleCop.VisualStudio
                 {
                     ErrorHandler.ThrowOnFailure(shellService.UnadviseShellPropertyChanges(this.cookie));
                 }
-
+                
                 this.cookie = 0;
             }
-
+            
             return VSConstants.S_OK;
         }
 
@@ -273,7 +274,6 @@ namespace StyleCop.VisualStudio
                 if (alwaysCheckForUpdatesWhenVisualStudioStarts || DateTime.UtcNow > lastUpdateCheckDate.AddDays(daysBetweenUpdateChecks))
                 {
                     new StyleCop.AutoUpdater().CheckForUpdate();
-
                     SetLastUpdateCheckDate(DateTime.UtcNow);
                 }
             }
@@ -328,7 +328,7 @@ namespace StyleCop.VisualStudio
         {
             const string SubKey = @"SOFTWARE\CodePlex\StyleCop";
 
-            RegistryKey registryKey = Registry.LocalMachine.OpenSubKey(SubKey);
+            RegistryKey registryKey = Registry.CurrentUser.OpenSubKey(SubKey);
             return registryKey == null ? null : registryKey.GetValue(key);
         }
 
@@ -342,7 +342,7 @@ namespace StyleCop.VisualStudio
         {
             const string SubKey = @"SOFTWARE\CodePlex\StyleCop";
 
-            RegistryKey registryKey = Registry.LocalMachine.CreateSubKey(SubKey);
+            RegistryKey registryKey = Registry.CurrentUser.CreateSubKey(SubKey);
             if (registryKey != null)
             {
                 registryKey.SetValue(key, value, valueKind);
