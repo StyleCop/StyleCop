@@ -19,9 +19,6 @@ namespace StyleCop.VisualStudio
     using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.Runtime.InteropServices;
-    using System.Windows.Forms;
-
-    using EnvDTE;
 
     using Microsoft.VisualStudio;
     using Microsoft.VisualStudio.Shell;
@@ -76,6 +73,9 @@ namespace StyleCop.VisualStudio
         /// </summary>
         private PackageCommandSet commandSet;
 
+        /// <summary>
+        /// Used to track whether VS has left its zombie state.
+        /// </summary>
         private uint cookie;
         
         #endregion Private Fields
@@ -195,50 +195,6 @@ namespace StyleCop.VisualStudio
             }
         }
 
-        #endregion Public Methods
-
-        #region Internal Methods
-
-        #endregion Internal Methods
-
-        #region Protected Override Methods
-       
-        /// <summary>
-        /// Initializes the package.
-        /// </summary>
-        /// <remarks>This method is called right after the package is sited, so this is the place to initialize
-        /// code that relies on services provided by Visual Studio.</remarks>
-        protected override void Initialize()
-        {
-            bool automaticallyCheckForUpdates = GetAutomaticallyCheckForUpdates();
-
-            if (automaticallyCheckForUpdates)
-            {
-                DateTime lastUpdateCheckDate = GetLastUpdateCheckDate();
-                int daysBetweenUpdateChecks = GetDaysBetweenUpdateChecks();
-
-                bool alwaysCheckForUpdatesWhenVisualStudioStarts = GetAlwaysCheckForUpdatesWhenVisualStudioStarts();
-
-                if (alwaysCheckForUpdatesWhenVisualStudioStarts || DateTime.UtcNow > lastUpdateCheckDate.AddDays(daysBetweenUpdateChecks))
-                {
-                    new StyleCop.AutoUpdater().CheckForUpdate();
-
-                    SetLastUpdateCheckDate(DateTime.UtcNow);
-                }
-            }
-            
-            base.Initialize();
-            
-            // Set an eventlistener for shell property changes
-            // We do this to wait for VS to leave its zombie state
-            IVsShell shellService = GetService(typeof(SVsShell)) as IVsShell;
-
-            if (shellService != null)
-            {
-                ErrorHandler.ThrowOnFailure(shellService.AdviseShellPropertyChanges(this, out cookie));
-            }
-        }
-
         /// <summary>
         /// Called when VS properties change. We use this to wait for VS to finish its setup and leave its 'zombie' state
         /// </summary>
@@ -290,6 +246,50 @@ namespace StyleCop.VisualStudio
             return VSConstants.S_OK;
         }
 
+        #endregion Public Methods
+
+        #region Internal Methods
+
+        #endregion Internal Methods
+
+        #region Protected Override Methods
+       
+        /// <summary>
+        /// Initializes the package.
+        /// </summary>
+        /// <remarks>This method is called right after the package is sited, so this is the place to initialize
+        /// code that relies on services provided by Visual Studio.</remarks>
+        protected override void Initialize()
+        {
+            bool automaticallyCheckForUpdates = GetAutomaticallyCheckForUpdates();
+
+            if (automaticallyCheckForUpdates)
+            {
+                DateTime lastUpdateCheckDate = GetLastUpdateCheckDate();
+                int daysBetweenUpdateChecks = GetDaysBetweenUpdateChecks();
+
+                bool alwaysCheckForUpdatesWhenVisualStudioStarts = GetAlwaysCheckForUpdatesWhenVisualStudioStarts();
+
+                if (alwaysCheckForUpdatesWhenVisualStudioStarts || DateTime.UtcNow > lastUpdateCheckDate.AddDays(daysBetweenUpdateChecks))
+                {
+                    new StyleCop.AutoUpdater().CheckForUpdate();
+
+                    SetLastUpdateCheckDate(DateTime.UtcNow);
+                }
+            }
+            
+            base.Initialize();
+            
+            // Set an eventlistener for shell property changes
+            // We do this to wait for VS to leave its zombie state
+            IVsShell shellService = GetService(typeof(SVsShell)) as IVsShell;
+
+            if (shellService != null)
+            {
+                ErrorHandler.ThrowOnFailure(shellService.AdviseShellPropertyChanges(this, out this.cookie));
+            }
+        }
+        
         /// <summary>
         /// Disposes the contents of the class.
         /// </summary>
