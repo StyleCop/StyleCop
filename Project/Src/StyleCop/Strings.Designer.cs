@@ -106,6 +106,32 @@ namespace StyleCop {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to StyleCop {0} is now available.
+        ///StyleCop {1} is currently installed.
+        ///
+        ///Please consider downloading the latest version..
+        /// </summary>
+        internal static string AutoUpdateInformation {
+            get {
+                return ResourceManager.GetString("AutoUpdateInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to StyleCop {0} is now available.
+        ///StyleCop {1} is currently installed.
+        ///
+        ///Once downloaded and installed you&apos;ll need to restart Visual Studio.
+        ///
+        ///Do you wish to download the latest version?.
+        /// </summary>
+        internal static string AutoUpdateQuestion {
+            get {
+                return ResourceManager.GetString("AutoUpdateQuestion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Both nodes must be null, or both nodes must be non-null..
         /// </summary>
         internal static string BothItemsMustBeNullOrNonNull {
