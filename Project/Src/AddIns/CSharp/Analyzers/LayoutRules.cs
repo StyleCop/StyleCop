@@ -412,8 +412,8 @@ namespace StyleCop.CSharp
                         // An indexer on an abstract class is also ok.
                         if (parentElement != null)
                         {
-                            if ((parentElement.ElementType == ElementType.Interface ||
-                                (parentElement.ElementType == ElementType.Class && parentElement.Declaration.ContainsModifier(CsTokenType.Abstract))))
+                            if (parentElement.ElementType == ElementType.Interface ||
+                                (parentElement.ElementType == ElementType.Class && parentElement.Declaration.ContainsModifier(CsTokenType.Abstract)))
                             {
                                 allowOnOneLine = true;
                             }
