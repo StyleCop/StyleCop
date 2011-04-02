@@ -409,9 +409,14 @@ namespace StyleCop.CSharp
                         var parentElement = element.FindParentElement();
                         
                         // If its an indexer on an interface then it can be on one line.
-                        if (parentElement != null && parentElement.ElementType == ElementType.Interface)
+                        // An indexer on an abstract class is also ok.
+                        if (parentElement != null)
                         {
-                            allowOnOneLine = true;
+                            if ((parentElement.ElementType == ElementType.Interface ||
+                                (parentElement.ElementType == ElementType.Class && parentElement.Declaration.ContainsModifier(CsTokenType.Abstract))))
+                            {
+                                allowOnOneLine = true;
+                            }
                         }
                     }
 
@@ -764,7 +769,7 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Checks an accessor and its siblings. If the access is all on one line, its siblings
+        /// Checks an accessor and its siblings. If the accessor is all on one line, its siblings
         /// must also be all on one line.
         /// </summary>
         /// <param name="accessor">The accessor to check.</param>
