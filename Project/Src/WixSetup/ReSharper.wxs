@@ -35,6 +35,7 @@
     <ComponentGroup Id="ReSharper_Common" >
       <ComponentRef Id="StyleCopReSharperBinariesVS90" />
       <ComponentRef Id="StyleCopReSharperBinariesVS100" />
+      <ComponentRef Id="StandardRegistryKeys" />
     </ComponentGroup>
 
   </Fragment>

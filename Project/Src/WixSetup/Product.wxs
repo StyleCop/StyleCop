@@ -22,7 +22,7 @@
              Title='Visual Studio integration'
              Description="Files for setting up StyleCop integration with Microsoft Visual Studio 2008 and Microsoft Visual Studio 2010."
              Level="1" Display='expand' ConfigurableDirectory='INSTALLDIR' AllowAdvertise='no' InstallDefault='local' Absent='allow'>
-      <ComponentGroupRef Id="StyleCopCommon" />
+      <ComponentGroupRef Id="VisualStudio_Common" />
       <!-- Require VS 2008 or VS 2010 to be installed -->
       <Condition Level="1"><![CDATA[VS90DEVENV<>"" OR VS2010DEVENV<>""]]></Condition>
       <Condition Level="0"><![CDATA[VS90DEVENV="" AND VS2010DEVENV=""]]></Condition>
@@ -43,7 +43,6 @@
              Description='Files for setting up StyleCop integration with Microsoft MSBuild.'
              Level='500' AllowAdvertise="no" Display="expand" InstallDefault="local" TypicalDefault="install" Absent="allow">
       <ComponentGroupRef Id="MSBuild_Common" />
-      <ComponentRef Id="SettingsEditorMSBuildComponent" />
     </Feature>
 
     <InstallUISequence>

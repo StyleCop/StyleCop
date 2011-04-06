@@ -9,7 +9,10 @@
         <Directory Id="INSTALLDIR" Name="$(var.ProductNameShort)" FileSource="$(var.DropDir)">
 
           <Component Id="VisualStudioPackageCommon" Guid="3c439240-494f-423d-bcc5-8247e4c21076">
-            <File Id='VsPackageDll' Name='StyleCop.VSPackage.dll' Checksum="yes" Vital='yes' />
+            <File Id='VsPackageDll' Name='StyleCop.VSPackage.dll' Checksum="yes" Vital='yes' />           
+          </Component>
+
+          <Component Id="StyleCopCommon" Guid="3CE3C34D-A18E-4032-A7AC-849F1E386A4E">
             <File Id='AnalysisEngineDll' Name='StyleCop.dll' Checksum="yes" Vital='yes' />
             <File Id='CSharpParser' Name='StyleCop.CSharp.dll' Checksum="yes" Vital='yes' />
             <File Id='CSharpAnalyzer' Name='StyleCop.CSharp.Rules.dll' Checksum="yes" Vital='yes' />
@@ -32,14 +35,15 @@
 
     </Directory>
 
-    <ComponentGroup Id="StyleCopCommon">
+    <ComponentGroup Id="VisualStudio_Common">
       <ComponentRef Id="VisualStudioPackageCommon" />
+      <ComponentRef Id="StyleCopCommon" />
       <ComponentRef Id="VisualStudioOrcasComponent" />
       <ComponentRef Id="VisualStudio2010Component" />
       <ComponentRef Id="SettingsEditorProgFilesComponent" />
       <ComponentRef Id="StyleCopDocs" />
       <ComponentRef Id="StandardRegistryKeys" />
-    </ComponentGroup>
+    </ComponentGroup>   
 
   </Fragment>
 </Wix>
