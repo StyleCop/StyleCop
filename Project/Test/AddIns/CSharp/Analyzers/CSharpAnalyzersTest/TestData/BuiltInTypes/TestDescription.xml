@@ -20,10 +20,23 @@
         </Analyzers>
     </Settings>
     <ExpectedViolations>
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.BuiltInTypes.ShorthandForNullableTypes.d2" LineNumber="12" Rule="UseShorthandForNullableTypes" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.BuiltInTypes.ShorthandForNullableTypes.i1" LineNumber="14" Rule="UseShorthandForNullableTypes" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.BuiltInTypes.ShorthandForNullableTypes.Method%Nullable`bool%bool?" LineNumber="21" Rule="UseShorthandForNullableTypes" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.BuiltInTypes.ShorthandForNullableTypes.Method%Nullable`bool%bool?" LineNumber="24" Rule="UseShorthandForNullableTypes" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.BuiltInTypes.ShorthandForNullableTypes.d2" LineNumber="9" Rule="UseShorthandForNullableTypes" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.BuiltInTypes.ShorthandForNullableTypes.dates" LineNumber="13" Rule="UseShorthandForNullableTypes" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.BuiltInTypes.ShorthandForNullableTypes.i1" LineNumber="17" Rule="UseShorthandForNullableTypes" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.BuiltInTypes.ShorthandForNullableTypes.nested2Levels" LineNumber="21" Rule="UseShorthandForNullableTypes" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.BuiltInTypes.ShorthandForNullableTypes.nested3Levels" LineNumber="25" Rule="UseShorthandForNullableTypes" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.BuiltInTypes.ShorthandForNullableTypes.rectangles" LineNumber="29" Rule="UseShorthandForNullableTypes" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.BuiltInTypes.ShorthandForNullableTypes.sizes" LineNumber="33" Rule="UseShorthandForNullableTypes" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.BuiltInTypes.ShorthandForNullableTypes.tuples" LineNumber="37" Rule="UseShorthandForNullableTypes" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.BuiltInTypes.ShorthandForNullableTypes.this%int" LineNumber="43" Rule="UseShorthandForNullableTypes" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.BuiltInTypes.ShorthandForNullableTypes.this%int%Nullable`long" LineNumber="59" Rule="UseShorthandForNullableTypes" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.BuiltInTypes.ShorthandForNullableTypes.Dates" LineNumber="75" Rule="UseShorthandForNullableTypes" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.BuiltInTypes.ShorthandForNullableTypes.ShorthandForNullableTypes%IEnumerable`Nullable`DateTime" LineNumber="91" Rule="UseShorthandForNullableTypes" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.BuiltInTypes.ShorthandForNullableTypes.ShorthandForNullableTypes%IEnumerable`Nullable`DateTime" LineNumber="93" Rule="UseShorthandForNullableTypes" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.BuiltInTypes.ShorthandForNullableTypes.Method%Nullable`bool%bool?" LineNumber="102" Rule="UseShorthandForNullableTypes" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.BuiltInTypes.ShorthandForNullableTypes.Method%Nullable`bool%bool?" LineNumber="105" Rule="UseShorthandForNullableTypes" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.BuiltInTypes.ShorthandForNullableTypes.Method3" LineNumber="114" Rule="UseShorthandForNullableTypes" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.BuiltInTypes.ShorthandForNullableTypes.Inner" LineNumber="124" Rule="UseShorthandForNullableTypes" />
     </ExpectedViolations>
   </Test>
   <Test Name="BuiltInTypes">

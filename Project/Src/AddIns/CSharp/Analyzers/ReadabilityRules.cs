@@ -19,6 +19,7 @@ namespace StyleCop.CSharp
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
+    using System.Linq;
     using System.Xml;
     using StyleCop;
     using StyleCop.CSharp;
@@ -219,26 +220,29 @@ namespace StyleCop.CSharp
 
             if (!parentElement.Generated)
             {
-                if (expression.ExpressionType == ExpressionType.Query)
+                switch (expression.ExpressionType)
                 {
-                    this.CheckQueryExpression(parentElement, (QueryExpression)expression);
-                }
-                else if (expression.ExpressionType == ExpressionType.MethodInvocation)
-                {
-                    this.CheckMethodInvocationParameters(parentElement, (MethodInvocationExpression)expression);
-                }
-                else if (expression.ExpressionType == ExpressionType.MemberAccess)
-                {
-                    this.CheckBuiltInTypeForMemberAccessExpressions(((MemberAccessExpression)expression).LeftHandSide.Tokens.First);
-                }
-                else if (expression.ExpressionType == ExpressionType.ArrayAccess)
-                {
-                    // Calling this[x] shows up as an ArrayAcessExpression.
-                    var a  = (ArrayAccessExpression)expression;
-                    if (a.Array.Text == "this")
-                    {
-                        this.CheckIndexerAccessParameters(parentElement, ((ArrayAccessExpression)expression));
-                    }
+                    case ExpressionType.Query:
+                        this.CheckQueryExpression(parentElement, (QueryExpression)expression);
+                        break;
+
+                    case ExpressionType.MethodInvocation:
+                        this.CheckMethodInvocationParameters(parentElement, (MethodInvocationExpression)expression);
+                        break;
+
+                    case ExpressionType.MemberAccess:
+                        this.CheckBuiltInTypeForMemberAccessExpressions(((MemberAccessExpression)expression).LeftHandSide.Tokens.First);
+                        break;
+
+                    case ExpressionType.ArrayAccess:
+                        // Calling this[x] shows up as an ArrayAccessExpression.
+                        var a  = (ArrayAccessExpression)expression;
+                        if (a.Array.Text == "this")
+                        {
+                            this.CheckIndexerAccessParameters(parentElement, ((ArrayAccessExpression)expression));
+                        }
+
+                        break;
                 }
             }
 
@@ -293,7 +297,7 @@ namespace StyleCop.CSharp
 
                     if (token.CsTokenClass == CsTokenClass.GenericType)
                     {
-                        this.CheckShorthandForNullableTypes(tokenNode);
+                        this.CheckShorthandForNullableTypes(tokenNode.Value);
                     }
                 }
                 else if (token.CsTokenType == CsTokenType.String)
@@ -316,19 +320,30 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Checks the generic type uses the shorthand declaration format.
         /// </summary>
-        /// <param name="type">The node to check.</param>
-        private void CheckShorthandForNullableTypes(Node<CsToken> type)
+        /// <param name="type">
+        /// The <see cref="CsToken"/> to check.
+        /// </param>
+        private void CheckShorthandForNullableTypes(CsToken type)
         {
             Param.AssertNotNull(type, "type");
 
-            Debug.Assert(type.Value.CsTokenClass == CsTokenClass.GenericType, "Expected a generic type.");
-            TypeToken typeToken = (TypeToken)type.Value;
+            Debug.Assert(type.CsTokenClass == CsTokenClass.GenericType, "Expected a generic type.");
+            var genericType = (GenericType)type;
 
-            if (typeToken.ChildTokens.Count > 0 && typeToken.ChildTokens.First.Value.Text.Equals("Nullable", StringComparison.Ordinal))
+            // Check the declaration of the generic type for longhand, but allow Nullable<> which has no shorthand
+            if (genericType.ChildTokens.Count > 0 && genericType.ChildTokens.First.Value.Text.Equals("Nullable", StringComparison.Ordinal))
             {
-                if (typeToken.Parent == null || !(typeToken.Parent is TypeofExpression))
+                if (genericType.Parent == null || !(genericType.Parent is TypeofExpression))
                 {
-                    this.AddViolation(typeToken.FindParentElement(), typeToken.LineNumber, Rules.UseShorthandForNullableTypes);
+                    this.AddViolation(genericType.FindParentElement(), genericType.LineNumber, Rules.UseShorthandForNullableTypes);
+                }
+            }
+            else
+            {
+                // Check the parameters of the generic type because the declaration may be nested
+                foreach (var genericTypeParameter in genericType.GenericTypesParameters.Where(token => token.Type.CsTokenClass == CsTokenClass.GenericType))
+                {
+                    this.CheckShorthandForNullableTypes(genericTypeParameter.Type);
                 }
             }
         }
