@@ -390,4 +390,18 @@
   <data name="StreamBasedCodeProjectRequired" xml:space="preserve">
     <value>Stream-based runtime environments must use the StreamBasedCodeProject class rather than CodeProject.</value>
   </data>
+  <data name="AutoUpdateInformation" xml:space="preserve">
+    <value>StyleCop {0} is now available.
+StyleCop {1} is currently installed.
+
+Please consider downloading the latest version.</value>
+  </data>
+  <data name="AutoUpdateQuestion" xml:space="preserve">
+    <value>StyleCop {0} is now available.
+StyleCop {1} is currently installed.
+
+Once downloaded and installed you'll need to restart Visual Studio.
+
+Do you wish to download the latest version?</value>
+  </data>
 </root>

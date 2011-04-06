@@ -28,15 +28,10 @@ namespace StyleCop
     #endregion
 
     /// <summary>
-    /// THirir irg irg.
+    /// Provides auto-update feature.
     /// </summary>
     public class AutoUpdater
     {
-        /// <summary>
-        /// Message box title.
-        /// </summary>
-        private const string MessageBoxTitle = "StyleCop";
-
 #if DEBUG
         /// <summary>
         /// This is the URL of the xml file that contains the latest version number.
@@ -50,11 +45,21 @@ namespace StyleCop
 #endif
 
         /// <summary>
-        /// Question text.
+        /// The StyleCop core instance.
         /// </summary>
-        private const string QuestionText =
-          "StyleCop {0} is now available.\r\n\nStyleCop {1} is currently installed.\r\n\r\nOnce downloaded and installed you'll need to restart Visual Studio.\r\n\r\nDo you wish to download the latest version?";
-        
+        private StyleCopCore core;
+
+        /// <summary>
+        /// Initializes a new instance of the AutoUpdater class.
+        /// </summary>
+        /// <param name="core">The StyleCop core instance.</param>
+        public AutoUpdater(StyleCopCore core)
+        {
+            Param.RequireNotNull(core, "core");
+
+            this.core = core;
+        }
+
         /// <summary>
         /// Checks to see if a newer version is available.
         /// </summary>
@@ -92,10 +97,39 @@ namespace StyleCop
         {
             if (string.IsNullOrEmpty(messageText))
             {
-                return MessageBox.Show(string.Format(QuestionText, newVersionNumber, currentVersionNumber), MessageBoxTitle, MessageBoxButtons.YesNo) == DialogResult.Yes;
+                if (this.core.DisplayUI)
+                {
+                    DialogResult result = AlertDialog.Show(
+                        this.core,
+                        null,
+                        string.Format(Strings.AutoUpdateQuestion, newVersionNumber, currentVersionNumber),
+                        Strings.Title,
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Warning);
+
+                    return result == DialogResult.Yes;
+                }
+                else
+                {
+                    AlertDialog.Show(
+                        this.core,
+                        null,
+                        string.Format(Strings.AutoUpdateInformation, newVersionNumber, currentVersionNumber),
+                        Strings.Title,
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+
+                    return false;
+                }
             }
 
-            MessageBox.Show(messageText, MessageBoxTitle, MessageBoxButtons.OK);
+            AlertDialog.Show(
+                this.core,
+                null,
+                messageText,
+                Strings.Title,
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Warning);
 
             return false;
         }
