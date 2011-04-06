@@ -18,7 +18,6 @@ namespace StyleCop.VisualStudio
     using System.ComponentModel.Design;
     using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
-    using System.IO;
     using System.Runtime.InteropServices;
 
     using Microsoft.VisualStudio;
@@ -144,6 +143,19 @@ namespace StyleCop.VisualStudio
         #region Private Properties
 
         /// <summary>
+        /// Gets a value indicating whether the VS DTE object is available yet. This object is available once the zombie state has gone.
+        /// </summary>
+        /// <returns>True if the DTE object is available, otherwise false.</returns>
+        private bool IsDTEReady
+        {
+            get
+            {
+                EnvDTE.DTE dte = (EnvDTE.DTE)this.GetService(typeof(EnvDTE.DTE));
+                return dte != null;
+            }
+        }
+
+        /// <summary>
         /// Gets a value indicating whether the package is running in setup mode.
         /// </summary>
         private bool SetupMode
@@ -155,7 +167,7 @@ namespace StyleCop.VisualStudio
                 int present;
                 string value;
 
-                Microsoft.VisualStudio.ErrorHandler.ThrowOnFailure(commandLine.GetOption("setup", out present, out value));
+                ErrorHandler.ThrowOnFailure(commandLine.GetOption("setup", out present, out value));
                 return present == 1;
             }
         }
@@ -207,31 +219,7 @@ namespace StyleCop.VisualStudio
             // When the Visual Studio zombie state is false we can finish our init
             if (propid == (int)__VSSPROPID.VSSPROPID_Zombie && (bool)var == false)
             {
-                if (!this.SetupMode)
-                {
-                    IServiceContainer sc = this;
-                    sc.AddService(typeof(IVsPackage), this, false);
-                    
-                    // Ensure that the IDE enviroment is available.
-                    EnvDTE.DTE dte = (EnvDTE.DTE)this.GetService(typeof(EnvDTE.DTE));
-                    if (dte == null)
-                    {
-                        throw new InvalidOperationException(Strings.CouldNotGetVSEnvironment);
-                    }
-                    
-                    ProjectUtilities.Initialize(this);
-                    this.Core.Initialize(null, true);
-                    this.Helper.Initialize();
-                    
-                    // Ensuring that the form is created on the UI thread.
-                    if (InvisibleForm.Instance == null)
-                    {
-                        throw new InvalidOperationException(Strings.NoInvisbileForm);
-                    }
-                    
-                    // Set up the menu items.
-                    this.AddMenuItems();
-                }
+                this.InitializeMenus();
                 
                 // Our VS Shell EventListener is no longer needed
                 IVsShell shellService = this.GetService(typeof(SVsShell)) as IVsShell;
@@ -246,7 +234,7 @@ namespace StyleCop.VisualStudio
             
             return VSConstants.S_OK;
         }
-
+        
         #endregion Public Methods
 
         #region Internal Methods
@@ -279,14 +267,21 @@ namespace StyleCop.VisualStudio
             }
             
             base.Initialize();
-            
-            // Set an eventlistener for shell property changes
-            // We do this to wait for VS to leave its zombie state
-            IVsShell shellService = GetService(typeof(SVsShell)) as IVsShell;
 
-            if (shellService != null)
+            if (this.IsDTEReady)
             {
-                ErrorHandler.ThrowOnFailure(shellService.AdviseShellPropertyChanges(this, out this.cookie));
+                this.InitializeMenus();
+            }
+            else
+            {
+                // Set an eventlistener for shell property changes
+                // We do this to wait for VS to leave its zombie state
+                IVsShell shellService = GetService(typeof(SVsShell)) as IVsShell;
+
+                if (shellService != null)
+                {
+                    ErrorHandler.ThrowOnFailure(shellService.AdviseShellPropertyChanges(this, out this.cookie));
+                }
             }
         }
         
@@ -318,7 +313,7 @@ namespace StyleCop.VisualStudio
         #endregion Protected Override Methods
 
         #region Private Methods
-
+        
         /// <summary>
         /// Retrieves a RegKey value for the registry.
         /// </summary>
@@ -452,12 +447,37 @@ namespace StyleCop.VisualStudio
         }
 
         /// <summary>
-        /// Adds the menu items for this package.
+        /// Completes our initialization. This may be called from out overriden Initialize method and sometimes waiting until after the zombie state has
+        /// gone from VS.
         /// </summary>
-        private void AddMenuItems()
+        private void InitializeMenus()
         {
-            this.commandSet = new PackageCommandSet(this);
-            this.commandSet.Initialize();
+            if (!this.SetupMode)
+            {
+                IServiceContainer sc = this;
+                sc.AddService(typeof(IVsPackage), this, false);
+
+                // Ensure that the IDE enviroment is available.
+                EnvDTE.DTE dte = (EnvDTE.DTE)this.GetService(typeof(EnvDTE.DTE));
+                if (dte == null)
+                {
+                    throw new InvalidOperationException(Strings.CouldNotGetVSEnvironment);
+                }
+
+                ProjectUtilities.Initialize(this);
+                this.Core.Initialize(null, true);
+                this.Helper.Initialize();
+
+                // Ensuring that the form is created on the UI thread.
+                if (InvisibleForm.Instance == null)
+                {
+                    throw new InvalidOperationException(Strings.NoInvisbileForm);
+                }
+
+                // Set up the menu items.
+                this.commandSet = new PackageCommandSet(this);
+                this.commandSet.Initialize();
+            }
         }
 
         #endregion Private Methods
