@@ -199,14 +199,17 @@ namespace StyleCop
             bool defaultSettings = this.tabControl.LocalSettings.DefaultSettings;
 
             // Disable the parent link controls if this is the default settings file.
-            this.mergeWithParents.Enabled = !defaultSettings;
-            this.editParentSettingsFile.Enabled = !defaultSettings;
-            this.mergeWithLinkedFile.Enabled = !defaultSettings;
-            this.locationLabel.Enabled = !defaultSettings;
-            this.linkedFilePath.Enabled = !defaultSettings;
-            this.browse.Enabled = !defaultSettings;
-            this.editLinkedSettingsFile.Enabled = !defaultSettings;
-            
+            if (defaultSettings)
+            {
+                this.mergeWithParents.Enabled = false;
+                this.editParentSettingsFile.Enabled = false;
+                this.mergeWithLinkedFile.Enabled = false;
+                this.locationLabel.Enabled = false;
+                this.linkedFilePath.Enabled = false;
+                this.browse.Enabled = false;
+                this.editLinkedSettingsFile.Enabled = false;
+            }
+
             if (!this.noMerge.Checked && defaultSettings)
             {
                 this.noMerge.Checked = true;
@@ -589,7 +592,7 @@ namespace StyleCop
             {
                 if (defaultSettings)
                 {
-                    if (DialogResult.Yes == AlertDialog.Show(
+                    if (DialogResult.No == AlertDialog.Show(
                         this.tabControl.Core,
                         this,
                         Strings.EditDefaultSettingsWarning,
@@ -597,13 +600,11 @@ namespace StyleCop
                         MessageBoxButtons.YesNo,
                         MessageBoxIcon.Warning))
                     {
-                        this.EditParentSettings(settingsPath, true);
+                        return;
                     }
                 }
-                else
-                {
-                    this.EditParentSettings(settingsPath, false);
-                }
+
+                this.EditParentSettings(settingsPath);
             }
         }
 
@@ -658,7 +659,7 @@ namespace StyleCop
 
                 if (!string.IsNullOrEmpty(expandedPath))
                 {
-                    this.EditParentSettings(expandedPath, false);
+                    this.EditParentSettings(expandedPath);
                 }
             }
         }
@@ -667,13 +668,11 @@ namespace StyleCop
         /// Confirms and edits a parent settings file.
         /// </summary>
         /// <param name="settingsFile">The path to the parent settings.</param>
-        /// <param name="defaultSettings">Indicates whether to load the default settings.</param>
-        private void EditParentSettings(string settingsFile, bool defaultSettings)
+        private void EditParentSettings(string settingsFile)
         {
             Param.AssertValidString(settingsFile, "settingsFile");
-            Param.Ignore(defaultSettings);
 
-            this.tabControl.Core.ShowSettings(settingsFile, StyleCopCore.ProjectSettingsPropertyPageIdProperty, defaultSettings);
+            this.tabControl.Core.ShowSettings(settingsFile, StyleCopCore.ProjectSettingsPropertyPageIdProperty);
             this.tabControl.RefreshMergedSettings();
         }
 

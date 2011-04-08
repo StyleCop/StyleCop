@@ -84,12 +84,12 @@ namespace StyleCop
 
         #endregion Private Fields
 
-        #region Internal Constructors
+        #region Public Constructors
 
         /// <summary>
         /// Initializes a new instance of the PropertyControl class.
         /// </summary>
-        internal PropertyControl()
+        public PropertyControl()
         {
             this.InitializeComponent();
         }

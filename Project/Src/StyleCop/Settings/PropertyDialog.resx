@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -118,40 +118,40 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="help.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+  <data name="ok.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="help.Location" type="System.Drawing.Point, System.Drawing">
-    <value>416, 412</value>
+  <data name="ok.Location" type="System.Drawing.Point, System.Drawing">
+    <value>239, 412</value>
   </data>
-  <data name="help.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="ok.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="help.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
+  <data name="ok.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
   </data>
-  <data name="help.Text" xml:space="preserve">
-    <value>&amp;Help</value>
+  <data name="ok.Text" xml:space="preserve">
+    <value>OK</value>
   </data>
-  <data name="&gt;&gt;help.Name" xml:space="preserve">
-    <value>help</value>
+  <data name="&gt;&gt;ok.Name" xml:space="preserve">
+    <value>ok</value>
   </data>
-  <data name="&gt;&gt;help.Type" xml:space="preserve">
+  <data name="&gt;&gt;ok.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;help.Parent" xml:space="preserve">
+  <data name="&gt;&gt;ok.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;help.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;ok.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
   <data name="cancel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
   </data>
   <data name="cancel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>256, 412</value>
+    <value>320, 412</value>
   </data>
   <data name="cancel.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -174,38 +174,11 @@
   <data name="&gt;&gt;cancel.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="ok.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Right</value>
-  </data>
-  <data name="ok.Location" type="System.Drawing.Point, System.Drawing">
-    <value>176, 412</value>
-  </data>
-  <data name="ok.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
-  </data>
-  <data name="ok.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="ok.Text" xml:space="preserve">
-    <value>OK</value>
-  </data>
-  <data name="&gt;&gt;ok.Name" xml:space="preserve">
-    <value>ok</value>
-  </data>
-  <data name="&gt;&gt;ok.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ok.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;ok.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
   <data name="apply.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
   </data>
   <data name="apply.Location" type="System.Drawing.Point, System.Drawing">
-    <value>336, 412</value>
+    <value>401, 412</value>
   </data>
   <data name="apply.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -214,7 +187,7 @@
     <value>3</value>
   </data>
   <data name="apply.Text" xml:space="preserve">
-    <value>&amp;Apply</value>
+    <value>Apply</value>
   </data>
   <data name="&gt;&gt;apply.Name" xml:space="preserve">
     <value>apply</value>
@@ -226,16 +199,43 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;apply.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="help.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
+  <data name="help.Location" type="System.Drawing.Point, System.Drawing">
+    <value>482, 412</value>
+  </data>
+  <data name="help.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="help.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="help.Text" xml:space="preserve">
+    <value>Help</value>
+  </data>
+  <data name="&gt;&gt;help.Name" xml:space="preserve">
+    <value>help</value>
+  </data>
+  <data name="&gt;&gt;help.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;help.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;help.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
   <data name="properties.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
   </data>
   <data name="properties.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 0</value>
+    <value>4, 4</value>
   </data>
   <data name="properties.Size" type="System.Drawing.Size, System.Drawing">
-    <value>488, 404</value>
+    <value>556, 404</value>
   </data>
   <data name="properties.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -244,7 +244,7 @@
     <value>properties</value>
   </data>
   <data name="&gt;&gt;properties.Type" xml:space="preserve">
-    <value>StyleCop.PropertyControl, StyleCop, Version=4.3.0.5, Culture=neutral, PublicKeyToken=31bf3856ad364e35</value>
+    <value>StyleCop.PropertyControl, StyleCop, Version=4.5.7.0, Culture=neutral, PublicKeyToken=f904653c63bc2738</value>
   </data>
   <data name="&gt;&gt;properties.Parent" xml:space="preserve">
     <value>$this</value>
@@ -255,13 +255,16 @@
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>6, 13</value>
+  </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>504, 438</value>
+    <value>564, 442</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
-        AAABAAYAEBAQAAAAAAAoAQAAZgAAACAgEAAAAAAA6AIAAI4BAAAQEAAAAAAAAGgFAAB2BAAAEBACAAAA
-        AACwAAAA3gkAACAgAAAAAAAAqAgAAI4KAAAgIAIAAAAAADABAAA2EwAAKAAAABAAAAAgAAAAAQAEAAAA
+        AAABAAYAEBAQAAEABAAoAQAAZgAAACAgEAABAAQA6AIAAI4BAAAQEAAAAQAIAGgFAAB2BAAAEBACAAEA
+        AQCwAAAA3gkAACAgAAABAAgAqAgAAI4KAAAgIAIAAQABADABAAA2EwAAKAAAABAAAAAgAAAAAQAEAAAA
         AACAAAAAAAAAAAAAAAAQAAAAEAAAAAAAAAAAAIAAAIAAAACAgACAAAAAgACAAICAAACAgIAAwMDAAAAA
         /wAA/wAAAP//AP8AAAD/AP8A//8AAP///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
@@ -350,11 +353,14 @@
         //8=
 </value>
   </data>
+  <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>480, 380</value>
+  </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>PropertyDialog</value>
+    <value>PropertyDialog2</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>PropertyDialog</value>
+    <value>PropertyDialog2</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.Form, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

@@ -1,4 +1,4 @@
-//-----------------------------------------------------------------------
+﻿//-----------------------------------------------------------------------
 // <copyright file="PropertyDialog.cs">
 //   MS-PL
 // </copyright>
@@ -26,34 +26,9 @@ namespace StyleCop
     /// <summary>
     /// Hosts a <see cref="PropertyControl"/> and provides standard property page buttons.
     /// </summary>
-    internal class PropertyDialog : Form, IPropertyControlHost
+    internal partial class PropertyDialog : Form, IPropertyControlHost
     {
         #region Private Fields
-
-        /// <summary>
-        /// The Help button.
-        /// </summary>
-        private System.Windows.Forms.Button help;
-
-        /// <summary>
-        /// The Cancel button.
-        /// </summary>
-        private System.Windows.Forms.Button cancel;
-
-        /// <summary>
-        /// The OK button.
-        /// </summary>
-        private System.Windows.Forms.Button ok;
-
-        /// <summary>
-        /// The Apply button.
-        /// </summary>
-        private System.Windows.Forms.Button apply;
-
-        /// <summary>
-        /// The property page control.
-        /// </summary>
-        private PropertyControl properties;
 
         /// <summary>
         /// The StyleCop core instance.
@@ -97,6 +72,14 @@ namespace StyleCop
         /// <summary>
         /// Initializes a new instance of the PropertyDialog class.
         /// </summary>
+        public PropertyDialog()
+        {
+            this.InitializeComponent();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the PropertyDialog class.
+        /// </summary>
         /// <param name="pages">The array of pages to display on the property control.</param>
         /// <param name="settingsFile">The file that contains the settings being edited.</param>
         /// <param name="id">A unique ID that describes this set of property pages.</param>
@@ -108,7 +91,7 @@ namespace StyleCop
             WritableSettings settingsFile,
             string id,
             StyleCopCore core,
-            Help helpCallback, 
+            Help helpCallback,
             params object[] context)
         {
             Param.Assert(pages != null && pages.Count > 0, "pages", "Cannot be null or empty");
@@ -291,77 +274,12 @@ namespace StyleCop
 
         #region Private Methods
 
-        #region Windows Form Designer generated code
-
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
-        private void InitializeComponent()
-        {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PropertyDialog));
-            this.help = new System.Windows.Forms.Button();
-            this.cancel = new System.Windows.Forms.Button();
-            this.ok = new System.Windows.Forms.Button();
-            this.apply = new System.Windows.Forms.Button();
-            this.properties = new StyleCop.PropertyControl();
-            this.SuspendLayout();
-            // 
-            // help
-            // 
-            resources.ApplyResources(this.help, "help");
-            this.help.Name = "help";
-            this.help.Click += new System.EventHandler(this.HelpClick);
-            // 
-            // cancel
-            // 
-            resources.ApplyResources(this.cancel, "cancel");
-            this.cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancel.Name = "cancel";
-            this.cancel.Click += new System.EventHandler(this.CancelClick);
-            // 
-            // ok
-            // 
-            resources.ApplyResources(this.ok, "ok");
-            this.ok.Name = "ok";
-            this.ok.Click += new System.EventHandler(this.OkClick);
-            // 
-            // apply
-            // 
-            resources.ApplyResources(this.apply, "apply");
-            this.apply.Name = "apply";
-            this.apply.Click += new System.EventHandler(this.ApplyClick);
-            // 
-            // properties
-            // 
-            resources.ApplyResources(this.properties, "properties");
-            this.properties.HotTrack = true;
-            this.properties.Name = "properties";
-            this.properties.SelectedIndex = 0;
-            // 
-            // PropertyDialog
-            // 
-            this.AcceptButton = this.ok;
-            this.CancelButton = this.cancel;
-            resources.ApplyResources(this, "$this");
-            this.Controls.Add(this.properties);
-            this.Controls.Add(this.apply);
-            this.Controls.Add(this.ok);
-            this.Controls.Add(this.cancel);
-            this.Controls.Add(this.help);
-            this.Name = "PropertyDialog";
-            this.ResumeLayout(false);
-
-        }
-
-        #endregion
-
         /// <summary>
         /// Called when the user clicks the OK button.
         /// </summary>
         /// <param name="sender">The event sender.</param>
         /// <param name="e">The event arguments.</param>
-        private void OkClick(object sender, System.EventArgs e)
+        private void OkClick(object sender, EventArgs e)
         {
             Param.Ignore(sender, e);
 
@@ -390,7 +308,7 @@ namespace StyleCop
         /// </summary>
         /// <param name="sender">The event sender.</param>
         /// <param name="e">The event arguments.</param>
-        private void CancelClick(object sender, System.EventArgs e)
+        private void CancelClick(object sender, EventArgs e)
         {
             Param.Ignore(sender, e);
             this.Close();
@@ -401,7 +319,7 @@ namespace StyleCop
         /// </summary>
         /// <param name="sender">The event sender.</param>
         /// <param name="e">The event arguments.</param>
-        private void ApplyClick(object sender, System.EventArgs e)
+        private void ApplyClick(object sender, EventArgs e)
         {
             Param.Ignore(sender, e);
 
@@ -429,7 +347,7 @@ namespace StyleCop
         /// </summary>
         /// <param name="sender">The event sender.</param>
         /// <param name="e">The event arguments.</param>
-        private void HelpClick(object sender, System.EventArgs e)
+        private void HelpClick(object sender, EventArgs e)
         {
             Param.Ignore(sender, e);
 
