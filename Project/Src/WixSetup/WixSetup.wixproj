@@ -35,7 +35,7 @@
     <SuppressDroppingUnrealTables>False</SuppressDroppingUnrealTables>
     <SuppressFileHashAndInfo>False</SuppressFileHashAndInfo>
     <SuppressFiles>False</SuppressFiles>
-    <SuppressIces>
+    <SuppressIces>ICE38;ICE64
     </SuppressIces>
     <LinkerSuppressIntermediateFileVersionMatching>False</LinkerSuppressIntermediateFileVersionMatching>
     <SuppressLayout>False</SuppressLayout>
@@ -81,7 +81,7 @@
     <SuppressDroppingUnrealTables>False</SuppressDroppingUnrealTables>
     <SuppressFileHashAndInfo>False</SuppressFileHashAndInfo>
     <SuppressFiles>False</SuppressFiles>
-    <SuppressIces>
+    <SuppressIces>ICE38;ICE64
     </SuppressIces>
     <LinkerSuppressIntermediateFileVersionMatching>False</LinkerSuppressIntermediateFileVersionMatching>
     <SuppressLayout>False</SuppressLayout>

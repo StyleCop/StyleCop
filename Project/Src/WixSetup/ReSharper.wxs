@@ -3,12 +3,14 @@
 <?include SharedIncludes.wxi ?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <Fragment>
+
     <Property Id="RESHARPER_INSTALLDIRVS90">
       <RegistrySearch Id="ReSharperInstallIdVs90" Type="directory" Root="HKLM" Key="SOFTWARE\JetBrains\ReSharper\v5.1\vs9.0" Name="InstallDir" />
     </Property>
     <Property Id="RESHARPER_INSTALLDIRVS100">
       <RegistrySearch Id="ReSharperInstallIdVs100" Type="directory" Root="HKLM" Key="SOFTWARE\JetBrains\ReSharper\v5.1\vs10.0" Name="InstallDir" />
     </Property>
+
     <DirectoryRef Id="ProgramFilesFolder">
       <Directory Id="RESHARPER_INSTALLDIRVS90" Name="[RESHARPER_INSTALLDIRVS90]">
         <Directory Id="Dir_PluginsVS90" Name="Plugins">
@@ -32,10 +34,91 @@
       </Directory>
     </DirectoryRef>
 
+    <DirectoryRef Id="Dir_PluginsVS90">          
+      <Component Id="StyleCopForReSharperBinariesVS90_1" Guid="337682C5-8B55-4682-968E-87C2C28170DC">
+        <RemoveFolder Id="Dir_PluginsVS90" On="both" /> 
+        <RemoveFile Id="ReSharper_AssemblyVS90_1" Name="StyleCop.For.ReSharper.dll" On="both" />
+        <Condition>RESHARPER51_VS90_VERSION</Condition>              
+      </Component>
+      <Directory Id="Dir_PluginsVS90_2" Name="Microsoft StyleCop For ReSharper">
+        <Component Id="StyleCopForReSharperBinariesVS90_2" Guid="6E3F4CE9-7480-4A57-98B1-8E71D35EFAF0">
+          <RemoveFolder Id="Dir_PluginsVS90_2" On="both" /> 
+          <RemoveFile Id="ReSharper_AssemblyVS90_2" Name="StyleCop.For.ReSharper.dll" On="both" />
+          <Condition>RESHARPER51_VS90_VERSION</Condition>              
+        </Component>
+      </Directory>
+    </DirectoryRef>
+
+    <DirectoryRef Id="Dir_PluginsVS100">
+      <Component Id="StyleCopForReSharperBinariesVS100_1" Guid="F9095612-57BE-40FB-9AB4-646D966833C3">
+        <RemoveFolder Id="Dir_PluginsVS100" On="both" /> 
+        <RemoveFile Id="ReSharper_AssemblyVS100_1" Name="StyleCop.For.ReSharper.dll" On="both" />
+        <Condition>RESHARPER51_VS100_VERSION</Condition>
+      </Component>
+      <Directory Id="Dir_PluginsVS100_2" Name="Microsoft StyleCop For ReSharper">
+        <Component Id="StyleCopForReSharperBinariesVS100_2" Guid="3F8005D8-D910-46BB-A4E1-374CFDF92AB5">
+          <RemoveFolder Id="Dir_PluginsVS100_2" On="both" /> 
+          <RemoveFile Id="ReSharper_AssemblyVS100_2" Name="StyleCop.For.ReSharper.dll" On="both" />
+          <Condition>RESHARPER51_VS100_VERSION</Condition>              
+        </Component>
+      </Directory>
+    </DirectoryRef>
+
+    <DirectoryRef Id="ProgramFilesFolder">
+      <Directory Id="AppDataFolder" Name="AppDataFolder">
+        <Directory Id="JetBrains_1" Name="JetBrains">
+          <Directory Id="ReSharper_1" Name="ReSharper">
+            <Directory Id="v5.1_1" Name="v5.1">
+              <Directory Id="vs9.0_1" Name="vs9.0">
+                <Directory Id="Plugins_1" Name="Plugins" FileSource="$(var.DropDir)">        
+                  <Component Id="StyleCopForReSharperBinariesVS90_3" Guid="370ADA10-B11C-4B45-8139-1987BB6AC293">
+                    <RemoveFolder Id="Plugins_1" On="both" />  
+                    <RemoveFile Id="StyleCopForReSharper_Assembly_1" Name="StyleCop.For.ReSharper.dll" On="both" />
+                    <Condition>RESHARPER51_VS90_VERSION</Condition>              
+                  </Component>                 
+                  <Directory Id="MicrosoftStyleCopForReSharper_1" Name="Microsoft StyleCop For ReSharper">
+                    <Component Id="StyleCopForReSharperBinariesVS90_4" Guid="0B456799-E34B-4E05-BE8D-86691DB54619">
+                      <RemoveFolder Id="MicrosoftStyleCopForReSharper_1" On="both" />  
+                      <RemoveFile Id="StyleCopForReSharper_Assembly_2" Name="StyleCop.For.ReSharper.dll" On="both" />
+                      <Condition>RESHARPER51_VS90_VERSION</Condition>              
+                    </Component>
+                  </Directory>
+                </Directory>
+              </Directory>
+              <Directory Id="vs10.0_2" Name="vs10.0">
+                <Directory Id="Plugins_2" Name="Plugins">          
+                  <Component Id="StyleCopForReSharperBinariesVS100_3" Guid="C9D8DED6-AD10-4086-A295-890BB7BC059A">
+                    <RemoveFolder Id="Plugins_2" On="both" />
+                    <RemoveFile Id="StyleCopForReSharper_Assembly_3" Name="StyleCop.For.ReSharper.dll" On="both" />
+                    <Condition>RESHARPER51_VS100_VERSION</Condition>              
+                  </Component>
+                  <Directory Id="MicrosoftStyleCopForReSharper_2" Name="Microsoft StyleCop For ReSharper">
+                    <Component Id="StyleCopForReSharperBinariesVS100_4" Guid="C6F50EEA-E0E6-4B8C-8060-399FF3EC9C9D">
+                      <RemoveFolder Id="MicrosoftStyleCopForReSharper_2" On="both" />
+                      <RemoveFile Id="StyleCopForReSharper_Assembly_4" Name="StyleCop.For.ReSharper.dll" On="both" />
+                      <Condition>RESHARPER51_VS100_VERSION</Condition>              
+                    </Component>
+                  </Directory>
+                </Directory>
+              </Directory>
+            </Directory>
+          </Directory>
+        </Directory>
+      </Directory>
+    </DirectoryRef>
+
     <ComponentGroup Id="ReSharper_Common" >
       <ComponentRef Id="StyleCopReSharperBinariesVS90" />
       <ComponentRef Id="StyleCopReSharperBinariesVS100" />
       <ComponentRef Id="StandardRegistryKeys" />
+      <ComponentRef Id="StyleCopForReSharperBinariesVS90_1"/>
+      <ComponentRef Id="StyleCopForReSharperBinariesVS90_2"/>
+      <ComponentRef Id="StyleCopForReSharperBinariesVS90_3"/>
+      <ComponentRef Id="StyleCopForReSharperBinariesVS90_4"/>
+      <ComponentRef Id="StyleCopForReSharperBinariesVS100_1"/>
+      <ComponentRef Id="StyleCopForReSharperBinariesVS100_2"/>
+      <ComponentRef Id="StyleCopForReSharperBinariesVS100_3"/>
+      <ComponentRef Id="StyleCopForReSharperBinariesVS100_4"/>
     </ComponentGroup>
 
   </Fragment>
