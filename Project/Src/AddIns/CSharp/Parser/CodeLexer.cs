@@ -184,7 +184,7 @@ namespace StyleCop.CSharp
             // Loop until all the symbols have been read.
             while (true)
             {
-                Symbol symbol = this.GetSymbol(sourceCode, configuration);
+                Symbol symbol = this.GetSymbol(sourceCode, configuration, true);
                 if (symbol == null)
                 {
                     break;
@@ -202,6 +202,7 @@ namespace StyleCop.CSharp
         /// </summary>
         /// <param name="sourceCode">The source code containing the symbol.</param>
         /// <param name="configuration">The active configuration.</param>
+        /// <param name="evaluatePreprocessors">Indicates whether to evaluate preprocessor symbols.</param>
         /// <returns>Returns the next symbol in the document.</returns>
         [SuppressMessage(
             "Microsoft.Maintainability",
@@ -211,10 +212,11 @@ namespace StyleCop.CSharp
             "Microsoft.Globalization",
             "CA1303:DoNotPassLiteralsAsLocalizedParameters",
             Justification = "The literals represent non-localizable C# operators.")]
-        internal Symbol GetSymbol(SourceCode sourceCode, Configuration configuration)
+        internal Symbol GetSymbol(SourceCode sourceCode, Configuration configuration, bool evaluatePreprocessors)
         {
             Param.AssertNotNull(sourceCode, "sourceCode");
             Param.Ignore(configuration);
+            Param.Ignore(evaluatePreprocessors);
 
             Symbol symbol = null;
 
@@ -271,7 +273,7 @@ namespace StyleCop.CSharp
                         break;
 
                     case '#':
-                        symbol = this.GetPreprocessorDirectiveSymbol(sourceCode, configuration);
+                        symbol = this.GetPreprocessorDirectiveSymbol(sourceCode, configuration, evaluatePreprocessors);
                         break;
 
                     case '(':
@@ -1754,12 +1756,15 @@ namespace StyleCop.CSharp
         /// </summary>
         /// <param name="sourceCode">The source code.</param>
         /// <param name="configuration">The active configuration.</param>
+        /// <param name="evaluate">Indicates whether to evaluate the preprocessor symbol if it is a conditional
+        /// directive.</param>
         /// <returns>Returns the next preprocessor directive keyword.</returns>
         private Symbol GetPreprocessorDirectiveSymbol(
-            SourceCode sourceCode, Configuration configuration)
+            SourceCode sourceCode, Configuration configuration, bool evaluate)
         {
             Param.AssertNotNull(sourceCode, "sourceCode");
             Param.Ignore(configuration);
+            Param.Ignore(evaluate);
 
             // Find the end of the current line.
             StringBuilder text = new StringBuilder();
@@ -1785,7 +1790,10 @@ namespace StyleCop.CSharp
             this.marker.Index += text.Length;
             this.marker.IndexOnLine += text.Length;
 
-            if (configuration != null)
+            int bodyIndex;
+            string type = CsParser.GetPreprocessorDirectiveType(symbol, out bodyIndex);
+            
+            if ((evaluate && configuration != null) || type == "elif")
             {
                 // Check the type of the symbol. If this is a conditional preprocessor symbol which resolves to false,
                 // then we need to advance past all of the code which is not in scope.
@@ -1847,7 +1855,7 @@ namespace StyleCop.CSharp
                         while (true)
                         {
                             // Get the next symbol.
-                            Symbol symbol = this.GetSymbol(sourceCode, configuration);
+                            Symbol symbol = this.GetSymbol(sourceCode, configuration, false);
                             if (symbol == null)
                             {
                                 throw new SyntaxException(sourceCode, preprocessorSymbol.LineNumber);
