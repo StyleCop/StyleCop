@@ -68,6 +68,8 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.TestNestedMemberAccessAndMethodInvocationCalls.Method2" LineNumber="194" Rule="PrefixLocalCallsWithThis" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.TestNestedMemberAccessAndMethodInvocationCalls.Method2" LineNumber="197" Rule="PrefixLocalCallsWithThis" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.TestNestedMemberAccessAndMethodInvocationCalls.Method2" LineNumber="200" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.TestNestedMemberAccessAndMethodInvocationCalls.Method2" LineNumber="188" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.TestNestedMemberAccessAndMethodInvocationCalls.Method2" LineNumber="191" Rule="PrefixLocalCallsWithThis" />
     </ExpectedViolations>
   </Test>
 
@@ -97,6 +99,7 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.Method1%int" LineNumber="20" Rule="PrefixLocalCallsWithThis" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.Method1%int" LineNumber="21" Rule="PrefixLocalCallsWithThis" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.Method1%int" LineNumber="24" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.Method1%int" LineNumber="24" Rule="PrefixLocalCallsWithThis" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.Method1%int" LineNumber="33" Rule="PrefixLocalCallsWithThis" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.Method1%int" LineNumber="36" Rule="PrefixLocalCallsWithThis" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.Method1%int" LineNumber="38" Rule="PrefixLocalCallsWithThis" />
@@ -104,6 +107,7 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.Method1%int" LineNumber="46" Rule="PrefixLocalCallsWithThis" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.Method1%int" LineNumber="49" Rule="PrefixLocalCallsWithThis" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.Method1%int" LineNumber="50" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.Method1%int" LineNumber="53" Rule="PrefixLocalCallsWithThis" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.Method1%int" LineNumber="53" Rule="PrefixLocalCallsWithThis" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.Method1%int" LineNumber="60" Rule="PrefixLocalCallsWithThis" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.Method2%string" LineNumber="66" Rule="PrefixLocalCallsWithThis" />
@@ -163,6 +167,13 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.ClassMembersMethodArguments.TestMethodCalls" LineNumber="34" Rule="PrefixLocalCallsWithThis" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.ClassMembersMethodArguments.TestMethodCalls" LineNumber="35" Rule="PrefixLocalCallsWithThis" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.ClassMembersMethodArguments.TestMethodCalls" LineNumber="36" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.ClassMembersMethodArguments.TestMethodCalls" LineNumber="21" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.ClassMembersMethodArguments.TestMethodCalls" LineNumber="23" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.ClassMembersMethodArguments.TestMethodCalls" LineNumber="24" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.ClassMembersMethodArguments.TestMethodCalls" LineNumber="25" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.ClassMembersMethodArguments.TestMethodCalls" LineNumber="25" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.ClassMembersMethodArguments.TestMethodCalls" LineNumber="30" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.ClassMembersMethodArguments.TestMethodCalls" LineNumber="32" Rule="PrefixLocalCallsWithThis" />
     </ExpectedViolations>
   </Test>
 

@@ -45,8 +45,8 @@
       <Description>Validates that the name of a public or internal field must begin with an upper-case letter.</Description>
     </Rule>
     <Rule Name="VariableNamesMustNotBePrefixed" CheckId="SA1308">
-      <Context>Variable names must not start with 'm_'.</Context>
-      <Description>Validates that the name of a member variable does not begin with the 'm_' syntax.</Description>
+      <Context>Variable names must not start with 'm_' or 's_'.</Context>
+      <Description>Validates that the name of a member variable does not begin with the 'm_' or '_s' syntax.</Description>
     </Rule>
     <Rule Name="FieldNamesMustNotBeginWithUnderscore" CheckId="SA1309">
       <Context>Field names must not start with an underscore.</Context>

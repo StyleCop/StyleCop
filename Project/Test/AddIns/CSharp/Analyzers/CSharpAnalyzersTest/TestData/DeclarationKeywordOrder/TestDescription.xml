@@ -86,10 +86,20 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidClass43" LineNumber="352" Rule="ProtectedMustComeBeforeInternal" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidClass44" LineNumber="356" Rule="DeclarationKeywordsMustFollowOrder" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidClass45" LineNumber="360" Rule="DeclarationKeywordsMustFollowOrder" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidClass45" LineNumber="360" Rule="DeclarationKeywordsMustFollowOrder" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidClass45" LineNumber="360" Rule="DeclarationKeywordsMustFollowOrder" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidClass46" LineNumber="364" Rule="DeclarationKeywordsMustFollowOrder" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidClass46" LineNumber="364" Rule="DeclarationKeywordsMustFollowOrder" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidClass46" LineNumber="364" Rule="DeclarationKeywordsMustFollowOrder" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidClass47" LineNumber="368" Rule="DeclarationKeywordsMustFollowOrder" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidClass47" LineNumber="368" Rule="DeclarationKeywordsMustFollowOrder" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidClass47" LineNumber="368" Rule="DeclarationKeywordsMustFollowOrder" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidClass48" LineNumber="372" Rule="DeclarationKeywordsMustFollowOrder" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidClass48" LineNumber="372" Rule="DeclarationKeywordsMustFollowOrder" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidClass48" LineNumber="372" Rule="DeclarationKeywordsMustFollowOrder" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidClass48" LineNumber="372" Rule="ProtectedMustComeBeforeInternal" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidClass49" LineNumber="376" Rule="DeclarationKeywordsMustFollowOrder" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidClass49" LineNumber="376" Rule="DeclarationKeywordsMustFollowOrder" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidClass49" LineNumber="376" Rule="DeclarationKeywordsMustFollowOrder" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidClass50" LineNumber="380" Rule="DeclarationKeywordsMustFollowOrder" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidClass50" LineNumber="380" Rule="ProtectedMustComeBeforeInternal" />
@@ -98,13 +108,21 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidClass52" LineNumber="388" Rule="DeclarationKeywordsMustFollowOrder" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidClass52" LineNumber="388" Rule="ProtectedMustComeBeforeInternal" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidClass53" LineNumber="392" Rule="DeclarationKeywordsMustFollowOrder" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidClass53" LineNumber="392" Rule="DeclarationKeywordsMustFollowOrder" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidClass53" LineNumber="392" Rule="DeclarationKeywordsMustFollowOrder" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidClass54" LineNumber="396" Rule="DeclarationKeywordsMustFollowOrder" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidClass54" LineNumber="396" Rule="ProtectedMustComeBeforeInternal" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidClass55" LineNumber="400" Rule="DeclarationKeywordsMustFollowOrder" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidClass55" LineNumber="400" Rule="ProtectedMustComeBeforeInternal" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidClass56" LineNumber="404" Rule="DeclarationKeywordsMustFollowOrder" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidClass56" LineNumber="404" Rule="DeclarationKeywordsMustFollowOrder" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidClass57" LineNumber="408" Rule="DeclarationKeywordsMustFollowOrder" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidClass57" LineNumber="408" Rule="DeclarationKeywordsMustFollowOrder" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidClass57" LineNumber="408" Rule="DeclarationKeywordsMustFollowOrder" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidClass58" LineNumber="412" Rule="DeclarationKeywordsMustFollowOrder" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidClass58" LineNumber="412" Rule="DeclarationKeywordsMustFollowOrder" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidClass59" LineNumber="416" Rule="DeclarationKeywordsMustFollowOrder" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidClass59" LineNumber="416" Rule="DeclarationKeywordsMustFollowOrder" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidClass59" LineNumber="416" Rule="DeclarationKeywordsMustFollowOrder" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderConstructors.DeclarationKeywordOrderConstructors%long[]" LineNumber="53" Rule="DeclarationKeywordsMustFollowOrder" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderConstructors.DeclarationKeywordOrderConstructors%float[]" LineNumber="55" Rule="ProtectedMustComeBeforeInternal" />
@@ -202,9 +220,19 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderEvents.InvalidEvent63" LineNumber="243" Rule="ProtectedMustComeBeforeInternal" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderEvents.InvalidEvent64" LineNumber="245" Rule="DeclarationKeywordsMustFollowOrder" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderEvents.InvalidEvent65" LineNumber="247" Rule="DeclarationKeywordsMustFollowOrder" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderEvents.InvalidEvent65" LineNumber="247" Rule="DeclarationKeywordsMustFollowOrder" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderEvents.InvalidEvent65" LineNumber="247" Rule="DeclarationKeywordsMustFollowOrder" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderEvents.InvalidEvent66" LineNumber="249" Rule="DeclarationKeywordsMustFollowOrder" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderEvents.InvalidEvent66" LineNumber="249" Rule="DeclarationKeywordsMustFollowOrder" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderEvents.InvalidEvent66" LineNumber="249" Rule="DeclarationKeywordsMustFollowOrder" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderEvents.InvalidEvent67" LineNumber="251" Rule="DeclarationKeywordsMustFollowOrder" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderEvents.InvalidEvent67" LineNumber="251" Rule="DeclarationKeywordsMustFollowOrder" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderEvents.InvalidEvent67" LineNumber="251" Rule="DeclarationKeywordsMustFollowOrder" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderEvents.InvalidEvent68" LineNumber="253" Rule="DeclarationKeywordsMustFollowOrder" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderEvents.InvalidEvent68" LineNumber="253" Rule="DeclarationKeywordsMustFollowOrder" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderEvents.InvalidEvent68" LineNumber="253" Rule="DeclarationKeywordsMustFollowOrder" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderEvents.InvalidEvent69" LineNumber="255" Rule="DeclarationKeywordsMustFollowOrder" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderEvents.InvalidEvent69" LineNumber="255" Rule="DeclarationKeywordsMustFollowOrder" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderEvents.InvalidEvent69" LineNumber="255" Rule="DeclarationKeywordsMustFollowOrder" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderEvents.InvalidEvent69" LineNumber="255" Rule="ProtectedMustComeBeforeInternal" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderEvents.InvalidEvent70" LineNumber="257" Rule="DeclarationKeywordsMustFollowOrder" />
@@ -218,6 +246,8 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderEvents.InvalidEvent74" LineNumber="265" Rule="DeclarationKeywordsMustFollowOrder" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderEvents.InvalidEvent74" LineNumber="265" Rule="ProtectedMustComeBeforeInternal" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderEvents.InvalidEvent75" LineNumber="267" Rule="DeclarationKeywordsMustFollowOrder" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderEvents.InvalidEvent75" LineNumber="267" Rule="DeclarationKeywordsMustFollowOrder" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderEvents.InvalidEvent75" LineNumber="267" Rule="DeclarationKeywordsMustFollowOrder" />      
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderIndexers.this%int%int" LineNumber="251" Rule="ProtectedMustComeBeforeInternal" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderIndexers.this%int%short" LineNumber="256" Rule="DeclarationKeywordsMustFollowOrder" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderIndexers.this%int%long" LineNumber="261" Rule="DeclarationKeywordsMustFollowOrder" />
@@ -384,11 +414,21 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderMethods.InvalidMethod72" LineNumber="603" Rule="ProtectedMustComeBeforeInternal" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderMethods.InvalidMethod73" LineNumber="608" Rule="DeclarationKeywordsMustFollowOrder" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderMethods.InvalidMethod74" LineNumber="613" Rule="DeclarationKeywordsMustFollowOrder" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderMethods.InvalidMethod74" LineNumber="613" Rule="DeclarationKeywordsMustFollowOrder" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderMethods.InvalidMethod74" LineNumber="613" Rule="DeclarationKeywordsMustFollowOrder" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderMethods.InvalidMethod75" LineNumber="615" Rule="DeclarationKeywordsMustFollowOrder" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderMethods.InvalidMethod75" LineNumber="615" Rule="DeclarationKeywordsMustFollowOrder" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderMethods.InvalidMethod75" LineNumber="615" Rule="DeclarationKeywordsMustFollowOrder" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderMethods.InvalidMethod76" LineNumber="617" Rule="DeclarationKeywordsMustFollowOrder" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderMethods.InvalidMethod76" LineNumber="617" Rule="DeclarationKeywordsMustFollowOrder" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderMethods.InvalidMethod76" LineNumber="617" Rule="DeclarationKeywordsMustFollowOrder" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderMethods.InvalidMethod77" LineNumber="619" Rule="DeclarationKeywordsMustFollowOrder" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderMethods.InvalidMethod77" LineNumber="619" Rule="DeclarationKeywordsMustFollowOrder" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderMethods.InvalidMethod77" LineNumber="619" Rule="DeclarationKeywordsMustFollowOrder" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderMethods.InvalidMethod78" LineNumber="621" Rule="DeclarationKeywordsMustFollowOrder" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderMethods.InvalidMethod78" LineNumber="621" Rule="ProtectedMustComeBeforeInternal" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderMethods.InvalidMethod78" LineNumber="621" Rule="DeclarationKeywordsMustFollowOrder" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderMethods.InvalidMethod78" LineNumber="621" Rule="DeclarationKeywordsMustFollowOrder" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderMethods.InvalidMethod79" LineNumber="623" Rule="DeclarationKeywordsMustFollowOrder" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderMethods.InvalidMethod79" LineNumber="623" Rule="ProtectedMustComeBeforeInternal" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderMethods.InvalidMethod80" LineNumber="625" Rule="DeclarationKeywordsMustFollowOrder" />
@@ -399,6 +439,8 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderMethods.InvalidMethod82" LineNumber="629" Rule="ProtectedMustComeBeforeInternal" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderMethods.InvalidMethod83" LineNumber="631" Rule="DeclarationKeywordsMustFollowOrder" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderMethods.InvalidMethod83" LineNumber="631" Rule="ProtectedMustComeBeforeInternal" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderMethods.InvalidMethod84" LineNumber="633" Rule="DeclarationKeywordsMustFollowOrder" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderMethods.InvalidMethod84" LineNumber="633" Rule="DeclarationKeywordsMustFollowOrder" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderMethods.InvalidMethod84" LineNumber="633" Rule="DeclarationKeywordsMustFollowOrder" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderProperties.InvalidProperty1" LineNumber="311" Rule="ProtectedMustComeBeforeInternal" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderProperties.InvalidProperty2" LineNumber="316" Rule="DeclarationKeywordsMustFollowOrder" />
@@ -482,9 +524,19 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderProperties.InvalidProperty72" LineNumber="666" Rule="ProtectedMustComeBeforeInternal" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderProperties.InvalidProperty73" LineNumber="671" Rule="DeclarationKeywordsMustFollowOrder" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderProperties.InvalidProperty74" LineNumber="676" Rule="DeclarationKeywordsMustFollowOrder" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderProperties.InvalidProperty74" LineNumber="676" Rule="DeclarationKeywordsMustFollowOrder" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderProperties.InvalidProperty74" LineNumber="676" Rule="DeclarationKeywordsMustFollowOrder" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderProperties.InvalidProperty75" LineNumber="681" Rule="DeclarationKeywordsMustFollowOrder" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderProperties.InvalidProperty75" LineNumber="681" Rule="DeclarationKeywordsMustFollowOrder" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderProperties.InvalidProperty75" LineNumber="681" Rule="DeclarationKeywordsMustFollowOrder" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderProperties.InvalidProperty76" LineNumber="686" Rule="DeclarationKeywordsMustFollowOrder" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderProperties.InvalidProperty76" LineNumber="686" Rule="DeclarationKeywordsMustFollowOrder" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderProperties.InvalidProperty76" LineNumber="686" Rule="DeclarationKeywordsMustFollowOrder" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderProperties.InvalidProperty77" LineNumber="691" Rule="DeclarationKeywordsMustFollowOrder" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderProperties.InvalidProperty77" LineNumber="691" Rule="DeclarationKeywordsMustFollowOrder" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderProperties.InvalidProperty77" LineNumber="691" Rule="DeclarationKeywordsMustFollowOrder" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderProperties.InvalidProperty78" LineNumber="696" Rule="DeclarationKeywordsMustFollowOrder" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderProperties.InvalidProperty78" LineNumber="696" Rule="DeclarationKeywordsMustFollowOrder" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderProperties.InvalidProperty78" LineNumber="696" Rule="DeclarationKeywordsMustFollowOrder" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderProperties.InvalidProperty78" LineNumber="696" Rule="ProtectedMustComeBeforeInternal" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderProperties.InvalidProperty79" LineNumber="701" Rule="DeclarationKeywordsMustFollowOrder" />
@@ -497,6 +549,8 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderProperties.InvalidProperty82" LineNumber="716" Rule="ProtectedMustComeBeforeInternal" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderProperties.InvalidProperty83" LineNumber="721" Rule="DeclarationKeywordsMustFollowOrder" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderProperties.InvalidProperty83" LineNumber="721" Rule="ProtectedMustComeBeforeInternal" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderProperties.InvalidProperty84" LineNumber="726" Rule="DeclarationKeywordsMustFollowOrder" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderProperties.InvalidProperty84" LineNumber="726" Rule="DeclarationKeywordsMustFollowOrder" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DeclarationKeywordOrderProperties.InvalidProperty84" LineNumber="726" Rule="DeclarationKeywordsMustFollowOrder" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidStruct1" LineNumber="56" Rule="ProtectedMustComeBeforeInternal" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidStruct36" LineNumber="60" Rule="DeclarationKeywordsMustFollowOrder" />

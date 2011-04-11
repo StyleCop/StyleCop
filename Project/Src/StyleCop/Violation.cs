@@ -26,27 +26,32 @@ namespace StyleCop
         /// <summary>
         /// The line number that the violation appears on.
         /// </summary>
-        private int line;
+        private readonly int line;
 
         /// <summary>
         /// The element that the violation appears in.
         /// </summary>
-        private ICodeElement element;
+        private readonly ICodeElement element;
 
         /// <summary>
         /// The source code that the violation appears in.
         /// </summary>
-        private SourceCode sourceCode;
+        private readonly SourceCode sourceCode;
 
         /// <summary>
         /// The context message.
         /// </summary>
-        private string message;
+        private readonly string message;
 
         /// <summary>
         /// The rule that triggered the violation.
         /// </summary>
-        private Rule rule;
+        private readonly Rule rule;
+
+        /// <summary>
+        /// The unique key for this violation.
+        /// </summary>
+        private int key;
 
         #endregion Private Fields
 
@@ -75,8 +80,10 @@ namespace StyleCop
             {
                 this.sourceCode = this.element.Document.SourceCode;
             }
-        }
 
+            this.UpdateKey();
+        }
+        
         /// <summary>
         /// Initializes a new instance of the Violation class.
         /// </summary>
@@ -95,6 +102,8 @@ namespace StyleCop
             this.sourceCode = sourceCode;
             this.line = line;
             this.message = message;
+
+            this.UpdateKey();
         }
 
         #endregion Public Constructors
@@ -160,14 +169,22 @@ namespace StyleCop
         /// Gets the unique key for this violation that can be used when adding
         /// the violation to a dictionary.
         /// </summary>
-        public string Key
+        public int Key
         {
             get
             {
-                return this.rule.Name + this.line;
+                return this.key;
             }
         }
 
         #endregion Public Properties
+
+        /// <summary>
+        /// Updates the internal key.
+        /// </summary>
+        private void UpdateKey()
+        {
+            this.key = (this.rule.Name + this.line + this.message).GetHashCode();
+        }
     }
 }

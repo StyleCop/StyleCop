@@ -34,26 +34,66 @@ namespace StyleCop.CSharp
         /// <summary>
         /// An empty array of elements.
         /// </summary>
-        private static CsElement[] emptyElementArray = new CsElement[0];
+        private static readonly CsElement[] emptyElementArray = new CsElement[0];
 
         #endregion Private Static Fields
 
         #region Private Fields
-
-        /// <summary>
-        /// The collection of child elements of this element.
-        /// </summary>
-        private CodeUnitCollection<CsElement> elements;
-
+        
         /// <summary>
         /// The Xml header of the element.
         /// </summary>
-        private XmlHeader header;
+        private readonly XmlHeader header;
 
         /// <summary>
         /// The list of attributes attached to the element.
         /// </summary>
-        private ICollection<Attribute> attributes;
+        private readonly ICollection<Attribute> attributes;
+        
+        /// <summary>
+        /// The element declaration.
+        /// </summary>
+        private readonly Declaration declaration;
+
+        /// <summary>
+        /// The document that owns this element.
+        /// </summary>
+        private readonly CsDocument document;
+
+        /// <summary>
+        /// The name of the element.
+        /// </summary>
+        private readonly string name;
+
+        /// <summary>
+        /// The full namespace name of this element.
+        /// </summary>
+        private readonly string fullNamespaceName;
+        
+        /// <summary>
+        /// The fully qualified base name of this element.
+        /// </summary>
+        private readonly string fullyQualifiedBase;
+
+        /// <summary>
+        /// Indicates whether this element is unsafe.
+        /// </summary>
+        private readonly bool unsafeCode;
+
+        /// <summary>
+        /// Indicates whether this element resides within a block of generated code.
+        /// </summary>
+        private readonly bool generated;
+
+        /// <summary>
+        /// The list of violations in this element.
+        /// </summary>
+        private readonly Dictionary<int, Violation> violations = new Dictionary<int, Violation>();
+        
+        /// <summary>
+        /// The collection of child elements of this element.
+        /// </summary>
+        private CodeUnitCollection<CsElement> elements;
 
         /// <summary>
         /// The element type.
@@ -61,54 +101,14 @@ namespace StyleCop.CSharp
         private ElementType type;
 
         /// <summary>
-        /// The element declaration.
-        /// </summary>
-        private Declaration declaration;
-
-        /// <summary>
         /// The actual access of this item, considering the access of its parents.
         /// </summary>
         private AccessModifierType actualAccess;
 
         /// <summary>
-        /// The document that owns this element.
-        /// </summary>
-        private CsDocument document;
-
-        /// <summary>
-        /// The name of the element.
-        /// </summary>
-        private string name;
-
-        /// <summary>
-        /// The full namespace name of this element.
-        /// </summary>
-        private string fullNamespaceName;
-
-        /// <summary>
         /// The fully qualified name of this element.
         /// </summary>
         private string fullyQualifiedName;
-
-        /// <summary>
-        /// The fully qualified base name of this element.
-        /// </summary>
-        private string fullyQualifiedBase;
-
-        /// <summary>
-        /// Indicates whether this element is unsafe.
-        /// </summary>
-        private bool unsafeCode;
-
-        /// <summary>
-        /// Indicates whether this element resides within a block of generated code.
-        /// </summary>
-        private bool generated;
-
-        /// <summary>
-        /// The list of violations in this element.
-        /// </summary>
-        private Dictionary<string, Violation> violations = new Dictionary<string, Violation>();
 
         /// <summary>
         /// A private tag which can be used by the current analyzer.
@@ -633,7 +633,7 @@ namespace StyleCop.CSharp
         public bool AddViolation(Violation violation)
         {
             Param.RequireNotNull(violation, "violation");
-            string key = violation.Key;
+            int key = violation.Key;
 
             if (!this.violations.ContainsKey(key))
             {

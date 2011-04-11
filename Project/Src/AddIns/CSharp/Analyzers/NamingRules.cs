@@ -364,13 +364,22 @@ namespace StyleCop.CSharp
                 return false;
             }
 
-            if (!element.Generated && 
-                element.Declaration != null &&
-                element.Declaration.Name != null)
+            if (!element.Generated && element.Declaration != null && element.Declaration.Name != null)
             {
                 switch (element.ElementType)
                 {
                     case ElementType.Namespace:
+                        if (!nativeMethods)
+                        {
+                            string[] namespaceParts = element.Declaration.Name.Split('.');
+                            foreach (string namespacePart in namespaceParts)
+                            {
+                                this.CheckCase(element, namespacePart, element.LineNumber, true);
+                            }
+                        }
+
+                        break;
+
                     case ElementType.Class:
                     case ElementType.Enum:
                     case ElementType.Struct:

@@ -33,27 +33,27 @@ namespace StyleCop
         /// <summary>
         /// The project that contains the source code document.
         /// </summary>
-        private CodeProject project;
+        private readonly CodeProject project;
+
+        /// <summary>
+        /// The parser that handles this source code document.
+        /// </summary>
+        private readonly SourceParser parser;
+
+        /// <summary>
+        /// The list of violations in this document.
+        /// </summary>
+        private readonly Dictionary<int, Violation> violations = new Dictionary<int, Violation>();
+
+        /// <summary>
+        /// The list of configurations for the document.
+        /// </summary>
+        private readonly IEnumerable<Configuration> configurations;
 
         /// <summary>
         /// The settings for the project.
         /// </summary>
         private Settings settings;
-
-        /// <summary>
-        /// The parser that handles this source code document.
-        /// </summary>
-        private SourceParser parser;
-
-        /// <summary>
-        /// The list of violations in this document.
-        /// </summary>
-        private Dictionary<string, Violation> violations = new Dictionary<string, Violation>();
-
-        /// <summary>
-        /// The list of configurations for the document.
-        /// </summary>
-        private IEnumerable<Configuration> configurations;
 
         #endregion Private Fields
 
@@ -236,7 +236,7 @@ namespace StyleCop
         internal bool AddViolation(Violation violation)
         {
             Param.AssertNotNull(violation, "violation");
-            string key = violation.Key;
+            int key = violation.Key;
 
             if (!this.violations.ContainsKey(key))
             {
