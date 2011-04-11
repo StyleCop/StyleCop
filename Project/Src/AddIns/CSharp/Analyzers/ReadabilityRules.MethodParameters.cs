@@ -19,6 +19,7 @@ namespace StyleCop.CSharp
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
+    using System.Linq;
     using System.Xml;
     using StyleCop;
 
@@ -936,6 +937,19 @@ namespace StyleCop.CSharp
                 // Multi line arguments to a constructor initializer are allowed.
                 Expression expression = this.arguments[index].Expression;
                 
+                if (expression.ExpressionType == ExpressionType.MethodInvocation)
+                {
+                    if (expression.ChildExpressions.Count > 0 &&
+                        expression.ChildExpressions.Any(
+                            childExpression =>
+                            childExpression.ExpressionType == ExpressionType.Lambda ||
+                            childExpression.ExpressionType == ExpressionType.AnonymousMethod ||
+                            childExpression.ExpressionType == ExpressionType.New))
+                    {
+                        return true;
+                    }
+                }
+
                 return expression.ExpressionType == ExpressionType.Lambda || expression.ExpressionType == ExpressionType.AnonymousMethod || expression.ExpressionType == ExpressionType.New;
             }
         }
