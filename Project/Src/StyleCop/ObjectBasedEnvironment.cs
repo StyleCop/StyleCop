@@ -235,7 +235,7 @@ namespace StyleCop
         public override string GetParentSettingsPath(string settingsPath)
         {
             Param.Ignore(settingsPath);
-            
+
             // The default object-based environment does not support the concept of parent settings files.
             return null;
         }
@@ -249,27 +249,27 @@ namespace StyleCop
             if (this.defaultSettingsFilePath == null)
             {
                 this.defaultSettingsFilePath = string.Empty;
-                string location = Assembly.GetExecutingAssembly().Location;
 
-                if (!string.IsNullOrEmpty(location))
+                // Get the path to the currently executing assembly. The default settings file must be located within
+                // the same folder as this assembly.
+                string assemblyLocation = Assembly.GetExecutingAssembly().Location;
+                if (!string.IsNullOrEmpty(assemblyLocation))
                 {
-                    string directoryName = Path.GetDirectoryName(location);
-
-                    if (!string.IsNullOrEmpty(directoryName) && Directory.Exists(directoryName))
+                    string assemblyPath = Path.GetDirectoryName(assemblyLocation);
+                    if (!string.IsNullOrEmpty(assemblyPath) && Directory.Exists(assemblyPath))
                     {
-                        string path = Path.Combine(directoryName, "Settings.StyleCop");
-
-                        if (File.Exists(path))
+                        // Look for a settings file at this location.
+                        string settingsFilePath = Path.Combine(assemblyPath, Settings.DefaultFileName);
+                        if (File.Exists(settingsFilePath))
                         {
-                            this.defaultSettingsFilePath = path;
+                            this.defaultSettingsFilePath = settingsFilePath;
                         }
                         else
                         {
-                            path = Path.Combine(directoryName, "Settings.SourceAnalysis");
-
-                            if (File.Exists(path))
+                            settingsFilePath = Path.Combine(assemblyPath, Settings.AlternateFileName);
+                            if (File.Exists(settingsFilePath))
                             {
-                                this.defaultSettingsFilePath = path;
+                                this.defaultSettingsFilePath = settingsFilePath;
                             }
                         }
                     }

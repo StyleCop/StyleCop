@@ -178,18 +178,16 @@ namespace StyleCop
             Param.RequireValidString(propertyName, "propertyName");
             Param.Ignore(localProperty);
 
-            if (this.parentSettings == null)
-            {
-                return false;
-            }
-
             // Try to find this property in the parent settings file.
             PropertyValue parentProperty = null;
 
-            PropertyCollection parentParserProperties = this.parentSettings.GetAddInSettings(addIn);
-            if (parentParserProperties != null)
+            if (this.parentSettings != null)
             {
-                parentProperty = parentParserProperties[propertyName];
+                PropertyCollection parentParserProperties = this.parentSettings.GetAddInSettings(addIn);
+                if (parentParserProperties != null)
+                {
+                    parentProperty = parentParserProperties[propertyName];
+                }
             }
 
             if (parentProperty == null)

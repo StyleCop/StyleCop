@@ -117,9 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AddInDoesNotContainProperty" xml:space="preserve">
-    <value>The add-in does not contain the property {0}.</value>
-  </data>
   <data name="AlertDialogWithOptionsInNonUIState" xml:space="preserve">
     <value>An AlertDialog which provides the user an option has been fired while the program is running in a non-UI state. In this state, the only valid option for AlertDialog is MessageBoxButtons.OK. Check the DisplayUI property on the StyleCopCore object before calling an AlertDialog which provides other options.</value>
   </data>
@@ -147,9 +144,6 @@
   <data name="CannotLoadSettingsFilePath" xml:space="preserve">
     <value>The settings file at this path cannot be loaded: {0}</value>
   </data>
-  <data name="Collec" xml:space="preserve">
-    <value />
-  </data>
   <data name="CollectionCannotBeEmptyOrNull" xml:space="preserve">
     <value>The collection must not be empty or null</value>
   </data>
@@ -165,7 +159,7 @@
   <data name="CouldNotSaveViolationsFileWithException" xml:space="preserve">
     <value>Could not save the violations file. An exception occurred: {0}</value>
   </data>
-  <data name="DefaultSettingsDialogTitle" xml:space="preserve">
+  <data name="SettingsDialogTitleDefault" xml:space="preserve">
     <value>StyleCop Default Settings</value>
   </data>
   <data name="DisabledByDefaultAttributeDeprecatedForAddIns" xml:space="preserve">
@@ -186,22 +180,13 @@
   <data name="GlobalSettingsFile" xml:space="preserve">
     <value>Global Settings File</value>
   </data>
-  <data name="GlobalSettingsNotLoaded" xml:space="preserve">
-    <value>The global settings file could not be loaded. Global settings will not be displayed.</value>
-  </data>
   <data name="InvalidAddInXmlDocument" xml:space="preserve">
     <value>The analyzer or parser add-in returned a null or empty Xml initialization document.</value>
   </data>
   <data name="InvalidWindowLocationInputString" xml:space="preserve">
     <value>The window location input string is invalid: {0}</value>
   </data>
-  <data name="IsInvalid" xml:space="preserve">
-    <value>Is invalid</value>
-  </data>
-  <data name="LinkedSettingsDialogTitle" xml:space="preserve">
-    <value>StyleCop Linked Settings</value>
-  </data>
-  <data name="LocalSettingsDialogTitle" xml:space="preserve">
+  <data name="SettingsDialogTitleLocal" xml:space="preserve">
     <value>StyleCop Project Settings</value>
   </data>
   <data name="LocalSettingsNotOpenedOrCreated" xml:space="preserve">
@@ -234,9 +219,6 @@
   <data name="MustBeLessThanOrEqualTo" xml:space="preserve">
     <value>The value must be less than or equal to {0}</value>
   </data>
-  <data name="NodeIsNotMemberOfList" xml:space="preserve">
-    <value>The node is not a member of the current list.</value>
-  </data>
   <data name="NoLinkedSettingsFile" xml:space="preserve">
     <value>The linked settings file does not exist or cannot be loaded.</value>
   </data>
@@ -245,12 +227,6 @@
   </data>
   <data name="NoViolationsEncountered" xml:space="preserve">
     <value>No violations encountered</value>
-  </data>
-  <data name="ParentSettingsDialogTitle" xml:space="preserve">
-    <value>StyleCop Parent Settings</value>
-  </data>
-  <data name="ParentSettingsEditedByAdministrator" xml:space="preserve">
-    <value>The parent settings file should only be edited by a build administrator, as the changes may apply to many projects. Are you sure you want to do this?</value>
   </data>
   <data name="ProjectSettingsFileNotLoadedOrCreated" xml:space="preserve">
     <value>The settings file for the project could not be loaded or created: {0}</value>
@@ -278,9 +254,6 @@
   </data>
   <data name="PropertyHasNoName" xml:space="preserve">
     <value>The property has no name.</value>
-  </data>
-  <data name="PropertyMergeAttributeHasInvalidValue" xml:space="preserve">
-    <value>The property's merge attribute does not contain a boolean value.</value>
   </data>
   <data name="ReadOnlyCollection" xml:space="preserve">
     <value>The collection is read-only.</value>
@@ -320,9 +293,6 @@
   </data>
   <data name="SettingsFilesTab" xml:space="preserve">
     <value>Settings Files</value>
-  </data>
-  <data name="StyleCopConsoleDoesNotImplementGetCodeEditor" xml:space="preserve">
-    <value>GetCodeEditor is not implemented by StyleCopConsole.</value>
   </data>
   <data name="StyleCopUnableToLoad" xml:space="preserve">
     <value>StyleCop is unable to load. An unexpected error occurred. {0}</value>
@@ -366,9 +336,6 @@
   <data name="NodeAlreadyInCollection" xml:space="preserve">
     <value>The node has already been inserted into a different collection.</value>
   </data>
-  <data name="NodeNotInList" xml:space="preserve">
-    <value>The node is not a member of the list.</value>
-  </data>
   <data name="UnknownAssemblyUsingDefaultCheckIdPrefix" xml:space="preserve">
     <value>A rule defined within a third-party rules add-in uses the CheckId {0}. CheckIds for third-party rules may not use the SA prefix, but instead must define their own two-letter prefix.</value>
   </data>
@@ -378,17 +345,11 @@
   <data name="ViolationFormatter" xml:space="preserve">
     <value>{0}: {1}</value>
   </data>
-  <data name="MergedSettingsRulesEnabledByDefaultMismatch" xml:space="preserve">
-    <value>It is not possible to merge two sets of settings when one specifies that rules are enabled by default, and the other specifies that rules are disabled by default.</value>
-  </data>
   <data name="SourceCodeFactoryReturnsNull" xml:space="preserve">
     <value>A SourceCodeFactory may not return null.</value>
   </data>
-  <data name="SourceCodeStreamRequired" xml:space="preserve">
-    <value>Stream-based runtime environments must use the SourceCodeStream class.</value>
-  </data>
-  <data name="StreamBasedCodeProjectRequired" xml:space="preserve">
-    <value>Stream-based runtime environments must use the StreamBasedCodeProject class rather than CodeProject.</value>
+  <data name="SettingsDialogTitleFormat" xml:space="preserve">
+    <value>{0} - {1}</value>
   </data>
   <data name="AutoUpdateInformation" xml:space="preserve">
     <value>StyleCop {0} is now available.

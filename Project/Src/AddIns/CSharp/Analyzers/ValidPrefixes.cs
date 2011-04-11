@@ -77,11 +77,6 @@ namespace StyleCop.CSharp
         private PropertyControl tabControl;
 
         /// <summary>
-        /// Indicates whether merged settings are displayed.
-        /// </summary>
-        private bool settingsAreMerged;
-
-        /// <summary>
         /// Contains help text.
         /// </summary>
         private Label label3;
@@ -404,8 +399,6 @@ namespace StyleCop.CSharp
 
                 if (parentPrefixesProperty != null)
                 {
-                    this.settingsAreMerged = true;
-
                     if (parentPrefixesProperty.Values.Count > 0)
                     {
                         foreach (string value in parentPrefixesProperty)
@@ -432,9 +425,6 @@ namespace StyleCop.CSharp
         {
             Param.AssertNotNull(item, "item");
 
-            // Make sure that this is a locally added item.
-            Debug.Assert((bool)item.Tag, "The item cannot be bolded.");
-
             // Dispose the item's current font if necessary.
             if (item.Font != this.prefixList.Font && item.Font != null)
             {
@@ -442,7 +432,7 @@ namespace StyleCop.CSharp
             }
 
             // Create and set the new font.
-            if (this.settingsAreMerged)
+            if ((bool)item.Tag)
             {
                 item.Font = new Font(this.prefixList.Font, FontStyle.Bold);
             }

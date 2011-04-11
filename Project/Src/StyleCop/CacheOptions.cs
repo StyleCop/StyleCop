@@ -51,6 +51,11 @@ namespace StyleCop
         private CheckBox enableCache;
 
         /// <summary>
+        /// Property descriptor.
+        /// </summary>
+        private PropertyDescriptor<bool> descriptor;
+
+        /// <summary>
         /// The global value of the property.
         /// </summary>
         private BooleanProperty parentProperty;
@@ -119,17 +124,17 @@ namespace StyleCop
             this.tabControl = propertyControl;
 
             // Get the cache setting.
-            PropertyDescriptor<bool> descriptor = this.tabControl.Core.PropertyDescriptors["WriteCache"] as PropertyDescriptor<bool>;
+            this.descriptor = this.tabControl.Core.PropertyDescriptors["WriteCache"] as PropertyDescriptor<bool>;
 
             this.parentProperty = this.tabControl.ParentSettings == null ? 
                 null : 
-                this.tabControl.ParentSettings.GlobalSettings.GetProperty(descriptor.PropertyName) as BooleanProperty;
+                this.tabControl.ParentSettings.GlobalSettings.GetProperty(this.descriptor.PropertyName) as BooleanProperty;
             
             BooleanProperty mergedProperty = this.tabControl.MergedSettings == null ? 
                 null : 
-                this.tabControl.MergedSettings.GlobalSettings.GetProperty(descriptor.PropertyName) as BooleanProperty;
+                this.tabControl.MergedSettings.GlobalSettings.GetProperty(this.descriptor.PropertyName) as BooleanProperty;
 
-            this.enableCache.Checked = mergedProperty == null ? descriptor.DefaultValue : mergedProperty.Value;
+            this.enableCache.Checked = mergedProperty == null ? this.descriptor.DefaultValue : mergedProperty.Value;
 
             this.SetBoldState();
 
@@ -163,7 +168,7 @@ namespace StyleCop
         public bool Apply()
         {
             this.tabControl.LocalSettings.GlobalSettings.SetProperty(
-                new BooleanProperty(this.tabControl.Core, "WriteCache", this.enableCache.Checked));
+                new BooleanProperty(this.tabControl.Core, this.descriptor.PropertyName, this.enableCache.Checked));
             
             this.dirty = false;
             this.tabControl.DirtyChanged();
@@ -187,7 +192,7 @@ namespace StyleCop
         {
             this.parentProperty = this.tabControl.ParentSettings == null ?
                 null :
-                this.tabControl.ParentSettings.GlobalSettings.GetProperty("WriteCache") as BooleanProperty;
+                this.tabControl.ParentSettings.GlobalSettings.GetProperty(this.descriptor.PropertyName) as BooleanProperty;
 
             this.SetBoldState();
         }
@@ -279,7 +284,16 @@ namespace StyleCop
         /// </summary>
         private void SetBoldState()
         {
-            bool bold = this.parentProperty != null && this.enableCache.Checked != this.parentProperty.Value;
+            bool bold;
+
+            if (this.parentProperty == null)
+            {
+                bold = this.enableCache.Checked != this.descriptor.DefaultValue;
+            }
+            else
+            {
+                bold = this.enableCache.Checked != this.parentProperty.Value;
+            }
 
             if (bold)
             {

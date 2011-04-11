@@ -102,6 +102,12 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Settings\IPropertyControlHost.cs" />
     <Compile Include="Settings\PropertyControlSaveResult.cs" />
+    <Compile Include="Settings\PropertyDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Settings\PropertyDialog.Designer.cs">
+      <DependentUpon>PropertyDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Settings\v105Settings.cs" />
     <Compile Include="StyleCopRunner.cs" />
     <Compile Include="StyleCopObjectConsole.cs" />
@@ -146,9 +152,6 @@
     <Compile Include="Settings\PropertyCollection.cs" />
     <Compile Include="Settings\PropertyControl.cs">
       <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Settings\PropertyDialog.cs">
-      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Settings\PropertyType.cs" />
     <Compile Include="Settings\PropertyValue.cs" />
@@ -244,7 +247,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Settings\PropertyDialog.resx">
       <DependentUpon>PropertyDialog.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Strings.resx">
       <SubType>Designer</SubType>

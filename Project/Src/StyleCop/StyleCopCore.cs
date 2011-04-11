@@ -15,7 +15,6 @@
 namespace StyleCop
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Diagnostics;
@@ -378,7 +377,7 @@ namespace StyleCop
             // type plus ".xml"
             if (resourceId == null)
             {
-                resourceId = SourceAnalyzer.GetIdFromAddInType(addInType) + ".xml";
+                resourceId = StyleCopAddIn.GetIdFromAddInType(addInType) + ".xml";
             }
 
             // Check whether the resource exists.
@@ -394,7 +393,7 @@ namespace StyleCop
             using (StreamReader reader = new StreamReader(stream))
             {
                 string xml = reader.ReadToEnd();
-                if (xml == null || xml.Length == 0)
+                if (xml.Length == 0)
                 {
                     throw new ArgumentException(Strings.InvalidAddInXmlDocument);
                 }
@@ -549,20 +548,6 @@ namespace StyleCop
         {
             Param.Ignore(settingsFilePath);
             return this.ShowSettings(settingsFilePath, StyleCopCore.ProjectSettingsPropertyPageIdProperty);
-        }
-
-        /// <summary>
-        /// Displays the settings dialog for a project.
-        /// </summary>
-        /// <param name="settingsPath">The path to the settings to edit.</param>
-        /// <param name="id">The ID of the settings property page.</param>
-        /// <returns>Returns true if at least one settings change was made.</returns>
-        public bool ShowSettings(string settingsPath, string id)
-        {
-            Param.RequireValidString(settingsPath, "settingsPath");
-            Param.RequireValidString(id, "id");
-
-            return this.ShowSettings(settingsPath, id, false);
         }
 
         /// <summary>
@@ -902,13 +887,11 @@ namespace StyleCop
         /// </summary>
         /// <param name="settingsPath">The path to the settings to edit.</param>
         /// <param name="id">The ID of the settings property page.</param>
-        /// <param name="defaultSettings">The settings being shown are the default settings for the installation.</param>
         /// <returns>Returns true if at least one settings change was made.</returns>
-        internal bool ShowSettings(string settingsPath, string id, bool defaultSettings)
+        internal bool ShowSettings(string settingsPath, string id)
         {
             Param.AssertValidString(settingsPath, "settingsPath");
             Param.AssertValidString(id, "id");
-            Param.Ignore(defaultSettings);
 
             // Get the list of settings pages from each of the analyzers and parsers.
             List<IPropertyControlPage> pages = StyleCopCore.GetSettingsPages(this);
@@ -933,11 +916,8 @@ namespace StyleCop
                     pages.Add(pageFromEvent);
                 }
 
-                // Set the appropriate dialog title.
-                string title = defaultSettings ? Strings.DefaultSettingsDialogTitle : Strings.LocalSettingsDialogTitle;
-
                 // Display the project settings dialog.
-                return this.ShowProjectSettings(settingsPath, pages.AsReadOnly(), title, id, defaultSettings);
+                return this.ShowProjectSettings(settingsPath, pages.AsReadOnly(), id);
             }
             finally
             {
@@ -957,22 +937,16 @@ namespace StyleCop
         /// </summary>
         /// <param name="settingsPath">The path to the settings.</param>
         /// <param name="pages">The list of pages to display on the settings dialog.</param>
-        /// <param name="caption">The caption for the dialog.</param>
         /// <param name="id">A unique identifier string for the property page group.</param>
-        /// <param name="defaultSettings">Indicates whether these are the default settings for the installation.</param>
         /// <returns>Returns true if at least one settings change was made.</returns>
         internal bool ShowProjectSettings(
             string settingsPath,
             IList<IPropertyControlPage> pages,
-            string caption,
-            string id,
-            bool defaultSettings)
+            string id)
         {
             Param.AssertValidString(settingsPath, "settingsPath");
             Param.AssertNotNull(pages, "pages");
-            Param.AssertValidString(caption, "caption");
             Param.AssertValidString(id, "id");
-            Param.Ignore(defaultSettings);
 
             // Load the local settings.
             Exception exception = null;
@@ -990,8 +964,12 @@ namespace StyleCop
             }
             else if (localSettings != null)
             {
-                localSettings.DefaultSettings = defaultSettings;
-                return this.ShowProjectSettings(localSettings, pages, caption, id);
+                if (string.Compare(settingsPath, this.environment.GetDefaultSettingsPath(), true) == 0)
+                {
+                    localSettings.DefaultSettings = true;
+                }
+
+                return this.ShowProjectSettings(localSettings, pages, id);
             }
 
             return false;
@@ -1002,25 +980,25 @@ namespace StyleCop
         /// </summary>
         /// <param name="settings">The settings manager.</param>
         /// <param name="pages">The list of pages to display on the settings dialog.</param>
-        /// <param name="caption">The caption for the dialog.</param>
         /// <param name="id">A unique identifier string for the property page group.</param>
         /// <returns>Returns true if at least one settings change was made.</returns>
         internal bool ShowProjectSettings(
             WritableSettings settings,
             IList<IPropertyControlPage> pages,
-            string caption,
             string id)
         {
             Param.AssertNotNull(settings, "settings");
             Param.AssertNotNull(pages, "pages");
-            Param.AssertValidString(caption, "caption");
             Param.AssertValidString(id, "id");
 
             // Create the properties dialog object.
             using (PropertyDialog properties = new PropertyDialog(pages, settings, id, this, null))
             {
                 // Set the dialog title.
-                properties.Text = caption;
+                properties.Text = string.Format(
+                    Strings.SettingsDialogTitleFormat,
+                    settings.DefaultSettings ? Strings.SettingsDialogTitleDefault : Strings.SettingsDialogTitleLocal,
+                    settings.Location);
 
                 // Make sure that we're not running in a non-UI mode.
                 if (!this.displayUI)
