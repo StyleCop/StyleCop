@@ -1810,7 +1810,12 @@ namespace StyleCop.CSharp
             if (whitespace.TabCount > 0)
             {
                 // Tabs are not allowed.
-                this.AddViolation(tokenNode.Value.FindParentElement(), whitespace.LineNumber, Rules.TabsMustNotBeUsed);
+                ICodeElement parentElement = tokenNode.Value.FindParentElement();
+                
+                if (parentElement != null)
+                {
+                    this.AddViolation(parentElement, whitespace.LineNumber, Rules.TabsMustNotBeUsed);
+                }
             }
             else if (whitespace.TabCount == 0 && whitespace.SpaceCount > 1)
             {
