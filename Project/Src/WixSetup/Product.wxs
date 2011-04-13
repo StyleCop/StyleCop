@@ -61,6 +61,7 @@
       <!--  We replace the use of VS90Setup with StyleCopVS90Setup to add support for the devenv.exe flag /nosetupvstemplates -->
       <Custom Action="StyleCopVS90Setup" Before="InstallFinalize"><![CDATA[&Feature_StyleCopPackage > 1 AND VS90DEVENV<>""]]></Custom>
       <Custom Action="StyleCopVS10Setup" Before="InstallFinalize"><![CDATA[&Feature_StyleCopPackage > 1 AND VS2010DEVENV<>""]]></Custom>
+      <Custom Action="SetARPINSTALLLOCATION" After="InstallValidate"></Custom>
     </InstallExecuteSequence>
 
     <WixVariable Id="WixUISupportPerUser" Value="0" />
@@ -98,6 +99,7 @@
 
     <CustomAction Id="ToggleALLUSERSToPerUser" Property="ALLUSERS" Value=""/>
     <CustomAction Id="RevertALLUSERSToPerMachine" Property="ALLUSERS" Value="1"/>
+    <CustomAction Id="SetARPINSTALLLOCATION" Property="ARPINSTALLLOCATION" Value="[INSTALLDIR]" />
 
   </Product>
 </Wix>
