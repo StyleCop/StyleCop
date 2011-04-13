@@ -2415,7 +2415,7 @@ namespace StyleCop.CSharp
         /// </summary>
         /// <param name="parentElement">The element to start at.</param>
         /// <param name="firstTypeName">The first type name found or null if no type defined.</param>
-        /// <returns>True if the first tpe defined is partial, otherwise false.</returns>
+        /// <returns>True if the first type defined is partial, otherwise false.</returns>
         private bool GetFirstTypeName(CsElement parentElement, out string firstTypeName)
         {
             bool partial = false;
@@ -2431,8 +2431,9 @@ namespace StyleCop.CSharp
                         return partial;
                     }
                 }
-                else if (element.ElementType == ElementType.Class || element.ElementType == ElementType.Enum ||
-                    element.ElementType == ElementType.Interface || element.ElementType == ElementType.Struct)
+                else if (element.ElementType == ElementType.Class || 
+                         element.ElementType == ElementType.Interface ||
+                         element.ElementType == ElementType.Struct)
                 {
                     if (element.Declaration.ContainsModifier(CsTokenType.Partial))
                     {
@@ -2441,6 +2442,10 @@ namespace StyleCop.CSharp
 
                     firstTypeName = element.FullyQualifiedName.SubstringAfterLast('.');
                     break;
+                }
+                else if (element.ElementType == ElementType.Delegate || element.ElementType == ElementType.Enum)
+                {
+                    firstTypeName = element.FullyQualifiedName.SubstringAfterLast('.');
                 }
             }
 

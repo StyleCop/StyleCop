@@ -439,6 +439,7 @@
     <TestCodeFile>FileHeadersValidDingbatItems{TKey,TValue}.cs</TestCodeFile>
     <TestCodeFile>FileHeadersValidIGenericContravariant{T}.cs</TestCodeFile>
     <TestCodeFile>FileHeadersValidIGenericCovariant{T}.cs</TestCodeFile>
+    <TestCodeFile>FileHeadersValidWithEnumFirst.cs</TestCodeFile>
     <Settings>
       <GlobalSettings>
         <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
