@@ -58,6 +58,11 @@ namespace DebugAssertMessages
             System.Diagnostics.Debug.Assert(true, String.Empty);
             Debug.Fail(String.Empty);
             System.Diagnostics.Debug.Fail(String.Empty);
+
+            Debug.Fail(System.String.Empty);
+            Debug.Assert(true, System.String.Empty);
+            Debug.Fail(global::System.String.Empty);
+            Debug.Assert(true, global::System.String.Empty);
         }
     }
 

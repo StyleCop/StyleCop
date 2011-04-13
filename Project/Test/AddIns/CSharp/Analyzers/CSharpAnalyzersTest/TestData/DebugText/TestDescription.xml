@@ -125,6 +125,10 @@
       <Violation Section="Root.DebugAssertMessages.Class2.Method1" LineNumber="58" Rule="DebugAssertMustProvideMessageText" />
       <Violation Section="Root.DebugAssertMessages.Class2.Method1" LineNumber="59" Rule="DebugFailMustProvideMessageText" />
       <Violation Section="Root.DebugAssertMessages.Class2.Method1" LineNumber="60" Rule="DebugFailMustProvideMessageText" />
+      <Violation Section="Root.DebugAssertMessages.Class2.Method1" LineNumber="62" Rule="DebugFailMustProvideMessageText" />
+      <Violation Section="Root.DebugAssertMessages.Class2.Method1" LineNumber="63" Rule="DebugAssertMustProvideMessageText" />
+      <Violation Section="Root.DebugAssertMessages.Class2.Method1" LineNumber="64" Rule="DebugFailMustProvideMessageText" />
+      <Violation Section="Root.DebugAssertMessages.Class2.Method1" LineNumber="65" Rule="DebugAssertMustProvideMessageText" />
     </ExpectedViolations>
   </Test>
 </StyleCopTestDescription>

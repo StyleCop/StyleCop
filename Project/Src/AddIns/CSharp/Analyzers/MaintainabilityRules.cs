@@ -304,6 +304,43 @@ namespace StyleCop.CSharp
             return false;
         }
 
+        /// <summary>
+        /// Determine whether the argument passed in is equivalent to ""
+        /// </summary>
+        /// <param name="argument">The Argument to check.</param>
+        /// <returns>True if equivalent to string.empty otherwise false.</returns>
+        private static bool ArgumentTokensMatchStringEmpty(Argument argument)
+        {
+            CsToken firstToken = argument.Tokens.First.Value;
+
+            if (firstToken.CsTokenType == CsTokenType.String && IsEmptyString(firstToken.Text))
+            {
+                return true;
+            }
+
+            if (firstToken.CsTokenType == CsTokenType.Null)
+            {
+                return true;
+            }
+
+            if (argument.Tokens.MatchTokens(StringComparison.OrdinalIgnoreCase, "string", ".", "empty"))
+            {
+                return true;
+            }
+
+            if (argument.Tokens.MatchTokens(StringComparison.OrdinalIgnoreCase, "system", ".", "string", ".", "empty"))
+            {
+                return true;
+            }
+
+            if (argument.Tokens.MatchTokens(StringComparison.OrdinalIgnoreCase, "global", "::", "system", ".", "string", ".", "empty"))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         #endregion Private Static Methods
 
         #region Private Methods
@@ -755,9 +792,7 @@ namespace StyleCop.CSharp
                 // There is no message argument or the message argument is empty.
                 this.AddViolation(element, debugAssertMethodCall.LineNumber, Rules.DebugAssertMustProvideMessageText);
             }
-            else if ((secondArgument.Tokens.First.Value.CsTokenType == CsTokenType.String && IsEmptyString(secondArgument.Tokens.First.Value.Text)) ||
-                     (secondArgument.Tokens.First.Value.CsTokenType == CsTokenType.Null) ||
-                     secondArgument.Tokens.MatchTokens(StringComparison.OrdinalIgnoreCase, "string", ".", "Empty"))
+            else if (ArgumentTokensMatchStringEmpty(secondArgument))
             {
                 // The message argument contains an empty string or null.
                 this.AddViolation(element, debugAssertMethodCall.LineNumber, Rules.DebugAssertMustProvideMessageText);
@@ -787,15 +822,13 @@ namespace StyleCop.CSharp
                 // There is no message argument or the message argument is empty.
                 this.AddViolation(element, debugFailMethodCall.LineNumber, Rules.DebugFailMustProvideMessageText);
             }
-            else if ((firstArgument.Tokens.First.Value.CsTokenType == CsTokenType.String && IsEmptyString(firstArgument.Tokens.First.Value.Text)) ||
-                     (firstArgument.Tokens.First.Value.CsTokenType == CsTokenType.Null) ||
-                     firstArgument.Tokens.MatchTokens(StringComparison.OrdinalIgnoreCase, "string", ".", "Empty"))
+            else if (ArgumentTokensMatchStringEmpty(firstArgument))
             {
                 // The message argument contains an empty string or null.
                 this.AddViolation(element, debugFailMethodCall.LineNumber, Rules.DebugFailMustProvideMessageText);
             }
         }
-
+        
         /// <summary>
         /// Checks the given parenthesized expression to make sure that it is not unnecessary.
         /// </summary>
