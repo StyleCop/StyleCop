@@ -112,7 +112,7 @@ namespace StyleCop {
         ///   Looks up a localized string similar to StyleCop {0} is now available.
         ///StyleCop {1} is currently installed.
         ///
-        ///Once downloaded and installed you&apos;ll need to restart Visual Studio.
+        ///Once downloaded and installed you will need to restart Visual Studio.
         ///
         ///Do you wish to download the latest version?.
         /// </summary>

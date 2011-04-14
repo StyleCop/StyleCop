@@ -95,41 +95,42 @@ namespace StyleCop
         /// </returns>
         private bool PromptUserForDownload(string currentVersionNumber, string newVersionNumber, string messageText)
         {
-            if (string.IsNullOrEmpty(messageText))
+            if (!string.IsNullOrEmpty(messageText))
             {
-                if (this.core.DisplayUI)
-                {
-                    DialogResult result = AlertDialog.Show(
-                        this.core,
-                        null,
-                        string.Format(Strings.AutoUpdateQuestion, newVersionNumber, currentVersionNumber),
-                        Strings.Title,
-                        MessageBoxButtons.YesNo,
-                        MessageBoxIcon.Warning);
+                // display custom message about new version available
+                AlertDialog.Show(
+                    this.core,
+                    null,
+                    messageText,
+                    Strings.Title,
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
 
-                    return result == DialogResult.Yes;
-                }
-                else
-                {
-                    AlertDialog.Show(
-                        this.core,
-                        null,
-                        string.Format(Strings.AutoUpdateInformation, newVersionNumber, currentVersionNumber),
-                        Strings.Title,
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
-
-                    return false;
-                }
+                return false;
             }
 
+            if (this.core.DisplayUI)
+            {
+                // display dialog asking whether to perform auto-update
+                DialogResult result = AlertDialog.Show(
+                    this.core,
+                    null,
+                    string.Format(Strings.AutoUpdateQuestion, newVersionNumber, currentVersionNumber),
+                    Strings.Title,
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+
+                return result == DialogResult.Yes;
+            }
+
+            // send notification to the output for non-UI environment
             AlertDialog.Show(
                 this.core,
                 null,
-                messageText,
+                string.Format(Strings.AutoUpdateInformation, newVersionNumber, currentVersionNumber),
                 Strings.Title,
                 MessageBoxButtons.OK,
-                MessageBoxIcon.Warning);
+                MessageBoxIcon.Information);
 
             return false;
         }
