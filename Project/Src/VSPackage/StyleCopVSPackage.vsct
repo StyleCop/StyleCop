@@ -62,7 +62,7 @@
     <Buttons>
       <Button guid="StyleCopCommandSetId" id="CommandIdAnalyzeSolution" priority="0x0000" type="Button">
         <Parent guid="StyleCopCommandSetId" id="0"/>
-				<Icon guid="StyleCopCmdBmpId" id="bmpPic1"/>
+        <Icon guid="StyleCopCmdBmpId" id="bmpPic1"/>
         <CommandFlag>DynamicVisibility</CommandFlag>
         <Strings>
           <ButtonText>Run Style&amp;Cop</ButtonText>
@@ -70,7 +70,7 @@
       </Button>
       <Button guid="StyleCopCommandSetId" id="CommandIdReanalyzeSolution" priority="0x0000" type="Button">
         <Parent guid="StyleCopCommandSetId" id="0"/>
-				<Icon guid="StyleCopCmdBmpId" id="bmpPic1"/>
+        <Icon guid="StyleCopCmdBmpId" id="bmpPic1"/>
         <CommandFlag>DynamicVisibility</CommandFlag>
         <Strings>
           <ButtonText>Run StyleCop (R&amp;escan All)</ButtonText>
@@ -78,7 +78,7 @@
       </Button>
       <Button guid="StyleCopCommandSetId" id="CommandIdAnalyzeProject" priority="0x0000" type="Button">
         <Parent guid="StyleCopCommandSetId" id="0"/>
-				<Icon guid="StyleCopCmdBmpId" id="bmpPic1"/>
+        <Icon guid="StyleCopCmdBmpId" id="bmpPic1"/>
         <CommandFlag>DynamicVisibility</CommandFlag>
         <Strings>
           <ButtonText>Run Style&amp;Cop</ButtonText>
@@ -86,7 +86,7 @@
       </Button>
       <Button guid="StyleCopCommandSetId" id="CommandIdAnalyzeThisFile" priority="0x0000" type="Button">
         <Parent guid="StyleCopCommandSetId" id="0"/>
-				<Icon guid="StyleCopCmdBmpId" id="bmpPic1"/>
+        <Icon guid="StyleCopCmdBmpId" id="bmpPic1"/>
         <CommandFlag>DynamicVisibility</CommandFlag>
         <Strings>
           <ButtonText>Run Style&amp;Cop</ButtonText>
@@ -94,7 +94,7 @@
       </Button>
       <Button guid="StyleCopCommandSetId" id="CommandIdAnalyzeItem" priority="0x0000" type="Button">
         <Parent guid="StyleCopCommandSetId" id="0"/>
-				<Icon guid="StyleCopCmdBmpId" id="bmpPic1"/>
+        <Icon guid="StyleCopCmdBmpId" id="bmpPic1"/>
         <CommandFlag>DynamicVisibility</CommandFlag>
         <Strings>
           <ButtonText>Run Style&amp;Cop</ButtonText>
@@ -102,7 +102,7 @@
       </Button>
       <Button guid="StyleCopCommandSetId" id="CommandIdAnalyzeFolder" priority="0x0000" type="Button">
         <Parent guid="StyleCopCommandSetId" id="0"/>
-				<Icon guid="StyleCopCmdBmpId" id="bmpPic1"/>
+        <Icon guid="StyleCopCmdBmpId" id="bmpPic1"/>
         <CommandFlag>DynamicVisibility</CommandFlag>
         <Strings>
           <ButtonText>Run Style&amp;Cop</ButtonText>
@@ -110,10 +110,11 @@
       </Button>
       <Button guid="StyleCopCommandSetId" id="CommandIdProjectSettings" priority="0x0000" type="Button">
         <Parent guid="StyleCopCommandSetId" id="0"/>
+        <Icon guid="StyleCopCmdBmpId" id="bmpPic2"/>
         <CommandFlag>DynamicVisibility</CommandFlag>
         <Strings>
           <ButtonText>StyleCop Se&amp;ttings</ButtonText>
-					<CommandName>StyleCop Settings</CommandName>
+          <CommandName>StyleCop Settings</CommandName>
         </Strings>
       </Button>
       <Button guid="StyleCopCommandSetId" id="CommandIdCancel" priority="0x0000" type="Button">
@@ -122,7 +123,7 @@
         <CommandFlag>DefaultInvisible</CommandFlag>
         <Strings>
           <ButtonText>&amp;Cancel StyleCop</ButtonText>
-          <CommandName>Cancel StyleCop</CommandName>				
+          <CommandName>Cancel StyleCop</CommandName>        
         </Strings>
       </Button>
     </Buttons>
@@ -134,7 +135,7 @@
     <!--   // inside a button definition. An important aspect of this declaration is that the element id -->
     <!--   // must be the actual index (1-based) of the bitmap inside the bitmap strip. -->
     <Bitmaps>
-			<Bitmap guid="StyleCopCmdBmpId" resID="IDB_MENU_IMAGES" usedList="bmpPic1, bmpPic2"/>
+      <Bitmap guid="StyleCopCmdBmpId" resID="IDB_MENU_IMAGES" usedList="bmpPic1, bmpPic2"/>
     </Bitmaps>
   </Commands>
   
@@ -145,7 +146,7 @@
   <UsedCommands>
     <!-- CMDUSED_SECTION -->
   </UsedCommands>
-	
+  
   <!-- // Inside this section, we have the ability to place menu groups inside some other menu or -->
   <!-- // menu / commands inside other groups. -->
   <!-- // For instance, it is possible to place one of VisualStudio's menus or commands inside one of our  -->
@@ -217,7 +218,7 @@
     <!--  -->
 
   </CommandPlacements>
-	
+  
   <VisibilityConstraints>
     <!-- VISIBILITY_SECTION -->
     <!--   // Command                                              GUID when visible -->

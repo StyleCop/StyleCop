@@ -130,9 +130,6 @@
   <data name="300" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\Images_32bit.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="302" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\StyleCop.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="200" xml:space="preserve">
     <value>APM1C2P1QJMIE1C8J3HPC1PICHQZI9EEJCEEH3H1Q2QEM8DAE0EHCMERCKQAJ0RQDKPDAMM3I0JMPQMRJMHJDJKHA2MIMRJZZRHRKZMKCMI9IEIKZPJMPMP9P0DMHAQQ</value>
     <comment>Package Load Key (PLK)	APM1C2P1QJMIE1C8J3HPC1PICHQZI9EEJCEEH3H1Q2QEM8DAE0EHCMERCKQAJ0RQDKPDAMM3I0JMPQMRJMHJDJKHA2MIMRJZZRHRKZMKCMI9IEIKZPJMPMP9P0DMHAQQ

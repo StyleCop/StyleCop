@@ -29,16 +29,6 @@ namespace StyleCop
         #region Private Constants
 
         /// <summary>
-        /// The name of a rule node.
-        /// </summary>
-        private const string RuleNode = "RuleNode";
-
-        /// <summary>
-        /// The name of a rule group node.
-        /// </summary>
-        private const string RuleGroupNode = "RuleGroupNode";
-
-        /// <summary>
         /// The name of a parser node.
         /// </summary>
         private const string ParserNode = "ParserNode";
@@ -47,6 +37,16 @@ namespace StyleCop
         /// The name of an analyzer node.
         /// </summary>
         private const string AnalyzerNode = "AnalyzerNode";
+
+        /// <summary>
+        /// The name of a rule group node.
+        /// </summary>
+        private const string RuleGroupNode = "RuleGroupNode";
+
+        /// <summary>
+        /// The name of a rule node.
+        /// </summary>
+        private const string RuleNode = "RuleNode";
 
         #endregion Private Constants
 
@@ -517,8 +517,8 @@ namespace StyleCop
             // 
             this.nodeImages.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("nodeImages.ImageStream")));
             this.nodeImages.TransparentColor = System.Drawing.Color.Magenta;
-            this.nodeImages.Images.SetKeyName(0, AnalyzerNode);
-            this.nodeImages.Images.SetKeyName(1, ParserNode);
+            this.nodeImages.Images.SetKeyName(0, ParserNode);
+            this.nodeImages.Images.SetKeyName(1, AnalyzerNode);
             this.nodeImages.Images.SetKeyName(2, RuleGroupNode);
             this.nodeImages.Images.SetKeyName(3, RuleNode);
             // 
