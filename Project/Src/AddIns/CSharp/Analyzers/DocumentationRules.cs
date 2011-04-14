@@ -166,6 +166,16 @@ namespace StyleCop.CSharp
             }
         }
 
+        /// <inheritdoc />
+        public override bool DoAnalysis(CodeDocument document)
+        {
+            Param.RequireNotNull(document, "document");
+
+            CsDocument csdocument = (CsDocument)document;
+
+            return csdocument.FileHeader == null || !csdocument.FileHeader.UnStyled;
+        }
+
         /// <summary>
         /// Called before an analysis run is initiated.
         /// </summary>

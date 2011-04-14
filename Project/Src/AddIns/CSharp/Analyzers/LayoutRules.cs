@@ -63,6 +63,16 @@ namespace StyleCop.CSharp
             }
         }
 
+        /// <inheritdoc />
+        public override bool DoAnalysis(CodeDocument document)
+        {
+            Param.RequireNotNull(document, "document");
+
+            CsDocument csdocument = (CsDocument)document;
+
+            return csdocument.FileHeader == null || !csdocument.FileHeader.UnStyled;
+        }
+
         #endregion Public Override Methods
 
         #region Private Static Methods

@@ -159,6 +159,17 @@ namespace StyleCop
         }
 
         /// <summary>
+        /// Give the analyzer a final chance to stop the analysis of this document.
+        /// </summary>
+        /// <param name="document">The document to check to see if we need to actually continue.</param>
+        /// <returns>True if the document should be analyzed otherwise False.</returns>
+        public virtual bool DoAnalysis(CodeDocument document)
+        {
+            Param.Ignore(document);
+            return true;
+        }
+
+        /// <summary>
         /// Determines whether the analyzer wishes to delay its analysis until a later pass.
         /// </summary>
         /// <param name="document">The document to analyze.</param>

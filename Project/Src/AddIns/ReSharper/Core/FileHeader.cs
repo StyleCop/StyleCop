@@ -23,7 +23,9 @@ namespace StyleCop.ReSharper.Core
     #region Using Directives
 
     using System;
+    using System.Collections.Specialized;
     using System.Globalization;
+    using System.Linq;
     using System.Web;
     using System.Xml;
 
@@ -285,13 +287,15 @@ namespace StyleCop.ReSharper.Core
                     this.IsGenerated = true;
                 }
 
-                // UnStyled  <unstyled> 
-                if (this.headerXml.DocumentElement["UnStyled"] != null || this.headerXml.DocumentElement["unstyled"] != null || this.headerXml.DocumentElement["StyleCopForReSharperOff"] != null ||
-                    this.headerXml.DocumentElement["StyleCopReSharperOff"] != null || this.headerXml.DocumentElement["NoStyle"] != null || this.headerXml.DocumentElement["Chav"] != null)
+                var unstyledElements = new StringCollection();
+                unstyledElements.AddRange(new[] { "unstyled", "stylecopoff", "nostyle" });
+
+                var childNodes = this.headerXml.DocumentElement.ChildNodes;
+                if (childNodes.Cast<XmlNode>().Any(xmlNode => unstyledElements.Contains(xmlNode.Name.ToLowerInvariant())))
                 {
                     this.UnStyled = true;
                 }
-
+                
                 this.EnsureCopyrightElement();
                 this.EnsureCompanyAttribute();
                 this.EnsureFileAttribute();

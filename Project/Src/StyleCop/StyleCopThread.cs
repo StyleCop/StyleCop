@@ -369,7 +369,10 @@ namespace StyleCop
                             SourceParser.ClearAnalyzerTags(document);
                             try
                             {
-                                analyzer.AnalyzeDocument(document);
+                                if (analyzer.DoAnalysis(document))
+                                {
+                                    analyzer.AnalyzeDocument(document);
+                                }
                             }
                             catch (System.Exception)
                             {

@@ -16,7 +16,9 @@ namespace StyleCop.CSharp
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.Specialized;
     using System.Globalization;
+    using System.Linq;
     using System.Text;
     using System.Xml;
 
@@ -112,6 +114,15 @@ namespace StyleCop.CSharp
                             // Set this as generated code.
                             this.generated = true;
                         }
+                    }
+
+                    var unstyledElements = new StringCollection();
+                    unstyledElements.AddRange(new[] { "unstyled", "stylecopoff", "nostyle" });
+                    
+                    var childNodes = doc.DocumentElement.ChildNodes;
+                    if (childNodes.Cast<XmlNode>().Any(xmlNode => unstyledElements.Contains(xmlNode.Name.ToLowerInvariant())))
+                    {
+                        this.UnStyled = true;
                     }
                 }
             }
@@ -213,6 +224,11 @@ namespace StyleCop.CSharp
             }
         }
 
+        /// <summary>
+        /// Gets a value indicating whether the header has a UnStyled element.
+        /// </summary>
+        public bool UnStyled { get; private set; }
+        
         #endregion Public Properties
     }
 }
