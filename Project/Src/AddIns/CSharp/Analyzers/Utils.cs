@@ -91,14 +91,11 @@ namespace StyleCop.CSharp
             Param.AssertNotNull(child, "member");
             Param.AssertValidString(name, "name");
 
-            int angleBracketPosition = name.IndexOf('<');
-            string trimmedName = angleBracketPosition > -1 ? name.Substring(0, angleBracketPosition) : name;
-
             List<CsElement> items = null;
-            if (!members.TryGetValue(trimmedName, out items))
+            if (!members.TryGetValue(name, out items))
             {
                 items = new List<CsElement>(1);
-                members.Add(trimmedName, items);
+                members.Add(name, items);
             }
 
             items.Add(child);
@@ -200,25 +197,16 @@ namespace StyleCop.CSharp
 
             List<CsElement> matchesFound = null;
 
-            // Look through all the children of this class to see if the word matches
-            // against any item in the class.
-            List<CsElement> matches = null;
+            // Look through all the children of this class to see if the word matches against any item in the class.
+            List<CsElement> matches;
             if (members.TryGetValue(word, out matches))
             {
                 foreach (CsElement match in matches)
                 {
-                    string trimmedName = match.Declaration.Name;
-
-                    int angleBracketPosition = trimmedName.IndexOf('<');
-                    if (angleBracketPosition > -1)
-                    {
-                        trimmedName = trimmedName.Substring(0, angleBracketPosition);
-                    }
-
+                    string name = match.Declaration.Name;
+                    
                     // Check if there is a match.
-                    if (match.ElementType == ElementType.Field ||
-                        trimmedName == word ||
-                       (interfaces && match.Declaration.Name.EndsWith("." + word, StringComparison.Ordinal)))
+                    if (match.ElementType == ElementType.Field || name == word || (interfaces && name.EndsWith("." + word, StringComparison.Ordinal)))
                     {
                         if (matchesFound == null)
                         {

@@ -3,6 +3,7 @@
   <!-- Tests that the base. prefix is used properly. -->
   <Test Name="ClassMembersDoNotPrefixCallsWithBaseUnlessLocalImplementationExists">
     <TestCodeFile>ClassMembersDoNotPrefixCallsWithBaseUnlessLocalImplementationExists.cs</TestCodeFile>
+    <TestCodeFile>ClassMembersDerivedWithBase.cs</TestCodeFile>
     <Settings>
       <GlobalSettings>
         <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
