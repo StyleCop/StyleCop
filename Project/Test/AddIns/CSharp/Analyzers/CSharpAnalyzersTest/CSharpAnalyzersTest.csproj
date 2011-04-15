@@ -76,6 +76,7 @@
     <None Include="TestData\FileHeaders\FileHeadersValidIGenericContravariant{T}.cs" />
     <None Include="TestData\FileHeaders\FileHeadersValidIGenericCovariant{T}.cs" />
     <None Include="TestData\FileHeaders\FileHeadersValidGenerics.cs" />
+    <Compile Include="TestData\FileHeaders\FileHeadersValidWithEnumAndParam.cs" />
     <Compile Include="TestData\FileHeaders\FileHeadersValidWithEnumFirst.cs" />
     <Compile Include="TestData\FileHeaders\IFileHeadersValidMultipleTypes.cs" />
     <Compile Include="TestData\MethodParameters\ConstructorInitializerSpanningMultipleLines.cs" />
