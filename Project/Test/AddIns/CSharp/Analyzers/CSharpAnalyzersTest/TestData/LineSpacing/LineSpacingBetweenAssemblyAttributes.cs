@@ -8,6 +8,10 @@
 [assembly: AssemblyCopyright("MS-PL")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
+[assembly: AssemblyDescription("Example " +
+                               "Description")]
+[assembly: AssemblyTitle("Example " +
+                         "Assembly")]
 
 namespace CSharpAnalyzersTest.TestData.LineSpacing
 {

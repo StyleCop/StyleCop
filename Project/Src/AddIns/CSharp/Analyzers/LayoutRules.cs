@@ -349,14 +349,14 @@ namespace StyleCop.CSharp
                     // - AND neither of the elements are generated
                     // - AND the previous element and the current element are of different types
                     // - - OR the current element has a header
-                    // - - OR the previous element spans multiple lines
+                    // - - OR the previous element spans multiple lines (if not an assembly attribute)
                     // - - OR the elements are not using directives, extern alias directives, accessors, enum items, or fields.
                     if (previousElement != null && 
                         !previousElement.Generated &&
                         !childElement.Generated &&
                         (previousElement.ElementType != childElement.ElementType ||
                          childElement.Header != null ||
-                         previousElement.Location.LineSpan > 1 ||
+                         (previousElement.Location.LineSpan > 1 && childElement.ElementType != ElementType.AssemblyAttribute) ||
                          (childElement.ElementType != ElementType.UsingDirective &&
                           childElement.ElementType != ElementType.ExternAliasDirective &&
                           childElement.ElementType != ElementType.Accessor &&
