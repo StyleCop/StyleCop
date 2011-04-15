@@ -578,7 +578,15 @@ namespace StyleCop.CSharp
                         CsToken name = Utils.ExtractBaseClassMemberName(parentExpression, tokenNode);
                         if (name != null)
                         {
-                            ICollection<CsElement> matches = Utils.FindClassMember(name.Text, parentClass, members, true);
+                            string trimmedName = name.Text;
+                            int angleBracketPosition = trimmedName.IndexOf('<');
+                            
+                            if (angleBracketPosition > -1)
+                            {
+                                trimmedName = trimmedName.Substring(0, angleBracketPosition);
+                            }
+
+                            ICollection<CsElement> matches = Utils.FindClassMember(trimmedName, parentClass, members, true);
 
                             // Check to see if there is a non-static match.
                             bool found = false;

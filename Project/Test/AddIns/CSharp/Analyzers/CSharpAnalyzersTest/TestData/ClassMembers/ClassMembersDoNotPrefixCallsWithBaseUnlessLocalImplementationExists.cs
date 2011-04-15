@@ -27,4 +27,20 @@ namespace CSharpAnalyzersTest.TestData
             base.OnCreateControl();
         }
     }
+
+    public class DoNotPrefixCallsWithBaseUnlessLocalImplementationExists2Base
+    {
+        public void A1<T>(T value)
+        {
+        }
+    }
+    
+    public class B : DoNotPrefixCallsWithBaseUnlessLocalImplementationExists2Base
+    {        
+        public new void A1<T>(T value)
+        {
+            base.A1(value);
+            //// base.A1<T>(value); //// This works
+        }
+    }
 }
