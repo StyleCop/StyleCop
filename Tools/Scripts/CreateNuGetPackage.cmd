@@ -1,0 +1,1 @@
+CALL %STTOOLS%\NuGet\NuGet.exe pack %PROJECTROOT%\StyleCop.nuspec -o %PROJECTROOT%\BuildDrop
