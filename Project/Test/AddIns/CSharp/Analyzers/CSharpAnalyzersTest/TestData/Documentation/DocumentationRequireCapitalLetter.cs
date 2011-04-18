@@ -75,6 +75,24 @@ namespace CSharpAnalyzersTest.TestData
         public int ValidDocumentationCapitalLetterMethod2()
         {
         }
+
+        /// <summary>
+        /// This is the summary.
+        /// </summary>
+        /// <param name="param1"><see langword="true" /> to test param; otherwise, <see langword="false" />.</param>
+        /// <returns>no capital letter.</returns>
+        public int ValidDocumentationCapitalLetterMethod3(string param1)
+        {
+        }
+
+        /// <summary>
+        /// This is the summary.
+        /// </summary>
+        /// <param name="param1"><c>true</c> to test param; otherwise, <see langword="false" />.</param>
+        /// <returns>no capital letter.</returns>
+        public int ValidDocumentationCapitalLetterMethod4(string param1)
+        {
+        }
     }
 
     #endregion

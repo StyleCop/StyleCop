@@ -1781,7 +1781,7 @@ namespace StyleCop.CSharp
                 // begin with true or false (in a <return> element)
                 // Code like this is common:
                 // <value><c>true</c> if dirty; otherwise, <c>false</c>.</value>
-                if ((!documentationXml.InnerXml.StartsWith("<c>", StringComparison.Ordinal) && !documentationXml.InnerXml.StartsWith("<paramref", StringComparison.Ordinal)) &&
+                if ((!documentationXml.InnerXml.StartsWith("<c>", StringComparison.Ordinal) && !documentationXml.InnerXml.StartsWith("<see", StringComparison.Ordinal) && !documentationXml.InnerXml.StartsWith("<paramref", StringComparison.Ordinal)) &&
                     (!documentationType.Equals("return", StringComparison.Ordinal) ||
                      (!documentationXml.InnerText.StartsWith("true", StringComparison.Ordinal) && !documentationXml.InnerText.StartsWith("false", StringComparison.Ordinal))))
                 {
