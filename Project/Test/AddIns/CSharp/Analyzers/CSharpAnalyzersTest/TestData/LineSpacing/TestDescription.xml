@@ -11,6 +11,7 @@
     <TestCodeFile>BlankLinesAtStartAndEndOfFile7.cs</TestCodeFile>
     <TestCodeFile>BlankLinesAtStartAndEndOfFile8.cs</TestCodeFile>
     <TestCodeFile>BlankLinesAtStartAndEndOfFile9.cs</TestCodeFile>
+    <TestCodeFile>BlankLinesAtStartAndEndOfFile10.cs</TestCodeFile>
     <TestCodeFile>LineSpacingBlankLineCurly.cs</TestCodeFile>
     <Settings>
       <GlobalSettings>

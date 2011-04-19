@@ -184,13 +184,18 @@ namespace StyleCop.CSharp
             // Loop until all the symbols have been read.
             while (true)
             {
-                Symbol symbol = this.GetSymbol(sourceCode, configuration, true);
+                bool alreadyAdded = false;
+
+                Symbol symbol = this.GetSymbol(symbols, sourceCode, configuration, true, out alreadyAdded);
                 if (symbol == null)
                 {
                     break;
                 }
 
-                symbols.Add(symbol);
+                if (!alreadyAdded)
+                {
+                    symbols.Add(symbol);
+                }
             }
 
             // Return the list of symbols.
@@ -200,9 +205,11 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Gets the next symbol in the code, starting at the current marker.
         /// </summary>
+        /// <param name="symbols">The List of symbols we've processed.</param>
         /// <param name="sourceCode">The source code containing the symbol.</param>
         /// <param name="configuration">The active configuration.</param>
         /// <param name="evaluatePreprocessors">Indicates whether to evaluate preprocessor symbols.</param>
+        /// <param name="alreadyAdded">Return true if the Symbol has been added to the Symbol List already.</param>
         /// <returns>Returns the next symbol in the document.</returns>
         [SuppressMessage(
             "Microsoft.Maintainability",
@@ -212,13 +219,15 @@ namespace StyleCop.CSharp
             "Microsoft.Globalization",
             "CA1303:DoNotPassLiteralsAsLocalizedParameters",
             Justification = "The literals represent non-localizable C# operators.")]
-        internal Symbol GetSymbol(SourceCode sourceCode, Configuration configuration, bool evaluatePreprocessors)
+        internal Symbol GetSymbol(List<Symbol> symbols, SourceCode sourceCode, Configuration configuration, bool evaluatePreprocessors, out bool alreadyAdded)
         {
+            Param.AssertNotNull(symbols, "symbols");
             Param.AssertNotNull(sourceCode, "sourceCode");
             Param.Ignore(configuration);
             Param.Ignore(evaluatePreprocessors);
 
             Symbol symbol = null;
+            alreadyAdded = false;
 
             // Look at the next character from the buffer.
             char firstCharacter = this.codeReader.Peek();
@@ -273,7 +282,7 @@ namespace StyleCop.CSharp
                         break;
 
                     case '#':
-                        symbol = this.GetPreprocessorDirectiveSymbol(sourceCode, configuration, evaluatePreprocessors);
+                        symbol = this.GetPreprocessorDirectiveSymbol(symbols, sourceCode, configuration, evaluatePreprocessors, out alreadyAdded);
                         break;
 
                     case '(':
@@ -1754,17 +1763,22 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Gets the next preprocessor directive keyword.
         /// </summary>
+        /// <param name="symbols">The List of symbols we've processed.</param>
         /// <param name="sourceCode">The source code.</param>
         /// <param name="configuration">The active configuration.</param>
         /// <param name="evaluate">Indicates whether to evaluate the preprocessor symbol if it is a conditional
         /// directive.</param>
+        /// <param name="alreadyAdded">Return true if the Symbol has been added to the Symbol List already.</param>
         /// <returns>Returns the next preprocessor directive keyword.</returns>
         private Symbol GetPreprocessorDirectiveSymbol(
-            SourceCode sourceCode, Configuration configuration, bool evaluate)
+            List<Symbol> symbols, SourceCode sourceCode, Configuration configuration, bool evaluate, out bool alreadyAdded)
         {
+            Param.AssertNotNull(symbols, "symbols");
             Param.AssertNotNull(sourceCode, "sourceCode");
             Param.Ignore(configuration);
             Param.Ignore(evaluate);
+
+            alreadyAdded = false;
 
             // Find the end of the current line.
             StringBuilder text = new StringBuilder();
@@ -1797,7 +1811,7 @@ namespace StyleCop.CSharp
             {
                 // Check the type of the symbol. If this is a conditional preprocessor symbol which resolves to false,
                 // then we need to advance past all of the code which is not in scope.
-                this.CheckForConditionalCompilationDirective(sourceCode, symbol, configuration);
+                this.CheckForConditionalCompilationDirective(symbols, sourceCode, symbol, configuration, out alreadyAdded);
             }
 
             // Return the symbol.
@@ -1808,15 +1822,20 @@ namespace StyleCop.CSharp
         /// Checks the given preprocessor symbol to determine whether it is a conditional preprocessor directive.
         /// If so, determines whether we should skip past code which is out of scope.
         /// </summary>
+        /// <param name="symbols">The List of symbols we've processed.</param>
         /// <param name="sourceCode">The source code file containing this directive.</param>
         /// <param name="preprocessorSymbol">The symbol to check.</param>
         /// <param name="configuration">The active configuration.</param>
+        /// <param name="alreadyAdded">Return true if the Symbol has been added to the Symbol List already.</param>
         private void CheckForConditionalCompilationDirective(
-            SourceCode sourceCode, Symbol preprocessorSymbol, Configuration configuration)
+            List<Symbol> symbols, SourceCode sourceCode, Symbol preprocessorSymbol, Configuration configuration, out bool alreadyAdded)
         {
+            Param.AssertNotNull(symbols, "symbols");
             Param.AssertNotNull(sourceCode, "sourceCode");
             Param.AssertNotNull(preprocessorSymbol, "preprocessorSymbol");
             Param.Ignore(configuration);
+
+            alreadyAdded = false;
 
             // Get the type of this preprocessor directive.
             int bodyIndex;
@@ -1855,7 +1874,7 @@ namespace StyleCop.CSharp
                         while (true)
                         {
                             // Get the next symbol.
-                            Symbol symbol = this.GetSymbol(sourceCode, configuration, false);
+                            Symbol symbol = this.GetSymbol(symbols, sourceCode, configuration, false, out alreadyAdded);
                             if (symbol == null)
                             {
                                 throw new SyntaxException(sourceCode, preprocessorSymbol.LineNumber);
@@ -1878,11 +1897,12 @@ namespace StyleCop.CSharp
                                 else if (subConditionalPreprocessorCount == 0 &&
                                     (type == "elif" || type == "else" || type == "endif"))
                                 {
-                                    // Reset the markers to the start of this preprocessor symbol.
-                                    this.marker.Index = symbol.Location.StartPoint.Index;
-                                    this.marker.IndexOnLine = symbol.Location.StartPoint.IndexOnLine;
-                                    this.marker.LineNumber = symbol.Location.StartPoint.LineNumber;
-
+                                    // As we've already called GetSymbol above the codeReader has already moved past the #endif
+                                    // We need to add the first preprocessor here and then add the 2nd otherwise it'll get skipped completely.
+                                    symbols.Add(preprocessorSymbol);
+                                    symbols.Add(symbol);
+                                    alreadyAdded = true;
+                                    
                                     // Break from this loop.
                                     break;
                                 }

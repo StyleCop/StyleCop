@@ -80,6 +80,7 @@
     <Compile Include="TestData\FileHeaders\FileHeadersValidWithEnumAndParam.cs" />
     <Compile Include="TestData\FileHeaders\FileHeadersValidWithEnumFirst.cs" />
     <Compile Include="TestData\FileHeaders\IFileHeadersValidMultipleTypes.cs" />
+    <Compile Include="TestData\LineSpacing\BlankLinesAtStartAndEndOfFile10.cs" />
     <Compile Include="TestData\MethodParameters\ConstructorInitializerSpanningMultipleLines.cs" />
     <None Include="TestData\MethodParameters\IndexerAccessBracketPlacement.cs" />
     <Compile Include="TestData\Spacing\OpenParenthesis.cs" />
