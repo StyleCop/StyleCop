@@ -1030,7 +1030,7 @@ namespace StyleCop.CSharp
             Node<CsToken> previousNode = tokenNode.Previous;
             if (previousNode != null)
             {
-                if ((previousNode.Value.CsTokenType == CsTokenType.WhiteSpace || (previousNode.Value.CsTokenType == CsTokenType.EndOfLine && previousNode.Previous.Value.CsTokenType != CsTokenType.SingleLineComment)))
+                if (previousNode.Value.CsTokenType == CsTokenType.WhiteSpace || (previousNode.Value.CsTokenType == CsTokenType.EndOfLine && previousNode.Previous.Value.CsTokenType != CsTokenType.SingleLineComment))
                 {
                     this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.LineNumber, Rules.ClosingParenthesisMustBeSpacedCorrectly);
                 }
