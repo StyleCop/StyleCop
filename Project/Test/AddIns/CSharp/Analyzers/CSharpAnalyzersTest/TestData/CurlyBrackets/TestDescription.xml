@@ -276,6 +276,7 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsLocks.TestLocks" LineNumber="27" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
       <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsLocks.TestLocks" LineNumber="30" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
       <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsLocks.TestLocks" LineNumber="34" Rule="StatementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsLocks.MethodName%string" LineNumber="50" Rule="CurlyBracketsMustNotBeOmitted" /> 
       <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsMethods.InvalidMethod1" LineNumber="10" Rule="ElementMustNotBeOnSingleLine"/>
       <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsMethods.InvalidMethod2" LineNumber="11" Rule="ElementMustNotBeOnSingleLine"/>
       <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsMethods.InvalidMethod3" LineNumber="15" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>

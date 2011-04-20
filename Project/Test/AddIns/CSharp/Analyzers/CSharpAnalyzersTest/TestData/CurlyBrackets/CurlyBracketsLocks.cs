@@ -43,5 +43,11 @@ namespace CSharpAnalyzersTest.TestData
                 x = 2; 
             }
         }
+             
+        private void MethodName(string x)
+        {
+            lock (y)
+                x = x.Substring(1);
+        }
     }
 }

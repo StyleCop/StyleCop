@@ -529,6 +529,11 @@ namespace StyleCop.CSharp
                     this.CheckMissingBlock(parentElement, statement, ((UsingStatement)statement).EmbeddedStatement, statement.FriendlyTypeText, true);
                     break;
 
+                case StatementType.Lock:
+                    // lock-statements should always be followed by a curly bracket block.
+                    this.CheckMissingBlock(parentElement, statement, ((LockStatement)statement).EmbeddedStatement, statement.FriendlyTypeText, false);
+                    break;
+
                 default:
                     break;
             }
