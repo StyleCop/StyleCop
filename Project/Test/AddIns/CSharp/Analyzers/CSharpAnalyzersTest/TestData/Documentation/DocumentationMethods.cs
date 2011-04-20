@@ -585,5 +585,17 @@ namespace CSharpAnalyzersTest.TestData
         public class FooDoStuffConstraint
         {
         }
+        
+        public partial class SA1601TestCode
+        {
+            partial void MethodName();
+        }
+
+        public partial class SA1601TestCode
+        {
+            partial void MethodName()
+            {
+            }
+        }
     }
 }

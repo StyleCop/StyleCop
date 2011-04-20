@@ -1240,12 +1240,17 @@ namespace StyleCop.CSharp
                     element.ElementType == ElementType.Event ||
                     element.ElementType == ElementType.Property ||
                     element.ElementType == ElementType.Indexer ||
-                    element.ElementType == ElementType.Method ||
                     element.ElementType == ElementType.Constructor ||
                     element.ElementType == ElementType.Destructor ||
                     element.ElementType == ElementType.Field)
                 {
                     this.CheckHeader(element, settings, false);
+                }
+
+                else if (element.ElementType == ElementType.Method)
+                {
+                    // A method may be partial.
+                    this.CheckHeader(element, settings, element.Declaration.ContainsModifier(CsTokenType.Partial));
                 }
 
                 if (element.ElementType == ElementType.Enum)

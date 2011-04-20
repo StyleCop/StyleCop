@@ -564,6 +564,10 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationMethods.IFooDoStuff`T`I" LineNumber="578" Rule="ElementsMustBeDocumented" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationMethods.IFooDoStuff`T`I.DoStuff`E" LineNumber="582" Rule="ElementsMustBeDocumented" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationMethods.FooDoStuffConstraint" LineNumber="585" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationMethods.SA1601TestCode" LineNumber="589" Rule="PartialElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationMethods.SA1601TestCode.MethodName" LineNumber="591" Rule="PartialElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationMethods.SA1601TestCode" LineNumber="594" Rule="PartialElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationMethods.SA1601TestCode.MethodName" LineNumber="596" Rule="PartialElementsMustBeDocumented" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationProperties.InvalidProperty1" LineNumber="130" Rule="ElementDocumentationMustNotHaveDefaultSummary" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationProperties.InvalidProperty1" LineNumber="130" Rule="PropertySummaryDocumentationMustMatchAccessors" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationProperties.InvalidProperty2" LineNumber="138" Rule="DocumentationMustContainValidXml" />
