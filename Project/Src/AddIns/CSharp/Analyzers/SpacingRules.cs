@@ -1028,10 +1028,12 @@ namespace StyleCop.CSharp
 
             // Close parens should never be preceded by whitespace.
             Node<CsToken> previousNode = tokenNode.Previous;
-            if (previousNode != null &&
-                (previousNode.Value.CsTokenType == CsTokenType.WhiteSpace || previousNode.Value.CsTokenType == CsTokenType.EndOfLine))
+            if (previousNode != null)
             {
-                this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.LineNumber, Rules.ClosingParenthesisMustBeSpacedCorrectly);
+                if ((previousNode.Value.CsTokenType == CsTokenType.WhiteSpace || (previousNode.Value.CsTokenType == CsTokenType.EndOfLine && previousNode.Previous.Value.CsTokenType != CsTokenType.SingleLineComment)))
+                {
+                    this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.LineNumber, Rules.ClosingParenthesisMustBeSpacedCorrectly);
+                }
             }
 
             // Find out what comes after the closing paren.
