@@ -97,8 +97,7 @@ namespace StyleCop
         {
             get
             {
-                // In an object based environment, we do not support any file links.
-                return false;
+                return true;
             }
         }
 
