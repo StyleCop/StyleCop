@@ -581,7 +581,7 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationProperties.InvalidProperty8" LineNumber="188" Rule="PropertySummaryDocumentationMustMatchAccessors" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationProperties.InvalidProperty9" LineNumber="197" Rule="DocumentationTextMustEndWithAPeriod" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationProperties.InvalidProperty10" LineNumber="205" Rule="PropertyDocumentationMustHaveValue" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationProperties.InvalidProperty11" LineNumber="214" Rule="PropertyDocumentationMustHaveValue" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationProperties.InvalidProperty11" LineNumber="214" Rule="PropertyDocumentationMustHaveValueText" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationProperties.InvalidProperty12" LineNumber="223" Rule="DocumentationTextMustContainWhitespace" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationProperties.InvalidProperty13" LineNumber="232" Rule="DocumentationTextMustMeetMinimumCharacterLength" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationProperties.InvalidProperty13" LineNumber="232" Rule="DocumentationTextMustContainWhitespace" />

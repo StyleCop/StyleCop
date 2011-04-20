@@ -163,6 +163,11 @@ namespace StyleCop.CSharp
         PropertyDocumentationMustHaveValue,
 
         /// <summary>
+        /// The property has a value tag but it has no text.
+        /// </summary>
+        PropertyDocumentationMustHaveValueText,
+
+        /// <summary>
         /// The text in a documentation string must not be empty.
         /// </summary>
         DocumentationTextMustNotBeEmpty,

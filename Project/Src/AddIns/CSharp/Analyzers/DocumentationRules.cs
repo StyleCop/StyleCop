@@ -1829,7 +1829,7 @@ namespace StyleCop.CSharp
             XmlNode node = formattedDocs.SelectSingleNode("root/value");
             if (node == null)
             {
-                // A missing value tag is only an error if this property is public and protected.
+                // A missing value tag is only an error if this property is public or protected or protectedinternal.
                 if (element.ActualAccess == AccessModifierType.Public ||
                     element.ActualAccess == AccessModifierType.ProtectedInternal ||
                     element.ActualAccess == AccessModifierType.Protected)
@@ -1837,9 +1837,9 @@ namespace StyleCop.CSharp
                     this.AddViolation(element, Rules.PropertyDocumentationMustHaveValue);
                 }
             }
-            else if (node.InnerText == null || node.InnerText.Length == 0)
+            else if (node.InnerText.Length == 0)
             {
-                this.AddViolation(element, Rules.PropertyDocumentationMustHaveValue);
+                this.AddViolation(element, Rules.PropertyDocumentationMustHaveValueText);
             }
             else
             {
