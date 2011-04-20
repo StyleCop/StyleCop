@@ -351,31 +351,30 @@ namespace StyleCop.CSharp
                     // - - OR the current element has a header
                     // - - OR the previous element spans multiple lines (if not an assembly attribute)
                     // - - OR the elements are not using directives, extern alias directives, accessors, enum items, or fields.
-                    if (previousElement != null && 
-                        !previousElement.Generated &&
-                        !childElement.Generated &&
-                        (previousElement.ElementType != childElement.ElementType ||
-                         childElement.Header != null ||
-                         (previousElement.Location.LineSpan > 1 && childElement.ElementType != ElementType.AssemblyAttribute) ||
-                         (childElement.ElementType != ElementType.UsingDirective &&
-                          childElement.ElementType != ElementType.ExternAliasDirective &&
-                          childElement.ElementType != ElementType.Accessor &&
-                          childElement.ElementType != ElementType.EnumItem &&
-                          childElement.ElementType != ElementType.Field &&
-                          childElement.ElementType != ElementType.AssemblyAttribute)))
+                    if (previousElement != null && (!previousElement.Generated && !childElement.Generated))
                     {
-                        // The start line of this element is the first line of the header if there is one,
-                        // or the first line of the element itself if there is no header.
-                        int startLine = childElement.LineNumber;
-                        if (childElement.Header != null)
+                        if (previousElement.ElementType != childElement.ElementType
+                            || childElement.Header != null
+                            || (previousElement.Location.LineSpan > 1 && childElement.ElementType != ElementType.AssemblyAttribute)
+                            || (childElement.ElementType != ElementType.UsingDirective
+                                && childElement.ElementType != ElementType.ExternAliasDirective
+                                && childElement.ElementType != ElementType.Accessor
+                                && childElement.ElementType != ElementType.EnumItem
+                                && childElement.ElementType != ElementType.Field
+                                && childElement.ElementType != ElementType.AssemblyAttribute))
                         {
-                            startLine = childElement.Header.LineNumber;
-                        }
+                            // The start line of this element is the first line of the header if there is one,
+                            // or the first line of the element itself if there is no header.
+                            int startLine = childElement.LineNumber;
+                            if (childElement.Header != null)
+                            {
+                                startLine = childElement.Header.LineNumber;
+                            }
 
-                        if (startLine == previousElement.Location.EndPoint.LineNumber || 
-                            startLine == previousElement.Location.EndPoint.LineNumber + 1)
-                        {
-                            this.AddViolation(childElement, Rules.ElementsMustBeSeparatedByBlankLine);
+                            if (startLine == previousElement.Location.EndPoint.LineNumber || startLine == previousElement.Location.EndPoint.LineNumber + 1)
+                            {
+                                this.AddViolation(childElement, Rules.ElementsMustBeSeparatedByBlankLine);
+                            }
                         }
                     }
 
