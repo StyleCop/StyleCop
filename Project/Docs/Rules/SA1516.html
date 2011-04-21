@@ -34,7 +34,32 @@
                 <P class=MsoNormal style="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal; mso-vertical-align-alt: auto; mso-layout-grid-align: none"><SPAN lang=EN-US style="FONT-SIZE: 9pt; FONT-FAMILY: 'Courier New'; mso-fareast-font-family: Calibri; mso-fareast-theme-font: minor-latin; mso-no-proof: yes"><SPAN style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </SPAN>}<o:p></o:p></SPAN></P>
                 <P class=MsoNormal style="MARGIN: 0cm 0cm 7.5pt"><SPAN lang=EN-US style="FONT-SIZE: 9pt; LINE-HEIGHT: 140%; FONT-FAMILY: 'Courier New'; mso-fareast-font-family: Calibri; mso-fareast-theme-font: minor-latin; mso-no-proof: yes"><o:p>&nbsp;</o:p></SPAN></P>
                 <P class=MsoNormal style="MARGIN: 0cm 0cm 7.5pt"><SPAN lang=EN-US>In the example above, the method and property are not separated by a blank line, so a violation of this rule would occur.</SPAN></P>
-                <H2>How to Fix Violations</H2>
+                <P class=MsoNormal style="MARGIN: 0cm 0cm 7.5pt">&nbsp;</P>
+               
+                <p style="font-family: 'Courier New';"><SPAN style="COLOR: blue;">&nbsp;&nbsp;&nbsp;&nbsp;public</SPAN><SPAN style="COLOR: blue"> event</SPAN> <span style="color:2b91af">EventHandler</span> SomeEvent</SPAN><br />
+&nbsp;&nbsp;&nbsp; {<br />
+                    <SPAN lang=EN-US style="FONT-SIZE: 9pt; FONT-FAMILY: 'Courier New'; mso-fareast-font-family: Calibri; mso-fareast-theme-font: minor-latin; mso-no-proof: yes">
+                    <SPAN style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </SPAN><SPAN style="COLOR: blue">
+                    add<br />
+&nbsp; </SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br />
+                    </SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                    <span style="color: green">// add event subscriber here</span><br />
+                    <SPAN lang=EN-US style="FONT-SIZE: 9pt; FONT-FAMILY: 'Courier New'; mso-fareast-font-family: Calibri; mso-fareast-theme-font: minor-latin; mso-no-proof: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                    }<o:p><br />
+                    </o:p>
+                    <SPAN style="mso-spacerun: yes">&nbsp;&nbsp;</SPAN><SPAN style="COLOR: blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                    remove<br />
+&nbsp;</SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br />
+                    </SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                    <span style="color: green">// remove event subscriber here</span><br />
+                    <SPAN lang=EN-US style="FONT-SIZE: 9pt; FONT-FAMILY: 'Courier New'; mso-fareast-font-family: Calibri; mso-fareast-theme-font: minor-latin; mso-no-proof: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                    }<o:p><br />
+                    </o:p>
+                    <SPAN style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </SPAN>}<o:p></o:p></SPAN></p>
+                <P class=MsoNormal style="MARGIN: 0cm 0cm 7.5pt"><SPAN lang=EN-US>In the example above, the add and remove of the event need to be separated by a blank line because 
+                    the add is multiline.</SPAN></P>
+                <P class=MsoNormal style="MARGIN: 0cm 0cm 7.5pt">&nbsp;</P>
+                <H2>How to Fix Violations>How to Fix Violations</H2>
                 <P>To fix a violation of this rule, add a blank line between the adjacent elements.</P>
             </div>
             <script type="text/jscript">WritePageFooter();</script>   
