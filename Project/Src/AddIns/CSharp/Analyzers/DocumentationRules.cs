@@ -1246,7 +1246,6 @@ namespace StyleCop.CSharp
                 {
                     this.CheckHeader(element, settings, false);
                 }
-
                 else if (element.ElementType == ElementType.Method)
                 {
                     // A method may be partial.
