@@ -34,7 +34,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Descriptors
     /// <summary>
     /// Code Clean Up Description.
     /// </summary>
-    [Category("StyleCop for ReSharper")]
+    [Category("StyleCop")]
     [DisplayName("Spacing")]
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public class SpacingDescriptor : CodeCleanupOptionDescriptor<SpacingOptions>
@@ -45,7 +45,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Descriptors
         /// Initializes a new instance of the <see cref="SpacingDescriptor"/> class. 
         /// </summary>
         public SpacingDescriptor()
-            : base("StyleCopForReSharperSpacing")
+            : base("StyleCop.Spacing")
         {
         }
 

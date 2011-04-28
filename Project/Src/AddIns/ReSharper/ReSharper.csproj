@@ -72,6 +72,10 @@
     <CodeAnalysisRuleSet>..\..\FxCopRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="JetBrains.ReSharper.Features.Environment">
+      <HintPath>ReferencedAssemblies\JetBrains.ReSharper.Features.Environment.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Microsoft.Build.Framework" />
     <Reference Include="JetBrains.Platform.ReSharper.DocumentManager, Version=4.0.819.19, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -383,6 +387,9 @@
       <DependentUpon>StyleCopOptionsPage.cs</DependentUpon>
     </Compile>
     <Compile Include="Options\StyleCopRule.cs" />
+    <EmbeddedResource Include="Resources\ReorderingPatterns.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <Compile Include="Violations\StyleCopViolationTokenFactory.cs" />
     <Compile Include="Violations\StyleCopViolationDoNotShow.cs" />
     <Compile Include="Violations\StyleCopViolationInfo.cs" />

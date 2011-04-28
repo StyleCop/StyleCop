@@ -35,7 +35,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Descriptors
     /// <summary>
     /// Code Clean Up Description.
     /// </summary>
-    [Category("StyleCop for ReSharper")]
+    [Category("StyleCop")]
     [DisplayName("Ordering")]
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public class OrderingDescriptor : CodeCleanupOptionDescriptor<OrderingOptions>
@@ -46,7 +46,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Descriptors
         /// Initializes a new instance of the <see cref="OrderingDescriptor"/> class.
         /// </summary>
         public OrderingDescriptor()
-            : base("StyleCopForReSharperOrdering")
+            : base("StyleCop.Ordering")
         {
         }
 

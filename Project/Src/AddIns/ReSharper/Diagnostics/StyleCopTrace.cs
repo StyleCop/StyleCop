@@ -79,7 +79,7 @@ namespace StyleCop.ReSharper.Diagnostics
                 dtl.LogFileName = fullPath;
             }
 
-            Switch = new StyleCopSwitch("StyleCopForReSharper", "Provides tracing for StyleCop For ReSharper", level);
+            Switch = new StyleCopSwitch("StyleCop", "Provides tracing for StyleCop", level);
         }
 
         #endregion

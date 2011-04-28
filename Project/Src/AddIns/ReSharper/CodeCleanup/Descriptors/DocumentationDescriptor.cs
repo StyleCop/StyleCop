@@ -35,7 +35,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Descriptors
     /// <summary>
     /// Code Clean Up Description.
     /// </summary>
-    [Category("StyleCop for ReSharper")]
+    [Category("StyleCop")]
     [DisplayName("Documentation")]
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public class DocumentationDescriptor : CodeCleanupOptionDescriptor<DocumentationOptions>
@@ -46,7 +46,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Descriptors
         /// Initializes a new instance of the <see cref="DocumentationDescriptor"/> class. 
         /// </summary>
         public DocumentationDescriptor()
-            : base("StyleCopForReSharperDocumentation")
+            : base("StyleCop.Documentation")
         {
         }
 

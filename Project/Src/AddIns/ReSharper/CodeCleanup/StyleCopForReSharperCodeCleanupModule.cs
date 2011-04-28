@@ -11,10 +11,6 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-// <summary>
-//   Custom StyleCop for ReSharper CodeCleanUp module to fix StyleCop violations.
-//   We ensure that most of the ReSharper modules are run before we are so we can.
-// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 extern alias JB;
 
@@ -40,7 +36,7 @@ namespace StyleCop.ReSharper.CodeCleanup
     #endregion
 
     /// <summary>
-    /// Custom StyleCop for ReSharper CodeCleanUp module to fix StyleCop violations.
+    /// Custom StyleCop  CodeCleanUp module to fix StyleCop violations.
     /// We ensure that most of the ReSharper modules are run before we are so we can. 
     /// </summary>
     [CodeCleanupModule(ModulesBefore = new[] { typeof(UpdateFileHeader), typeof(ArrangeThisQualifier), typeof(ReplaceByVar), typeof(ReformatCode) })]

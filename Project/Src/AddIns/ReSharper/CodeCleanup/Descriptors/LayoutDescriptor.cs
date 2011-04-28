@@ -34,7 +34,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Descriptors
     /// <summary>
     /// Code Clean Up Description.
     /// </summary>
-    [Category("StyleCop for ReSharper")]
+    [Category("StyleCop")]
     [DisplayName("Layout")]
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public class LayoutDescriptor : CodeCleanupOptionDescriptor<LayoutOptions>
@@ -45,7 +45,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Descriptors
         /// Initializes a new instance of the <see cref="LayoutDescriptor"/> class. 
         /// </summary>
         public LayoutDescriptor()
-            : base("StyleCopForReSharperLayout")
+            : base("StyleCop.Layout")
         {
         }
 

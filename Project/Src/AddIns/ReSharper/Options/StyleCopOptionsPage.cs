@@ -13,8 +13,13 @@ namespace StyleCop.ReSharper.Options
 
     using System;
     using System.IO;
+    using System.Linq;
+    using System.Reflection;
     using System.Windows.Forms;
 
+    using JetBrains.ReSharper.Features.Environment.Options.CodeStyle.CSharp;
+    using JetBrains.ReSharper.Psi.CSharp.CodeStyle;
+    using JetBrains.ReSharper.Psi.Naming.Settings;
     using JetBrains.UI.Options;
 
     using StyleCop.ReSharper.Core;
@@ -24,7 +29,7 @@ namespace StyleCop.ReSharper.Options
     /// <summary>
     /// Options page to allow the plugins options to be set from within the Resharper Options window.
     /// </summary>
-    [OptionsPage(NAME, "StyleCop", "StyleCop.ReSharper.Resources.StyleCop.png", ParentId = "Tools")]
+    [OptionsPage(PageName, "StyleCop", "StyleCop.ReSharper.Resources.StyleCop.png", ParentId = "Tools")]
     public partial class StyleCopOptionsPage : UserControl, IOptionsPage
     {
         #region Constants and Fields
@@ -32,13 +37,18 @@ namespace StyleCop.ReSharper.Options
         /// <summary>
         /// The unique name of this options page.
         /// </summary>
-        public const string NAME = "StyleCop.StyleCopOptionsPage";
+        public const string PageName = "StyleCop.StyleCopOptionsPage";
+
+        /// <summary>
+        /// Reference to the IOptionsDialog that opened our page.
+        /// </summary>
+        private readonly IOptionsDialog dialog;
 
         /// <summary>
         /// The instance of this options page.
         /// </summary>
         private static StyleCopOptionsPage instance;
-
+        
         #endregion
 
         #region Constructors and Destructors
@@ -46,16 +56,19 @@ namespace StyleCop.ReSharper.Options
         /// <summary>
         /// Initializes a new instance of the <see cref="StyleCopOptionsPage"/> class.
         /// </summary>
-        public StyleCopOptionsPage()
+        /// <param name="dialog">The options dialog reference opening our page.</param>
+        public StyleCopOptionsPage(IOptionsDialog dialog)
         {
             this.InitializeComponent();
             instance = this;
+            this.dialog = dialog;
             this.daysMaskedTextBox.ValidatingType = typeof(int);
             this.dashesCountMaskedTextBox.ValidatingType = typeof(int);
+            this.warningPanel.Visible = !this.ValidateReSharperOptions();
         }
 
         #endregion
-
+        
         #region Properties
 
         /// <summary>
@@ -95,13 +108,1046 @@ namespace StyleCop.ReSharper.Options
         {
             get
             {
-                return NAME;
+                return PageName;
             }
         }
 
         #endregion
 
         #region Public Methods
+
+        /// <summary>
+        /// Confirms that the ReSharper code style options are all valid to ensure no StyleCop issues on cleanup.
+        /// </summary>
+        /// <returns>True if options are all valid, otherwise false.</returns>
+        public bool ValidateReSharperOptions()
+        {
+            CSharpCodeStylePage codeStylePage = (CSharpCodeStylePage)this.dialog.GetPage("CsharpCodeStyle");
+            CSharpCodeStyleSettings codeStyleSettings = codeStylePage.CodeStyleSettings;
+
+            var formatSettings = codeStyleSettings.FormatSettings;
+
+            if (formatSettings.ALIGN_FIRST_ARG_BY_PAREN)
+            {
+                return false;
+            }
+
+            if (!formatSettings.ALIGN_LINQ_QUERY)
+            {
+                return false;
+            }
+
+            if (formatSettings.ALIGN_MULTILINE_ARGUMENT)
+            {
+                return false;
+            }
+
+            if (!formatSettings.ALIGN_MULTILINE_ARRAY_AND_OBJECT_INITIALIZER)
+            {
+                return false;
+            }
+
+            if (!formatSettings.ALIGN_MULTILINE_EXPRESSION)
+            {
+                return false;
+            }
+
+            if (!formatSettings.ALIGN_MULTILINE_EXTENDS_LIST)
+            {
+                return false;
+            }
+
+            if (!formatSettings.ALIGN_MULTILINE_FOR_STMT)
+            {
+                return false;
+            }
+
+            if (!formatSettings.ALIGN_MULTILINE_PARAMETER)
+            {
+                return false;
+            }
+
+            if (!formatSettings.ALIGN_MULTIPLE_DECLARATION)
+            {
+                return false;
+            }
+
+            if (!formatSettings.ALIGN_MULTLINE_TYPE_PARAMETER_CONSTRAINS)
+            {
+                return false;
+            }
+
+            if (!formatSettings.ALIGN_MULTLINE_TYPE_PARAMETER_LIST)
+            {
+                return false;
+            }
+
+            if (formatSettings.ALLOW_COMMENT_AFTER_LBRACE)
+            {
+                return false;
+            }
+
+            if (formatSettings.ANONYMOUS_METHOD_DECLARATION_BRACES != BraceFormatStyle.NEXT_LINE_SHIFTED_2)
+            {
+                return false;
+            }
+
+            if (!formatSettings.ARRANGE_MODIFIER_IN_EXISTING_CODE)
+            {
+                return false;
+            }
+
+            if (formatSettings.BLANK_LINES_AFTER_START_COMMENT != 1)
+            {
+                return false;
+            }
+
+            if (formatSettings.BLANK_LINES_AFTER_USING != 1)
+            {
+                return false;
+            }
+
+            if (formatSettings.BLANK_LINES_AFTER_USING_LIST != 1)
+            {
+                return false;
+            }
+
+            if (formatSettings.BLANK_LINES_AROUND_FIELD != 1)
+            {
+                return false;
+            }
+
+            if (formatSettings.BLANK_LINES_AROUND_INVOCABLE != 1)
+            {
+                return false;
+            }
+
+            if (formatSettings.BLANK_LINES_AROUND_NAMESPACE != 1)
+            {
+                return false;
+            }
+
+            if (formatSettings.BLANK_LINES_AROUND_REGION != 1)
+            {
+                return false;
+            }
+
+            if (formatSettings.BLANK_LINES_AROUND_SINGLE_LINE_FIELD != 1)
+            {
+                return false;
+            }
+
+            if (formatSettings.BLANK_LINES_AROUND_SINGLE_LINE_INVOCABLE != 1)
+            {
+                return false;
+            }
+
+            if (formatSettings.BLANK_LINES_AROUND_TYPE != 1)
+            {
+                return false;
+            }
+
+            if (formatSettings.BLANK_LINES_BEFORE_USING != 0)
+            {
+                return false;
+            }
+
+            if (formatSettings.BLANK_LINES_BETWEEN_USING_GROUPS != 1)
+            {
+                return false;
+            }
+
+            if (formatSettings.BLANK_LINES_INSIDE_REGION != 1)
+            {
+                return false;
+            }
+
+            if (formatSettings.CASE_BLOCK_BRACES != BraceFormatStyle.NEXT_LINE_SHIFTED_2)
+            {
+                return false;
+            }
+
+            if (formatSettings.CONTINUOUS_INDENT_MULTIPLIER != 1)
+            {
+                return false;
+            }
+
+            if (formatSettings.EMPTY_BLOCK_STYLE != EmptyBlockStyle.MULTILINE)
+            {
+                return false;
+            }
+
+            if (!formatSettings.EXPLICIT_INTERNAL_MODIFIER)
+            {
+                return false;
+            }
+
+            if (!formatSettings.EXPLICIT_PRIVATE_MODIFIER)
+            {
+                return false;
+            }
+
+            if (formatSettings.FORCE_ATTRIBUTE_STYLE != ForceAttributeStyle.SEPARATE)
+            {
+                return false;
+            }
+
+            if (formatSettings.FORCE_CHOP_COMPOUND_DO_EXPRESSION)
+            {
+                return false;
+            }
+
+            if (formatSettings.FORCE_CHOP_COMPOUND_IF_EXPRESSION)
+            {
+                return false;
+            }
+
+            if (formatSettings.FORCE_CHOP_COMPOUND_WHILE_EXPRESSION)
+            {
+                return false;
+            }
+
+            if (formatSettings.FORCE_FIXED_BRACES_STYLE != ForceBraceStyle.ALWAYS_ADD)
+            {
+                return false;
+            }
+
+            if (formatSettings.FORCE_FOR_BRACES_STYLE != ForceBraceStyle.ALWAYS_ADD)
+            {
+                return false;
+            }
+
+            if (formatSettings.FORCE_FOREACH_BRACES_STYLE != ForceBraceStyle.ALWAYS_ADD)
+            {
+                return false;
+            }
+
+            if (formatSettings.FORCE_IFELSE_BRACES_STYLE != ForceBraceStyle.ALWAYS_ADD)
+            {
+                return false;
+            }
+
+            if (formatSettings.FORCE_USING_BRACES_STYLE != ForceBraceStyle.ALWAYS_ADD)
+            {
+                return false;
+            }
+
+            if (formatSettings.FORCE_WHILE_BRACES_STYLE != ForceBraceStyle.ALWAYS_ADD)
+            {
+                return false;
+            }
+
+            if (formatSettings.INDENT_ANONYMOUS_METHOD_BLOCK)
+            {
+                return false;
+            }
+
+            if (!formatSettings.INDENT_CASE_FROM_SWITCH)
+            {
+                return false;
+            }
+
+            if (formatSettings.INDENT_EMBRACED_INITIALIZER_BLOCK)
+            {
+                return false;
+            }
+
+            if (formatSettings.INDENT_NESTED_FIXED_STMT)
+            {
+                return false;
+            }
+
+            if (formatSettings.INDENT_NESTED_USINGS_STMT)
+            {
+                return false;
+            }
+
+            if (formatSettings.INITIALIZER_BRACES != BraceFormatStyle.NEXT_LINE_SHIFTED_2)
+            {
+                return false;
+            }
+
+            if (formatSettings.INVOCABLE_DECLARATION_BRACES != BraceFormatStyle.NEXT_LINE)
+            {
+                return false;
+            }
+
+            if (formatSettings.KEEP_BLANK_LINES_IN_CODE != 1)
+            {
+                return false;
+            }
+
+            if (formatSettings.KEEP_BLANK_LINES_IN_DECLARATIONS != 1)
+            {
+                return false;
+            }
+
+            if (formatSettings.KEEP_USER_LINEBREAKS)
+            {
+                return false;
+            }
+
+            if (formatSettings.LINE_FEED_AT_FILE_END)
+            {
+                return false;
+            }
+
+            if (!formatSettings.MODIFIERS_ORDER.SequenceEqual(CSharpFormatSettings.DefaultModifiersOrder))
+            {
+                return false;
+            }
+
+            if (formatSettings.OTHER_BRACES != BraceFormatStyle.NEXT_LINE)
+            {
+                return false;
+            }
+
+            if (!formatSettings.PLACE_ABSTRACT_ACCESSORHOLDER_ON_SINGLE_LINE)
+            {
+                return false;
+            }
+
+            if (formatSettings.PLACE_ACCESSORHOLDER_ATTRIBUTE_ON_SAME_LINE)
+            {
+                return false;
+            }
+
+            if (!formatSettings.PLACE_CATCH_ON_NEW_LINE)
+            {
+                return false;
+            }
+
+            if (formatSettings.PLACE_CONSTRUCTOR_INITIALIZER_ON_SAME_LINE)
+            {
+                return false;
+            }
+
+            if (!formatSettings.PLACE_ELSE_ON_NEW_LINE)
+            {
+                return false;
+            }
+
+            if (formatSettings.PLACE_FIELD_ATTRIBUTE_ON_SAME_LINE)
+            {
+                return false;
+            }
+
+            if (!formatSettings.PLACE_FINALLY_ON_NEW_LINE)
+            {
+                return false;
+            }
+
+            if (formatSettings.PLACE_METHOD_ATTRIBUTE_ON_SAME_LINE)
+            {
+                return false;
+            }
+
+            if (formatSettings.PLACE_SIMPLE_ACCESSOR_ON_SINGLE_LINE)
+            {
+                return false;
+            }
+
+            if (formatSettings.PLACE_SIMPLE_ACCESSORHOLDER_ON_SINGLE_LINE)
+            {
+                return false;
+            }
+
+            if (!formatSettings.PLACE_SIMPLE_ANONYMOUSMETHOD_ON_SINGLE_LINE)
+            {
+                return false;
+            }
+
+            if (!formatSettings.PLACE_SIMPLE_INITIALIZER_ON_SINGLE_LINE)
+            {
+                return false;
+            }
+
+            if (!formatSettings.PLACE_SIMPLE_LINQ_ON_SINGLE_LINE)
+            {
+                return false;
+            }
+
+            if (formatSettings.PLACE_SIMPLE_METHOD_ON_SINGLE_LINE)
+            {
+                return false;
+            }
+
+            if (formatSettings.PLACE_TYPE_ATTRIBUTE_ON_SAME_LINE)
+            {
+                return false;
+            }
+
+            if (formatSettings.PLACE_TYPE_CONSTRAINTS_ON_SAME_LINE)
+            {
+                return false;
+            }
+
+            if (!formatSettings.PLACE_WHILE_ON_NEW_LINE)
+            {
+                return false;
+            }
+
+            if (formatSettings.REDUNDANT_THIS_QUALIFIER_STYLE != ThisQualifierStyle.ALWAYS_USE)
+            {
+                return false;
+            }
+
+            if (formatSettings.SIMPLE_EMBEDDED_STATEMENT_STYLE != SimpleEmbeddedStatementStyle.ON_SINGLE_LINE)
+            {
+                return false;
+            }
+
+            if (formatSettings.SPACE_AFTER_AMPERSAND_OP)
+            {
+                return false;
+            }
+
+            if (formatSettings.SPACE_AFTER_ASTERIK_OP)
+            {
+                return false;
+            }
+
+            if (!formatSettings.SPACE_AFTER_ATTRIBUTE_COLON)
+            {
+                return false;
+            }
+
+            if (!formatSettings.SPACE_AFTER_COMMA)
+            {
+                return false;
+            }
+
+            if (!formatSettings.SPACE_AFTER_EXTENDS_COLON)
+            {
+                return false;
+            }
+
+            if (!formatSettings.SPACE_AFTER_FOR_SEMICOLON)
+            {
+                return false;
+            }
+
+            if (!formatSettings.SPACE_AFTER_TERNARY_COLON)
+            {
+                return false;
+            }
+
+            if (!formatSettings.SPACE_AFTER_TERNARY_QUEST)
+            {
+                return false;
+            }
+
+            if (!formatSettings.SPACE_AFTER_TYPE_PARAMETER_CONSTRAINT_COLON)
+            {
+                return false;
+            }
+
+            if (formatSettings.SPACE_AFTER_TYPECAST_PARENTHESES)
+            {
+                return false;
+            }
+
+            if (!formatSettings.SPACE_AROUND_ADDITIVE_OP)
+            {
+                return false;
+            }
+
+            if (!formatSettings.SPACE_AROUND_ALIAS_EQ)
+            {
+                return false;
+            }
+
+            if (formatSettings.SPACE_AROUND_ARROW_OP)
+            {
+                return false;
+            }
+
+            if (!formatSettings.SPACE_AROUND_ASSIGNMENT_OP)
+            {
+                return false;
+            }
+
+            if (!formatSettings.SPACE_AROUND_BITWISE_OP)
+            {
+                return false;
+            }
+
+            if (formatSettings.SPACE_AROUND_DOT)
+            {
+                return false;
+            }
+
+            if (!formatSettings.SPACE_AROUND_EQUALITY_OP)
+            {
+                return false;
+            }
+
+            if (!formatSettings.SPACE_AROUND_LAMBDA_ARROW)
+            {
+                return false;
+            }
+
+            if (!formatSettings.SPACE_AROUND_LOGICAL_OP)
+            {
+                return false;
+            }
+
+            if (!formatSettings.SPACE_AROUND_MULTIPLICATIVE_OP)
+            {
+                return false;
+            }
+
+            if (!formatSettings.SPACE_AROUND_NULLCOALESCING_OP)
+            {
+                return false;
+            }
+
+            if (!formatSettings.SPACE_AROUND_RELATIONAL_OP)
+            {
+                return false;
+            }
+
+            if (!formatSettings.SPACE_AROUND_SHIFT_OP)
+            {
+                return false;
+            }
+
+            if (formatSettings.SPACE_BEFORE_ARRAY_ACCESS_BRACKETS)
+            {
+                return false;
+            }
+
+            if (!formatSettings.SPACE_BEFORE_ARRAY_CREATION_BRACE)
+            {
+                return false;
+            }
+
+            if (formatSettings.SPACE_BEFORE_ARRAY_RANK_BRACKETS)
+            {
+                return false;
+            }
+
+            if (formatSettings.SPACE_BEFORE_ATTRIBUTE_COLON)
+            {
+                return false;
+            }
+
+            if (!formatSettings.SPACE_BEFORE_CATCH_PARENTHESES)
+            {
+                return false;
+            }
+
+            if (formatSettings.SPACE_BEFORE_COLON_IN_CASE)
+            {
+                return false;
+            }
+
+            if (formatSettings.SPACE_BEFORE_COMMA)
+            {
+                return false;
+            }
+
+            if (formatSettings.SPACE_BEFORE_EMPTY_METHOD_CALL_PARENTHESES)
+            {
+                return false;
+            }
+
+            if (formatSettings.SPACE_BEFORE_EMPTY_METHOD_PARENTHESES)
+            {
+                return false;
+            }
+
+            if (!formatSettings.SPACE_BEFORE_EXTENDS_COLON)
+            {
+                return false;
+            }
+
+            if (!formatSettings.SPACE_BEFORE_FIXED_PARENTHESES)
+            {
+                return false;
+            }
+
+            if (!formatSettings.SPACE_BEFORE_FOR_PARENTHESES)
+            {
+                return false;
+            }
+
+            if (formatSettings.SPACE_BEFORE_FOR_SEMICOLON)
+            {
+                return false;
+            }
+
+            if (!formatSettings.SPACE_BEFORE_FOREACH_PARENTHESES)
+            {
+                return false;
+            }
+
+            if (!formatSettings.SPACE_BEFORE_IF_PARENTHESES)
+            {
+                return false;
+            }
+
+            if (!formatSettings.SPACE_BEFORE_LOCK_PARENTHESES)
+            {
+                return false;
+            }
+
+            if (formatSettings.SPACE_BEFORE_METHOD_CALL_PARENTHESES)
+            {
+                return false;
+            }
+
+            if (formatSettings.SPACE_BEFORE_METHOD_PARENTHESES)
+            {
+                return false;
+            }
+
+            if (formatSettings.SPACE_BEFORE_NULLABLE_MARK)
+            {
+                return false;
+            }
+
+            if (formatSettings.SPACE_BEFORE_POINTER_ASTERIK_DECLARATION)
+            {
+                return false;
+            }
+
+            if (formatSettings.SPACE_BEFORE_SEMICOLON)
+            {
+                return false;
+            }
+
+            if (!formatSettings.SPACE_BEFORE_SINGLELINE_ACCESSORHOLDER)
+            {
+                return false;
+            }
+
+            if (formatSettings.SPACE_BEFORE_SIZEOF_PARENTHESES)
+            {
+                return false;
+            }
+
+            if (!formatSettings.SPACE_BEFORE_SWITCH_PARENTHESES)
+            {
+                return false;
+            }
+
+            if (!formatSettings.SPACE_BEFORE_TERNARY_COLON)
+            {
+                return false;
+            }
+
+            if (!formatSettings.SPACE_BEFORE_TERNARY_QUEST)
+            {
+                return false;
+            }
+
+            if (!formatSettings.SPACE_BEFORE_TRAILING_COMMENT)
+            {
+                return false;
+            }
+
+            if (formatSettings.SPACE_BEFORE_TYPE_ARGUMENT_ANGLE)
+            {
+                return false;
+            }
+
+            if (formatSettings.SPACE_BEFORE_TYPE_PARAMETER_ANGLE)
+            {
+                return false;
+            }
+
+            if (!formatSettings.SPACE_BEFORE_TYPE_PARAMETER_CONSTRAINT_COLON)
+            {
+                return false;
+            }
+
+            if (formatSettings.SPACE_BEFORE_TYPEOF_PARENTHESES)
+            {
+                return false;
+            }
+
+            if (!formatSettings.SPACE_BEFORE_USING_PARENTHESES)
+            {
+                return false;
+            }
+
+            if (!formatSettings.SPACE_BEFORE_WHILE_PARENTHESES)
+            {
+                return false;
+            }
+
+            if (!formatSettings.SPACE_BETWEEN_ACCESSORS_IN_SINGLELINE_PROPERTY)
+            {
+                return false;
+            }
+
+            if (!formatSettings.SPACE_IN_SINGLELINE_ACCESSOR)
+            {
+                return false;
+            }
+
+            if (!formatSettings.SPACE_IN_SINGLELINE_ANONYMOUS_METHOD)
+            {
+                return false;
+            }
+
+            if (!formatSettings.SPACE_IN_SINGLELINE_METHOD)
+            {
+                return false;
+            }
+
+            if (formatSettings.SPACE_WITHIN_ARRAY_ACCESS_BRACKETS)
+            {
+                return false;
+            }
+
+            if (formatSettings.SPACE_WITHIN_ARRAY_RANK_BRACKETS)
+            {
+                return false;
+            }
+
+            if (formatSettings.SPACE_WITHIN_ARRAY_RANK_EMPTY_BRACKETS)
+            {
+                return false;
+            }
+
+            if (formatSettings.SPACE_WITHIN_ATTRIBUTE_BRACKETS)
+            {
+                return false;
+            }
+
+            if (formatSettings.SPACE_WITHIN_CATCH_PARENTHESES)
+            {
+                return false;
+            }
+
+            if (formatSettings.SPACE_WITHIN_EMPTY_METHOD_CALL_PARENTHESES)
+            {
+                return false;
+            }
+
+            if (formatSettings.SPACE_WITHIN_EMPTY_METHOD_PARENTHESES)
+            {
+                return false;
+            }
+
+            if (formatSettings.SPACE_WITHIN_FIXED_PARENTHESES)
+            {
+                return false;
+            }
+
+            if (formatSettings.SPACE_WITHIN_FOR_PARENTHESES)
+            {
+                return false;
+            }
+
+            if (formatSettings.SPACE_WITHIN_FOREACH_PARENTHESES)
+            {
+                return false;
+            }
+
+            if (formatSettings.SPACE_WITHIN_IF_PARENTHESES)
+            {
+                return false;
+            }
+
+            if (formatSettings.SPACE_WITHIN_LOCK_PARENTHESES)
+            {
+                return false;
+            }
+
+            if (formatSettings.SPACE_WITHIN_METHOD_CALL_PARENTHESES)
+            {
+                return false;
+            }
+
+            if (formatSettings.SPACE_WITHIN_METHOD_PARENTHESES)
+            {
+                return false;
+            }
+
+            if (formatSettings.SPACE_WITHIN_PARENTHESES)
+            {
+                return false;
+            }
+
+            if (!formatSettings.SPACE_WITHIN_SINGLE_LINE_ARRAY_INITIALIZER_BRACES)
+            {
+                return false;
+            }
+
+            if (formatSettings.SPACE_WITHIN_SIZEOF_PARENTHESES)
+            {
+                return false;
+            }
+
+            if (formatSettings.SPACE_WITHIN_SWITCH_PARENTHESES)
+            {
+                return false;
+            }
+
+            if (formatSettings.SPACE_WITHIN_TYPE_ARGUMENT_ANGLES)
+            {
+                return false;
+            }
+
+            if (formatSettings.SPACE_WITHIN_TYPE_PARAMETER_ANGLES)
+            {
+                return false;
+            }
+
+            if (formatSettings.SPACE_WITHIN_TYPECAST_PARENTHESES)
+            {
+                return false;
+            }
+
+            if (formatSettings.SPACE_WITHIN_TYPEOF_PARENTHESES)
+            {
+                return false;
+            }
+
+            if (formatSettings.SPACE_WITHIN_USING_PARENTHESES)
+            {
+                return false;
+            }
+
+            if (formatSettings.SPACE_WITHIN_WHILE_PARENTHESES)
+            {
+                return false;
+            }
+
+            if (!formatSettings.SPECIAL_ELSE_IF_TREATMENT)
+            {
+                return false;
+            }
+
+            if (formatSettings.STICK_COMMENT)
+            {
+                return false;
+            }
+
+            if (formatSettings.TYPE_DECLARATION_BRACES != BraceFormatStyle.NEXT_LINE)
+            {
+                return false;
+            }
+
+            if (formatSettings.WRAP_AFTER_BINARY_OPSIGN)
+            {
+                return false;
+            }
+
+            if (!formatSettings.WRAP_AFTER_DECLARATION_LPAR)
+            {
+                return false;
+            }
+
+            if (!formatSettings.WRAP_AFTER_INVOCATION_LPAR)
+            {
+                return false;
+            }
+
+            if (formatSettings.WRAP_ARGUMENTS_STYLE != WrapStyle.CHOP_IF_LONG)
+            {
+                return false;
+            }
+
+            if (!formatSettings.WRAP_BEFORE_BINARY_OPSIGN)
+            {
+                return false;
+            }
+
+            if (formatSettings.WRAP_BEFORE_DECLARATION_LPAR)
+            {
+                return false;
+            }
+
+            if (formatSettings.WRAP_BEFORE_EXTENDS_COLON)
+            {
+                return false;
+            }
+
+            if (!formatSettings.WRAP_BEFORE_FIRST_TYPE_PARAMETER_CONSTRAINT)
+            {
+                return false;
+            }
+
+            if (formatSettings.WRAP_BEFORE_INVOCATION_LPAR)
+            {
+                return false;
+            }
+
+            if (formatSettings.WRAP_BEFORE_TYPE_PARAMETER_LANGLE)
+            {
+                return false;
+            }
+
+            if (formatSettings.WRAP_EXTENDS_LIST_STYLE != WrapStyle.CHOP_IF_LONG)
+            {
+                return false;
+            }
+
+            if (formatSettings.WRAP_FOR_STMT_HEADER_STYLE != WrapStyle.CHOP_IF_LONG)
+            {
+                return false;
+            }
+
+            // We don't need to change this. It's here for completeness.
+            if (formatSettings.WRAP_LIMIT != formatSettings.WRAP_LIMIT) 
+            {
+                return false;
+            }
+
+            if (!formatSettings.WRAP_LINES)
+            {
+                return false;
+            }
+
+            if (formatSettings.WRAP_MULTIPLE_DECLARATION_STYLE != WrapStyle.CHOP_IF_LONG)
+            {
+                return false;
+            }
+
+            if (formatSettings.WRAP_MULTIPLE_TYPE_PARAMEER_CONSTRAINTS_STYLE != WrapStyle.CHOP_IF_LONG)
+            {
+                return false;
+            }
+
+            if (formatSettings.WRAP_OBJECT_AND_COLLECTION_INITIALIZER_STYLE != WrapStyle.CHOP_IF_LONG)
+            {
+                return false;
+            }
+
+            if (formatSettings.WRAP_PARAMETERS_STYLE != WrapStyle.CHOP_IF_LONG)
+            {
+                return false;
+            }
+
+            if (formatSettings.WRAP_TERNARY_EXPR_STYLE != WrapStyle.CHOP_IF_LONG)
+            {
+                return false;
+            }
+
+            var namingSettings = codeStyleSettings.GetNamingSettings2();
+
+            if (!namingSettings.OverrideDefaultSettings)
+            {
+                return false;
+            }
+
+            if (namingSettings.EventHandlerPatternLong != "$object$_On$event$")
+            {
+                return false;
+            }
+
+            if (namingSettings.EventHandlerPatternShort != "$event$Handler")
+            {
+                return false;
+            }
+
+            foreach (var predefinedRule in namingSettings.PredefinedNamingRules)
+            {
+                NamingRule rule = predefinedRule.Value.NamingRule;
+                if (rule.Suffix != string.Empty)
+                {
+                    return false;
+                }
+
+                switch (predefinedRule.Key)
+                {
+                    case NamedElementKinds.Locals:
+                    case NamedElementKinds.Parameters:
+                        if (rule.Prefix != string.Empty || rule.NamingStyleKind != NamingStyleKinds.aaBb)
+                        {
+                            return false;
+                        }
+
+                        break;
+
+                    case NamedElementKinds.Interfaces:
+                        if (rule.Prefix != "I" || rule.NamingStyleKind != NamingStyleKinds.AaBb)
+                        {
+                            return false;
+                        }
+
+                        break;
+
+                    case NamedElementKinds.TypeParameters:
+                        if (rule.Prefix != "T" || rule.NamingStyleKind != NamingStyleKinds.AaBb)
+                        {
+                            return false;
+                        }
+
+                        break;
+
+                    default:
+                        if (rule.Prefix != string.Empty || rule.NamingStyleKind != NamingStyleKinds.AaBb)
+                        {
+                            return false;
+                        }
+
+                        break;
+                }
+            }
+
+            var usingsSettings = codeStyleSettings.UsingsSettings;
+
+            if (!usingsSettings.AddImportsToDeepestScope)
+            {
+                return false;
+            }
+
+            if (!usingsSettings.QualifiedUsingAtNestedScope)
+            {
+                return false;
+            }
+
+            if (!usingsSettings.AllowAlias)
+            {
+                return false;
+            }
+
+            if (!usingsSettings.CanUseGlobalAlias)
+            {
+                return false;
+            }
+
+            if (!usingsSettings.KeepNontrivialAlias)
+            {
+                return false;
+            }
+
+            if (usingsSettings.PreferQualifiedReference)
+            {
+                return false;
+            }
+
+            if (!usingsSettings.SortUsings)
+            {
+                return false;
+            }
+
+            if (codeStyleSettings.CustomMembersReorderingPatterns == null)
+            {
+                return false;
+            }
+
+            string reorderingPatterns;
+            using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("StyleCop.ReSharper.Resources.ReorderingPatterns.xml"))
+            {
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    reorderingPatterns = reader.ReadToEnd();
+                }
+            }
+
+            if (!codeStyleSettings.CustomMembersReorderingPatterns.Equals(reorderingPatterns, StringComparison.InvariantCulture))
+            {
+                return false;
+            }
+
+            return true;
+        }
 
         /// <summary>
         /// Commits this instance.
@@ -118,7 +1164,7 @@ namespace StyleCop.ReSharper.Options
 
             if (newLocation != oldLocation)
             {
-                MessageBox.Show("These changes will require you to restart Visual Studio before they will take effect.", "StyleCop For ReSharper.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("These changes will require you to restart Visual Studio before they will take effect.", "StyleCop", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 StyleCopOptions.Instance.SpecifiedAssemblyPath = newLocation;
             }
 
@@ -175,17 +1221,7 @@ namespace StyleCop.ReSharper.Options
 
             this.useSingleLineForDeclarationCommentsCheckBox.Checked = StyleCopOptions.Instance.UseSingleLineDeclarationComments;
         }
-
-        /// <summary>
-        /// Invoked when this page is selected/unselected in the tree.
-        /// </summary>
-        /// <param name="activated">
-        /// True, when page is selected; false, when page is unselected.
-        /// </param>
-        public void OnActivated(bool activated)
-        {
-        }
-
+        
         #endregion
 
         #region Implemented Interfaces
@@ -269,7 +1305,7 @@ namespace StyleCop.ReSharper.Options
 
             this.Display();
         }
-
+        
         /// <summary>
         /// Handles the CheckedChanged event of the AutoDetectCheckBox control.
         /// </summary>
@@ -384,5 +1420,253 @@ namespace StyleCop.ReSharper.Options
         }
 
         #endregion
+
+        private void ResetFormatOptionsButton_Click(object sender, EventArgs e)
+        {
+            CSharpCodeStylePage codeStylePage = (CSharpCodeStylePage)this.dialog.GetPage("CsharpCodeStyle");
+            CSharpCodeStyleSettings codeStyleSettings = codeStylePage.CodeStyleSettings;
+
+            var formatSettings = codeStyleSettings.FormatSettings;
+
+            formatSettings.ALIGN_FIRST_ARG_BY_PAREN = false;
+            formatSettings.ALIGN_LINQ_QUERY = true;
+            formatSettings.ALIGN_MULTILINE_ARGUMENT = false;
+            formatSettings.ALIGN_MULTILINE_ARRAY_AND_OBJECT_INITIALIZER = true;
+            formatSettings.ALIGN_MULTILINE_EXPRESSION = true;
+            formatSettings.ALIGN_MULTILINE_EXTENDS_LIST = true;
+            formatSettings.ALIGN_MULTILINE_FOR_STMT = true;
+            formatSettings.ALIGN_MULTILINE_PARAMETER = true;
+            formatSettings.ALIGN_MULTIPLE_DECLARATION = true;
+            formatSettings.ALIGN_MULTLINE_TYPE_PARAMETER_CONSTRAINS = true;
+            formatSettings.ALIGN_MULTLINE_TYPE_PARAMETER_LIST = true;
+            formatSettings.ALLOW_COMMENT_AFTER_LBRACE = false;
+            formatSettings.ANONYMOUS_METHOD_DECLARATION_BRACES = BraceFormatStyle.NEXT_LINE_SHIFTED_2;
+            formatSettings.ARRANGE_MODIFIER_IN_EXISTING_CODE = true;
+            formatSettings.BLANK_LINES_AFTER_START_COMMENT = 1;
+            formatSettings.BLANK_LINES_AFTER_USING = 1;
+            formatSettings.BLANK_LINES_AFTER_USING_LIST = 1;
+            formatSettings.BLANK_LINES_AROUND_FIELD = 1;
+            formatSettings.BLANK_LINES_AROUND_INVOCABLE = 1;
+            formatSettings.BLANK_LINES_AROUND_NAMESPACE = 1;
+            formatSettings.BLANK_LINES_AROUND_REGION = 1;
+            formatSettings.BLANK_LINES_AROUND_SINGLE_LINE_FIELD = 1;
+            formatSettings.BLANK_LINES_AROUND_SINGLE_LINE_INVOCABLE = 1;
+            formatSettings.BLANK_LINES_AROUND_TYPE = 1;
+            formatSettings.BLANK_LINES_BEFORE_USING = 0;
+            formatSettings.BLANK_LINES_BETWEEN_USING_GROUPS = 1;
+            formatSettings.BLANK_LINES_INSIDE_REGION = 1;
+            formatSettings.CASE_BLOCK_BRACES = BraceFormatStyle.NEXT_LINE_SHIFTED_2;
+            formatSettings.CONTINUOUS_INDENT_MULTIPLIER = 1;
+            formatSettings.EMPTY_BLOCK_STYLE = EmptyBlockStyle.MULTILINE;
+            formatSettings.EXPLICIT_INTERNAL_MODIFIER = true;
+            formatSettings.EXPLICIT_PRIVATE_MODIFIER = true;
+            formatSettings.FORCE_ATTRIBUTE_STYLE = ForceAttributeStyle.SEPARATE;
+            formatSettings.FORCE_CHOP_COMPOUND_DO_EXPRESSION = false;
+            formatSettings.FORCE_CHOP_COMPOUND_IF_EXPRESSION = false;
+            formatSettings.FORCE_CHOP_COMPOUND_WHILE_EXPRESSION = false;
+            formatSettings.FORCE_FIXED_BRACES_STYLE = ForceBraceStyle.ALWAYS_ADD;
+            formatSettings.FORCE_FOR_BRACES_STYLE = ForceBraceStyle.ALWAYS_ADD;
+            formatSettings.FORCE_FOREACH_BRACES_STYLE = ForceBraceStyle.ALWAYS_ADD;
+            formatSettings.FORCE_IFELSE_BRACES_STYLE = ForceBraceStyle.ALWAYS_ADD;
+            formatSettings.FORCE_USING_BRACES_STYLE = ForceBraceStyle.ALWAYS_ADD;
+            formatSettings.FORCE_WHILE_BRACES_STYLE = ForceBraceStyle.ALWAYS_ADD;
+            formatSettings.INDENT_ANONYMOUS_METHOD_BLOCK = false;
+            formatSettings.INDENT_CASE_FROM_SWITCH = true;
+            formatSettings.INDENT_EMBRACED_INITIALIZER_BLOCK = false;
+            formatSettings.INDENT_NESTED_FIXED_STMT = false;
+            formatSettings.INDENT_NESTED_USINGS_STMT = false;
+            formatSettings.INITIALIZER_BRACES = BraceFormatStyle.NEXT_LINE_SHIFTED_2;
+            formatSettings.INVOCABLE_DECLARATION_BRACES = BraceFormatStyle.NEXT_LINE;
+            formatSettings.KEEP_BLANK_LINES_IN_CODE = 1;
+            formatSettings.KEEP_BLANK_LINES_IN_DECLARATIONS = 1;
+            formatSettings.KEEP_USER_LINEBREAKS = false;
+            formatSettings.LINE_FEED_AT_FILE_END = false;
+            formatSettings.MODIFIERS_ORDER = CSharpFormatSettings.DefaultModifiersOrder;
+            formatSettings.OTHER_BRACES = BraceFormatStyle.NEXT_LINE;
+            formatSettings.PLACE_ABSTRACT_ACCESSORHOLDER_ON_SINGLE_LINE = true;
+            formatSettings.PLACE_ACCESSORHOLDER_ATTRIBUTE_ON_SAME_LINE = false;
+            formatSettings.PLACE_CATCH_ON_NEW_LINE = true;
+            formatSettings.PLACE_CONSTRUCTOR_INITIALIZER_ON_SAME_LINE = false;
+            formatSettings.PLACE_ELSE_ON_NEW_LINE = true;
+            formatSettings.PLACE_FIELD_ATTRIBUTE_ON_SAME_LINE = false;
+            formatSettings.PLACE_FINALLY_ON_NEW_LINE = true;
+            formatSettings.PLACE_METHOD_ATTRIBUTE_ON_SAME_LINE = false;
+            formatSettings.PLACE_SIMPLE_ACCESSOR_ON_SINGLE_LINE = false;
+            formatSettings.PLACE_SIMPLE_ACCESSORHOLDER_ON_SINGLE_LINE = false;
+            formatSettings.PLACE_SIMPLE_ANONYMOUSMETHOD_ON_SINGLE_LINE = true;
+            formatSettings.PLACE_SIMPLE_INITIALIZER_ON_SINGLE_LINE = true;
+            formatSettings.PLACE_SIMPLE_LINQ_ON_SINGLE_LINE = true;
+            formatSettings.PLACE_SIMPLE_METHOD_ON_SINGLE_LINE = false;
+            formatSettings.PLACE_TYPE_ATTRIBUTE_ON_SAME_LINE = false;
+            formatSettings.PLACE_TYPE_CONSTRAINTS_ON_SAME_LINE = false;
+            formatSettings.PLACE_WHILE_ON_NEW_LINE = true;
+            formatSettings.REDUNDANT_THIS_QUALIFIER_STYLE = ThisQualifierStyle.ALWAYS_USE;
+            formatSettings.SIMPLE_EMBEDDED_STATEMENT_STYLE = SimpleEmbeddedStatementStyle.ON_SINGLE_LINE;
+            formatSettings.SPACE_AFTER_AMPERSAND_OP = false;
+            formatSettings.SPACE_AFTER_ASTERIK_OP = false;
+            formatSettings.SPACE_AFTER_ATTRIBUTE_COLON = true;
+            formatSettings.SPACE_AFTER_COMMA = true;
+            formatSettings.SPACE_AFTER_EXTENDS_COLON = true;
+            formatSettings.SPACE_AFTER_FOR_SEMICOLON = true;
+            formatSettings.SPACE_AFTER_TERNARY_COLON = true;
+            formatSettings.SPACE_AFTER_TERNARY_QUEST = true;
+            formatSettings.SPACE_AFTER_TYPE_PARAMETER_CONSTRAINT_COLON = true;
+            formatSettings.SPACE_AFTER_TYPECAST_PARENTHESES = false;
+            formatSettings.SPACE_AROUND_ADDITIVE_OP = true;
+            formatSettings.SPACE_AROUND_ALIAS_EQ = true;
+            formatSettings.SPACE_AROUND_ARROW_OP = false;
+            formatSettings.SPACE_AROUND_ASSIGNMENT_OP = true;
+            formatSettings.SPACE_AROUND_BITWISE_OP = true;
+            formatSettings.SPACE_AROUND_DOT = false;
+            formatSettings.SPACE_AROUND_EQUALITY_OP = true;
+            formatSettings.SPACE_AROUND_LAMBDA_ARROW = true;
+            formatSettings.SPACE_AROUND_LOGICAL_OP = true;
+            formatSettings.SPACE_AROUND_MULTIPLICATIVE_OP = true;
+            formatSettings.SPACE_AROUND_NULLCOALESCING_OP = true;
+            formatSettings.SPACE_AROUND_RELATIONAL_OP = true;
+            formatSettings.SPACE_AROUND_SHIFT_OP = true;
+            formatSettings.SPACE_BEFORE_ARRAY_ACCESS_BRACKETS = false;
+            formatSettings.SPACE_BEFORE_ARRAY_CREATION_BRACE = true;
+            formatSettings.SPACE_BEFORE_ARRAY_RANK_BRACKETS = false;
+            formatSettings.SPACE_BEFORE_ATTRIBUTE_COLON = false;
+            formatSettings.SPACE_BEFORE_CATCH_PARENTHESES = true;
+            formatSettings.SPACE_BEFORE_COLON_IN_CASE = false;
+            formatSettings.SPACE_BEFORE_COMMA = false;
+            formatSettings.SPACE_BEFORE_EMPTY_METHOD_CALL_PARENTHESES = false;
+            formatSettings.SPACE_BEFORE_EMPTY_METHOD_PARENTHESES = false;
+            formatSettings.SPACE_BEFORE_EXTENDS_COLON = true;
+            formatSettings.SPACE_BEFORE_FIXED_PARENTHESES = true;
+            formatSettings.SPACE_BEFORE_FOR_PARENTHESES = true;
+            formatSettings.SPACE_BEFORE_FOR_SEMICOLON = false;
+            formatSettings.SPACE_BEFORE_FOREACH_PARENTHESES = true;
+            formatSettings.SPACE_BEFORE_IF_PARENTHESES = true;
+            formatSettings.SPACE_BEFORE_LOCK_PARENTHESES = true;
+            formatSettings.SPACE_BEFORE_METHOD_CALL_PARENTHESES = false;
+            formatSettings.SPACE_BEFORE_METHOD_PARENTHESES = false;
+            formatSettings.SPACE_BEFORE_NULLABLE_MARK = false;
+            formatSettings.SPACE_BEFORE_POINTER_ASTERIK_DECLARATION = false;
+            formatSettings.SPACE_BEFORE_SEMICOLON = false;
+            formatSettings.SPACE_BEFORE_SINGLELINE_ACCESSORHOLDER = true;
+            formatSettings.SPACE_BEFORE_SIZEOF_PARENTHESES = false;
+            formatSettings.SPACE_BEFORE_SWITCH_PARENTHESES = true;
+            formatSettings.SPACE_BEFORE_TERNARY_COLON = true;
+            formatSettings.SPACE_BEFORE_TERNARY_QUEST = true;
+            formatSettings.SPACE_BEFORE_TRAILING_COMMENT = true;
+            formatSettings.SPACE_BEFORE_TYPE_ARGUMENT_ANGLE = false;
+            formatSettings.SPACE_BEFORE_TYPE_PARAMETER_ANGLE = false;
+            formatSettings.SPACE_BEFORE_TYPE_PARAMETER_CONSTRAINT_COLON = true;
+            formatSettings.SPACE_BEFORE_TYPEOF_PARENTHESES = false;
+            formatSettings.SPACE_BEFORE_USING_PARENTHESES = true;
+            formatSettings.SPACE_BEFORE_WHILE_PARENTHESES = true;
+            formatSettings.SPACE_BETWEEN_ACCESSORS_IN_SINGLELINE_PROPERTY = true;
+            formatSettings.SPACE_IN_SINGLELINE_ACCESSOR = true;
+            formatSettings.SPACE_IN_SINGLELINE_ANONYMOUS_METHOD = true;
+            formatSettings.SPACE_IN_SINGLELINE_METHOD = true;
+            formatSettings.SPACE_WITHIN_ARRAY_ACCESS_BRACKETS = false;
+            formatSettings.SPACE_WITHIN_ARRAY_RANK_BRACKETS = false;
+            formatSettings.SPACE_WITHIN_ARRAY_RANK_EMPTY_BRACKETS = false;
+            formatSettings.SPACE_WITHIN_ATTRIBUTE_BRACKETS = false;
+            formatSettings.SPACE_WITHIN_CATCH_PARENTHESES = false;
+            formatSettings.SPACE_WITHIN_EMPTY_METHOD_CALL_PARENTHESES = false;
+            formatSettings.SPACE_WITHIN_EMPTY_METHOD_PARENTHESES = false;
+            formatSettings.SPACE_WITHIN_FIXED_PARENTHESES = false;
+            formatSettings.SPACE_WITHIN_FOR_PARENTHESES = false;
+            formatSettings.SPACE_WITHIN_FOREACH_PARENTHESES = false;
+            formatSettings.SPACE_WITHIN_IF_PARENTHESES = false;
+            formatSettings.SPACE_WITHIN_LOCK_PARENTHESES = false;
+            formatSettings.SPACE_WITHIN_METHOD_CALL_PARENTHESES = false;
+            formatSettings.SPACE_WITHIN_METHOD_PARENTHESES = false;
+            formatSettings.SPACE_WITHIN_PARENTHESES = false;
+            formatSettings.SPACE_WITHIN_SINGLE_LINE_ARRAY_INITIALIZER_BRACES = true;
+            formatSettings.SPACE_WITHIN_SIZEOF_PARENTHESES = false;
+            formatSettings.SPACE_WITHIN_SWITCH_PARENTHESES = false;
+            formatSettings.SPACE_WITHIN_TYPE_ARGUMENT_ANGLES = false;
+            formatSettings.SPACE_WITHIN_TYPE_PARAMETER_ANGLES = false;
+            formatSettings.SPACE_WITHIN_TYPECAST_PARENTHESES = false;
+            formatSettings.SPACE_WITHIN_TYPEOF_PARENTHESES = false;
+            formatSettings.SPACE_WITHIN_USING_PARENTHESES = false;
+            formatSettings.SPACE_WITHIN_WHILE_PARENTHESES = false;
+            formatSettings.SPECIAL_ELSE_IF_TREATMENT = true;
+            formatSettings.STICK_COMMENT = false;
+            formatSettings.TYPE_DECLARATION_BRACES = BraceFormatStyle.NEXT_LINE;
+            formatSettings.WRAP_AFTER_BINARY_OPSIGN = false;
+            formatSettings.WRAP_AFTER_DECLARATION_LPAR = true;
+            formatSettings.WRAP_AFTER_INVOCATION_LPAR = true;
+            formatSettings.WRAP_ARGUMENTS_STYLE = WrapStyle.CHOP_IF_LONG;
+            formatSettings.WRAP_BEFORE_BINARY_OPSIGN = true;
+            formatSettings.WRAP_BEFORE_DECLARATION_LPAR = false;
+            formatSettings.WRAP_BEFORE_EXTENDS_COLON = false;
+            formatSettings.WRAP_BEFORE_FIRST_TYPE_PARAMETER_CONSTRAINT = true;
+            formatSettings.WRAP_BEFORE_INVOCATION_LPAR = false;
+            formatSettings.WRAP_BEFORE_TYPE_PARAMETER_LANGLE = false;
+            formatSettings.WRAP_EXTENDS_LIST_STYLE = WrapStyle.CHOP_IF_LONG;
+            formatSettings.WRAP_FOR_STMT_HEADER_STYLE = WrapStyle.CHOP_IF_LONG;
+            formatSettings.WRAP_LIMIT = formatSettings.WRAP_LIMIT; // We don't need to set this. It's here for completeness.
+            formatSettings.WRAP_LINES = true;
+            formatSettings.WRAP_MULTIPLE_DECLARATION_STYLE = WrapStyle.CHOP_IF_LONG;
+            formatSettings.WRAP_MULTIPLE_TYPE_PARAMEER_CONSTRAINTS_STYLE = WrapStyle.CHOP_IF_LONG;
+            formatSettings.WRAP_OBJECT_AND_COLLECTION_INITIALIZER_STYLE = WrapStyle.CHOP_IF_LONG;
+            formatSettings.WRAP_PARAMETERS_STYLE = WrapStyle.CHOP_IF_LONG;
+            formatSettings.WRAP_TERNARY_EXPR_STYLE = WrapStyle.CHOP_IF_LONG;
+            
+            var namingSettings = codeStyleSettings.GetNamingSettings2();
+            
+            namingSettings.OverrideDefaultSettings = true;
+
+            namingSettings.EventHandlerPatternLong = "$object$_On$event$";
+            namingSettings.EventHandlerPatternShort = "$event$Handler";
+
+            foreach (var predefinedRule in namingSettings.PredefinedNamingRules)
+            {
+                NamingRule rule = predefinedRule.Value.NamingRule;
+                rule.Suffix = string.Empty;
+
+                switch (predefinedRule.Key)
+                {
+                    case NamedElementKinds.Locals:
+                    case NamedElementKinds.Parameters:
+                        rule.Prefix = string.Empty;
+                        rule.NamingStyleKind = NamingStyleKinds.aaBb;
+                        break;
+                    case NamedElementKinds.Interfaces:
+                        rule.Prefix = "I";
+                        rule.NamingStyleKind = NamingStyleKinds.AaBb;
+                        break;
+                    case NamedElementKinds.TypeParameters:
+                        rule.Prefix = "T";
+                        rule.NamingStyleKind = NamingStyleKinds.AaBb;
+                        break;
+                    default:
+                        rule.Prefix = string.Empty;
+                        rule.NamingStyleKind = NamingStyleKinds.AaBb;
+                        break;
+                }
+            }
+
+            var usingsSettings = codeStyleSettings.UsingsSettings;
+
+            usingsSettings.AddImportsToDeepestScope = true;
+            usingsSettings.QualifiedUsingAtNestedScope = true;
+
+            usingsSettings.AllowAlias = true;
+            usingsSettings.CanUseGlobalAlias = true;
+            usingsSettings.KeepNontrivialAlias = true;
+            usingsSettings.PreferQualifiedReference = false;
+            usingsSettings.SortUsings = true;
+            
+            string reorderingPatterns;
+            using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("StyleCop.ReSharper.Resources.ReorderingPatterns.xml"))
+            {
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    reorderingPatterns = reader.ReadToEnd();
+                }
+            }
+
+            codeStyleSettings.CustomMembersReorderingPatterns = reorderingPatterns;
+            
+            MessageBox.Show("C# code style options have been set in order to fix StyleCop violations. Your UserSettings.xml will be saved when you exit Visual Studio.", "StyleCop", MessageBoxButtons.OK);
+            this.resetFormatOptionsButton.Enabled = false;
+        }
     }
 }

@@ -68,6 +68,7 @@ COPY "%RESHARPERINSTALLDIR%\JetBrains.Platform.ReSharper.Util.dll" "%PROJECTROOT
 COPY "%RESHARPERINSTALLDIR%\JetBrains.ReSharper.Daemon.dll" "%PROJECTROOT%\Src\AddIns\ReSharper\ReferencedAssemblies\">nul
 COPY "%RESHARPERINSTALLDIR%\JetBrains.ReSharper.Feature.Services.CSharp.dll" "%PROJECTROOT%\Src\AddIns\ReSharper\ReferencedAssemblies\">nul
 COPY "%RESHARPERINSTALLDIR%\JetBrains.ReSharper.Feature.Services.dll" "%PROJECTROOT%\Src\AddIns\ReSharper\ReferencedAssemblies\">nul
+COPY "%RESHARPERINSTALLDIR%\JetBrains.ReSharper.Features.Environment.dll" "%PROJECTROOT%\Src\AddIns\ReSharper\ReferencedAssemblies\">nul
 COPY "%RESHARPERINSTALLDIR%\JetBrains.ReSharper.Intentions.CSharp.dll" "%PROJECTROOT%\Src\AddIns\ReSharper\ReferencedAssemblies\">nul
 COPY "%RESHARPERINSTALLDIR%\JetBrains.ReSharper.Intentions.dll" "%PROJECTROOT%\Src\AddIns\ReSharper\ReferencedAssemblies\">nul
 COPY "%RESHARPERINSTALLDIR%\JetBrains.ReSharper.Psi.CSharp.dll" "%PROJECTROOT%\Src\AddIns\ReSharper\ReferencedAssemblies\">nul

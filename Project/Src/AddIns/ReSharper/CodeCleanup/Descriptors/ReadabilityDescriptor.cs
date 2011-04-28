@@ -34,7 +34,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Descriptors
     /// <summary>
     /// Code Clean Up Description.
     /// </summary>
-    [Category("StyleCop for ReSharper")]
+    [Category("StyleCop")]
     [DisplayName("Readability")]
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public class ReadabilityDescriptor : CodeCleanupOptionDescriptor<ReadabilityOptions>
@@ -45,7 +45,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Descriptors
         /// Initializes a new instance of the <see cref="ReadabilityDescriptor"/> class. 
         /// </summary>
         public ReadabilityDescriptor()
-            : base("StyleCopForReSharperReadability")
+            : base("StyleCop.Readability")
         {
         }
 
