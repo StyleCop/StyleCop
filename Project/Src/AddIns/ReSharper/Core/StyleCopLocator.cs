@@ -60,7 +60,7 @@ namespace StyleCop.ReSharper.Core
         private static string RetrieveFromRegistry()
         {
             const string SubKey = @"SOFTWARE\CodePlex\StyleCop";
-            const string Key = "InstallLocation";
+            const string Key = "InstallDir";
 
             RegistryKey registryKey = Registry.LocalMachine.OpenSubKey(SubKey);
             return registryKey == null ? null : registryKey.GetValue(Key) as string;

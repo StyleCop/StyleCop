@@ -72,6 +72,14 @@
     <CodeAnalysisRuleSet>..\..\FxCopRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="JetBrains.Platform.ReSharper.ActionManagement">
+      <HintPath>ReferencedAssemblies\JetBrains.Platform.ReSharper.ActionManagement.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="JetBrains.Platform.ReSharper.IDE">
+      <HintPath>ReferencedAssemblies\JetBrains.Platform.ReSharper.IDE.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="JetBrains.ReSharper.Features.Environment">
       <HintPath>ReferencedAssemblies\JetBrains.ReSharper.Features.Environment.dll</HintPath>
       <Private>False</Private>
@@ -220,7 +228,7 @@
     <Compile Include="CodeCleanup\Descriptors\LayoutDescriptor.cs" />
     <Compile Include="CodeCleanup\Options\DocumentationOptions.cs" />
     <Compile Include="CodeCleanup\Descriptors\DocumentationDescriptor.cs" />
-    <Compile Include="CodeIssues\DocumentationIssues.cs" />
+    <Compile Include="ShellComponents\StyleCopCodeStyleChecker.cs" />
     <Compile Include="Core\ProjectSettingsFactory.cs" />
     <Compile Include="Core\SourceCodeFactory.cs" />
     <Compile Include="Core\StringBasedSourceCode.cs" />
@@ -250,7 +258,7 @@
     <Compile Include="CodeCleanup\Rules\ReadabilityRules.cs" />
     <Compile Include="CodeCleanup\Rules\SpacingRules.cs" />
     <Compile Include="CodeCleanup\Styles\ExpandUsingsStyle.cs" />
-    <Compile Include="CodeCleanup\StyleCopForReSharperCodeCleanupModule.cs" />
+    <Compile Include="CodeCleanup\StyleCopCodeCleanupModule.cs" />
     <Compile Include="CodeCleanup\Styles\AlphabeticalUsingsStyle.cs" />
     <Compile Include="CodeCleanup\Descriptors\OrderingDescriptor.cs" />
     <Compile Include="CodeCleanup\Options\OrderingOptions.cs" />
@@ -428,7 +436,9 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="CodeIssues\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\StyleCop\StyleCop.csproj">
       <Project>{AF7A7FEA-C07B-456A-B072-C7E795A6CBD4}</Project>

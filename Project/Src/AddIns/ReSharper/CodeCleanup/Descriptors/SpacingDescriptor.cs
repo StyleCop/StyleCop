@@ -78,6 +78,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Descriptors
                         bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(optionsElement, "SA1006PreprocessorKeywordsMustNotBePrecededBySpace"));
                     options.SA1021NegativeSignsMustBeSpacedCorrectly = bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(optionsElement, "SA1021NegativeSignsMustBeSpacedCorrectly"));
                     options.SA1022PositiveSignsMustBeSpacedCorrectly = bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(optionsElement, "SA1022PositiveSignsMustBeSpacedCorrectly"));
+                    options.SA1025CodeMustNotContainMultipleWhitespaceInARow = bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(optionsElement, "SA1025CodeMustNotContainMultipleWhitespaceInARow"));
                 }
                 catch (ArgumentException)
                 {
@@ -122,6 +123,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Descriptors
                 optionsElement, "SA1006PreprocessorKeywordsMustNotBePrecededBySpace", options.SA1006PreprocessorKeywordsMustNotBePrecededBySpace.ToString());
             JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(optionsElement, "SA1021NegativeSignsMustBeSpacedCorrectly", options.SA1021NegativeSignsMustBeSpacedCorrectly.ToString());
             JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(optionsElement, "SA1022PositiveSignsMustBeSpacedCorrectly", options.SA1022PositiveSignsMustBeSpacedCorrectly.ToString());
+            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(optionsElement, "SA1025CodeMustNotContainMultipleWhitespaceInARow", options.SA1025CodeMustNotContainMultipleWhitespaceInARow.ToString());
         }
 
         #endregion

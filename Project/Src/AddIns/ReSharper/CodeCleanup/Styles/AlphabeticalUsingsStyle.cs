@@ -33,12 +33,12 @@ namespace StyleCop.ReSharper.CodeCleanup.Styles
         /// Do not change.
         /// </summary>
         [Description("Do not change")]
-        Ignore, 
+        Ignore = 0, 
 
         /// <summary>
         /// Alphabetical order.
         /// </summary>
         [Description("Alphabetical order")]
-        Alphabetical
+        Alphabetical = 1
     }
 }

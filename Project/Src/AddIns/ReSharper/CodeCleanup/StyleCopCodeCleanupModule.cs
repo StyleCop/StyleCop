@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="StyleCopForReSharperCodeCleanupModule.cs" company="http://stylecop.codeplex.com">
+// <copyright file="StyleCopCodeCleanupModule.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -36,11 +36,11 @@ namespace StyleCop.ReSharper.CodeCleanup
     #endregion
 
     /// <summary>
-    /// Custom StyleCop  CodeCleanUp module to fix StyleCop violations.
-    /// We ensure that most of the ReSharper modules are run before we are so we can. 
+    /// Custom StyleCop CodeCleanUp module to fix StyleCop violations.
+    /// We ensure that most of the ReSharper modules are run before we are. 
     /// </summary>
     [CodeCleanupModule(ModulesBefore = new[] { typeof(UpdateFileHeader), typeof(ArrangeThisQualifier), typeof(ReplaceByVar), typeof(ReformatCode) })]
-    public class StyleCopForReSharperCodeCleanupModule : ICodeCleanupModule
+    public class StyleCopCodeCleanupModule : ICodeCleanupModule
     {
         #region Constants and Fields
 

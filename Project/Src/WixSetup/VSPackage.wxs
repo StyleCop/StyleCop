@@ -21,7 +21,9 @@
 
           <Component Id="StandardRegistryKeys" Guid="3c439240-494f-423d-bcc5-8247e4c21077">
             <RegistryKey Action='createAndRemoveOnUninstall' Root='HKLM' Key='Software\CodePlex\StyleCop' Id='InstallLocation' />
-            <RegistryValue Root='HKLM' Key='Software\CodePlex\StyleCop' Type='string' Name='InstallLocation' Value='[INSTALLDIR]' Id='InstallLocation_001' />
+            <RegistryValue Root='HKLM' Key='Software\CodePlex\StyleCop' Type='string' Name='InstallDir' Value='[INSTALLDIR]' Id='InstallLocation_001' />
+            <RegistryValue Root='HKLM' Key='Software\CodePlex\StyleCop' Type='string' Name='InstallDate' Value='[Date]' Id='InstallLocation_002' />
+            <RegistryValue Root='HKLM' Key='Software\CodePlex\StyleCop' Type='string' Name='ProductVersion' Value='$(var.WixVersionLong)' Id='InstallLocation_003' />
           </Component>
 
           <Directory Id="DOCS" Name="Docs" FileSource="$(var.RootDir)\Docs\Bin">

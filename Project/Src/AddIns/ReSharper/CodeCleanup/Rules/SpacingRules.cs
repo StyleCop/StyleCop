@@ -188,13 +188,13 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
             Param.RequireNotNull(options, "options");
             Param.RequireNotNull(file, "file");
 
-            var codeMustNotContainMultipleWhitespaceInARow = options.SA1025CodeMustNotContainMultipleWhitespaceInARow;
             var commasMustBeSpacedCorrectly = options.SA1001CommasMustBeSpacedCorrectly;
             var singleLineCommentsMustBeginWithSingleSpace = options.SA1005SingleLineCommentsMustBeginWithSingleSpace;
             var preprocessorKeywordsMustNotBePrecededBySpace = options.SA1006PreprocessorKeywordsMustNotBePrecededBySpace;
             var negativeSignsMustBeSpacedCorrectly = options.SA1021NegativeSignsMustBeSpacedCorrectly;
             var positiveSignsMustBeSpacedCorrectly = options.SA1022PositiveSignsMustBeSpacedCorrectly;
-
+            var codeMustNotContainMultipleWhitespaceInARow = options.SA1025CodeMustNotContainMultipleWhitespaceInARow;
+            
             if (codeMustNotContainMultipleWhitespaceInARow)
             {
                 this.CodeMustNotContainMultipleWhitespaceInARow(file.ToTreeNode().FirstChild);
