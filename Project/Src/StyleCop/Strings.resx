@@ -160,7 +160,7 @@
     <value>Could not save the violations file. An exception occurred: {0}</value>
   </data>
   <data name="SettingsDialogTitleDefault" xml:space="preserve">
-    <value>StyleCop Default Settings</value>
+    <value>StyleCop {0} Default Settings</value>
   </data>
   <data name="DisabledByDefaultAttributeDeprecatedForAddIns" xml:space="preserve">
     <value>Analyzers are no longer allowed by be disabled by default. The DisableByDefault attribute has been deprecated and is not allowed to appear on a SourceAnalyzer node. Instead, place a DisabledByDefault attribute on Rule nodes to indicate individual rules which are disabled by default.</value>
@@ -187,7 +187,7 @@
     <value>The window location input string is invalid: {0}</value>
   </data>
   <data name="SettingsDialogTitleLocal" xml:space="preserve">
-    <value>StyleCop Project Settings</value>
+    <value>StyleCop {0} Project Settings</value>
   </data>
   <data name="LocalSettingsNotOpenedOrCreated" xml:space="preserve">
     <value>The local settings file could not be opened or created: {0}</value>

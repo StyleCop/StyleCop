@@ -19,17 +19,13 @@ namespace StyleCop.ReSharper.Options
     using System.Reflection;
     using System.Windows.Forms;
 
-    using JetBrains.Application;
     using JetBrains.IDE;
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Feature.Services.CodeCleanup;
-    using JetBrains.ReSharper.Features.Environment.Options.CodeStyle.CSharp;
-    using JetBrains.ReSharper.Psi;
     using JetBrains.ReSharper.Psi.CodeStyle;
     using JetBrains.ReSharper.Psi.CSharp;
     using JetBrains.ReSharper.Psi.CSharp.CodeStyle;
     using JetBrains.ReSharper.Psi.Naming.Settings;
-    using JetBrains.UI.Application;
     using JetBrains.UI.Options;
 
     using StyleCop.ReSharper.Core;
@@ -336,6 +332,7 @@ namespace StyleCop.ReSharper.Options
                 {
                     case NamedElementKinds.Locals:
                     case NamedElementKinds.Parameters:
+                    case NamedElementKinds.PrivateInstanceFields:
                         rule.Prefix = string.Empty;
                         rule.NamingStyleKind = NamingStyleKinds.aaBb;
                         break;
@@ -1415,6 +1412,7 @@ namespace StyleCop.ReSharper.Options
                 {
                     case NamedElementKinds.Locals:
                     case NamedElementKinds.Parameters:
+                    case NamedElementKinds.PrivateInstanceFields:
                         if (rule.Prefix != string.Empty || rule.NamingStyleKind != NamingStyleKinds.aaBb)
                         {
                             return false;

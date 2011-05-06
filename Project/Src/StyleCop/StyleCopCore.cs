@@ -48,6 +48,16 @@ namespace StyleCop
         #region Private Fields
 
         /// <summary>
+        /// The Major.Minor parts of the StyleCop version number ie. 4.3 or 4.5.
+        /// </summary>
+        private string versionNumberMajorMinor;
+
+        /// <summary>
+        /// The full version number of StyleCop i.e. 4.3.1.3 or 4.5.0.23.
+        /// </summary>
+        private string versionNumberFull;
+
+        /// <summary>
         /// Indicates whether the module is currently analying files.
         /// </summary>
         private bool analyzing;
@@ -346,6 +356,28 @@ namespace StyleCop
             get
             {
                 return this.coreParser;
+            }
+        }
+
+        /// <summary>
+        /// Gets the Major.Minor parts of the StyleCop version number ie. 4.3 or 4.5.
+        /// </summary>
+        private string VersionNumberMajorMinor
+        {
+            get
+            {
+                return this.versionNumberMajorMinor ?? (this.versionNumberMajorMinor = Assembly.GetExecutingAssembly().GetName().Version.ToString(2));
+            }
+        }
+
+        /// <summary>
+        /// Gets the full version number of StyleCop i.e. 4.3.1.3 or 4.5.0.23.
+        /// </summary>
+        private string VersionNumberFull
+        {
+            get
+            {
+                return this.versionNumberFull ?? (this.versionNumberFull = Assembly.GetExecutingAssembly().GetName().Version.ToString(4));
             }
         }
 
@@ -974,7 +1006,7 @@ namespace StyleCop
 
             return false;
         }
-
+        
         /// <summary>
         /// Displays a settings dialog for a project.
         /// </summary>
@@ -994,11 +1026,12 @@ namespace StyleCop
             // Create the properties dialog object.
             using (PropertyDialog properties = new PropertyDialog(pages, settings, id, this, null))
             {
+                string styleCopTitleText = settings.DefaultSettings ? Strings.SettingsDialogTitleDefault : Strings.SettingsDialogTitleLocal;
+
+                styleCopTitleText = string.Format(styleCopTitleText, this.VersionNumberMajorMinor + " (" + this.VersionNumberFull + ")");
+
                 // Set the dialog title.
-                properties.Text = string.Format(
-                    Strings.SettingsDialogTitleFormat,
-                    settings.DefaultSettings ? Strings.SettingsDialogTitleDefault : Strings.SettingsDialogTitleLocal,
-                    settings.Location);
+                properties.Text = string.Format(Strings.SettingsDialogTitleFormat, styleCopTitleText, settings.Location);
 
                 // Make sure that we're not running in a non-UI mode.
                 if (!this.displayUI)
