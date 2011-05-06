@@ -907,7 +907,7 @@ namespace StyleCop.CSharp
                     lineHasNonWhiteSpace = false;
                     
                     // Process the newline character.
-                    this.CheckLineSpacingNewline(precedingTokenNode, token, count);
+                    this.CheckLineSpacingNewline(precedingTokenNode, tokenNode, count);
                 }
                 else if (token.CsTokenType != CsTokenType.WhiteSpace)
                 {
@@ -1145,15 +1145,15 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Processes a newline character found while checking line spacing rules.
         /// </summary>
-        /// <param name="precedingTokenNode">The preceding token before the newline.</param>
-        /// <param name="token">The newline token.</param>
+        /// <param name="precedingTokenNode">The preceding non-whitesapce token before the newline.</param>
+        /// <param name="node">The newline token.</param>
         /// <param name="count">The current newline count.</param>
-        private void CheckLineSpacingNewline(Node<CsToken> precedingTokenNode, CsToken token, int count)
+        private void CheckLineSpacingNewline(Node<CsToken> precedingTokenNode, Node<CsToken> node, int count)
         {
             Param.Ignore(precedingTokenNode);
-            Param.AssertNotNull(token, "token");
+            Param.AssertNotNull(node, "node");
             Param.AssertGreaterThanOrEqualToZero(count, "count");
-
+            
             // If we've seen two end-of-line characters in a row, then there is a blank
             // line in the code. 
             if (count == 2)
@@ -1179,16 +1179,26 @@ namespace StyleCop.CSharp
                     }
                 }
             }
-            else if (count == 3 && !token.Generated)
+
+            Node<CsToken> previousTokenNode = node.Previous;
+            Node<CsToken> previousPreviousTokenNode = null;
+
+            if (previousTokenNode != null)
+            {
+                previousPreviousTokenNode = previousTokenNode.Previous;
+            }
+
+            if (count > 2
+               || (count == 2
+                   && (!node.Value.Generated && (previousTokenNode == null || previousPreviousTokenNode == null
+                       || (previousTokenNode.Value.CsTokenType == CsTokenType.EndOfLine && previousPreviousTokenNode.Value.CsTokenType == CsTokenType.EndOfLine)
+                       || node.Next == null))))
             {
                 // There are two or more blank lines in a row.
-                this.AddViolation(
-                    token.FindParentElement(),
-                    token.LineNumber,
-                    Rules.CodeMustNotContainMultipleBlankLinesInARow);
+                this.AddViolation(node.Value.FindParentElement(), node.Value.LineNumber, Rules.CodeMustNotContainMultipleBlankLinesInARow);
             }
         }
-
+        
         #endregion Private Methods
     }
 }

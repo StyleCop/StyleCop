@@ -758,11 +758,15 @@
     <ExpectedViolations>
       <Violation Section="Root.MultipleBlankLines1.Class1.Method1" LineNumber="13" Rule="CodeMustNotContainMultipleBlankLinesInARow" />
       <Violation Section="Root.MultipleBlankLines1.Class1.Method1" LineNumber="16" Rule="CodeMustNotContainMultipleBlankLinesInARow" />
+      <Violation Section="Root.MultipleBlankLines1.Class1.Method1" LineNumber="17" Rule="CodeMustNotContainMultipleBlankLinesInARow" />
       <Violation Section="Root.MultipleBlankLines1.Class1.Method1" LineNumber="18" Rule="SingleLineCommentsMustNotBeFollowedByBlankLine" />
       <Violation Section="Root.MultipleBlankLines1.Class1.Method1" LineNumber="37" Rule="CodeMustNotContainMultipleBlankLinesInARow" />
       <Violation Section="Root.MultipleBlankLines1.Class1.Method1" LineNumber="45" Rule="CodeMustNotContainMultipleBlankLinesInARow" />
+      <Violation Section="Root.MultipleBlankLines1.Class1.Method1" LineNumber="46" Rule="CodeMustNotContainMultipleBlankLinesInARow" />
       <Violation Section="Root" LineNumber="53" Rule="CodeMustNotContainMultipleBlankLinesInARow" />
       <Violation Section="Root" LineNumber="56" Rule="CodeMustNotContainMultipleBlankLinesInARow" />
+      <Violation Section="Root" LineNumber="57" Rule="CodeMustNotContainMultipleBlankLinesInARow" />
+      <Violation Section="Root" LineNumber="58" Rule="CodeMustNotContainMultipleBlankLinesInARow" />
     </ExpectedViolations>
   </Test>
 
