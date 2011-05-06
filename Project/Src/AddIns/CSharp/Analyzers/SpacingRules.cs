@@ -1748,7 +1748,7 @@ namespace StyleCop.CSharp
 
             // A colon should always be followed by whitespace, but never preceded by whitespace.
             Node<CsToken> nextNode = tokenNode.Next;
-            if (nextNode == null)
+            if (nextNode != null)
             {
                 CsTokenType tokenType = nextNode.Value.CsTokenType;
                 if (tokenType != CsTokenType.WhiteSpace &&

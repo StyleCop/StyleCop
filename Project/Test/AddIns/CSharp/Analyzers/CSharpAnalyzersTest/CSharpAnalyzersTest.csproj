@@ -83,6 +83,7 @@
     <Compile Include="TestData\LineSpacing\BlankLinesAtStartAndEndOfFile10.cs" />
     <Compile Include="TestData\MethodParameters\ConstructorInitializerSpanningMultipleLines.cs" />
     <None Include="TestData\MethodParameters\IndexerAccessBracketPlacement.cs" />
+    <None Include="TestData\Spacing\Colons.cs" />
     <Compile Include="TestData\Spacing\OpenParenthesis.cs" />
     <None Include="TestData\Parenthesis\AttributeConstructorParenthesis.cs" />
     <None Include="TestData\Documentation\DocumentationConstructorSummaryDetailed.cs" />

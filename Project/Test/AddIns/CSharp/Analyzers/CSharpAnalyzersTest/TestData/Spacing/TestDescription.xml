@@ -112,4 +112,29 @@
         <Violation Section="Root.CSharpAnalyzersTest.TestData.Spacing.MemberAccessSymbol.Rules.get" LineNumber="80" Rule="MemberAccessSymbolsMustBeSpacedCorrectly" />
     </ExpectedViolations>
   </Test> 
+ <Test Name="Colons">
+    <TestCodeFile>Colons.cs</TestCodeFile>
+    <Settings>
+        <GlobalSettings>
+            <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+            <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+        </GlobalSettings>
+        <Analyzers>
+            <Analyzer AnalyzerId="StyleCop.CSharp.SpacingRules">
+                <Rules>
+                    <Rule Name="ColonsMustBeSpacedCorrectly">
+                        <RuleSettings>
+                            <BooleanProperty Name="Enabled">True</BooleanProperty>
+                        </RuleSettings>
+                    </Rule>
+                </Rules>
+            </Analyzer>
+        </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+       <Violation Section="Root.[assembly:AssemblyTitle(&quot;StyleCopTests&quot;)]" LineNumber="4"  Rule="ColonsMustBeSpacedCorrectly" />
+       <Violation Section="Root.[assembly : AssemblyTitle(&quot;StyleCopTests&quot;)]" LineNumber="5"  Rule="ColonsMustBeSpacedCorrectly" />
+       <Violation Section="Root.[assembly :AssemblyTitle(&quot;StyleCopTests&quot;)]" LineNumber="6"  Rule="ColonsMustBeSpacedCorrectly" />
+    </ExpectedViolations>
+  </Test> 
 </StyleCopTestDescription>
