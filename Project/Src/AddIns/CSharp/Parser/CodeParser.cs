@@ -1185,49 +1185,42 @@ namespace StyleCop.CSharp
             }
             else
             {
-                this.AdvanceToNextCodeSymbol(variableReference);
-
-                // Look ahead to the next symbol to see what it is.
-                Symbol symbol = this.symbols.Peek(1);
-                if (symbol == null || symbol.SymbolType != SymbolType.Other)
+                int index = this.GetNextCodeSymbolIndex(1);
+                if (index != -1)
                 {
-                    // This variable has no type, only an identifier.
-                    if (!allowTypelessVariable)
+                    // Look ahead to the next symbol to see what it is.
+                    Symbol symbol = this.symbols.Peek(index);
+                    
+                    if (symbol == null || symbol.SymbolType != SymbolType.Other)
                     {
-                        throw this.CreateSyntaxException();
+                        // This variable has no type, only an identifier.
+                        if (!allowTypelessVariable)
+                        {
+                            throw this.CreateSyntaxException();
+                        }
+
+                        // The token is not a type, just an identifier.
+                        Debug.Assert(type.ChildTokens.Count == 1, "The count is invalid");
+                        this.tokens.Add(type.ChildTokens.First.Value);
+
+                        variable = new Variable(null, type.Text, VariableModifiers.None, type.Location, parentReference, type.Generated);
                     }
+                    else
+                    {
+                        // There is a type so add the type token.
+                        this.tokens.Add(type);
+                        this.AdvanceToNextCodeSymbol(variableReference);
+                        
+                        // Create and add the identifier token.
+                        CsToken identifier = new CsToken(symbol.Text, CsTokenType.Other, CsTokenClass.Token, symbol.Location, variableReference, this.symbols.Generated);
 
-                    // The token is not a type, just an identifier.
-                    Debug.Assert(type.ChildTokens.Count == 1, "The count is invalid");
-                    this.tokens.Add(type.ChildTokens.First.Value);
-                    variable = new Variable(
-                        null, 
-                        type.Text, 
-                        VariableModifiers.None, 
-                        type.Location, 
-                        parentReference, 
-                        type.Generated);
-                }
-                else
-                {
-                    // There is a type so add the type token.
-                    this.tokens.Add(type);
-
-                    // Create and add the identifier token.
-                    CsToken identifier = new CsToken(
-                        symbol.Text, CsTokenType.Other, CsTokenClass.Token, symbol.Location, variableReference, this.symbols.Generated);
-
-                    this.tokens.Add(identifier);
-                    this.symbols.Advance();
-
-                    // The variable has both a type and an identifier.
-                    variable = new Variable(
-                        type, 
-                        identifier.Text, 
-                        VariableModifiers.None, 
-                        CodeLocation.Join(type.Location, identifier.Location), 
-                        parentReference, 
-                        type.Generated || identifier.Generated);
+                        this.tokens.Add(identifier);
+                        this.symbols.Advance();
+                        
+                        // The variable has both a type and an identifier.
+                        variable = new Variable(
+                            type, identifier.Text, VariableModifiers.None, CodeLocation.Join(type.Location, identifier.Location), parentReference, type.Generated || identifier.Generated);
+                    }
                 }
             }
 
