@@ -85,7 +85,7 @@ namespace StyleCop
             Param.AssertNotNull(text, "text");
             Param.Ignore(stringParameters);
 
-            Trace.TraceInformation(text, stringParameters);
+            //// Trace.TraceInformation(text, stringParameters);
         }
 
         #endregion Public Static Methods
