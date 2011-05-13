@@ -36,6 +36,15 @@
         <Condition Level="0"><![CDATA[RESHARPER51_VS90_VERSION="" AND RESHARPER51_VS100_VERSION=""]]></Condition>
       </Feature>
 
+      <Feature Id='Feature_VisualStudioTemplates'
+               Title='Visual Studio templates'
+               Description='Files for updating the standard Visual Studio templates to be StyleCop compliant.'
+               Level='500' AllowAdvertise="no" Display="expand" InstallDefault="local" TypicalDefault="install" Absent="allow">
+        <ComponentGroupRef Id="VSTemplates_Common" /> 
+        <Condition Level="1"><![CDATA[VS2010DEVENV<>""]]></Condition>
+        <Condition Level="0"><![CDATA[VS2010DEVENV=""]]></Condition>      
+      </Feature>
+
     </Feature>
 
     <Feature Id='Feature_MSBuild'

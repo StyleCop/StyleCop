@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Fragment>
+
+    <DirectoryRef Id="ProgramFilesFolder">
+      <Directory Id="Dir_VSTemplates_VS10" Name="Microsoft Visual Studio 10.0">
+        <Directory Id="Dir_VSTemplates_Common7" Name="Common7">
+          <Directory Id="Dir_VSTemplates_IDE" Name="IDE">
+            <Directory Id="Dir_VSTemplates_ItemTemplates" FileSource="..\..\VisualStudioTemplates\ItemTemplates" Name="ItemTemplates" >
+              <Directory Id="Dir_VSTemplates_CSharp" Name="CSharp">
+                <Directory Id="Dir_VSTemplates_Code" Name="Code">
+                  <Directory Id="Dir_VSTemplates_1033" Name="1033">
+                    <Component Id="Component_VSTemplates_1" Guid="60E6CB5F-2E7B-4690-A606-4F5AAFFD3687">
+                      <CopyFile Id="CopyFile_1" SourceDirectory="Dir_VSTemplates_1033" DestinationDirectory="Dir_VSTemplates_1033" SourceName="Class.zip" DestinationName="Class.zip.bak" />
+                      <CopyFile Id="CopyFile_2" SourceDirectory="Dir_VSTemplates_1033" DestinationDirectory="Dir_VSTemplates_1033" SourceName="CodeFile.zip"  DestinationName="CodeFile.zip.bak" />
+                      <CopyFile Id="CopyFile_3" SourceDirectory="Dir_VSTemplates_1033" DestinationDirectory="Dir_VSTemplates_1033" SourceName="Interface.zip" DestinationName="Interface.zip.bak" />
+                      <File Name="Class.zip" Checksum="yes" Vital="yes" />
+                      <File Name="CodeFile.zip" Checksum="yes" Vital="yes" />
+                      <File Name="Interface.zip" Checksum="yes" Vital="yes" />
+                    </Component>
+                  </Directory>
+                </Directory>
+              </Directory>
+            </Directory>            
+          </Directory>
+        </Directory>
+      </Directory>
+    </DirectoryRef>
+
+    <ComponentGroup Id="VSTemplates_Common">
+      <ComponentRef Id="Component_VSTemplates_1"/>
+    </ComponentGroup>
+
+  </Fragment>
+</Wix>

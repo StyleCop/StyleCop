@@ -112,6 +112,7 @@
     <Compile Include="Product.wxs" />
     <Compile Include="ReSharper.wxs" />
     <Compile Include="SettingsEditor.wxs" />
+    <Compile Include="VisualStudioTemplates.wxs" />
     <Compile Include="Vs2010.wxs" />
     <Compile Include="Vs2008.wxs" />
     <Compile Include="VSPackage.wxs" />
