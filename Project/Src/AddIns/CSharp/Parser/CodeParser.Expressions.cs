@@ -305,6 +305,23 @@ namespace StyleCop.CSharp
             {
                 switch (symbol.SymbolType)
                 {
+                    case SymbolType.Await:
+                        expression = this.GetAwaitExpression(parentReference, unsafeCode);
+                        break;
+
+                    case SymbolType.Async:
+                        if (this.IsDelegateExpression())
+                        {
+                            expression = this.GetAnonymousMethodExpression(parentReference, unsafeCode);
+                        }
+                        else
+                        {
+                            // We must be a Lambda expression then.
+                            expression = this.GetLambdaExpression(parentReference, unsafeCode);
+                        }
+
+                        break;
+
                     case SymbolType.Other:
                         if (this.IsLambdaExpression())
                         {
@@ -2293,6 +2310,36 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
+        /// Reads an await expression from the code.
+        /// </summary>
+        /// <param name="parentReference">The parent code unit.</param>
+        /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
+        /// <returns>Returns the expression.</returns>
+        private Expression GetAwaitExpression(Reference<ICodePart> parentReference, bool unsafeCode)
+        {
+            Param.AssertNotNull(parentReference, "parentReference");
+            Param.Ignore(unsafeCode);
+
+            var expressionReference = new Reference<ICodePart>();
+
+            // The first symbol must be the await keyword.
+            Node<CsToken> firstTokenNode = this.tokens.InsertLast(
+                this.GetToken(CsTokenType.Await, SymbolType.Await, parentReference, expressionReference));
+
+            // Get the inner expression.
+            Expression innerExpression = this.GetNextExpression(ExpressionPrecedence.None, expressionReference, unsafeCode);
+           
+            // Create the token list for the expression.
+            CsTokenList partialTokens = new CsTokenList(this.tokens, firstTokenNode, this.tokens.Last);
+
+            // Create and return the expression.
+            var expression = new AwaitExpression(partialTokens, innerExpression);
+            expressionReference.Target = expression;
+
+            return expression;
+        }
+
+        /// <summary>
         /// Reads a new allocation expression from the code.
         /// </summary>
         /// <param name="parentReference">The parent code unit.</param>
@@ -3001,10 +3048,22 @@ namespace StyleCop.CSharp
 
             var expressionReference = new Reference<ICodePart>();
 
-            // Get the delegate keyword.
-            Node<CsToken> firstTokenNode = this.tokens.InsertLast(
-                this.GetToken(CsTokenType.Delegate, SymbolType.Delegate, parentReference, expressionReference));
+            // Create the anonymous method object now.
+            AnonymousMethodExpression anonymousMethod = new AnonymousMethodExpression();
+            
+            Node<CsToken> previousTokenNode = this.tokens.Last;
 
+            // First symbol could be 'async' for asynchronous delegates.
+            Symbol nextSymbol = this.symbols.Peek(1);
+            if (nextSymbol.SymbolType == SymbolType.Async)
+            {
+                this.tokens.Add(this.GetToken(CsTokenType.Async, SymbolType.Async, expressionReference));
+                anonymousMethod.Async = true;
+            }
+
+            // Get the delegate keyword.
+            this.tokens.Add(this.GetToken(CsTokenType.Delegate, SymbolType.Delegate, parentReference, expressionReference));
+            
             // Check whether the next symbol is an opening parenthesis.
             Symbol symbol = this.GetNextSymbol(expressionReference);
 
@@ -3013,10 +3072,7 @@ namespace StyleCop.CSharp
             {
                 parameters = this.ParseAnonymousMethodParameterList(expressionReference, unsafeCode);
             }
-
-            // Create the anonymous method object now.
-            AnonymousMethodExpression anonymousMethod = new AnonymousMethodExpression();
-
+           
             // The next symbol must be an opening curly bracket.
             Bracket openingBracket = this.GetBracketToken(CsTokenType.OpenCurlyBracket, SymbolType.OpenCurlyBracket, expressionReference);
             Node<CsToken> openingBracketNode = this.tokens.InsertLast(openingBracket);
@@ -3036,7 +3092,9 @@ namespace StyleCop.CSharp
             ((Bracket)closingBracketNode.Value).MatchingBracketNode = openingBracketNode;
 
             // Create the token list for the anonymous method expression.
-            anonymousMethod.Tokens = new CsTokenList(this.tokens, firstTokenNode, this.tokens.Last);
+            Node<CsToken> firstNode = previousTokenNode == null ? this.tokens.First : previousTokenNode.Next;
+            
+            anonymousMethod.Tokens = new CsTokenList(this.tokens, firstNode, this.tokens.Last);
 
             // Get the item's argument list if necessary.
             if (parameters != null && parameters.Count > 0)
@@ -3061,6 +3119,30 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
+        /// Determines whether the next expression is a delegate expression, skipping the optional async keyword as required.
+        /// </summary>
+        /// <returns>Returns true if the next expression is a delegate expression.</returns>
+        private bool IsDelegateExpression()
+        {
+            int index = 1;
+            Symbol symbol = this.symbols.Peek(index);
+
+            // move past optional async keyword
+            if (symbol.SymbolType == SymbolType.Async)
+            {
+                index += 2;
+                symbol = this.symbols.Peek(index);
+            }
+
+            if (symbol.SymbolType == SymbolType.Delegate)
+            {
+                return true;
+            }
+
+            return false;
+        }
+        
+        /// <summary>
         /// Determines whether the next expression is a lambda expression.
         /// </summary>
         /// <returns>Returns true if the next expression is a lambda expression.</returns>
@@ -3068,6 +3150,13 @@ namespace StyleCop.CSharp
         {
             int index = 1;
             Symbol symbol = this.symbols.Peek(index);
+
+            // move past optional async keyword
+            if (symbol.SymbolType == SymbolType.Async)
+            {
+                index += 2;
+                symbol = this.symbols.Peek(index);
+            }
 
             if (symbol.SymbolType == SymbolType.OpenParenthesis)
             {
@@ -3144,10 +3233,19 @@ namespace StyleCop.CSharp
             var lambdaExpression = new LambdaExpression();
             var expressionReference = new Reference<ICodePart>();
 
+            Node<CsToken> previousTokenNode = this.tokens.Last;
+            
+            // First symbol could be 'async' for asynchronous anonymous functions.
+            Symbol nextSymbol = this.symbols.Peek(1);
+            if (nextSymbol.SymbolType == SymbolType.Async)
+            {
+                this.tokens.Add(this.GetToken(CsTokenType.Async, SymbolType.Async, expressionReference));
+                lambdaExpression.Async = true;
+            }
+
             // Check whether the next symbol is an opening parenthesis.
             Symbol symbol = this.GetNextSymbol(parentReference);
 
-            Node<CsToken> previousTokenNode = this.tokens.Last;
             ICollection<Parameter> parameters = null;
 
             if (symbol.SymbolType == SymbolType.OpenParenthesis)
@@ -4064,6 +4162,7 @@ namespace StyleCop.CSharp
                     symbol.SymbolType == SymbolType.Throw ||
                     symbol.SymbolType == SymbolType.Else ||
                     symbol.SymbolType == SymbolType.Lambda ||
+                    symbol.SymbolType == SymbolType.Await ||
                     symbol.Text == "select")
                 {
                     unary = true;

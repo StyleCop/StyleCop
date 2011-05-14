@@ -612,6 +612,16 @@ namespace StyleCop.CSharp
         /// <summary>
         /// A line within an Xml header.
         /// </summary>
-        XmlHeaderLine
+        XmlHeaderLine,
+
+        /// <summary>
+        /// The async keyword.
+        /// </summary>
+        Async,
+
+        /// <summary>
+        /// The await keyword.
+        /// </summary>
+        Await
     }
 }

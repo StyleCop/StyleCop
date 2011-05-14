@@ -26,6 +26,11 @@ namespace StyleCop.CSharp
         /// </summary>
         private CodeUnit anonymousFunctionBody;
 
+        /// <summary>
+        /// Is this lambda expression sync or async.
+        /// </summary>
+        private bool asyncExpression;
+
         #endregion Private Fields
 
         #region Internal Constructors
@@ -40,6 +45,23 @@ namespace StyleCop.CSharp
         #endregion Internal Constructors
 
         #region Public Properties
+
+        /// <summary>
+        /// Gets a value indicating whether this Lambda expression is async or sync.
+        /// </summary>
+        public bool Async
+        {
+            get
+            {
+                return this.asyncExpression;
+            }
+
+            internal set
+            {
+                Param.AssertNotNull(value, "Async");
+                this.asyncExpression = value;
+            }
+        }
 
         /// <summary>
         /// Gets the body of the lambda expression, either an expression or a statement.

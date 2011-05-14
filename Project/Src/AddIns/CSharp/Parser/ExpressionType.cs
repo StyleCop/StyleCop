@@ -56,6 +56,11 @@ namespace StyleCop.CSharp
         Attribute,
 
         /// <summary>
+        /// An await expression.
+        /// </summary>
+        Await,
+
+        /// <summary>
         /// A cast expression.
         /// </summary>
         Cast,

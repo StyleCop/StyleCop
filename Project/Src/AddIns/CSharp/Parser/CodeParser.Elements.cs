@@ -69,7 +69,7 @@ namespace StyleCop.CSharp
         /// </summary>
         private static readonly string[] MethodModifiers = new string[]
         {
-            "new", "unsafe", "static", "virtual", "sealed", "override", "abstract", "extern", "partial", "implicit", "explicit"
+            "new", "unsafe", "static", "virtual", "sealed", "override", "abstract", "extern", "partial", "implicit", "explicit", "async"
         };
 
         /// <summary>
@@ -799,6 +799,7 @@ namespace StyleCop.CSharp
                     case SymbolType.PreprocessorDirective:
                     case SymbolType.Dot:
                     case SymbolType.QuestionMark:
+                    case SymbolType.Async:
                         // Ignore these symbol types and continue.
                         break;
 
@@ -2935,6 +2936,10 @@ namespace StyleCop.CSharp
 
                             case SymbolType.Fixed:
                                 modifierType = CsTokenType.Fixed;
+                                break;
+
+                            case SymbolType.Async:
+                                modifierType = CsTokenType.Async;
                                 break;
 
                             case SymbolType.Other:

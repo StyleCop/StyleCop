@@ -611,6 +611,16 @@ namespace StyleCop.CSharp
         /// <summary>
         /// The tilde before the name of a destructor.
         /// </summary>
-        DestructorTilde
+        DestructorTilde,
+
+        /// <summary>
+        /// The async keyword.
+        /// </summary>
+        Async,
+
+        /// <summary>
+        /// The await keyword.
+        /// </summary>
+        Await
     }
 }

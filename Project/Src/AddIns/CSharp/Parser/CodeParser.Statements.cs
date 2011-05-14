@@ -186,6 +186,10 @@ namespace StyleCop.CSharp
                             statement = this.ParseOtherStatement(parentReference, unsafeCode, variables);
                             break;
 
+                        case SymbolType.Await:
+                            statement = this.ParseAwaitStatement(parentReference, unsafeCode);
+                            break;
+
                         case SymbolType.OpenCurlyBracket:
                             statement = this.ParseBlockStatement(unsafeCode);
                             break;
@@ -2141,6 +2145,43 @@ namespace StyleCop.CSharp
 
             // Create and return the statement.
             var statement = new YieldStatement(partialTokens, yieldType, returnValue);
+            statementReference.Target = statement;
+
+            return statement;
+        }
+
+        /// <summary>
+        /// Reads the next await-statement from the file and returns it.
+        /// </summary>
+        /// <param name="parentReference">The parent code unit.</param>
+        /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
+        /// <returns>Returns the statement.</returns>
+        private AwaitStatement ParseAwaitStatement(Reference<ICodePart> parentReference, bool unsafeCode)
+        {
+            Param.AssertNotNull(parentReference, "parentReference");
+            Param.Ignore(unsafeCode);
+
+            var statementReference = new Reference<ICodePart>();
+
+            // Move past the await keyword.
+            CsToken firstToken = this.GetToken(CsTokenType.Await, SymbolType.Await, parentReference, statementReference);
+            Node<CsToken> firstTokenNode = this.tokens.InsertLast(firstToken);
+            
+            // Get the expression.
+            Expression awaitValue = this.GetNextExpression(ExpressionPrecedence.None, statementReference, unsafeCode);
+            if (awaitValue == null)
+            {
+                throw this.CreateSyntaxException();
+            }
+
+            // Get the closing semicolon.
+            this.tokens.Add(this.GetToken(CsTokenType.Semicolon, SymbolType.Semicolon, statementReference));
+
+            // Create the token list for the statement.
+            CsTokenList partialTokens = new CsTokenList(this.tokens, firstTokenNode, this.tokens.Last);
+
+            // Create and return the statement.
+            var statement = new AwaitStatement(partialTokens, awaitValue);
             statementReference.Target = statement;
 
             return statement;

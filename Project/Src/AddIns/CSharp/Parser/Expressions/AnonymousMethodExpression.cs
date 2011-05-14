@@ -14,16 +14,17 @@
 //-----------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-
     /// <summary>
     /// An expression representing an anonymous method.
     /// </summary>
     /// <subcategory>expression</subcategory>
     public sealed class AnonymousMethodExpression : ExpressionWithParameters
     {
+        /// <summary>
+        /// Is this expression sync or async.
+        /// </summary>
+        private bool asyncExpression;
+
         #region Internal Constructors
 
         /// <summary>
@@ -35,5 +36,22 @@ namespace StyleCop.CSharp
         }
 
         #endregion Internal Constructors
+
+        /// <summary>
+        /// Gets a value indicating whether this anonymous expression is async or sync.
+        /// </summary>
+        public bool Async
+        {
+            get
+            {
+                return this.asyncExpression;
+            }
+
+            internal set
+            {
+                Param.AssertNotNull(value, "Async");
+                this.asyncExpression = value;
+            }
+        }
     }
 }

@@ -118,6 +118,7 @@
     <Compile Include="CsToken.cs" />
     <Compile Include="CsTokenList.cs" />
     <Compile Include="Elements\AssemblyAttribute.cs" />
+    <Compile Include="Expressions\AwaitExpression.cs" />
     <Compile Include="Expressions\CollectionInitializerExpression.cs" />
     <Compile Include="Expressions\EventDeclaratorExpression.cs" />
     <Compile Include="Expressions\ExpressionWithParameters.cs" />
@@ -157,6 +158,7 @@
     <Compile Include="QueryClauseType.cs" />
     <Compile Include="Reference{T}.cs" />
     <Compile Include="Rules.cs" />
+    <Compile Include="Statements\AwaitStatement.cs" />
     <Compile Include="Statements\ConstructorInitializerStatement.cs" />
     <Compile Include="StatementType.cs" />
     <Compile Include="Expressions\UnsafeAccessExpression.cs" />

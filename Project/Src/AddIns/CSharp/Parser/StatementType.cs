@@ -21,6 +21,11 @@ namespace StyleCop.CSharp
     public enum StatementType
     {
         /// <summary>
+        /// An await statement.
+        /// </summary>
+        Await,
+
+        /// <summary>
         /// A block statement.
         /// </summary>
         Block,
