@@ -295,6 +295,24 @@
             </Expression>
           </Statement>
         </Element>
+        <Element Name="Method2" Type="Method">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="RemoteInteger" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="result" Type="LiteralExpression" />
+                <Expression Type="AwaitExpression">
+                  <Expression Type="ParenthesizedExpression">
+                    <Expression Type="ArithmeticExpression">
+                      <Expression Text="remoteInt1" Type="LiteralExpression" />
+                      <Expression Text="remoteInt2" Type="LiteralExpression" />
+                    </Expression>
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+        </Element>
       </Element>
     </Element>
   </Element>

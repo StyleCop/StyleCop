@@ -47,5 +47,10 @@ namespace CSharpParserTest.TestData
                     elementChangedHandler(element, change);
                 };
         }
+
+        public async void Method2()
+        {
+            RemoteInteger result = await (remoteInt1 / remoteInt2);
+        }
     }
 }
