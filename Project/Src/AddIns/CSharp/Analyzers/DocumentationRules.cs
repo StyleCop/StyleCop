@@ -1473,6 +1473,7 @@ namespace StyleCop.CSharp
                         {
                             Indexer item = element as Indexer;
                             this.CheckHeaderParams(element, item.Parameters, formattedDocs);
+                            this.CheckHeaderReturnValue(element, item.ReturnType, formattedDocs);
                         }
                         else if (element.ElementType == ElementType.Property)
                         {
