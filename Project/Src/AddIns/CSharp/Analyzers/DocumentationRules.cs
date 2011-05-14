@@ -1495,7 +1495,11 @@ namespace StyleCop.CSharp
                             element.ElementType == ElementType.Indexer ||
                             element.ElementType == ElementType.Class ||
                             element.ElementType == ElementType.Struct ||
-                            element.ElementType == ElementType.Interface)
+                            element.ElementType == ElementType.Interface ||
+                            element.ElementType == ElementType.Property ||
+                            element.ElementType == ElementType.Event ||
+                            element.ElementType == ElementType.Field ||
+                            element.ElementType == ElementType.Destructor)
                         {
                             this.CheckForRepeatingComments(element, formattedDocs);
                         }
@@ -2008,6 +2012,12 @@ namespace StyleCop.CSharp
             }
 
             node = formattedDocs.SelectSingleNode("root/remarks");
+            if (node != null)
+            {
+                comments.Add(node.InnerXml.Trim());
+            }
+
+            node = formattedDocs.SelectSingleNode("root/value");
             if (node != null)
             {
                 comments.Add(node.InnerXml.Trim());

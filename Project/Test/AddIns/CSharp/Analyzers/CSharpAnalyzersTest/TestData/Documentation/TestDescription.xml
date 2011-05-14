@@ -2,6 +2,7 @@
 <StyleCopTestDescription TestName="Documentation">
   <Test Name="Documentation">
     <TestCodeFile>DocumentationClasses.cs</TestCodeFile>
+    <TestCodeFile>DocumentationCopiedAndPasted.cs</TestCodeFile>
     <TestCodeFile>DocumentationConstructors.cs</TestCodeFile>
     <TestCodeFile>DocumentationDelegates.cs</TestCodeFile>
     <TestCodeFile>DocumentationDestructors.cs</TestCodeFile>
@@ -718,6 +719,10 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationSlashes.Method5" LineNumber="63" Rule="SingleLineCommentsMustNotUseDocumentationStyleSlashes" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationSlashes.Method5" LineNumber="65" Rule="SingleLineCommentsMustNotUseDocumentationStyleSlashes" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationSlashes.Method5" LineNumber="66" Rule="SingleLineCommentsMustNotUseDocumentationStyleSlashes" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Documentation.DocumentationCopiedAndPasted.Constant" LineNumber="15" Rule="ElementDocumentationMustNotBeCopiedAndPasted" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Documentation.DocumentationCopiedAndPasted.Something" LineNumber="22" Rule="ElementDocumentationMustNotBeCopiedAndPasted" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Documentation.DocumentationCopiedAndPasted.Event" LineNumber="28" Rule="ElementDocumentationMustNotBeCopiedAndPasted" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Documentation.DocumentationCopiedAndPasted.~DocumentationCopiedAndPasted" LineNumber="34" Rule="ElementDocumentationMustNotBeCopiedAndPasted" />
     </ExpectedViolations>
   </Test>
 
