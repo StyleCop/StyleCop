@@ -1894,16 +1894,16 @@ namespace StyleCop.CSharp
                             // There is only a get accessor.
                             string text = returnsBoolean ? CachedCodeStrings.HeaderSummaryForBooleanGetAccessor : CachedCodeStrings.HeaderSummaryForGetAccessor;
                             string summaryText = node.InnerText.TrimStart();
-                            if (!summaryText.StartsWith(text, StringComparison.Ordinal))
-                            {
-                                this.AddViolation(property, Rules.PropertySummaryDocumentationMustMatchAccessors, text);
-                            }
 
                             // Make sure that the summary does not start with "Gets or sets" since there is only a get accessor.
                             string getOrSetText = CachedCodeStrings.HeaderSummaryForGetAndSetAccessor;
                             if (summaryText.StartsWith(getOrSetText, StringComparison.Ordinal))
                             {
                                 this.AddViolation(property, Rules.PropertySummaryDocumentationMustOmitSetAccessorWithRestrictedAccess, text);
+                            }
+                            else if (!summaryText.StartsWith(text, StringComparison.Ordinal))
+                            {
+                                this.AddViolation(property, Rules.PropertySummaryDocumentationMustMatchAccessors, text);
                             }
                         }
                     }
