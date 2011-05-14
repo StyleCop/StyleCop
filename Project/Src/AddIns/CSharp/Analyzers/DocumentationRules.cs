@@ -1449,6 +1449,7 @@ namespace StyleCop.CSharp
                     {
                         this.CheckForBlankLinesInDocumentationHeader(element, header);
                         this.CheckHeaderSummary(element, lineNumber, partialElement, formattedDocs);
+                        this.CheckHeaderElementsForEmptyText(element, formattedDocs);
 
                         // Check element parameters and return types.
                         if (element.ElementType == ElementType.Method)
@@ -1618,11 +1619,14 @@ namespace StyleCop.CSharp
             Param.AssertNotNull(formattedDocs, "doc");
 
             XmlNode summary = formattedDocs.SelectSingleNode("root/summary");
+            string documentationType = "summary";
+
             if (summary == null)
             {
                 if (partialElement)
                 {
                     summary = formattedDocs.SelectSingleNode("root/content");
+                    documentationType = "content";
                 }
             }
 
@@ -1672,7 +1676,7 @@ namespace StyleCop.CSharp
                     }
                     else
                     {
-                        this.CheckDocumentationValidity(element, lineNumber, summary, "summary");
+                        this.CheckDocumentationValidity(element, lineNumber, summary, documentationType);
                     }
                 }
             }
@@ -2134,7 +2138,42 @@ namespace StyleCop.CSharp
                 }
             }
         }
-        
+
+        /// <summary>
+        /// Checks for the presence of text in standard header elements.
+        /// </summary>
+        /// <param name="element">The element to parse.</param>
+        /// <param name="formattedDocs">The formatted Xml document that comprises the header.</param>
+        private void CheckHeaderElementsForEmptyText(CsElement element, XmlDocument formattedDocs)
+        {
+            Param.AssertNotNull(element, "element");
+            Param.AssertNotNull(formattedDocs, "formattedDocs");
+            
+            XmlNode xmlNode = formattedDocs.SelectSingleNode("root/remarks");
+            if (xmlNode != null)
+            {
+                this.CheckDocumentationValidity(element, element.LineNumber, xmlNode, "remarks");
+            }
+
+            xmlNode = formattedDocs.SelectSingleNode("root/example");
+            if (xmlNode != null)
+            {
+                this.CheckDocumentationValidity(element, element.LineNumber, xmlNode, "example");
+            }
+
+            xmlNode = formattedDocs.SelectSingleNode("root/permission");
+            if (xmlNode != null)
+            {
+                this.CheckDocumentationValidity(element, element.LineNumber, xmlNode, "permission");
+            }
+
+            xmlNode = formattedDocs.SelectSingleNode("root/exception");
+            if (xmlNode != null)
+            {
+                this.CheckDocumentationValidity(element, element.LineNumber, xmlNode, "exception");
+            }
+        }
+
         /// <summary>
         /// Checks for the presence of a return value tag on an element.
         /// </summary>

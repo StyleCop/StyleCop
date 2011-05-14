@@ -126,5 +126,16 @@ namespace CSharpAnalyzersTest.TestData
         public const int invalidField17 = 0;
 
         public readonly int invalidField18 = 0;
+
+        /// <summary>
+        /// Finalizes an instance of the DocumentationFields class but has 4 empty documentation elements.
+        /// </summary>
+        /// <remarks></remarks>
+        /// <example></example>
+        /// <permission cref=""></permission>
+        /// <exception cref=""></exception>
+        ~DocumentationFields()
+        {
+        }
     }
 }

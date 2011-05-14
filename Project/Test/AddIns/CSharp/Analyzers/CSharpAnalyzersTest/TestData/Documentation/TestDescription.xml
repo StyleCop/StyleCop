@@ -413,6 +413,11 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationFields.invalidField16" LineNumber="124" Rule="ElementDocumentationMustHaveSummaryText" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationFields.invalidField17" LineNumber="126" Rule="ElementsMustBeDocumented" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationFields.invalidField18" LineNumber="128" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationFields.~DocumentationFields" LineNumber="137" Rule="DocumentationTextMustNotBeEmpty" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationFields.~DocumentationFields" LineNumber="137" Rule="DocumentationTextMustNotBeEmpty" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationFields.~DocumentationFields" LineNumber="137" Rule="DocumentationTextMustNotBeEmpty" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationFields.~DocumentationFields" LineNumber="137" Rule="DocumentationTextMustNotBeEmpty" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationProperties.InvalidProperty33" LineNumber="391" Rule="DocumentationTextMustNotBeEmpty" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationIndexers.this%short[]" LineNumber="152" Rule="ElementDocumentationMustNotHaveDefaultSummary" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationIndexers.this%long[]" LineNumber="160" Rule="DocumentationMustContainValidXml" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationIndexers.this%float[]" LineNumber="165" Rule="ElementsMustBeDocumented" />
@@ -451,6 +456,7 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationIndexers.this%short%byte" LineNumber="424" Rule="ElementParametersMustBeDocumented" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationIndexers.this%short%object" LineNumber="433" Rule="ElementParametersMustBeDocumented" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationIndexers.this%short%float" LineNumber="443" Rule="ElementParametersMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationIndexers.this%short%float" LineNumber="443" Rule="DocumentationTextMustNotBeEmpty" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationIndexers.this%short%DateTime" LineNumber="454" Rule="DocumentationTextMustEndWithAPeriod" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationIndexers.this%short%DateTime" LineNumber="454" Rule="ElementParameterDocumentationMustMatchElementParameters" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationIndexers.this%short%bool" LineNumber="465" Rule="DocumentationTextMustEndWithAPeriod" />
