@@ -940,7 +940,13 @@ namespace StyleCop.CSharp
                         }
                         else if (symbol.SymbolType == SymbolType.Other)
                         {
-                            // A const used in place of a number.
+                            // Could be a constant or a reference to a constant.
+                            typeTokens.Add(this.ConvertSymbol(symbol, CsTokenType.Other, typeTokenReference));
+                            ++startIndex;
+                        }
+                        else if (symbol.SymbolType == SymbolType.Dot)
+                        {
+                            // Could be a dot in here like: int a[Constants.DefaultSize];
                             typeTokens.Add(this.ConvertSymbol(symbol, CsTokenType.Other, typeTokenReference));
                             ++startIndex;
                         }
