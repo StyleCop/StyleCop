@@ -49,6 +49,14 @@ namespace StyleCop.ReSharper.Options
         /// Reference to the IOptionsDialog that opened our page.
         /// </summary>
         private readonly IOptionsDialog dialog;
+
+        /// <summary>
+        /// The order of modifiers for StyleCop.
+        /// </summary>
+        private static readonly string[] ModifiersOrder = new[]
+            {
+                "public", "protected", "internal", "private", "static", "new", "abstract", "virtual", "override", "sealed", "readonly", "extern", "unsafe", "volatile"
+            };
         
         /// <summary>
         /// The instance of this options page.
@@ -188,7 +196,7 @@ namespace StyleCop.ReSharper.Options
             formatSettings.KEEP_BLANK_LINES_IN_DECLARATIONS = 1;
             formatSettings.KEEP_USER_LINEBREAKS = false;
             formatSettings.LINE_FEED_AT_FILE_END = false;
-            formatSettings.MODIFIERS_ORDER = CSharpFormatSettings.DefaultModifiersOrder;
+            formatSettings.MODIFIERS_ORDER = ModifiersOrder;
             formatSettings.OTHER_BRACES = BraceFormatStyle.NEXT_LINE;
             formatSettings.PLACE_ABSTRACT_ACCESSORHOLDER_ON_SINGLE_LINE = true;
             formatSettings.PLACE_ACCESSORHOLDER_ATTRIBUTE_ON_SAME_LINE = false;
@@ -747,7 +755,7 @@ namespace StyleCop.ReSharper.Options
                 return false;
             }
 
-            if (!formatSettings.MODIFIERS_ORDER.SequenceEqual(CSharpFormatSettings.DefaultModifiersOrder))
+            if (!formatSettings.MODIFIERS_ORDER.SequenceEqual(ModifiersOrder))
             {
                 return false;
             }
