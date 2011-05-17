@@ -131,6 +131,16 @@
     <Content Include="License.rtf" />
     <Content Include="SharedIncludes.wxi" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WixCustomAction\WixCustomAction.csproj">
+      <Name>WixCustomAction</Name>
+      <Project>{7626e327-accf-42b3-9013-aea7aaff729b}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(WixToolsDirectory)\Wix.targets" />
   <PropertyGroup>
     <Cultures>en-us</Cultures>

@@ -43,8 +43,7 @@
       </Component>
     </DirectoryRef>
 
-    <!-- We need to customize the VS90Setup from VSExtension because it doesnt support the flag /nosetupvstemplates -->
-    <CustomAction Id="StyleCopVS90Setup" Property="VS90DEVENV" ExeCommand="/setup /nosetupvstemplates" Execute="deferred" Return="ignore" Impersonate="no" />
+    <CustomAction Id="StyleCopVS90Setup" Property="VS90DEVENV" ExeCommand="/setup /InstallVSTemplates" Execute="deferred" Return="ignore" Impersonate="no" />
     <PropertyRef Id="VS90DEVENV" />
 
   </Fragment>

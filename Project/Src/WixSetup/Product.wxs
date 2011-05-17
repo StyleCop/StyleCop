@@ -67,10 +67,12 @@
       <!-- Move AppSearch to before FindRelatedProduct so that RegistrySearch properties get evaluated before they are used -->      
       <AppSearch Before="FindRelatedProducts" />
       <RemoveExistingProducts After="InstallInitialize" />
-      <!--  We replace the use of VS90Setup with StyleCopVS90Setup to add support for the devenv.exe flag /nosetupvstemplates -->
-      <Custom Action="StyleCopVS90Setup" Before="InstallFinalize"><![CDATA[&Feature_StyleCopPackage > 1 AND VS90DEVENV<>""]]></Custom>
-      <Custom Action="StyleCopVS10Setup" Before="InstallFinalize"><![CDATA[&Feature_StyleCopPackage > 1 AND VS2010DEVENV<>""]]></Custom>
+      <!--  We replace the use of VS90Setup with StyleCopVS90Setup to add support for other devenv.exe flags -->
+      <Custom Action="StyleCopVS90Setup" Before="InstallFinalize"><![CDATA[&Feature_StyleCopPackage > 1 AND VS90DEVENV<>"" AND NOT Installed]]></Custom>
+      <Custom Action="StyleCopVS10Setup" Before="InstallFinalize"><![CDATA[&Feature_StyleCopPackage > 1 AND VS2010DEVENV<>"" AND NOT Installed]]></Custom>
       <Custom Action="SetARPINSTALLLOCATION" After="InstallValidate"></Custom>
+      <Custom Action='CA_BackupVisualStudioTemplateFiles' Before='InstallFinalize'><![CDATA[&Feature_VisualStudioTemplates = 3]]></Custom>
+      <Custom Action='CA_RestoreVisualStudioTemplateFiles' After='InstallFinalize'><![CDATA[&Feature_VisualStudioTemplates = 2 AND !Feature_VisualStudioTemplates = 3]]></Custom>
     </InstallExecuteSequence>
 
     <WixVariable Id="WixUISupportPerUser" Value="0" />
@@ -109,6 +111,8 @@
     <CustomAction Id="ToggleALLUSERSToPerUser" Property="ALLUSERS" Value=""/>
     <CustomAction Id="RevertALLUSERSToPerMachine" Property="ALLUSERS" Value="1"/>
     <CustomAction Id="SetARPINSTALLLOCATION" Property="ARPINSTALLLOCATION" Value="[INSTALLDIR]" />
-
+    <Binary Id="WixCustomAction.dll" SourceFile="$(var.WixCustomAction.TargetDir)$(var.WixCustomAction.TargetName).CA.dll" />
+    <CustomAction Id="CA_RestoreVisualStudioTemplateFiles" BinaryKey="WixCustomAction.dll" DllEntry="RestoreVisualStudioTemplateFiles" Execute="immediate" />
+    <CustomAction Id="CA_BackupVisualStudioTemplateFiles" BinaryKey="WixCustomAction.dll" DllEntry="BackupVisualStudioTemplateFiles" Execute="immediate" />
   </Product>
 </Wix>

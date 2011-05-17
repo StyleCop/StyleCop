@@ -43,8 +43,7 @@
       </Component>
     </DirectoryRef>
 
-    <!-- We need to customize the VS10Setup from VSExtension because it doesnt support the flag /nosetupvstemplates  -->
-    <CustomAction Id="StyleCopVS10Setup" Property="VS2010DEVENV" ExeCommand="/setup /nosetupvstemplates" Execute="deferred" Return="ignore" Impersonate="no" />
+    <CustomAction Id="StyleCopVS10Setup" Property="VS2010DEVENV" ExeCommand="/setup /InstallVSTemplates" Execute="deferred" Return="ignore" Impersonate="no" />
     <PropertyRef Id="VS2010DEVENV" />
 
   </Fragment>
