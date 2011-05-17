@@ -1475,6 +1475,9 @@ namespace StyleCop.CSharp
         /// <returns>True if this node is the first on the line, otherwise false.</returns>
         private bool IsTokenFirstNonWhitespaceTokenOnLine(MasterList<CsToken> tokens, Node<CsToken> node)
         {
+            Param.AssertNotNull(tokens, "tokens");
+            Param.AssertNotNull(node, "node");
+
             var previousNode = node.Previous;
             if (previousNode == null)
             {
