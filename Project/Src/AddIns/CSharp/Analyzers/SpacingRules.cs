@@ -1724,7 +1724,7 @@ namespace StyleCop.CSharp
 
                 // The symbol must not be followed by whitespace.
                 Node<CsToken> nextNode = tokenNode.Next;
-                if (nextNode == null)
+                if (nextNode != null)
                 {
                     CsTokenType tokenType = nextNode.Value.CsTokenType;
                     if (tokenType == CsTokenType.WhiteSpace ||
@@ -1796,7 +1796,7 @@ namespace StyleCop.CSharp
             }
 
             Node<CsToken> nextNode = tokenNode.Next;
-            if (nextNode == null)
+            if (nextNode != null)
             {
                 CsTokenType tokenType = nextNode.Value.CsTokenType;
                 if (tokenType == CsTokenType.WhiteSpace ||
