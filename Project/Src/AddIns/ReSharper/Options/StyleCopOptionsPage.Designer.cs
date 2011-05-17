@@ -79,23 +79,25 @@ namespace StyleCop.ReSharper.Options
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel5 = new System.Windows.Forms.Panel();
             this.label7 = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.label8 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.performanceTrackBar)).BeginInit();
             this.performanceGroupBox.SuspendLayout();
-            this.assemblyLocationGroupBox.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.warningPanel.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel5.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // autoDetectCheckBox
             // 
             this.autoDetectCheckBox.AutoSize = true;
-            this.autoDetectCheckBox.Location = new System.Drawing.Point(11, 17);
+            this.autoDetectCheckBox.Location = new System.Drawing.Point(0, 23);
             this.autoDetectCheckBox.Name = "autoDetectCheckBox";
-            this.autoDetectCheckBox.Size = new System.Drawing.Size(161, 17);
+            this.autoDetectCheckBox.Size = new System.Drawing.Size(175, 17);
             this.autoDetectCheckBox.TabIndex = 1;
             this.autoDetectCheckBox.Text = "Automatically detect location";
             this.autoDetectCheckBox.UseVisualStyleBackColor = true;
@@ -103,7 +105,7 @@ namespace StyleCop.ReSharper.Options
             // 
             // StyleCopLocationTextBox
             // 
-            this.StyleCopLocationTextBox.Location = new System.Drawing.Point(11, 59);
+            this.StyleCopLocationTextBox.Location = new System.Drawing.Point(0, 69);
             this.StyleCopLocationTextBox.Name = "StyleCopLocationTextBox";
             this.StyleCopLocationTextBox.Size = new System.Drawing.Size(275, 22);
             this.StyleCopLocationTextBox.TabIndex = 2;
@@ -111,7 +113,7 @@ namespace StyleCop.ReSharper.Options
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(10, 37);
+            this.label1.Location = new System.Drawing.Point(0, 46);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(149, 13);
             this.label1.TabIndex = 2;
@@ -126,7 +128,7 @@ namespace StyleCop.ReSharper.Options
             // 
             // BrowseButton
             // 
-            this.BrowseButton.Location = new System.Drawing.Point(213, 87);
+            this.BrowseButton.Location = new System.Drawing.Point(200, 102);
             this.BrowseButton.Name = "BrowseButton";
             this.BrowseButton.Size = new System.Drawing.Size(75, 23);
             this.BrowseButton.TabIndex = 3;
@@ -176,11 +178,7 @@ namespace StyleCop.ReSharper.Options
             // 
             // assemblyLocationGroupBox
             // 
-            this.assemblyLocationGroupBox.Controls.Add(this.BrowseButton);
-            this.assemblyLocationGroupBox.Controls.Add(this.autoDetectCheckBox);
-            this.assemblyLocationGroupBox.Controls.Add(this.StyleCopLocationTextBox);
-            this.assemblyLocationGroupBox.Controls.Add(this.label1);
-            this.assemblyLocationGroupBox.Location = new System.Drawing.Point(353, 342);
+            this.assemblyLocationGroupBox.Location = new System.Drawing.Point(478, 342);
             this.assemblyLocationGroupBox.Name = "assemblyLocationGroupBox";
             this.assemblyLocationGroupBox.Size = new System.Drawing.Size(301, 124);
             this.assemblyLocationGroupBox.TabIndex = 8;
@@ -342,7 +340,7 @@ namespace StyleCop.ReSharper.Options
             this.codeStyleWarningLabel.Size = new System.Drawing.Size(283, 51);
             this.codeStyleWarningLabel.TabIndex = 23;
             this.codeStyleWarningLabel.Text = "Your ReSharper C# code style options are not fully compatible with StyleCop. If y" +
-                "ou reformat code then you are likely to see StyleCop violations.";
+    "ou reformat code then you are likely to see StyleCop violations.";
             // 
             // resetFormatOptionsButton
             // 
@@ -361,11 +359,12 @@ namespace StyleCop.ReSharper.Options
             this.flowLayoutPanel1.Controls.Add(this.warningPanel);
             this.flowLayoutPanel1.Controls.Add(this.panel3);
             this.flowLayoutPanel1.Controls.Add(this.panel4);
+            this.flowLayoutPanel1.Controls.Add(this.panel1);
             this.flowLayoutPanel1.Controls.Add(this.panel5);
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(10, 3);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(387, 439);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(387, 540);
             this.flowLayoutPanel1.TabIndex = 26;
             // 
             // warningPanel
@@ -451,7 +450,7 @@ namespace StyleCop.ReSharper.Options
             this.panel5.Controls.Add(this.justificationTextBox);
             this.panel5.Controls.Add(this.justificationLlabel);
             this.panel5.Controls.Add(this.useExcludeFromStyleCopCheckBox);
-            this.panel5.Location = new System.Drawing.Point(3, 285);
+            this.panel5.Location = new System.Drawing.Point(3, 419);
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(282, 88);
             this.panel5.TabIndex = 34;
@@ -466,6 +465,29 @@ namespace StyleCop.ReSharper.Options
             this.label7.TabIndex = 30;
             this.label7.Text = "Others";
             // 
+            // panel1
+            // 
+            this.panel1.AutoSize = true;
+            this.panel1.Controls.Add(this.BrowseButton);
+            this.panel1.Controls.Add(this.label8);
+            this.panel1.Controls.Add(this.StyleCopLocationTextBox);
+            this.panel1.Controls.Add(this.autoDetectCheckBox);
+            this.panel1.Controls.Add(this.label1);
+            this.panel1.Location = new System.Drawing.Point(3, 285);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(278, 128);
+            this.panel1.TabIndex = 35;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(0, 0);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(98, 13);
+            this.label8.TabIndex = 0;
+            this.label8.Text = "StyleCop location";
+            // 
             // StyleCopOptionsPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -478,12 +500,10 @@ namespace StyleCop.ReSharper.Options
             this.Controls.Add(this.assemblyLocationGroupBox);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "StyleCopOptionsPage";
-            this.Size = new System.Drawing.Size(660, 469);
+            this.Size = new System.Drawing.Size(782, 546);
             ((System.ComponentModel.ISupportInitialize)(this.performanceTrackBar)).EndInit();
             this.performanceGroupBox.ResumeLayout(false);
             this.performanceGroupBox.PerformLayout();
-            this.assemblyLocationGroupBox.ResumeLayout(false);
-            this.assemblyLocationGroupBox.PerformLayout();
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
             this.warningPanel.ResumeLayout(false);
@@ -496,6 +516,8 @@ namespace StyleCop.ReSharper.Options
             this.panel2.PerformLayout();
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -538,5 +560,7 @@ namespace StyleCop.ReSharper.Options
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label label8;
     }
 }
