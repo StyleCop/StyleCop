@@ -2386,6 +2386,8 @@ namespace StyleCop.CSharp
 
                             string firstTypeNameWithoutSuffixes = string.Empty;
 
+                            string firstTypeNameWithGenerics = string.Empty;
+
                             // Make sure the filename matches the name of the first type in the file.
                             // If its a partial class we do nothing.
                             if (!this.GetFirstTypeName(document.RootElement, out firstTypeName))
@@ -2398,20 +2400,38 @@ namespace StyleCop.CSharp
                                     if (firstTypeName.IndexOf('<') > -1)
                                     {
                                         // Remove any 'out ' or 'in ' from generics and then swap '<' and '>' for '{' and '}'
-                                        firstTypeName = firstTypeName.Replace("out ", string.Empty).Replace("in ", string.Empty).Replace('<', '{').Replace('>', '}');
+                                        firstTypeNameWithGenerics = firstTypeName.Replace("out ", string.Empty).Replace("in ", string.Empty).Replace('<', '{').Replace('>', '}');
 
-                                        firstTypeNameWithoutSuffixes = firstTypeName.SubstringBefore('{');
+                                        // Do we have some parameters (for a delegate maybe?)
+                                        if (firstTypeNameWithGenerics.IndexOf('%') > -1)
+                                        {
+                                            firstTypeNameWithGenerics = firstTypeNameWithGenerics.SubstringBefore('%');
+                                        }
+
+                                        firstTypeNameWithoutSuffixes = firstTypeNameWithGenerics.SubstringBefore('{');
                                     }
-
-                                    // Do we have some parameters (for a delegate maybe?)
-                                    if (firstTypeName.IndexOf('%') > -1)
+                                    else
                                     {
                                         firstTypeNameWithoutSuffixes = firstTypeName.SubstringBefore('%');
                                     }
 
-                                    if (string.Compare(trimmedFilename, firstTypeName, StringComparison.OrdinalIgnoreCase) != 0 && string.Compare(trimmedFilename, firstTypeNameWithoutSuffixes, StringComparison.OrdinalIgnoreCase) != 0)
+                                    if (string.Compare(trimmedFilename, firstTypeName, StringComparison.OrdinalIgnoreCase) != 0 &&
+                                        string.Compare(trimmedFilename, firstTypeNameWithoutSuffixes, StringComparison.OrdinalIgnoreCase) != 0 &&
+                                        string.Compare(trimmedFilename, firstTypeNameWithGenerics, StringComparison.OrdinalIgnoreCase) != 0)
                                     {
-                                        this.AddViolation(document.RootElement, document.FileHeader.LineNumber, Rules.FileHeaderFileNameDocumentationMustMatchTypeName);
+                                        string allowedNames = "\"" + firstTypeName + "\"";
+
+                                        if (!string.IsNullOrEmpty(firstTypeNameWithoutSuffixes))
+                                        {
+                                            allowedNames += ", \"" + firstTypeNameWithoutSuffixes + "\"";
+                                        }
+
+                                        if (!string.IsNullOrEmpty(firstTypeNameWithGenerics))
+                                        {
+                                            allowedNames += ", \"" + firstTypeNameWithGenerics + "\"";
+                                        }
+
+                                        this.AddViolation(document.RootElement, document.FileHeader.LineNumber, Rules.FileHeaderFileNameDocumentationMustMatchTypeName, allowedNames);
                                     }
                                 }
                             }
