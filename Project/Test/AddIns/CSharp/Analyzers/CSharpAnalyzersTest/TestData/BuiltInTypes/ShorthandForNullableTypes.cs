@@ -128,5 +128,13 @@
         private class Inner2 : IExample<int?> // valid
         {
         }
+
+        private class Inner : IExample<System.Nullable<int>> // invalid
+        {
+        }
+
+        private class Inner : IExample<global::System.Nullable<int>> // invalid
+        {
+        }
     }
 }

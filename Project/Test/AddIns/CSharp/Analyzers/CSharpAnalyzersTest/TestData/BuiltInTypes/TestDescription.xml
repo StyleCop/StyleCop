@@ -37,6 +37,8 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.BuiltInTypes.ShorthandForNullableTypes.Method%Nullable`bool%bool?" LineNumber="105" Rule="UseShorthandForNullableTypes" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.BuiltInTypes.ShorthandForNullableTypes.Method3" LineNumber="114" Rule="UseShorthandForNullableTypes" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.BuiltInTypes.ShorthandForNullableTypes.Inner" LineNumber="124" Rule="UseShorthandForNullableTypes" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.BuiltInTypes.ShorthandForNullableTypes.Inner" LineNumber="132" Rule="UseShorthandForNullableTypes" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.BuiltInTypes.ShorthandForNullableTypes.Inner" LineNumber="136" Rule="UseShorthandForNullableTypes" />
     </ExpectedViolations>
   </Test>
   <Test Name="BuiltInTypes">
