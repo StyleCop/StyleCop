@@ -203,15 +203,13 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationClass3" LineNumber="136" Rule="ElementsMustBeDocumented" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationClass4" LineNumber="143" Rule="ElementDocumentationMustHaveSummaryText" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationClass5" LineNumber="150" Rule="DocumentationTextMustContainWhitespace" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationClass6" LineNumber="157" Rule="DocumentationTextMustMeetMinimumCharacterLength" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationClass6" LineNumber="157" Rule="DocumentationTextMustContainWhitespace" />
+       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationClass6" LineNumber="157" Rule="DocumentationTextMustContainWhitespace" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationClass7" LineNumber="164" Rule="DocumentationMustMeetCharacterPercentage" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationClass8" LineNumber="171" Rule="DocumentationTextMustBeginWithACapitalLetter" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationClass9" LineNumber="178" Rule="DocumentationTextMustEndWithAPeriod" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationClass10`T" LineNumber="185" Rule="GenericTypeParametersMustBeDocumented" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationClass11`T" LineNumber="193" Rule="GenericTypeParameterDocumentationMustHaveText" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationClass12`T" LineNumber="201" Rule="DocumentationTextMustContainWhitespace" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationClass13`T" LineNumber="209" Rule="DocumentationTextMustMeetMinimumCharacterLength" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationClass13`T" LineNumber="209" Rule="DocumentationTextMustContainWhitespace" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationClass14`T" LineNumber="217" Rule="DocumentationMustMeetCharacterPercentage" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationClass15`T" LineNumber="225" Rule="DocumentationTextMustBeginWithACapitalLetter" />
@@ -244,7 +242,6 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationConstructor3.InvalidDocumentationConstructor3" LineNumber="187" Rule="ElementsMustBeDocumented" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationConstructor4.InvalidDocumentationConstructor4" LineNumber="200" Rule="ElementDocumentationMustHaveSummaryText" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationConstructor5.InvalidDocumentationConstructor5" LineNumber="213" Rule="DocumentationTextMustContainWhitespace" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationConstructor6.InvalidDocumentationConstructor6" LineNumber="226" Rule="DocumentationTextMustMeetMinimumCharacterLength" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationConstructor6.InvalidDocumentationConstructor6" LineNumber="226" Rule="DocumentationTextMustContainWhitespace" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationConstructor7.InvalidDocumentationConstructor7" LineNumber="239" Rule="DocumentationMustMeetCharacterPercentage" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationConstructor8.InvalidDocumentationConstructor8" LineNumber="252" Rule="DocumentationTextMustBeginWithACapitalLetter" />
@@ -252,7 +249,6 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationConstructor10.InvalidDocumentationConstructor10%int" LineNumber="278" Rule="ElementParametersMustBeDocumented" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationConstructor11.InvalidDocumentationConstructor11%int" LineNumber="292" Rule="ElementParameterDocumentationMustHaveText" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationConstructor12.InvalidDocumentationConstructor12%int" LineNumber="306" Rule="DocumentationTextMustContainWhitespace" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationConstructor13.InvalidDocumentationConstructor13%int" LineNumber="320" Rule="DocumentationTextMustMeetMinimumCharacterLength" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationConstructor13.InvalidDocumentationConstructor13%int" LineNumber="320" Rule="DocumentationTextMustContainWhitespace" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationConstructor14.InvalidDocumentationConstructor14%int" LineNumber="334" Rule="DocumentationMustMeetCharacterPercentage" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationConstructor15.InvalidDocumentationConstructor15%int" LineNumber="348" Rule="DocumentationTextMustBeginWithACapitalLetter" />
@@ -280,7 +276,6 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationDelegates.InvalidDelegate3" LineNumber="95" Rule="ElementsMustBeDocumented" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationDelegates.InvalidDelegate4" LineNumber="100" Rule="ElementDocumentationMustHaveSummaryText" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationDelegates.InvalidDelegate5" LineNumber="105" Rule="DocumentationTextMustContainWhitespace" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationDelegates.InvalidDelegate6" LineNumber="110" Rule="DocumentationTextMustMeetMinimumCharacterLength" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationDelegates.InvalidDelegate6" LineNumber="110" Rule="DocumentationTextMustContainWhitespace" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationDelegates.InvalidDelegate7" LineNumber="115" Rule="DocumentationMustMeetCharacterPercentage" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationDelegates.InvalidDelegate8" LineNumber="120" Rule="DocumentationTextMustBeginWithACapitalLetter" />
@@ -288,7 +283,6 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationDelegates.InvalidDelegate10%int" LineNumber="130" Rule="ElementParametersMustBeDocumented" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationDelegates.InvalidDelegate11%int" LineNumber="136" Rule="ElementParameterDocumentationMustHaveText" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationDelegates.InvalidDelegate12%int" LineNumber="142" Rule="DocumentationTextMustContainWhitespace" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationDelegates.InvalidDelegate13%int" LineNumber="148" Rule="DocumentationTextMustMeetMinimumCharacterLength" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationDelegates.InvalidDelegate13%int" LineNumber="148" Rule="DocumentationTextMustContainWhitespace" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationDelegates.InvalidDelegate14%int" LineNumber="154" Rule="DocumentationMustMeetCharacterPercentage" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationDelegates.InvalidDelegate15%int" LineNumber="160" Rule="DocumentationTextMustBeginWithACapitalLetter" />
@@ -296,7 +290,6 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationDelegates.InvalidDelegate17" LineNumber="171" Rule="ElementReturnValueMustBeDocumented" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationDelegates.InvalidDelegate18" LineNumber="177" Rule="ElementReturnValueDocumentationMustHaveText" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationDelegates.InvalidDelegate19" LineNumber="183" Rule="DocumentationTextMustContainWhitespace" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationDelegates.InvalidDelegate20" LineNumber="189" Rule="DocumentationTextMustMeetMinimumCharacterLength" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationDelegates.InvalidDelegate20" LineNumber="189" Rule="DocumentationTextMustContainWhitespace" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationDelegates.InvalidDelegate21" LineNumber="195" Rule="DocumentationMustMeetCharacterPercentage" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationDelegates.InvalidDelegate22" LineNumber="201" Rule="DocumentationTextMustBeginWithACapitalLetter" />
@@ -304,7 +297,6 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationDelegates.InvalidDelegate24`T" LineNumber="212" Rule="GenericTypeParametersMustBeDocumented" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationDelegates.InvalidDelegate25`T" LineNumber="218" Rule="GenericTypeParameterDocumentationMustHaveText" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationDelegates.InvalidDelegate26`T" LineNumber="224" Rule="DocumentationTextMustContainWhitespace" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationDelegates.InvalidDelegate27`T" LineNumber="230" Rule="DocumentationTextMustMeetMinimumCharacterLength" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationDelegates.InvalidDelegate27`T" LineNumber="230" Rule="DocumentationTextMustContainWhitespace" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationDelegates.InvalidDelegate28`T" LineNumber="236" Rule="DocumentationMustMeetCharacterPercentage" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationDelegates.InvalidDelegate29`T" LineNumber="242" Rule="DocumentationTextMustBeginWithACapitalLetter" />
@@ -338,7 +330,6 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationDestructor5.~InvalidDocumentationDestructor5" LineNumber="65" Rule="ElementsMustBeDocumented" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationDestructor6.~InvalidDocumentationDestructor6" LineNumber="78" Rule="ElementDocumentationMustHaveSummaryText" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationDestructor7.~InvalidDocumentationDestructor7" LineNumber="91" Rule="DocumentationTextMustContainWhitespace" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationDestructor8.~InvalidDocumentationDestructor8" LineNumber="104" Rule="DocumentationTextMustMeetMinimumCharacterLength" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationDestructor8.~InvalidDocumentationDestructor8" LineNumber="104" Rule="DocumentationTextMustContainWhitespace" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationDestructor9.~InvalidDocumentationDestructor9" LineNumber="117" Rule="DocumentationMustMeetCharacterPercentage" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationDestructor10.~InvalidDocumentationDestructor10" LineNumber="130" Rule="DocumentationTextMustBeginWithACapitalLetter" />
@@ -358,9 +349,7 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationEnum10.Item" LineNumber="205" Rule="ElementDocumentationMustHaveSummaryText" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationEnum11" LineNumber="211" Rule="DocumentationTextMustContainWhitespace" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationEnum12.Item" LineNumber="223" Rule="DocumentationTextMustContainWhitespace" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationEnum13" LineNumber="229" Rule="DocumentationTextMustMeetMinimumCharacterLength" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationEnum13" LineNumber="229" Rule="DocumentationTextMustContainWhitespace" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationEnum14.Item" LineNumber="241" Rule="DocumentationTextMustMeetMinimumCharacterLength" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationEnum14.Item" LineNumber="241" Rule="DocumentationTextMustContainWhitespace" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationEnum15" LineNumber="247" Rule="DocumentationMustMeetCharacterPercentage" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationEnum16.Item" LineNumber="259" Rule="DocumentationMustMeetCharacterPercentage" />
@@ -384,7 +373,6 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationEventClass.InvalidDocumentationEvent3" LineNumber="47" Rule="ElementsMustBeDocumented" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationEventClass.InvalidDocumentationEvent4" LineNumber="52" Rule="ElementDocumentationMustHaveSummaryText" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationEventClass.InvalidDocumentationEvent5" LineNumber="57" Rule="DocumentationTextMustContainWhitespace" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationEventClass.InvalidDocumentationEvent6" LineNumber="62" Rule="DocumentationTextMustMeetMinimumCharacterLength" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationEventClass.InvalidDocumentationEvent6" LineNumber="62" Rule="DocumentationTextMustContainWhitespace" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationEventClass.InvalidDocumentationEvent7" LineNumber="67" Rule="DocumentationMustMeetCharacterPercentage" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationEventClass.InvalidDocumentationEvent8" LineNumber="72" Rule="DocumentationTextMustBeginWithACapitalLetter" />
@@ -404,7 +392,6 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationFields.invalidField8" LineNumber="87" Rule="ElementsMustBeDocumented" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationFields.invalidField9" LineNumber="92" Rule="ElementDocumentationMustHaveSummaryText" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationFields.invalidField10" LineNumber="97" Rule="DocumentationTextMustContainWhitespace" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationFields.invalidField11" LineNumber="102" Rule="DocumentationTextMustMeetMinimumCharacterLength" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationFields.invalidField11" LineNumber="102" Rule="DocumentationTextMustContainWhitespace" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationFields.invalidField12" LineNumber="107" Rule="DocumentationMustMeetCharacterPercentage" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationFields.invalidField13" LineNumber="112" Rule="DocumentationTextMustBeginWithACapitalLetter" />
@@ -423,7 +410,6 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationIndexers.this%float[]" LineNumber="165" Rule="ElementsMustBeDocumented" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationIndexers.this%double[]" LineNumber="174" Rule="ElementDocumentationMustHaveSummaryText" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationIndexers.this%char[]" LineNumber="183" Rule="DocumentationTextMustContainWhitespace" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationIndexers.this%byte[]" LineNumber="192" Rule="DocumentationTextMustMeetMinimumCharacterLength" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationIndexers.this%byte[]" LineNumber="192" Rule="DocumentationTextMustContainWhitespace" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationIndexers.this%object[]" LineNumber="201" Rule="DocumentationMustMeetCharacterPercentage" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationIndexers.this%string[]" LineNumber="210" Rule="DocumentationTextMustBeginWithACapitalLetter" />
@@ -431,7 +417,6 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationIndexers.this%int[][]" LineNumber="227" Rule="ElementParametersMustBeDocumented" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationIndexers.this%short[][]" LineNumber="236" Rule="ElementParameterDocumentationMustHaveText" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationIndexers.this%long[][]" LineNumber="245" Rule="DocumentationTextMustContainWhitespace" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationIndexers.this%float[][]" LineNumber="254" Rule="DocumentationTextMustMeetMinimumCharacterLength" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationIndexers.this%float[][]" LineNumber="254" Rule="DocumentationTextMustContainWhitespace" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationIndexers.this%double[][]" LineNumber="263" Rule="DocumentationMustMeetCharacterPercentage" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationIndexers.this%char[][]" LineNumber="272" Rule="DocumentationTextMustBeginWithACapitalLetter" />
@@ -516,7 +501,6 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationInterface3" LineNumber="136" Rule="ElementsMustBeDocumented" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationInterface4" LineNumber="143" Rule="ElementDocumentationMustHaveSummaryText" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationInterface5" LineNumber="150" Rule="DocumentationTextMustContainWhitespace" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationInterface6" LineNumber="157" Rule="DocumentationTextMustMeetMinimumCharacterLength" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationInterface6" LineNumber="157" Rule="DocumentationTextMustContainWhitespace" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationInterface7" LineNumber="164" Rule="DocumentationMustMeetCharacterPercentage" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationInterface8" LineNumber="171" Rule="DocumentationTextMustBeginWithACapitalLetter" />
@@ -524,7 +508,6 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationInterface10`T" LineNumber="185" Rule="GenericTypeParametersMustBeDocumented" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationInterface11`T" LineNumber="193" Rule="GenericTypeParameterDocumentationMustHaveText" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationInterface12`T" LineNumber="201" Rule="DocumentationTextMustContainWhitespace" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationInterface13`T" LineNumber="209" Rule="DocumentationTextMustMeetMinimumCharacterLength" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationInterface13`T" LineNumber="209" Rule="DocumentationTextMustContainWhitespace" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationInterface14`T" LineNumber="217" Rule="DocumentationMustMeetCharacterPercentage" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationInterface15`T" LineNumber="225" Rule="DocumentationTextMustBeginWithACapitalLetter" />
@@ -560,7 +543,6 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationMethods.InvalidMethod3" LineNumber="128" Rule="ElementsMustBeDocumented" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationMethods.InvalidMethod4" LineNumber="135" Rule="ElementDocumentationMustHaveSummaryText" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationMethods.InvalidMethod5" LineNumber="142" Rule="DocumentationTextMustContainWhitespace" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationMethods.InvalidMethod6" LineNumber="149" Rule="DocumentationTextMustMeetMinimumCharacterLength" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationMethods.InvalidMethod6" LineNumber="149" Rule="DocumentationTextMustContainWhitespace" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationMethods.InvalidMethod7" LineNumber="156" Rule="DocumentationMustMeetCharacterPercentage" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationMethods.InvalidMethod8" LineNumber="163" Rule="DocumentationTextMustBeginWithACapitalLetter" />
@@ -568,7 +550,6 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationMethods.InvalidMethod10%int" LineNumber="177" Rule="ElementParametersMustBeDocumented" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationMethods.InvalidMethod11%int" LineNumber="185" Rule="ElementParameterDocumentationMustHaveText" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationMethods.InvalidMethod12%int" LineNumber="193" Rule="DocumentationTextMustContainWhitespace" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationMethods.InvalidMethod13%int" LineNumber="201" Rule="DocumentationTextMustMeetMinimumCharacterLength" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationMethods.InvalidMethod13%int" LineNumber="201" Rule="DocumentationTextMustContainWhitespace" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationMethods.InvalidMethod14%int" LineNumber="209" Rule="DocumentationMustMeetCharacterPercentage" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationMethods.InvalidMethod15%int" LineNumber="217" Rule="DocumentationTextMustBeginWithACapitalLetter" />
@@ -576,7 +557,6 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationMethods.InvalidMethod17" LineNumber="232" Rule="ElementReturnValueMustBeDocumented" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationMethods.InvalidMethod18" LineNumber="241" Rule="ElementReturnValueDocumentationMustHaveText" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationMethods.InvalidMethod19" LineNumber="250" Rule="DocumentationTextMustContainWhitespace" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationMethods.InvalidMethod20" LineNumber="259" Rule="DocumentationTextMustMeetMinimumCharacterLength" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationMethods.InvalidMethod20" LineNumber="259" Rule="DocumentationTextMustContainWhitespace" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationMethods.InvalidMethod21" LineNumber="268" Rule="DocumentationMustMeetCharacterPercentage" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationMethods.InvalidMethod22" LineNumber="277" Rule="DocumentationTextMustBeginWithACapitalLetter" />
@@ -584,7 +564,6 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationMethods.InvalidMethod24`T" LineNumber="294" Rule="GenericTypeParametersMustBeDocumented" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationMethods.InvalidMethod25`T" LineNumber="302" Rule="GenericTypeParameterDocumentationMustHaveText" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationMethods.InvalidMethod26`T" LineNumber="310" Rule="DocumentationTextMustContainWhitespace" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationMethods.InvalidMethod27`T" LineNumber="318" Rule="DocumentationTextMustMeetMinimumCharacterLength" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationMethods.InvalidMethod27`T" LineNumber="318" Rule="DocumentationTextMustContainWhitespace" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationMethods.InvalidMethod28`T" LineNumber="326" Rule="DocumentationMustMeetCharacterPercentage" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationMethods.InvalidMethod29`T" LineNumber="334" Rule="DocumentationTextMustBeginWithACapitalLetter" />
@@ -630,7 +609,6 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationProperties.InvalidProperty4" LineNumber="152" Rule="PropertySummaryDocumentationMustMatchAccessors" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationProperties.InvalidProperty5" LineNumber="161" Rule="DocumentationTextMustContainWhitespace" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationProperties.InvalidProperty5" LineNumber="161" Rule="PropertySummaryDocumentationMustMatchAccessors" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationProperties.InvalidProperty6" LineNumber="170" Rule="DocumentationTextMustMeetMinimumCharacterLength" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationProperties.InvalidProperty6" LineNumber="170" Rule="PropertySummaryDocumentationMustMatchAccessors" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationProperties.InvalidProperty6" LineNumber="170" Rule="DocumentationTextMustContainWhitespace" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationProperties.InvalidProperty7" LineNumber="179" Rule="DocumentationMustMeetCharacterPercentage" />
@@ -641,7 +619,6 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationProperties.InvalidProperty10" LineNumber="205" Rule="PropertyDocumentationMustHaveValue" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationProperties.InvalidProperty11" LineNumber="214" Rule="PropertyDocumentationMustHaveValueText" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationProperties.InvalidProperty12" LineNumber="223" Rule="DocumentationTextMustContainWhitespace" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationProperties.InvalidProperty13" LineNumber="232" Rule="DocumentationTextMustMeetMinimumCharacterLength" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationProperties.InvalidProperty13" LineNumber="232" Rule="DocumentationTextMustContainWhitespace" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationProperties.InvalidProperty14" LineNumber="241" Rule="DocumentationMustMeetCharacterPercentage" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationProperties.InvalidProperty15" LineNumber="250" Rule="DocumentationTextMustBeginWithACapitalLetter" />
@@ -678,7 +655,6 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationStruct3" LineNumber="136" Rule="ElementsMustBeDocumented" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationStruct4" LineNumber="143" Rule="ElementDocumentationMustHaveSummaryText" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationStruct5" LineNumber="150" Rule="DocumentationTextMustContainWhitespace" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationStruct6" LineNumber="157" Rule="DocumentationTextMustMeetMinimumCharacterLength" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationStruct6" LineNumber="157" Rule="DocumentationTextMustContainWhitespace" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationStruct7" LineNumber="164" Rule="DocumentationMustMeetCharacterPercentage" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationStruct8" LineNumber="171" Rule="DocumentationTextMustBeginWithACapitalLetter" />
@@ -686,7 +662,6 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationStruct10`T" LineNumber="185" Rule="GenericTypeParametersMustBeDocumented" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationStruct11`T" LineNumber="193" Rule="GenericTypeParameterDocumentationMustHaveText" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationStruct12`T" LineNumber="201" Rule="DocumentationTextMustContainWhitespace" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationStruct13`T" LineNumber="209" Rule="DocumentationTextMustMeetMinimumCharacterLength" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationStruct13`T" LineNumber="209" Rule="DocumentationTextMustContainWhitespace" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationStruct14`T" LineNumber="217" Rule="DocumentationMustMeetCharacterPercentage" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationStruct15`T" LineNumber="225" Rule="DocumentationTextMustBeginWithACapitalLetter" />

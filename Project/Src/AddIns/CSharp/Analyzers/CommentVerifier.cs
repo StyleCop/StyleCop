@@ -60,8 +60,8 @@ namespace StyleCop.CSharp
             }
             else
             {
-                // Check for the minimum length or at least 2 words.
-                if (trimmedComment.Length < MinimumHeaderCommentLength && !trimmedComment.Contains(" "))
+                // Check for the minimum length.
+                if (trimmedComment.Length < MinimumHeaderCommentLength)
                 {
                     invalid |= InvalidCommentType.TooShort;
                 }
