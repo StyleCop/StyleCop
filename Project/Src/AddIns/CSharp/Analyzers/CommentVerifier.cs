@@ -53,6 +53,8 @@ namespace StyleCop.CSharp
             InvalidCommentType invalid = InvalidCommentType.Valid;
             string trimmedComment = comment.Trim();
 
+            string trimmedCommentWithoutPeriod = trimmedComment.TrimEnd(new[] { '.' }).Trim();
+
             // Make sure the comment string is valid.
             if (string.IsNullOrEmpty(trimmedComment))
             {
@@ -84,7 +86,7 @@ namespace StyleCop.CSharp
                 float nonCharCount = 0;
                 bool space = false;
 
-                foreach (char character in trimmedComment)
+                foreach (char character in trimmedCommentWithoutPeriod)
                 {
                     if (char.IsLetter(character))
                     {
