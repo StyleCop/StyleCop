@@ -326,24 +326,7 @@ namespace StyleCop.CSharp
                 }
             }
         }
-
-        /// <summary>
-        /// Returns true if the node Contains any sort of Nullable.
-        /// </summary>
-        /// <param name="token">The token to check.</param>
-        /// <returns>True if Nullable otherwise False.</returns>
-        private bool TokenContainNullable(Node<CsToken> token)
-        {
-            if (CsTokenList.MatchTokens(StringComparison.Ordinal, token, new[] { "System", ".", "Nullable" })
-                || (CsTokenList.MatchTokens(StringComparison.Ordinal, token, new[] { "global", "::", "System", ".", "Nullable" }))
-                || token.Value.Text.Equals("Nullable", StringComparison.Ordinal))
-            {
-                return true;
-            }
-
-            return false;
-        }
-
+        
         /// <summary>
         /// Checks the generic type uses the shorthand declaration format.
         /// </summary>
@@ -358,7 +341,7 @@ namespace StyleCop.CSharp
             var genericType = (GenericType)type;
 
             // Check the declaration of the generic type for longhand, but allow Nullable<> which has no shorthand
-            if (genericType.ChildTokens.Count > 0 && this.TokenContainNullable(genericType.ChildTokens.First))
+            if (genericType.ChildTokens.Count > 0 && Utils.TokenContainNullable(genericType.ChildTokens.First))
             {
                 if (genericType.Parent == null || !(genericType.Parent is TypeofExpression))
                 {

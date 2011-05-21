@@ -54,6 +54,23 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
+        /// Returns true if the node Contains any sort of Nullable.
+        /// </summary>
+        /// <param name="token">The token to check.</param>
+        /// <returns>True if Nullable otherwise False.</returns>
+        public static bool TokenContainNullable(Node<CsToken> token)
+        {
+            if (CsTokenList.MatchTokens(StringComparison.Ordinal, token, new[] { "System", ".", "Nullable" })
+                || CsTokenList.MatchTokens(StringComparison.Ordinal, token, new[] { "global", "::", "System", ".", "Nullable" })
+                || token.Value.Text.Equals("Nullable", StringComparison.Ordinal))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Checks the token text matches a ReSharper suppression.
         /// </summary>
         /// <param name="token">The token to check.</param>
