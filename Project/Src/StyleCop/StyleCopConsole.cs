@@ -106,9 +106,10 @@ namespace StyleCop
             }
 
             this.Core = new StyleCopCore(null, hostTag);
+            this.InitCore();
+
             this.Core.Initialize(addInPaths, loadFromDefaultPath);
             this.Core.WriteResultsCache = writeResultsCache;
-            this.InitCore();
         }
 
         #endregion Public Constructors

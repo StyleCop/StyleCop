@@ -87,9 +87,10 @@ namespace StyleCop
             Param.Ignore(hostTag);
 
             this.Core = new StyleCopCore(environment, hostTag);
+            this.InitCore();
+
             this.Core.Initialize(addInPaths, loadFromDefaultPath);
             this.Core.WriteResultsCache = false;
-            this.InitCore();
 
             this.defaultSettings = defaultSettings;
         }
