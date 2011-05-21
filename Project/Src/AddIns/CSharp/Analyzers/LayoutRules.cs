@@ -1105,7 +1105,7 @@ namespace StyleCop.CSharp
                             // that StyleCop should ignore this particular error. This is used when the 
                             // developer is commenting out a line of code. In this case it is not a true comment.
                             string trimmedComment = token.Text.Trim();
-                            if (!trimmedComment.StartsWith(@"////", StringComparison.Ordinal))
+                            if (!trimmedComment.StartsWith(@"////", StringComparison.Ordinal) && !Utils.IsAReSharperComment(token))
                             {
                                 this.AddViolation(
                                     token.FindParentElement(),

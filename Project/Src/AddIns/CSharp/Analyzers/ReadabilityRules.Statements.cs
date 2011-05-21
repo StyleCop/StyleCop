@@ -467,7 +467,7 @@ namespace StyleCop.CSharp
                 }
             }
         }
-
+        
         /// <summary>
         /// Checks the token that follows or precedes a curly bracket in a blocked statement to verify
         /// that there is no comment or region embedded within the statement.
@@ -484,7 +484,10 @@ namespace StyleCop.CSharp
                 previousOrNextToken.CsTokenType == CsTokenType.XmlHeader ||
                 previousOrNextToken.CsTokenType == CsTokenType.XmlHeaderLine)
             {
-                this.AddViolation(element, previousOrNextToken.LineNumber, Rules.BlockStatementsMustNotContainEmbeddedComments);
+                if (!Utils.IsAReSharperComment(previousOrNextToken))
+                {
+                    this.AddViolation(element, previousOrNextToken.LineNumber, Rules.BlockStatementsMustNotContainEmbeddedComments);
+                }
             }
             else if (previousOrNextToken.CsTokenType == CsTokenType.PreprocessorDirective && previousOrNextToken is Region)
             {

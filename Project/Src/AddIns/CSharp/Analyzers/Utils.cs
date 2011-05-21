@@ -54,6 +54,25 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
+        /// Checks the token text matches a ReSharper suppression.
+        /// </summary>
+        /// <param name="token">The token to check.</param>
+        /// <returns>True if its a ReSharper token otherwise false.</returns>
+        public static bool IsAReSharperComment(CsToken token)
+        {
+            Param.AssertNotNull(token, "token");
+
+            if (token.CsTokenType != CsTokenType.MultiLineComment && token.CsTokenType != CsTokenType.SingleLineComment && token.CsTokenType != CsTokenType.XmlHeader
+                && token.CsTokenType != CsTokenType.XmlHeaderLine)
+            {
+                return false;
+            }
+
+            string tokenText = token.Text;
+            return tokenText.StartsWith("// ReSharper disable ") || tokenText.StartsWith("// ReSharper restore ");
+        }
+
+        /// <summary>
         /// Adds all members of a class to a dictionary, taking into account partial classes.
         /// </summary>
         /// <param name="parentClass">The class to collect.</param>
