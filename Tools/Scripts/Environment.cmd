@@ -58,7 +58,7 @@ IF "%ReSharperFound%"=="0" GOTO ResharperDone
 
 echo JetBrains ReSharper was found so copying referenced assemblies...
 
-DEL /F /Q "%PROJECTROOT%\Src\AddIns\ReSharper\ReferencedAssemblies"
+DEL /F /Q "%PROJECTROOT%\Src\AddIns\ReSharper\ReferencedAssemblies\*.dll"
 COPY /Y "%RESHARPERINSTALLDIR%\JetBrains.Platform.ReSharper.ActionManagement.dll" "%PROJECTROOT%\Src\AddIns\ReSharper\ReferencedAssemblies\" >nul
 COPY "%RESHARPERINSTALLDIR%\JetBrains.Platform.ReSharper.DocumentManager.dll" "%PROJECTROOT%\Src\AddIns\ReSharper\ReferencedAssemblies\" >nul
 COPY "%RESHARPERINSTALLDIR%\JetBrains.Platform.ReSharper.DocumentModel.dll" "%PROJECTROOT%\Src\AddIns\ReSharper\ReferencedAssemblies\">nul
