@@ -163,7 +163,7 @@ namespace StyleCop.VisualStudio
             Debug.Assert(fileEnvironment != null, "The environment is not a file based environment");
 
             // Save any matching document.
-            EnvDTE.DTE dte = (EnvDTE.DTE)this.ServiceProvider.GetService(typeof(EnvDTE.DTE));
+            DTE dte = (DTE)this.ServiceProvider.GetService(typeof(DTE));
             foreach (Document document in dte.Documents)
             {
                 if (!document.Saved)
@@ -232,7 +232,7 @@ namespace StyleCop.VisualStudio
         protected override void SignalAnalysisStarted()
         {
             // Write out our header to the output window.
-            EnvDTE.OutputWindowPane pane = VSWindows.GetInstance(this.ServiceProvider).OutputPane;
+            OutputWindowPane pane = VSWindows.GetInstance(this.ServiceProvider).OutputPane;
             if (pane != null)
             {
                 pane.Clear();
@@ -240,7 +240,7 @@ namespace StyleCop.VisualStudio
 
                 VSWindows.GetInstance(this.ServiceProvider).OutputWindow.Activate();
 
-                pane.OutputString(string.Format(
+                pane.OutputLine(string.Format(
                     CultureInfo.InvariantCulture, Strings.MiniLogBreak, string.Format(CultureInfo.InvariantCulture, Strings.StyleCopStarted, this.VersionNumberMajorMinor, this.VersionNumberFull)));
             }
         }
@@ -250,10 +250,10 @@ namespace StyleCop.VisualStudio
         /// </summary>
         protected override void NoFilesToAnalyze()
         {
-            EnvDTE.OutputWindowPane pane = VSWindows.GetInstance(this.ServiceProvider).OutputPane;
+            OutputWindowPane pane = VSWindows.GetInstance(this.ServiceProvider).OutputPane;
             if (pane != null)
             {
-                pane.OutputString(string.Format(
+                pane.OutputLine(string.Format(
                     CultureInfo.InvariantCulture, Strings.MiniLogBreak, Strings.NoFilesToAnalyze));
             }
         }

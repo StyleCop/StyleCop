@@ -225,7 +225,7 @@ namespace StyleCop
             // Signal the output for this document.
             this.data.Core.SignalOutput(
                 MessageImportance.Low,
-                string.Format(CultureInfo.CurrentCulture, "Pass {0}: {1}\n", this.data.PassNumber + 1, sourceCode.Name));
+                string.Format(CultureInfo.CurrentCulture, "Pass {0}: {1}", this.data.PassNumber + 1, sourceCode.Name));
 
             // Extract the document to parse.
             CodeDocument parsedDocument = documentStatus.Document;
