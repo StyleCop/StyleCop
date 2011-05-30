@@ -1063,10 +1063,10 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Returns the net count of opening and closing code elements for the token provided.
+        /// Returns the net count of opening and closing 'code' and 'c' elements for the token provided.
         /// </summary>
         /// <param name="token">The xml header line token.</param>
-        /// <returns>The net count of open and close code elements.</returns>
+        /// <returns>The net count of open and close 'code' and 'c' elements.</returns>
         private static int XmlHeaderLineCodeElementCount(CsToken token)
         {
             Param.AssertNotNull(token, "token");
@@ -1075,8 +1075,8 @@ namespace StyleCop.CSharp
             string lineText = token.Text;
 
             // Search for '<code ' without the closing tag because sometimes users have added attributes like <code lang="C#"> and <code> too
-            int openCodeTagCount = CountOfStringInStringOccurrences(lineText, "<code ", "<code>");
-            int closeCodeTagCount = CountOfStringInStringOccurrences(lineText, "</code>");
+            int openCodeTagCount = CountOfStringInStringOccurrences(lineText, "<code ", "<code>", "<c>");
+            int closeCodeTagCount = CountOfStringInStringOccurrences(lineText, "</code>", "</c>");
 
             return openCodeTagCount - closeCodeTagCount;
         }
