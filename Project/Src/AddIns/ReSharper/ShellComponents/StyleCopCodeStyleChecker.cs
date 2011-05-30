@@ -63,7 +63,7 @@ namespace StyleCop.ReSharper.ShellComponents
             {
                 lastInstalledDate = Convert.ToDateTime(value);
             }
-            catch(FormatException ex)
+            catch (FormatException ex)
             {
                 // In some locales the installer saves the date in a format we can't parse back out.
                 // Use today as the installed date and store it in the HKCU key.
@@ -83,7 +83,7 @@ namespace StyleCop.ReSharper.ShellComponents
             {
                 if (!StyleCopOptionsPage.CodeStyleOptionsValid(null))
                 {
-                  var result =  MessageBox.Show(
+                  var result = MessageBox.Show(
                         @"Your ReSharper code style settings are not completely compatible with StyleCop. Would you like to reset them now?",
                         @"StyleCop",
                         MessageBoxButtons.YesNo,
