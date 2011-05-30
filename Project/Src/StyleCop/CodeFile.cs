@@ -280,6 +280,10 @@ namespace StyleCop
 
             return null;
         }
+        
+        #endregion Public Override Methods
+
+        #region Private Methods
 
         /// <summary>
         /// Detects the encoding used by the file at the path provided.
@@ -317,6 +321,6 @@ namespace StyleCop
             return encoding;
         }
 
-        #endregion Public Override Methods
+        #endregion Private Methods
     }
 }
