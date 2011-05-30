@@ -18,6 +18,7 @@ namespace StyleCop.ReSharper.ShellComponents
     #region Using Directives
 
     using System;
+    using System.Windows.Forms;
 
     using JetBrains.Application;
     using JetBrains.ComponentModel;
@@ -47,6 +48,8 @@ namespace StyleCop.ReSharper.ShellComponents
 
             var initializationDate = Convert.ToDateTime(oneTimeInitializationRequiredRegistryKey);
 
+            string todayAsString = DateTime.UtcNow.ToString("yyyy-MM-dd");
+
             RegistryKey registryKey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\CodePlex\StyleCop");
             string value = null;
             if (registryKey != null)
@@ -54,16 +57,45 @@ namespace StyleCop.ReSharper.ShellComponents
                 value = registryKey.GetValue("InstallDate") as string;
             }
 
-            DateTime lastInstalledDate = Convert.ToDateTime(value);
+            DateTime lastInstalledDate;
+
+            try
+            {
+                lastInstalledDate = Convert.ToDateTime(value);
+            }
+            catch(FormatException ex)
+            {
+                // In some locales the installer saves the date in a format we can't parse back out.
+                // Use today as the installed date and store it in the HKCU key.
+                var installDateRegistryKey = RetrieveFromRegistry("InstallDate");
+                if (installDateRegistryKey == null)
+                {
+                    SetRegistry("InstallDate", todayAsString, RegistryValueKind.String);
+                    lastInstalledDate = Convert.ToDateTime(todayAsString);
+                }
+                else
+                {
+                    lastInstalledDate = Convert.ToDateTime(installDateRegistryKey);
+                }
+            }
 
             if (oneTimeInitializationRequiredRegistryKey == null || initializationDate < lastInstalledDate)
             {
                 if (!StyleCopOptionsPage.CodeStyleOptionsValid(null))
                 {
-                    StyleCopOptionsPage.ResetCodeStyleOptions(null);
+                  var result =  MessageBox.Show(
+                        @"Your ReSharper code style settings are not completely compatible with StyleCop. Would you like to reset them now?",
+                        @"StyleCop",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question,
+                        MessageBoxDefaultButton.Button2);
+                  if (result == DialogResult.Yes)
+                  {
+                      StyleCopOptionsPage.ResetCodeStyleOptions(null);
+                  }
                 }
 
-                SetRegistry("LastInitializationDate", DateTime.UtcNow.ToString("yyyy-MM-dd"), RegistryValueKind.String);
+                SetRegistry("LastInitializationDate", todayAsString, RegistryValueKind.String);
             }
         }
 

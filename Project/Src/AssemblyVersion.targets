@@ -1,7 +1,7 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
   <PropertyGroup>
-    <AssemblyVersion>4.5.16.0</AssemblyVersion>
+    <AssemblyVersion>4.5.17.0</AssemblyVersion>
   </PropertyGroup>
 
 </Project>
