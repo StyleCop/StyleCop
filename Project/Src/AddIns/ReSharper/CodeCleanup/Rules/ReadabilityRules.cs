@@ -47,6 +47,28 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
     /// </summary>
     internal class ReadabilityRules
     {
+        /// <summary>
+        /// The built-in type aliases for C#.
+        /// </summary>
+        private readonly static string[][] builtInTypes = new []
+        {
+            new [] { "Boolean", "System.Boolean", "bool" },
+            new [] { "Object", "System.Object", "object" },
+            new [] { "String", "System.String", "string" },
+            new [] { "Int16", "System.Int16", "short" },
+            new [] { "UInt16", "System.UInt16", "ushort" },
+            new [] { "Int32", "System.Int32", "int" },
+            new [] { "UInt32", "System.UInt32", "uint" },
+            new [] { "Int64", "System.Int64", "long" },
+            new [] { "UInt64", "System.UInt64", "ulong" },
+            new [] { "Double", "System.Double", "double" },
+            new [] { "Single", "System.Single", "float" },
+            new [] { "Byte", "System.Byte", "byte" },
+            new [] { "SByte", "System.SByte", "sbyte" },
+            new [] { "Char", "System.Char", "char" },
+            new [] { "Decimal", "System.Decimal", "decimal" }
+        };
+
         #region Public Methods
 
         /// <summary>
@@ -290,6 +312,14 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
                                 if (arrayCreationNode != null)
                                 {
                                     SwapArrayCreationToBuiltInType(arrayCreationNode);
+                                }
+                                else
+                                {
+                                    var referenceExpressionNode = currentNode as IReferenceExpressionNode;
+                                    if (referenceExpressionNode != null)
+                                    {
+                                        SwapReferenceExpressionToBuiltInType(referenceExpressionNode);
+                                    }
                                 }
                             }
                         }
@@ -557,6 +587,35 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
                 if (tmpExpression != null)
                 {
                     objectCreationExpressionNode.SetCreatedTypeUsage(tmpExpression.CreatedTypeUsage);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Swap reference expression to built in type.
+        /// </summary>
+        /// <param name="referenceExpression">
+        /// The reference expression.
+        /// </param>
+        private static void SwapReferenceExpressionToBuiltInType(IReferenceExpression referenceExpression)
+        {
+            var project = referenceExpression.GetPsiModule();
+            var qualifierExpression = referenceExpression.QualifierExpression;
+
+            if (qualifierExpression != null)
+            {
+                using (WriteLockCookie.Create(true))
+                {
+                    foreach (string[] builtInType in builtInTypes)
+                    {
+                        string text = qualifierExpression.GetText();
+                        if (text == builtInType[0] || text == builtInType[1])
+                        {
+                            ICSharpExpression expression = CSharpElementFactory.GetInstance(project).CreateExpression(builtInType[2], new object[0]);
+                            referenceExpression.SetQualifierExpression(expression);
+                            break;
+                        }
+                    }
                 }
             }
         }
