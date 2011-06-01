@@ -101,3 +101,19 @@ namespace NamespacesDifferingByCaseAndSubsequentlyOrderedImproperly_Valid
     using Microsoft.Dynamics.Ax.B;
     using Microsoft.Dynamics.AX.A;
 }
+
+namespace NamespacesWithGlobalInThem_Valid
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics.Contracts;
+    using System.Linq;
+    using System.Security;
+    using System.Threading;
+
+    using Neovolve.Toolkit.Threading;
+
+    using global::NetSuite.ServiceContracts;
+
+    using VeryGoodCustomer.NetSuite.Service.DataContracts;
+}

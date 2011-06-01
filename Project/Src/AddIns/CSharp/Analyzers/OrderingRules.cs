@@ -145,7 +145,10 @@ namespace StyleCop.CSharp
             // Split each namespace into parts.
             string[] namespace1Parts = namespace1.Split('.');
             string[] namespace2Parts = namespace2.Split('.');
-
+            
+            namespace1Parts[0] = namespace1Parts[0].SubstringAfter("global::", StringComparison.InvariantCulture);
+            namespace2Parts[0] = namespace2Parts[0].SubstringAfter("global::", StringComparison.InvariantCulture);
+            
             // Figure out which namespace has fewer parts.
             int partCount = Math.Min(namespace1Parts.Length, namespace2Parts.Length);
 
