@@ -136,5 +136,10 @@
         private class Inner : IExample<global::System.Nullable<int>> // invalid
         {
         }
+
+        public static TPrimitiveType Nullable<TPrimitiveType>(this TPrimitiveType primitiveType, bool isNullable)
+        {
+
+        }
     }
 }

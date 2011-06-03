@@ -345,6 +345,15 @@ namespace StyleCop.CSharp
             {
                 if (genericType.Parent == null || !(genericType.Parent is TypeofExpression))
                 {
+                    if (genericType.Parent is Method)
+                    {
+                        var parentMethod = genericType.Parent as Method;
+                        if (parentMethod.Name == parentMethod.FriendlyTypeText + " " + genericType.Text)
+                        {
+                            return;
+                        }
+                    }
+
                     this.AddViolation(genericType.FindParentElement(), genericType.LineNumber, Rules.UseShorthandForNullableTypes);
                 }
             }
