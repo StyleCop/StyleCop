@@ -233,7 +233,12 @@ namespace StyleCop
         /// <returns>Returns the path to the parent settings document or null if none exists.</returns>
         public override string GetParentSettingsPath(string settingsPath)
         {
-            Param.RequireValidString(settingsPath, "settingsPath");
+            Param.Ignore(settingsPath);
+            
+            if (string.IsNullOrEmpty(settingsPath))
+            {
+                return null;
+            }
 
             string currentFolder = Path.GetDirectoryName(settingsPath);
             while (!string.IsNullOrEmpty(currentFolder))
