@@ -233,9 +233,43 @@ namespace StyleCop
         /// <returns>Returns the path to the parent settings document or null if none exists.</returns>
         public override string GetParentSettingsPath(string settingsPath)
         {
-            Param.Ignore(settingsPath);
+            Param.RequireValidString(settingsPath, "settingsPath");
 
-            // The default object-based environment does not support the concept of parent settings files.
+            string currentFolder = Path.GetDirectoryName(settingsPath);
+            while (!string.IsNullOrEmpty(currentFolder))
+            {
+                DirectoryInfo parentFolder = Directory.GetParent(currentFolder);
+                if (parentFolder == null)
+                {
+                    break;
+                }
+
+                currentFolder = parentFolder.FullName;
+                string parentPath = Path.Combine(currentFolder, Settings.DefaultFileName);
+
+                if (!File.Exists(parentPath))
+                {
+                    string deprecatedSettingsFilePath = Path.Combine(currentFolder, Settings.AlternateFileName);
+                    if (File.Exists(deprecatedSettingsFilePath))
+                    {
+                        parentPath = deprecatedSettingsFilePath;
+                    }
+                    else
+                    {
+                        deprecatedSettingsFilePath = Path.Combine(currentFolder, V101Settings.DefaultFileName);
+                        if (File.Exists(deprecatedSettingsFilePath))
+                        {
+                            parentPath = deprecatedSettingsFilePath;
+                        }
+                    }
+                }
+
+                if (File.Exists(parentPath))
+                {
+                    return parentPath;
+                }
+            }
+
             return null;
         }
 
