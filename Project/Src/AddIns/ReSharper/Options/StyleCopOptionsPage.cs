@@ -62,7 +62,12 @@ namespace StyleCop.ReSharper.Options
         /// The instance of this options page.
         /// </summary>
         private static StyleCopOptionsPage instance;
-        
+
+        /// <summary>
+        /// The currently open solution.
+        /// </summary>
+        private ISolution solution;
+
         #endregion
 
         #region Constructors and Destructors
@@ -73,13 +78,21 @@ namespace StyleCop.ReSharper.Options
         /// <param name="dialog">The options dialog reference opening our page.</param>
         public StyleCopOptionsPage(IOptionsDialog dialog)
         {
-            this.InitializeComponent();
             instance = this;
             this.dialog = dialog;
-            
-            this.daysMaskedTextBox.ValidatingType = typeof(int);
-            this.dashesCountMaskedTextBox.ValidatingType = typeof(int);
-            this.warningPanel.Visible = !CodeStyleOptionsValid(this.dialog.DataContext.GetData(DataConstants.SOLUTION));
+
+            this.solution = dialog.DataContext.GetData(DataConstants.SOLUTION);
+            if (this.solution != null)
+            {
+                this.InitializeComponent();
+                this.daysMaskedTextBox.ValidatingType = typeof(int);
+                this.dashesCountMaskedTextBox.ValidatingType = typeof(int);
+                this.warningPanel.Visible = !CodeStyleOptionsValid(this.solution);
+            }
+            else
+            {
+                Controls.Add(JetBrains.UI.Options.Helpers.Controls.CreateNoSolutionCueBanner());
+            }
         }
 
         #endregion
@@ -1571,221 +1584,225 @@ namespace StyleCop.ReSharper.Options
                 return false;
             }
 
-            if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1600ElementsMustBeDocumented"))
+            // We can only check the StyleCop profile settings if a solution is loaded.
+            if (solution != null)
             {
-                return false;
-            }
+                if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1600ElementsMustBeDocumented"))
+                {
+                    return false;
+                }
 
-            if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1604ElementDocumentationMustHaveSummary"))
-            {
-                return false;
-            }
+                if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1604ElementDocumentationMustHaveSummary"))
+                {
+                    return false;
+                }
 
-            if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1609PropertyDocumentationMustHaveValue"))
-            {
-                return false;
-            }
+                if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1609PropertyDocumentationMustHaveValue"))
+                {
+                    return false;
+                }
 
-            if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1611ElementParametersMustBeDocumented"))
-            {
-                return false;
-            }
+                if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1611ElementParametersMustBeDocumented"))
+                {
+                    return false;
+                }
 
-            if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1615ElementReturnValueMustBeDocumented"))
-            {
-                return false;
-            }
+                if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1615ElementReturnValueMustBeDocumented"))
+                {
+                    return false;
+                }
 
-            if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1617VoidReturnValueMustNotBeDocumented"))
-            {
-                return false;
-            }
+                if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1617VoidReturnValueMustNotBeDocumented"))
+                {
+                    return false;
+                }
 
-            if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1618GenericTypeParametersMustBeDocumented"))
-            {
-                return false;
-            }
+                if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1618GenericTypeParametersMustBeDocumented"))
+                {
+                    return false;
+                }
 
-            if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1626SingleLineCommentsMustNotUseDocumentationStyleSlashes"))
-            {
-                return false;
-            }
+                if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1626SingleLineCommentsMustNotUseDocumentationStyleSlashes"))
+                {
+                    return false;
+                }
 
-            if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1628DocumentationTextMustBeginWithACapitalLetter"))
-            {
-                return false;
-            }
+                if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1628DocumentationTextMustBeginWithACapitalLetter"))
+                {
+                    return false;
+                }
 
-            if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1629DocumentationTextMustEndWithAPeriod"))
-            {
-                return false;
-            }
+                if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1629DocumentationTextMustEndWithAPeriod"))
+                {
+                    return false;
+                }
 
-            if (GetCodeCleanupProfileSetting<int>(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1633SA1641UpdateFileHeader") != 2)
-            {
-                return false;
-            }
+                if (GetCodeCleanupProfileSetting<int>(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1633SA1641UpdateFileHeader") != 2)
+                {
+                    return false;
+                }
 
-            if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1639FileHeaderMustHaveSummary"))
-            {
-                return false;
-            }
+                if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1639FileHeaderMustHaveSummary"))
+                {
+                    return false;
+                }
 
-            if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1642ConstructorSummaryDocumentationMustBeginWithStandardText"))
-            {
-                return false;
-            }
+                if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1642ConstructorSummaryDocumentationMustBeginWithStandardText"))
+                {
+                    return false;
+                }
 
-            if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1643DestructorSummaryDocumentationMustBeginWithStandardText"))
-            {
-                return false;
-            }
+                if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1643DestructorSummaryDocumentationMustBeginWithStandardText"))
+                {
+                    return false;
+                }
 
-            if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1644DocumentationHeadersMustNotContainBlankLines"))
-            {
-                return false;
-            }
+                if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1644DocumentationHeadersMustNotContainBlankLines"))
+                {
+                    return false;
+                }
 
-            if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Layout", "SA1500CurlyBracketsForMultiLineStatementsMustNotShareLine"))
-            {
-                return false;
-            }
+                if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Layout", "SA1500CurlyBracketsForMultiLineStatementsMustNotShareLine"))
+                {
+                    return false;
+                }
 
-            if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Layout", "SA1509OpeningCurlyBracketsMustNotBePrecededByBlankLine"))
-            {
-                return false;
-            }
+                if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Layout", "SA1509OpeningCurlyBracketsMustNotBePrecededByBlankLine"))
+                {
+                    return false;
+                }
 
-            if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Layout", "SA1510ChainedStatementBlocksMustNotBePrecededByBlankLine"))
-            {
-                return false;
-            }
+                if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Layout", "SA1510ChainedStatementBlocksMustNotBePrecededByBlankLine"))
+                {
+                    return false;
+                }
 
-            if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Layout", "SA1511WhileDoFooterMustNotBePrecededByBlankLine"))
-            {
-                return false;
-            }
+                if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Layout", "SA1511WhileDoFooterMustNotBePrecededByBlankLine"))
+                {
+                    return false;
+                }
 
-            if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Layout", "SA1512SingleLineCommentsMustNotBeFollowedByBlankLine"))
-            {
-                return false;
-            }
+                if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Layout", "SA1512SingleLineCommentsMustNotBeFollowedByBlankLine"))
+                {
+                    return false;
+                }
 
-            if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Layout", "SA1513ClosingCurlyBracketMustBeFollowedByBlankLine"))
-            {
-                return false;
-            }
+                if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Layout", "SA1513ClosingCurlyBracketMustBeFollowedByBlankLine"))
+                {
+                    return false;
+                }
 
-            if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Layout", "SA1514ElementDocumentationHeaderMustBePrecededByBlankLine"))
-            {
-                return false;
-            }
+                if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Layout", "SA1514ElementDocumentationHeaderMustBePrecededByBlankLine"))
+                {
+                    return false;
+                }
 
-            if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Layout", "SA1515SingleLineCommentMustBeProceededByBlankLine"))
-            {
-                return false;
-            }
+                if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Layout", "SA1515SingleLineCommentMustBeProceededByBlankLine"))
+                {
+                    return false;
+                }
 
-            if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Maintainability", "SA1119StatementMustNotUseUnnecessaryParenthesis"))
-            {
-                return false;
-            }
+                if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Maintainability", "SA1119StatementMustNotUseUnnecessaryParenthesis"))
+                {
+                    return false;
+                }
 
-            // Alphabetical
-            if (GetCodeCleanupProfileSetting<int>(codeCleanupInstance, styleCopProfile, "StyleCop.Ordering", "AlphabeticalUsingDirectives") != 1)
-            {
-                return false;
-            }
+                // Alphabetical
+                if (GetCodeCleanupProfileSetting<int>(codeCleanupInstance, styleCopProfile, "StyleCop.Ordering", "AlphabeticalUsingDirectives") != 1)
+                {
+                    return false;
+                }
 
-            // FullyQualify
-            if (GetCodeCleanupProfileSetting<int>(codeCleanupInstance, styleCopProfile, "StyleCop.Ordering", "ExpandUsingDirectives") != 1)
-            {
-                return false;
-            }
+                // FullyQualify
+                if (GetCodeCleanupProfileSetting<int>(codeCleanupInstance, styleCopProfile, "StyleCop.Ordering", "ExpandUsingDirectives") != 1)
+                {
+                    return false;
+                }
 
-            if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Ordering", "SA1212PropertyAccessorsMustFollowOrder"))
-            {
-                return false;
-            }
+                if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Ordering", "SA1212PropertyAccessorsMustFollowOrder"))
+                {
+                    return false;
+                }
 
-            if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Ordering", "SA1213EventAccessorsMustFollowOrder"))
-            {
-                return false;
-            }
+                if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Ordering", "SA1213EventAccessorsMustFollowOrder"))
+                {
+                    return false;
+                }
 
-            if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Readability", "SA1100DoNotPrefixCallsWithBaseUnlessLocalImplementationExists"))
-            {
-                return false;
-            }
+                if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Readability", "SA1100DoNotPrefixCallsWithBaseUnlessLocalImplementationExists"))
+                {
+                    return false;
+                }
 
-            if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Readability", "SA1106CodeMustNotContainEmptyStatements"))
-            {
-                return false;
-            }
+                if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Readability", "SA1106CodeMustNotContainEmptyStatements"))
+                {
+                    return false;
+                }
 
-            if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Readability", "SA1108BlockStatementsMustNotContainEmbeddedComments"))
-            {
-                return false;
-            }
+                if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Readability", "SA1108BlockStatementsMustNotContainEmbeddedComments"))
+                {
+                    return false;
+                }
 
-            if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Readability", "SA1109BlockStatementsMustNotContainEmbeddedRegions"))
-            {
-                return false;
-            }
+                if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Readability", "SA1109BlockStatementsMustNotContainEmbeddedRegions"))
+                {
+                    return false;
+                }
 
-            if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Readability", "SA1120CommentsMustContainText"))
-            {
-                return false;
-            }
+                if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Readability", "SA1120CommentsMustContainText"))
+                {
+                    return false;
+                }
 
-            if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Readability", "SA1121UseBuiltInTypeAlias"))
-            {
-                return false;
-            }
+                if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Readability", "SA1121UseBuiltInTypeAlias"))
+                {
+                    return false;
+                }
 
-            if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Readability", "SA1122UseStringEmptyForEmptyStrings"))
-            {
-                return false;
-            }
+                if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Readability", "SA1122UseStringEmptyForEmptyStrings"))
+                {
+                    return false;
+                }
 
-            if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Readability", "SA1123DoNotPlaceRegionsWithinElements"))
-            {
-                return false;
-            }
+                if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Readability", "SA1123DoNotPlaceRegionsWithinElements"))
+                {
+                    return false;
+                }
 
-            if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Readability", "SA1124CodeMustNotContainEmptyRegions"))
-            {
-                return false;
-            }
+                if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Readability", "SA1124CodeMustNotContainEmptyRegions"))
+                {
+                    return false;
+                }
 
-            if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Spacing", "SA1001CommasMustBeSpacedCorrectly"))
-            {
-                return false;
-            }
+                if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Spacing", "SA1001CommasMustBeSpacedCorrectly"))
+                {
+                    return false;
+                }
 
-            if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Spacing", "SA1005SingleLineCommentsMustBeginWithSingleSpace"))
-            {
-                return false;
-            }
+                if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Spacing", "SA1005SingleLineCommentsMustBeginWithSingleSpace"))
+                {
+                    return false;
+                }
 
-            if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Spacing", "SA1006PreprocessorKeywordsMustNotBePrecededBySpace"))
-            {
-                return false;
-            }
+                if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Spacing", "SA1006PreprocessorKeywordsMustNotBePrecededBySpace"))
+                {
+                    return false;
+                }
 
-            if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Spacing", "SA1021NegativeSignsMustBeSpacedCorrectly"))
-            {
-                return false;
-            }
+                if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Spacing", "SA1021NegativeSignsMustBeSpacedCorrectly"))
+                {
+                    return false;
+                }
 
-            if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Spacing", "SA1022PositiveSignsMustBeSpacedCorrectly"))
-            {
-                return false;
-            }
+                if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Spacing", "SA1022PositiveSignsMustBeSpacedCorrectly"))
+                {
+                    return false;
+                }
 
-            if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Spacing", "SA1025CodeMustNotContainMultipleWhitespaceInARow"))
-            {
-                return false;
+                if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Spacing", "SA1025CodeMustNotContainMultipleWhitespaceInARow"))
+                {
+                    return false;
+                }
             }
 
             return true;
@@ -1881,6 +1898,11 @@ namespace StyleCop.ReSharper.Options
         /// </returns>
         public bool OnOk()
         {
+            if (this.solution == null)
+            {
+                return true;
+            }
+
             if (this.ValidatePage())
             {
                 this.Commit();
@@ -1898,6 +1920,11 @@ namespace StyleCop.ReSharper.Options
         /// </returns>
         public bool ValidatePage()
         {
+            if (this.solution == null)
+            {
+                return true;
+            }
+
             if (!this.autoDetectCheckBox.Checked)
             {
                 if (!StyleCopReferenceHelper.LocationValid(this.StyleCopLocationTextBox.Text))
@@ -1940,12 +1967,15 @@ namespace StyleCop.ReSharper.Options
         /// </param>
         protected override void OnLoad(EventArgs e)
         {
-            this.toolTip.SetToolTip(this.dashesCountMaskedTextBox, string.Empty);
-            this.toolTip.SetToolTip(this.daysMaskedTextBox, string.Empty);
+            if (this.solution != null)
+            {
+                this.toolTip.SetToolTip(this.dashesCountMaskedTextBox, string.Empty);
+                this.toolTip.SetToolTip(this.daysMaskedTextBox, string.Empty);
 
-            base.OnLoad(e);
+                base.OnLoad(e);
 
-            this.Display();
+                this.Display();
+            }
         }
        
         /// <summary>
