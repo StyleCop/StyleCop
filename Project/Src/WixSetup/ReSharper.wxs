@@ -4,10 +4,10 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <Fragment>
 
-    <Property Id="RESHARPER_INSTALLDIRVS90">
+    <Property Id="RESHARPER_INSTALLDIRVS90" Admin="yes" Secure="yes">
       <RegistrySearch Id="ReSharperInstallIdVs90" Type="directory" Root="HKLM" Key="SOFTWARE\JetBrains\ReSharper\v5.1\vs9.0" Name="InstallDir" />
     </Property>
-    <Property Id="RESHARPER_INSTALLDIRVS100">
+    <Property Id="RESHARPER_INSTALLDIRVS100" Admin="yes" Secure="yes">
       <RegistrySearch Id="ReSharperInstallIdVs100" Type="directory" Root="HKLM" Key="SOFTWARE\JetBrains\ReSharper\v5.1\vs10.0" Name="InstallDir" />
     </Property>
 

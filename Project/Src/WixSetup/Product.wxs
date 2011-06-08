@@ -69,10 +69,10 @@
       <RemoveExistingProducts After="InstallInitialize" />
       <!--  We replace the use of VS90Setup with StyleCopVS90Setup to add support for other devenv.exe flags -->
       <Custom Action="StyleCopVS90Setup" Before="InstallFinalize"><![CDATA[&Feature_StyleCopPackage > 1 AND VS90DEVENV<>"" AND NOT Installed]]></Custom>
-      <Custom Action="StyleCopVS10Setup" Before="InstallFinalize"><![CDATA[&Feature_StyleCopPackage > 1 AND VS2010DEVENV<>"" AND NOT Installed]]></Custom>
+      <Custom Action="StyleCopVS10Setup" Before="InstallFinalize"><![CDATA[(&Feature_StyleCopPackage > 1 AND VS2010DEVENV<>"" AND NOT Installed) OR (&Feature_VisualStudioTemplates = 3)]]></Custom>
       <Custom Action="SetARPINSTALLLOCATION" After="InstallValidate"></Custom>
-      <Custom Action='CA_BackupVisualStudioTemplateFiles' Before='InstallFinalize'><![CDATA[&Feature_VisualStudioTemplates = 3]]></Custom>
-      <Custom Action='CA_RestoreVisualStudioTemplateFiles' After='InstallFinalize'><![CDATA[&Feature_VisualStudioTemplates = 2 AND !Feature_VisualStudioTemplates = 3]]></Custom>
+      <Custom Action='CA_BackupVisualStudioTemplateFiles' Before='InstallFiles'><![CDATA[&Feature_VisualStudioTemplates = 3]]></Custom>
+      <Custom Action='CA_RestoreVisualStudioTemplateFiles' Before='InstallFinalize'><![CDATA[&Feature_VisualStudioTemplates = 2 AND !Feature_VisualStudioTemplates = 3]]></Custom>
     </InstallExecuteSequence>
 
     <WixVariable Id="WixUISupportPerUser" Value="0" />
@@ -89,7 +89,7 @@
 
     <Icon Id="WixIcon" SourceFile="..\VSPackage\Resources\StyleCop.ico" />
 
-    <Property Id="ALLUSERS" Value='1' />
+    <Property Id="ALLUSERS" Value='1' Admin="yes" Secure="yes" />
     <Property Id="ARPHELPLINK" Value='$(var.Manufacturer)' />
     <Property Id="ARPPRODUCTICON" Value="WixIcon" />
     <Property Id="ARPURLINFOABOUT" Value='$(var.Manufacturer)'/>
@@ -112,7 +112,7 @@
     <CustomAction Id="RevertALLUSERSToPerMachine" Property="ALLUSERS" Value="1"/>
     <CustomAction Id="SetARPINSTALLLOCATION" Property="ARPINSTALLLOCATION" Value="[INSTALLDIR]" />
     <Binary Id="WixCustomAction.dll" SourceFile="$(var.WixCustomAction.TargetDir)$(var.WixCustomAction.TargetName).CA.dll" />
-    <CustomAction Id="CA_RestoreVisualStudioTemplateFiles" BinaryKey="WixCustomAction.dll" DllEntry="RestoreVisualStudioTemplateFiles" Execute="immediate" />
-    <CustomAction Id="CA_BackupVisualStudioTemplateFiles" BinaryKey="WixCustomAction.dll" DllEntry="BackupVisualStudioTemplateFiles" Execute="immediate" />
+    <CustomAction Id="CA_RestoreVisualStudioTemplateFiles" BinaryKey="WixCustomAction.dll" DllEntry="RestoreVisualStudioTemplateFiles" Execute="deferred" Impersonate="no" Return="check" />
+    <CustomAction Id="CA_BackupVisualStudioTemplateFiles" BinaryKey="WixCustomAction.dll" DllEntry="BackupVisualStudioTemplateFiles" Execute="deferred" Impersonate="no" Return="check" />
   </Product>
 </Wix>
