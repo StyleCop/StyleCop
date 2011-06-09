@@ -704,6 +704,32 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.Documentation.DocumentationCopiedAndPasted.Something" LineNumber="22" Rule="ElementDocumentationMustNotBeCopiedAndPasted" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.Documentation.DocumentationCopiedAndPasted.Event" LineNumber="28" Rule="ElementDocumentationMustNotBeCopiedAndPasted" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.Documentation.DocumentationCopiedAndPasted.~DocumentationCopiedAndPasted" LineNumber="34" Rule="ElementDocumentationMustNotBeCopiedAndPasted" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationDelegates.InvalidDelegate6" LineNumber="110"  Rule="DocumentationTextMustMeetMinimumCharacterLength" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationClass6" LineNumber="157"  Rule="DocumentationTextMustMeetMinimumCharacterLength" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationFields.invalidField11" LineNumber="102"  Rule="DocumentationTextMustMeetMinimumCharacterLength" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationEventClass.InvalidDocumentationEvent6" LineNumber="62"  Rule="DocumentationTextMustMeetMinimumCharacterLength" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationDelegates.InvalidDelegate13%int" LineNumber="148"  Rule="DocumentationTextMustMeetMinimumCharacterLength" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationClass13`T" LineNumber="209"  Rule="DocumentationTextMustMeetMinimumCharacterLength" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationConstructor6.InvalidDocumentationConstructor6" LineNumber="226"  Rule="DocumentationTextMustMeetMinimumCharacterLength" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationDelegates.InvalidDelegate20" LineNumber="189"  Rule="DocumentationTextMustMeetMinimumCharacterLength" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationDestructor8.~InvalidDocumentationDestructor8" LineNumber="104"  Rule="DocumentationTextMustMeetMinimumCharacterLength" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationDelegates.InvalidDelegate27`T" LineNumber="230"  Rule="DocumentationTextMustMeetMinimumCharacterLength" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationConstructor13.InvalidDocumentationConstructor13%int" LineNumber="320"  Rule="DocumentationTextMustMeetMinimumCharacterLength" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CustomException.InvalidDocumentationClass6" LineNumber="448"  Rule="DocumentationTextMustMeetMinimumCharacterLength" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationEnum13" LineNumber="229"  Rule="DocumentationTextMustMeetMinimumCharacterLength" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationEnum14.Item" LineNumber="241"  Rule="DocumentationTextMustMeetMinimumCharacterLength" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationStruct6" LineNumber="157"  Rule="DocumentationTextMustMeetMinimumCharacterLength" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationStruct13`T" LineNumber="209"  Rule="DocumentationTextMustMeetMinimumCharacterLength" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationInterface6" LineNumber="157"  Rule="DocumentationTextMustMeetMinimumCharacterLength" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationInterface13`T" LineNumber="209"  Rule="DocumentationTextMustMeetMinimumCharacterLength" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationProperties.InvalidProperty6" LineNumber="170"  Rule="DocumentationTextMustMeetMinimumCharacterLength" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationProperties.InvalidProperty13" LineNumber="232"  Rule="DocumentationTextMustMeetMinimumCharacterLength" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationIndexers.this%byte[]" LineNumber="192"  Rule="DocumentationTextMustMeetMinimumCharacterLength" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationIndexers.this%float[][]" LineNumber="254"  Rule="DocumentationTextMustMeetMinimumCharacterLength" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationMethods.InvalidMethod6" LineNumber="149"  Rule="DocumentationTextMustMeetMinimumCharacterLength" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationMethods.InvalidMethod13%int" LineNumber="201"  Rule="DocumentationTextMustMeetMinimumCharacterLength" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationMethods.InvalidMethod20" LineNumber="259"  Rule="DocumentationTextMustMeetMinimumCharacterLength" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationMethods.InvalidMethod27`T" LineNumber="318"  Rule="DocumentationTextMustMeetMinimumCharacterLength" />
     </ExpectedViolations>
   </Test>
 
