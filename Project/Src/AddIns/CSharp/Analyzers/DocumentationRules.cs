@@ -1823,6 +1823,11 @@ namespace StyleCop.CSharp
                     CommentVerifier.MinimumCharacterPercentage,
                     100 - CommentVerifier.MinimumCharacterPercentage);
             }
+
+            if ((commentType & InvalidCommentType.TooShort) != 0)
+            {
+                this.AddViolation(element, lineNumber, Rules.DocumentationTextMustMeetMinimumCharacterLength, documentationType, CommentVerifier.MinimumHeaderCommentLength);
+            }
         }
 
         /// <summary>
