@@ -11,10 +11,7 @@
       <UpgradeVersion OnlyDetect='yes' Minimum='$(var.WixVersionLong)' IncludeMinimum='no' Property='NEWERVERSIONDETECTED' />
       <UpgradeVersion OnlyDetect='no' Minimum='0.0.0' IncludeMinimum='yes' Maximum='$(var.WixVersionLong)' IncludeMaximum='no' Property='OLDERVERSIONBEINGUPGRADED' MigrateFeatures='yes' />
     </Upgrade>
-
-    <!-- You must be an admin to execute devenv /setup -->
-    <Condition Message="You need to be an administrator to install [ProductName].">Privileged</Condition>
-
+    
     <!-- Disallow installing an older version over a newer version -->
     <Condition Message="A later version of [ProductName] is already installed.">NOT NEWERVERSIONDETECTED</Condition>
 
@@ -55,6 +52,7 @@
     </Feature>
 
     <InstallUISequence>
+      <Custom Action='IsPrivileged' Before='AppSearch'>NOT Privileged</Custom>
       <Custom Action="ToggleALLUSERSToPerUser" Before="FindRelatedProducts">STYLECOP_PREVIOUS_INSTALL_PER_USER AND NOT Installed</Custom>
       <Custom Action="RevertALLUSERSToPerMachine" After="FindRelatedProducts">STYLECOP_PREVIOUS_INSTALL_PER_USER AND NOT Installed</Custom>
       <!-- Move AppSearch to before FindRelatedProduct so that RegistrySearch properties get evaluated before they are used -->      
@@ -62,6 +60,7 @@
     </InstallUISequence>
 
     <InstallExecuteSequence>
+      <Custom Action='IsPrivileged' Before='AppSearch'>NOT Privileged</Custom>
       <Custom Action="ToggleALLUSERSToPerUser" Before="FindRelatedProducts">STYLECOP_PREVIOUS_INSTALL_PER_USER AND NOT Installed</Custom>
       <Custom Action="RevertALLUSERSToPerMachine" After="FindRelatedProducts">STYLECOP_PREVIOUS_INSTALL_PER_USER AND NOT Installed</Custom>
       <!-- Move AppSearch to before FindRelatedProduct so that RegistrySearch properties get evaluated before they are used -->      
@@ -108,6 +107,7 @@
       <RegistrySearch Id="RegSearchForStyleCopPreviousInstallPerUser" Root="HKCU" Key="Software\Microsoft\Installer\Products\C35557135D88B35439BC04218A7235A3" Name="ProductName" Type="raw" />
     </Property>
 
+    <CustomAction Id='IsPrivileged' Error='You need to be an administrator to install [ProductName].' />
     <CustomAction Id="ToggleALLUSERSToPerUser" Property="ALLUSERS" Value=""/>
     <CustomAction Id="RevertALLUSERSToPerMachine" Property="ALLUSERS" Value="1"/>
     <CustomAction Id="SetARPINSTALLLOCATION" Property="ARPINSTALLLOCATION" Value="[INSTALLDIR]" />
