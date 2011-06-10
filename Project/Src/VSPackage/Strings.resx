@@ -162,15 +162,14 @@
   <data name="LogBreak" xml:space="preserve">
     <value>
 ---------------------- {0} ----------------------
-
 </value>
   </data>
   <data name="MalFormedVsProjectLocationNode" xml:space="preserve">
     <value>The VsProjectTypes node is malformed. {0}</value>
   </data>
   <data name="MiniLogBreak" xml:space="preserve">
-    <value>------ {0} ------
-
+    <value>
+------ {0} ------
 </value>
   </data>
   <data name="NoFilesToAnalyze" xml:space="preserve">

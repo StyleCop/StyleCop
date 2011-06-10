@@ -471,10 +471,10 @@ namespace StyleCop.VisualStudio
             }
             else
             {
-                EnvDTE.OutputWindowPane pane = VSWindows.GetInstance(this.serviceProvider).OutputPane;
+                OutputWindowPane pane = VSWindows.GetInstance(this.serviceProvider).OutputPane;
                 if (pane != null)
                 {
-                    pane.OutputString(e.Output);
+                    pane.OutputLine(e.Output);
                 }
             }
         }
@@ -510,20 +510,20 @@ namespace StyleCop.VisualStudio
             Param.AssertNotNull(sender, "sender");
             Param.Ignore(e);
 
-            EnvDTE.OutputWindowPane pane = VSWindows.GetInstance(this.serviceProvider).OutputPane;
+            OutputWindowPane pane = VSWindows.GetInstance(this.serviceProvider).OutputPane;
             if (pane != null)
             {
                 if (this.core.Cancel)
                 {
-                    pane.OutputString("\n" + string.Format(
+                    pane.OutputLine(string.Format(
                         CultureInfo.InvariantCulture, Strings.MiniLogBreak, Strings.Cancelled));
                 }
                 else
                 {
-                    pane.OutputString("\n" + string.Format(
+                    pane.OutputLine(string.Format(
                         CultureInfo.InvariantCulture, Strings.MiniLogBreak, Strings.Done));
-                   
-                    pane.OutputString(string.Format(CultureInfo.InvariantCulture, Strings.ViolationCount, this.violationCount) + "\n\n\n");
+
+                    pane.OutputLine(string.Format(CultureInfo.InvariantCulture, Strings.ViolationCount, this.violationCount));
                 }
             }
 

@@ -203,7 +203,7 @@ namespace StyleCop.VisualStudio
                 EnvDTE.OutputWindowPane pane = VSWindows.GetInstance(this).OutputPane;
                 if (pane != null)
                 {
-                    pane.OutputString(output);
+                    pane.OutputLine(output);
                 }
             }
         }
