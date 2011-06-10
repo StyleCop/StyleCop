@@ -1,5 +1,5 @@
-﻿//--------------------------------------------------------------------------
-// <copyright file="InvisibleFormTest.cs" company="Microsoft">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="InvisibleFormTest.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,24 +11,33 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   This is a test class for InvisibleFormTest and is intended
+//   to contain all InvisibleFormTest Unit Tests
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace VSPackageUnitTest
 {
     using System.Windows.Forms;
+
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     using StyleCop.VisualStudio;
 
     /// <summary>
     /// This is a test class for InvisibleFormTest and is intended
-    /// to contain all InvisibleFormTest Unit Tests
+    ///   to contain all InvisibleFormTest Unit Tests
     /// </summary>
-    [TestClass()]
+    [TestClass]
     public class InvisibleFormTest : BasicUnitTest
     {
+        #region Public Methods
+
         /// <summary>
         /// A test for Instance
         /// </summary>
-        [TestMethod()]
+        [TestMethod]
         [DeploymentItem("StyleCop.VSPackage.dll")]
         public void InstanceTest()
         {
@@ -49,16 +58,24 @@ namespace VSPackageUnitTest
             Assert.IsFalse(f.Visible, "InvisibleForm should not be visible");
         }
 
-        [TestInitialize()]
+        /// <summary>
+        /// The my test cleanup.
+        /// </summary>
+        [TestCleanup]
+        public void MyTestCleanup()
+        {
+            InvisibleForm_Accessor.instanceForm = null;
+        }
+
+        /// <summary>
+        /// The my test initialize.
+        /// </summary>
+        [TestInitialize]
         public void MyTestInitialize()
         {
             InvisibleForm_Accessor.instanceForm = null;
         }
 
-        [TestCleanup()]
-        public void MyTestCleanup()
-        {
-            InvisibleForm_Accessor.instanceForm = null;
-        }
+        #endregion
     }
 }

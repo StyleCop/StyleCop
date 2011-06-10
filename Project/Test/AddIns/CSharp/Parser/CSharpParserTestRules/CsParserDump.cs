@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="CsParserDump.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="CsParserDump.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,16 +11,17 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Dumps the parsed object model from the CsParser into an Xml file.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace StyleCop.CSharpParserTest
 {
     using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
     using System.IO;
-    using System.Text;
     using System.Xml;
-    using StyleCop;
+
     using StyleCop.CSharp;
 
     /// <summary>
@@ -29,23 +30,25 @@ namespace StyleCop.CSharpParserTest
     [SourceAnalyzer(typeof(CsParser))]
     public class CsParserDump : SourceAnalyzer
     {
-        #region Public Constructors
+        #region Constructors and Destructors
 
         /// <summary>
-        /// Initializes a new instance of the CsParserDump class.
+        ///   Initializes a new instance of the CsParserDump class.
         /// </summary>
         public CsParserDump()
         {
         }
 
-        #endregion Public Constructors
+        #endregion
 
-        #region Public Override Methods
+        #region Public Methods
 
         /// <summary>
         /// Checks the placement of brackets within the given document.
         /// </summary>
-        /// <param name="document">The document to check.</param>
+        /// <param name="document">
+        /// The document to check.
+        /// </param>
         public override void AnalyzeDocument(CodeDocument document)
         {
             Param.RequireNotNull(document, "document");
@@ -68,98 +71,27 @@ namespace StyleCop.CSharpParserTest
             }
 
             // Save the output to the file.
-            string outputFileLocation = Path.Combine(
-                testOutputDirectory,
-                Path.GetFileNameWithoutExtension(document.SourceCode.Path) + "ObjectModelResults.xml");
+            string outputFileLocation = Path.Combine(testOutputDirectory, Path.GetFileNameWithoutExtension(document.SourceCode.Path) + "ObjectModelResults.xml");
 
             contents.Save(outputFileLocation);
         }
 
-        #endregion Public Override Methods
+        #endregion
 
-        #region Private Methods
-
-        /// <summary>
-        /// Processes the given element and its children.
-        /// </summary>
-        /// <param name="element">The element to process.</param>
-        /// <param name="parentNode">The Xml node to record this element under.</param>
-        private void ProcessElement(CsElement element, XmlNode parentNode)
-        {
-            Param.AssertNotNull(element, "element");
-            Param.AssertNotNull(parentNode, "parentNode");
-
-            XmlNode elementNode = RecordElement(element, parentNode);
-
-            foreach (Statement statement in element.ChildStatements)
-            {
-                this.ProcessStatement(statement, elementNode);
-            }
-
-            foreach (CsElement child in element.ChildElements)
-            {
-                this.ProcessElement(child, elementNode);
-            }
-        }
-
-        /// <summary>
-        /// Processes the given statement and its child statements and expressions.
-        /// </summary>
-        /// <param name="statement">The statement to process.</param>
-        /// <param name="parentNode">The Xml node to record this statement under.</param>
-        private void ProcessStatement(Statement statement, XmlNode parentNode)
-        {
-            Param.AssertNotNull(statement, "statement");
-            Param.AssertNotNull(parentNode, "parentNode");
-
-            XmlNode statementNode = RecordStatement(statement, parentNode);
-
-            if (statement.ChildExpressions != null)
-            {
-                foreach (Expression expression in statement.ChildExpressions)
-                {
-                    this.ProcessExpression(expression, statementNode);
-                }
-            }
-            
-            if (statement.ChildStatements != null)
-            {
-                foreach (Statement childStatement in statement.ChildStatements)
-                {
-                    this.ProcessStatement(childStatement, statementNode);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Processes the given expression and its child statements and expressions.
-        /// </summary>
-        /// <param name="expression">The expression to process.</param>
-        /// <param name="parentNode">The Xml node to record this expression under.</param>
-        private void ProcessExpression(Expression expression, XmlNode parentNode)
-        {
-            Param.AssertNotNull(expression, "expression");
-            Param.AssertNotNull(parentNode, "parentNode");
-
-            XmlNode expressionNode = RecordExpression(expression, parentNode);
-
-            foreach (Expression childExpression in expression.ChildExpressions)
-            {
-                this.ProcessExpression(childExpression, expressionNode);
-            }
-
-            foreach (Statement childStatement in expression.ChildStatements)
-            {
-                this.ProcessStatement(childStatement, expressionNode);
-            }
-        }
+        #region Methods
 
         /// <summary>
         /// Records information about the given element, under the given node.
         /// </summary>
-        /// <param name="element">The element to record.</param>
-        /// <param name="parentNode">The Xml node to record this element beneath.</param>
-        /// <returns>Returns the new Xml node describing this element.</returns>
+        /// <param name="element">
+        /// The element to record.
+        /// </param>
+        /// <param name="parentNode">
+        /// The Xml node to record this element beneath.
+        /// </param>
+        /// <returns>
+        /// Returns the new Xml node describing this element.
+        /// </returns>
         private static XmlNode RecordElement(CsElement element, XmlNode parentNode)
         {
             Param.AssertNotNull(element, "element");
@@ -182,38 +114,17 @@ namespace StyleCop.CSharpParserTest
         }
 
         /// <summary>
-        /// Records information about the given statement, under the given node.
-        /// </summary>
-        /// <param name="statement">The statement to record.</param>
-        /// <param name="parentNode">The Xml node to record this statement beneath.</param>
-        /// <returns>Returns the new Xml node describing this statement.</returns>
-        private static XmlNode RecordStatement(Statement statement, XmlNode parentNode)
-        {
-            Param.AssertNotNull(statement, "statement");
-            Param.AssertNotNull(parentNode, "parentNode");
-
-            // Create a new node for this statement and add it to the parent.
-            XmlNode statementNode = parentNode.OwnerDocument.CreateElement("Statement");
-            parentNode.AppendChild(statementNode);
-
-            // Add the name and contents of the statement.
-            ////XmlAttribute text = parentNode.OwnerDocument.CreateAttribute("Text");
-            ////text.Value = statement.ToString();
-            ////statementNode.Attributes.Append(text);
-
-            XmlAttribute type = parentNode.OwnerDocument.CreateAttribute("Type");
-            type.Value = statement.GetType().Name;
-            statementNode.Attributes.Append(type);
-
-            return statementNode;
-        }
-
-        /// <summary>
         /// Records information about the given expression, under the given node.
         /// </summary>
-        /// <param name="expression">The expression to record.</param>
-        /// <param name="parentNode">The Xml node to record this expression beneath.</param>
-        /// <returns>Returns the new Xml node describing this expression.</returns>
+        /// <param name="expression">
+        /// The expression to record.
+        /// </param>
+        /// <param name="parentNode">
+        /// The Xml node to record this expression beneath.
+        /// </param>
+        /// <returns>
+        /// Returns the new Xml node describing this expression.
+        /// </returns>
         private static XmlNode RecordExpression(Expression expression, XmlNode parentNode)
         {
             Param.AssertNotNull(expression, "expression");
@@ -238,6 +149,125 @@ namespace StyleCop.CSharpParserTest
             return expressionNode;
         }
 
-        #endregion Private Methods
+        /// <summary>
+        /// Records information about the given statement, under the given node.
+        /// </summary>
+        /// <param name="statement">
+        /// The statement to record.
+        /// </param>
+        /// <param name="parentNode">
+        /// The Xml node to record this statement beneath.
+        /// </param>
+        /// <returns>
+        /// Returns the new Xml node describing this statement.
+        /// </returns>
+        private static XmlNode RecordStatement(Statement statement, XmlNode parentNode)
+        {
+            Param.AssertNotNull(statement, "statement");
+            Param.AssertNotNull(parentNode, "parentNode");
+
+            // Create a new node for this statement and add it to the parent.
+            XmlNode statementNode = parentNode.OwnerDocument.CreateElement("Statement");
+            parentNode.AppendChild(statementNode);
+
+            // Add the name and contents of the statement.
+            ////XmlAttribute text = parentNode.OwnerDocument.CreateAttribute("Text");
+            ////text.Value = statement.ToString();
+            ////statementNode.Attributes.Append(text);
+            XmlAttribute type = parentNode.OwnerDocument.CreateAttribute("Type");
+            type.Value = statement.GetType().Name;
+            statementNode.Attributes.Append(type);
+
+            return statementNode;
+        }
+
+        /// <summary>
+        /// Processes the given element and its children.
+        /// </summary>
+        /// <param name="element">
+        /// The element to process.
+        /// </param>
+        /// <param name="parentNode">
+        /// The Xml node to record this element under.
+        /// </param>
+        private void ProcessElement(CsElement element, XmlNode parentNode)
+        {
+            Param.AssertNotNull(element, "element");
+            Param.AssertNotNull(parentNode, "parentNode");
+
+            XmlNode elementNode = RecordElement(element, parentNode);
+
+            foreach (Statement statement in element.ChildStatements)
+            {
+                this.ProcessStatement(statement, elementNode);
+            }
+
+            foreach (CsElement child in element.ChildElements)
+            {
+                this.ProcessElement(child, elementNode);
+            }
+        }
+
+        /// <summary>
+        /// Processes the given expression and its child statements and expressions.
+        /// </summary>
+        /// <param name="expression">
+        /// The expression to process.
+        /// </param>
+        /// <param name="parentNode">
+        /// The Xml node to record this expression under.
+        /// </param>
+        private void ProcessExpression(Expression expression, XmlNode parentNode)
+        {
+            Param.AssertNotNull(expression, "expression");
+            Param.AssertNotNull(parentNode, "parentNode");
+
+            XmlNode expressionNode = RecordExpression(expression, parentNode);
+
+            foreach (Expression childExpression in expression.ChildExpressions)
+            {
+                this.ProcessExpression(childExpression, expressionNode);
+            }
+
+            foreach (Statement childStatement in expression.ChildStatements)
+            {
+                this.ProcessStatement(childStatement, expressionNode);
+            }
+        }
+
+        /// <summary>
+        /// Processes the given statement and its child statements and expressions.
+        /// </summary>
+        /// <param name="statement">
+        /// The statement to process.
+        /// </param>
+        /// <param name="parentNode">
+        /// The Xml node to record this statement under.
+        /// </param>
+        private void ProcessStatement(Statement statement, XmlNode parentNode)
+        {
+            Param.AssertNotNull(statement, "statement");
+            Param.AssertNotNull(parentNode, "parentNode");
+
+            XmlNode statementNode = RecordStatement(statement, parentNode);
+
+            if (statement.ChildExpressions != null)
+            {
+                foreach (Expression expression in statement.ChildExpressions)
+                {
+                    this.ProcessExpression(expression, statementNode);
+                }
+            }
+
+            if (statement.ChildStatements != null)
+            {
+                foreach (Statement childStatement in statement.ChildStatements)
+                {
+                    this.ProcessStatement(childStatement, statementNode);
+                }
+            }
+        }
+
+        #endregion
     }
 }

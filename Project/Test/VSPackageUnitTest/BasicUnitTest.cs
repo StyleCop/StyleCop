@@ -1,5 +1,5 @@
-﻿//--------------------------------------------------------------------------
-// <copyright file="BasicUnitTest.cs" company="Microsoft">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="BasicUnitTest.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,11 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Incapsulates the most basic attrivutes of our unittests.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace VSPackageUnitTest
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -21,44 +25,35 @@ namespace VSPackageUnitTest
     /// </summary>
     public abstract class BasicUnitTest
     {
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
+        // You can use the following additional attributes as you write your tests:
+        // Use ClassInitialize to run code before running the first test in the class
+        // [ClassInitialize()]
+        // public static void MyClassInitialize(TestContext testContext)
+        // {
+        // }
+        // Use ClassCleanup to run code after all tests in a class have run
+        // [ClassCleanup()]
+        // public static void MyClassCleanup()
+        // {
+        // }
+        // Use TestInitialize to run code before running each test
+        // [TestInitialize]
+        // public void MyTestInitialize()
+        // {
+        // }
+        // Use TestCleanup to run code after each test has run
+        // [TestCleanup]
+        // public void MyTestCleanup()
+        // {
+        // }
+        #region Properties
 
         /// <summary>
-        /// Gets or sets the test context which provides
-        /// information about and functionality for the current test run.
+        ///   Gets or sets the test context which provides
+        ///   information about and functionality for the current test run.
         /// </summary>
-        public TestContext TestContext 
-        { 
-            get; 
-            set; 
-        }
+        public TestContext TestContext { get; set; }
+
+        #endregion
     }
 }

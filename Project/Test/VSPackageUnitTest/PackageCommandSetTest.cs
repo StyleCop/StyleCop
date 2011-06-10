@@ -1,5 +1,5 @@
-﻿//--------------------------------------------------------------------------
-// <copyright file="PackageCommandSetTest.cs">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="PackageCommandSetTest.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,34 +11,49 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   This is a test class for PackageCommandSetTest and is intended
+//   to contain all PackageCommandSetTest Unit Tests
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace VSPackageUnitTest
 {
     using System;
+
+    using EnvDTE;
+
     using Microsoft.VisualStudio.TestTools.MockObjects;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     using StyleCop.VisualStudio;
 
     /// <summary>
-    ///This is a test class for PackageCommandSetTest and is intended
-    ///to contain all PackageCommandSetTest Unit Tests
-    ///</summary>
-    [TestClass()]
+    /// This is a test class for PackageCommandSetTest and is intended
+    ///  to contain all PackageCommandSetTest Unit Tests
+    /// </summary>
+    [TestClass]
     public class PackageCommandSetTest : BasicUnitTest
     {
+        #region Constants and Fields
+
         private Mock<IServiceProvider> mockServiceProvider;
-        
+
+        #endregion
+
+        #region Public Methods
+
         /// <summary>
         /// A test for PackageCommandSet Constructor
-        ///</summary>
-        [TestMethod()]
+        /// </summary>
+        [TestMethod]
         [DeploymentItem("StyleCop.VSPackage.dll")]
         [DeploymentItem("Microsoft.VisualStudio.QualityTools.MockObjectFramework.dll")]
         public void PackageCommandSetConstructorTest()
         {
-            var mockActiveDocument = new Mock<EnvDTE.Document>();
-            var mockDte = new Mock<EnvDTE.DTE>();
-            
+            var mockActiveDocument = new Mock<Document>();
+            var mockDte = new Mock<DTE>();
+
             mockDte.ImplementExpr(dte => dte.ActiveDocument, mockActiveDocument.Instance);
 
             this.mockServiceProvider.ImplementExpr(sp => sp.GetService(typeof(EnvDTE.DTE)), mockDte.Instance);
@@ -50,22 +65,24 @@ namespace VSPackageUnitTest
         }
 
         /// <summary>
+        /// Use TestCleanup to run code after each test has run
+        /// </summary>
+        [TestCleanup]
+        public void TestCleanup()
+        {
+            ProjectUtilities_Accessor.serviceProvider = null;
+        }
+
+        /// <summary>
         /// Use TestInitialize to run code before running each test
         /// </summary>
-        [TestInitialize()]
+        [TestInitialize]
         public void TestInitialize()
         {
             this.mockServiceProvider = new Mock<IServiceProvider>();
             ProjectUtilities_Accessor.serviceProvider = this.mockServiceProvider.Instance;
         }
-        
-        /// <summary>
-        /// Use TestCleanup to run code after each test has run
-        /// </summary>
-        [TestCleanup()]
-        public void TestCleanup()
-        {
-            ProjectUtilities_Accessor.serviceProvider = null;
-        }
+
+        #endregion
     }
 }

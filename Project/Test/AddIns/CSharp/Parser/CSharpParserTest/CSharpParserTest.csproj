@@ -71,8 +71,8 @@
     <None Include="TestData\Assorted\InvalidEscapedName2.cs" />
     <None Include="TestData\Assorted\InvalidEscapedName3.cs" />
     <None Include="TestData\Assorted\InvalidEscapedName4.cs" />
-    <Compile Include="TestData\Elements\PreProcessorDirectives.cs" />
-    <Compile Include="TestData\Elements\PreProcessorDirectives2.cs" />
+    <None Include="TestData\Elements\PreProcessorDirectives.cs" />
+    <None Include="TestData\Elements\PreProcessorDirectives2.cs" />
     <Compile Include="TestData\GeneratedCode\AccessModifiersMissing.Designer.cs">
     </Compile>
     <None Include="TestData\GeneratedCode\AccessModifiersMissing.g.cs" />

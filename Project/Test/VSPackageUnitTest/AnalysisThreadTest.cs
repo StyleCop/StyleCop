@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="AnalysisThreadTest.cs" company="Microsoft">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="AnalysisThreadTest.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,68 +11,67 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   This is a test class for AnalysisThreadTest and is intended
+//   to contain all AnalysisThreadTest Unit Tests
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace VSPackageUnitTest
 {
-    using System;
     using System.Collections.Generic;
+
     using Microsoft.VisualStudio.TestTools.MockObjects;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     using StyleCop;
     using StyleCop.VisualStudio;
-    
+
     /// <summary>
-    ///This is a test class for AnalysisThreadTest and is intended
-    ///to contain all AnalysisThreadTest Unit Tests
-    ///</summary>
-    [TestClass()]
+    /// This is a test class for AnalysisThreadTest and is intended
+    ///  to contain all AnalysisThreadTest Unit Tests
+    /// </summary>
+    [TestClass]
     public class AnalysisThreadTest
     {
-        /// <summary>
-        /// Gets or sets the test context which provides
-        /// information about and functionality for the current test run.
-        /// </summary>
-        public TestContext TestContext
-        {
-            get;
-            set;
-        }
+        #region Properties
 
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
+        /// <summary>
+        ///   Gets or sets the test context which provides
+        ///   information about and functionality for the current test run.
+        /// </summary>
+        public TestContext TestContext { get; set; }
+
         #endregion
+
+        // You can use the following additional attributes as you write your tests:
+        // Use ClassInitialize to run code before running the first test in the class
+        // [ClassInitialize()]
+        // public static void MyClassInitialize(TestContext testContext)
+        // {
+        // }
+        // Use ClassCleanup to run code after all tests in a class have run
+        // [ClassCleanup()]
+        // public static void MyClassCleanup()
+        // {
+        // }
+        // Use TestInitialize to run code before running each test
+        // [TestInitialize]
+        // public void MyTestInitialize()
+        // {
+        // }
+        // Use TestCleanup to run code after each test has run
+        // [TestCleanup]
+        // public void MyTestCleanup()
+        // {
+        // }
+        #region Public Methods
 
         /// <summary>
         /// Unit Test Case for Constructor
-        /// This tests ???.
+        ///   This tests ???.
         /// </summary>
-        [TestMethod()]
+        [TestMethod]
         public void ConstructorTest()
         {
             bool isFull = true;
@@ -85,9 +84,9 @@ namespace VSPackageUnitTest
 
         /// <summary>
         /// Unit Test Case for AnalyseProc
-        /// This tests ???.
+        ///   This tests ???.
         /// </summary>
-        [TestMethod()]
+        [TestMethod]
         public void TestAnalyseProcFull()
         {
             var target = CreateAnalysisThread(true);
@@ -96,9 +95,9 @@ namespace VSPackageUnitTest
 
         /// <summary>
         /// Unit Test Case for TestMethod
-        /// This tests ???.
+        ///   This tests ???.
         /// </summary>
-        [TestMethod()]
+        [TestMethod]
         public void TestAnalyzeProcNotFull()
         {
             var target = CreateAnalysisThread(false);
@@ -110,6 +109,10 @@ namespace VSPackageUnitTest
             Assert.IsTrue(eventFired, "Analysation didnt fire the Complete event");
         }
 
+        #endregion
+
+        #region Methods
+
         private static AnalysisThread_Accessor CreateAnalysisThread(bool isFull)
         {
             var core = new StyleCopCore();
@@ -118,8 +121,10 @@ namespace VSPackageUnitTest
             var codeProject = new CodeProject(0, "test", new Configuration(new string[0]));
             projects.Add(codeProject);
 
-            var target = new AnalysisThread_Accessor(isFull, projects, core); 
+            var target = new AnalysisThread_Accessor(isFull, projects, core);
             return target;
         }
+
+        #endregion
     }
 }

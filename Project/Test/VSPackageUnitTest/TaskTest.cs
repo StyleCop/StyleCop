@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="TaskTest.cs">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="TaskTest.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,58 +11,65 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   The task test.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace VSPackageUnitTest
 {
     using Microsoft.VisualStudio.Shell.Interop;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using StyleCop.VisualStudio;
+
     using VSPackageUnitTest.Mocks;
 
-    [TestClass()]
+    /// <summary>
+    /// The task test.
+    /// </summary>
+    [TestClass]
     public class TaskTest
     {
+        // You can use the following additional attributes as you write your tests:
+        // Use ClassInitialize to run code before running the first test in the class
+        #region Constants and Fields
+
+        private static MockServiceProvider serviceProvider;
+
+        #endregion
+
+        #region Properties
+
         /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
+        /// Gets or sets the test context which provides
+        /// information about and functionality for the current test run.
+        /// </summary>
         public TestContext TestContext { get; set; }
 
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //
-        static MockServiceProvider _serviceProvider;
-        [ClassInitialize()]
+        #endregion
+
+        #region Public Methods
+
+        /// <summary>
+        /// The my class initialize.
+        /// </summary>
+        /// <param name="testContext">
+        /// The test context.
+        /// </param>
+        [ClassInitialize]
         public static void MyClassInitialize(TestContext testContext)
         {
-            _serviceProvider = new MockServiceProvider();
+            serviceProvider = new MockServiceProvider();
         }
-
-        //Use ClassCleanup to run code after all tests in a class have run
-        //
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //
-        [TestCleanup()]
+        
+        /// <summary>
+        /// The my test cleanup.
+        /// </summary>
+        [TestCleanup]
         public void MyTestCleanup()
         {
             Utilities.CleanUpTempFiles();
 
-            MockTaskList taskList = _serviceProvider.GetService(typeof(SVsTaskList)) as MockTaskList;
+            MockTaskList taskList = serviceProvider.GetService(typeof(SVsTaskList)) as MockTaskList;
             taskList.Clear();
         }
 

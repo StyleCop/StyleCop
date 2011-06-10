@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="MockEvents.cs">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="MockBuildEvents.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,46 +11,96 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   The mock build events.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace VSPackageUnitTest.Mocks
 {
-    class MockBuildEvents : EnvDTE.BuildEvents
+    using EnvDTE;
+
+    /// <summary>
+    /// The mock build events.
+    /// </summary>
+    internal class MockBuildEvents : EnvDTE.BuildEvents
     {
-        public int OnBuildBeginSubscriberCount
-        {
-            get { return (OnBuildBegin == null) ? 0 : OnBuildBegin.GetInvocationList().Length; }
-        }
+        /// <summary>
+        ///   The on build begin.
+        /// </summary>
+        public event _dispBuildEvents_OnBuildBeginEventHandler OnBuildBegin;
 
-        public void FireOnBuildBegin(EnvDTE.vsBuildScope scope, EnvDTE.vsBuildAction action)
-        {
-            if (OnBuildBegin != null)
-            {
-                OnBuildBegin(scope, action);
-            }
-        }
-
-        public void FireOnBuildDone(EnvDTE.vsBuildScope scope, EnvDTE.vsBuildAction action)
-        {
-            if (OnBuildDone != null)
-            {
-                OnBuildDone(scope, action);
-            }
-        }
-
-        #region _dispBuildEvents_Event Members
-
-        public event EnvDTE._dispBuildEvents_OnBuildBeginEventHandler OnBuildBegin;
-
-        public event EnvDTE._dispBuildEvents_OnBuildDoneEventHandler OnBuildDone;
+        /// <summary>
+        ///   The on build done.
+        /// </summary>
+        public event _dispBuildEvents_OnBuildDoneEventHandler OnBuildDone;
 
         // These are unused currently, but they must exist to satisfy the interface contract.
         // Disable the warning for unused variables.
 #pragma warning disable 67
-        public event EnvDTE._dispBuildEvents_OnBuildProjConfigBeginEventHandler OnBuildProjConfigBegin;
 
-        public event EnvDTE._dispBuildEvents_OnBuildProjConfigDoneEventHandler OnBuildProjConfigDone;
+        /// <summary>
+        ///   The on build proj config begin.
+        /// </summary>
+        public event _dispBuildEvents_OnBuildProjConfigBeginEventHandler OnBuildProjConfigBegin;
+
+        /// <summary>
+        ///   The on build proj config done.
+        /// </summary>
+        public event _dispBuildEvents_OnBuildProjConfigDoneEventHandler OnBuildProjConfigDone;
 #pragma warning restore 67
 
+        #region Properties
+
+        /// <summary>
+        ///   Gets OnBuildBeginSubscriberCount.
+        /// </summary>
+        public int OnBuildBeginSubscriberCount
+        {
+            get
+            {
+                return (this.OnBuildBegin == null) ? 0 : this.OnBuildBegin.GetInvocationList().Length;
+            }
+        }
+
+        #endregion
+
+        #region Public Methods
+
+        /// <summary>
+        /// The fire on build begin.
+        /// </summary>
+        /// <param name="scope">
+        /// The scope.
+        /// </param>
+        /// <param name="action">
+        /// The action.
+        /// </param>
+        public void FireOnBuildBegin(vsBuildScope scope, vsBuildAction action)
+        {
+            if (this.OnBuildBegin != null)
+            {
+                this.OnBuildBegin(scope, action);
+            }
+        }
+
+        /// <summary>
+        /// The fire on build done.
+        /// </summary>
+        /// <param name="scope">
+        /// The scope.
+        /// </param>
+        /// <param name="action">
+        /// The action.
+        /// </param>
+        public void FireOnBuildDone(vsBuildScope scope, vsBuildAction action)
+        {
+            if (this.OnBuildDone != null)
+            {
+                this.OnBuildDone(scope, action);
+            }
+        }
+        
         #endregion
     }
 }

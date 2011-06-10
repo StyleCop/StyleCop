@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="MockDTEGlobals.cs">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="MockDTEGlobals.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,91 +11,185 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   The mock dte globals.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace VSPackageUnitTest.Mocks
 {
     using System;
     using System.Collections.Generic;
 
+    using EnvDTE;
+
+    /// <summary>
+    /// The mock dte globals.
+    /// </summary>
     internal class MockDTEGlobals : EnvDTE.Globals
     {
-        Dictionary<string, object> _variables = new Dictionary<string, object>();
-        readonly List<string> _persisted = new List<string>();
+        #region Constants and Fields
 
+        private readonly List<string> persisted = new List<string>();
+
+        private Dictionary<string, object> variables = new Dictionary<string, object>();
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets DTE.
+        /// </summary>
+        /// <exception cref="Exception">
+        /// </exception>
+        public DTE DTE
+        {
+            get
+            {
+                throw new Exception("The method or operation is not implemented.");
+            }
+        }
+
+        /// <summary>
+        /// Gets Parent.
+        /// </summary>
+        /// <exception cref="Exception">
+        /// </exception>
+        public object Parent
+        {
+            get
+            {
+                throw new Exception("The method or operation is not implemented.");
+            }
+        }
+
+        /// <summary>
+        /// Gets VariableNames.
+        /// </summary>
+        /// <exception cref="Exception">
+        /// </exception>
+        public object VariableNames
+        {
+            get
+            {
+                throw new Exception("The method or operation is not implemented.");
+            }
+        }
+
+        #endregion
+
+        #region Indexers
+
+        /// <summary>
+        /// The this.
+        /// </summary>
+        /// <param name="variableName">
+        /// The variable name.
+        /// </param>
+        public object this[string variableName]
+        {
+            get
+            {
+                return this.variables[variableName];
+            }
+
+            set
+            {
+                this.variables[variableName] = value;
+            }
+        }
+
+        #endregion
+
+        #region Public Methods
+
+        /// <summary>
+        /// The clear all.
+        /// </summary>
+        public void ClearAll()
+        {
+            this.variables.Clear();
+            this.persisted.Clear();
+        }
+
+        /// <summary>
+        /// The clear non persisted variables.
+        /// </summary>
         public void ClearNonPersistedVariables()
         {
             Dictionary<string, object> result = new Dictionary<string, object>();
 
-            foreach (string key in _variables.Keys)
+            foreach (string key in this.variables.Keys)
             {
-                if (_persisted.Contains(key))
+                if (this.persisted.Contains(key))
                 {
-                    result.Add(key, _variables[key]);
+                    result.Add(key, this.variables[key]);
                 }
             }
 
-            _variables = result;
+            this.variables = result;
         }
 
-        public void ClearAll()
+        #endregion
+
+        #region Implemented Interfaces
+
+        #region Globals
+
+        /// <summary>
+        /// The get_ variable exists.
+        /// </summary>
+        /// <param name="name">
+        /// The name.
+        /// </param>
+        /// <returns>
+        /// The get_ variable exists.
+        /// </returns>
+        public bool get_VariableExists(string name)
         {
-            _variables.Clear();
-            _persisted.Clear();
+            return this.variables.ContainsKey(name);
         }
 
-        #region Globals Members
-
-        public EnvDTE.DTE DTE
+        /// <summary>
+        /// The get_ variable persists.
+        /// </summary>
+        /// <param name="variableName">
+        /// The variable name.
+        /// </param>
+        /// <returns>
+        /// The get_ variable persists.
+        /// </returns>
+        public bool get_VariablePersists(string variableName)
         {
-            get { throw new Exception("The method or operation is not implemented."); }
+            return this.persisted.Contains(variableName);
         }
 
-        public object Parent
+        /// <summary>
+        /// The set_ variable persists.
+        /// </summary>
+        /// <param name="variableName">
+        /// The variable name.
+        /// </param>
+        /// <param name="persistVariable">
+        /// The p val.
+        /// </param>
+        public void set_VariablePersists(string variableName, bool persistVariable)
         {
-            get { throw new Exception("The method or operation is not implemented."); }
-        }
-
-        public object VariableNames
-        {
-            get { throw new Exception("The method or operation is not implemented."); }
-        }
-
-        public bool get_VariableExists(string Name)
-        {
-            return _variables.ContainsKey(Name);
-        }
-
-        public bool get_VariablePersists(string VariableName)
-        {
-            return _persisted.Contains(VariableName);
-        }
-
-        public void set_VariablePersists(string VariableName, bool pVal)
-        {
-            if (pVal)
+            if (persistVariable)
             {
-                if (!_persisted.Contains(VariableName))
+                if (!this.persisted.Contains(variableName))
                 {
-                    _persisted.Add(VariableName);
+                    this.persisted.Add(variableName);
                 }
             }
             else
             {
-                _persisted.Remove(VariableName);
+                this.persisted.Remove(variableName);
             }
         }
 
-        public object this[string VariableName]
-        {
-            get
-            {
-                return _variables[VariableName];
-            }
-            set
-            {
-                _variables[VariableName] = value;
-            }
-        }
+        #endregion
 
         #endregion
     }

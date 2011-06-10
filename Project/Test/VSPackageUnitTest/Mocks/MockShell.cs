@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="MockShell.cs">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="MockShell.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,10 +11,17 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   The mock shell.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace VSPackageUnitTest.Mocks
 {
-    class MockShell
+    /// <summary>
+    /// The mock shell.
+    /// </summary>
+    internal class MockShell
     {
     }
 }

@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="MockTaskList.cs">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="MockTaskEnum.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,54 +11,126 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   The mock task enum.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace VSPackageUnitTest.Mocks
 {
     using System;
     using System.Collections.Generic;
+
     using Microsoft.VisualStudio;
     using Microsoft.VisualStudio.Shell.Interop;
 
-    class MockTaskEnum : IVsEnumTaskItems
+    /// <summary>
+    /// The mock task enum.
+    /// </summary>
+    internal class MockTaskEnum : IVsEnumTaskItems
     {
-        readonly IList<IVsTaskItem> _items;
-        int _next = 0;
+        #region Constants and Fields
 
+        private readonly IList<IVsTaskItem> _items;
+
+        private int _next = 0;
+
+        #endregion
+
+        #region Constructors and Destructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MockTaskEnum"/> class.
+        /// </summary>
+        /// <param name="items">
+        /// The items.
+        /// </param>
         public MockTaskEnum(IList<IVsTaskItem> items)
         {
-            _items = items;
+            this._items = items;
         }
 
-        #region IVsEnumTaskItems Members
+        #endregion
 
+        #region Implemented Interfaces
+
+        #region IVsEnumTaskItems
+
+        /// <summary>
+        /// The clone.
+        /// </summary>
+        /// <param name="ppenum">
+        /// The ppenum.
+        /// </param>
+        /// <returns>
+        /// The clone.
+        /// </returns>
+        /// <exception cref="Exception">
+        /// </exception>
         public int Clone(out IVsEnumTaskItems ppenum)
         {
             throw new Exception("The method or operation is not implemented.");
         }
 
+        /// <summary>
+        /// The next.
+        /// </summary>
+        /// <param name="celt">
+        /// The celt.
+        /// </param>
+        /// <param name="rgelt">
+        /// The rgelt.
+        /// </param>
+        /// <param name="pceltFetched">
+        /// The pcelt fetched.
+        /// </param>
+        /// <returns>
+        /// The next.
+        /// </returns>
         public int Next(uint celt, IVsTaskItem[] rgelt, uint[] pceltFetched)
         {
             for (pceltFetched[0] = 0; celt > 0; --celt, ++pceltFetched[0])
             {
-                if (_next >= _items.Count)
+                if (this._next >= this._items.Count)
                 {
                     return VSConstants.S_FALSE;
                 }
-                rgelt[pceltFetched[0]] = _items[_next++];
+
+                rgelt[pceltFetched[0]] = this._items[this._next++];
             }
+
             return VSConstants.S_OK;
         }
 
+        /// <summary>
+        /// The reset.
+        /// </summary>
+        /// <returns>
+        /// The reset.
+        /// </returns>
         public int Reset()
         {
-            _next = 0;
+            this._next = 0;
             return VSConstants.S_OK;
         }
 
+        /// <summary>
+        /// The skip.
+        /// </summary>
+        /// <param name="celt">
+        /// The celt.
+        /// </param>
+        /// <returns>
+        /// The skip.
+        /// </returns>
+        /// <exception cref="Exception">
+        /// </exception>
         public int Skip(uint celt)
         {
             throw new Exception("The method or operation is not implemented.");
         }
+
+        #endregion
 
         #endregion
     }

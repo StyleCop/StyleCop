@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="TaskProviderTest.cs">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="TaskProviderTest.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,34 +11,41 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   This is a test class for TaskProviderTest and is intended
+//   to contain all TaskProviderTest Unit Tests
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace VSPackageUnitTest
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Runtime.InteropServices;
-    using Microsoft.Build.BuildEngine;
-    using Microsoft.VisualStudio;
-    using Microsoft.VisualStudio.Shell.Interop;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     using StyleCop.VisualStudio;
+
     using VSPackageUnitTest.Mocks;
 
     /// <summary>
-    ///This is a test class for TaskProviderTest and is intended
-    ///to contain all TaskProviderTest Unit Tests
-    ///</summary>
-    [TestClass()]
+    /// This is a test class for TaskProviderTest and is intended
+    ///  to contain all TaskProviderTest Unit Tests
+    /// </summary>
+    [TestClass]
     [DeploymentItem("Microsoft.VisualStudio.QualityTools.MockObjectFramework.dll")]
     [DeploymentItem("StyleCop.VSPackage.dll")]
     public class TaskProviderTest : BasicUnitTest
     {
+        #region Constants and Fields
+
         private MockServiceProvider serviceProvider;
+
+        #endregion
+
+        #region Public Methods
 
         /// <summary>
         /// Unit Test Case for the constructor.
         /// </summary>
-        [TestMethod()]
+        [TestMethod]
         public void ConstructorTest()
         {
             // Execute metod under test first time
@@ -48,12 +55,14 @@ namespace VSPackageUnitTest
         }
 
         /// <summary>
-        /// Use TestInitialize to run code before running each test 
+        /// Use TestInitialize to run code before running each test
         /// </summary>
-        [TestInitialize()]
+        [TestInitialize]
         public void MyTestInitialize()
         {
             this.serviceProvider = new MockServiceProvider();
         }
+
+        #endregion
     }
 }

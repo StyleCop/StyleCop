@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="MockTerm.cs">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="MockTerm.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,10 +11,17 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   The mock term.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace VSPackageUnitTest.Mocks
 {
-    class MockTerm 
+    /// <summary>
+    /// The mock term.
+    /// </summary>
+    internal class MockTerm
     {
     }
 }

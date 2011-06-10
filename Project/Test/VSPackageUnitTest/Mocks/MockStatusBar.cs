@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="MockStatusBar.cs">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="MockStatusBar.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,10 +11,17 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   The mock status bar.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace VSPackageUnitTest.Mocks
 {
-    class MockStatusBar
+    /// <summary>
+    /// The mock status bar.
+    /// </summary>
+    internal class MockStatusBar
     {
     }
 }

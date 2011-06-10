@@ -1,5 +1,5 @@
-﻿//--------------------------------------------------------------------------
-// <copyright file="AnalysisHelperTest.cs" company="Microsoft">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="AnalysisHelperTest.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,28 +11,36 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   This is a test class for AnalysisHelperTest and is intended
+//   to contain all AnalysisHelperTest Unit Tests
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace VSPackageUnitTest
 {
     using System;
-    using Microsoft.VisualStudio.Shell.Interop;
-    using Microsoft.VisualStudio.TestTools.MockObjects;
+
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using VSPackageUnitTest.Mocks;
+
     using StyleCop;
     using StyleCop.VisualStudio;
 
+    using VSPackageUnitTest.Mocks;
+
     /// <summary>
-    ///This is a test class for AnalysisHelperTest and is intended
-    ///to contain all AnalysisHelperTest Unit Tests
-    ///</summary>
-    [TestClass()]
+    /// This is a test class for AnalysisHelperTest and is intended
+    ///  to contain all AnalysisHelperTest Unit Tests
+    /// </summary>
+    [TestClass]
     public class AnalysisHelperTest : BasicUnitTest
     {
+        #region Public Methods
+
         /// <summary>
-        ///A test for AnalysisHelper Constructor
-        ///</summary>
-        [TestMethod()]
+        /// A test for AnalysisHelper Constructor
+        /// </summary>
+        [TestMethod]
         [DeploymentItem("StyleCop.VSPackage.dll")]
         public void AnalysisHelperConstructorTest()
         {
@@ -44,11 +52,13 @@ namespace VSPackageUnitTest
             Assert.IsNotNull(target.Core, "AnalysisHelper.Core was null");
         }
 
+        #endregion
+
         /*
         /// <summary>
         ///A test for AnalysisSupported
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         [DeploymentItem("StyleCop.VSPackage.dll")]
         public void AnalysisSupportedSingleItemTrueTest()
         {
@@ -61,7 +71,7 @@ namespace VSPackageUnitTest
         /// <summary>
         ///A test for AnalysisSupported
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         [DeploymentItem("StyleCop.VSPackage.dll")]
         public void AnalysisSupportedSingleItemFalseCppTest()
         {
@@ -74,7 +84,7 @@ namespace VSPackageUnitTest
         /// <summary>
         ///A test for AnalysisSupported
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         [DeploymentItem("StyleCop.VSPackage.dll")]
         public void AnalysisSupportedSingleItemTrueCppTest()
         {
@@ -87,7 +97,7 @@ namespace VSPackageUnitTest
         /// <summary>
         ///A test for AnalysisSupported
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         [DeploymentItem("StyleCop.VSPackage.dll")]
         public void AnalysisSupportedMultiSelectionItemTrueTest()
         {
@@ -100,7 +110,7 @@ namespace VSPackageUnitTest
         /// <summary>
         ///A test for AnalysisSupported
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         [DeploymentItem("StyleCop.VSPackage.dll")]
         public void AnalysisSupportedMultiSelectionItemFalseTest()
         {

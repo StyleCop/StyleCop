@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="ProjectCollectionTest.cs">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ProjectCollectionTest.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,68 +11,82 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   This is a test class for ProjectCollectionTest and is intended
+//   to contain all ProjectCollectionTest Unit Tests
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace VSPackageUnitTest
 {
     using System.Collections;
+
     using EnvDTE;
+
     using Microsoft.VisualStudio.TestTools.MockObjects;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     using StyleCop.VisualStudio;
 
     /// <summary>
-    ///This is a test class for ProjectCollectionTest and is intended
-    ///to contain all ProjectCollectionTest Unit Tests
-    ///</summary>
-    [TestClass()]
+    /// This is a test class for ProjectCollectionTest and is intended
+    ///   to contain all ProjectCollectionTest Unit Tests
+    /// </summary>
+    [TestClass]
     [DeploymentItem("Microsoft.VisualStudio.QualityTools.MockObjectFramework.dll")]
     [DeploymentItem("StyleCop.VSPackage.dll")]
     public class ProjectCollectionTest
     {
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext TestContext
-        {
-            get;
-            set;
-        }
+        #region Properties
 
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
+        ///<summary>
+        ///  Gets or sets the test context which provides
+        ///  information about and functionality for the current test run.
+        ///</summary>
+        public TestContext TestContext { get; set; }
+
         #endregion
 
+        #region Public Methods
+
         /// <summary>
-        ///A test for GetEnumerator
-        ///</summary>
-        [TestMethod()]
+        /// A test for GetEnumerator
+        /// </summary>
+        [TestMethod]
+        public void GetEnumeratorNullTest()
+        {
+            ProjectCollection target = new ProjectCollection();
+            IEnumerator actual;
+            actual = target.GetEnumerator();
+            Assert.IsNull(actual);
+        }
+
+        // You can use the following additional attributes as you write your tests:
+        // Use ClassInitialize to run code before running the first test in the class
+        // [ClassInitialize()]
+        // public static void MyClassInitialize(TestContext testContext)
+        // {
+        // }
+        // Use ClassCleanup to run code after all tests in a class have run
+        // [ClassCleanup()]
+        // public static void MyClassCleanup()
+        // {
+        // }
+        // Use TestInitialize to run code before running each test
+        // [TestInitialize]
+        // public void MyTestInitialize()
+        // {
+        // }
+        // Use TestCleanup to run code after each test has run
+        // [TestCleanup]
+        // public void MyTestCleanup()
+        // {
+        // }
+
+        /// <summary>
+        /// A test for GetEnumerator
+        /// </summary>
+        [TestMethod]
         public void GetEnumeratorSelectedProjectsTest()
         {
             ProjectCollection target = new ProjectCollection();
@@ -87,9 +101,9 @@ namespace VSPackageUnitTest
         }
 
         /// <summary>
-        ///A test for GetEnumerator
-        ///</summary>
-        [TestMethod()]
+        /// A test for GetEnumerator
+        /// </summary>
+        [TestMethod]
         public void GetEnumeratorSolutionProjectsTest()
         {
             ProjectCollection target = new ProjectCollection();
@@ -106,21 +120,9 @@ namespace VSPackageUnitTest
         }
 
         /// <summary>
-        ///A test for GetEnumerator
-        ///</summary>
-        [TestMethod()]
-        public void GetEnumeratorNullTest()
-        {
-            ProjectCollection target = new ProjectCollection();
-            IEnumerator actual;
-            actual = target.GetEnumerator();
-            Assert.IsNull(actual);
-        }
-
-        /// <summary>
-        ///A test for SelectedProjects
-        ///</summary>
-        [TestMethod()]
+        /// A test for SelectedProjects
+        /// </summary>
+        [TestMethod]
         public void SelectedProjectsTest()
         {
             ProjectCollection target = new ProjectCollection();
@@ -132,9 +134,9 @@ namespace VSPackageUnitTest
         }
 
         /// <summary>
-        ///A test for SolutionProjects
-        ///</summary>
-        [TestMethod()]
+        /// A test for SolutionProjects
+        /// </summary>
+        [TestMethod]
         public void SolutionProjectsTest()
         {
             ProjectCollection target = new ProjectCollection();
@@ -145,5 +147,7 @@ namespace VSPackageUnitTest
             actual = target.SolutionProjects;
             Assert.AreEqual(expected, actual);
         }
+
+        #endregion
     }
 }

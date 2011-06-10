@@ -1,5 +1,5 @@
-﻿//--------------------------------------------------------------------------
-// <copyright file="VSWindowsTest.cs">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="VSWindowsTest.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,27 +11,52 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   This is a test class for VSWindowsTest and is intended
+//   to contain all VSWindowsTest Unit Tests
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace VSPackageUnitTest
 {
+    using EnvDTE;
+
     using Microsoft.VisualStudio.TestTools.MockObjects;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     using StyleCop.VisualStudio;
+
     using VSPackageUnitTest.Mocks;
 
     /// <summary>
-    ///This is a test class for VSWindowsTest and is intended
-    ///to contain all VSWindowsTest Unit Tests
-    ///</summary>
-    [TestClass()]
+    /// This is a test class for VSWindowsTest and is intended
+    ///   to contain all VSWindowsTest Unit Tests
+    /// </summary>
+    [TestClass]
     public class VSWindowsTest : BasicUnitTest
     {
+        #region Constants and Fields
+
         private MockServiceProvider serviceProvider;
+
+        #endregion
+
+        #region Public Methods
+
+        /// <summary>
+        /// Unit Test Case for DTE.
+        /// </summary>
+        [TestMethod]
+        public void DTEPropertyTest()
+        {
+            VSWindows_Accessor actual = VSWindows_Accessor.GetInstance(this.serviceProvider);
+            Assert.IsNotNull(actual.DTE, "DTE property was null");
+        }
 
         /// <summary>
         /// A test for GetInstance
         /// </summary>
-        [TestMethod()]
+        [TestMethod]
         [DeploymentItem("StyleCop.VSPackage.dll")]
         public void GetInstanceTest()
         {
@@ -41,43 +66,36 @@ namespace VSPackageUnitTest
         }
 
         /// <summary>
-        /// Unit Test Case for DTE.
+        /// The my test cleanup.
         /// </summary>
-        [TestMethod()]
-        public void DTEPropertyTest()
+        [TestCleanup]
+        public void MyTestCleanup()
         {
-            VSWindows_Accessor actual = VSWindows_Accessor.GetInstance(this.serviceProvider);
-            Assert.IsNotNull(actual.DTE, "DTE property was null");
+            this.serviceProvider = null;
+            VSWindows_Accessor.instance = null;
+        }
+
+        /// <summary>
+        /// The my test initialize.
+        /// </summary>
+        [TestInitialize]
+        public void MyTestInitialize()
+        {
+            this.serviceProvider = new MockServiceProvider();
         }
 
         /// <summary>
         /// Unit Test Case for OutputPane.
         /// </summary>
-        [TestMethod()]
-        public void OutputWindowPropertyTest()
-        {
-            // Setup
-            Mock<EnvDTE.Window> mockWindow = SetupMockWindow();
-
-            // Call
-            VSWindows_Accessor actual = VSWindows_Accessor.GetInstance(this.serviceProvider);
-
-            // Verify
-            Assert.IsNotNull(actual.OutputWindow, "OutputWindow property was null");
-        }
-
-        /// <summary>
-        /// Unit Test Case for OutputPane.
-        /// </summary>
-        [TestMethod()]
+        [TestMethod]
         public void OutputPanePropertyTest()
         {
             // Setup
-            Mock<EnvDTE.Window> mockWindow = SetupMockWindow();
-            Mock<EnvDTE.OutputWindow> mockOutputWindow = new Mock<EnvDTE.OutputWindow>();
+            Mock<Window> mockWindow = this.SetupMockWindow();
+            Mock<OutputWindow> mockOutputWindow = new Mock<OutputWindow>();
             mockWindow.ImplementExpr(w => w.Object, (EnvDTE.OutputWindow)mockOutputWindow.Instance);
-            Mock<EnvDTE.OutputWindowPane> mockOutputWindowPane = new Mock<EnvDTE.OutputWindowPane>();
-            Mock<EnvDTE.OutputWindowPanes> mockOutputWindowPanes = new Mock<EnvDTE.OutputWindowPanes>();
+            Mock<OutputWindowPane> mockOutputWindowPane = new Mock<OutputWindowPane>();
+            Mock<OutputWindowPanes> mockOutputWindowPanes = new Mock<OutputWindowPanes>();
             mockOutputWindow.ImplementExpr(ow => ow.OutputWindowPanes, (EnvDTE.OutputWindowPanes)mockOutputWindowPanes.Instance);
             mockOutputWindowPanes.ImplementExpr(owp => owp.Add("StyleCop"), (EnvDTE.OutputWindowPane)mockOutputWindowPane.Instance);
 
@@ -88,26 +106,35 @@ namespace VSPackageUnitTest
             Assert.IsNotNull(actual.OutputPane, "OutputPane property was null");
         }
 
-        private Mock<EnvDTE.Window> SetupMockWindow()
+        /// <summary>
+        /// Unit Test Case for OutputPane.
+        /// </summary>
+        [TestMethod]
+        public void OutputWindowPropertyTest()
         {
-            Mock<EnvDTE.Windows> mockWindows = new Mock<EnvDTE.Windows>();
-            Mock<EnvDTE.Window> mockWindow = new Mock<EnvDTE.Window>();
+            // Setup
+            Mock<Window> mockWindow = this.SetupMockWindow();
+
+            // Call
+            VSWindows_Accessor actual = VSWindows_Accessor.GetInstance(this.serviceProvider);
+
+            // Verify
+            Assert.IsNotNull(actual.OutputWindow, "OutputWindow property was null");
+        }
+
+        #endregion
+
+        #region Methods
+
+        private Mock<Window> SetupMockWindow()
+        {
+            Mock<Windows> mockWindows = new Mock<Windows>();
+            Mock<Window> mockWindow = new Mock<Window>();
             mockWindows.ImplementExpr(ws => ws.Item(EnvDTE.Constants.vsWindowKindOutput), (EnvDTE.Window)mockWindow.Instance);
             this.serviceProvider.DTE.Windows = mockWindows.Instance as EnvDTE.Windows;
             return mockWindow;
         }
 
-        [TestInitialize()]
-        public void MyTestInitialize()
-        {
-            this.serviceProvider = new MockServiceProvider();
-        }
-
-        [TestCleanup()]
-        public void MyTestCleanup()
-        {
-            this.serviceProvider = null;
-            VSWindows_Accessor.instance = null;
-        }
+        #endregion
     }
 }

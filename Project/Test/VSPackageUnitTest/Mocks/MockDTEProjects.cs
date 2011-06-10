@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="MockDTEProjects.cs" company="Microsoft">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="MockDTEProjects.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,67 +11,155 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   The mock dte projects.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace VSPackageUnitTest.Mocks
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
+
+    using EnvDTE;
+
     using Microsoft.VisualStudio.Shell.Interop;
 
+    /// <summary>
+    /// The mock dte projects.
+    /// </summary>
     internal class MockDTEProjects : EnvDTE.Projects
     {
-        readonly IServiceProvider _serviceProvider;
-        readonly Dictionary<string, MockDTEProject> _projects = new Dictionary<string, MockDTEProject>();
+        #region Constants and Fields
 
+        private readonly Dictionary<string, MockDTEProject> _projects = new Dictionary<string, MockDTEProject>();
+
+        private readonly IServiceProvider _serviceProvider;
+
+        #endregion
+
+        #region Constructors and Destructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MockDTEProjects"/> class.
+        /// </summary>
+        /// <param name="serviceProvider">
+        /// The service provider.
+        /// </param>
         public MockDTEProjects(IServiceProvider serviceProvider)
         {
-            _serviceProvider = serviceProvider;
+            this._serviceProvider = serviceProvider;
         }
 
-        #region Projects Members
+        #endregion
 
+        #region Properties
+
+        /// <summary>
+        /// Gets Count.
+        /// </summary>
+        /// <exception cref="Exception">
+        /// </exception>
         public int Count
         {
-            get { throw new Exception("The method or operation is not implemented."); }
-        }
-
-        public EnvDTE.DTE DTE
-        {
-            get { throw new Exception("The method or operation is not implemented."); }
-        }
-
-        public System.Collections.IEnumerator GetEnumerator()
-        {
-            MockSolution solution = _serviceProvider.GetService(typeof(SVsSolution)) as MockSolution;
-            foreach (MockIVsProject project in solution.Projects)
+            get
             {
-                if (!_projects.ContainsKey(project.FullPath))
-                {
-                    _projects.Add(project.FullPath, new MockDTEProject(project));
-                }
-                yield return _projects[project.FullPath];
+                throw new Exception("The method or operation is not implemented.");
             }
         }
 
-        public EnvDTE.Project Item(object index)
+        /// <summary>
+        /// Gets DTE.
+        /// </summary>
+        /// <exception cref="Exception">
+        /// </exception>
+        public DTE DTE
         {
-            return Utilities.ListFromEnum(_projects.Values)[(int)index];
+            get
+            {
+                throw new Exception("The method or operation is not implemented.");
+            }
         }
 
+        /// <summary>
+        /// Gets Kind.
+        /// </summary>
+        /// <exception cref="Exception">
+        /// </exception>
         public string Kind
         {
-            get { throw new Exception("The method or operation is not implemented."); }
+            get
+            {
+                throw new Exception("The method or operation is not implemented.");
+            }
         }
 
-        public EnvDTE.DTE Parent
+        /// <summary>
+        /// Gets Parent.
+        /// </summary>
+        /// <exception cref="Exception">
+        /// </exception>
+        public DTE Parent
         {
-            get { throw new Exception("The method or operation is not implemented."); }
+            get
+            {
+                throw new Exception("The method or operation is not implemented.");
+            }
         }
 
-        public EnvDTE.Properties Properties
+        /// <summary>
+        /// Gets Properties.
+        /// </summary>
+        /// <exception cref="Exception">
+        /// </exception>
+        public Properties Properties
         {
-            get { throw new Exception("The method or operation is not implemented."); }
+            get
+            {
+                throw new Exception("The method or operation is not implemented.");
+            }
         }
+
+        #endregion
+
+        #region Implemented Interfaces
+
+        #region Projects
+
+        /// <summary>
+        /// The get enumerator.
+        /// </summary>
+        /// <returns>
+        /// </returns>
+        public IEnumerator GetEnumerator()
+        {
+            MockSolution solution = this._serviceProvider.GetService(typeof(SVsSolution)) as MockSolution;
+            foreach (MockIVsProject project in solution.Projects)
+            {
+                if (!this._projects.ContainsKey(project.FullPath))
+                {
+                    this._projects.Add(project.FullPath, new MockDTEProject(project));
+                }
+
+                yield return this._projects[project.FullPath];
+            }
+        }
+
+        /// <summary>
+        /// The item.
+        /// </summary>
+        /// <param name="index">
+        /// The index.
+        /// </param>
+        /// <returns>
+        /// </returns>
+        public Project Item(object index)
+        {
+            return Utilities.ListFromEnum(this._projects.Values)[(int)index];
+        }
+
+        #endregion
 
         #endregion
     }

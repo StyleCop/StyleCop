@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="MockRDT.cs">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="MockRDT.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,10 +11,17 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   The mock rdt.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace VSPackageUnitTest.Mocks
 {
-    class MockRDT
+    /// <summary>
+    /// The mock rdt.
+    /// </summary>
+    internal class MockRDT
     {
     }
 }

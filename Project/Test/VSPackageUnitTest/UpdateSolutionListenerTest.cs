@@ -25,15 +25,15 @@ namespace VSPackageUnitTest
 
     /// <summary>
     /// This is a test class for UpdateSolutionListenerTest and is intended
-    ///to contain all UpdateSolutionListenerTest Unit Tests
-    ///</summary>
-    [TestClass()]
+    /// to contain all UpdateSolutionListenerTest Unit Tests
+    /// </summary>
+    [TestClass]
     public class UpdateSolutionListenerTest : BasicUnitTest
     {
         /// <summary>
-        ///A test for UpdateSolution_StartUpdate
-        ///</summary>
-        [TestMethod()]
+        /// A test for UpdateSolution_StartUpdate
+        /// </summary>
+        [TestMethod]
         [DeploymentItem("StyleCop.VSPackage.dll")]
         public void UpdateSolution_StartUpdateTest()
         {
@@ -55,7 +55,7 @@ namespace VSPackageUnitTest
         /// <summary>
         ///A test for UpdateSolution_Done
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         [DeploymentItem("StyleCop.VSPackage.dll")]
         public void UpdateSolution_DoneTest()
         {
@@ -72,7 +72,7 @@ namespace VSPackageUnitTest
         /// <summary>
         ///A test for UpdateSolution_Cancel
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         [DeploymentItem("StyleCop.VSPackage.dll")]
         public void UpdateSolution_CancelTest()
         {
@@ -87,7 +87,7 @@ namespace VSPackageUnitTest
         /// <summary>
         ///A test for UpdateSolution_Begin
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         [DeploymentItem("StyleCop.VSPackage.dll")]
         public void UpdateSolution_BeginTest()
         {
@@ -104,7 +104,7 @@ namespace VSPackageUnitTest
         /// <summary>
         ///A test for OnActiveProjectCfgChange
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         [DeploymentItem("StyleCop.VSPackage.dll")]
         public void OnActiveProjectCfgChangeTest()
         {
@@ -118,7 +118,7 @@ namespace VSPackageUnitTest
         /// <summary>
         ///A test for Initialize
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         [DeploymentItem("StyleCop.VSPackage.dll")]
         public void InitializeTest()
         {
@@ -134,7 +134,7 @@ namespace VSPackageUnitTest
         /// <summary>
         ///A test for Dispose
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         [DeploymentItem("StyleCop.VSPackage.dll")]
         public void DisposeTest()
         {
@@ -154,7 +154,7 @@ namespace VSPackageUnitTest
         /// <summary>
         ///A test for UpdateSolutionListener Constructor
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         [DeploymentItem("StyleCop.VSPackage.dll")]
         public void UpdateSolutionListenerConstructorTest()
         {

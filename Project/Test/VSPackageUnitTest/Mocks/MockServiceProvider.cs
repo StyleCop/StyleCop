@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="MockServiceProvider.cs">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="MockServiceProvider.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,70 +11,122 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   The mock service provider.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace VSPackageUnitTest.Mocks
 {
     using System;
-    using System.Collections.Generic;
     using System.ComponentModel.Design;
     using System.Diagnostics;
-    using System.Text;
+
     using EnvDTE;
+
     using Microsoft.VisualStudio.Shell;
     using Microsoft.VisualStudio.Shell.Interop;
-    using Microsoft.VisualStudio.TestTools.MockObjects;
     using Microsoft.VisualStudio.TextManager.Interop;
 
+    /// <summary>
+    /// The mock service provider.
+    /// </summary>
     internal class MockServiceProvider : IServiceProvider
     {
-        readonly MockTaskList _taskList = new MockTaskList();
-        readonly MockShell _uiShell = new MockShell();
-        readonly MockStatusBar _statusBar = new MockStatusBar();
-        readonly MockSolution _solution = new MockSolution();
-        readonly MockRDT _rdt = new MockRDT();
-        readonly MockUIShellOpenDocument _uiShellOpenDoc = new MockUIShellOpenDocument();
-        readonly MockTextManager _textMgr = new MockTextManager();
-        readonly MockWebBrowsingService _webBrowser = new MockWebBrowsingService();
-        readonly OleMenuCommandService _menuService;
-        readonly MockSolutionBuildManager _BuildManager = new MockSolutionBuildManager();
+        #region Constants and Fields
 
+        private readonly MockSolutionBuildManager _BuildManager = new MockSolutionBuildManager();
+
+        private readonly OleMenuCommandService _menuService;
+
+        private readonly MockRDT _rdt = new MockRDT();
+
+        private readonly MockSolution _solution = new MockSolution();
+
+        private readonly MockStatusBar _statusBar = new MockStatusBar();
+
+        private readonly MockTaskList _taskList = new MockTaskList();
+
+        private readonly MockTextManager _textMgr = new MockTextManager();
+
+        private readonly MockShell _uiShell = new MockShell();
+
+        private readonly MockUIShellOpenDocument _uiShellOpenDoc = new MockUIShellOpenDocument();
+
+        private readonly MockWebBrowsingService _webBrowser = new MockWebBrowsingService();
+
+        #endregion
+
+        #region Constructors and Destructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MockServiceProvider"/> class.
+        /// </summary>
         public MockServiceProvider()
         {
-            _menuService = new OleMenuCommandService(this);
+            this._menuService = new OleMenuCommandService(this);
             this.DTE = new MockDTE(this);
         }
 
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets or sets DTE.
+        /// </summary>
+        public MockDTE DTE { get; set; }
+
+        /// <summary>
+        /// Gets MockBuildManager.
+        /// </summary>
         public MockSolutionBuildManager MockBuildManager
         {
-            get { return _BuildManager; }
+            get
+            {
+                return this._BuildManager;
+            }
         }
 
+        /// <summary>
+        /// Gets TaskList.
+        /// </summary>
         public MockTaskList TaskList
         {
-            get { return _taskList; }
+            get
+            {
+                return this._taskList;
+            }
         }
 
-        public MockDTE DTE
-        {
-            get;
-            set;
-        }
+        #endregion
 
-        #region IServiceProvider Members
+        #region Implemented Interfaces
 
+        #region IServiceProvider
+
+        /// <summary>
+        /// The get service.
+        /// </summary>
+        /// <param name="serviceType">
+        /// The service type.
+        /// </param>
+        /// <returns>
+        /// The get service.
+        /// </returns>
         public object GetService(Type serviceType)
         {
             if (serviceType == typeof(SVsTaskList))
             {
-                return _taskList;
+                return this._taskList;
             }
             else if (serviceType == typeof(SVsUIShell))
             {
-                return _uiShell;
+                return this._uiShell;
             }
             else if (serviceType == typeof(SVsStatusbar))
             {
-                return _statusBar;
+                return this._statusBar;
             }
             else if (serviceType == typeof(DTE))
             {
@@ -82,27 +134,27 @@ namespace VSPackageUnitTest.Mocks
             }
             else if (serviceType == typeof(SVsSolution))
             {
-                return _solution;
+                return this._solution;
             }
             else if (serviceType == typeof(SVsRunningDocumentTable))
             {
-                return _rdt;
+                return this._rdt;
             }
             else if (serviceType == typeof(SVsUIShellOpenDocument))
             {
-                return _uiShellOpenDoc;
+                return this._uiShellOpenDoc;
             }
             else if (serviceType == typeof(SVsTextManager))
             {
-                return _textMgr;
+                return this._textMgr;
             }
             else if (serviceType == typeof(SVsWebBrowsingService))
             {
-                return _webBrowser;
+                return this._webBrowser;
             }
             else if (serviceType == typeof(IMenuCommandService))
             {
-                return _menuService;
+                return this._menuService;
             }
             else if (serviceType == typeof(ISelectionService))
             {
@@ -122,6 +174,8 @@ namespace VSPackageUnitTest.Mocks
                 return null;
             }
         }
+
+        #endregion
 
         #endregion
     }

@@ -1,5 +1,5 @@
-﻿//--------------------------------------------------------------------------
-// <copyright file="MockWindows.cs">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="MockWindows.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,47 +11,144 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   The mock windows.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace VSPackageUnitTest.Mocks
 {
+    using System;
+    using System.Collections;
+
+    using EnvDTE;
+
+    /// <summary>
+    /// The mock windows.
+    /// </summary>
     internal class MockWindows : EnvDTE.Windows
     {
-        #region Windows Members
+        #region Properties
 
+        /// <summary>
+        /// Gets Count.
+        /// </summary>
         public int Count
         {
-            get { return 0; }
+            get
+            {
+                return 0;
+            }
         }
 
-        public EnvDTE.Window CreateLinkedWindowFrame(EnvDTE.Window Window1, EnvDTE.Window Window2, EnvDTE.vsLinkedWindowType Link)
+        /// <summary>
+        /// Gets DTE.
+        /// </summary>
+        /// <exception cref="NotImplementedException">
+        /// </exception>
+        public DTE DTE
         {
-            throw new System.NotImplementedException();
+            get
+            {
+                throw new NotImplementedException();
+            }
         }
 
-        public EnvDTE.Window CreateToolWindow(EnvDTE.AddIn AddInInst, string ProgID, string Caption, string GuidPosition, ref object DocObj)
+        /// <summary>
+        /// Gets Parent.
+        /// </summary>
+        /// <exception cref="NotImplementedException">
+        /// </exception>
+        public DTE Parent
         {
-            throw new System.NotImplementedException();
+            get
+            {
+                throw new NotImplementedException();
+            }
         }
 
-        public EnvDTE.DTE DTE
+        #endregion
+
+        #region Implemented Interfaces
+
+        #region Windows
+
+        /// <summary>
+        /// The create linked window frame.
+        /// </summary>
+        /// <param name="Window1">
+        /// The window 1.
+        /// </param>
+        /// <param name="Window2">
+        /// The window 2.
+        /// </param>
+        /// <param name="Link">
+        /// The link.
+        /// </param>
+        /// <returns>
+        /// </returns>
+        /// <exception cref="NotImplementedException">
+        /// </exception>
+        public Window CreateLinkedWindowFrame(Window Window1, Window Window2, vsLinkedWindowType Link)
         {
-            get { throw new System.NotImplementedException(); }
+            throw new NotImplementedException();
         }
 
-        public System.Collections.IEnumerator GetEnumerator()
+        /// <summary>
+        /// The create tool window.
+        /// </summary>
+        /// <param name="AddInInst">
+        /// The add in inst.
+        /// </param>
+        /// <param name="ProgID">
+        /// The prog id.
+        /// </param>
+        /// <param name="Caption">
+        /// The caption.
+        /// </param>
+        /// <param name="GuidPosition">
+        /// The guid position.
+        /// </param>
+        /// <param name="DocObj">
+        /// The doc obj.
+        /// </param>
+        /// <returns>
+        /// </returns>
+        /// <exception cref="NotImplementedException">
+        /// </exception>
+        public Window CreateToolWindow(AddIn AddInInst, string ProgID, string Caption, string GuidPosition, ref object DocObj)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
-        public EnvDTE.Window Item(object index)
+        /// <summary>
+        /// The get enumerator.
+        /// </summary>
+        /// <returns>
+        /// </returns>
+        /// <exception cref="NotImplementedException">
+        /// </exception>
+        public IEnumerator GetEnumerator()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
-        public EnvDTE.DTE Parent
+        /// <summary>
+        /// The item.
+        /// </summary>
+        /// <param name="index">
+        /// The index.
+        /// </param>
+        /// <returns>
+        /// </returns>
+        /// <exception cref="NotImplementedException">
+        /// </exception>
+        public Window Item(object index)
         {
-            get { throw new System.NotImplementedException(); }
+            throw new NotImplementedException();
         }
+
+        #endregion
 
         #endregion
     }
