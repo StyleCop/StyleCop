@@ -354,6 +354,7 @@ namespace StyleCop.ReSharper.Options
                     case NamedElementKinds.Locals:
                     case NamedElementKinds.Parameters:
                     case NamedElementKinds.PrivateInstanceFields:
+                    case NamedElementKinds.PrivateStaticFields:
                         rule.Prefix = string.Empty;
                         rule.NamingStyleKind = NamingStyleKinds.aaBb;
                         break;
@@ -1434,6 +1435,7 @@ namespace StyleCop.ReSharper.Options
                     case NamedElementKinds.Locals:
                     case NamedElementKinds.Parameters:
                     case NamedElementKinds.PrivateInstanceFields:
+                    case NamedElementKinds.PrivateStaticFields:
                         if (rule.Prefix != string.Empty || rule.NamingStyleKind != NamingStyleKinds.aaBb)
                         {
                             return false;
