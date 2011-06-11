@@ -157,7 +157,9 @@ namespace StyleCop.CSharp
                     {
                         switch (tokenNode.Value.CsTokenType)
                         {
+                            case CsTokenType.By:
                             case CsTokenType.Catch:
+                            case CsTokenType.Equals:
                             case CsTokenType.Fixed:
                             case CsTokenType.For:
                             case CsTokenType.Foreach:
@@ -169,6 +171,7 @@ namespace StyleCop.CSharp
                             case CsTokenType.Join:
                             case CsTokenType.Let:
                             case CsTokenType.Lock:
+                            case CsTokenType.On:
                             case CsTokenType.OrderBy:
                             case CsTokenType.Return:
                             case CsTokenType.Select:

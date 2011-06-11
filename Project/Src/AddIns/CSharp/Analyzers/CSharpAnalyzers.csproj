@@ -186,6 +186,7 @@
   <ItemGroup>
     <EmbeddedResource Include="SpacingRules.xml">
       <CustomToolNamespace>SA1000</CustomToolNamespace>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
