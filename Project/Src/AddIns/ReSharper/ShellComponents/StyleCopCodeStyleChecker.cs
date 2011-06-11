@@ -48,7 +48,7 @@ namespace StyleCop.ReSharper.ShellComponents
 
             var initializationDate = Convert.ToDateTime(oneTimeInitializationRequiredRegistryKey);
 
-            string todayAsString = DateTime.UtcNow.ToString("yyyy-MM-dd");
+            string todayAsString = DateTime.Today.ToString("yyyy-MM-dd");
 
             RegistryKey registryKey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\CodePlex\StyleCop");
             string value = null;
@@ -62,21 +62,19 @@ namespace StyleCop.ReSharper.ShellComponents
             try
             {
                 lastInstalledDate = Convert.ToDateTime(value);
+
+                // If the installer stored a date that has now been read back in and seems to be in the future
+                // then use the LocalUserInstallDate value.
+                if (lastInstalledDate > DateTime.Today)
+                {
+                    lastInstalledDate = GetInstallDateFromLocalUserRegistry(todayAsString);
+                }
             }
             catch (FormatException ex)
             {
                 // In some locales the installer saves the date in a format we can't parse back out.
                 // Use today as the installed date and store it in the HKCU key.
-                var installDateRegistryKey = RetrieveFromRegistry("InstallDate");
-                if (installDateRegistryKey == null)
-                {
-                    SetRegistry("InstallDate", todayAsString, RegistryValueKind.String);
-                    lastInstalledDate = Convert.ToDateTime(todayAsString);
-                }
-                else
-                {
-                    lastInstalledDate = Convert.ToDateTime(installDateRegistryKey);
-                }
+                lastInstalledDate = GetInstallDateFromLocalUserRegistry(todayAsString);
             }
 
             if (oneTimeInitializationRequiredRegistryKey == null || initializationDate < lastInstalledDate)
@@ -115,6 +113,23 @@ namespace StyleCop.ReSharper.ShellComponents
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Loads the InstallDate registry key value.
+        /// </summary>
+        /// <param name="defaultDateAsString">The date to set the install date to if its value is not found in the registry.</param>
+        /// <returns>The DateTime of the InstallDate LOCALUSER reg key.</returns>
+        private static DateTime GetInstallDateFromLocalUserRegistry(string defaultDateAsString)
+        {
+            var installDateRegistryKey = RetrieveFromRegistry("InstallDate");
+            if (installDateRegistryKey == null)
+            {
+                SetRegistry("InstallDate", defaultDateAsString, RegistryValueKind.String);
+                return Convert.ToDateTime(defaultDateAsString);
+            }
+
+            return Convert.ToDateTime(installDateRegistryKey);
+        }
 
         /// <summary>
         /// Sets a regkey value in the registry.
