@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <StyleCopTestDescription TestName="Spacing">
-<Test Name="Keywords">
+  <Test Name="Keywords">
     <TestCodeFile>Keywords.cs</TestCodeFile>
     <Settings>
       <GlobalSettings>
@@ -26,6 +26,29 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.Spacing.Keywords.Method4" LineNumber="48" Rule="KeywordsMustBeSpacedCorrectly" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.Spacing.Keywords.Method5" LineNumber="58" Rule="KeywordsMustBeSpacedCorrectly" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.Spacing.Keywords.Method6" LineNumber="69" Rule="KeywordsMustBeSpacedCorrectly" />
+    </ExpectedViolations>
+  </Test>
+  <Test Name="Symbols">
+    <TestCodeFile>UnarySymbols.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.SpacingRules">
+          <Rules>
+            <Rule Name="SymbolsMustBeSpacedCorrectly">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>            
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Spacing.UnarySymbols.Method1" LineNumber="13" Rule="SymbolsMustBeSpacedCorrectly" />
     </ExpectedViolations>
   </Test>
   <Test Name="CloseParenthesis">

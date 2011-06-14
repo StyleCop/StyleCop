@@ -346,7 +346,7 @@ namespace StyleCop.CSharp
                                         }
                                         else
                                         {
-                                            this.CheckUnarySymbol(tokenNode);
+                                            this.CheckUnarySymbol(tokens, tokenNode);
                                         }
 
                                         break;
@@ -1781,9 +1781,11 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Checks a unary symbol for spacing.
         /// </summary>
+        /// <param name="tokens">The master list of tokens.</param>
         /// <param name="tokenNode">The token to check.</param>
-        private void CheckUnarySymbol(Node<CsToken> tokenNode)
+        private void CheckUnarySymbol(MasterList<CsToken> tokens, Node<CsToken> tokenNode)
         {
+            Param.AssertNotNull(tokens, "tokens");
             Param.AssertNotNull(tokenNode, "tokenNode");
 
             // These symbols should be preceded by whitespace but not followed by whitespace. They can
@@ -1791,13 +1793,37 @@ namespace StyleCop.CSharp
             Node<CsToken> previousNode = tokenNode.Previous;
             if (previousNode != null)
             {
-                CsTokenType tokenType = previousNode.Value.CsTokenType;
-                if (tokenType != CsTokenType.WhiteSpace &&
-                    tokenType != CsTokenType.EndOfLine &&
-                    tokenType != CsTokenType.OpenParenthesis &&
-                    tokenType != CsTokenType.OpenSquareBracket)
+                CsTokenType previousNodeTokenType = previousNode.Value.CsTokenType;
+                if (previousNodeTokenType != CsTokenType.WhiteSpace &&
+                    previousNodeTokenType != CsTokenType.EndOfLine &&
+                    previousNodeTokenType != CsTokenType.OpenParenthesis &&
+                    previousNodeTokenType != CsTokenType.OpenSquareBracket)
                 {
                     this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.LineNumber, Rules.SymbolsMustBeSpacedCorrectly, tokenNode.Value.Text);
+                }
+
+                // They should not be preceeded by whitespace if the whitespace is preceeded by a paranthesis.
+                if (previousNodeTokenType == CsTokenType.WhiteSpace || previousNodeTokenType == CsTokenType.EndOfLine)
+                {
+                    foreach (CsToken item in tokens.ReverseIterator(previousNode))
+                    {
+                        if (item.CsTokenType == CsTokenType.OpenParenthesis || item.CsTokenType == CsTokenType.OpenSquareBracket)
+                        {
+                            this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.LineNumber, Rules.SymbolsMustBeSpacedCorrectly, tokenNode.Value.Text);
+                        }
+                        else if (item.CsTokenType == CsTokenType.WhiteSpace || item.CsTokenType == CsTokenType.EndOfLine)
+                        {
+                            continue;
+                        }
+
+                        if (item.CsTokenType != CsTokenType.OpenParenthesis &&
+                            item.CsTokenType != CsTokenType.OpenSquareBracket && 
+                            item.CsTokenType != CsTokenType.WhiteSpace &&
+                            item.CsTokenType != CsTokenType.EndOfLine)
+                        {
+                            break;
+                        }
+                    }
                 }
             }
 
