@@ -2313,7 +2313,7 @@ namespace StyleCop.CSharp
                 character = this.codeReader.Peek();
                 if (character == '=')
                 {
-                    text.Append("*");
+                    text.Append("=");
                     type = SymbolType.MultiplicationEquals;
                     this.codeReader.ReadNext();
                 }
