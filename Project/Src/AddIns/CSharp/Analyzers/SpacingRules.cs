@@ -1153,7 +1153,7 @@ namespace StyleCop.CSharp
             {
                 this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.LineNumber, Rules.ClosingSquareBracketsMustBeSpacedCorrectly);
             }
-
+            
             // Close brackets should be followed either by whitespace, a bracket,
             // a paren, a semicolon, a comma, a period, or an increment or decrement symbol.
             Node<CsToken> nextNode = tokenNode.Next;
@@ -1877,7 +1877,11 @@ namespace StyleCop.CSharp
                     nextNode.Value.CsTokenType != CsTokenType.SingleLineComment &&
                     nextNode.Value.CsTokenType != CsTokenType.MultiLineComment)
                 {
-                    this.AddViolation(tokenNode.Value.FindParentElement(), whitespace.LineNumber, Rules.CodeMustNotContainMultipleWhitespaceInARow);
+                    CsElement parentElement = tokenNode.Value.FindParentElement() ?? previousNode.Value.FindParentElement();
+                    if (parentElement != null)
+                    {
+                        this.AddViolation(parentElement, whitespace.LineNumber, Rules.CodeMustNotContainMultipleWhitespaceInARow);
+                    }
                 }
             }
         }
