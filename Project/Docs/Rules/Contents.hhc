@@ -589,15 +589,15 @@
 <param name="Local" value="SA1000.html">
 </OBJECT>
 <LI><OBJECT type="text/sitemap">
-<param name="Name" value="SA1001: CommasMustBeSpaceCorrectly">
+<param name="Name" value="SA1001: CommasMustBeSpacedCorrectly">
 <param name="Local" value="SA1001.html">
 </OBJECT>
 <LI><OBJECT type="text/sitemap">
-<param name="Name" value="SA1002: SemicolonsMustBeSpaceCorrectly">
+<param name="Name" value="SA1002: SemicolonsMustBeSpacedCorrectly">
 <param name="Local" value="SA1002.html">
 </OBJECT>
 <LI><OBJECT type="text/sitemap">
-<param name="Name" value="SA1003: SymbolsMustBeSpaceCorrectly">
+<param name="Name" value="SA1003: SymbolsMustBeSpacedCorrectly">
 <param name="Local" value="SA1003.html">
 </OBJECT>
 <LI><OBJECT type="text/sitemap">
