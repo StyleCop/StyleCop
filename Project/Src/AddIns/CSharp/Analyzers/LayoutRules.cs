@@ -1107,10 +1107,12 @@ namespace StyleCop.CSharp
                             string trimmedComment = token.Text.Trim();
                             if (!trimmedComment.StartsWith(@"////", StringComparison.Ordinal) && !Utils.IsAReSharperComment(token))
                             {
-                                this.AddViolation(
-                                    token.FindParentElement(),
-                                    token.LineNumber,
-                                    Rules.SingleLineCommentMustBePrecededByBlankLine);
+                                CsElement element = token.FindParentElement();
+
+                                if (element != null)
+                                {
+                                    this.AddViolation(element, token.LineNumber, Rules.SingleLineCommentMustBePrecededByBlankLine);
+                                }
                             }
                         }
                     }
