@@ -427,7 +427,7 @@ namespace StyleCop.ReSharper.Options
 
             SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "CSArrangeThisQualifier", null, true);
 
-            SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "CSUpdateFileHeader", null, true);
+            SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "CSUpdateFileHeader", null, false);
 
             SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "CSOptimizeUsings", "OptimizeUsings", true);
             SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "CSOptimizeUsings", "EmbraceInRegion", false);
@@ -1552,7 +1552,7 @@ namespace StyleCop.ReSharper.Options
                 return false;
             }
 
-            if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "CSUpdateFileHeader", null))
+            if (GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "CSUpdateFileHeader", null))
             {
                 return false;
             }
