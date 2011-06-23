@@ -1813,7 +1813,7 @@ namespace StyleCop.CSharp
             int bodyIndex;
             string type = CsParser.GetPreprocessorDirectiveType(symbol, out bodyIndex);
             
-            if ((evaluate && configuration != null) || type == "elif")
+            if ((evaluate && configuration != null) || type == "elif" || type == "else")
             {
                 // Check the type of the symbol. If this is a conditional preprocessor symbol which resolves to false,
                 // then we need to advance past all of the code which is not in scope.
