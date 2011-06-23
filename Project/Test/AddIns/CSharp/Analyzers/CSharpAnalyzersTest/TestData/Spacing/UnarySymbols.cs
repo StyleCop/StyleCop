@@ -10,9 +10,17 @@ namespace CSharpAnalyzersTest.TestData.Spacing
         public void Method1()
         {
             bool boolVar = false;
-            if ( !boolVar)
+            if ( !boolVar) // invalid
             {
             }
+
+            Debug.Assert(!someCondition, "Some text"); // valid
+            Debug.Assert( !someCondition, "Some text"); // invalid
+            
+            //valid
+            Debug.Assert(
+            !someCondition,
+            "Some text");
         }
     }
 }

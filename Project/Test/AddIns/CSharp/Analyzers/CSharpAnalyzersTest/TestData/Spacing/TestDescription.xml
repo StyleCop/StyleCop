@@ -49,6 +49,7 @@
     </Settings>
     <ExpectedViolations>
       <Violation Section="Root.CSharpAnalyzersTest.TestData.Spacing.UnarySymbols.Method1" LineNumber="13" Rule="SymbolsMustBeSpacedCorrectly" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Spacing.UnarySymbols.Method1" LineNumber="18" Rule="SymbolsMustBeSpacedCorrectly" />
     </ExpectedViolations>
   </Test>
   <Test Name="CloseParenthesis">

@@ -1811,15 +1811,14 @@ namespace StyleCop.CSharp
                         {
                             this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.LineNumber, Rules.SymbolsMustBeSpacedCorrectly, tokenNode.Value.Text);
                         }
-                        else if (item.CsTokenType == CsTokenType.WhiteSpace || item.CsTokenType == CsTokenType.EndOfLine)
+                        else if (item.CsTokenType == CsTokenType.WhiteSpace)
                         {
                             continue;
                         }
 
                         if (item.CsTokenType != CsTokenType.OpenParenthesis &&
                             item.CsTokenType != CsTokenType.OpenSquareBracket && 
-                            item.CsTokenType != CsTokenType.WhiteSpace &&
-                            item.CsTokenType != CsTokenType.EndOfLine)
+                            item.CsTokenType != CsTokenType.WhiteSpace)
                         {
                             break;
                         }
