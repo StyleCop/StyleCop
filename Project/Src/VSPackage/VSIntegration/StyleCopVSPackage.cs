@@ -44,7 +44,7 @@ namespace StyleCop.VisualStudio
         /// <summary>
         /// Default of 2 days between update checks.
         /// </summary>
-        private const int DefaultDaysBetweenUpdateChecks = 2;
+        private const int DefaultDaysBetweenUpdateChecks = 7;
 
         /// <summary>
         /// This defaults to true.

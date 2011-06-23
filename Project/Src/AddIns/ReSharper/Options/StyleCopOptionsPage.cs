@@ -1826,7 +1826,7 @@ namespace StyleCop.ReSharper.Options
 
             if (newLocation != oldLocation)
             {
-                MessageBox.Show("These changes will require you to restart Visual Studio before they will take effect.", "StyleCop", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("These changes may require you to restart Visual Studio before they take effect.", "StyleCop", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 StyleCopOptions.Instance.SpecifiedAssemblyPath = newLocation;
             }
 

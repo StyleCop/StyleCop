@@ -79,8 +79,8 @@ namespace StyleCop.ReSharper.Options
             this.SpecifiedAssemblyPath = string.Empty;
             this.InsertTextIntoDocumentation = true;
             this.AutomaticallyCheckForUpdates = true;
-            this.AlwaysCheckForUpdatesWhenVisualStudioStarts = true;
-            this.DaysBetweenUpdateChecks = 2;
+            this.AlwaysCheckForUpdatesWhenVisualStudioStarts = false;
+            this.DaysBetweenUpdateChecks = 7;
             this.LastUpdateCheckDate = "1900-01-01";
             this.DashesCountInFileHeader = 116;
             this.UseExcludeFromStyleCopSetting = true;
