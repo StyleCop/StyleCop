@@ -197,7 +197,7 @@ namespace StyleCop.ReSharper.Options
             formatSettings.FORCE_FOR_BRACES_STYLE = ForceBraceStyle.ALWAYS_ADD;
             formatSettings.FORCE_FOREACH_BRACES_STYLE = ForceBraceStyle.ALWAYS_ADD;
             formatSettings.FORCE_IFELSE_BRACES_STYLE = ForceBraceStyle.ALWAYS_ADD;
-            formatSettings.FORCE_USING_BRACES_STYLE = ForceBraceStyle.ALWAYS_ADD;
+            formatSettings.FORCE_USING_BRACES_STYLE = ForceBraceStyle.ONLY_FOR_MULTILINE;
             formatSettings.FORCE_WHILE_BRACES_STYLE = ForceBraceStyle.ALWAYS_ADD;
             formatSettings.INDENT_ANONYMOUS_METHOD_BLOCK = false;
             formatSettings.INDENT_CASE_FROM_SWITCH = true;
@@ -705,7 +705,7 @@ namespace StyleCop.ReSharper.Options
                 return false;
             }
 
-            if (formatSettings.FORCE_USING_BRACES_STYLE != ForceBraceStyle.ALWAYS_ADD)
+            if (formatSettings.FORCE_USING_BRACES_STYLE != ForceBraceStyle.ONLY_FOR_MULTILINE)
             {
                 return false;
             }
