@@ -65,12 +65,13 @@ namespace StyleCop
         /// </summary>
         public void CheckForUpdate()
         {
-            var client = new WebClient();
-            client.DownloadStringCompleted += this.DownloadStringCompleted;
+            // Request the version number update info and take a maximum of 5 seconds before giving up.
+            // It used to be async but sometimes this took even longer to return.
+            var client = new StyleCopWebClient { Timeout = 5000 };
 
             try
             {
-                client.DownloadStringAsync(new Uri(VersionUrl));
+                this.ProcessResponse(client.DownloadString(new Uri(VersionUrl)));
             }
             catch
             {
@@ -134,36 +135,27 @@ namespace StyleCop
 
             return false;
         }
-
+        
         /// <summary>
-        /// This is called when the download of the version number is completed.
+        /// Processes the response from the version number checker.
         /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The DownloadStringCompletedEventArgs.</param>
-        private void DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
+        /// <param name="response">The string of the response.</param>
+        private void ProcessResponse(string response)
         {
-            try
+            if (string.IsNullOrEmpty(response))
             {
-                if (e.Error != null)
-                {
-                    return;
-                }
-
-                var autoUpdate = Serialization.CreateInstance<AutoUpdate>(e.Result);
-                var currentVersionNumber = this.GetType().Assembly.GetName().Version;
-                var newVersionNumber = autoUpdate.Version.CastAsSystemVersion();
-                var newerPlugInAvailable = newVersionNumber.CompareTo(currentVersionNumber) > 0;
-
-                if (newerPlugInAvailable && this.PromptUserForDownload(currentVersionNumber.ToString(), newVersionNumber.ToString(), autoUpdate.Message))
-                {
-                    // this will launch the default browser at the download url
-                    Process.Start(autoUpdate.DownloadUrl);
-                }
-            }
-            catch
-            {
-                // if anything at all goes wrong in here we just consume it and say nothing
                 return;
+            }
+
+            var autoUpdate = Serialization.CreateInstance<AutoUpdate>(response);
+            var currentVersionNumber = this.GetType().Assembly.GetName().Version;
+            var newVersionNumber = autoUpdate.Version.CastAsSystemVersion();
+            var newerPlugInAvailable = newVersionNumber.CompareTo(currentVersionNumber) > 0;
+
+            if (newerPlugInAvailable && this.PromptUserForDownload(currentVersionNumber.ToString(), newVersionNumber.ToString(), autoUpdate.Message))
+            {
+                // this will launch the default browser at the download url
+                Process.Start(autoUpdate.DownloadUrl);
             }
         }
 

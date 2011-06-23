@@ -191,6 +191,9 @@
     <Compile Include="SourceAnalyzerAttribute.cs" />
     <Compile Include="StyleCopLogLevel.cs" />
     <Compile Include="SourceParserAttribute.cs" />
+    <Compile Include="StyleCopWebClient.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="SyntaxException.cs" />
     <Compile Include="CodeFile.cs">
       <SubType>Code</SubType>

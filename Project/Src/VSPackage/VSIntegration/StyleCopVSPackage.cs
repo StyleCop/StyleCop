@@ -42,7 +42,7 @@ namespace StyleCop.VisualStudio
     public sealed class StyleCopVSPackage : Package, IDisposable, IVsShellPropertyEvents
     {
         /// <summary>
-        /// Default of 2 days between update checks.
+        /// Default days between update checks.
         /// </summary>
         private const int DefaultDaysBetweenUpdateChecks = 7;
 
