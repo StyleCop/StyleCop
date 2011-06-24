@@ -47,8 +47,8 @@
     <Feature Id='Feature_MSBuild'
              Title='MSBuild integration'
              Description='Files for setting up StyleCop integration with Microsoft MSBuild.'
-             Level='500' AllowAdvertise="no" Display="expand" InstallDefault="local" TypicalDefault="install" Absent="allow">
-      <ComponentGroupRef Id="MSBuild_Common" />
+             Level='1' AllowAdvertise="no" Display="expand" InstallDefault="local" TypicalDefault="install" Absent="allow">
+      <ComponentGroupRef Id="MSBuild_Common" />      
     </Feature>
 
     <InstallUISequence>
