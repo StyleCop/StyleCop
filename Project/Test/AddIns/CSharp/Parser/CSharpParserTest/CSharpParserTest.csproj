@@ -73,6 +73,7 @@
     <None Include="TestData\Assorted\InvalidEscapedName4.cs" />
     <None Include="TestData\Elements\PreProcessorDirectives.cs" />
     <None Include="TestData\Elements\PreProcessorDirectives2.cs" />
+    <None Include="TestData\Elements\PreProcessorDirectives3.cs" />
     <Compile Include="TestData\GeneratedCode\AccessModifiersMissing.Designer.cs">
     </Compile>
     <None Include="TestData\GeneratedCode\AccessModifiersMissing.g.cs" />
@@ -142,6 +143,7 @@
     <None Include="TestData\Assorted\InvalidEscapedName3ObjectModel.xml" />
     <None Include="TestData\Assorted\InvalidEscapedName4ObjectModel.xml" />
     <EmbeddedResource Include="TestData\Elements\PreProcessorDirectivesObjectModel.xml" />
+    <Content Include="TestData\Elements\PreProcessorDirectives3ObjectModel.xml" />
     <Content Include="TestData\Elements\PreProcessorDirectives2ObjectModel.xml" />
     <Content Include="TestData\Elements\TestDescription.xml" />
     <Content Include="TestData\ExtensionMethods\TestDescription.xml" />

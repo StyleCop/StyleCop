@@ -47,6 +47,11 @@ namespace StyleCop.CSharp
         /// Keeps track of conditional directives found in the code.
         /// </summary>
         private Stack<bool> conditionalDirectives = new Stack<bool>();
+        
+        /// <summary>
+        /// Keeps track of whether we're evaluating symbols as we enter nested #if statements
+        /// </summary>
+        private Stack<bool> evaluatingSymbolsStatus = new Stack<bool>();
 
         /// <summary>
         /// The list of defines in the file.
@@ -62,6 +67,11 @@ namespace StyleCop.CSharp
         /// The C# parser.
         /// </summary>
         private CsParser parser;
+
+        /// <summary>
+        /// Tracks if we are currently evaluating Symbols as we parse.
+        /// </summary>
+        private bool evaluatingSymbols = true;
 
         #endregion Private Fields
 
@@ -184,15 +194,13 @@ namespace StyleCop.CSharp
             // Loop until all the symbols have been read.
             while (true)
             {
-                bool alreadyAdded = false;
-
-                Symbol symbol = this.GetSymbol(symbols, sourceCode, configuration, true, out alreadyAdded);
+                Symbol symbol = this.GetSymbol(symbols, sourceCode, configuration);
                 if (symbol == null)
                 {
                     break;
                 }
-
-                if (!alreadyAdded)
+                
+                if (this.evaluatingSymbols || symbol.SymbolType == SymbolType.PreprocessorDirective)
                 {
                     symbols.Add(symbol);
                 }
@@ -208,8 +216,6 @@ namespace StyleCop.CSharp
         /// <param name="symbols">The List of symbols we've processed.</param>
         /// <param name="sourceCode">The source code containing the symbol.</param>
         /// <param name="configuration">The active configuration.</param>
-        /// <param name="evaluatePreprocessors">Indicates whether to evaluate preprocessor symbols.</param>
-        /// <param name="alreadyAdded">Return true if the Symbol has been added to the Symbol List already.</param>
         /// <returns>Returns the next symbol in the document.</returns>
         [SuppressMessage(
             "Microsoft.Maintainability",
@@ -219,15 +225,13 @@ namespace StyleCop.CSharp
             "Microsoft.Globalization",
             "CA1303:DoNotPassLiteralsAsLocalizedParameters",
             Justification = "The literals represent non-localizable C# operators.")]
-        internal Symbol GetSymbol(List<Symbol> symbols, SourceCode sourceCode, Configuration configuration, bool evaluatePreprocessors, out bool alreadyAdded)
+        internal Symbol GetSymbol(List<Symbol> symbols, SourceCode sourceCode, Configuration configuration)
         {
             Param.AssertNotNull(symbols, "symbols");
             Param.AssertNotNull(sourceCode, "sourceCode");
             Param.Ignore(configuration);
-            Param.Ignore(evaluatePreprocessors);
 
             Symbol symbol = null;
-            alreadyAdded = false;
 
             // Look at the next character from the buffer.
             char firstCharacter = this.codeReader.Peek();
@@ -282,7 +286,7 @@ namespace StyleCop.CSharp
                         break;
 
                     case '#':
-                        symbol = this.GetPreprocessorDirectiveSymbol(symbols, sourceCode, configuration, evaluatePreprocessors, out alreadyAdded);
+                        symbol = this.GetPreprocessorDirectiveSymbol(symbols, sourceCode, configuration);
                         break;
 
                     case '(':
@@ -1772,19 +1776,12 @@ namespace StyleCop.CSharp
         /// <param name="symbols">The List of symbols we've processed.</param>
         /// <param name="sourceCode">The source code.</param>
         /// <param name="configuration">The active configuration.</param>
-        /// <param name="evaluate">Indicates whether to evaluate the preprocessor symbol if it is a conditional
-        /// directive.</param>
-        /// <param name="alreadyAdded">Return true if the Symbol has been added to the Symbol List already.</param>
         /// <returns>Returns the next preprocessor directive keyword.</returns>
-        private Symbol GetPreprocessorDirectiveSymbol(
-            List<Symbol> symbols, SourceCode sourceCode, Configuration configuration, bool evaluate, out bool alreadyAdded)
+        private Symbol GetPreprocessorDirectiveSymbol(List<Symbol> symbols, SourceCode sourceCode, Configuration configuration)
         {
             Param.AssertNotNull(symbols, "symbols");
             Param.AssertNotNull(sourceCode, "sourceCode");
             Param.Ignore(configuration);
-            Param.Ignore(evaluate);
-
-            alreadyAdded = false;
 
             // Find the end of the current line.
             StringBuilder text = new StringBuilder();
@@ -1795,13 +1792,7 @@ namespace StyleCop.CSharp
             }
 
             // Create the code location.
-            CodeLocation location = new CodeLocation(
-                this.marker.Index,
-                this.marker.Index + text.Length - 1,
-                this.marker.IndexOnLine,
-                this.marker.IndexOnLine + text.Length - 1,
-                this.marker.LineNumber,
-                this.marker.LineNumber);
+            CodeLocation location = new CodeLocation(this.marker.Index, this.marker.Index + text.Length - 1, this.marker.IndexOnLine, this.marker.IndexOnLine + text.Length - 1, this.marker.LineNumber, this.marker.LineNumber);
 
             // Create the symbol.
             Symbol symbol = new Symbol(text.ToString(), SymbolType.PreprocessorDirective, location);
@@ -1810,15 +1801,9 @@ namespace StyleCop.CSharp
             this.marker.Index += text.Length;
             this.marker.IndexOnLine += text.Length;
 
-            int bodyIndex;
-            string type = CsParser.GetPreprocessorDirectiveType(symbol, out bodyIndex);
-            
-            if ((evaluate && configuration != null) || type == "elif" || type == "else")
-            {
-                // Check the type of the symbol. If this is a conditional preprocessor symbol which resolves to false,
-                // then we need to advance past all of the code which is not in scope.
-                this.CheckForConditionalCompilationDirective(symbols, sourceCode, symbol, configuration, out alreadyAdded);
-            }
+            // If this is a conditional preprocessor symbol which resolves to false,
+            // then we need to figure out which code is not in scope.
+            this.CheckForConditionalCompilationDirective(symbols, sourceCode, symbol, configuration);
 
             // Return the symbol.
             return symbol;
@@ -1832,101 +1817,41 @@ namespace StyleCop.CSharp
         /// <param name="sourceCode">The source code file containing this directive.</param>
         /// <param name="preprocessorSymbol">The symbol to check.</param>
         /// <param name="configuration">The active configuration.</param>
-        /// <param name="alreadyAdded">Return true if the Symbol has been added to the Symbol List already.</param>
-        private void CheckForConditionalCompilationDirective(
-            List<Symbol> symbols, SourceCode sourceCode, Symbol preprocessorSymbol, Configuration configuration, out bool alreadyAdded)
+        private void CheckForConditionalCompilationDirective(List<Symbol> symbols, SourceCode sourceCode, Symbol preprocessorSymbol, Configuration configuration)
         {
             Param.AssertNotNull(symbols, "symbols");
             Param.AssertNotNull(sourceCode, "sourceCode");
             Param.AssertNotNull(preprocessorSymbol, "preprocessorSymbol");
             Param.Ignore(configuration);
 
-            alreadyAdded = false;
-
             // Get the type of this preprocessor directive.
             int bodyIndex;
             string type = CsParser.GetPreprocessorDirectiveType(preprocessorSymbol, out bodyIndex);
-            if (type == "define")
+            switch (type)
             {
-                this.GetDefinePreprocessorDirective(sourceCode, preprocessorSymbol, bodyIndex);
-            }
-            else if (type == "undef")
-            {
-                this.GetUndefinePreprocessorDirective(sourceCode, preprocessorSymbol, bodyIndex);
-            }
-            else if (type == "endif")
-            {
-                // Pop this conditional directive off of the stack.
-                if (this.conditionalDirectives.Count == 0)
-                {
-                    throw new SyntaxException(sourceCode, preprocessorSymbol.LineNumber);
-                }
+                case "define":
+                    this.GetDefinePreprocessorDirective(sourceCode, preprocessorSymbol, bodyIndex);
+                    break;
 
-                this.conditionalDirectives.Pop();
-            }
-            else
-            {
-                // Extract an if, endif, or else directive.
-                bool skip;
+                case "undef":
+                    this.GetUndefinePreprocessorDirective(sourceCode, preprocessorSymbol, bodyIndex);
+                    break;
 
-                if (!this.GetIfElsePreprocessorDirectives(
-                    sourceCode, preprocessorSymbol, configuration, bodyIndex, type, out skip))
-                {
-                    // Check whether the code needs to be skipped.
-                    if (skip)
+                case "endif":
+                    if (this.conditionalDirectives.Count == 0)
                     {
-                        // We will skip all code between this conditional preprocessor symbol and the next one.
-                        int subConditionalPreprocessorCount = 0;
-                        while (true)
-                        {
-                            // Get the next symbol.
-                            Symbol symbol = this.GetSymbol(symbols, sourceCode, configuration, false, out alreadyAdded);
-                            if (symbol == null)
-                            {
-                                throw new SyntaxException(sourceCode, preprocessorSymbol.LineNumber);
-                            }
-
-                            // Check whether this is another preprocessor.
-                            if (symbol.SymbolType == SymbolType.PreprocessorDirective)
-                            {
-                                // Check to see if this is a conditional preprocessor symbol, which indicates that we have
-                                // reached the end of out-of-scope code.
-                                type = CsParser.GetPreprocessorDirectiveType(symbol, out bodyIndex);
-                                if (type == "if")
-                                {
-                                    ++subConditionalPreprocessorCount;
-                                }
-                                else if (subConditionalPreprocessorCount > 0 && type == "endif")
-                                {
-                                    --subConditionalPreprocessorCount;
-                                }
-                                else if (subConditionalPreprocessorCount == 0 &&
-                                    (type == "elif" || type == "else" || type == "endif"))
-                                {
-                                    // As we've already called GetSymbol above the codeReader has already moved past the #endif
-                                    // We need to add the first preprocessor here and then add the 2nd otherwise it'll get skipped completely.
-                                    symbols.Add(preprocessorSymbol);
-                                    symbols.Add(symbol);
-                                    alreadyAdded = true;
-                                    
-                                    // Break from this loop.
-                                    break;
-                                }
-                            }
-                        }
+                        throw new SyntaxException(sourceCode, preprocessorSymbol.LineNumber);
                     }
-                    else
-                    {
-                        // Indicate that this conditional directive has been entered.
-                        if (this.conditionalDirectives.Count == 0)
-                        {
-                            throw new SyntaxException(sourceCode, preprocessorSymbol.LineNumber);
-                        }
 
-                        this.conditionalDirectives.Pop();
-                        this.conditionalDirectives.Push(true);
-                    }
-                }
+                    this.conditionalDirectives.Pop();
+                    this.evaluatingSymbols = this.conditionalDirectives.Count == 0 || this.evaluatingSymbolsStatus.Pop();
+                    break;
+
+                case "else":
+                case "elif":
+                case "if":
+                    this.SetEvaluatingSymbolsForIfElifElse(sourceCode, preprocessorSymbol, configuration, bodyIndex, type);
+                    break;
             }
         }
 
@@ -1938,15 +1863,7 @@ namespace StyleCop.CSharp
         /// <param name="configuration">The current code configuration.</param>
         /// <param name="startIndex">The start index of the item within the symbols.</param>
         /// <param name="type">The type of the preprocessor symbol.</param>
-        /// <param name="skip">Returns a value indicating whether the item should be skipped.</param>
-        /// <returns>Returns a value indicating whether to ignore the item.</returns>
-        private bool GetIfElsePreprocessorDirectives(
-            SourceCode sourceCode,
-            Symbol preprocessorSymbol,
-            Configuration configuration,
-            int startIndex,
-            string type,
-            out bool skip)
+        private void SetEvaluatingSymbolsForIfElifElse(SourceCode sourceCode, Symbol preprocessorSymbol, Configuration configuration, int startIndex, string type)
         {
             Param.AssertNotNull(sourceCode, "sourceCode");
             Param.AssertNotNull(preprocessorSymbol, "preprocessorSymbol");
@@ -1954,69 +1871,83 @@ namespace StyleCop.CSharp
             Param.AssertGreaterThanOrEqualToZero(startIndex, "startIndex");
             Param.AssertValidString(type, "type");
 
-            bool ignore = false;
-
-            skip = false;
-            if (type == "if")
+            switch (type)
             {
-                // Add this directive to the stack and indicate that it has not been entered.
-                this.conditionalDirectives.Push(false);
-
-                // Extract the body of the directive.
-                Expression body = CodeParser.GetConditionalPreprocessorBodyExpression(
-                    this.parser, sourceCode, preprocessorSymbol, startIndex);
-                if (body == null)
-                {
-                    throw new SyntaxException(sourceCode, preprocessorSymbol.LineNumber);
-                }
-
-                // Determine whether the code under this directive needs to be skipped because it is out of scope.
-                skip = !this.EvaluateConditionalDirectiveExpression(sourceCode, body, configuration);
-            }
-            else if (type == "elif")
-            {
-                if (this.conditionalDirectives.Count == 0)
-                {
-                    throw new SyntaxException(sourceCode, preprocessorSymbol.LineNumber);
-                }
-
-                bool entered = this.conditionalDirectives.Peek();
-                if (entered)
-                {
-                    skip = true;
-                }
-                else
-                {
-                    // Extract the body of the directive.
-                    Expression body = CodeParser.GetConditionalPreprocessorBodyExpression(
-                        this.parser, sourceCode, preprocessorSymbol, startIndex);
-                    if (body != null)
+                case "if":
+                    this.evaluatingSymbolsStatus.Push(this.evaluatingSymbols);
+                    if (this.evaluatingSymbols)
                     {
-                        // Determine whether the code under this directive needs to be skipped because it is out of scope.
-                        skip = !this.EvaluateConditionalDirectiveExpression(sourceCode, body, configuration);
+                        // Extract the body of the directive.
+                        Expression body = CodeParser.GetConditionalPreprocessorBodyExpression(this.parser, sourceCode, preprocessorSymbol, startIndex);
+                        if (body == null)
+                        {
+                            throw new SyntaxException(sourceCode, preprocessorSymbol.LineNumber);
+                        }
+
+                        // Determine whether the code under this directive needs to be skipped.
+                        this.evaluatingSymbols = this.EvaluateConditionalDirectiveExpression(sourceCode, body, configuration);
                     }
-                }
-            }
-            else if (type == "else")
-            {
-                if (this.conditionalDirectives.Count == 0)
-                {
-                    throw new SyntaxException(sourceCode, preprocessorSymbol.LineNumber);
-                }
 
-                bool entered = this.conditionalDirectives.Peek();
-                if (entered)
-                {
-                    skip = true;
-                }
-            }
-            else
-            {
-                // This is not a conditional preprocessor directive.
-                ignore = true;
-            }
+                    this.conditionalDirectives.Push(this.evaluatingSymbols);
+                    break;
 
-            return ignore;
+                case "elif":
+                    {
+                        if (this.conditionalDirectives.Count == 0)
+                        {
+                            throw new SyntaxException(sourceCode, preprocessorSymbol.LineNumber);
+                        }
+
+                        bool conditionalValue = this.conditionalDirectives.Peek();
+                
+                        // If the #if we are part of was 'true' then we stop evaluating.
+                        if (conditionalValue)
+                        {
+                            this.evaluatingSymbols = false;
+                        }
+                        else
+                        {
+                            // If we were evaluatingSymbols before this #if started then check again now.
+                            if (this.evaluatingSymbolsStatus.Peek())
+                            {
+                                // Extract the body of the directive.
+                                Expression body = CodeParser.GetConditionalPreprocessorBodyExpression(this.parser, sourceCode, preprocessorSymbol, startIndex);
+                                if (body == null)
+                                {
+                                    throw new SyntaxException(sourceCode, preprocessorSymbol.LineNumber);
+                                }
+
+                                // Determine whether the code under this directive needs to be skipped.
+                                this.evaluatingSymbols = this.EvaluateConditionalDirectiveExpression(sourceCode, body, configuration);
+
+                                if (this.evaluatingSymbols)
+                                {
+                                    this.conditionalDirectives.Pop();
+                                    this.conditionalDirectives.Push(true);
+                                }
+                            }
+                        }
+                    }
+
+                    break;
+
+                case "else":
+                    if (this.conditionalDirectives.Count == 0)
+                    {
+                        throw new SyntaxException(sourceCode, preprocessorSymbol.LineNumber);
+                    }
+
+                    // If we were evaluatingSymbols before this #if started then check again now.
+                    if (this.evaluatingSymbolsStatus.Peek())
+                    {
+                        bool conditionalValue = this.conditionalDirectives.Peek();
+
+                        // If the #if we are part of was 'true' then we stop evaluating.
+                        this.evaluatingSymbols = !conditionalValue;
+                    }
+
+                    break;
+            }
         }
 
         /// <summary>

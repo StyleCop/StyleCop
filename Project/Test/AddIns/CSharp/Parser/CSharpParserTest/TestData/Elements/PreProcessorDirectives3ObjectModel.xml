@@ -1,0 +1,75 @@
+﻿<StyleCopCsParserObjectModel>
+  <Element Name="Root" Type="DocumentRoot">
+    <Element Name="StyleCop.CSharpParserTest.TestData.Elements.PreProcessorDirectives3" Type="Namespace">
+      <Element Name="A" Type="Class" />
+      <Element Name="B" Type="Class" />
+      <Element Name="C" Type="Class" />
+      <Element Name="D" Type="Class" />
+      <Element Name="E" Type="Class" />
+      <Element Name="F" Type="Class">
+        <Element Name="F1" Type="Method" />
+      </Element>
+      <Element Name="G" Type="Class">
+        <Element Name="BarE" Type="Method">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="var" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="e" Type="LiteralExpression" />
+                <Expression Text="&quot;&quot;" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="ReturnStatement">
+            <Expression Text="1" Type="LiteralExpression" />
+          </Statement>
+        </Element>
+        <Element Name="BarF" Type="Method">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="var" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="s" Type="LiteralExpression" />
+                <Expression Text="&quot;&quot;" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="ReturnStatement">
+            <Expression Text="2" Type="LiteralExpression" />
+          </Statement>
+        </Element>
+      </Element>
+      <Element Name="H" Type="Class">
+        <Element Name="BarB" Type="Method">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="var" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="s" Type="LiteralExpression" />
+                <Expression Text="&quot;&quot;" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="ReturnStatement">
+            <Expression Text="1" Type="LiteralExpression" />
+          </Statement>
+        </Element>
+        <Element Name="BarC" Type="Method">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="var" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="s" Type="LiteralExpression" />
+                <Expression Text="&quot;&quot;" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="ReturnStatement">
+            <Expression Text="2" Type="LiteralExpression" />
+          </Statement>
+        </Element>
+      </Element>
+    </Element>
+    <Element Name="I" Type="Class" />
+  </Element>
+</StyleCopCsParserObjectModel>

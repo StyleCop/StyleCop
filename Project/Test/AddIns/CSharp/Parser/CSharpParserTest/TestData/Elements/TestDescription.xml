@@ -14,6 +14,7 @@
     <TestCodeFile TestObjectModel="true">Method.cs</TestCodeFile>
     <TestCodeFile TestObjectModel="true">PreProcessorDirectives.cs</TestCodeFile>
     <TestCodeFile TestObjectModel="true">PreProcessorDirectives2.cs</TestCodeFile>
+    <TestCodeFile TestObjectModel="true">PreProcessorDirectives3.cs</TestCodeFile>
     <TestCodeFile TestObjectModel="true">Property.cs</TestCodeFile>
     <TestCodeFile TestObjectModel="true">Indexer.cs</TestCodeFile>
     <TestCodeFile TestObjectModel="true">Constructor.cs</TestCodeFile>
