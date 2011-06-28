@@ -798,8 +798,7 @@ namespace StyleCop.CSharp
                     case SymbolType.SingleLineComment:
                     case SymbolType.PreprocessorDirective:
                     case SymbolType.Dot:
-                    case SymbolType.QuestionMark:
-                    case SymbolType.Async:
+                    case SymbolType.QuestionMark:                    
                         // Ignore these symbol types and continue.
                         break;
 
@@ -2938,17 +2937,19 @@ namespace StyleCop.CSharp
                                 modifierType = CsTokenType.Fixed;
                                 break;
 
-                            case SymbolType.Async:
-                                modifierType = CsTokenType.Async;
-                                break;
-
                             case SymbolType.Other:
-                                if (symbol.Text != "partial")
+                                switch (symbol.Text)
                                 {
-                                    goto default;
+                                    case "partial":
+                                        modifierType = CsTokenType.Partial;
+                                        break;
+                                    case "async":
+                                        modifierType = CsTokenType.Async;
+                                        break;
+                                    default:
+                                        goto default;
                                 }
 
-                                modifierType = CsTokenType.Partial;
                                 break;
 
                             default:

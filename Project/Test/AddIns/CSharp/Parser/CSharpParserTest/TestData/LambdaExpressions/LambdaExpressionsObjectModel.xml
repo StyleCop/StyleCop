@@ -314,6 +314,79 @@
           </Statement>
         </Element>
       </Element>
+      <Element Name="SyncAsyncType" Type="Enum">
+        <Element Name="sync" Type="EnumItem" />
+        <Element Name="async" Type="EnumItem" />
+        <Element Name="asynclikesync" Type="EnumItem" />
+        <Element Name="multipleAsync" Type="EnumItem" />
+      </Element>
+    </Element>
+    <Element Name="ConsoleApplication1" Type="Namespace">
+      <Element Name="Program" Type="Class">
+        <Element Name="async" Type="Field">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="bool" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="async" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+        </Element>
+        <Element Name="Async" Type="Property">
+          <Element Name="get" Type="Accessor" />
+          <Element Name="set" Type="Accessor" />
+        </Element>
+        <Element Name="SomeMethod" Type="Method">
+          <Statement Type="ExpressionStatement">
+            <Expression Type="AssignmentExpression">
+              <Expression Type="MemberAccessExpression">
+                <Expression Text="this" Type="LiteralExpression" />
+                <Expression Text="async" Type="LiteralExpression" />
+              </Expression>
+              <Expression Text="async" Type="LiteralExpression" />
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="AssignmentExpression">
+              <Expression Type="MemberAccessExpression">
+                <Expression Text="this" Type="LiteralExpression" />
+                <Expression Text="Async" Type="LiteralExpression" />
+              </Expression>
+              <Expression Text="async" Type="LiteralExpression" />
+            </Expression>
+          </Statement>
+        </Element>
+        <Element Name="SomeOtherMethod" Type="Method" />
+        <Element Name="SomeOtherOther" Type="Method">
+          <Statement Type="IfStatement">
+            <Expression Type="RelationalExpression">
+              <Expression Text="asyncStuff" Type="LiteralExpression" />
+              <Expression Type="MemberAccessExpression">
+                <Expression Text="AsyncStuff" Type="LiteralExpression" />
+                <Expression Text="async" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+            <Statement Type="ExpressionStatement">
+              <Expression Type="MethodInvocationExpression">
+                <Expression Type="MemberAccessExpression">
+                  <Expression Text="Console" Type="LiteralExpression" />
+                  <Expression Text="WriteLine" Type="LiteralExpression" />
+                </Expression>
+                <Expression Text="&quot;blah&quot;" Type="LiteralExpression" />
+              </Expression>
+            </Statement>
+          </Statement>
+        </Element>
+        <Element Name="Main" Type="Method" />
+      </Element>
+      <Element Name="Async" Type="Enum">
+        <Element Name="stuff" Type="EnumItem" />
+      </Element>
+      <Element Name="AsyncStuff" Type="Enum">
+        <Element Name="sync" Type="EnumItem" />
+        <Element Name="async" Type="EnumItem" />
+      </Element>
     </Element>
   </Element>
 </StyleCopCsParserObjectModel>

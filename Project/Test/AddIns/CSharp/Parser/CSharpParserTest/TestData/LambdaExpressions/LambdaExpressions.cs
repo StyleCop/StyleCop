@@ -53,4 +53,44 @@ namespace CSharpParserTest.TestData
             RemoteInteger result = await (remoteInt1 / remoteInt2);
         }
     }
+
+    public enum SyncAsyncType
+    {
+        sync,
+        async,
+        asynclikesync,
+        multipleAsync
+    }
 }
+
+namespace ConsoleApplication1
+{
+    class Program
+    {
+        private bool async;
+ 
+        public bool Async { get; set; }
+ 
+        public void SomeMethod(bool async) { this.async = async; this.Async = async;  }
+ 
+        public void SomeOtherMethod(Async async) { }
+ 
+        public void SomeOtherOther(AsyncStuff asyncStuff) { if (asyncStuff == AsyncStuff.async) Console.WriteLine("blah"); }
+ 
+        static void Main(string[] args)
+        {
+        }
+    }
+ 
+    public enum Async
+    {
+        stuff
+    }
+ 
+    public enum AsyncStuff
+    {
+        sync,
+        async
+    }
+}
+ 

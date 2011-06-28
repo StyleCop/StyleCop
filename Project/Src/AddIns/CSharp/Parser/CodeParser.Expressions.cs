@@ -307,23 +307,14 @@ namespace StyleCop.CSharp
                 {
                     case SymbolType.Await:
                         expression = this.GetAwaitExpression(parentReference, unsafeCode);
-                        break;
+                        break;                    
 
-                    case SymbolType.Async:
+                    case SymbolType.Other:
                         if (this.IsDelegateExpression())
                         {
                             expression = this.GetAnonymousMethodExpression(parentReference, unsafeCode);
                         }
-                        else
-                        {
-                            // We must be a Lambda expression then.
-                            expression = this.GetLambdaExpression(parentReference, unsafeCode);
-                        }
-
-                        break;
-
-                    case SymbolType.Other:
-                        if (this.IsLambdaExpression())
+                        else if (this.IsLambdaExpression())
                         {
                             expression = this.GetLambdaExpression(parentReference, unsafeCode);
                         }
@@ -3055,9 +3046,9 @@ namespace StyleCop.CSharp
 
             // First symbol could be 'async' for asynchronous delegates.
             Symbol nextSymbol = this.symbols.Peek(1);
-            if (nextSymbol.SymbolType == SymbolType.Async)
+            if (nextSymbol.SymbolType == SymbolType.Other && nextSymbol.Text == "async")
             {
-                this.tokens.Add(this.GetToken(CsTokenType.Async, SymbolType.Async, expressionReference));
+                this.tokens.Add(this.GetToken(CsTokenType.Async, SymbolType.Other, expressionReference));
                 anonymousMethod.Async = true;
             }
 
@@ -3128,7 +3119,7 @@ namespace StyleCop.CSharp
             Symbol symbol = this.symbols.Peek(index);
 
             // move past optional async keyword
-            if (symbol.SymbolType == SymbolType.Async)
+            if (symbol.SymbolType == SymbolType.Other && symbol.Text == "async")
             {
                 index += 2;
                 symbol = this.symbols.Peek(index);
@@ -3152,7 +3143,7 @@ namespace StyleCop.CSharp
             Symbol symbol = this.symbols.Peek(index);
 
             // move past optional async keyword
-            if (symbol.SymbolType == SymbolType.Async)
+            if (symbol.SymbolType == SymbolType.Other && symbol.Text == "async")
             {
                 index += 2;
                 symbol = this.symbols.Peek(index);
@@ -3183,10 +3174,6 @@ namespace StyleCop.CSharp
                         }
                     }
                 }
-            }
-            else if (symbol.SymbolType != SymbolType.Other)
-            {
-                Debug.Fail("IsLambdaExpression called incorrectly.");
             }
 
             // Move past the current symbol, which is either an "other" symbol or a closing parenthesis.
@@ -3237,9 +3224,9 @@ namespace StyleCop.CSharp
             
             // First symbol could be 'async' for asynchronous anonymous functions.
             Symbol nextSymbol = this.symbols.Peek(1);
-            if (nextSymbol.SymbolType == SymbolType.Async)
+            if (nextSymbol.SymbolType == SymbolType.Other && nextSymbol.Text == "async")
             {
-                this.tokens.Add(this.GetToken(CsTokenType.Async, SymbolType.Async, expressionReference));
+                this.tokens.Add(this.GetToken(CsTokenType.Async, SymbolType.Other, expressionReference));
                 lambdaExpression.Async = true;
             }
 
