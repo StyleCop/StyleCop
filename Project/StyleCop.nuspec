@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>StyleCop</id>
+    <version>4.5.12.0</version>
+    <authors>Andy Reeves</authors>
+    <description>Core StyleCop libraries to create custom rules</description>
+    <language>en-US</language>
+    <projectUrl>http://stylecop.codeplex.com</projectUrl>
+    <licenseUrl>http://stylecop.codeplex.com/license</licenseUrl>
+  </metadata>
+  <files>
+    <file src="BuildDrop\Release\StyleCop.dll" target="lib\net35"/>
+    <file src="BuildDrop\Release\StyleCop.CSharp.dll" target="lib\net35"/>
+  </files>
+</package>

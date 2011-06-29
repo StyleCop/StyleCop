@@ -178,6 +178,9 @@ IF "%ERRORLEVEL%" == "0" DEL /F /Q %PROJECTROOT%\%BuildLogFile%.err
 CALL %STTOOLS%\Scripts\DeleteEmptyFile.cmd %PROJECTROOT%\%BuildLogFile%.wrn
 IF "%ERRORLEVEL%" == "1" GOTO SUMMARY
 
+REM Build NuGet package
+CALL %STTOOLS%\Scripts\CreateNuGetPackage.cmd
+
 REM Build Setup Solution
 :WIXBUILD
 IF EXIST %PROJECTROOT%\src\WixSetup\%BuildLogFile%.wrn DEL /F /Q %PROJECTROOT%\src\WixSetup\%BuildLogFile%.wrn
