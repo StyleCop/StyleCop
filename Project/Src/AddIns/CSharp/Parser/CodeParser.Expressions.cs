@@ -305,12 +305,12 @@ namespace StyleCop.CSharp
             {
                 switch (symbol.SymbolType)
                 {
-                    case SymbolType.Await:
-                        expression = this.GetAwaitExpression(parentReference, unsafeCode);
-                        break;                    
-
                     case SymbolType.Other:
-                        if (this.IsDelegateExpression())
+                        if (this.IsAwaitExpression())
+                        {
+                            expression = this.GetAwaitExpression(parentReference, unsafeCode);
+                        }
+                        else if (this.IsDelegateExpression())
                         {
                             expression = this.GetAnonymousMethodExpression(parentReference, unsafeCode);
                         }
@@ -2315,7 +2315,7 @@ namespace StyleCop.CSharp
 
             // The first symbol must be the await keyword.
             Node<CsToken> firstTokenNode = this.tokens.InsertLast(
-                this.GetToken(CsTokenType.Await, SymbolType.Await, parentReference, expressionReference));
+                this.GetToken(CsTokenType.Await, SymbolType.Other, parentReference, expressionReference));
 
             // Get the inner expression.
             Expression innerExpression = this.GetNextExpression(ExpressionPrecedence.None, expressionReference, unsafeCode);
@@ -3107,6 +3107,23 @@ namespace StyleCop.CSharp
             // Return the expression.
             expressionReference.Target = anonymousMethod;
             return anonymousMethod;
+        }
+
+        /// <summary>
+        /// Determines whether the next expression is an 'await' expression.
+        /// </summary>
+        /// <returns>Returns true if the next expression is an await expression.</returns>
+        private bool IsAwaitExpression()
+        {
+            int index = 1;
+            Symbol symbol = this.symbols.Peek(index);
+            
+            if (symbol.SymbolType == SymbolType.Other && symbol.Text == "await")
+            {
+                return true;
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -4149,7 +4166,7 @@ namespace StyleCop.CSharp
                     symbol.SymbolType == SymbolType.Throw ||
                     symbol.SymbolType == SymbolType.Else ||
                     symbol.SymbolType == SymbolType.Lambda ||
-                    symbol.SymbolType == SymbolType.Await ||
+                    (symbol.SymbolType == SymbolType.Other && symbol.Text == "await") ||
                     symbol.Text == "select")
                 {
                     unary = true;

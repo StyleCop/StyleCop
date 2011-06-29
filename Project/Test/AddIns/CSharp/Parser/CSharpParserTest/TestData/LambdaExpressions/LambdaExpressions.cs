@@ -92,5 +92,12 @@ namespace ConsoleApplication1
         sync,
         async
     }
+
+    public enum AsyncStuff
+    {
+        sync,
+        async,
+        await
+    }
 }
  

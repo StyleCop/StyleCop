@@ -183,11 +183,16 @@ namespace StyleCop.CSharp
                                 }
                             }
 
-                            statement = this.ParseOtherStatement(parentReference, unsafeCode, variables);
-                            break;
+                            if (symbol.Text == "await")
+                            {
+                                statement = this.ParseAwaitStatement(parentReference, unsafeCode);
+                                if (statement != null)
+                                {
+                                    break;
+                                }
+                            }
 
-                        case SymbolType.Await:
-                            statement = this.ParseAwaitStatement(parentReference, unsafeCode);
+                            statement = this.ParseOtherStatement(parentReference, unsafeCode, variables);
                             break;
 
                         case SymbolType.OpenCurlyBracket:
@@ -2164,7 +2169,7 @@ namespace StyleCop.CSharp
             var statementReference = new Reference<ICodePart>();
 
             // Move past the await keyword.
-            CsToken firstToken = this.GetToken(CsTokenType.Await, SymbolType.Await, parentReference, statementReference);
+            CsToken firstToken = this.GetToken(CsTokenType.Await, SymbolType.Other, parentReference, statementReference);
             Node<CsToken> firstTokenNode = this.tokens.InsertLast(firstToken);
             
             // Get the expression.

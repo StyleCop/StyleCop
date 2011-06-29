@@ -372,9 +372,6 @@ namespace StyleCop.CSharp
                 case "as":
                     return SymbolType.As;
 
-                case "await":
-                    return SymbolType.Await;
-
                 case "base":
                     return SymbolType.Base;
 

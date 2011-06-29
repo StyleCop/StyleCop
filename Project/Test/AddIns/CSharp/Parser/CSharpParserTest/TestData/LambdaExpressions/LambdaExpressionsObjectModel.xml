@@ -387,6 +387,11 @@
         <Element Name="sync" Type="EnumItem" />
         <Element Name="async" Type="EnumItem" />
       </Element>
+      <Element Name="AsyncStuff" Type="Enum">
+        <Element Name="sync" Type="EnumItem" />
+        <Element Name="async" Type="EnumItem" />
+        <Element Name="await" Type="EnumItem" />
+      </Element>
     </Element>
   </Element>
 </StyleCopCsParserObjectModel>
