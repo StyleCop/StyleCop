@@ -1,1 +1,1 @@
-CALL %STTOOLS%\NuGet\NuGet.exe pack %PROJECTROOT%\StyleCop.nuspec -o %PROJECTROOT%\BuildDrop
+CALL %STTOOLS%\NuGet\NuGet.exe pack %PROJECTROOT%\StyleCop.nuspec -o %1 -BasePath %1 -Version %2

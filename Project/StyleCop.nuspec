@@ -10,7 +10,7 @@
     <licenseUrl>http://stylecop.codeplex.com/license</licenseUrl>
   </metadata>
   <files>
-    <file src="BuildDrop\Release\StyleCop.dll" target="lib\net35"/>
-    <file src="BuildDrop\Release\StyleCop.CSharp.dll" target="lib\net35"/>
+    <file src="StyleCop.dll" target="lib\net35"/>
+    <file src="StyleCop.CSharp.dll" target="lib\net35"/>
   </files>
 </package>

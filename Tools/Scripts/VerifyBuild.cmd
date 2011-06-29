@@ -179,7 +179,7 @@ CALL %STTOOLS%\Scripts\DeleteEmptyFile.cmd %PROJECTROOT%\%BuildLogFile%.wrn
 IF "%ERRORLEVEL%" == "1" GOTO SUMMARY
 
 REM Build NuGet package
-CALL %STTOOLS%\Scripts\CreateNuGetPackage.cmd
+CALL %STTOOLS%\Scripts\CreateNuGetPackage.cmd %PROJECTROOT%\BuildDrop\%BuildTarget% %AssemblyVersion%
 
 REM Build Setup Solution
 :WIXBUILD
