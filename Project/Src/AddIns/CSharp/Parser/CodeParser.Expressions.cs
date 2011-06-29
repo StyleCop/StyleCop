@@ -306,11 +306,7 @@ namespace StyleCop.CSharp
                 switch (symbol.SymbolType)
                 {
                     case SymbolType.Other:
-                        if (this.IsAwaitExpression())
-                        {
-                            expression = this.GetAwaitExpression(parentReference, unsafeCode);
-                        }
-                        else if (this.IsDelegateExpression())
+                        if (this.IsDelegateExpression())
                         {
                             expression = this.GetAnonymousMethodExpression(parentReference, unsafeCode);
                         }
@@ -321,6 +317,10 @@ namespace StyleCop.CSharp
                         else if (this.IsQueryExpression(unsafeCode))
                         {
                             expression = this.GetQueryExpression(parentReference, unsafeCode);
+                        }
+                        else if (this.IsAwaitExpression())
+                        {
+                            expression = this.GetAwaitExpression(parentReference, unsafeCode);
                         }
 
                         // If the expression is still null now, this is just a regular 'other' expression.
@@ -3120,6 +3120,31 @@ namespace StyleCop.CSharp
             
             if (symbol.SymbolType == SymbolType.Other && symbol.Text == "await")
             {
+                index++;
+
+                // Advance to the next non-whitespace symbol.
+                for (; true; ++index)
+                {
+                    symbol = this.symbols.Peek(index);
+                    if (symbol == null)
+                    {
+                        return false;
+                    }
+
+                    if (symbol.SymbolType != SymbolType.EndOfLine &&
+                        symbol.SymbolType != SymbolType.WhiteSpace &&
+                        symbol.SymbolType != SymbolType.MultiLineComment &&
+                        symbol.SymbolType != SymbolType.SingleLineComment)
+                    {
+                        break;
+                    }
+                }
+
+                if (symbol.SymbolType == SymbolType.CloseParenthesis || symbol.SymbolType == SymbolType.Semicolon)
+                {
+                    return false;
+                }
+
                 return true;
             }
 

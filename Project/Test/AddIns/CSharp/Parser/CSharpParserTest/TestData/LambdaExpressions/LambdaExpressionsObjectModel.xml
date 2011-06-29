@@ -393,5 +393,147 @@
         <Element Name="await" Type="EnumItem" />
       </Element>
     </Element>
+    <Element Name="ConsoleApplication2" Type="Namespace">
+      <Element Name="Program" Type="Class">
+        <Element Name="async" Type="Field">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="bool" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="async" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+        </Element>
+        <Element Name="await" Type="Field">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="bool" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="await" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+        </Element>
+        <Element Name="Async" Type="Property">
+          <Element Name="get" Type="Accessor" />
+          <Element Name="set" Type="Accessor" />
+        </Element>
+        <Element Name="Await" Type="Property">
+          <Element Name="get" Type="Accessor" />
+          <Element Name="set" Type="Accessor" />
+        </Element>
+        <Element Name="SomeMethodAsync" Type="Method">
+          <Statement Type="ExpressionStatement">
+            <Expression Type="AssignmentExpression">
+              <Expression Type="MemberAccessExpression">
+                <Expression Text="this" Type="LiteralExpression" />
+                <Expression Text="async" Type="LiteralExpression" />
+              </Expression>
+              <Expression Text="async" Type="LiteralExpression" />
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="AssignmentExpression">
+              <Expression Type="MemberAccessExpression">
+                <Expression Text="this" Type="LiteralExpression" />
+                <Expression Text="Async" Type="LiteralExpression" />
+              </Expression>
+              <Expression Text="async" Type="LiteralExpression" />
+            </Expression>
+          </Statement>
+        </Element>
+        <Element Name="SomeMethodAwait" Type="Method">
+          <Statement Type="ExpressionStatement">
+            <Expression Type="AssignmentExpression">
+              <Expression Type="MemberAccessExpression">
+                <Expression Text="this" Type="LiteralExpression" />
+                <Expression Text="await" Type="LiteralExpression" />
+              </Expression>
+              <Expression Text="await" Type="LiteralExpression" />
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="AssignmentExpression">
+              <Expression Type="MemberAccessExpression">
+                <Expression Text="this" Type="LiteralExpression" />
+                <Expression Text="Await" Type="LiteralExpression" />
+              </Expression>
+              <Expression Text="await" Type="LiteralExpression" />
+            </Expression>
+          </Statement>
+        </Element>
+        <Element Name="SomeOtherMethodAsync" Type="Method" />
+        <Element Name="SomeOtherMethodAwait" Type="Method" />
+        <Element Name="SomeOtherOtherAsync" Type="Method">
+          <Statement Type="IfStatement">
+            <Expression Type="RelationalExpression">
+              <Expression Text="asyncStuff" Type="LiteralExpression" />
+              <Expression Type="MemberAccessExpression">
+                <Expression Text="AsyncStuff" Type="LiteralExpression" />
+                <Expression Text="async" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+            <Statement Type="ExpressionStatement">
+              <Expression Type="MethodInvocationExpression">
+                <Expression Type="MemberAccessExpression">
+                  <Expression Text="Console" Type="LiteralExpression" />
+                  <Expression Text="WriteLine" Type="LiteralExpression" />
+                </Expression>
+                <Expression Text="&quot;blah&quot;" Type="LiteralExpression" />
+              </Expression>
+            </Statement>
+          </Statement>
+        </Element>
+        <Element Name="SomeOtherOtherAwait" Type="Method">
+          <Statement Type="IfStatement">
+            <Expression Type="RelationalExpression">
+              <Expression Text="asyncStuff" Type="LiteralExpression" />
+              <Expression Type="MemberAccessExpression">
+                <Expression Text="AsyncStuff" Type="LiteralExpression" />
+                <Expression Text="await" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+            <Statement Type="ExpressionStatement">
+              <Expression Type="MethodInvocationExpression">
+                <Expression Type="MemberAccessExpression">
+                  <Expression Text="Console" Type="LiteralExpression" />
+                  <Expression Text="WriteLine" Type="LiteralExpression" />
+                </Expression>
+                <Expression Text="&quot;blah&quot;" Type="LiteralExpression" />
+              </Expression>
+            </Statement>
+          </Statement>
+        </Element>
+        <Element Name="AnAsyncMethod" Type="Method">
+          <Statement Type="AwaitStatement">
+            <Expression Type="MethodInvocationExpression">
+              <Expression Type="MemberAccessExpression">
+                <Expression Type="MemberAccessExpression">
+                  <Expression Text="Task" Type="LiteralExpression" />
+                  <Expression Text="Factory" Type="LiteralExpression" />
+                </Expression>
+                <Expression Text="StartNew" Type="LiteralExpression" />
+              </Expression>
+              <Expression Type="LambdaExpression">
+                <Statement Type="BlockStatement" />
+              </Expression>
+            </Expression>
+          </Statement>
+        </Element>
+        <Element Name="Main" Type="Method" />
+      </Element>
+      <Element Name="Async" Type="Enum">
+        <Element Name="stuff" Type="EnumItem" />
+      </Element>
+      <Element Name="Await" Type="Enum">
+        <Element Name="stuff" Type="EnumItem" />
+      </Element>
+      <Element Name="AsyncStuff" Type="Enum">
+        <Element Name="sync" Type="EnumItem" />
+        <Element Name="async" Type="EnumItem" />
+        <Element Name="await" Type="EnumItem" />
+      </Element>
+    </Element>
   </Element>
 </StyleCopCsParserObjectModel>

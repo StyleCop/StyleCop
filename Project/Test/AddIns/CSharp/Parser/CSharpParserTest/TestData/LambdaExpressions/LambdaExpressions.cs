@@ -100,4 +100,52 @@ namespace ConsoleApplication1
         await
     }
 }
+
+namespace ConsoleApplication2
+{
+    class Program
+    {
+        private bool async;
+        private bool await;
+
+        public bool Async { get; set; }
+        public bool Await { get; set; }
+
+        public void SomeMethodAsync(bool async) { this.async = async; this.Async = async;  }
+        public void SomeMethodAwait(bool await) { this.await = await; this.Await = await; }
+
+        public void SomeOtherMethodAsync(Async async) { }
+        public void SomeOtherMethodAwait(Await await) { }
+
+        public void SomeOtherOtherAsync(AsyncStuff asyncStuff) { if (asyncStuff == AsyncStuff.async) Console.WriteLine("blah"); }
+        public void SomeOtherOtherAwait(AsyncStuff asyncStuff) { if (asyncStuff == AsyncStuff.await) Console.WriteLine("blah"); }
+
+        public async void AnAsyncMethod()
+        {
+            await Task.Factory.StartNew(() => { });
+        }
+
+        static void Main(string[] args)
+        {
+        }
+    }
+
+    public enum Async
+    {
+        stuff
+    }
+
+    public enum Await
+    {
+        stuff
+    }
+
+    public enum AsyncStuff
+    {
+        sync,
+        async,
+        await
+    }
+}
+
  
