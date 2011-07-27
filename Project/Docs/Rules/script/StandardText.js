@@ -1,6 +1,6 @@
 
 var styleCopName = "StyleCop";
-var styleCopVersion = "4.5";
+var styleCopVersion = "4.6";
 
 function StyleCopNameAndVersion()
 {
