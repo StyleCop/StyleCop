@@ -51,7 +51,7 @@ namespace StyleCop.ReSharper.BulbItems.Documentation
         {
             var element = Utils.GetElementAtCaret(solution, textControl);
 
-            var declaration = element.GetContainingElement<IMethodDeclaration>(true) ?? (IDeclaration)element.GetContainingElement<IConstructorDeclaration>(true);
+            var declaration = element.GetContainingNode<IMethodDeclaration>(true) ?? (IDeclaration)element.GetContainingNode<IConstructorDeclaration>(true);
 
             if (declaration != null)
             {

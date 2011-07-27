@@ -24,6 +24,7 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
     using System.Collections.Generic;
 
     using JetBrains.DocumentModel;
+    using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Daemon;
     using JetBrains.ReSharper.Feature.Services.Bulbs;
 
@@ -35,8 +36,8 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
     /// <summary>
     /// DisableHighlightingActionProvider for StyleCop rules.
     /// </summary>
-    [DisableHighlightingActionProvider]
-    public class ChangeStyleCopRule : IDisableHighlightingActionProvider
+    [CustomHighlightingActionProvider]
+    public class ChangeStyleCopRule : ICustomHighlightingActionProvider
     {
         #region Implemented Interfaces
 
@@ -54,23 +55,25 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
         /// <returns>
         /// The available actions.
         /// </returns>
-        public IEnumerable<IDisableHighlightingAction> Actions(IHighlighting highlighting, DocumentRange highlightingRange)
+        public IEnumerable<ICustomHighlightingAction> GetActions(IHighlighting highlighting, ISolution solution, DocumentRange highlightingRange)
         {
             var violation = highlighting as StyleCopViolationBase;
 
             if (violation == null)
             {
-                return JB::JetBrains.Util.EmptyArray<IDisableHighlightingAction>.Instance;
+                return JB::JetBrains.Util.EmptyArray<ICustomHighlightingAction>.Instance;
             }
 
             var ruleID = violation.CheckId;
             var highlightID = HighlightingRegistering.GetHighlightID(ruleID);
 
-            return new IDisableHighlightingAction[] { new ChangeStyleCopRuleAction { HighlightID = highlightID, Text = "Inspection Options for \"" + violation.ToolTip + "\"" } };
+            return new ICustomHighlightingAction[] { new ChangeStyleCopRuleAction { HighlightID = highlightID, Text = "Inspection Options for \"" + violation.ToolTip + "\"" } };
         }
 
         #endregion
 
         #endregion
+
+       
     }
 }

@@ -24,6 +24,7 @@ namespace StyleCop.ReSharper.BulbItems.Framework
     using System;
 
     using JetBrains.Application;
+    using JetBrains.DocumentManagers;
     using JetBrains.DocumentModel;
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Intentions;
@@ -33,7 +34,7 @@ namespace StyleCop.ReSharper.BulbItems.Framework
     #endregion
 
     /// <summary>
-    /// BulbItem Implementation for ReSharper 5.0 style build items.
+    /// BulbItem Implementation for ReSharper 6.0 style build items.
     /// </summary>
     public abstract class V5BulbItemImpl : BulbItemImpl
     {
@@ -134,7 +135,7 @@ namespace StyleCop.ReSharper.BulbItems.Framework
         /// <returns>
         /// The execute transaction.
         /// </returns>
-        protected override Action<ITextControl> ExecuteTransaction(ISolution solution, JB::JetBrains.Application.Progress.IProgressIndicator progress)
+        protected override Action<ITextControl> ExecutePsiTransaction(ISolution solution, JB::JetBrains.Application.Progress.IProgressIndicator progress)
         {
             return delegate(ITextControl textControl)
                 {
@@ -142,7 +143,7 @@ namespace StyleCop.ReSharper.BulbItems.Framework
 
                     using (DocumentManager.GetInstance(solution).EnsureWritable())
                     {
-                        PsiManager.GetInstance(solution).DoTransaction(() => this.ExecuteWriteLockableTransaction(solution, textControl));
+                        PsiManager.GetInstance(solution).DoTransaction(() => this.ExecuteWriteLockableTransaction(solution, textControl),"Code cleanup");
                     }
                 };
         }

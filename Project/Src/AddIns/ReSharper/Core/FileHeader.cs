@@ -423,7 +423,7 @@ namespace StyleCop.ReSharper.Core
                     // existing header missing so add on a new line for our new header
                     newHeader += Environment.NewLine;
 
-                    var node = file.ToTreeNode().FirstChild as IWhitespaceNode;
+                    var node = file.FirstChild as IWhitespaceNode;
                     var insertNewLine = true;
                     while (node != null)
                     {
@@ -443,7 +443,7 @@ namespace StyleCop.ReSharper.Core
 
                     newCommentNode = (ICommentNode)CSharpTokenType.END_OF_LINE_COMMENT.Create(new JB::JetBrains.Text.StringBuffer(newHeader), new TreeOffset(0), new TreeOffset(newHeader.Length));
 
-                    LowLevelModificationUtil.AddChildBefore(file.ToTreeNode().FirstChild, new ITreeNode[] { newCommentNode });
+                    LowLevelModificationUtil.AddChildBefore(file.FirstChild, new ITreeNode[] { newCommentNode });
                 }
                 else
                 {

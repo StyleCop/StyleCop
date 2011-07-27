@@ -52,7 +52,7 @@ namespace StyleCop.ReSharper.BulbItems.Maintainability
 
             foreach (var tokenNode in tokensForLine)
             {
-                var parenthesizedExpressionNode = tokenNode.GetContainingElement<IParenthesizedExpressionNode>(true);
+                var parenthesizedExpressionNode = tokenNode.GetContainingNode<IParenthesizedExpression>(true);
                 MaintainabilityRules.RemoveParenthesisFromNode(parenthesizedExpressionNode);
             }
         }

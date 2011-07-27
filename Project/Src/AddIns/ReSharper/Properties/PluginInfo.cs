@@ -18,7 +18,7 @@
 
 #region Using Directives
 
-using JetBrains.UI.Application.PluginSupport;
+using JetBrains.Application.PluginSupport;
 
 using StyleCop.ReSharper.Properties;
 

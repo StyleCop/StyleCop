@@ -49,7 +49,7 @@ namespace StyleCop.ReSharper.BulbItems.Documentation
         {
             var element = Utils.GetElementAtCaret(solution, textControl);
 
-            new DocumentationRules().SwapDocCommentNodeToCommentNode(element.ToTreeNode());
+            new DocumentationRules().SwapDocCommentNodeToCommentNode(element);
         }
 
         #endregion

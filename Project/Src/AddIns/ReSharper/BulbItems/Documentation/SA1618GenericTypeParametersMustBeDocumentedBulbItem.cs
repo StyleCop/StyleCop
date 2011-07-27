@@ -50,7 +50,7 @@ namespace StyleCop.ReSharper.BulbItems.Documentation
         {
             var element = Utils.GetElementAtCaret(solution, textControl);
 
-            var declaration = element.GetContainingElement<IDeclaration>(true);
+            var declaration = element.GetContainingNode<IDeclaration>(true);
 
             new DocumentationRules().InsertMissingTypeParamElement(declaration);
         }

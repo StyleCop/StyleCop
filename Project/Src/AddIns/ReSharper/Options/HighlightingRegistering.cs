@@ -25,7 +25,7 @@ namespace StyleCop.ReSharper.Options
     using System.Text.RegularExpressions;
 
     using JetBrains.Application;
-    using JetBrains.ComponentModel;
+    using JetBrains.Application.Components;
     using JetBrains.ReSharper.Daemon;
 
     using StyleCop.ReSharper.Core;
@@ -35,8 +35,8 @@ namespace StyleCop.ReSharper.Options
     /// <summary>
     /// Registers StyleCop Highlighters to allow their severity to be set.
     /// </summary>
-    [ShellComponentImplementation(ProgramConfigurations.ALL)]
-    public class HighlightingRegistering : IShellComponent
+    [ShellComponent(ProgramConfigurations.ALL)]
+    public class HighlightingRegistering
     {
         #region Constants and Fields
 

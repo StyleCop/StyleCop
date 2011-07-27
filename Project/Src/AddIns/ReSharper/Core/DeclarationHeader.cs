@@ -30,6 +30,7 @@ namespace StyleCop.ReSharper.Core
     using JetBrains.Application;
     using JetBrains.ReSharper.Psi;
     using JetBrains.ReSharper.Psi.CSharp;
+    using JetBrains.ReSharper.Psi.CSharp.Impl;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
     using JetBrains.ReSharper.Psi.ExtensionsAPI.Tree;
     using JetBrains.ReSharper.Psi.Tree;
@@ -203,13 +204,13 @@ namespace StyleCop.ReSharper.Core
             var file = declaration.GetContainingFile();
             using (WriteLockCookie.Create(file.IsPhysical()))
             {
-                var declarationTreeNode = declaration.ToTreeNode();
+                var declarationTreeNode = declaration;
 
                 var middleText = StyleCopOptions.Instance.UseSingleLineDeclarationComments ? string.Empty : Environment.NewLine;
 
                 var emptyDocHeader = string.Format("<summary>{0}</summary>", middleText);
 
-                if (!(declarationTreeNode is IMultipleDeclarationMemberNode))
+                if (!(declarationTreeNode is IMultipleDeclarationMember))
                 {
                     emptyDocHeader = CreateDocumentationForElement((IDocCommentBlockOwnerNode)declaration, docConfig);
                     emptyDocHeader = emptyDocHeader.Substring(0, emptyDocHeader.Length - Environment.NewLine.Length);
@@ -309,7 +310,7 @@ namespace StyleCop.ReSharper.Core
         /// </param>
         private static void CollectExceptions(ITreeNode node, IList<IType> exceptions)
         {
-            if (node is IThrowStatementNode)
+            if (node is IThrowStatement)
             {
                 var throwStatement = (IThrowStatement)node;
                 var expression = throwStatement.Exception;
@@ -343,7 +344,7 @@ namespace StyleCop.ReSharper.Core
                 var body = accessorDeclaration.Body;
                 if (body != null)
                 {
-                    CollectExceptions(body.ToTreeNode(), exceptions);
+                    CollectExceptions(body, exceptions);
                 }
             }
         }
@@ -362,7 +363,7 @@ namespace StyleCop.ReSharper.Core
         /// </returns>
         private static string CreateDocumentationForElement(IDocCommentBlockOwnerNode owner, DocumentationRulesConfiguration docConfig)
         {
-            IElement element = owner;
+            ITreeNode element = owner;
             var declaredElement = (element is IDeclaration) ? ((IDeclaration)element).DeclaredElement : null;
             var text = new StringBuilder();
             text.AppendLine("<summary>");
@@ -404,7 +405,7 @@ namespace StyleCop.ReSharper.Core
             }
 
             var typeParametersOwner = element as ITypeParametersOwner;
-            if (typeParametersOwner != null && (typeParametersOwner.TypeParameters.Length > 0))
+            if (typeParametersOwner != null && (typeParametersOwner.TypeParameters.Count > 0))
             {
                 foreach (var typeParameter in typeParametersOwner.TypeParameters)
                 {
@@ -438,7 +439,7 @@ namespace StyleCop.ReSharper.Core
             var functionDeclaration = element as ICSharpFunctionDeclaration;
             if (functionDeclaration != null && functionDeclaration.Body != null)
             {
-                CollectExceptions(functionDeclaration.Body.ToTreeNode(), exceptions);
+                CollectExceptions(functionDeclaration.Body, exceptions);
             }
 
             var propertyDeclaration = element as IPropertyDeclaration;
@@ -461,7 +462,7 @@ namespace StyleCop.ReSharper.Core
 
             foreach (var exception in exceptions)
             {
-                var presentableName = exception.GetPresentableName(CSharpLanguageService.CSHARP);
+                var presentableName = exception.GetPresentableName(CSharpLanguage.Instance);
 
                 var a = Utils.StripClassName(presentableName);
                 var b = exception.ToString();
@@ -482,9 +483,9 @@ namespace StyleCop.ReSharper.Core
         /// </returns>
         private static XmlNode GetXmlNodeForDeclaration(IDeclaration declaration)
         {
-            var declarationTreeNode = declaration.ToTreeNode();
+            var declarationTreeNode = declaration;
 
-            var treeNode = declarationTreeNode is IMultipleDeclarationMemberNode ? declarationTreeNode.Parent.FirstChild : declarationTreeNode.FirstChild;
+            var treeNode = declarationTreeNode is IMultipleDeclarationMember ? declarationTreeNode.Parent.FirstChild : declarationTreeNode.FirstChild;
 
             XmlNode node;
             var text = new StringBuilder();

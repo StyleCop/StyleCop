@@ -51,13 +51,13 @@ namespace StyleCop.ReSharper.BulbItems.Readability
         {
             var line = Utils.GetLineNumberForTextControl(textControl);
             var element = Utils.GetElementAtCaret(solution, textControl);
-            var containingElement = element.GetContainingElement<IUsingDirectiveNode>(true);
+            var containingElement = element.GetContainingNode<IUsingDirective>(true);
 
             Utils.FormatLines(solution, textControl.Document, line.Minus1(), line.Plus1());
 
             if (containingElement != null)
             {
-                new SpacingRules().EqualsMustBeSpacedCorrectly(containingElement.ToTreeNode());
+                new SpacingRules().EqualsMustBeSpacedCorrectly(containingElement);
             }
         }
 

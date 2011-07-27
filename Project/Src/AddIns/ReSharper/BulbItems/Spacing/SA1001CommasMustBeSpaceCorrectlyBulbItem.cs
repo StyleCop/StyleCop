@@ -51,18 +51,18 @@ namespace StyleCop.ReSharper.BulbItems.Spacing
             Utils.FormatLineForTextControl(solution, textControl);
 
             var element = Utils.GetElementAtCaret(solution, textControl);
-            var containingBlock = element.GetContainingElement<IBlockNode>(true);
+            var containingBlock = element.GetContainingNode<IBlock>(true);
 
             if (containingBlock != null)
             {
-                new SpacingRules().CommasMustBeSpacedCorrectly(containingBlock.ToTreeNode());
+                new SpacingRules().CommasMustBeSpacedCorrectly(containingBlock);
             }
 
-            var fieldDeclarationNode = element.GetContainingElement<IFieldDeclarationNode>(true);
+            var fieldDeclarationNode = element.GetContainingNode<IFieldDeclaration>(true);
 
             if (fieldDeclarationNode != null)
             {
-                new SpacingRules().CommasMustBeSpacedCorrectly(fieldDeclarationNode.ToTreeNode());
+                new SpacingRules().CommasMustBeSpacedCorrectly(fieldDeclarationNode);
             }
         }
 

@@ -32,6 +32,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
     using JetBrains.ReSharper.Psi.CSharp.Parsing;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
     using JetBrains.ReSharper.Psi.CSharp.Tree.Extensions;
+    using JetBrains.ReSharper.Psi.DeclaredElements;
     using JetBrains.ReSharper.Psi.ExtensionsAPI;
     using JetBrains.ReSharper.Psi.Impl.Types;
     using JetBrains.ReSharper.Psi.Tree;
@@ -270,7 +271,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
 
             if (fixSingleLineCommentsOption)
             {
-                this.SwapDocCommentsToSingleLineComments(file.ToTreeNode().FirstChild);
+                this.SwapDocCommentsToSingleLineComments(file.FirstChild);
             }
 
             this.UpdateFileHeader(options, file);
@@ -288,11 +289,11 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// </returns>
         public DocumentationRulesConfiguration GetDocumentationRulesConfig(ICSharpFile file)
         {
-            var hashCode = file.ProjectFile.GetHashCode();
+            var hashCode = file.GetSourceFile().GetHashCode();
 
             if (!this.docConfigFiles.ContainsKey(hashCode))
             {
-                var a = new DocumentationRulesConfiguration(file.ProjectFile);
+                var a = new DocumentationRulesConfiguration(file.GetSourceFile());
                 this.docConfigFiles.Add(hashCode, a);
             }
 
@@ -340,7 +341,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
             var fileHeader = new FileHeader(file);
             var docConfig = this.GetDocumentationRulesConfig(file);
 
-            fileHeader.FileName = file.ProjectFile.Location.Name;
+            fileHeader.FileName = file.GetSourceFile().ToProjectFile().Location.Name;
             fileHeader.CompanyName = docConfig.CompanyName;
             fileHeader.CopyrightText = docConfig.Copyright;
             fileHeader.Summary = Utils.GetSummaryText(file);
@@ -368,7 +369,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// </param>
         public void InsertFileName(ICSharpFile file)
         {
-            var fileName = file.ProjectFile.Location.Name;
+            var fileName = file.GetSourceFile().ToProjectFile().Location.Name;
 
             var fileHeader = new FileHeader(file) { FileName = fileName };
             fileHeader.Update();
@@ -889,11 +890,11 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// <param name="typeParameters">
         /// The type parameters.
         /// </param>
-        private static void ReorderTypeParams(XmlNode xmlNode, ITypeParameter[] typeParameters)
+        private static void ReorderTypeParams(XmlNode xmlNode, IList<ITypeParameter> typeParameters)
         {
             XmlNode refChild = null;
 
-            for (var i = 0; i < typeParameters.Length; i++)
+            for (var i = 0; i < typeParameters.Count; i++)
             {
                 var typeParameter = typeParameters[i];
                 var node = xmlNode.SelectSingleNode(string.Format("//typeparam[@name='{0}']", typeParameter.ShortName));
@@ -928,7 +929,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
             {
                 if (typeDeclaration.DeclaredElement != null)
                 {
-                    if (typeDeclaration.DeclaredElement.TypeParameters.Length > 0)
+                    if (typeDeclaration.DeclaredElement.TypeParameters.Count > 0)
                     {
                         this.InsertMissingTypeParamElement(typeDeclaration);
                     }
@@ -1075,7 +1076,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
             if (removeReturnTagOnVoidElementsOption && !Utils.IsRuleSuppressed(methodDeclaration, StyleCopRules.SA1617))
             {
                 // Remove the <returns> if the return type is void
-                if (declaredTypeFromCLRName != null && declaredTypeFromCLRName.GetCLRName() == "System.Void")
+                if (declaredTypeFromCLRName != null && declaredTypeFromCLRName.GetClrName().FullName == "System.Void")
                 {
                     this.RemoveReturnsElement(methodDeclaration);
                 }
@@ -1084,7 +1085,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
             if (insertMissingReturnTagOption && !Utils.IsRuleSuppressed(methodDeclaration, StyleCopRules.SA1615))
             {
                 // Insert the <returns> if the return type is not void and it was missing
-                if (declaredTypeFromCLRName != null && declaredTypeFromCLRName.GetCLRName() != "System.Void")
+                if (declaredTypeFromCLRName != null && declaredTypeFromCLRName.GetClrName().FullName != "System.Void")
                 {
                     this.InsertReturnsElement(methodDeclaration);
                 }
@@ -1312,7 +1313,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
             // The idea here is to load the existing header into our FileHeader object
             // The FileHeader object will ensure that the format of the header is correct even if we're not changing its contents
             // Thus we'll swap it out if its changed at the end.
-            var fileName = file.ProjectFile.Location.Name;
+            var fileName = file.GetSourceFile().ToProjectFile().Location.Name;
             var updateFileHeaderOption = options.SA1633SA1641UpdateFileHeader;
 
             if (updateFileHeaderOption == UpdateFileHeaderStyle.Ignore)

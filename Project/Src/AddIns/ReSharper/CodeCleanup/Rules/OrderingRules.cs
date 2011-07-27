@@ -47,7 +47,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// <param name="declarationNode">
         /// The node to use.
         /// </param>
-        public static void CheckAccessorOrder(IAccessorOwnerDeclarationNode declarationNode)
+        public static void CheckAccessorOrder(IAccessorOwnerDeclaration declarationNode)
         {
             var accessorDeclarations = declarationNode.AccessorDeclarations;
 
@@ -66,7 +66,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
                 return;
             }
 
-            var newAccessor = firstAccessor.CopyElementWithResolve();
+            var newAccessor = firstAccessor.CopyWithResolve();
 
             declarationNode.AddAccessorDeclarationAfter(newAccessor, secondAccessor);
             declarationNode.RemoveAccessorDeclaration(firstAccessor);
@@ -175,17 +175,17 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
             var propertyAccessorsMustFollowOrder = options.SA1212PropertyAccessorsMustFollowOrder;
             var eventAccessorsMustFollowOrder = options.SA1213EventAccessorsMustFollowOrder;
 
-            if (declaration is IIndexerDeclarationNode && propertyAccessorsMustFollowOrder)
+            if (declaration is IIndexerDeclaration && propertyAccessorsMustFollowOrder)
             {
-                CheckAccessorOrder(declaration as IIndexerDeclarationNode);
+                CheckAccessorOrder(declaration as IIndexerDeclaration);
             }
-            else if (declaration is IPropertyDeclarationNode && propertyAccessorsMustFollowOrder)
+            else if (declaration is IPropertyDeclaration && propertyAccessorsMustFollowOrder)
             {
-                CheckAccessorOrder(declaration as IPropertyDeclarationNode);
+                CheckAccessorOrder(declaration as IPropertyDeclaration);
             }
-            else if (declaration is IEventDeclarationNode && eventAccessorsMustFollowOrder)
+            else if (declaration is IEventDeclaration && eventAccessorsMustFollowOrder)
             {
-                CheckAccessorOrder(declaration as IEventDeclarationNode);
+                CheckAccessorOrder(declaration as IEventDeclaration);
             }
         }
 

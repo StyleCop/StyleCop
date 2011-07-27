@@ -49,7 +49,7 @@ namespace StyleCop.ReSharper.BulbItems.Readability
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
             var element = Utils.GetElementAtCaret(solution, textControl);
-            var invocationExpression = element.GetContainingElement<IInvocationExpression>(true);
+            var invocationExpression = element.GetContainingNode<IInvocationExpression>(true);
 
             if (invocationExpression != null)
             {

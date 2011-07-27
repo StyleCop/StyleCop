@@ -21,6 +21,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
     #region Using Directives
 
     using JetBrains.ProjectModel;
+    using JetBrains.ReSharper.Psi;
 
     using StyleCop.ReSharper.Core;
 
@@ -47,9 +48,9 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// <param name="file">
         /// The file to get the configuration for.
         /// </param>
-        public DocumentationRulesConfiguration(IProjectFile file)
+        public DocumentationRulesConfiguration(IPsiSourceFile file)
         {
-            this.settings = new StyleCopSettings(StyleCopCoreFactory.Create()).GetSettings(file);
+            this.settings = new StyleCopSettings(StyleCopCoreFactory.Create()).GetSettings(file.ToProjectFile());
 
             // Default for this property is false
             var property = this.GetStyleCopRuleProperty<BooleanProperty>("IgnorePrivates");

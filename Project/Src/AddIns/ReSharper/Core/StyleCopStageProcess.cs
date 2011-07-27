@@ -27,6 +27,7 @@ namespace StyleCop.ReSharper.Core
 
     using JetBrains.ReSharper.Daemon;
     using JetBrains.ReSharper.Psi;
+    using JetBrains.ReSharper.Psi.CSharp;
     using JetBrains.ReSharper.Psi.ExtensionsAPI.Tree;
 
     using StyleCop.ReSharper.Diagnostics;
@@ -121,7 +122,7 @@ namespace StyleCop.ReSharper.Core
                     styleCopRunner = new StyleCopRunnerInt();
                 }
 
-                styleCopRunner.Execute(this.daemonProcess.ProjectFile, this.daemonProcess.Document);
+                styleCopRunner.Execute(this.daemonProcess.SourceFile.ToProjectFile(), this.daemonProcess.Document);
 
                 var violations = (from info in styleCopRunner.ViolationHighlights let range = info.Range let highlighting = info.Highlighting select new HighlightingInfo(range, highlighting)).ToList();
 
@@ -133,6 +134,14 @@ namespace StyleCop.ReSharper.Core
             }
 
             StyleCopTrace.Out();
+        }
+
+        public IDaemonProcess DaemonProcess
+        {
+            get
+            {
+                return this.daemonProcess;
+            }
         }
 
         #endregion
@@ -167,17 +176,17 @@ namespace StyleCop.ReSharper.Core
         {
             var manager = PsiManager.GetInstance(this.daemonProcess.Solution);
 
-            if (this.daemonProcess.ProjectFile == null)
+            if (this.daemonProcess.SourceFile == null)
             {
                 return false;
             }
 
-            if (!this.daemonProcess.ProjectFile.IsValid)
+            if (!this.daemonProcess.SourceFile.ToProjectFile().IsValid())
             {
                 return false;
             }
 
-            var file = manager.GetPsiFile(this.daemonProcess.ProjectFile, PsiLanguageType.GetByProjectFile(this.daemonProcess.ProjectFile));
+            var file = this.daemonProcess.SourceFile.GetPsiFile(CSharpLanguage.Instance);
 
             if (file == null)
             {

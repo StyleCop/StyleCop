@@ -30,7 +30,7 @@ namespace StyleCop.ReSharper.Violations
     /// <summary>
     /// Highlighting class for a StyleCop Violation set to severity level Do Not Show.
     /// </summary>
-    [StaticSeverityHighlighting(ViolationSeverity)]
+    [StaticSeverityHighlighting(ViolationSeverity, "a")]
     public class StyleCopViolationDoNotShow : StyleCopViolationBase
     {
         #region Constants and Fields

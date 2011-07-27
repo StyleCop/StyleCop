@@ -69,6 +69,13 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
             new[] { "Decimal", "System.Decimal", "decimal" }
         };
 
+        private readonly IShellLocks shellLocks;
+
+        public ReadabilityRules(IShellLocks shellLocks)
+        {
+            this.shellLocks = shellLocks;
+        }
+
         #region Public Methods
 
         /// <summary>
@@ -88,7 +95,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
                 var startOfTokensToFormat = startOfTokensToDelete.GetPrevToken();
 
                 var openCurlyBracketTokenNode = Utils.GetFirstNonWhitespaceTokenToRight(commentTokenNode);
-                var newCommentTokenNode = commentTokenNode.CopyElement(null);
+                var newCommentTokenNode = commentTokenNode.Copy(null);
                 var tokenNodeToInsertAfter = Utils.GetFirstNewLineTokenToRight(openCurlyBracketTokenNode);
                 LowLevelModificationUtil.AddChildAfter(tokenNodeToInsertAfter, new[] { newCommentTokenNode });
                 LowLevelModificationUtil.AddChildAfter(newCommentTokenNode, newCommentTokenNode.InsertNewLineAfter());
@@ -106,7 +113,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// <param name="startRegionNode">
         /// The node to move.
         /// </param>
-        public static void MoveRegionInsideNextOpenCurlyBracket(IStartRegionNode startRegionNode)
+        public static void MoveRegionInsideNextOpenCurlyBracket(IStartRegion startRegionNode)
         {
             using (WriteLockCookie.Create(true))
             {
@@ -120,29 +127,29 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
                 var startOfTokensToFormat = startOfTokensToDelete.GetPrevToken();
 
                 var endRegionNode = startRegionNode.EndRegion;
-                var newStartRegionNode = startRegionNode.CopyElement(null);
+                var newStartRegion = startRegionNode.Copy(null);
                 var firstNonWhitespaceAfterBracket = Utils.GetFirstNonWhitespaceTokenToRight(newLocationTokenNode);
 
-                LowLevelModificationUtil.AddChildBefore(firstNonWhitespaceAfterBracket, new[] { newStartRegionNode });
+                LowLevelModificationUtil.AddChildBefore(firstNonWhitespaceAfterBracket, new[] { newStartRegion });
 
-                newStartRegionNode.ToTreeNode().InsertNewLineAfter();
+                newStartRegion.InsertNewLineAfter();
 
                 LowLevelModificationUtil.DeleteChildRange(startOfTokensToDelete, endOfTokensToDelete);
-                var endOfTokensToFormat = (IElement)newStartRegionNode;
+                var endOfTokensToFormat = newStartRegion;
 
                 if (endRegionNode != null)
                 {
                     startOfTokensToDelete = Utils.GetFirstNewLineTokenToLeft(endRegionNode.NumberSign);
                     endOfTokensToDelete = Utils.GetFirstNewLineTokenToRight(endRegionNode.NumberSign);
 
-                    var newEndRegionNode = endRegionNode.CopyElement(null);
+                    var newEndRegionNode = endRegionNode.Copy(null);
                     var newLineToken = Utils.GetFirstNonWhitespaceTokenToLeft(endRegionNode.NumberSign);
                     LowLevelModificationUtil.AddChildBefore(newLineToken, new[] { newEndRegionNode });
 
                     newEndRegionNode.InsertNewLineAfter();
 
                     LowLevelModificationUtil.DeleteChildRange(startOfTokensToDelete, endOfTokensToDelete);
-                    endOfTokensToFormat = newLineToken;
+                    endOfTokensToFormat = (IStartRegion)newLineToken;
                 }
 
                 CSharpFormatterHelper.FormatterInstance.Format(startOfTokensToFormat, endOfTokensToFormat);
@@ -221,7 +228,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
 
             if (invokedExpression != null)
             {
-                var referenceExpressionNode = invokedExpression as IReferenceExpressionNode;
+                var referenceExpressionNode = invokedExpression as IReferenceExpression;
 
                 if (referenceExpressionNode != null)
                 {
@@ -233,7 +240,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
                         {
                             var methodName = referenceExpressionNode.NameIdentifier.Name;
 
-                            var typeDeclaration = invocationExpression.GetContainingElement<ICSharpTypeDeclaration>(true);
+                            var typeDeclaration = invocationExpression.GetContainingNode<ICSharpTypeDeclaration>(true);
 
                             if (typeDeclaration != null)
                             {
@@ -280,42 +287,42 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         {
             for (var currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
             {
-                var typeArgumentListNode = currentNode as ITypeArgumentListNode;
+                var typeArgumentListNode = currentNode as ITypeArgumentList;
                 if (typeArgumentListNode != null)
                 {
                     SwapGenericDeclarationToBuiltInType(typeArgumentListNode);
                 }
                 else
                 {
-                    var methodDeclarationNode = currentNode as IMethodDeclarationNode;
+                    var methodDeclarationNode = currentNode as IMethodDeclaration;
                     if (methodDeclarationNode != null)
                     {
                         SwapReturnTypeToBuiltInType(methodDeclarationNode);
                     }
                     else
                     {
-                        var variableDeclaration = currentNode as IVariableDeclarationNode;
+                        var variableDeclaration = currentNode as IVariableDeclaration;
                         if (variableDeclaration != null)
                         {
                             SwapVariableDeclarationToBuiltInType(variableDeclaration);
                         }
                         else
                         {
-                            var creationExpressionNode = currentNode as IObjectCreationExpressionNode;
+                            var creationExpressionNode = currentNode as IObjectCreationExpression;
                             if (creationExpressionNode != null)
                             {
                                 SwapObjectCreationToBuiltInType(creationExpressionNode);
                             }
                             else
                             {
-                                var arrayCreationNode = currentNode as IArrayCreationExpressionNode;
+                                var arrayCreationNode = currentNode as IArrayCreationExpression;
                                 if (arrayCreationNode != null)
                                 {
                                     SwapArrayCreationToBuiltInType(arrayCreationNode);
                                 }
                                 else
                                 {
-                                    var referenceExpressionNode = currentNode as IReferenceExpressionNode;
+                                    var referenceExpressionNode = currentNode as IReferenceExpression;
                                     if (referenceExpressionNode != null)
                                     {
                                         SwapReferenceExpressionToBuiltInType(referenceExpressionNode);
@@ -357,47 +364,47 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
 
             if (dontPlaceRegionsWithinElements)
             {
-                this.DoNotPlaceRegionsWithinElements(file.ToTreeNode().FirstChild);
+                this.DoNotPlaceRegionsWithinElements(file.FirstChild);
             }
 
             if (blockStatementsMustNotContainEmbeddedComments)
             {
-                this.BlockStatementsMustNotContainEmbeddedComments(file.ToTreeNode().FirstChild);
+                this.BlockStatementsMustNotContainEmbeddedComments(file.FirstChild);
             }
 
             if (blockStatementsMustNotContainEmbeddedRegions)
             {
-                this.BlockStatementsMustNotContainEmbeddedRegions(file.ToTreeNode().FirstChild);
+                this.BlockStatementsMustNotContainEmbeddedRegions(file.FirstChild);
             }
 
             if (codeMustNotContainEmptyStatements)
             {
-                this.CodeMustNotContainEmptyStatements(file.ToTreeNode().FirstChild);
+                this.CodeMustNotContainEmptyStatements(file.FirstChild);
             }
 
             if (codeMustNotContainEmptyRegions)
             {
-                this.CodeMustNotContainEmptyRegions(file.ToTreeNode().FirstChild);
+                this.CodeMustNotContainEmptyRegions(file.FirstChild);
             }
 
             if (useStringEmptyForEmptyStrings)
             {
-                this.ReplaceEmptyStringsWithStringDotEmpty(file.ToTreeNode().FirstChild);
+                this.ReplaceEmptyStringsWithStringDotEmpty(file.FirstChild);
             }
 
             if (useBuiltInTypeAlias)
             {
-                SwapToBuiltInTypeAlias(file.ToTreeNode().FirstChild);
+                SwapToBuiltInTypeAlias(file.FirstChild);
             }
 
             if (commentsMustContainText)
             {
-                RemoveEmptyComments(file.ToTreeNode().FirstChild);
+                RemoveEmptyComments(file.FirstChild);
             }
 
             if (dontPrefixCallsWithBaseUnlessLocalImplementationExists)
             {
-                this.DoNotPrefixCallsWithBaseUnlessLocalImplementationExists(file.ToTreeNode().FirstChild);
+                this.DoNotPrefixCallsWithBaseUnlessLocalImplementationExists(file.FirstChild);
             }
 
             StyleCopTrace.Out();
@@ -462,7 +469,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// <param name="localVariableDeclaration">
         /// The local variable declaration.
         /// </param>
-        private static void ProcessLocalVariableDeclaration(ILocalVariableDeclarationNode localVariableDeclaration)
+        private static void ProcessLocalVariableDeclaration(ILocalVariableDeclaration localVariableDeclaration)
         {
             var multipleDeclaration = MultipleLocalVariableDeclarationNodeNavigator.GetByDeclarator(localVariableDeclaration);
 
@@ -503,14 +510,14 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
             {
                 using (WriteLockCookie.Create(true))
                 {
-                    var fileIsCSharp30 = Utils.IsCSharp30(arrayCreationExpression.GetProjectFile());
+                    var fileIsCSharp30 = arrayCreationExpression.IsCSharp3Supported(); //  Utils.IsCSharp30(arrayCreationExpression.GetSourceFile().ToProjectFile());
 
                     // If the array creation type is the same type as the initializer (and we are CSharp 3.0 or greater) remove it completely
                     var arrayType = arrayCreationExpression.Type() as IArrayType;
                     if ((arrayType != null) && arrayCreationExpression.ArrayInitializer != null && fileIsCSharp30 &&
                         arrayType.ElementType.Equals(arrayCreationExpression.ArrayInitializer.GetElementType(true)))
                     {
-                        var dims = arrayCreationExpression.ToTreeNode().Dims;
+                        var dims = arrayCreationExpression.Dims;
                         arrayCreationExpression.SetArrayType(null);
                         for (var i = 0; i < (dims.Count - 1); i++)
                         {
@@ -526,7 +533,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
                             {
                                 using (WriteLockCookie.Create(true))
                                 {
-                                    ModificationUtil.DeleteChild(size.ToTreeNode());
+                                    ModificationUtil.DeleteChild(size);
                                 }
                             }
                         }
@@ -548,7 +555,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// <param name="node">
         /// The node to process.
         /// </param>
-        private static void SwapGenericDeclarationToBuiltInType(ITypeArgumentListNode node)
+        private static void SwapGenericDeclarationToBuiltInType(ITypeArgumentList node)
         {
             var project = node.GetPsiModule();
             var typeUsageNodes = node.TypeArgumentNodes;
@@ -577,13 +584,13 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// <param name="objectCreationExpressionNode">
         /// The object creation expression node.
         /// </param>
-        private static void SwapObjectCreationToBuiltInType(IObjectCreationExpressionNode objectCreationExpressionNode)
+        private static void SwapObjectCreationToBuiltInType(IObjectCreationExpression objectCreationExpressionNode)
         {
             var project = objectCreationExpressionNode.GetPsiModule();
 
             using (WriteLockCookie.Create(true))
             {
-                var tmpExpression = (IObjectCreationExpressionNode)CSharpElementFactory.GetInstance(project).CreateExpression("new $0?()", new object[] { objectCreationExpressionNode.Type() });
+                var tmpExpression = (IObjectCreationExpression)CSharpElementFactory.GetInstance(project).CreateExpression("new $0?()", new object[] { objectCreationExpressionNode.Type() });
                 if (tmpExpression != null)
                 {
                     objectCreationExpressionNode.SetCreatedTypeUsage(tmpExpression.CreatedTypeUsage);
@@ -642,13 +649,13 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// </param>
         private static void SwapVariableDeclarationToBuiltInType(IVariableDeclaration variableDeclaration)
         {
-            if (variableDeclaration is ILocalVariableDeclarationNode)
+            if (variableDeclaration is ILocalVariableDeclaration)
             {
-                ProcessLocalVariableDeclaration((ILocalVariableDeclarationNode)variableDeclaration);
+                ProcessLocalVariableDeclaration((ILocalVariableDeclaration)variableDeclaration);
             }
-            else if (variableDeclaration is IForeachVariableDeclarationNode)
+            else if (variableDeclaration is IForeachVariableDeclaration)
             {
-                ProcessForeachVariableDeclaration((IForeachVariableDeclarationNode)variableDeclaration);
+                ProcessForeachVariableDeclaration((IForeachVariableDeclaration)variableDeclaration);
             }
             else
             {
@@ -684,7 +691,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
                         var previousTokenNode = Utils.GetFirstNonWhitespaceTokenToLeft(tokenNode);
                         if (previousTokenNode.GetTokenType() == CSharpTokenType.END_OF_LINE_COMMENT)
                         {
-                            var commentNode = previousTokenNode.GetContainingElement<ICommentNode>(true);
+                            var commentNode = previousTokenNode.GetContainingNode<ICommentNode>(true);
                             MoveCommentInsideNextOpenCurlyBracket(commentNode);
                         }
                     }
@@ -718,7 +725,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
 
                         if (previousTokenNode.GetTokenType() == CSharpTokenType.PP_MESSAGE && previousTokenNode2.GetTokenType() == CSharpTokenType.PP_START_REGION)
                         {
-                            var startRegionNode = previousTokenNode.GetContainingElement<IStartRegionNode>(true);
+                            var startRegionNode = previousTokenNode.GetContainingNode<IStartRegion>(true);
                             if (startRegionNode != null)
                             {
                                 MoveRegionInsideNextOpenCurlyBracket(startRegionNode);
@@ -744,7 +751,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
 
                     if (tokenNode.GetTokenType() == CSharpTokenType.PP_START_REGION)
                     {
-                        var startRegionNode = tokenNode.GetContainingElement<IStartRegionNode>(true);
+                        var startRegionNode = tokenNode.GetContainingNode<IStartRegion>(true);
 
                         var endRegion = startRegionNode.EndRegion;
 
@@ -752,7 +759,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
                         {
                             var previousTokenNode = Utils.GetFirstNonWhitespaceTokenToLeft(endRegion.NumberSign);
 
-                            var a = previousTokenNode.GetContainingElement<IStartRegionNode>(true);
+                            var a = previousTokenNode.GetContainingNode<IStartRegion>(true);
 
                             if (a != null && a.Equals(startRegionNode))
                             {
@@ -831,7 +838,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
 
                     if (tokenNode.GetTokenType() == CSharpTokenType.PP_START_REGION)
                     {
-                        var startRegionNode = tokenNode.GetContainingElement<IStartRegionNode>(true);
+                        var startRegionNode = tokenNode.GetContainingNode<IStartRegion>(true);
                         if (startRegionNode != null)
                         {
                             if (startRegionNode.Parent is IBlock)
@@ -895,9 +902,9 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
 
                     if (tokenNode.GetTokenType() == CSharpTokenType.STRING_LITERAL)
                     {
-                        var attribute = tokenNode.GetContainingElement<IAttribute>(true);
-                        var switchLabelStatement = tokenNode.GetContainingElement<ISwitchLabelStatement>(true);
-                        var constantDeclaration = tokenNode.GetContainingElement<IConstantDeclaration>(true);
+                        var attribute = tokenNode.GetContainingNode<IAttribute>(true);
+                        var switchLabelStatement = tokenNode.GetContainingNode<ISwitchLabelStatement>(true);
+                        var constantDeclaration = tokenNode.GetContainingNode<IConstantDeclaration>(true);
 
                         // Not for attributes switch labels or constant declarations
                         if (attribute == null && switchLabelStatement == null && constantDeclaration == null)

@@ -31,9 +31,11 @@ namespace StyleCop.ReSharper.Core
 
     using JetBrains.Application;
     using JetBrains.Application.Progress;
+    using JetBrains.DocumentManagers;
     using JetBrains.DocumentModel;
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Psi;
+    using JetBrains.ReSharper.Psi.CSharp.Impl;
     using JetBrains.ReSharper.Psi.Caches;
     using JetBrains.ReSharper.Psi.CodeStyle;
     using JetBrains.ReSharper.Psi.CSharp;
@@ -257,7 +259,7 @@ namespace StyleCop.ReSharper.Core
         /// <returns>
         /// An IDocCommentBlockNode that has been created.
         /// </returns>
-        public static IDocCommentBlockNode CreateDocCommentBlockNode(IElement element, string text)
+        public static IDocCommentBlockNode CreateDocCommentBlockNode(ITreeNode element, string text)
         {
             // Fix up the xml terminators to remove the extra space.
             text = text.Replace(" />", "/>");
@@ -577,66 +579,9 @@ namespace StyleCop.ReSharper.Core
                 return null;
             }
 
-            return psiManager.GetPsiFile(document, PsiLanguageType.ANY) as ICSharpFile;
+            return psiManager.GetPsiFile(document, CSharpLanguage.Instance) as ICSharpFile;
         }
-
-        /// <summary>
-        /// Gets the ICSharpFile for the given element.
-        /// </summary>
-        /// <param name="element">
-        /// The element to use.
-        /// </param>
-        /// <returns>
-        /// An ICSharpFile for the element.
-        /// </returns>
-        public static ICSharpFile GetCSharpFile(IElement element)
-        {
-            if (element == null)
-            {
-                return null;
-            }
-
-            var psiManager = PsiManager.GetInstance(element.GetSolution());
-
-            if (psiManager == null)
-            {
-                return null;
-            }
-
-            var projectFile = element.GetProjectFile();
-
-            return projectFile == null ? null : psiManager.GetPsiFile(projectFile, PsiLanguageType.GetByProjectFile(projectFile)) as ICSharpFile;
-        }
-
-        /// <summary>
-        /// Gets the ICSharpFile for the given project File.
-        /// </summary>
-        /// <param name="projectFile">
-        /// The projectFile to use.
-        /// </param>
-        /// <returns>
-        /// An ICSharpFile for the projectFile.
-        /// </returns>
-        public static ICSharpFile GetCSharpFile(IProjectFile projectFile)
-        {
-            if (projectFile == null)
-            {
-                return null;
-            }
-
-            using (ReadLockCookie.Create())
-            {
-                var psiManager = PsiManager.GetInstance(projectFile.GetSolution());
-
-                if (psiManager == null)
-                {
-                    return null;
-                }
-
-                return psiManager.GetPsiFile(projectFile, PsiLanguageType.GetByProjectFile(projectFile)) as ICSharpFile;
-            }
-        }
-
+       
         /// <summary>
         /// Gets an IDeclaration that was closest to the ITextControl specified. It gets all the tokens on this line.
         /// Then moves through them looking for the first one that implements IDeclaration or has an immediate Parent that implements IDeclaration.
@@ -681,9 +626,9 @@ namespace StyleCop.ReSharper.Core
         /// </returns>
         public static IDocCommentBlockNode GetDocCommentBlockNodeForDeclaration(IDeclaration declaration)
         {
-            var treeNode = declaration.ToTreeNode();
-            return (treeNode is IMultipleDeclarationMemberNode)
-                       ? SharedImplUtil.GetDocCommentBlockNode(((IMultipleDeclarationMemberNode)treeNode).MultipleDeclaration)
+            var treeNode = declaration;
+            return (treeNode is IMultipleDeclarationMember)
+                       ? SharedImplUtil.GetDocCommentBlockNode(((IMultipleDeclarationMember)treeNode).MultipleDeclaration)
                        : SharedImplUtil.GetDocCommentBlockNode(treeNode);
         }
 
@@ -698,8 +643,8 @@ namespace StyleCop.ReSharper.Core
         /// </returns>
         public static IDocCommentBlockOwnerNode GetDocCommentBlockOwnerNodeForDeclaration(IDeclaration declaration)
         {
-            var treeNode = declaration.ToTreeNode();
-            return treeNode is IMultipleDeclarationMemberNode ? (IDocCommentBlockOwnerNode)treeNode.Parent : declaration as IDocCommentBlockOwnerNode;
+            var treeNode = declaration as ITreeNode;
+            return treeNode is IMultipleDeclarationMember? (IDocCommentBlockOwnerNode)treeNode.Parent : declaration as IDocCommentBlockOwnerNode;
         }
 
         /// <summary>
@@ -714,7 +659,7 @@ namespace StyleCop.ReSharper.Core
         /// <param name="textControl">
         /// The ITextControl to use.
         /// </param>
-        public static IElement GetElementAtCaret(ISolution solution, ITextControl textControl)
+        public static ITreeNode GetElementAtCaret(ISolution solution, ITextControl textControl)
         {
             var file = Utils.GetCSharpFile(solution, textControl);
 
@@ -756,10 +701,10 @@ namespace StyleCop.ReSharper.Core
         /// <returns>
         /// The ITreeRange of the header or TreeRange.Empty if there is no header.
         /// </returns>
-        public static ITreeRange GetFileHeaderTreeRange(ICSharpFile file)
+        public static ITreeRange GetFileHeaderTreeRange(ITreeNode file)
         {
-            var node = file.ToTreeNode().FirstChild;
-            while ((node is ITokenNode) && node.IsWhitespace())
+            var node = file.FirstChild;
+            while ((node is ITokenNode) && node.GetTokenType().IsWhitespace)
             {
                 node = node.NextSibling;
             }
@@ -770,7 +715,7 @@ namespace StyleCop.ReSharper.Core
                 var lastComment = node as ICommentNode;
                 while ((node = node.NextSibling) != null)
                 {
-                    if (!(node is ITokenNode) || !node.IsWhitespace())
+                    if (!(node is ITokenNode) || !node.GetTokenType().IsWhitespace)
                     {
                         if (node is ICSharpCommentNode)
                         {
@@ -1029,7 +974,7 @@ namespace StyleCop.ReSharper.Core
         public static JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> GetLineCount(IProjectFile projectFile)
         {
             var solution = projectFile.GetSolution();
-            var document = DocumentManager.GetInstance(solution).GetDocument(projectFile);
+            var document = DocumentManager.GetInstance(solution).GetOrCreateDocument(projectFile);
             JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> lineCount;
 
             using (ReadLockCookie.Create())
@@ -1049,7 +994,7 @@ namespace StyleCop.ReSharper.Core
         /// <returns>
         /// An int of the line number. 0 based. -1 if the element was invalid.
         /// </returns>
-        public static JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> GetLineNumberForElement(IElement element)
+        public static JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> GetLineNumberForElement(ITreeNode element)
         {
             var range = element.GetDocumentRange();
 
@@ -1090,9 +1035,9 @@ namespace StyleCop.ReSharper.Core
         {
             var firstTokenOnLine = Utils.GetFirstNewLineTokenToLeft(tokenNode).GetNextToken();
 
-            var startPosition = firstTokenOnLine.ToTreeNode().GetTreeStartOffset();
+            var startPosition = firstTokenOnLine.GetTreeStartOffset();
 
-            return tokenNode.ToTreeNode().GetTreeStartOffset() - startPosition;
+            return tokenNode.GetTreeStartOffset() - startPosition;
         }
 
         /// <summary>
@@ -1147,8 +1092,8 @@ namespace StyleCop.ReSharper.Core
         /// </returns>
         public static Settings GetStyleCopSettings()
         {
-            var solution = SolutionManager.Instance.CurrentSolution;
-
+            var solution = Shell.Instance.GetComponent<ISolutionManager>().CurrentSolution;
+            
             if ((solution == null) || !Shell.HasInstance)
             {
                 return null;
@@ -1206,7 +1151,7 @@ namespace StyleCop.ReSharper.Core
                 return string.Empty;
             }
 
-            var fileName = file.ProjectFile.Location.Name;
+            var fileName = file.GetSourceFile().ToProjectFile().Location.Name;
 
             var firstTypeName = Utils.GetFirstTypeName(file);
 
@@ -1290,7 +1235,7 @@ namespace StyleCop.ReSharper.Core
                 return new JB::JetBrains.Util.TextRange();
             }
 
-            var document = DocumentManager.GetInstance(solution).GetDocument(projectFile);
+            var document = DocumentManager.GetInstance(solution).GetOrCreateDocument(projectFile);
 
             return GetTextRangeForLineNumber(document, resharperLineNumber);
         }
@@ -1389,9 +1334,7 @@ namespace StyleCop.ReSharper.Core
         /// </returns>
         public static ITypeElement GetTypeElement(IDeclaration declaration, string typeName)
         {
-            var psiManager = PsiManager.GetInstance(declaration.GetSolution());
-            var scope = DeclarationsScopeFactory.ModuleScope(declaration.GetPsiModule(), true);
-            return psiManager.GetDeclarationsCache(scope, true).GetTypeElementByCLRName(typeName);
+            return CacheManager.GetInstance(declaration.GetSolution()).GetDeclarationsCache( DeclarationCacheLibraryScope.FULL, true).GetTypeElementByCLRName(typeName);
         }
 
         /// <summary>
@@ -1494,21 +1437,7 @@ namespace StyleCop.ReSharper.Core
 
             return leafElement;
         }
-
-        /// <summary>
-        /// Indicates if the project item passed in is CSharp 3.0 or greater.
-        /// </summary>
-        /// <param name="projectItem">
-        /// The project item to check.
-        /// </param>
-        /// <returns>
-        /// <c>true</c>if the project item is CSharp 3.0 or greater else <c>false</c>.
-        /// </returns>
-        public static bool IsCSharp30(IProjectItem projectItem)
-        {
-            return CSharpProjectFileLanguageService.Instance.GetLanguageLevel(projectItem) > CSharpLanguageLevel.CSharp20;
-        }
-
+        
         /// <summary>
         /// Indicates whether the type of the constructor passed in is a struct.
         /// </summary>
@@ -1564,7 +1493,7 @@ namespace StyleCop.ReSharper.Core
                 return false;
             }
 
-            return declaredType.GetCLRName() == "System.Boolean";
+            return declaredType.GetClrName().FullName == "System.Boolean";
         }
 
         /// <summary>
@@ -1588,7 +1517,7 @@ namespace StyleCop.ReSharper.Core
                 return true;
             }
 
-            attributesOwnerDeclaration = declaration.GetContainingElement<ICSharpTypeDeclaration>(false);
+            attributesOwnerDeclaration = declaration.GetContainingNode<ICSharpTypeDeclaration>(false);
 
             return IsRuleSuppressedInternal(attributesOwnerDeclaration, ruleId);
         }
@@ -1928,7 +1857,7 @@ namespace StyleCop.ReSharper.Core
                 {
                     if (s.Name.ShortName == attribute.Name.ShortName)
                     {
-                        var b = s.ConstructorArgumentExpressions[1] as ICSharpLiteralExpressionNode;
+                        var b = s.ConstructorArgumentExpressions[1] as ICSharpLiteralExpression;
 
                         if (b == null)
                         {

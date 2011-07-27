@@ -52,7 +52,7 @@ namespace StyleCop.ReSharper.BulbItems.Documentation
 
             if (element != null)
             {
-                var destructorDeclaration = element.GetContainingElement<IDestructorDeclaration>(true);
+                var destructorDeclaration = element.GetContainingNode<IDestructorDeclaration>(true);
                 if (destructorDeclaration != null)
                 {
                     new DocumentationRules().EnsureDestructorSummaryDocBeginsWithStandardText(destructorDeclaration);

@@ -24,8 +24,8 @@ namespace StyleCop.ReSharper.Core
 
     using System;
 
-    using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Daemon;
+    using JetBrains.ReSharper.Psi;
 
     using StyleCop.ReSharper.Diagnostics;
 
@@ -115,7 +115,7 @@ namespace StyleCop.ReSharper.Core
 
             return StyleCopTrace.Out(new StyleCopStageProcess(process));
         }
-
+        
         /// <summary>
         /// We want to add markers to the right-side stripe as well as contribute to document errors.
         /// </summary>
@@ -125,7 +125,7 @@ namespace StyleCop.ReSharper.Core
         /// <returns>
         /// A <see cref="ErrorStripeRequest"/> for the specified file.
         /// </returns>
-        public ErrorStripeRequest NeedsErrorStripe(IProjectFile projectFile)
+        public ErrorStripeRequest NeedsErrorStripe(IPsiSourceFile projectFile)
         {
             return ErrorStripeRequest.STRIPE_AND_ERRORS;
         }

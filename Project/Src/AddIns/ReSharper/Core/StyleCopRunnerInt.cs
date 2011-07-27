@@ -27,6 +27,7 @@ namespace StyleCop.ReSharper.Core
     using JetBrains.DocumentModel;
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Daemon;
+    using JetBrains.ReSharper.Psi;
 
     using StyleCop.ReSharper.Diagnostics;
     using StyleCop.ReSharper.Violations;
@@ -222,7 +223,7 @@ namespace StyleCop.ReSharper.Core
                 var textRange = Utils.GetTextRange(this.file, line.Minus1());
 
                 // The TextRange could be a completely blank line. If it is just return the line and don't trim it.
-                var documentRange = new DocumentRange(this.file, textRange);
+                var documentRange = new DocumentRange((IDocument)e.Violation.Element.Document, textRange);
 
                 if (!textRange.IsEmpty)
                 {

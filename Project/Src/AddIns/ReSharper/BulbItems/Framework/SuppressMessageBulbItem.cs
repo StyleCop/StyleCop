@@ -26,6 +26,7 @@ namespace StyleCop.ReSharper.BulbItems.Framework
     using JetBrains.ReSharper.Psi.CSharp;
     using JetBrains.ReSharper.Psi.CSharp.CodeStyle;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
+    using JetBrains.ReSharper.Psi.Tree;
     using JetBrains.TextControl;
 
     using StyleCop.ReSharper.Core;
@@ -88,7 +89,7 @@ namespace StyleCop.ReSharper.BulbItems.Framework
 
                     attributesOwnerDeclaration.AddAttributeAfter(attribute, null);
 
-                    var file = declaration.ToTreeNode().GetContainingFile();
+                    var file = declaration.GetContainingFile();
 
                     CSharpFormatterHelper.FormatterInstance.FormatFile(
                         file, SolutionCodeStyleSettings.GetInstance(solution).CodeStyleSettings, CodeFormatProfile.DEFAULT, NullProgressIndicator.Instance);

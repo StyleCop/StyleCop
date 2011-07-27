@@ -30,7 +30,7 @@ namespace StyleCop.ReSharper.Violations
     /// <summary>
     /// Highlighting class for a StyleCop Violation set to severity level Suggestion.
     /// </summary>
-    [StaticSeverityHighlighting(ViolationSeverity)]
+    [StaticSeverityHighlighting(ViolationSeverity, "a")]
     public class StyleCopViolationSuggestion : StyleCopViolationBase
     {
         #region Constants and Fields

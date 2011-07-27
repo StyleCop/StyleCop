@@ -53,42 +53,42 @@ namespace StyleCop.ReSharper.BulbItems.Readability
 
             foreach (var tokenNode in tokensForLine)
             {
-                var typeArgumentListNode = tokenNode.GetContainingElement<ITypeArgumentListNode>(true);
+                var typeArgumentListNode = tokenNode.GetContainingNode<ITypeArgumentList>(true);
 
                 if (typeArgumentListNode != null)
                 {
                     ReadabilityRules.SwapToBuiltInTypeAlias(typeArgumentListNode);
                 }
 
-                var objectCreationExpressionNode = tokenNode.GetContainingElement<IObjectCreationExpressionNode>(true);
+                var objectCreationExpressionNode = tokenNode.GetContainingNode<IObjectCreationExpression>(true);
 
                 if (objectCreationExpressionNode != null)
                 {
                     ReadabilityRules.SwapToBuiltInTypeAlias(objectCreationExpressionNode);
                 }
 
-                var arrayCreationExpressionNode = tokenNode.GetContainingElement<IArrayCreationExpressionNode>(true);
+                var arrayCreationExpressionNode = tokenNode.GetContainingNode<IArrayCreationExpression>(true);
 
                 if (arrayCreationExpressionNode != null)
                 {
                     ReadabilityRules.SwapToBuiltInTypeAlias(arrayCreationExpressionNode);
                 }
 
-                var methodDeclaration = tokenNode.GetContainingElement<IMethodDeclaration>(true);
+                var methodDeclaration = tokenNode.GetContainingNode<IMethodDeclaration>(true);
 
                 if (methodDeclaration != null)
                 {
-                    ReadabilityRules.SwapToBuiltInTypeAlias((ITreeNode)methodDeclaration);
+                    ReadabilityRules.SwapToBuiltInTypeAlias(methodDeclaration);
                 }
 
-                var variableDeclaration = tokenNode.GetContainingElement<IVariableDeclaration>(true);
+                var variableDeclaration = tokenNode.GetContainingNode<IVariableDeclaration>(true);
 
                 if (variableDeclaration != null)
                 {
                     ReadabilityRules.SwapToBuiltInTypeAlias((ITreeNode)variableDeclaration);
                 }
 
-                var multipleDeclarationNode = tokenNode.GetContainingElement<IMultipleDeclarationNode>(true);
+                var multipleDeclarationNode = tokenNode.GetContainingNode<IMultipleDeclaration>(true);
 
                 if (multipleDeclarationNode != null)
                 {

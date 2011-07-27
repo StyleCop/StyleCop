@@ -50,7 +50,7 @@ namespace StyleCop.ReSharper.BulbItems.Documentation
         {
             var element = Utils.GetElementAtCaret(solution, textControl);
 
-            var propertyDeclaration = element.GetContainingElement<IPropertyDeclaration>(true);
+            var propertyDeclaration = element.GetContainingNode<IPropertyDeclaration>(true);
 
             new DocumentationRules().InsertValueElement(propertyDeclaration);
         }

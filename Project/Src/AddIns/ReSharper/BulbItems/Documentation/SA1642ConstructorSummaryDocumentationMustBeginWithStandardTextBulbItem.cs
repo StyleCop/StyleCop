@@ -52,7 +52,7 @@ namespace StyleCop.ReSharper.BulbItems.Documentation
 
             if (element != null)
             {
-                var constructorDeclaration = element.GetContainingElement<IConstructorDeclaration>(true);
+                var constructorDeclaration = element.GetContainingNode<IConstructorDeclaration>(true);
                 if (constructorDeclaration != null)
                 {
                     new DocumentationRules().EnsureConstructorSummaryDocBeginsWithStandardText(constructorDeclaration);

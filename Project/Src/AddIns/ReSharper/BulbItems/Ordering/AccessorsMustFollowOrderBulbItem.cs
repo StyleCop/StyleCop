@@ -50,7 +50,7 @@ namespace StyleCop.ReSharper.BulbItems.Ordering
         {
             var element = Utils.GetElementAtCaret(solution, textControl);
 
-            var declaration = element.GetContainingElement<IAccessorOwnerDeclarationNode>(true);
+            var declaration = element.GetContainingNode<IAccessorOwnerDeclaration>(true);
 
             if (declaration != null)
             {

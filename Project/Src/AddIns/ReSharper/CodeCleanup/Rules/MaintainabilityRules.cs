@@ -47,12 +47,12 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// </param>
         public static void RemoveParenthesisFromNode(ITreeNode node)
         {
-            var parenthesizedExpressionNode = node as IParenthesizedExpressionNode;
+            var parenthesizedExpressionNode = node as IParenthesizedExpression;
             if (parenthesizedExpressionNode != null)
             {
                 using (WriteLockCookie.Create(true))
                 {
-                    var innerExpression = parenthesizedExpressionNode.ExpressionNode;
+                    var innerExpression = parenthesizedExpressionNode.Expression;
 
                     if (innerExpression != null && node.Parent != null)
                     {
@@ -129,7 +129,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
 
             if (statementMustNotUseUnnecessaryParenthesis)
             {
-                RemoveUnnecessaryParenthesisFromStatements(file.ToTreeNode().FirstChild);
+                RemoveUnnecessaryParenthesisFromStatements(file.FirstChild);
             }
 
             StyleCopTrace.Out();

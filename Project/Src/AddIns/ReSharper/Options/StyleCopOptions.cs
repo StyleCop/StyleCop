@@ -26,7 +26,8 @@ namespace StyleCop.ReSharper.Options
     using System.Xml;
 
     using JetBrains.Application;
-    using JetBrains.ComponentModel;
+    using JetBrains.Application.Components;
+    using JetBrains.Application.Configuration;
 
     using Microsoft.Win32;
 
@@ -37,9 +38,8 @@ namespace StyleCop.ReSharper.Options
     /// <summary>
     /// Class to hold all of the Configurable options for this addin.
     /// </summary>
-    [ShellComponentInterface(ProgramConfigurations.VS_ADDIN)]
-    [ShellComponentImplementation]
-    public class StyleCopOptions : IXmlExternalizableShellComponent
+    [ShellComponent(ProgramConfigurations.VS_ADDIN)]
+    public class StyleCopOptions : IXmlExternalizable
     {
         #region Constants and Fields
 
@@ -109,7 +109,7 @@ namespace StyleCop.ReSharper.Options
         /// <summary>
         /// Gets or sets a value indicating whether AlwaysCheckForUpdatesWhenVisualStudioStarts.
         /// </summary>
-        [JB::JetBrains.Util.XmlExternalizableAttribute(true)]
+        [XmlExternalizableAttribute(true)]
         public bool AlwaysCheckForUpdatesWhenVisualStudioStarts
         {
             get
@@ -128,7 +128,7 @@ namespace StyleCop.ReSharper.Options
         /// <summary>
         /// Gets or sets a value indicating whether we check for updates when plugin starts.
         /// </summary>
-        [JB::JetBrains.Util.XmlExternalizableAttribute(true)]
+        [XmlExternalizableAttribute(true)]
         public bool AutomaticallyCheckForUpdates
         {
             get
@@ -146,13 +146,13 @@ namespace StyleCop.ReSharper.Options
         /// <summary>
         /// Gets or sets DashesCountInFileHeader.
         /// </summary>
-        [JB::JetBrains.Util.XmlExternalizableAttribute(116)]
+        [XmlExternalizableAttribute(116)]
         public int DashesCountInFileHeader { get; set; }
 
         /// <summary>
         /// Gets or sets DaysBetweenUpdateChecks.
         /// </summary>
-        [JB::JetBrains.Util.XmlExternalizableAttribute(2)]
+        [XmlExternalizableAttribute(2)]
         public int DaysBetweenUpdateChecks
         {
             get
@@ -170,13 +170,13 @@ namespace StyleCop.ReSharper.Options
         /// <summary>
         /// Gets or sets a value indicating whether descriptive text should be inserted into missing documentation headers.
         /// </summary>
-        [JB::JetBrains.Util.XmlExternalizableAttribute(true)]
+        [XmlExternalizableAttribute(true)]
         public bool InsertTextIntoDocumentation { get; set; }
 
         /// <summary>
         /// Gets or sets the last update check date.
         /// </summary>
-        [JB::JetBrains.Util.XmlExternalizableAttribute("1900-01-01")]
+        [XmlExternalizableAttribute("1900-01-01")]
         public string LastUpdateCheckDate { get; set; }
 
         /// <summary>
@@ -185,7 +185,7 @@ namespace StyleCop.ReSharper.Options
         /// <value>
         /// The performance value.
         /// </value>
-        [JB::JetBrains.Util.XmlExternalizableAttribute(9)]
+        [XmlExternalizableAttribute(9)]
         public int ParsingPerformance { get; set; }
 
         /// <summary>
@@ -210,13 +210,13 @@ namespace StyleCop.ReSharper.Options
         /// <value>
         /// The allow null attribute.
         /// </value>
-        [JB::JetBrains.Util.XmlExternalizableAttribute("")]
+        [XmlExternalizableAttribute("")]
         public string SpecifiedAssemblyPath { get; set; }
 
         /// <summary>
         /// Gets or sets the text for inserting suppressmessageattributes.
         /// </summary>
-        [JB::JetBrains.Util.XmlExternalizableAttribute("Reviewed. Suppression is OK here.")]
+        [XmlExternalizableAttribute("Reviewed. Suppression is OK here.")]
         public string SuppressStyleCopAttributeJustificationText { get; set; }
 
         /// <summary>
@@ -229,20 +229,20 @@ namespace StyleCop.ReSharper.Options
         {
             get
             {
-                return "StyleCopForReSharper";
+                return "StyleCop.ReSharper";
             }
         }
 
         /// <summary>
         /// Gets or sets a value indicating whether to use exclude from style cop setting.
         /// </summary>
-        [JB::JetBrains.Util.XmlExternalizableAttribute(true)]
+        [XmlExternalizableAttribute(true)]
         public bool UseExcludeFromStyleCopSetting { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether declaration comments should be multi line or single line.
         /// </summary>
-        [JB::JetBrains.Util.XmlExternalizableAttribute(false)]
+        [XmlExternalizableAttribute(false)]
         public bool UseSingleLineDeclarationComments { get; set; }
 
         #endregion
@@ -331,14 +331,14 @@ namespace StyleCop.ReSharper.Options
         /// <param name="element">
         /// The XmlElement to read from.
         /// </param>
-        public void ReadFromXml(XmlElement element)
+        void IXmlExternalizable.ReadFromXml(XmlElement element)
         {
             if (element == null)
             {
                 return;
             }
 
-            JB::JetBrains.Util.XmlExternalizationUtil.ReadFromXml(element, this);
+            XmlExternalizationUtil.ReadFromXml(element, this);
         }
 
         /// <summary>
@@ -347,9 +347,9 @@ namespace StyleCop.ReSharper.Options
         /// <param name="element">
         /// The element.
         /// </param>
-        public void WriteToXml(XmlElement element)
+        void IXmlExternalizable.WriteToXml(XmlElement element)
         {
-            JB::JetBrains.Util.XmlExternalizationUtil.WriteToXml(element, this);
+            XmlExternalizationUtil.WriteToXml(element, this);
         }
 
         #endregion

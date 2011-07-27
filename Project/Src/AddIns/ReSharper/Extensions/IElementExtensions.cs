@@ -45,7 +45,7 @@ namespace JetBrains.ReSharper.Psi.Tree
         /// <exception cref="ArgumentNullException">
         /// <paramref name="element"/>is <c>null</c>.
         /// </exception>
-        public static bool IsNewLine(this IElement element)
+        public static bool IsNewLine(this ITreeNode element)
         {
             var whitespaceNode = element as IWhitespaceNode;
             return whitespaceNode != null && whitespaceNode.IsNewLine;
@@ -63,7 +63,7 @@ namespace JetBrains.ReSharper.Psi.Tree
         /// <exception cref="ArgumentNullException">
         /// <paramref name="element"/>is <c>null</c>.
         /// </exception>
-        public static bool IsWhitespace(this IElement element)
+        public static bool IsWhitespace(this ITreeNode element)
         {
             var whitespaceNode = element as IWhitespaceNode;
             return whitespaceNode != null;

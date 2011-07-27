@@ -42,7 +42,7 @@ namespace JetBrains.ReSharper.Psi.CSharp.Tree.Extensions
         /// </returns>
         public static IType GetReturnType(this IMethodDeclaration declaration)
         {
-            var methodDeclarationNode = declaration as IMethodDeclarationNode;
+            var methodDeclarationNode = declaration as IMethodDeclaration;
 
             if (methodDeclarationNode == null)
             {
@@ -70,7 +70,7 @@ namespace JetBrains.ReSharper.Psi.CSharp.Tree.Extensions
         /// </returns>
         public static bool IsNew(this IMethodDeclaration declaration)
         {
-            return declaration != null && ModifiersUtil.GetNew(declaration as IModifiersListOwnerNode);
+            return declaration != null && ModifiersUtil.GetNew(declaration as IModifiersListOwner);
         }
 
         #endregion

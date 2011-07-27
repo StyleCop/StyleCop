@@ -8,6 +8,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+extern alias JB;
+
 namespace StyleCop.ReSharper.Options
 {
     #region Using Directives
@@ -23,8 +25,8 @@ namespace StyleCop.ReSharper.Options
     using JetBrains.IDE;
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Feature.Services.CodeCleanup;
-    using JetBrains.ReSharper.Psi.CodeStyle;
     using JetBrains.ReSharper.Psi.CSharp;
+    using JetBrains.ReSharper.Psi.CodeStyle;
     using JetBrains.ReSharper.Psi.CSharp.CodeStyle;
     using JetBrains.ReSharper.Psi.Naming.Settings;
     using JetBrains.UI.Options;
@@ -119,7 +121,7 @@ namespace StyleCop.ReSharper.Options
         /// </summary>
         /// <value>
         /// </value>
-        public Control Control
+        public JB::JetBrains.UI.CrossFramework.EitherControl Control
         {
             get
             {
@@ -1160,7 +1162,7 @@ namespace StyleCop.ReSharper.Options
                 return false;
             }
 
-            if (!formatSettings.SPACE_IN_SINGLELINE_ACCESSOR)
+            if (!formatSettings.SPACE_IN_SINGLELINE_ACCESSORHOLDER)
             {
                 return false;
             }
@@ -2068,7 +2070,7 @@ namespace StyleCop.ReSharper.Options
         {
             foreach (ICodeCleanupModule module in codeCleanup.Modules)
             {
-                if (module.LanguageType == CSharpLanguageService.CSHARP)
+                if (module.LanguageType.Name == "CSHARP" ) //  == CSharpLanguage.Instance.CSHARP)
                 {
                     foreach (CodeCleanupOptionDescriptor descriptor in module.Descriptors)
                     {

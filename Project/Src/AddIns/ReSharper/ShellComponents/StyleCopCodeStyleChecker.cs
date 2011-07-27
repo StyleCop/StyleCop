@@ -21,7 +21,7 @@ namespace StyleCop.ReSharper.ShellComponents
     using System.Windows.Forms;
 
     using JetBrains.Application;
-    using JetBrains.ComponentModel;
+    using JetBrains.Application.Components;
 
     using Microsoft.Win32;
 
@@ -32,8 +32,8 @@ namespace StyleCop.ReSharper.ShellComponents
     /// <summary>
     /// The StyleCop CodeStyle Checker.
     /// </summary>
-    [ShellComponentImplementation(ProgramConfigurations.ALL)]
-    public class StyleCopCodeStyleChecker : IShellComponent
+    [ShellComponent(ProgramConfigurations.ALL)]
+    public class StyleCopCodeStyleChecker
     {
         #region Implemented Interfaces
 

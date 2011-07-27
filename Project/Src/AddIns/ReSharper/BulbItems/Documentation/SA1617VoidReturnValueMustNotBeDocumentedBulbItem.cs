@@ -50,7 +50,7 @@ namespace StyleCop.ReSharper.BulbItems.Documentation
         {
             var element = Utils.GetElementAtCaret(solution, textControl);
 
-            var memberDeclaration = element.GetContainingElement<IMethodDeclaration>(true);
+            var memberDeclaration = element.GetContainingNode<IMethodDeclaration>(true);
 
             new DocumentationRules().RemoveReturnsElement(memberDeclaration);
         }

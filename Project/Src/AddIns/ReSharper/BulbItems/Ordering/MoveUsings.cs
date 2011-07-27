@@ -54,7 +54,7 @@ namespace StyleCop.ReSharper.BulbItems.Ordering
                 return;
             }
 
-            var usingList = element.GetContainingElement(typeof(IUsingListNode), false) as IUsingListNode;
+            var usingList = element.GetContainingNode(typeof(IUsingList), false) as IUsingList;
 
             if (usingList == null)
             {

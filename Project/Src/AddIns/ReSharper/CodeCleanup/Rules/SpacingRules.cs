@@ -197,32 +197,32 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
             
             if (codeMustNotContainMultipleWhitespaceInARow)
             {
-                this.CodeMustNotContainMultipleWhitespaceInARow(file.ToTreeNode().FirstChild);
+                this.CodeMustNotContainMultipleWhitespaceInARow(file.FirstChild);
             }
 
             if (commasMustBeSpacedCorrectly)
             {
-                this.CommasMustBeSpacedCorrectly(file.ToTreeNode().FirstChild);
+                this.CommasMustBeSpacedCorrectly(file.FirstChild);
             }
 
             if (singleLineCommentsMustBeginWithSingleSpace)
             {
-                this.SingleLineCommentsMustBeginWithSingleSpace(file.ToTreeNode().FirstChild);
+                this.SingleLineCommentsMustBeginWithSingleSpace(file.FirstChild);
             }
 
             if (preprocessorKeywordsMustNotBePrecededBySpace)
             {
-                this.PreprocessorKeywordsMustNotBePrecededBySpace(file.ToTreeNode().FirstChild);
+                this.PreprocessorKeywordsMustNotBePrecededBySpace(file.FirstChild);
             }
 
             if (negativeSignsMustBeSpacedCorrectly)
             {
-                this.NegativeAndPositiveSignsMustBeSpacedCorrectly(file.ToTreeNode().FirstChild, CSharpTokenType.MINUS);
+                this.NegativeAndPositiveSignsMustBeSpacedCorrectly(file.FirstChild, CSharpTokenType.MINUS);
             }
 
             if (positiveSignsMustBeSpacedCorrectly)
             {
-                this.NegativeAndPositiveSignsMustBeSpacedCorrectly(file.ToTreeNode().FirstChild, CSharpTokenType.PLUS);
+                this.NegativeAndPositiveSignsMustBeSpacedCorrectly(file.FirstChild, CSharpTokenType.PLUS);
             }
 
             StyleCopTrace.Out();
@@ -280,9 +280,9 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         {
             for (var currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
             {
-                if (currentNode is IPreprocessorDirectiveNode)
+                if (currentNode is IPreprocessorDirective)
                 {
-                    var preprocessorDirectiveNode = currentNode as IPreprocessorDirectiveNode;
+                    var preprocessorDirectiveNode = currentNode as IPreprocessorDirective;
 
                     var directiveTokenNodeOffset = preprocessorDirectiveNode.Directive.GetTreeStartOffset();
 

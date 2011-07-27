@@ -52,10 +52,10 @@ namespace StyleCop.ReSharper.BulbItems.Spacing
             Utils.FormatLineForTextControl(solution, textControl);
 
             var element = Utils.GetElementAtCaret(solution, textControl);
-            var containingBlock = element.GetContainingElement<IBlockNode>(true);
+            var containingBlock = element.GetContainingNode<IBlock>(true);
             if (containingBlock != null)
             {
-                new SpacingRules().NegativeAndPositiveSignsMustBeSpacedCorrectly(containingBlock.ToTreeNode(), CSharpTokenType.PLUS);
+                new SpacingRules().NegativeAndPositiveSignsMustBeSpacedCorrectly(containingBlock, CSharpTokenType.PLUS);
             }
         }
 

@@ -96,7 +96,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
 
                     if (tokenNode.GetTokenType() == CSharpTokenType.RBRACE)
                     {
-                        var blockNode = tokenNode.Parent as IBlockNode;
+                        var blockNode = tokenNode.Parent as IBlock;
 
                         if (blockNode != null)
                         {
@@ -165,14 +165,14 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
                     if (tokenNode.GetTokenType() == CSharpTokenType.LBRACE)
                     {
                         // check to see if this LBRACE { is on a line with another non whitespace token
-                        if (tokenNode.Parent is ICreationExpressionInitializerNode)
+                        if (tokenNode.Parent is ICreationExpressionInitializer)
                         {
-                            var creationExpressionInitializerNode = tokenNode.Parent as ICreationExpressionInitializerNode;
+                            var creationExpressionInitializerNode = tokenNode.Parent as ICreationExpressionInitializer;
                             if (creationExpressionInitializerNode != null)
                             {
                                 var leftBrace = creationExpressionInitializerNode.LBrace;
                                 var rightBrace = creationExpressionInitializerNode.RBrace;
-                                var creationExpressionNode = tokenNode.GetContainingElement<ICreationExpressionNode>(true);
+                                var creationExpressionNode = tokenNode.GetContainingNode<ICreationExpression>(true);
 
                                 if (creationExpressionNode != null)
                                 {
@@ -240,42 +240,42 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
 
             if (singleLineCommentsMustBeProceededByBlankLine)
             {
-                this.CommentsMustBePreceededByBlankLine(file.ToTreeNode().FirstChild);
+                this.CommentsMustBePreceededByBlankLine(file.FirstChild);
             }
 
             if (singleLineCommentsMustNotBeFollowedByBlankLine)
             {
-                this.CommentsMustNotBeFollowedByBlankLine(file.ToTreeNode().FirstChild);
+                this.CommentsMustNotBeFollowedByBlankLine(file.FirstChild);
             }
 
             if (closingCurlyBracketMustBeFollowedByBlankLine)
             {
-                ClosingCurlyBracketMustBeFollowedByBlankLine(file.ToTreeNode().FirstChild);
+                ClosingCurlyBracketMustBeFollowedByBlankLine(file.FirstChild);
             }
 
             if (whileDoFooterMustNotBePrecededByBlankLine)
             {
-                this.WhileDoFooterMustNotBePrecededByBlankLine(file.ToTreeNode().FirstChild);
+                this.WhileDoFooterMustNotBePrecededByBlankLine(file.FirstChild);
             }
 
             if (chainedStatementBlocksMustNotBePrecededByBlankLine)
             {
-                this.ChainedStatementBlocksMustNotBePrecededByBlankLine(file.ToTreeNode().FirstChild);
+                this.ChainedStatementBlocksMustNotBePrecededByBlankLine(file.FirstChild);
             }
 
             if (openingCurlyBracketsMustNotBePrecededByBlankLine)
             {
-                this.OpeningCurlyBracketsMustNotBePrecededByBlankLine(file.ToTreeNode().FirstChild);
+                this.OpeningCurlyBracketsMustNotBePrecededByBlankLine(file.FirstChild);
             }
 
             if (elementDocumentationHeadersMustBePrecededByBlankLine)
             {
-                this.ElementDocumentationHeadersMustBePrecededByBlankLine(file.ToTreeNode().FirstChild);
+                this.ElementDocumentationHeadersMustBePrecededByBlankLine(file.FirstChild);
             }
 
             if (curlyBracketsForMultiLineStatementsMustNotShareLine)
             {
-                this.CurlyBracketsForMultiLineStatementsMustNotShareLine(file.ToTreeNode().FirstChild);
+                this.CurlyBracketsForMultiLineStatementsMustNotShareLine(file.FirstChild);
             }
 
             StyleCopTrace.Out();

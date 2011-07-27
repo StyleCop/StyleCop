@@ -49,7 +49,7 @@ namespace StyleCop.ReSharper.BulbItems.Readability
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
             var element = Utils.GetElementAtCaret(solution, textControl);
-            var startRegionNode = element.GetContainingElement<IStartRegionNode>(true);
+            var startRegionNode = element.GetContainingNode<IStartRegion>(true);
             if (startRegionNode != null)
             {
                 ReadabilityRules.MoveRegionInsideNextOpenCurlyBracket(startRegionNode);

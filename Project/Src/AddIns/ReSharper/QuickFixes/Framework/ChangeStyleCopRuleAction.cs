@@ -28,14 +28,13 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
     using JetBrains.ReSharper.Daemon.Impl;
     using JetBrains.ReSharper.Feature.Services.Bulbs;
     using JetBrains.TextControl;
-    using JetBrains.UI.Application;
 
     #endregion
 
     /// <summary>
     /// Adds changing the display option for the style cop rule as context menu.
     /// </summary>
-    public class ChangeStyleCopRuleAction : IDisableHighlightingAction, IBulbItem
+    public class ChangeStyleCopRuleAction : ICustomHighlightingAction, IBulbItem
     {
         #region Properties
 
@@ -131,5 +130,13 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
         #endregion
 
         #endregion
+
+        public int Priority
+        {
+            get
+            {
+                return 50;
+            }
+        }
     }
 }

@@ -20,11 +20,14 @@ namespace StyleCop.ReSharper.CodeCleanup
 
     using System.Collections.Generic;
 
+    using JetBrains.Application;
+    using JetBrains.DocumentModel;
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Feature.Services.CodeCleanup;
     using JetBrains.ReSharper.Feature.Services.CSharp.CodeCleanup;
     using JetBrains.ReSharper.Psi;
     using JetBrains.ReSharper.Psi.CSharp;
+    using JetBrains.ReSharper.Psi.CSharp.Impl;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
     using JetBrains.ReSharper.Psi.Impl.PsiManagerImpl;
 
@@ -39,7 +42,9 @@ namespace StyleCop.ReSharper.CodeCleanup
     /// Custom StyleCop CodeCleanUp module to fix StyleCop violations.
     /// We ensure that most of the ReSharper modules are run before we are. 
     /// </summary>
-    [CodeCleanupModule(ModulesBefore = new[] { typeof(UpdateFileHeader), typeof(ArrangeThisQualifier), typeof(ReplaceByVar), typeof(ReformatCode) })]
+    [JetBrains.ReSharper.Feature.Services.CodeCleanup.CodeCleanupModuleAttribute]
+        
+        //ModulesBefore = new[] { typeof(UpdateFileHeader), typeof(ArrangeThisQualifier), typeof(ReplaceByVar), typeof(ReformatCode) })]
     public class StyleCopCodeCleanupModule : ICodeCleanupModule
     {
         #region Constants and Fields
@@ -74,8 +79,18 @@ namespace StyleCop.ReSharper.CodeCleanup
         /// </summary>
         private static readonly SpacingDescriptor SpacingDescriptor = new SpacingDescriptor();
 
+        /// <summary>
+        /// Locks object passed to our constructor.
+        /// </summary>
+        private readonly IShellLocks shellLocks;
+
         #endregion
 
+        public StyleCopCodeCleanupModule(IShellLocks shellLocks)
+        {
+            this.shellLocks = shellLocks;
+        }
+        
         #region Properties
 
         /// <summary>
@@ -105,7 +120,7 @@ namespace StyleCop.ReSharper.CodeCleanup
                 return false;
             }
         }
-
+        
         /// <summary>
         /// Gets the language this module can operate.
         /// </summary>
@@ -116,7 +131,7 @@ namespace StyleCop.ReSharper.CodeCleanup
         {
             get
             {
-                return CSharpLanguageService.CSHARP;
+                return CSharpLanguage.Instance;
             }
         }
 
@@ -136,12 +151,9 @@ namespace StyleCop.ReSharper.CodeCleanup
         /// <c>True.</c>if the project file is available; otherwise 
         /// <c>False.</c>.
         /// </returns>
-        public bool IsAvailable(IProjectFile projectFile)
+        public bool IsAvailable(IPsiSourceFile projectFile)
         {
-            // Get the language of the file
-            var languageType = ProjectFileLanguageServiceManager.Instance.GetPrimaryPsiLanguageType(projectFile);
-
-            return languageType == CSharpLanguageService.CSHARP;
+            return projectFile.GetPsiFile<CSharpLanguage>() != null;
         }
 
         /// <summary>
@@ -162,11 +174,9 @@ namespace StyleCop.ReSharper.CodeCleanup
         /// <param name="progressIndicator">
         /// The progress indicator.
         /// </param>
-        public void Process(
-            IProjectFile projectFile, IPsiRangeMarker range, CodeCleanupProfile profile, out bool canIncrementalUpdate, JB::JetBrains.Application.Progress.IProgressIndicator progressIndicator)
+        public void Process(IPsiSourceFile projectFile, IRangeMarker rangeMarkerMarker, CodeCleanupProfile profile, JB::JetBrains.Application.Progress.IProgressIndicator progressIndicator)
         {
-            StyleCopTrace.In(projectFile, range, profile, progressIndicator);
-            canIncrementalUpdate = true;
+            //canIncrementalUpdate = true;
 
             if (projectFile == null)
             {
@@ -179,10 +189,8 @@ namespace StyleCop.ReSharper.CodeCleanup
             }
 
             var solution = projectFile.GetSolution();
-
-            var psiManager = PsiManagerImpl.GetInstance(solution);
-
-            var file = psiManager.GetPsiFile(projectFile, PsiLanguageType.GetByProjectFile(projectFile)) as ICSharpFile;
+            
+            var file = projectFile.GetPsiFile<CSharpLanguage>() as ICSharpFile;
 
             if (file == null)
             {
@@ -198,7 +206,7 @@ namespace StyleCop.ReSharper.CodeCleanup
 
             // Process the file for all the different Code Cleanups we have here
             // we do them in a very specific order. Do not change it.
-            new ReadabilityRules().Execute(readabilityOptions, file);
+            new ReadabilityRules(shellLocks).Execute(readabilityOptions, file);
             new MaintainabilityRules().Execute(maintainabilityOptions, file);
             new DocumentationRules().Execute(documentationOptions, file);
             new LayoutRules().Execute(layoutOptions, file);

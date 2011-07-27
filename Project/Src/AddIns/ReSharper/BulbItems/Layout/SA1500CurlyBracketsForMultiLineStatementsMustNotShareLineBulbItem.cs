@@ -51,20 +51,20 @@ namespace StyleCop.ReSharper.BulbItems.Layout
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
             var element = Utils.GetElementAtCaret(solution, textControl);
-            var containingBlock = element.GetContainingElement<IBlockNode>(true);
+            var containingBlock = element.GetContainingNode<IBlock>(true);
 
             if (containingBlock != null)
             {
                 CSharpFormatterHelper.FormatterInstance.Format(containingBlock);
-                new LayoutRules().CurlyBracketsForMultiLineStatementsMustNotShareLine(containingBlock.ToTreeNode());
+                new LayoutRules().CurlyBracketsForMultiLineStatementsMustNotShareLine(containingBlock);
             }
             else
             {
-                var fieldDeclarationNode = element.GetContainingElement<IFieldDeclarationNode>(true);
+                var fieldDeclarationNode = element.GetContainingNode<IFieldDeclaration>(true);
                 if (fieldDeclarationNode != null)
                 {
                     CSharpFormatterHelper.FormatterInstance.Format(fieldDeclarationNode);
-                    new LayoutRules().CurlyBracketsForMultiLineStatementsMustNotShareLine(fieldDeclarationNode.ToTreeNode());
+                    new LayoutRules().CurlyBracketsForMultiLineStatementsMustNotShareLine(fieldDeclarationNode);
                 }
             }
         }
