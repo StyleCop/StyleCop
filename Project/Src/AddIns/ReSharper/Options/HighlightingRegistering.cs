@@ -35,7 +35,6 @@ namespace StyleCop.ReSharper.Options
     /// <summary>
     /// Registers StyleCop Highlighters to allow their severity to be set.
     /// </summary>
-    [ShellComponent(ProgramConfigurations.ALL)]
     public class HighlightingRegistering
     {
         #region Constants and Fields
@@ -133,7 +132,8 @@ namespace StyleCop.ReSharper.Options
 
             if (!SettingExists(highlightManager, HighlightID))
             {
-                highlightManager.RegisterConfigurableSeverity(HighlightID, GroupName, RuleName, Description, Severity.SUGGESTION);
+                // Done at assembly level for R#6
+                // highlightManager.RegisterConfigurableSeverity(HighlightID, GroupName, RuleName, Description, Severity.SUGGESTION);
             }
         }
 
@@ -218,7 +218,8 @@ namespace StyleCop.ReSharper.Options
 
                     if (!SettingExists(highlightManager, highlightID))
                     {
-                        highlightManager.RegisterConfigurableSeverity(highlightID, groupName, ruleName, rule.Description, defaultSeverity);
+                        //TODO R#6 does that with assmelby attributes
+                        //highlightManager.RegisterConfigurableSeverity(highlightID, groupName, ruleName, rule.Description, defaultSeverity);
                     }
                 }
             }

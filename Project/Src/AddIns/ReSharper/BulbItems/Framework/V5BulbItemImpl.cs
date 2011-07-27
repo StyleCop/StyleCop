@@ -26,6 +26,7 @@ namespace StyleCop.ReSharper.BulbItems.Framework
     using JetBrains.Application;
     using JetBrains.DocumentManagers;
     using JetBrains.DocumentModel;
+    using JetBrains.DocumentModel.Transactions;
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Intentions;
     using JetBrains.ReSharper.Psi;
@@ -141,7 +142,7 @@ namespace StyleCop.ReSharper.BulbItems.Framework
                 {
                     DocumentManager.GetInstance(solution).SaveAllDocuments();
 
-                    using (DocumentManager.GetInstance(solution).EnsureWritable())
+                    using (var documentTransaction = solution.GetComponent<DocumentTransactionManager>().CreateTransactionCookie(JB::JetBrains.Util.DefaultAction.Commit, "action name"))
                     {
                         PsiManager.GetInstance(solution).DoTransaction(() => this.ExecuteWriteLockableTransaction(solution, textControl),"Code cleanup");
                     }

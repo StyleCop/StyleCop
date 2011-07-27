@@ -164,6 +164,7 @@
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\AssemblyVersion.cs">
@@ -235,6 +236,7 @@
     <Compile Include="CodeCleanup\Descriptors\LayoutDescriptor.cs" />
     <Compile Include="CodeCleanup\Options\DocumentationOptions.cs" />
     <Compile Include="CodeCleanup\Descriptors\DocumentationDescriptor.cs" />
+    <Compile Include="Options\HighlightingRegistering.cs" />
     <Compile Include="ShellComponents\StyleCopCodeStyleChecker.cs" />
     <Compile Include="Core\ProjectSettingsFactory.cs" />
     <Compile Include="Core\SourceCodeFactory.cs" />
@@ -393,7 +395,6 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="QuickFixes\Maintainability\SA1400QuickFix.cs" />
     <Compile Include="BulbItems\Maintainability\SA1400AccessModifierMustBeDeclaredBulbItem.cs" />
-    <Compile Include="Options\HighlightingRegistering.cs" />
     <Compile Include="Options\StyleCopOptions.cs" />
     <Compile Include="Options\StyleCopOptionsPage.cs">
       <SubType>UserControl</SubType>

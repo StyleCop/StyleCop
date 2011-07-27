@@ -22,6 +22,8 @@ using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
+using JetBrains.ReSharper.Daemon;
+
 using StyleCop.ReSharper.Properties;
 
 #endregion
@@ -40,3 +42,5 @@ using StyleCop.ReSharper.Properties;
 [assembly: CLSCompliant(false)]
 
 [assembly: Guid("8c180a9c-bd4d-45eb-becf-02f78e57ed91")]
+
+[assembly: RegisterConfigurableSeverity("StyleCop.DefaultSeverity", null, HighlightingGroupIds.CodeSmell, "item title", "item description", Severity.WARNING, false)]
