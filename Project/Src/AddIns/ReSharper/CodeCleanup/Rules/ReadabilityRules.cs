@@ -510,7 +510,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
             {
                 using (WriteLockCookie.Create(true))
                 {
-                    var fileIsCSharp30 = arrayCreationExpression.IsCSharp3Supported(); //  Utils.IsCSharp30(arrayCreationExpression.GetSourceFile().ToProjectFile());
+                    var fileIsCSharp30 = arrayCreationExpression.IsCSharp3Supported(); 
 
                     // If the array creation type is the same type as the initializer (and we are CSharp 3.0 or greater) remove it completely
                     var arrayType = arrayCreationExpression.Type() as IArrayType;

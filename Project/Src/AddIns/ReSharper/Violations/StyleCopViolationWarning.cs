@@ -23,14 +23,12 @@ namespace StyleCop.ReSharper.Violations
     using JetBrains.DocumentModel;
     using JetBrains.ReSharper.Daemon;
 
-    using StyleCop.CSharp;
-
     #endregion
 
     /// <summary>
     /// Highlighting class for a StyleCop Violation set to severity level Warning.
     /// </summary>
-    [StaticSeverityHighlighting(ViolationSeverity,"a")]
+    [StaticSeverityHighlighting(ViolationSeverity, "a")]
     public class StyleCopViolationWarning : StyleCopViolationBase
     {
         #region Constants and Fields

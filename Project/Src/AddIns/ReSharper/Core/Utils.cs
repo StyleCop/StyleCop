@@ -35,7 +35,6 @@ namespace StyleCop.ReSharper.Core
     using JetBrains.DocumentModel;
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Psi;
-    using JetBrains.ReSharper.Psi.CSharp.Impl;
     using JetBrains.ReSharper.Psi.Caches;
     using JetBrains.ReSharper.Psi.CodeStyle;
     using JetBrains.ReSharper.Psi.CSharp;
@@ -644,7 +643,7 @@ namespace StyleCop.ReSharper.Core
         public static IDocCommentBlockOwnerNode GetDocCommentBlockOwnerNodeForDeclaration(IDeclaration declaration)
         {
             var treeNode = declaration as ITreeNode;
-            return treeNode is IMultipleDeclarationMember? (IDocCommentBlockOwnerNode)treeNode.Parent : declaration as IDocCommentBlockOwnerNode;
+            return treeNode is IMultipleDeclarationMember ? (IDocCommentBlockOwnerNode)treeNode.Parent : declaration as IDocCommentBlockOwnerNode;
         }
 
         /// <summary>
@@ -1334,7 +1333,7 @@ namespace StyleCop.ReSharper.Core
         /// </returns>
         public static ITypeElement GetTypeElement(IDeclaration declaration, string typeName)
         {
-            return CacheManager.GetInstance(declaration.GetSolution()).GetDeclarationsCache( DeclarationCacheLibraryScope.FULL, true).GetTypeElementByCLRName(typeName);
+            return CacheManager.GetInstance(declaration.GetSolution()).GetDeclarationsCache(DeclarationCacheLibraryScope.FULL, true).GetTypeElementByCLRName(typeName);
         }
 
         /// <summary>

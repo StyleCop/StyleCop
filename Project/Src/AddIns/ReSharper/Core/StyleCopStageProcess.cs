@@ -66,7 +66,7 @@ namespace StyleCop.ReSharper.Core
         private static StyleCopRunnerInt styleCopRunner;
 
         #endregion
-
+        
         #region Constructors and Destructors
 
         /// <summary>
@@ -87,6 +87,17 @@ namespace StyleCop.ReSharper.Core
         }
 
         #endregion
+
+        /// <summary>
+        /// Gets the Daemon Process.
+        /// </summary>
+        public IDaemonProcess DaemonProcess
+        {
+            get
+            {
+                return this.daemonProcess;
+            }
+        }
 
         #region Implemented Interfaces
 
@@ -135,15 +146,7 @@ namespace StyleCop.ReSharper.Core
 
             StyleCopTrace.Out();
         }
-
-        public IDaemonProcess DaemonProcess
-        {
-            get
-            {
-                return this.daemonProcess;
-            }
-        }
-
+        
         #endregion
 
         #endregion

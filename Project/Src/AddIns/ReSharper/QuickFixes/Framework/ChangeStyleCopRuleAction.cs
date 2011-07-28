@@ -41,6 +41,17 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
         #region Properties
 
         /// <summary>
+        /// Gets the priority.
+        /// </summary>
+        public int Priority
+        {
+            get
+            {
+                return 50;
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the highlight id of the current violation.
         /// </summary>
         /// <value>
@@ -94,7 +105,7 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
         #endregion
 
         #region IBulbItem
-
+        
         /// <summary>
         /// Performs the QuickFix, inserts the configured modifier into the location specified by
         /// the violation.
@@ -129,13 +140,5 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
         #endregion
 
         #endregion
-
-        public int Priority
-        {
-            get
-            {
-                return 50;
-            }
-        }
     }
 }

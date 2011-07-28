@@ -142,11 +142,10 @@ namespace StyleCop.ReSharper.BulbItems.Framework
             return delegate(ITextControl textControl)
                 {
                     solution.GetComponent<DocumentManagerOperations>().SaveAllDocuments();
-                    //DocumentManager.GetInstance(solution).SaveAllDocuments();
-
+                    
                     using (var documentTransaction = solution.GetComponent<DocumentTransactionManager>().CreateTransactionCookie(JB::JetBrains.Util.DefaultAction.Commit, "action name"))
                     {
-                        PsiManager.GetInstance(solution).DoTransaction(() => this.ExecuteWriteLockableTransaction(solution, textControl),"Code cleanup");
+                        PsiManager.GetInstance(solution).DoTransaction(() => this.ExecuteWriteLockableTransaction(solution, textControl), "Code cleanup");
                     }
                 };
         }

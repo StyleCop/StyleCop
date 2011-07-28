@@ -34,7 +34,7 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
     /// QuickFix - SuppressStyleCopQuickFix. Priority set to 0 to push it down the list.
     /// </summary>
     [SuppressQuickFix]
-    [QuickFix()]
+    [QuickFix]
     public class SuppressStyleCopQuickFix : IQuickFix
     {
         #region Constants and Fields

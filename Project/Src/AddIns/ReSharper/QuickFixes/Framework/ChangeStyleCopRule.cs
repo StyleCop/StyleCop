@@ -49,6 +49,9 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
         /// <param name="highlighting">
         /// The current highlighting.
         /// </param>
+        /// <param name="solution">
+        /// The solution.
+        /// </param>
         /// <param name="highlightingRange">
         /// The current highlighting range.
         /// </param>
@@ -73,7 +76,5 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
         #endregion
 
         #endregion
-
-       
     }
 }

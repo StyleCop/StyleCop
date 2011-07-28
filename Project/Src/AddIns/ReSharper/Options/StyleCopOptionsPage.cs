@@ -23,10 +23,8 @@ namespace StyleCop.ReSharper.Options
     using System.Windows.Forms;
 
     using JetBrains.Application;
-    using JetBrains.IDE;
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Feature.Services.CodeCleanup;
-    using JetBrains.ReSharper.Psi.CSharp;
     using JetBrains.ReSharper.Psi.CodeStyle;
     using JetBrains.ReSharper.Psi.CSharp.CodeStyle;
     using JetBrains.ReSharper.Psi.Naming.Settings;
@@ -2072,7 +2070,7 @@ namespace StyleCop.ReSharper.Options
         {
             foreach (ICodeCleanupModule module in codeCleanup.Modules)
             {
-                if (module.LanguageType.Name == "CSHARP" ) //  == CSharpLanguage.Instance.CSHARP)
+                if (module.LanguageType.Name == "CSHARP")
                 {
                     foreach (CodeCleanupOptionDescriptor descriptor in module.Descriptors)
                     {

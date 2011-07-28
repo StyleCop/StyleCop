@@ -12,6 +12,7 @@
 //   notice, or any other, from this software.
 // </license>
 // --------------------------------------------------------------------------------------------------------------------
+
 extern alias JB;
 
 namespace StyleCop.ReSharper.CodeCleanup
@@ -22,14 +23,11 @@ namespace StyleCop.ReSharper.CodeCleanup
 
     using JetBrains.Application;
     using JetBrains.DocumentModel;
-    using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Feature.Services.CodeCleanup;
     using JetBrains.ReSharper.Feature.Services.CSharp.CodeCleanup;
     using JetBrains.ReSharper.Psi;
     using JetBrains.ReSharper.Psi.CSharp;
-    using JetBrains.ReSharper.Psi.CSharp.Impl;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
-    using JetBrains.ReSharper.Psi.Impl.PsiManagerImpl;
 
     using StyleCop.ReSharper.CodeCleanup.Descriptors;
     using StyleCop.ReSharper.CodeCleanup.Options;
@@ -39,56 +37,62 @@ namespace StyleCop.ReSharper.CodeCleanup
     #endregion
 
     /// <summary>
-    /// Custom StyleCop CodeCleanUp module to fix StyleCop violations.
-    /// We ensure that most of the ReSharper modules are run before we are. 
+    ///   Custom StyleCop CodeCleanUp module to fix StyleCop violations.
+    ///   We ensure that most of the ReSharper modules are run before we are.
     /// </summary>
-    [CodeCleanupModule(ModulesBefore = new[]{typeof(UpdateFileHeader),typeof(ArrangeThisQualifier),typeof(ReplaceByVar),typeof(ReformatCode)})]
+    [CodeCleanupModule(ModulesBefore = new[] { typeof(UpdateFileHeader), typeof(ArrangeThisQualifier), typeof(ReplaceByVar), typeof(ReformatCode) })]
     public class StyleCopCodeCleanupModule : ICodeCleanupModule
     {
         #region Constants and Fields
 
         /// <summary>
-        /// Documentation descriptor.
+        ///   Documentation descriptor.
         /// </summary>
         private static readonly DocumentationDescriptor DocumentationDescriptor = new DocumentationDescriptor();
 
         /// <summary>
-        /// Layout descriptor.
+        ///   Layout descriptor.
         /// </summary>
         private static readonly LayoutDescriptor LayoutDescriptor = new LayoutDescriptor();
 
         /// <summary>
-        /// Maintainability descriptor.
+        ///   Maintainability descriptor.
         /// </summary>
         private static readonly MaintainabilityDescriptor MaintainabilityDescriptor = new MaintainabilityDescriptor();
 
         /// <summary>
-        /// Ordering descriptor.
+        ///   Ordering descriptor.
         /// </summary>
         private static readonly OrderingDescriptor OrderingDescriptor = new OrderingDescriptor();
 
         /// <summary>
-        /// Readability descriptor.
+        ///   Readability descriptor.
         /// </summary>
         private static readonly ReadabilityDescriptor ReadabilityDescriptor = new ReadabilityDescriptor();
 
         /// <summary>
-        /// Spacing descriptor.
+        ///   Spacing descriptor.
         /// </summary>
         private static readonly SpacingDescriptor SpacingDescriptor = new SpacingDescriptor();
 
         /// <summary>
-        /// Locks object passed to our constructor.
+        ///   Locks object passed to our constructor.
         /// </summary>
         private readonly IShellLocks shellLocks;
 
         #endregion
 
+        /// <summary>
+        /// Initializes a new instance of the StyleCopCodeCleanupModule class.
+        /// </summary>
+        /// <param name = "shellLocks">
+        /// The IShellLocks object.
+        /// </param>
         public StyleCopCodeCleanupModule(IShellLocks shellLocks)
         {
             this.shellLocks = shellLocks;
         }
-        
+
         #region Properties
 
         /// <summary>
@@ -118,7 +122,7 @@ namespace StyleCop.ReSharper.CodeCleanup
                 return false;
             }
         }
-        
+
         /// <summary>
         /// Gets the language this module can operate.
         /// </summary>
@@ -142,7 +146,7 @@ namespace StyleCop.ReSharper.CodeCleanup
         /// <summary>
         /// Check if this module can handle given project file.
         /// </summary>
-        /// <param name="projectFile">
+        /// <param name = "projectFile">
         /// The project file to check.
         /// </param>
         /// <returns>
@@ -157,25 +161,20 @@ namespace StyleCop.ReSharper.CodeCleanup
         /// <summary>
         /// Process clean-up on file.
         /// </summary>
-        /// <param name="projectFile">
+        /// <param name = "projectFile">
         /// The project file to process.
         /// </param>
-        /// <param name="range">
+        /// <param name = "rangeMarker">
         /// The range marker to process.
         /// </param>
-        /// <param name="profile">
+        /// <param name = "profile">
         /// The code cleanup settings to use.
         /// </param>
-        /// <param name="canIncrementalUpdate">
-        /// Determines whether we can incrementally update.
-        /// </param>
-        /// <param name="progressIndicator">
+        /// <param name = "progressIndicator">
         /// The progress indicator.
         /// </param>
-        public void Process(IPsiSourceFile projectFile, IRangeMarker rangeMarkerMarker, CodeCleanupProfile profile, JB::JetBrains.Application.Progress.IProgressIndicator progressIndicator)
+        public void Process(IPsiSourceFile projectFile, IRangeMarker rangeMarker, CodeCleanupProfile profile, JB::JetBrains.Application.Progress.IProgressIndicator progressIndicator)
         {
-            //canIncrementalUpdate = true;
-
             if (projectFile == null)
             {
                 return;
@@ -187,7 +186,7 @@ namespace StyleCop.ReSharper.CodeCleanup
             }
 
             var solution = projectFile.GetSolution();
-            
+
             var file = projectFile.GetPsiFile<CSharpLanguage>() as ICSharpFile;
 
             if (file == null)
@@ -204,7 +203,7 @@ namespace StyleCop.ReSharper.CodeCleanup
 
             // Process the file for all the different Code Cleanups we have here
             // we do them in a very specific order. Do not change it.
-            new ReadabilityRules(shellLocks).Execute(readabilityOptions, file);
+            new ReadabilityRules(this.shellLocks).Execute(readabilityOptions, file);
             new MaintainabilityRules().Execute(maintainabilityOptions, file);
             new DocumentationRules().Execute(documentationOptions, file);
             new LayoutRules().Execute(layoutOptions, file);
@@ -217,11 +216,11 @@ namespace StyleCop.ReSharper.CodeCleanup
         /// <summary>
         /// Get default setting for given profile type.
         /// </summary>
-        /// <param name="profile">
+        /// <param name = "profile">
         /// The code cleanup profile to use.
         /// </param>
-        /// <param name="profileType">
-        /// Determine if it is a full or reformat <see cref="CodeCleanup.DefaultProfileType"/>.
+        /// <param name = "profileType">
+        /// Determine if it is a full or reformat <see cref = "CodeCleanup.DefaultProfileType" />.
         /// </param>
         public void SetDefaultSetting(CodeCleanupProfile profile, CodeCleanup.DefaultProfileType profileType)
         {

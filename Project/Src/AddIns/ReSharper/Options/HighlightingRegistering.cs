@@ -218,8 +218,8 @@ namespace StyleCop.ReSharper.Options
 
                     if (!SettingExists(highlightManager, highlightID))
                     {
-                        //TODO R#6 does that with assmelby attributes
-                        //highlightManager.RegisterConfigurableSeverity(highlightID, groupName, ruleName, rule.Description, defaultSeverity);
+                        // TODO R#6 does that with assmelby attributes
+                        //// highlightManager.RegisterConfigurableSeverity(highlightID, groupName, ruleName, rule.Description, defaultSeverity);
                     }
                 }
             }

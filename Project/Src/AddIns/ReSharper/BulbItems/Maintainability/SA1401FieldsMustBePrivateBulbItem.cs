@@ -51,19 +51,9 @@ namespace StyleCop.ReSharper.BulbItems.Maintainability
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
             var element = Utils.GetElementAtCaret(solution, textControl);
-
-            //var containingElement = (ITreeNode)element.GetContainingNode<IFieldDeclaration>(true) ?? element.GetContainingNode<IMultipleDeclaration>(true);
-
-            //if (containingElement == null)
-            //{
-            //    var treeNode = element;
-
-            //    containingElement = treeNode.PrevSibling;
-            //}
-
+            
             var containingElement = element.GetContainingNode<IFieldDeclaration>(true) ?? element.GetContainingNode<IMultipleDeclaration>(true) ?? element.PrevSibling;
-
-
+            
             ModifiersUtil.SetAccessRights(containingElement, AccessRights.PRIVATE);
         }
 
