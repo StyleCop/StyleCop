@@ -471,7 +471,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// </param>
         private static void ProcessLocalVariableDeclaration(ILocalVariableDeclaration localVariableDeclaration)
         {
-            var multipleDeclaration = MultipleLocalVariableDeclarationNodeNavigator.GetByDeclarator(localVariableDeclaration);
+            var multipleDeclaration = MultipleLocalVariableDeclarationNavigator.GetByDeclarator(localVariableDeclaration);
 
             if (multipleDeclaration.Declarators.Count > 1)
             {

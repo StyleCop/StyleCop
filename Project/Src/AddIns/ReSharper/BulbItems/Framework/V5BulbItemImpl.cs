@@ -25,6 +25,7 @@ namespace StyleCop.ReSharper.BulbItems.Framework
 
     using JetBrains.Application;
     using JetBrains.DocumentManagers;
+    using JetBrains.DocumentManagers.impl;
     using JetBrains.DocumentModel;
     using JetBrains.DocumentModel.Transactions;
     using JetBrains.ProjectModel;
@@ -140,7 +141,8 @@ namespace StyleCop.ReSharper.BulbItems.Framework
         {
             return delegate(ITextControl textControl)
                 {
-                    DocumentManager.GetInstance(solution).SaveAllDocuments();
+                    solution.GetComponent<DocumentManagerOperations>().SaveAllDocuments();
+                    //DocumentManager.GetInstance(solution).SaveAllDocuments();
 
                     using (var documentTransaction = solution.GetComponent<DocumentTransactionManager>().CreateTransactionCookie(JB::JetBrains.Util.DefaultAction.Commit, "action name"))
                     {
