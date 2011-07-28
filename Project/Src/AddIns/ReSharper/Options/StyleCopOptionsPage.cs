@@ -290,7 +290,7 @@ namespace StyleCop.ReSharper.Options
             formatSettings.SPACE_BEFORE_USING_PARENTHESES = true;
             formatSettings.SPACE_BEFORE_WHILE_PARENTHESES = true;
             formatSettings.SPACE_BETWEEN_ACCESSORS_IN_SINGLELINE_PROPERTY = true;
-            formatSettings.SPACE_IN_SINGLELINE_ACCESSOR = true;
+            formatSettings.SPACE_IN_SINGLELINE_ACCESSORHOLDER = true;
             formatSettings.SPACE_IN_SINGLELINE_ANONYMOUS_METHOD = true;
             formatSettings.SPACE_IN_SINGLELINE_METHOD = true;
             formatSettings.SPACE_WITHIN_ARRAY_ACCESS_BRACKETS = false;

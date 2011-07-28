@@ -23,6 +23,7 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
 
     using System.Windows.Forms;
 
+    using JetBrains.Application;
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Daemon;
     using JetBrains.ReSharper.Daemon.Impl;
@@ -114,15 +115,12 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
                 dialog.Severity = settings.GetSeverity(this.HighlightID);
                 dialog.Text = "Inspection options for \"" + severityItem.Title + "\"";
 
-                if (UIApplicationShell.Instance != null)
+                if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    if (dialog.ShowDialog(UIApplicationShell.Instance.MainWindow) == DialogResult.OK)
-                    {
-                        settings.SetSeverity(this.HighlightID, dialog.Severity);
-                        HighlightingSettingsManager.Instance.Settings = settings;
+                    settings.SetSeverity(this.HighlightID, dialog.Severity);
+                    HighlightingSettingsManager.Instance.Settings = settings;
 
-                        Daemon.GetInstance(solution).Invalidate();
-                    }
+                    Daemon.GetInstance(solution).Invalidate();
                 }
             }
         }
