@@ -22,6 +22,7 @@ namespace StyleCop.ReSharper.Options
     using System.Reflection;
     using System.Windows.Forms;
 
+    using JetBrains.Application;
     using JetBrains.IDE;
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Feature.Services.CodeCleanup;
@@ -84,7 +85,8 @@ namespace StyleCop.ReSharper.Options
             instance = this;
             this.dialog = dialog;
 
-            this.solution = dialog.DataContext.GetData(JetBrains.ProjectModel.DataContext.DataConstants.SOLUTION);
+            this.solution = this.GetSolution();
+
             if (this.solution != null)
             {
                 this.InitializeComponent();
@@ -2200,12 +2202,17 @@ namespace StyleCop.ReSharper.Options
 
         private void ResetFormatOptionsButton_Click(object sender, EventArgs e)
         {
-            ResetCodeStyleOptions(this.dialog.DataContext.GetData(JetBrains.ProjectModel.DataContext.DataConstants.SOLUTION));
+            ResetCodeStyleOptions(this.GetSolution());
             MessageBox.Show(
                @"C# code style options have been set in order to fix StyleCop violations. Your UserSettings.xml will be saved when you exit Visual Studio.", @"StyleCop", MessageBoxButtons.OK);
             this.resetFormatOptionsButton.Enabled = false;
         }
         
+        private ISolution GetSolution()
+        {
+            return Shell.Instance.GetComponent<ISolutionManager>().CurrentSolution;
+        }
+
         #endregion
     }
 }

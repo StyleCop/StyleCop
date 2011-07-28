@@ -52,14 +52,17 @@ namespace StyleCop.ReSharper.BulbItems.Maintainability
         {
             var element = Utils.GetElementAtCaret(solution, textControl);
 
-            var containingElement = (ITreeNode)element.GetContainingNode<IFieldDeclaration>(true) ?? element.GetContainingNode<IMultipleDeclaration>(true);
+            //var containingElement = (ITreeNode)element.GetContainingNode<IFieldDeclaration>(true) ?? element.GetContainingNode<IMultipleDeclaration>(true);
 
-            if (containingElement == null)
-            {
-                var treeNode = element;
+            //if (containingElement == null)
+            //{
+            //    var treeNode = element;
 
-                containingElement = treeNode.PrevSibling;
-            }
+            //    containingElement = treeNode.PrevSibling;
+            //}
+
+            var containingElement = element.GetContainingNode<IFieldDeclaration>(true) ?? element.GetContainingNode<IMultipleDeclaration>(true) ?? element.PrevSibling;
+
 
             ModifiersUtil.SetAccessRights(containingElement, AccessRights.PRIVATE);
         }

@@ -29,6 +29,7 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
     using JetBrains.ReSharper.Daemon.Impl;
     using JetBrains.ReSharper.Feature.Services.Bulbs;
     using JetBrains.TextControl;
+    using JetBrains.UI.Application;
 
     #endregion
 
@@ -115,7 +116,7 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
                 dialog.Severity = settings.GetSeverity(this.HighlightID);
                 dialog.Text = "Inspection options for \"" + severityItem.Title + "\"";
 
-                if (dialog.ShowDialog() == DialogResult.OK)
+                if (dialog.ShowDialog(Shell.Instance.GetComponent<UIApplication>().MainWindow) == DialogResult.OK)
                 {
                     settings.SetSeverity(this.HighlightID, dialog.Severity);
                     HighlightingSettingsManager.Instance.Settings = settings;
