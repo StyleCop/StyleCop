@@ -56,6 +56,8 @@ namespace StyleCop.ReSharper.Core
 
         private StyleCopSettings styleCopSettings;
 
+        private IDocument document;
+
         /// <summary>
         /// List of encountered violations, passed back to <see cref="StyleCopStageProcess"/> so that
         /// violations can be highlighted within the IDE.
@@ -137,6 +139,7 @@ namespace StyleCop.ReSharper.Core
                 if (!fileHeader.UnStyled && StyleCopReferenceHelper.StyleCopIsAvailable())
                 {
                     this.file = projectFile;
+                    this.document = document;
                     this.RunStyleCop(document);
                 }
             }
@@ -223,7 +226,7 @@ namespace StyleCop.ReSharper.Core
                 var textRange = Utils.GetTextRange(this.file, line.Minus1());
 
                 // The TextRange could be a completely blank line. If it is just return the line and don't trim it.
-                var documentRange = new DocumentRange((IDocument)e.Violation.Element.Document, textRange);
+                var documentRange = new DocumentRange(this.document, textRange);
 
                 if (!textRange.IsEmpty)
                 {

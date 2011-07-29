@@ -22,6 +22,7 @@ namespace StyleCop.ReSharper.Options
 
     using System;
     using System.Collections.Generic;
+    using System.Reflection;
     using System.Text.RegularExpressions;
 
     using JetBrains.Application;
@@ -35,6 +36,7 @@ namespace StyleCop.ReSharper.Options
     /// <summary>
     /// Registers StyleCop Highlighters to allow their severity to be set.
     /// </summary>
+    [ShellComponent(ProgramConfigurations.ALL)]
     public class HighlightingRegistering
     {
         #region Constants and Fields
@@ -55,6 +57,14 @@ namespace StyleCop.ReSharper.Options
         private const string HighlightIdTemplate = "StyleCop.{0}";
 
         #endregion
+
+        /// <summary>
+        /// Initializes a new instance of the HighlightingRegistering class.
+        /// </summary>
+        public HighlightingRegistering()
+        {
+            this.Init();
+        }
 
         #region Public Methods
 
@@ -171,6 +181,40 @@ namespace StyleCop.ReSharper.Options
             return output;
         }
 
+        private static void RegisterConfigurableGroup(HighlightingSettingsManager highlightManager, string groupId, string groupName)
+        {
+            var item = new HighlightingSettingsManager.ConfigurableGroupDescriptor(groupId, groupName);
+
+            var field = highlightManager.GetType().GetField("myConfigurableGroups", BindingFlags.Instance | BindingFlags.NonPublic);
+
+            if (field != null)
+            {
+                var items = field.GetValue(highlightManager) as Dictionary<string, HighlightingSettingsManager.ConfigurableGroupDescriptor>;
+
+                if (items != null)
+                {
+                    items.Add(groupId, item);
+                }
+            }
+        }
+
+        private static void RegisterConfigurableSeverity(HighlightingSettingsManager highlightManager, string highlightId, string groupName, string ruleName, string description, Severity defaultSeverity)
+        {
+            var item = new HighlightingSettingsManager.ConfigurableSeverityItem(highlightId, null, groupName, ruleName, description, defaultSeverity, false, false);
+
+            var field = highlightManager.GetType().GetField("myConfigurableSeverityItem", BindingFlags.Instance | BindingFlags.NonPublic);
+
+            if (field != null)
+            {
+                var items = field.GetValue(highlightManager) as Dictionary<string, HighlightingSettingsManager.ConfigurableSeverityItem>;
+
+                if (items != null)
+                {
+                    items.Add(highlightId, item);
+                }
+            }
+        }
+
         /// <summary>
         /// Adds the highlights.
         /// </summary>
@@ -211,6 +255,8 @@ namespace StyleCop.ReSharper.Options
                 var groupName = string.Format(GroupTitleTemplate, analyzerName);
                 var analyzerRules = analyzerRule.Value;
 
+                RegisterConfigurableGroup(highlightManager, groupName, groupName);
+                
                 foreach (var rule in analyzerRules)
                 {
                     var ruleName = rule.RuleID + ":" + " " + SplitCamelCase(rule.Name);
@@ -218,8 +264,7 @@ namespace StyleCop.ReSharper.Options
 
                     if (!SettingExists(highlightManager, highlightID))
                     {
-                        // TODO R#6 does that with assmelby attributes
-                        //// highlightManager.RegisterConfigurableSeverity(highlightID, groupName, ruleName, rule.Description, defaultSeverity);
+                        RegisterConfigurableSeverity(highlightManager, highlightID, groupName, ruleName, rule.Description, defaultSeverity);
                     }
                 }
             }

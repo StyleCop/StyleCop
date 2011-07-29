@@ -35,6 +35,14 @@ namespace StyleCop.ReSharper.ShellComponents
     [ShellComponent(ProgramConfigurations.ALL)]
     public class StyleCopCodeStyleChecker
     {
+        /// <summary>
+        /// Initializes a new instance of the StyleCopCodeStyleChecker class.
+        /// </summary>
+        public StyleCopCodeStyleChecker()
+        {
+            this.Init();
+        }
+
         #region Implemented Interfaces
 
         #region IComponent
