@@ -32,6 +32,7 @@ namespace StyleCop.ReSharper.Core
     using JetBrains.ReSharper.Psi.CSharp;
     using JetBrains.ReSharper.Psi.CSharp.Impl;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
+    using JetBrains.ReSharper.Psi.ExtensionsAPI;
     using JetBrains.ReSharper.Psi.ExtensionsAPI.Tree;
     using JetBrains.ReSharper.Psi.Tree;
 
@@ -278,7 +279,7 @@ namespace StyleCop.ReSharper.Core
             {
                 var file = this.Declaration.GetContainingFile();
 
-                using (WriteLockCookie.Create(file.IsPhysical()))
+                using (this.DocCommentBlockNode.CreateWriteLock())
                 {
                     var header = LayoutDocumentationHeader(this.XmlNode);
                     var newDocCommentNode = Utils.CreateDocCommentBlockNode(file, header);

@@ -33,7 +33,7 @@ namespace StyleCop.ReSharper.ShellComponents
     /// The StyleCop CodeStyle Checker.
     /// </summary>
     [ShellComponent(ProgramConfigurations.ALL)]
-    public class StyleCopCodeStyleChecker
+    public class StyleCopCodeStyleChecker : IDisposable
     {
         /// <summary>
         /// Initializes a new instance of the StyleCopCodeStyleChecker class.

@@ -80,21 +80,24 @@ namespace StyleCop.ReSharper.Options
         /// <param name="dialog">The options dialog reference opening our page.</param>
         public StyleCopOptionsPage(IOptionsDialog dialog)
         {
-            instance = this;
-            this.dialog = dialog;
-
-            this.solution = this.GetSolution();
-
-            if (this.solution != null)
+            using (ReadLockCookie.Create())
             {
-                this.InitializeComponent();
-                this.daysMaskedTextBox.ValidatingType = typeof(int);
-                this.dashesCountMaskedTextBox.ValidatingType = typeof(int);
-                this.warningPanel.Visible = !CodeStyleOptionsValid(this.solution);
-            }
-            else
-            {
-                Controls.Add(JetBrains.UI.Options.Helpers.Controls.CreateNoSolutionCueBanner());
+                instance = this;
+                this.dialog = dialog;
+
+                this.solution = this.GetSolution();
+
+                if (this.solution != null)
+                {
+                    this.InitializeComponent();
+                    this.daysMaskedTextBox.ValidatingType = typeof(int);
+                    this.dashesCountMaskedTextBox.ValidatingType = typeof(int);
+                    this.warningPanel.Visible = !CodeStyleOptionsValid(this.solution);
+                }
+                else
+                {
+                    Controls.Add(JetBrains.UI.Options.Helpers.Controls.CreateNoSolutionCueBanner());
+                }
             }
         }
 
@@ -2070,14 +2073,11 @@ namespace StyleCop.ReSharper.Options
         {
             foreach (ICodeCleanupModule module in codeCleanup.Modules)
             {
-                if (module.LanguageType.Name == "CSHARP")
+                foreach (CodeCleanupOptionDescriptor descriptor in module.Descriptors)
                 {
-                    foreach (CodeCleanupOptionDescriptor descriptor in module.Descriptors)
+                    if (descriptor.Name == descriptorName && module.LanguageType.Name == "CSHARP")
                     {
-                        if (descriptor.Name == descriptorName)
-                        {
-                            return descriptor;
-                        }
+                        return descriptor;
                     }
                 }
             }

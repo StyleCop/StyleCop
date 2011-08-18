@@ -193,14 +193,26 @@ namespace StyleCop.ReSharper.CodeCleanup
             {
                 return;
             }
+            
+            PsiManager.GetInstance(solution).DoTransaction(() => this.InternalProcess(profile, file), "Code cleanup");
+            
+            StyleCopTrace.Out();
+        }
 
+        /// <summary>
+        /// Processes all the cleanup.
+        /// </summary>
+        /// <param name="profile">The current profile to use.</param>
+        /// <param name="file">The file to clean.</param>
+        private void InternalProcess(CodeCleanupProfile profile, ICSharpFile file)
+        {
             var documentationOptions = profile.GetSetting(DocumentationDescriptor);
             var layoutOptions = profile.GetSetting(LayoutDescriptor);
             var maintainabilityOptions = profile.GetSetting(MaintainabilityDescriptor);
             var orderingOptions = profile.GetSetting(OrderingDescriptor);
             var readabilityOptions = profile.GetSetting(ReadabilityDescriptor);
             var spacingOptions = profile.GetSetting(SpacingDescriptor);
-
+            
             // Process the file for all the different Code Cleanups we have here
             // we do them in a very specific order. Do not change it.
             new ReadabilityRules(this.shellLocks).Execute(readabilityOptions, file);
@@ -209,8 +221,6 @@ namespace StyleCop.ReSharper.CodeCleanup
             new LayoutRules().Execute(layoutOptions, file);
             new SpacingRules().Execute(spacingOptions, file);
             new OrderingRules().Execute(orderingOptions, file);
-
-            StyleCopTrace.Out();
         }
 
         /// <summary>

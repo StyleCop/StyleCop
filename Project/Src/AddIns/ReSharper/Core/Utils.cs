@@ -1092,7 +1092,7 @@ namespace StyleCop.ReSharper.Core
         public static Settings GetStyleCopSettings()
         {
             var solution = Shell.Instance.GetComponent<ISolutionManager>().CurrentSolution;
-            
+
             if ((solution == null) || !Shell.HasInstance)
             {
                 return null;
@@ -1105,11 +1105,13 @@ namespace StyleCop.ReSharper.Core
                 return null;
             }
 
+            Settings settings = null;
+            
             var projectFile = DocumentManager.GetInstance(solution).GetProjectFile(control.Document);
-
-            var settings = new StyleCopSettings(StyleCopCoreFactory.Create()).GetSettings(projectFile);
-
+            settings = new StyleCopSettings(StyleCopCoreFactory.Create()).GetSettings(projectFile);
+            
             return settings;
+
         }
 
         /// <summary>
@@ -1228,15 +1230,18 @@ namespace StyleCop.ReSharper.Core
         /// </returns>
         public static JB::JetBrains.Util.TextRange GetTextRange(IProjectFile projectFile, JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> resharperLineNumber)
         {
-            var solution = projectFile.GetSolution();
-            if (solution == null)
+            using (ReadLockCookie.Create())
             {
-                return new JB::JetBrains.Util.TextRange();
+                var solution = projectFile.GetSolution();
+                if (solution == null)
+                {
+                    return new JB::JetBrains.Util.TextRange();
+                }
+
+                var document = DocumentManager.GetInstance(solution).GetOrCreateDocument(projectFile);
+
+                return GetTextRangeForLineNumber(document, resharperLineNumber);
             }
-
-            var document = DocumentManager.GetInstance(solution).GetOrCreateDocument(projectFile);
-
-            return GetTextRangeForLineNumber(document, resharperLineNumber);
         }
 
         /// <summary>

@@ -22,6 +22,7 @@ namespace StyleCop.ReSharper.Options
 {
     #region Using Directives
 
+    using System;
     using System.Windows.Forms;
     using System.Xml;
 
@@ -39,7 +40,7 @@ namespace StyleCop.ReSharper.Options
     /// Class to hold all of the Configurable options for this addin.
     /// </summary>
     [ShellComponent(ProgramConfigurations.VS_ADDIN)]
-    public class StyleCopOptions : IXmlExternalizable
+    public class StyleCopOptions : IXmlExternalizable, IDisposable
     {
         #region Constants and Fields
 

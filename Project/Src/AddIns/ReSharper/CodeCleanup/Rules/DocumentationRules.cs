@@ -688,7 +688,11 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
             {
                 var newText = string.Format("//{0}", docCommentNode.CommentText);
                 var newCommentNode = (ICommentNode)CSharpTokenType.END_OF_LINE_COMMENT.Create(new JB::JetBrains.Text.StringBuffer(newText), new TreeOffset(0), new TreeOffset(newText.Length));
-                LowLevelModificationUtil.ReplaceChildRange(currentNode, currentNode, new ITreeNode[] { newCommentNode });
+
+                using (currentNode.CreateWriteLock())
+                {
+                    LowLevelModificationUtil.ReplaceChildRange(currentNode, currentNode, new ITreeNode[] { newCommentNode });
+                }
             }
         }
 
