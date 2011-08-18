@@ -1104,14 +1104,11 @@ namespace StyleCop.ReSharper.Core
             {
                 return null;
             }
-
-            Settings settings = null;
             
             var projectFile = DocumentManager.GetInstance(solution).GetProjectFile(control.Document);
-            settings = new StyleCopSettings(StyleCopCoreFactory.Create()).GetSettings(projectFile);
+            var settings = new StyleCopSettings(StyleCopCoreFactory.Create()).GetSettings(projectFile);
             
             return settings;
-
         }
 
         /// <summary>
