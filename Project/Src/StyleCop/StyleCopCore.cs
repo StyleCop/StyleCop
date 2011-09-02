@@ -30,6 +30,8 @@ namespace StyleCop
     using Microsoft.Build.Framework;
     using Microsoft.Win32;
 
+    using StyleCop.Diagnostics;
+
     /// <summary>
     /// The main entrypoint into the StyleCop core module.
     /// </summary>
@@ -523,6 +525,8 @@ namespace StyleCop
                     analyzer.SetParser(parser);
                 }
             }
+
+            StyleCopTrace.Out();
         }
 
         /// <summary>
@@ -532,7 +536,11 @@ namespace StyleCop
         public void Analyze(IList<CodeProject> projects)
         {
             Param.RequireNotNull(projects, "projects");
+            StyleCopTrace.In(projects);
+
             this.Analyze(projects, false, null);
+
+            StyleCopTrace.Out();
         }
 
         /// <summary>
@@ -545,7 +553,11 @@ namespace StyleCop
             Param.RequireNotNull(projects, "projects");
             Param.RequireValidString(settingsFilePath, "settingsFilePath");
 
+            StyleCopTrace.In(projects, settingsFilePath);
+
             this.Analyze(projects, false, settingsFilePath);
+
+            StyleCopTrace.Out();
         }
 
         /// <summary>
@@ -555,7 +567,11 @@ namespace StyleCop
         public void FullAnalyze(IList<CodeProject> projects)
         {
             Param.RequireNotNull(projects, "projects");
+            StyleCopTrace.In(projects);
+
             this.Analyze(projects, true, null);
+
+            StyleCopTrace.Out();
         }
 
         /// <summary>
@@ -1501,6 +1517,8 @@ namespace StyleCop
             Param.Ignore(ignoreCache);
             Param.Ignore(settingsPath);
 
+            StyleCopTrace.In(projects, ignoreCache, settingsPath);
+
             // Indicate that we're analyzing.
             lock (this)
             {
@@ -1612,6 +1630,8 @@ namespace StyleCop
                     this.analyzing = false;
                 }
             }
+
+            StyleCopTrace.Out();
         }
 
         /// <summary>
@@ -1626,6 +1646,8 @@ namespace StyleCop
         {
             Param.AssertNotNull(data, "data");
             Param.AssertGreaterThanZero(count, "count");
+
+            StyleCopTrace.In(data, count);
 
             // Indicates whether total sanalysis of all files has been completed.
             bool complete = true;
@@ -1679,7 +1701,7 @@ namespace StyleCop
                 }
             }
 
-            return complete;
+            return StyleCopTrace.Out(complete);
         }
 
         /// <summary>

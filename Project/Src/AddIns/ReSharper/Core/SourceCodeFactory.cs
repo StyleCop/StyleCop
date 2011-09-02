@@ -20,7 +20,7 @@ namespace StyleCop.ReSharper.Core
 {
     #region Using Directives
 
-    using StyleCop.ReSharper.Diagnostics;
+    using StyleCop.Diagnostics;
 
     #endregion
 

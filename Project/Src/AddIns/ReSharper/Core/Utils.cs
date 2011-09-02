@@ -49,7 +49,7 @@ namespace StyleCop.ReSharper.Core
     using JetBrains.ReSharper.Psi.Util;
     using JetBrains.TextControl;
 
-    using StyleCop.ReSharper.Diagnostics;
+    using StyleCop.Diagnostics;
     using StyleCop.ReSharper.Options;
 
     #endregion

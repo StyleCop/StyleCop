@@ -27,7 +27,7 @@ namespace StyleCop.ReSharper.Core
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Psi;
 
-    using StyleCop.ReSharper.Diagnostics;
+    using StyleCop.Diagnostics;
     using StyleCop.ReSharper.Options;
 
     #endregion
@@ -175,7 +175,6 @@ namespace StyleCop.ReSharper.Core
             if (BoolCache.TryGetValue(cacheKey, out result))
             {
                 StyleCopTrace.Out();
-
                 return result;
             }
 

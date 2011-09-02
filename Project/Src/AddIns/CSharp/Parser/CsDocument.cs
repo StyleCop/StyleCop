@@ -376,6 +376,7 @@ namespace StyleCop.CSharp
                 this.contents = null;
                 this.tokens = null;
                 this.fileHeader = null;
+                this.parser = null;
             }
         }
 

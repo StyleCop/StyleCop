@@ -28,7 +28,7 @@ namespace StyleCop.ReSharper.Core
     using System.IO;
     using System.Reflection;
 
-    using StyleCop.ReSharper.Diagnostics;
+    using StyleCop.Diagnostics;
     using StyleCop.ReSharper.Options;
 
     #endregion
@@ -178,6 +178,12 @@ namespace StyleCop.ReSharper.Core
         public static bool StyleCopIsAvailable()
         {
             StyleCopTrace.In();
+
+            if (StyleCopAssembly != null)
+            {
+                return StyleCopTrace.Out(true);
+            }
+
             AddStyleCopReferencesIfNeeded();
 
             return StyleCopTrace.Out(StyleCopAssembly != null);

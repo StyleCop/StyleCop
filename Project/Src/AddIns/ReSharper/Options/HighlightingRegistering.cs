@@ -220,8 +220,8 @@ namespace StyleCop.ReSharper.Options
         /// </summary>
         private void AddHighlights()
         {
+            // var core =  StyleCopCoreFactory.Create();
             var core = StyleCopReferenceHelper.GetStyleCopCore();
-
             core.Initialize(new List<string>(), true);
 
             var analyzerRulesDictionary = StyleCopRule.GetRules(core);

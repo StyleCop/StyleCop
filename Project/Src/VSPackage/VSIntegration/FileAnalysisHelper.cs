@@ -24,6 +24,8 @@ namespace StyleCop.VisualStudio
     using System.Windows.Forms;
     using EnvDTE;
 
+    using StyleCop.Diagnostics;
+
     /// <summary>
     /// Analysis helper when working with file analysis.
     /// </summary>
@@ -265,9 +267,12 @@ namespace StyleCop.VisualStudio
         protected override void ProvideEndAnalysisResult(List<ViolationInfo> violations)
         {
             Param.RequireNotNull(violations, "violations");
+            StyleCopTrace.In(violations);
 
             this.TaskProvider.AddResults(violations);
             this.TaskProvider.Show();
+
+            StyleCopTrace.Out();
         }
 
         #endregion Protected Methods

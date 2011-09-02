@@ -27,9 +27,8 @@ namespace StyleCop.ReSharper.Core
     using JetBrains.DocumentModel;
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Daemon;
-    using JetBrains.ReSharper.Psi;
 
-    using StyleCop.ReSharper.Diagnostics;
+    using StyleCop.Diagnostics;
     using StyleCop.ReSharper.Violations;
 
     #endregion
@@ -129,7 +128,6 @@ namespace StyleCop.ReSharper.Core
 
             this.Initialize();
 
-            // now that we cache scr - we need to clear out previous violations.
             this.violationHighlights.Clear();
 
             if (!this.styleCopSettings.SkipAnalysisForDocument(projectFile))
@@ -211,8 +209,6 @@ namespace StyleCop.ReSharper.Core
         /// </param>
         private void OnViolationEncountered(object sender, ViolationEventArgs e)
         {
-            StyleCopTrace.In();
-
             // sometimes this element is null from StyleCop we handle that now so dont' need to check for it here
             var fileName = e.Violation.Element.Document.SourceCode.Name;
             var path = e.SourceCode.Path;
@@ -239,8 +235,6 @@ namespace StyleCop.ReSharper.Core
 
                 this.CreateViolation(documentRange, violation);
             }
-
-            StyleCopTrace.Out();
         }
 
         /// <summary>
@@ -258,13 +252,10 @@ namespace StyleCop.ReSharper.Core
                 var projects = Utils.GetProjects(this.StyleCopCore, this.file, document);
 
                 var settingsFile = this.styleCopSettings.FindSettingsFilePath(this.file);
-                StyleCopTrace.Info("In:  core.Analyze()");
-
+                
                 this.styleCopSettings.LoadSettingsFiles(projects, settingsFile);
 
                 this.StyleCopCore.FullAnalyze(projects);
-
-                StyleCopTrace.Info("Out: core.Analyze()");
             }
             catch (Exception exception)
             {

@@ -26,7 +26,7 @@ namespace StyleCop.ReSharper.Core
     using System.Security;
     using System.Xml;
 
-    using StyleCop.ReSharper.Diagnostics;
+    using StyleCop.Diagnostics;
 
     #endregion
 

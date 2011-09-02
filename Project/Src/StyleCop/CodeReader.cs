@@ -30,7 +30,6 @@ namespace StyleCop
         /// <summary>
         /// The number of characters to read at a time from the text reader.
         /// </summary>
-        /// <remarks>Set this to 80 since the StreamReader class uses an 80 character block size internally.</remarks>
         private const int CharacterBlockSize = 80;
 
         #endregion Private Constants
@@ -40,7 +39,7 @@ namespace StyleCop
         /// <summary>
         /// Contains the code to read.
         /// </summary>
-        private TextReader code;
+        private readonly TextReader code;
 
         /// <summary>
         /// Cached characters read from the text reader.
@@ -185,15 +184,30 @@ namespace StyleCop
 
             // Create a new buffer large enough to contain the left over characters from the previous
             // buffer, as well as the new characters to read from the code.
-            int leftOverCharacterCount = this.bufferLength - this.position;
-            char[] newBuffer = new char[CharacterBlockSize + leftOverCharacterCount];
+            char[] newBuffer;
 
-            // Fill in any characters left over from the previous buffer.
-            for (int i = 0; i < leftOverCharacterCount; ++i)
+            int leftOverCharacterCount = this.bufferLength - this.position;
+
+            if (this.charBuffer == null || ((CharacterBlockSize + leftOverCharacterCount) > this.charBuffer.Length))
             {
-                newBuffer[i] = this.charBuffer[this.position + i];
+                // allocate a bigger buffer
+                newBuffer = new char[CharacterBlockSize + leftOverCharacterCount];
+            }
+            else
+            {
+                // reuse the old buffer
+                newBuffer = this.charBuffer;
             }
 
+            if (this.charBuffer != null)
+            {
+                // Fill in any characters left over from the previous buffer.
+                for (int i = 0; i < leftOverCharacterCount; ++i)
+                {
+                    newBuffer[i] = this.charBuffer[this.position + i];
+                }
+            }
+            
             // Read the new set of characters from the code buffer.
             int numberOfCharactersRead = this.code.ReadBlock(newBuffer, leftOverCharacterCount, CharacterBlockSize);
 

@@ -20,6 +20,8 @@ namespace StyleCop.VisualStudio
     using Microsoft.VisualStudio.Shell;
     using Microsoft.VisualStudio.Shell.Interop;
 
+    using StyleCop.Diagnostics;
+
     /// <summary>
     /// Handles the menu commands at the Package level.
     /// </summary>
@@ -266,10 +268,14 @@ namespace StyleCop.VisualStudio
             Param.AssertNotNull(sender, "sender");
             Param.Ignore(eventArgs);
 
+            StyleCopTrace.In(sender, eventArgs);
+
             OleMenuCommand menuCommand = (OleMenuCommand)sender;
             CommandSet.CheckMenuItemValidity(menuCommand);
 
             this.helper.Analyze(false, AnalysisType.Item);
+
+            StyleCopTrace.Out();
         }
 
         /// <summary>
@@ -282,10 +288,14 @@ namespace StyleCop.VisualStudio
             Param.AssertNotNull(sender, "sender");
             Param.Ignore(eventArgs);
 
+            StyleCopTrace.In(sender, eventArgs);
+
             OleMenuCommand menuCommand = (OleMenuCommand)sender;
             CommandSet.CheckMenuItemValidity(menuCommand);
 
             this.helper.Analyze(false, AnalysisType.File);
+
+            StyleCopTrace.Out();
         }
 
         /// <summary>
@@ -298,10 +308,14 @@ namespace StyleCop.VisualStudio
             Param.AssertNotNull(sender, "sender");
             Param.Ignore(eventArgs);
 
+            StyleCopTrace.In(sender, eventArgs);
+
             OleMenuCommand menuCommand = (OleMenuCommand)sender;
             CommandSet.CheckMenuItemValidity(menuCommand);
 
             this.helper.Analyze(false, AnalysisType.Project);
+
+            StyleCopTrace.Out();
         }
 
         /// <summary>
@@ -314,10 +328,14 @@ namespace StyleCop.VisualStudio
             Param.AssertNotNull(sender, "sender");
             Param.Ignore(eventArgs);
 
+            StyleCopTrace.In(sender, eventArgs);
+
             OleMenuCommand menuCommand = (OleMenuCommand)sender;
             CommandSet.CheckMenuItemValidity(menuCommand);
 
             this.helper.Analyze(false, AnalysisType.Solution);
+
+            StyleCopTrace.Out();
         }
 
         /// <summary>
@@ -330,10 +348,14 @@ namespace StyleCop.VisualStudio
             Param.AssertNotNull(sender, "sender");
             Param.Ignore(eventArgs);
 
+            StyleCopTrace.In(sender, eventArgs);
+
             OleMenuCommand menuCommand = (OleMenuCommand)sender;
             CommandSet.CheckMenuItemValidity(menuCommand);
 
             this.helper.Analyze(true, AnalysisType.Solution);
+
+            StyleCopTrace.Out();
         }
 
         /// <summary>
@@ -346,10 +368,14 @@ namespace StyleCop.VisualStudio
             Param.AssertNotNull(sender, "sender");
             Param.Ignore(eventArgs);
 
+            StyleCopTrace.In(sender, eventArgs);
+
             OleMenuCommand menuCommand = (OleMenuCommand)sender;
             CommandSet.CheckMenuItemValidity(menuCommand);
 
             this.helper.Analyze(false, AnalysisType.Folder);
+
+            StyleCopTrace.Out();
         }
 
         /// <summary>

@@ -24,6 +24,8 @@ namespace StyleCop.VisualStudio
     using System.Xml;
     using EnvDTE;
 
+    using StyleCop.Diagnostics;
+
     /// <summary>
     /// Helper class that facilitates the analysis for the package.
     /// </summary>
@@ -164,6 +166,7 @@ namespace StyleCop.VisualStudio
         internal void Analyze(bool full, AnalysisType type)
         {
             Param.Ignore(full, type);
+            StyleCopTrace.In(full, type);
 
             // Save any documents that have been changed.
             if (this.SaveOpenDocuments())
@@ -201,6 +204,8 @@ namespace StyleCop.VisualStudio
                     }
                 }
             }
+
+            StyleCopTrace.Out();
         }
 
         /// <summary>
@@ -489,6 +494,8 @@ namespace StyleCop.VisualStudio
             Param.AssertNotNull(sender, "sender");
             Param.Ignore(e);
 
+            StyleCopTrace.In(sender, e);
+            
             if (InvisibleForm.Instance.InvokeRequired)
             {
                 EventHandler complete = new EventHandler(this.AnalyzeCompleteMain);
@@ -498,6 +505,8 @@ namespace StyleCop.VisualStudio
             {
                 this.AnalyzeCompleteMain(sender, e);
             }
+
+            StyleCopTrace.Out();
         }
 
         /// <summary>
@@ -510,6 +519,8 @@ namespace StyleCop.VisualStudio
             Param.AssertNotNull(sender, "sender");
             Param.Ignore(e);
 
+            StyleCopTrace.In(sender, e);
+            
             OutputWindowPane pane = VSWindows.GetInstance(this.serviceProvider).OutputPane;
             if (pane != null)
             {
@@ -532,6 +543,8 @@ namespace StyleCop.VisualStudio
                 this.ProvideEndAnalysisResult(this.violations);
                 this.violations = null;
             }
+
+            StyleCopTrace.Out();
         }
 
         /// <summary>

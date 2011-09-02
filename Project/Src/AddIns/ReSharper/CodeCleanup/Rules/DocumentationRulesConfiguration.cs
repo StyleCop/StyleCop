@@ -20,7 +20,6 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
 {
     #region Using Directives
 
-    using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Psi;
 
     using StyleCop.ReSharper.Core;

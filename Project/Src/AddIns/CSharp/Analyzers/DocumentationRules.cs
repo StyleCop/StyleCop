@@ -2645,11 +2645,7 @@ namespace StyleCop.CSharp
             Param.AssertNotNull(documentationNode, "documentationNode");
 
             Debug.Assert(documentationNode.Name == "include", "The node is not an include tag.");
-
-            // The path we use to load the included xml from should be relative to the project location not
-            // the location that the element is from, so here we calculate the base path from the element
-            string basePath = element.Document.SourceCode.Project.Location;
-
+            
             // Extract and validate the file and path values.
             string file;
             string path;
@@ -2661,6 +2657,8 @@ namespace StyleCop.CSharp
             }
             else
             {
+                string basePath = Path.GetDirectoryName(element.Document.SourceCode.Path);
+           
                 // Load the included documentation file.
                 CachedXmlDocument includedDocument = this.LoadIncludedDocumentationFile(basePath, file);
                 if (includedDocument == null)

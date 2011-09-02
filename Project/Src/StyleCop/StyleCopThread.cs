@@ -25,6 +25,8 @@ namespace StyleCop
     using System.Threading;
     using Microsoft.Build.Framework;
 
+    using StyleCop.Diagnostics;
+
     /// <summary>
     /// StyleCop analyze thread.
     /// </summary>
@@ -93,6 +95,8 @@ namespace StyleCop
         public void DoWork(object sender, DoWorkEventArgs e)
         {
             Param.Ignore(sender, e);
+
+            StyleCopTrace.In(sender, e);
 
             // This flag will indicated whether any source code documents need to passed through 
             // another round of analysis after this one is completed.
@@ -174,6 +178,8 @@ namespace StyleCop
                     this.ThreadCompleted(this, new StyleCopThreadCompletedEventArgs(this.data));
                 }
             }
+
+            StyleCopTrace.Out();
         }
 
         #endregion Public Methods
@@ -221,6 +227,8 @@ namespace StyleCop
         {
             Param.AssertNotNull(sourceCode, "sourceCode");
             Param.AssertNotNull(documentStatus, "documentStatus");
+
+            StyleCopTrace.In(sourceCode, documentStatus);
 
             // Signal the output for this document.
             this.data.Core.SignalOutput(
@@ -288,6 +296,8 @@ namespace StyleCop
                     documentStatus.Document = parsedDocument;
                 }
             }
+
+            StyleCopTrace.Out();
         }
 
         /// <summary>

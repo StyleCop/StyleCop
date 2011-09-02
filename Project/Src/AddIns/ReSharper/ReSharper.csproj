@@ -275,11 +275,6 @@
     <Compile Include="CodeCleanup\Descriptors\OrderingDescriptor.cs" />
     <Compile Include="CodeCleanup\Options\OrderingOptions.cs" />
     <Compile Include="CodeCleanup\Styles\UpdateFileHeaderStyle.cs" />
-    <Compile Include="Diagnostics\StyleCopSwitch.cs" />
-    <Compile Include="Diagnostics\StyleCopTrace.cs" />
-    <Compile Include="Diagnostics\StyleCopTraceFormatter.cs" />
-    <Compile Include="Diagnostics\SensitiveDataAttribute.cs" />
-    <Compile Include="Diagnostics\TraceTypes.cs" />
     <Compile Include="Extensions\IElementExtensions.cs" />
     <Compile Include="Extensions\IMethodDeclarationExtensions.cs" />
     <Compile Include="Extensions\IPropertyDeclarationExtensions.cs" />
@@ -287,9 +282,7 @@
     <Compile Include="CodeCleanup\Rules\DocumentationRules.cs" />
     <Compile Include="CodeCleanup\Rules\LayoutRules.cs" />
     <Compile Include="CodeCleanup\Rules\OrderingRules.cs" />
-    <Compile Include="Extensions\ParameterInfoExtensions.cs" />
     <Compile Include="Extensions\TokenNodeTypeExtensions.cs" />
-    <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="QuickFixes\Documentation\SA1641QuickFix.cs" />
     <Compile Include="QuickFixes\Documentation\SA1609QuickFix.cs" />
     <Compile Include="QuickFixes\Documentation\SA1636QuickFix.cs" />

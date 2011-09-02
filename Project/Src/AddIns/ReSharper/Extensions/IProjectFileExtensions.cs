@@ -23,7 +23,7 @@ namespace JetBrains.ProjectModel
     using System;
     using System.Xml;
 
-    using StyleCop.ReSharper.Diagnostics;
+    using StyleCop.Diagnostics;
 
     #endregion
 

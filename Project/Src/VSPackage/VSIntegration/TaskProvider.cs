@@ -18,6 +18,8 @@ namespace StyleCop.VisualStudio
     using System.Collections.Generic;
     using Microsoft.VisualStudio.Shell;
 
+    using StyleCop.Diagnostics;
+
     /// <summary>
     /// Implementation of <see cref="T:Microsoft.VisualStudio.Shell.ErrorListProvider"/> .
     /// </summary>
@@ -59,13 +61,18 @@ namespace StyleCop.VisualStudio
         public void AddResults(List<ViolationInfo> violations)
         {
             Param.AssertNotNull(violations, "violations");
+            StyleCopTrace.In(violations);
+
+            this.SuspendRefresh();
 
             foreach (ViolationInfo violation in violations)
             {
                 this.AddResult(violation);
             }
+            
+            this.ResumeRefresh();
 
-            this.Refresh();
+            StyleCopTrace.Out();
         }
 
         /// <summary>

@@ -24,7 +24,6 @@ namespace StyleCop.ReSharper.CodeCleanup.Options
     using System.Reflection;
 
     using StyleCop.ReSharper.Core;
-    using StyleCop.ReSharper.Diagnostics;
 
     #endregion
 
@@ -75,8 +74,6 @@ namespace StyleCop.ReSharper.CodeCleanup.Options
                 {
                     var settingsProperty = propertyInfo.Name.Substring(6);
                     var propertyValue = this.IsPropertyEnabled(settingsProperty);
-
-                    StyleCopTrace.Info("Property " + propertyInfo.Name + "-> " + propertyValue);
                     propertyInfo.SetValue(this, propertyValue, null);
                 }
             }

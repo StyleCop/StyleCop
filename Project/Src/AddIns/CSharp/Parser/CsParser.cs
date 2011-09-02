@@ -22,6 +22,7 @@ namespace StyleCop.CSharp
     using System.Text.RegularExpressions;
     using System.Threading;
     using StyleCop;
+    using StyleCop.Diagnostics;
 
     /// <summary>
     /// Parses a C# code file.
@@ -129,6 +130,8 @@ namespace StyleCop.CSharp
             Param.RequireGreaterThanOrEqualToZero(passNumber, "passNumber");
             Param.Ignore(document);
 
+            StyleCopTrace.In(sourceCode, passNumber, document);
+
             // The document is parsed on the first pass. On any subsequent passes, we do not do anything.
             if (passNumber == 0)
             {
@@ -163,7 +166,7 @@ namespace StyleCop.CSharp
                 }
             }
 
-            return false;
+            return StyleCopTrace.Out(false);
         }
 
         /// <summary>
@@ -176,7 +179,7 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Called each time after a analysis run is complete.
+        /// Called each time after an analysis run is complete.
         /// </summary>
         public override void PostParse()
         {

@@ -29,10 +29,10 @@ namespace StyleCop.ReSharper.CodeCleanup
     using JetBrains.ReSharper.Psi.CSharp;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
 
+    using StyleCop.Diagnostics;
     using StyleCop.ReSharper.CodeCleanup.Descriptors;
     using StyleCop.ReSharper.CodeCleanup.Options;
     using StyleCop.ReSharper.CodeCleanup.Rules;
-    using StyleCop.ReSharper.Diagnostics;
 
     #endregion
 

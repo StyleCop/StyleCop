@@ -27,7 +27,7 @@ namespace StyleCop.ReSharper.Core
     using JetBrains.ReSharper.Daemon;
     using JetBrains.ReSharper.Psi;
 
-    using StyleCop.ReSharper.Diagnostics;
+    using StyleCop.Diagnostics;
 
     #endregion
 

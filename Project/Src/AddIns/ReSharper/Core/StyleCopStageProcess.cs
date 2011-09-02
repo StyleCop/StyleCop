@@ -22,15 +22,17 @@ namespace StyleCop.ReSharper.Core
     #region Using Directives
 
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
 
+    using JetBrains.DocumentModel;
     using JetBrains.ReSharper.Daemon;
     using JetBrains.ReSharper.Psi;
     using JetBrains.ReSharper.Psi.CSharp;
     using JetBrains.ReSharper.Psi.ExtensionsAPI.Tree;
 
-    using StyleCop.ReSharper.Diagnostics;
+    using StyleCop.Diagnostics;
     using StyleCop.ReSharper.Options;
 
     #endregion
@@ -52,18 +54,16 @@ namespace StyleCop.ReSharper.Core
         private const int MaxPerformanceValue = 9;
 
         private readonly IDaemonProcess daemonProcess;
-
+        
         /// <summary>
-        /// First run flag.
-        /// </summary>
-        private static bool firstRunFlag = true;
-
-        /// <summary>
-        /// Used to reduce the number of calls to StyleCop to help with perfromance.
+        /// Used to reduce the number of calls to StyleCop to help with performance.
         /// </summary>
         private static Stopwatch performanceStopWatch;
 
-        private static StyleCopRunnerInt styleCopRunner;
+        /// <summary>
+        /// Allows us to run the StyleCop analysers.
+        /// </summary>
+        private static StyleCopRunnerInt styleCopRunnerInternal = new StyleCopRunnerInt();
 
         #endregion
         
@@ -81,6 +81,7 @@ namespace StyleCop.ReSharper.Core
             StyleCopTrace.In(daemonProcess);
 
             this.daemonProcess = daemonProcess;
+            
             InitialiseTimers();
 
             StyleCopTrace.Out();
@@ -98,7 +99,7 @@ namespace StyleCop.ReSharper.Core
                 return this.daemonProcess;
             }
         }
-
+        
         #region Implemented Interfaces
 
         #region IDaemonStageProcess
@@ -115,7 +116,7 @@ namespace StyleCop.ReSharper.Core
 
             // inverse the performance value - to ensure that "more resources" actually evaluates to a lower number
             // whereas "less resources" actually evaluates to a higher number. If Performance is set to max, then execute as normal.
-            if ((firstRunFlag || StyleCopOptions.Instance.ParsingPerformance == StyleCopStageProcess.MaxPerformanceValue) ||
+            if ((StyleCopOptions.Instance.ParsingPerformance == StyleCopStageProcess.MaxPerformanceValue) ||
                 (performanceStopWatch.Elapsed > new TimeSpan(0, 0, 0, StyleCopStageProcess.MaxPerformanceValue - StyleCopOptions.Instance.ParsingPerformance)))
             {
                 if (this.daemonProcess.InterruptFlag)
@@ -127,21 +128,14 @@ namespace StyleCop.ReSharper.Core
                 {
                     return;
                 }
+                
+                styleCopRunnerInternal.Execute(this.daemonProcess.SourceFile.ToProjectFile(), this.daemonProcess.Document);
 
-                if (styleCopRunner == null)
-                {
-                    styleCopRunner = new StyleCopRunnerInt();
-                }
-
-                styleCopRunner.Execute(this.daemonProcess.SourceFile.ToProjectFile(), this.daemonProcess.Document);
-
-                var violations = (from info in styleCopRunner.ViolationHighlights let range = info.Range let highlighting = info.Highlighting select new HighlightingInfo(range, highlighting)).ToList();
+                var violations = (from info in styleCopRunnerInternal.ViolationHighlights let range = info.Range let highlighting = info.Highlighting select new HighlightingInfo(range, highlighting)).ToList();
 
                 commiter(new DaemonStageResult(violations));
 
                 ResetPerformanceStopWatch();
-
-                firstRunFlag = false;
             }
 
             StyleCopTrace.Out();
@@ -178,12 +172,7 @@ namespace StyleCop.ReSharper.Core
         private bool FileIsValid()
         {
             var manager = PsiManager.GetInstance(this.daemonProcess.Solution);
-
-            if (this.daemonProcess.SourceFile == null)
-            {
-                return false;
-            }
-
+            
             if (!this.daemonProcess.SourceFile.ToProjectFile().IsValid())
             {
                 return false;
@@ -197,8 +186,7 @@ namespace StyleCop.ReSharper.Core
             }
 
             var hasErrorElements = new RecursiveElementCollector<ErrorElement>().ProcessElement(file).GetResults().Any();
-            StyleCopTrace.Info("File has error elements = {0}", hasErrorElements);
-
+            
             return !hasErrorElements;
         }
 

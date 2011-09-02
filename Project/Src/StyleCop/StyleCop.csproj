@@ -74,6 +74,7 @@
     <Reference Include="Microsoft.Build.Framework" />
     <Reference Include="Microsoft.Build.Utilities.v3.5" />
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
@@ -99,7 +100,14 @@
     <Compile Include="CacheOptions.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Diagnostics\SensitiveDataAttribute.cs" />
+    <Compile Include="Diagnostics\StyleCopSwitch.cs" />
+    <Compile Include="Diagnostics\StyleCopTrace.cs" />
+    <Compile Include="Diagnostics\StyleCopTraceFormatter.cs" />
+    <Compile Include="Diagnostics\TraceTypes.cs" />
+    <Compile Include="Extensions\ParameterInfoExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Settings\IPropertyControlHost.cs" />
     <Compile Include="Settings\PropertyControlSaveResult.cs" />
     <Compile Include="Settings\PropertyDialog.cs">

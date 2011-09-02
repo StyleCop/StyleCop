@@ -1,4 +1,4 @@
-// --------------------------------------------------------------------------------------------------------------------
+﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="StyleCopTrace.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
@@ -16,7 +16,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace StyleCop.ReSharper.Diagnostics
+namespace StyleCop.Diagnostics
 {
     #region Using Directives
 
@@ -41,9 +41,13 @@ namespace StyleCop.ReSharper.Diagnostics
         /// </summary>
         static StyleCopTrace()
         {
-            var levelString = ConfigurationManager.AppSettings["TraceLevel"];
-            var level = levelString != null ? int.Parse(levelString, CultureInfo.InvariantCulture) : 0;
-
+            var defaultLevel = 0;
+#if DEBUG
+            defaultLevel = 15;
+#endif
+            var levelString = ConfigurationManager.AppSettings["StyleCopTraceLevel"];
+            var level = levelString != null ? int.Parse(levelString, CultureInfo.InvariantCulture) : defaultLevel;
+            
             // <!-- ================================================================================-->
             // <!-- Trace level is a bit mask of the following values:                              -->
             // <!-- 0 = Off                                                                         -->
@@ -59,26 +63,18 @@ namespace StyleCop.ReSharper.Diagnostics
             // <!-- NOTE: This has a significant impact on performance                              -->
             // <!-- =============================================================================== -->
 #if DEBUG
-
-            // Record In, Out, Error, Warning & Info
-            level = 15;
-
-            // Add the Default Listener back as ReSharper replaces them all
-            Trace.Listeners.Clear();
+            // Add the Default Listener back as ReSharper removes it
             Trace.Listeners.Add(new DefaultTraceListener());
 #endif
-
-            var logPath = ConfigurationManager.AppSettings["TraceLogPath"];
-
-            var dtl = Trace.Listeners["Default"] as DefaultTraceListener;
-
-            if (dtl != null && level > 0 && !string.IsNullOrEmpty(logPath))
+            var logPath = ConfigurationManager.AppSettings["StyleCopTraceLogPath"];
+            
+            if (level > 0 && !string.IsNullOrEmpty(logPath))
             {
                 Directory.CreateDirectory(logPath);
-                var fullPath = Path.Combine(logPath, string.Format("blinkBox Trace [{0}].log", DateTime.UtcNow.ToString("yyyy-MM-dd HH-mm-ss-fff", CultureInfo.InvariantCulture)));
-                dtl.LogFileName = fullPath;
+                var fullPath = Path.Combine(logPath, string.Format("StyleCop Trace [{0}].log", DateTime.UtcNow.ToString("yyyy-MM-dd HH-mm-ss-fff", CultureInfo.InvariantCulture)));
+                Trace.Listeners.Add(new TextWriterTraceListener(fullPath));
             }
-
+            
             Switch = new StyleCopSwitch("StyleCop", "Provides tracing for StyleCop", level);
         }
 
@@ -184,7 +180,7 @@ namespace StyleCop.ReSharper.Diagnostics
                 new StyleCopTraceFormatter().WriteTraceMessage("Info", format, args);
             }
         }
-
+        
         /// <summary>
         /// To be called when leaving a method. This overload is recommended for functions that have only input
         /// parameters and which do not have a return value.
@@ -314,6 +310,15 @@ namespace StyleCop.ReSharper.Diagnostics
             {
                 new StyleCopTraceFormatter().WriteTraceMessage("Warn", format, args);
             }
+        }
+
+        /// <summary>
+        /// Returns the current processes private bytes.
+        /// </summary>
+        /// <returns>A long of the processes private bytes.</returns>
+        private static long GetPrivateBytes()
+        {
+            return Process.GetCurrentProcess().PrivateMemorySize64;
         }
 
         #endregion

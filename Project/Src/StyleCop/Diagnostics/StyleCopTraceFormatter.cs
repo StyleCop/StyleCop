@@ -16,7 +16,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace StyleCop.ReSharper.Diagnostics
+namespace StyleCop.Diagnostics
 {
     #region Using Directives
 
@@ -107,7 +107,16 @@ namespace StyleCop.ReSharper.Diagnostics
                         this.buffer.Append(", ");
                     }
 
-                    var argument = arguments != null && i < arguments.Length ? arguments[i] : Missing.Value;
+                    object argument;
+                    if (arguments != null && i < arguments.Length)
+                    {
+                        argument = arguments[i];
+                    }
+                    else
+                    {
+                        argument = Missing.Value;
+                    }
+
                     this.AppendParameter(parameters[i], argument);
                 }
 
@@ -300,24 +309,24 @@ namespace StyleCop.ReSharper.Diagnostics
                     if (displayAttribute != null)
                     {
                         MatchEvaluator evaluator = match =>
+                        {
+                            var memberName = match.Value.Replace("{", null).Replace("}", null);
+                            var propertyInfo = argumentType.GetProperty(memberName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
+                            if (propertyInfo != null)
                             {
-                                var memberName = match.Value.Replace("{", null).Replace("}", null);
-                                var propertyInfo = argumentType.GetProperty(memberName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
-                                if (propertyInfo != null)
-                                {
-                                    return Convert.ToString(propertyInfo.GetValue(argument, null), CultureInfo.InvariantCulture);
-                                }
+                                return Convert.ToString(propertyInfo.GetValue(argument, null), CultureInfo.InvariantCulture);
+                            }
 
-                                FieldInfo fieldInfo;
-                                var typeToInspect = argumentType;
-                                do
-                                {
-                                    fieldInfo = typeToInspect.GetField(memberName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-                                    typeToInspect = typeToInspect.BaseType;
-                                }
-                                while (fieldInfo == null && typeToInspect != typeof(object));
-                                return fieldInfo != null ? Convert.ToString(fieldInfo.GetValue(argument), CultureInfo.InvariantCulture) : "?";
-                            };
+                            FieldInfo fieldInfo;
+                            var typeToInspect = argumentType;
+                            do
+                            {
+                                fieldInfo = typeToInspect.GetField(memberName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+                                typeToInspect = typeToInspect.BaseType;
+                            }
+                            while (fieldInfo == null && typeToInspect != typeof(object));
+                            return fieldInfo != null ? Convert.ToString(fieldInfo.GetValue(argument), CultureInfo.InvariantCulture) : "?";
+                        };
 
                         var displayString = debuggerDisplayFormatRegex.Replace(displayAttribute.Value, evaluator);
                         this.buffer.Append('[');
@@ -394,6 +403,9 @@ namespace StyleCop.ReSharper.Diagnostics
             private void InitializeBuffer(string qualifier)
             {
                 this.buffer = new StringBuilder(1024).Append(DateTime.UtcNow.ToString("u", CultureInfo.CurrentCulture)).Append(" : ");
+
+                var privateMemory = StyleCopTrace.GetPrivateBytes();
+                this.buffer.Append("PB = " + privateMemory + " : ");
 
                 try
                 {

@@ -26,6 +26,8 @@ namespace StyleCop.VisualStudio
     using EnvDTE;
     using Microsoft.VisualStudio.Shell;
 
+    using StyleCop.Diagnostics;
+
     /// <summary>
     /// A representation of a StyleCop violation in the error list.
     /// </summary>
@@ -43,6 +45,8 @@ namespace StyleCop.VisualStudio
         /// </summary>
         private StyleCopCore core;
 
+        private IServiceProvider serviceProvider;
+
         #endregion Private Fields
 
         /// <summary>
@@ -54,18 +58,32 @@ namespace StyleCop.VisualStudio
         {
             Param.AssertNotNull(serviceProvider, "serviceProvider");
             Param.Ignore(violation);
-
+            
             this.violation = violation;
             this.Column = 0;
             this.Document = violation.File;
             this.Line = violation.LineNumber - 1;
             this.Text = violation.Description;
             this.ErrorCategory = TaskErrorCategory.Warning;
+            this.serviceProvider = serviceProvider;
+        }
 
-            StyleCopVSPackage package = serviceProvider.GetService(typeof(StyleCopVSPackage)) as StyleCopVSPackage;
-            Debug.Assert(package != null, "Unable to locate the package");
+        /// <summary>
+        /// Gets an instance of the StyleCopCore.
+        /// </summary>
+        internal StyleCopCore Core
+        {
+            get
+            {
+                if (this.core == null)
+                {
+                    StyleCopVSPackage package = this.serviceProvider.GetService(typeof(StyleCopVSPackage)) as StyleCopVSPackage;
+                    Debug.Assert(package != null, "Unable to locate the package");
+                    this.core = package.Core;
+                }
 
-            this.core = package.Core;
+                return this.core;
+            }
         }
 
         /// <summary>
@@ -84,7 +102,7 @@ namespace StyleCop.VisualStudio
                     if (document == null)
                     {
                         AlertDialog.Show(
-                            this.core,
+                            this.Core,
                             null,
                             Strings.CouldNotNavigateToFile,
                             Strings.Title,
@@ -114,7 +132,7 @@ namespace StyleCop.VisualStudio
                 catch (System.Runtime.InteropServices.COMException)
                 {
                     AlertDialog.Show(
-                        this.core,
+                        this.Core,
                         null,
                         Strings.CouldNotNavigateToFile,
                         Strings.Title, 
@@ -125,7 +143,7 @@ namespace StyleCop.VisualStudio
             else
             {
                 AlertDialog.Show(
-                    this.core,
+                    this.Core,
                     null,
                     Strings.UnknownFile,
                     Strings.Title,

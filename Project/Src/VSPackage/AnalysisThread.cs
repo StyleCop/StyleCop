@@ -17,6 +17,8 @@ namespace StyleCop.VisualStudio
     using System;
     using System.Collections.Generic;
 
+    using StyleCop.Diagnostics;
+
     /// <summary>
     /// Thread class that performs code analysis.
     /// </summary>
@@ -78,6 +80,8 @@ namespace StyleCop.VisualStudio
         /// </summary>
         public void AnalyzeProc()
         {
+            StyleCopTrace.In();
+            
             try
             {
                 if (this.full)
@@ -96,6 +100,8 @@ namespace StyleCop.VisualStudio
                     this.Complete(this, new EventArgs());
                 }
             }
+
+            StyleCopTrace.Out();
         }
 
         #endregion Public Methods

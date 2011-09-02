@@ -132,6 +132,12 @@ namespace StyleCop
         protected virtual void Dispose(bool disposing)
         {
             Param.Ignore(disposing);
+
+            if (disposing)
+            {
+                this.sourceCode = null;
+                this.analyzerData = null;
+            }
         }
 
         #endregion Protected Virtual Methods
