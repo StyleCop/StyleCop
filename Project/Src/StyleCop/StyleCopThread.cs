@@ -265,7 +265,6 @@ namespace StyleCop
                     documentStatus.Complete = true;
 
                     // Save the cache for this document and dispose it.
-
                     if (this.data.ResultsCache != null && sourceCode.Project.WriteCache)
                     {
                         this.data.ResultsCache.SaveDocumentResults(parsedDocument, sourceCode.Parser, sourceCode.Settings.WriteTime);

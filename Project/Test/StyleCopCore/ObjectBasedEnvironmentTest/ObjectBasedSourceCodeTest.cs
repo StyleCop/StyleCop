@@ -38,19 +38,18 @@ namespace ObjectBasedEnvironmentTest
         {
             ObjectBasedEnvironment environment = new ObjectBasedEnvironment(this.SourceCodeFactory, this.ProjectSettingsFactory);
 
-            using (StyleCopObjectConsole styleCop = new StyleCopObjectConsole(environment, null, new[] { "%projectroot%\\test\\testbin" }, false))
-            {
-                // Create the configuration.
-                Configuration configuration = new Configuration(null);
+            StyleCopObjectConsole styleCop = new StyleCopObjectConsole(environment, null, new[] { "%projectroot%\\test\\testbin" }, false);
 
-                // Create a CodeProject.
-                CodeProject project = new CodeProject(0, null, configuration);
-                styleCop.Core.Environment.AddSourceCode(project, "source1.cs", 0);
-                styleCop.Core.Environment.AddSourceCode(project, "source2.cs", 1);
-                styleCop.Core.Environment.AddSourceCode(project, "source3.cs", 2);
+            // Create the configuration.
+            Configuration configuration = new Configuration(null);
 
-                styleCop.Start(new[] { project });
-            }
+            // Create a CodeProject.
+            CodeProject project = new CodeProject(0, null, configuration);
+            styleCop.Core.Environment.AddSourceCode(project, "source1.cs", 0);
+            styleCop.Core.Environment.AddSourceCode(project, "source2.cs", 1);
+            styleCop.Core.Environment.AddSourceCode(project, "source3.cs", 2);
+
+            styleCop.Start(new[] { project });
         }
 
         #endregion

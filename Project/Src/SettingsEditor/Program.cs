@@ -51,22 +51,15 @@ namespace StyleCopSettingsEditor
                         Application.EnableVisualStyles();
                         Application.SetCompatibleTextRenderingDefault(false);
 
-                        using (StyleCopCore core = new StyleCopCore(null, null))
-                        {
-                            core.Initialize(null, true);
-                            core.WriteResultsCache = false;
-                            core.DisplayUI = true;
-
-                            core.ShowSettings(settingsFilePath);
-                        }
+                        StyleCopCore core = new StyleCopCore(null, null);
+                        core.Initialize(null, true);
+                        core.WriteResultsCache = false;
+                        core.DisplayUI = true;
+                        core.ShowSettings(settingsFilePath);
                     }
                     else
                     {
-                        MessageBox.Show(
-                            string.Format(CultureInfo.CurrentUICulture, Resources.SettingsFileDoesNotExist, settingsFilePath),
-                            null,
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Error);
+                        MessageBox.Show(string.Format(CultureInfo.CurrentUICulture, Resources.SettingsFileDoesNotExist, settingsFilePath), null, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
                 catch (IOException ex)

@@ -161,7 +161,6 @@ namespace StyleCop.ReSharper.Core
             if (this.styleCopCore != null)
             {
                 this.styleCopCore.ViolationEncountered -= this.OnViolationEncountered;
-                this.styleCopCore.Dispose();
             }
 
             this.styleCopCore = null;

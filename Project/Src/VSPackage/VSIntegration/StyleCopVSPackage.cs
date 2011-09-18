@@ -302,11 +302,7 @@ namespace StyleCop.VisualStudio
                     this.helper = null;
                 }
 
-                if (this.core != null)
-                {
-                    this.core.Dispose();
-                    this.core = null;
-                }
+                this.core = null;
             }
         }
 

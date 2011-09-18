@@ -66,14 +66,13 @@ namespace PerfHarness
                 {
                     Console.WriteLine("Iteration " + (i + 1));
 
-                    using (StyleCopConsole console = new StyleCopConsole(null, false, null, null, true, "Perf"))
-                    {
-                        Configuration configuration = new Configuration(new string[] { });
-                        CodeProject project = new CodeProject(0, Environment.CurrentDirectory, configuration);
-                        console.Core.Environment.AddSourceCode(project, file, null);
+                    StyleCopConsole console = new StyleCopConsole(null, false, null, null, true, "Perf");
 
-                        console.Start(new CodeProject[] { project }, true);
-                    }
+                    Configuration configuration = new Configuration(new string[] { });
+                    CodeProject project = new CodeProject(0, Environment.CurrentDirectory, configuration);
+                    console.Core.Environment.AddSourceCode(project, file, null);
+
+                    console.Start(new CodeProject[] { project }, true);
                 }
 
                 DateTime end = DateTime.Now;

@@ -280,7 +280,6 @@ namespace StyleCop.VisualStudio
                     // Unregister for StyleCop events.
                     this.core.ViolationEncountered -= this.CoreViolationEncountered;
                     this.core.OutputGenerated -= this.CoreOutputGenerated;
-                    this.core.Dispose();
                     this.core = null;
                 }
             }
