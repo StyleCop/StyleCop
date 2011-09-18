@@ -14,11 +14,14 @@
 //-----------------------------------------------------------------------
 namespace StyleCop
 {
+    using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using Microsoft.Build.Framework;
     using Microsoft.Build.Utilities;
+
+    using StyleCop.Diagnostics;
 
     /// <summary>
     /// MSBuild task that exposes StyleCop to MSBuild-based projects.
@@ -305,13 +308,15 @@ namespace StyleCop
         #endregion Public Properties
 
         #region Public Override Methods
-
+        
         /// <summary>
         /// Executes this MSBuild task, based on the input values passed in by the MSBuild engine.
         /// </summary>
         /// <returns>Returns true if there were no errors, false otherwise.</returns>
         public override bool Execute()
         {
+            StyleCopTrace.In();
+
             // Clear the violation count and set the violation limit for the project.
             this.violationCount = 0;
             this.violationLimit = 0;
@@ -344,56 +349,47 @@ namespace StyleCop
             }
 
             // Create the StyleCop console.
-            using (StyleCopConsole console = new StyleCopConsole(
-                overrideSettingsFileName,
-                this.inputCacheResults,
-                this.outputFile == null ? null : this.outputFile.ItemSpec,
-                addinPaths,
-                true))
-            {
-                // Create the configuration.
-                Configuration configuration = new Configuration(this.inputDefineConstants);
+            StyleCopConsole console = new StyleCopConsole(overrideSettingsFileName, this.inputCacheResults, this.outputFile == null ? null : this.outputFile.ItemSpec, addinPaths, true);
+            
+            // Create the configuration.
+            Configuration configuration = new Configuration(this.inputDefineConstants);
 
-                string projectFullPath = null;
-                if (this.inputProjectFullPath != null)
+            string projectFullPath = null;
+            if (this.inputProjectFullPath != null)
+            {
+                projectFullPath = this.inputProjectFullPath.GetMetadata("FullPath");
+            }
+
+            if (!string.IsNullOrEmpty(projectFullPath))
+            {
+                // Create a CodeProject object for these files.
+                CodeProject project = new CodeProject(projectFullPath.GetHashCode(), projectFullPath, configuration);
+
+                // Add each source file to this project.
+                foreach (ITaskItem inputSourceFile in this.inputSourceFiles)
                 {
-                    projectFullPath = this.inputProjectFullPath.GetMetadata("FullPath");
+                    console.Core.Environment.AddSourceCode(project, inputSourceFile.ItemSpec, null);
                 }
 
-                if (!string.IsNullOrEmpty(projectFullPath))
+                try
                 {
-                    // Create a CodeProject object for these files.
-                    CodeProject project = new CodeProject(
-                        projectFullPath.GetHashCode(),
-                        projectFullPath,
-                        configuration);
+                    // Subscribe to events
+                    console.OutputGenerated += this.OnOutputGenerated;
+                    console.ViolationEncountered += this.OnViolationEncountered;
 
-                    // Add each source file to this project.
-                    foreach (ITaskItem inputSourceFile in this.inputSourceFiles)
-                    {
-                        console.Core.Environment.AddSourceCode(project, inputSourceFile.ItemSpec, null);
-                    }
-
-                    try
-                    {
-                        // Subscribe to events
-                        console.OutputGenerated += this.OnOutputGenerated;
-                        console.ViolationEncountered += this.OnViolationEncountered;
-
-                        // Analyze the source files
-                        CodeProject[] projects = new CodeProject[] { project };
-                        console.Start(projects, this.inputForceFullAnalysis);
-                    }
-                    finally
-                    {
-                        // Unsubscribe from events
-                        console.OutputGenerated -= this.OnOutputGenerated;
-                        console.ViolationEncountered -= this.OnViolationEncountered;
-                    }
+                    // Analyze the source files
+                    CodeProject[] projects = new[] { project };
+                    console.Start(projects, this.inputForceFullAnalysis);
+                }
+                finally
+                {
+                    // Unsubscribe from events
+                    console.OutputGenerated -= this.OnOutputGenerated;
+                    console.ViolationEncountered -= this.OnViolationEncountered;
                 }
             }
 
-            return this.succeeded;
+            return StyleCopTrace.Out(this.succeeded);
         }
 
         #endregion Public Override Methods

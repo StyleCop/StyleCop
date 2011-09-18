@@ -227,7 +227,6 @@ namespace StyleCop
         {
             Param.AssertNotNull(sourceCode, "sourceCode");
             Param.AssertNotNull(documentStatus, "documentStatus");
-
             StyleCopTrace.In(sourceCode, documentStatus);
 
             // Signal the output for this document.
@@ -249,12 +248,7 @@ namespace StyleCop
             }
             catch (System.Exception)
             {
-                string details = string.Format(
-                        CultureInfo.CurrentCulture,
-                        "Exception thrown by parser '{0}' while processing '{1}'.",
-                        sourceCode.Parser.Name,
-                        sourceCode.Path);
-
+                string details = string.Format(CultureInfo.CurrentCulture, "Exception thrown by parser '{0}' while processing '{1}'.", sourceCode.Parser.Name, sourceCode.Path);
                 this.data.Core.SignalOutput(MessageImportance.High, details);
                 throw;
             }
@@ -271,16 +265,14 @@ namespace StyleCop
                     documentStatus.Complete = true;
 
                     // Save the cache for this document and dispose it.
-                    if (parsedDocument != null)
-                    {
-                        if (this.data.ResultsCache != null && sourceCode.Project.WriteCache)
-                        {
-                            this.data.ResultsCache.SaveDocumentResults(parsedDocument, sourceCode.Parser, sourceCode.Settings.WriteTime);
-                        }
 
-                        parsedDocument.Dispose();
-                        parsedDocument = null;
+                    if (this.data.ResultsCache != null && sourceCode.Project.WriteCache)
+                    {
+                        this.data.ResultsCache.SaveDocumentResults(parsedDocument, sourceCode.Parser, sourceCode.Settings.WriteTime);
                     }
+
+                    parsedDocument.Dispose();
+                    parsedDocument = null;
                 }
             }
 
@@ -315,10 +307,11 @@ namespace StyleCop
             Param.AssertNotNull(parser, "parser");
             Param.Ignore(analyzers);
             Param.Ignore(passNumber);
+            StyleCopTrace.In(document, parser, analyzers, passNumber);
 
             if (analyzers == null)
             {
-                return true;
+                return StyleCopTrace.Out(true);
             }
 
             // Determine whether any of the analyzers wish to delay parsing until the next pass.
@@ -337,7 +330,7 @@ namespace StyleCop
                 this.RunAnalyzers(document, parser, analyzers);
             }
 
-            return !delay;
+            return StyleCopTrace.Out(!delay);
         }
 
         /// <summary>
@@ -352,6 +345,7 @@ namespace StyleCop
             Param.AssertNotNull(document, "document");
             Param.AssertNotNull(parser, "parser");
             Param.Ignore(analyzers, "analyzers");
+            StyleCopTrace.In(document, parser, analyzers);
 
             if (analyzers != null)
             {
@@ -395,6 +389,8 @@ namespace StyleCop
                     }
                 }
             }
+
+            StyleCopTrace.Out();
         }
 
         /// <summary>

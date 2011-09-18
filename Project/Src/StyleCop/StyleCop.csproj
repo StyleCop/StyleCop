@@ -126,12 +126,6 @@
     <Compile Include="ICodeElement.cs" />
     <Compile Include="LegacyEnumeratorAdapter.cs" />
     <Compile Include="FileBasedEnvironment.cs" />
-    <Compile Include="Log.cs" />
-    <Compile Include="LogStrings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>LogStrings.resx</DependentUpon>
-    </Compile>
     <Compile Include="Settings\SourceFileListSettings.cs" />
     <Compile Include="Settings\v104Settings.cs" />
     <Compile Include="Settings\v102Settings.cs" />
@@ -245,11 +239,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GlobalSettingsFileOptions.resx">
       <DependentUpon>GlobalSettingsFileOptions.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="LogStrings.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>LogStrings.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Settings\PropertyControl.resx">

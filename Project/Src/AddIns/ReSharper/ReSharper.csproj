@@ -78,6 +78,7 @@
     </Reference>
     <Reference Include="JetBrains.Platform.ReSharper.ComponentModel">
       <HintPath>ReferencedAssemblies\JetBrains.Platform.ReSharper.ComponentModel.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="JetBrains.Platform.ReSharper.IDE">
       <HintPath>ReferencedAssemblies\JetBrains.Platform.ReSharper.IDE.dll</HintPath>
@@ -85,6 +86,7 @@
     </Reference>
     <Reference Include="JetBrains.Platform.ReSharper.Metadata">
       <HintPath>ReferencedAssemblies\JetBrains.Platform.ReSharper.Metadata.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="JetBrains.ReSharper.Features.Environment">
       <HintPath>ReferencedAssemblies\JetBrains.ReSharper.Features.Environment.dll</HintPath>
@@ -92,6 +94,7 @@
     </Reference>
     <Reference Include="JetBrains.ReSharper.Resources">
       <HintPath>ReferencedAssemblies\JetBrains.ReSharper.Resources.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.Build.Framework" />
     <Reference Include="JetBrains.Platform.ReSharper.DocumentManager, Version=4.0.819.19, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">

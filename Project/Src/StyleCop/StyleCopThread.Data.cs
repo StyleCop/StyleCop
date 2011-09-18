@@ -57,7 +57,7 @@ namespace StyleCop
             private string settingsPath;
 
             /// <summary>
-            /// The list of projectss to analyze.
+            /// The list of projects to analyze.
             /// </summary>
             private IList<CodeProject> projects;
 

@@ -23,6 +23,8 @@ namespace StyleCop
     using System.Text;
     using System.Xml;
 
+    using StyleCop.Diagnostics;
+
     /// <summary>
     /// A lightweight host for StyleCop which loads source files and settings files from the file system.
     /// </summary>
@@ -127,6 +129,7 @@ namespace StyleCop
         {
             Param.RequireNotNull(projects, "projects");
             Param.Ignore(fullAnalyze);
+            StyleCopTrace.In(projects, fullAnalyze);
 
             bool error = false;
 
@@ -163,6 +166,8 @@ namespace StyleCop
                     this.OnOutputGenerated(new OutputEventArgs(Strings.NoViolationsEncountered));
                 }
 
+                StyleCopTrace.Info("about to write analysis results");
+
                 // Write the output file
                 Exception exception;
                 if (!this.Core.Environment.SaveAnalysisResults(this.outputFile, this.Violations, out exception))
@@ -196,9 +201,11 @@ namespace StyleCop
                 error = true;
             }
 
+            StyleCopTrace.Out();
+
             return !error;
         }
-
+        
         #endregion Public Methods
 
         #region Private Methods

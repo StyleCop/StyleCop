@@ -36,7 +36,7 @@ namespace StyleCop
     /// The main entrypoint into the StyleCop core module.
     /// </summary>
     [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "StyleCop", Justification = "This is the correct casing.")]
-    public sealed class StyleCopCore : IPropertyContainer, IDisposable
+    public sealed class StyleCopCore : IPropertyContainer
     {
         #region Internal Constants
 
@@ -108,12 +108,7 @@ namespace StyleCop
         /// A tag object which can be optionally filled in by the host.
         /// </summary>
         private object hostTag;
-
-        /// <summary>
-        /// The file logger.
-        /// </summary>
-        private Log log;
-
+        
         #endregion Private Fields
 
         #region Public Constructors
@@ -144,6 +139,7 @@ namespace StyleCop
         {
             Param.Ignore(environment);
             Param.Ignore(hostTag);
+            StyleCopTrace.In(environment, hostTag);
 
             this.environment = environment;
             this.hostTag = hostTag;
@@ -155,10 +151,7 @@ namespace StyleCop
             }
 
             this.environment.Core = this;
-
-            // Set up the logger.
-            this.log = new Log(this);
-
+            
             // Load the core xml initialization document.
             try
             {
@@ -173,24 +166,14 @@ namespace StyleCop
             }
             catch (XmlException)
             {
-                AlertDialog.Show(
-                    this,
-                    null,
-                    Strings.StyleCopUnableToLoad,
-                    Strings.Title,
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                AlertDialog.Show(this, null, Strings.StyleCopUnableToLoad, Strings.Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (ArgumentException argex)
             {
-                AlertDialog.Show(
-                    this,
-                    null,
-                    string.Format(CultureInfo.CurrentUICulture, Strings.StyleCopUnableToLoad, argex.Message),
-                    Strings.Title,
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                AlertDialog.Show(this, null, string.Format(CultureInfo.CurrentUICulture, Strings.StyleCopUnableToLoad, argex.Message), Strings.Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
+            StyleCopTrace.Out();
         }
 
         #endregion Public Constructors
@@ -415,10 +398,8 @@ namespace StyleCop
             }
 
             // Check whether the resource exists.
-            Log.Write(LogStrings.AttemptingToLoadAddInInitializationXmlFromPath, resourceId);
             if (addInType.Assembly.GetManifestResourceInfo(resourceId) == null)
             {
-                Log.Write(LogStrings.CouldNotFildAddInInitializationXml);
                 return null;
             }
 
@@ -442,18 +423,7 @@ namespace StyleCop
         #endregion Public Static Methods
 
         #region Public Methods
-
-        /// <summary>
-        /// Disposes the contents of the class.
-        /// </summary>
-        public void Dispose()
-        {
-            if (this.log != null)
-            {
-                this.log.Dispose();
-            }
-        }
-
+        
         /// <summary>
         /// Initializes the StyleCop core instance. This must be called before
         /// the object can be used.
@@ -1328,8 +1298,6 @@ namespace StyleCop
             {
                 if (Directory.Exists(path))
                 {
-                    Log.Write(LogStrings.LoadAddInsFromPath, path);
-
                     // Find all DLL assemblies in the path and loop through them.
                     string[] assemblyPaths = Directory.GetFiles(path, "*.dll");
                     foreach (string assemblyPath in assemblyPaths)
@@ -1340,7 +1308,6 @@ namespace StyleCop
                         {
                             try
                             {
-                                Log.Write(LogStrings.LoadingAssembly, assemblyPath);
                                 Assembly assembly = Assembly.LoadFrom(assemblyPath);
 
                                 // BUGBUG: For some reason, GetExportedTypes throws a FileNotFoundException
@@ -1360,8 +1327,6 @@ namespace StyleCop
                                 {
                                     if (type.IsSubclassOf(typeof(SourceAnalyzer)))
                                     {
-                                        Log.Write(LogStrings.DiscoveredSourceAnalyzerType, type.Name);
-
                                         SourceAnalyzer analyzer = this.InitializeAddIn(type, keyMatch) as SourceAnalyzer;
 
                                         if (analyzer != null && !this.analyzers.ContainsKey(analyzer.Id))
@@ -1371,8 +1336,6 @@ namespace StyleCop
                                     }
                                     else if (type.IsSubclassOf(typeof(SourceParser)))
                                     {
-                                        Log.Write(LogStrings.DiscoveredSourceParserType, type.Name);
-
                                         SourceParser parser = this.InitializeAddIn(type, keyMatch) as SourceParser;
                                         if (parser != null && !this.parsers.ContainsKey(parser.Id))
                                         {
@@ -1383,6 +1346,11 @@ namespace StyleCop
                                         }
                                     }
                                 }
+                            }
+                            catch (FileNotFoundException)
+                            {
+                                // If they have dependant types we may get this.
+                                // Move on to the next item.
                             }
                             catch (BadImageFormatException)
                             {
@@ -1450,12 +1418,10 @@ namespace StyleCop
             if (typeContainingAttribute == null)
             {
                 // This is not a valid add-in type.
-                Log.Write(LogStrings.TheTypeDoesNotContainTheStyleCopAddInAttribute, addInType.Name);
                 return null;
             }
 
             // Create the add-in instance.
-            Log.Write(LogStrings.CreatingAnInstanceOfType, addInType.Name);
             StyleCopAddIn addInObject = (StyleCopAddIn)Activator.CreateInstance(addInType);
 
             // Load the add-in xml.
@@ -1464,7 +1430,6 @@ namespace StyleCop
             if (addInXml == null)
             {
                 // The initialization xml was not valid.
-                Log.Write(LogStrings.FailedToLoadAddInInitializationXml);
                 return null;
             }
 
@@ -1516,7 +1481,6 @@ namespace StyleCop
             Param.AssertNotNull(projects, "projects");
             Param.Ignore(ignoreCache);
             Param.Ignore(settingsPath);
-
             StyleCopTrace.In(projects, ignoreCache, settingsPath);
 
             // Indicate that we're analyzing.
@@ -1557,14 +1521,20 @@ namespace StyleCop
                     resultsCache = new ResultsCache(this);
                 }
 
+                StyleCopTrace.Info("about to create data object");
+                
                 // Create a data object which will passed to each worker.
                 StyleCopThread.Data data = new StyleCopThread.Data(
                     this, projects, resultsCache, ignoreCache, settingsPath);
-
+                
+                StyleCopTrace.Info("data object created");
+                
                 // Initialize each of the projects before analysis.
                 foreach (CodeProject project in projects)
                 {
+                    StyleCopTrace.Info("about to init project");
                     StyleCopCore.InitializeProjectForAnalysis(project, data, resultsCache);
+                    StyleCopTrace.Info("init project done");
                 }
 
                 // Run until each of the parsers have completely finished analyzing all of the files.

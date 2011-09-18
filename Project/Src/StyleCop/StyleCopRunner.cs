@@ -24,7 +24,7 @@ namespace StyleCop
     /// Object model for hosting StyleCop in a simplified manner.
     /// </summary>
     [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "StyleCop", Justification = "This is the correct casing.")]
-    public abstract class StyleCopRunner : IDisposable
+    public abstract class StyleCopRunner
     {
         #region Private Fields
 
@@ -123,24 +123,7 @@ namespace StyleCop
         }
 
         #endregion Protected Properties
-
-        #region Public Methods
-
-        /// <summary>
-        /// Disposes the contents of the class.
-        /// </summary>
-        public void Dispose()
-        {
-            GC.SuppressFinalize(this);
-
-            if (this.core != null)
-            {
-                this.core.Dispose();
-            }
-        }
-
-        #endregion Public Methods
-
+        
         #region Protected Virtual Methods
 
         /// <summary>

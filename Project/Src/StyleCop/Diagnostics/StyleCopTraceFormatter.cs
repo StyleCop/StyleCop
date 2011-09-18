@@ -405,28 +405,28 @@ namespace StyleCop.Diagnostics
                 this.buffer = new StringBuilder(1024).Append(DateTime.UtcNow.ToString("u", CultureInfo.CurrentCulture)).Append(" : ");
 
                 var privateMemory = StyleCopTrace.GetPrivateBytes();
-                this.buffer.Append("PB = " + privateMemory + " : ");
-
-                try
-                {
-                    var identity = WindowsIdentity.GetCurrent();
-                    if (identity != null)
-                    {
-                        this.buffer.Append(identity.Name);
-                    }
-                }
-                catch (ArgumentException)
-                {
-                    // for some reason, we intermittently see an ArgumentException with the message "Invalid token for 
-                    // impersonation - it cannot be duplicated." Since I don't yet know what the root cause is, I've taken 
-                    // this (somewhat ugly) approach to handling it.
-                    this.buffer.Append("<unknown>");
-                }
-                catch (SystemException)
-                {
-                    // as above
-                    this.buffer.Append("<unknown>");
-                }
+                this.buffer.Append("PB = " + privateMemory);
+                
+                //try
+                //{
+                //    var identity = WindowsIdentity.GetCurrent();
+                //    if (identity != null)
+                //    {
+                //        this.buffer.Append(identity.Name);
+                //    }
+                //}
+                //catch (ArgumentException)
+                //{
+                //    // for some reason, we intermittently see an ArgumentException with the message "Invalid token for 
+                //    // impersonation - it cannot be duplicated." Since I don't yet know what the root cause is, I've taken 
+                //    // this (somewhat ugly) approach to handling it.
+                //    this.buffer.Append("<unknown>");
+                //}
+                //catch (SystemException)
+                //{
+                //    // as above
+                //    this.buffer.Append("<unknown>");
+                //}
 
                 this.buffer.AppendFormat(" : {0,-4} :", qualifier);
 
@@ -437,7 +437,7 @@ namespace StyleCop.Diagnostics
                     this.buffer.Append(']');
                 }
 
-                if (StyleCopTrace.Switch.TraceThreadId)
+                if (StyleCopTrace.Switch.TraceThreadName)
                 {
                     this.buffer.Append(" [");
                     this.buffer.Append(Thread.CurrentThread.Name);
