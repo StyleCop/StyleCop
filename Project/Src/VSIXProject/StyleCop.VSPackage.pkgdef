@@ -1,11 +1,11 @@
 [$RootKey$\InstalledProducts\StyleCop]
 @="#110"
 "Package"="{629EB7CC-69C2-43AC-9BC9-482B0F810C4E}"
-"PID"="4.6"
+"PID"="4.7"
 "ProductDetails"="#112"
 "LogoID"="#400"
 [$RootKey$\Packages\{629EB7CC-69C2-43AC-9BC9-482B0F810C4E}]
-@="StyleCop.VisualStudio.StyleCopVSPackage, StyleCop.VSPackage, Version=4.6.0.0, Culture=neutral, PublicKeyToken=f904653c63bc2738"
+@="StyleCop.VisualStudio.StyleCopVSPackage, StyleCop.VSPackage, Version=4.7.0.0, Culture=neutral, PublicKeyToken=f904653c63bc2738"
 "InprocServer32"="$WinDir$\SYSTEM32\MSCOREE.DLL"
 "Class"="StyleCop.VisualStudio.StyleCopVSPackage"
 "CodeBase"="$PackageFolder$\StyleCop.VSPackage.dll"

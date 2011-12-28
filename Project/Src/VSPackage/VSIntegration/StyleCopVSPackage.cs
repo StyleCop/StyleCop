@@ -32,10 +32,10 @@ namespace StyleCop.VisualStudio
     /// </summary>
     [PackageRegistration(UseManagedResourcesOnly = true)]
     [DefaultRegistryRoot("Software\\Microsoft\\VisualStudio\\10.0")]
-    [InstalledProductRegistration(false, "#110", "#112", "4.6", IconResourceID = 400)]
+    [InstalledProductRegistration(false, "#110", "#112", "4.7", IconResourceID = 400)]
     [ProvideAutoLoad(/*UICONTEXT_SolutionExists*/ "{f1536ef8-92ec-443c-9ed7-fdadf150da82}")]
     [ProvideAutoLoad(/*UICONTEXT_NoSolution*/ "{ADFC4E64-0397-11D1-9F4E-00A0C911004F}")]
-    [ProvideLoadKey("Standard", "4.6", "StyleCop", "stylecop.codeplex.com", 200)]
+    [ProvideLoadKey("Standard", "4.7", "StyleCop", "stylecop.codeplex.com", 200)]
     [ProvideMenuResource(1000, 1)]
     [Guid(GuidList.StyleCopPackageIdString)]
     [SuppressMessage("Microsoft.Maintainability", "CA1506:AvoidExcessiveClassCoupling", Justification = "The class is complex.")]
