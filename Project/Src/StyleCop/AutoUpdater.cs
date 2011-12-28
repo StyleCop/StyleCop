@@ -36,12 +36,12 @@ namespace StyleCop
         /// <summary>
         /// This is the URL of the xml file that contains the latest version number.
         /// </summary>
-        private const string VersionUrl = "http://www.stylecop.com/updates/4.6/version.dev.xml";
+        private const string VersionUrl = "http://www.stylecop.com/updates/4.7/version.dev.xml";
 #else
         /// <summary>
         /// This is the URL of the xml file that contains the latest version number.
         /// </summary>        
-        private const string VersionUrl = "http://www.stylecop.com/updates/4.6/version.xml";
+        private const string VersionUrl = "http://www.stylecop.com/updates/4.7/version.xml";
 #endif
 
         /// <summary>
