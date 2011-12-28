@@ -39,7 +39,6 @@ namespace StyleCop.ReSharper.Options
     /// <summary>
     /// Class to hold all of the Configurable options for this addin.
     /// </summary>
-    /// 
     [ShellComponent(ProgramConfigurations.VS_ADDIN)]
     public class StyleCopOptions : IXmlExternalizable, IDisposable
     {
