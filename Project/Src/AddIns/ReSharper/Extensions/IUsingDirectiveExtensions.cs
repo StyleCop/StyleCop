@@ -48,14 +48,14 @@ namespace JetBrains.ReSharper.Psi.CSharp.Tree
 
                 var aliasedNamespace = aliasDirective.DeclaredElement.GetAliasedNamespace();
 
-                var returnValue = aliasedNamespace == null ? aliasDirective.ImportedSymbol.QualifiedName : aliasedNamespace.QualifiedName;
+                var returnValue = aliasedNamespace == null ? aliasDirective.ImportedSymbolName.QualifiedName : aliasedNamespace.QualifiedName;
 
                 return returnValue;
             }
 
             var namespaceDirective = directive as IUsingNamespaceDirective;
 
-            return namespaceDirective.ImportedNamespace == null ? namespaceDirective.ImportedNamespaceReferenceName.QualifiedName : namespaceDirective.ImportedNamespace.QualifiedName;
+            return namespaceDirective.ImportedNamespace == null ? namespaceDirective.ImportedSymbolName.QualifiedName : namespaceDirective.ImportedNamespace.QualifiedName;
         }
 
         /// <summary>

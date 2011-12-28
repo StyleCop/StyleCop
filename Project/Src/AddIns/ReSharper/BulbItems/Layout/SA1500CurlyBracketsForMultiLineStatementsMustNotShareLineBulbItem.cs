@@ -21,7 +21,9 @@ namespace StyleCop.ReSharper.BulbItems.Layout
     #region Using Directives
 
     using JetBrains.ProjectModel;
+    using JetBrains.ReSharper.Psi;
     using JetBrains.ReSharper.Psi.CodeStyle;
+    using JetBrains.ReSharper.Psi.CSharp;
     using JetBrains.ReSharper.Psi.CSharp.CodeStyle;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
     using JetBrains.TextControl;
@@ -55,7 +57,10 @@ namespace StyleCop.ReSharper.BulbItems.Layout
 
             if (containingBlock != null)
             {
-                CSharpFormatterHelper.FormatterInstance.Format(containingBlock);
+                //// CSharpFormatterHelper.FormatterInstance.Format(containingBlock);
+                var codeFormatter = (ICSharpCodeFormatter)CSharpLanguage.Instance.LanguageService().CodeFormatter;
+                codeFormatter.Format(containingBlock);
+
                 new LayoutRules().CurlyBracketsForMultiLineStatementsMustNotShareLine(containingBlock);
             }
             else
@@ -63,7 +68,10 @@ namespace StyleCop.ReSharper.BulbItems.Layout
                 var fieldDeclarationNode = element.GetContainingNode<IFieldDeclaration>(true);
                 if (fieldDeclarationNode != null)
                 {
-                    CSharpFormatterHelper.FormatterInstance.Format(fieldDeclarationNode);
+                    //// CSharpFormatterHelper.FormatterInstance.Format(fieldDeclarationNode);
+                    var codeFormatter = (ICSharpCodeFormatter)CSharpLanguage.Instance.LanguageService().CodeFormatter;
+                    codeFormatter.Format(fieldDeclarationNode);
+
                     new LayoutRules().CurlyBracketsForMultiLineStatementsMustNotShareLine(fieldDeclarationNode);
                 }
             }

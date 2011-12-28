@@ -22,6 +22,7 @@ namespace StyleCop.ReSharper.BulbItems.Framework
 
     using JetBrains.Application.Progress;
     using JetBrains.ProjectModel;
+    using JetBrains.ReSharper.Psi;
     using JetBrains.ReSharper.Psi.CodeStyle;
     using JetBrains.ReSharper.Psi.CSharp;
     using JetBrains.ReSharper.Psi.CSharp.CodeStyle;
@@ -91,8 +92,11 @@ namespace StyleCop.ReSharper.BulbItems.Framework
 
                     var file = declaration.GetContainingFile();
 
-                    CSharpFormatterHelper.FormatterInstance.FormatFile(
-                        file, SolutionCodeStyleSettings.GetInstance(solution).CodeStyleSettings, CodeFormatProfile.DEFAULT, NullProgressIndicator.Instance);
+                    //// CSharpFormatterHelper.FormatterInstance.FormatFile(
+                    //// file, SolutionCodeStyleSettings.GetInstance(solution).CodeStyleSettings, CodeFormatProfile.DEFAULT, NullProgressIndicator.Instance);
+
+                    var codeFormatter = (ICSharpCodeFormatter)CSharpLanguage.Instance.LanguageService().CodeFormatter;
+                    codeFormatter.FormatFile(file, CodeFormatProfile.DEFAULT, NullProgressIndicator.Instance);
                 }
             }
         }

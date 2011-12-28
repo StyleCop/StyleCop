@@ -16,6 +16,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+extern alias JB;
+
 namespace StyleCop.ReSharper.Options
 {
     #region Using Directives
@@ -28,6 +30,7 @@ namespace StyleCop.ReSharper.Options
     using JetBrains.Application;
     using JetBrains.Application.Components;
     using JetBrains.ReSharper.Daemon;
+    using JetBrains.ReSharper.Psi;
 
     using StyleCop.ReSharper.Core;
 
@@ -184,7 +187,7 @@ namespace StyleCop.ReSharper.Options
         private static void RegisterConfigurableGroup(HighlightingSettingsManager highlightManager, string groupId, string groupName)
         {
             var item = new HighlightingSettingsManager.ConfigurableGroupDescriptor(groupId, groupName);
-
+            
             var field = highlightManager.GetType().GetField("myConfigurableGroups", BindingFlags.Instance | BindingFlags.NonPublic);
 
             if (field != null)
@@ -200,17 +203,29 @@ namespace StyleCop.ReSharper.Options
 
         private static void RegisterConfigurableSeverity(HighlightingSettingsManager highlightManager, string highlightId, string groupName, string ruleName, string description, Severity defaultSeverity)
         {
-            var item = new HighlightingSettingsManager.ConfigurableSeverityItem(highlightId, null, groupName, ruleName, description, defaultSeverity, false, false);
+            var allConfigurableSeverityItems = highlightManager.GetType().GetField("myConfigurableSeverityItem", BindingFlags.Instance | BindingFlags.NonPublic);
 
-            var field = highlightManager.GetType().GetField("myConfigurableSeverityItem", BindingFlags.Instance | BindingFlags.NonPublic);
-
-            if (field != null)
+            if (allConfigurableSeverityItems != null)
             {
-                var items = field.GetValue(highlightManager) as Dictionary<string, HighlightingSettingsManager.ConfigurableSeverityItem>;
+                var configurableSeverityItems = allConfigurableSeverityItems.GetValue(highlightManager) as Dictionary<string, HighlightingSettingsManager.ConfigurableSeverityItem>;
 
-                if (items != null)
+                if (configurableSeverityItems != null)
                 {
-                    items.Add(highlightId, item);
+                    var item = new HighlightingSettingsManager.ConfigurableSeverityItem(highlightId, null, groupName, ruleName, description, defaultSeverity, false, false);
+                    configurableSeverityItems.Add(highlightId, item);
+                }
+            }
+            
+            var configurableSeverityImplementation = highlightManager.GetType().GetField("myConfigurableSeverityImplementation", BindingFlags.Instance | BindingFlags.NonPublic);
+
+            if (configurableSeverityImplementation != null)
+            {
+                var mapToLanguage = configurableSeverityImplementation.GetValue(highlightManager) as JB::JetBrains.Util.OneToListMap<string, PsiLanguageType>;
+
+                if (mapToLanguage != null)
+                {
+                    var languageType = Languages.Instance.GetLanguageByName("CSHARP");
+                    mapToLanguage.Add(highlightId, languageType);
                 }
             }
         }
@@ -230,8 +245,10 @@ namespace StyleCop.ReSharper.Options
 
             AddDefaultOption(highlightManager);
 
-            var defaultSeverity = HighlightingSettingsManager.Instance.Settings.GetSeverity(DefaultSeverityId);
+            //// var defaultSeverity = HighlightingSettingsManager.Instance.Settings.GetSeverity(DefaultSeverityId);
 
+            var defaultSeverity = HighlightingSettingsManager.Instance.GetConfigurableSeverity(DefaultSeverityId, null);
+            
             this.RegisterRuleConfigurations(highlightManager, analyzerRulesDictionary, defaultSeverity);
         }
 

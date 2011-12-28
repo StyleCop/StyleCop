@@ -493,7 +493,9 @@ namespace StyleCop.ReSharper.Core
             var tokens = Utils.GetTokensForLineFromTextControl(solution, textControl).ToArray();
             if (tokens.Length > 0)
             {
-                CSharpFormatterHelper.FormatterInstance.Format(tokens[0], tokens[tokens.Length - 1]);
+                ////CSharpFormatterHelper.FormatterInstance.Format(tokens[0], tokens[tokens.Length - 1]);
+                var codeFormatter = (ICSharpCodeFormatter)CSharpLanguage.Instance.LanguageService().CodeFormatter;
+                codeFormatter.Format(tokens[0], tokens[tokens.Length - 1]);
             }
         }
 
@@ -529,7 +531,7 @@ namespace StyleCop.ReSharper.Core
 
             var startOffset = document.GetLineStartOffset(startLine);
             var endOffset = document.GetLineEndOffsetNoLineBreak(endLine);
-
+/*
             CSharpFormatterHelper.FormatterInstance.Format(
                 solution, 
                 new DocumentRange(document, new JB::JetBrains.Util.TextRange(startOffset, endOffset)), 
@@ -537,6 +539,17 @@ namespace StyleCop.ReSharper.Core
                 CodeFormatProfile.DEFAULT, 
                 true, 
                 true, 
+                NullProgressIndicator.Instance);
+
+            */
+
+            var codeFormatter = (ICSharpCodeFormatter)CSharpLanguage.Instance.LanguageService().CodeFormatter;
+            codeFormatter.Format(
+                solution,
+                new DocumentRange(document, new JB::JetBrains.Util.TextRange(startOffset, endOffset)),
+                CodeFormatProfile.DEFAULT,
+                true,
+                true,
                 NullProgressIndicator.Instance);
         }
 
@@ -1335,7 +1348,9 @@ namespace StyleCop.ReSharper.Core
         /// </returns>
         public static ITypeElement GetTypeElement(IDeclaration declaration, string typeName)
         {
-            return CacheManager.GetInstance(declaration.GetSolution()).GetDeclarationsCache(DeclarationCacheLibraryScope.FULL, true).GetTypeElementByCLRName(typeName);
+            // return CacheManager.GetInstance(declaration.GetSolution()).GetDeclarationsCache(DeclarationCacheLibraryScope.FULL, true).GetTypeElementByCLRName(typeName);
+            var cacheManager = declaration.GetSolution().GetPsiServices().CacheManager;
+            return cacheManager.GetDeclarationsCache(DeclarationCacheLibraryScope.FULL, true).GetTypeElementByCLRName(typeName);
         }
 
         /// <summary>
@@ -1345,7 +1360,7 @@ namespace StyleCop.ReSharper.Core
         /// The first node to check.
         /// </param>
         /// <param name="node2">
-        /// The second noe to check.
+        /// The second node to check.
         /// </param>
         /// <returns>
         /// True if a line break between them.

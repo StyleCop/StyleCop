@@ -153,7 +153,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
                         newUsingDirective = CSharpElementFactory.GetInstance(declaration.GetPsiModule()).CreateUsingDirective(aliasDirective.AliasName + " = " + directive.GetFullyQualifiedNamespace());
 
                         var n = newUsingDirective as IUsingAliasDirective;
-                        n.SetImportedSymbol(aliasDirective.ImportedSymbol);
+                        n.SetImportedSymbolName(aliasDirective.ImportedSymbolName);
                     }
                     else
                     {

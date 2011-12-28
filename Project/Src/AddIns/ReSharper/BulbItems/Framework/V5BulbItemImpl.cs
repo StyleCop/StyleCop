@@ -24,19 +24,18 @@ namespace StyleCop.ReSharper.BulbItems.Framework
     using System;
 
     using JetBrains.Application;
-    using JetBrains.DocumentManagers;
     using JetBrains.DocumentManagers.impl;
     using JetBrains.DocumentModel;
     using JetBrains.DocumentModel.Transactions;
     using JetBrains.ProjectModel;
-    using JetBrains.ReSharper.Intentions;
+    using JetBrains.ReSharper.Feature.Services.Bulbs;
     using JetBrains.ReSharper.Psi;
     using JetBrains.TextControl;
 
     #endregion
 
     /// <summary>
-    /// BulbItem Implementation for ReSharper 6.0 style build items.
+    /// BulbItem Implementation for ReSharper 6.1 style build items.
     /// </summary>
     public abstract class V5BulbItemImpl : BulbItemImpl
     {

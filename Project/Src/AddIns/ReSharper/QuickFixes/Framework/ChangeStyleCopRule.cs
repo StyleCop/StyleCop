@@ -27,6 +27,7 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Daemon;
     using JetBrains.ReSharper.Feature.Services.Bulbs;
+    using JetBrains.ReSharper.Psi;
 
     using StyleCop.ReSharper.Options;
     using StyleCop.ReSharper.Violations;
@@ -36,7 +37,7 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
     /// <summary>
     /// DisableHighlightingActionProvider for StyleCop rules.
     /// </summary>
-    [CustomHighlightingActionProvider]
+    [CustomHighlightingActionProvider(typeof(CSharpProjectFileType))]
     public class ChangeStyleCopRule : ICustomHighlightingActionProvider
     {
         #region Implemented Interfaces
@@ -55,10 +56,13 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
         /// <param name="highlightingRange">
         /// The current highlighting range.
         /// </param>
+        /// <param name="sourceFile">
+        /// The file.
+        /// </param>
         /// <returns>
         /// The available actions.
         /// </returns>
-        public IEnumerable<ICustomHighlightingAction> GetActions(IHighlighting highlighting, ISolution solution, DocumentRange highlightingRange)
+        public IEnumerable<ICustomHighlightingAction> GetActions(IHighlighting highlighting, ISolution solution, DocumentRange highlightingRange, IPsiSourceFile sourceFile)
         {
             var violation = highlighting as StyleCopViolationBase;
 

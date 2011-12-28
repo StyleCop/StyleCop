@@ -103,7 +103,9 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
                 DeleteChildRange(startOfTokensToDelete, endOfTokensToDelete);
                 var endOfTokensToFormat = newCommentTokenNode;
 
-                CSharpFormatterHelper.FormatterInstance.Format(startOfTokensToFormat, endOfTokensToFormat);
+                ////CSharpFormatterHelper.FormatterInstance.Format(startOfTokensToFormat, endOfTokensToFormat);
+                var codeFormatter = (ICSharpCodeFormatter)CSharpLanguage.Instance.LanguageService().CodeFormatter;
+                codeFormatter.Format(startOfTokensToFormat, endOfTokensToFormat);
             }
         }
 
@@ -152,7 +154,9 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
                     endOfTokensToFormat = (IStartRegion)newLineToken;
                 }
 
-                CSharpFormatterHelper.FormatterInstance.Format(startOfTokensToFormat, endOfTokensToFormat);
+                ////CSharpFormatterHelper.FormatterInstance.Format(startOfTokensToFormat, endOfTokensToFormat);
+                var codeFormatter = (ICSharpCodeFormatter)CSharpLanguage.Instance.LanguageService().CodeFormatter;
+                codeFormatter.Format(startOfTokensToFormat, endOfTokensToFormat);
             }
         }
 

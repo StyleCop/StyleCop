@@ -57,13 +57,14 @@ namespace StyleCop.ReSharper.CodeCleanup.Descriptors
         /// <summary>
         /// Loads the specified profile.
         /// </summary>
-        /// <param name="profile">
-        /// The profile.
-        /// </param>
         /// <param name="element">
         /// The element.
         /// </param>
-        public override void Load(CodeCleanupProfile profile, XmlElement element)
+        /// <returns>
+        /// The options.
+        /// </returns>
+        //// public override void Load(CodeCleanupProfile profile, XmlElement element)
+        public override DocumentationOptions Load(XmlElement element)
         {
             var options = new DocumentationOptions();
             var optionsElement = (XmlElement)element.SelectSingleNode(this.Name);
@@ -99,7 +100,8 @@ namespace StyleCop.ReSharper.CodeCleanup.Descriptors
                 }
             }
 
-            profile.SetSetting(this, options);
+            return options;
+            //// profile.SetSetting(this, options);
         }
 
         /// <summary>
@@ -119,15 +121,16 @@ namespace StyleCop.ReSharper.CodeCleanup.Descriptors
         /// <summary>
         /// Saves the specified profile.
         /// </summary>
-        /// <param name="profile">
-        /// The profile.
-        /// </param>
         /// <param name="element">
         /// The element.
         /// </param>
-        public override void Save(CodeCleanupProfile profile, XmlElement element)
+        /// <param name="options">
+        /// The options to save.
+        /// </param>
+        //// public override void Save(CodeCleanupProfile profile, XmlElement element)
+        public override void Save(XmlElement element, DocumentationOptions options)
         {
-            var options = profile.GetSetting(this);
+            ////var options = profile.GetSetting(this);
             var optionsElement = JB::JetBrains.Util.XmlUtil.CreateElement(element, this.Name);
 
             JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(optionsElement, "SA1600ElementsMustBeDocumented", options.SA1600ElementsMustBeDocumented.ToString());

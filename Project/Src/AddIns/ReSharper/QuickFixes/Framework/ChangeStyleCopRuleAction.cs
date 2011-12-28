@@ -24,10 +24,13 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
     using System.Windows.Forms;
 
     using JetBrains.Application;
+    using JetBrains.Application.Settings;
+    using JetBrains.IDE;
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Daemon;
     using JetBrains.ReSharper.Daemon.Impl;
     using JetBrains.ReSharper.Feature.Services.Bulbs;
+    using JetBrains.ReSharper.Psi;
     using JetBrains.TextControl;
     using JetBrains.UI.Application;
 
@@ -120,19 +123,31 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
         {
             using (var dialog = new ChangeSeverityDialog())
             {
-                var settings = HighlightingSettingsManager.Instance.Settings.Clone();
+                ////var settings = HighlightingSettingsManager.Instance.Settings.Clone();
 
-                var severityItem = HighlightingSettingsManager.Instance.GetSeverityItem(this.HighlightID);
+                ////var severityItem = HighlightingSettingsManager.Instance.GetSeverityItem(this.HighlightID);
 
-                dialog.Severity = settings.GetSeverity(this.HighlightID);
-                dialog.Text = "Inspection options for \"" + severityItem.Title + "\"";
+                ////dialog.Severity = settings.GetSeverity(this.HighlightID);
+                ////dialog.Text = "Inspection options for \"" + severityItem.Title + "\"";
 
+                ////if (dialog.ShowDialog(Shell.Instance.GetComponent<UIApplication>().MainWindow) == DialogResult.OK)
+                ////{
+                ////    settings.SetSeverity(this.HighlightID, dialog.Severity);
+                ////    HighlightingSettingsManager.Instance.Settings = settings;
+
+                ////    Daemon.GetInstance(solution).Invalidate();
+                ////}
+
+                var settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, solution);
+                var contextBoundSettingsStore = settingsStore.SettingsStore.BindToContextTransient(ContextRange.Smart(textControl.Document.ToDataContext()));
+                HighlightingSettingsManager settingsManager = HighlightingSettingsManager.Instance;
+                HighlightingSettingsManager.ConfigurableSeverityItem item = settingsManager.GetSeverityItem(this.HighlightID);
+                dialog.Severity = settingsManager.GetConfigurableSeverity(this.HighlightID, solution);
+                dialog.Text = string.Format("Inspection Options for \"{0}\"", item.FullTitle);
+                dialog.CanBeError = !item.SolutionAnalysisRequired;
                 if (dialog.ShowDialog(Shell.Instance.GetComponent<UIApplication>().MainWindow) == DialogResult.OK)
                 {
-                    settings.SetSeverity(this.HighlightID, dialog.Severity);
-                    HighlightingSettingsManager.Instance.Settings = settings;
-
-                    Daemon.GetInstance(solution).Invalidate();
+                    contextBoundSettingsStore.SetIndexedValue(HighlightingSettingsAccessor.InspectionSeverities, this.HighlightID, dialog.Severity);
                 }
             }
         }

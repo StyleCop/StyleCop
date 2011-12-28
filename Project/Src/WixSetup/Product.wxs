@@ -26,11 +26,11 @@
       
       <Feature Id='Feature_ReSharper'
                Title='R# integration'
-               Description='Files for setting up StyleCop integration with JetBrains ReSharper 6.0.'
+               Description='Files for setting up StyleCop integration with JetBrains ReSharper 6.1.'
                Level='500' AllowAdvertise="no" Display="expand" InstallDefault="local" TypicalDefault="install" Absent="allow">
         <ComponentGroupRef Id="ReSharper_Common" />
-        <Condition Level="1"><![CDATA[RESHARPER60_VS90_VERSION<>"" OR RESHARPER60_VS100_VERSION<>""]]></Condition>
-        <Condition Level="0"><![CDATA[RESHARPER60_VS90_VERSION="" AND RESHARPER60_VS100_VERSION=""]]></Condition>
+        <Condition Level="1"><![CDATA[RESHARPER61_VS90_VERSION<>"" OR RESHARPER61_VS100_VERSION<>""]]></Condition>
+        <Condition Level="0"><![CDATA[RESHARPER61_VS90_VERSION="" AND RESHARPER61_VS100_VERSION=""]]></Condition>
       </Feature>
 
       <Feature Id='Feature_VisualStudioTemplates'
@@ -94,12 +94,12 @@
     <Property Id="ARPURLINFOABOUT" Value='$(var.Manufacturer)'/>
     <Property Id="ARPURLUPDATEINFO" Value='$(var.Manufacturer)' />
 
-    <Property Id="RESHARPER60_VS100_VERSION" Admin="yes" Secure="yes">
-      <RegistrySearch Id="REG_RESHARPER60_VS100_VERSION" Root="HKLM" Key="Software\JetBrains\ReSharper\v6.0\vs10.0" Name="ProductVersion" Type="raw" />
+    <Property Id="RESHARPER61_VS100_VERSION" Admin="yes" Secure="yes">
+      <RegistrySearch Id="REG_RESHARPER61_VS100_VERSION" Root="HKLM" Key="Software\JetBrains\ReSharper\v6.1\vs10.0" Name="ProductVersion" Type="raw" />
     </Property>
 
-    <Property Id="RESHARPER60_VS90_VERSION" Admin="yes" Secure="yes">
-      <RegistrySearch Id="REG_RESHARPER60_VS90_VERSION" Root="HKLM" Key="Software\JetBrains\ReSharper\v6.0\vs9.0" Name="ProductVersion" Type="raw" />
+    <Property Id="RESHARPER61_VS90_VERSION" Admin="yes" Secure="yes">
+      <RegistrySearch Id="REG_RESHARPER61_VS90_VERSION" Root="HKLM" Key="Software\JetBrains\ReSharper\v6.1\vs9.0" Name="ProductVersion" Type="raw" />
     </Property>
 
     <!-- This property is used to detect versions of StyleCop < 4.5 that had per user installs -->

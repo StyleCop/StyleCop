@@ -24,6 +24,7 @@ namespace StyleCop.ReSharper.Core
 
     using System;
 
+    using JetBrains.Application.Settings;
     using JetBrains.ReSharper.Daemon;
     using JetBrains.ReSharper.Psi;
 
@@ -80,16 +81,15 @@ namespace StyleCop.ReSharper.Core
         }
 
         #endregion
-
-        #region Implemented Interfaces
-
-        #region IDaemonStage
-
+        
         /// <summary>
         /// This method provides a <see cref="IDaemonStageProcess"/> instance which is assigned to highlighting a single document.
         /// </summary>
         /// <param name="process">
         /// Current Daemon Process.
+        /// </param>
+        /// <param name="settings">
+        /// The settings store to use.
         /// </param>
         /// <param name="processKind">
         /// The process kind.
@@ -97,10 +97,10 @@ namespace StyleCop.ReSharper.Core
         /// <returns>
         /// Current <see cref="IDaemonStageProcess"/>.
         /// </returns>
-        public IDaemonStageProcess CreateProcess(IDaemonProcess process, DaemonProcessKind processKind)
+        public IDaemonStageProcess CreateProcess(IDaemonProcess process, IContextBoundSettingsStore settings, DaemonProcessKind processKind)
         {
             StyleCopTrace.In(process, processKind);
-
+            
             if (process == null)
             {
                 throw new ArgumentNullException("process");
@@ -113,25 +113,26 @@ namespace StyleCop.ReSharper.Core
                 return null;
             }
 
+            GC.Collect();
+
             return StyleCopTrace.Out(new StyleCopStageProcess(process));
         }
         
         /// <summary>
         /// We want to add markers to the right-side stripe as well as contribute to document errors.
         /// </summary>
-        /// <param name="projectFile">
+        /// <param name="sourceFile">
         /// File that the Stripe needs to be applied to.
+        /// </param>
+        /// <param name="settingsStore">
+        /// The store to use.
         /// </param>
         /// <returns>
         /// A <see cref="ErrorStripeRequest"/> for the specified file.
         /// </returns>
-        public ErrorStripeRequest NeedsErrorStripe(IPsiSourceFile projectFile)
+        public ErrorStripeRequest NeedsErrorStripe(IPsiSourceFile sourceFile, IContextBoundSettingsStore settingsStore)
         {
             return ErrorStripeRequest.STRIPE_AND_ERRORS;
         }
-
-        #endregion
-
-        #endregion
     }
 }

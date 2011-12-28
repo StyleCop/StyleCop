@@ -22,7 +22,9 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
 
     using System.Collections.Generic;
 
+    using JetBrains.ReSharper.Psi;
     using JetBrains.ReSharper.Psi.CodeStyle;
+    using JetBrains.ReSharper.Psi.CSharp;
     using JetBrains.ReSharper.Psi.CSharp.CodeStyle;
     using JetBrains.ReSharper.Psi.CSharp.Impl.Tree;
     using JetBrains.ReSharper.Psi.CSharp.Parsing;
@@ -389,7 +391,9 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
                                 {
                                     currentNode.InsertNewLineBefore();
 
-                                    CSharpFormatterHelper.FormatterInstance.Format(currentNode.Parent);
+                                    ////CSharpFormatterHelper.FormatterInstance.Format(currentNode.Parent);
+                                    var codeFormatter = (ICSharpCodeFormatter)CSharpLanguage.Instance.LanguageService().CodeFormatter;
+                                    codeFormatter.Format(currentNode.Parent);
                                 }
                             }
                         }

@@ -23,10 +23,13 @@ namespace StyleCop.ReSharper.Options
     using System.Windows.Forms;
 
     using JetBrains.Application;
+    using JetBrains.Application.Settings;
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Feature.Services.CodeCleanup;
-    using JetBrains.ReSharper.Psi.CodeStyle;
+    using JetBrains.ReSharper.Psi;
     using JetBrains.ReSharper.Psi.CSharp.CodeStyle;
+    using JetBrains.ReSharper.Psi.CSharp.CodeStyle.FormatSettings;
+    using JetBrains.ReSharper.Psi.CSharp.Naming2;
     using JetBrains.ReSharper.Psi.Naming.Settings;
     using JetBrains.UI.Options;
 
@@ -55,10 +58,7 @@ namespace StyleCop.ReSharper.Options
         /// <summary>
         /// The order of modifiers for StyleCop.
         /// </summary>
-        private static readonly string[] ModifiersOrder = new[]
-            {
-                "public", "protected", "internal", "private", "static", "new", "abstract", "virtual", "override", "sealed", "readonly", "extern", "unsafe", "volatile"
-            };
+        private static readonly string ModifiersOrder = "public protected internal private static new abstract virtual override sealed readonly extern unsafe volatile async";
         
         /// <summary>
         /// The instance of this options page.
@@ -77,13 +77,13 @@ namespace StyleCop.ReSharper.Options
         /// <summary>
         /// Initializes a new instance of the <see cref="StyleCopOptionsPage"/> class.
         /// </summary>
-        /// <param name="dialog">The options dialog reference opening our page.</param>
-        public StyleCopOptionsPage(IOptionsDialog dialog)
+        //// public StyleCopOptionsPage(IOptionsDialog dialog)
+        public StyleCopOptionsPage()
         {
             using (ReadLockCookie.Create())
             {
                 instance = this;
-                this.dialog = dialog;
+                //// this.dialog = dialog;
 
                 this.solution = this.GetSolution();
 
@@ -156,240 +156,251 @@ namespace StyleCop.ReSharper.Options
         /// <param name="solution">The solution to reset.</param>
         public static void ResetCodeStyleOptions(ISolution solution)
         {
-            CodeStyleSettings settings = solution == null ? CodeStyleSettingsManager.Instance.CodeStyleSettings : SolutionCodeStyleSettings.GetInstance(solution).CodeStyleSettings;
+            var settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, solution);
+            
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.ALIGN_FIRST_ARG_BY_PAREN, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.ALIGN_LINQ_QUERY, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.ALIGN_MULTILINE_ARGUMENT, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.ALIGN_MULTILINE_ARRAY_AND_OBJECT_INITIALIZER, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.ALIGN_MULTILINE_EXPRESSION, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.ALIGN_MULTILINE_EXTENDS_LIST, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.ALIGN_MULTILINE_FOR_STMT, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.ALIGN_MULTILINE_PARAMETER, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.ALIGN_MULTIPLE_DECLARATION, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.ALIGN_MULTLINE_TYPE_PARAMETER_CONSTRAINS, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.ALIGN_MULTLINE_TYPE_PARAMETER_LIST, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.ALLOW_COMMENT_AFTER_LBRACE, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.ANONYMOUS_METHOD_DECLARATION_BRACES, BraceFormatStyle.NEXT_LINE_SHIFTED_2);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.ARRANGE_MODIFIER_IN_EXISTING_CODE, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.BLANK_LINES_AFTER_START_COMMENT, 1);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.BLANK_LINES_AFTER_USING_LIST, 1);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.BLANK_LINES_AROUND_FIELD, 1);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.BLANK_LINES_AROUND_INVOCABLE, 1);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.BLANK_LINES_AROUND_NAMESPACE, 1);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.BLANK_LINES_AROUND_REGION, 1);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.BLANK_LINES_AROUND_SINGLE_LINE_FIELD, 1);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.BLANK_LINES_AROUND_SINGLE_LINE_INVOCABLE, 1);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.BLANK_LINES_AROUND_TYPE, 1);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.BLANK_LINES_BETWEEN_USING_GROUPS, 1);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.BLANK_LINES_INSIDE_REGION, 1);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.CASE_BLOCK_BRACES, BraceFormatStyle.NEXT_LINE_SHIFTED_2);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.CONTINUOUS_INDENT_MULTIPLIER, 1);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.EMPTY_BLOCK_STYLE, EmptyBlockStyle.MULTILINE);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.EXPLICIT_INTERNAL_MODIFIER, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.EXPLICIT_PRIVATE_MODIFIER, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.FORCE_ATTRIBUTE_STYLE, ForceAttributeStyle.SEPARATE);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.FORCE_CHOP_COMPOUND_DO_EXPRESSION, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.FORCE_CHOP_COMPOUND_IF_EXPRESSION, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.FORCE_CHOP_COMPOUND_WHILE_EXPRESSION, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.FORCE_FIXED_BRACES_STYLE, ForceBraceStyle.ALWAYS_ADD);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.FORCE_FOR_BRACES_STYLE, ForceBraceStyle.ALWAYS_ADD);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.FORCE_FOREACH_BRACES_STYLE, ForceBraceStyle.ALWAYS_ADD);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.FORCE_IFELSE_BRACES_STYLE, ForceBraceStyle.ALWAYS_ADD);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.FORCE_USING_BRACES_STYLE, ForceBraceStyle.DO_NOT_CHANGE);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.FORCE_WHILE_BRACES_STYLE, ForceBraceStyle.ALWAYS_ADD);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.INDENT_ANONYMOUS_METHOD_BLOCK, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.INDENT_CASE_FROM_SWITCH, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.INDENT_EMBRACED_INITIALIZER_BLOCK, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.INDENT_NESTED_FIXED_STMT, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.INDENT_NESTED_USINGS_STMT, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.INITIALIZER_BRACES, BraceFormatStyle.NEXT_LINE_SHIFTED_2);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.INVOCABLE_DECLARATION_BRACES, BraceFormatStyle.NEXT_LINE);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.KEEP_BLANK_LINES_IN_CODE, 1);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.KEEP_BLANK_LINES_IN_DECLARATIONS, 1);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.KEEP_USER_LINEBREAKS, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.LINE_FEED_AT_FILE_END, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.MODIFIERS_ORDER, ModifiersOrder);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.OTHER_BRACES, BraceFormatStyle.NEXT_LINE);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.PLACE_ABSTRACT_ACCESSORHOLDER_ON_SINGLE_LINE, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.PLACE_ACCESSORHOLDER_ATTRIBUTE_ON_SAME_LINE, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.PLACE_CATCH_ON_NEW_LINE, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.PLACE_CONSTRUCTOR_INITIALIZER_ON_SAME_LINE, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.PLACE_ELSE_ON_NEW_LINE, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.PLACE_FIELD_ATTRIBUTE_ON_SAME_LINE, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.PLACE_FINALLY_ON_NEW_LINE, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.PLACE_METHOD_ATTRIBUTE_ON_SAME_LINE, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.PLACE_SIMPLE_ACCESSOR_ON_SINGLE_LINE, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.PLACE_SIMPLE_ACCESSORHOLDER_ON_SINGLE_LINE, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.PLACE_SIMPLE_ANONYMOUSMETHOD_ON_SINGLE_LINE, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.PLACE_SIMPLE_INITIALIZER_ON_SINGLE_LINE, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.PLACE_SIMPLE_LINQ_ON_SINGLE_LINE, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.PLACE_SIMPLE_METHOD_ON_SINGLE_LINE, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.PLACE_TYPE_ATTRIBUTE_ON_SAME_LINE, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.PLACE_TYPE_CONSTRAINTS_ON_SAME_LINE, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.PLACE_WHILE_ON_NEW_LINE, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.REDUNDANT_THIS_QUALIFIER_STYLE, ThisQualifierStyle.ALWAYS_USE);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SIMPLE_EMBEDDED_STATEMENT_STYLE, SimpleEmbeddedStatementStyle.ON_SINGLE_LINE);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_AFTER_AMPERSAND_OP, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_AFTER_ASTERIK_OP, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_AFTER_ATTRIBUTE_COLON, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_AFTER_COMMA, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_AFTER_EXTENDS_COLON, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_AFTER_FOR_SEMICOLON, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_AFTER_TERNARY_COLON, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_AFTER_TERNARY_QUEST, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_AFTER_TYPE_PARAMETER_CONSTRAINT_COLON, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_AFTER_TYPECAST_PARENTHESES, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_AROUND_ADDITIVE_OP, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_AROUND_ALIAS_EQ, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_AROUND_ARROW_OP, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_AROUND_ASSIGNMENT_OP, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_AROUND_BITWISE_OP, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_AROUND_DOT, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_AROUND_EQUALITY_OP, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_AROUND_LAMBDA_ARROW, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_AROUND_LOGICAL_OP, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_AROUND_MULTIPLICATIVE_OP, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_AROUND_NULLCOALESCING_OP, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_AROUND_RELATIONAL_OP, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_AROUND_SHIFT_OP, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_ARRAY_ACCESS_BRACKETS, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_ARRAY_RANK_BRACKETS, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_ATTRIBUTE_COLON, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_CATCH_PARENTHESES, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_COLON_IN_CASE, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_COMMA, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_EMPTY_METHOD_CALL_PARENTHESES, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_EMPTY_METHOD_PARENTHESES, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_EXTENDS_COLON, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_FIXED_PARENTHESES, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_FOR_PARENTHESES, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_FOR_SEMICOLON, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_FOREACH_PARENTHESES, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_IF_PARENTHESES, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_LOCK_PARENTHESES, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_METHOD_CALL_PARENTHESES, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_METHOD_PARENTHESES, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_NULLABLE_MARK, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_POINTER_ASTERIK_DECLARATION, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_SEMICOLON, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_SINGLELINE_ACCESSORHOLDER, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_SIZEOF_PARENTHESES, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_SWITCH_PARENTHESES, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_TERNARY_COLON, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_TERNARY_QUEST, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_TRAILING_COMMENT, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_TYPE_ARGUMENT_ANGLE, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_TYPE_PARAMETER_ANGLE, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_TYPE_PARAMETER_CONSTRAINT_COLON, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_TYPEOF_PARENTHESES, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_USING_PARENTHESES, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_WHILE_PARENTHESES, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_BETWEEN_ACCESSORS_IN_SINGLELINE_PROPERTY, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_IN_SINGLELINE_ACCESSORHOLDER, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_IN_SINGLELINE_ANONYMOUS_METHOD, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_IN_SINGLELINE_METHOD, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_WITHIN_ARRAY_ACCESS_BRACKETS, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_WITHIN_ARRAY_RANK_BRACKETS, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_WITHIN_ARRAY_RANK_EMPTY_BRACKETS, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_WITHIN_ATTRIBUTE_BRACKETS, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_WITHIN_CATCH_PARENTHESES, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_WITHIN_EMPTY_METHOD_CALL_PARENTHESES, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_WITHIN_EMPTY_METHOD_PARENTHESES, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_WITHIN_FIXED_PARENTHESES, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_WITHIN_FOR_PARENTHESES, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_WITHIN_FOREACH_PARENTHESES, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_WITHIN_IF_PARENTHESES, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_WITHIN_LOCK_PARENTHESES, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_WITHIN_METHOD_CALL_PARENTHESES, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_WITHIN_METHOD_PARENTHESES, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_WITHIN_PARENTHESES, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_WITHIN_SINGLE_LINE_ARRAY_INITIALIZER_BRACES, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_WITHIN_SIZEOF_PARENTHESES, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_WITHIN_SWITCH_PARENTHESES, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_WITHIN_TYPE_ARGUMENT_ANGLES, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_WITHIN_TYPE_PARAMETER_ANGLES, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_WITHIN_TYPECAST_PARENTHESES, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_WITHIN_TYPEOF_PARENTHESES, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_WITHIN_USING_PARENTHESES, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_WITHIN_WHILE_PARENTHESES, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPECIAL_ELSE_IF_TREATMENT, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.STICK_COMMENT, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.TYPE_DECLARATION_BRACES, BraceFormatStyle.NEXT_LINE);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.WRAP_AFTER_DECLARATION_LPAR, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.WRAP_AFTER_INVOCATION_LPAR, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.WRAP_ARGUMENTS_STYLE, WrapStyle.CHOP_IF_LONG);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.WRAP_BEFORE_BINARY_OPSIGN, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.WRAP_BEFORE_DECLARATION_LPAR, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.WRAP_BEFORE_EXTENDS_COLON, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.WRAP_BEFORE_FIRST_TYPE_PARAMETER_CONSTRAINT, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.WRAP_BEFORE_INVOCATION_LPAR, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.WRAP_BEFORE_TYPE_PARAMETER_LANGLE, false);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.WRAP_EXTENDS_LIST_STYLE, WrapStyle.CHOP_IF_LONG);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.WRAP_FOR_STMT_HEADER_STYLE, WrapStyle.CHOP_IF_LONG);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.WRAP_LIMIT, settingsStore.GetValue((CSharpFormatSettingsKey key) => key.WRAP_LIMIT)); // We don't need to set this. It's here for completeness.
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.WRAP_LINES, true);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.WRAP_MULTIPLE_DECLARATION_STYLE, WrapStyle.CHOP_IF_LONG);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.WRAP_MULTIPLE_TYPE_PARAMEER_CONSTRAINTS_STYLE, WrapStyle.CHOP_IF_LONG);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.WRAP_OBJECT_AND_COLLECTION_INITIALIZER_STYLE, WrapStyle.CHOP_IF_LONG);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.WRAP_PARAMETERS_STYLE, WrapStyle.CHOP_IF_LONG);
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.WRAP_TERNARY_EXPR_STYLE, WrapStyle.CHOP_IF_LONG);
 
-            CSharpCodeStyleSettings codeStyleSettings = settings.Get<CSharpCodeStyleSettings>();
+            ////var namingSettings = codeStyleSettings.GetNamingSettings2();
 
-            var formatSettings = codeStyleSettings.FormatSettings;
+            //// namingSettings.OverrideDefaultSettings = true;
 
-            formatSettings.ALIGN_FIRST_ARG_BY_PAREN = false;
-            formatSettings.ALIGN_LINQ_QUERY = true;
-            formatSettings.ALIGN_MULTILINE_ARGUMENT = false;
-            formatSettings.ALIGN_MULTILINE_ARRAY_AND_OBJECT_INITIALIZER = true;
-            formatSettings.ALIGN_MULTILINE_EXPRESSION = true;
-            formatSettings.ALIGN_MULTILINE_EXTENDS_LIST = true;
-            formatSettings.ALIGN_MULTILINE_FOR_STMT = true;
-            formatSettings.ALIGN_MULTILINE_PARAMETER = true;
-            formatSettings.ALIGN_MULTIPLE_DECLARATION = true;
-            formatSettings.ALIGN_MULTLINE_TYPE_PARAMETER_CONSTRAINS = true;
-            formatSettings.ALIGN_MULTLINE_TYPE_PARAMETER_LIST = true;
-            formatSettings.ALLOW_COMMENT_AFTER_LBRACE = false;
-            formatSettings.ANONYMOUS_METHOD_DECLARATION_BRACES = BraceFormatStyle.NEXT_LINE_SHIFTED_2;
-            formatSettings.ARRANGE_MODIFIER_IN_EXISTING_CODE = true;
-            formatSettings.BLANK_LINES_AFTER_START_COMMENT = 1;
-            formatSettings.BLANK_LINES_AFTER_USING = 1;
-            formatSettings.BLANK_LINES_AFTER_USING_LIST = 1;
-            formatSettings.BLANK_LINES_AROUND_FIELD = 1;
-            formatSettings.BLANK_LINES_AROUND_INVOCABLE = 1;
-            formatSettings.BLANK_LINES_AROUND_NAMESPACE = 1;
-            formatSettings.BLANK_LINES_AROUND_REGION = 1;
-            formatSettings.BLANK_LINES_AROUND_SINGLE_LINE_FIELD = 1;
-            formatSettings.BLANK_LINES_AROUND_SINGLE_LINE_INVOCABLE = 1;
-            formatSettings.BLANK_LINES_AROUND_TYPE = 1;
-            formatSettings.BLANK_LINES_BEFORE_USING = 0;
-            formatSettings.BLANK_LINES_BETWEEN_USING_GROUPS = 1;
-            formatSettings.BLANK_LINES_INSIDE_REGION = 1;
-            formatSettings.CASE_BLOCK_BRACES = BraceFormatStyle.NEXT_LINE_SHIFTED_2;
-            formatSettings.CONTINUOUS_INDENT_MULTIPLIER = 1;
-            formatSettings.EMPTY_BLOCK_STYLE = EmptyBlockStyle.MULTILINE;
-            formatSettings.EXPLICIT_INTERNAL_MODIFIER = true;
-            formatSettings.EXPLICIT_PRIVATE_MODIFIER = true;
-            formatSettings.FORCE_ATTRIBUTE_STYLE = ForceAttributeStyle.SEPARATE;
-            formatSettings.FORCE_CHOP_COMPOUND_DO_EXPRESSION = false;
-            formatSettings.FORCE_CHOP_COMPOUND_IF_EXPRESSION = false;
-            formatSettings.FORCE_CHOP_COMPOUND_WHILE_EXPRESSION = false;
-            formatSettings.FORCE_FIXED_BRACES_STYLE = ForceBraceStyle.ALWAYS_ADD;
-            formatSettings.FORCE_FOR_BRACES_STYLE = ForceBraceStyle.ALWAYS_ADD;
-            formatSettings.FORCE_FOREACH_BRACES_STYLE = ForceBraceStyle.ALWAYS_ADD;
-            formatSettings.FORCE_IFELSE_BRACES_STYLE = ForceBraceStyle.ALWAYS_ADD;
-            formatSettings.FORCE_USING_BRACES_STYLE = ForceBraceStyle.DO_NOT_CHANGE;
-            formatSettings.FORCE_WHILE_BRACES_STYLE = ForceBraceStyle.ALWAYS_ADD;
-            formatSettings.INDENT_ANONYMOUS_METHOD_BLOCK = false;
-            formatSettings.INDENT_CASE_FROM_SWITCH = true;
-            formatSettings.INDENT_EMBRACED_INITIALIZER_BLOCK = false;
-            formatSettings.INDENT_NESTED_FIXED_STMT = false;
-            formatSettings.INDENT_NESTED_USINGS_STMT = false;
-            formatSettings.INITIALIZER_BRACES = BraceFormatStyle.NEXT_LINE_SHIFTED_2;
-            formatSettings.INVOCABLE_DECLARATION_BRACES = BraceFormatStyle.NEXT_LINE;
-            formatSettings.KEEP_BLANK_LINES_IN_CODE = 1;
-            formatSettings.KEEP_BLANK_LINES_IN_DECLARATIONS = 1;
-            formatSettings.KEEP_USER_LINEBREAKS = false;
-            formatSettings.LINE_FEED_AT_FILE_END = false;
-            formatSettings.MODIFIERS_ORDER = ModifiersOrder;
-            formatSettings.OTHER_BRACES = BraceFormatStyle.NEXT_LINE;
-            formatSettings.PLACE_ABSTRACT_ACCESSORHOLDER_ON_SINGLE_LINE = true;
-            formatSettings.PLACE_ACCESSORHOLDER_ATTRIBUTE_ON_SAME_LINE = false;
-            formatSettings.PLACE_CATCH_ON_NEW_LINE = true;
-            formatSettings.PLACE_CONSTRUCTOR_INITIALIZER_ON_SAME_LINE = false;
-            formatSettings.PLACE_ELSE_ON_NEW_LINE = true;
-            formatSettings.PLACE_FIELD_ATTRIBUTE_ON_SAME_LINE = false;
-            formatSettings.PLACE_FINALLY_ON_NEW_LINE = true;
-            formatSettings.PLACE_METHOD_ATTRIBUTE_ON_SAME_LINE = false;
-            formatSettings.PLACE_SIMPLE_ACCESSOR_ON_SINGLE_LINE = false;
-            formatSettings.PLACE_SIMPLE_ACCESSORHOLDER_ON_SINGLE_LINE = false;
-            formatSettings.PLACE_SIMPLE_ANONYMOUSMETHOD_ON_SINGLE_LINE = true;
-            formatSettings.PLACE_SIMPLE_INITIALIZER_ON_SINGLE_LINE = true;
-            formatSettings.PLACE_SIMPLE_LINQ_ON_SINGLE_LINE = true;
-            formatSettings.PLACE_SIMPLE_METHOD_ON_SINGLE_LINE = false;
-            formatSettings.PLACE_TYPE_ATTRIBUTE_ON_SAME_LINE = false;
-            formatSettings.PLACE_TYPE_CONSTRAINTS_ON_SAME_LINE = false;
-            formatSettings.PLACE_WHILE_ON_NEW_LINE = true;
-            formatSettings.REDUNDANT_THIS_QUALIFIER_STYLE = ThisQualifierStyle.ALWAYS_USE;
-            formatSettings.SIMPLE_EMBEDDED_STATEMENT_STYLE = SimpleEmbeddedStatementStyle.ON_SINGLE_LINE;
-            formatSettings.SPACE_AFTER_AMPERSAND_OP = false;
-            formatSettings.SPACE_AFTER_ASTERIK_OP = false;
-            formatSettings.SPACE_AFTER_ATTRIBUTE_COLON = true;
-            formatSettings.SPACE_AFTER_COMMA = true;
-            formatSettings.SPACE_AFTER_EXTENDS_COLON = true;
-            formatSettings.SPACE_AFTER_FOR_SEMICOLON = true;
-            formatSettings.SPACE_AFTER_TERNARY_COLON = true;
-            formatSettings.SPACE_AFTER_TERNARY_QUEST = true;
-            formatSettings.SPACE_AFTER_TYPE_PARAMETER_CONSTRAINT_COLON = true;
-            formatSettings.SPACE_AFTER_TYPECAST_PARENTHESES = false;
-            formatSettings.SPACE_AROUND_ADDITIVE_OP = true;
-            formatSettings.SPACE_AROUND_ALIAS_EQ = true;
-            formatSettings.SPACE_AROUND_ARROW_OP = false;
-            formatSettings.SPACE_AROUND_ASSIGNMENT_OP = true;
-            formatSettings.SPACE_AROUND_BITWISE_OP = true;
-            formatSettings.SPACE_AROUND_DOT = false;
-            formatSettings.SPACE_AROUND_EQUALITY_OP = true;
-            formatSettings.SPACE_AROUND_LAMBDA_ARROW = true;
-            formatSettings.SPACE_AROUND_LOGICAL_OP = true;
-            formatSettings.SPACE_AROUND_MULTIPLICATIVE_OP = true;
-            formatSettings.SPACE_AROUND_NULLCOALESCING_OP = true;
-            formatSettings.SPACE_AROUND_RELATIONAL_OP = true;
-            formatSettings.SPACE_AROUND_SHIFT_OP = true;
-            formatSettings.SPACE_BEFORE_ARRAY_ACCESS_BRACKETS = false;
-            formatSettings.SPACE_BEFORE_ARRAY_CREATION_BRACE = true;
-            formatSettings.SPACE_BEFORE_ARRAY_RANK_BRACKETS = false;
-            formatSettings.SPACE_BEFORE_ATTRIBUTE_COLON = false;
-            formatSettings.SPACE_BEFORE_CATCH_PARENTHESES = true;
-            formatSettings.SPACE_BEFORE_COLON_IN_CASE = false;
-            formatSettings.SPACE_BEFORE_COMMA = false;
-            formatSettings.SPACE_BEFORE_EMPTY_METHOD_CALL_PARENTHESES = false;
-            formatSettings.SPACE_BEFORE_EMPTY_METHOD_PARENTHESES = false;
-            formatSettings.SPACE_BEFORE_EXTENDS_COLON = true;
-            formatSettings.SPACE_BEFORE_FIXED_PARENTHESES = true;
-            formatSettings.SPACE_BEFORE_FOR_PARENTHESES = true;
-            formatSettings.SPACE_BEFORE_FOR_SEMICOLON = false;
-            formatSettings.SPACE_BEFORE_FOREACH_PARENTHESES = true;
-            formatSettings.SPACE_BEFORE_IF_PARENTHESES = true;
-            formatSettings.SPACE_BEFORE_LOCK_PARENTHESES = true;
-            formatSettings.SPACE_BEFORE_METHOD_CALL_PARENTHESES = false;
-            formatSettings.SPACE_BEFORE_METHOD_PARENTHESES = false;
-            formatSettings.SPACE_BEFORE_NULLABLE_MARK = false;
-            formatSettings.SPACE_BEFORE_POINTER_ASTERIK_DECLARATION = false;
-            formatSettings.SPACE_BEFORE_SEMICOLON = false;
-            formatSettings.SPACE_BEFORE_SINGLELINE_ACCESSORHOLDER = true;
-            formatSettings.SPACE_BEFORE_SIZEOF_PARENTHESES = false;
-            formatSettings.SPACE_BEFORE_SWITCH_PARENTHESES = true;
-            formatSettings.SPACE_BEFORE_TERNARY_COLON = true;
-            formatSettings.SPACE_BEFORE_TERNARY_QUEST = true;
-            formatSettings.SPACE_BEFORE_TRAILING_COMMENT = true;
-            formatSettings.SPACE_BEFORE_TYPE_ARGUMENT_ANGLE = false;
-            formatSettings.SPACE_BEFORE_TYPE_PARAMETER_ANGLE = false;
-            formatSettings.SPACE_BEFORE_TYPE_PARAMETER_CONSTRAINT_COLON = true;
-            formatSettings.SPACE_BEFORE_TYPEOF_PARENTHESES = false;
-            formatSettings.SPACE_BEFORE_USING_PARENTHESES = true;
-            formatSettings.SPACE_BEFORE_WHILE_PARENTHESES = true;
-            formatSettings.SPACE_BETWEEN_ACCESSORS_IN_SINGLELINE_PROPERTY = true;
-            formatSettings.SPACE_IN_SINGLELINE_ACCESSORHOLDER = true;
-            formatSettings.SPACE_IN_SINGLELINE_ANONYMOUS_METHOD = true;
-            formatSettings.SPACE_IN_SINGLELINE_METHOD = true;
-            formatSettings.SPACE_WITHIN_ARRAY_ACCESS_BRACKETS = false;
-            formatSettings.SPACE_WITHIN_ARRAY_RANK_BRACKETS = false;
-            formatSettings.SPACE_WITHIN_ARRAY_RANK_EMPTY_BRACKETS = false;
-            formatSettings.SPACE_WITHIN_ATTRIBUTE_BRACKETS = false;
-            formatSettings.SPACE_WITHIN_CATCH_PARENTHESES = false;
-            formatSettings.SPACE_WITHIN_EMPTY_METHOD_CALL_PARENTHESES = false;
-            formatSettings.SPACE_WITHIN_EMPTY_METHOD_PARENTHESES = false;
-            formatSettings.SPACE_WITHIN_FIXED_PARENTHESES = false;
-            formatSettings.SPACE_WITHIN_FOR_PARENTHESES = false;
-            formatSettings.SPACE_WITHIN_FOREACH_PARENTHESES = false;
-            formatSettings.SPACE_WITHIN_IF_PARENTHESES = false;
-            formatSettings.SPACE_WITHIN_LOCK_PARENTHESES = false;
-            formatSettings.SPACE_WITHIN_METHOD_CALL_PARENTHESES = false;
-            formatSettings.SPACE_WITHIN_METHOD_PARENTHESES = false;
-            formatSettings.SPACE_WITHIN_PARENTHESES = false;
-            formatSettings.SPACE_WITHIN_SINGLE_LINE_ARRAY_INITIALIZER_BRACES = true;
-            formatSettings.SPACE_WITHIN_SIZEOF_PARENTHESES = false;
-            formatSettings.SPACE_WITHIN_SWITCH_PARENTHESES = false;
-            formatSettings.SPACE_WITHIN_TYPE_ARGUMENT_ANGLES = false;
-            formatSettings.SPACE_WITHIN_TYPE_PARAMETER_ANGLES = false;
-            formatSettings.SPACE_WITHIN_TYPECAST_PARENTHESES = false;
-            formatSettings.SPACE_WITHIN_TYPEOF_PARENTHESES = false;
-            formatSettings.SPACE_WITHIN_USING_PARENTHESES = false;
-            formatSettings.SPACE_WITHIN_WHILE_PARENTHESES = false;
-            formatSettings.SPECIAL_ELSE_IF_TREATMENT = true;
-            formatSettings.STICK_COMMENT = false;
-            formatSettings.TYPE_DECLARATION_BRACES = BraceFormatStyle.NEXT_LINE;
-            formatSettings.WRAP_AFTER_BINARY_OPSIGN = false;
-            formatSettings.WRAP_AFTER_DECLARATION_LPAR = true;
-            formatSettings.WRAP_AFTER_INVOCATION_LPAR = true;
-            formatSettings.WRAP_ARGUMENTS_STYLE = WrapStyle.CHOP_IF_LONG;
-            formatSettings.WRAP_BEFORE_BINARY_OPSIGN = true;
-            formatSettings.WRAP_BEFORE_DECLARATION_LPAR = false;
-            formatSettings.WRAP_BEFORE_EXTENDS_COLON = false;
-            formatSettings.WRAP_BEFORE_FIRST_TYPE_PARAMETER_CONSTRAINT = true;
-            formatSettings.WRAP_BEFORE_INVOCATION_LPAR = false;
-            formatSettings.WRAP_BEFORE_TYPE_PARAMETER_LANGLE = false;
-            formatSettings.WRAP_EXTENDS_LIST_STYLE = WrapStyle.CHOP_IF_LONG;
-            formatSettings.WRAP_FOR_STMT_HEADER_STYLE = WrapStyle.CHOP_IF_LONG;
-            formatSettings.WRAP_LIMIT = formatSettings.WRAP_LIMIT; // We don't need to set this. It's here for completeness.
-            formatSettings.WRAP_LINES = true;
-            formatSettings.WRAP_MULTIPLE_DECLARATION_STYLE = WrapStyle.CHOP_IF_LONG;
-            formatSettings.WRAP_MULTIPLE_TYPE_PARAMEER_CONSTRAINTS_STYLE = WrapStyle.CHOP_IF_LONG;
-            formatSettings.WRAP_OBJECT_AND_COLLECTION_INITIALIZER_STYLE = WrapStyle.CHOP_IF_LONG;
-            formatSettings.WRAP_PARAMETERS_STYLE = WrapStyle.CHOP_IF_LONG;
-            formatSettings.WRAP_TERNARY_EXPR_STYLE = WrapStyle.CHOP_IF_LONG;
+            //// namingSettings.EventHandlerPatternLong = "$object$_On$event$";
+            ////namingSettings.EventHandlerPatternShort = "$event$Handler";
+            
+            settingsStore.SetValue((CSharpNamingSettings key) => key.EventHandlerPatternLong, "$object$_On$event$");
+            settingsStore.SetValue((CSharpNamingSettings key) => key.EventHandlerPatternShort, "$event$Handler");
 
-            var namingSettings = codeStyleSettings.GetNamingSettings2();
-
-            namingSettings.OverrideDefaultSettings = true;
-
-            namingSettings.EventHandlerPatternLong = "$object$_On$event$";
-            namingSettings.EventHandlerPatternShort = "$event$Handler";
-
-            foreach (var predefinedRule in namingSettings.PredefinedNamingRules)
+            foreach (NamedElementKinds kindOfElement in Enum.GetValues(typeof(NamedElementKinds)))
             {
-                NamingRule rule = predefinedRule.Value.NamingRule;
-                rule.Suffix = string.Empty;
+                NamingPolicy policy = settingsStore.GetIndexedValue<CSharpNamingSettings, NamedElementKinds, NamingPolicy>(key => key.PredefinedNamingRules, kindOfElement, null);
 
-                switch (predefinedRule.Key)
+                if (policy != null)
                 {
-                    case NamedElementKinds.Locals:
-                    case NamedElementKinds.Parameters:
-                    case NamedElementKinds.PrivateInstanceFields:
-                    case NamedElementKinds.PrivateStaticFields:
-                        rule.Prefix = string.Empty;
-                        rule.NamingStyleKind = NamingStyleKinds.aaBb;
-                        break;
-                    case NamedElementKinds.Interfaces:
-                        rule.Prefix = "I";
-                        rule.NamingStyleKind = NamingStyleKinds.AaBb;
-                        break;
-                    case NamedElementKinds.TypeParameters:
-                        rule.Prefix = "T";
-                        rule.NamingStyleKind = NamingStyleKinds.AaBb;
-                        break;
-                    default:
-                        rule.Prefix = string.Empty;
-                        rule.NamingStyleKind = NamingStyleKinds.AaBb;
-                        break;
+                    NamingRule rule = policy.NamingRule;
+
+                    rule.Suffix = string.Empty;
+
+                    switch (kindOfElement)
+                    {
+                        case NamedElementKinds.Locals:
+                        case NamedElementKinds.Parameters:
+                        case NamedElementKinds.PrivateInstanceFields:
+                        case NamedElementKinds.PrivateStaticFields:
+                            rule.Prefix = string.Empty;
+                            rule.NamingStyleKind = NamingStyleKinds.aaBb;
+                            break;
+                        case NamedElementKinds.Interfaces:
+                            rule.Prefix = "I";
+                            rule.NamingStyleKind = NamingStyleKinds.AaBb;
+                            break;
+                        case NamedElementKinds.TypeParameters:
+                            rule.Prefix = "T";
+                            rule.NamingStyleKind = NamingStyleKinds.AaBb;
+                            break;
+                        default:
+                            rule.Prefix = string.Empty;
+                            rule.NamingStyleKind = NamingStyleKinds.AaBb;
+                            break;
+                    }
+
+                    settingsStore.SetIndexedValue<CSharpNamingSettings, NamedElementKinds, NamingPolicy>(key => key.PredefinedNamingRules, kindOfElement, policy);
                 }
             }
 
-            var usingsSettings = codeStyleSettings.UsingsSettings;
+            ////var usingsSettings = codeStyleSettings.UsingSettings;
 
-            usingsSettings.AddImportsToDeepestScope = true;
-            usingsSettings.QualifiedUsingAtNestedScope = true;
+            ////usingsSettings.AddImportsToDeepestScope = true;
+            ////usingsSettings.QualifiedUsingAtNestedScope = true;
 
-            usingsSettings.AllowAlias = true;
-            usingsSettings.CanUseGlobalAlias = true;
-            usingsSettings.KeepNontrivialAlias = true;
-            usingsSettings.PreferQualifiedReference = false;
-            usingsSettings.SortUsings = true;
+            ////usingsSettings.AllowAlias = true;
+            ////usingsSettings.CanUseGlobalAlias = true;
+            ////usingsSettings.KeepNontrivialAlias = true;
+            ////usingsSettings.PreferQualifiedReference = false;
+            ////usingsSettings.SortUsings = true;
 
+            settingsStore.SetValue(CSharpUsingSettingsAccessor.AddImportsToDeepestScope, true);
+            settingsStore.SetValue(CSharpUsingSettingsAccessor.QualifiedUsingAtNestedScope, true);
+            settingsStore.SetValue(CSharpUsingSettingsAccessor.AllowAlias, true);
+            settingsStore.SetValue(CSharpUsingSettingsAccessor.CanUseGlobalAlias, true);
+            settingsStore.SetValue(CSharpUsingSettingsAccessor.KeepNontrivialAlias, true);
+            settingsStore.SetValue(CSharpUsingSettingsAccessor.PreferQualifiedReference, false);
+            settingsStore.SetValue(CSharpUsingSettingsAccessor.SortUsings, true);
+            
             string reorderingPatterns;
             using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("StyleCop.ReSharper.Resources.ReorderingPatterns.xml"))
             {
@@ -398,17 +409,20 @@ namespace StyleCop.ReSharper.Options
                     reorderingPatterns = reader.ReadToEnd();
                 }
             }
-
-            codeStyleSettings.CustomMembersReorderingPatterns = reorderingPatterns;
-
+            
+            settingsStore.SetValue((CSharpMemberOrderPatternSettings key) => key.CustomPattern, reorderingPatterns);
+           
             CodeCleanupProfile styleCopProfile = null;
 
             CodeCleanup codeCleanupInstance = CodeCleanup.GetInstance(solution);
 
             List<CodeCleanupProfile> profiles = new List<CodeCleanupProfile>();
 
+            var codeCleanupSettings = Shell.Instance.GetComponent<CodeCleanupSettingsComponent>();
+            var currentProfiles = codeCleanupSettings.GetProfiles(settingsStore);
+
             // Find the StyleCop profile
-            foreach (CodeCleanupProfile profile in codeCleanupInstance.Profiles)
+            foreach (CodeCleanupProfile profile in currentProfiles)
             {
                 if (!profile.IsDefault)
                 {
@@ -425,8 +439,10 @@ namespace StyleCop.ReSharper.Options
 
             if (styleCopProfile == null)
             {
-                styleCopProfile = codeCleanupInstance.CreateEmptyProfile();
-                styleCopProfile.Name = "StyleCop";
+                ////styleCopProfile = codeCleanupInstance.CreateEmptyProfile();
+                styleCopProfile = codeCleanupSettings.CreateEmptyProfile("StyleCop");
+
+                ////styleCopProfile.Name = "StyleCop";
                 profiles.Add(styleCopProfile);
             }
 
@@ -493,10 +509,13 @@ namespace StyleCop.ReSharper.Options
             SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Spacing", "SA1022PositiveSignsMustBeSpacedCorrectly", true);
             SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Spacing", "SA1025CodeMustNotContainMultipleWhitespaceInARow", true);
 
-            codeCleanupInstance.Profiles = profiles;
-            codeCleanupInstance.SilentCleanupProfileName = styleCopProfile.Name;
-        }
+            ////codeCleanupInstance.Profiles = profiles;
+            codeCleanupSettings.SetProfiles(profiles, settingsStore);
 
+            ////codeCleanupInstance.SilentCleanupProfileName = styleCopProfile.Name;
+            codeCleanupSettings.SetSilentCleanupProfileName(settingsStore, styleCopProfile.Name);
+        }
+        
         /// <summary>
         /// Confirms that the ReSharper code style options are all valid to ensure no StyleCop issues on cleanup.
         /// </summary>
@@ -504,1015 +523,999 @@ namespace StyleCop.ReSharper.Options
         /// <returns>True if options are all valid, otherwise false.</returns>
         public static bool CodeStyleOptionsValid(ISolution solution)
         {
-            CodeStyleSettings settings = solution == null ? CodeStyleSettingsManager.Instance.CodeStyleSettings : SolutionCodeStyleSettings.GetInstance(solution).CodeStyleSettings;
+            ////CodeStyleSettings settings = solution == null ? CodeStyleSettingsManager.Instance.CodeStyleSettings : SolutionCodeStyleSettings.GetInstance(solution).CodeStyleSettings;
 
-            CSharpCodeStyleSettings codeStyleSettings = settings.Get<CSharpCodeStyleSettings>();
+            ////CSharpCodeStyleSettings codeStyleSettings = settings.Get<CSharpCodeStyleSettings>();
 
-            var formatSettings = codeStyleSettings.FormatSettings;
+            ////var formatSettings = codeStyleSettings.FormatSettings;
 
-            if (formatSettings.ALIGN_FIRST_ARG_BY_PAREN)
-            {
-                return false;
-            }
-
-            if (!formatSettings.ALIGN_LINQ_QUERY)
-            {
-                return false;
-            }
+            var settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, solution);
 
-            if (formatSettings.ALIGN_MULTILINE_ARGUMENT)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.ALIGN_FIRST_ARG_BY_PAREN))
             {
                 return false;
             }
 
-            if (!formatSettings.ALIGN_MULTILINE_ARRAY_AND_OBJECT_INITIALIZER)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.ALIGN_LINQ_QUERY))
             {
                 return false;
             }
 
-            if (!formatSettings.ALIGN_MULTILINE_EXPRESSION)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.ALIGN_MULTILINE_ARGUMENT))
             {
                 return false;
             }
 
-            if (!formatSettings.ALIGN_MULTILINE_EXTENDS_LIST)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.ALIGN_MULTILINE_ARRAY_AND_OBJECT_INITIALIZER))
             {
                 return false;
             }
 
-            if (!formatSettings.ALIGN_MULTILINE_FOR_STMT)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.ALIGN_MULTILINE_EXPRESSION))
             {
                 return false;
             }
 
-            if (!formatSettings.ALIGN_MULTILINE_PARAMETER)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.ALIGN_MULTILINE_EXTENDS_LIST))
             {
                 return false;
             }
 
-            if (!formatSettings.ALIGN_MULTIPLE_DECLARATION)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.ALIGN_MULTILINE_FOR_STMT))
             {
                 return false;
             }
 
-            if (!formatSettings.ALIGN_MULTLINE_TYPE_PARAMETER_CONSTRAINS)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.ALIGN_MULTILINE_PARAMETER))
             {
                 return false;
             }
 
-            if (!formatSettings.ALIGN_MULTLINE_TYPE_PARAMETER_LIST)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.ALIGN_MULTIPLE_DECLARATION))
             {
                 return false;
             }
 
-            if (formatSettings.ALLOW_COMMENT_AFTER_LBRACE)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.ALIGN_MULTLINE_TYPE_PARAMETER_CONSTRAINS))
             {
                 return false;
             }
 
-            if (formatSettings.ANONYMOUS_METHOD_DECLARATION_BRACES != BraceFormatStyle.NEXT_LINE_SHIFTED_2)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.ALIGN_MULTLINE_TYPE_PARAMETER_LIST))
             {
                 return false;
             }
 
-            if (!formatSettings.ARRANGE_MODIFIER_IN_EXISTING_CODE)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.ALLOW_COMMENT_AFTER_LBRACE))
             {
                 return false;
             }
 
-            if (formatSettings.BLANK_LINES_AFTER_START_COMMENT != 1)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.ANONYMOUS_METHOD_DECLARATION_BRACES) != BraceFormatStyle.NEXT_LINE_SHIFTED_2)
             {
                 return false;
             }
 
-            if (formatSettings.BLANK_LINES_AFTER_USING != 1)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.ARRANGE_MODIFIER_IN_EXISTING_CODE))
             {
                 return false;
             }
 
-            if (formatSettings.BLANK_LINES_AFTER_USING_LIST != 1)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.BLANK_LINES_AFTER_START_COMMENT) != 1)
             {
                 return false;
             }
-
-            if (formatSettings.BLANK_LINES_AROUND_FIELD != 1)
+            
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.BLANK_LINES_AFTER_USING_LIST) != 1)
             {
                 return false;
             }
 
-            if (formatSettings.BLANK_LINES_AROUND_INVOCABLE != 1)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.BLANK_LINES_AROUND_FIELD) != 1)
             {
                 return false;
             }
 
-            if (formatSettings.BLANK_LINES_AROUND_NAMESPACE != 1)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.BLANK_LINES_AROUND_INVOCABLE) != 1)
             {
                 return false;
             }
 
-            if (formatSettings.BLANK_LINES_AROUND_REGION != 1)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.BLANK_LINES_AROUND_NAMESPACE) != 1)
             {
                 return false;
             }
 
-            if (formatSettings.BLANK_LINES_AROUND_SINGLE_LINE_FIELD != 1)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.BLANK_LINES_AROUND_REGION) != 1)
             {
                 return false;
             }
 
-            if (formatSettings.BLANK_LINES_AROUND_SINGLE_LINE_INVOCABLE != 1)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.BLANK_LINES_AROUND_SINGLE_LINE_FIELD) != 1)
             {
                 return false;
             }
 
-            if (formatSettings.BLANK_LINES_AROUND_TYPE != 1)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.BLANK_LINES_AROUND_SINGLE_LINE_INVOCABLE) != 1)
             {
                 return false;
             }
 
-            if (formatSettings.BLANK_LINES_BEFORE_USING != 0)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.BLANK_LINES_AROUND_TYPE) != 1)
             {
                 return false;
             }
-
-            if (formatSettings.BLANK_LINES_BETWEEN_USING_GROUPS != 1)
+            
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.BLANK_LINES_BETWEEN_USING_GROUPS) != 1)
             {
                 return false;
             }
 
-            if (formatSettings.BLANK_LINES_INSIDE_REGION != 1)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.BLANK_LINES_INSIDE_REGION) != 1)
             {
                 return false;
             }
 
-            if (formatSettings.CASE_BLOCK_BRACES != BraceFormatStyle.NEXT_LINE_SHIFTED_2)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.CASE_BLOCK_BRACES) != BraceFormatStyle.NEXT_LINE_SHIFTED_2)
             {
                 return false;
             }
 
-            if (formatSettings.CONTINUOUS_INDENT_MULTIPLIER != 1)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.CONTINUOUS_INDENT_MULTIPLIER) != 1)
             {
                 return false;
             }
 
-            if (formatSettings.EMPTY_BLOCK_STYLE != EmptyBlockStyle.MULTILINE)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.EMPTY_BLOCK_STYLE) != EmptyBlockStyle.MULTILINE)
             {
                 return false;
             }
 
-            if (!formatSettings.EXPLICIT_INTERNAL_MODIFIER)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.EXPLICIT_INTERNAL_MODIFIER))
             {
                 return false;
             }
 
-            if (!formatSettings.EXPLICIT_PRIVATE_MODIFIER)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.EXPLICIT_PRIVATE_MODIFIER))
             {
                 return false;
             }
 
-            if (formatSettings.FORCE_ATTRIBUTE_STYLE != ForceAttributeStyle.SEPARATE)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.FORCE_ATTRIBUTE_STYLE) != ForceAttributeStyle.SEPARATE)
             {
                 return false;
             }
 
-            if (formatSettings.FORCE_CHOP_COMPOUND_DO_EXPRESSION)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.FORCE_CHOP_COMPOUND_DO_EXPRESSION))
             {
                 return false;
             }
 
-            if (formatSettings.FORCE_CHOP_COMPOUND_IF_EXPRESSION)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.FORCE_CHOP_COMPOUND_IF_EXPRESSION))
             {
                 return false;
             }
 
-            if (formatSettings.FORCE_CHOP_COMPOUND_WHILE_EXPRESSION)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.FORCE_CHOP_COMPOUND_WHILE_EXPRESSION))
             {
                 return false;
             }
 
-            if (formatSettings.FORCE_FIXED_BRACES_STYLE != ForceBraceStyle.ALWAYS_ADD)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.FORCE_FIXED_BRACES_STYLE) != ForceBraceStyle.ALWAYS_ADD)
             {
                 return false;
             }
 
-            if (formatSettings.FORCE_FOR_BRACES_STYLE != ForceBraceStyle.ALWAYS_ADD)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.FORCE_FOR_BRACES_STYLE) != ForceBraceStyle.ALWAYS_ADD)
             {
                 return false;
             }
 
-            if (formatSettings.FORCE_FOREACH_BRACES_STYLE != ForceBraceStyle.ALWAYS_ADD)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.FORCE_FOREACH_BRACES_STYLE) != ForceBraceStyle.ALWAYS_ADD)
             {
                 return false;
             }
 
-            if (formatSettings.FORCE_IFELSE_BRACES_STYLE != ForceBraceStyle.ALWAYS_ADD)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.FORCE_IFELSE_BRACES_STYLE) != ForceBraceStyle.ALWAYS_ADD)
             {
                 return false;
             }
 
-            if (formatSettings.FORCE_USING_BRACES_STYLE != ForceBraceStyle.DO_NOT_CHANGE)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.FORCE_USING_BRACES_STYLE) != ForceBraceStyle.DO_NOT_CHANGE)
             {
                 return false;
             }
 
-            if (formatSettings.FORCE_WHILE_BRACES_STYLE != ForceBraceStyle.ALWAYS_ADD)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.FORCE_WHILE_BRACES_STYLE) != ForceBraceStyle.ALWAYS_ADD)
             {
                 return false;
             }
 
-            if (formatSettings.INDENT_ANONYMOUS_METHOD_BLOCK)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.INDENT_ANONYMOUS_METHOD_BLOCK))
             {
                 return false;
             }
 
-            if (!formatSettings.INDENT_CASE_FROM_SWITCH)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.INDENT_CASE_FROM_SWITCH))
             {
                 return false;
             }
 
-            if (formatSettings.INDENT_EMBRACED_INITIALIZER_BLOCK)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.INDENT_EMBRACED_INITIALIZER_BLOCK))
             {
                 return false;
             }
 
-            if (formatSettings.INDENT_NESTED_FIXED_STMT)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.INDENT_NESTED_FIXED_STMT))
             {
                 return false;
             }
 
-            if (formatSettings.INDENT_NESTED_USINGS_STMT)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.INDENT_NESTED_USINGS_STMT))
             {
                 return false;
             }
 
-            if (formatSettings.INITIALIZER_BRACES != BraceFormatStyle.NEXT_LINE_SHIFTED_2)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.INITIALIZER_BRACES) != BraceFormatStyle.NEXT_LINE_SHIFTED_2)
             {
                 return false;
             }
 
-            if (formatSettings.INVOCABLE_DECLARATION_BRACES != BraceFormatStyle.NEXT_LINE)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.INVOCABLE_DECLARATION_BRACES) != BraceFormatStyle.NEXT_LINE)
             {
                 return false;
             }
 
-            if (formatSettings.KEEP_BLANK_LINES_IN_CODE != 1)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.KEEP_BLANK_LINES_IN_CODE) != 1)
             {
                 return false;
             }
 
-            if (formatSettings.KEEP_BLANK_LINES_IN_DECLARATIONS != 1)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.KEEP_BLANK_LINES_IN_DECLARATIONS) != 1)
             {
                 return false;
             }
 
-            if (formatSettings.KEEP_USER_LINEBREAKS)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.KEEP_USER_LINEBREAKS))
             {
                 return false;
             }
 
-            if (formatSettings.LINE_FEED_AT_FILE_END)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.LINE_FEED_AT_FILE_END))
             {
                 return false;
             }
 
-            if (!formatSettings.MODIFIERS_ORDER.SequenceEqual(ModifiersOrder))
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.MODIFIERS_ORDER).SequenceEqual(ModifiersOrder))
             {
                 return false;
             }
 
-            if (formatSettings.OTHER_BRACES != BraceFormatStyle.NEXT_LINE)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.OTHER_BRACES) != BraceFormatStyle.NEXT_LINE)
             {
                 return false;
             }
 
-            if (!formatSettings.PLACE_ABSTRACT_ACCESSORHOLDER_ON_SINGLE_LINE)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.PLACE_ABSTRACT_ACCESSORHOLDER_ON_SINGLE_LINE))
             {
                 return false;
             }
 
-            if (formatSettings.PLACE_ACCESSORHOLDER_ATTRIBUTE_ON_SAME_LINE)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.PLACE_ACCESSORHOLDER_ATTRIBUTE_ON_SAME_LINE))
             {
                 return false;
             }
 
-            if (!formatSettings.PLACE_CATCH_ON_NEW_LINE)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.PLACE_CATCH_ON_NEW_LINE))
             {
                 return false;
             }
 
-            if (formatSettings.PLACE_CONSTRUCTOR_INITIALIZER_ON_SAME_LINE)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.PLACE_CONSTRUCTOR_INITIALIZER_ON_SAME_LINE))
             {
                 return false;
             }
 
-            if (!formatSettings.PLACE_ELSE_ON_NEW_LINE)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.PLACE_ELSE_ON_NEW_LINE))
             {
                 return false;
             }
 
-            if (formatSettings.PLACE_FIELD_ATTRIBUTE_ON_SAME_LINE)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.PLACE_FIELD_ATTRIBUTE_ON_SAME_LINE))
             {
                 return false;
             }
 
-            if (!formatSettings.PLACE_FINALLY_ON_NEW_LINE)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.PLACE_FINALLY_ON_NEW_LINE))
             {
                 return false;
             }
 
-            if (formatSettings.PLACE_METHOD_ATTRIBUTE_ON_SAME_LINE)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.PLACE_METHOD_ATTRIBUTE_ON_SAME_LINE))
             {
                 return false;
             }
 
-            if (formatSettings.PLACE_SIMPLE_ACCESSOR_ON_SINGLE_LINE)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.PLACE_SIMPLE_ACCESSOR_ON_SINGLE_LINE))
             {
                 return false;
             }
 
-            if (formatSettings.PLACE_SIMPLE_ACCESSORHOLDER_ON_SINGLE_LINE)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.PLACE_SIMPLE_ACCESSORHOLDER_ON_SINGLE_LINE))
             {
                 return false;
             }
 
-            if (!formatSettings.PLACE_SIMPLE_ANONYMOUSMETHOD_ON_SINGLE_LINE)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.PLACE_SIMPLE_ANONYMOUSMETHOD_ON_SINGLE_LINE))
             {
                 return false;
             }
 
-            if (!formatSettings.PLACE_SIMPLE_INITIALIZER_ON_SINGLE_LINE)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.PLACE_SIMPLE_INITIALIZER_ON_SINGLE_LINE))
             {
                 return false;
             }
 
-            if (!formatSettings.PLACE_SIMPLE_LINQ_ON_SINGLE_LINE)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.PLACE_SIMPLE_LINQ_ON_SINGLE_LINE))
             {
                 return false;
             }
 
-            if (formatSettings.PLACE_SIMPLE_METHOD_ON_SINGLE_LINE)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.PLACE_SIMPLE_METHOD_ON_SINGLE_LINE))
             {
                 return false;
             }
 
-            if (formatSettings.PLACE_TYPE_ATTRIBUTE_ON_SAME_LINE)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.PLACE_TYPE_ATTRIBUTE_ON_SAME_LINE))
             {
                 return false;
             }
 
-            if (formatSettings.PLACE_TYPE_CONSTRAINTS_ON_SAME_LINE)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.PLACE_TYPE_CONSTRAINTS_ON_SAME_LINE))
             {
                 return false;
             }
 
-            if (!formatSettings.PLACE_WHILE_ON_NEW_LINE)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.PLACE_WHILE_ON_NEW_LINE))
             {
                 return false;
             }
 
-            if (formatSettings.REDUNDANT_THIS_QUALIFIER_STYLE != ThisQualifierStyle.ALWAYS_USE)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.REDUNDANT_THIS_QUALIFIER_STYLE) != ThisQualifierStyle.ALWAYS_USE)
             {
                 return false;
             }
 
-            if (formatSettings.SIMPLE_EMBEDDED_STATEMENT_STYLE != SimpleEmbeddedStatementStyle.ON_SINGLE_LINE)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SIMPLE_EMBEDDED_STATEMENT_STYLE) != SimpleEmbeddedStatementStyle.ON_SINGLE_LINE)
             {
                 return false;
             }
 
-            if (formatSettings.SPACE_AFTER_AMPERSAND_OP)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_AFTER_AMPERSAND_OP))
             {
                 return false;
             }
 
-            if (formatSettings.SPACE_AFTER_ASTERIK_OP)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_AFTER_ASTERIK_OP))
             {
                 return false;
             }
 
-            if (!formatSettings.SPACE_AFTER_ATTRIBUTE_COLON)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_AFTER_ATTRIBUTE_COLON))
             {
                 return false;
             }
 
-            if (!formatSettings.SPACE_AFTER_COMMA)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_AFTER_COMMA))
             {
                 return false;
             }
 
-            if (!formatSettings.SPACE_AFTER_EXTENDS_COLON)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_AFTER_EXTENDS_COLON))
             {
                 return false;
             }
 
-            if (!formatSettings.SPACE_AFTER_FOR_SEMICOLON)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_AFTER_FOR_SEMICOLON))
             {
                 return false;
             }
 
-            if (!formatSettings.SPACE_AFTER_TERNARY_COLON)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_AFTER_TERNARY_COLON))
             {
                 return false;
             }
 
-            if (!formatSettings.SPACE_AFTER_TERNARY_QUEST)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_AFTER_TERNARY_QUEST))
             {
                 return false;
             }
 
-            if (!formatSettings.SPACE_AFTER_TYPE_PARAMETER_CONSTRAINT_COLON)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_AFTER_TYPE_PARAMETER_CONSTRAINT_COLON))
             {
                 return false;
             }
 
-            if (formatSettings.SPACE_AFTER_TYPECAST_PARENTHESES)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_AFTER_TYPECAST_PARENTHESES))
             {
                 return false;
             }
 
-            if (!formatSettings.SPACE_AROUND_ADDITIVE_OP)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_AROUND_ADDITIVE_OP))
             {
                 return false;
             }
 
-            if (!formatSettings.SPACE_AROUND_ALIAS_EQ)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_AROUND_ALIAS_EQ))
             {
                 return false;
             }
 
-            if (formatSettings.SPACE_AROUND_ARROW_OP)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_AROUND_ARROW_OP))
             {
                 return false;
             }
 
-            if (!formatSettings.SPACE_AROUND_ASSIGNMENT_OP)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_AROUND_ASSIGNMENT_OP))
             {
                 return false;
             }
 
-            if (!formatSettings.SPACE_AROUND_BITWISE_OP)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_AROUND_BITWISE_OP))
             {
                 return false;
             }
 
-            if (formatSettings.SPACE_AROUND_DOT)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_AROUND_DOT))
             {
                 return false;
             }
 
-            if (!formatSettings.SPACE_AROUND_EQUALITY_OP)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_AROUND_EQUALITY_OP))
             {
                 return false;
             }
 
-            if (!formatSettings.SPACE_AROUND_LAMBDA_ARROW)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_AROUND_LAMBDA_ARROW))
             {
                 return false;
             }
 
-            if (!formatSettings.SPACE_AROUND_LOGICAL_OP)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_AROUND_LOGICAL_OP))
             {
                 return false;
             }
 
-            if (!formatSettings.SPACE_AROUND_MULTIPLICATIVE_OP)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_AROUND_MULTIPLICATIVE_OP))
             {
                 return false;
             }
 
-            if (!formatSettings.SPACE_AROUND_NULLCOALESCING_OP)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_AROUND_NULLCOALESCING_OP))
             {
                 return false;
             }
 
-            if (!formatSettings.SPACE_AROUND_RELATIONAL_OP)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_AROUND_RELATIONAL_OP))
             {
                 return false;
             }
 
-            if (!formatSettings.SPACE_AROUND_SHIFT_OP)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_AROUND_SHIFT_OP))
             {
                 return false;
             }
 
-            if (formatSettings.SPACE_BEFORE_ARRAY_ACCESS_BRACKETS)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_ARRAY_ACCESS_BRACKETS))
             {
                 return false;
             }
-
-            if (!formatSettings.SPACE_BEFORE_ARRAY_CREATION_BRACE)
+            
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_ARRAY_RANK_BRACKETS))
             {
                 return false;
             }
 
-            if (formatSettings.SPACE_BEFORE_ARRAY_RANK_BRACKETS)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_ATTRIBUTE_COLON))
             {
                 return false;
             }
 
-            if (formatSettings.SPACE_BEFORE_ATTRIBUTE_COLON)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_CATCH_PARENTHESES))
             {
                 return false;
             }
 
-            if (!formatSettings.SPACE_BEFORE_CATCH_PARENTHESES)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_COLON_IN_CASE))
             {
                 return false;
             }
 
-            if (formatSettings.SPACE_BEFORE_COLON_IN_CASE)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_COMMA))
             {
                 return false;
             }
 
-            if (formatSettings.SPACE_BEFORE_COMMA)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_EMPTY_METHOD_CALL_PARENTHESES))
             {
                 return false;
             }
 
-            if (formatSettings.SPACE_BEFORE_EMPTY_METHOD_CALL_PARENTHESES)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_EMPTY_METHOD_PARENTHESES))
             {
                 return false;
             }
 
-            if (formatSettings.SPACE_BEFORE_EMPTY_METHOD_PARENTHESES)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_EXTENDS_COLON))
             {
                 return false;
             }
 
-            if (!formatSettings.SPACE_BEFORE_EXTENDS_COLON)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_FIXED_PARENTHESES))
             {
                 return false;
             }
 
-            if (!formatSettings.SPACE_BEFORE_FIXED_PARENTHESES)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_FOR_PARENTHESES))
             {
                 return false;
             }
 
-            if (!formatSettings.SPACE_BEFORE_FOR_PARENTHESES)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_FOR_SEMICOLON))
             {
                 return false;
             }
 
-            if (formatSettings.SPACE_BEFORE_FOR_SEMICOLON)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_FOREACH_PARENTHESES))
             {
                 return false;
             }
 
-            if (!formatSettings.SPACE_BEFORE_FOREACH_PARENTHESES)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_IF_PARENTHESES))
             {
                 return false;
             }
 
-            if (!formatSettings.SPACE_BEFORE_IF_PARENTHESES)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_LOCK_PARENTHESES))
             {
                 return false;
             }
 
-            if (!formatSettings.SPACE_BEFORE_LOCK_PARENTHESES)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_METHOD_CALL_PARENTHESES))
             {
                 return false;
             }
 
-            if (formatSettings.SPACE_BEFORE_METHOD_CALL_PARENTHESES)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_METHOD_PARENTHESES))
             {
                 return false;
             }
 
-            if (formatSettings.SPACE_BEFORE_METHOD_PARENTHESES)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_NULLABLE_MARK))
             {
                 return false;
             }
 
-            if (formatSettings.SPACE_BEFORE_NULLABLE_MARK)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_POINTER_ASTERIK_DECLARATION))
             {
                 return false;
             }
 
-            if (formatSettings.SPACE_BEFORE_POINTER_ASTERIK_DECLARATION)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_SEMICOLON))
             {
                 return false;
             }
 
-            if (formatSettings.SPACE_BEFORE_SEMICOLON)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_SINGLELINE_ACCESSORHOLDER))
             {
                 return false;
             }
 
-            if (!formatSettings.SPACE_BEFORE_SINGLELINE_ACCESSORHOLDER)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_SIZEOF_PARENTHESES))
             {
                 return false;
             }
 
-            if (formatSettings.SPACE_BEFORE_SIZEOF_PARENTHESES)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_SWITCH_PARENTHESES))
             {
                 return false;
             }
 
-            if (!formatSettings.SPACE_BEFORE_SWITCH_PARENTHESES)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_TERNARY_COLON))
             {
                 return false;
             }
 
-            if (!formatSettings.SPACE_BEFORE_TERNARY_COLON)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_TERNARY_QUEST))
             {
                 return false;
             }
 
-            if (!formatSettings.SPACE_BEFORE_TERNARY_QUEST)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_TRAILING_COMMENT))
             {
                 return false;
             }
 
-            if (!formatSettings.SPACE_BEFORE_TRAILING_COMMENT)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_TYPE_ARGUMENT_ANGLE))
             {
                 return false;
             }
 
-            if (formatSettings.SPACE_BEFORE_TYPE_ARGUMENT_ANGLE)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_TYPE_PARAMETER_ANGLE))
             {
                 return false;
             }
 
-            if (formatSettings.SPACE_BEFORE_TYPE_PARAMETER_ANGLE)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_TYPE_PARAMETER_CONSTRAINT_COLON))
             {
                 return false;
             }
 
-            if (!formatSettings.SPACE_BEFORE_TYPE_PARAMETER_CONSTRAINT_COLON)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_TYPEOF_PARENTHESES))
             {
                 return false;
             }
 
-            if (formatSettings.SPACE_BEFORE_TYPEOF_PARENTHESES)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_USING_PARENTHESES))
             {
                 return false;
             }
 
-            if (!formatSettings.SPACE_BEFORE_USING_PARENTHESES)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_WHILE_PARENTHESES))
             {
                 return false;
             }
 
-            if (!formatSettings.SPACE_BEFORE_WHILE_PARENTHESES)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_BETWEEN_ACCESSORS_IN_SINGLELINE_PROPERTY))
             {
                 return false;
             }
 
-            if (!formatSettings.SPACE_BETWEEN_ACCESSORS_IN_SINGLELINE_PROPERTY)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_IN_SINGLELINE_ACCESSORHOLDER))
             {
                 return false;
             }
 
-            if (!formatSettings.SPACE_IN_SINGLELINE_ACCESSORHOLDER)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_IN_SINGLELINE_ANONYMOUS_METHOD))
             {
                 return false;
             }
 
-            if (!formatSettings.SPACE_IN_SINGLELINE_ANONYMOUS_METHOD)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_IN_SINGLELINE_METHOD))
             {
                 return false;
             }
 
-            if (!formatSettings.SPACE_IN_SINGLELINE_METHOD)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_WITHIN_ARRAY_ACCESS_BRACKETS))
             {
                 return false;
             }
 
-            if (formatSettings.SPACE_WITHIN_ARRAY_ACCESS_BRACKETS)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_WITHIN_ARRAY_RANK_BRACKETS))
             {
                 return false;
             }
 
-            if (formatSettings.SPACE_WITHIN_ARRAY_RANK_BRACKETS)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_WITHIN_ARRAY_RANK_EMPTY_BRACKETS))
             {
                 return false;
             }
 
-            if (formatSettings.SPACE_WITHIN_ARRAY_RANK_EMPTY_BRACKETS)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_WITHIN_ATTRIBUTE_BRACKETS))
             {
                 return false;
             }
 
-            if (formatSettings.SPACE_WITHIN_ATTRIBUTE_BRACKETS)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_WITHIN_CATCH_PARENTHESES))
             {
                 return false;
             }
 
-            if (formatSettings.SPACE_WITHIN_CATCH_PARENTHESES)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_WITHIN_EMPTY_METHOD_CALL_PARENTHESES))
             {
                 return false;
             }
 
-            if (formatSettings.SPACE_WITHIN_EMPTY_METHOD_CALL_PARENTHESES)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_WITHIN_EMPTY_METHOD_PARENTHESES))
             {
                 return false;
             }
 
-            if (formatSettings.SPACE_WITHIN_EMPTY_METHOD_PARENTHESES)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_WITHIN_FIXED_PARENTHESES))
             {
                 return false;
             }
 
-            if (formatSettings.SPACE_WITHIN_FIXED_PARENTHESES)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_WITHIN_FOR_PARENTHESES))
             {
                 return false;
             }
 
-            if (formatSettings.SPACE_WITHIN_FOR_PARENTHESES)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_WITHIN_FOREACH_PARENTHESES))
             {
                 return false;
             }
 
-            if (formatSettings.SPACE_WITHIN_FOREACH_PARENTHESES)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_WITHIN_IF_PARENTHESES))
             {
                 return false;
             }
 
-            if (formatSettings.SPACE_WITHIN_IF_PARENTHESES)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_WITHIN_LOCK_PARENTHESES))
             {
                 return false;
             }
 
-            if (formatSettings.SPACE_WITHIN_LOCK_PARENTHESES)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_WITHIN_METHOD_CALL_PARENTHESES))
             {
                 return false;
             }
 
-            if (formatSettings.SPACE_WITHIN_METHOD_CALL_PARENTHESES)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_WITHIN_METHOD_PARENTHESES))
             {
                 return false;
             }
 
-            if (formatSettings.SPACE_WITHIN_METHOD_PARENTHESES)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_WITHIN_PARENTHESES))
             {
                 return false;
             }
 
-            if (formatSettings.SPACE_WITHIN_PARENTHESES)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_WITHIN_SINGLE_LINE_ARRAY_INITIALIZER_BRACES))
             {
                 return false;
             }
 
-            if (!formatSettings.SPACE_WITHIN_SINGLE_LINE_ARRAY_INITIALIZER_BRACES)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_WITHIN_SIZEOF_PARENTHESES))
             {
                 return false;
             }
 
-            if (formatSettings.SPACE_WITHIN_SIZEOF_PARENTHESES)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_WITHIN_SWITCH_PARENTHESES))
             {
                 return false;
             }
 
-            if (formatSettings.SPACE_WITHIN_SWITCH_PARENTHESES)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_WITHIN_TYPE_ARGUMENT_ANGLES))
             {
                 return false;
             }
 
-            if (formatSettings.SPACE_WITHIN_TYPE_ARGUMENT_ANGLES)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_WITHIN_TYPE_PARAMETER_ANGLES))
             {
                 return false;
             }
 
-            if (formatSettings.SPACE_WITHIN_TYPE_PARAMETER_ANGLES)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_WITHIN_TYPECAST_PARENTHESES))
             {
                 return false;
             }
 
-            if (formatSettings.SPACE_WITHIN_TYPECAST_PARENTHESES)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_WITHIN_TYPEOF_PARENTHESES))
             {
                 return false;
             }
 
-            if (formatSettings.SPACE_WITHIN_TYPEOF_PARENTHESES)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_WITHIN_USING_PARENTHESES))
             {
                 return false;
             }
 
-            if (formatSettings.SPACE_WITHIN_USING_PARENTHESES)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_WITHIN_WHILE_PARENTHESES))
             {
                 return false;
             }
 
-            if (formatSettings.SPACE_WITHIN_WHILE_PARENTHESES)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPECIAL_ELSE_IF_TREATMENT))
             {
                 return false;
             }
 
-            if (!formatSettings.SPECIAL_ELSE_IF_TREATMENT)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.STICK_COMMENT))
             {
                 return false;
             }
 
-            if (formatSettings.STICK_COMMENT)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.TYPE_DECLARATION_BRACES) != BraceFormatStyle.NEXT_LINE)
             {
                 return false;
             }
-
-            if (formatSettings.TYPE_DECLARATION_BRACES != BraceFormatStyle.NEXT_LINE)
+            
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.WRAP_AFTER_DECLARATION_LPAR))
             {
                 return false;
             }
 
-            if (formatSettings.WRAP_AFTER_BINARY_OPSIGN)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.WRAP_AFTER_INVOCATION_LPAR))
             {
                 return false;
             }
 
-            if (!formatSettings.WRAP_AFTER_DECLARATION_LPAR)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.WRAP_ARGUMENTS_STYLE) != WrapStyle.CHOP_IF_LONG)
             {
                 return false;
             }
 
-            if (!formatSettings.WRAP_AFTER_INVOCATION_LPAR)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.WRAP_BEFORE_BINARY_OPSIGN))
             {
                 return false;
             }
 
-            if (formatSettings.WRAP_ARGUMENTS_STYLE != WrapStyle.CHOP_IF_LONG)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.WRAP_BEFORE_DECLARATION_LPAR))
             {
                 return false;
             }
 
-            if (!formatSettings.WRAP_BEFORE_BINARY_OPSIGN)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.WRAP_BEFORE_EXTENDS_COLON))
             {
                 return false;
             }
 
-            if (formatSettings.WRAP_BEFORE_DECLARATION_LPAR)
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.WRAP_BEFORE_FIRST_TYPE_PARAMETER_CONSTRAINT))
             {
                 return false;
             }
 
-            if (formatSettings.WRAP_BEFORE_EXTENDS_COLON)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.WRAP_BEFORE_INVOCATION_LPAR))
             {
                 return false;
             }
 
-            if (!formatSettings.WRAP_BEFORE_FIRST_TYPE_PARAMETER_CONSTRAINT)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.WRAP_BEFORE_TYPE_PARAMETER_LANGLE))
             {
                 return false;
             }
 
-            if (formatSettings.WRAP_BEFORE_INVOCATION_LPAR)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.WRAP_EXTENDS_LIST_STYLE) != WrapStyle.CHOP_IF_LONG)
             {
                 return false;
             }
 
-            if (formatSettings.WRAP_BEFORE_TYPE_PARAMETER_LANGLE)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.WRAP_FOR_STMT_HEADER_STYLE) != WrapStyle.CHOP_IF_LONG)
             {
                 return false;
             }
-
-            if (formatSettings.WRAP_EXTENDS_LIST_STYLE != WrapStyle.CHOP_IF_LONG)
+            
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.WRAP_LINES))
             {
                 return false;
             }
 
-            if (formatSettings.WRAP_FOR_STMT_HEADER_STYLE != WrapStyle.CHOP_IF_LONG)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.WRAP_MULTIPLE_DECLARATION_STYLE) != WrapStyle.CHOP_IF_LONG)
             {
                 return false;
             }
 
-            // We don't need to change this. It's here for completeness.
-            if (formatSettings.WRAP_LIMIT != formatSettings.WRAP_LIMIT)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.WRAP_MULTIPLE_TYPE_PARAMEER_CONSTRAINTS_STYLE) != WrapStyle.CHOP_IF_LONG)
             {
                 return false;
             }
 
-            if (!formatSettings.WRAP_LINES)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.WRAP_OBJECT_AND_COLLECTION_INITIALIZER_STYLE) != WrapStyle.CHOP_IF_LONG)
             {
                 return false;
             }
 
-            if (formatSettings.WRAP_MULTIPLE_DECLARATION_STYLE != WrapStyle.CHOP_IF_LONG)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.WRAP_PARAMETERS_STYLE) != WrapStyle.CHOP_IF_LONG)
             {
                 return false;
             }
 
-            if (formatSettings.WRAP_MULTIPLE_TYPE_PARAMEER_CONSTRAINTS_STYLE != WrapStyle.CHOP_IF_LONG)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.WRAP_TERNARY_EXPR_STYLE) != WrapStyle.CHOP_IF_LONG)
             {
                 return false;
             }
 
-            if (formatSettings.WRAP_OBJECT_AND_COLLECTION_INITIALIZER_STYLE != WrapStyle.CHOP_IF_LONG)
-            {
-                return false;
-            }
+            ////var namingSettings = codeStyleSettings.GetNamingSettings2();
+           
+            ////if (!namingSettings.OverrideDefaultSettings)
+            ////{
+            ////    return false;
+            ////}
 
-            if (formatSettings.WRAP_PARAMETERS_STYLE != WrapStyle.CHOP_IF_LONG)
+            if (settingsStore.GetValue((CSharpNamingSettings key) => key.EventHandlerPatternLong) != "$object$_On$event$")
             {
                 return false;
             }
 
-            if (formatSettings.WRAP_TERNARY_EXPR_STYLE != WrapStyle.CHOP_IF_LONG)
+            if (settingsStore.GetValue((CSharpNamingSettings key) => key.EventHandlerPatternShort) != "$event$Handler")
             {
                 return false;
             }
 
-            var namingSettings = codeStyleSettings.GetNamingSettings2();
-
-            if (!namingSettings.OverrideDefaultSettings)
-            {
-                return false;
-            }
+            ////var predefinedRules = settingsStore.GetIndexedValue((CSharpNamingSettings key) => key.PredefinedNamingRules,);
+            ////var predefinedRules = settingsStore.GetIndexedValue<CSharpNamingSettings, NamedElementKinds,NamingPolicy>(key => key.PredefinedNamingRules, kinds, null);
 
-            if (namingSettings.EventHandlerPatternLong != "$object$_On$event$")
-            {
-                return false;
-            }
+            ////var predefinedRules = new CSharpNamingPolicyProvider(PsiLanguageType)
 
-            if (namingSettings.EventHandlerPatternShort != "$event$Handler")
+            foreach (NamedElementKinds kindOfElement in Enum.GetValues(typeof(NamedElementKinds)))
             {
-                return false;
-            }
+                NamingPolicy policy = settingsStore.GetIndexedValue<CSharpNamingSettings, NamedElementKinds, NamingPolicy>(key => key.PredefinedNamingRules, kindOfElement, null);
 
-            foreach (var predefinedRule in namingSettings.PredefinedNamingRules)
-            {
-                NamingRule rule = predefinedRule.Value.NamingRule;
-                if (rule.Suffix != string.Empty)
+                if (policy != null)
                 {
-                    return false;
-                }
+                    NamingRule rule = policy.NamingRule;
+                    if (rule.Suffix != string.Empty)
+                    {
+                        return false;
+                    }
 
-                switch (predefinedRule.Key)
-                {
-                    case NamedElementKinds.Locals:
-                    case NamedElementKinds.Parameters:
-                    case NamedElementKinds.PrivateInstanceFields:
-                    case NamedElementKinds.PrivateStaticFields:
-                        if (rule.Prefix != string.Empty || rule.NamingStyleKind != NamingStyleKinds.aaBb)
-                        {
-                            return false;
-                        }
+                    switch (kindOfElement)
+                    {
+                        case NamedElementKinds.Locals:
+                        case NamedElementKinds.Parameters:
+                        case NamedElementKinds.PrivateInstanceFields:
+                        case NamedElementKinds.PrivateStaticFields:
+                            if (rule.Prefix != string.Empty || rule.NamingStyleKind != NamingStyleKinds.aaBb)
+                            {
+                                return false;
+                            }
 
-                        break;
+                            break;
 
-                    case NamedElementKinds.Interfaces:
-                        if (rule.Prefix != "I" || rule.NamingStyleKind != NamingStyleKinds.AaBb)
-                        {
-                            return false;
-                        }
+                        case NamedElementKinds.Interfaces:
+                            if (rule.Prefix != "I" || rule.NamingStyleKind != NamingStyleKinds.AaBb)
+                            {
+                                return false;
+                            }
 
-                        break;
+                            break;
 
-                    case NamedElementKinds.TypeParameters:
-                        if (rule.Prefix != "T" || rule.NamingStyleKind != NamingStyleKinds.AaBb)
-                        {
-                            return false;
-                        }
+                        case NamedElementKinds.TypeParameters:
+                            if (rule.Prefix != "T" || rule.NamingStyleKind != NamingStyleKinds.AaBb)
+                            {
+                                return false;
+                            }
 
-                        break;
+                            break;
 
-                    default:
-                        if (rule.Prefix != string.Empty || rule.NamingStyleKind != NamingStyleKinds.AaBb)
-                        {
-                            return false;
-                        }
+                        default:
+                            if (rule.Prefix != string.Empty || rule.NamingStyleKind != NamingStyleKinds.AaBb)
+                            {
+                                return false;
+                            }
 
-                        break;
+                            break;
+                    }
                 }
             }
-
-            var usingsSettings = codeStyleSettings.UsingsSettings;
-
-            if (!usingsSettings.AddImportsToDeepestScope)
+            
+            if (!settingsStore.GetValue(CSharpUsingSettingsAccessor.AddImportsToDeepestScope))
+            {
+                return false;
+            }
+            
+            if (!settingsStore.GetValue(CSharpUsingSettingsAccessor.QualifiedUsingAtNestedScope))
             {
                 return false;
             }
 
-            if (!usingsSettings.QualifiedUsingAtNestedScope)
+            if (!settingsStore.GetValue(CSharpUsingSettingsAccessor.AllowAlias))
             {
                 return false;
             }
 
-            if (!usingsSettings.AllowAlias)
+            if (!settingsStore.GetValue(CSharpUsingSettingsAccessor.CanUseGlobalAlias))
             {
                 return false;
             }
 
-            if (!usingsSettings.CanUseGlobalAlias)
+            if (!settingsStore.GetValue(CSharpUsingSettingsAccessor.KeepNontrivialAlias))
             {
                 return false;
             }
 
-            if (!usingsSettings.KeepNontrivialAlias)
+            if (settingsStore.GetValue(CSharpUsingSettingsAccessor.PreferQualifiedReference))
             {
                 return false;
             }
 
-            if (usingsSettings.PreferQualifiedReference)
+            if (!settingsStore.GetValue(CSharpUsingSettingsAccessor.SortUsings))
             {
                 return false;
             }
 
-            if (!usingsSettings.SortUsings)
-            {
-                return false;
-            }
-
-            if (codeStyleSettings.CustomMembersReorderingPatterns == null)
+            if (settingsStore.GetValue((CSharpMemberOrderPatternSettings key) => key.CustomPattern) == null)
             {
                 return false;
             }
@@ -1526,7 +1529,7 @@ namespace StyleCop.ReSharper.Options
                 }
             }
 
-            if (!codeStyleSettings.CustomMembersReorderingPatterns.Equals(reorderingPatterns, StringComparison.InvariantCulture))
+            if (!settingsStore.GetValue((CSharpMemberOrderPatternSettings key) => key.CustomPattern).Equals(reorderingPatterns, StringComparison.InvariantCulture))
             {
                 return false;
             }
@@ -1534,9 +1537,12 @@ namespace StyleCop.ReSharper.Options
             CodeCleanup codeCleanupInstance = CodeCleanup.GetInstance(solution);
 
             CodeCleanupProfile styleCopProfile = null;
+            
+            var codeCleanupSettings = Shell.Instance.GetComponent<CodeCleanupSettingsComponent>();
+            var currentProfiles = codeCleanupSettings.GetProfiles(settingsStore);
 
             // Find the StyleCop profile
-            foreach (CodeCleanupProfile profile in codeCleanupInstance.Profiles)
+            foreach (CodeCleanupProfile profile in currentProfiles)
             {
                 if (!profile.IsDefault)
                 {
@@ -2006,12 +2012,14 @@ namespace StyleCop.ReSharper.Options
 
             if (cleanupOptionDescriptor.Type == typeof(bool) || (cleanupOptionDescriptor.Type == typeof(string) || cleanupOptionDescriptor.Type.IsEnum))
             {
-                return (T)profile[cleanupOptionDescriptor];
+                ////return (T)profile[cleanupOptionDescriptor];
+                return (T)profile.GetSetting(cleanupOptionDescriptor);
             }
 
             var propertyInfo = GetPropertyInfo(cleanupOptionDescriptor, propertyName);
 
-            return propertyInfo != null ? (T)propertyInfo.GetValue(profile[cleanupOptionDescriptor], null) : default(T);
+            ////return propertyInfo != null ? (T)propertyInfo.GetValue(profile[cleanupOptionDescriptor], null) : default(T);
+            return propertyInfo != null ? (T)propertyInfo.GetValue(profile.GetSetting(cleanupOptionDescriptor), null) : default(T);
         }
 
         /// <summary>
@@ -2033,7 +2041,8 @@ namespace StyleCop.ReSharper.Options
 
             if (cleanupOptionDescriptor.Type == typeof(bool) || (cleanupOptionDescriptor.Type == typeof(string) || cleanupOptionDescriptor.Type.IsEnum))
             {
-                profile[cleanupOptionDescriptor] = value;
+                ////profile[cleanupOptionDescriptor] = value;
+                profile.SetSetting(cleanupOptionDescriptor, value);
                 return;
             }
 
@@ -2044,9 +2053,9 @@ namespace StyleCop.ReSharper.Options
                 return;
             }
 
-            object descriptorOptionsContainer = profile[cleanupOptionDescriptor];
+            object descriptorOptionsContainer = profile.GetSetting(cleanupOptionDescriptor);
             propertyInfo.SetValue(descriptorOptionsContainer, value, null);
-            profile[cleanupOptionDescriptor] = descriptorOptionsContainer;
+            profile.SetSetting(cleanupOptionDescriptor, descriptorOptionsContainer);
         }
 
         /// <summary>
@@ -2071,7 +2080,10 @@ namespace StyleCop.ReSharper.Options
         /// <returns>The CodeCleanupOptionDescriptor for the descriptor.</returns>
         private static CodeCleanupOptionDescriptor GetDescriptor(CodeCleanup codeCleanup, string descriptorName)
         {
-            foreach (ICodeCleanupModule module in codeCleanup.Modules)
+            var codeCleanupSettings = Shell.Instance.GetComponent<CodeCleanupSettingsComponent>();
+            var currentModules = codeCleanupSettings.Modules;
+
+            foreach (ICodeCleanupModule module in currentModules)
             {
                 foreach (CodeCleanupOptionDescriptor descriptor in module.Descriptors)
                 {
@@ -2202,7 +2214,7 @@ namespace StyleCop.ReSharper.Options
         {
             ResetCodeStyleOptions(this.GetSolution());
             MessageBox.Show(
-               @"C# code style options have been set in order to fix StyleCop violations. Your UserSettings.xml will be saved when you exit Visual Studio.", @"StyleCop", MessageBoxButtons.OK);
+               @"C# code style options have been set in order to fix StyleCop violations. Ensure your R# Settings are saved.", @"StyleCop", MessageBoxButtons.OK);
             this.resetFormatOptionsButton.Enabled = false;
         }
         

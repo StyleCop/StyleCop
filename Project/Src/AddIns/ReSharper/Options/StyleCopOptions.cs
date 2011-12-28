@@ -39,6 +39,7 @@ namespace StyleCop.ReSharper.Options
     /// <summary>
     /// Class to hold all of the Configurable options for this addin.
     /// </summary>
+    /// 
     [ShellComponent(ProgramConfigurations.VS_ADDIN)]
     public class StyleCopOptions : IXmlExternalizable, IDisposable
     {
@@ -332,7 +333,7 @@ namespace StyleCop.ReSharper.Options
         /// <param name="element">
         /// The XmlElement to read from.
         /// </param>
-        void IXmlExternalizable.ReadFromXml(XmlElement element)
+        void IXmlReadable.ReadFromXml(XmlElement element)
         {
             if (element == null)
             {
@@ -348,7 +349,7 @@ namespace StyleCop.ReSharper.Options
         /// <param name="element">
         /// The element.
         /// </param>
-        void IXmlExternalizable.WriteToXml(XmlElement element)
+        void IXmlWritable.WriteToXml(XmlElement element)
         {
             XmlExternalizationUtil.WriteToXml(element, this);
         }

@@ -20,8 +20,11 @@ namespace StyleCop.ReSharper.Violations
 {
     #region Using Directives
 
+    using JetBrains.Application;
+    using JetBrains.Application.Settings;
     using JetBrains.DocumentModel;
     using JetBrains.ReSharper.Daemon;
+    using JetBrains.ReSharper.Psi;
 
     using StyleCop.CSharp;
     using StyleCop.ReSharper.Options;
@@ -58,8 +61,9 @@ namespace StyleCop.ReSharper.Violations
             var ruleID = violation.Violation.Rule.CheckId;
             var highlightID = HighlightingRegistering.GetHighlightID(ruleID);
 
-            var severity = HighlightingSettingsManager.Instance.Settings.GetSeverity(highlightID);
-
+            // var severity = HighlightingSettingsManager.Instance.Settings.GetSeverity(highlightID);
+            var severity = HighlightingSettingsManager.Instance.GetConfigurableSeverity(highlightID, null);
+            
             switch (severity)
             {
                 case Severity.ERROR:
