@@ -30,23 +30,8 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
     /// <summary>
     /// ReSharper Attribute that allows you to define a custom Icon for a Suppress QuickFix.
     /// </summary>
-    public class SuppressQuickFixAttribute : FunctionalGroupAttribute
+    public class SuppressQuickFixAttribute : ConfigureFunctionalGroupAttribute
     {
-        #region Properties
-
-        /// <summary>
-        /// Sets the order the QuickFix should appear. 0 being highest.
-        /// </summary>
-        public override int Order
-        {
-            get
-            {
-                return 10;
-            }
-        }
-
-        #endregion
-
         #region Public Methods
 
         /// <summary>
