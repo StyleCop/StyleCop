@@ -282,13 +282,12 @@ namespace StyleCop.ReSharper.Options
             // useSingleLineForDeclarationCommentsCheckBox
             // 
             this.useSingleLineForDeclarationCommentsCheckBox.AutoSize = true;
-            this.useSingleLineForDeclarationCommentsCheckBox.Location = new System.Drawing.Point(411, 212);
+            this.useSingleLineForDeclarationCommentsCheckBox.Location = new System.Drawing.Point(0, 76);
             this.useSingleLineForDeclarationCommentsCheckBox.Name = "useSingleLineForDeclarationCommentsCheckBox";
             this.useSingleLineForDeclarationCommentsCheckBox.Size = new System.Drawing.Size(229, 17);
             this.useSingleLineForDeclarationCommentsCheckBox.TabIndex = 14;
             this.useSingleLineForDeclarationCommentsCheckBox.Text = "Use single lines for declaration headers";
             this.useSingleLineForDeclarationCommentsCheckBox.UseVisualStyleBackColor = true;
-            this.useSingleLineForDeclarationCommentsCheckBox.Visible = false;
             // 
             // toolTip
             // 
@@ -354,7 +353,7 @@ namespace StyleCop.ReSharper.Options
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(10, 3);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(365, 476);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(365, 498);
             this.flowLayoutPanel1.TabIndex = 26;
             // 
             // warningPanel
@@ -405,12 +404,13 @@ namespace StyleCop.ReSharper.Options
             // panel4
             // 
             this.panel4.AutoSize = true;
+            this.panel4.Controls.Add(this.useSingleLineForDeclarationCommentsCheckBox);
             this.panel4.Controls.Add(this.label6);
             this.panel4.Controls.Add(this.panel2);
             this.panel4.Controls.Add(this.insertTextCheckBox);
             this.panel4.Location = new System.Drawing.Point(3, 205);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(272, 74);
+            this.panel4.Size = new System.Drawing.Size(272, 96);
             this.panel4.TabIndex = 33;
             // 
             // label6
@@ -430,7 +430,7 @@ namespace StyleCop.ReSharper.Options
             this.panel2.Controls.Add(this.dashesCountMaskedTextBox);
             this.panel2.Location = new System.Drawing.Point(0, 46);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(233, 25);
+            this.panel2.Size = new System.Drawing.Size(233, 31);
             this.panel2.TabIndex = 29;
             // 
             // panel1
@@ -441,7 +441,7 @@ namespace StyleCop.ReSharper.Options
             this.panel1.Controls.Add(this.StyleCopLocationTextBox);
             this.panel1.Controls.Add(this.autoDetectCheckBox);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(3, 285);
+            this.panel1.Location = new System.Drawing.Point(3, 307);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(359, 94);
             this.panel1.TabIndex = 35;
@@ -463,7 +463,7 @@ namespace StyleCop.ReSharper.Options
             this.panel5.Controls.Add(this.justificationTextBox);
             this.panel5.Controls.Add(this.justificationLlabel);
             this.panel5.Controls.Add(this.useExcludeFromStyleCopCheckBox);
-            this.panel5.Location = new System.Drawing.Point(3, 385);
+            this.panel5.Location = new System.Drawing.Point(3, 407);
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(282, 88);
             this.panel5.TabIndex = 34;
@@ -484,7 +484,6 @@ namespace StyleCop.ReSharper.Options
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.Controls.Add(this.useSingleLineForDeclarationCommentsCheckBox);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.performanceGroupBox);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
