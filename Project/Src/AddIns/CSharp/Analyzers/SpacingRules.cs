@@ -157,6 +157,7 @@ namespace StyleCop.CSharp
                     {
                         switch (tokenNode.Value.CsTokenType)
                         {
+                            case CsTokenType.Async:
                             case CsTokenType.By:
                             case CsTokenType.Catch:
                             case CsTokenType.Equals:
@@ -973,7 +974,8 @@ namespace StyleCop.CSharp
                             itemType == CsTokenType.While ||
                             itemType == CsTokenType.WhileDo ||
                             itemType == CsTokenType.Yield ||
-                            itemType == CsTokenType.LabelColon)
+                            itemType == CsTokenType.LabelColon ||
+                            itemType == CsTokenType.Async)
                         {
                             break;
                         }
