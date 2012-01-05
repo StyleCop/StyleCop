@@ -21,6 +21,7 @@ namespace StyleCop.ReSharper.BulbItems.Framework
     #region Using Directives
 
     using JetBrains.Application.Progress;
+    using JetBrains.Application.Settings;
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Psi;
     using JetBrains.ReSharper.Psi.CodeStyle;
@@ -70,8 +71,10 @@ namespace StyleCop.ReSharper.BulbItems.Framework
 
                 var ruleText = string.Format("{0}:{1}", this.Rule.CheckId, this.Rule.Name);
 
-                var justificationText = StyleCopOptions.Instance.SuppressStyleCopAttributeJustificationText;
-
+                var settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, solution);
+            
+                var justificationText = settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.SuppressStyleCopAttributeJustificationText);
+                
                 var attributesOwnerDeclaration = declaration as IAttributesOwnerDeclaration;
 
                 if (attributesOwnerDeclaration != null)
@@ -91,12 +94,19 @@ namespace StyleCop.ReSharper.BulbItems.Framework
                     attributesOwnerDeclaration.AddAttributeAfter(attribute, null);
 
                     var file = declaration.GetContainingFile();
+                    if (file != null)
+                    {
+                        var languageService = CSharpLanguage.Instance.LanguageService();
+                        if (languageService != null)
+                        {
+                            var codeFormatter = (ICSharpCodeFormatter)languageService.CodeFormatter;
 
-                    //// CSharpFormatterHelper.FormatterInstance.FormatFile(
-                    //// file, SolutionCodeStyleSettings.GetInstance(solution).CodeStyleSettings, CodeFormatProfile.DEFAULT, NullProgressIndicator.Instance);
-
-                    var codeFormatter = (ICSharpCodeFormatter)CSharpLanguage.Instance.LanguageService().CodeFormatter;
-                    codeFormatter.FormatFile(file, CodeFormatProfile.DEFAULT, NullProgressIndicator.Instance);
+                            if (codeFormatter != null)
+                            {
+                                codeFormatter.FormatFile(file, CodeFormatProfile.DEFAULT, NullProgressIndicator.Instance);
+                            }
+                        }
+                    }
                 }
             }
         }

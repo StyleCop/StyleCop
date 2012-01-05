@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="StyleCopOptions.cs" company="http://stylecop.codeplex.com">
+// <copyright file="StyleCopOptionsSettingsKey.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -22,13 +22,11 @@ namespace StyleCop.ReSharper.Options
 {
     #region Using Directives
 
-    using System;
+    using System.IO;
+    using System.Reflection;
     using System.Windows.Forms;
-    using System.Xml;
 
-    using JetBrains.Application;
-    using JetBrains.Application.Components;
-    using JetBrains.Application.Configuration;
+    using JetBrains.Application.Settings;
 
     using Microsoft.Win32;
 
@@ -39,18 +37,16 @@ namespace StyleCop.ReSharper.Options
     /// <summary>
     /// Class to hold all of the Configurable options for this addin.
     /// </summary>
-    [ShellComponent(ProgramConfigurations.VS_ADDIN)]
-    public class StyleCopOptions : IXmlExternalizable, IDisposable
+    [SettingsKey(typeof(Missing), "StyleCop Options")]
+    public class StyleCopOptionsSettingsKey
     {
         #region Constants and Fields
 
-        private bool alwaysCheckForUpdatesWhenVisualStudioStarts;
-
         /// <summary>
-        /// Set to true when we've attempted to get the StyleCop path.
+        /// Set to true to always check for updates when Visual Studio starts.
         /// </summary>
-        private bool attemptedToGetStyleCopPath;
-
+        private bool alwaysCheckForUpdatesWhenVisualStudioStarts;
+        
         /// <summary>
         /// Tracks whether we should check for updates.
         /// </summary>
@@ -66,51 +62,19 @@ namespace StyleCop.ReSharper.Options
         /// </summary>
         private string styleCopDetectedPath;
 
-        #endregion
-
-        #region Constructors and Destructors
-
         /// <summary>
-        /// Initializes a new instance of the <see cref="StyleCopOptions"/> class. 
-        /// Set to max performance by default.
+        /// Set to true when we've attempted to get the StyleCop path.
         /// </summary>
-        public StyleCopOptions()
-        {
-            this.ParsingPerformance = 9;
-            this.SpecifiedAssemblyPath = string.Empty;
-            this.InsertTextIntoDocumentation = true;
-            this.AutomaticallyCheckForUpdates = true;
-            this.AlwaysCheckForUpdatesWhenVisualStudioStarts = false;
-            this.DaysBetweenUpdateChecks = 7;
-            this.LastUpdateCheckDate = "1900-01-01";
-            this.DashesCountInFileHeader = 116;
-            this.UseExcludeFromStyleCopSetting = true;
-            this.SuppressStyleCopAttributeJustificationText = "Reviewed. Suppression is OK here.";
-            this.UseSingleLineDeclarationComments = false;
-        }
+        private bool attemptedToGetStyleCopPath;
 
         #endregion
-
+        
         #region Properties
-
-        /// <summary>
-        /// Gets the instance.
-        /// </summary>
-        /// <value>
-        /// The instance.
-        /// </value>
-        public static StyleCopOptions Instance
-        {
-            get
-            {
-                return Shell.Instance.GetComponent<StyleCopOptions>();
-            }
-        }
-
+        
         /// <summary>
         /// Gets or sets a value indicating whether AlwaysCheckForUpdatesWhenVisualStudioStarts.
         /// </summary>
-        [XmlExternalizableAttribute(true)]
+        [SettingsEntry(false, "Always Check For Updates When Visual Studio Starts")]
         public bool AlwaysCheckForUpdatesWhenVisualStudioStarts
         {
             get
@@ -121,7 +85,6 @@ namespace StyleCop.ReSharper.Options
             set
             {
                 this.alwaysCheckForUpdatesWhenVisualStudioStarts = value;
-
                 SetRegistry("AlwaysCheckForUpdatesWhenVisualStudioStarts", value, RegistryValueKind.DWord);
             }
         }
@@ -129,7 +92,7 @@ namespace StyleCop.ReSharper.Options
         /// <summary>
         /// Gets or sets a value indicating whether we check for updates when plugin starts.
         /// </summary>
-        [XmlExternalizableAttribute(true)]
+        [SettingsEntry(true, "Automatically Check For Updates")]
         public bool AutomaticallyCheckForUpdates
         {
             get
@@ -147,13 +110,13 @@ namespace StyleCop.ReSharper.Options
         /// <summary>
         /// Gets or sets DashesCountInFileHeader.
         /// </summary>
-        [XmlExternalizableAttribute(116)]
+        [SettingsEntry(116, "Dashes Count In File Header")]
         public int DashesCountInFileHeader { get; set; }
 
         /// <summary>
         /// Gets or sets DaysBetweenUpdateChecks.
         /// </summary>
-        [XmlExternalizableAttribute(2)]
+        [SettingsEntry(7, "Days Between Update Checks")]
         public int DaysBetweenUpdateChecks
         {
             get
@@ -171,84 +134,54 @@ namespace StyleCop.ReSharper.Options
         /// <summary>
         /// Gets or sets a value indicating whether descriptive text should be inserted into missing documentation headers.
         /// </summary>
-        [XmlExternalizableAttribute(true)]
+        [SettingsEntry(true, "Insert Text Into Documentation")]
         public bool InsertTextIntoDocumentation { get; set; }
 
         /// <summary>
         /// Gets or sets the last update check date.
         /// </summary>
-        [XmlExternalizableAttribute("1900-01-01")]
+        [SettingsEntry("1900-01-01", "Last Update Check Date")]
         public string LastUpdateCheckDate { get; set; }
 
         /// <summary>
-        /// Gets or sets the ParsingPerformance value.
+        /// Gets or sets the ParsingPerformance value. 9 means every time R# calls us, 8 means after 1 second, 7 means after 2 seconds, etc.
         /// </summary>
         /// <value>
         /// The performance value.
         /// </value>
-        [XmlExternalizableAttribute(9)]
+        [SettingsEntry(7, "Parsing Performance")]
         public int ParsingPerformance { get; set; }
-
-        /// <summary>
-        /// Gets the Scope that defines which store the data goes into.
-        /// Must not be
-        /// <c>0.</c>.
-        /// </summary>
-        /// <value>
-        /// The Scope.
-        /// </value>
-        public XmlExternalizationScope Scope
-        {
-            get
-            {
-                return XmlExternalizationScope.UserSettings;
-            }
-        }
-
+        
         /// <summary>
         /// Gets or sets the Specified Assembly Path.
         /// </summary>
         /// <value>
         /// The allow null attribute.
         /// </value>
-        [XmlExternalizableAttribute("")]
+        [SettingsEntry("", "Specified Assembly Path")]
         public string SpecifiedAssemblyPath { get; set; }
 
         /// <summary>
         /// Gets or sets the text for inserting suppressmessageattributes.
         /// </summary>
-        [XmlExternalizableAttribute("Reviewed. Suppression is OK here.")]
+        [SettingsEntry("Reviewed. Suppression is OK here.", "Suppress StyleCop Attribute Justification Text")]
         public string SuppressStyleCopAttributeJustificationText { get; set; }
-
-        /// <summary>
-        /// Gets the name of the tag.
-        /// </summary>
-        /// <value>
-        /// The name of the tag.
-        /// </value>
-        public string TagName
-        {
-            get
-            {
-                return "StyleCop.ReSharper";
-            }
-        }
-
+        
         /// <summary>
         /// Gets or sets a value indicating whether to use exclude from style cop setting.
         /// </summary>
-        [XmlExternalizableAttribute(true)]
+        [SettingsEntry(true, "Use Exclude From StyleCop Setting")]
         public bool UseExcludeFromStyleCopSetting { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether declaration comments should be multi line or single line.
         /// </summary>
-        [XmlExternalizableAttribute(false)]
+        [SettingsEntry(false, "Use Single Line Declaration Comments")]
         public bool UseSingleLineDeclarationComments { get; set; }
 
         #endregion
-
-        #region Public Methods
+        
+        #region Methods
 
         /// <summary>
         /// Detects the style cop path.
@@ -256,9 +189,9 @@ namespace StyleCop.ReSharper.Options
         /// <returns>
         /// The path to the detected StyleCop assembly.
         /// </returns>
-        public string DetectStyleCopPath()
+        public static string DetectStyleCopPath()
         {
-            var assemblyPath = StyleCopLocator.GetStyleCopPath();
+            var assemblyPath = GetStyleCopPath();
             return StyleCopReferenceHelper.LocationValid(assemblyPath) ? assemblyPath : null;
         }
 
@@ -286,7 +219,7 @@ namespace StyleCop.ReSharper.Options
                     this.SpecifiedAssemblyPath = null;
                 }
 
-                this.styleCopDetectedPath = this.DetectStyleCopPath();
+                this.styleCopDetectedPath = DetectStyleCopPath();
 
                 if (string.IsNullOrEmpty(this.styleCopDetectedPath))
                 {
@@ -298,67 +231,34 @@ namespace StyleCop.ReSharper.Options
             return this.styleCopDetectedPath;
         }
 
-        #endregion
-
-        #region Implemented Interfaces
-
-        #region IComponent
-
         /// <summary>
-        /// Initializes this instance.
+        /// Gets the StyleCop assembly path.
         /// </summary>
-        public void Init()
+        /// <returns>
+        /// The path to the StyleCop assembly or null if not found.
+        /// </returns>
+        private static string GetStyleCopPath()
         {
-        }
+            var directory = RetrieveFromRegistry() ?? Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
-        #endregion
-
-        #region IDisposable
-
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        public void Dispose()
-        {
-        }
-
-        #endregion
-
-        #region IXmlExternalizable
-
-        /// <summary>
-        /// Reads the settings from the XML.
-        /// </summary>
-        /// <param name="element">
-        /// The XmlElement to read from.
-        /// </param>
-        void IXmlReadable.ReadFromXml(XmlElement element)
-        {
-            if (element == null)
-            {
-                return;
-            }
-
-            XmlExternalizationUtil.ReadFromXml(element, this);
+            return directory == null ? directory : Path.Combine(directory, StyleCopReferenceHelper.StyleCopAssemblyName);
         }
 
         /// <summary>
-        /// Writes the settings to XML.
+        /// Gets the StyleCop install location from the registry. This reg key is created by StyleCop during install.
         /// </summary>
-        /// <param name="element">
-        /// The element.
-        /// </param>
-        void IXmlWritable.WriteToXml(XmlElement element)
+        /// <returns>
+        /// Returns the regkey value or null if not found.
+        /// </returns>
+        private static string RetrieveFromRegistry()
         {
-            XmlExternalizationUtil.WriteToXml(element, this);
+            const string SubKey = @"SOFTWARE\CodePlex\StyleCop";
+            const string Key = "InstallDir";
+
+            RegistryKey registryKey = Registry.LocalMachine.OpenSubKey(SubKey);
+            return registryKey == null ? null : registryKey.GetValue(Key) as string;
         }
-
-        #endregion
-
-        #endregion
-
-        #region Methods
-
+        
         /// <summary>
         /// Sets a regkey value in the registry.
         /// </summary>
@@ -381,7 +281,7 @@ namespace StyleCop.ReSharper.Options
                 registryKey.SetValue(key, value, valueKind);
             }
         }
-
+        
         #endregion
     }
 }

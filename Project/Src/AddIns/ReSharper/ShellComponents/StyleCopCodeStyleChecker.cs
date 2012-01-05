@@ -22,6 +22,10 @@ namespace StyleCop.ReSharper.ShellComponents
 
     using JetBrains.Application;
     using JetBrains.Application.Components;
+    using JetBrains.Application.Settings;
+    using JetBrains.Application.Settings.Store.Implementation;
+    using JetBrains.ReSharper.Psi;
+    using JetBrains.UI.Options;
 
     using Microsoft.Win32;
 
@@ -87,18 +91,23 @@ namespace StyleCop.ReSharper.ShellComponents
 
             if (oneTimeInitializationRequiredRegistryKey == null || initializationDate < lastInstalledDate)
             {
-                if (!StyleCopOptionsPage.CodeStyleOptionsValid(null))
+                var settingsStore = Shell.Instance.GetComponent<SettingsStore>();
+
+                var settings = settingsStore.BindToContextLive(null, ContextRange.ApplicationWide);
+
+                if (!StyleCopOptionsPage.CodeStyleOptionsValid(settings))
                 {
-                  var result = MessageBox.Show(
-                        @"Your ReSharper code style settings are not completely compatible with StyleCop. Would you like to reset them now?",
-                        @"StyleCop",
-                        MessageBoxButtons.YesNo,
-                        MessageBoxIcon.Question,
-                        MessageBoxDefaultButton.Button2);
-                  if (result == DialogResult.Yes)
-                  {
-                      StyleCopOptionsPage.ResetCodeStyleOptions(null);
-                  }
+                    var result =
+                        MessageBox.Show(
+                            @"Your ReSharper code style settings are not completely compatible with StyleCop. Would you like to reset them now?",
+                            @"StyleCop",
+                            MessageBoxButtons.YesNo,
+                            MessageBoxIcon.Question,
+                            MessageBoxDefaultButton.Button2);
+                    if (result == DialogResult.Yes)
+                    {
+                        StyleCopOptionsPage.ResetCodeStyleOptions(null);
+                    }
                 }
 
                 SetRegistry("LastInitializationDate", todayAsString, RegistryValueKind.String);

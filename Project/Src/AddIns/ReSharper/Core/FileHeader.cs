@@ -30,6 +30,7 @@ namespace StyleCop.ReSharper.Core
     using System.Xml;
 
     using JetBrains.Application;
+    using JetBrains.Application.Settings;
     using JetBrains.ReSharper.Psi;
     using JetBrains.ReSharper.Psi.CSharp.Parsing;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
@@ -611,8 +612,10 @@ namespace StyleCop.ReSharper.Core
                 return;
             }
 
-            var dashes = new string('-', StyleCopOptions.Instance.DashesCountInFileHeader);
-
+            var settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, this.File.GetSolution());
+            var dashCount = settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.DashesCountInFileHeader);
+            var dashes = new string('-', dashCount);
+            
             var xmlTextTop = this.headerXml.CreateTextNode(string.Format("// {0}{1}// ", dashes, Environment.NewLine));
             if (this.headerXml.DocumentElement.FirstChild.NodeType == XmlNodeType.Text)
             {

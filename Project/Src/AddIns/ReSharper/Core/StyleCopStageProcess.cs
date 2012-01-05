@@ -22,15 +22,14 @@ namespace StyleCop.ReSharper.Core
     #region Using Directives
 
     using System;
-    using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
 
-    using JetBrains.DocumentModel;
+    using JetBrains.Application.Settings;
     using JetBrains.ReSharper.Daemon;
     using JetBrains.ReSharper.Psi;
     using JetBrains.ReSharper.Psi.CSharp;
-    using JetBrains.ReSharper.Psi.ExtensionsAPI.Tree;
+    using JetBrains.ReSharper.Psi.Tree;
 
     using StyleCop.Diagnostics;
     using StyleCop.ReSharper.Options;
@@ -61,6 +60,11 @@ namespace StyleCop.ReSharper.Core
         private static Stopwatch performanceStopWatch;
 
         /// <summary>
+        /// Gets set to true after our first run.
+        /// </summary>
+        private static bool runOnce = false;
+
+        /// <summary>
         /// Allows us to run the StyleCop analysers.
         /// </summary>
         private static StyleCopRunnerInt styleCopRunnerInternal = new StyleCopRunnerInt();
@@ -79,7 +83,7 @@ namespace StyleCop.ReSharper.Core
         public StyleCopStageProcess(IDaemonProcess daemonProcess)
         {
             StyleCopTrace.In(daemonProcess);
-
+            
             this.daemonProcess = daemonProcess;
             
             InitialiseTimers();
@@ -114,33 +118,56 @@ namespace StyleCop.ReSharper.Core
         {
             StyleCopTrace.In();
 
+            if (this.daemonProcess == null)
+            {
+                return;
+            }
+
+            if (this.daemonProcess.InterruptFlag)
+            {
+                return;
+            }
+
             // inverse the performance value - to ensure that "more resources" actually evaluates to a lower number
             // whereas "less resources" actually evaluates to a higher number. If Performance is set to max, then execute as normal.
-            if ((StyleCopOptions.Instance.ParsingPerformance == StyleCopStageProcess.MaxPerformanceValue) ||
-                (performanceStopWatch.Elapsed > new TimeSpan(0, 0, 0, StyleCopStageProcess.MaxPerformanceValue - StyleCopOptions.Instance.ParsingPerformance)))
+            var settingsStore = this.daemonProcess.SourceFile.GetSettingsStore();
+            int parsingPerformance = settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.ParsingPerformance);
+
+            var alwaysExecute = parsingPerformance == StyleCopStageProcess.MaxPerformanceValue;
+
+            bool enoughTimeGoneByToExecuteNow = false;
+
+            if (!alwaysExecute)
             {
-                if (this.daemonProcess.InterruptFlag)
-                {
-                    return;
-                }
-
-                if (!this.FileIsValid())
-                {
-                    return;
-                }
-                
-                styleCopRunnerInternal.Execute(this.daemonProcess.SourceFile.ToProjectFile(), this.daemonProcess.Document);
-
-                var violations = (from info in styleCopRunnerInternal.ViolationHighlights let range = info.Range let highlighting = info.Highlighting select new HighlightingInfo(range, highlighting)).ToList();
-
-                commiter(new DaemonStageResult(violations));
-
-                ResetPerformanceStopWatch();
+                enoughTimeGoneByToExecuteNow = performanceStopWatch.Elapsed > new TimeSpan(0, 0, 0, StyleCopStageProcess.MaxPerformanceValue - parsingPerformance);
             }
+
+            if (!alwaysExecute && !enoughTimeGoneByToExecuteNow && runOnce)
+            {
+                StyleCopTrace.Info("Not enough time gone by to execute.");
+                StyleCopTrace.Out();
+                return;
+            }
+            
+            if (!this.FileIsValid())
+            {
+                return;
+            }
+
+            runOnce = true;
+
+            styleCopRunnerInternal.Execute(this.daemonProcess.SourceFile.ToProjectFile(), this.daemonProcess.Document);
+
+            var violations =
+                (from info in styleCopRunnerInternal.ViolationHighlights let range = info.Range let highlighting = info.Highlighting select new HighlightingInfo(range, highlighting)).ToList();
+
+            commiter(new DaemonStageResult(violations));
+
+            ResetPerformanceStopWatch();
 
             StyleCopTrace.Out();
         }
-        
+
         #endregion
 
         #endregion
@@ -148,8 +175,7 @@ namespace StyleCop.ReSharper.Core
         #region Methods
 
         /// <summary>
-        /// Initialises the static timers used to regulate performance of file scavenging 
-        /// and execution of StyleCop analysis.
+        /// Initialises the static timers used to regulate performance of execution of StyleCop analysis.
         /// </summary>
         private static void InitialiseTimers()
         {
@@ -172,7 +198,7 @@ namespace StyleCop.ReSharper.Core
         private bool FileIsValid()
         {
             var manager = PsiManager.GetInstance(this.daemonProcess.Solution);
-            
+
             if (!this.daemonProcess.SourceFile.ToProjectFile().IsValid())
             {
                 return false;
@@ -185,8 +211,8 @@ namespace StyleCop.ReSharper.Core
                 return false;
             }
 
-            var hasErrorElements = new RecursiveElementCollector<ErrorElement>().ProcessElement(file).GetResults().Any();
-            
+            var hasErrorElements = new RecursiveElementCollector<IErrorElement>(null).ProcessElement(file).GetResults().Any();
+
             return !hasErrorElements;
         }
 

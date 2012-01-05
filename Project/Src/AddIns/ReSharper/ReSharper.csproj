@@ -250,7 +250,6 @@
     <Compile Include="Core\DeclarationHeader.cs" />
     <Compile Include="Core\FileHeader.cs" />
     <Compile Include="Core\StyleCopCoreFactory.cs" />
-    <Compile Include="Core\StyleCopLocator.cs" />
     <Compile Include="Core\StyleCopReferenceHelper.cs" />
     <Compile Include="Core\StyleCopRules.cs" />
     <Compile Include="Core\StyleCopRunnerInt.cs" />
@@ -394,7 +393,7 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="QuickFixes\Maintainability\SA1400QuickFix.cs" />
     <Compile Include="BulbItems\Maintainability\SA1400AccessModifierMustBeDeclaredBulbItem.cs" />
-    <Compile Include="Options\StyleCopOptions.cs" />
+    <Compile Include="Options\StyleCopOptionsSettingsKey.cs" />
     <Compile Include="Options\StyleCopOptionsPage.cs">
       <SubType>UserControl</SubType>
     </Compile>

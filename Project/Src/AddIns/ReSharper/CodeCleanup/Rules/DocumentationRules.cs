@@ -28,7 +28,9 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
     using System.Globalization;
     using System.Xml;
 
+    using JetBrains.Application.Settings;
     using JetBrains.ReSharper.Psi;
+    using JetBrains.ReSharper.Psi.CSharp.CodeStyle.FormatSettings;
     using JetBrains.ReSharper.Psi.CSharp.Parsing;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
     using JetBrains.ReSharper.Psi.CSharp.Tree.Extensions;
@@ -89,7 +91,13 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// </param>
         public void EnsureConstructorSummaryDocBeginsWithStandardText(IConstructorDeclaration constructorDeclaration)
         {
-            if (!StyleCopOptions.Instance.InsertTextIntoDocumentation)
+            if (constructorDeclaration == null)
+            {
+                return;
+            }
+
+            var settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, constructorDeclaration.GetSolution());
+            if (!settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.InsertTextIntoDocumentation))
             {
                 return;
             }
@@ -155,9 +163,20 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// </param>
         public void EnsureDestructorSummaryDocBeginsWithStandardText(IDestructorDeclaration destructorDeclaration)
         {
+            if (destructorDeclaration == null)
+            {
+                return;
+            }
+
             var declarationHeader = new DeclarationHeader(destructorDeclaration);
 
             if (declarationHeader.IsMissing || declarationHeader.IsInherited || !declarationHeader.HasSummary)
+            {
+                return;
+            }
+
+            var settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, destructorDeclaration.GetSolution());
+            if (!settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.InsertTextIntoDocumentation))
             {
                 return;
             }
@@ -205,7 +224,8 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// </param>
         public void EnsureDocumentationTextEndsWithAPeriod(IDeclaration declaration)
         {
-            if (!StyleCopOptions.Instance.InsertTextIntoDocumentation)
+            var settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, declaration.GetSolution());
+            if (!settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.InsertTextIntoDocumentation))
             {
                 return;
             }
@@ -228,7 +248,8 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// </param>
         public void EnsureDocumentationTextIsUppercase(IDeclaration declaration)
         {
-            if (!StyleCopOptions.Instance.InsertTextIntoDocumentation)
+            var settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, declaration.GetSolution());
+            if (!settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.InsertTextIntoDocumentation))
             {
                 return;
             }
@@ -480,7 +501,8 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
             }
 
             var summaryText = string.Empty;
-            if (StyleCopOptions.Instance.InsertTextIntoDocumentation)
+            var settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, declaration.GetSolution());
+            if (settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.InsertTextIntoDocumentation))
             {
                 summaryText = string.Format("The {0}.", Utils.ConvertTextToSentence(declaration.DeclaredName).ToLower());
             }
@@ -581,7 +603,8 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
             var returnsXmlNode = declarationHeader.ReturnsXmlNode;
 
             var valueText = string.Empty;
-            if (StyleCopOptions.Instance.InsertTextIntoDocumentation)
+            var settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, memberDeclaration.GetSolution());
+            if (settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.InsertTextIntoDocumentation))
             {
                 valueText = string.Format("The {0}.", Utils.ConvertTextToSentence(memberDeclaration.DeclaredName).ToLower());
             }
@@ -628,7 +651,8 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
 
             var valueXmlNode = declarationHeader.ValueXmlNode;
 
-            if (StyleCopOptions.Instance.InsertTextIntoDocumentation)
+            var settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, propertyDeclaration.GetSolution());
+            if (settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.InsertTextIntoDocumentation))
             {
                 valueText = string.Format("The {0}.", Utils.ConvertTextToSentence(propertyDeclaration.DeclaredName).ToLower());
             }
@@ -745,7 +769,8 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
 
             var innerText = string.Empty;
 
-            if (StyleCopOptions.Instance.InsertTextIntoDocumentation)
+            var settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, parameter.GetSolution());
+            if (settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.InsertTextIntoDocumentation))
             {
                 innerText = string.Format("The {0}.", Utils.ConvertTextToSentence(parameterName));
             }

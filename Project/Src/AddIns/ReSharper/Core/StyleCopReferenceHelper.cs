@@ -105,7 +105,7 @@ namespace StyleCop.ReSharper.Core
                         {
                             try
                             {
-                                var styleCopAssemblyPath = StyleCopOptions.Instance.GetAssemblyPath();
+                                var styleCopAssemblyPath = new StyleCopOptionsSettingsKey().GetAssemblyPath();
 
                                 if (!string.IsNullOrEmpty(styleCopAssemblyPath))
                                 {
@@ -241,7 +241,7 @@ namespace StyleCop.ReSharper.Core
         private static Assembly OnEventHandler(object sender, ResolveEventArgs args)
         {
             StyleCopTrace.In();
-            var styleCopAssemblyPath = StyleCopOptions.Instance.GetAssemblyPath();
+            var styleCopAssemblyPath = new StyleCopOptionsSettingsKey().GetAssemblyPath();
             var assemblyName = Path.GetFileNameWithoutExtension(styleCopAssemblyPath) + ",";
 
             if (args.Name.StartsWith(assemblyName))

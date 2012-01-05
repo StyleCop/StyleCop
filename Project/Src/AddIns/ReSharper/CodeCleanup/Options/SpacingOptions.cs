@@ -11,9 +11,6 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-// <summary>
-//   Defines options for SCfR#.
-// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.CodeCleanup.Options
@@ -27,7 +24,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Options
     #endregion
 
     /// <summary>
-    /// Defines options for SCfR#.
+    /// Defines options for SpacingOptions.
     /// </summary>
     public class SpacingOptions : OptionsBase
     {

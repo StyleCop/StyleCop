@@ -24,6 +24,7 @@ namespace StyleCop.ReSharper.Core
     using System.Collections.Generic;
     using System.IO;
 
+    using JetBrains.Application.Settings;
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Psi;
 
@@ -180,7 +181,8 @@ namespace StyleCop.ReSharper.Core
 
             if (projectFile.Name.EndsWith(".cs"))
             {
-                if (!StyleCopOptions.Instance.UseExcludeFromStyleCopSetting || !projectFile.ProjectFileIsExcludedFromStyleCop())
+                var settingsStore = projectFile.ToSourceFile().GetSettingsStore();
+                if (!settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.UseExcludeFromStyleCopSetting) || !projectFile.ProjectFileIsExcludedFromStyleCop())
                 {
                     var analyzeDesignerFiles = true;
                     var analyzeGeneratedFiles = false;

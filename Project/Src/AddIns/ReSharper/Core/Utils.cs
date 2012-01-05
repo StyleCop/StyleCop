@@ -31,6 +31,7 @@ namespace StyleCop.ReSharper.Core
 
     using JetBrains.Application;
     using JetBrains.Application.Progress;
+    using JetBrains.Application.Settings;
     using JetBrains.DocumentManagers;
     using JetBrains.DocumentModel;
     using JetBrains.ProjectModel;
@@ -298,7 +299,8 @@ namespace StyleCop.ReSharper.Core
 
                 var parameterDescription = string.Empty;
 
-                if (StyleCopOptions.Instance.InsertTextIntoDocumentation)
+                var settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, declaration.GetSolution());
+                if (settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.InsertTextIntoDocumentation))
                 {
                     parameterDescription = string.Format("The {0}.", ConvertTextToSentence(declaration.DeclaredName).ToLowerInvariant());
                 }
@@ -339,7 +341,8 @@ namespace StyleCop.ReSharper.Core
         /// </returns>
         public static string CreateSummaryDocumentationForProperty(IPropertyDeclaration propertyDeclaration)
         {
-            if (!StyleCopOptions.Instance.InsertTextIntoDocumentation)
+            var settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, propertyDeclaration.GetSolution());
+            if (!settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.InsertTextIntoDocumentation))
             {
                 return string.Empty;
             }
@@ -348,7 +351,7 @@ namespace StyleCop.ReSharper.Core
             var setter = propertyDeclaration.Setter();
             var summaryText = string.Empty;
 
-            var midText = Utils.IsPropertyBoolean(propertyDeclaration) ? "a value indicating whether " : string.Empty;
+            var midText = IsPropertyBoolean(propertyDeclaration) ? "a value indicating whether " : string.Empty;
 
             if (getter != null)
             {
@@ -394,12 +397,13 @@ namespace StyleCop.ReSharper.Core
                 return declarationHeader.XmlNode.InnerXml;
             }
 
-            if (!StyleCopOptions.Instance.InsertTextIntoDocumentation)
+            var settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, constructorDeclaration.GetSolution());
+            if (!settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.InsertTextIntoDocumentation))
             {
                 return string.Empty;
             }
 
-            var parentIsStruct = Utils.IsContainingTypeAStruct(constructorDeclaration);
+            var parentIsStruct = IsContainingTypeAStruct(constructorDeclaration);
 
             var structOrClass = parentIsStruct ? "struct" : "class";
 
@@ -415,7 +419,7 @@ namespace StyleCop.ReSharper.Core
             }
             else
             {
-                var constructorDescriptionText = Utils.CreateConstructorDescriptionText(constructorDeclaration, true);
+                var constructorDescriptionText = CreateConstructorDescriptionText(constructorDeclaration, true);
 
                 xmlWeShouldInsert = string.Format(CultureInfo.InvariantCulture, HeaderSummaryForInstanceConstructorXml, constructorDescriptionText, structOrClass);
             }
@@ -448,12 +452,13 @@ namespace StyleCop.ReSharper.Core
                 summaryText = declarationHeader.SummaryXmlNode.InnerXml;
             }
 
-            if (!StyleCopOptions.Instance.InsertTextIntoDocumentation)
+            var settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, destructorDeclaration.GetSolution());
+            if (!settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.InsertTextIntoDocumentation))
             {
                 return summaryText;
             }
 
-            var destructorDescriptionText = Utils.CreateDestructorDescriptionText(destructorDeclaration, true);
+            var destructorDescriptionText = CreateDestructorDescriptionText(destructorDeclaration, true);
 
             var newXmlText = string.Format(CultureInfo.InvariantCulture, HeaderSummaryForDestructorXml, destructorDescriptionText);
 
@@ -471,12 +476,13 @@ namespace StyleCop.ReSharper.Core
         /// </returns>
         public static string CreateValueDocumentationForProperty(IPropertyDeclaration propertyDeclaration)
         {
-            if (!StyleCopOptions.Instance.InsertTextIntoDocumentation)
+            var settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, propertyDeclaration.GetSolution());
+            if (!settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.InsertTextIntoDocumentation))
             {
                 return string.Empty;
             }
 
-            return string.Format("<value>The {0}.</value>", Utils.ConvertTextToSentence(propertyDeclaration.DeclaredName).ToLower());
+            return string.Format("<value>The {0}.</value>", ConvertTextToSentence(propertyDeclaration.DeclaredName).ToLower());
         }
 
         /// <summary>
@@ -490,10 +496,9 @@ namespace StyleCop.ReSharper.Core
         /// </param>
         public static void FormatLineForTextControl(ISolution solution, ITextControl textControl)
         {
-            var tokens = Utils.GetTokensForLineFromTextControl(solution, textControl).ToArray();
+            var tokens = GetTokensForLineFromTextControl(solution, textControl).ToArray();
             if (tokens.Length > 0)
             {
-                ////CSharpFormatterHelper.FormatterInstance.Format(tokens[0], tokens[tokens.Length - 1]);
                 var codeFormatter = (ICSharpCodeFormatter)CSharpLanguage.Instance.LanguageService().CodeFormatter;
                 codeFormatter.Format(tokens[0], tokens[tokens.Length - 1]);
             }
@@ -531,17 +536,6 @@ namespace StyleCop.ReSharper.Core
 
             var startOffset = document.GetLineStartOffset(startLine);
             var endOffset = document.GetLineEndOffsetNoLineBreak(endLine);
-/*
-            CSharpFormatterHelper.FormatterInstance.Format(
-                solution, 
-                new DocumentRange(document, new JB::JetBrains.Util.TextRange(startOffset, endOffset)), 
-                SolutionCodeStyleSettings.GetInstance(solution).CodeStyleSettings, 
-                CodeFormatProfile.DEFAULT, 
-                true, 
-                true, 
-                NullProgressIndicator.Instance);
-
-            */
 
             var codeFormatter = (ICSharpCodeFormatter)CSharpLanguage.Instance.LanguageService().CodeFormatter;
             codeFormatter.Format(
@@ -673,7 +667,7 @@ namespace StyleCop.ReSharper.Core
         /// </param>
         public static ITreeNode GetElementAtCaret(ISolution solution, ITextControl textControl)
         {
-            var file = Utils.GetCSharpFile(solution, textControl);
+            var file = GetCSharpFile(solution, textControl);
 
             if (file == null)
             {
@@ -701,7 +695,7 @@ namespace StyleCop.ReSharper.Core
         /// </returns>
         public static string GetFileHeader(ICSharpFile file)
         {
-            return Utils.GetFileHeaderTreeRange(file).GetDocumentRange().GetText();
+            return GetFileHeaderTreeRange(file).GetDocumentRange().GetText();
         }
 
         /// <summary>
@@ -923,7 +917,7 @@ namespace StyleCop.ReSharper.Core
         {
             var returnValue = string.Empty;
 
-            var typeDeclaration = Utils.GetFirstType(file);
+            var typeDeclaration = GetFirstType(file);
 
             return typeDeclaration == null ? returnValue : typeDeclaration.DeclaredName;
         }
@@ -1045,7 +1039,7 @@ namespace StyleCop.ReSharper.Core
         /// </returns>
         public static int GetOffsetToStartOfLine(ITokenNode tokenNode)
         {
-            var firstTokenOnLine = Utils.GetFirstNewLineTokenToLeft(tokenNode).GetNextToken();
+            var firstTokenOnLine = GetFirstNewLineTokenToLeft(tokenNode).GetNextToken();
 
             var startPosition = firstTokenOnLine.GetTreeStartOffset();
 
@@ -1157,16 +1151,22 @@ namespace StyleCop.ReSharper.Core
         /// </returns>
         public static string GetSummaryText(ICSharpFile file)
         {
-            if (!StyleCopOptions.Instance.InsertTextIntoDocumentation)
+            if (file == null)
+            {
+                return string.Empty;
+            }
+            
+            var settingsStore = file.GetSourceFile().GetSettingsStore();
+            if (!settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.InsertTextIntoDocumentation))
             {
                 return string.Empty;
             }
 
             var fileName = file.GetSourceFile().ToProjectFile().Location.Name;
 
-            var firstTypeName = Utils.GetFirstTypeName(file);
+            var firstTypeName = GetFirstTypeName(file);
 
-            var firstTypeSummaryText = Utils.GetSummaryForDeclaration(Utils.GetFirstType(file));
+            var firstTypeSummaryText = GetSummaryForDeclaration(GetFirstType(file));
 
             string summaryText;
 
@@ -1297,7 +1297,7 @@ namespace StyleCop.ReSharper.Core
         {
             var tokens = new List<ITokenNode>();
 
-            var file = Utils.GetCSharpFile(solution, document);
+            var file = GetCSharpFile(solution, document);
 
             using (ReadLockCookie.Create())
             {
@@ -1330,8 +1330,8 @@ namespace StyleCop.ReSharper.Core
         /// </returns>
         public static IList<ITokenNode> GetTokensForLineFromTextControl(ISolution solution, ITextControl textControl)
         {
-            var lineNumber = Utils.GetLineNumberForTextControl(textControl);
-            return Utils.GetTokensForLine(solution, lineNumber, textControl.Document);
+            var lineNumber = GetLineNumberForTextControl(textControl);
+            return GetTokensForLine(solution, lineNumber, textControl.Document);
         }
 
         /// <summary>
@@ -1348,7 +1348,6 @@ namespace StyleCop.ReSharper.Core
         /// </returns>
         public static ITypeElement GetTypeElement(IDeclaration declaration, string typeName)
         {
-            // return CacheManager.GetInstance(declaration.GetSolution()).GetDeclarationsCache(DeclarationCacheLibraryScope.FULL, true).GetTypeElementByCLRName(typeName);
             var cacheManager = declaration.GetSolution().GetPsiServices().CacheManager;
             return cacheManager.GetDeclarationsCache(DeclarationCacheLibraryScope.FULL, true).GetTypeElementByCLRName(typeName);
         }
@@ -1557,7 +1556,7 @@ namespace StyleCop.ReSharper.Core
         {
             var splitString = comment.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
 
-            var newComment = from s in splitString let trimmedString = s.Trim(Utils.TrimChars) where trimmedString != string.Empty select trimmedString;
+            var newComment = from s in splitString let trimmedString = s.Trim(TrimChars) where trimmedString != string.Empty select trimmedString;
 
             var commentStart = commentType == CommentType.END_OF_LINE_COMMENT ? "//" : string.Empty;
             return newComment.JoinWith(string.Format("{0}{1}{2}", Environment.NewLine, commentStart, new string(' ', whitespacePadding)));
@@ -1603,7 +1602,7 @@ namespace StyleCop.ReSharper.Core
         /// Gets the last class name from the string passed in.
         /// </summary>
         /// <param name="fullClassName">
-        /// THe full class name to strip the leaf from.
+        /// The full class name to strip the leaf from.
         /// </param>
         /// <returns>
         /// A String of the class name.
@@ -1746,6 +1745,15 @@ namespace StyleCop.ReSharper.Core
         #region Methods
 
         /// <summary>
+        /// Returns the currently active solution.
+        /// </summary>
+        /// <returns>Returns null if no active solution</returns>
+        public static ISolution GetSolution()
+        {
+            return Shell.Instance.GetComponent<ISolutionManager>().CurrentSolution;
+        }
+        
+        /// <summary>
         /// Count the number of whitespace characters at the left of the string.
         /// </summary>
         /// <param name="s">
@@ -1865,7 +1873,7 @@ namespace StyleCop.ReSharper.Core
             {
                 var factory = CSharpElementFactory.GetInstance(attributesOwnerDeclaration.GetPsiModule());
 
-                var typeElement = Utils.GetTypeElement(attributesOwnerDeclaration, "System.Diagnostics.CodeAnalysis.SuppressMessageAttribute");
+                var typeElement = GetTypeElement(attributesOwnerDeclaration, "System.Diagnostics.CodeAnalysis.SuppressMessageAttribute");
 
                 var attribute = factory.CreateAttribute(typeElement);
 
@@ -1898,7 +1906,7 @@ namespace StyleCop.ReSharper.Core
 
             return false;
         }
-
+        
         #endregion
     }
 }

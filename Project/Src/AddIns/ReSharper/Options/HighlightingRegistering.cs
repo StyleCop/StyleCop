@@ -132,22 +132,13 @@ namespace StyleCop.ReSharper.Options
         /// <summary>
         /// Adds the default option for highlights - currently set to SUGGESTION.
         /// </summary>
-        /// <param name="highlightManager">
-        /// The highlight manager.
-        /// </param>
-        private static void AddDefaultOption(HighlightingSettingsManager highlightManager)
+        private static void AddDefaultOption()
         {
             const string RuleName = "Default Violation Severity";
             const string GroupName = "StyleCop - Defaults (Requires VS Restart)";
             const string Description =
                 "Sets the default severity for StyleCop violations. This will be used for any Violation where you have not explicitly set a severity. <strong>Changes to this setting will not take effect until the next time you start Visual Studio.</strong>";
             const string HighlightID = DefaultSeverityId;
-
-            if (!SettingExists(highlightManager, HighlightID))
-            {
-                // Done at assembly level for R#6
-                // highlightManager.RegisterConfigurableSeverity(HighlightID, GroupName, RuleName, Description, Severity.SUGGESTION);
-            }
         }
 
         /// <summary>
@@ -235,7 +226,6 @@ namespace StyleCop.ReSharper.Options
         /// </summary>
         private void AddHighlights()
         {
-            // var core =  StyleCopCoreFactory.Create();
             var core = StyleCopReferenceHelper.GetStyleCopCore();
             core.Initialize(new List<string>(), true);
 
@@ -243,11 +233,9 @@ namespace StyleCop.ReSharper.Options
 
             var highlightManager = HighlightingSettingsManager.Instance;
 
-            AddDefaultOption(highlightManager);
+            AddDefaultOption();
 
-            //// var defaultSeverity = HighlightingSettingsManager.Instance.Settings.GetSeverity(DefaultSeverityId);
-
-            var defaultSeverity = HighlightingSettingsManager.Instance.GetConfigurableSeverity(DefaultSeverityId, null);
+            var defaultSeverity = highlightManager.GetConfigurableSeverity(DefaultSeverityId, null);
             
             this.RegisterRuleConfigurations(highlightManager, analyzerRulesDictionary, defaultSeverity);
         }

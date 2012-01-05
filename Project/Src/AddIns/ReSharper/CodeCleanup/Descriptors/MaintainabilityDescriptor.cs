@@ -23,6 +23,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Descriptors
 
     using System;
     using System.ComponentModel;
+    using System.Globalization;
     using System.Xml;
 
     using JetBrains.ReSharper.Feature.Services.CodeCleanup;
@@ -65,22 +66,19 @@ namespace StyleCop.ReSharper.CodeCleanup.Descriptors
         public override MaintainabilityOptions Load(XmlElement element)
         {
             var options = new MaintainabilityOptions();
-            var optionsElement = (XmlElement)element.SelectSingleNode(this.Name);
 
-            if (optionsElement != null)
+            try
             {
-                try
-                {
-                    options.SA1119StatementMustNotUseUnnecessaryParenthesis =
-                        bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(optionsElement, "SA1119StatementMustNotUseUnnecessaryParenthesis"));
-                }
-                catch (ArgumentException)
-                {
-                }
+                options.SA1119StatementMustNotUseUnnecessaryParenthesis = bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(element, "SA1119StatementMustNotUseUnnecessaryParenthesis"));
             }
-
+            catch (ArgumentNullException)
+            {
+            }
+            catch (ArgumentException)
+            {
+            }
+            
             return options;
-            ////profile.SetSetting(this, options);
         }
 
         /// <summary>
@@ -108,10 +106,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Descriptors
         /// </param>
         public override void Save(XmlElement element, MaintainabilityOptions options)
         {
-            //// var options = profile.GetSetting(this);
-            var optionsElement = JB::JetBrains.Util.XmlUtil.CreateElement(element, this.Name);
-
-            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(optionsElement, "SA1119StatementMustNotUseUnnecessaryParenthesis", options.SA1119StatementMustNotUseUnnecessaryParenthesis.ToString());
+            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(element, "SA1119StatementMustNotUseUnnecessaryParenthesis", options.SA1119StatementMustNotUseUnnecessaryParenthesis.ToString(CultureInfo.InvariantCulture));
         }
 
         #endregion

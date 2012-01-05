@@ -15,12 +15,22 @@
 
 namespace StyleCop.ReSharper.Options
 {
+    using System;
+    using System.ComponentModel;
+    using System.Drawing;
+    using System.Windows.Forms;
+
+    using JetBrains.Application.Settings;
+    using JetBrains.ReSharper.Psi;
+
+    using StyleCop.ReSharper.Core;
+
     partial class StyleCopOptionsPage
     {
         /// <summary> 
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary> 
         /// Clean up any resources being used.
@@ -28,9 +38,9 @@ namespace StyleCop.ReSharper.Options
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null))
+            if (disposing && (this.components != null))
             {
-                components.Dispose();
+                this.components.Dispose();
             }
             base.Dispose(disposing);
         }
@@ -52,7 +62,6 @@ namespace StyleCop.ReSharper.Options
             this.performanceTrackBar = new System.Windows.Forms.TrackBar();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.performanceGroupBox = new System.Windows.Forms.GroupBox();
             this.insertTextCheckBox = new System.Windows.Forms.CheckBox();
             this.autoUpdateCheckBox = new System.Windows.Forms.CheckBox();
             this.daysLabel = new System.Windows.Forms.Label();
@@ -80,8 +89,9 @@ namespace StyleCop.ReSharper.Options
             this.label8 = new System.Windows.Forms.Label();
             this.panel5 = new System.Windows.Forms.Panel();
             this.label7 = new System.Windows.Forms.Label();
+            this.panel6 = new System.Windows.Forms.Panel();
+            this.label9 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.performanceTrackBar)).BeginInit();
-            this.performanceGroupBox.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.warningPanel.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -89,6 +99,7 @@ namespace StyleCop.ReSharper.Options
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel5.SuspendLayout();
+            this.panel6.SuspendLayout();
             this.SuspendLayout();
             // 
             // autoDetectCheckBox
@@ -137,7 +148,7 @@ namespace StyleCop.ReSharper.Options
             // 
             // performanceTrackBar
             // 
-            this.performanceTrackBar.Location = new System.Drawing.Point(74, 17);
+            this.performanceTrackBar.Location = new System.Drawing.Point(62, 23);
             this.performanceTrackBar.Maximum = 9;
             this.performanceTrackBar.Name = "performanceTrackBar";
             this.performanceTrackBar.Size = new System.Drawing.Size(147, 45);
@@ -147,7 +158,7 @@ namespace StyleCop.ReSharper.Options
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(10, 16);
+            this.label2.Location = new System.Drawing.Point(-2, 22);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(59, 39);
             this.label2.TabIndex = 5;
@@ -156,24 +167,11 @@ namespace StyleCop.ReSharper.Options
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(227, 16);
+            this.label3.Location = new System.Drawing.Point(215, 22);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(61, 39);
             this.label3.TabIndex = 6;
             this.label3.Text = "More\r\nResources\r\n(Real Time)";
-            // 
-            // performanceGroupBox
-            // 
-            this.performanceGroupBox.Controls.Add(this.label2);
-            this.performanceGroupBox.Controls.Add(this.label3);
-            this.performanceGroupBox.Controls.Add(this.performanceTrackBar);
-            this.performanceGroupBox.Location = new System.Drawing.Point(470, 457);
-            this.performanceGroupBox.Name = "performanceGroupBox";
-            this.performanceGroupBox.Size = new System.Drawing.Size(301, 77);
-            this.performanceGroupBox.TabIndex = 7;
-            this.performanceGroupBox.TabStop = false;
-            this.performanceGroupBox.Text = "Performance";
-            this.performanceGroupBox.Visible = false;
             // 
             // insertTextCheckBox
             // 
@@ -344,16 +342,16 @@ namespace StyleCop.ReSharper.Options
             // flowLayoutPanel1
             // 
             this.flowLayoutPanel1.AutoSize = true;
-            this.flowLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.flowLayoutPanel1.Controls.Add(this.warningPanel);
             this.flowLayoutPanel1.Controls.Add(this.panel3);
             this.flowLayoutPanel1.Controls.Add(this.panel4);
             this.flowLayoutPanel1.Controls.Add(this.panel1);
             this.flowLayoutPanel1.Controls.Add(this.panel5);
+            this.flowLayoutPanel1.Controls.Add(this.panel6);
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(10, 3);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(365, 498);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(365, 575);
             this.flowLayoutPanel1.TabIndex = 26;
             // 
             // warningPanel
@@ -478,20 +476,36 @@ namespace StyleCop.ReSharper.Options
             this.label7.TabIndex = 30;
             this.label7.Text = "Others";
             // 
+            // panel6
+            // 
+            this.panel6.AutoSize = true;
+            this.panel6.Controls.Add(this.label2);
+            this.panel6.Controls.Add(this.label3);
+            this.panel6.Controls.Add(this.label9);
+            this.panel6.Controls.Add(this.performanceTrackBar);
+            this.panel6.Location = new System.Drawing.Point(3, 501);
+            this.panel6.Name = "panel6";
+            this.panel6.Size = new System.Drawing.Size(279, 71);
+            this.panel6.TabIndex = 36;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Location = new System.Drawing.Point(0, 0);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(119, 13);
+            this.label9.TabIndex = 30;
+            this.label9.Text = "Analysis Performance";
+            // 
             // StyleCopOptionsPage
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.Controls.Add(this.flowLayoutPanel1);
-            this.Controls.Add(this.performanceGroupBox);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "StyleCopOptionsPage";
-            this.Size = new System.Drawing.Size(774, 537);
+            this.Size = new System.Drawing.Size(378, 581);
             ((System.ComponentModel.ISupportInitialize)(this.performanceTrackBar)).EndInit();
-            this.performanceGroupBox.ResumeLayout(false);
-            this.performanceGroupBox.PerformLayout();
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
             this.warningPanel.ResumeLayout(false);
@@ -506,6 +520,8 @@ namespace StyleCop.ReSharper.Options
             this.panel1.PerformLayout();
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
+            this.panel6.ResumeLayout(false);
+            this.panel6.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -513,41 +529,42 @@ namespace StyleCop.ReSharper.Options
 
         #endregion
 
-        private System.Windows.Forms.CheckBox autoDetectCheckBox;
-        private System.Windows.Forms.TextBox StyleCopLocationTextBox;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.OpenFileDialog StyleCopLocationDialog;
-        private System.Windows.Forms.Button BrowseButton;
-        private System.Windows.Forms.TrackBar performanceTrackBar;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.GroupBox performanceGroupBox;
-        private System.Windows.Forms.CheckBox insertTextCheckBox;
-        private System.Windows.Forms.CheckBox autoUpdateCheckBox;
-        private System.Windows.Forms.Label daysLabel;
-        private System.Windows.Forms.RadioButton everyTimeRadioButton;
-        private System.Windows.Forms.RadioButton frequencyCheckRadioButton;
-        private System.Windows.Forms.MaskedTextBox daysMaskedTextBox;
-        private System.Windows.Forms.Label numberOfDashesLabel;
-        private System.Windows.Forms.MaskedTextBox dashesCountMaskedTextBox;
-        private System.Windows.Forms.ToolTip toolTip;
-        private System.Windows.Forms.CheckBox useExcludeFromStyleCopCheckBox;
-        private System.Windows.Forms.Label justificationLlabel;
-        private System.Windows.Forms.TextBox justificationTextBox;
-        private System.Windows.Forms.CheckBox useSingleLineForDeclarationCommentsCheckBox;
-        private System.Windows.Forms.Label codeStyleWarningLabel;
-        private System.Windows.Forms.Button resetFormatOptionsButton;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Panel warningPanel;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.Panel panel4;
-        private System.Windows.Forms.Panel panel5;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Label label8;
+        private CheckBox autoDetectCheckBox;
+        private TextBox StyleCopLocationTextBox;
+        private Label label1;
+        private OpenFileDialog StyleCopLocationDialog;
+        private Button BrowseButton;
+        private TrackBar performanceTrackBar;
+        private Label label2;
+        private Label label3;
+        private CheckBox insertTextCheckBox;
+        private CheckBox autoUpdateCheckBox;
+        private Label daysLabel;
+        private RadioButton everyTimeRadioButton;
+        private RadioButton frequencyCheckRadioButton;
+        private MaskedTextBox daysMaskedTextBox;
+        private Label numberOfDashesLabel;
+        private MaskedTextBox dashesCountMaskedTextBox;
+        private ToolTip toolTip;
+        private CheckBox useExcludeFromStyleCopCheckBox;
+        private Label justificationLlabel;
+        private TextBox justificationTextBox;
+        private CheckBox useSingleLineForDeclarationCommentsCheckBox;
+        private Label codeStyleWarningLabel;
+        private Button resetFormatOptionsButton;
+        private FlowLayoutPanel flowLayoutPanel1;
+        private Label label5;
+        private Label label6;
+        private Panel panel2;
+        private Panel warningPanel;
+        private Label label4;
+        private Panel panel3;
+        private Panel panel4;
+        private Panel panel5;
+        private Label label7;
+        private Panel panel1;
+        private Label label8;
+        private Panel panel6;
+        private Label label9;
     }
 }

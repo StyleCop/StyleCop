@@ -28,6 +28,8 @@ namespace StyleCop.ReSharper.Core
     using System.Xml;
 
     using JetBrains.Application;
+    using JetBrains.Application.Settings;
+    using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Psi;
     using JetBrains.ReSharper.Psi.CSharp;
     using JetBrains.ReSharper.Psi.CSharp.Impl;
@@ -51,7 +53,7 @@ namespace StyleCop.ReSharper.Core
         private static readonly ArrayList elementsThatStartOnNewLine;
 
         private static readonly ArrayList elementsThatStartOnNewLineAndHaveNewLineOnInnerXml;
-
+        
         #endregion
 
         #region Constructors and Destructors
@@ -207,8 +209,10 @@ namespace StyleCop.ReSharper.Core
             {
                 var declarationTreeNode = declaration;
 
-                var middleText = StyleCopOptions.Instance.UseSingleLineDeclarationComments ? string.Empty : Environment.NewLine;
-
+                var settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, declaration.GetSolution());
+                var useSingleLineDeclarationComments = settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.UseSingleLineDeclarationComments);
+                var middleText = useSingleLineDeclarationComments ? string.Empty : Environment.NewLine;
+           
                 var emptyDocHeader = string.Format("<summary>{0}</summary>", middleText);
 
                 if (!(declarationTreeNode is IMultipleDeclarationMember))
@@ -217,7 +221,7 @@ namespace StyleCop.ReSharper.Core
                     emptyDocHeader = emptyDocHeader.Substring(0, emptyDocHeader.Length - Environment.NewLine.Length);
                 }
 
-                var header = LayoutDocumentationHeader(emptyDocHeader);
+                var header = LayoutDocumentationHeader(emptyDocHeader, declaration);
 
                 var newDocCommentNode = Utils.CreateDocCommentBlockNode(file, header);
 
@@ -281,7 +285,7 @@ namespace StyleCop.ReSharper.Core
 
                 using (this.DocCommentBlockNode.CreateWriteLock())
                 {
-                    var header = LayoutDocumentationHeader(this.XmlNode);
+                    var header = LayoutDocumentationHeader(this.XmlNode, this.Declaration);
                     var newDocCommentNode = Utils.CreateDocCommentBlockNode(file, header);
 
                     if (newDocCommentNode == null)
@@ -529,10 +533,13 @@ namespace StyleCop.ReSharper.Core
         /// <param name="header">
         /// The text ot use to build the header.
         /// </param>
+        /// <param name="declaration">
+        /// The declaration we start with.
+        /// </param>
         /// <returns>
         /// A String of the correctly formatted header.
         /// </returns>
-        private static string LayoutDocumentationHeader(string header)
+        private static string LayoutDocumentationHeader(string header, IDeclaration declaration)
         {
             var text = new StringBuilder();
             text.AppendLine("<member>");
@@ -542,7 +549,7 @@ namespace StyleCop.ReSharper.Core
             var xmlDoc = new XmlDocument { PreserveWhitespace = true };
             xmlDoc.LoadXml(text.ToString());
 
-            return LayoutDocumentationHeader(xmlDoc.SelectSingleNode("member"));
+            return LayoutDocumentationHeader(xmlDoc.SelectSingleNode("member"), declaration);
         }
 
         /// <summary>
@@ -551,16 +558,21 @@ namespace StyleCop.ReSharper.Core
         /// <param name="xml">
         /// The xml to use.
         /// </param>
+        /// <param name="declaration">
+        /// The declaration we start with.
+        /// </param>
         /// <returns>
         /// A String all formatted.
         /// </returns>
-        private static string LayoutDocumentationHeader(XmlNode xml)
+        private static string LayoutDocumentationHeader(XmlNode xml, IDeclaration declaration)
         {
             var pattern = new StringBuilder();
             var writer = new StringWriter(pattern);
 
             var writtenNewLine = true;
-            var useSingleLineDeclarationComments = StyleCopOptions.Instance.UseSingleLineDeclarationComments;
+            var settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, declaration.GetSolution());
+            var useSingleLineDeclarationComments = settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.UseSingleLineDeclarationComments);
+            
             LayoutDocumentationXml(xml, writer, ref writtenNewLine, useSingleLineDeclarationComments);
 
             if (pattern.ToString().EndsWith(Environment.NewLine))
@@ -711,6 +723,10 @@ namespace StyleCop.ReSharper.Core
             }
         }
 
+        /// <summary>
+        /// Ininitialises this type.
+        /// </summary>
+        /// <param name="declaration">The declaration.</param>
         private void Init(IDeclaration declaration)
         {
             if (declaration == null)

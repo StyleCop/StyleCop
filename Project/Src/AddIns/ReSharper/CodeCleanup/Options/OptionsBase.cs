@@ -11,9 +11,6 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-// <summary>
-//   Defines the base options class for SCfR#.
-// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace StyleCop.ReSharper.CodeCleanup.Options
@@ -28,7 +25,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Options
     #endregion
 
     /// <summary>
-    /// Defines the base options class for SCfR#. 
+    /// Defines the base options class.
     /// </summary>
     public abstract class OptionsBase
     {
