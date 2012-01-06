@@ -1,0 +1,341 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Last updated 17.06.2011 -->
+<Patterns xmlns="urn:shemas-jetbrains-com:member-reordering-patterns">
+
+  <!-- Do not reorder COM interfaces -->
+  <Pattern>
+    <Match>
+      <And Weight="2000">
+        <Kind Is="interface"/>
+        <Or>
+          <HasAttribute CLRName="System.Runtime.InteropServices.InterfaceTypeAttribute"/>
+          <HasAttribute CLRName="System.Runtime.InteropServices.ComImport"/>
+        </Or>
+      </And>
+    </Match>
+  </Pattern>
+
+  <!-- Do not reorder P/Invoke structs -->
+  <Pattern>
+    <Match>
+      <And Weight="2000">
+        <Or>
+          <Kind Is="struct"/>
+          <Kind Is="class"/>
+        </Or>
+        <HasAttribute CLRName="System.Runtime.InteropServices.StructLayoutAttribute"/>
+      </And>
+    </Match>
+  </Pattern>
+
+  <!-- Do not reorder P/Invoke classes (called xxxNativeMethods) -->
+  <Pattern>
+    <Match>
+      <And Weight="2000">
+        <Kind Is="class"/>
+        <Name Is=".*NativeMethods" />
+      </And>
+    </Match>
+  </Pattern>
+
+  <!-- StyleCop pattern -->
+  <Pattern RemoveAllRegions="true">
+    <Match>
+      <Or Weight="1000" >
+        <Kind Is="class" />
+        <Kind Is="struct" />
+        <Kind Is="interface"/>
+      </Or>
+    </Match>
+
+    <!-- constants and fields -->
+    <Entry>
+      <Match>
+        <Or>
+          <Kind Is="constant"/>
+          <Kind Is="field"/>
+        </Or>
+      </Match>
+      <Sort>
+        <Access Order="public internal protected-internal protected private"/>
+        <Kind Order="constant field"/>
+        <Readonly/>
+        <Static/>
+        <Name/>
+      </Sort>
+      <Group Region="Constants and Fields"/>
+    </Entry>
+
+    <!-- constructors and destructors -->
+    <Entry>
+      <Match>
+        <Or Weight="200">
+          <Kind Is="constructor"/>
+          <Kind Is="destructor"/>
+        </Or>
+      </Match>
+      <Sort>
+        <Static/>
+        <Kind Order="constructor destructor"/>
+        <Access Order="public internal protected-internal protected private"/>
+      </Sort>
+      <Group Region="Constructors and Destructors"/>
+    </Entry>
+
+    <!-- delegates -->
+    <Entry>
+      <Match>
+        <Kind Is="delegate"/>
+      </Match>
+      <Sort>
+        <Access Order="public internal protected-internal protected private" />
+        <Static />
+        <Name/>
+      </Sort>
+      <Group Region="Delegates"/>
+    </Entry>
+
+    <!-- public events -->
+    <Entry>
+      <Match>
+        <And>
+          <Kind Is="event"/>
+          <Access Is="public"/>
+        </And>
+      </Match>
+      <Sort>
+        <Access Order="public" />
+        <Static />
+        <Name/>
+      </Sort>
+      <Group Region="Public Events"/>
+    </Entry>
+
+    <!-- interface events -->
+    <Entry>
+      <Match>
+        <And>
+          <Kind Is="event"/>
+          <ImplementsInterface/>
+        </And>
+      </Match>
+      <Sort>
+        <ImplementsInterface Immediate="true"/>
+        <Name/>
+      </Sort>
+      <Group Region="Explicit Interface Events" />
+    </Entry>
+
+    <!-- other events -->
+    <Entry>
+      <Match>
+        <Kind Is="event"/>
+      </Match>
+      <Sort>
+        <Access Order="public internal protected-internal protected private" />
+        <Static />
+        <Name/>
+      </Sort>
+      <Group Region="Events"/>
+    </Entry>
+
+    <!-- enum -->
+    <Entry>
+      <Match>
+        <Kind Is="enum"/>
+      </Match>
+      <Sort>
+        <Access Order="public internal protected-internal protected private" />
+        <Name/>
+      </Sort>
+      <Group Region="Enums"/>
+    </Entry>
+
+    <!-- interfaces -->
+    <Entry>
+      <Match>
+        <Kind Is="interface" />
+      </Match>
+      <Sort>
+        <Access Order="public internal protected-internal protected private" />
+        <Name/>
+      </Sort>
+      <Group Region="Interfaces"/>
+    </Entry>
+
+    <!-- public properties -->
+    <Entry>
+      <Match>
+        <And>
+          <Kind Is="property"/>
+          <Access Is="public"/>
+        </And>
+      </Match>
+      <Sort>
+        <Access Order="public"/>
+        <Static/>
+        <Name/>
+      </Sort>
+      <Group Region="Public Properties"/>
+    </Entry>
+
+    <!-- interface properties -->
+    <Entry>
+      <Match>
+        <And>
+          <Kind Is="property"/>
+          <ImplementsInterface/>
+        </And>
+      </Match>
+      <Sort>
+        <ImplementsInterface Immediate="true"/>
+        <Name/>
+      </Sort>
+      <Group Region="Explicit Interface Properties" />
+    </Entry>
+
+    <!-- other properties -->
+    <Entry>
+      <Match>
+        <Kind Is="property"/>
+      </Match>
+      <Sort>
+        <Access Order="public internal protected-internal protected private"/>
+        <Static/>
+        <Name/>
+      </Sort>
+      <Group Region="Properties"/>
+    </Entry>
+
+    <!-- public indexers -->
+    <Entry>
+      <Match>
+        <And>
+          <Kind Is="indexer" Weight="1000" />
+          <Access Is="public"/>
+        </And>
+      </Match>
+      <Sort>
+        <Access Order="public" />
+        <Static/>
+        <Name/>
+      </Sort>
+      <Group Region="Public Indexers"/>
+    </Entry>
+
+    <!-- interface indexers -->
+    <Entry>
+      <Match>
+        <And>
+          <Kind Is="indexer" Weight="1000"/>
+          <ImplementsInterface/>
+        </And>
+      </Match>
+      <Sort>
+        <ImplementsInterface Immediate="true"/>
+        <Name/>
+      </Sort>
+      <Group Region="Explicit Interface Indexers" />
+    </Entry>
+
+    <!-- other indexers -->
+    <Entry>
+      <Match>
+        <Kind Is="indexer" Weight="1000" />
+      </Match>
+      <Sort>
+        <Access Order="public internal protected-internal protected private" />
+        <Static/>
+        <Name/>
+      </Sort>
+      <Group Region="Indexers"/>
+    </Entry>
+
+    <!-- public methods -->
+    <Entry>
+      <Match>
+        <And>
+          <Kind Is="method"/>
+          <Access Is="public"/>
+        </And>
+      </Match>
+      <Sort>
+        <Access Order="public"/>
+        <Static/>
+        <Name/>
+      </Sort>
+      <Group Region="Public Methods"/>
+    </Entry>
+
+    <!-- interface methods -->
+    <Entry>
+      <Match>
+        <And>
+          <Kind Is="method"/>
+          <ImplementsInterface/>
+        </And>
+      </Match>
+      <Sort>
+        <ImplementsInterface Immediate="true"/>
+        <Name/>
+      </Sort>
+      <Group Region="Explicit Interface Methods" />
+    </Entry>
+
+    <!-- other methods -->
+    <Entry>
+      <Match>
+        <Kind Is="method"/>
+      </Match>
+      <Sort>
+        <Access Order="public internal protected-internal protected private"/>
+        <Static/>
+        <Name/>
+      </Sort>
+      <Group Region="Methods"/>
+    </Entry>
+
+    <!-- operators -->
+    <Entry>
+      <Match>
+        <Kind Is="operator"/>
+      </Match>
+      <Sort>
+        <Access Order="public internal protected-internal protected private" />
+        <Static/>
+        <Name/>
+      </Sort>
+      <Group Region="Operators"/>
+    </Entry>
+
+    <!-- Nested structs -->
+    <Entry>
+      <Match>
+        <Kind Is="struct"
+              Weight="600" />
+      </Match>
+      <Sort>
+        <Static />
+        <Access Order="public internal protected-internal protected private" />
+        <Name/>
+      </Sort>
+    </Entry>
+
+    <!-- Nested classes -->
+    <Entry>
+      <Match>
+        <Kind Is="class"
+              Weight="700" />
+      </Match>
+      <Sort>
+        <Static />
+        <Access Order="public internal protected-internal protected private" />
+        <Name/>
+      </Sort>
+    </Entry>
+
+    <!-- all other members -->
+    <Entry/>
+
+  </Pattern>
+</Patterns>
