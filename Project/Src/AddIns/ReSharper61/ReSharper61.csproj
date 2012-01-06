@@ -469,7 +469,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>REM md C:\Users\andy\AppData\Roaming\JetBrains\ReSharper\v5.1\vs10.0\Plugins
-REM copy $(TargetPath) C:\Users\andy\AppData\Roaming\JetBrains\ReSharper\v5.1\vs10.0\Plugins\*</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>

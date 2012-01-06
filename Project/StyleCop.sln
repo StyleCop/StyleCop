@@ -40,7 +40,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VSIXProject", "Src\VSIXProj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StyleCopTest", "Test\Harnesses\TestHarness\StyleCopTest.csproj", "{73E4EB43-7B77-4084-81F9-35BA8241B686}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReSharper61", "Src\AddIns\ReSharper\ReSharper61.csproj", "{5C635946-F0AE-4406-81BC-13B9118CCD9F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReSharper61", "Src\AddIns\ReSharper61\ReSharper61.csproj", "{5C635946-F0AE-4406-81BC-13B9118CCD9F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReSharper60", "Src\AddIns\ReSharper60\ReSharper60.csproj", "{067FAEAC-CC57-463B-A965-D3ECF7EC225C}"
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
@@ -141,6 +143,12 @@ Global
 		{5C635946-F0AE-4406-81BC-13B9118CCD9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C635946-F0AE-4406-81BC-13B9118CCD9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C635946-F0AE-4406-81BC-13B9118CCD9F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{067FAEAC-CC57-463B-A965-D3ECF7EC225C}.Debug.NoReSharper|Any CPU.ActiveCfg = Debug|Any CPU
+		{067FAEAC-CC57-463B-A965-D3ECF7EC225C}.Debug.NoReSharper|Any CPU.Build.0 = Debug|Any CPU
+		{067FAEAC-CC57-463B-A965-D3ECF7EC225C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{067FAEAC-CC57-463B-A965-D3ECF7EC225C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{067FAEAC-CC57-463B-A965-D3ECF7EC225C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{067FAEAC-CC57-463B-A965-D3ECF7EC225C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

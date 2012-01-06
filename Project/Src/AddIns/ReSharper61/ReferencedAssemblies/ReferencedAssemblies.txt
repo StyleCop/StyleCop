@@ -1,0 +1,1 @@
+Referenced ReSharper Assemblies get copied from the install location to this folder.
