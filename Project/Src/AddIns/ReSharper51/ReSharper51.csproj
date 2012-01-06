@@ -275,9 +275,7 @@
     <Compile Include="CodeCleanup\Rules\DocumentationRules.cs" />
     <Compile Include="CodeCleanup\Rules\LayoutRules.cs" />
     <Compile Include="CodeCleanup\Rules\OrderingRules.cs" />
-    <Compile Include="Extensions\ParameterInfoExtensions.cs" />
     <Compile Include="Extensions\TokenNodeTypeExtensions.cs" />
-    <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="QuickFixes\Documentation\SA1641QuickFix.cs" />
     <Compile Include="QuickFixes\Documentation\SA1609QuickFix.cs" />
     <Compile Include="QuickFixes\Documentation\SA1636QuickFix.cs" />
