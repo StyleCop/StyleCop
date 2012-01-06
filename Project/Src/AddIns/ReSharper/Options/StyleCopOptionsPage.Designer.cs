@@ -13,7 +13,7 @@
 // </license>
 //-----------------------------------------------------------------------
 
-namespace StyleCop.ReSharper.Options
+namespace StyleCop.ReSharper61.Options
 {
     using System;
     using System.ComponentModel;
@@ -23,7 +23,7 @@ namespace StyleCop.ReSharper.Options
     using JetBrains.Application.Settings;
     using JetBrains.ReSharper.Psi;
 
-    using StyleCop.ReSharper.Core;
+    using StyleCop.ReSharper61.Core;
 
     partial class StyleCopOptionsPage
     {

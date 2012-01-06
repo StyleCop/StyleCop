@@ -18,7 +18,7 @@
 
 extern alias JB;
 
-namespace StyleCop.ReSharper.CodeCleanup.Rules
+namespace StyleCop.ReSharper61.CodeCleanup.Rules
 {
     #region Using Directives
 
@@ -40,10 +40,10 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
     using JetBrains.ReSharper.Psi.Tree;
 
     using StyleCop.Diagnostics;
-    using StyleCop.ReSharper.CodeCleanup.Options;
-    using StyleCop.ReSharper.CodeCleanup.Styles;
-    using StyleCop.ReSharper.Core;
-    using StyleCop.ReSharper.Options;
+    using StyleCop.ReSharper61.CodeCleanup.Options;
+    using StyleCop.ReSharper61.CodeCleanup.Styles;
+    using StyleCop.ReSharper61.Core;
+    using StyleCop.ReSharper61.Options;
 
     #endregion
 

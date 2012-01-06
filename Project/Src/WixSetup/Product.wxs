@@ -26,7 +26,7 @@
       
       <Feature Id='Feature_ReSharper'
                Title='R# integration'
-               Description='Files for setting up StyleCop integration with JetBrains ReSharper 6.1.'
+               Description='Files for setting up StyleCop integration with JetBrains ReSharper.'
                Level='500' AllowAdvertise="no" Display="expand" InstallDefault="local" TypicalDefault="install" Absent="allow">
         <ComponentGroupRef Id="ReSharper_Common" />
         <Condition Level="1"><![CDATA[RESHARPER61_VS90_VERSION<>"" OR RESHARPER61_VS100_VERSION<>""]]></Condition>
@@ -93,14 +93,6 @@
     <Property Id="ARPPRODUCTICON" Value="WixIcon" />
     <Property Id="ARPURLINFOABOUT" Value='$(var.Manufacturer)'/>
     <Property Id="ARPURLUPDATEINFO" Value='$(var.Manufacturer)' />
-
-    <Property Id="RESHARPER61_VS100_VERSION" Admin="yes" Secure="yes">
-      <RegistrySearch Id="REG_RESHARPER61_VS100_VERSION" Root="HKLM" Key="Software\JetBrains\ReSharper\v6.1\vs10.0" Name="ProductVersion" Type="raw" />
-    </Property>
-
-    <Property Id="RESHARPER61_VS90_VERSION" Admin="yes" Secure="yes">
-      <RegistrySearch Id="REG_RESHARPER61_VS90_VERSION" Root="HKLM" Key="Software\JetBrains\ReSharper\v6.1\vs9.0" Name="ProductVersion" Type="raw" />
-    </Property>
 
     <!-- This property is used to detect versions of StyleCop < 4.5 that had per user installs -->
     <Property Id="STYLECOP_PREVIOUS_INSTALL_PER_USER" Admin="yes" Secure="yes">

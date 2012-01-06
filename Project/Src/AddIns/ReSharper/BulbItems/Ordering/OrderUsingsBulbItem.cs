@@ -16,18 +16,18 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace StyleCop.ReSharper.BulbItems.Ordering
+namespace StyleCop.ReSharper61.BulbItems.Ordering
 {
     #region Using Directives
 
     using JetBrains.ProjectModel;
     using JetBrains.TextControl;
 
-    using StyleCop.ReSharper.BulbItems.Framework;
-    using StyleCop.ReSharper.CodeCleanup.Options;
-    using StyleCop.ReSharper.CodeCleanup.Rules;
-    using StyleCop.ReSharper.CodeCleanup.Styles;
-    using StyleCop.ReSharper.Core;
+    using StyleCop.ReSharper61.BulbItems.Framework;
+    using StyleCop.ReSharper61.CodeCleanup.Options;
+    using StyleCop.ReSharper61.CodeCleanup.Rules;
+    using StyleCop.ReSharper61.CodeCleanup.Styles;
+    using StyleCop.ReSharper61.Core;
 
     #endregion
 

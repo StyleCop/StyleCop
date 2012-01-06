@@ -10,7 +10,7 @@
 
 extern alias JB;
 
-namespace StyleCop.ReSharper.Options
+namespace StyleCop.ReSharper61.Options
 {
     #region Using Directives
 
@@ -36,14 +36,14 @@ namespace StyleCop.ReSharper.Options
     using JetBrains.UI.CommonControls;
     using JetBrains.UI.Options;
 
-    using StyleCop.ReSharper.Core;
+    using StyleCop.ReSharper61.Core;
 
     #endregion
 
     /// <summary>
     /// Options page to allow the plugins options to be set from within the Resharper Options window.
     /// </summary>
-    [OptionsPage(PID, "StyleCop", "StyleCop.ReSharper.Resources.StyleCop.png", ParentId = "Tools")]
+    [OptionsPage(PID, "StyleCop", "StyleCop.ReSharper61.Resources.StyleCop.png", ParentId = "Tools")]
     public partial class StyleCopOptionsPage : UserControl, IOptionsPage
     {
         #region Constants and Fields
@@ -362,7 +362,7 @@ namespace StyleCop.ReSharper.Options
             settingsStore.SetValue(CSharpUsingSettingsAccessor.SortUsings, true);
             
             string reorderingPatterns;
-            using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("StyleCop.ReSharper.Resources.ReorderingPatterns.xml"))
+            using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("StyleCop.ReSharper61.Resources.ReorderingPatterns.xml"))
             {
                 using (StreamReader reader = new StreamReader(stream))
                 {
@@ -1506,7 +1506,7 @@ namespace StyleCop.ReSharper.Options
             using (
                 Stream stream =
                     Assembly.GetExecutingAssembly().GetManifestResourceStream(
-                        "StyleCop.ReSharper.Resources.ReorderingPatterns.xml"))
+                        "StyleCop.ReSharper61.Resources.ReorderingPatterns.xml"))
             {
                 using (StreamReader reader = new StreamReader(stream))
                 {

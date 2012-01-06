@@ -13,7 +13,7 @@
 // </license>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace StyleCop.ReSharper.CodeCleanup.Options
+namespace StyleCop.ReSharper61.CodeCleanup.Options
 {
     #region Using Directives
 
@@ -21,7 +21,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Options
     using System.Reflection;
     using System.Text;
 
-    using StyleCop.ReSharper.CodeCleanup.Styles;
+    using StyleCop.ReSharper61.CodeCleanup.Styles;
 
     #endregion
 

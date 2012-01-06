@@ -13,14 +13,14 @@
 // </license>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace StyleCop.ReSharper.CodeCleanup.Options
+namespace StyleCop.ReSharper61.CodeCleanup.Options
 {
     #region Using Directives
 
     using System.Linq;
     using System.Reflection;
 
-    using StyleCop.ReSharper.Core;
+    using StyleCop.ReSharper61.Core;
 
     #endregion
 

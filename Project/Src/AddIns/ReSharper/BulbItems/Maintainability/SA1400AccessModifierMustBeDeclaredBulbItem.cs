@@ -16,14 +16,14 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace StyleCop.ReSharper.BulbItems.Maintainability
+namespace StyleCop.ReSharper61.BulbItems.Maintainability
 {
     #region Using Directives
 
     using JetBrains.ProjectModel;
     using JetBrains.TextControl;
 
-    using StyleCop.ReSharper.BulbItems.Framework;
+    using StyleCop.ReSharper61.BulbItems.Framework;
 
     #endregion
 

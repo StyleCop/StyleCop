@@ -4,6 +4,14 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <Fragment>
 
+    <Property Id="RESHARPER61_VS100_VERSION" Admin="yes" Secure="yes">
+      <RegistrySearch Id="REG_RESHARPER61_VS100_VERSION" Root="HKLM" Key="Software\JetBrains\ReSharper\v6.1\vs10.0" Name="ProductVersion" Type="raw" />
+    </Property>
+
+    <Property Id="RESHARPER61_VS90_VERSION" Admin="yes" Secure="yes">
+      <RegistrySearch Id="REG_RESHARPER61_VS90_VERSION" Root="HKLM" Key="Software\JetBrains\ReSharper\v6.1\vs9.0" Name="ProductVersion" Type="raw" />
+    </Property>
+
     <Property Id="RESHARPER_INSTALLDIRVS90" Admin="yes" Secure="yes">
       <RegistrySearch Id="ReSharperInstallIdVs90" Type="directory" Root="HKLM" Key="SOFTWARE\JetBrains\ReSharper\v6.1\vs9.0" Name="InstallDir" />
     </Property>
@@ -16,7 +24,7 @@
         <Directory Id="Dir_PluginsVS90" Name="Plugins">
           <Directory Id="Dir_StyleCopVS90" Name="$(var.ProductNameShort)" FileSource="$(var.DropDir)">
             <Component Id="StyleCopReSharperBinariesVS90" Guid="BD280C22-5570-45BF-B5DF-480A0C195457">
-              <File Id="ReSharper_AssemblyVS90" Name="StyleCop.ReSharper.dll" Checksum="yes" Vital="yes" />
+              <File Id="ReSharper_AssemblyVS90" Name="StyleCop.ReSharper61.dll" Checksum="yes" Vital="yes" />
               <Condition>RESHARPER61_VS90_VERSION</Condition>
             </Component>
           </Directory>
@@ -26,7 +34,7 @@
         <Directory Id="Dir_PluginsVS100" Name="Plugins">
           <Directory Id="Dir_StyleCopVS100" Name="$(var.ProductNameShort)" FileSource="$(var.DropDir)">
             <Component Id="StyleCopReSharperBinariesVS100" Guid="D699ADA4-13C4-46D4-8992-0BF7B19B2B66">
-              <File Id="ReSharper_AssemblyVS100" Name="StyleCop.ReSharper.dll" Checksum="yes" Vital="yes" />
+              <File Id="ReSharper_AssemblyVS100" Name="StyleCop.ReSharper61.dll" Checksum="yes" Vital="yes" />
               <Condition>RESHARPER61_VS100_VERSION</Condition>
             </Component>
           </Directory>

@@ -17,7 +17,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 extern alias JB;
 
-namespace StyleCop.ReSharper.QuickFixes.Framework
+namespace StyleCop.ReSharper61.QuickFixes.Framework
 {
     #region Using Directives
 
@@ -25,8 +25,8 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
 
     using JetBrains.ReSharper.Feature.Services.Bulbs;
 
-    using StyleCop.ReSharper.BulbItems.Framework;
-    using StyleCop.ReSharper.Violations;
+    using StyleCop.ReSharper61.BulbItems.Framework;
+    using StyleCop.ReSharper61.Violations;
 
     #endregion
 

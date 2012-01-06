@@ -17,7 +17,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 extern alias JB;
 
-namespace StyleCop.ReSharper.Extensions
+namespace StyleCop.ReSharper61.Extensions
 {
     #region Using Directives
 

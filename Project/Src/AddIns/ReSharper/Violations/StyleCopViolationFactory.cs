@@ -16,7 +16,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace StyleCop.ReSharper.Violations
+namespace StyleCop.ReSharper61.Violations
 {
     #region Using Directives
 
@@ -27,7 +27,7 @@ namespace StyleCop.ReSharper.Violations
     using JetBrains.ReSharper.Psi;
 
     using StyleCop.CSharp;
-    using StyleCop.ReSharper.Options;
+    using StyleCop.ReSharper61.Options;
 
     #endregion
 

@@ -16,7 +16,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace StyleCop.ReSharper.QuickFixes.Framework
+namespace StyleCop.ReSharper61.QuickFixes.Framework
 {
     #region Using Directives
 
@@ -48,7 +48,7 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
         {
             Image image = null;
 
-            var resourceStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("StyleCop.ReSharper.Resources.ShowQuickFix.png");
+            var resourceStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("StyleCop.ReSharper61.Resources.ShowQuickFix.png");
 
             if (resourceStream != null)
             {

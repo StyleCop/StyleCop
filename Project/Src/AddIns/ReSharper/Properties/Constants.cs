@@ -16,7 +16,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace StyleCop.ReSharper.Properties
+namespace StyleCop.ReSharper61.Properties
 {
     /// <summary>
     /// Defines the core settings and value for the plugin.

@@ -13,7 +13,7 @@
 // </license>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace StyleCop.ReSharper.ShellComponents
+namespace StyleCop.ReSharper61.ShellComponents
 {
     #region Using Directives
 
@@ -24,12 +24,10 @@ namespace StyleCop.ReSharper.ShellComponents
     using JetBrains.Application.Components;
     using JetBrains.Application.Settings;
     using JetBrains.Application.Settings.Store.Implementation;
-    using JetBrains.ReSharper.Psi;
-    using JetBrains.UI.Options;
 
     using Microsoft.Win32;
 
-    using StyleCop.ReSharper.Options;
+    using StyleCop.ReSharper61.Options;
 
     #endregion
 

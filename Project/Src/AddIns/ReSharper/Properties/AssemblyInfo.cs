@@ -24,11 +24,11 @@ using System.Runtime.InteropServices;
 
 using JetBrains.ReSharper.Daemon;
 
-using StyleCop.ReSharper.Properties;
+using StyleCop.ReSharper61.Properties;
 
 #endregion
 
-[assembly: AssemblyTitle("StyleCop R# Plugin")]
+[assembly: AssemblyTitle("StyleCop R# 6.1 Plugin")]
 [assembly: AssemblyDescription(Constants.DescriptionShort)]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]

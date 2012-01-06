@@ -16,7 +16,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace StyleCop.ReSharper.QuickFixes.Readability
+namespace StyleCop.ReSharper61.QuickFixes.Readability
 {
     #region Using Directives
 
@@ -24,9 +24,9 @@ namespace StyleCop.ReSharper.QuickFixes.Readability
 
     using JetBrains.ReSharper.Feature.Services.Bulbs;
 
-    using StyleCop.ReSharper.BulbItems.Readability;
-    using StyleCop.ReSharper.QuickFixes.Framework;
-    using StyleCop.ReSharper.Violations;
+    using StyleCop.ReSharper61.BulbItems.Readability;
+    using StyleCop.ReSharper61.QuickFixes.Framework;
+    using StyleCop.ReSharper61.Violations;
 
     #endregion
 

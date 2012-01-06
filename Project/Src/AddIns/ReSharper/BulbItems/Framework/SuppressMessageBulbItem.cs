@@ -16,7 +16,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace StyleCop.ReSharper.BulbItems.Framework
+namespace StyleCop.ReSharper61.BulbItems.Framework
 {
     #region Using Directives
 
@@ -31,8 +31,8 @@ namespace StyleCop.ReSharper.BulbItems.Framework
     using JetBrains.ReSharper.Psi.Tree;
     using JetBrains.TextControl;
 
-    using StyleCop.ReSharper.Core;
-    using StyleCop.ReSharper.Options;
+    using StyleCop.ReSharper61.Core;
+    using StyleCop.ReSharper61.Options;
 
     #endregion
 
