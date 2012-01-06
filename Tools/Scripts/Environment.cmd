@@ -40,46 +40,6 @@ if exist "%VSINSTALLDIR%\VC\vcvarsall.bat" (
 	ECHO Unable to find "%VSINSTALLDIR%\VC\vcvarsall.bat"
 )
 
-
-REM --------------------------------------------------------------------------------------
-REM Set up ReSharper dlls if installed
-
-SET ReSharperFound=0
-
-SET "RESHARPERINSTALLDIR=%ProgramFiles%\JetBrains\ReSharper\v6.1\Bin"
-
-if "%IsWoW64%" == "1"  (
-	SET "RESHARPERINSTALLDIR=%PROGRAMFILES(x86)%\JetBrains\ReSharper\v6.1\Bin"
-)
-
-IF EXIST "%RESHARPERINSTALLDIR%\JetBrains.Annotations.dll" ( SET ReSharperFound=1 )
-
-IF "%ReSharperFound%"=="0" GOTO ResharperDone
-
-echo JetBrains ReSharper was found so copying referenced assemblies...
-
-DEL /F /Q "%PROJECTROOT%\Src\AddIns\ReSharper\ReferencedAssemblies\*.dll"
-COPY /Y "%RESHARPERINSTALLDIR%\JetBrains.Platform.ReSharper.ActionManagement.dll" "%PROJECTROOT%\Src\AddIns\ReSharper\ReferencedAssemblies\" >nul
-COPY /Y "%RESHARPERINSTALLDIR%\JetBrains.Platform.ReSharper.ComponentModel.dll" "%PROJECTROOT%\Src\AddIns\ReSharper\ReferencedAssemblies\" >nul
-COPY "%RESHARPERINSTALLDIR%\JetBrains.Platform.ReSharper.DocumentManager.dll" "%PROJECTROOT%\Src\AddIns\ReSharper\ReferencedAssemblies\" >nul
-COPY "%RESHARPERINSTALLDIR%\JetBrains.Platform.ReSharper.DocumentModel.dll" "%PROJECTROOT%\Src\AddIns\ReSharper\ReferencedAssemblies\">nul
-COPY "%RESHARPERINSTALLDIR%\JetBrains.Platform.ReSharper.IDE.dll" "%PROJECTROOT%\Src\AddIns\ReSharper\ReferencedAssemblies\">nul
-COPY "%RESHARPERINSTALLDIR%\JetBrains.Platform.ReSharper.Metadata.dll" "%PROJECTROOT%\Src\AddIns\ReSharper\ReferencedAssemblies\">nul
-COPY "%RESHARPERINSTALLDIR%\JetBrains.Platform.ReSharper.ProjectModel.dll" "%PROJECTROOT%\Src\AddIns\ReSharper\ReferencedAssemblies\">nul
-COPY "%RESHARPERINSTALLDIR%\JetBrains.Platform.ReSharper.Shell.dll" "%PROJECTROOT%\Src\AddIns\ReSharper\ReferencedAssemblies\">nul
-COPY "%RESHARPERINSTALLDIR%\JetBrains.Platform.ReSharper.TextControl.dll" "%PROJECTROOT%\Src\AddIns\ReSharper\ReferencedAssemblies\">nul
-COPY "%RESHARPERINSTALLDIR%\JetBrains.Platform.ReSharper.UI.dll" "%PROJECTROOT%\Src\AddIns\ReSharper\ReferencedAssemblies\">nul
-COPY "%RESHARPERINSTALLDIR%\JetBrains.Platform.ReSharper.Util.dll" "%PROJECTROOT%\Src\AddIns\ReSharper\ReferencedAssemblies\">nul
-COPY "%RESHARPERINSTALLDIR%\JetBrains.ReSharper.Daemon.dll" "%PROJECTROOT%\Src\AddIns\ReSharper\ReferencedAssemblies\">nul
-COPY "%RESHARPERINSTALLDIR%\JetBrains.ReSharper.Feature.Services.CSharp.dll" "%PROJECTROOT%\Src\AddIns\ReSharper\ReferencedAssemblies\">nul
-COPY "%RESHARPERINSTALLDIR%\JetBrains.ReSharper.Feature.Services.dll" "%PROJECTROOT%\Src\AddIns\ReSharper\ReferencedAssemblies\">nul
-COPY "%RESHARPERINSTALLDIR%\JetBrains.ReSharper.Features.Environment.dll" "%PROJECTROOT%\Src\AddIns\ReSharper\ReferencedAssemblies\">nul
-COPY "%RESHARPERINSTALLDIR%\JetBrains.ReSharper.Intentions.dll" "%PROJECTROOT%\Src\AddIns\ReSharper\ReferencedAssemblies\">nul
-COPY "%RESHARPERINSTALLDIR%\JetBrains.ReSharper.Psi.CSharp.dll" "%PROJECTROOT%\Src\AddIns\ReSharper\ReferencedAssemblies\">nul
-COPY "%RESHARPERINSTALLDIR%\JetBrains.ReSharper.Psi.dll" "%PROJECTROOT%\Src\AddIns\ReSharper\ReferencedAssemblies\">nul
-COPY "%RESHARPERINSTALLDIR%\JetBrains.ReSharper.Resources.dll" "%PROJECTROOT%\Src\AddIns\ReSharper\ReferencedAssemblies\">nul
-
-:ResharperDone
 REM --------------------------------------------------------------------------------------
 REM Set up the VSSDK environment variables
 
