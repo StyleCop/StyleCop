@@ -1,0 +1,469 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{5C635946-F0AE-4406-81BC-13B9118CCD9F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>StyleCop.ReSharper</RootNamespace>
+    <AssemblyName>StyleCop.ReSharper</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>$(SAAssemblyOriginatorKeyFile)</AssemblyOriginatorKeyFile>
+    <DelaySign>$(SADelaySign)</DelaySign>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <UpgradeBackupLocation />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <OutputPath>$(RootBin)\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <WarningLevel>0</WarningLevel>
+    <CodeAnalysisRuleSet>..\..\FxCopRules.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>$(RootBin)\Debug\StyleCop.ReSharper.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>$(RootBin)\Release\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <DocumentationFile>$(RootBin)\Release\StyleCop.ReSharper.xml</DocumentationFile>
+    <DebugType>pdbonly</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <WarningLevel>0</WarningLevel>
+    <CodeAnalysisRuleSet>..\..\FxCopRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="JetBrains.Platform.ReSharper.ActionManagement">
+      <HintPath>ReferencedAssemblies\JetBrains.Platform.ReSharper.ActionManagement.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="JetBrains.Platform.ReSharper.IDE">
+      <HintPath>ReferencedAssemblies\JetBrains.Platform.ReSharper.IDE.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="JetBrains.ReSharper.Features.Environment">
+      <HintPath>ReferencedAssemblies\JetBrains.ReSharper.Features.Environment.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Build.Framework" />
+    <Reference Include="JetBrains.Platform.ReSharper.DocumentManager, Version=4.0.819.19, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>ReferencedAssemblies\JetBrains.Platform.ReSharper.DocumentManager.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="JetBrains.Platform.ReSharper.DocumentModel, Version=4.0.819.19, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>ReferencedAssemblies\JetBrains.Platform.ReSharper.DocumentModel.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="JetBrains.Platform.ReSharper.ProjectModel, Version=4.0.819.19, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>ReferencedAssemblies\JetBrains.Platform.ReSharper.ProjectModel.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="JetBrains.Platform.ReSharper.Shell, Version=4.0.819.19, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>ReferencedAssemblies\JetBrains.Platform.ReSharper.Shell.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="JetBrains.Platform.ReSharper.TextControl, Version=4.1.933.3, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>ReferencedAssemblies\JetBrains.Platform.ReSharper.TextControl.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="JetBrains.Platform.ReSharper.UI, Version=4.0.819.19, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>ReferencedAssemblies\JetBrains.Platform.ReSharper.UI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="JetBrains.Platform.ReSharper.Util">
+      <HintPath>ReferencedAssemblies\JetBrains.Platform.ReSharper.Util.dll</HintPath>
+      <Aliases>JB</Aliases>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="JetBrains.ReSharper.Daemon, Version=4.0.819.19, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>ReferencedAssemblies\JetBrains.ReSharper.Daemon.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="JetBrains.ReSharper.Feature.Services, Version=4.5.1212.11, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>ReferencedAssemblies\JetBrains.ReSharper.Feature.Services.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="JetBrains.ReSharper.Feature.Services.CSharp, Version=4.5.1212.11, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>ReferencedAssemblies\JetBrains.ReSharper.Feature.Services.CSharp.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="JetBrains.ReSharper.Intentions, Version=4.5.1212.11, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>ReferencedAssemblies\JetBrains.ReSharper.Intentions.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="JetBrains.ReSharper.Psi, Version=4.0.819.19, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>ReferencedAssemblies\JetBrains.ReSharper.Psi.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="JetBrains.ReSharper.Psi.CSharp, Version=4.1.933.3, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>ReferencedAssemblies\JetBrains.ReSharper.Psi.CSharp.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Build.Utilities.v3.5" />
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\AssemblyVersion.cs">
+      <Link>Properties\AssemblyVersion.cs</Link>
+    </Compile>
+    <Compile Include="BulbItems\Documentation\SA1605PartialElementDocumentationMustHaveSummaryBulbItem.cs" />
+    <Compile Include="BulbItems\Documentation\SA1641FileHeaderCompanyNameTextMustMatchBulbItem.cs" />
+    <Compile Include="BulbItems\Documentation\SA1609PropertyDocumentationMustHaveValue.cs" />
+    <Compile Include="BulbItems\Documentation\SA1636FileHeaderCopyrightTextMustMatchBulbItem.cs" />
+    <Compile Include="BulbItems\Documentation\SA1643DestructorSummaryDocumentationMustBeginWithStandardTextBulbItem.cs" />
+    <Compile Include="BulbItems\Documentation\SA1617VoidReturnValueMustNotBeDocumentedBulbItem.cs" />
+    <Compile Include="BulbItems\Documentation\SA1644DocumentationHeadersMustNotContainBlankLinesBulbItem.cs" />
+    <Compile Include="BulbItems\Documentation\SA1629DocumentationTextMustEndWithAPeriodBulbItem.cs" />
+    <Compile Include="BulbItems\Documentation\SA1628DocumentationTextMustBeginWithACapitalLetterBulbItem.cs" />
+    <Compile Include="BulbItems\Documentation\SA1640FileHeaderMustHaveValidCompanyTextBulbItem.cs" />
+    <Compile Include="BulbItems\Documentation\SA1635FileHeaderMustHaveCopyrightTextBulbItem.cs" />
+    <Compile Include="BulbItems\Documentation\SA1639FileHeaderMustHaveSummaryBulbItem.cs" />
+    <Compile Include="BulbItems\Documentation\SA1634FileHeaderMustShowCopyrightBulbItem.cs" />
+    <Compile Include="BulbItems\Documentation\SA1637FileHeaderMustContainFileNameBulbItem.cs" />
+    <Compile Include="BulbItems\Documentation\SA1626SingleLineCommentsMustNotUseDocumentationStyleSlashesBulbItem.cs" />
+    <Compile Include="BulbItems\Documentation\SA1618GenericTypeParametersMustBeDocumentedBulbItem.cs" />
+    <Compile Include="BulbItems\Documentation\SA1633FileMustHaveHeaderBulbItem.cs" />
+    <Compile Include="BulbItems\Documentation\SA1642ConstructorSummaryDocumentationMustBeginWithStandardTextBulbItem.cs" />
+    <Compile Include="BulbItems\Documentation\SA1615ElementReturnValueMustBeDocumentedBulbItem.cs" />
+    <Compile Include="BulbItems\Documentation\SA1604ElementDocumentationMustHaveSummaryBulbItem.cs" />
+    <Compile Include="BulbItems\Documentation\SA1600ElementsMustBeDocumentedBulbItem.cs" />
+    <Compile Include="BulbItems\Documentation\SA1611ElementParametersMustBeDocumentedBulbItem.cs" />
+    <Compile Include="BulbItems\Framework\SuppressMessageBulbItem.cs" />
+    <Compile Include="BulbItems\Framework\V5BulbItemImpl.cs" />
+    <Compile Include="BulbItems\Layout\SA1506DocumentationHeaderLineMustNotBeFollowedByABlankLineBulbItem.cs" />
+    <Compile Include="BulbItems\Layout\SA1507CodeMustNotContainMultipleBlankLinesInARowBulbItem.cs" />
+    <Compile Include="BulbItems\Layout\SA1500CurlyBracketsForMultiLineStatementsMustNotShareLineBulbItem.cs" />
+    <Compile Include="BulbItems\Layout\SA1514ElementDocumentationHeadersMustBePrecededByBlankLineBulbItem.cs" />
+    <Compile Include="BulbItems\Layout\SA1512SingleLineCommentsMustNotBeFollowedByBlankLineBulbItem.cs" />
+    <Compile Include="BulbItems\Layout\SA1509OpeningCurlyBracketsMustNotBePrecededByBlankLineBulbItem.cs" />
+    <Compile Include="BulbItems\Layout\SA1510ChainedStatementBlocksMustNotBePrecededByBlankLineBulbItem.cs" />
+    <Compile Include="BulbItems\Layout\SA1511WhileDoFooterMustNotBePrecededByBlankLineBulbItem.cs" />
+    <Compile Include="BulbItems\Layout\SA1513ClosingCurlyBracketMustBeFollowedByBlankLineBulbItem.cs" />
+    <Compile Include="BulbItems\Layout\SA1515SingleLineCommentsMustBePrecededByBlankLineBulbItem.cs" />
+    <Compile Include="BulbItems\Maintainability\SA1119StatementMustNotUseUnnecessaryParenthesisBulbItem.cs" />
+    <Compile Include="BulbItems\Maintainability\SA1401FieldsMustBePrivateBulbItem.cs" />
+    <Compile Include="BulbItems\Ordering\MoveUsings.cs" />
+    <Compile Include="BulbItems\Ordering\AccessorsMustFollowOrderBulbItem.cs" />
+    <Compile Include="BulbItems\Readability\CodeMustNotContainEmptyStatements.cs" />
+    <Compile Include="BulbItems\Readability\SA1100DoNotPrefixCallsWithBaseUnlessLocalImplementationExistsBulbItem.cs" />
+    <Compile Include="BulbItems\Readability\SA1109BlockStatementsMustNotContainEmbeddedRegionsBulbItem.cs" />
+    <Compile Include="BulbItems\Readability\SA1108BlockStatementsMustNotContainEmbeddedCommentsBulbItem.cs" />
+    <Compile Include="BulbItems\Readability\SA1120CommentsMustContainTextBulbItem.cs" />
+    <Compile Include="BulbItems\Readability\SA1121UseBuiltInTypeAliasBulbItem.cs" />
+    <Compile Include="BulbItems\Readability\FormatLineBulbItem.cs" />
+    <Compile Include="BulbItems\Readability\PrefixLocalCallsWithThis.cs" />
+    <Compile Include="BulbItems\Spacing\SA1005SingleLineCommentsMustBeginWithSingeSpaceBulbItem.cs" />
+    <Compile Include="BulbItems\Spacing\SA1025CodeMustNotContainMultipleWhitespaceInARowBulbItem.cs" />
+    <Compile Include="BulbItems\Spacing\SA1022PositiveSignsMustBeSpacedCorrectlyBulbItem.cs" />
+    <Compile Include="BulbItems\Spacing\SA1021NegativeSignsMustBeSpacedCorrectlyBulbItem.cs" />
+    <Compile Include="BulbItems\Spacing\SA1006PreprocessorKeywordsMustNotBePrecededBySpaceBulbItem.cs" />
+    <Compile Include="BulbItems\Spacing\FormatDocumentationHeader.cs" />
+    <Compile Include="BulbItems\Readability\UseStringEmptyForEmptyStrings.cs" />
+    <Compile Include="BulbItems\Ordering\OrderUsingsBulbItem.cs" />
+    <Compile Include="BulbItems\Spacing\SA1001CommasMustBeSpaceCorrectlyBulbItem.cs" />
+    <Compile Include="CodeCleanup\Descriptors\MaintainabilityDescriptor.cs" />
+    <Compile Include="CodeCleanup\Descriptors\ReadabilityDescriptor.cs" />
+    <Compile Include="CodeCleanup\Descriptors\SpacingDescriptor.cs" />
+    <Compile Include="CodeCleanup\Options\MaintainabilityOptions.cs" />
+    <Compile Include="CodeCleanup\Options\OptionsBase.cs" />
+    <Compile Include="CodeCleanup\Options\ReadabilityOptions.cs" />
+    <Compile Include="CodeCleanup\Options\SpacingOptions.cs" />
+    <Compile Include="CodeCleanup\Options\LayoutOptions.cs" />
+    <Compile Include="CodeCleanup\Descriptors\LayoutDescriptor.cs" />
+    <Compile Include="CodeCleanup\Options\DocumentationOptions.cs" />
+    <Compile Include="CodeCleanup\Descriptors\DocumentationDescriptor.cs" />
+    <Compile Include="ShellComponents\StyleCopCodeStyleChecker.cs" />
+    <Compile Include="Core\ProjectSettingsFactory.cs" />
+    <Compile Include="Core\SourceCodeFactory.cs" />
+    <Compile Include="Core\StringBasedSourceCode.cs" />
+    <Compile Include="Core\DeclarationHeader.cs" />
+    <Compile Include="Core\FileHeader.cs" />
+    <Compile Include="Core\StyleCopCoreFactory.cs" />
+    <Compile Include="Core\StyleCopLocator.cs" />
+    <Compile Include="Core\StyleCopReferenceHelper.cs" />
+    <Compile Include="Core\StyleCopRules.cs" />
+    <Compile Include="Core\StyleCopRunnerInt.cs" />
+    <Compile Include="Core\StyleCopSettings.cs" />
+    <Compile Include="Core\StyleCopStage.cs" />
+    <Compile Include="Core\StyleCopStageProcess.cs" />
+    <Compile Include="Core\Utils.cs" />
+    <Compile Include="Extensions\ITreeNodeExtensions.cs" />
+    <Compile Include="Properties\Constants.cs" />
+    <Compile Include="Properties\PluginInfo.cs" />
+    <Compile Include="QuickFixes\Framework\ChangeStyleCopRule.cs" />
+    <Compile Include="QuickFixes\Framework\ChangeStyleCopRuleAction.cs" />
+    <Compile Include="QuickFixes\Framework\QuickFixBase.cs" />
+    <Compile Include="QuickFixes\Framework\ShowQuickFixAttribute.cs" />
+    <Compile Include="QuickFixes\Framework\SuppressQuickFixAttribute.cs" />
+    <Compile Include="QuickFixes\Framework\SuppressStyleCopQuickFix.cs" />
+    <Compile Include="CodeCleanup\Rules\DocumentationRulesConfiguration.cs" />
+    <Compile Include="Extensions\IProjectFileExtensions.cs" />
+    <Compile Include="CodeCleanup\Rules\MaintainabilityRules.cs" />
+    <Compile Include="CodeCleanup\Rules\ReadabilityRules.cs" />
+    <Compile Include="CodeCleanup\Rules\SpacingRules.cs" />
+    <Compile Include="CodeCleanup\Styles\ExpandUsingsStyle.cs" />
+    <Compile Include="CodeCleanup\StyleCopCodeCleanupModule.cs" />
+    <Compile Include="CodeCleanup\Styles\AlphabeticalUsingsStyle.cs" />
+    <Compile Include="CodeCleanup\Descriptors\OrderingDescriptor.cs" />
+    <Compile Include="CodeCleanup\Options\OrderingOptions.cs" />
+    <Compile Include="CodeCleanup\Styles\UpdateFileHeaderStyle.cs" />
+    <Compile Include="Diagnostics\StyleCopSwitch.cs" />
+    <Compile Include="Diagnostics\StyleCopTrace.cs" />
+    <Compile Include="Diagnostics\StyleCopTraceFormatter.cs" />
+    <Compile Include="Diagnostics\SensitiveDataAttribute.cs" />
+    <Compile Include="Diagnostics\TraceTypes.cs" />
+    <Compile Include="Extensions\IElementExtensions.cs" />
+    <Compile Include="Extensions\IMethodDeclarationExtensions.cs" />
+    <Compile Include="Extensions\IPropertyDeclarationExtensions.cs" />
+    <Compile Include="Extensions\IUsingDirectiveExtensions.cs" />
+    <Compile Include="CodeCleanup\Rules\DocumentationRules.cs" />
+    <Compile Include="CodeCleanup\Rules\LayoutRules.cs" />
+    <Compile Include="CodeCleanup\Rules\OrderingRules.cs" />
+    <Compile Include="Extensions\ParameterInfoExtensions.cs" />
+    <Compile Include="Extensions\TokenNodeTypeExtensions.cs" />
+    <Compile Include="Extensions\TypeExtensions.cs" />
+    <Compile Include="QuickFixes\Documentation\SA1641QuickFix.cs" />
+    <Compile Include="QuickFixes\Documentation\SA1609QuickFix.cs" />
+    <Compile Include="QuickFixes\Documentation\SA1636QuickFix.cs" />
+    <Compile Include="QuickFixes\Documentation\SA1643QuickFix.cs" />
+    <Compile Include="QuickFixes\Documentation\SA1644QuickFix.cs" />
+    <Compile Include="QuickFixes\Documentation\SA1629QuickFix.cs" />
+    <Compile Include="QuickFixes\Documentation\SA1628QuickFix.cs" />
+    <Compile Include="QuickFixes\Documentation\SA1640QuickFix.cs" />
+    <Compile Include="QuickFixes\Documentation\SA1635QuickFix.cs" />
+    <Compile Include="QuickFixes\Documentation\SA1639QuickFix.cs" />
+    <Compile Include="QuickFixes\Documentation\SA1634QuickFix.cs" />
+    <Compile Include="QuickFixes\Documentation\SA1638QuickFix.cs" />
+    <Compile Include="QuickFixes\Documentation\SA1637QuickFix.cs" />
+    <Compile Include="QuickFixes\Documentation\SA1626QuickFix.cs" />
+    <Compile Include="QuickFixes\Documentation\SA1621QuickFix.cs" />
+    <Compile Include="QuickFixes\Documentation\SA1620QuickFix.cs" />
+    <Compile Include="QuickFixes\Documentation\SA1619QuickFix.cs" />
+    <Compile Include="QuickFixes\Documentation\SA1618QuickFix.cs" />
+    <Compile Include="QuickFixes\Documentation\SA1617QuickFix.cs" />
+    <Compile Include="QuickFixes\Documentation\SA1615QuickFix.cs" />
+    <Compile Include="QuickFixes\Documentation\SA1613QuickFix.cs" />
+    <Compile Include="QuickFixes\Documentation\SA1612QuickFix.cs" />
+    <Compile Include="QuickFixes\Documentation\SA1605QuickFix.cs" />
+    <Compile Include="QuickFixes\Documentation\SA1601QuickFix.cs" />
+    <Compile Include="QuickFixes\Documentation\SA1604QuickFix.cs" />
+    <Compile Include="QuickFixes\Documentation\SA1611QuickFix.cs" />
+    <Compile Include="QuickFixes\Documentation\SA1602QuickFix.cs" />
+    <Compile Include="QuickFixes\Documentation\SA1600QuickFix.cs" />
+    <Compile Include="QuickFixes\Documentation\SA1633QuickFix.cs" />
+    <Compile Include="QuickFixes\Documentation\SA1642QuickFix.cs" />
+    <Compile Include="QuickFixes\Layout\SA1512QuickFix.cs" />
+    <Compile Include="QuickFixes\Layout\SA1509QuickFix.cs" />
+    <Compile Include="QuickFixes\Layout\SA1504QuickFix.cs" />
+    <Compile Include="QuickFixes\Layout\SA1510QuickFix.cs" />
+    <Compile Include="QuickFixes\Layout\SA1508QuickFix.cs" />
+    <Compile Include="QuickFixes\Layout\SA1507QuickFix.cs" />
+    <Compile Include="QuickFixes\Layout\SA1506QuickFix.cs" />
+    <Compile Include="QuickFixes\Layout\SA1505QuickFix.cs" />
+    <Compile Include="QuickFixes\Layout\SA1503QuickFix.cs" />
+    <Compile Include="QuickFixes\Layout\SA1502QuickFix.cs" />
+    <Compile Include="QuickFixes\Layout\SA1501QuickFix.cs" />
+    <Compile Include="QuickFixes\Layout\SA1500QuickFix.cs" />
+    <Compile Include="QuickFixes\Layout\SA1511QuickFix.cs" />
+    <Compile Include="QuickFixes\Layout\SA1513QuickFix.cs" />
+    <Compile Include="QuickFixes\Layout\SA1516QuickFix.cs" />
+    <Compile Include="QuickFixes\Layout\SA1514QuickFix.cs" />
+    <Compile Include="QuickFixes\Layout\SA1515QuickFix.cs" />
+    <Compile Include="QuickFixes\Maintainability\SA1119QuickFix.cs" />
+    <Compile Include="QuickFixes\Maintainability\SA1401QuickFix.cs" />
+    <Compile Include="QuickFixes\Ordering\SA1213QuickFix.cs" />
+    <Compile Include="QuickFixes\Ordering\SA1212QuickFix.cs" />
+    <Compile Include="QuickFixes\Ordering\SA1200QuickFix.cs" />
+    <Compile Include="QuickFixes\Ordering\SA1210QuickFix.cs" />
+    <Compile Include="QuickFixes\Ordering\SA1211QuickFix.cs" />
+    <Compile Include="QuickFixes\Ordering\SA1209QuickFix.cs" />
+    <Compile Include="QuickFixes\Ordering\SA1208QuickFix.cs" />
+    <Compile Include="QuickFixes\Readability\SA1100QuickFix.cs" />
+    <Compile Include="QuickFixes\Readability\SA1109QuickFix.cs" />
+    <Compile Include="QuickFixes\Readability\SA1108QuickFix.cs" />
+    <Compile Include="QuickFixes\Readability\SA1120QuickFix.cs" />
+    <Compile Include="QuickFixes\Readability\SA1121QuickFix.cs" />
+    <Compile Include="QuickFixes\Readability\SA1106QuickFix.cs" />
+    <Compile Include="QuickFixes\Readability\SA1110QuickFix.cs" />
+    <Compile Include="QuickFixes\Readability\SA1111QuickFix.cs" />
+    <Compile Include="QuickFixes\Readability\SA1112QuickFix.cs" />
+    <Compile Include="QuickFixes\Readability\SA1113QuickFix.cs" />
+    <Compile Include="QuickFixes\Readability\SA1114QuickFix.cs" />
+    <Compile Include="QuickFixes\Readability\SA1115QuickFix.cs" />
+    <Compile Include="QuickFixes\Readability\SA1116QuickFix.cs" />
+    <Compile Include="QuickFixes\Readability\SA1117QuickFix.cs" />
+    <Compile Include="QuickFixes\Readability\SA1118QuickFix.cs" />
+    <Compile Include="QuickFixes\Readability\SA1105QuickFix.cs" />
+    <Compile Include="QuickFixes\Readability\SA1104QuickFix.cs" />
+    <Compile Include="QuickFixes\Readability\SA1103QuickFix.cs" />
+    <Compile Include="QuickFixes\Readability\SA1102QuickFix.cs" />
+    <Compile Include="QuickFixes\Readability\SA1107QuickFix.cs" />
+    <Compile Include="QuickFixes\Readability\SA1101QuickFix.cs" />
+    <Compile Include="QuickFixes\Readability\SA1122QuickFix.cs" />
+    <Compile Include="QuickFixes\Spacing\SA1026QuickFix.cs" />
+    <Compile Include="QuickFixes\Spacing\SA1025QuickFix.cs" />
+    <Compile Include="QuickFixes\Spacing\SA1023QuickFix.cs" />
+    <Compile Include="QuickFixes\Spacing\SA1022QuickFix.cs" />
+    <Compile Include="QuickFixes\Spacing\SA1021QuickFix.cs" />
+    <Compile Include="QuickFixes\Spacing\SA1020QuickFix.cs" />
+    <Compile Include="QuickFixes\Spacing\SA1019QuickFix.cs" />
+    <Compile Include="QuickFixes\Spacing\SA1018QuickFix.cs" />
+    <Compile Include="QuickFixes\Spacing\SA1017QuickFix.cs" />
+    <Compile Include="QuickFixes\Spacing\SA1016QuickFix.cs" />
+    <Compile Include="QuickFixes\Spacing\SA1015QuickFix.cs" />
+    <Compile Include="QuickFixes\Spacing\SA1014QuickFix.cs" />
+    <Compile Include="QuickFixes\Spacing\SA1013QuickFix.cs" />
+    <Compile Include="QuickFixes\Spacing\SA1012QuickFix.cs" />
+    <Compile Include="QuickFixes\Spacing\SA1011QuickFix.cs" />
+    <Compile Include="QuickFixes\Spacing\SA1010QuickFix.cs" />
+    <Compile Include="QuickFixes\Spacing\SA1009QuickFix.cs" />
+    <Compile Include="QuickFixes\Spacing\SA1008QuickFix.cs" />
+    <Compile Include="QuickFixes\Spacing\SA1007QuickFix.cs" />
+    <Compile Include="QuickFixes\Spacing\SA1006QuickFix.cs" />
+    <Compile Include="QuickFixes\Spacing\SA1004QuickFix.cs" />
+    <Compile Include="QuickFixes\Spacing\SA1000QuickFix.cs" />
+    <Compile Include="QuickFixes\Spacing\SA1024QuickFix.cs" />
+    <Compile Include="QuickFixes\Spacing\SA1003QuickFix.cs" />
+    <Compile Include="QuickFixes\Spacing\SA1005QuickFix.cs" />
+    <Compile Include="QuickFixes\Spacing\SA1001QuickFix.cs" />
+    <Compile Include="QuickFixes\Spacing\SA1002QuickFix.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="QuickFixes\Maintainability\SA1400QuickFix.cs" />
+    <Compile Include="BulbItems\Maintainability\SA1400AccessModifierMustBeDeclaredBulbItem.cs" />
+    <Compile Include="Options\HighlightingRegistering.cs" />
+    <Compile Include="Options\StyleCopOptions.cs" />
+    <Compile Include="Options\StyleCopOptionsPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Options\StyleCopOptionsPage.Designer.cs">
+      <DependentUpon>StyleCopOptionsPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Options\StyleCopRule.cs" />
+    <EmbeddedResource Include="Resources\ReorderingPatterns.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Violations\StyleCopViolationTokenFactory.cs" />
+    <Compile Include="Violations\StyleCopViolationDoNotShow.cs" />
+    <Compile Include="Violations\StyleCopViolationInfo.cs" />
+    <Compile Include="Violations\StyleCopViolationFactory.cs" />
+    <Compile Include="Violations\StyleCopViolationHint.cs" />
+    <Compile Include="Violations\StyleCopViolationSuggestion.cs" />
+    <Compile Include="Violations\StyleCopViolationWarning.cs" />
+    <Compile Include="Violations\StyleCopViolationBase.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Violations\StyleCopViolationError.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Options\StyleCopOptionsPage.resx">
+      <DependentUpon>StyleCopOptionsPage.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\ShowQuickFix.png" />
+    <EmbeddedResource Include="Resources\SuppressQuickFix.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="CodeIssues\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\StyleCop\StyleCop.csproj">
+      <Project>{AF7A7FEA-C07B-456A-B072-C7E795A6CBD4}</Project>
+      <Name>StyleCop</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CSharp\Parser\CSharpParser.csproj">
+      <Project>{C173ACF5-2CE5-4771-83A4-D01453C8CB09}</Project>
+      <Name>CSharpParser</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\StyleCop.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
+  <Import Project="..\..\..\..\Tools\msbuild\StyleCop.Build.Targets" />
+  <Import Project="..\..\..\..\Tools\msbuild\StyleCop.Shipping.Targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PostBuildEvent>REM md C:\Users\andy\AppData\Roaming\JetBrains\ReSharper\v5.1\vs10.0\Plugins
+REM copy $(TargetPath) C:\Users\andy\AppData\Roaming\JetBrains\ReSharper\v5.1\vs10.0\Plugins\*</PostBuildEvent>
+  </PropertyGroup>
+</Project>
