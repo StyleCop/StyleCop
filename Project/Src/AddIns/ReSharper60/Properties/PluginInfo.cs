@@ -20,7 +20,7 @@
 
 using JetBrains.Application.PluginSupport;
 
-using StyleCop.ReSharper.Properties;
+using StyleCop.ReSharper60.Properties;
 
 #endregion
 

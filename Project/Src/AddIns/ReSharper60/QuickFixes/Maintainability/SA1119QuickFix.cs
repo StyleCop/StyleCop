@@ -16,7 +16,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace StyleCop.ReSharper.QuickFixes.Maintainability
+namespace StyleCop.ReSharper60.QuickFixes.Maintainability
 {
     #region Using Directives
 
@@ -24,9 +24,9 @@ namespace StyleCop.ReSharper.QuickFixes.Maintainability
 
     using JetBrains.ReSharper.Feature.Services.Bulbs;
 
-    using StyleCop.ReSharper.BulbItems.Maintainability;
-    using StyleCop.ReSharper.QuickFixes.Framework;
-    using StyleCop.ReSharper.Violations;
+    using StyleCop.ReSharper60.BulbItems.Maintainability;
+    using StyleCop.ReSharper60.QuickFixes.Framework;
+    using StyleCop.ReSharper60.Violations;
 
     #endregion
 

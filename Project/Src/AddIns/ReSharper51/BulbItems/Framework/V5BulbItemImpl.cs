@@ -17,7 +17,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 extern alias JB;
 
-namespace StyleCop.ReSharper.BulbItems.Framework
+namespace StyleCop.ReSharper51.BulbItems.Framework
 {
     #region Using Directives
 

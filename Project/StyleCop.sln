@@ -44,6 +44,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReSharper61", "Src\AddIns\R
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReSharper60", "Src\AddIns\ReSharper60\ReSharper60.csproj", "{067FAEAC-CC57-463B-A965-D3ECF7EC225C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReSharper51", "Src\AddIns\ReSharper51\ReSharper51.csproj", "{0999800F-94F0-4D64-A87B-3643DED29710}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = StyleCop.vsmdi
@@ -149,6 +151,12 @@ Global
 		{067FAEAC-CC57-463B-A965-D3ECF7EC225C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{067FAEAC-CC57-463B-A965-D3ECF7EC225C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{067FAEAC-CC57-463B-A965-D3ECF7EC225C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0999800F-94F0-4D64-A87B-3643DED29710}.Debug.NoReSharper|Any CPU.ActiveCfg = Debug|Any CPU
+		{0999800F-94F0-4D64-A87B-3643DED29710}.Debug.NoReSharper|Any CPU.Build.0 = Debug|Any CPU
+		{0999800F-94F0-4D64-A87B-3643DED29710}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0999800F-94F0-4D64-A87B-3643DED29710}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0999800F-94F0-4D64-A87B-3643DED29710}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0999800F-94F0-4D64-A87B-3643DED29710}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

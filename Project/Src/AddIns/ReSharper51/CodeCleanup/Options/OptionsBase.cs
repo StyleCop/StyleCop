@@ -16,15 +16,15 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace StyleCop.ReSharper.CodeCleanup.Options
+namespace StyleCop.ReSharper51.CodeCleanup.Options
 {
     #region Using Directives
 
     using System.Linq;
     using System.Reflection;
 
-    using StyleCop.ReSharper.Core;
-    using StyleCop.ReSharper.Diagnostics;
+    using StyleCop.ReSharper51.Core;
+    using StyleCop.ReSharper51.Diagnostics;
 
     #endregion
 

@@ -13,7 +13,7 @@
 // </license>
 //-----------------------------------------------------------------------
 
-namespace StyleCop.ReSharper.Options
+namespace StyleCop.ReSharper51.Options
 {
     partial class StyleCopOptionsPage
     {

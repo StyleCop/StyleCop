@@ -16,7 +16,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace StyleCop.ReSharper.QuickFixes.Ordering
+namespace StyleCop.ReSharper60.QuickFixes.Ordering
 {
     #region Using Directives
 
@@ -24,9 +24,9 @@ namespace StyleCop.ReSharper.QuickFixes.Ordering
 
     using JetBrains.ReSharper.Feature.Services.Bulbs;
 
-    using StyleCop.ReSharper.BulbItems.Ordering;
-    using StyleCop.ReSharper.QuickFixes.Framework;
-    using StyleCop.ReSharper.Violations;
+    using StyleCop.ReSharper60.BulbItems.Ordering;
+    using StyleCop.ReSharper60.QuickFixes.Framework;
+    using StyleCop.ReSharper60.Violations;
 
     #endregion
 

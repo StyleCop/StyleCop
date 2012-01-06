@@ -13,7 +13,7 @@
 // </license>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace StyleCop.ReSharper.ShellComponents
+namespace StyleCop.ReSharper60.ShellComponents
 {
     #region Using Directives
 
@@ -25,7 +25,7 @@ namespace StyleCop.ReSharper.ShellComponents
 
     using Microsoft.Win32;
 
-    using StyleCop.ReSharper.Options;
+    using StyleCop.ReSharper60.Options;
 
     #endregion
 

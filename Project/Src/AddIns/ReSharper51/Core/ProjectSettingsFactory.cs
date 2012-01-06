@@ -16,7 +16,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace StyleCop.ReSharper.Core
+namespace StyleCop.ReSharper51.Core
 {
     #region Using Directives
 
@@ -26,7 +26,7 @@ namespace StyleCop.ReSharper.Core
     using System.Security;
     using System.Xml;
 
-    using StyleCop.ReSharper.Diagnostics;
+    using StyleCop.ReSharper51.Diagnostics;
 
     #endregion
 

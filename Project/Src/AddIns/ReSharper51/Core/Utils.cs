@@ -17,7 +17,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 extern alias JB;
 
-namespace StyleCop.ReSharper.Core
+namespace StyleCop.ReSharper51.Core
 {
     #region Using Directives
 
@@ -48,8 +48,8 @@ namespace StyleCop.ReSharper.Core
     using JetBrains.ReSharper.Psi.Util;
     using JetBrains.TextControl;
 
-    using StyleCop.ReSharper.Diagnostics;
-    using StyleCop.ReSharper.Options;
+    using StyleCop.ReSharper51.Diagnostics;
+    using StyleCop.ReSharper51.Options;
 
     #endregion
 

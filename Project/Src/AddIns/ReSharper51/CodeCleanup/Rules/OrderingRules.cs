@@ -16,7 +16,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace StyleCop.ReSharper.CodeCleanup.Rules
+namespace StyleCop.ReSharper51.CodeCleanup.Rules
 {
     #region Using Directives
 
@@ -28,9 +28,9 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
     using JetBrains.ReSharper.Psi.CSharp.Tree;
     using JetBrains.ReSharper.Psi.Tree;
 
-    using StyleCop.ReSharper.CodeCleanup.Options;
-    using StyleCop.ReSharper.CodeCleanup.Styles;
-    using StyleCop.ReSharper.Diagnostics;
+    using StyleCop.ReSharper51.CodeCleanup.Options;
+    using StyleCop.ReSharper51.CodeCleanup.Styles;
+    using StyleCop.ReSharper51.Diagnostics;
 
     #endregion
 

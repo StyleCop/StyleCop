@@ -7,16 +7,16 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace StyleCop.ReSharper.BulbItems.Documentation
+namespace StyleCop.ReSharper51.BulbItems.Documentation
 {
     #region Using Directives
 
     using JetBrains.ProjectModel;
     using JetBrains.TextControl;
 
-    using StyleCop.ReSharper.BulbItems.Framework;
-    using StyleCop.ReSharper.CodeCleanup.Rules;
-    using StyleCop.ReSharper.Core;
+    using StyleCop.ReSharper51.BulbItems.Framework;
+    using StyleCop.ReSharper51.CodeCleanup.Rules;
+    using StyleCop.ReSharper51.Core;
 
     #endregion
 

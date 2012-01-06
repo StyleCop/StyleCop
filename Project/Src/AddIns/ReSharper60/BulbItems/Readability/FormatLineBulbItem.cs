@@ -17,7 +17,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 extern alias JB;
 
-namespace StyleCop.ReSharper.BulbItems.Readability
+namespace StyleCop.ReSharper60.BulbItems.Readability
 {
     #region Using Directives
 
@@ -25,9 +25,9 @@ namespace StyleCop.ReSharper.BulbItems.Readability
     using JetBrains.ReSharper.Psi.CSharp.Tree;
     using JetBrains.TextControl;
 
-    using StyleCop.ReSharper.BulbItems.Framework;
-    using StyleCop.ReSharper.CodeCleanup.Rules;
-    using StyleCop.ReSharper.Core;
+    using StyleCop.ReSharper60.BulbItems.Framework;
+    using StyleCop.ReSharper60.CodeCleanup.Rules;
+    using StyleCop.ReSharper60.Core;
 
     #endregion
 

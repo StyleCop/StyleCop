@@ -16,7 +16,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace StyleCop.ReSharper.QuickFixes.Layout
+namespace StyleCop.ReSharper51.QuickFixes.Layout
 {
     #region Using Directives
 
@@ -24,9 +24,9 @@ namespace StyleCop.ReSharper.QuickFixes.Layout
 
     using JetBrains.ReSharper.Feature.Services.Bulbs;
 
-    using StyleCop.ReSharper.BulbItems.Layout;
-    using StyleCop.ReSharper.QuickFixes.Framework;
-    using StyleCop.ReSharper.Violations;
+    using StyleCop.ReSharper51.BulbItems.Layout;
+    using StyleCop.ReSharper51.QuickFixes.Framework;
+    using StyleCop.ReSharper51.Violations;
 
     #endregion
 

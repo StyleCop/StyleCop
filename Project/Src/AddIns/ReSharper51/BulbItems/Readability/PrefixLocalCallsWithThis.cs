@@ -16,7 +16,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace StyleCop.ReSharper.BulbItems.Readability
+namespace StyleCop.ReSharper51.BulbItems.Readability
 {
     #region Using Directives
 
@@ -25,8 +25,8 @@ namespace StyleCop.ReSharper.BulbItems.Readability
     using JetBrains.ReSharper.Psi.CSharp.CodeStyle;
     using JetBrains.TextControl;
 
-    using StyleCop.ReSharper.BulbItems.Framework;
-    using StyleCop.ReSharper.Core;
+    using StyleCop.ReSharper51.BulbItems.Framework;
+    using StyleCop.ReSharper51.Core;
 
     #endregion
 

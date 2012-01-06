@@ -16,7 +16,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace StyleCop.ReSharper.CodeCleanup.Options
+namespace StyleCop.ReSharper60.CodeCleanup.Options
 {
     #region Using Directives
 
@@ -24,7 +24,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Options
     using System.Reflection;
     using System.Text;
 
-    using StyleCop.ReSharper.CodeCleanup.Styles;
+    using StyleCop.ReSharper60.CodeCleanup.Styles;
 
     #endregion
 

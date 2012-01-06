@@ -24,7 +24,7 @@ using System.Runtime.InteropServices;
 
 using JetBrains.ReSharper.Daemon;
 
-using StyleCop.ReSharper.Properties;
+using StyleCop.ReSharper60.Properties;
 
 #endregion
 

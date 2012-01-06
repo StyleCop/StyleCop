@@ -16,11 +16,11 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace StyleCop.ReSharper.Core
+namespace StyleCop.ReSharper51.Core
 {
     #region Using Directives
 
-    using StyleCop.ReSharper.Diagnostics;
+    using StyleCop.ReSharper51.Diagnostics;
 
     #endregion
 

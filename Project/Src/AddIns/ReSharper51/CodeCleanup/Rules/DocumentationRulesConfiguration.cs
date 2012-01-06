@@ -16,13 +16,13 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace StyleCop.ReSharper.CodeCleanup.Rules
+namespace StyleCop.ReSharper51.CodeCleanup.Rules
 {
     #region Using Directives
 
     using JetBrains.ProjectModel;
 
-    using StyleCop.ReSharper.Core;
+    using StyleCop.ReSharper51.Core;
 
     #endregion
 

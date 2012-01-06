@@ -8,7 +8,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace StyleCop.ReSharper.Options
+namespace StyleCop.ReSharper51.Options
 {
     #region Using Directives
 
@@ -29,7 +29,7 @@ namespace StyleCop.ReSharper.Options
     using JetBrains.ReSharper.Psi.Naming.Settings;
     using JetBrains.UI.Options;
 
-    using StyleCop.ReSharper.Core;
+    using StyleCop.ReSharper51.Core;
 
     #endregion
 

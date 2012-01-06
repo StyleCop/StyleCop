@@ -16,7 +16,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace StyleCop.ReSharper.BulbItems.Spacing
+namespace StyleCop.ReSharper60.BulbItems.Spacing
 {
     #region Using Directives
 
@@ -25,7 +25,7 @@ namespace StyleCop.ReSharper.BulbItems.Spacing
     using JetBrains.ProjectModel;
     using JetBrains.TextControl;
 
-    using StyleCop.ReSharper.BulbItems.Framework;
+    using StyleCop.ReSharper60.BulbItems.Framework;
 
     #endregion
 

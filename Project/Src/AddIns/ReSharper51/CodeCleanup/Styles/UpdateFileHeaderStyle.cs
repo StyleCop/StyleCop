@@ -16,7 +16,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace StyleCop.ReSharper.CodeCleanup.Styles
+namespace StyleCop.ReSharper51.CodeCleanup.Styles
 {
     #region Using Directives
 

@@ -17,7 +17,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 extern alias JB;
 
-namespace StyleCop.ReSharper.QuickFixes.Framework
+namespace StyleCop.ReSharper51.QuickFixes.Framework
 {
     #region Using Directives
 

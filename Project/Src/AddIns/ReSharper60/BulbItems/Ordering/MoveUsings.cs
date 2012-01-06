@@ -16,7 +16,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace StyleCop.ReSharper.BulbItems.Ordering
+namespace StyleCop.ReSharper60.BulbItems.Ordering
 {
     #region Using Directives
 
@@ -24,8 +24,8 @@ namespace StyleCop.ReSharper.BulbItems.Ordering
     using JetBrains.ReSharper.Psi.CSharp.Tree;
     using JetBrains.TextControl;
 
-    using StyleCop.ReSharper.BulbItems.Framework;
-    using StyleCop.ReSharper.Core;
+    using StyleCop.ReSharper60.BulbItems.Framework;
+    using StyleCop.ReSharper60.Core;
 
     #endregion
 

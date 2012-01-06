@@ -16,7 +16,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace StyleCop.ReSharper.Violations
+namespace StyleCop.ReSharper51.Violations
 {
     #region Using Directives
 

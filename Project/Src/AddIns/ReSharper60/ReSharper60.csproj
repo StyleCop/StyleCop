@@ -8,8 +8,8 @@
     <ProjectGuid>{067FAEAC-CC57-463B-A965-D3ECF7EC225C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>StyleCop.ReSharper</RootNamespace>
-    <AssemblyName>StyleCop.ReSharper</AssemblyName>
+    <RootNamespace>StyleCop.ReSharper60</RootNamespace>
+    <AssemblyName>StyleCop.ReSharper60</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SignAssembly>true</SignAssembly>

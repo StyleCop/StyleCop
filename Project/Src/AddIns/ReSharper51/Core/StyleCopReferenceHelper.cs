@@ -20,7 +20,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 extern alias JB;
 
-namespace StyleCop.ReSharper.Core
+namespace StyleCop.ReSharper51.Core
 {
     #region Using Directives
 
@@ -28,8 +28,8 @@ namespace StyleCop.ReSharper.Core
     using System.IO;
     using System.Reflection;
 
-    using StyleCop.ReSharper.Diagnostics;
-    using StyleCop.ReSharper.Options;
+    using StyleCop.ReSharper51.Diagnostics;
+    using StyleCop.ReSharper51.Options;
 
     #endregion
 

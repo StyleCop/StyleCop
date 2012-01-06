@@ -16,7 +16,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace StyleCop.ReSharper.QuickFixes.Spacing
+namespace StyleCop.ReSharper51.QuickFixes.Spacing
 {
     #region Using Directives
 
@@ -24,9 +24,9 @@ namespace StyleCop.ReSharper.QuickFixes.Spacing
 
     using JetBrains.ReSharper.Feature.Services.Bulbs;
 
-    using StyleCop.ReSharper.BulbItems.Readability;
-    using StyleCop.ReSharper.QuickFixes.Framework;
-    using StyleCop.ReSharper.Violations;
+    using StyleCop.ReSharper51.BulbItems.Readability;
+    using StyleCop.ReSharper51.QuickFixes.Framework;
+    using StyleCop.ReSharper51.Violations;
 
     #endregion
 

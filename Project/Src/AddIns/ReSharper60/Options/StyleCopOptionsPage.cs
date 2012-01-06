@@ -10,7 +10,7 @@
 
 extern alias JB;
 
-namespace StyleCop.ReSharper.Options
+namespace StyleCop.ReSharper60.Options
 {
     #region Using Directives
 
@@ -30,7 +30,7 @@ namespace StyleCop.ReSharper.Options
     using JetBrains.ReSharper.Psi.Naming.Settings;
     using JetBrains.UI.Options;
 
-    using StyleCop.ReSharper.Core;
+    using StyleCop.ReSharper60.Core;
 
     #endregion
 

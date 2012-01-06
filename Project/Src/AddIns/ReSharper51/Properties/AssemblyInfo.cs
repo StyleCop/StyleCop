@@ -22,7 +22,7 @@ using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-using StyleCop.ReSharper.Properties;
+using StyleCop.ReSharper51.Properties;
 
 #endregion
 
