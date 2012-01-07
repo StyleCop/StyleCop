@@ -28,7 +28,7 @@ using StyleCop.ReSharper60.Properties;
 
 #endregion
 
-[assembly: AssemblyTitle("StyleCop R# Plugin")]
+[assembly: AssemblyTitle("StyleCop R# 6.0 Plugin")]
 [assembly: AssemblyDescription(Constants.DescriptionShort)]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]

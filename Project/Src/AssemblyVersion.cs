@@ -22,4 +22,4 @@ using System.Reflection;
 
 #endregion
 
-[assembly: AssemblyVersion("4.7.2.0")]
+[assembly: AssemblyVersion("4.7.3.0")]

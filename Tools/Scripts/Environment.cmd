@@ -41,6 +41,24 @@ if exist "%VSINSTALLDIR%\VC\vcvarsall.bat" (
 )
 
 REM --------------------------------------------------------------------------------------
+REM Set up ReSharper dlls if installed
+
+SET ReSharperFound=0
+
+SET "RESHARPERINSTALLDIR=%ProgramFiles%\JetBrains\ReSharper\v6.1\Bin"
+
+if "%IsWoW64%" == "1"  (
+	SET "RESHARPERINSTALLDIR=%PROGRAMFILES(x86)%\JetBrains\ReSharper\v6.1\Bin"
+)
+
+IF EXIST "%RESHARPERINSTALLDIR%\JetBrains.Annotations.dll" ( SET ReSharperFound=1 )
+
+IF "%ReSharperFound%"=="0" GOTO ResharperDone
+
+echo JetBrains ReSharper 6.1 was found...
+
+:ResharperDone
+REM --------------------------------------------------------------------------------------
 REM Set up the VSSDK environment variables
 
 set VSSDKROOT=%STTOOLS%\VisualStudioSDK\2010.RTM
