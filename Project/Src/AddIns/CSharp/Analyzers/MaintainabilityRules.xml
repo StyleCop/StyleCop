@@ -62,8 +62,8 @@
     </RuleGroup>
     <RuleGroup Name="Removable Code">
       <Rule Name="RemoveUnnecessaryCode" CheckId="SA1409">
-        <Context>The {0} should be removed as it is either empty or unnecessary.</Context>
-        <Description>Verifies that the code does not contain empty or unnecessary code elements.</Description>
+        <Context>The {0} should be removed as it is empty.</Context>
+        <Description>Verifies that the code does not contain empty code elements.</Description>
       </Rule>
     </RuleGroup>
   </Rules>
