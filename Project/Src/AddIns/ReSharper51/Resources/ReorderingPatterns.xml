@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<!-- Last updated 17.06.2011 -->
+<!-- Last updated 08.01.2012 -->
 <Patterns xmlns="urn:shemas-jetbrains-com:member-reordering-patterns">
 
   <!-- Do not reorder COM interfaces -->
@@ -251,11 +251,14 @@
       <Group Region="Indexers"/>
     </Entry>
 
-    <!-- public methods -->
+    <!-- public methods (includes operators) -->
     <Entry>
       <Match>
         <And>
-          <Kind Is="method"/>
+           <Or>
+             <Kind Is="method"/>
+             <Kind Is="operator"/>
+           </Or>
           <Access Is="public"/>
         </And>
       </Match>
@@ -264,7 +267,7 @@
         <Static/>
         <Name/>
       </Sort>
-      <Group Region="Public Methods"/>
+      <Group Region="Public Methods and Operators"/>
     </Entry>
 
     <!-- interface methods -->
