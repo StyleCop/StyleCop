@@ -176,6 +176,7 @@
 
   <!-- Tests that violations are thrown if the filename is incorrect. -->
   <Test Name="FileHeadersInvalidFileName">
+    <TestCodeFile>Global.asax.cs</TestCodeFile>  
     <TestCodeFile>FileHeadersInvalidFilename.cs</TestCodeFile>    
     <Settings>
       <GlobalSettings>

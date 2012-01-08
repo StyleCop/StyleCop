@@ -2432,7 +2432,10 @@ namespace StyleCop.CSharp
                                             allowedNames += ", \"" + firstTypeNameWithGenerics + "\"";
                                         }
 
-                                        this.AddViolation(document.RootElement, document.FileHeader.LineNumber, Rules.FileHeaderFileNameDocumentationMustMatchTypeName, allowedNames);
+                                        if (document.SourceCode.Name.ToLowerInvariant() != "global.asax.cs")
+                                        {
+                                            this.AddViolation(document.RootElement, document.FileHeader.LineNumber, Rules.FileHeaderFileNameDocumentationMustMatchTypeName, allowedNames);
+                                        }
                                     }
                                 }
                             }
