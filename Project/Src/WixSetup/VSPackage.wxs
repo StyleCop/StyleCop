@@ -40,8 +40,9 @@
     <ComponentGroup Id="VisualStudio_Common">
       <ComponentRef Id="VisualStudioPackageCommon" />
       <ComponentRef Id="StyleCopCommon" />
-      <ComponentRef Id="VisualStudioOrcasComponent" />
+      <ComponentRef Id="VisualStudio2008Component" />
       <ComponentRef Id="VisualStudio2010Component" />
+      <ComponentRef Id="VisualStudio2011Component" />
       <ComponentRef Id="SettingsEditorProgFilesComponent" />
       <ComponentRef Id="StyleCopDocs" />
       <ComponentRef Id="StandardRegistryKeys" />

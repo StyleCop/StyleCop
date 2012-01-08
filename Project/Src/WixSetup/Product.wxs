@@ -17,20 +17,20 @@
 
     <Feature Id='Feature_StyleCopPackage'
              Title='Visual Studio integration'
-             Description="Files for setting up StyleCop integration with Microsoft Visual Studio 2008 and Microsoft Visual Studio 2010."
+             Description="Files for setting up StyleCop integration with Microsoft Visual Studio 2008, Microsoft Visual Studio 2010 and Microsoft Visual Studio 11."
              Level="1" Display='expand' ConfigurableDirectory='INSTALLDIR' AllowAdvertise='no' InstallDefault='local' Absent='allow'>
       <ComponentGroupRef Id="VisualStudio_Common" />
-      <!-- Require VS 2008 or VS 2010 to be installed -->
-      <Condition Level="1"><![CDATA[VS90DEVENV<>"" OR VS2010DEVENV<>""]]></Condition>
-      <Condition Level="0"><![CDATA[VS90DEVENV="" AND VS2010DEVENV=""]]></Condition>
+      <!-- Require VS 2008, 2010 or 2011 to be installed -->
+      <Condition Level="1"><![CDATA[VS90DEVENV<>"" OR VS2010DEVENV<>"" OR VS2011DEVENV<>""]]></Condition>
+      <Condition Level="0"><![CDATA[VS90DEVENV="" AND VS2010DEVENV="" AND VS2011DEVENV=""]]></Condition>
       
       <Feature Id='Feature_ReSharper'
                Title='R# integration'
                Description='Files for setting up StyleCop integration with JetBrains ReSharper 5.1 (5.1.3000.12), 6.0 (6.0.2202.688) or 6.1 (6.1.38.146).'
                Level='500' AllowAdvertise="no" Display="expand" InstallDefault="local" TypicalDefault="install" Absent="allow">
         <ComponentGroupRef Id="ReSharper_Common" />
-        <Condition Level="1"><![CDATA[RESHARPER61_VS90_VERSION<>"" OR RESHARPER61_VS100_VERSION<>"" OR RESHARPER60_VS90_VERSION<>"" OR RESHARPER60_VS100_VERSION<>"" OR RESHARPER51_VS90_VERSION<>"" OR RESHARPER51_VS100_VERSION<>""]]></Condition>
-        <Condition Level="0"><![CDATA[RESHARPER61_VS90_VERSION="" AND RESHARPER61_VS100_VERSION="" AND RESHARPER60_VS90_VERSION="" AND RESHARPER60_VS100_VERSION="" AND RESHARPER51_VS90_VERSION="" AND RESHARPER51_VS100_VERSION="" ]]></Condition>
+        <Condition Level="1"><![CDATA[RESHARPER61_VS90_VERSION<>"" OR RESHARPER61_VS100_VERSION<>"" OR VS2011DEVENV<>"" OR RESHARPER60_VS90_VERSION<>"" OR RESHARPER60_VS100_VERSION<>"" OR RESHARPER51_VS90_VERSION<>"" OR RESHARPER51_VS100_VERSION<>""]]></Condition>
+        <Condition Level="0"><![CDATA[RESHARPER61_VS90_VERSION="" AND RESHARPER61_VS100_VERSION="" AND VS2011DEVENV="" AND RESHARPER60_VS90_VERSION="" AND RESHARPER60_VS100_VERSION="" AND RESHARPER51_VS90_VERSION="" AND RESHARPER51_VS100_VERSION="" ]]></Condition>
       </Feature>
 
       <Feature Id='Feature_VisualStudioTemplates'
@@ -38,8 +38,8 @@
                Description='Files for updating the standard Visual Studio templates to be StyleCop compliant.'
                Level='500' AllowAdvertise="no" Display="expand" InstallDefault="local" TypicalDefault="install" Absent="allow">
         <ComponentGroupRef Id="VSTemplates_Common" /> 
-        <Condition Level="1"><![CDATA[VS2010DEVENV<>""]]></Condition>
-        <Condition Level="0"><![CDATA[VS2010DEVENV=""]]></Condition>      
+        <Condition Level="1"><![CDATA[VS2010DEVENV<>"" OR VS2011DEVENV<>""]]></Condition>
+        <Condition Level="0"><![CDATA[VS2010DEVENV="" AND VS2011DEVENV=""]]></Condition>      
       </Feature>
 
     </Feature>

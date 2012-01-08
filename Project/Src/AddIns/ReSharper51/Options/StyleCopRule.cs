@@ -151,7 +151,7 @@ namespace StyleCop.ReSharper51.Options
         /// The found rules.
         /// </returns>
         /// <exception cref="ArgumentException">
-        /// RuleGroupHasNoNameAttribute.
+        /// Thrown if the rule name is missing.
         /// </exception>
         private static List<StyleCopRule> GetRuleGroupRules(XmlNode node)
         {

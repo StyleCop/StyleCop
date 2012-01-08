@@ -52,27 +52,24 @@
       <RegistrySearch Id="REG_RESHARPER51_VS100_INSTALLDIR" Type="directory" Root="HKLM" Key="SOFTWARE\JetBrains\ReSharper\v5.1\vs10.0" Name="InstallDir" />
     </Property>
 
-    <DirectoryRef Id="ProgramFilesFolder">
-      <Directory Id="RESHARPER61_VS90_INSTALLDIR" Name="[RESHARPER61_VS90_INSTALLDIR]">
-        <Directory Id="Dir_RESHARPER61_VS90_INSTALLDIR_Plugins" Name="Plugins">
-          <Directory Id="Dir_RESHARPER61_VS90_INSTALLDIR_Plugins_Drop" Name="$(var.ProductNameShort)" FileSource="$(var.DropDir)">
-            <Component Id="COM_RESHARPER61_VS90" Guid="BD280C22-5570-45BF-B5DF-480A0C195457">
-              <File Id="FILE_RESHARPER61_VS90" Name="StyleCop.ReSharper61.dll" Checksum="yes" Vital="yes" />
-              <Condition>RESHARPER61_VS90_VERSION</Condition>
-            </Component>
+    <DirectoryRef Id="ProgramFilesFolder">   
+      <Directory Id="AppDataFolder" Name="AppDataFolder">
+        <Directory Id="Dir_RESHARPER61_VS110_INSTALLDIR_JetBrains" Name="JetBrains">
+          <Directory Id="Dir_RESHARPER61_VS110_INSTALLDIR_ReSharper" Name="ReSharper">
+            <Directory Id="Dir_RESHARPER61_VS110_INSTALLDIR_v" Name="v6.1">
+              <Directory Id="Dir_RESHARPER61_VS110_INSTALLDIR_Plugins" Name="Plugins">
+                <Directory Id="Dir_RESHARPER61_VS110_INSTALLDIR_Plugins_Drop" Name="$(var.ProductNameShort)" FileSource="$(var.DropDir)">
+                  <Component Id="COM_RESHARPER61" Guid="A8D77B23-6B67-4640-8151-2CF482EFBC9C">
+                    <File Id="FILE_RESHARPER61_VS110" Name="StyleCop.ReSharper61.dll" Checksum="yes" Vital="yes" />
+                      <!--<Condition>VS2011DEVENV</Condition>-->
+                  </Component>
+                </Directory>
+              </Directory>
+            </Directory>
           </Directory>
         </Directory>
       </Directory>
-      <Directory Id="RESHARPER61_VS100_INSTALLDIR" Name="[RESHARPER61_VS100_INSTALLDIR]">
-        <Directory Id="Dir_RESHARPER61_VS100_INSTALLDIR_Plugins" Name="Plugins">
-          <Directory Id="Dir_RESHARPER61_VS100_INSTALLDIR_Plugins_Drop" Name="$(var.ProductNameShort)" FileSource="$(var.DropDir)">
-            <Component Id="COM_RESHARPER61_VS100" Guid="D699ADA4-13C4-46D4-8992-0BF7B19B2B66">
-              <File Id="FILE_RESHARPER61_VS100" Name="StyleCop.ReSharper61.dll" Checksum="yes" Vital="yes" />
-              <Condition>RESHARPER61_VS100_VERSION</Condition>
-            </Component>
-          </Directory>
-        </Directory>
-      </Directory>
+
       <Directory Id="RESHARPER60_VS90_INSTALLDIR" Name="[RESHARPER60_VS90_INSTALLDIR]">
         <Directory Id="Dir_RESHARPER60_VS90_INSTALLDIR_Plugins" Name="Plugins">
           <Directory Id="Dir_RESHARPER60_VS90_INSTALLDIR_Plugins_Drop" Name="$(var.ProductNameShort)" FileSource="$(var.DropDir)">
@@ -146,8 +143,8 @@
       </Directory>
     </DirectoryRef>
 
-    <DirectoryRef Id="ProgramFilesFolder">
-      <Directory Id="AppDataFolder" Name="AppDataFolder">
+    <!--<DirectoryRef Id="ProgramFilesFolder">-->
+      <DirectoryRef Id="AppDataFolder">
         <Directory Id="JetBrains_1" Name="JetBrains">
           <Directory Id="ReSharper_1" Name="ReSharper">
             <Directory Id="v6.0_1" Name="v6.0">
@@ -186,12 +183,11 @@
             </Directory>
           </Directory>
         </Directory>
-      </Directory>
+      <!--</Directory>-->
     </DirectoryRef>
 
     <ComponentGroup Id="ReSharper_Common" >
-      <ComponentRef Id="COM_RESHARPER61_VS90" />
-      <ComponentRef Id="COM_RESHARPER61_VS100" />
+      <ComponentRef Id="COM_RESHARPER61" />
       <ComponentRef Id="COM_RESHARPER60_VS90" />
       <ComponentRef Id="COM_RESHARPER60_VS100" />
       <ComponentRef Id="COM_RESHARPER51_VS90" />

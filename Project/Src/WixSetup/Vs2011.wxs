@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?include AssemblyVersion.wxi ?>
-<?define VsVersion = "9.0" ?>
+<?define VsVersion = "11.0" ?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <Fragment>
     <DirectoryRef Id='TARGETDIR'>
-      <Component Id="VisualStudio2008Component" Guid="BD5DFD65-4E12-4117-8CA7-41A229B97A5B">
-        
+      <Component Id="VisualStudio2011Component" Guid="2C95FF94-FC8D-4153-A625-C52E64EC9620">
+
         <!-- Installed products -->
         <RegistryKey Action='createAndRemoveOnUninstall' Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\InstalledProducts\StyleCop' Id='InstalledProducts_$(var.VsVersion)_001' />
         <RegistryValue Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\InstalledProducts\StyleCop' Type='string' Value='#110' Id='InstalledProducts_$(var.VsVersion)_002' />
@@ -23,7 +23,7 @@
         <RegistryValue Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\AutoLoadPackages\{f1536ef8-92ec-443c-9ed7-fdadf150da82}' Type='integer' Name='{629EB7CC-69C2-43AC-9BC9-482B0F810C4E}' Value='0' Id='AutoLoadPackages_$(var.VsVersion)_002' />
         <RegistryKey Action='create' Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\AutoLoadPackages\{ADFC4E64-0397-11D1-9F4E-00A0C911004F}' Id='AutoLoadPackages_$(var.VsVersion)_003' />
         <RegistryValue Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\AutoLoadPackages\{ADFC4E64-0397-11D1-9F4E-00A0C911004F}' Type='integer' Name='{629EB7CC-69C2-43AC-9BC9-482B0F810C4E}' Value='0' Id='AutoLoadPackages_$(var.VsVersion)_004' />
-        
+
         <!-- Package -->
         <RegistryKey Action='createAndRemoveOnUninstall' Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\Packages\{629EB7CC-69C2-43AC-9BC9-482B0F810C4E}' Id='Package_$(var.VsVersion)' />
         <RegistryValue Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\Packages\{629EB7CC-69C2-43AC-9BC9-482B0F810C4E}' Type='integer' Name='ID' Value='200' Id='Package_$(var.VsVersion)_001' />
@@ -38,13 +38,17 @@
         <RegistryValue Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\Packages\{629EB7CC-69C2-43AC-9BC9-482B0F810C4E}' Type='string' Name='CodeBase' Value='[INSTALLDIR]StyleCop.VSPackage.dll' Id='Package_$(var.VsVersion)_009' />
 
         <!-- Only install this component if the right VS version is installed -->
-        <Condition>VS90DEVENV</Condition>
+        <Condition>VS2011DEVENV</Condition>
 
       </Component>
     </DirectoryRef>
 
-    <CustomAction Id="StyleCopVS90Setup" Property="VS90DEVENV" ExeCommand="/setup /InstallVSTemplates" Execute="deferred" Return="ignore" Impersonate="no" />
-    <PropertyRef Id="VS90DEVENV" />
+    <CustomAction Id="StyleCopVS11Setup" Property="VS2011DEVENV" ExeCommand="/setup /InstallVSTemplates" Execute="deferred" Return="ignore" Impersonate="no" />
+    <!--<PropertyRef Id="VS2011DEVENV" />-->
+
+    <Property Id="VS2011DEVENV" Admin="yes" Secure="yes">
+      <RegistrySearch Id="VS2011DevEnvSearch" Root="HKLM" Key="SOFTWARE\Microsoft\VisualStudio\$(var.VsVersion)\Setup\VS" Name="EnvironmentPath" Type="raw" />
+    </Property>  
 
   </Fragment>
 </Wix>

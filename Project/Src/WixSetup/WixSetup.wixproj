@@ -35,8 +35,7 @@
     <SuppressDroppingUnrealTables>False</SuppressDroppingUnrealTables>
     <SuppressFileHashAndInfo>False</SuppressFileHashAndInfo>
     <SuppressFiles>False</SuppressFiles>
-    <SuppressIces>ICE38;ICE64
-    </SuppressIces>
+    <SuppressIces>ICE38;ICE64;ICE91</SuppressIces>
     <LinkerSuppressIntermediateFileVersionMatching>False</LinkerSuppressIntermediateFileVersionMatching>
     <SuppressLayout>False</SuppressLayout>
     <SuppressMsiAssemblyTableProcessing>False</SuppressMsiAssemblyTableProcessing>
@@ -81,8 +80,7 @@
     <SuppressDroppingUnrealTables>False</SuppressDroppingUnrealTables>
     <SuppressFileHashAndInfo>False</SuppressFileHashAndInfo>
     <SuppressFiles>False</SuppressFiles>
-    <SuppressIces>ICE38;ICE64
-    </SuppressIces>
+    <SuppressIces>ICE38;ICE64;ICE91</SuppressIces>
     <LinkerSuppressIntermediateFileVersionMatching>False</LinkerSuppressIntermediateFileVersionMatching>
     <SuppressLayout>False</SuppressLayout>
     <SuppressMsiAssemblyTableProcessing>False</SuppressMsiAssemblyTableProcessing>
@@ -108,6 +106,7 @@
     <SuppressAllWarnings>False</SuppressAllWarnings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Vs2011.wxs" />
     <Compile Include="MSBuild.wxs" />
     <Compile Include="Product.wxs" />
     <Compile Include="ReSharper.wxs" />
