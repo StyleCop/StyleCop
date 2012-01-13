@@ -261,7 +261,7 @@ namespace StyleCop.VisualStudio
 
                 if (alwaysCheckForUpdatesWhenVisualStudioStarts || DateTime.UtcNow > lastUpdateCheckDate.AddDays(daysBetweenUpdateChecks))
                 {
-                    new StyleCop.AutoUpdater(this.Core).CheckForUpdate();
+                    new AutoUpdater(this.Core).CheckForUpdate();
                     SetLastUpdateCheckDate(DateTime.UtcNow);
                 }
             }

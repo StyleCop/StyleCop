@@ -20,10 +20,10 @@ namespace StyleCop.CSharp
     using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.IO;
+    using System.Linq;
     using System.Security;
     using System.Text;
     using System.Text.RegularExpressions;
-    using System.Threading;
     using System.Xml;
     using System.Xml.XPath;
     using StyleCop;
@@ -195,7 +195,7 @@ namespace StyleCop.CSharp
         }
 
         #endregion Public Override Methods
-
+        
         #region Private Static Methods
 
         /// <summary>
@@ -2319,6 +2319,8 @@ namespace StyleCop.CSharp
             if (copyrightProperty != null)
             {
                 copyright = copyrightProperty.Value;
+                var fileInfo = new FileInfo(document.SourceCode.Path);
+                copyright = StyleCop.Utils.ReplaceTokenVariables(copyright, fileInfo);
             }
 
             this.CheckFileHeader(document, copyright, companyName);

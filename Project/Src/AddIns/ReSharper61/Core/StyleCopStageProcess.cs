@@ -25,8 +25,10 @@ namespace StyleCop.ReSharper61.Core
     using System.Diagnostics;
     using System.Linq;
 
+    using JetBrains.Application.Progress;
     using JetBrains.Application.Settings;
     using JetBrains.ReSharper.Daemon;
+    using JetBrains.ReSharper.Daemon.Stages;
     using JetBrains.ReSharper.Psi;
     using JetBrains.ReSharper.Psi.CSharp;
     using JetBrains.ReSharper.Psi.Tree;
@@ -51,8 +53,21 @@ namespace StyleCop.ReSharper61.Core
         /// Defines the max performance value - this is used to reverse the settings.
         /// </summary>
         private const int MaxPerformanceValue = 9;
+        
+        /// <summary>
+        /// Allows us to run the StyleCop analysers.
+        /// </summary>
+        private static readonly StyleCopRunnerInt styleCopRunnerInternal = new StyleCopRunnerInt();
 
+        /// <summary>
+        /// The process we were started with.
+        /// </summary>
         private readonly IDaemonProcess daemonProcess;
+
+        /// <summary>
+        /// THe settings store we were construcuted with.
+        /// </summary>
+        private readonly IContextBoundSettingsStore settingsStore;
         
         /// <summary>
         /// Used to reduce the number of calls to StyleCop to help with performance.
@@ -63,11 +78,6 @@ namespace StyleCop.ReSharper61.Core
         /// Gets set to true after our first run.
         /// </summary>
         private static bool runOnce = false;
-
-        /// <summary>
-        /// Allows us to run the StyleCop analysers.
-        /// </summary>
-        private static StyleCopRunnerInt styleCopRunnerInternal = new StyleCopRunnerInt();
 
         #endregion
         
@@ -80,11 +90,15 @@ namespace StyleCop.ReSharper61.Core
         /// <param name="daemonProcess">
         /// <see cref="IDaemonProcess"/>to execute within.
         /// </param>
-        public StyleCopStageProcess(IDaemonProcess daemonProcess)
+        /// <param name="settingsStore">
+        /// Our settings.
+        /// </param>
+        public StyleCopStageProcess(IDaemonProcess daemonProcess, IContextBoundSettingsStore settingsStore)
         {
             StyleCopTrace.In(daemonProcess);
             
             this.daemonProcess = daemonProcess;
+            this.settingsStore = settingsStore;
             
             InitialiseTimers();
 
@@ -130,8 +144,7 @@ namespace StyleCop.ReSharper61.Core
 
             // inverse the performance value - to ensure that "more resources" actually evaluates to a lower number
             // whereas "less resources" actually evaluates to a higher number. If Performance is set to max, then execute as normal.
-            var settingsStore = this.daemonProcess.SourceFile.GetSettingsStore();
-            int parsingPerformance = settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.ParsingPerformance);
+             int parsingPerformance = this.settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.ParsingPerformance);
 
             var alwaysExecute = parsingPerformance == StyleCopStageProcess.MaxPerformanceValue;
 
@@ -149,11 +162,6 @@ namespace StyleCop.ReSharper61.Core
                 return;
             }
             
-            if (!this.FileIsValid())
-            {
-                return;
-            }
-
             runOnce = true;
 
             styleCopRunnerInternal.Execute(this.daemonProcess.SourceFile.ToProjectFile(), this.daemonProcess.Document);
@@ -194,28 +202,7 @@ namespace StyleCop.ReSharper61.Core
             performanceStopWatch.Reset();
             performanceStopWatch.Start();
         }
-
-        private bool FileIsValid()
-        {
-            var manager = PsiManager.GetInstance(this.daemonProcess.Solution);
-
-            if (!this.daemonProcess.SourceFile.ToProjectFile().IsValid())
-            {
-                return false;
-            }
-
-            var file = this.daemonProcess.SourceFile.GetPsiFile(CSharpLanguage.Instance);
-
-            if (file == null)
-            {
-                return false;
-            }
-
-            var hasErrorElements = new RecursiveElementCollector<IErrorElement>(null).ProcessElement(file).GetResults().Any();
-
-            return !hasErrorElements;
-        }
-
+        
         #endregion
     }
 }

@@ -108,6 +108,7 @@
     <Compile Include="Extensions\ParameterInfoExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
+    <Compile Include="NativeMethods.cs" />
     <Compile Include="Settings\IPropertyControlHost.cs" />
     <Compile Include="Settings\PropertyControlSaveResult.cs" />
     <Compile Include="Settings\PropertyDialog.cs">
@@ -224,6 +225,7 @@
     <Compile Include="StyleCopThreadCompletedEventArgs.cs" />
     <Compile Include="StyleCopTask.cs" />
     <Compile Include="Collections\MasterList{T}.cs" />
+    <Compile Include="Utils.cs" />
     <Compile Include="Violation.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -23,10 +23,15 @@ namespace StyleCop.ReSharper61.Core
     #region Using Directives
 
     using System;
+    using System.Linq;
 
     using JetBrains.Application.Settings;
     using JetBrains.ReSharper.Daemon;
+    using JetBrains.ReSharper.Daemon.CSharp.Stages;
     using JetBrains.ReSharper.Psi;
+    using JetBrains.ReSharper.Psi.CSharp;
+    using JetBrains.ReSharper.Psi.CSharp.Tree;
+    using JetBrains.ReSharper.Psi.Tree;
 
     using StyleCop.Diagnostics;
 
@@ -37,7 +42,7 @@ namespace StyleCop.ReSharper61.Core
     /// because it's marked with the <see cref="DaemonStageAttribute"/> attribute.
     /// </summary>
     [DaemonStage]
-    public class StyleCopStage : IDaemonStage
+    public class StyleCopStage : CSharpDaemonStageBase  
     {
         #region Properties
 
@@ -88,8 +93,8 @@ namespace StyleCop.ReSharper61.Core
         /// <param name="process">
         /// Current Daemon Process.
         /// </param>
-        /// <param name="settings">
-        /// The settings store to use.
+        /// <param name="settingsStore">
+        /// The settingsStore store to use.
         /// </param>
         /// <param name="processKind">
         /// The process kind.
@@ -97,9 +102,9 @@ namespace StyleCop.ReSharper61.Core
         /// <returns>
         /// Current <see cref="IDaemonStageProcess"/>.
         /// </returns>
-        public IDaemonStageProcess CreateProcess(IDaemonProcess process, IContextBoundSettingsStore settings, DaemonProcessKind processKind)
+        public override IDaemonStageProcess CreateProcess(IDaemonProcess process, IContextBoundSettingsStore settingsStore, DaemonProcessKind processKind)
         {
-            StyleCopTrace.In(process, processKind);
+            StyleCopTrace.In(process, settingsStore, processKind);
             
             if (process == null)
             {
@@ -112,12 +117,16 @@ namespace StyleCop.ReSharper61.Core
 
                 return null;
             }
+            
+            if (!this.IsSupported(process.SourceFile) || !this.FileIsValid(process.SourceFile))
+            {
+                StyleCopTrace.Out();
+                return null;
+            }
 
-            GC.Collect();
-
-            return StyleCopTrace.Out(new StyleCopStageProcess(process));
+            return StyleCopTrace.Out(new StyleCopStageProcess(process, settingsStore));
         }
-        
+
         /// <summary>
         /// We want to add markers to the right-side stripe as well as contribute to document errors.
         /// </summary>
@@ -133,6 +142,30 @@ namespace StyleCop.ReSharper61.Core
         public ErrorStripeRequest NeedsErrorStripe(IPsiSourceFile sourceFile, IContextBoundSettingsStore settingsStore)
         {
             return ErrorStripeRequest.STRIPE_AND_ERRORS;
+        }
+
+        /// <summary>
+        /// Checks the given file is valid to check.
+        /// </summary>
+        /// <param name="sourceFile">THe file to check.</param>
+        /// <returns>True if its valid.</returns>
+        private bool FileIsValid(IPsiSourceFile sourceFile)
+        {
+            if (sourceFile == null)
+            {
+                return false;
+            }
+
+            var file = GetPsiFile(sourceFile);
+
+            if (file == null)
+            {
+                return false;
+            }
+
+            var hasErrorElements = new RecursiveElementCollector<IErrorElement>(null).ProcessElement(file).GetResults().Any();
+
+            return !hasErrorElements;
         }
     }
 }

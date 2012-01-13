@@ -88,6 +88,9 @@
       <HintPath>ReferencedAssemblies\JetBrains.Platform.ReSharper.Metadata.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="JetBrains.ReSharper.Daemon.CSharp">
+      <HintPath>ReferencedAssemblies\JetBrains.ReSharper.Daemon.CSharp.dll</HintPath>
+    </Reference>
     <Reference Include="JetBrains.ReSharper.Features.Environment">
       <HintPath>ReferencedAssemblies\JetBrains.ReSharper.Features.Environment.dll</HintPath>
       <Private>False</Private>

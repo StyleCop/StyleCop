@@ -96,18 +96,13 @@ namespace StyleCop
         /// </returns>
         private bool PromptUserForDownload(string currentVersionNumber, string newVersionNumber, string messageText)
         {
-            if (!string.IsNullOrEmpty(messageText))
+            if (string.IsNullOrEmpty(messageText))
             {
-                // display custom message about new version available
-                AlertDialog.Show(
-                    this.core,
-                    null,
-                    messageText,
-                    Strings.Title,
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
-
-                return false;
+                messageText = string.Empty;
+            }
+            else
+            {
+                messageText += "." + Environment.NewLine;
             }
 
             if (this.core.DisplayUI)
@@ -116,7 +111,7 @@ namespace StyleCop
                 DialogResult result = AlertDialog.Show(
                     this.core,
                     null,
-                    string.Format(Strings.AutoUpdateQuestion, newVersionNumber, currentVersionNumber),
+                    string.Format(Strings.AutoUpdateQuestion, messageText, newVersionNumber, currentVersionNumber),
                     Strings.Title,
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question);
@@ -128,7 +123,7 @@ namespace StyleCop
             AlertDialog.Show(
                 this.core,
                 null,
-                string.Format(Strings.AutoUpdateInformation, newVersionNumber, currentVersionNumber),
+                string.Format(Strings.AutoUpdateInformation, messageText, newVersionNumber, currentVersionNumber),
                 Strings.Title,
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information);
