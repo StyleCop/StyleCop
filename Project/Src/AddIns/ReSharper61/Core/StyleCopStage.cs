@@ -34,6 +34,7 @@ namespace StyleCop.ReSharper61.Core
     using JetBrains.ReSharper.Psi.Tree;
 
     using StyleCop.Diagnostics;
+    using StyleCop.ReSharper61.Options;
 
     #endregion
 
@@ -113,13 +114,28 @@ namespace StyleCop.ReSharper61.Core
 
             if (processKind == DaemonProcessKind.OTHER)
             {
+                StyleCopTrace.Info("ProcessKind Other.");
                 StyleCopTrace.Out();
+                return null;
+            }
 
+            if (!settingsStore.GetValue<StyleCopOptionsSettingsKey, bool>(key => key.AnalysisEnabled))
+            {
+                StyleCopTrace.Info("Analysis disabled.");
+                StyleCopTrace.Out();
                 return null;
             }
             
-            if (!this.IsSupported(process.SourceFile) || !this.FileIsValid(process.SourceFile))
+            if (!this.IsSupported(process.SourceFile))
             {
+                StyleCopTrace.Info("File type not supported.");
+                StyleCopTrace.Out();
+                return null;
+            }
+
+            if (!this.FileIsValid(process.SourceFile))
+            {
+                StyleCopTrace.Info("Source file not valid.");
                 StyleCopTrace.Out();
                 return null;
             }

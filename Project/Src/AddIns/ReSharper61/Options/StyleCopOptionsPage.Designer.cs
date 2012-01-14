@@ -91,6 +91,7 @@ namespace StyleCop.ReSharper61.Options
             this.label7 = new System.Windows.Forms.Label();
             this.panel6 = new System.Windows.Forms.Panel();
             this.label9 = new System.Windows.Forms.Label();
+            this.enableAnalysisCheckBox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.performanceTrackBar)).BeginInit();
             this.flowLayoutPanel1.SuspendLayout();
             this.warningPanel.SuspendLayout();
@@ -148,7 +149,7 @@ namespace StyleCop.ReSharper61.Options
             // 
             // performanceTrackBar
             // 
-            this.performanceTrackBar.Location = new System.Drawing.Point(62, 23);
+            this.performanceTrackBar.Location = new System.Drawing.Point(62, 46);
             this.performanceTrackBar.Maximum = 9;
             this.performanceTrackBar.Name = "performanceTrackBar";
             this.performanceTrackBar.Size = new System.Drawing.Size(147, 45);
@@ -158,7 +159,7 @@ namespace StyleCop.ReSharper61.Options
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(-2, 22);
+            this.label2.Location = new System.Drawing.Point(0, 46);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(59, 39);
             this.label2.TabIndex = 5;
@@ -167,7 +168,7 @@ namespace StyleCop.ReSharper61.Options
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(215, 22);
+            this.label3.Location = new System.Drawing.Point(215, 46);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(61, 39);
             this.label3.TabIndex = 6;
@@ -346,12 +347,12 @@ namespace StyleCop.ReSharper61.Options
             this.flowLayoutPanel1.Controls.Add(this.panel3);
             this.flowLayoutPanel1.Controls.Add(this.panel4);
             this.flowLayoutPanel1.Controls.Add(this.panel1);
-            this.flowLayoutPanel1.Controls.Add(this.panel5);
             this.flowLayoutPanel1.Controls.Add(this.panel6);
+            this.flowLayoutPanel1.Controls.Add(this.panel5);
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(10, 3);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(365, 575);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(365, 598);
             this.flowLayoutPanel1.TabIndex = 26;
             // 
             // warningPanel
@@ -461,7 +462,7 @@ namespace StyleCop.ReSharper61.Options
             this.panel5.Controls.Add(this.justificationTextBox);
             this.panel5.Controls.Add(this.justificationLlabel);
             this.panel5.Controls.Add(this.useExcludeFromStyleCopCheckBox);
-            this.panel5.Location = new System.Drawing.Point(3, 407);
+            this.panel5.Location = new System.Drawing.Point(3, 507);
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(282, 88);
             this.panel5.TabIndex = 34;
@@ -479,13 +480,14 @@ namespace StyleCop.ReSharper61.Options
             // panel6
             // 
             this.panel6.AutoSize = true;
+            this.panel6.Controls.Add(this.enableAnalysisCheckBox);
             this.panel6.Controls.Add(this.label2);
             this.panel6.Controls.Add(this.label3);
             this.panel6.Controls.Add(this.label9);
             this.panel6.Controls.Add(this.performanceTrackBar);
-            this.panel6.Location = new System.Drawing.Point(3, 501);
+            this.panel6.Location = new System.Drawing.Point(3, 407);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(279, 71);
+            this.panel6.Size = new System.Drawing.Size(279, 94);
             this.panel6.TabIndex = 36;
             // 
             // label9
@@ -498,13 +500,25 @@ namespace StyleCop.ReSharper61.Options
             this.label9.TabIndex = 30;
             this.label9.Text = "Analysis Performance";
             // 
+            // enableAnalysisCheckBox
+            // 
+            this.enableAnalysisCheckBox.AutoSize = true;
+            this.enableAnalysisCheckBox.Checked = true;
+            this.enableAnalysisCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.enableAnalysisCheckBox.Location = new System.Drawing.Point(0, 23);
+            this.enableAnalysisCheckBox.Name = "enableAnalysisCheckBox";
+            this.enableAnalysisCheckBox.Size = new System.Drawing.Size(156, 17);
+            this.enableAnalysisCheckBox.TabIndex = 31;
+            this.enableAnalysisCheckBox.Text = "Run StyleCop as you type";
+            this.enableAnalysisCheckBox.UseVisualStyleBackColor = true;
+            // 
             // StyleCopOptionsPage
             // 
             this.AutoSize = true;
             this.Controls.Add(this.flowLayoutPanel1);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "StyleCopOptionsPage";
-            this.Size = new System.Drawing.Size(378, 581);
+            this.Size = new System.Drawing.Size(378, 604);
             ((System.ComponentModel.ISupportInitialize)(this.performanceTrackBar)).EndInit();
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
@@ -566,5 +580,6 @@ namespace StyleCop.ReSharper61.Options
         private Label label8;
         private Panel panel6;
         private Label label9;
+        private CheckBox enableAnalysisCheckBox;
     }
 }

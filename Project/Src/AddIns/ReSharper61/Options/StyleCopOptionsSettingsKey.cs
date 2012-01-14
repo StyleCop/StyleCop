@@ -151,6 +151,12 @@ namespace StyleCop.ReSharper61.Options
         /// </value>
         [SettingsEntry(7, "Parsing Performance")]
         public int ParsingPerformance { get; set; }
+
+        /// <summary>
+        /// If True the analysis executes as you type.
+        /// </summary>
+        [SettingsEntry(true, "Analysis Enabled")]
+        public bool AnalysisEnabled { get; set; }
         
         /// <summary>
         /// Gets or sets the Specified Assembly Path.
