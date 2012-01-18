@@ -318,39 +318,41 @@ namespace StyleCop.ReSharper61.Options
             {
                 var policy = settingsStore.GetIndexedValue<CSharpNamingSettings, NamedElementKinds, NamingPolicy>(key => key.PredefinedNamingRules, kindOfElement);
 
-                if (policy != null)
+                if (policy == null)
                 {
-                    NamingRule rule = policy.NamingRule;
-
-                    rule.Suffix = string.Empty;
-
-                    switch (kindOfElement)
-                    {
-                        case NamedElementKinds.Locals:
-                        case NamedElementKinds.Parameters:
-                        case NamedElementKinds.PrivateInstanceFields:
-                        case NamedElementKinds.PrivateStaticFields:
-                            rule.Prefix = string.Empty;
-                            rule.NamingStyleKind = NamingStyleKinds.aaBb;
-                            break;
-                        case NamedElementKinds.Interfaces:
-                            rule.Prefix = "I";
-                            rule.NamingStyleKind = NamingStyleKinds.AaBb;
-                            break;
-                        case NamedElementKinds.TypeParameters:
-                            rule.Prefix = "T";
-                            rule.NamingStyleKind = NamingStyleKinds.AaBb;
-                            break;
-                        default:
-                            rule.Prefix = string.Empty;
-                            rule.NamingStyleKind = NamingStyleKinds.AaBb;
-                            break;
-                    }
-
-                    settingsStore.SetIndexedValue<CSharpNamingSettings, NamedElementKinds, NamingPolicy>(key => key.PredefinedNamingRules, kindOfElement, policy);
+                    policy = ClrPolicyProviderBase.GetDefaultPolicy(kindOfElement);
                 }
+
+                NamingRule rule = policy.NamingRule;
+
+                rule.Suffix = string.Empty;
+
+                switch (kindOfElement)
+                {
+                    case NamedElementKinds.Locals:
+                    case NamedElementKinds.Parameters:
+                    case NamedElementKinds.PrivateInstanceFields:
+                    case NamedElementKinds.PrivateStaticFields:
+                        rule.Prefix = string.Empty;
+                        rule.NamingStyleKind = NamingStyleKinds.aaBb;
+                        break;
+                    case NamedElementKinds.Interfaces:
+                        rule.Prefix = "I";
+                        rule.NamingStyleKind = NamingStyleKinds.AaBb;
+                        break;
+                    case NamedElementKinds.TypeParameters:
+                        rule.Prefix = "T";
+                        rule.NamingStyleKind = NamingStyleKinds.AaBb;
+                        break;
+                    default:
+                        rule.Prefix = string.Empty;
+                        rule.NamingStyleKind = NamingStyleKinds.AaBb;
+                        break;
+                }
+
+                settingsStore.SetIndexedValue<CSharpNamingSettings, NamedElementKinds, NamingPolicy>(key => key.PredefinedNamingRules, kindOfElement, policy);
             }
-            
+
             settingsStore.SetValue(CSharpUsingSettingsAccessor.AddImportsToDeepestScope, true);
             settingsStore.SetValue(CSharpUsingSettingsAccessor.QualifiedUsingAtNestedScope, true);
             settingsStore.SetValue(CSharpUsingSettingsAccessor.AllowAlias, true);
@@ -1408,55 +1410,55 @@ namespace StyleCop.ReSharper61.Options
 
             foreach (NamedElementKinds kindOfElement in Enum.GetValues(typeof(NamedElementKinds)))
             {
-                NamingPolicy policy =
-                    settingsStore.GetIndexedValue<CSharpNamingSettings, NamedElementKinds, NamingPolicy>(
-                        key => key.PredefinedNamingRules, kindOfElement, null);
+                var policy = settingsStore.GetIndexedValue<CSharpNamingSettings, NamedElementKinds, NamingPolicy>(key => key.PredefinedNamingRules, kindOfElement);
 
-                if (policy != null)
+                if (policy == null)
                 {
-                    NamingRule rule = policy.NamingRule;
-                    if (rule.Suffix != string.Empty)
-                    {
-                        return false;
-                    }
+                    policy = ClrPolicyProviderBase.GetDefaultPolicy(kindOfElement);
+                }
+                
+                NamingRule rule = policy.NamingRule;
+                if (rule.Suffix != string.Empty)
+                {
+                    return false;
+                }
 
-                    switch (kindOfElement)
-                    {
-                        case NamedElementKinds.Locals:
-                        case NamedElementKinds.Parameters:
-                        case NamedElementKinds.PrivateInstanceFields:
-                        case NamedElementKinds.PrivateStaticFields:
-                            if (rule.Prefix != string.Empty || rule.NamingStyleKind != NamingStyleKinds.aaBb)
-                            {
-                                return false;
-                            }
+                switch (kindOfElement)
+                {
+                    case NamedElementKinds.Locals:
+                    case NamedElementKinds.Parameters:
+                    case NamedElementKinds.PrivateInstanceFields:
+                    case NamedElementKinds.PrivateStaticFields:
+                        if (rule.Prefix != string.Empty || rule.NamingStyleKind != NamingStyleKinds.aaBb)
+                        {
+                            return false;
+                        }
 
-                            break;
+                        break;
 
-                        case NamedElementKinds.Interfaces:
-                            if (rule.Prefix != "I" || rule.NamingStyleKind != NamingStyleKinds.AaBb)
-                            {
-                                return false;
-                            }
+                    case NamedElementKinds.Interfaces:
+                        if (rule.Prefix != "I" || rule.NamingStyleKind != NamingStyleKinds.AaBb)
+                        {
+                            return false;
+                        }
 
-                            break;
+                        break;
 
-                        case NamedElementKinds.TypeParameters:
-                            if (rule.Prefix != "T" || rule.NamingStyleKind != NamingStyleKinds.AaBb)
-                            {
-                                return false;
-                            }
+                    case NamedElementKinds.TypeParameters:
+                        if (rule.Prefix != "T" || rule.NamingStyleKind != NamingStyleKinds.AaBb)
+                        {
+                            return false;
+                        }
 
-                            break;
+                        break;
 
-                        default:
-                            if (rule.Prefix != string.Empty || rule.NamingStyleKind != NamingStyleKinds.AaBb)
-                            {
-                                return false;
-                            }
+                    default:
+                        if (rule.Prefix != string.Empty || rule.NamingStyleKind != NamingStyleKinds.AaBb)
+                        {
+                            return false;
+                        }
 
-                            break;
-                    }
+                        break;
                 }
             }
 
