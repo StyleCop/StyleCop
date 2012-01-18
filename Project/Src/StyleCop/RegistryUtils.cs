@@ -40,7 +40,7 @@ namespace StyleCop
         /// The key to place all data for this application under.
         /// </summary>
         [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields", Justification = "False positive")]
-        private const string ApplicationAcronym = "StyleCop";
+        private const string ApplicationAcronym = @"CodePlex\StyleCop";
 
         #endregion Private Constants
 
@@ -64,10 +64,10 @@ namespace StyleCop
             Permissions.Demand();
 
             string path = @"Software\" + ApplicationAcronym;
-            this.curoot = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(path, true);
+            this.curoot = Registry.CurrentUser.OpenSubKey(path, true);
             if (null == this.curoot)
             {
-                this.curoot = Microsoft.Win32.Registry.CurrentUser.CreateSubKey(path);
+                this.curoot = Registry.CurrentUser.CreateSubKey(path);
             }
         }
 
@@ -646,7 +646,7 @@ namespace StyleCop
         }
 
         #endregion Private Static Methods
-
+        
         #region Private Structs
 
         #region Struct PathInfo

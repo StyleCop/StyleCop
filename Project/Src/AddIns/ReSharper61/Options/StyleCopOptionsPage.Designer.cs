@@ -63,11 +63,6 @@ namespace StyleCop.ReSharper61.Options
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.insertTextCheckBox = new System.Windows.Forms.CheckBox();
-            this.autoUpdateCheckBox = new System.Windows.Forms.CheckBox();
-            this.daysLabel = new System.Windows.Forms.Label();
-            this.everyTimeRadioButton = new System.Windows.Forms.RadioButton();
-            this.frequencyCheckRadioButton = new System.Windows.Forms.RadioButton();
-            this.daysMaskedTextBox = new System.Windows.Forms.MaskedTextBox();
             this.numberOfDashesLabel = new System.Windows.Forms.Label();
             this.dashesCountMaskedTextBox = new System.Windows.Forms.MaskedTextBox();
             this.useSingleLineForDeclarationCommentsCheckBox = new System.Windows.Forms.CheckBox();
@@ -80,27 +75,24 @@ namespace StyleCop.ReSharper61.Options
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.warningPanel = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.label5 = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
             this.label6 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label8 = new System.Windows.Forms.Label();
+            this.panel6 = new System.Windows.Forms.Panel();
+            this.enableAnalysisCheckBox = new System.Windows.Forms.CheckBox();
+            this.label9 = new System.Windows.Forms.Label();
             this.panel5 = new System.Windows.Forms.Panel();
             this.label7 = new System.Windows.Forms.Label();
-            this.panel6 = new System.Windows.Forms.Panel();
-            this.label9 = new System.Windows.Forms.Label();
-            this.enableAnalysisCheckBox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.performanceTrackBar)).BeginInit();
             this.flowLayoutPanel1.SuspendLayout();
             this.warningPanel.SuspendLayout();
-            this.panel3.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
-            this.panel5.SuspendLayout();
             this.panel6.SuspendLayout();
+            this.panel5.SuspendLayout();
             this.SuspendLayout();
             // 
             // autoDetectCheckBox
@@ -185,70 +177,6 @@ namespace StyleCop.ReSharper61.Options
             this.insertTextCheckBox.TabIndex = 8;
             this.insertTextCheckBox.Text = "Insert text into documentation and file headers";
             this.insertTextCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // autoUpdateCheckBox
-            // 
-            this.autoUpdateCheckBox.AutoSize = true;
-            this.autoUpdateCheckBox.Checked = true;
-            this.autoUpdateCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.autoUpdateCheckBox.Location = new System.Drawing.Point(0, 23);
-            this.autoUpdateCheckBox.Name = "autoUpdateCheckBox";
-            this.autoUpdateCheckBox.Size = new System.Drawing.Size(190, 17);
-            this.autoUpdateCheckBox.TabIndex = 4;
-            this.autoUpdateCheckBox.Text = "Automatically check for updates";
-            this.autoUpdateCheckBox.UseVisualStyleBackColor = true;
-            this.autoUpdateCheckBox.CheckedChanged += new System.EventHandler(this.AutoUpdateCheckBox_CheckedChanged);
-            // 
-            // daysLabel
-            // 
-            this.daysLabel.AutoSize = true;
-            this.daysLabel.Location = new System.Drawing.Point(184, 71);
-            this.daysLabel.Name = "daysLabel";
-            this.daysLabel.Size = new System.Drawing.Size(36, 13);
-            this.daysLabel.TabIndex = 13;
-            this.daysLabel.Text = "day(s)";
-            // 
-            // everyTimeRadioButton
-            // 
-            this.everyTimeRadioButton.AutoSize = true;
-            this.everyTimeRadioButton.Checked = true;
-            this.everyTimeRadioButton.Location = new System.Drawing.Point(0, 46);
-            this.everyTimeRadioButton.Name = "everyTimeRadioButton";
-            this.everyTimeRadioButton.Size = new System.Drawing.Size(178, 17);
-            this.everyTimeRadioButton.TabIndex = 5;
-            this.everyTimeRadioButton.TabStop = true;
-            this.everyTimeRadioButton.Text = "Every time Visual Studio starts";
-            this.everyTimeRadioButton.UseVisualStyleBackColor = true;
-            this.everyTimeRadioButton.CheckedChanged += new System.EventHandler(this.EveryTimeRadioButton_CheckedChanged);
-            // 
-            // frequencyCheckRadioButton
-            // 
-            this.frequencyCheckRadioButton.AutoSize = true;
-            this.frequencyCheckRadioButton.Location = new System.Drawing.Point(0, 69);
-            this.frequencyCheckRadioButton.Name = "frequencyCheckRadioButton";
-            this.frequencyCheckRadioButton.Size = new System.Drawing.Size(148, 17);
-            this.frequencyCheckRadioButton.TabIndex = 6;
-            this.frequencyCheckRadioButton.Text = "Check for updates every";
-            this.frequencyCheckRadioButton.UseVisualStyleBackColor = true;
-            // 
-            // daysMaskedTextBox
-            // 
-            this.daysMaskedTextBox.AllowPromptAsInput = false;
-            this.daysMaskedTextBox.CausesValidation = false;
-            this.daysMaskedTextBox.CutCopyMaskFormat = System.Windows.Forms.MaskFormat.ExcludePromptAndLiterals;
-            this.daysMaskedTextBox.Location = new System.Drawing.Point(152, 67);
-            this.daysMaskedTextBox.Mask = "999";
-            this.daysMaskedTextBox.Name = "daysMaskedTextBox";
-            this.daysMaskedTextBox.PromptChar = ' ';
-            this.daysMaskedTextBox.RejectInputOnFirstFailure = true;
-            this.daysMaskedTextBox.ResetOnPrompt = false;
-            this.daysMaskedTextBox.ResetOnSpace = false;
-            this.daysMaskedTextBox.Size = new System.Drawing.Size(26, 22);
-            this.daysMaskedTextBox.TabIndex = 7;
-            this.daysMaskedTextBox.Text = "2";
-            this.daysMaskedTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.daysMaskedTextBox.TextMaskFormat = System.Windows.Forms.MaskFormat.ExcludePromptAndLiterals;
-            this.daysMaskedTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DaysMaskedTextBox_KeyDown);
             // 
             // numberOfDashesLabel
             // 
@@ -344,7 +272,6 @@ namespace StyleCop.ReSharper61.Options
             // 
             this.flowLayoutPanel1.AutoSize = true;
             this.flowLayoutPanel1.Controls.Add(this.warningPanel);
-            this.flowLayoutPanel1.Controls.Add(this.panel3);
             this.flowLayoutPanel1.Controls.Add(this.panel4);
             this.flowLayoutPanel1.Controls.Add(this.panel1);
             this.flowLayoutPanel1.Controls.Add(this.panel6);
@@ -376,30 +303,6 @@ namespace StyleCop.ReSharper61.Options
             this.label4.TabIndex = 30;
             this.label4.Text = "Warning";
             // 
-            // panel3
-            // 
-            this.panel3.AutoSize = true;
-            this.panel3.Controls.Add(this.daysLabel);
-            this.panel3.Controls.Add(this.daysMaskedTextBox);
-            this.panel3.Controls.Add(this.frequencyCheckRadioButton);
-            this.panel3.Controls.Add(this.label5);
-            this.panel3.Controls.Add(this.everyTimeRadioButton);
-            this.panel3.Controls.Add(this.autoUpdateCheckBox);
-            this.panel3.Location = new System.Drawing.Point(3, 107);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(223, 92);
-            this.panel3.TabIndex = 32;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(0, 0);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(78, 13);
-            this.label5.TabIndex = 26;
-            this.label5.Text = "Auto updates";
-            // 
             // panel4
             // 
             this.panel4.AutoSize = true;
@@ -407,7 +310,7 @@ namespace StyleCop.ReSharper61.Options
             this.panel4.Controls.Add(this.label6);
             this.panel4.Controls.Add(this.panel2);
             this.panel4.Controls.Add(this.insertTextCheckBox);
-            this.panel4.Location = new System.Drawing.Point(3, 205);
+            this.panel4.Location = new System.Drawing.Point(3, 107);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(272, 96);
             this.panel4.TabIndex = 33;
@@ -440,7 +343,7 @@ namespace StyleCop.ReSharper61.Options
             this.panel1.Controls.Add(this.StyleCopLocationTextBox);
             this.panel1.Controls.Add(this.autoDetectCheckBox);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(3, 307);
+            this.panel1.Location = new System.Drawing.Point(3, 209);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(359, 94);
             this.panel1.TabIndex = 35;
@@ -455,6 +358,41 @@ namespace StyleCop.ReSharper61.Options
             this.label8.TabIndex = 0;
             this.label8.Text = "StyleCop location";
             // 
+            // panel6
+            // 
+            this.panel6.AutoSize = true;
+            this.panel6.Controls.Add(this.enableAnalysisCheckBox);
+            this.panel6.Controls.Add(this.label2);
+            this.panel6.Controls.Add(this.label3);
+            this.panel6.Controls.Add(this.label9);
+            this.panel6.Controls.Add(this.performanceTrackBar);
+            this.panel6.Location = new System.Drawing.Point(3, 309);
+            this.panel6.Name = "panel6";
+            this.panel6.Size = new System.Drawing.Size(279, 94);
+            this.panel6.TabIndex = 36;
+            // 
+            // enableAnalysisCheckBox
+            // 
+            this.enableAnalysisCheckBox.AutoSize = true;
+            this.enableAnalysisCheckBox.Checked = true;
+            this.enableAnalysisCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.enableAnalysisCheckBox.Location = new System.Drawing.Point(0, 23);
+            this.enableAnalysisCheckBox.Name = "enableAnalysisCheckBox";
+            this.enableAnalysisCheckBox.Size = new System.Drawing.Size(156, 17);
+            this.enableAnalysisCheckBox.TabIndex = 31;
+            this.enableAnalysisCheckBox.Text = "Run StyleCop as you type";
+            this.enableAnalysisCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Location = new System.Drawing.Point(0, 0);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(119, 13);
+            this.label9.TabIndex = 30;
+            this.label9.Text = "Analysis Performance";
+            // 
             // panel5
             // 
             this.panel5.AutoSize = true;
@@ -462,7 +400,7 @@ namespace StyleCop.ReSharper61.Options
             this.panel5.Controls.Add(this.justificationTextBox);
             this.panel5.Controls.Add(this.justificationLlabel);
             this.panel5.Controls.Add(this.useExcludeFromStyleCopCheckBox);
-            this.panel5.Location = new System.Drawing.Point(3, 507);
+            this.panel5.Location = new System.Drawing.Point(3, 409);
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(282, 88);
             this.panel5.TabIndex = 34;
@@ -477,41 +415,6 @@ namespace StyleCop.ReSharper61.Options
             this.label7.TabIndex = 30;
             this.label7.Text = "Others";
             // 
-            // panel6
-            // 
-            this.panel6.AutoSize = true;
-            this.panel6.Controls.Add(this.enableAnalysisCheckBox);
-            this.panel6.Controls.Add(this.label2);
-            this.panel6.Controls.Add(this.label3);
-            this.panel6.Controls.Add(this.label9);
-            this.panel6.Controls.Add(this.performanceTrackBar);
-            this.panel6.Location = new System.Drawing.Point(3, 407);
-            this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(279, 94);
-            this.panel6.TabIndex = 36;
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(0, 0);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(119, 13);
-            this.label9.TabIndex = 30;
-            this.label9.Text = "Analysis Performance";
-            // 
-            // enableAnalysisCheckBox
-            // 
-            this.enableAnalysisCheckBox.AutoSize = true;
-            this.enableAnalysisCheckBox.Checked = true;
-            this.enableAnalysisCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.enableAnalysisCheckBox.Location = new System.Drawing.Point(0, 23);
-            this.enableAnalysisCheckBox.Name = "enableAnalysisCheckBox";
-            this.enableAnalysisCheckBox.Size = new System.Drawing.Size(156, 17);
-            this.enableAnalysisCheckBox.TabIndex = 31;
-            this.enableAnalysisCheckBox.Text = "Run StyleCop as you type";
-            this.enableAnalysisCheckBox.UseVisualStyleBackColor = true;
-            // 
             // StyleCopOptionsPage
             // 
             this.AutoSize = true;
@@ -524,18 +427,16 @@ namespace StyleCop.ReSharper61.Options
             this.flowLayoutPanel1.PerformLayout();
             this.warningPanel.ResumeLayout(false);
             this.warningPanel.PerformLayout();
-            this.panel3.ResumeLayout(false);
-            this.panel3.PerformLayout();
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            this.panel5.ResumeLayout(false);
-            this.panel5.PerformLayout();
             this.panel6.ResumeLayout(false);
             this.panel6.PerformLayout();
+            this.panel5.ResumeLayout(false);
+            this.panel5.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -552,11 +453,6 @@ namespace StyleCop.ReSharper61.Options
         private Label label2;
         private Label label3;
         private CheckBox insertTextCheckBox;
-        private CheckBox autoUpdateCheckBox;
-        private Label daysLabel;
-        private RadioButton everyTimeRadioButton;
-        private RadioButton frequencyCheckRadioButton;
-        private MaskedTextBox daysMaskedTextBox;
         private Label numberOfDashesLabel;
         private MaskedTextBox dashesCountMaskedTextBox;
         private ToolTip toolTip;
@@ -567,12 +463,10 @@ namespace StyleCop.ReSharper61.Options
         private Label codeStyleWarningLabel;
         private Button resetFormatOptionsButton;
         private FlowLayoutPanel flowLayoutPanel1;
-        private Label label5;
         private Label label6;
         private Panel panel2;
         private Panel warningPanel;
         private Label label4;
-        private Panel panel3;
         private Panel panel4;
         private Panel panel5;
         private Label label7;

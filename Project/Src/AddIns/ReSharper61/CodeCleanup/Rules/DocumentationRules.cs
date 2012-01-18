@@ -26,6 +26,7 @@ namespace StyleCop.ReSharper61.CodeCleanup.Rules
     using System.Collections;
     using System.Collections.Generic;
     using System.Globalization;
+    using System.IO;
     using System.Xml;
 
     using JetBrains.Application.Settings;
@@ -73,9 +74,7 @@ namespace StyleCop.ReSharper61.CodeCleanup.Rules
         /// Header summary for static constructor.
         /// </summary>
         private const string HeaderSummaryForStaticConstructor = "Initializes static members of the {0} {1}";
-
-        private readonly Hashtable docConfigFiles = new Hashtable();
-
+        
         #endregion
 
         #region Public Methods
@@ -310,17 +309,9 @@ namespace StyleCop.ReSharper61.CodeCleanup.Rules
         /// </returns>
         public DocumentationRulesConfiguration GetDocumentationRulesConfig(ICSharpFile file)
         {
-            var hashCode = file.GetSourceFile().GetHashCode();
-
-            if (!this.docConfigFiles.ContainsKey(hashCode))
-            {
-                var a = new DocumentationRulesConfiguration(file.GetSourceFile());
-                this.docConfigFiles.Add(hashCode, a);
-            }
-
-            return (DocumentationRulesConfiguration)this.docConfigFiles[hashCode];
+            return new DocumentationRulesConfiguration(file.GetSourceFile());
         }
-
+        
         /// <summary>
         /// Inserts the company name into the file's header.
         /// </summary>
@@ -1352,10 +1343,8 @@ namespace StyleCop.ReSharper61.CodeCleanup.Rules
 
             var docConfig = this.GetDocumentationRulesConfig(file);
             var summaryText = Utils.GetSummaryText(file);
-            var fileHeader = new FileHeader(file);
-
-            fileHeader.InsertSummary = options.SA1639FileHeaderMustHaveSummary;
-
+            var fileHeader = new FileHeader(file) { InsertSummary = options.SA1639FileHeaderMustHaveSummary };
+            
             switch (updateFileHeaderOption)
             {
                 case UpdateFileHeaderStyle.ReplaceCopyrightElement:

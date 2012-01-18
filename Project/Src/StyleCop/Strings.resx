@@ -133,7 +133,7 @@
     <value>Both nodes must be null, or both nodes must be non-null.</value>
   </data>
   <data name="CacheTab" xml:space="preserve">
-    <value>Results Caching</value>
+    <value>Options</value>
   </data>
   <data name="CannotBeNull" xml:space="preserve">
     <value>Must not be null</value>

@@ -134,7 +134,7 @@ namespace StyleCop {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Results Caching.
+        ///   Looks up a localized string similar to Options.
         /// </summary>
         internal static string CacheTab {
             get {

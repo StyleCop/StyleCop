@@ -95,7 +95,7 @@ namespace StyleCop.ReSharper61.Core
                     var settings = readOnly ? new Settings(this.StyleCopCore, settingsFilePath, document, writeTime) : new WritableSettings(this.StyleCopCore, settingsFilePath, document, writeTime);
 
                     StyleCopTrace.Out();
-
+                    this.AddFileWatcher(settingsFilePath);
                     Cache[cacheKey] = settings;
 
                     return settings;
@@ -133,5 +133,54 @@ namespace StyleCop.ReSharper61.Core
         }
 
         #endregion
+
+        /// <summary>
+        /// Called when the file changes.
+        /// </summary>
+        /// <param name="source">The source of the event.</param>
+        /// <param name="e">The FileSystemEventArgs for the changing file.</param>
+        private static void FileChanged(object source, FileSystemEventArgs e)
+        {
+            StyleCopTrace.In(source, e);
+            Cache.Clear();
+            StyleCopTrace.Out();
+        }
+
+        /// <summary>
+        /// Called when the file renames.
+        /// </summary>
+        /// <param name="source">The source of the event.</param>
+        /// <param name="e">The RenamedEventArgs for the changing file.</param>
+        private static void OnRenamed(object source, RenamedEventArgs e)
+        {
+            StyleCopTrace.In(source, e);
+            Cache.Clear();
+            StyleCopTrace.Out();
+        }
+
+        /// <summary>
+        /// Creates a FileWatcher.
+        /// </summary>
+        /// <param name="path">The file to watch.</param>
+        private void AddFileWatcher(string path)
+        {
+            StyleCopTrace.In(path);
+            if (string.IsNullOrEmpty(path))
+            {
+                StyleCopTrace.Out();
+                return;
+            }
+
+            var watch = new FileSystemWatcher();
+            var directoryName = Path.GetDirectoryName(path);
+            watch.Path = directoryName;
+            watch.Filter = Path.GetFileName(path);
+            watch.Changed += FileChanged;
+            watch.Created += FileChanged;
+            watch.Deleted += FileChanged;
+            watch.Renamed += OnRenamed;
+            watch.EnableRaisingEvents = true;
+            StyleCopTrace.Out();
+        }
     }
 }

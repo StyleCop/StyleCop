@@ -47,13 +47,13 @@ namespace StyleCop
         /// <summary>
         /// The StyleCop core instance.
         /// </summary>
-        private StyleCopCore core;
+        private readonly StyleCopCore core;
 
         /// <summary>
         /// Initializes a new instance of the AutoUpdater class.
         /// </summary>
         /// <param name="core">The StyleCop core instance.</param>
-        public AutoUpdater(StyleCopCore core)
+        internal AutoUpdater(StyleCopCore core)
         {
             Param.RequireNotNull(core, "core");
 

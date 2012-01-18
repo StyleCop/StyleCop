@@ -32,6 +32,18 @@
       FriendlyName="Rules Enabled By Default"
       Description="Indicates rules are enabled or disabled by default."
     />
+    <BooleanProperty
+      Name="AutoCheckForUpdate"
+      DefaultValue="true"
+      FriendlyName="Automatically Check For Update"
+      Description="Indicates whether to check for an updated version of StyleCop."
+    />
+    <IntegerProperty
+      Name="DaysToCheckForUpdates"
+      DefaultValue="2"
+      FriendlyName="Days To Check For Updates"
+      Description="How many days to go before checking for updates to StyleCop."
+    />
   </Properties>
   <Rules>
     <Rule Name="ExceptionOccurred" CheckId="SA0001">

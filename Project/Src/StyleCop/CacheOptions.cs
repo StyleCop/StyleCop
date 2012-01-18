@@ -16,6 +16,7 @@ namespace StyleCop
 {
     using System;
     using System.Drawing;
+    using System.Globalization;
     using System.Windows.Forms;
 
     /// <summary>
@@ -24,11 +25,8 @@ namespace StyleCop
     internal class CacheOptions : UserControl, IPropertyControlPage
     {
         #region Private Fields
-
-        /// <summary>
-        /// The WinForms components manager.
-        /// </summary>
-        private System.ComponentModel.Container components = null;
+        
+        private System.ComponentModel.IContainer components;
 
         /// <summary>
         /// Indicates whether the page is dirty.
@@ -51,14 +49,29 @@ namespace StyleCop
         private CheckBox enableCache;
 
         /// <summary>
-        /// Property descriptor.
+        /// Property writeCachePropertyDescriptor.
         /// </summary>
-        private PropertyDescriptor<bool> descriptor;
+        private PropertyDescriptor<bool> writeCachePropertyDescriptor;
+        private PropertyDescriptor<bool> autoUpdateCheckPropertyDescriptor;
+        private PropertyDescriptor<int> daysToCheckPropertyDescriptor;
+        private Label daysLabel;
+        private MaskedTextBox daysMaskedTextBox;
+        private Panel panel3;
+        private Label label5;
+        private CheckBox autoUpdateCheckBox;
+        private Label label2;
+        private Panel panel1;
+        private Label checkForUpdatesLabel;
 
         /// <summary>
         /// The global value of the property.
         /// </summary>
-        private BooleanProperty parentProperty;
+        private BooleanProperty writeCacheParentProperty;
+
+        private BooleanProperty autoUpdateParentProperty;
+        private ToolTip toolTip;
+
+        private IntProperty daysToCheckParentProperty;
 
         #endregion Private Fields
 
@@ -70,6 +83,7 @@ namespace StyleCop
         public CacheOptions()
         {
             this.InitializeComponent();
+            this.daysMaskedTextBox.ValidatingType = typeof(int);
         }
 
         #endregion Public Constructors
@@ -124,17 +138,41 @@ namespace StyleCop
             this.tabControl = propertyControl;
 
             // Get the cache setting.
-            this.descriptor = this.tabControl.Core.PropertyDescriptors["WriteCache"] as PropertyDescriptor<bool>;
+            this.writeCachePropertyDescriptor = this.tabControl.Core.PropertyDescriptors["WriteCache"] as PropertyDescriptor<bool>;
 
-            this.parentProperty = this.tabControl.ParentSettings == null ? 
-                null : 
-                this.tabControl.ParentSettings.GlobalSettings.GetProperty(this.descriptor.PropertyName) as BooleanProperty;
+            this.writeCacheParentProperty = this.tabControl.ParentSettings == null
+                                      ? null
+                                      : this.tabControl.ParentSettings.GlobalSettings.GetProperty(this.writeCachePropertyDescriptor.PropertyName) as BooleanProperty;
+
+            var mergedWriteCacheProperty = this.tabControl.MergedSettings == null
+                                                 ? null
+                                                 : this.tabControl.MergedSettings.GlobalSettings.GetProperty(this.writeCachePropertyDescriptor.PropertyName) as BooleanProperty;
+
+            this.enableCache.Checked = mergedWriteCacheProperty == null ? this.writeCachePropertyDescriptor.DefaultValue : mergedWriteCacheProperty.Value;
             
-            BooleanProperty mergedProperty = this.tabControl.MergedSettings == null ? 
-                null : 
-                this.tabControl.MergedSettings.GlobalSettings.GetProperty(this.descriptor.PropertyName) as BooleanProperty;
+            this.autoUpdateCheckPropertyDescriptor = this.tabControl.Core.PropertyDescriptors["AutoCheckForUpdate"] as PropertyDescriptor<bool>;
 
-            this.enableCache.Checked = mergedProperty == null ? this.descriptor.DefaultValue : mergedProperty.Value;
+            this.autoUpdateParentProperty = this.tabControl.ParentSettings == null
+                                      ? null
+                                      : this.tabControl.ParentSettings.GlobalSettings.GetProperty(this.autoUpdateCheckPropertyDescriptor.PropertyName) as BooleanProperty;
+
+            var mergedAutoUpdateProperty = this.tabControl.MergedSettings == null
+                                                 ? null
+                                                 : this.tabControl.MergedSettings.GlobalSettings.GetProperty(this.autoUpdateCheckPropertyDescriptor.PropertyName) as BooleanProperty;
+            
+            this.autoUpdateCheckBox.Checked = mergedAutoUpdateProperty == null ? this.autoUpdateCheckPropertyDescriptor.DefaultValue : mergedAutoUpdateProperty.Value;
+
+            this.daysToCheckPropertyDescriptor = this.tabControl.Core.PropertyDescriptors["DaysToCheckForUpdates"] as PropertyDescriptor<int>;
+
+            this.daysToCheckParentProperty = this.tabControl.ParentSettings == null
+                                      ? null
+                                      : this.tabControl.ParentSettings.GlobalSettings.GetProperty(this.daysToCheckPropertyDescriptor.PropertyName) as IntProperty;
+
+            var mergedDaysToCheckProperty = this.tabControl.MergedSettings == null
+                                                 ? null
+                                                 : this.tabControl.MergedSettings.GlobalSettings.GetProperty(this.daysToCheckPropertyDescriptor.PropertyName) as IntProperty;
+
+            this.daysMaskedTextBox.Text = mergedDaysToCheckProperty == null ? this.daysToCheckPropertyDescriptor.DefaultValue.ToString(CultureInfo.InvariantCulture) : mergedDaysToCheckProperty.Value.ToString(CultureInfo.InvariantCulture);
 
             this.SetBoldState();
 
@@ -161,19 +199,44 @@ namespace StyleCop
             Param.Ignore(wasDirty);
         }
 
+        public bool ValidatePage()
+        {
+            if (this.daysMaskedTextBox.Enabled && (!this.daysMaskedTextBox.MaskCompleted || this.daysMaskedTextBox.Text == string.Empty))
+            {
+                this.toolTip.ToolTipTitle = "Invalid number";
+                this.toolTip.Show("Enter a valid number.", this.daysMaskedTextBox, this.daysMaskedTextBox.Width - 16, -200, 5000);
+                return false;
+            }
+
+            return true;
+        }
+        
         /// <summary>
         /// Saves the data and clears the dirty flag.
         /// </summary>
         /// <returns>Returns true if the data was saved, false if not.</returns>
         public bool Apply()
         {
-            this.tabControl.LocalSettings.GlobalSettings.SetProperty(
-                new BooleanProperty(this.tabControl.Core, this.descriptor.PropertyName, this.enableCache.Checked));
-            
-            this.dirty = false;
-            this.tabControl.DirtyChanged();
+            if (this.ValidatePage())
+            {
+                this.tabControl.LocalSettings.GlobalSettings.SetProperty(new BooleanProperty(this.tabControl.Core, this.writeCachePropertyDescriptor.PropertyName, this.enableCache.Checked));
 
-            return true;
+                this.tabControl.LocalSettings.GlobalSettings.SetProperty(
+                    new BooleanProperty(this.tabControl.Core, this.autoUpdateCheckPropertyDescriptor.PropertyName, this.autoUpdateCheckBox.Checked));
+
+                this.tabControl.LocalSettings.GlobalSettings.SetProperty(
+                    new BooleanProperty(this.tabControl.Core, this.autoUpdateCheckPropertyDescriptor.PropertyName, this.autoUpdateCheckBox.Checked));
+
+                this.tabControl.LocalSettings.GlobalSettings.SetProperty(
+                    new IntProperty(this.tabControl.Core, this.daysToCheckPropertyDescriptor.PropertyName, Convert.ToInt32(this.daysMaskedTextBox.Text)));
+
+                this.dirty = false;
+                this.tabControl.DirtyChanged();
+
+                return true;
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -190,16 +253,30 @@ namespace StyleCop
         /// </summary>
         public void RefreshSettingsOverrideState()
         {
-            this.parentProperty = this.tabControl.ParentSettings == null ?
+            this.writeCacheParentProperty = this.tabControl.ParentSettings == null ?
                 null :
-                this.tabControl.ParentSettings.GlobalSettings.GetProperty(this.descriptor.PropertyName) as BooleanProperty;
+                this.tabControl.ParentSettings.GlobalSettings.GetProperty(this.writeCachePropertyDescriptor.PropertyName) as BooleanProperty;
 
+            this.autoUpdateParentProperty = this.tabControl.ParentSettings == null ?
+               null :
+               this.tabControl.ParentSettings.GlobalSettings.GetProperty(this.autoUpdateCheckPropertyDescriptor.PropertyName) as BooleanProperty;
+            
             this.SetBoldState();
         }
 
         #endregion Public Methods
 
         #region Protected Override Methods
+
+        /// <summary>
+        /// Set up the tooltips.
+        /// </summary>
+        /// <param name="e">The arguments to use.</param>
+        protected override void OnLoad(EventArgs e)
+        {
+            this.toolTip.SetToolTip(this.daysMaskedTextBox, string.Empty);
+            base.OnLoad(e);
+        }
 
         /// <summary> 
         /// Clean up any resources being used.
@@ -231,9 +308,21 @@ namespace StyleCop
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CacheOptions));
             this.label1 = new System.Windows.Forms.Label();
             this.enableCache = new System.Windows.Forms.CheckBox();
+            this.daysLabel = new System.Windows.Forms.Label();
+            this.daysMaskedTextBox = new System.Windows.Forms.MaskedTextBox();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.checkForUpdatesLabel = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.autoUpdateCheckBox = new System.Windows.Forms.CheckBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.panel3.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -248,17 +337,99 @@ namespace StyleCop
             this.enableCache.UseVisualStyleBackColor = true;
             this.enableCache.CheckedChanged += new System.EventHandler(this.EnableCacheCheckedChanged);
             // 
+            // daysLabel
+            // 
+            resources.ApplyResources(this.daysLabel, "daysLabel");
+            this.daysLabel.Name = "daysLabel";
+            // 
+            // daysMaskedTextBox
+            // 
+            this.daysMaskedTextBox.AllowPromptAsInput = false;
+            this.daysMaskedTextBox.CausesValidation = false;
+            this.daysMaskedTextBox.CutCopyMaskFormat = System.Windows.Forms.MaskFormat.ExcludePromptAndLiterals;
+            resources.ApplyResources(this.daysMaskedTextBox, "daysMaskedTextBox");
+            this.daysMaskedTextBox.Name = "daysMaskedTextBox";
+            this.daysMaskedTextBox.RejectInputOnFirstFailure = true;
+            this.daysMaskedTextBox.ResetOnPrompt = false;
+            this.daysMaskedTextBox.ResetOnSpace = false;
+            this.daysMaskedTextBox.TextMaskFormat = System.Windows.Forms.MaskFormat.ExcludePromptAndLiterals;
+            this.daysMaskedTextBox.TextChanged += new EventHandler(this.DaysMaskedTextBoxTextChanged);
+            // 
+            // panel3
+            // 
+            resources.ApplyResources(this.panel3, "panel3");
+            this.panel3.Controls.Add(this.checkForUpdatesLabel);
+            this.panel3.Controls.Add(this.daysLabel);
+            this.panel3.Controls.Add(this.daysMaskedTextBox);
+            this.panel3.Controls.Add(this.label5);
+            this.panel3.Controls.Add(this.autoUpdateCheckBox);
+            this.panel3.Name = "panel3";
+            // 
+            // checkForUpdatesLabel
+            // 
+            resources.ApplyResources(this.checkForUpdatesLabel, "checkForUpdatesLabel");
+            this.checkForUpdatesLabel.Name = "checkForUpdatesLabel";
+            // 
+            // label5
+            // 
+            resources.ApplyResources(this.label5, "label5");
+            this.label5.Name = "label5";
+            // 
+            // autoUpdateCheckBox
+            // 
+            resources.ApplyResources(this.autoUpdateCheckBox, "autoUpdateCheckBox");
+            this.autoUpdateCheckBox.Checked = true;
+            this.autoUpdateCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.autoUpdateCheckBox.Name = "autoUpdateCheckBox";
+            this.autoUpdateCheckBox.UseVisualStyleBackColor = true;
+            this.autoUpdateCheckBox.CheckedChanged += new System.EventHandler(this.AutoUpdateCheckBoxCheckedChanged);
+            // 
+            // label2
+            // 
+            resources.ApplyResources(this.label2, "label2");
+            this.label2.Name = "label2";
+            // 
+            // panel1
+            // 
+            resources.ApplyResources(this.panel1, "panel1");
+            this.panel1.Controls.Add(this.enableCache);
+            this.panel1.Controls.Add(this.label2);
+            this.panel1.Name = "panel1";
+            // 
+            // toolTip
+            // 
+            this.toolTip.IsBalloon = true;
+            // 
             // CacheOptions
             // 
-            this.Controls.Add(this.enableCache);
+            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.panel3);
             this.Controls.Add(this.label1);
             this.MinimumSize = new System.Drawing.Size(246, 80);
             this.Name = "CacheOptions";
             resources.ApplyResources(this, "$this");
+            this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
+
+        void DaysMaskedTextBoxTextChanged(object sender, EventArgs e)
+        {
+            Param.Ignore(sender, e);
+
+            if (!this.dirty)
+            {
+                this.dirty = true;
+                this.tabControl.DirtyChanged();
+            }
+
+            this.SetBoldState();
+        }
+        
         #endregion
 
         /// <summary>
@@ -280,28 +451,59 @@ namespace StyleCop
         }
 
         /// <summary>
-        /// Sets the bold state of the checkbox.
+        /// Called when the autoUpdate is checked or unchecked.
+        /// </summary>
+        /// <param name="sender">The event sender.</param>
+        /// <param name="e">The event arguments.</param>
+        private void AutoUpdateCheckBoxCheckedChanged(object sender, EventArgs e)
+        {
+            Param.Ignore(sender, e);
+
+            if (!this.dirty)
+            {
+                this.dirty = true;
+                this.tabControl.DirtyChanged();
+            }
+
+            this.checkForUpdatesLabel.Enabled = this.autoUpdateCheckBox.Checked;
+            this.daysMaskedTextBox.Enabled = this.autoUpdateCheckBox.Checked;
+            this.daysLabel.Enabled = this.autoUpdateCheckBox.Checked;
+            
+            this.SetBoldState();
+        }
+
+        /// <summary>
+        /// Sets the bold state of the checkboxes.
         /// </summary>
         private void SetBoldState()
         {
             bool bold;
 
-            if (this.parentProperty == null)
+            if (this.writeCachePropertyDescriptor != null)
             {
-                bold = this.enableCache.Checked != this.descriptor.DefaultValue;
-            }
-            else
-            {
-                bold = this.enableCache.Checked != this.parentProperty.Value;
+                bold = this.writeCacheParentProperty == null
+                           ? this.enableCache.Checked != this.writeCachePropertyDescriptor.DefaultValue
+                           : this.enableCache.Checked != this.writeCacheParentProperty.Value;
+
+                this.enableCache.Font = bold ? new Font(this.enableCache.Font, FontStyle.Bold) : new Font(this.enableCache.Font, FontStyle.Regular);
             }
 
-            if (bold)
+            if (this.autoUpdateCheckPropertyDescriptor != null)
             {
-                this.enableCache.Font = new Font(this.enableCache.Font, FontStyle.Bold);
+                bold = this.autoUpdateParentProperty == null
+                           ? this.autoUpdateCheckBox.Checked != this.autoUpdateCheckPropertyDescriptor.DefaultValue
+                           : this.autoUpdateCheckBox.Checked != this.autoUpdateParentProperty.Value;
+
+                this.autoUpdateCheckBox.Font = bold ? new Font(this.autoUpdateCheckBox.Font, FontStyle.Bold) : new Font(this.autoUpdateCheckBox.Font, FontStyle.Regular);
             }
-            else
+
+            if (this.daysToCheckPropertyDescriptor != null)
             {
-                this.enableCache.Font = new Font(this.enableCache.Font, FontStyle.Regular);
+                bold = this.daysToCheckParentProperty == null
+                           ? this.daysMaskedTextBox.Text != this.daysToCheckPropertyDescriptor.DefaultValue.ToString(CultureInfo.InvariantCulture)
+                           : this.daysMaskedTextBox.Text != this.daysToCheckParentProperty.Value.ToString(CultureInfo.InvariantCulture);
+
+                this.daysMaskedTextBox.Font = bold ? new Font(this.daysMaskedTextBox.Font, FontStyle.Bold) : new Font(this.daysMaskedTextBox.Font, FontStyle.Regular);
             }
         }
 

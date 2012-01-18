@@ -59,6 +59,16 @@ namespace StyleCop
         /// </summary>
         private bool? writeCache;
 
+        /// <summary>
+        /// Indicates whether we should automatically check for StyleCop updates.
+        /// </summary>
+        private bool? automaticallyCheckForUpdates;
+
+        /// <summary>
+        /// How many days to wait before checking for updates.
+        /// </summary>
+        private int? daysToCheckForUpdates;
+        
         #endregion Private Fields
 
         #region Public Constructors
@@ -212,6 +222,70 @@ namespace StyleCop
                 }
 
                 return this.writeCache.Value;
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether to automatically check for updates to StyleCop.
+        /// </summary>
+        public virtual bool AutomaticallyCheckForUpdates
+        {
+            get
+            {
+                if (this.automaticallyCheckForUpdates == null && this.settingsLoaded)
+                {
+                    if (this.settings != null)
+                    {
+                        var descriptor = this.settings.Core.PropertyDescriptors["AutoCheckForUpdate"] as PropertyDescriptor<bool>;
+                        if (descriptor != null)
+                        {
+                            var property = this.settings.GlobalSettings.GetProperty(descriptor.PropertyName) as BooleanProperty;
+                            this.automaticallyCheckForUpdates = property == null ? descriptor.DefaultValue : property.Value;
+                        }
+                        else
+                        {
+                            this.automaticallyCheckForUpdates = true;
+                        }
+                    }
+                    else
+                    {
+                        this.automaticallyCheckForUpdates = true;
+                    }
+                }
+
+                return this.automaticallyCheckForUpdates == null || this.automaticallyCheckForUpdates.Value;
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating how many days to wait before checking for updates.
+        /// </summary>
+        public virtual int DaysToCheckForUpdates
+        {
+            get
+            {
+                if (this.daysToCheckForUpdates == null && this.settingsLoaded)
+                {
+                    if (this.settings != null)
+                    {
+                        var descriptor = this.settings.Core.PropertyDescriptors["DaysToCheckForUpdates"] as PropertyDescriptor<int>;
+                        if (descriptor != null)
+                        {
+                            var property = this.settings.GlobalSettings.GetProperty(descriptor.PropertyName) as IntProperty;
+                            this.daysToCheckForUpdates = property == null ? descriptor.DefaultValue : property.Value;
+                        }
+                        else
+                        {
+                            this.daysToCheckForUpdates = 2;
+                        }
+                    }
+                    else
+                    {
+                        this.daysToCheckForUpdates = 2;
+                    }
+                }
+
+                return this.daysToCheckForUpdates == null ? 2 : this.daysToCheckForUpdates.Value;
             }
         }
 

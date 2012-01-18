@@ -87,7 +87,6 @@ namespace StyleCop.ReSharper61.Options
             this.smartContext = settingsSmartContext;
 
             this.InitializeComponent();
-            this.daysMaskedTextBox.ValidatingType = typeof(int);
             this.dashesCountMaskedTextBox.ValidatingType = typeof(int);
             this.warningPanel.Visible = !CodeStyleOptionsValid(settingsSmartContext);
         }
@@ -1503,11 +1502,9 @@ namespace StyleCop.ReSharper61.Options
 
             string reorderingPatterns;
             using (
-                Stream stream =
-                    Assembly.GetExecutingAssembly().GetManifestResourceStream(
-                        "StyleCop.ReSharper61.Resources.ReorderingPatterns.xml"))
+                var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("StyleCop.ReSharper61.Resources.ReorderingPatterns.xml"))
             {
-                using (StreamReader reader = new StreamReader(stream))
+                using (var reader = new StreamReader(stream))
                 {
                     reorderingPatterns = reader.ReadToEnd();
                 }
@@ -1831,11 +1828,6 @@ namespace StyleCop.ReSharper61.Options
 
             this.performanceTrackBar.Value = this.smartContext.GetValue<StyleCopOptionsSettingsKey, int>(key => key.ParsingPerformance);
             this.insertTextCheckBox.Checked = this.smartContext.GetValue<StyleCopOptionsSettingsKey, bool>(key => key.InsertTextIntoDocumentation);
-            this.autoUpdateCheckBox.Checked = this.smartContext.GetValue<StyleCopOptionsSettingsKey, bool>(key => key.AutomaticallyCheckForUpdates);
-            this.everyTimeRadioButton.Checked = this.smartContext.GetValue<StyleCopOptionsSettingsKey, bool>(key => key.AlwaysCheckForUpdatesWhenVisualStudioStarts);
-            this.frequencyCheckRadioButton.Checked = !this.everyTimeRadioButton.Checked;
-            this.daysMaskedTextBox.Enabled = !this.everyTimeRadioButton.Checked && this.autoUpdateCheckBox.Checked;
-            this.daysMaskedTextBox.Text = this.smartContext.GetValue<StyleCopOptionsSettingsKey, int>(key => key.DaysBetweenUpdateChecks).ToString(CultureInfo.InvariantCulture);
             this.dashesCountMaskedTextBox.Text = this.smartContext.GetValue<StyleCopOptionsSettingsKey, int>(key => key.DashesCountInFileHeader).ToString(CultureInfo.InvariantCulture);
             this.useExcludeFromStyleCopCheckBox.Checked = this.smartContext.GetValue<StyleCopOptionsSettingsKey, bool>(key => key.UseExcludeFromStyleCopSetting);
             this.justificationTextBox.Text = this.smartContext.GetValue<StyleCopOptionsSettingsKey, string>(key => key.SuppressStyleCopAttributeJustificationText);
@@ -1878,14 +1870,6 @@ namespace StyleCop.ReSharper61.Options
 
                 this.smartContext.SetValue<StyleCopOptionsSettingsKey, int>(key => key.ParsingPerformance, this.performanceTrackBar.Value);
                 this.smartContext.SetValue<StyleCopOptionsSettingsKey, bool>(key => key.InsertTextIntoDocumentation, this.insertTextCheckBox.Checked);
-                this.smartContext.SetValue<StyleCopOptionsSettingsKey, bool>(key => key.AutomaticallyCheckForUpdates, this.autoUpdateCheckBox.Checked);
-                this.smartContext.SetValue<StyleCopOptionsSettingsKey, bool>(key => key.AlwaysCheckForUpdatesWhenVisualStudioStarts, this.everyTimeRadioButton.Checked);
-
-                if (this.autoUpdateCheckBox.Checked && !this.everyTimeRadioButton.Checked)
-                {
-                    this.smartContext.SetValue<StyleCopOptionsSettingsKey, int>(key => key.DaysBetweenUpdateChecks, int.Parse(this.daysMaskedTextBox.Text));
-                }
-
                 this.smartContext.SetValue<StyleCopOptionsSettingsKey, int>(key => key.DashesCountInFileHeader, int.Parse(this.dashesCountMaskedTextBox.Text));
                 this.smartContext.SetValue<StyleCopOptionsSettingsKey, bool>(key => key.UseExcludeFromStyleCopSetting, this.useExcludeFromStyleCopCheckBox.Checked);
                 this.smartContext.SetValue<StyleCopOptionsSettingsKey, string>(key => key.SuppressStyleCopAttributeJustificationText, this.justificationTextBox.Text.Trim());
@@ -1916,14 +1900,7 @@ namespace StyleCop.ReSharper61.Options
                     return false;
                 }
             }
-
-            if (this.daysMaskedTextBox.Enabled && (!this.daysMaskedTextBox.MaskCompleted || this.daysMaskedTextBox.Text == string.Empty))
-            {
-                this.toolTip.ToolTipTitle = "Invalid number";
-                this.toolTip.Show("Enter a valid number.", this.daysMaskedTextBox, this.daysMaskedTextBox.Width - 16, -50, 5000);
-                return false;
-            }
-
+            
             if (!this.dashesCountMaskedTextBox.MaskCompleted || this.dashesCountMaskedTextBox.Text == string.Empty)
             {
                 this.toolTip.ToolTipTitle = "Invalid number";
@@ -1949,7 +1926,6 @@ namespace StyleCop.ReSharper61.Options
         protected override void OnLoad(EventArgs e)
         {
             this.toolTip.SetToolTip(this.dashesCountMaskedTextBox, string.Empty);
-            this.toolTip.SetToolTip(this.daysMaskedTextBox, string.Empty);
             base.OnLoad(e);
             this.Display();
         }
@@ -2076,15 +2052,7 @@ namespace StyleCop.ReSharper61.Options
                 this.ShowSpecifiedAssemblyLocation();
             }
         }
-
-        private void AutoUpdateCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            this.everyTimeRadioButton.Enabled = this.autoUpdateCheckBox.Checked;
-            this.frequencyCheckRadioButton.Enabled = this.autoUpdateCheckBox.Checked;
-            this.daysMaskedTextBox.Enabled = this.autoUpdateCheckBox.Checked && !this.everyTimeRadioButton.Checked;
-            this.daysLabel.Enabled = this.autoUpdateCheckBox.Checked;
-        }
-
+        
         /// <summary>
         /// Handles the Click event of the BrowseButton control.
         /// </summary>
@@ -2103,18 +2071,7 @@ namespace StyleCop.ReSharper61.Options
         {
             this.toolTip.Hide(this.dashesCountMaskedTextBox);
         }
-
-        private void DaysMaskedTextBox_KeyDown(object sender, KeyEventArgs e)
-        {
-            this.toolTip.Hide(this.daysMaskedTextBox);
-        }
-
-        private void EveryTimeRadioButton_CheckedChanged(object sender, EventArgs e)
-        {
-            this.daysMaskedTextBox.Enabled = !this.everyTimeRadioButton.Checked;
-            this.toolTip.Hide(this.daysMaskedTextBox);
-        }
-        
+       
         /// <summary>
         /// Shows the detected assembly location.
         /// </summary>

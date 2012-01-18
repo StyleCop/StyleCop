@@ -97,12 +97,12 @@ namespace StyleCop.ReSharper61.Core
             var projectFile = projectItem.GetProject();
 
             var result = this.FindSettingsFilePath(projectFile);
-
+            this.AddWatcherForSettingsFile(projectItem.Location.FullPath);
             StringCache[cacheKey] = result;
 
             return StyleCopTrace.Out(result);
         }
-
+        
         /// <summary>
         /// Gets the settings for the file provided.
         /// </summary>
@@ -258,6 +258,61 @@ namespace StyleCop.ReSharper61.Core
         }
 
         /// <summary>
+        /// Called when a file being watched changes.
+        /// </summary>
+        /// <param name="source">The object being changed.</param>
+        /// <param name="e">The FileSystemEventArgs for the file.</param>
+        private static void FileChanged(object source, FileSystemEventArgs e)
+        {
+            StyleCopTrace.In(source, e);
+
+            StringCache.Clear();
+            SettingsCache.Clear();
+
+            StyleCopTrace.Out();
+        }
+
+        /// <summary>
+        /// Called when a file being watched gets rwnamed.
+        /// </summary>
+        /// <param name="source">The object being renamed.</param>
+        /// <param name="e">The RenamedEventArgs for the file.</param>
+        private static void FileRenamed(object source, RenamedEventArgs e)
+        {
+            StyleCopTrace.In(source, e);
+
+            StringCache.Clear();
+            SettingsCache.Clear();
+
+            StyleCopTrace.Out();
+        }
+
+        /// <summary>
+        /// Adds a FileSystemWatcher for the settings.stylecop file in the folder of the file provided.
+        /// </summary>
+        /// <param name="path">A path to a file that we will watch the folder of.</param>
+        private void AddWatcherForSettingsFile(string path)
+        {
+            StyleCopTrace.In(path);
+            if (string.IsNullOrEmpty(path))
+            {
+                StyleCopTrace.Out();
+                return;
+            }
+
+            var watch = new FileSystemWatcher();
+            var directoryName = Path.GetDirectoryName(path);
+            watch.Path = directoryName;
+            watch.Filter = "settings.stylecop";
+            watch.Changed += FileChanged;
+            watch.Created += FileChanged;
+            watch.Deleted += FileChanged;
+            watch.Renamed += FileRenamed;
+            watch.EnableRaisingEvents = true;
+            StyleCopTrace.Out();
+        }
+
+        /// <summary>
         /// Searches this directory and the parents thereof to see 
         /// if a Settings file exists.
         /// </summary>
@@ -350,9 +405,11 @@ namespace StyleCop.ReSharper61.Core
 
             SettingsCache[cacheKey] = mergedSettings;
 
+            this.AddWatcherForSettingsFile(settingsPath);
+
             return StyleCopTrace.Out(mergedSettings);
         }
-
+        
         private PropertyValue GetParserSetting(IProjectFile projectFile, string propertyName)
         {
             StyleCopTrace.In(projectFile, propertyName);

@@ -42,16 +42,6 @@ namespace StyleCop.VisualStudio
     public sealed class StyleCopVSPackage : Package, IDisposable, IVsShellPropertyEvents
     {
         /// <summary>
-        /// Default days between update checks.
-        /// </summary>
-        private const int DefaultDaysBetweenUpdateChecks = 7;
-
-        /// <summary>
-        /// This defaults to true.
-        /// </summary>
-        private const bool DefaultAutomaticallyCheckForUpdates = true;
-
-        /// <summary>
         /// This defaults to false.
         /// </summary>
         private const bool DefaultAlwaysCheckForUpdatesWhenVisualStudioStarts = false;
@@ -237,35 +227,17 @@ namespace StyleCop.VisualStudio
         
         #endregion Public Methods
 
-        #region Internal Methods
-
-        #endregion Internal Methods
-
         #region Protected Override Methods
        
         /// <summary>
         /// Initializes the package.
         /// </summary>
-        /// <remarks>This method is called right after the package is sited, so this is the place to initialize
-        /// code that relies on services provided by Visual Studio.</remarks>
+        /// <remarks>
+        /// This method is called right after the package is sited, so this is the place to initialize
+        /// code that relies on services provided by Visual Studio.
+        /// </remarks>
         protected override void Initialize()
         {
-            bool automaticallyCheckForUpdates = GetAutomaticallyCheckForUpdates();
-
-            if (automaticallyCheckForUpdates)
-            {
-                DateTime lastUpdateCheckDate = GetLastUpdateCheckDate();
-                int daysBetweenUpdateChecks = GetDaysBetweenUpdateChecks();
-
-                bool alwaysCheckForUpdatesWhenVisualStudioStarts = GetAlwaysCheckForUpdatesWhenVisualStudioStarts();
-
-                if (alwaysCheckForUpdatesWhenVisualStudioStarts || DateTime.UtcNow > lastUpdateCheckDate.AddDays(daysBetweenUpdateChecks))
-                {
-                    new AutoUpdater(this.Core).CheckForUpdate();
-                    SetLastUpdateCheckDate(DateTime.UtcNow);
-                }
-            }
-            
             base.Initialize();
 
             if (this.IsDTEReady)
@@ -309,139 +281,7 @@ namespace StyleCop.VisualStudio
         #endregion Protected Override Methods
 
         #region Private Methods
-        
-        /// <summary>
-        /// Retrieves a RegKey value for the registry.
-        /// </summary>
-        /// <param name="key">The subkey to open.</param>
-        /// <returns>The value of the regkey.</returns>
-        private static object RetrieveFromRegistry(string key)
-        {
-            const string SubKey = @"SOFTWARE\CodePlex\StyleCop";
-
-            RegistryKey registryKey = Registry.CurrentUser.OpenSubKey(SubKey);
-            return registryKey == null ? null : registryKey.GetValue(key);
-        }
-
-        /// <summary>
-        /// Sets a regkey value in the registry.
-        /// </summary>
-        /// <param name="key">The subkey to create.</param>
-        /// <param name="value">The value to use</param>
-        /// <param name="valueKind">The type of regkey value to set.</param>
-        private static void SetRegistry(string key, object value, RegistryValueKind valueKind)
-        {
-            const string SubKey = @"SOFTWARE\CodePlex\StyleCop";
-
-            RegistryKey registryKey = Registry.CurrentUser.CreateSubKey(SubKey);
-            if (registryKey != null)
-            {
-                registryKey.SetValue(key, value, valueKind);
-            }
-        }
-
-        /// <summary>
-        /// Gets the AutomaticallyCheckForUpdates value from the registry.
-        /// </summary>
-        /// <returns>The value.</returns>
-        private static bool GetAutomaticallyCheckForUpdates()
-        {
-            var a = RetrieveFromRegistry("AutomaticallyCheckForUpdates");
-            if (a == null)
-            {
-                SetAutomaticallyCheckForUpdates(DefaultAutomaticallyCheckForUpdates);
-                return DefaultAutomaticallyCheckForUpdates;
-            }
-
-            return Convert.ToBoolean(a, CultureInfo.InvariantCulture);
-        }
-
-        /// <summary>
-        /// Sets the AutomaticallyCheckForUpdates value in the registry.
-        /// </summary>
-        /// <param name="value">The new value.</param>
-        private static void SetAutomaticallyCheckForUpdates(bool value)
-        {
-            SetRegistry("AutomaticallyCheckForUpdates", value, RegistryValueKind.DWord);
-        }
-
-        /// <summary>
-        /// Gets the LastUpdateCheckDate value from the registry.
-        /// </summary>
-        /// <returns>The value.</returns>
-        private static DateTime GetLastUpdateCheckDate()
-        {
-            var dateTime = RetrieveFromRegistry("LastUpdateCheckDate");
-            if (dateTime == null)
-            {
-                // Default to now.
-                dateTime = DateTime.UtcNow;
-                SetLastUpdateCheckDate((DateTime)dateTime);
-            }
-
-            return Convert.ToDateTime(dateTime, CultureInfo.InvariantCulture);
-        }
-
-        /// <summary>
-        /// Sets the LastUpdateCheckDate value in the registry.
-        /// </summary>
-        /// <param name="dateTime">The new value.</param>
-        private static void SetLastUpdateCheckDate(DateTime dateTime)
-        {
-            SetRegistry("LastUpdateCheckDate", dateTime.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture), RegistryValueKind.String);
-        }
-
-        /// <summary>
-        /// Gets the DaysBetweenUpdateChecks value from the registry.
-        /// </summary>
-        /// <returns>The value.</returns>
-        private static int GetDaysBetweenUpdateChecks()
-        {
-            var value = RetrieveFromRegistry("DaysBetweenUpdateChecks");
-            if (value == null)
-            {
-                SetDaysBetweenUpdateChecks(DefaultDaysBetweenUpdateChecks);
-                return DefaultDaysBetweenUpdateChecks;
-            }
-
-            return Convert.ToInt32(value, CultureInfo.InvariantCulture);
-        }
-
-        /// <summary>
-        /// Sets the DaysBetweenUpdateChecks value in the registry.
-        /// </summary>
-        /// <param name="days">The new value.</param>
-        private static void SetDaysBetweenUpdateChecks(int days)
-        {
-            SetRegistry("DaysBetweenUpdateChecks", days, RegistryValueKind.DWord);
-        }
-
-        /// <summary>
-        /// Gets the AlwaysCheckForUpdatesWhenVisualStudioStarts value from the registry.
-        /// </summary>
-        /// <returns>The value.</returns>
-        private static bool GetAlwaysCheckForUpdatesWhenVisualStudioStarts()
-        {
-            var a = RetrieveFromRegistry("AlwaysCheckForUpdatesWhenVisualStudioStarts");
-
-            if (a == null)
-            {
-                SetAlwaysCheckForUpdatesWhenVisualStudioStarts(DefaultAlwaysCheckForUpdatesWhenVisualStudioStarts);
-                return DefaultAlwaysCheckForUpdatesWhenVisualStudioStarts;
-            }
-
-            return Convert.ToBoolean(a, CultureInfo.InvariantCulture);
-        }
-
-        /// <summary>
-        /// Sets the AlwaysCheckForUpdatesWhenVisualStudioStarts value in the registry.
-        /// </summary>
-        /// <param name="value">The new value.</param>
-        private static void SetAlwaysCheckForUpdatesWhenVisualStudioStarts(bool value)
-        {
-            SetRegistry("AlwaysCheckForUpdatesWhenVisualStudioStarts", value, RegistryValueKind.DWord);
-        }
-
+       
         /// <summary>
         /// Completes our initialization. This may be called from out overriden Initialize method and sometimes waiting until after the zombie state has
         /// gone from VS.

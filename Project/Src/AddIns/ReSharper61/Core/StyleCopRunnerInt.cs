@@ -78,7 +78,7 @@ namespace StyleCop.ReSharper61.Core
                 {
                     this.styleCopCore = StyleCopCoreFactory.Create();
                     this.styleCopSettings = new StyleCopSettings(this.styleCopCore);
-                    this.styleCopCore.DisplayUI = false;
+                    this.styleCopCore.DisplayUI = true;
                     this.styleCopCore.ViolationEncountered += this.OnViolationEncountered;
                 }
 

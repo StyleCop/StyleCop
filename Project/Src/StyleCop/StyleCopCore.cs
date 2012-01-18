@@ -45,6 +45,16 @@ namespace StyleCop
         /// </summary>
         internal const string ProjectSettingsPropertyPageIdProperty = "StyleCopLocalProperties";
 
+        /// <summary>
+        /// Default days between update checks.
+        /// </summary>
+        private const int DefaultDaysBetweenUpdateChecks = 2;
+
+        /// <summary>
+        /// This defaults to true.
+        /// </summary>
+        private const bool DefaultAutomaticallyCheckForUpdates = true;
+
         #endregion Internal Constants
 
         #region Private Fields
@@ -933,7 +943,7 @@ namespace StyleCop
                 {
                     pages.Add(pageFromEvent);
                 }
-
+                
                 // Display the project settings dialog.
                 return this.ShowProjectSettings(settingsPath, pages.AsReadOnly(), id);
             }
@@ -1127,6 +1137,8 @@ namespace StyleCop
                 project.SettingsLoaded = true;
             }
 
+            StyleCopCore.CheckForStyleCopUpdate(project);
+
             // Load the project configuration from the cache and compare it to the
             // current project configuration.
             string configuration = cache == null ? null : cache.LoadProject(project);
@@ -1144,6 +1156,48 @@ namespace StyleCop
             {
                 cache.SaveProject(project);
             }
+        }
+
+        /// <summary>
+        /// Checks to see if there is a newer version of StyleCop available.
+        /// </summary>
+        /// <param name="project">The project we are currently analyzing.</param>
+        private static void CheckForStyleCopUpdate(CodeProject project)
+        {
+            if (project.AutomaticallyCheckForUpdates)
+            {
+                if (DateTime.UtcNow > StyleCopCore.GetLastUpdateCheckDate().AddDays(project.DaysToCheckForUpdates))
+                {
+                    new AutoUpdater(project.Settings.Core).CheckForUpdate();
+                    StyleCopCore.SetLastUpdateCheckDate(DateTime.UtcNow);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets the LastUpdateCheckDate value from the registry.
+        /// </summary>
+        /// <returns>The value.</returns>
+        private static DateTime GetLastUpdateCheckDate()
+        {
+            var dateTime = new RegistryUtils().CUGetValue("LastUpdateCheckDate");
+            if (dateTime == null)
+            {
+                // Default to now.
+                dateTime = DateTime.UtcNow;
+                SetLastUpdateCheckDate((DateTime)dateTime);
+            }
+
+            return Convert.ToDateTime(dateTime, CultureInfo.InvariantCulture);
+        }
+
+        /// <summary>
+        /// Sets the LastUpdateCheckDate value in the registry.
+        /// </summary>
+        /// <param name="dateTime">The new value.</param>
+        private static void SetLastUpdateCheckDate(DateTime dateTime)
+        {
+            new RegistryUtils().CUSetValue("LastUpdateCheckDate", dateTime.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture));
         }
 
         /// <summary>
