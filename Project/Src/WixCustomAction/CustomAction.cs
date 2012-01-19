@@ -14,14 +14,15 @@ namespace WixCustomAction
         public static ActionResult RestoreVisualStudioTemplateFiles(Session session)
         {
             string visualStudio10Path = GetVisualStudio10Path();
-            string visualStudio10DevEnvPath = Path.Combine(visualStudio10Path, @"Common7\IDE\devenv.exe");
-            string ideFolderPath = Path.Combine(visualStudio10Path, @"Common7\IDE");
 
-            if (string.IsNullOrEmpty(ideFolderPath))
+            if (string.IsNullOrEmpty(visualStudio10Path))
             {
                 return ActionResult.Success;
             }
 
+            string visualStudio10DevEnvPath = Path.Combine(visualStudio10Path, @"Common7\IDE\devenv.exe");
+            string ideFolderPath = Path.Combine(visualStudio10Path, @"Common7\IDE");
+            
             // only do this if:
             // we're VS10            - this is checked by the custom action code that calls us
             // we're uninstalling    - this is checked by the custom action code that calls us
@@ -65,13 +66,15 @@ namespace WixCustomAction
         [CustomAction]
         public static ActionResult BackupVisualStudioTemplateFiles(Session session)
         {
-            string ideFolderPath = Path.Combine(GetVisualStudio10Path(), @"Common7\IDE");
-
-            if (string.IsNullOrEmpty(ideFolderPath))
+            string visualStudio10Path = GetVisualStudio10Path();
+            
+            if (string.IsNullOrEmpty(visualStudio10Path))
             {
                 return ActionResult.Success;
             }
 
+            string ideFolderPath = Path.Combine(visualStudio10Path, @"Common7\IDE");
+            
             //copy all the .zip files as zip.bak files
             var itemTemplatesPath = Path.Combine(ideFolderPath, "ItemTemplates");
             ProcessFolderForCopyingFiles(itemTemplatesPath);

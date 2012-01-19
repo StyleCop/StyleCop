@@ -54,13 +54,12 @@ namespace StyleCop
         private PropertyDescriptor<bool> writeCachePropertyDescriptor;
         private PropertyDescriptor<bool> autoUpdateCheckPropertyDescriptor;
         private PropertyDescriptor<int> daysToCheckPropertyDescriptor;
+        private PropertyDescriptor<int> maxViolationCountPropertyDescriptor;
         private Label daysLabel;
         private MaskedTextBox daysMaskedTextBox;
         private Panel panel3;
         private Label label5;
         private CheckBox autoUpdateCheckBox;
-        private Label label2;
-        private Panel panel1;
         private Label checkForUpdatesLabel;
 
         /// <summary>
@@ -69,9 +68,14 @@ namespace StyleCop
         private BooleanProperty writeCacheParentProperty;
 
         private BooleanProperty autoUpdateParentProperty;
+
         private ToolTip toolTip;
 
         private IntProperty daysToCheckParentProperty;
+        private Label label3;
+        private MaskedTextBox maxViolationCountMaskedTextBox;
+
+        private IntProperty maxViolationCountParentProperty;
 
         #endregion Private Fields
 
@@ -84,6 +88,7 @@ namespace StyleCop
         {
             this.InitializeComponent();
             this.daysMaskedTextBox.ValidatingType = typeof(int);
+            this.maxViolationCountMaskedTextBox.ValidatingType = typeof(int);
         }
 
         #endregion Public Constructors
@@ -174,6 +179,18 @@ namespace StyleCop
 
             this.daysMaskedTextBox.Text = mergedDaysToCheckProperty == null ? this.daysToCheckPropertyDescriptor.DefaultValue.ToString(CultureInfo.InvariantCulture) : mergedDaysToCheckProperty.Value.ToString(CultureInfo.InvariantCulture);
 
+            this.maxViolationCountPropertyDescriptor = this.tabControl.Core.PropertyDescriptors["MaxViolationCount"] as PropertyDescriptor<int>;
+
+            this.maxViolationCountParentProperty = this.tabControl.ParentSettings == null
+                                      ? null
+                                      : this.tabControl.ParentSettings.GlobalSettings.GetProperty(this.maxViolationCountPropertyDescriptor.PropertyName) as IntProperty;
+
+            var mergedMaxViolationCountProperty = this.tabControl.MergedSettings == null
+                                                 ? null
+                                                 : this.tabControl.MergedSettings.GlobalSettings.GetProperty(this.maxViolationCountPropertyDescriptor.PropertyName) as IntProperty;
+
+            this.maxViolationCountMaskedTextBox.Text = mergedMaxViolationCountProperty == null ? this.maxViolationCountPropertyDescriptor.DefaultValue.ToString(CultureInfo.InvariantCulture) : mergedMaxViolationCountProperty.Value.ToString(CultureInfo.InvariantCulture);
+            
             this.SetBoldState();
 
             // Reset the dirty flag to false now.
@@ -204,7 +221,14 @@ namespace StyleCop
             if (this.daysMaskedTextBox.Enabled && (!this.daysMaskedTextBox.MaskCompleted || this.daysMaskedTextBox.Text == string.Empty))
             {
                 this.toolTip.ToolTipTitle = "Invalid number";
-                this.toolTip.Show("Enter a valid number.", this.daysMaskedTextBox, this.daysMaskedTextBox.Width - 16, -200, 5000);
+                this.toolTip.Show("Enter a valid number.", this.daysMaskedTextBox, this.daysMaskedTextBox.Width, -20, 5000);
+                return false;
+            }
+
+            if (!this.maxViolationCountMaskedTextBox.MaskCompleted || this.maxViolationCountMaskedTextBox.Text == string.Empty)
+            {
+                this.toolTip.ToolTipTitle = "Invalid number";
+                this.toolTip.Show("Enter a valid number.", this.maxViolationCountMaskedTextBox, this.maxViolationCountMaskedTextBox.Width, -20, 5000);
                 return false;
             }
 
@@ -225,11 +249,11 @@ namespace StyleCop
                     new BooleanProperty(this.tabControl.Core, this.autoUpdateCheckPropertyDescriptor.PropertyName, this.autoUpdateCheckBox.Checked));
 
                 this.tabControl.LocalSettings.GlobalSettings.SetProperty(
-                    new BooleanProperty(this.tabControl.Core, this.autoUpdateCheckPropertyDescriptor.PropertyName, this.autoUpdateCheckBox.Checked));
-
-                this.tabControl.LocalSettings.GlobalSettings.SetProperty(
                     new IntProperty(this.tabControl.Core, this.daysToCheckPropertyDescriptor.PropertyName, Convert.ToInt32(this.daysMaskedTextBox.Text)));
 
+                this.tabControl.LocalSettings.GlobalSettings.SetProperty(
+                    new IntProperty(this.tabControl.Core, this.maxViolationCountPropertyDescriptor.PropertyName, Convert.ToInt32(this.maxViolationCountMaskedTextBox.Text)));
+                
                 this.dirty = false;
                 this.tabControl.DirtyChanged();
 
@@ -260,6 +284,14 @@ namespace StyleCop
             this.autoUpdateParentProperty = this.tabControl.ParentSettings == null ?
                null :
                this.tabControl.ParentSettings.GlobalSettings.GetProperty(this.autoUpdateCheckPropertyDescriptor.PropertyName) as BooleanProperty;
+
+            this.daysToCheckParentProperty = this.tabControl.ParentSettings == null ?
+               null :
+               this.tabControl.ParentSettings.GlobalSettings.GetProperty(this.daysToCheckPropertyDescriptor.PropertyName) as IntProperty;
+
+            this.maxViolationCountParentProperty = this.tabControl.ParentSettings == null ?
+               null :
+               this.tabControl.ParentSettings.GlobalSettings.GetProperty(this.maxViolationCountPropertyDescriptor.PropertyName) as IntProperty;
             
             this.SetBoldState();
         }
@@ -318,11 +350,10 @@ namespace StyleCop
             this.checkForUpdatesLabel = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.autoUpdateCheckBox = new System.Windows.Forms.CheckBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.label3 = new System.Windows.Forms.Label();
+            this.maxViolationCountMaskedTextBox = new System.Windows.Forms.MaskedTextBox();
             this.panel3.SuspendLayout();
-            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -353,7 +384,8 @@ namespace StyleCop
             this.daysMaskedTextBox.ResetOnPrompt = false;
             this.daysMaskedTextBox.ResetOnSpace = false;
             this.daysMaskedTextBox.TextMaskFormat = System.Windows.Forms.MaskFormat.ExcludePromptAndLiterals;
-            this.daysMaskedTextBox.TextChanged += new EventHandler(this.DaysMaskedTextBoxTextChanged);
+            this.daysMaskedTextBox.TextChanged += new System.EventHandler(this.DaysMaskedTextBoxTextChanged);
+            this.daysMaskedTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DaysMaskedTextBoxKeyDown);
             // 
             // panel3
             // 
@@ -384,25 +416,30 @@ namespace StyleCop
             this.autoUpdateCheckBox.UseVisualStyleBackColor = true;
             this.autoUpdateCheckBox.CheckedChanged += new System.EventHandler(this.AutoUpdateCheckBoxCheckedChanged);
             // 
-            // label2
+            // label3
             // 
-            resources.ApplyResources(this.label2, "label2");
-            this.label2.Name = "label2";
+            resources.ApplyResources(this.label3, "label3");
+            this.label3.Name = "label3";
             // 
-            // panel1
+            // maxViolationCountMaskedTextBox
             // 
-            resources.ApplyResources(this.panel1, "panel1");
-            this.panel1.Controls.Add(this.enableCache);
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Name = "panel1";
-            // 
-            // toolTip
-            // 
-            this.toolTip.IsBalloon = true;
+            this.maxViolationCountMaskedTextBox.AllowPromptAsInput = false;
+            this.maxViolationCountMaskedTextBox.CausesValidation = false;
+            this.maxViolationCountMaskedTextBox.CutCopyMaskFormat = System.Windows.Forms.MaskFormat.ExcludePromptAndLiterals;
+            resources.ApplyResources(this.maxViolationCountMaskedTextBox, "maxViolationCountMaskedTextBox");
+            this.maxViolationCountMaskedTextBox.Name = "maxViolationCountMaskedTextBox";
+            this.maxViolationCountMaskedTextBox.RejectInputOnFirstFailure = true;
+            this.maxViolationCountMaskedTextBox.ResetOnPrompt = false;
+            this.maxViolationCountMaskedTextBox.ResetOnSpace = false;
+            this.maxViolationCountMaskedTextBox.TextMaskFormat = System.Windows.Forms.MaskFormat.ExcludePromptAndLiterals;
+            this.maxViolationCountMaskedTextBox.TextChanged += new System.EventHandler(this.MaxViolationCountTextBoxTextChanged);
+            this.maxViolationCountMaskedTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MaxViolationCountMaskedTextBoxKeyDown);
             // 
             // CacheOptions
             // 
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.enableCache);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.maxViolationCountMaskedTextBox);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.label1);
             this.MinimumSize = new System.Drawing.Size(246, 80);
@@ -410,11 +447,22 @@ namespace StyleCop
             resources.ApplyResources(this, "$this");
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
+        }
+
+        void MaxViolationCountTextBoxTextChanged(object sender, EventArgs e)
+        {
+            Param.Ignore(sender, e);
+
+            if (!this.dirty)
+            {
+                this.dirty = true;
+                this.tabControl.DirtyChanged();
+            }
+
+            this.SetBoldState();
         }
 
         void DaysMaskedTextBoxTextChanged(object sender, EventArgs e)
@@ -505,6 +553,25 @@ namespace StyleCop
 
                 this.daysMaskedTextBox.Font = bold ? new Font(this.daysMaskedTextBox.Font, FontStyle.Bold) : new Font(this.daysMaskedTextBox.Font, FontStyle.Regular);
             }
+
+            if (this.maxViolationCountPropertyDescriptor != null)
+            {
+                bold = this.maxViolationCountParentProperty == null
+                           ? this.maxViolationCountMaskedTextBox.Text != this.maxViolationCountPropertyDescriptor.DefaultValue.ToString(CultureInfo.InvariantCulture)
+                           : this.maxViolationCountMaskedTextBox.Text != this.maxViolationCountParentProperty.Value.ToString(CultureInfo.InvariantCulture);
+
+                this.maxViolationCountMaskedTextBox.Font = bold ? new Font(this.maxViolationCountMaskedTextBox.Font, FontStyle.Bold) : new Font(this.maxViolationCountMaskedTextBox.Font, FontStyle.Regular);
+            }
+        }
+
+        private void DaysMaskedTextBoxKeyDown(object sender, KeyEventArgs e)
+        {
+            this.toolTip.Hide(this.daysMaskedTextBox);
+        }
+
+        private void MaxViolationCountMaskedTextBoxKeyDown(object sender, KeyEventArgs e)
+        {
+            this.toolTip.Hide(this.maxViolationCountMaskedTextBox);
         }
 
         #endregion Private Methods

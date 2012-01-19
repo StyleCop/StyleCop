@@ -31,47 +31,33 @@ namespace StyleCop.VisualStudio
     /// </summary>
     internal abstract class AnalysisHelper : IDisposable
     {
-        #region Private Constants
+        #region Private Fields
+
+         /// <summary>
+        /// System service provider.
+        /// </summary>
+        private readonly IServiceProvider serviceProvider;
 
         /// <summary>
-        /// The default maximum number of violations we can encounter in one run before we quit.
+        /// The collection of known VS project types and their properties.
         /// </summary>
-        private const int DefaultMaxViolationCount = 1000;
-
-        #endregion Private Constants
-
-        #region Private Fields
+        private readonly Dictionary<string, Dictionary<string, string>> projectTypes = new Dictionary<string, Dictionary<string, string>>();
 
         /// <summary>
         /// The StyleCop core object.
         /// </summary>
         private StyleCopCore core;
-
-        /// <summary>
-        /// System service provider.
-        /// </summary>
-        private IServiceProvider serviceProvider;
-
+       
         /// <summary>
         /// The current violation count.
         /// </summary>
         private int violationCount;
-
-        /// <summary>
-        /// The maximum number of violations we can encounter in one run before we quit.
-        /// </summary>
-        private int maxViolationCount = DefaultMaxViolationCount;
-
+        
         /// <summary>
         /// Stores the list of violations encountered.
         /// </summary>
         private List<ViolationInfo> violations;
-
-        /// <summary>
-        /// The collection of known VS project types and their properties.
-        /// </summary>
-        private Dictionary<string, Dictionary<string, string>> projectTypes = new Dictionary<string, Dictionary<string, string>>();
-
+        
         #endregion Private Fields
 
         #region Constructor
@@ -151,9 +137,7 @@ namespace StyleCop.VisualStudio
             this.core.OutputGenerated += this.CoreOutputGenerated;
 
             this.RegisterEnvironmentEvents();
-
-            this.InitializeMaxViolationCount();
-
+            
             // Extract language specific information from the parsers configurations.
             this.RetrieveParserConfiguration();
         }
@@ -187,8 +171,8 @@ namespace StyleCop.VisualStudio
                 else
                 {
                     AnalysisThread analyze = new AnalysisThread(full, projects, this.core);
-                    analyze.Complete += new EventHandler(this.AnalyzeComplete);
-                    System.Threading.Thread thread = new System.Threading.Thread(new ThreadStart(analyze.AnalyzeProc));
+                    analyze.Complete += this.AnalyzeComplete;
+                    System.Threading.Thread thread = new System.Threading.Thread(analyze.AnalyzeProc);
 
                     if (thread != null)
                     {
@@ -428,34 +412,7 @@ namespace StyleCop.VisualStudio
                 }
             }
         }
-
-        /// <summary>
-        /// Get the max violations value from the registry if it exists.
-        /// </summary>
-        private void InitializeMaxViolationCount()
-        {
-            object value = this.core.Registry.CUGetValue("MaxViolations");
-            if (value != null)
-            {
-                try
-                {
-                    this.maxViolationCount = Convert.ToInt32(value, CultureInfo.InvariantCulture);
-                }
-                catch (InvalidCastException)
-                {
-                    this.maxViolationCount = DefaultMaxViolationCount;
-                }
-                catch (FormatException)
-                {
-                    this.maxViolationCount = DefaultMaxViolationCount;
-                }
-                catch (OverflowException)
-                {
-                    this.maxViolationCount = DefaultMaxViolationCount;
-                }
-            }
-        }
-
+        
         /// <summary>
         /// Called when output should be added to the Ouput pane.
         /// </summary>
@@ -468,14 +425,13 @@ namespace StyleCop.VisualStudio
             // Make sure this is running on the main thread.
             if (InvisibleForm.Instance.InvokeRequired)
             {
-                EventHandler<OutputEventArgs> outputDelegate = new EventHandler<OutputEventArgs>(
-                    this.CoreOutputGenerated);
+                EventHandler<OutputEventArgs> outputDelegate = this.CoreOutputGenerated;
 
                 InvisibleForm.Instance.Invoke(outputDelegate, sender, e);
             }
             else
             {
-                OutputWindowPane pane = VSWindows.GetInstance(this.serviceProvider).OutputPane;
+                var pane = VSWindows.GetInstance(this.serviceProvider).OutputPane;
                 if (pane != null)
                 {
                     pane.OutputLine(e.Output);
@@ -497,7 +453,7 @@ namespace StyleCop.VisualStudio
             
             if (InvisibleForm.Instance.InvokeRequired)
             {
-                EventHandler complete = new EventHandler(this.AnalyzeCompleteMain);
+                EventHandler complete = this.AnalyzeCompleteMain;
                 InvisibleForm.Instance.Invoke(complete, sender, e);
             }
             else
@@ -520,19 +476,16 @@ namespace StyleCop.VisualStudio
 
             StyleCopTrace.In(sender, e);
             
-            OutputWindowPane pane = VSWindows.GetInstance(this.serviceProvider).OutputPane;
+            var pane = VSWindows.GetInstance(this.serviceProvider).OutputPane;
             if (pane != null)
             {
                 if (this.core.Cancel)
                 {
-                    pane.OutputLine(string.Format(
-                        CultureInfo.InvariantCulture, Strings.MiniLogBreak, Strings.Cancelled));
+                    pane.OutputLine(string.Format(CultureInfo.InvariantCulture, Strings.MiniLogBreak, Strings.Cancelled));
                 }
                 else
                 {
-                    pane.OutputLine(string.Format(
-                        CultureInfo.InvariantCulture, Strings.MiniLogBreak, Strings.Done));
-
+                    pane.OutputLine(string.Format(CultureInfo.InvariantCulture, Strings.MiniLogBreak, Strings.Done));
                     pane.OutputLine(string.Format(CultureInfo.InvariantCulture, Strings.ViolationCount, this.violationCount));
                 }
             }
@@ -568,16 +521,15 @@ namespace StyleCop.VisualStudio
                 {
                     ++this.violationCount;
                 }
-
-                // Check the count. At some point we don't allow any more violations 
-                // so we cancel the analyze run.
-                if (this.maxViolationCount > 0 && this.violationCount == this.maxViolationCount)
+                
+                // Check the count. At some point we don't allow any more violations so we cancel the analyze run.
+                if (e.SourceCode.Project.MaxViolationCount > 0 && this.violationCount == e.SourceCode.Project.MaxViolationCount)
                 {
                     this.Cancel();
                 }
 
-                ICodeElement element = e.Element;
-                ViolationInfo violation = new ViolationInfo();
+                var element = e.Element;
+                var violation = new ViolationInfo();
                 violation.Description = string.Concat(e.Violation.Rule.CheckId, ": ", e.Message);
                 violation.LineNumber = e.LineNumber;
                 violation.Rule = e.Violation.Rule;
@@ -602,19 +554,5 @@ namespace StyleCop.VisualStudio
         }
 
         #endregion Private Methods
-
-        /*
-        private static bool FileItemAnalysisSupported(IVsHierarchy hierarchy)
-        {
-            Param.AssertNotNull(hierarchy, "hierarchy");
-            return false;
-        }
-
-        private static bool AnalysisSupported(IVsMultiItemSelect multiSelection)
-        {
-            Param.AssertNotNull(multiSelection, "multiSelection");
-            return false;
-        }
-        */
     }
 }

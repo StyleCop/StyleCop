@@ -44,6 +44,12 @@
       FriendlyName="Days To Check For Updates"
       Description="How many days to go before checking for updates to StyleCop."
     />
+    <IntegerProperty
+      Name="MaxViolationCount"
+      DefaultValue="1000"
+      FriendlyName="Max Violation Count"
+      Description="How many violations to occur before cancelling current analysis."
+    />
   </Properties>
   <Rules>
     <Rule Name="ExceptionOccurred" CheckId="SA0001">

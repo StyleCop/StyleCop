@@ -24,7 +24,10 @@ namespace StyleCop.VisualStudio
     using System.Security;
     using System.Windows.Forms;
     using EnvDTE;
+
+    using Microsoft.VisualStudio;
     using Microsoft.VisualStudio.Shell;
+    using Microsoft.VisualStudio.Shell.Interop;
 
     using StyleCop.Diagnostics;
 
@@ -36,6 +39,11 @@ namespace StyleCop.VisualStudio
         #region Private Fields
 
         /// <summary>
+        /// The service provider we are created with.
+        /// </summary>
+        private readonly IServiceProvider serviceProvider;
+
+        /// <summary>
         /// The StyleCop violation that this task represents.
         /// </summary>
         private ViolationInfo violation;
@@ -44,9 +52,7 @@ namespace StyleCop.VisualStudio
         /// Instance of the analysis core.
         /// </summary>
         private StyleCopCore core;
-
-        private IServiceProvider serviceProvider;
-
+        
         #endregion Private Fields
 
         /// <summary>
@@ -66,8 +72,9 @@ namespace StyleCop.VisualStudio
             this.Text = violation.Description;
             this.ErrorCategory = TaskErrorCategory.Warning;
             this.serviceProvider = serviceProvider;
+            this.SetHierarchyItem();
         }
-
+        
         /// <summary>
         /// Gets an instance of the StyleCopCore.
         /// </summary>
@@ -200,6 +207,33 @@ namespace StyleCop.VisualStudio
             }
 
             return systemFolder;
+        }
+
+        /// <summary>
+        /// Sets the containing project of the file (The IVsHierarchy) if available.
+        /// </summary>
+        private void SetHierarchyItem()
+        {
+            var solution = this.serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution;
+
+            if (solution == null || this.Document == null)
+            {
+                return;
+            }
+
+            var project = ProjectUtilities.GetProject(this.Document);
+            
+            if (project == null)
+            {
+                return;
+            }
+
+            IVsHierarchy hierarchyItem;
+            var result = solution.GetProjectOfUniqueName(project.UniqueName, out hierarchyItem);
+            if (result == VSConstants.S_OK)
+            {
+                this.HierarchyItem = hierarchyItem;
+            }
         }
 
         /// <summary>

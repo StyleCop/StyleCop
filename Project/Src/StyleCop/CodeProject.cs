@@ -25,6 +25,11 @@ namespace StyleCop
         #region Private Fields
 
         /// <summary>
+        /// The default maximum violation count.
+        /// </summary>
+        private const int DefaultMaxViolationCount = 1000;
+       
+        /// <summary>
         /// The location where the project is contained.
         /// </summary>
         private string location;
@@ -68,6 +73,11 @@ namespace StyleCop
         /// How many days to wait before checking for updates.
         /// </summary>
         private int? daysToCheckForUpdates;
+
+        /// <summary>
+        /// Maximum number of violations to occur before cancelling analysis.
+        /// </summary>
+        private int? maxViolationCount;
         
         #endregion Private Fields
 
@@ -286,6 +296,38 @@ namespace StyleCop
                 }
 
                 return this.daysToCheckForUpdates == null ? 2 : this.daysToCheckForUpdates.Value;
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating how many violations should occur before cancelling analysis.
+        /// </summary>
+        public virtual int MaxViolationCount
+        {
+            get
+            {
+                if (this.maxViolationCount == null && this.settingsLoaded)
+                {
+                    if (this.settings != null)
+                    {
+                        var descriptor = this.settings.Core.PropertyDescriptors["MaxViolationCount"] as PropertyDescriptor<int>;
+                        if (descriptor != null)
+                        {
+                            var property = this.settings.GlobalSettings.GetProperty(descriptor.PropertyName) as IntProperty;
+                            this.maxViolationCount = property == null ? descriptor.DefaultValue : property.Value;
+                        }
+                        else
+                        {
+                            this.maxViolationCount = DefaultMaxViolationCount;
+                        }
+                    }
+                    else
+                    {
+                        this.maxViolationCount = DefaultMaxViolationCount;
+                    }
+                }
+
+                return this.maxViolationCount == null ? DefaultMaxViolationCount : this.maxViolationCount.Value;
             }
         }
 

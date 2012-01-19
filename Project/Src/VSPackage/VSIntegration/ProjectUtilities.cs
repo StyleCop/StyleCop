@@ -189,6 +189,67 @@ namespace StyleCop.VisualStudio
         }
 
         /// <summary>
+        /// Gets the EnvDTE.Project for the given file.
+        /// </summary>
+        /// <param name="file">The file to retrieve the document for.</param>
+        /// <returns>Returns the Project object.</returns>
+        internal static Project GetProject(string file)
+        {
+            Param.AssertValidString(file, "file");
+
+            Document doc = null;
+            
+            try
+            {
+                DTE applicationObject = GetDTE();
+
+                // Look for the file in the currently loaded project.
+                if (applicationObject.Solution.Projects != null)
+                {
+                    foreach (Project project in applicationObject.Solution.Projects)
+                    {
+                        object codeEditor = EnumerateProject(
+                            project,
+                            null,
+                            new ProjectItemInvoker(OpenCodeEditor),
+                            null,
+                            file);
+
+                        if (codeEditor != null)
+                        {
+                            doc = codeEditor as Document;
+                            if (doc != null)
+                            {
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                // Look for the item in the currently opened documents.
+                if (doc == null)
+                {
+                    if (applicationObject.Documents != null)
+                    {
+                        foreach (Document document in applicationObject.Documents)
+                        {
+                            if (string.Compare(document.FullName, file, StringComparison.OrdinalIgnoreCase) == 0)
+                            {
+                                doc = document;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (COMException)
+            {
+            }
+
+            return doc != null ? doc.ProjectItem.ContainingProject : null;
+        }
+        
+        /// <summary>
         /// Attempts to locate a code editor document for the given file within the given project.
         /// </summary>
         /// <param name="projectItem">The project item to operate on.</param>
