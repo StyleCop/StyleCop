@@ -25,6 +25,7 @@ namespace StyleCop.ReSharper61.Options
 
     using JetBrains.Application;
     using JetBrains.Application.Settings;
+    using JetBrains.Application.Settings.Store.Implementation;
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Feature.Services.CodeCleanup;
     using JetBrains.ReSharper.Psi;
@@ -68,6 +69,11 @@ namespace StyleCop.ReSharper61.Options
         private readonly OptionsSettingsSmartContext smartContext;
 
         /// <summary>
+        /// The lifetime for this instance.
+        /// </summary>
+        private readonly JB::JetBrains.DataFlow.Lifetime lifetime;
+
+        /// <summary>
         /// The detected StyleCop path.
         /// </summary>
         private static string styleCopDetectedPath;
@@ -85,7 +91,7 @@ namespace StyleCop.ReSharper61.Options
         public StyleCopOptionsPage(OptionsSettingsSmartContext settingsSmartContext, IThreading threading, JB::JetBrains.DataFlow.Lifetime lifetime)
         {
             this.smartContext = settingsSmartContext;
-
+            this.lifetime = lifetime;
             this.InitializeComponent();
             this.dashesCountMaskedTextBox.ValidatingType = typeof(int);
             this.warningPanel.Visible = !CodeStyleOptionsValid(settingsSmartContext);
@@ -129,11 +135,26 @@ namespace StyleCop.ReSharper61.Options
         /// <summary>
         /// Resets the CodeStyleOptions to be StyleCop compatible.
         /// </summary>
-        /// <param name="solution">The solution to reset.</param>
-        public static void ResetCodeStyleOptions(ISolution solution)
+        /// <param name="solution">
+        /// The solution to reset.
+        /// </param>
+        /// <param name="lifetime">
+        /// The lifetime for this instance.
+        /// </param>
+        public static void ResetCodeStyleOptions(ISolution solution, JB::JetBrains.DataFlow.Lifetime lifetime)
         {
-            var settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, solution);
-            
+            IContextBoundSettingsStore settingsStore;
+
+            if (solution == null)
+            {
+                var component = Shell.Instance.GetComponent<SettingsStore>();
+                settingsStore = component.BindToContextLive(lifetime, ContextRange.ApplicationWide);
+            }
+            else
+            {
+                settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, solution);
+            }
+
             settingsStore.SetValue((CSharpFormatSettingsKey key) => key.ALIGN_FIRST_ARG_BY_PAREN, false);
             settingsStore.SetValue((CSharpFormatSettingsKey key) => key.ALIGN_LINQ_QUERY, true);
             settingsStore.SetValue((CSharpFormatSettingsKey key) => key.ALIGN_MULTILINE_ARGUMENT, false);
@@ -364,110 +385,113 @@ namespace StyleCop.ReSharper61.Options
             string reorderingPatterns;
             using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("StyleCop.ReSharper61.Resources.ReorderingPatterns.xml"))
             {
-                using (StreamReader reader = new StreamReader(stream))
+                using (var reader = new StreamReader(stream))
                 {
                     reorderingPatterns = reader.ReadToEnd();
                 }
             }
             
             settingsStore.SetValue((CSharpMemberOrderPatternSettings key) => key.CustomPattern, reorderingPatterns);
-           
-            CodeCleanupProfile styleCopProfile = null;
-
-            CodeCleanup codeCleanupInstance = CodeCleanup.GetInstance(solution);
-
-            List<CodeCleanupProfile> profiles = new List<CodeCleanupProfile>();
-
-            var codeCleanupSettings = Shell.Instance.GetComponent<CodeCleanupSettingsComponent>();
-            var currentProfiles = codeCleanupSettings.GetProfiles(settingsStore);
-
-            // Find the StyleCop profile
-            foreach (CodeCleanupProfile profile in currentProfiles)
+            
+            if (solution != null)
             {
-                if (!profile.IsDefault)
+                CodeCleanupProfile styleCopProfile = null;
+
+                CodeCleanup codeCleanupInstance = CodeCleanup.GetInstance(solution);
+
+                var profiles = new List<CodeCleanupProfile>();
+
+                var codeCleanupSettings = Shell.Instance.GetComponent<CodeCleanupSettingsComponent>();
+                var currentProfiles = codeCleanupSettings.GetProfiles(settingsStore);
+
+                // Find the StyleCop profile
+                foreach (CodeCleanupProfile profile in currentProfiles)
                 {
-                    CodeCleanupProfile clone = profile.Clone();
-
-                    profiles.Add(clone);
-
-                    if (clone.Name == "StyleCop")
+                    if (!profile.IsDefault)
                     {
-                        styleCopProfile = clone;
+                        CodeCleanupProfile clone = profile.Clone();
+
+                        profiles.Add(clone);
+
+                        if (clone.Name == "StyleCop")
+                        {
+                            styleCopProfile = clone;
+                        }
                     }
                 }
+
+                if (styleCopProfile == null)
+                {
+                    styleCopProfile = codeCleanupSettings.CreateEmptyProfile("StyleCop");
+                    profiles.Add(styleCopProfile);
+                }
+
+                SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "CSArrangeThisQualifier", null, true);
+
+                SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "CSUpdateFileHeader", null, false);
+
+                SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "CSOptimizeUsings", "OptimizeUsings", true);
+                SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "CSOptimizeUsings", "EmbraceInRegion", false);
+                SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "CSOptimizeUsings", "RegionName", string.Empty);
+
+                SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "CSReformatCode", null, true);
+
+                SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "CSharpFormatDocComments", null, true);
+
+                SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "CSReorderTypeMembers", null, true);
+
+                SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1600ElementsMustBeDocumented", true);
+                SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1604ElementDocumentationMustHaveSummary", true);
+                SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1609PropertyDocumentationMustHaveValue", true);
+                SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1611ElementParametersMustBeDocumented", true);
+                SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1615ElementReturnValueMustBeDocumented", true);
+                SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1617VoidReturnValueMustNotBeDocumented", true);
+                SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1618GenericTypeParametersMustBeDocumented", true);
+                SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1626SingleLineCommentsMustNotUseDocumentationStyleSlashes", true);
+                SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1628DocumentationTextMustBeginWithACapitalLetter", true);
+                SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1629DocumentationTextMustEndWithAPeriod", true);
+                SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1633SA1641UpdateFileHeader", 2); // Replace Copyright
+                SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1639FileHeaderMustHaveSummary", true);
+                SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1642ConstructorSummaryDocumentationMustBeginWithStandardText", true);
+                SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1643DestructorSummaryDocumentationMustBeginWithStandardText", true);
+                SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1644DocumentationHeadersMustNotContainBlankLines", true);
+
+                SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Layout", "SA1500CurlyBracketsForMultiLineStatementsMustNotShareLine", true);
+                SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Layout", "SA1509OpeningCurlyBracketsMustNotBePrecededByBlankLine", true);
+                SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Layout", "SA1510ChainedStatementBlocksMustNotBePrecededByBlankLine", true);
+                SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Layout", "SA1511WhileDoFooterMustNotBePrecededByBlankLine", true);
+                SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Layout", "SA1512SingleLineCommentsMustNotBeFollowedByBlankLine", true);
+                SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Layout", "SA1513ClosingCurlyBracketMustBeFollowedByBlankLine", true);
+                SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Layout", "SA1514ElementDocumentationHeaderMustBePrecededByBlankLine", true);
+                SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Layout", "SA1515SingleLineCommentMustBeProceededByBlankLine", true);
+
+                SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Maintainability", "SA1119StatementMustNotUseUnnecessaryParenthesis", true);
+
+                SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Ordering", "AlphabeticalUsingDirectives", 1); // Alphabetical
+                SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Ordering", "ExpandUsingDirectives", 1); // FullyQualify
+                SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Ordering", "SA1212PropertyAccessorsMustFollowOrder", true);
+                SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Ordering", "SA1213EventAccessorsMustFollowOrder", true);
+
+                SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Readability", "SA1100DoNotPrefixCallsWithBaseUnlessLocalImplementationExists", true);
+                SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Readability", "SA1106CodeMustNotContainEmptyStatements", true);
+                SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Readability", "SA1108BlockStatementsMustNotContainEmbeddedComments", true);
+                SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Readability", "SA1109BlockStatementsMustNotContainEmbeddedRegions", true);
+                SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Readability", "SA1120CommentsMustContainText", true);
+                SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Readability", "SA1121UseBuiltInTypeAlias", true);
+                SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Readability", "SA1122UseStringEmptyForEmptyStrings", true);
+                SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Readability", "SA1123DoNotPlaceRegionsWithinElements", true);
+                SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Readability", "SA1124CodeMustNotContainEmptyRegions", true);
+
+                SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Spacing", "SA1001CommasMustBeSpacedCorrectly", true);
+                SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Spacing", "SA1005SingleLineCommentsMustBeginWithSingleSpace", true);
+                SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Spacing", "SA1006PreprocessorKeywordsMustNotBePrecededBySpace", true);
+                SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Spacing", "SA1021NegativeSignsMustBeSpacedCorrectly", true);
+                SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Spacing", "SA1022PositiveSignsMustBeSpacedCorrectly", true);
+                SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Spacing", "SA1025CodeMustNotContainMultipleWhitespaceInARow", true);
+
+                codeCleanupSettings.SetProfiles(profiles, settingsStore);
+                codeCleanupSettings.SetSilentCleanupProfileName(settingsStore, styleCopProfile.Name);
             }
-
-            if (styleCopProfile == null)
-            {
-                styleCopProfile = codeCleanupSettings.CreateEmptyProfile("StyleCop");
-                profiles.Add(styleCopProfile);
-            }
-
-            SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "CSArrangeThisQualifier", null, true);
-
-            SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "CSUpdateFileHeader", null, false);
-
-            SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "CSOptimizeUsings", "OptimizeUsings", true);
-            SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "CSOptimizeUsings", "EmbraceInRegion", false);
-            SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "CSOptimizeUsings", "RegionName", string.Empty);
-
-            SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "CSReformatCode", null, true);
-
-            SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "CSharpFormatDocComments", null, true);
-
-            SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "CSReorderTypeMembers", null, true);
-
-            SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1600ElementsMustBeDocumented", true);
-            SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1604ElementDocumentationMustHaveSummary", true);
-            SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1609PropertyDocumentationMustHaveValue", true);
-            SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1611ElementParametersMustBeDocumented", true);
-            SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1615ElementReturnValueMustBeDocumented", true);
-            SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1617VoidReturnValueMustNotBeDocumented", true);
-            SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1618GenericTypeParametersMustBeDocumented", true);
-            SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1626SingleLineCommentsMustNotUseDocumentationStyleSlashes", true);
-            SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1628DocumentationTextMustBeginWithACapitalLetter", true);
-            SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1629DocumentationTextMustEndWithAPeriod", true);
-            SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1633SA1641UpdateFileHeader", 2); // Replace Copyright
-            SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1639FileHeaderMustHaveSummary", true);
-            SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1642ConstructorSummaryDocumentationMustBeginWithStandardText", true);
-            SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1643DestructorSummaryDocumentationMustBeginWithStandardText", true);
-            SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1644DocumentationHeadersMustNotContainBlankLines", true);
-
-            SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Layout", "SA1500CurlyBracketsForMultiLineStatementsMustNotShareLine", true);
-            SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Layout", "SA1509OpeningCurlyBracketsMustNotBePrecededByBlankLine", true);
-            SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Layout", "SA1510ChainedStatementBlocksMustNotBePrecededByBlankLine", true);
-            SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Layout", "SA1511WhileDoFooterMustNotBePrecededByBlankLine", true);
-            SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Layout", "SA1512SingleLineCommentsMustNotBeFollowedByBlankLine", true);
-            SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Layout", "SA1513ClosingCurlyBracketMustBeFollowedByBlankLine", true);
-            SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Layout", "SA1514ElementDocumentationHeaderMustBePrecededByBlankLine", true);
-            SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Layout", "SA1515SingleLineCommentMustBeProceededByBlankLine", true);
-
-            SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Maintainability", "SA1119StatementMustNotUseUnnecessaryParenthesis", true);
-
-            SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Ordering", "AlphabeticalUsingDirectives", 1); // Alphabetical
-            SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Ordering", "ExpandUsingDirectives", 1); // FullyQualify
-            SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Ordering", "SA1212PropertyAccessorsMustFollowOrder", true);
-            SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Ordering", "SA1213EventAccessorsMustFollowOrder", true);
-
-            SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Readability", "SA1100DoNotPrefixCallsWithBaseUnlessLocalImplementationExists", true);
-            SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Readability", "SA1106CodeMustNotContainEmptyStatements", true);
-            SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Readability", "SA1108BlockStatementsMustNotContainEmbeddedComments", true);
-            SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Readability", "SA1109BlockStatementsMustNotContainEmbeddedRegions", true);
-            SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Readability", "SA1120CommentsMustContainText", true);
-            SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Readability", "SA1121UseBuiltInTypeAlias", true);
-            SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Readability", "SA1122UseStringEmptyForEmptyStrings", true);
-            SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Readability", "SA1123DoNotPlaceRegionsWithinElements", true);
-            SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Readability", "SA1124CodeMustNotContainEmptyRegions", true);
-
-            SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Spacing", "SA1001CommasMustBeSpacedCorrectly", true);
-            SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Spacing", "SA1005SingleLineCommentsMustBeginWithSingleSpace", true);
-            SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Spacing", "SA1006PreprocessorKeywordsMustNotBePrecededBySpace", true);
-            SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Spacing", "SA1021NegativeSignsMustBeSpacedCorrectly", true);
-            SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Spacing", "SA1022PositiveSignsMustBeSpacedCorrectly", true);
-            SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Spacing", "SA1025CodeMustNotContainMultipleWhitespaceInARow", true);
-
-            codeCleanupSettings.SetProfiles(profiles, settingsStore);
-            codeCleanupSettings.SetSilentCleanupProfileName(settingsStore, styleCopProfile.Name);
         }
         
         /// <summary>
@@ -2129,7 +2153,7 @@ namespace StyleCop.ReSharper61.Options
 
         private void ResetFormatOptionsButton_Click(object sender, EventArgs e)
         {
-            ResetCodeStyleOptions(Utils.GetSolution());
+            ResetCodeStyleOptions(Utils.GetSolution(), this.lifetime);
             MessageBox.Show(
                @"C# code style options have been set in order to fix StyleCop violations. Ensure your R# Settings are saved.", @"StyleCop", MessageBoxButtons.OK);
             this.resetFormatOptionsButton.Enabled = false;

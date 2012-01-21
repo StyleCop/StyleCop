@@ -12,6 +12,7 @@
 //   notice, or any other, from this software.
 // </license>
 // --------------------------------------------------------------------------------------------------------------------
+extern alias JB;
 
 namespace StyleCop.ReSharper61.ShellComponents
 {
@@ -40,9 +41,10 @@ namespace StyleCop.ReSharper61.ShellComponents
         /// <summary>
         /// Initializes a new instance of the StyleCopCodeStyleChecker class.
         /// </summary>
-        public StyleCopCodeStyleChecker()
+        /// <param name="lifetime">The lifetime for this instance.</param>
+        public StyleCopCodeStyleChecker(JB::JetBrains.DataFlow.Lifetime lifetime)
         {
-            this.Init();
+            this.Init(lifetime);
         }
 
         #region Implemented Interfaces
@@ -52,7 +54,10 @@ namespace StyleCop.ReSharper61.ShellComponents
         /// <summary>
         /// The init.
         /// </summary>
-        public void Init()
+        /// <param name="lifetime">
+        /// The lifetime for this object.
+        /// </param>
+        public void Init(JB::JetBrains.DataFlow.Lifetime lifetime)
         {
             var oneTimeInitializationRequiredRegistryKey = RetrieveFromRegistry("LastInitializationDate");
 
@@ -91,7 +96,7 @@ namespace StyleCop.ReSharper61.ShellComponents
             {
                 var settingsStore = Shell.Instance.GetComponent<SettingsStore>();
 
-                var settings = settingsStore.BindToContextLive(null, ContextRange.ApplicationWide);
+                var settings = settingsStore.BindToContextLive(lifetime, ContextRange.ApplicationWide);
 
                 if (!StyleCopOptionsPage.CodeStyleOptionsValid(settings))
                 {
@@ -104,7 +109,7 @@ namespace StyleCop.ReSharper61.ShellComponents
                             MessageBoxDefaultButton.Button2);
                     if (result == DialogResult.Yes)
                     {
-                        StyleCopOptionsPage.ResetCodeStyleOptions(null);
+                        StyleCopOptionsPage.ResetCodeStyleOptions(null, lifetime);
                     }
                 }
 
