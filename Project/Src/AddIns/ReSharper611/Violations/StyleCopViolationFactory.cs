@@ -21,10 +21,9 @@ namespace StyleCop.ReSharper611.Violations
     #region Using Directives
 
     using JetBrains.Application;
-    using JetBrains.Application.Settings;
     using JetBrains.DocumentModel;
+    using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Daemon;
-    using JetBrains.ReSharper.Psi;
 
     using StyleCop.CSharp;
     using StyleCop.ReSharper611.Options;
@@ -61,8 +60,9 @@ namespace StyleCop.ReSharper611.Violations
             var ruleID = violation.Violation.Rule.CheckId;
             var highlightID = HighlightingRegistering.GetHighlightID(ruleID);
 
-            // var severity = HighlightingSettingsManager.Instance.Settings.GetSeverity(highlightID);
-            var severity = HighlightingSettingsManager.Instance.GetConfigurableSeverity(highlightID, null);
+            // To get the correct severity for a highlight we need to specify the current solution.
+            var solutionManager = Shell.Instance.GetComponent<ISolutionManager>();
+            var severity = HighlightingSettingsManager.Instance.GetConfigurableSeverity(highlightID, solutionManager.CurrentSolution);
             
             switch (severity)
             {
