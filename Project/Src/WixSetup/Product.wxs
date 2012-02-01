@@ -13,7 +13,7 @@
     </Upgrade>
     
     <!-- Disallow installing an older version over a newer version -->
-    <Condition Message="A later version of [ProductName] is already installed.">NOT NEWERVERSIONDETECTED</Condition>
+    <Condition Message="A later version of [ProductName] is already installed."><![CDATA[NOT NEWERVERSIONDETECTED]]></Condition>
 
     <Feature Id='Feature_StyleCopPackage'
              Title='Visual Studio integration'
@@ -21,16 +21,16 @@
              Level="1" Display='expand' ConfigurableDirectory='INSTALLDIR' AllowAdvertise='no' InstallDefault='local' Absent='allow'>
       <ComponentGroupRef Id="VisualStudio_Common" />
       <!-- Require VS 2008, 2010 or 2011 to be installed -->
-      <Condition Level="1"><![CDATA[VS90DEVENV<>"" OR VS2010DEVENV<>"" OR VS2011DEVENV<>""]]></Condition>
-      <Condition Level="0"><![CDATA[VS90DEVENV="" AND VS2010DEVENV="" AND VS2011DEVENV=""]]></Condition>
+      <Condition Level="1"><![CDATA[VS90DEVENV <> "" OR VS2010DEVENV <> "" OR VS2011DEVENV <> ""]]></Condition>
+      <Condition Level="0"><![CDATA[VS90DEVENV = "" AND VS2010DEVENV = "" AND VS2011DEVENV = ""]]></Condition>
       
       <Feature Id='Feature_ReSharper'
                Title='R# integration'
-               Description='Files for setting up StyleCop integration with JetBrains ReSharper 5.1 (5.1.3000.12), 6.0 (6.0.2202.688) or 6.1 (6.1.38.146).'
+               Description='Files for setting up StyleCop integration with JetBrains ReSharper 5.1 ($(var.SupportedReSharper51Version)), 6.0 ($(var.SupportedReSharper60Version)), 6.1 ($(var.SupportedReSharper610Version)) or 6.1.1 ($(var.SupportedReSharper611Version)).'
                Level='500' AllowAdvertise="no" Display="expand" InstallDefault="local" TypicalDefault="install" Absent="allow">
         <ComponentGroupRef Id="ReSharper_Common" />
-        <Condition Level="1"><![CDATA[RESHARPER61_VS90_VERSION<>"" OR RESHARPER61_VS100_VERSION<>"" OR VS2011DEVENV<>"" OR RESHARPER60_VS90_VERSION<>"" OR RESHARPER60_VS100_VERSION<>"" OR RESHARPER51_VS90_VERSION<>"" OR RESHARPER51_VS100_VERSION<>""]]></Condition>
-        <Condition Level="0"><![CDATA[RESHARPER61_VS90_VERSION="" AND RESHARPER61_VS100_VERSION="" AND VS2011DEVENV="" AND RESHARPER60_VS90_VERSION="" AND RESHARPER60_VS100_VERSION="" AND RESHARPER51_VS90_VERSION="" AND RESHARPER51_VS100_VERSION="" ]]></Condition>
+        <Condition Level="1"><![CDATA[RESHARPER51_VERSION <> "" OR RESHARPER60_VERSION <> "" OR RESHARPER61_VERSION <> "" OR VS2011DEVENV <> ""]]></Condition>
+        <Condition Level="0"><![CDATA[RESHARPER51_VERSION = "" AND RESHARPER60_VERSION = "" AND RESHARPER61_VERSION = "" AND VS2011DEVENV = ""]]></Condition>
       </Feature>
 
       <Feature Id='Feature_VisualStudioTemplates'
@@ -38,8 +38,8 @@
                Description='Files for updating the standard Visual Studio templates to be StyleCop compliant.'
                Level='500' AllowAdvertise="no" Display="expand" InstallDefault="local" TypicalDefault="install" Absent="allow">
         <ComponentGroupRef Id="VSTemplates_Common" /> 
-        <Condition Level="1"><![CDATA[VS2010DEVENV<>"" OR VS2011DEVENV<>""]]></Condition>
-        <Condition Level="0"><![CDATA[VS2010DEVENV="" AND VS2011DEVENV=""]]></Condition>      
+        <Condition Level="1"><![CDATA[VS2010DEVENV <> "" OR VS2011DEVENV <> ""]]></Condition>
+        <Condition Level="0"><![CDATA[VS2010DEVENV = "" AND VS2011DEVENV = ""]]></Condition>      
       </Feature>
 
     </Feature>
@@ -52,23 +52,23 @@
     </Feature>
 
     <InstallUISequence>
-      <Custom Action='IsPrivileged' Before='AppSearch'>NOT Privileged</Custom>
-      <Custom Action="ToggleALLUSERSToPerUser" Before="FindRelatedProducts">STYLECOP_PREVIOUS_INSTALL_PER_USER AND NOT Installed</Custom>
-      <Custom Action="RevertALLUSERSToPerMachine" After="FindRelatedProducts">STYLECOP_PREVIOUS_INSTALL_PER_USER AND NOT Installed</Custom>
+      <Custom Action='IsPrivileged' Before='AppSearch'><![CDATA[NOT Privileged]]></Custom>
+      <Custom Action="ToggleALLUSERSToPerUser" Before="FindRelatedProducts"><![CDATA[STYLECOP_PREVIOUS_INSTALL_PER_USER AND NOT Installed]]></Custom>
+      <Custom Action="RevertALLUSERSToPerMachine" After="FindRelatedProducts"><![CDATA[STYLECOP_PREVIOUS_INSTALL_PER_USER AND NOT Installed]]></Custom>
       <!-- Move AppSearch to before FindRelatedProduct so that RegistrySearch properties get evaluated before they are used -->      
-      <AppSearch Before="FindRelatedProducts" />
+      <AppSearch Before="FindRelatedProducts" />     
     </InstallUISequence>
 
     <InstallExecuteSequence>
-      <Custom Action='IsPrivileged' Before='AppSearch'>NOT Privileged</Custom>
-      <Custom Action="ToggleALLUSERSToPerUser" Before="FindRelatedProducts">STYLECOP_PREVIOUS_INSTALL_PER_USER AND NOT Installed</Custom>
-      <Custom Action="RevertALLUSERSToPerMachine" After="FindRelatedProducts">STYLECOP_PREVIOUS_INSTALL_PER_USER AND NOT Installed</Custom>
+      <Custom Action='IsPrivileged' Before='AppSearch'><![CDATA[NOT Privileged]]></Custom>
+      <Custom Action="ToggleALLUSERSToPerUser" Before="FindRelatedProducts"><![CDATA[STYLECOP_PREVIOUS_INSTALL_PER_USER AND NOT Installed]]></Custom>
+      <Custom Action="RevertALLUSERSToPerMachine" After="FindRelatedProducts"><![CDATA[STYLECOP_PREVIOUS_INSTALL_PER_USER AND NOT Installed]]></Custom>
       <!-- Move AppSearch to before FindRelatedProduct so that RegistrySearch properties get evaluated before they are used -->      
       <AppSearch Before="FindRelatedProducts" />
       <RemoveExistingProducts After="InstallInitialize" />
       <!--  We replace the use of VS90Setup with StyleCopVS90Setup to add support for other devenv.exe flags -->
-      <Custom Action="StyleCopVS90Setup" Before="InstallFinalize"><![CDATA[&Feature_StyleCopPackage > 1 AND VS90DEVENV<>"" AND NOT Installed]]></Custom>
-      <Custom Action="StyleCopVS10Setup" Before="InstallFinalize"><![CDATA[(&Feature_StyleCopPackage > 1 AND VS2010DEVENV<>"" AND NOT Installed) OR (&Feature_VisualStudioTemplates = 3)]]></Custom>
+      <Custom Action="StyleCopVS90Setup" Before="InstallFinalize"><![CDATA[&Feature_StyleCopPackage > 1 AND VS90DEVENV <> "" AND NOT Installed]]></Custom>
+      <Custom Action="StyleCopVS10Setup" Before="InstallFinalize"><![CDATA[(&Feature_StyleCopPackage > 1 AND VS2010DEVENV <> "" AND NOT Installed) OR (&Feature_VisualStudioTemplates = 3)]]></Custom>
       <Custom Action="SetARPINSTALLLOCATION" After="InstallValidate"></Custom>
       <Custom Action='CA_BackupVisualStudioTemplateFiles' Before='InstallFiles'><![CDATA[&Feature_VisualStudioTemplates = 3]]></Custom>
       <Custom Action='CA_RestoreVisualStudioTemplateFiles' Before='InstallFinalize'><![CDATA[&Feature_VisualStudioTemplates = 2 AND !Feature_VisualStudioTemplates = 3]]></Custom>
@@ -80,8 +80,41 @@
     <WixVariable Id="WixUIDialogBmp" Value="Bitmaps\dlgbmp.bmp" />
 
     <UI>
-      <UIRef Id="WixUI_FeatureTree" />
+      <UIRef Id="WixUI_FeatureTreeCustom" />
       <UIRef Id="WixUI_ErrorProgressText" />
+      
+      <Publish Dialog="CustomizeDlg" Control="Next" Event="NewDialog" Value="ReSharperVersionDlg" Order="1">
+        <![CDATA[
+          (&Feature_ReSharper = 3)
+          AND
+          (
+            (RESHARPER51_VERSION <> "" AND RESHARPER51_VERSION <> "$(var.SupportedReSharper51Version)")
+            OR
+            (RESHARPER60_VERSION <> "" AND RESHARPER60_VERSION <> "$(var.SupportedReSharper60Version)")
+            OR
+            (
+            RESHARPER61_VERSION <> "" AND
+                                      (
+                                        RESHARPER61_VERSION <> "$(var.SupportedReSharper610Version)" OR RESHARPER61_VERSION <> "$(var.SupportedReSharper611Version)"
+                                      )
+            )
+          )
+          ]]>
+      </Publish>
+      <Publish Dialog="CustomizeDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg" Order="2">
+        <![CDATA[
+          (&Feature_ReSharper = 3)
+          AND
+          (
+            (RESHARPER51_VERSION = "" OR RESHARPER51_VERSION = "$(var.SupportedReSharper51Version)")
+            AND
+            (RESHARPER60_VERSION = "" OR RESHARPER60_VERSION = "$(var.SupportedReSharper60Version)")
+            AND
+            (RESHARPER61_VERSION = "" OR RESHARPER61_VERSION = "$(var.SupportedReSharper610Version)" OR RESHARPER61_VERSION = "$(var.SupportedReSharper611Version)")
+          )
+          ]]>
+      </Publish>
+      <Publish Dialog="CustomizeDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg" Order="3"><![CDATA[&Feature_ReSharper < 3]]></Publish>
     </UI>
 
     <Media Id="1" Cabinet="WixSetup.cab" EmbedCab="yes" />

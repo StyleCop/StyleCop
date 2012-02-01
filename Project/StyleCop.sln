@@ -40,11 +40,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VSIXProject", "Src\VSIXProj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StyleCopTest", "Test\Harnesses\TestHarness\StyleCopTest.csproj", "{73E4EB43-7B77-4084-81F9-35BA8241B686}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReSharper61", "Src\AddIns\ReSharper61\ReSharper61.csproj", "{5C635946-F0AE-4406-81BC-13B9118CCD9F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReSharper611", "Src\AddIns\ReSharper611\ReSharper611.csproj", "{5C635946-F0AE-4406-81BC-13B9118CCD9F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReSharper60", "Src\AddIns\ReSharper60\ReSharper60.csproj", "{067FAEAC-CC57-463B-A965-D3ECF7EC225C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReSharper600", "Src\AddIns\ReSharper600\ReSharper600.csproj", "{067FAEAC-CC57-463B-A965-D3ECF7EC225C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReSharper51", "Src\AddIns\ReSharper51\ReSharper51.csproj", "{0999800F-94F0-4D64-A87B-3643DED29710}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReSharper513", "Src\AddIns\ReSharper513\ReSharper513.csproj", "{0999800F-94F0-4D64-A87B-3643DED29710}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReSharper610", "Src\AddIns\ReSharper610\ReSharper610.csproj", "{1160267D-CE00-4122-881D-64F9DCAE2C37}"
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
@@ -157,6 +159,12 @@ Global
 		{0999800F-94F0-4D64-A87B-3643DED29710}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0999800F-94F0-4D64-A87B-3643DED29710}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0999800F-94F0-4D64-A87B-3643DED29710}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1160267D-CE00-4122-881D-64F9DCAE2C37}.Debug.NoReSharper|Any CPU.ActiveCfg = Debug|Any CPU
+		{1160267D-CE00-4122-881D-64F9DCAE2C37}.Debug.NoReSharper|Any CPU.Build.0 = Debug|Any CPU
+		{1160267D-CE00-4122-881D-64F9DCAE2C37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1160267D-CE00-4122-881D-64F9DCAE2C37}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1160267D-CE00-4122-881D-64F9DCAE2C37}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1160267D-CE00-4122-881D-64F9DCAE2C37}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

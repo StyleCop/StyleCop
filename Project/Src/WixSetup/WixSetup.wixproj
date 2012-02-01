@@ -35,7 +35,7 @@
     <SuppressDroppingUnrealTables>False</SuppressDroppingUnrealTables>
     <SuppressFileHashAndInfo>False</SuppressFileHashAndInfo>
     <SuppressFiles>False</SuppressFiles>
-    <SuppressIces>ICE38;ICE64;ICE91</SuppressIces>
+    <SuppressIces>ICE03;ICE38;ICE64;ICE91</SuppressIces>
     <LinkerSuppressIntermediateFileVersionMatching>False</LinkerSuppressIntermediateFileVersionMatching>
     <SuppressLayout>False</SuppressLayout>
     <SuppressMsiAssemblyTableProcessing>False</SuppressMsiAssemblyTableProcessing>
@@ -80,7 +80,7 @@
     <SuppressDroppingUnrealTables>False</SuppressDroppingUnrealTables>
     <SuppressFileHashAndInfo>False</SuppressFileHashAndInfo>
     <SuppressFiles>False</SuppressFiles>
-    <SuppressIces>ICE38;ICE64;ICE91</SuppressIces>
+    <SuppressIces>ICE03;ICE38;ICE64;ICE91</SuppressIces>
     <LinkerSuppressIntermediateFileVersionMatching>False</LinkerSuppressIntermediateFileVersionMatching>
     <SuppressLayout>False</SuppressLayout>
     <SuppressMsiAssemblyTableProcessing>False</SuppressMsiAssemblyTableProcessing>
@@ -106,6 +106,8 @@
     <SuppressAllWarnings>False</SuppressAllWarnings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="WixUI_FeatureTreeCustom.wxs" />
+    <Compile Include="ReSharperVersionDlg.wxs" />
     <Compile Include="Vs2011.wxs" />
     <Compile Include="MSBuild.wxs" />
     <Compile Include="Product.wxs" />
@@ -119,11 +121,11 @@
   <ItemGroup>
     <WixExtension Include="WixUIExtension">
       <Name>WixUIExtension</Name>
-      <HintPath>WixUIExtension</HintPath>
+      <HintPath>$(WixToolsDirectory)\WixUIExtension.dll</HintPath>
     </WixExtension>
     <WixExtension Include="WixVSExtension">
       <Name>WixVSExtension</Name>
-      <HintPath>WixVSExtension</HintPath>
+      <HintPath>$(WixToolsDirectory)\WixVSExtension.dll</HintPath>
     </WixExtension>
   </ItemGroup>
   <ItemGroup>

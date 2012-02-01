@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?include SharedIncludes.wxi ?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+   <Fragment>
+<UI>
+	 <Dialog Id="ReSharperVersionDlg" Width="370" Height="270" Title="[ProductName] Setup">
+      <Control Id="Title" Type="Text" X="135" Y="20" Width="220" Height="60" Transparent="yes" NoPrefix="yes">
+        <Text><![CDATA[{\WixUI_Font_Bigger}Unsupported build of ReSharper detected]]></Text>
+      </Control>
+      <Control Id="Bitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="210" TabSkip="no" Text="WixUI_Bmp_Dialog" />
+      <Control Id="Description" Type="Text" X="135" Y="80" Width="220" Height="60" Transparent="yes" NoPrefix="yes">
+        <Text><![CDATA[This can happen if you are running a ReSharper nightly build or a Service Pack we're not compatible with.]]></Text>
+      </Control>
+
+      <Control Id="Supported51VersionInfo" Type="Text" X="135" Y="120" Width="220" Height="60" Transparent="yes" NoPrefix="yes">
+        <Text><![CDATA[Supported R# 5.1 build: $(var.SupportedReSharper51Version)]]></Text>
+        <Condition Action="hide"><![CDATA[RESHARPER51_VERSION = ""]]></Condition>
+        <Condition Action="show"><![CDATA[RESHARPER51_VERSION <> ""]]></Condition>
+      </Control>
+      <Control Id="Supported60VersionInfo" Type="Text" X="135" Y="130" Width="220" Height="60" Transparent="yes" NoPrefix="yes">
+        <Text><![CDATA[Supported R# 6.0 build: $(var.SupportedReSharper60Version)]]></Text>
+        <Condition Action="hide"><![CDATA[RESHARPER60_VERSION = ""]]></Condition>
+        <Condition Action="show"><![CDATA[RESHARPER60_VERSION <> ""]]></Condition>
+      </Control>
+      <Control Id="Supported610VersionInfo" Type="Text" X="135" Y="140" Width="220" Height="60" Transparent="yes" NoPrefix="yes">
+        <Text><![CDATA[Supported R# 6.1 builds: $(var.SupportedReSharper610Version) or $(var.SupportedReSharper611Version)]]></Text>
+        <Condition Action="hide"><![CDATA[RESHARPER61_VERSION = ""]]></Condition>
+        <Condition Action="show"><![CDATA[RESHARPER61_VERSION <> ""]]></Condition>
+      </Control>
+     
+      <Control Id="RunningVersionInfo51" Type="Text" X="135" Y="160" Width="220" Height="60" Transparent="yes" NoPrefix="yes">
+        <Text><![CDATA[Installed R# 5.1 build: [RESHARPER51_VERSION]]]></Text>
+        <Condition Action="hide"><![CDATA[RESHARPER51_VERSION = ""]]></Condition>
+        <Condition Action="show"><![CDATA[RESHARPER51_VERSION <> ""]]></Condition>
+      </Control>
+      <Control Id="RunningVersionInfo60" Type="Text" X="135" Y="170" Width="220" Height="60" Transparent="yes" NoPrefix="yes">
+        <Text><![CDATA[Installed R# 6.0 build: [RESHARPER60_VERSION]]]></Text>
+        <Condition Action="hide"><![CDATA[RESHARPER60_VERSION = ""]]></Condition>
+        <Condition Action="show"><![CDATA[RESHARPER60_VERSION <> ""]]></Condition>
+      </Control>
+      <Control Id="RunningVersionInfo61" Type="Text" X="135" Y="180" Width="220" Height="60" Transparent="yes" NoPrefix="yes">
+        <Text><![CDATA[Installed R# 6.1 build: [RESHARPER61_VERSION]]]></Text>
+        <Condition Action="hide"><![CDATA[RESHARPER61_VERSION = ""]]></Condition>
+        <Condition Action="show"><![CDATA[RESHARPER61_VERSION <> ""]]></Condition>
+      </Control>
+         
+      <Control Id="BottomLine" Type="Line" X="0" Y="210" Width="370" Height="0" />
+
+      <Control Id="ReSharperWarningCheckBox" Type="CheckBox" X="135" Y="220" Width="220" Height="18" Property="ReSharperWarningAccepted" CheckBoxValue="1">
+        <Text><![CDATA[I've been warned, but attempt to install it anyway.]]></Text>
+      </Control>
+
+      <Control Id="Back" Type="PushButton" X="180" Y="243" Width="56" Height="17" Disabled="no" Text="&amp;Back">
+        <Publish Event="NewDialog" Value="CustomizeDlg">1</Publish>
+      </Control>
+      
+      <Control Id="Next" Type="PushButton" X="236" Y="243" Width="56" Height="17" Default="yes" Text="&amp;Next">
+        <Publish Event="NewDialog" Value="VerifyReadyDlg">1</Publish>  
+        <Condition Action="disable"><![CDATA[ReSharperWarningAccepted <> "1"]]></Condition>
+        <Condition Action="enable"><![CDATA[ReSharperWarningAccepted = "1"]]></Condition>
+      </Control>
+
+      <Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Cancel="yes" Text="Cancel">
+        <Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
+      </Control>
+    </Dialog>
+</UI>
+</Fragment>
+</Wix>
