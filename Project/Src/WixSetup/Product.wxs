@@ -29,8 +29,8 @@
                Description='Files for setting up StyleCop integration with JetBrains ReSharper 5.1 ($(var.SupportedReSharper51Version)), 6.0 ($(var.SupportedReSharper60Version)), 6.1 ($(var.SupportedReSharper610Version)) or 6.1.1 ($(var.SupportedReSharper611Version)).'
                Level='500' AllowAdvertise="no" Display="expand" InstallDefault="local" TypicalDefault="install" Absent="allow">
         <ComponentGroupRef Id="ReSharper_Common" />
-        <Condition Level="1"><![CDATA[RESHARPER51_VERSION <> "" OR RESHARPER60_VERSION <> "" OR RESHARPER61_VERSION <> "" OR VS2011DEVENV <> ""]]></Condition>
-        <Condition Level="0"><![CDATA[RESHARPER51_VERSION = "" AND RESHARPER60_VERSION = "" AND RESHARPER61_VERSION = "" AND VS2011DEVENV = ""]]></Condition>
+        <Condition Level="1"><![CDATA[RESHARPER51_VERSION <> "" OR RESHARPER60_VERSION <> "" OR RESHARPER61_VERSION <> ""]]></Condition>
+        <Condition Level="0"><![CDATA[RESHARPER51_VERSION = "" AND RESHARPER60_VERSION = "" AND RESHARPER61_VERSION = ""]]></Condition>
       </Feature>
 
       <Feature Id='Feature_VisualStudioTemplates'
