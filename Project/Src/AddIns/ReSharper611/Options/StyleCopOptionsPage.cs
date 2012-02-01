@@ -43,7 +43,7 @@ namespace StyleCop.ReSharper611.Options
     /// <summary>
     /// Options page to allow the plugins options to be set from within the Resharper Options window.
     /// </summary>
-    [OptionsPage(PID, "StyleCop", "StyleCop.ReSharper61.Resources.StyleCop.png", ParentId = "Tools")]
+    [OptionsPage(PID, "StyleCop", "StyleCop.ReSharper611.Resources.StyleCop.png", ParentId = "Tools")]
     public partial class StyleCopOptionsPage : UserControl, IOptionsPage
     {
         #region Constants and Fields
@@ -383,7 +383,7 @@ namespace StyleCop.ReSharper611.Options
             settingsStore.SetValue(CSharpUsingSettingsAccessor.SortUsings, true);
             
             string reorderingPatterns;
-            using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("StyleCop.ReSharper61.Resources.ReorderingPatterns.xml"))
+            using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("StyleCop.ReSharper611.Resources.ReorderingPatterns.xml"))
             {
                 using (var reader = new StreamReader(stream))
                 {
@@ -1528,7 +1528,7 @@ namespace StyleCop.ReSharper611.Options
 
             string reorderingPatterns;
             using (
-                var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("StyleCop.ReSharper61.Resources.ReorderingPatterns.xml"))
+                var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("StyleCop.ReSharper611.Resources.ReorderingPatterns.xml"))
             {
                 using (var reader = new StreamReader(stream))
                 {

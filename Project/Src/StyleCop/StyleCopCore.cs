@@ -1359,9 +1359,10 @@ namespace StyleCop
                         // We want to skip the StyleCop assemblies.
                         if (!assemblyPath.EndsWith("\\stylecop.dll", StringComparison.OrdinalIgnoreCase) &&
                             !assemblyPath.EndsWith("\\stylecop.vspackage.dll", StringComparison.OrdinalIgnoreCase) &&
-                            !assemblyPath.EndsWith("\\stylecop.resharper51.dll", StringComparison.OrdinalIgnoreCase) &&
-                            !assemblyPath.EndsWith("\\stylecop.resharper60.dll", StringComparison.OrdinalIgnoreCase) &&
-                            !assemblyPath.EndsWith("\\stylecop.resharper61.dll", StringComparison.OrdinalIgnoreCase))
+                            !assemblyPath.EndsWith("\\stylecop.resharper513.dll", StringComparison.OrdinalIgnoreCase) &&
+                            !assemblyPath.EndsWith("\\stylecop.resharper600.dll", StringComparison.OrdinalIgnoreCase) &&
+                            !assemblyPath.EndsWith("\\stylecop.resharper610.dll", StringComparison.OrdinalIgnoreCase) &&
+                            !assemblyPath.EndsWith("\\stylecop.resharper611.dll", StringComparison.OrdinalIgnoreCase))
                         {
                             try
                             {

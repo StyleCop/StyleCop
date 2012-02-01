@@ -37,7 +37,7 @@ namespace StyleCop.ReSharper600.Options
     /// <summary>
     /// Options page to allow the plugins options to be set from within the Resharper Options window.
     /// </summary>
-    [OptionsPage(PageName, "StyleCop", "StyleCop.ReSharper60.Resources.StyleCop.png", ParentId = "Tools")]
+    [OptionsPage(PageName, "StyleCop", "StyleCop.ReSharper600.Resources.StyleCop.png", ParentId = "Tools")]
     public partial class StyleCopOptionsPage : UserControl, IOptionsPage
     {
         #region Constants and Fields

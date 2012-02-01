@@ -48,7 +48,7 @@ namespace StyleCop.ReSharper611.QuickFixes.Framework
         {
             Image image = null;
 
-            var resourceStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("StyleCop.ReSharper61.Resources.ShowQuickFix.png");
+            var resourceStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("StyleCop.ReSharper611.Resources.ShowQuickFix.png");
 
             if (resourceStream != null)
             {
