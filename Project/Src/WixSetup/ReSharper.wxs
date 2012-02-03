@@ -42,12 +42,24 @@
           <Directory Id="Dir_JetBrains_ReSharper" Name="ReSharper">
             
             <Directory Id="Dir_JetBrains_ReSharper_v51" Name="v5.1">
-              <Directory Id="Dir_JetBrains_ReSharper_v51_Plugins" Name="Plugins">
-                <Directory Id="Dir_JetBrains_ReSharper_v51_Plugins_Drop" Name="$(var.ProductNameShort)" FileSource="$(var.DropDir)">
-                  <Component Id="COM_RESHARPER513" Guid="{716F19FC-1A97-4A4D-A384-1D11CBDB5251}">
-                    <File Id="FILE_RESHARPER513" Name="StyleCop.ReSharper513.dll" Checksum="yes" Vital="yes"/>
-                    <Condition><![CDATA[RESHARPER51_VERSION <> ""]]></Condition>
-                  </Component>                 
+              <Directory Id="Dir_JetBrains_ReSharper_v51_vs10" Name="vs10.0">
+                <Directory Id="Dir_JetBrains_ReSharper_v51_vs10_Plugins" Name="Plugins">
+                  <Directory Id="Dir_JetBrains_ReSharper_v51_vs10_Plugins_Drop" Name="$(var.ProductNameShort)" FileSource="$(var.DropDir)">
+                    <Component Id="COM_RESHARPER513_vs10" Guid="{716F19FC-1A97-4A4D-A384-1D11CBDB5251}">
+                      <File Id="FILE_RESHARPER513_vs10" Name="StyleCop.ReSharper513.dll" Checksum="yes" Vital="yes"/>
+                      <Condition><![CDATA[RESHARPER51_VERSION <> ""]]></Condition>
+                    </Component>                 
+                  </Directory>
+                </Directory>
+              </Directory>
+              <Directory Id="Dir_JetBrains_ReSharper_v51_vs9" Name="vs9.0">
+                <Directory Id="Dir_JetBrains_ReSharper_v51_vs9_Plugins" Name="Plugins">
+                  <Directory Id="Dir_JetBrains_ReSharper_v51_vs9_Plugins_Drop" Name="$(var.ProductNameShort)" FileSource="$(var.DropDir)">
+                    <Component Id="COM_RESHARPER513_vs9" Guid="{4F073D7F-9F57-47C8-BAED-00A7A42BAF3D}">
+                      <File Id="FILE_RESHARPER513_vs9" Name="StyleCop.ReSharper513.dll" Checksum="yes" Vital="yes"/>
+                      <Condition><![CDATA[RESHARPER51_VERSION <> ""]]></Condition>
+                    </Component>                 
+                  </Directory>
                 </Directory>
               </Directory>
             </Directory>
@@ -157,7 +169,8 @@
     </DirectoryRef>
 
     <ComponentGroup Id="ReSharper_Common" >
-      <ComponentRef Id="COM_RESHARPER513" />
+      <ComponentRef Id="COM_RESHARPER513_vs9" />
+      <ComponentRef Id="COM_RESHARPER513_vs10" />
       <ComponentRef Id="COM_RESHARPER600" />
       <ComponentRef Id="COM_RESHARPER610" />
       <ComponentRef Id="COM_RESHARPER611" />
