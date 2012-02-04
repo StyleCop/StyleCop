@@ -14,5 +14,5 @@
     <?define SupportedReSharper51Version = "5.1.3000.12" ?>  <!-- 5.1.3000.12  -->
     <?define SupportedReSharper60Version = "6.0.2202.688" ?> <!-- 6.0.2202.688 -->
     <?define SupportedReSharper610Version = "6.1.37.86" ?>   <!-- 6.1.37.86   -->
-    <?define SupportedReSharper611Version = "6.1.41.36" ?>  <!-- 6.1.41.36   -->
+    <?define SupportedReSharper611Version = "6.1.42.60" ?>  <!-- 6.1.42.60   -->
 </Include>

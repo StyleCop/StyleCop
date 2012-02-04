@@ -35,7 +35,7 @@ namespace StyleCop.ReSharper513.Options
     /// <summary>
     /// Registers StyleCop Highlighters to allow their severity to be set.
     /// </summary>
-    [ShellComponentImplementation(ProgramConfigurations.ALL)]
+    [ShellComponentImplementation(ProgramConfigurations.VS_ADDIN)]
     public class HighlightingRegistering : IShellComponent
     {
         #region Constants and Fields

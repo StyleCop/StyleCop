@@ -177,10 +177,8 @@ namespace StyleCop.ReSharper513.Core
         /// </returns>
         public static bool StyleCopIsAvailable()
         {
-            StyleCopTrace.In();
             AddStyleCopReferencesIfNeeded();
-
-            return StyleCopTrace.Out(StyleCopAssembly != null);
+            return StyleCopAssembly != null;
         }
 
         #endregion
@@ -193,8 +191,6 @@ namespace StyleCop.ReSharper513.Core
         /// </summary>
         private static void AddStyleCopReferencesIfNeeded()
         {
-            StyleCopTrace.In();
-
             if (!referencesAdded)
             {
                 lock (referenceSyncRoot)
@@ -206,8 +202,6 @@ namespace StyleCop.ReSharper513.Core
                     }
                 }
             }
-
-            StyleCopTrace.Out();
         }
 
         /// <summary>
@@ -215,9 +209,7 @@ namespace StyleCop.ReSharper513.Core
         /// </summary>
         private static void HookAssemblyResolveEvent()
         {
-            StyleCopTrace.In();
             AppDomain.CurrentDomain.AssemblyResolve += OnEventHandler;
-            StyleCopTrace.Out();
         }
 
         /// <summary>
@@ -234,16 +226,14 @@ namespace StyleCop.ReSharper513.Core
         /// </returns>
         private static Assembly OnEventHandler(object sender, ResolveEventArgs args)
         {
-            StyleCopTrace.In();
             var styleCopAssemblyPath = StyleCopOptions.Instance.GetAssemblyPath();
             var assemblyName = Path.GetFileNameWithoutExtension(styleCopAssemblyPath) + ",";
 
             if (args.Name.StartsWith(assemblyName))
             {
-                return StyleCopTrace.Out(StyleCopAssembly);
+                return StyleCopAssembly;
             }
-
-            StyleCopTrace.Out();
+            
             return null;
         }
 

@@ -32,7 +32,7 @@ namespace StyleCop.ReSharper513.ShellComponents
     /// <summary>
     /// The StyleCop CodeStyle Checker.
     /// </summary>
-    [ShellComponentImplementation(ProgramConfigurations.ALL)]
+    [ShellComponentImplementation(ProgramConfigurations.VS_ADDIN)]
     public class StyleCopCodeStyleChecker : IShellComponent
     {
         #region Implemented Interfaces
@@ -81,16 +81,16 @@ namespace StyleCop.ReSharper513.ShellComponents
             {
                 if (!StyleCopOptionsPage.CodeStyleOptionsValid(null))
                 {
-                  var result = MessageBox.Show(
+                    var result = MessageBox.Show(
                         @"Your ReSharper code style settings are not completely compatible with StyleCop. Would you like to reset them now?",
                         @"StyleCop",
                         MessageBoxButtons.YesNo,
                         MessageBoxIcon.Question,
                         MessageBoxDefaultButton.Button2);
-                  if (result == DialogResult.Yes)
-                  {
-                      StyleCopOptionsPage.ResetCodeStyleOptions(null);
-                  }
+                    if (result == DialogResult.Yes)
+                    {
+                        StyleCopOptionsPage.ResetCodeStyleOptions(null);
+                    }
                 }
 
                 SetRegistry("LastInitializationDate", todayAsString, RegistryValueKind.String);
