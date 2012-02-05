@@ -203,7 +203,7 @@ namespace StyleCop.CSharp
 
                             case CsTokenType.Comma:
                             case CsTokenType.Semicolon:
-                                this.CheckSemicolonAndComma(tokenNode);
+                                this.CheckSemicolonAndComma(tokens, tokenNode);
                                 break;
 
                             case CsTokenType.OpenParenthesis:
@@ -363,7 +363,7 @@ namespace StyleCop.CSharp
                                 break;
 
                             case CsTokenClass.GenericType:
-                                this.CheckGenericSpacing(tokenNode.Value as GenericType);
+                                this.CheckGenericSpacing(tokens, tokenNode.Value as GenericType);
                                 goto case CsTokenClass.Type;
 
                             case CsTokenClass.Type:
@@ -378,10 +378,12 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Checks the spacing of the tokens within the given generic type token.
         /// </summary>
+        /// <param name="tokens">The masterlist of tokens.</param>
         /// <param name="generic">The generic type token to check.</param>
         [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification = "Minimizing refactoring before release.")]
-        private void CheckGenericSpacing(GenericType generic)
+        private void CheckGenericSpacing(MasterList<CsToken> tokens, GenericType generic)
         {
+            Param.AssertNotNull(tokens, "tokens");
             Param.AssertNotNull(generic, "generic");
 
             // Make sure it contains at least one token.
@@ -398,7 +400,7 @@ namespace StyleCop.CSharp
                     // the generic statement.
                     if (tokenNode.Value.CsTokenClass == CsTokenClass.GenericType)
                     {
-                        this.CheckGenericSpacing(tokenNode.Value as GenericType);
+                        this.CheckGenericSpacing(tokens, tokenNode.Value as GenericType);
                     }
 
                     if (!tokenNode.Value.Generated)
@@ -406,7 +408,7 @@ namespace StyleCop.CSharp
                         switch (tokenNode.Value.CsTokenType)
                         {
                             case CsTokenType.Comma:
-                                this.CheckSemicolonAndComma(tokenNode);
+                                this.CheckSemicolonAndComma(tokens, tokenNode);
                                 break;
 
                             case CsTokenType.OpenParenthesis:
@@ -572,11 +574,13 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Checks a semicolon or comma for spacing.
         /// </summary>
+        /// <param name="tokens">The masterlist of tokens.</param>
         /// <param name="tokenNode">The token node to check.</param>
         [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification = "Minimizing refactoring before release.")]
-        private void CheckSemicolonAndComma(Node<CsToken> tokenNode)
+        private void CheckSemicolonAndComma(MasterList<CsToken> tokens, Node<CsToken> tokenNode)
         {
             Param.AssertNotNull(tokenNode, "tokenNode");
+            Param.AssertNotNull(tokens, "tokens");
 
             bool comma = false;
             if (tokenNode.Value.Text == ",")
@@ -634,6 +638,22 @@ namespace StyleCop.CSharp
                 specialCaseBackwards = false;
             }
 
+            // Work backwards until the first non-whitespace or newline.
+            // If thats a LabelColon then thats fine too. Fix for #7183
+            foreach (CsToken previousNonWhitespaceToken in tokens.ReverseIterator(tokenNode.Previous))
+            {
+                if (previousNonWhitespaceToken.CsTokenType == CsTokenType.LabelColon)
+                {
+                    specialCaseBackwards = true;
+                    break;
+                }
+
+                if (previousNonWhitespaceToken.CsTokenType != CsTokenType.WhiteSpace && previousNonWhitespaceToken.CsTokenType != CsTokenType.EndOfLine)
+                {
+                    break;
+                }
+            }
+            
             // Work forwards and look for the next character on this line.
             found = false;
             itemNode = tokenNode.Next;
