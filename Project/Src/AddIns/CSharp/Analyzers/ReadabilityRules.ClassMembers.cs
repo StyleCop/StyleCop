@@ -709,6 +709,16 @@ namespace StyleCop.CSharp
                                 {
                                     addViolation = false;
                                 }
+
+                                // If we get to here the circumstances could be as follows.
+                                // We're calling a base class static method like Equals or ReferenceEquals.
+                                // We could also have an instance method with the same name and the same number of properties.
+                                // At this point we can't determine whether the prefix should be 'this.' or 'object.'
+                                // Being cautious we dont throw if the name of the method is Equals or ReferenceEquals.
+                                if (word == "Equals" || word == "ReferenceEquals")
+                                {
+                                    addViolation = false;
+                                }
                             }
 
                             if (addViolation)
