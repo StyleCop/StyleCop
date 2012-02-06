@@ -14,8 +14,6 @@
 //-----------------------------------------------------------------------
 namespace StyleCop.VisualStudio
 {
-    using System;
-
     /// <summary>
     /// Stores information about a single violation in a code file.
     /// </summary>
@@ -25,6 +23,11 @@ namespace StyleCop.VisualStudio
         /// The line number that the violation appears on in the code.
         /// </summary>
         public int LineNumber;
+
+        /// <summary>
+        /// The column number that the violation appears on in the code.
+        /// </summary>
+        public int ColumnNumber;
 
         /// <summary>
         /// The description for the violation.
@@ -40,13 +43,5 @@ namespace StyleCop.VisualStudio
         /// The rule that that was violated.
         /// </summary>
         public Rule Rule;
-        
-        /////// <summary>
-        /////// Gets a value indicating whether the violation is a warning.
-        /////// </summary>
-        ////public bool Warning
-        ////{
-        ////    get { return this.Rule == null ? false : this.Rule.Warning; }
-        ////}
     }
 }

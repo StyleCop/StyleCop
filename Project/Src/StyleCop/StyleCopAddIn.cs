@@ -330,6 +330,37 @@ namespace StyleCop
         /// Adds one violation to the given code element.
         /// </summary>
         /// <param name="element">The element that the violation appears in.</param>
+        /// <param name="location">The location in the code where the violation occurs.</param>
+        /// <param name="ruleName">The name of the rule that triggered the violation.</param>
+        /// <param name="values">String parameters to insert into the violation string.</param>
+        public void AddViolation(ICodeElement element, CodeLocation location, string ruleName, params object[] values)
+        {
+            Param.RequireNotNull(element, "element");
+            Param.RequireNotNull(location, "location");
+            Param.RequireValidString(ruleName, "ruleName");
+            Param.Ignore(values);
+
+            // If the rule is disabled or suppressed, skip it.
+            if (this.IsRuleEnabled(element.Document, ruleName))
+            {
+                Rule rule = this.GetRule(ruleName);
+                if (rule == null)
+                {
+                    throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Strings.RuleDoesNotExist, ruleName), "ruleName");
+                }
+
+                if (!this.IsRuleSuppressed(element, rule.CheckId, ruleName, rule.Namespace))
+                {
+                    // Look up this violation type.
+                    this.core.AddViolation(element, rule, location, values);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Adds one violation to the given code element.
+        /// </summary>
+        /// <param name="element">The element that the violation appears in.</param>
         /// <param name="line">The line in the code where the violation occurs.</param>
         /// <param name="ruleName">The name of the rule that triggered the violation.</param>
         /// <param name="values">String parameters to insert into the violation string.</param>
@@ -355,6 +386,23 @@ namespace StyleCop
                     this.core.AddViolation(element, rule, line, values);
                 }
             }
+        }
+
+        /// <summary>
+        /// Adds one violation to the given code element.
+        /// </summary>
+        /// <param name="element">The element that the violation appears in.</param>
+        /// <param name="location">The location in the code where the violation occurs.</param>
+        /// <param name="ruleName">The name of the rule that triggered the violation.</param>
+        /// <param name="values">String parameters to insert into the violation string.</param>
+        public void AddViolation(ICodeElement element, CodeLocation location, Enum ruleName, params object[] values)
+        {
+            Param.Ignore(element);
+            Param.RequireNotNull(location, "location");
+            Param.RequireNotNull(ruleName, "ruleName");
+            Param.Ignore(values);
+
+            this.AddViolation(element, location, ruleName.ToString(), values);
         }
 
         /// <summary>

@@ -1250,10 +1250,38 @@ namespace StyleCop.ReSharper611.Core
 
                 var document = DocumentManager.GetInstance(solution).GetOrCreateDocument(projectFile);
 
-                return GetTextRangeForLineNumber(document, resharperLineNumber);
+                return GetTextRange(document, resharperLineNumber);
             }
         }
 
+        /// <summary>
+        /// Gets a TextRange convering the StyleCop.CodeLocation specified.
+        /// </summary>
+        /// <param name="projectFile">
+        /// The project file the line is in.
+        /// </param>
+        /// <param name="location">
+        /// The location to use.
+        /// </param>
+        /// <returns>
+        /// A TextRange for the CodeLocation.
+        /// </returns>
+        public static JB::JetBrains.Util.TextRange GetTextRange(IProjectFile projectFile, CodeLocation location)
+        {
+            using (ReadLockCookie.Create())
+            {
+                var solution = projectFile.GetSolution();
+                if (solution == null)
+                {
+                    return new JB::JetBrains.Util.TextRange();
+                }
+
+                var document = DocumentManager.GetInstance(solution).GetOrCreateDocument(projectFile);
+
+                return GetTextRange(document, location);
+            }
+        }
+        
         /// <summary>
         /// Gets a TextRange convering the entire line specified.
         /// </summary>
@@ -1266,7 +1294,7 @@ namespace StyleCop.ReSharper611.Core
         /// <returns>
         /// A TextRange for the line.
         /// </returns>
-        public static JB::JetBrains.Util.TextRange GetTextRangeForLineNumber(IDocument document, JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> lineNumber)
+        public static JB::JetBrains.Util.TextRange GetTextRange(IDocument document, JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> lineNumber)
         {
             using (ReadLockCookie.Create())
             {
@@ -1274,6 +1302,38 @@ namespace StyleCop.ReSharper611.Core
                 document.GetLineCount();
                 var start = document.GetLineStartOffset(lineNumber);
                 var end = document.GetLineEndOffsetNoLineBreak(lineNumber);
+                return new JB::JetBrains.Util.TextRange(start, end);
+            }
+        }
+
+        /// <summary>
+        /// Gets a TextRange convering the StyleCop.CodeLocation specified.
+        /// </summary>
+        /// <param name="document">
+        /// The document the line is in.
+        /// </param>
+        /// <param name="location">
+        /// The location to use.
+        /// </param>
+        /// <returns>
+        /// A TextRange for the CodeLocation.
+        /// </returns>
+        public static JB::JetBrains.Util.TextRange GetTextRange(IDocument document, CodeLocation location)
+        {
+            using (ReadLockCookie.Create())
+            {
+                var startLine = ((JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine>)location.StartPoint.LineNumber).Minus1();
+                var endLine = ((JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine>)location.EndPoint.LineNumber).Minus1();
+
+                // must call GetLineCount first - it forces the line index to be built
+                document.GetLineCount();
+                var start = document.GetLineStartOffset(startLine) + location.StartPoint.IndexOnLine;
+                var end = document.GetLineStartOffset(endLine) + location.EndPoint.IndexOnLine;
+                if (start == end)
+                {
+                    end += 1;
+                }
+
                 return new JB::JetBrains.Util.TextRange(start, end);
             }
         }

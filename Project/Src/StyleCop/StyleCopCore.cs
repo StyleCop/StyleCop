@@ -841,6 +841,31 @@ namespace StyleCop
         /// </summary>
         /// <param name="element">The element to add the violation to.</param>
         /// <param name="type">The type of violation to add.</param>
+        /// <param name="location">The location the violation appears on.</param>
+        /// <param name="values">The string values to add to the context string.</param>
+        internal void AddViolation(ICodeElement element, Rule type, CodeLocation location, params object[] values)
+        {
+            Param.Ignore(element);
+            Param.AssertNotNull(type, "type");
+            Param.AssertNotNull(location, "location");
+            Param.Ignore(values);
+
+            // Build up the context string.
+            StringBuilder message = new StringBuilder();
+            message.AppendFormat(CultureInfo.CurrentCulture, type.Context, values);
+
+            // Create the violation object and add it to the list.
+            Violation violation = new Violation(type, element, location, message.ToString());
+
+            // Finally, add the violation.
+            this.AddViolation(element, violation);
+        }
+
+        /// <summary>
+        /// Adds a generic violation.
+        /// </summary>
+        /// <param name="element">The element to add the violation to.</param>
+        /// <param name="type">The type of violation to add.</param>
         /// <param name="line">Line the violation appears on.</param>
         /// <param name="values">The string values to add to the context string.</param>
         internal void AddViolation(ICodeElement element, Rule type, int line, params object[] values)

@@ -66,7 +66,7 @@ namespace StyleCop.VisualStudio
             Param.Ignore(violation);
             
             this.violation = violation;
-            this.Column = 0;
+            this.Column = violation.ColumnNumber;
             this.Document = violation.File;
             this.Line = violation.LineNumber - 1;
             this.Text = violation.Description;

@@ -696,7 +696,7 @@ namespace StyleCop.CSharp
                 {
                     this.AddViolation(
                         tokenNode.Value.FindParentElement(), 
-                        tokenNode.Value.LineNumber, 
+                        tokenNode.Value.Location, 
                         comma ? Rules.CommasMustBeSpacedCorrectly : Rules.SemicolonsMustBeSpacedCorrectly);
                 }
             }
@@ -713,7 +713,7 @@ namespace StyleCop.CSharp
                 {
                     this.AddViolation(
                         tokenNode.Value.FindParentElement(), 
-                        tokenNode.Value.LineNumber, 
+                        tokenNode.Value.Location, 
                         comma ? Rules.CommasMustBeSpacedCorrectly : Rules.SemicolonsMustBeSpacedCorrectly);
                 }
             }
@@ -1782,7 +1782,7 @@ namespace StyleCop.CSharp
                 if (tokenType != CsTokenType.WhiteSpace &&
                     tokenType != CsTokenType.EndOfLine)
                 {
-                    this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.LineNumber, Rules.ColonsMustBeSpacedCorrectly);
+                    this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.ColonsMustBeSpacedCorrectly);
                 }
             }
 
@@ -1795,7 +1795,7 @@ namespace StyleCop.CSharp
                     tokenType == CsTokenType.SingleLineComment ||
                     tokenType == CsTokenType.MultiLineComment)
                 {
-                    this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.LineNumber, Rules.ColonsMustBeSpacedCorrectly);
+                    this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.ColonsMustBeSpacedCorrectly);
                 }
             }
         }

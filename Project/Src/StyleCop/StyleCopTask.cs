@@ -436,11 +436,25 @@ namespace StyleCop
                 {
                     if (e.Warning || this.inputTreatErrorsAsWarnings)
                     {
-                        Log.LogWarning(MSBuildSubCategory, MSBuildErrorCode, null, path, e.LineNumber, 1, 0, 0, message);
+                        if (e.Location == null)
+                        {
+                            this.Log.LogWarning(MSBuildSubCategory, MSBuildErrorCode, null, path, e.LineNumber, 1, 0, 0, message);
+                        }
+                        else
+                        {
+                            this.Log.LogWarning(MSBuildSubCategory, MSBuildErrorCode, null, path, e.Location.StartPoint.LineNumber, e.Location.StartPoint.IndexOnLine, e.Location.EndPoint.LineNumber, e.Location.EndPoint.IndexOnLine, message);
+                        }
                     }
                     else
                     {
-                        Log.LogError(MSBuildSubCategory, MSBuildErrorCode, null, path, e.LineNumber, 1, 0, 0, message);
+                        if (e.Location == null)
+                        {
+                            Log.LogError(MSBuildSubCategory, MSBuildErrorCode, null, path, e.LineNumber, 1, 0, 0, message);
+                        }
+                        else
+                        {
+                            this.Log.LogError(MSBuildSubCategory, MSBuildErrorCode, null, path, e.Location.StartPoint.LineNumber, e.Location.StartPoint.IndexOnLine, e.Location.EndPoint.LineNumber, e.Location.EndPoint.IndexOnLine, message);
+                        }
                     }
                 }
             }

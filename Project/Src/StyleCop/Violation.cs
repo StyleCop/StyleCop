@@ -14,7 +14,7 @@
 //-----------------------------------------------------------------------
 namespace StyleCop
 {
-    using System;
+    using System.Globalization;
 
     /// <summary>
     /// Describes one violation.
@@ -27,6 +27,11 @@ namespace StyleCop
         /// The line number that the violation appears on.
         /// </summary>
         private readonly int line;
+
+        /// <summary>
+        /// The codelocation that the violation appears on.
+        /// </summary>
+        private readonly CodeLocation location;
 
         /// <summary>
         /// The element that the violation appears in.
@@ -62,6 +67,36 @@ namespace StyleCop
         /// </summary>
         /// <param name="rule">The rule that triggered the violation.</param>
         /// <param name="element">The element that this violation appears in.</param>
+        /// <param name="location">The location in the source code where the violation occurs.</param>
+        /// <param name="message">The context message for the violation.</param>
+        internal Violation(Rule rule, ICodeElement element, CodeLocation location, string message)
+        {
+            Param.AssertNotNull(rule, "rule");
+            Param.Ignore(element);
+            Param.AssertNotNull(location, "location");
+            Param.AssertNotNull(message, "message");
+
+            this.rule = rule;
+            this.element = element;
+            this.location = location;
+
+            // If the location has been passed in we set the linenumber.
+            this.line = location.LineNumber;
+            this.message = message;
+
+            if (this.element != null && this.element.Document != null)
+            {
+                this.sourceCode = this.element.Document.SourceCode;
+            }
+
+            this.UpdateKey();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the Violation class.
+        /// </summary>
+        /// <param name="rule">The rule that triggered the violation.</param>
+        /// <param name="element">The element that this violation appears in.</param>
         /// <param name="line">The line in the source code where the violation occurs.</param>
         /// <param name="message">The context message for the violation.</param>
         internal Violation(Rule rule, ICodeElement element, int line, string message)
@@ -74,6 +109,10 @@ namespace StyleCop
             this.rule = rule;
             this.element = element;
             this.line = line;
+
+            // As the line only is passed in we ensure the location is null.
+            // A null location indicates we only know the line it was on.
+            this.location = null;
             this.message = message;
 
             if (this.element != null && this.element.Document != null)
@@ -131,7 +170,18 @@ namespace StyleCop
                 return this.line; 
             }
         }
-        
+
+        /// <summary>
+        /// Gets the location the violation occured on or null if we only know the line number.
+        /// </summary>
+        public CodeLocation Location
+        {
+            get
+            {
+                return this.location;
+            }
+        }
+
         /// <summary>
         /// Gets the element that contains the violation.
         /// </summary>
@@ -184,7 +234,20 @@ namespace StyleCop
         /// </summary>
         private void UpdateKey()
         {
-            this.key = (this.rule.Name + this.line + this.message).GetHashCode();
+            string lineText;
+
+            // If the location has been set we need to allow multiple issues of the same type per line.
+            // The key should join the location parts together (start.line,start.column, end.line, end.column)
+            if (this.location == null)
+            {
+                lineText = this.line.ToString(CultureInfo.InvariantCulture);
+            }
+            else
+            {
+                lineText = string.Format("{0},{1},{2},{3}", this.location.StartPoint.LineNumber, this.location.StartPoint.IndexOnLine, this.location.EndPoint.LineNumber, this.location.EndPoint.IndexOnLine);
+            }
+
+            this.key = string.Format("{0}:{1}:{2}", this.rule.Name, lineText, this.message).GetHashCode();
         }
     }
 }

@@ -284,6 +284,26 @@ namespace StyleCop
                 attrib.Value = e.LineNumber.ToString(CultureInfo.InvariantCulture);
                 violation.Attributes.Append(attrib);
 
+                if (e.Location != null)
+                {
+                    // Add the detailed location if avail.
+                    attrib = this.violations.CreateAttribute("StartLine");
+                    attrib.Value = e.Location.StartPoint.LineNumber.ToString(CultureInfo.InvariantCulture);
+                    violation.Attributes.Append(attrib);
+
+                    attrib = this.violations.CreateAttribute("StartColumn");
+                    attrib.Value = e.Location.StartPoint.IndexOnLine.ToString(CultureInfo.InvariantCulture);
+                    violation.Attributes.Append(attrib);
+
+                    attrib = this.violations.CreateAttribute("EndLine");
+                    attrib.Value = e.Location.EndPoint.LineNumber.ToString(CultureInfo.InvariantCulture);
+                    violation.Attributes.Append(attrib);
+
+                    attrib = this.violations.CreateAttribute("EndColumn");
+                    attrib.Value = e.Location.EndPoint.IndexOnLine.ToString(CultureInfo.InvariantCulture);
+                    violation.Attributes.Append(attrib);
+                }
+
                 // Get the source code that this element is in.
                 SourceCode sourceCode = e.SourceCode;
                 if (sourceCode == null && e.Element != null && e.Element.Document != null)

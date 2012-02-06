@@ -532,6 +532,9 @@ namespace StyleCop.VisualStudio
                 var violation = new ViolationInfo();
                 violation.Description = string.Concat(e.Violation.Rule.CheckId, ": ", e.Message);
                 violation.LineNumber = e.LineNumber;
+
+                violation.ColumnNumber = e.Location != null ? e.Location.StartPoint.IndexOnLine : 0;
+
                 violation.Rule = e.Violation.Rule;
 
                 if (element != null)

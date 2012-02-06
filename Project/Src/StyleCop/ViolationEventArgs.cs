@@ -26,7 +26,7 @@ namespace StyleCop
         /// <summary>
         /// The violation.
         /// </summary>
-        private Violation violation;
+        private readonly Violation violation;
 
         #endregion Private Fields
 
@@ -54,6 +54,17 @@ namespace StyleCop
             get 
             { 
                 return this.violation.Line; 
+            }
+        }
+
+        /// <summary>
+        /// Gets the location in the code where the violation appears or null if only the line number is known.
+        /// </summary>
+        public CodeLocation Location
+        {
+            get
+            {
+                return this.violation.Location;
             }
         }
         

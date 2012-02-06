@@ -216,9 +216,16 @@ namespace StyleCop.ReSharper611.Core
             // if violations fire in the related files we ignore them as we only want to highlight in the current file
             if (path == this.file.Location.FullPath)
             {
-                var line = (JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine>)lineNumber;
+                JB::JetBrains.Util.TextRange textRange;
 
-                var textRange = Utils.GetTextRange(this.file, line.Minus1());
+                if (e.Violation.Location == null)
+                {
+                    textRange = Utils.GetTextRange(this.file, ((JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine>)lineNumber).Minus1());
+                }
+                else
+                {
+                    textRange = Utils.GetTextRange(this.file, e.Violation.Location);
+                }
 
                 // The TextRange could be a completely blank line. If it is just return the line and don't trim it.
                 var documentRange = new DocumentRange(this.document, textRange);
