@@ -4,6 +4,22 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <Fragment>  
 
+    <Property Id="RESHARPER61_VS110_INSTALLDIR" Admin="yes" Secure="yes">
+      <RegistrySearch Id="REG_RESHARPER61_VS110_INSTALLDIR" Root="HKCU" Key="Software\Microsoft\VisualStudio\11.0\ExtensionManager\EnabledExtensions" Name="JetBrains.ReSharper,6.1" Type="raw" />
+    </Property>
+
+    <Property Id="RESHARPER610_VS110_VERSION">
+      <DirectorySearch Id="Dir_RESHARPER610_VS110_VERSION" Path="[RESHARPER61_VS110_INSTALLDIR]">
+        <FileSearch Name="JetBrains.Annotations.dll" MaxVersion="$(var.SupportedReSharper610Version)"/>
+      </DirectorySearch>
+    </Property>  
+
+    <Property Id="RESHARPER611_VS110_VERSION">
+      <DirectorySearch Id="Dir_RESHARPER611_VS110_VERSION" Path="[RESHARPER61_VS110_INSTALLDIR]">
+        <FileSearch Name="JetBrains.Annotations.dll" MinVersion="$(var.SupportedReSharper611MinVersion)" MaxVersion="$(var.SupportedReSharper611Version)"/>
+      </DirectorySearch>
+    </Property>  
+
     <Property Id="RESHARPER61_VERSION" Admin="yes" Secure="yes">
       <RegistrySearch Id="REG_RESHARPER61_VERSION" Root="HKLM" Key="Software\JetBrains\ReSharper\v6.1" Name="ProductVersion" Type="raw" />
     </Property>    
@@ -23,6 +39,14 @@
     <SetProperty Id="RESHARPER60_VERSION" After="AppSearch" Value="[RESHARPER60_VS100_VERSION]">
       <![CDATA[RESHARPER60_VS100_VERSION <>""]]>
     </SetProperty>   
+
+    <Property Id="RESHARPER60_VS90_INSTALLDIR" Admin="yes" Secure="yes">
+      <RegistrySearch Id="REG_RESHARPER60_VS90_INSTALLDIR" Type="directory" Root="HKLM" Key="SOFTWARE\JetBrains\ReSharper\v6.0\vs9.0" Name="InstallDir" />
+    </Property>
+
+    <Property Id="RESHARPER60_VS100_INSTALLDIR" Admin="yes" Secure="yes">
+      <RegistrySearch Id="REG_RESHARPER60_VS100_INSTALLDIR" Type="directory" Root="HKLM" Key="SOFTWARE\JetBrains\ReSharper\v6.0\vs10.0" Name="InstallDir" />
+    </Property>
 
     <Property Id="RESHARPER51_VERSION" Admin="yes" Secure="yes">
       <RegistrySearch Id="REG_RESHARPER51_VERSION" Root="HKLM" Key="Software\JetBrains\ReSharper\v5.1\vs9.0" Name="ProductVersion" Type="raw" />
@@ -80,11 +104,11 @@
                 <Directory Id="Dir_JetBrains_ReSharper_v61_Plugins_Drop" Name="$(var.ProductNameShort)" FileSource="$(var.DropDir)">
                   <Component Id="COM_RESHARPER610" Guid="78E3E9E1-4DCC-4D4A-A37F-27BAE629AE74">
                     <File Id="FILE_RESHARPER610" Name="StyleCop.ReSharper610.dll" Checksum="yes" Vital="yes"/>
-                    <Condition><![CDATA[RESHARPER61_VERSION = "$(var.SupportedReSharper610Version)"]]></Condition>
+                    <Condition><![CDATA[RESHARPER61_VERSION = "$(var.SupportedReSharper610Version)" OR RESHARPER610_VS110_VERSION]]></Condition>
                   </Component>
                   <Component Id="COM_RESHARPER611" Guid="A8D77B23-6B67-4640-8151-2CF482EFBC9C">
                     <File Id="FILE_RESHARPER611" Name="StyleCop.ReSharper611.dll" Checksum="yes" Vital="yes"/>
-                    <Condition><![CDATA[RESHARPER61_VERSION <> "" AND RESHARPER61_VERSION <> "$(var.SupportedReSharper610Version)"]]></Condition>
+                    <Condition><![CDATA[(RESHARPER61_VERSION <> "" AND RESHARPER61_VERSION <> "$(var.SupportedReSharper610Version)") OR (RESHARPER61_VS110_INSTALLDIR <> "" AND RESHARPER610_VS110_VERSION = "")]]></Condition>
                   </Component>                  
                 </Directory>
               </Directory>

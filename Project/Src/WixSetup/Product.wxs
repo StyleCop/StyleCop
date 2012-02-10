@@ -29,8 +29,8 @@
                Description='Files for setting up StyleCop integration with JetBrains ReSharper 5.1 ($(var.SupportedReSharper51Version)), 6.0 ($(var.SupportedReSharper60Version)), 6.1 ($(var.SupportedReSharper610Version)) or 6.1.1 ($(var.SupportedReSharper611Version)).'
                Level='500' AllowAdvertise="no" Display="expand" InstallDefault="local" TypicalDefault="install" Absent="allow">
         <ComponentGroupRef Id="ReSharper_Common" />
-        <Condition Level="1"><![CDATA[RESHARPER51_VERSION <> "" OR RESHARPER60_VERSION <> "" OR RESHARPER61_VERSION <> ""]]></Condition>
-        <Condition Level="0"><![CDATA[RESHARPER51_VERSION = "" AND RESHARPER60_VERSION = "" AND RESHARPER61_VERSION = ""]]></Condition>
+        <Condition Level="1"><![CDATA[RESHARPER51_VERSION <> "" OR RESHARPER60_VERSION <> "" OR RESHARPER61_VERSION <> "" OR RESHARPER61_VS110_INSTALLDIR <> ""]]></Condition>
+        <Condition Level="0"><![CDATA[RESHARPER51_VERSION = "" AND RESHARPER60_VERSION = "" AND RESHARPER61_VERSION = "" AND RESHARPER61_VS110_INSTALLDIR = ""]]></Condition>
       </Feature>
 
       <Feature Id='Feature_VisualStudioTemplates'
@@ -98,6 +98,13 @@
                                         RESHARPER61_VERSION <> "$(var.SupportedReSharper610Version)" OR RESHARPER61_VERSION <> "$(var.SupportedReSharper611Version)"
                                       )
             )
+            OR
+            (
+            RESHARPER61_VS110_INSTALLDIR <> "" AND
+                                      (
+                                        RESHARPER610_VS110_VERSION = "" AND RESHARPER611_VS110_VERSION = ""
+                                      )
+            )
           )
           ]]>
       </Publish>
@@ -111,6 +118,8 @@
             (RESHARPER60_VERSION = "" OR RESHARPER60_VERSION = "$(var.SupportedReSharper60Version)")
             AND
             (RESHARPER61_VERSION = "" OR RESHARPER61_VERSION = "$(var.SupportedReSharper610Version)" OR RESHARPER61_VERSION = "$(var.SupportedReSharper611Version)")
+            AND
+            (RESHARPER61_VS110_INSTALLDIR = "" OR (RESHARPER610_VS110_VERSION <> "" OR RESHARPER611_VS110_VERSION <> ""))
           )
           ]]>
       </Publish>
