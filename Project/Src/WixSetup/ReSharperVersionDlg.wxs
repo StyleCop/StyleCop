@@ -45,8 +45,8 @@
       </Control>
       <Control Id="RunningVersionInfo61VS11" Type="Text" X="135" Y="180" Width="220" Height="60" Transparent="yes" NoPrefix="yes">
         <Text><![CDATA[You have a non supported build of R# installed.]]></Text>
-        <Condition Action="hide"><![CDATA[ RESHARPER610_VS110_VERSION <> "" OR RESHARPER611_VS110_VERSION <> ""]]></Condition>
-        <Condition Action="show"><![CDATA[RESHARPER610_VS110_VERSION = "" AND RESHARPER611_VS110_VERSION = ""]]></Condition>
+        <Condition Action="hide"><![CDATA[RESHARPER610_VS110_VERSION <> "" OR RESHARPER611_VS110_VERSION <> "" OR RESHARPER61_VERSION <> ""]]></Condition>
+        <Condition Action="show"><![CDATA[RESHARPER610_VS110_VERSION = "" AND RESHARPER611_VS110_VERSION = "" AND RESHARPER61_VERSION = ""]]></Condition>
       </Control>
          
       <Control Id="BottomLine" Type="Line" X="0" Y="210" Width="370" Height="0" />
