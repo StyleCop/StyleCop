@@ -386,7 +386,7 @@ namespace StyleCop.ReSharper513.Options
             usingsSettings.SortUsings = true;
 
             string reorderingPatterns;
-            using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("StyleCop.ReSharper51.Resources.ReorderingPatterns.xml"))
+            using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("StyleCop.ReSharper513.Resources.ReorderingPatterns.xml"))
             {
                 using (StreamReader reader = new StreamReader(stream))
                 {
@@ -1513,7 +1513,7 @@ namespace StyleCop.ReSharper513.Options
             }
 
             string reorderingPatterns;
-            using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("StyleCop.ReSharper51.Resources.ReorderingPatterns.xml"))
+            using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("StyleCop.ReSharper513.Resources.ReorderingPatterns.xml"))
             {
                 using (StreamReader reader = new StreamReader(stream))
                 {
