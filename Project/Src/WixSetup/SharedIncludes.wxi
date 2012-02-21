@@ -11,9 +11,9 @@
     <!-- Never change the UpgradeCode. It is used to automatically remove previous versions of the product. -->
     <!-- Remember - only Major.Minor.Build is used to determine an automatic upgrade so never only change Revision or upgrades won't work. -->
     <?define UpgradeCode= "{A8783A1F-D366-494b-90E7-84360AC18603}" ?>
-    <?define SupportedReSharper51Version = "5.1.3000.12" ?>  <!-- 5.1.3000.12  -->
-    <?define SupportedReSharper60Version = "6.0.2202.688" ?> <!-- 6.0.2202.688 -->
-    <?define SupportedReSharper610Version = "6.1.37.86" ?>   <!-- 6.1.37.86   -->
-    <?define SupportedReSharper611MinVersion= "6.1.42.59" ?>  <!--This needs to be a.b.c.d where d is 1 less than the version number below -->
-    <?define SupportedReSharper611Version = "6.1.42.60" ?>  <!-- 6.1.42.60   -->
+    <?define SupportedReSharper51Version = "5.1.3000.12" ?>       <!-- 5.1.3000.12  -->
+    <?define SupportedReSharper60Version = "6.0.2202.688" ?>      <!-- 6.0.2202.688 -->
+    <?define SupportedReSharper610Version = "6.1.37.86" ?>        <!-- 6.1.37.86   -->
+    <?define SupportedReSharper611MinVersion = "6.1.1000.81" ?>   <!--This needs to be a.b.c.d where d is 1 less than the version number below -->
+    <?define SupportedReSharper611Version = "6.1.1000.82" ?>      <!-- 6.1.1000.82   -->
 </Include>
