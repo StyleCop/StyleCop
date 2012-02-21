@@ -78,7 +78,10 @@ namespace StyleCop
 
             this.rule = rule;
             this.element = element;
-            this.location = location;
+
+            // The CodeLocation passed in is zero based everywhere in StyleCop for the column. The line number is already 1 based.
+            // We convert is to 1 based here so that are xml reports etc and VisualStudio UI friendly.
+            this.location = new CodeLocation(location.StartPoint.Index, location.EndPoint.Index, location.StartPoint.IndexOnLine + 1, location.EndPoint.IndexOnLine + 1, location.StartPoint.LineNumber, location.EndPoint.LineNumber);
 
             // If the location has been passed in we set the linenumber.
             this.line = location.LineNumber;
@@ -172,7 +175,7 @@ namespace StyleCop
         }
 
         /// <summary>
-        /// Gets the location the violation occured on or null if we only know the line number.
+        /// Gets the location the violation occured on or null if we only know the line number. Location has a 1 based line and 1 based column.
         /// </summary>
         public CodeLocation Location
         {

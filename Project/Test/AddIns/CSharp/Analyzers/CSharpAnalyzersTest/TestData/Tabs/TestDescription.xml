@@ -27,8 +27,10 @@
       <Violation Section="Root.Tabs1" LineNumber="15" Rule="TabsMustNotBeUsed" />
       <Violation Section="Root.Tabs1.TabsClass" LineNumber="15" Rule="TabsMustNotBeUsed" />
       <Violation Section="Root.Tabs1.TabsClass" LineNumber="16" Rule="TabsMustNotBeUsed" />
+      <Violation Section="Root.Tabs1.TabsClass" LineNumber="16" Rule="TabsMustNotBeUsed" />
       <Violation Section="Root.Tabs1.TabsClass" LineNumber="17" Rule="TabsMustNotBeUsed" />
       <Violation Section="Root.Tabs1.TabsClass.Invalid" LineNumber="18" Rule="TabsMustNotBeUsed" />
+      <Violation Section="Root.Tabs1.TabsClass.Invalid" LineNumber="19" Rule="TabsMustNotBeUsed" />
       <Violation Section="Root.Tabs1.TabsClass.Invalid" LineNumber="19" Rule="TabsMustNotBeUsed" />
       <Violation Section="Root.Tabs1.TabsClass" LineNumber="20" Rule="TabsMustNotBeUsed" />
       <Violation Section="Root.Tabs1" LineNumber="21" Rule="TabsMustNotBeUsed" />

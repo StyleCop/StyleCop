@@ -123,7 +123,7 @@ namespace VSPackageUnitTest
             AnalysisHelper_Accessor analysisHelper = this.SetCoreNoUI();
             analysisHelper.core.OutputGenerated += (sender, args) => { eventFired = true; };
 
-            // Does nothing - included for code coverage and to catch it if it starts doing something unexpectedtly
+            // Does nothing - included for code coverage and to catch it if it starts doing something unexpectedly
             this.taskUnderTestShell.Document = string.Empty;
             this.taskUnderTest.OnNavigate(EventArgs.Empty);
 
@@ -252,7 +252,7 @@ namespace VSPackageUnitTest
             Assert.AreEqual(this.violation.File, this.taskUnderTestShell.Document, "Constructor failed to set up property Document");
             Assert.AreEqual(this.violation.LineNumber, this.taskUnderTestShell.Line + 1, "Constructor failed to set up property Line");
             Assert.AreEqual(this.violation.Description, this.taskUnderTestShell.Text, "Constructor failed to set up property Text");
-            Assert.AreEqual(0, this.taskUnderTestShell.Column, "Constructor failed to set up property Column");
+            Assert.AreEqual(0, this.taskUnderTestShell.Column + 1, "Constructor failed to set up property Column");
             Assert.AreEqual(TaskErrorCategory.Warning, this.taskUnderTestShell.ErrorCategory, "Constructor failed to set up property ErrorCategory");
         }
 

@@ -47,7 +47,7 @@ namespace StyleCop
         #region Public Properties
 
         /// <summary>
-        /// Gets the line number in the code where the violation appears.
+        /// Gets the line number in the code where the violation appears. 1 based.
         /// </summary>
         public int LineNumber
         {

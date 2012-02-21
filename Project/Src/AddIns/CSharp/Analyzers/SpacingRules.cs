@@ -494,7 +494,7 @@ namespace StyleCop.CSharp
             {
                 this.AddViolation(
                     tokenNode.Value.FindParentElement(), 
-                    tokenNode.Value.LineNumber, 
+                    tokenNode.Value.Location, 
                     Rules.KeywordsMustBeSpacedCorrectly, 
                     tokenNode.Value.Text);
             }
@@ -520,7 +520,7 @@ namespace StyleCop.CSharp
                 {
                     if (nextNonWhitespaceToken.CsTokenType == CsTokenType.OpenParenthesis)
                     {
-                        this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.LineNumber, Rules.KeywordsMustBeSpacedCorrectly, tokenNode.Value.Text);
+                        this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.KeywordsMustBeSpacedCorrectly, tokenNode.Value.Text);
 
                         break;
                     }
@@ -554,7 +554,7 @@ namespace StyleCop.CSharp
                     {
                         if (nextNonWhitespaceToken.CsTokenType == CsTokenType.OpenSquareBracket)
                         {
-                            this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.LineNumber, Rules.CodeMustNotContainSpaceAfterNewKeywordInImplicitlyTypedArrayAllocation);
+                            this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.CodeMustNotContainSpaceAfterNewKeywordInImplicitlyTypedArrayAllocation);
                             break;
                         }
                         else if (nextNonWhitespaceToken.CsTokenType != CsTokenType.WhiteSpace && nextNonWhitespaceToken.CsTokenType != CsTokenType.EndOfLine)
@@ -566,7 +566,7 @@ namespace StyleCop.CSharp
                 else if (temp.Value.CsTokenType != CsTokenType.OpenSquareBracket)
                 {
                     // The keyword is not followed by whitespace.
-                    this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.LineNumber, Rules.KeywordsMustBeSpacedCorrectly, tokenNode.Value.Text);
+                    this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.KeywordsMustBeSpacedCorrectly, tokenNode.Value.Text);
                 }
             }
         }
@@ -735,7 +735,7 @@ namespace StyleCop.CSharp
                 previousNode.Value.CsTokenType != CsTokenType.WhiteSpace &&
                 previousNode.Value.CsTokenType != CsTokenType.EndOfLine)
             {
-                this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.LineNumber, Rules.SymbolsMustBeSpacedCorrectly, tokenNode.Value.Text);
+                this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.SymbolsMustBeSpacedCorrectly, tokenNode.Value.Text);
             }
 
             Node<CsToken> nextNode = tokenNode.Next;
@@ -790,7 +790,7 @@ namespace StyleCop.CSharp
                             token.Text[2] != '\r')
                         {
                             // The header line does not start with any spaces.
-                            this.AddViolation(tokenNode.Value.FindParentElement(), token.LineNumber, Rules.DocumentationLinesMustBeginWithSingleSpace);
+                            this.AddViolation(tokenNode.Value.FindParentElement(), token.Location, Rules.DocumentationLinesMustBeginWithSingleSpace);
                         }
                         else if (token.Text.Length > 4 && (token.Text[4] == ' ' || token.Text[4] == '\t'))
                         {
@@ -816,7 +816,7 @@ namespace StyleCop.CSharp
 
                             if (error)
                             {
-                                this.AddViolation(token.FindParentElement(), token.LineNumber, Rules.DocumentationLinesMustBeginWithSingleSpace);
+                                this.AddViolation(token.FindParentElement(), token.Location, Rules.DocumentationLinesMustBeginWithSingleSpace);
                             }
                         }
                     }
@@ -852,7 +852,7 @@ namespace StyleCop.CSharp
                     (text.Length < 4 || text[2] != '-' || text[3] != '-'))
                 {
                     // The comment does not start with a single space.
-                    this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.LineNumber, Rules.SingleLineCommentsMustBeginWithSingleSpace);
+                    this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.SingleLineCommentsMustBeginWithSingleSpace);
                 }
                 else if (text.Length > 3 && (text[3] == ' ' || text[3] == '\t') && text[2] != '\\')
                 {
@@ -884,7 +884,7 @@ namespace StyleCop.CSharp
 
                     if (first)
                     {
-                        this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.LineNumber, Rules.SingleLineCommentsMustBeginWithSingleSpace);
+                        this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.SingleLineCommentsMustBeginWithSingleSpace);
                     }
                 }
             }
@@ -904,7 +904,7 @@ namespace StyleCop.CSharp
                 {
                     if (preprocessor.Text[1] == ' ' || preprocessor.Text[1] == '\t')
                     {
-                        this.AddViolation(preprocessor.FindParentElement(), preprocessor.LineNumber, Rules.PreprocessorKeywordsMustNotBePrecededBySpace);
+                        this.AddViolation(preprocessor.FindParentElement(), preprocessor.Location, Rules.PreprocessorKeywordsMustNotBePrecededBySpace);
                     }
                 }
             }
@@ -922,7 +922,7 @@ namespace StyleCop.CSharp
             Node<CsToken> next = tokenNode.Next;
             if (next != null && next.Value.CsTokenType != CsTokenType.WhiteSpace)
             {
-                this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.LineNumber, Rules.OperatorKeywordMustBeFollowedBySpace);
+                this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.OperatorKeywordMustBeFollowedBySpace);
             }
         }
 
@@ -1001,7 +1001,7 @@ namespace StyleCop.CSharp
                         }
                         else
                         {
-                            this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.LineNumber, Rules.OpeningParenthesisMustBeSpacedCorrectly);
+                            this.AddViolation(tokenNode.Value.FindParentElement(), previousNode.Value.Location, Rules.OpeningParenthesisMustBeSpacedCorrectly);
                         }
                     }
                 }
@@ -1027,7 +1027,7 @@ namespace StyleCop.CSharp
                         itemType != CsTokenType.SingleLineComment &&
                         itemType != CsTokenType.MultiLineComment)
                     {
-                        this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.LineNumber, Rules.OpeningParenthesisMustBeSpacedCorrectly);
+                        this.AddViolation(tokenNode.Value.FindParentElement(), next.Value.Location, Rules.OpeningParenthesisMustBeSpacedCorrectly);
                         break;
                     }
                 }
@@ -1036,7 +1036,7 @@ namespace StyleCop.CSharp
             // Open parens cannot be the only thing on the line.
             if (firstOnLine && lastOnLine)
             {
-                this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.LineNumber, Rules.OpeningParenthesisMustBeSpacedCorrectly);
+                this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.OpeningParenthesisMustBeSpacedCorrectly);
             }
         }
 
@@ -1057,7 +1057,7 @@ namespace StyleCop.CSharp
             {
                 if (previousNode.Value.CsTokenType == CsTokenType.WhiteSpace || (previousNode.Value.CsTokenType == CsTokenType.EndOfLine && previousNode.Previous.Value.CsTokenType != CsTokenType.SingleLineComment))
                 {
-                    this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.LineNumber, Rules.ClosingParenthesisMustBeSpacedCorrectly);
+                    this.AddViolation(tokenNode.Value.FindParentElement(), previousNode.Value.Location, Rules.ClosingParenthesisMustBeSpacedCorrectly);
                 }
             }
 
@@ -1074,7 +1074,7 @@ namespace StyleCop.CSharp
                     // There should not be any whitespace after the closing parenthesis in a cast expression.
                     if (nextType == CsTokenType.WhiteSpace)
                     {
-                        this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.LineNumber, Rules.ClosingParenthesisMustBeSpacedCorrectly);
+                        this.AddViolation(tokenNode.Value.FindParentElement(), nextNode.Value.Location, Rules.ClosingParenthesisMustBeSpacedCorrectly);
                     }
                 }
                 else if (nextType == CsTokenType.LabelColon || nextNextType == CsTokenType.LabelColon)
@@ -1099,7 +1099,7 @@ namespace StyleCop.CSharp
                     if ((followsCase && nextType == CsTokenType.WhiteSpace) ||
                         (!followsCase && nextType != CsTokenType.WhiteSpace))
                     {
-                        this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.LineNumber, Rules.ClosingParenthesisMustBeSpacedCorrectly);
+                        this.AddViolation(tokenNode.Value.FindParentElement(), nextNode.Value.Location, Rules.ClosingParenthesisMustBeSpacedCorrectly);
                     }
                 }
                 else if (nextType == CsTokenType.WhiteSpace)
@@ -1109,7 +1109,7 @@ namespace StyleCop.CSharp
                     {
                         if (IsAllowedAfterClosingParenthesis(item))
                         {
-                            this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.LineNumber, Rules.ClosingParenthesisMustBeSpacedCorrectly);
+                            this.AddViolation(tokenNode.Value.FindParentElement(), nextNode.Value.Location, Rules.ClosingParenthesisMustBeSpacedCorrectly);
                         }
                         else if (item.CsTokenType != CsTokenType.WhiteSpace)
                         {
@@ -1123,7 +1123,7 @@ namespace StyleCop.CSharp
                     if (nextNode.Value.CsTokenType != CsTokenType.EndOfLine &&
                         !IsAllowedAfterClosingParenthesis(nextNode.Value))
                     {
-                        this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.LineNumber, Rules.ClosingParenthesisMustBeSpacedCorrectly);
+                        this.AddViolation(tokenNode.Value.FindParentElement(), nextNode.Value.Location, Rules.ClosingParenthesisMustBeSpacedCorrectly);
                     }
                 }
             }
@@ -1144,7 +1144,7 @@ namespace StyleCop.CSharp
                 if (previousNode.Value.CsTokenType == CsTokenType.WhiteSpace ||
                     previousNode.Value.CsTokenType == CsTokenType.EndOfLine)
                 {
-                    this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.LineNumber, Rules.OpeningSquareBracketsMustBeSpacedCorrectly);
+                    this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.OpeningSquareBracketsMustBeSpacedCorrectly);
                 }
             }
 
@@ -1153,7 +1153,7 @@ namespace StyleCop.CSharp
             if (nextNode != null &&
                 (nextNode.Value.CsTokenType == CsTokenType.WhiteSpace || nextNode.Value.CsTokenType == CsTokenType.EndOfLine))
             {
-                this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.LineNumber, Rules.OpeningSquareBracketsMustBeSpacedCorrectly);
+                this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.OpeningSquareBracketsMustBeSpacedCorrectly);
             }
         }
 
@@ -1173,7 +1173,7 @@ namespace StyleCop.CSharp
             if (previousNode != null &&
                 (previousNode.Value.CsTokenType == CsTokenType.WhiteSpace || previousNode.Value.CsTokenType == CsTokenType.EndOfLine))
             {
-                this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.LineNumber, Rules.ClosingSquareBracketsMustBeSpacedCorrectly);
+                this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.ClosingSquareBracketsMustBeSpacedCorrectly);
             }
             
             // Close brackets should be followed either by whitespace, a bracket,
@@ -1195,7 +1195,7 @@ namespace StyleCop.CSharp
                     nextNode.Value.Text != "--" &&
                     !nextNode.Value.Text.StartsWith(".", StringComparison.Ordinal))
                 {
-                    this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.LineNumber, Rules.ClosingSquareBracketsMustBeSpacedCorrectly);
+                    this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.ClosingSquareBracketsMustBeSpacedCorrectly);
                 }
 
                 if (nextType == CsTokenType.WhiteSpace)
@@ -1212,7 +1212,7 @@ namespace StyleCop.CSharp
                             itemType == CsTokenType.Semicolon ||
                             itemType == CsTokenType.Comma)
                         {
-                            this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.LineNumber, Rules.ClosingSquareBracketsMustBeSpacedCorrectly);
+                            this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.ClosingSquareBracketsMustBeSpacedCorrectly);
                         }
                         else if (itemType != CsTokenType.WhiteSpace)
                         {
@@ -1242,7 +1242,7 @@ namespace StyleCop.CSharp
                     lastType != CsTokenType.EndOfLine &&
                     lastType != CsTokenType.OpenParenthesis)
                 {
-                    this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.LineNumber, Rules.OpeningCurlyBracketsMustBeSpacedCorrectly);
+                    this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.OpeningCurlyBracketsMustBeSpacedCorrectly);
                 }
 
                 if (lastType == CsTokenType.WhiteSpace)
@@ -1254,7 +1254,7 @@ namespace StyleCop.CSharp
                         CsTokenType itemType = item.CsTokenType;
                         if (itemType == CsTokenType.OpenParenthesis)
                         {
-                            this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.LineNumber, Rules.OpeningCurlyBracketsMustBeSpacedCorrectly);
+                            this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.OpeningCurlyBracketsMustBeSpacedCorrectly);
                         }
                         else if (itemType != CsTokenType.WhiteSpace)
                         {
@@ -1270,7 +1270,7 @@ namespace StyleCop.CSharp
                 nextNode.Value.CsTokenType != CsTokenType.WhiteSpace &&
                 nextNode.Value.CsTokenType != CsTokenType.EndOfLine)
             {
-                this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.LineNumber, Rules.OpeningCurlyBracketsMustBeSpacedCorrectly);
+                this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.OpeningCurlyBracketsMustBeSpacedCorrectly);
             }
         }
         
@@ -1290,7 +1290,7 @@ namespace StyleCop.CSharp
                 previousNode.Value.CsTokenType != CsTokenType.WhiteSpace &&
                 previousNode.Value.CsTokenType != CsTokenType.EndOfLine)
             {
-                this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.LineNumber, Rules.ClosingCurlyBracketsMustBeSpacedCorrectly);
+                this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.ClosingCurlyBracketsMustBeSpacedCorrectly);
             }
 
             // Close curly brackets should be followed either by whitespace, a close paren, a dot,
@@ -1306,7 +1306,7 @@ namespace StyleCop.CSharp
                     nextType != CsTokenType.Semicolon &&
                     nextType != CsTokenType.Comma)
                 {
-                    this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.LineNumber, Rules.ClosingCurlyBracketsMustBeSpacedCorrectly);
+                    this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.ClosingCurlyBracketsMustBeSpacedCorrectly);
                 }
 
                 if (nextType == CsTokenType.WhiteSpace)
@@ -1321,7 +1321,7 @@ namespace StyleCop.CSharp
                             itemType == CsTokenType.Comma ||
                             IsTokenADot(item))
                         {
-                            this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.LineNumber, Rules.ClosingCurlyBracketsMustBeSpacedCorrectly);
+                            this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.ClosingCurlyBracketsMustBeSpacedCorrectly);
                         }
                         else if (itemType != CsTokenType.WhiteSpace)
                         {
@@ -1347,7 +1347,7 @@ namespace StyleCop.CSharp
                 if (previousNode.Value.CsTokenType == CsTokenType.WhiteSpace ||
                     previousNode.Value.CsTokenType == CsTokenType.EndOfLine)
                 {
-                    this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.LineNumber, Rules.OpeningGenericBracketsMustBeSpacedCorrectly);
+                    this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.OpeningGenericBracketsMustBeSpacedCorrectly);
                 }
             }
 
@@ -1356,7 +1356,7 @@ namespace StyleCop.CSharp
             if (nextNode != null &&
                 (nextNode.Value.CsTokenType == CsTokenType.WhiteSpace || nextNode.Value.CsTokenType == CsTokenType.EndOfLine))
             {
-                this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.LineNumber, Rules.OpeningGenericBracketsMustBeSpacedCorrectly);
+                this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.OpeningGenericBracketsMustBeSpacedCorrectly);
             }
         }
 
@@ -1375,7 +1375,7 @@ namespace StyleCop.CSharp
                 if (previousNode.Value.CsTokenType == CsTokenType.WhiteSpace ||
                     previousNode.Value.CsTokenType == CsTokenType.EndOfLine)
                 {
-                    this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.LineNumber, Rules.ClosingGenericBracketsMustBeSpacedCorrectly);
+                    this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.ClosingGenericBracketsMustBeSpacedCorrectly);
                 }
             }
         }
@@ -1393,7 +1393,7 @@ namespace StyleCop.CSharp
             if (nextNode != null &&
                 (nextNode.Value.CsTokenType == CsTokenType.WhiteSpace || nextNode.Value.CsTokenType == CsTokenType.EndOfLine))
             {
-                this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.LineNumber, Rules.OpeningAttributeBracketsMustBeSpacedCorrectly);
+                this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.OpeningAttributeBracketsMustBeSpacedCorrectly);
             }
         }
 
@@ -1412,7 +1412,7 @@ namespace StyleCop.CSharp
                 if (previousNode.Value.CsTokenType == CsTokenType.WhiteSpace ||
                     previousNode.Value.CsTokenType == CsTokenType.EndOfLine)
                 {
-                    this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.LineNumber, Rules.ClosingAttributeBracketsMustBeSpacedCorrectly);
+                    this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.ClosingAttributeBracketsMustBeSpacedCorrectly);
                 }
             }
         }
@@ -1430,7 +1430,7 @@ namespace StyleCop.CSharp
             if (previousNode != null &&
                 (previousNode.Value.CsTokenType == CsTokenType.WhiteSpace || previousNode.Value.CsTokenType == CsTokenType.EndOfLine))
             {
-                this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.LineNumber, Rules.NullableTypeSymbolsMustNotBePrecededBySpace);
+                this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.NullableTypeSymbolsMustNotBePrecededBySpace);
             }
         }
 
@@ -1453,7 +1453,7 @@ namespace StyleCop.CSharp
                 {
                     if (!this.IsTokenFirstNonWhitespaceTokenOnLine(tokens, tokenNode))
                     {
-                        this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.LineNumber, Rules.MemberAccessSymbolsMustBeSpacedCorrectly);
+                        this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.MemberAccessSymbolsMustBeSpacedCorrectly);
                     }
                 }
             }
@@ -1487,7 +1487,7 @@ namespace StyleCop.CSharp
                         }
                     }
 
-                    this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.LineNumber, Rules.MemberAccessSymbolsMustBeSpacedCorrectly);
+                    this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.MemberAccessSymbolsMustBeSpacedCorrectly);
                 }
             }
         }    
@@ -1598,12 +1598,12 @@ namespace StyleCop.CSharp
                 }
 
                 // This is a violation.
-                this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.LineNumber, Rules.IncrementDecrementSymbolsMustBeSpacedCorrectly);
+                this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.IncrementDecrementSymbolsMustBeSpacedCorrectly);
             }
             else if (before && after)
             {
                 // There is whitespace on both sides.
-                this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.LineNumber, Rules.IncrementDecrementSymbolsMustBeSpacedCorrectly);
+                this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.IncrementDecrementSymbolsMustBeSpacedCorrectly);
             }
         }
 
@@ -1627,7 +1627,7 @@ namespace StyleCop.CSharp
                     tokenType != CsTokenType.OpenSquareBracket &&
                     tokenType != CsTokenType.CloseParenthesis)
                 {
-                    this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.LineNumber, Rules.NegativeSignsMustBeSpacedCorrectly);
+                    this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.NegativeSignsMustBeSpacedCorrectly);
                 }
             }
 
@@ -1640,7 +1640,7 @@ namespace StyleCop.CSharp
                     tokenType == CsTokenType.SingleLineComment ||
                     tokenType == CsTokenType.MultiLineComment)
                 {
-                    this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.LineNumber, Rules.NegativeSignsMustBeSpacedCorrectly);
+                    this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.NegativeSignsMustBeSpacedCorrectly);
                 }
             }
         }
@@ -1665,7 +1665,7 @@ namespace StyleCop.CSharp
                     tokenType != CsTokenType.OpenSquareBracket &&
                     tokenType != CsTokenType.CloseParenthesis)
                 {
-                    this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.LineNumber, Rules.PositiveSignsMustBeSpacedCorrectly);
+                    this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.PositiveSignsMustBeSpacedCorrectly);
                 }
             }
 
@@ -1678,7 +1678,7 @@ namespace StyleCop.CSharp
                     tokenType == CsTokenType.SingleLineComment ||
                     tokenType == CsTokenType.MultiLineComment)
                 {
-                    this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.LineNumber, Rules.PositiveSignsMustBeSpacedCorrectly);
+                    this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.PositiveSignsMustBeSpacedCorrectly);
                 }
             }
         }
@@ -1712,7 +1712,7 @@ namespace StyleCop.CSharp
                         tokenType != CsTokenType.CloseParenthesis &&
                         tokenType != tokenNode.Value.CsTokenType)
                     {
-                        this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.LineNumber, Rules.DereferenceAndAccessOfSymbolsMustBeSpacedCorrectly);
+                        this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.DereferenceAndAccessOfSymbolsMustBeSpacedCorrectly);
                     }
                 }
 
@@ -1726,7 +1726,7 @@ namespace StyleCop.CSharp
                         tokenType == CsTokenType.SingleLineComment ||
                         tokenType == CsTokenType.MultiLineComment)
                     {
-                        this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.LineNumber, Rules.DereferenceAndAccessOfSymbolsMustBeSpacedCorrectly);
+                        this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.DereferenceAndAccessOfSymbolsMustBeSpacedCorrectly);
                     }
                 }
             }
@@ -1746,7 +1746,7 @@ namespace StyleCop.CSharp
                         tokenType != CsTokenType.CloseParenthesis &&
                         tokenType != tokenNode.Value.CsTokenType)
                     {
-                        this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.LineNumber, Rules.DereferenceAndAccessOfSymbolsMustBeSpacedCorrectly);
+                        this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.DereferenceAndAccessOfSymbolsMustBeSpacedCorrectly);
                     }
                 }
 
@@ -1760,7 +1760,7 @@ namespace StyleCop.CSharp
                         tokenType == CsTokenType.SingleLineComment ||
                         tokenType == CsTokenType.MultiLineComment)
                     {
-                        this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.LineNumber, Rules.DereferenceAndAccessOfSymbolsMustBeSpacedCorrectly);
+                        this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.DereferenceAndAccessOfSymbolsMustBeSpacedCorrectly);
                     }
                 }
             }
@@ -1821,7 +1821,7 @@ namespace StyleCop.CSharp
                     previousNodeTokenType != CsTokenType.OpenParenthesis &&
                     previousNodeTokenType != CsTokenType.OpenSquareBracket)
                 {
-                    this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.LineNumber, Rules.SymbolsMustBeSpacedCorrectly, tokenNode.Value.Text);
+                    this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.SymbolsMustBeSpacedCorrectly, tokenNode.Value.Text);
                 }
 
                 // They should not be preceeded by whitespace if the whitespace is preceeded by a paranthesis.
@@ -1831,7 +1831,7 @@ namespace StyleCop.CSharp
                     {
                         if (item.CsTokenType == CsTokenType.OpenParenthesis || item.CsTokenType == CsTokenType.OpenSquareBracket)
                         {
-                            this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.LineNumber, Rules.SymbolsMustBeSpacedCorrectly, tokenNode.Value.Text);
+                            this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.SymbolsMustBeSpacedCorrectly, tokenNode.Value.Text);
                         }
                         else if (item.CsTokenType == CsTokenType.WhiteSpace)
                         {
@@ -1857,7 +1857,7 @@ namespace StyleCop.CSharp
                     tokenType == CsTokenType.SingleLineComment ||
                     tokenType == CsTokenType.MultiLineComment)
                 {
-                    this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.LineNumber, Rules.SymbolsMustBeSpacedCorrectly, tokenNode.Value.Text);
+                    this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.SymbolsMustBeSpacedCorrectly, tokenNode.Value.Text);
                 }
             }
         }
@@ -1879,7 +1879,7 @@ namespace StyleCop.CSharp
                 
                 if (parentElement != null)
                 {
-                    this.AddViolation(parentElement, whitespace.LineNumber, Rules.TabsMustNotBeUsed);
+                    this.AddViolation(parentElement, whitespace.Location, Rules.TabsMustNotBeUsed);
                 }
             }
             else if (whitespace.TabCount == 0 && whitespace.SpaceCount > 1)
@@ -1901,7 +1901,7 @@ namespace StyleCop.CSharp
                     CsElement parentElement = tokenNode.Value.FindParentElement() ?? previousNode.Value.FindParentElement();
                     if (parentElement != null)
                     {
-                        this.AddViolation(parentElement, whitespace.LineNumber, Rules.CodeMustNotContainMultipleWhitespaceInARow);
+                        this.AddViolation(parentElement, whitespace.Location, Rules.CodeMustNotContainMultipleWhitespaceInARow);
                     }
                 }
             }
@@ -1921,7 +1921,7 @@ namespace StyleCop.CSharp
             {
                 if (comment.Text[i] == '\t')
                 {
-                    this.AddViolation(comment.FindParentElement(), comment.LineNumber + lineEnds, Rules.TabsMustNotBeUsed);
+                    this.AddViolation(comment.FindParentElement(), comment.Location, Rules.TabsMustNotBeUsed);
                 }
                 else if (comment.Text[i] == '\n')
                 {

@@ -1313,7 +1313,7 @@ namespace StyleCop.ReSharper611.Core
         /// The document the line is in.
         /// </param>
         /// <param name="location">
-        /// The location to use.
+        /// The location to use. Must be 1 based line and 1 based column.
         /// </param>
         /// <returns>
         /// A TextRange for the CodeLocation.
@@ -1327,8 +1327,8 @@ namespace StyleCop.ReSharper611.Core
 
                 // must call GetLineCount first - it forces the line index to be built
                 document.GetLineCount();
-                var start = document.GetLineStartOffset(startLine) + location.StartPoint.IndexOnLine;
-                var end = document.GetLineStartOffset(endLine) + location.EndPoint.IndexOnLine;
+                var start = document.GetLineStartOffset(startLine) + location.StartPoint.IndexOnLine - 1;
+                var end = document.GetLineStartOffset(endLine) + location.EndPoint.IndexOnLine - 1;
                 if (start == end)
                 {
                     end += 1;
