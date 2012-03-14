@@ -61,7 +61,6 @@ namespace StyleCop.ReSharper610.Violations
             var ruleID = violation.Violation.Rule.CheckId;
             var highlightID = HighlightingRegistering.GetHighlightID(ruleID);
 
-            // var severity = HighlightingSettingsManager.Instance.Settings.GetSeverity(highlightID);
             var severity = HighlightingSettingsManager.Instance.GetConfigurableSeverity(highlightID, null);
             
             switch (severity)

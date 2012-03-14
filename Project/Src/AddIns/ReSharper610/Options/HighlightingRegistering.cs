@@ -187,10 +187,10 @@ namespace StyleCop.ReSharper610.Options
 
                 if (items != null)
                 {
-                    if (!items.ContainsKey(groupId))
-                    {
+                    ////if (!items.ContainsKey(groupId))
+                    ////{
                         items.Add(groupId, item);
-                    }
+                    ////}
                 }
             }
         }

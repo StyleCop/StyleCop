@@ -240,17 +240,10 @@ namespace StyleCop.ReSharper611.Core
         /// </returns>
         private static Assembly OnEventHandler(object sender, ResolveEventArgs args)
         {
-            StyleCopTrace.In();
             var styleCopAssemblyPath = new StyleCopOptionsSettingsKey().GetAssemblyPath();
             var assemblyName = Path.GetFileNameWithoutExtension(styleCopAssemblyPath) + ",";
 
-            if (args.Name.StartsWith(assemblyName))
-            {
-                return StyleCopTrace.Out(StyleCopAssembly);
-            }
-
-            StyleCopTrace.Out();
-            return null;
+            return args.Name.StartsWith(assemblyName) ? StyleCopAssembly : null;
         }
 
         #endregion
