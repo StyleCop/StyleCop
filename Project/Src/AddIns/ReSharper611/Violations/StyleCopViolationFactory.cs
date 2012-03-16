@@ -25,7 +25,6 @@ namespace StyleCop.ReSharper611.Violations
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Daemon;
 
-    using StyleCop.CSharp;
     using StyleCop.ReSharper611.Options;
 
     #endregion

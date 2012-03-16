@@ -24,6 +24,7 @@ namespace StyleCop.ReSharper611.Options
 
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Reflection;
     using System.Text.RegularExpressions;
 
@@ -59,6 +60,12 @@ namespace StyleCop.ReSharper611.Options
         /// </summary>
         private const string HighlightIdTemplate = "StyleCop.{0}";
 
+        private const string RuleName = "Default Violation Severity";
+
+        private const string GroupName = "StyleCop - Defaults (Requires VS Restart)";
+
+        private const string Description = "Sets the default severity for StyleCop violations. This will be used for any Violation where you have not explicitly set a severity. <strong>Changes to this setting will not take effect until the next time you start Visual Studio.</strong>";
+        
         #endregion
 
         /// <summary>
@@ -66,9 +73,13 @@ namespace StyleCop.ReSharper611.Options
         /// </summary>
         public HighlightingRegistering()
         {
+            // Force StyleCop.dll to be loaded.
+            // Do not inline the Init method below.
+            // If you do then *sometimes* the StyleCop dll won't be loaded before you need it.
+            StyleCopReferenceHelper.EnsureStyleCopIsLoaded();
             this.Init();
         }
-
+        
         #region Public Methods
 
         /// <summary>
@@ -90,9 +101,7 @@ namespace StyleCop.ReSharper611.Options
                 throw new ArgumentNullException("ruleID");
             }
 
-            var highlighID = string.Format(HighlightIdTemplate, ruleID);
-
-            return highlighID;
+            return string.Format(HighlightIdTemplate, ruleID);
         }
 
         #endregion
@@ -100,17 +109,6 @@ namespace StyleCop.ReSharper611.Options
         #region Implemented Interfaces
 
         #region IComponent
-
-        /// <summary>
-        /// Inits this instance.
-        /// </summary>
-        public void Init()
-        {
-            if (StyleCopReferenceHelper.StyleCopIsAvailable())
-            {
-                this.AddHighlights();
-            }
-        }
 
         #endregion
 
@@ -128,19 +126,7 @@ namespace StyleCop.ReSharper611.Options
         #endregion
 
         #region Methods
-
-        /// <summary>
-        /// Adds the default option for highlights - currently set to SUGGESTION.
-        /// </summary>
-        private static void AddDefaultOption()
-        {
-            const string RuleName = "Default Violation Severity";
-            const string GroupName = "StyleCop - Defaults (Requires VS Restart)";
-            const string Description =
-                "Sets the default severity for StyleCop violations. This will be used for any Violation where you have not explicitly set a severity. <strong>Changes to this setting will not take effect until the next time you start Visual Studio.</strong>";
-            const string HighlightID = DefaultSeverityId;
-        }
-
+        
         /// <summary>
         /// Checks if the highlight setting already exists in the HighlightingSettingsManager.
         /// </summary>
@@ -187,14 +173,14 @@ namespace StyleCop.ReSharper611.Options
 
                 if (items != null)
                 {
-                    ////if (!items.ContainsKey(groupId))
-                    ////{
+                    if (!items.ContainsKey(groupId))
+                    {
                         items.Add(groupId, item);
-                    ////}
+                    }
                 }
             }
         }
-
+        
         private static void RegisterConfigurableSeverity(HighlightingSettingsManager highlightManager, string highlightId, string groupName, string ruleName, string description, Severity defaultSeverity)
         {
             var allConfigurableSeverityItems = highlightManager.GetType().GetField("myConfigurableSeverityItem", BindingFlags.Instance | BindingFlags.NonPublic);
@@ -205,11 +191,15 @@ namespace StyleCop.ReSharper611.Options
 
                 if (configurableSeverityItems != null)
                 {
-                    var item = new HighlightingSettingsManager.ConfigurableSeverityItem(highlightId, null, groupName, ruleName, description, defaultSeverity, false, false);
-                    configurableSeverityItems.Add(highlightId, item);
+                    if (!configurableSeverityItems.ContainsKey(highlightId))
+                    {
+                        var item = new HighlightingSettingsManager.ConfigurableSeverityItem(
+                            highlightId, null, groupName, ruleName, description, defaultSeverity, false, false);
+                        configurableSeverityItems.Add(highlightId, item);
+                    }
                 }
             }
-            
+
             var configurableSeverityImplementation = highlightManager.GetType().GetField("myConfigurableSeverityImplementation", BindingFlags.Instance | BindingFlags.NonPublic);
 
             if (configurableSeverityImplementation != null)
@@ -218,28 +208,30 @@ namespace StyleCop.ReSharper611.Options
 
                 if (mapToLanguage != null)
                 {
-                    var languageType = Languages.Instance.GetLanguageByName("CSHARP");
-                    mapToLanguage.Add(highlightId, languageType);
+                    if (!mapToLanguage.ContainsKey(highlightId))
+                    {
+                        var languageType = Languages.Instance.GetLanguageByName("CSHARP");
+                        mapToLanguage.Add(highlightId, languageType);
+                    }
                 }
             }
         }
 
         /// <summary>
-        /// Adds the highlights.
+        /// Registers the rules. Do not put the contents of this method in the constructor.
+        /// If you do *sometimes* the StyleCop object won't be loaded be the time you construct it.
         /// </summary>
-        private void AddHighlights()
+        private void Init()
         {
-            var core = StyleCopReferenceHelper.GetStyleCopCore();
+            var core = new StyleCopCore();
             core.Initialize(new List<string>(), true);
 
             var analyzerRulesDictionary = StyleCopRule.GetRules(core);
 
             var highlightManager = HighlightingSettingsManager.Instance;
 
-            AddDefaultOption();
-
             var defaultSeverity = highlightManager.GetConfigurableSeverity(DefaultSeverityId, null);
-            
+
             this.RegisterRuleConfigurations(highlightManager, analyzerRulesDictionary, defaultSeverity);
         }
 

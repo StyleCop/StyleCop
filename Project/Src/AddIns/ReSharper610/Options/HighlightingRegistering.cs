@@ -187,10 +187,10 @@ namespace StyleCop.ReSharper610.Options
 
                 if (items != null)
                 {
-                    ////if (!items.ContainsKey(groupId))
-                    ////{
+                    if (!items.ContainsKey(groupId))
+                    {
                         items.Add(groupId, item);
-                    ////}
+                    }
                 }
             }
         }
@@ -205,8 +205,12 @@ namespace StyleCop.ReSharper610.Options
 
                 if (configurableSeverityItems != null)
                 {
-                    var item = new HighlightingSettingsManager.ConfigurableSeverityItem(highlightId, null, groupName, ruleName, description, defaultSeverity, false, false);
-                    configurableSeverityItems.Add(highlightId, item);
+                    if (!configurableSeverityItems.ContainsKey(highlightId))
+                    {
+                        var item = new HighlightingSettingsManager.ConfigurableSeverityItem(
+                            highlightId, null, groupName, ruleName, description, defaultSeverity, false, false);
+                        configurableSeverityItems.Add(highlightId, item);
+                    }
                 }
             }
             
@@ -218,8 +222,11 @@ namespace StyleCop.ReSharper610.Options
 
                 if (mapToLanguage != null)
                 {
-                    var languageType = Languages.Instance.GetLanguageByName("CSHARP");
-                    mapToLanguage.Add(highlightId, languageType);
+                    if (!mapToLanguage.ContainsKey(highlightId))
+                    {
+                        var languageType = Languages.Instance.GetLanguageByName("CSHARP");
+                        mapToLanguage.Add(highlightId, languageType);
+                    }
                 }
             }
         }

@@ -210,7 +210,10 @@ namespace StyleCop.ReSharper600.Options
 
                 if (items != null)
                 {
-                    items.Add(highlightId, item);
+                    if (!items.ContainsKey(highlightId))
+                    {
+                        items.Add(highlightId, item);
+                    }
                 }
             }
         }
@@ -220,7 +223,6 @@ namespace StyleCop.ReSharper600.Options
         /// </summary>
         private void AddHighlights()
         {
-            // var core =  StyleCopCoreFactory.Create();
             var core = StyleCopReferenceHelper.GetStyleCopCore();
             core.Initialize(new List<string>(), true);
 

@@ -23,8 +23,6 @@ namespace StyleCop.ReSharper611.Violations
     using JetBrains.DocumentModel;
     using JetBrains.ReSharper.Daemon;
 
-    using StyleCop.CSharp;
-
     #endregion
 
     /// <summary>

@@ -28,7 +28,6 @@ namespace StyleCop.ReSharper611.Core
     using System.IO;
     using System.Reflection;
 
-    using StyleCop.Diagnostics;
     using StyleCop.ReSharper611.Options;
 
     #endregion
@@ -62,12 +61,7 @@ namespace StyleCop.ReSharper611.Core
         /// Flag to indicate if the system has already attempted to load the StyleCop assembly.
         /// </summary>
         private static bool assemblyLoadAttempted;
-
-        /// <summary>
-        /// Flag to show whehter the references were added.
-        /// </summary>
-        private static bool referencesAdded;
-
+        
         /// <summary>
         /// The located StyleCop assembly.
         /// </summary>
@@ -83,7 +77,7 @@ namespace StyleCop.ReSharper611.Core
         static StyleCopReferenceHelper()
         {
             assemblyLoadAttempted = false;
-            referencesAdded = false;
+            AppDomain.CurrentDomain.AssemblyResolve += OnEventHandler;
         }
 
         #endregion
@@ -113,6 +107,8 @@ namespace StyleCop.ReSharper611.Core
                                 }
 
                                 assemblyLoadAttempted = true;
+
+                                AppDomain.CurrentDomain.AssemblyResolve -= OnEventHandler;
                             }
                             catch (Exception exception)
                             {
@@ -129,20 +125,7 @@ namespace StyleCop.ReSharper611.Core
         #endregion
 
         #region Public Methods
-
-        /// <summary>
-        /// Gets a StyleCopCore instance.
-        /// </summary>
-        /// <returns>
-        /// A new StyleCopCore insance.
-        /// </returns>
-        public static StyleCopCore GetStyleCopCore()
-        {
-            AddStyleCopReferencesIfNeeded();
-
-            return new StyleCopCore();
-        }
-
+        
         /// <summary>
         /// Checks if the path is a valid StyleCop assembly path.
         /// </summary>
@@ -170,61 +153,19 @@ namespace StyleCop.ReSharper611.Core
         }
 
         /// <summary>
-        /// Checks if StyleCop is available (i.e. the assembly has been found).
+        /// Checks if StyleCop is available (i.e. the assembly has been found) and loads it if required.
         /// </summary>
         /// <returns>
         /// A boolean to say if StyleCop is available.
         /// </returns>
-        public static bool StyleCopIsAvailable()
+        public static bool EnsureStyleCopIsLoaded()
         {
-            StyleCopTrace.In();
-
-            if (StyleCopAssembly != null)
-            {
-                return StyleCopTrace.Out(true);
-            }
-
-            AddStyleCopReferencesIfNeeded();
-
-            return StyleCopTrace.Out(StyleCopAssembly != null);
+            return StyleCopAssembly != null;
         }
 
         #endregion
 
         #region Methods
-
-        /// <summary>
-        /// Adds the style cop references by hooking into the assembly 
-        /// resolution event.
-        /// </summary>
-        private static void AddStyleCopReferencesIfNeeded()
-        {
-            StyleCopTrace.In();
-
-            if (!referencesAdded)
-            {
-                lock (referenceSyncRoot)
-                {
-                    if (!referencesAdded)
-                    {
-                        HookAssemblyResolveEvent();
-                        referencesAdded = true;
-                    }
-                }
-            }
-
-            StyleCopTrace.Out();
-        }
-
-        /// <summary>
-        /// Hooks the assembly resolve event to add the StyleCop references.
-        /// </summary>
-        private static void HookAssemblyResolveEvent()
-        {
-            StyleCopTrace.In();
-            AppDomain.CurrentDomain.AssemblyResolve += OnEventHandler;
-            StyleCopTrace.Out();
-        }
 
         /// <summary>
         /// On event handler.
@@ -243,7 +184,12 @@ namespace StyleCop.ReSharper611.Core
             var styleCopAssemblyPath = new StyleCopOptionsSettingsKey().GetAssemblyPath();
             var assemblyName = Path.GetFileNameWithoutExtension(styleCopAssemblyPath) + ",";
 
-            return args.Name.StartsWith(assemblyName) ? StyleCopAssembly : null;
+            if (args.Name.StartsWith(assemblyName))
+            {
+                return StyleCopAssembly;
+            }
+
+            return null;
         }
 
         #endregion

@@ -408,7 +408,6 @@
     <EmbeddedResource Include="Resources\ReorderingPatterns.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <Compile Include="Violations\StyleCopViolationTokenFactory.cs" />
     <Compile Include="Violations\StyleCopViolationDoNotShow.cs" />
     <Compile Include="Violations\StyleCopViolationInfo.cs" />
     <Compile Include="Violations\StyleCopViolationFactory.cs" />
@@ -454,10 +453,6 @@
       <Project>{AF7A7FEA-C07B-456A-B072-C7E795A6CBD4}</Project>
       <Name>StyleCop</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CSharp\Parser\CSharpParser.csproj">
-      <Project>{C173ACF5-2CE5-4771-83A4-D01453C8CB09}</Project>
-      <Name>CSharpParser</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\StyleCop.png" />
@@ -473,7 +468,6 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent></PostBuildEvent>
   </PropertyGroup>
 </Project>
