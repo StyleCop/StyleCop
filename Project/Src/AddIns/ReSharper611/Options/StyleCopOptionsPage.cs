@@ -138,23 +138,11 @@ namespace StyleCop.ReSharper611.Options
         /// <param name="solution">
         /// The solution to reset.
         /// </param>
-        /// <param name="lifetime">
-        /// The lifetime for this instance.
+        /// <param name="settingsStore">
+        /// The settings store to use.
         /// </param>
-        public static void ResetCodeStyleOptions(ISolution solution, JB::JetBrains.DataFlow.Lifetime lifetime)
+        public static void CodeStyleOptionsReset(IContextBoundSettingsStore settingsStore)
         {
-            IContextBoundSettingsStore settingsStore;
-
-            if (solution == null)
-            {
-                var component = Shell.Instance.GetComponent<SettingsStore>();
-                settingsStore = component.BindToContextLive(lifetime, ContextRange.ApplicationWide);
-            }
-            else
-            {
-                settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, solution);
-            }
-
             settingsStore.SetValue((CSharpFormatSettingsKey key) => key.ALIGN_FIRST_ARG_BY_PAREN, false);
             settingsStore.SetValue((CSharpFormatSettingsKey key) => key.ALIGN_LINQ_QUERY, true);
             settingsStore.SetValue((CSharpFormatSettingsKey key) => key.ALIGN_MULTILINE_ARGUMENT, false);
@@ -337,12 +325,8 @@ namespace StyleCop.ReSharper611.Options
 
             foreach (NamedElementKinds kindOfElement in Enum.GetValues(typeof(NamedElementKinds)))
             {
-                var policy = settingsStore.GetIndexedValue<CSharpNamingSettings, NamedElementKinds, NamingPolicy>(key => key.PredefinedNamingRules, kindOfElement);
-
-                if (policy == null)
-                {
-                    policy = ClrPolicyProviderBase.GetDefaultPolicy(kindOfElement);
-                }
+                var policy = settingsStore.GetIndexedValue<CSharpNamingSettings, NamedElementKinds, NamingPolicy>(key => key.PredefinedNamingRules, kindOfElement)
+                             ?? ClrPolicyProviderBase.GetDefaultPolicy(kindOfElement);
 
                 NamingRule rule = policy.NamingRule;
 
@@ -392,7 +376,9 @@ namespace StyleCop.ReSharper611.Options
             }
             
             settingsStore.SetValue((CSharpMemberOrderPatternSettings key) => key.CustomPattern, reorderingPatterns);
-            
+
+            ISolution solution = Utils.GetSolution();
+
             if (solution != null)
             {
                 CodeCleanupProfile styleCopProfile = null;
@@ -516,9 +502,7 @@ namespace StyleCop.ReSharper611.Options
                 return false;
             }
 
-            if (
-                !settingsStore.GetValue(
-                    (CSharpFormatSettingsKey key) => key.ALIGN_MULTILINE_ARRAY_AND_OBJECT_INITIALIZER))
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.ALIGN_MULTILINE_ARRAY_AND_OBJECT_INITIALIZER))
             {
                 return false;
             }
@@ -609,8 +593,7 @@ namespace StyleCop.ReSharper611.Options
                 return false;
             }
 
-            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.BLANK_LINES_AROUND_SINGLE_LINE_INVOCABLE)
-                != 1)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.BLANK_LINES_AROUND_SINGLE_LINE_INVOCABLE) != 1)
             {
                 return false;
             }
@@ -630,8 +613,7 @@ namespace StyleCop.ReSharper611.Options
                 return false;
             }
 
-            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.CASE_BLOCK_BRACES)
-                != BraceFormatStyle.NEXT_LINE_SHIFTED_2)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.CASE_BLOCK_BRACES) != BraceFormatStyle.NEXT_LINE_SHIFTED_2)
             {
                 return false;
             }
@@ -641,8 +623,7 @@ namespace StyleCop.ReSharper611.Options
                 return false;
             }
 
-            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.EMPTY_BLOCK_STYLE)
-                != EmptyBlockStyle.MULTILINE)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.EMPTY_BLOCK_STYLE) != EmptyBlockStyle.MULTILINE)
             {
                 return false;
             }
@@ -657,8 +638,7 @@ namespace StyleCop.ReSharper611.Options
                 return false;
             }
 
-            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.FORCE_ATTRIBUTE_STYLE)
-                != ForceAttributeStyle.SEPARATE)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.FORCE_ATTRIBUTE_STYLE) != ForceAttributeStyle.SEPARATE)
             {
                 return false;
             }
@@ -678,38 +658,32 @@ namespace StyleCop.ReSharper611.Options
                 return false;
             }
 
-            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.FORCE_FIXED_BRACES_STYLE)
-                != ForceBraceStyle.ALWAYS_ADD)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.FORCE_FIXED_BRACES_STYLE) != ForceBraceStyle.ALWAYS_ADD)
             {
                 return false;
             }
 
-            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.FORCE_FOR_BRACES_STYLE)
-                != ForceBraceStyle.ALWAYS_ADD)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.FORCE_FOR_BRACES_STYLE) != ForceBraceStyle.ALWAYS_ADD)
             {
                 return false;
             }
 
-            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.FORCE_FOREACH_BRACES_STYLE)
-                != ForceBraceStyle.ALWAYS_ADD)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.FORCE_FOREACH_BRACES_STYLE) != ForceBraceStyle.ALWAYS_ADD)
             {
                 return false;
             }
 
-            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.FORCE_IFELSE_BRACES_STYLE)
-                != ForceBraceStyle.ALWAYS_ADD)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.FORCE_IFELSE_BRACES_STYLE) != ForceBraceStyle.ALWAYS_ADD)
             {
                 return false;
             }
 
-            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.FORCE_USING_BRACES_STYLE)
-                != ForceBraceStyle.DO_NOT_CHANGE)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.FORCE_USING_BRACES_STYLE) != ForceBraceStyle.DO_NOT_CHANGE)
             {
                 return false;
             }
 
-            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.FORCE_WHILE_BRACES_STYLE)
-                != ForceBraceStyle.ALWAYS_ADD)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.FORCE_WHILE_BRACES_STYLE) != ForceBraceStyle.ALWAYS_ADD)
             {
                 return false;
             }
@@ -1859,6 +1833,7 @@ namespace StyleCop.ReSharper611.Options
             this.justificationTextBox.Text = this.smartContext.GetValue<StyleCopOptionsSettingsKey, string>(key => key.SuppressStyleCopAttributeJustificationText);
             this.useSingleLineForDeclarationCommentsCheckBox.Checked = this.smartContext.GetValue<StyleCopOptionsSettingsKey, bool>(key => key.UseSingleLineDeclarationComments);
             this.enableAnalysisCheckBox.Checked = this.smartContext.GetValue<StyleCopOptionsSettingsKey, bool>(key => key.AnalysisEnabled);
+            this.chekcCodeStyleOptionsAtStartUpCheckBox.Checked = this.smartContext.GetValue<StyleCopOptionsSettingsKey, bool>(key => key.CheckReSharperCodeStyleOptionsAtStartUp);
         }
         
         #endregion
@@ -1901,6 +1876,7 @@ namespace StyleCop.ReSharper611.Options
                 this.smartContext.SetValue<StyleCopOptionsSettingsKey, string>(key => key.SuppressStyleCopAttributeJustificationText, this.justificationTextBox.Text.Trim());
                 this.smartContext.SetValue<StyleCopOptionsSettingsKey, bool>(key => key.UseSingleLineDeclarationComments, this.useSingleLineForDeclarationCommentsCheckBox.Checked);
                 this.smartContext.SetValue<StyleCopOptionsSettingsKey, bool>(key => key.AnalysisEnabled, this.enableAnalysisCheckBox.Checked);
+                this.smartContext.SetValue<StyleCopOptionsSettingsKey, bool>(key => key.CheckReSharperCodeStyleOptionsAtStartUp, this.chekcCodeStyleOptionsAtStartUpCheckBox.Checked);
 
                 return true;
             }
@@ -2153,9 +2129,8 @@ namespace StyleCop.ReSharper611.Options
 
         private void ResetFormatOptionsButton_Click(object sender, EventArgs e)
         {
-            ResetCodeStyleOptions(Utils.GetSolution(), this.lifetime);
-            MessageBox.Show(
-               @"C# code style options have been set in order to fix StyleCop violations. Ensure your R# Settings are saved.", @"StyleCop", MessageBoxButtons.OK);
+            CodeStyleOptionsReset(this.smartContext);
+            MessageBox.Show(@"C# code style options have been set in order to fix StyleCop violations. Ensure your R# Settings are saved.", @"StyleCop", MessageBoxButtons.OK);
             this.resetFormatOptionsButton.Enabled = false;
         }
        

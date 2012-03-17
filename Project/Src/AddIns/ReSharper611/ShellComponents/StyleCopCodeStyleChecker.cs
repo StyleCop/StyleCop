@@ -98,23 +98,28 @@ namespace StyleCop.ReSharper611.ShellComponents
 
                 var settings = settingsStore.BindToContextLive(lifetime, ContextRange.ApplicationWide);
 
-                if (!StyleCopOptionsPage.CodeStyleOptionsValid(settings))
+                var checkReSharperCodeStyleOptionsAtStartUp = settings.GetValue((StyleCopOptionsSettingsKey key) => key.CheckReSharperCodeStyleOptionsAtStartUp);
+
+                if (checkReSharperCodeStyleOptionsAtStartUp)
                 {
-                    var result =
-                        MessageBox.Show(
-                            @"Your ReSharper code style settings are not completely compatible with StyleCop. Would you like to reset them now?",
-                            @"StyleCop",
-                            MessageBoxButtons.YesNo,
-                            MessageBoxIcon.Question,
-                            MessageBoxDefaultButton.Button2);
-                    if (result == DialogResult.Yes)
+                    if (!StyleCopOptionsPage.CodeStyleOptionsValid(settings))
                     {
-                        StyleCopOptionsPage.ResetCodeStyleOptions(null, lifetime);
+                        var result =
+                            MessageBox.Show(
+                                @"Your ReSharper code style settings are not completely compatible with StyleCop. Would you like to reset them now?",
+                                @"StyleCop",
+                                MessageBoxButtons.YesNo,
+                                MessageBoxIcon.Question,
+                                MessageBoxDefaultButton.Button2);
+                        if (result == DialogResult.Yes)
+                        {
+                            StyleCopOptionsPage.CodeStyleOptionsReset(settings);
+                        }
                     }
                 }
-
-                SetRegistry("LastInitializationDate", todayAsString, RegistryValueKind.String);
             }
+
+            SetRegistry("LastInitializationDate", todayAsString, RegistryValueKind.String);
         }
 
         #endregion

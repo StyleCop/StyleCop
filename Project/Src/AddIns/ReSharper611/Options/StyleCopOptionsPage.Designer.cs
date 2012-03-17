@@ -85,6 +85,7 @@ namespace StyleCop.ReSharper611.Options
             this.label9 = new System.Windows.Forms.Label();
             this.panel5 = new System.Windows.Forms.Panel();
             this.label7 = new System.Windows.Forms.Label();
+            this.chekcCodeStyleOptionsAtStartUpCheckBox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.performanceTrackBar)).BeginInit();
             this.flowLayoutPanel1.SuspendLayout();
             this.warningPanel.SuspendLayout();
@@ -396,13 +397,14 @@ namespace StyleCop.ReSharper611.Options
             // panel5
             // 
             this.panel5.AutoSize = true;
+            this.panel5.Controls.Add(this.chekcCodeStyleOptionsAtStartUpCheckBox);
             this.panel5.Controls.Add(this.label7);
             this.panel5.Controls.Add(this.justificationTextBox);
             this.panel5.Controls.Add(this.justificationLlabel);
             this.panel5.Controls.Add(this.useExcludeFromStyleCopCheckBox);
             this.panel5.Location = new System.Drawing.Point(3, 409);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(282, 88);
+            this.panel5.Size = new System.Drawing.Size(282, 116);
             this.panel5.TabIndex = 34;
             // 
             // label7
@@ -414,6 +416,18 @@ namespace StyleCop.ReSharper611.Options
             this.label7.Size = new System.Drawing.Size(41, 13);
             this.label7.TabIndex = 30;
             this.label7.Text = "Others";
+            // 
+            // chekcCodeStyleOptionsAtStartUpCheckBox
+            // 
+            this.chekcCodeStyleOptionsAtStartUpCheckBox.AutoSize = true;
+            this.chekcCodeStyleOptionsAtStartUpCheckBox.Checked = true;
+            this.chekcCodeStyleOptionsAtStartUpCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chekcCodeStyleOptionsAtStartUpCheckBox.Location = new System.Drawing.Point(0, 96);
+            this.chekcCodeStyleOptionsAtStartUpCheckBox.Name = "chekcCodeStyleOptionsAtStartUpCheckBox";
+            this.chekcCodeStyleOptionsAtStartUpCheckBox.Size = new System.Drawing.Size(224, 17);
+            this.chekcCodeStyleOptionsAtStartUpCheckBox.TabIndex = 31;
+            this.chekcCodeStyleOptionsAtStartUpCheckBox.Text = "Check R# code style options at startup";
+            this.chekcCodeStyleOptionsAtStartUpCheckBox.UseVisualStyleBackColor = true;
             // 
             // StyleCopOptionsPage
             // 
@@ -475,5 +489,6 @@ namespace StyleCop.ReSharper611.Options
         private Panel panel6;
         private Label label9;
         private CheckBox enableAnalysisCheckBox;
+        private CheckBox chekcCodeStyleOptionsAtStartUpCheckBox;
     }
 }

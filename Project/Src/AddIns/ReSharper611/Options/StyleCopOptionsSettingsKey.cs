@@ -72,77 +72,17 @@ namespace StyleCop.ReSharper611.Options
         #region Properties
         
         /// <summary>
-        /// Gets or sets a value indicating whether AlwaysCheckForUpdatesWhenVisualStudioStarts.
-        /// </summary>
-        [SettingsEntry(false, "Always Check For Updates When Visual Studio Starts")]
-        public bool AlwaysCheckForUpdatesWhenVisualStudioStarts
-        {
-            get
-            {
-                return this.alwaysCheckForUpdatesWhenVisualStudioStarts;
-            }
-
-            set
-            {
-                this.alwaysCheckForUpdatesWhenVisualStudioStarts = value;
-                SetRegistry("AlwaysCheckForUpdatesWhenVisualStudioStarts", value, RegistryValueKind.DWord);
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether we check for updates when plugin starts.
-        /// </summary>
-        [SettingsEntry(true, "Automatically Check For Updates")]
-        public bool AutomaticallyCheckForUpdates
-        {
-            get
-            {
-                return this.automaticallyCheckForUpdates;
-            }
-
-            set
-            {
-                this.automaticallyCheckForUpdates = value;
-                SetRegistry("AutomaticallyCheckForUpdates", value, RegistryValueKind.DWord);
-            }
-        }
-
-        /// <summary>
         /// Gets or sets DashesCountInFileHeader.
         /// </summary>
         [SettingsEntry(116, "Dashes Count In File Header")]
         public int DashesCountInFileHeader { get; set; }
-
-        /// <summary>
-        /// Gets or sets DaysBetweenUpdateChecks.
-        /// </summary>
-        [SettingsEntry(7, "Days Between Update Checks")]
-        public int DaysBetweenUpdateChecks
-        {
-            get
-            {
-                return this.daysBetweenUpdateChecks;
-            }
-
-            set
-            {
-                this.daysBetweenUpdateChecks = value;
-                SetRegistry("DaysBetweenUpdateChecks", value, RegistryValueKind.DWord);
-            }
-        }
-
+        
         /// <summary>
         /// Gets or sets a value indicating whether descriptive text should be inserted into missing documentation headers.
         /// </summary>
         [SettingsEntry(true, "Insert Text Into Documentation")]
         public bool InsertTextIntoDocumentation { get; set; }
-
-        /// <summary>
-        /// Gets or sets the last update check date.
-        /// </summary>
-        [SettingsEntry("1900-01-01", "Last Update Check Date")]
-        public string LastUpdateCheckDate { get; set; }
-
+        
         /// <summary>
         /// Gets or sets the ParsingPerformance value. 9 means every time R# calls us, 8 means after 1 second, 7 means after 2 seconds, etc.
         /// </summary>
@@ -184,6 +124,12 @@ namespace StyleCop.ReSharper611.Options
         /// </summary>
         [SettingsEntry(false, "Use Single Line Declaration Comments")]
         public bool UseSingleLineDeclarationComments { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether declaration comments should be multi line or single line.
+        /// </summary>
+        [SettingsEntry(true, "Check R# Code Style Options At StartUp")]
+        public bool CheckReSharperCodeStyleOptionsAtStartUp { get; set; }
 
         #endregion
         

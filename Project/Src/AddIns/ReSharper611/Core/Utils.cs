@@ -1807,7 +1807,7 @@ namespace StyleCop.ReSharper611.Core
         /// <summary>
         /// Returns the currently active solution.
         /// </summary>
-        /// <returns>Returns null if no active solution</returns>
+        /// <returns>Returns null if no active solution.</returns>
         public static ISolution GetSolution()
         {
             return Shell.Instance.GetComponent<ISolutionManager>().CurrentSolution;
