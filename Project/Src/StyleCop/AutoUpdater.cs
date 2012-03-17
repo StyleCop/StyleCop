@@ -21,6 +21,7 @@ namespace StyleCop
     using System.Diagnostics;
     using System.IO;
     using System.Net;
+    using System.Reflection;
     using System.Windows.Forms;
     using System.Xml;
     using System.Xml.Serialization;
@@ -77,6 +78,29 @@ namespace StyleCop
             {
                 return;
             }
+        }
+
+        /// <summary>
+        /// Returns the specified Attribute for the assembly.
+        /// </summary>
+        /// <typeparam name="T">The attribute to return.</typeparam>
+        /// <param name="assembly">The assembly to check.</param>
+        /// <returns>The attribute required or null.</returns>
+        private static T GetAssemblyAttribute<T>(Assembly assembly) where T : Attribute
+        {
+            if (assembly == null)
+            {
+                return null;
+            }
+
+            object[] attributes = assembly.GetCustomAttributes(typeof(T), true);
+
+            if (attributes.Length == 0)
+            {
+                return null;
+            }
+
+            return (T)attributes[0];
         }
 
         /// <summary>
@@ -143,8 +167,11 @@ namespace StyleCop
             }
 
             var autoUpdate = Serialization.CreateInstance<AutoUpdate>(response);
-            var currentVersionNumber = this.GetType().Assembly.GetName().Version;
-            var newVersionNumber = autoUpdate.Version.CastAsSystemVersion();
+            
+            var currentVersionNumberAttribute = GetAssemblyAttribute<AssemblyFileVersionAttribute>(this.GetType().Assembly);
+            var currentVersionNumber = new Version(currentVersionNumberAttribute.Version);
+
+            var newVersionNumber = autoUpdate.Version.AsSystemVersion();
             var newerPlugInAvailable = newVersionNumber.CompareTo(currentVersionNumber) > 0;
 
             if (newerPlugInAvailable && this.PromptUserForDownload(currentVersionNumber.ToString(), newVersionNumber.ToString(), autoUpdate.Message))
@@ -196,7 +223,7 @@ namespace StyleCop
             /// <returns>
             /// The Version as a System.Version instance.
             /// </returns>
-            public Version CastAsSystemVersion()
+            public Version AsSystemVersion()
             {
                 return new Version(this.Major, this.Minor, this.Build, this.Revision);
             }
