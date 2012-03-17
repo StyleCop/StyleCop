@@ -119,8 +119,8 @@ namespace StyleCop
         /// <param name="environment">The environment that StyleCop is running under, if any.</param>
         /// <returns>Returns the new settings document.</returns>
         [SuppressMessage(
-            "Microsoft.Design", 
-            "CA1059:MembersShouldNotExposeCertainConcreteTypes", 
+            "Microsoft.Design",
+            "CA1059:MembersShouldNotExposeCertainConcreteTypes",
             MessageId = "System.Xml.XmlNode",
             Justification = "Compliance would break the well-defined public API.")]
         public XmlDocument WriteSettingsToDocument(StyleCopEnvironment environment)
@@ -130,102 +130,11 @@ namespace StyleCop
             // Create a new document for the settings.
             XmlDocument document = WritableSettings.NewDocument();
 
-            // Get the parent settings if there are any.
-            SettingsMerger merger = new SettingsMerger(this, environment);
-            Settings parentSettings = merger.ParentMergedSettings;
-
-            // Add the global settings if there are any.
-            if (this.GlobalSettings != null && this.GlobalSettings.Count > 0)
-            {
-                // Get the global settings from the parent.
-                PropertyCollection parentGlobalSettings = null;
-                if (parentSettings != null)
-                {
-                    parentGlobalSettings = parentSettings.GlobalSettings;
-                }
-
-                SavePropertyCollection(document.DocumentElement, "GlobalSettings", this.GlobalSettings, parentGlobalSettings, true, null);
-            }
-
-            // Add the parser settings if there are any.
-            if (this.ParserSettings.Count > 0)
-            {
-                bool parserSettingsAdded = false;
-                XmlElement parsersNode = document.CreateElement("Parsers");
-
-                foreach (AddInPropertyCollection parserSettings in this.ParserSettings)
-                {
-                    // Add the settings for this parser if there are any.
-                    if (parserSettings.Count > 0)
-                    {
-                        // Create a node for this parser.
-                        XmlElement parserNode = document.CreateElement("Parser");
-                        XmlAttribute parserIdAttribute = document.CreateAttribute("ParserId");
-                        parserIdAttribute.Value = parserSettings.AddIn.Id;
-                        parserNode.Attributes.Append(parserIdAttribute);
-
-                        // Get the parser settings from the parent.
-                        PropertyCollection parentParserSettings = null;
-                        if (parentSettings != null)
-                        {
-                            parentParserSettings = parentSettings.GetAddInSettings(parserSettings.AddIn);
-                        }
-
-                        if (SavePropertyCollection(parserNode, "ParserSettings", parserSettings, parentParserSettings, true, null))
-                        {
-                            parsersNode.AppendChild(parserNode);
-                            parserSettingsAdded = true;
-                        }
-                    }
-                }
-
-                if (parserSettingsAdded)
-                {
-                    document.DocumentElement.AppendChild(parsersNode);
-                }
-            }
-
-            // Add the analyzer settings if there are any.
-            if (this.AnalyzerSettings.Count > 0)
-            {
-                bool analyzerSettingsAdded = false;
-                XmlElement analyzersNode = document.CreateElement("Analyzers");
-
-                foreach (AddInPropertyCollection analyzerSettings in this.AnalyzerSettings)
-                {
-                    // Add the settings for this analyzer if there are any.
-                    if (analyzerSettings.Count > 0)
-                    {
-                        // Create a node for this analzyer.
-                        XmlElement analyzerNode = document.CreateElement("Analyzer");
-                        XmlAttribute analyzerIdAttribute = document.CreateAttribute("AnalyzerId");
-                        analyzerIdAttribute.Value = analyzerSettings.AddIn.Id;
-                        analyzerNode.Attributes.Append(analyzerIdAttribute);
-
-                        // Get the analyzer settings from the parent.
-                        PropertyCollection parentAnalyzerSettings = null;
-                        if (parentSettings != null)
-                        {
-                            parentAnalyzerSettings = parentSettings.GetAddInSettings(analyzerSettings.AddIn);
-                        }
-
-                        if (SavePropertyCollection(analyzerNode, "AnalyzerSettings", analyzerSettings, parentAnalyzerSettings, true, null))
-                        {
-                            analyzersNode.AppendChild(analyzerNode);
-                            analyzerSettingsAdded = true;
-                        }
-                    }
-                }
-
-                if (analyzerSettingsAdded)
-                {
-                    document.DocumentElement.AppendChild(analyzersNode);
-                }
-            }
+            this.SaveSettingsIntoXmlDocument(document, environment, document.DocumentElement, this);
 
             return document;
         }
-
+        
         #endregion Public Methods
 
         #region Private Static Methods
@@ -543,5 +452,131 @@ namespace StyleCop
         }
 
         #endregion Private Static Methods
+
+        /// <summary>
+        /// Saves the Settings provided into the XmlDocument.
+        /// </summary>
+        /// <param name="document">The root document.</param>
+        /// <param name="environment">The environment that StyleCop is running under, if any.</param>
+        /// <param name="rootElement">The element to save our settings to.</param>
+        /// <param name="settingsToSave">The settings to save.</param>
+        private void SaveSettingsIntoXmlDocument(XmlDocument document, StyleCopEnvironment environment, XmlElement rootElement, Settings settingsToSave)
+        {
+            // Get the parent settings if there are any.
+            SettingsMerger merger = new SettingsMerger(settingsToSave, environment);
+            Settings parentSettings = merger.ParentMergedSettings;
+
+            // Add the global settings if there are any.
+            if (settingsToSave.GlobalSettings != null && settingsToSave.GlobalSettings.Count > 0)
+            {
+                // Get the global settings from the parent.
+                PropertyCollection parentGlobalSettings = null;
+                if (parentSettings != null)
+                {
+                    parentGlobalSettings = parentSettings.GlobalSettings;
+                }
+
+                SavePropertyCollection(rootElement, "GlobalSettings", settingsToSave.GlobalSettings, parentGlobalSettings, true, null);
+            }
+
+            // Add the parser settings if there are any.
+            if (settingsToSave.ParserSettings.Count > 0)
+            {
+                bool parserSettingsAdded = false;
+                XmlElement parsersNode = document.CreateElement("Parsers");
+
+                foreach (AddInPropertyCollection parserSettings in settingsToSave.ParserSettings)
+                {
+                    // Add the settings for this parser if there are any.
+                    if (parserSettings.Count > 0)
+                    {
+                        // Create a node for this parser.
+                        XmlElement parserNode = document.CreateElement("Parser");
+                        XmlAttribute parserIdAttribute = document.CreateAttribute("ParserId");
+                        parserIdAttribute.Value = parserSettings.AddIn.Id;
+                        parserNode.Attributes.Append(parserIdAttribute);
+
+                        // Get the parser settings from the parent.
+                        PropertyCollection parentParserSettings = null;
+                        if (parentSettings != null)
+                        {
+                            parentParserSettings = parentSettings.GetAddInSettings(parserSettings.AddIn);
+                        }
+
+                        if (SavePropertyCollection(parserNode, "ParserSettings", parserSettings, parentParserSettings, true, null))
+                        {
+                            parsersNode.AppendChild(parserNode);
+                            parserSettingsAdded = true;
+                        }
+                    }
+                }
+
+                if (parserSettingsAdded)
+                {
+                    rootElement.AppendChild(parsersNode);
+                }
+            }
+
+            // Add the analyzer settings if there are any.
+            if (settingsToSave.AnalyzerSettings.Count > 0)
+            {
+                bool analyzerSettingsAdded = false;
+                XmlElement analyzersNode = document.CreateElement("Analyzers");
+
+                foreach (AddInPropertyCollection analyzerSettings in settingsToSave.AnalyzerSettings)
+                {
+                    // Add the settings for this analyzer if there are any.
+                    if (analyzerSettings.Count > 0)
+                    {
+                        // Create a node for this analzyer.
+                        XmlElement analyzerNode = document.CreateElement("Analyzer");
+                        XmlAttribute analyzerIdAttribute = document.CreateAttribute("AnalyzerId");
+                        analyzerIdAttribute.Value = analyzerSettings.AddIn.Id;
+                        analyzerNode.Attributes.Append(analyzerIdAttribute);
+
+                        // Get the analyzer settings from the parent.
+                        PropertyCollection parentAnalyzerSettings = null;
+                        if (parentSettings != null)
+                        {
+                            parentAnalyzerSettings = parentSettings.GetAddInSettings(analyzerSettings.AddIn);
+                        }
+
+                        if (SavePropertyCollection(analyzerNode, "AnalyzerSettings", analyzerSettings, parentAnalyzerSettings, true, null))
+                        {
+                            analyzersNode.AppendChild(analyzerNode);
+                            analyzerSettingsAdded = true;
+                        }
+                    }
+                }
+
+                if (analyzerSettingsAdded)
+                {
+                    rootElement.AppendChild(analyzersNode);
+                }
+            }
+
+            // Add the sourcefilelists settings if there are any.
+            if (settingsToSave.SourceFileLists.Count > 0)
+            {
+                foreach (SourceFileListSettings sourceFileListSettings in settingsToSave.SourceFileLists)
+                {
+                    XmlElement sourceFileListNode = document.CreateElement("SourceFileList");
+
+                    foreach (var sourceFileListSetting in sourceFileListSettings.SourceFiles)
+                    {
+                        XmlElement sourceFileNode = document.CreateElement("SourceFile");
+                        sourceFileNode.InnerText = sourceFileListSetting;
+                        sourceFileListNode.AppendChild(sourceFileNode);
+                    }
+
+                    XmlElement settingsNode = document.CreateElement("Settings");
+
+                    this.SaveSettingsIntoXmlDocument(document, environment, settingsNode, sourceFileListSettings.Settings);
+
+                    sourceFileListNode.AppendChild(settingsNode);
+                    rootElement.AppendChild(sourceFileListNode);
+                }
+            }
+        }
     }
 }

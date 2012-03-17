@@ -135,9 +135,6 @@ namespace StyleCop.ReSharper611.Options
         /// <summary>
         /// Resets the CodeStyleOptions to be StyleCop compatible.
         /// </summary>
-        /// <param name="solution">
-        /// The solution to reset.
-        /// </param>
         /// <param name="settingsStore">
         /// The settings store to use.
         /// </param>
