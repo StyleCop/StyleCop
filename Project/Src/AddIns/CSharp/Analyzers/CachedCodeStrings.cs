@@ -15,6 +15,7 @@
 namespace StyleCop.CSharp
 {
     using System;
+    using System.Globalization;
 
     /// <summary>
     /// Loaded and cached code strings used within the DocumentationRules analyzer.
@@ -96,6 +97,8 @@ namespace StyleCop.CSharp
         /// </summary>
         private static string parameterNotUsed;
 
+        private static CultureInfo culture;
+        
         /// <summary>
         /// Gets header text string "Gets a value indicating whether".
         /// </summary>
@@ -334,6 +337,54 @@ namespace StyleCop.CSharp
 
                 return parameterNotUsed;
             }
+        }
+
+        /// <summary>
+        /// Gets or sets the CultureInfo we will analyse with.
+        /// </summary>
+        public static CultureInfo Culture
+        {
+            get
+            {
+                return culture;
+            }
+
+            set
+            {
+                if (value == null)
+                {
+                    value = new CultureInfo("en-US");
+                }
+
+                if (culture == null || culture.EnglishName != value.EnglishName)
+                {
+                    ClearCachedStrings();
+                    culture = value;
+                    CodeStrings.Culture = value;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Reset the cached strings.
+        /// </summary>
+        private static void ClearCachedStrings()
+        {
+            headerSummaryForBooleanGetAccessor = null;
+            headerSummaryForBooleanGetAndSetAccessor = null;
+            headerSummaryForBooleanSetAccessor = null;
+            headerSummaryForGetAccessor = null;
+            headerSummaryForGetAndSetAccessor = null;
+            headerSummaryForSetAccessor = null;
+            headerSummaryForStaticConstructor = null;
+            exampleHeaderSummaryForStaticConstructor = null;
+            headerSummaryForPrivateInstanceConstructor = null;
+            exampleHeaderSummaryForPrivateInstanceConstructor = null;
+            headerSummaryForInstanceConstructor = null;
+            exampleHeaderSummaryForInstanceConstructor = null;
+            headerSummaryForDestructor = null;
+            exampleHeaderSummaryForDestructor = null;
+            parameterNotUsed = null;
         }
     }
 }

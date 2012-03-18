@@ -20,7 +20,6 @@ namespace StyleCop.CSharp
     using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.IO;
-    using System.Linq;
     using System.Security;
     using System.Text;
     using System.Text.RegularExpressions;
@@ -60,7 +59,7 @@ namespace StyleCop.CSharp
         /// The name of the property which contains the copyright.
         /// </summary>
         internal const string CopyrightProperty = "Copyright";
-        
+       
         /// <summary>
         /// The default value of the property which ignores private elements.
         /// </summary>
@@ -172,6 +171,8 @@ namespace StyleCop.CSharp
             Param.RequireNotNull(document, "document");
 
             CsDocument csdocument = (CsDocument)document;
+
+            CachedCodeStrings.Culture = document.SourceCode.Project.Culture;
 
             return csdocument.FileHeader == null || !csdocument.FileHeader.UnStyled;
         }

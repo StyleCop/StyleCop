@@ -79,30 +79,7 @@ namespace StyleCop
                 return;
             }
         }
-
-        /// <summary>
-        /// Returns the specified Attribute for the assembly.
-        /// </summary>
-        /// <typeparam name="T">The attribute to return.</typeparam>
-        /// <param name="assembly">The assembly to check.</param>
-        /// <returns>The attribute required or null.</returns>
-        private static T GetAssemblyAttribute<T>(Assembly assembly) where T : Attribute
-        {
-            if (assembly == null)
-            {
-                return null;
-            }
-
-            object[] attributes = assembly.GetCustomAttributes(typeof(T), true);
-
-            if (attributes.Length == 0)
-            {
-                return null;
-            }
-
-            return (T)attributes[0];
-        }
-
+        
         /// <summary>
         /// Prompt user for download.
         /// </summary>
@@ -168,7 +145,7 @@ namespace StyleCop
 
             var autoUpdate = Serialization.CreateInstance<AutoUpdate>(response);
             
-            var currentVersionNumberAttribute = GetAssemblyAttribute<AssemblyFileVersionAttribute>(this.GetType().Assembly);
+            var currentVersionNumberAttribute = Utils.GetAssemblyAttribute<AssemblyFileVersionAttribute>(this.GetType().Assembly);
             var currentVersionNumber = new Version(currentVersionNumberAttribute.Version);
 
             var newVersionNumber = autoUpdate.Version.AsSystemVersion();

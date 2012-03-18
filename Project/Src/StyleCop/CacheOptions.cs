@@ -55,6 +55,8 @@ namespace StyleCop
         private PropertyDescriptor<bool> autoUpdateCheckPropertyDescriptor;
         private PropertyDescriptor<int> daysToCheckPropertyDescriptor;
         private PropertyDescriptor<int> maxViolationCountPropertyDescriptor;
+        private PropertyDescriptor<string> culturePropertyDescriptor;
+
         private Label daysLabel;
         private MaskedTextBox daysMaskedTextBox;
         private Panel panel3;
@@ -66,16 +68,16 @@ namespace StyleCop
         /// The global value of the property.
         /// </summary>
         private BooleanProperty writeCacheParentProperty;
-
         private BooleanProperty autoUpdateParentProperty;
+        private IntProperty daysToCheckParentProperty;
+        private IntProperty maxViolationCountParentProperty;
+        private StringProperty cultureParentProperty;
 
         private ToolTip toolTip;
-
-        private IntProperty daysToCheckParentProperty;
         private Label label3;
         private MaskedTextBox maxViolationCountMaskedTextBox;
-
-        private IntProperty maxViolationCountParentProperty;
+        private Label label2;
+        private ComboBox cultureComboBox;
 
         #endregion Private Fields
 
@@ -89,6 +91,9 @@ namespace StyleCop
             this.InitializeComponent();
             this.daysMaskedTextBox.ValidatingType = typeof(int);
             this.maxViolationCountMaskedTextBox.ValidatingType = typeof(int);
+
+            this.cultureComboBox.Items.Add("en-US");
+            this.cultureComboBox.Items.Add("en-GB");
         }
 
         #endregion Public Constructors
@@ -190,7 +195,20 @@ namespace StyleCop
                                                  : this.tabControl.MergedSettings.GlobalSettings.GetProperty(this.maxViolationCountPropertyDescriptor.PropertyName) as IntProperty;
 
             this.maxViolationCountMaskedTextBox.Text = mergedMaxViolationCountProperty == null ? this.maxViolationCountPropertyDescriptor.DefaultValue.ToString(CultureInfo.InvariantCulture) : mergedMaxViolationCountProperty.Value.ToString(CultureInfo.InvariantCulture);
-            
+
+            // Culture
+            this.culturePropertyDescriptor = this.tabControl.Core.PropertyDescriptors["Culture"] as PropertyDescriptor<string>;
+
+            this.cultureParentProperty = this.tabControl.ParentSettings == null
+                                      ? null
+                                      : this.tabControl.ParentSettings.GlobalSettings.GetProperty(this.culturePropertyDescriptor.PropertyName) as StringProperty;
+
+            var mergedCultureProperty = this.tabControl.MergedSettings == null
+                                                 ? null
+                                                 : this.tabControl.MergedSettings.GlobalSettings.GetProperty(this.culturePropertyDescriptor.PropertyName) as StringProperty;
+
+            this.cultureComboBox.SelectedIndex = this.cultureComboBox.FindStringExact(mergedCultureProperty == null ? this.culturePropertyDescriptor.DefaultValue.ToString(CultureInfo.InvariantCulture) : mergedCultureProperty.Value.ToString(CultureInfo.InvariantCulture));
+
             this.SetBoldState();
 
             // Reset the dirty flag to false now.
@@ -253,6 +271,9 @@ namespace StyleCop
 
                 this.tabControl.LocalSettings.GlobalSettings.SetProperty(
                     new IntProperty(this.tabControl.Core, this.maxViolationCountPropertyDescriptor.PropertyName, Convert.ToInt32(this.maxViolationCountMaskedTextBox.Text)));
+
+                this.tabControl.LocalSettings.GlobalSettings.SetProperty(
+                    new StringProperty(this.tabControl.Core, this.culturePropertyDescriptor.PropertyName, this.cultureComboBox.SelectedItem.ToString()));
                 
                 this.dirty = false;
                 this.tabControl.DirtyChanged();
@@ -292,7 +313,11 @@ namespace StyleCop
             this.maxViolationCountParentProperty = this.tabControl.ParentSettings == null ?
                null :
                this.tabControl.ParentSettings.GlobalSettings.GetProperty(this.maxViolationCountPropertyDescriptor.PropertyName) as IntProperty;
-            
+
+            this.cultureParentProperty = this.tabControl.ParentSettings == null ?
+               null :
+               this.tabControl.ParentSettings.GlobalSettings.GetProperty(this.culturePropertyDescriptor.PropertyName) as StringProperty;
+
             this.SetBoldState();
         }
 
@@ -353,6 +378,8 @@ namespace StyleCop
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.label3 = new System.Windows.Forms.Label();
             this.maxViolationCountMaskedTextBox = new System.Windows.Forms.MaskedTextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.cultureComboBox = new System.Windows.Forms.ComboBox();
             this.panel3.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -435,8 +462,23 @@ namespace StyleCop
             this.maxViolationCountMaskedTextBox.TextChanged += new System.EventHandler(this.MaxViolationCountTextBoxTextChanged);
             this.maxViolationCountMaskedTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MaxViolationCountMaskedTextBoxKeyDown);
             // 
+            // label2
+            // 
+            resources.ApplyResources(this.label2, "label2");
+            this.label2.Name = "label2";
+            // 
+            // cultureComboBox
+            // 
+            this.cultureComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cultureComboBox.FormattingEnabled = true;
+            resources.ApplyResources(this.cultureComboBox, "cultureComboBox");
+            this.cultureComboBox.Name = "cultureComboBox";
+            this.cultureComboBox.SelectedIndexChanged += new System.EventHandler(this.CultureComboBoxSelectedIndexChanged);
+            // 
             // CacheOptions
             // 
+            this.Controls.Add(this.cultureComboBox);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.enableCache);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.maxViolationCountMaskedTextBox);
@@ -562,6 +604,22 @@ namespace StyleCop
 
                 this.maxViolationCountMaskedTextBox.Font = bold ? new Font(this.maxViolationCountMaskedTextBox.Font, FontStyle.Bold) : new Font(this.maxViolationCountMaskedTextBox.Font, FontStyle.Regular);
             }
+
+            if (this.culturePropertyDescriptor != null)
+            {
+                if (this.cultureParentProperty == null)
+                {
+                    bold = this.cultureComboBox.Text
+                           != this.culturePropertyDescriptor.DefaultValue.ToString(CultureInfo.InvariantCulture);
+                }
+                else
+                {
+                    bold = this.cultureComboBox.Text
+                           != this.cultureParentProperty.Value.ToString(CultureInfo.InvariantCulture);
+                }
+
+                this.cultureComboBox.Font = bold ? new Font(this.cultureComboBox.Font, FontStyle.Bold) : new Font(this.cultureComboBox.Font, FontStyle.Regular);
+            }
         }
 
         private void DaysMaskedTextBoxKeyDown(object sender, KeyEventArgs e)
@@ -575,5 +633,18 @@ namespace StyleCop
         }
 
         #endregion Private Methods
+
+        private void CultureComboBoxSelectedIndexChanged(object sender, EventArgs e)
+        {
+            Param.Ignore(sender, e);
+
+            if (!this.dirty)
+            {
+                this.dirty = true;
+                this.tabControl.DirtyChanged();
+            }
+            
+            this.SetBoldState();
+        }
     }
 }

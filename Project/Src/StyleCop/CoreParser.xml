@@ -50,6 +50,12 @@
       FriendlyName="Max Violation Count"
       Description="How many violations to occur before cancelling current analysis."
     />
+    <StringProperty
+      Name="Culture"
+      DefaultValue="en-US"
+      FriendlyName="Culture"
+      Description="The Culture to use for analysis."
+    />
   </Properties>
   <Rules>
     <Rule Name="ExceptionOccurred" CheckId="SA0001">

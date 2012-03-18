@@ -95,7 +95,14 @@ namespace StyleCop.VisualStudio
         {
             get
             {
-                return this.versionNumberFull ?? (this.versionNumberFull = Assembly.GetExecutingAssembly().GetName().Version.ToString(4));
+                if (this.versionNumberFull != null)
+                {
+                    return this.versionNumberFull;
+                }
+
+                var currentVersionNumberAttribute = Utils.GetAssemblyAttribute<AssemblyFileVersionAttribute>(this.GetType().Assembly);
+                var currentVersionNumber = new Version(currentVersionNumberAttribute.Version);
+                return this.versionNumberFull = currentVersionNumber.ToString(4);
             }
         }
 

@@ -16,6 +16,7 @@ namespace StyleCop
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
 
     /// <summary>
     /// Describes a project containing one or more source code documents.
@@ -28,6 +29,11 @@ namespace StyleCop
         /// The default maximum violation count.
         /// </summary>
         private const int DefaultMaxViolationCount = 1000;
+
+        /// <summary>
+        /// The default culture.
+        /// </summary>
+        private const string DefaultCulture = "en-US";
        
         /// <summary>
         /// The location where the project is contained.
@@ -78,6 +84,11 @@ namespace StyleCop
         /// Maximum number of violations to occur before cancelling analysis.
         /// </summary>
         private int? maxViolationCount;
+
+        /// <summary>
+        /// The CultureInfo to use during analysis.
+        /// </summary>
+        private CultureInfo culture;
         
         #endregion Private Fields
 
@@ -328,6 +339,38 @@ namespace StyleCop
                 }
 
                 return this.maxViolationCount == null ? DefaultMaxViolationCount : this.maxViolationCount.Value;
+            }
+        }
+
+        /// <summary>
+        /// Gets the CultureInfo to use during analysis.
+        /// </summary>
+        public virtual CultureInfo Culture
+        {
+            get
+            {
+                if (this.culture == null && this.settingsLoaded)
+                {
+                    if (this.settings != null)
+                    {
+                        var descriptor = this.settings.Core.PropertyDescriptors["Culture"] as PropertyDescriptor<string>;
+                        if (descriptor != null)
+                        {
+                            var property = this.settings.GlobalSettings.GetProperty(descriptor.PropertyName) as StringProperty;
+                            this.culture = property == null ? new CultureInfo(descriptor.DefaultValue) : new CultureInfo(property.Value);
+                        }
+                        else
+                        {
+                            this.culture = new CultureInfo(DefaultCulture);
+                        }
+                    }
+                    else
+                    {
+                        this.culture = new CultureInfo(DefaultCulture);
+                    }
+                }
+
+                return this.culture ?? new CultureInfo(DefaultCulture);
             }
         }
 

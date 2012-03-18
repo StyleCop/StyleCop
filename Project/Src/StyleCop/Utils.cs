@@ -19,6 +19,7 @@ namespace StyleCop
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Reflection;
     using System.Text;
 
     /// <summary>
@@ -26,6 +27,29 @@ namespace StyleCop
     /// </summary>
     public sealed class Utils
     {
+        /// <summary>
+        /// Returns the specified Attribute for the assembly.
+        /// </summary>
+        /// <typeparam name="T">The attribute to return.</typeparam>
+        /// <param name="assembly">The assembly to check.</param>
+        /// <returns>The attribute required or null.</returns>
+        public static T GetAssemblyAttribute<T>(Assembly assembly) where T : Attribute
+        {
+            if (assembly == null)
+            {
+                return null;
+            }
+
+            object[] attributes = assembly.GetCustomAttributes(typeof(T), true);
+
+            if (attributes.Length == 0)
+            {
+                return null;
+            }
+
+            return (T)attributes[0];
+        }
+
         /// <summary>
         /// Gets the full username.
         /// </summary>
@@ -65,7 +89,7 @@ namespace StyleCop
             var lastAccessTime = file.LastAccessTime;
 
             var stringDictionary = new Dictionary<string, string>
-                {
+            {
                     { "$USER_LOGIN$", Environment.UserName },
                     { "$USER_NAME$", GetDisplayUserName() },
                     { "$FILENAME$", file.Name },
@@ -85,7 +109,7 @@ namespace StyleCop
                     { "$ACCESSED_MONTH$", lastAccessTime.ToString("MM") },
                     { "$ACCESSED_DAY$", lastAccessTime.ToString("dd") },
                     { "$ACCESSED_TIME$", lastAccessTime.ToString("t") },
-                };
+            };
 
             return Environment.ExpandEnvironmentVariables(stringDictionary.Keys.Aggregate(value, (current, key) => current.Replace(key, stringDictionary[key])));
         }
