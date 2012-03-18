@@ -97,6 +97,16 @@ namespace StyleCop.CSharp
         /// </summary>
         private static string parameterNotUsed;
 
+        /// <summary>
+        /// The text for "class".
+        /// </summary>
+        private static string classText;
+
+        /// <summary>
+        /// The text for "struct".
+        /// </summary>
+        private static string structText;
+
         private static CultureInfo culture;
         
         /// <summary>
@@ -340,6 +350,38 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
+        /// Gets hthe text for "class".
+        /// </summary>
+        public static string ClassText
+        {
+            get
+            {
+                if (classText == null)
+                {
+                    classText = CodeStrings.Class;
+                }
+
+                return classText;
+            }
+        }
+
+        /// <summary>
+        /// Gets hthe text for "struct".
+        /// </summary>
+        public static string StructText
+        {
+            get
+            {
+                if (structText == null)
+                {
+                    structText = CodeStrings.Struct;
+                }
+
+                return structText;
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the CultureInfo we will analyse with.
         /// </summary>
         public static CultureInfo Culture
@@ -385,6 +427,8 @@ namespace StyleCop.CSharp
             headerSummaryForDestructor = null;
             exampleHeaderSummaryForDestructor = null;
             parameterNotUsed = null;
+            classText = null;
+            structText = null;
         }
     }
 }

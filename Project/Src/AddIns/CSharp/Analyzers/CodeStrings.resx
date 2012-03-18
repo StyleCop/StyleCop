@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Class" xml:space="preserve">
+    <value>class</value>
+  </data>
   <data name="ExampleHeaderSummaryForDestructor" xml:space="preserve">
     <value>Finalizes an instance of the {{Type name}} class</value>
   </data>
@@ -165,5 +168,8 @@
   </data>
   <data name="ParameterNotUsed" xml:space="preserve">
     <value>The parameter is not used.</value>
+  </data>
+  <data name="Struct" xml:space="preserve">
+    <value>struct</value>
   </data>
 </root>

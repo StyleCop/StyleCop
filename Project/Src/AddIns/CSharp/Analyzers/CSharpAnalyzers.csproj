@@ -135,6 +135,9 @@
     <EmbeddedResource Include="CodeStrings.en-GB.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="CodeStrings.fr-FR.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="ValidPrefixes.resx">
       <DependentUpon>ValidPrefixes.cs</DependentUpon>
       <SubType>Designer</SubType>

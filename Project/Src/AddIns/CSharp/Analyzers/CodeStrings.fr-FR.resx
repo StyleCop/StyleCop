@@ -118,58 +118,58 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Class" xml:space="preserve">
-    <value>class</value>
+    <value>classe</value>
   </data>
   <data name="ExampleHeaderSummaryForDestructor" xml:space="preserve">
-    <value>Finalises an instance of the {{Type name}} class</value>
+    <value>Finalise une instance de la classe {{Nom du type}}</value>
   </data>
   <data name="ExampleHeaderSummaryForInstanceConstructor" xml:space="preserve">
-    <value>Initialises a new instance of the {{Type name}} {0}</value>
+    <value>Initialise une nouvelle instance de la {0} {{Nom du type}}</value>
   </data>
   <data name="ExampleHeaderSummaryForPrivateInstanceConstructor" xml:space="preserve">
-    <value>Prevents a default instance of the {{Type name}} {0} from being created</value>
+    <value>Empêche la création d'une instance par défaut de la {0} {{Nom du type}}</value>
   </data>
   <data name="ExampleHeaderSummaryForStaticConstructor" xml:space="preserve">
-    <value>Initialises static members of the {{Type name}} {0}</value>
+    <value>Initialise les membres statiques de la {0} {{Nom du type}}</value>
   </data>
   <data name="HeaderSummaryForBooleanGetAccessor" xml:space="preserve">
-    <value>Gets a value indicating whether</value>
+    <value>Obtient une valeur indiquant si</value>
   </data>
   <data name="HeaderSummaryForBooleanGetAndSetAccessor" xml:space="preserve">
-    <value>Gets or sets a value indicating whether</value>
+    <value>Obtient ou définit une valeur indiquant si</value>
   </data>
   <data name="HeaderSummaryForBooleanSetAccessor" xml:space="preserve">
-    <value>Sets a value indicating whether</value>
+    <value>Définit une valeur indiquant si</value>
   </data>
   <data name="HeaderSummaryForDestructor" xml:space="preserve">
-    <value>^Finalises an instance of the {0} class</value>
+    <value>^Finalise une instance de la classe {0}</value>
     <comment>Finalizes an instance of the Customer class</comment>
   </data>
   <data name="HeaderSummaryForGetAccessor" xml:space="preserve">
-    <value>Gets </value>
+    <value>Obtient </value>
   </data>
   <data name="HeaderSummaryForGetAndSetAccessor" xml:space="preserve">
-    <value>Gets or sets</value>
+    <value>Obtient ou définit</value>
   </data>
   <data name="HeaderSummaryForInstanceConstructor" xml:space="preserve">
-    <value>^Initialises a new instance of the {0} {1}</value>
+    <value>^Initialise une nouvelle instance dela {1} {0}</value>
     <comment>Initializes a new instance of the Customer class</comment>
   </data>
   <data name="HeaderSummaryForPrivateInstanceConstructor" xml:space="preserve">
-    <value>^Prevents a default instance of the {0} {1} from being created</value>
+    <value>^Empêche la création d'une instance par défaut de la {1} {0}</value>
     <comment>Prevents a default instance of the Customer class from being created</comment>
   </data>
   <data name="HeaderSummaryForSetAccessor" xml:space="preserve">
-    <value>Sets</value>
+    <value>Définit</value>
   </data>
   <data name="HeaderSummaryForStaticConstructor" xml:space="preserve">
-    <value>^Initialises static members of the {0} {1}</value>
+    <value>^Initialise les membres statiques de la {1} {0}</value>
     <comment>Initializes static members of the Customer class</comment>
   </data>
   <data name="ParameterNotUsed" xml:space="preserve">
-    <value>The parameter is not used.</value>
+    <value>Le paramètre n'est pas utilisé.</value>
   </data>
   <data name="Struct" xml:space="preserve">
-    <value>struct</value>
+    <value>structure</value>
   </data>
 </root>

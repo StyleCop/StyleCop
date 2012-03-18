@@ -1944,7 +1944,7 @@ namespace StyleCop.CSharp
             if (node != null)
             {
                 string summaryText = node.InnerXml.Trim();
-                string type = constructor.Parent is Struct ? "struct" : "class";
+                string type = constructor.Parent is Struct ? CachedCodeStrings.StructText : CachedCodeStrings.ClassText;
 
                 // Get a regex to match the type name.
                 string typeRegex = BuildCrefValidationStringForType((ClassBase)constructor.FindParentElement());
