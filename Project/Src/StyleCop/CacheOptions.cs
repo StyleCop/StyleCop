@@ -95,6 +95,8 @@ namespace StyleCop
             this.cultureComboBox.Items.Add("en-US");
             this.cultureComboBox.Items.Add("en-GB");
             this.cultureComboBox.Items.Add("fr-FR");
+            this.cultureComboBox.Items.Add("pl-PL");
+            this.cultureComboBox.Items.Add("pt-BR");
         }
 
         #endregion Public Constructors
