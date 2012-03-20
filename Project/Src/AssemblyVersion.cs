@@ -24,3 +24,26 @@ using System.Reflection;
 
 [assembly: AssemblyVersion("4.7.1000.0")] // Fixed at 4.7.1000.0 until version 5.
 [assembly: AssemblyFileVersion("4.7.16.0")]
+
+namespace StyleCop
+{
+    /// <summary>
+    /// Defines the core constants.
+    /// </summary>
+    public static class Constants
+    {
+        #region Constants and Fields
+        
+        /// <summary>
+        /// Name of the Plugin.
+        /// </summary>
+        public const string ProductName = "StyleCop";
+
+        /// <summary>
+        /// Name of the Plugin.
+        /// </summary>
+        public const string ProductNameWithVersion = "StyleCop (4.7.16.0)";
+        
+        #endregion
+    }
+}

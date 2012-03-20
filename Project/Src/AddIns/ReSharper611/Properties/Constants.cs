@@ -40,7 +40,7 @@ namespace StyleCop.ReSharper611.Properties
         /// Name of the Plugin.
         /// </summary>
         public const string ProductName = "StyleCop";
-
+        
         /// <summary>
         /// Name of the Vendor of the Plugin.
         /// </summary>
