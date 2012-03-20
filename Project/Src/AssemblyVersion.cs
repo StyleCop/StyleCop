@@ -30,7 +30,7 @@ namespace StyleCop
     /// <summary>
     /// Defines the core constants.
     /// </summary>
-    public static class Constants
+    public static class AssemblyVersion
     {
         #region Constants and Fields
         

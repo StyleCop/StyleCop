@@ -11,9 +11,13 @@
     </BuildDependsOn>
   </PropertyGroup>
 
-  <!-- Copy the output assembly to the build drop directory -->
+  <ItemGroup>
+    <MySourceFiles Include="$(TargetDir)**\*.dll"/>
+  </ItemGroup>
+
   <Target Name="SaveToStyleCopBuildDrop">
-      <MakeDir Directories="$(projectroot)\BuildDrop\$(Configuration)\" />
+      <MakeDir Directories="$(projectroot)\BuildDrop\$(Configuration)" />
+      <Copy SourceFiles="@(MySourceFiles)" DestinationFiles="@(MySourceFiles->'$(projectroot)\BuildDrop\$(Configuration)\%(RecursiveDir)%(Filename)%(Extension)')" />
       <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(projectroot)\BuildDrop\$(Configuration)\" />
   </Target>
 

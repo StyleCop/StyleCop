@@ -24,6 +24,6 @@ using StyleCop.ReSharper611.Properties;
 
 #endregion
 
-[assembly: PluginTitle(StyleCop.Constants.ProductNameWithVersion)]
+[assembly: PluginTitle(StyleCop.AssemblyVersion.ProductNameWithVersion)]
 [assembly: PluginVendor(Constants.Vendor)]
 [assembly: PluginDescription(Constants.DescriptionLong)]

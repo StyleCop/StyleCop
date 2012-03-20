@@ -15,8 +15,12 @@
 namespace StyleCop
 {
     using System;
+    using System.Collections.Generic;
     using System.Drawing;
     using System.Globalization;
+    using System.IO;
+    using System.Reflection;
+    using System.Resources;
     using System.Windows.Forms;
 
     /// <summary>
@@ -93,14 +97,17 @@ namespace StyleCop
             this.maxViolationCountMaskedTextBox.ValidatingType = typeof(int);
 
             this.cultureComboBox.Items.Add("en-US");
-            this.cultureComboBox.Items.Add("en-GB");
-            this.cultureComboBox.Items.Add("fr-FR");
-            this.cultureComboBox.Items.Add("pl-PL");
-            this.cultureComboBox.Items.Add("pt-BR");
+            
+            List<CultureInfo> cultures = new List<CultureInfo>(GetSatelliteLanguages("StyleCop.CSharp.Rules"));
+
+            foreach (var cultureInfo in cultures)
+            {
+               this.cultureComboBox.Items.Add(cultureInfo.IetfLanguageTag);
+            }
         }
 
         #endregion Public Constructors
-
+        
         #region Public Properties
 
         /// <summary>
@@ -360,6 +367,52 @@ namespace StyleCop
         #endregion Protected Override Methods
 
         #region Private Methods
+
+        private static IEnumerable<CultureInfo> GetSatelliteLanguages(string baseName)
+        {
+            if (baseName == null)
+            {
+                throw new ArgumentNullException("baseName");
+            }
+
+            return EnumSatelliteLanguages(baseName);
+        }
+
+        private static IEnumerable<CultureInfo> EnumSatelliteLanguages(string baseName)
+        {
+            string location = Assembly.GetExecutingAssembly().Location;
+            string directoryName = Path.GetDirectoryName(location);
+
+            foreach (string directory in Directory.GetDirectories(directoryName))
+            {
+                string name = Path.GetFileNameWithoutExtension(directory);
+
+                if (name.Length > 5)
+                {
+                    continue;
+                }
+
+                CultureInfo culture = null;
+                try
+                {
+                    culture = CultureInfo.GetCultureInfo(name);
+                }
+                catch (ArgumentNullException)
+                {
+                    continue;
+                }
+                catch (ArgumentException)
+                {
+                    continue;
+                }
+
+                string resName = baseName + ".resources.dll";
+                if (File.Exists(Path.Combine(Path.Combine(directoryName, name), resName)))
+                {
+                    yield return culture;
+                }
+            }
+        }
 
         #region Component Designer generated code
         /// <summary> 
