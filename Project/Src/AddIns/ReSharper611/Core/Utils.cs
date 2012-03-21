@@ -50,6 +50,7 @@ namespace StyleCop.ReSharper611.Core
     using JetBrains.ReSharper.Psi.Util;
     using JetBrains.TextControl;
 
+    using StyleCop.CSharp;
     using StyleCop.Diagnostics;
     using StyleCop.ReSharper611.Options;
 
@@ -405,23 +406,23 @@ namespace StyleCop.ReSharper611.Core
 
             var parentIsStruct = IsContainingTypeAStruct(constructorDeclaration);
 
-            var structOrClass = parentIsStruct ? "struct" : "class";
+            var structOrClass = parentIsStruct ? CachedCodeStrings.StructText : CachedCodeStrings.ClassText;
 
             string xmlWeShouldInsert;
 
             if (constructorDeclaration.IsStatic)
             {
-                xmlWeShouldInsert = string.Format(CultureInfo.InvariantCulture, HeaderSummaryForStaticConstructorXml, constructorDeclaration.DeclaredName, structOrClass);
+                xmlWeShouldInsert = string.Format(CultureInfo.InvariantCulture, CachedCodeStrings.ExampleHeaderSummaryForStaticConstructor + ".", constructorDeclaration.DeclaredName, structOrClass);
             }
             else if (constructorDeclaration.GetAccessRights() == AccessRights.PRIVATE && constructorDeclaration.ParameterDeclarations.Count == 0)
             {
-                xmlWeShouldInsert = string.Format(CultureInfo.InvariantCulture, HeaderSummaryForPrivateInstanceConstructorXml, constructorDeclaration.DeclaredName, structOrClass);
+                xmlWeShouldInsert = string.Format(CultureInfo.InvariantCulture, CachedCodeStrings.ExampleHeaderSummaryForPrivateInstanceConstructor + ".", constructorDeclaration.DeclaredName, structOrClass);
             }
             else
             {
                 var constructorDescriptionText = CreateConstructorDescriptionText(constructorDeclaration, true);
 
-                xmlWeShouldInsert = string.Format(CultureInfo.InvariantCulture, HeaderSummaryForInstanceConstructorXml, constructorDescriptionText, structOrClass);
+                xmlWeShouldInsert = string.Format(CultureInfo.InvariantCulture, CachedCodeStrings.ExampleHeaderSummaryForInstanceConstructor + ".", constructorDescriptionText, structOrClass);
             }
 
             return xmlWeShouldInsert;
@@ -460,7 +461,7 @@ namespace StyleCop.ReSharper611.Core
 
             var destructorDescriptionText = CreateDestructorDescriptionText(destructorDeclaration, true);
 
-            var newXmlText = string.Format(CultureInfo.InvariantCulture, HeaderSummaryForDestructorXml, destructorDescriptionText);
+            var newXmlText = string.Format(CultureInfo.InvariantCulture, CachedCodeStrings.ExampleHeaderSummaryForDestructor + ".", destructorDescriptionText);
 
             return newXmlText + " " + summaryText;
         }

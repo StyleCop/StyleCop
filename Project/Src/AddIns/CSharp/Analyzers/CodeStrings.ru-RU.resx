@@ -121,25 +121,25 @@
     <value>класса</value>
   </data>
   <data name="ExampleHeaderSummaryForDestructor" xml:space="preserve">
-    <value>Уничтожает экземпляр класса {{Имя типа}}</value>
+    <value>Уничтожает экземпляр класса &lt;see cref="{0}" /&gt;</value>
   </data>
   <data name="ExampleHeaderSummaryForInstanceConstructor" xml:space="preserve">
-    <value>Инициализирует новый экземпляр {0} {{Имя типа}}</value>
+    <value>Инициализирует новый экземпляр {1} &lt;see cref="{0}" /&gt;</value>
   </data>
   <data name="ExampleHeaderSummaryForPrivateInstanceConstructor" xml:space="preserve">
-    <value>Предотвращает вызов конструктора по умолчанию для {0} {{Имя типа}}</value>
+    <value>Предотвращает вызов конструктора по умолчанию для {1} &lt;see cref="{0}" /&gt;</value>
   </data>
   <data name="ExampleHeaderSummaryForStaticConstructor" xml:space="preserve">
-    <value>Инициализирует статические поля {0} {{Имя типа}}</value>
+    <value>Инициализирует статические поля {1} &lt;see cref="{0}" /&gt;</value>
   </data>
   <data name="HeaderSummaryForBooleanGetAccessor" xml:space="preserve">
-    <value>Получает значение, показывающее,</value>
+    <value>Получает значение, показывающее, </value>
   </data>
   <data name="HeaderSummaryForBooleanGetAndSetAccessor" xml:space="preserve">
-    <value>Получает или задает значение, показывающее,</value>
+    <value>Получает или задает значение, показывающее, </value>
   </data>
   <data name="HeaderSummaryForBooleanSetAccessor" xml:space="preserve">
-    <value>Задает значение, показывающее,</value>
+    <value>Задает значение, показывающее, </value>
   </data>
   <data name="HeaderSummaryForDestructor" xml:space="preserve">
     <value>^Уничтожает экземпляр класса {0}</value>
@@ -149,7 +149,7 @@
     <value>Получает </value>
   </data>
   <data name="HeaderSummaryForGetAndSetAccessor" xml:space="preserve">
-    <value>Получает или задает</value>
+    <value>Получает или задает </value>
   </data>
   <data name="HeaderSummaryForInstanceConstructor" xml:space="preserve">
     <value>^Инициализирует новый экземпляр {1} {0}</value>
@@ -160,7 +160,7 @@
     <comment>Prevents a default instance of the Customer class from being created</comment>
   </data>
   <data name="HeaderSummaryForSetAccessor" xml:space="preserve">
-    <value>Задает</value>
+    <value>Задает </value>
   </data>
   <data name="HeaderSummaryForStaticConstructor" xml:space="preserve">
     <value>^Инициализирует статические поля {1} {0}</value>

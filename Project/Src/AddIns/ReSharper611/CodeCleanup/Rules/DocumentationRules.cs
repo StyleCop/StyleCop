@@ -40,6 +40,7 @@ namespace StyleCop.ReSharper611.CodeCleanup.Rules
     using JetBrains.ReSharper.Psi.Impl.Types;
     using JetBrains.ReSharper.Psi.Tree;
 
+    using StyleCop.CSharp;
     using StyleCop.Diagnostics;
     using StyleCop.ReSharper611.CodeCleanup.Options;
     using StyleCop.ReSharper611.CodeCleanup.Styles;
@@ -115,21 +116,21 @@ namespace StyleCop.ReSharper611.CodeCleanup.Rules
             var constructorParameterCount = constructorDeclaration.ParameterDeclarations.Count;
 
             var xmlComment = Utils.GetTextFromDeclarationHeader(declarationHeader.XmlNode);
-            var structOrClass = parentIsStruct ? "struct" : "class";
+            var structOrClass = parentIsStruct ? CachedCodeStrings.StructText : CachedCodeStrings.ClassText;
             string textWeShouldStartWith;
 
             if (constructorDeclaration.IsStatic)
             {
-                textWeShouldStartWith = string.Format(CultureInfo.InvariantCulture, HeaderSummaryForStaticConstructor, constructorDeclaration.DeclaredName, structOrClass);
+                textWeShouldStartWith = string.Format(CultureInfo.InvariantCulture, CachedCodeStrings.HeaderSummaryForStaticConstructor, constructorDeclaration.DeclaredName, structOrClass);
             }
             else if (constructorDeclaration.GetAccessRights() == AccessRights.PRIVATE && constructorParameterCount == 0)
             {
-                textWeShouldStartWith = string.Format(CultureInfo.InvariantCulture, HeaderSummaryForPrivateInstanceConstructor, constructorDeclaration.DeclaredName, structOrClass);
+                textWeShouldStartWith = string.Format(CultureInfo.InvariantCulture, CachedCodeStrings.ExampleHeaderSummaryForPrivateInstanceConstructor, constructorDeclaration.DeclaredName, structOrClass);
             }
             else
             {
                 var constructorDescriptionText = Utils.CreateConstructorDescriptionText(constructorDeclaration, true);
-                textWeShouldStartWith = string.Format(CultureInfo.InvariantCulture, HeaderSummaryForInstanceConstructor, constructorDescriptionText, structOrClass);
+                textWeShouldStartWith = string.Format(CultureInfo.InvariantCulture, CachedCodeStrings.HeaderSummaryForInstanceConstructor, constructorDescriptionText, structOrClass);
             }
 
             if (constructorDeclaration.IsStatic)
@@ -184,7 +185,7 @@ namespace StyleCop.ReSharper611.CodeCleanup.Rules
 
             var xmlComment = Utils.GetTextFromDeclarationHeader(declarationHeader.XmlNode);
 
-            var textWeShouldStartWith = string.Format(CultureInfo.InvariantCulture, HeaderSummaryForDestructor, destructorDescriptionText);
+            var textWeShouldStartWith = string.Format(CultureInfo.InvariantCulture, CachedCodeStrings.HeaderSummaryForDestructor, destructorDescriptionText);
 
             if (!xmlComment.StartsWith(textWeShouldStartWith, StringComparison.Ordinal))
             {

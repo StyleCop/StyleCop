@@ -32,7 +32,7 @@ using StyleCop.ReSharper600.Properties;
 [assembly: AssemblyDescription(Constants.DescriptionShort)]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct(Constants.ProductName)]
+[assembly: AssemblyProduct(StyleCop.Constants.ProductName)]
 [assembly: AssemblyCopyright("MS-PL")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

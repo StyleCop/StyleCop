@@ -247,7 +247,7 @@ namespace StyleCop.ReSharper610.Options
         {
             var directory = RetrieveFromRegistry() ?? Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
-            return directory == null ? directory : Path.Combine(directory, StyleCopReferenceHelper.StyleCopAssemblyName);
+            return directory == null ? directory : Path.Combine(directory, Constants.StyleCopAssemblyName);
         }
 
         /// <summary>

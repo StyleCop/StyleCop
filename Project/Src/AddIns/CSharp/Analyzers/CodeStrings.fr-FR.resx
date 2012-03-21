@@ -121,25 +121,25 @@
     <value>classe</value>
   </data>
   <data name="ExampleHeaderSummaryForDestructor" xml:space="preserve">
-    <value>Finalise une instance de la classe {{Nom du type}}</value>
+    <value>Finalise une instance de la classe &lt;see cref="{0}" /&gt;</value>
   </data>
   <data name="ExampleHeaderSummaryForInstanceConstructor" xml:space="preserve">
-    <value>Initialise une nouvelle instance de la {0} {{Nom du type}}</value>
+    <value>Initialise une nouvelle instance de la {1} &lt;see cref="{0}" /&gt;</value>
   </data>
   <data name="ExampleHeaderSummaryForPrivateInstanceConstructor" xml:space="preserve">
-    <value>Empêche la création d'une instance par défaut de la {0} {{Nom du type}}</value>
+    <value>Empêche la création d'une instance par défaut de la {1} &lt;see cref="{0}" /&gt;</value>
   </data>
   <data name="ExampleHeaderSummaryForStaticConstructor" xml:space="preserve">
-    <value>Initialise les membres statiques de la {0} {{Nom du type}}</value>
+    <value>Initialise les membres statiques de la {1} &lt;see cref="{0}" /&gt;</value>
   </data>
   <data name="HeaderSummaryForBooleanGetAccessor" xml:space="preserve">
-    <value>Obtient une valeur indiquant si</value>
+    <value>Obtient une valeur indiquant si </value>
   </data>
   <data name="HeaderSummaryForBooleanGetAndSetAccessor" xml:space="preserve">
-    <value>Obtient ou définit une valeur indiquant si</value>
+    <value>Obtient ou définit une valeur indiquant si </value>
   </data>
   <data name="HeaderSummaryForBooleanSetAccessor" xml:space="preserve">
-    <value>Définit une valeur indiquant si</value>
+    <value>Définit une valeur indiquant si </value>
   </data>
   <data name="HeaderSummaryForDestructor" xml:space="preserve">
     <value>^Finalise une instance de la classe {0}</value>
@@ -149,7 +149,7 @@
     <value>Obtient </value>
   </data>
   <data name="HeaderSummaryForGetAndSetAccessor" xml:space="preserve">
-    <value>Obtient ou définit</value>
+    <value>Obtient ou définit </value>
   </data>
   <data name="HeaderSummaryForInstanceConstructor" xml:space="preserve">
     <value>^Initialise une nouvelle instance dela {1} {0}</value>
@@ -160,7 +160,7 @@
     <comment>Prevents a default instance of the Customer class from being created</comment>
   </data>
   <data name="HeaderSummaryForSetAccessor" xml:space="preserve">
-    <value>Définit</value>
+    <value>Définit </value>
   </data>
   <data name="HeaderSummaryForStaticConstructor" xml:space="preserve">
     <value>^Initialise les membres statiques de la {1} {0}</value>

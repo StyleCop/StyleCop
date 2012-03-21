@@ -41,12 +41,7 @@ namespace StyleCop.ReSharper611.Core
     public class StyleCopReferenceHelper
     {
         #region Constants and Fields
-
-        /// <summary>
-        /// The name of the StyleCop assembly which should be loaded.
-        /// </summary>
-        public const string StyleCopAssemblyName = "StyleCop.dll";
-
+        
         /// <summary>
         /// SyncRoot object to lock access to the assembly.
         /// </summary>
@@ -144,7 +139,7 @@ namespace StyleCop.ReSharper611.Core
 
             var filename = Path.GetFileName(assemblyPath);
 
-            if (string.IsNullOrEmpty(filename) || filename.ToUpper() != StyleCopAssemblyName.ToUpper())
+            if (string.IsNullOrEmpty(filename) || filename.ToUpper() != Constants.StyleCopAssemblyName.ToUpper())
             {
                 return false;
             }

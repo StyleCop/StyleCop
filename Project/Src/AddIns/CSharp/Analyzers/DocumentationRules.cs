@@ -963,23 +963,25 @@ namespace StyleCop.CSharp
                 return string.Format(
                     CultureInfo.InvariantCulture,
                     CachedCodeStrings.ExampleHeaderSummaryForStaticConstructor,
+                    constructor.Declaration.Name,
                     type);
             }
-            else if (constructor.AccessModifier == AccessModifierType.Private &&
+
+            if (constructor.AccessModifier == AccessModifierType.Private &&
                 (constructor.Parameters == null || constructor.Parameters.Count == 0))
             {
                 return string.Format(
                     CultureInfo.InvariantCulture,
                     CachedCodeStrings.ExampleHeaderSummaryForPrivateInstanceConstructor,
+                    constructor.Declaration.Name,
                     type);
             }
-            else
-            {
-                return string.Format(
-                    CultureInfo.InvariantCulture,
-                    CachedCodeStrings.ExampleHeaderSummaryForInstanceConstructor,
-                    type);
-            }
+
+            return string.Format(
+                CultureInfo.InvariantCulture,
+                CachedCodeStrings.ExampleHeaderSummaryForInstanceConstructor,
+                constructor.Declaration.Name,
+                type);
         }
 
         /// <summary>

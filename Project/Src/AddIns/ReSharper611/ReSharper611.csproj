@@ -453,6 +453,10 @@
       <Project>{AF7A7FEA-C07B-456A-B072-C7E795A6CBD4}</Project>
       <Name>StyleCop</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CSharp\Analyzers\CSharpAnalyzers.csproj">
+      <Project>{DE988D84-EAF4-4FD7-A33A-9EE0E6DE752C}</Project>
+      <Name>CSharpAnalyzers</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\StyleCop.png" />
@@ -468,6 +472,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent></PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>

@@ -121,25 +121,25 @@
     <value>class</value>
   </data>
   <data name="ExampleHeaderSummaryForDestructor" xml:space="preserve">
-    <value>Finalises an instance of the {{Type name}} class</value>
+    <value>Finalises an instance of the &lt;see cref="{0}" /&gt; class</value>
   </data>
   <data name="ExampleHeaderSummaryForInstanceConstructor" xml:space="preserve">
-    <value>Initialises a new instance of the {{Type name}} {0}</value>
+    <value>Initialises a new instance of the &lt;see cref="{0}" /&gt; {1}</value>
   </data>
   <data name="ExampleHeaderSummaryForPrivateInstanceConstructor" xml:space="preserve">
-    <value>Prevents a default instance of the {{Type name}} {0} from being created</value>
+    <value>Prevents a default instance of the &lt;see cref="{0}" /&gt; {1} from being created</value>
   </data>
   <data name="ExampleHeaderSummaryForStaticConstructor" xml:space="preserve">
-    <value>Initialises static members of the {{Type name}} {0}</value>
+    <value>Initialises static members of the &lt;see cref="{0}" /&gt; {1}</value>
   </data>
   <data name="HeaderSummaryForBooleanGetAccessor" xml:space="preserve">
-    <value>Gets a value indicating whether</value>
+    <value>Gets a value indicating whether </value>
   </data>
   <data name="HeaderSummaryForBooleanGetAndSetAccessor" xml:space="preserve">
-    <value>Gets or sets a value indicating whether</value>
+    <value>Gets or sets a value indicating whether </value>
   </data>
   <data name="HeaderSummaryForBooleanSetAccessor" xml:space="preserve">
-    <value>Sets a value indicating whether</value>
+    <value>Sets a value indicating whether </value>
   </data>
   <data name="HeaderSummaryForDestructor" xml:space="preserve">
     <value>^Finalises an instance of the {0} class</value>
@@ -149,7 +149,7 @@
     <value>Gets </value>
   </data>
   <data name="HeaderSummaryForGetAndSetAccessor" xml:space="preserve">
-    <value>Gets or sets</value>
+    <value>Gets or sets </value>
   </data>
   <data name="HeaderSummaryForInstanceConstructor" xml:space="preserve">
     <value>^Initialises a new instance of the {0} {1}</value>
@@ -160,7 +160,7 @@
     <comment>Prevents a default instance of the Customer class from being created</comment>
   </data>
   <data name="HeaderSummaryForSetAccessor" xml:space="preserve">
-    <value>Sets</value>
+    <value>Sets </value>
   </data>
   <data name="HeaderSummaryForStaticConstructor" xml:space="preserve">
     <value>^Initialises static members of the {0} {1}</value>

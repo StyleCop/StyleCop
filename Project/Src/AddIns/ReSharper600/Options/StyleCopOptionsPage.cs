@@ -1937,7 +1937,7 @@ namespace StyleCop.ReSharper600.Options
             {
                 if (!StyleCopReferenceHelper.LocationValid(this.StyleCopLocationTextBox.Text))
                 {
-                    var message = string.Format("Unable to find StyleCop assembly ({0}) at specified location.", StyleCopReferenceHelper.StyleCopAssemblyName);
+                    var message = string.Format("Unable to find StyleCop assembly ({0}) at specified location.", Constants.StyleCopAssemblyName);
 
                     MessageBox.Show(message, "StyleCop", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;

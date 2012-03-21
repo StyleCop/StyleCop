@@ -119,27 +119,35 @@
   </resheader>
   <data name="Class" xml:space="preserve">
     <value>class</value>
+    <comment>Replaced into the constructor text for a class</comment>
   </data>
   <data name="ExampleHeaderSummaryForDestructor" xml:space="preserve">
-    <value>Finalizes an instance of the {{Type name}} class</value>
+    <value>Finalizes an instance of the &lt;see cref="{0}" /&gt; class</value>
+    <comment>Finalizes an instance of the &lt;see cref="Customer" /&gt; class</comment>
   </data>
   <data name="ExampleHeaderSummaryForInstanceConstructor" xml:space="preserve">
-    <value>Initializes a new instance of the {{Type name}} {0}</value>
+    <value>Initializes a new instance of the &lt;see cref="{0}" /&gt; {1}</value>
+    <comment>Initializes a new instance of the &lt;see cref="Customer" /&gt; class</comment>
   </data>
   <data name="ExampleHeaderSummaryForPrivateInstanceConstructor" xml:space="preserve">
-    <value>Prevents a default instance of the {{Type name}} {0} from being created</value>
+    <value>Prevents a default instance of the &lt;see cref="{0}" /&gt; {1} from being created</value>
+    <comment>Prevents a default instance of the &lt;see cref="Customer" /&gt; class from being created</comment>
   </data>
   <data name="ExampleHeaderSummaryForStaticConstructor" xml:space="preserve">
-    <value>Initializes static members of the {{Type name}} {0}</value>
+    <value>Initializes static members of the &lt;see cref="{0}" /&gt; {1}</value>
+    <comment>Initializes static members of the &lt;see cref="Customer" /&gt; class</comment>
   </data>
   <data name="HeaderSummaryForBooleanGetAccessor" xml:space="preserve">
-    <value>Gets a value indicating whether</value>
+    <value>Gets a value indicating whether </value>
+    <comment>Gets a value indicating whether</comment>
   </data>
   <data name="HeaderSummaryForBooleanGetAndSetAccessor" xml:space="preserve">
-    <value>Gets or sets a value indicating whether</value>
+    <value>Gets or sets a value indicating whether </value>
+    <comment>Gets or sets a value indicating whether</comment>
   </data>
   <data name="HeaderSummaryForBooleanSetAccessor" xml:space="preserve">
-    <value>Sets a value indicating whether</value>
+    <value>Sets a value indicating whether </value>
+    <comment>Sets a value indicating whether</comment>
   </data>
   <data name="HeaderSummaryForDestructor" xml:space="preserve">
     <value>^Finalizes an instance of the {0} class</value>
@@ -147,20 +155,23 @@
   </data>
   <data name="HeaderSummaryForGetAccessor" xml:space="preserve">
     <value>Gets </value>
+    <comment>Gets</comment>
   </data>
   <data name="HeaderSummaryForGetAndSetAccessor" xml:space="preserve">
-    <value>Gets or sets</value>
+    <value>Gets or sets </value>
+    <comment>Gets or sets</comment>
   </data>
   <data name="HeaderSummaryForInstanceConstructor" xml:space="preserve">
     <value>^Initializes a new instance of the {0} {1}</value>
-    <comment>Initializes a new instance of the Customer class</comment>
+    <comment>Initializes a new instance of the Customer struct</comment>
   </data>
   <data name="HeaderSummaryForPrivateInstanceConstructor" xml:space="preserve">
     <value>^Prevents a default instance of the {0} {1} from being created</value>
     <comment>Prevents a default instance of the Customer class from being created</comment>
   </data>
   <data name="HeaderSummaryForSetAccessor" xml:space="preserve">
-    <value>Sets</value>
+    <value>Sets </value>
+    <comment>Sets</comment>
   </data>
   <data name="HeaderSummaryForStaticConstructor" xml:space="preserve">
     <value>^Initializes static members of the {0} {1}</value>
@@ -168,8 +179,10 @@
   </data>
   <data name="ParameterNotUsed" xml:space="preserve">
     <value>The parameter is not used.</value>
+    <comment>The parameter is not used.</comment>
   </data>
   <data name="Struct" xml:space="preserve">
     <value>struct</value>
+    <comment>Replaced into the constructor text for a struct</comment>
   </data>
 </root>

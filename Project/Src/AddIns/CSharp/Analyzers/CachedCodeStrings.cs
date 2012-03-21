@@ -20,7 +20,7 @@ namespace StyleCop.CSharp
     /// <summary>
     /// Loaded and cached code strings used within the DocumentationRules analyzer.
     /// </summary>
-    internal static class CachedCodeStrings
+    public static class CachedCodeStrings
     {
         /// <summary>
         /// Header text string "Gets a value indicating whether".
@@ -254,7 +254,7 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Gets example header text string "Prevents an instance of the class from being created".
+        /// Gets example header text string "Prevents a default instance of the {0} {1} from being created".
         /// </summary>
         public static string ExampleHeaderSummaryForPrivateInstanceConstructor
         {
@@ -270,7 +270,7 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Gets header text string "Initializes a new instance of the {0} class".
+        /// Gets header text string "Initializes a new instance of the {0} {1}".
         /// </summary>
         public static string HeaderSummaryForInstanceConstructor
         {
@@ -286,7 +286,7 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Gets example header text string "Initializes a new instance of the {0} class".
+        /// Gets example header text string "Initializes a new instance of the {0} {1}".
         /// </summary>
         public static string ExampleHeaderSummaryForInstanceConstructor
         {

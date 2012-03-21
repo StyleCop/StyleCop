@@ -35,17 +35,7 @@ namespace StyleCop.ReSharper513.Properties
         /// Short description of the plugin.
         /// </summary>
         public const string DescriptionShort = "R# plugin for StyleCop";
-
-        /// <summary>
-        /// Name of the Plugin.
-        /// </summary>
-        public const string ProductName = "StyleCop";
-
-        /// <summary>
-        /// Name of the Vendor of the Plugin.
-        /// </summary>
-        public const string Vendor = "http://stylecop.codeplex.com";
-
+        
         #endregion
     }
 }

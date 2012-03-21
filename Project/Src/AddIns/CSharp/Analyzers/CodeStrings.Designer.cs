@@ -70,7 +70,7 @@ namespace StyleCop.CSharp {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Finalizes an instance of the {{Type name}} class.
+        ///   Looks up a localized string similar to Finalizes an instance of the &lt;see cref=&quot;{0}&quot; /&gt; class.
         /// </summary>
         internal static string ExampleHeaderSummaryForDestructor {
             get {
@@ -79,7 +79,7 @@ namespace StyleCop.CSharp {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Initializes a new instance of the {{Type name}} {0}.
+        ///   Looks up a localized string similar to Initializes a new instance of the &lt;see cref=&quot;{0}&quot; /&gt; {1}.
         /// </summary>
         internal static string ExampleHeaderSummaryForInstanceConstructor {
             get {
@@ -88,7 +88,7 @@ namespace StyleCop.CSharp {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Prevents a default instance of the {{Type name}} {0} from being created.
+        ///   Looks up a localized string similar to Prevents a default instance of the &lt;see cref=&quot;{0}&quot; /&gt; {1} from being created.
         /// </summary>
         internal static string ExampleHeaderSummaryForPrivateInstanceConstructor {
             get {
@@ -97,7 +97,7 @@ namespace StyleCop.CSharp {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Initializes static members of the {{Type name}} {0}.
+        ///   Looks up a localized string similar to Initializes static members of the &lt;see cref=&quot;{0}&quot; /&gt; {1}.
         /// </summary>
         internal static string ExampleHeaderSummaryForStaticConstructor {
             get {
@@ -106,7 +106,7 @@ namespace StyleCop.CSharp {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Gets a value indicating whether.
+        ///   Looks up a localized string similar to Gets a value indicating whether .
         /// </summary>
         internal static string HeaderSummaryForBooleanGetAccessor {
             get {
@@ -115,7 +115,7 @@ namespace StyleCop.CSharp {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Gets or sets a value indicating whether.
+        ///   Looks up a localized string similar to Gets or sets a value indicating whether .
         /// </summary>
         internal static string HeaderSummaryForBooleanGetAndSetAccessor {
             get {
@@ -124,7 +124,7 @@ namespace StyleCop.CSharp {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sets a value indicating whether.
+        ///   Looks up a localized string similar to Sets a value indicating whether .
         /// </summary>
         internal static string HeaderSummaryForBooleanSetAccessor {
             get {
@@ -151,7 +151,7 @@ namespace StyleCop.CSharp {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Gets or sets.
+        ///   Looks up a localized string similar to Gets or sets .
         /// </summary>
         internal static string HeaderSummaryForGetAndSetAccessor {
             get {
@@ -178,7 +178,7 @@ namespace StyleCop.CSharp {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sets.
+        ///   Looks up a localized string similar to Sets .
         /// </summary>
         internal static string HeaderSummaryForSetAccessor {
             get {
