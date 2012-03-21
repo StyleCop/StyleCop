@@ -43,6 +43,12 @@
             </Component>
           </Directory>
 
+          <Directory Id='ruRU' Name='ru-RU'>
+            <Component Id="ruRU" Guid="*">
+              <File Id='ruRU_dll' Name='StyleCop.CSharp.Rules.resources.dll' Checksum="yes" Vital='yes' />
+            </Component>
+          </Directory>
+
           <Component Id="StandardRegistryKeys" Guid="3c439240-494f-423d-bcc5-8247e4c21077">
             <RegistryKey Action='createAndRemoveOnUninstall' Root='HKLM' Key='Software\CodePlex\StyleCop' Id='InstallLocation' />
             <RegistryValue Root='HKLM' Key='Software\CodePlex\StyleCop' Type='string' Name='InstallDir' Value='[INSTALLDIR]' Id='InstallLocation_001' />
@@ -74,6 +80,7 @@
       <ComponentRef Id="frFR" />
       <ComponentRef Id="plPL" />
       <ComponentRef Id="ptBR" />
+      <ComponentRef Id="ruRU" />
     </ComponentGroup>
 
   </Fragment>
