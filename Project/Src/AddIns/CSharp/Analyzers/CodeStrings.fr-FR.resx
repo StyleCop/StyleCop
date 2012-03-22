@@ -152,7 +152,7 @@
     <value>Obtient ou définit </value>
   </data>
   <data name="HeaderSummaryForInstanceConstructor" xml:space="preserve">
-    <value>^Initialise une nouvelle instance dela {1} {0}</value>
+    <value>^Initialise une nouvelle instance de la {1} {0}</value>
     <comment>Initializes a new instance of the Customer class</comment>
   </data>
   <data name="HeaderSummaryForPrivateInstanceConstructor" xml:space="preserve">

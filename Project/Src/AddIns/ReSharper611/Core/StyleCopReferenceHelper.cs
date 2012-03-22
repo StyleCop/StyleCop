@@ -56,11 +56,22 @@ namespace StyleCop.ReSharper611.Core
         /// Flag to indicate if the system has already attempted to load the StyleCop assembly.
         /// </summary>
         private static bool assemblyLoadAttempted;
+
+        /// <summary>
+        /// Flag to indicate if the system has already attempted to load the StyleCop.CSharp.Rules assembly.
+        /// </summary>
+        private static bool assemblyRulesLoadAttempted;
         
+
         /// <summary>
         /// The located StyleCop assembly.
         /// </summary>
         private static Assembly styleCopAssembly;
+
+        /// <summary>
+        /// The located StyleCop.CSharp.Rules assembly.
+        /// </summary>
+        private static Assembly styleCopCSharpRulesAssembly;
 
         #endregion
 
@@ -102,8 +113,6 @@ namespace StyleCop.ReSharper611.Core
                                 }
 
                                 assemblyLoadAttempted = true;
-
-                                AppDomain.CurrentDomain.AssemblyResolve -= OnEventHandler;
                             }
                             catch (Exception exception)
                             {
@@ -114,6 +123,43 @@ namespace StyleCop.ReSharper611.Core
                 }
 
                 return styleCopAssembly;
+            }
+        }
+
+        /// <summary>
+        /// Gets the StyleCop.CSharp.Rules Assembly from the install location.
+        /// </summary>
+        private static Assembly StyleCopCSharpRulesAssembly
+        {
+            get
+            {
+                if (!assemblyRulesLoadAttempted)
+                {
+                    lock (assemblySyncRoot)
+                    {
+                        if (!assemblyRulesLoadAttempted)
+                        {
+                            try
+                            {
+                                var styleCopAssemblyPath = new StyleCopOptionsSettingsKey().GetAssemblyPath();
+
+                                if (!string.IsNullOrEmpty(styleCopAssemblyPath))
+                                {
+                                    var rulesPath = Path.GetDirectoryName(styleCopAssemblyPath);
+                                    styleCopCSharpRulesAssembly = Assembly.LoadFrom(Path.Combine(rulesPath, "StyleCop.CSharp.Rules.dll"));
+                                }
+
+                                assemblyRulesLoadAttempted = true;
+                            }
+                            catch (Exception exception)
+                            {
+                                JB::JetBrains.Util.Logger.LogException(exception);
+                            }
+                        }
+                    }
+                }
+
+                return styleCopCSharpRulesAssembly;
             }
         }
 
@@ -182,6 +228,11 @@ namespace StyleCop.ReSharper611.Core
             if (args.Name.StartsWith(assemblyName))
             {
                 return StyleCopAssembly;
+            }
+
+            if (args.Name.StartsWith("StyleCop.CSharp.Rules,"))
+            {
+                return StyleCopCSharpRulesAssembly;
             }
 
             return null;
