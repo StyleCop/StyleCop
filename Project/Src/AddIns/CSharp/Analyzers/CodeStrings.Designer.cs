@@ -133,7 +133,7 @@ namespace StyleCop.CSharp {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ^Finalizes an instance of the {0} class.
+        ///   Looks up a localized string similar to Finalizes an instance of the {0} class.
         /// </summary>
         internal static string HeaderSummaryForDestructor {
             get {
@@ -160,7 +160,7 @@ namespace StyleCop.CSharp {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ^Initializes a new instance of the {0} {1}.
+        ///   Looks up a localized string similar to Initializes a new instance of the {0} {1}.
         /// </summary>
         internal static string HeaderSummaryForInstanceConstructor {
             get {
@@ -169,7 +169,7 @@ namespace StyleCop.CSharp {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ^Prevents a default instance of the {0} {1} from being created.
+        ///   Looks up a localized string similar to Prevents a default instance of the {0} {1} from being created.
         /// </summary>
         internal static string HeaderSummaryForPrivateInstanceConstructor {
             get {
@@ -187,7 +187,7 @@ namespace StyleCop.CSharp {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ^Initializes static members of the {0} {1}.
+        ///   Looks up a localized string similar to Initializes static members of the {0} {1}.
         /// </summary>
         internal static string HeaderSummaryForStaticConstructor {
             get {

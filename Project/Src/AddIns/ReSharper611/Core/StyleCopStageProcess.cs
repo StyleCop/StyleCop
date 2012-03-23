@@ -28,10 +28,7 @@ namespace StyleCop.ReSharper611.Core
     using JetBrains.Application.Progress;
     using JetBrains.Application.Settings;
     using JetBrains.ReSharper.Daemon;
-    using JetBrains.ReSharper.Daemon.Stages;
     using JetBrains.ReSharper.Psi;
-    using JetBrains.ReSharper.Psi.CSharp;
-    using JetBrains.ReSharper.Psi.Tree;
 
     using StyleCop.Diagnostics;
     using StyleCop.ReSharper611.Options;
@@ -53,7 +50,7 @@ namespace StyleCop.ReSharper611.Core
         /// Defines the max performance value - this is used to reverse the settings.
         /// </summary>
         private const int MaxPerformanceValue = 9;
-        
+
         /// <summary>
         /// Allows us to run the StyleCop analysers.
         /// </summary>
@@ -68,7 +65,7 @@ namespace StyleCop.ReSharper611.Core
         /// THe settings store we were construcuted with.
         /// </summary>
         private readonly IContextBoundSettingsStore settingsStore;
-        
+
         /// <summary>
         /// Used to reduce the number of calls to StyleCop to help with performance.
         /// </summary>
@@ -80,7 +77,7 @@ namespace StyleCop.ReSharper611.Core
         private static bool runOnce = false;
 
         #endregion
-        
+
         #region Constructors and Destructors
 
         /// <summary>
@@ -96,16 +93,18 @@ namespace StyleCop.ReSharper611.Core
         public StyleCopStageProcess(IDaemonProcess daemonProcess, IContextBoundSettingsStore settingsStore)
         {
             StyleCopTrace.In(daemonProcess);
-            
+
             this.daemonProcess = daemonProcess;
             this.settingsStore = settingsStore;
-            
+
             InitialiseTimers();
 
             StyleCopTrace.Out();
         }
 
         #endregion
+
+        #region Public Properties
 
         /// <summary>
         /// Gets the Daemon Process.
@@ -117,10 +116,10 @@ namespace StyleCop.ReSharper611.Core
                 return this.daemonProcess;
             }
         }
-        
-        #region Implemented Interfaces
 
-        #region IDaemonStageProcess
+        #endregion
+
+        #region Public Methods and Operators
 
         /// <summary>
         /// The execute.
@@ -131,52 +130,55 @@ namespace StyleCop.ReSharper611.Core
         public void Execute(Action<DaemonStageResult> commiter)
         {
             StyleCopTrace.In();
-
-            if (this.daemonProcess == null)
+            try
             {
-                return;
-            }
+                if (this.daemonProcess == null)
+                {
+                    return;
+                }
 
-            if (this.daemonProcess.InterruptFlag)
+                if (this.daemonProcess.InterruptFlag)
+                {
+                    return;
+                }
+
+                // inverse the performance value - to ensure that "more resources" actually evaluates to a lower number
+                // whereas "less resources" actually evaluates to a higher number. If Performance is set to max, then execute as normal.
+                int parsingPerformance = this.settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.ParsingPerformance);
+
+                var alwaysExecute = parsingPerformance == StyleCopStageProcess.MaxPerformanceValue;
+
+                bool enoughTimeGoneByToExecuteNow = false;
+
+                if (!alwaysExecute)
+                {
+                    enoughTimeGoneByToExecuteNow = performanceStopWatch.Elapsed > new TimeSpan(0, 0, 0, StyleCopStageProcess.MaxPerformanceValue - parsingPerformance);
+                }
+
+                if (!alwaysExecute && !enoughTimeGoneByToExecuteNow && runOnce)
+                {
+                    StyleCopTrace.Info("Not enough time gone by to execute.");
+                    StyleCopTrace.Out();
+                    return;
+                }
+
+                runOnce = true;
+
+                styleCopRunnerInternal.Execute(this.daemonProcess.SourceFile.ToProjectFile(), this.daemonProcess.Document);
+
+                var violations =
+                    (from info in styleCopRunnerInternal.ViolationHighlights let range = info.Range let highlighting = info.Highlighting select new HighlightingInfo(range, highlighting)).ToList();
+
+                commiter(new DaemonStageResult(violations));
+
+                ResetPerformanceStopWatch();
+            }
+            catch (ProcessCancelledException)
             {
-                return;
             }
-
-            // inverse the performance value - to ensure that "more resources" actually evaluates to a lower number
-            // whereas "less resources" actually evaluates to a higher number. If Performance is set to max, then execute as normal.
-             int parsingPerformance = this.settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.ParsingPerformance);
-
-            var alwaysExecute = parsingPerformance == StyleCopStageProcess.MaxPerformanceValue;
-
-            bool enoughTimeGoneByToExecuteNow = false;
-
-            if (!alwaysExecute)
-            {
-                enoughTimeGoneByToExecuteNow = performanceStopWatch.Elapsed > new TimeSpan(0, 0, 0, StyleCopStageProcess.MaxPerformanceValue - parsingPerformance);
-            }
-
-            if (!alwaysExecute && !enoughTimeGoneByToExecuteNow && runOnce)
-            {
-                StyleCopTrace.Info("Not enough time gone by to execute.");
-                StyleCopTrace.Out();
-                return;
-            }
-            
-            runOnce = true;
-
-            styleCopRunnerInternal.Execute(this.daemonProcess.SourceFile.ToProjectFile(), this.daemonProcess.Document);
-
-            var violations =
-                (from info in styleCopRunnerInternal.ViolationHighlights let range = info.Range let highlighting = info.Highlighting select new HighlightingInfo(range, highlighting)).ToList();
-
-            commiter(new DaemonStageResult(violations));
-
-            ResetPerformanceStopWatch();
 
             StyleCopTrace.Out();
         }
-
-        #endregion
 
         #endregion
 
@@ -202,7 +204,7 @@ namespace StyleCop.ReSharper611.Core
             performanceStopWatch.Reset();
             performanceStopWatch.Start();
         }
-        
+
         #endregion
     }
 }

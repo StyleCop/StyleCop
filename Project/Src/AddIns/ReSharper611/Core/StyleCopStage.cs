@@ -25,6 +25,7 @@ namespace StyleCop.ReSharper611.Core
     using System;
     using System.Linq;
 
+    using JetBrains.Application.Progress;
     using JetBrains.Application.Settings;
     using JetBrains.ReSharper.Daemon;
     using JetBrains.ReSharper.Daemon.CSharp.Stages;
@@ -106,41 +107,48 @@ namespace StyleCop.ReSharper611.Core
         public override IDaemonStageProcess CreateProcess(IDaemonProcess process, IContextBoundSettingsStore settingsStore, DaemonProcessKind processKind)
         {
             StyleCopTrace.In(process, settingsStore, processKind);
-            
+
             if (process == null)
             {
                 throw new ArgumentNullException("process");
             }
 
-            if (processKind == DaemonProcessKind.OTHER)
+            try
             {
-                StyleCopTrace.Info("ProcessKind Other.");
-                StyleCopTrace.Out();
-                return null;
-            }
+                if (processKind == DaemonProcessKind.OTHER)
+                {
+                    StyleCopTrace.Info("ProcessKind Other.");
+                    StyleCopTrace.Out();
+                    return null;
+                }
 
-            if (!settingsStore.GetValue<StyleCopOptionsSettingsKey, bool>(key => key.AnalysisEnabled))
-            {
-                StyleCopTrace.Info("Analysis disabled.");
-                StyleCopTrace.Out();
-                return null;
-            }
-            
-            if (!this.IsSupported(process.SourceFile))
-            {
-                StyleCopTrace.Info("File type not supported.");
-                StyleCopTrace.Out();
-                return null;
-            }
+                if (!settingsStore.GetValue<StyleCopOptionsSettingsKey, bool>(key => key.AnalysisEnabled))
+                {
+                    StyleCopTrace.Info("Analysis disabled.");
+                    StyleCopTrace.Out();
+                    return null;
+                }
 
-            if (!this.FileIsValid(process.SourceFile))
+                if (!this.IsSupported(process.SourceFile))
+                {
+                    StyleCopTrace.Info("File type not supported.");
+                    StyleCopTrace.Out();
+                    return null;
+                }
+
+                if (!this.FileIsValid(process.SourceFile))
+                {
+                    StyleCopTrace.Info("Source file not valid.");
+                    StyleCopTrace.Out();
+                    return null;
+                }
+
+                return StyleCopTrace.Out(new StyleCopStageProcess(process, settingsStore));
+            }
+            catch (ProcessCancelledException)
             {
-                StyleCopTrace.Info("Source file not valid.");
-                StyleCopTrace.Out();
                 return null;
             }
-
-            return StyleCopTrace.Out(new StyleCopStageProcess(process, settingsStore));
         }
 
         /// <summary>
@@ -180,7 +188,7 @@ namespace StyleCop.ReSharper611.Core
             }
 
             var hasErrorElements = new RecursiveElementCollector<IErrorElement>(null).ProcessElement(file).GetResults().Any();
-
+            
             return !hasErrorElements;
         }
     }

@@ -283,6 +283,9 @@ namespace StyleCop
         {
             Param.AssertNotNull(originalSettings, "originalSettings");
             Param.AssertNotNull(overridingSettings, "overridingSettings");
+            
+            //// TODO Not sure why this has to be true
+            //// TODO Also where are we getting a different core from?
             Debug.Assert(originalSettings.Core == overridingSettings.Core, "The settings must come from the same core instance.");
 
             // Create a new merged settings object.

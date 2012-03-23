@@ -150,7 +150,7 @@
     <comment>Sets a value indicating whether</comment>
   </data>
   <data name="HeaderSummaryForDestructor" xml:space="preserve">
-    <value>^Finalizes an instance of the {0} class</value>
+    <value>Finalizes an instance of the {0} class</value>
     <comment>Finalizes an instance of the Customer class</comment>
   </data>
   <data name="HeaderSummaryForGetAccessor" xml:space="preserve">
@@ -162,11 +162,11 @@
     <comment>Gets or sets</comment>
   </data>
   <data name="HeaderSummaryForInstanceConstructor" xml:space="preserve">
-    <value>^Initializes a new instance of the {0} {1}</value>
+    <value>Initializes a new instance of the {0} {1}</value>
     <comment>Initializes a new instance of the Customer struct</comment>
   </data>
   <data name="HeaderSummaryForPrivateInstanceConstructor" xml:space="preserve">
-    <value>^Prevents a default instance of the {0} {1} from being created</value>
+    <value>Prevents a default instance of the {0} {1} from being created</value>
     <comment>Prevents a default instance of the Customer class from being created</comment>
   </data>
   <data name="HeaderSummaryForSetAccessor" xml:space="preserve">
@@ -174,7 +174,7 @@
     <comment>Sets</comment>
   </data>
   <data name="HeaderSummaryForStaticConstructor" xml:space="preserve">
-    <value>^Initializes static members of the {0} {1}</value>
+    <value>Initializes static members of the {0} {1}</value>
     <comment>Initializes static members of the Customer class</comment>
   </data>
   <data name="ParameterNotUsed" xml:space="preserve">

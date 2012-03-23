@@ -142,7 +142,7 @@
     <value>Задает значение, показывающее, </value>
   </data>
   <data name="HeaderSummaryForDestructor" xml:space="preserve">
-    <value>^Уничтожает экземпляр класса {0}</value>
+    <value>Уничтожает экземпляр класса {0}</value>
     <comment>Finalizes an instance of the Customer class</comment>
   </data>
   <data name="HeaderSummaryForGetAccessor" xml:space="preserve">
@@ -152,18 +152,18 @@
     <value>Получает или задает </value>
   </data>
   <data name="HeaderSummaryForInstanceConstructor" xml:space="preserve">
-    <value>^Инициализирует новый экземпляр {1} {0}</value>
+    <value>Инициализирует новый экземпляр {1} {0}</value>
     <comment>Initializes a new instance of the Customer class</comment>
   </data>
   <data name="HeaderSummaryForPrivateInstanceConstructor" xml:space="preserve">
-    <value>^Предотвращает вызов конструктора по умолчанию для {1} {0}</value>
+    <value>Предотвращает вызов конструктора по умолчанию для {1} {0}</value>
     <comment>Prevents a default instance of the Customer class from being created</comment>
   </data>
   <data name="HeaderSummaryForSetAccessor" xml:space="preserve">
     <value>Задает </value>
   </data>
   <data name="HeaderSummaryForStaticConstructor" xml:space="preserve">
-    <value>^Инициализирует статические поля {1} {0}</value>
+    <value>Инициализирует статические поля {1} {0}</value>
     <comment>Initializes static members of the Customer class</comment>
   </data>
   <data name="ParameterNotUsed" xml:space="preserve">

@@ -2,7 +2,15 @@
 // <copyright file="StyleCopOptionsPage.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
-// <license>//   This source code is subject to terms and conditions of the Microsoft //   Public License. A copy of the license can be found in the License.html //   file at the root of this distribution. If you cannot locate the  //   Microsoft Public License, please send an email to dlr@microsoft.com. //   By using this source code in any fashion, you are agreeing to be bound //   by the terms of the Microsoft Public License. You must not remove this //   notice, or any other, from this software.// </license>
+// <license>
+//   This source code is subject to terms and conditions of the Microsoft 
+//   Public License. A copy of the license can be found in the License.html 
+//   file at the root of this distribution. If you cannot locate the  
+//   Microsoft Public License, please send an email to dlr@microsoft.com. 
+//   By using this source code in any fashion, you are agreeing to be bound 
+//   by the terms of the Microsoft Public License. You must not remove this 
+//   notice, or any other, from this software.
+// </license>
 // <summary>
 //   Defines the StyleCopOptionsPage type.
 // </summary>
@@ -431,17 +439,12 @@ namespace StyleCop.ReSharper600.Options
             }
 
             SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "CSArrangeThisQualifier", null, true);
-
             SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "CSUpdateFileHeader", null, false);
-
             SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "CSOptimizeUsings", "OptimizeUsings", true);
             SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "CSOptimizeUsings", "EmbraceInRegion", false);
             SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "CSOptimizeUsings", "RegionName", string.Empty);
-
             SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "CSReformatCode", null, true);
-
-            SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "CSharpFormatDocComments", null, true);
-
+            SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "CSharpFormatDocComments", null, false);
             SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "CSReorderTypeMembers", null, true);
 
             SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1600ElementsMustBeDocumented", true);

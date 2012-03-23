@@ -26,12 +26,10 @@ namespace StyleCop.ReSharper611.CodeCleanup.Rules
     using System.Collections;
     using System.Collections.Generic;
     using System.Globalization;
-    using System.IO;
     using System.Xml;
 
     using JetBrains.Application.Settings;
     using JetBrains.ReSharper.Psi;
-    using JetBrains.ReSharper.Psi.CSharp.CodeStyle.FormatSettings;
     using JetBrains.ReSharper.Psi.CSharp.Parsing;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
     using JetBrains.ReSharper.Psi.CSharp.Tree.Extensions;
@@ -54,30 +52,6 @@ namespace StyleCop.ReSharper611.CodeCleanup.Rules
     /// </summary>
     public class DocumentationRules
     {
-        #region Constants and Fields
-
-        /// <summary>
-        /// Header summary for destructor.
-        /// </summary>
-        private const string HeaderSummaryForDestructor = "Finalizes an instance of the {0} class";
-
-        /// <summary>
-        /// Header summary for instance constructor.
-        /// </summary>
-        private const string HeaderSummaryForInstanceConstructor = "Initializes a new instance of the {0} {1}";
-
-        /// <summary>
-        /// Header summary for private instance constructor.
-        /// </summary>
-        private const string HeaderSummaryForPrivateInstanceConstructor = "Prevents a default instance of the {0} {1} from being created";
-
-        /// <summary>
-        /// Header summary for static constructor.
-        /// </summary>
-        private const string HeaderSummaryForStaticConstructor = "Initializes static members of the {0} {1}";
-        
-        #endregion
-
         #region Public Methods
 
         /// <summary>
@@ -478,6 +452,24 @@ namespace StyleCop.ReSharper611.CodeCleanup.Rules
         }
 
         /// <summary>
+        /// Formats a summary element.
+        /// </summary>
+        /// <param name="declaration">
+        /// The <see cref="IDeclaration"/> to format the text for.
+        /// </param>
+        public void FormatSummaryElement(IDeclaration declaration)
+        {
+            var declarationHeader = new DeclarationHeader(declaration);
+
+            if (declarationHeader.IsMissing || declarationHeader.IsInherited || declarationHeader.HasEmptySummary || !declarationHeader.HasSummary)
+            {
+                return;
+            }
+
+            declarationHeader.Update();
+        }
+
+        /// <summary>
         /// Inserts a missing summary element.
         /// </summary>
         /// <param name="declaration">
@@ -503,14 +495,10 @@ namespace StyleCop.ReSharper611.CodeCleanup.Rules
 
             if (declarationHeader.HasSummary)
             {
-                if (string.IsNullOrEmpty(summaryXmlNode.InnerText.Trim()))
+                if (declarationHeader.HasEmptySummary)
                 {
                     summaryXmlNode.InnerText = summaryText;
                     declarationHeader.Update();
-                }
-                else
-                {
-                    return;
                 }
             }
             else
@@ -608,10 +596,6 @@ namespace StyleCop.ReSharper611.CodeCleanup.Rules
                     returnsXmlNode.InnerText = valueText;
                     declarationHeader.Update();
                 }
-                else
-                {
-                    return;
-                }
             }
             else
             {
@@ -655,10 +639,6 @@ namespace StyleCop.ReSharper611.CodeCleanup.Rules
                 {
                     valueXmlNode.InnerText = valueText;
                     declarationHeader.Update();
-                }
-                else
-                {
-                    return;
                 }
             }
             else
@@ -986,19 +966,26 @@ namespace StyleCop.ReSharper611.CodeCleanup.Rules
             var insertMissingParamTagOption = options.SA1611ElementParametersMustBeDocumented;
             var genericTypeParametersMustBeDocumented = options.SA1618GenericTypeParametersMustBeDocumented;
 
+            var declarationHeader = new DeclarationHeader(declaration);
+
             if (insertMissingElementDocOption && !Utils.IsRuleSuppressed(declaration, StyleCopRules.SA1600))
             {
-                var declarationHeader = new DeclarationHeader(declaration);
-
-                if (declarationHeader.IsMissing || (!declarationHeader.IsInherited && declarationHeader.HasEmptySummary && string.IsNullOrEmpty(declarationHeader.XmlNode.InnerText)))
+                if (declarationHeader.IsMissing || (!declarationHeader.IsInherited && declarationHeader.HasEmptySummary))
                 {
                     this.InsertMissingDeclarationHeader(file, declaration);
                 }
             }
 
-            if (insertMissingParamTagOption && !Utils.IsRuleSuppressed(declaration, StyleCopRules.SA1611))
+            if (elementDocumentationMustHaveSummary && !Utils.IsRuleSuppressed(declaration, StyleCopRules.SA1604) && declarationHeader.HasEmptySummary)
             {
-                if (declaration is IConstructorDeclaration)
+                this.InsertMissingSummaryElement(declaration);
+            }
+            
+            this.FormatSummaryElement(declaration);
+
+            if (declaration is IConstructorDeclaration)
+            {
+                if (insertMissingParamTagOption && !Utils.IsRuleSuppressed(declaration, StyleCopRules.SA1611))
                 {
                     var constructorDeclaration = declaration as IConstructorDeclaration;
 
@@ -1007,11 +994,11 @@ namespace StyleCop.ReSharper611.CodeCleanup.Rules
                         this.InsertMissingParamElement(constructorDeclaration);
                     }
                 }
-            }
 
-            if (elementDocumentationMustHaveSummary && !Utils.IsRuleSuppressed(declaration, StyleCopRules.SA1604))
-            {
-                this.InsertMissingSummaryElement(declaration);
+                if (constructorSummaryDocBeginsWithStandardText && !Utils.IsRuleSuppressed(declaration, StyleCopRules.SA1642))
+                {
+                    this.EnsureConstructorSummaryDocBeginsWithStandardText(declaration as IConstructorDeclaration);
+                }
             }
 
             var docConfig = this.GetDocumentationRulesConfig(file);
@@ -1030,15 +1017,13 @@ namespace StyleCop.ReSharper611.CodeCleanup.Rules
             {
                 this.EnsureDocumentationTextEndsWithAPeriod(declaration);
             }
-
-            if (constructorSummaryDocBeginsWithStandardText && !Utils.IsRuleSuppressed(declaration, StyleCopRules.SA1642))
+            
+            if (declaration is IDestructorDeclaration)
             {
-                this.EnsureConstructorSummaryDocBeginsWithStandardText(declaration as IConstructorDeclaration);
-            }
-
-            if (destructorSummaryDocBeginsWithStandardText && !Utils.IsRuleSuppressed(declaration, StyleCopRules.SA1643))
-            {
-                this.EnsureDestructorSummaryDocBeginsWithStandardText(declaration as IDestructorDeclaration);
+                if (destructorSummaryDocBeginsWithStandardText && !Utils.IsRuleSuppressed(declaration, StyleCopRules.SA1643))
+                {
+                    this.EnsureDestructorSummaryDocBeginsWithStandardText(declaration as IDestructorDeclaration);
+                }
             }
 
             if (declaration is IMethodDeclaration)
@@ -1046,17 +1031,17 @@ namespace StyleCop.ReSharper611.CodeCleanup.Rules
                 this.CheckMethodDeclarationDocumentation(declaration as IMethodDeclaration, options);
             }
 
-            ruleIsEnabled = docConfig.GetStyleCopRuleEnabled("PropertyDocumentationMustHaveValue");
-
-            if (propertyDocumentationMustHaveValueDocumented && ruleIsEnabled && !Utils.IsRuleSuppressed(declaration, StyleCopRules.SA1609))
+            if (declaration is IPropertyDeclaration)
             {
-                if (declaration is IPropertyDeclaration)
+                ruleIsEnabled = docConfig.GetStyleCopRuleEnabled("PropertyDocumentationMustHaveValue");
+
+                if (propertyDocumentationMustHaveValueDocumented && ruleIsEnabled && !Utils.IsRuleSuppressed(declaration, StyleCopRules.SA1609))
                 {
                     this.InsertValueElement(declaration as IPropertyDeclaration);
                 }
             }
 
-            if (genericTypeParametersMustBeDocumented && !Utils.IsRuleSuppressed(declaration, StyleCopRules.SA1618))
+            if (declaration is ITypeParametersOwner && (genericTypeParametersMustBeDocumented && !Utils.IsRuleSuppressed(declaration, StyleCopRules.SA1618)))
             {
                 this.InsertMissingTypeParamElement(declaration);
             }

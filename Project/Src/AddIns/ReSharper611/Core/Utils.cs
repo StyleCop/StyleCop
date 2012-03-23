@@ -1818,7 +1818,7 @@ namespace StyleCop.ReSharper611.Core
         /// Count the number of whitespace characters at the left of the string.
         /// </summary>
         /// <param name="s">
-        /// The string to count the whitspace in.
+        /// The string to count the whitespace in.
         /// </param>
         /// <returns>
         /// An Int32 of the number of whitespace characters.
@@ -1846,7 +1846,7 @@ namespace StyleCop.ReSharper611.Core
         /// Count the number of whitespace characters at the right of the string.
         /// </summary>
         /// <param name="s">
-        /// The string to count the whitspace in.
+        /// The string to count the whitespace in.
         /// </param>
         /// <returns>
         /// An Int32 of the number of whitespace characters.

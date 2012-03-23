@@ -142,7 +142,7 @@
     <value>Define um valor que indica se </value>
   </data>
   <data name="HeaderSummaryForDestructor" xml:space="preserve">
-    <value>^Finaliza uma instância da classe {0}</value>
+    <value>Finaliza uma instância da classe {0}</value>
     <comment>Finalizes an instance of the Customer class</comment>
   </data>
   <data name="HeaderSummaryForGetAccessor" xml:space="preserve">
@@ -152,18 +152,18 @@
     <value>Obtém ou define </value>
   </data>
   <data name="HeaderSummaryForInstanceConstructor" xml:space="preserve">
-    <value>^Inicia uma nova instância da {1} {0}</value>
+    <value>Inicia uma nova instância da {1} {0}</value>
     <comment>Initializes a new instance of the Customer class</comment>
   </data>
   <data name="HeaderSummaryForPrivateInstanceConstructor" xml:space="preserve">
-    <value>^Evita que uma instância default da {1} {0} seja criada</value>
+    <value>Evita que uma instância default da {1} {0} seja criada</value>
     <comment>Prevents a default instance of the Customer class from being created</comment>
   </data>
   <data name="HeaderSummaryForSetAccessor" xml:space="preserve">
     <value>Define </value>
   </data>
   <data name="HeaderSummaryForStaticConstructor" xml:space="preserve">
-    <value>^Inicia os membros estáticos da {1} {0}</value>
+    <value>Inicia os membros estáticos da {1} {0}</value>
     <comment>Initializes static members of the Customer class</comment>
   </data>
   <data name="ParameterNotUsed" xml:space="preserve">
