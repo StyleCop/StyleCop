@@ -61,7 +61,6 @@ namespace StyleCop.ReSharper611.Core
         /// Flag to indicate if the system has already attempted to load the StyleCop.CSharp.Rules assembly.
         /// </summary>
         private static bool assemblyRulesLoadAttempted;
-        
 
         /// <summary>
         /// The located StyleCop assembly.
