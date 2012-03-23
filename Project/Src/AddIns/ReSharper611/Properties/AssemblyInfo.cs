@@ -22,14 +22,13 @@ using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
+using JetBrains.Application.PluginSupport;
 using JetBrains.ReSharper.Daemon;
-
-using StyleCop.ReSharper611.Properties;
 
 #endregion
 
 [assembly: AssemblyTitle("StyleCop R# 6.1.1 Plugin")]
-[assembly: AssemblyDescription(Constants.DescriptionShort)]
+[assembly: AssemblyDescription("R# plugin for StyleCop")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct(StyleCop.Constants.ProductName)]
@@ -44,3 +43,7 @@ using StyleCop.ReSharper611.Properties;
 [assembly: Guid("B566919A-1C80-4778-BA87-A6B7052B525A")]
 
 [assembly: RegisterConfigurableSeverity("StyleCop.DefaultSeverity", null, HighlightingGroupIds.CodeSmell, "item title", "item description", Severity.WARNING, false)]
+
+[assembly: PluginTitle(StyleCop.Constants.ProductNameWithVersion)]
+[assembly: PluginVendor(StyleCop.Constants.Vendor)]
+[assembly: PluginDescription("R# plugin for StyleCop. This plugin allows StyleCop to be run as you type, generating real-time syntax highlighting of violations. It also provides a series of Quick-Fixes and Code Clean Up Modules to help automatically fix violations. See http://stylecop.codeplex.com for more info.")]

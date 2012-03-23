@@ -262,8 +262,6 @@
     <Compile Include="Core\StyleCopStageProcess.cs" />
     <Compile Include="Core\Utils.cs" />
     <Compile Include="Extensions\ITreeNodeExtensions.cs" />
-    <Compile Include="Properties\Constants.cs" />
-    <Compile Include="Properties\PluginInfo.cs" />
     <Compile Include="QuickFixes\Framework\ChangeStyleCopRule.cs" />
     <Compile Include="QuickFixes\Framework\ChangeStyleCopRuleAction.cs" />
     <Compile Include="QuickFixes\Framework\QuickFixBase.cs" />
