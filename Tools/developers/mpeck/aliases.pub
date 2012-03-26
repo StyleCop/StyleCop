@@ -1,0 +1,4 @@
+..		cd ..
+root		cd /d %PROJECTROOT%\$*
+home		cd /d %PROJECTROOT%\src\
+s               StyleCop.sln
