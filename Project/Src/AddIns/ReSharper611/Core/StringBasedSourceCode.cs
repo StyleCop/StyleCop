@@ -105,7 +105,7 @@ namespace StyleCop.ReSharper611.Core
         #region Properties
 
         /// <summary>
-        /// Gets a value indicating whether Exists.
+        /// Gets a value indicating whether the source code exists.
         /// </summary>
         public override bool Exists
         {
@@ -116,7 +116,7 @@ namespace StyleCop.ReSharper611.Core
         }
 
         /// <summary>
-        /// Gets Name.
+        /// Gets the name of the file.
         /// </summary>
         public override string Name
         {
@@ -127,7 +127,7 @@ namespace StyleCop.ReSharper611.Core
         }
 
         /// <summary>
-        /// Gets Path.
+        /// Gets the path of the file.
         /// </summary>
         public override string Path
         {
@@ -138,7 +138,7 @@ namespace StyleCop.ReSharper611.Core
         }
 
         /// <summary>
-        /// Gets TimeStamp.
+        /// Gets the timesptamp of the file.
         /// </summary>
         public override DateTime TimeStamp
         {

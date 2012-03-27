@@ -532,63 +532,7 @@ namespace StyleCop.CSharp
             // than the access of the property.
             return false;
         }
-
-        /*
-        /// <summary>
-        /// Determines whether to reference the set accessor within the property's summary documentation.
-        /// </summary>
-        /// <param name="property">The property.</param>
-        /// <param name="setAccessor">The set accessor.</param>
-        /// <returns>Returns true to reference the set accessor in the summary documentation, or false to omit it.</returns>
-        private static bool IncludeSetAccessorInDocumentation(Property property, Accessor setAccessor)
-        {
-            Param.AssertNotNull(property, "property");
-            Param.AssertNotNull(setAccessor, "setAccessor");
-
-            // If the set accessor has the same access modifier as the property, always include it in the documentation.
-            // Accessors get 'private' access modifiers by default if no access modifier is defined, in which case they
-            // default to having the access of their parent property. Also include documentation for the set accessor
-            // if it appears to be private but it does not actually define the 'private' keyword.
-            if (setAccessor.AccessModifier == property.AccessModifier ||
-                (setAccessor.AccessModifier == AccessModifierType.Private && !setAccessor.Declaration.ContainsModifier(CsTokenType.Private)))
-            {
-                return true;
-            }
-
-            // If the property is visible externally, then only include the set accessor in the documentation if 
-            // it is marked as public or protected.
-            if (property.ActualAccess == AccessModifierType.Public ||
-                property.ActualAccess == AccessModifierType.Protected ||
-                property.ActualAccess == AccessModifierType.ProtectedInternal)
-            {
-                if (setAccessor.AccessModifier == AccessModifierType.Public ||
-                    setAccessor.AccessModifier == AccessModifierType.Protected ||
-                    setAccessor.AccessModifier == AccessModifierType.ProtectedInternal)
-                {
-                    return true;
-                }
-            }
-
-            // If the property is internal, the include the set accessor in the docs unless it contains the private keyword.
-            if (property.ActualAccess == AccessModifierType.Internal || property.ActualAccess == AccessModifierType.ProtectedAndInternal)
-            {
-                if (!setAccessor.Declaration.ContainsModifier(CsTokenType.Private))
-                {
-                    return true;
-                }
-            }
-
-            // If the property is private, always include the set accessor in the docs.
-            if (property.ActualAccess == AccessModifierType.Private)
-            {
-                return true;
-            }
-
-            // Otherwise, do not include the set accessor in the docs.
-            return false;
-        }
-        */
-
+        
         /// <summary>
         /// Builds a regular expression that can be used to validate the name of the given type when 
         /// used within a documentation cref attribute.
@@ -623,37 +567,6 @@ namespace StyleCop.CSharp
             return string.Format(CultureInfo.InvariantCulture, CrefRegex, typeNameWithParamsNumber, regexWithoutGenerics, regexWithGenerics);
         }
         
-        /// <summary>
-        /// Gets the actual name of the class. If nested type returns A+B rather than only B.
-        /// </summary>
-        /// <param name="type">The type to get the correct class name for.</param>
-        /// <param name="showPlusInTypeName">True to show a '+' sign in a nested type.</param>
-        /// <returns>A string of the actual class name.</returns>
-        private static string GetActualClassName(ClassBase type, bool showPlusInTypeName)
-        {
-            Param.AssertNotNull(type, "type");
-            Param.Ignore(showPlusInTypeName);
-
-            CsElement localType = type;
-
-            while (localType.Parent is ClassBase)
-            {
-                localType = (CsElement)localType.Parent;
-            }
-
-            int lastIndexOfDot = localType.FullyQualifiedName.LastIndexOf('.');
-            if (lastIndexOfDot == -1)
-            {
-                return type.Name;
-            }
-            else
-            {
-                Debug.Assert(type.FullNamespaceName.Length > lastIndexOfDot + 1, "The fully qualified name is corrupted.");
-                string remainder = type.FullyQualifiedName.Substring(lastIndexOfDot + 1);
-                return showPlusInTypeName ? remainder.Replace('.', '+') : remainder;
-            }
-        }
-
         /// <summary>
         /// For a type Foo.Bar in namespace A.B this returns (A.B.Foo.Bar | B.Foo.Bar | Foo.Bar | Bar) and (A.B.Foo{E,F}.Bar | B.Foo{E,F}.Bar | Foo{E,F}.Bar | Bar)
         /// </summary>
@@ -820,23 +733,7 @@ namespace StyleCop.CSharp
                 "`",
                 genericParams.Length);
         }
-
-        /// <summary>
-        /// Gets a string to match the namespace of the type in a format that can be inserted into a regular expression for matching.
-        /// </summary>
-        /// <param name="type">The type to match.</param>
-        /// <returns>Returns the namespace string.</returns>
-        private static string BuildNamespaceRegex(ClassBase type)
-        {
-            Param.AssertNotNull(type, "type");
-
-            // The fully-qualified name of a type should always begin with Root. This part should be ignored.
-            string actualQualifiedClassName = GetActualQualifiedNamespace(type);
-            Debug.Assert(actualQualifiedClassName.StartsWith("Root.", StringComparison.Ordinal), "The fully qualified name of a type should start with Root.");
-
-            return actualQualifiedClassName.Substring(5).Replace(".", "\\.");
-        }
-
+        
         /// <summary>
         /// Builds a regex matching string to match the given generic parameter list.
         /// </summary>
@@ -928,8 +825,8 @@ namespace StyleCop.CSharp
                     typeRegex,
                     type);
             }
-            else if (constructor.AccessModifier == AccessModifierType.Private &&
-                (constructor.Parameters == null || constructor.Parameters.Count == 0))
+
+            if (constructor.AccessModifier == AccessModifierType.Private && (constructor.Parameters == null || constructor.Parameters.Count == 0))
             {
                 return string.Format(
                     CultureInfo.InvariantCulture,
@@ -937,14 +834,12 @@ namespace StyleCop.CSharp
                     typeRegex,
                     type);
             }
-            else
-            {
-                return string.Format(
-                    CultureInfo.InvariantCulture,
-                    CachedCodeStrings.HeaderSummaryForInstanceConstructor,
-                    typeRegex,
-                    type);
-            }
+            
+            return string.Format(
+                CultureInfo.InvariantCulture,
+                CachedCodeStrings.HeaderSummaryForInstanceConstructor,
+                typeRegex,
+                type);
         }
 
         /// <summary>
@@ -967,8 +862,7 @@ namespace StyleCop.CSharp
                     type);
             }
 
-            if (constructor.AccessModifier == AccessModifierType.Private &&
-                (constructor.Parameters == null || constructor.Parameters.Count == 0))
+            if (constructor.AccessModifier == AccessModifierType.Private && (constructor.Parameters == null || constructor.Parameters.Count == 0))
             {
                 return string.Format(
                     CultureInfo.InvariantCulture,
@@ -1201,9 +1095,7 @@ namespace StyleCop.CSharp
                 }
             }
 
-            ((CsDocument)document).WalkDocument<AnalyzerSettings>(
-                new CodeWalkerElementVisitor<AnalyzerSettings>(this.CheckDocumentationForElement),
-                settings);
+            document.WalkDocument(this.CheckDocumentationForElement, settings);
         }
 
         /// <summary>
@@ -1260,8 +1152,7 @@ namespace StyleCop.CSharp
                     this.CheckEnumHeaders(element as StyleCop.CSharp.Enum, settings);
                 }
 
-                // Check the comments within the element, only for
-                // elements which contain statements.
+                // Check the comments within the element, only for elements which contain statements.
                 if (element.ElementType == ElementType.Accessor ||
                     element.ElementType == ElementType.Constructor ||
                     element.ElementType == ElementType.Destructor ||
@@ -1287,16 +1178,7 @@ namespace StyleCop.CSharp
             AnalyzerSettings adjustedSettings = settings;
             adjustedSettings.RequireFields = false;
 
-            if (classElement.Declaration.ContainsModifier(CsTokenType.Partial))
-            {
-                // This is a partial element. Check for the possible partial element header types.
-                this.CheckHeader(classElement, adjustedSettings, true);
-            }
-            else
-            {
-                // Just perform the regular set of checks on the header.
-                this.CheckHeader(classElement, adjustedSettings, false);
-            }
+            this.CheckHeader(classElement, adjustedSettings, classElement.Declaration.ContainsModifier(CsTokenType.Partial));
         }
 
         /// <summary>
@@ -1469,7 +1351,7 @@ namespace StyleCop.CSharp
                         }
                         else if (element.ElementType == ElementType.Delegate)
                         {
-                            StyleCop.CSharp.Delegate item = element as StyleCop.CSharp.Delegate;
+                            Delegate item = element as Delegate;
                             this.CheckHeaderParams(element, item.Parameters, formattedDocs);
                             this.CheckHeaderReturnValue(element, item.ReturnType, formattedDocs);
                         }
@@ -2312,13 +2194,13 @@ namespace StyleCop.CSharp
             string companyName = null;
             string copyright = null;
 
-            StringProperty companyNameProperty = this.GetSetting(document.Settings, DocumentationRules.CompanyNameProperty) as StringProperty;
+            StringProperty companyNameProperty = this.GetSetting(document.Settings, CompanyNameProperty) as StringProperty;
             if (companyNameProperty != null)
             {
                 companyName = companyNameProperty.Value;
             }
 
-            StringProperty copyrightProperty = this.GetSetting(document.Settings, DocumentationRules.CopyrightProperty) as StringProperty;
+            StringProperty copyrightProperty = this.GetSetting(document.Settings, CopyrightProperty) as StringProperty;
             if (copyrightProperty != null)
             {
                 copyright = copyrightProperty.Value;

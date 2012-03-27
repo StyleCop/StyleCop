@@ -20,11 +20,8 @@ namespace StyleCop.ReSharper611.CodeCleanup.Rules
 {
     #region Using Directives
 
-    using System;
-    using System.Collections.Generic;
     using System.Linq;
 
-    using JetBrains.ReSharper.Feature.Services.LiveTemplates.Macros;
     using JetBrains.ReSharper.Psi;
 
     using StyleCop.ReSharper611.Core;
