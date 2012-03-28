@@ -1669,8 +1669,8 @@ namespace StyleCop.CSharp
             
             if ((commentType & InvalidCommentType.NoPeriod) != 0)
             {
-                if (!documentationXml.InnerXml.StartsWith("<c>", StringComparison.Ordinal) && !documentationXml.InnerXml.StartsWith("<code>", StringComparison.Ordinal)
-                     && !documentationXml.InnerXml.StartsWith("<see", StringComparison.Ordinal) && !documentationXml.InnerXml.StartsWith("<paramref", StringComparison.Ordinal))
+                // Allow xml closing tags
+                if (!documentationXml.InnerXml.EndsWith(">", StringComparison.Ordinal))
                 {
                     this.AddViolation(element, lineNumber, Rules.DocumentationTextMustEndWithAPeriod, documentationType);
                 }
