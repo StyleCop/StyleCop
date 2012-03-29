@@ -231,8 +231,14 @@
   <data name="copyright.Location" type="System.Drawing.Point, System.Drawing">
     <value>95, 76</value>
   </data>
+  <data name="copyright.MaxLength" type="System.Int32, mscorlib">
+    <value>2048</value>
+  </data>
+  <data name="copyright.Multiline" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
   <data name="copyright.Size" type="System.Drawing.Size, System.Drawing">
-    <value>296, 20</value>
+    <value>296, 100</value>
   </data>
   <data name="copyright.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -256,7 +262,7 @@
     <value>6, 13</value>
   </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>394, 106</value>
+    <value>394, 179</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>CompanyInformation</value>

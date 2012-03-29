@@ -917,6 +917,9 @@ namespace StyleCop.CSharp
                 return copyright1 == null && copyright2 == null;
             }
 
+            copyright1 = copyright1.Replace(Environment.NewLine, "   ");
+            copyright2 = copyright2.Replace(Environment.NewLine, "   ");
+
             if (copyright1.Length != copyright2.Length)
             {
                 return false;

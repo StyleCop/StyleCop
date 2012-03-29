@@ -106,6 +106,7 @@ namespace StyleCop.CSharp
             // 
             // copyright
             // 
+            this.copyright.AcceptsReturn = true;
             resources.ApplyResources(this.copyright, "copyright");
             this.copyright.Name = "copyright";
             this.copyright.TextChanged += new System.EventHandler(this.CopyrightTextChanged);

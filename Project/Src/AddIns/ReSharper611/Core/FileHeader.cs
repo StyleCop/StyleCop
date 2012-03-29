@@ -26,6 +26,7 @@ namespace StyleCop.ReSharper611.Core
     using System.Collections.Specialized;
     using System.Globalization;
     using System.Linq;
+    using System.Text;
     using System.Web;
     using System.Xml;
 
@@ -49,9 +50,15 @@ namespace StyleCop.ReSharper611.Core
         #region Constants and Fields
 
         private static readonly string StandardHeader = "// --------------------------------------------------------------------------------------------------------------------" + Environment.NewLine +
-                                                        "// <copyright file=\"\" company=\"\">" + Environment.NewLine + "// </copyright>" + Environment.NewLine + "// <summary>" + Environment.NewLine +
+                                                        "// <copyright file=\"\" company=\"\">" + Environment.NewLine +
+                                                        "// </copyright>" + Environment.NewLine +
+                                                        "// <summary>" + Environment.NewLine +
                                                         "// </summary>" + Environment.NewLine +
                                                         "// --------------------------------------------------------------------------------------------------------------------";
+
+        private const string FileHeaderLinePrefix = "// ";
+
+        private const string FileHeaderIndentedLinePrefix = "//   ";
 
         /// <summary>
         /// Company name.
@@ -158,8 +165,17 @@ namespace StyleCop.ReSharper611.Core
             {
                 var trimmedValue = value.Trim(Utils.TrimChars);
                 var copyrightNode = this.EnsureCopyrightElement();
+                
+                // To support multiline copyright text
+                var linesofCopyrightText = trimmedValue.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+                var newValue = new StringBuilder();
 
-                copyrightNode.InnerText = string.Format("{0}//   {1}{0}// ", Environment.NewLine, trimmedValue);
+                foreach (var copyrightLine in linesofCopyrightText)
+                {
+                    newValue.AppendFormat("{0}{1}{2}", FileHeaderIndentedLinePrefix, copyrightLine, Environment.NewLine);
+                }
+
+                copyrightNode.InnerText = string.Format("{0}{1}{2}", Environment.NewLine, newValue, FileHeaderLinePrefix);
                 this.copyrightText = trimmedValue;
             }
         }
