@@ -133,23 +133,23 @@
     <value>Inicia os membros estáticos da {1} &lt;see cref="{0}" /&gt;</value>
   </data>
   <data name="HeaderSummaryForBooleanGetAccessor" xml:space="preserve">
-    <value>Obtém um valor que indica se </value>
+    <value>Obtém um valor que indica se</value>
   </data>
   <data name="HeaderSummaryForBooleanGetAndSetAccessor" xml:space="preserve">
-    <value>Obtém ou define um valor que indica se </value>
+    <value>Obtém ou define um valor que indica se</value>
   </data>
   <data name="HeaderSummaryForBooleanSetAccessor" xml:space="preserve">
-    <value>Define um valor que indica se </value>
+    <value>Define um valor que indica se</value>
   </data>
   <data name="HeaderSummaryForDestructor" xml:space="preserve">
     <value>Finaliza uma instância da classe {0}</value>
     <comment>Finalizes an instance of the Customer class</comment>
   </data>
   <data name="HeaderSummaryForGetAccessor" xml:space="preserve">
-    <value>Obtém </value>
+    <value>Obtém</value>
   </data>
   <data name="HeaderSummaryForGetAndSetAccessor" xml:space="preserve">
-    <value>Obtém ou define </value>
+    <value>Obtém ou define</value>
   </data>
   <data name="HeaderSummaryForInstanceConstructor" xml:space="preserve">
     <value>Inicia uma nova instância da {1} {0}</value>
@@ -160,7 +160,7 @@
     <comment>Prevents a default instance of the Customer class from being created</comment>
   </data>
   <data name="HeaderSummaryForSetAccessor" xml:space="preserve">
-    <value>Define </value>
+    <value>Define</value>
   </data>
   <data name="HeaderSummaryForStaticConstructor" xml:space="preserve">
     <value>Inicia os membros estáticos da {1} {0}</value>

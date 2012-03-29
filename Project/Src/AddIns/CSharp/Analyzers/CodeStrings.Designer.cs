@@ -106,7 +106,7 @@ namespace StyleCop.CSharp {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Gets a value indicating whether .
+        ///   Looks up a localized string similar to Gets a value indicating whether.
         /// </summary>
         internal static string HeaderSummaryForBooleanGetAccessor {
             get {
@@ -115,7 +115,7 @@ namespace StyleCop.CSharp {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Gets or sets a value indicating whether .
+        ///   Looks up a localized string similar to Gets or sets a value indicating whether.
         /// </summary>
         internal static string HeaderSummaryForBooleanGetAndSetAccessor {
             get {
@@ -124,7 +124,7 @@ namespace StyleCop.CSharp {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sets a value indicating whether .
+        ///   Looks up a localized string similar to Sets a value indicating whether.
         /// </summary>
         internal static string HeaderSummaryForBooleanSetAccessor {
             get {
@@ -142,7 +142,7 @@ namespace StyleCop.CSharp {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Gets .
+        ///   Looks up a localized string similar to Gets.
         /// </summary>
         internal static string HeaderSummaryForGetAccessor {
             get {
@@ -151,7 +151,7 @@ namespace StyleCop.CSharp {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Gets or sets .
+        ///   Looks up a localized string similar to Gets or sets.
         /// </summary>
         internal static string HeaderSummaryForGetAndSetAccessor {
             get {
@@ -178,7 +178,7 @@ namespace StyleCop.CSharp {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sets .
+        ///   Looks up a localized string similar to Sets.
         /// </summary>
         internal static string HeaderSummaryForSetAccessor {
             get {

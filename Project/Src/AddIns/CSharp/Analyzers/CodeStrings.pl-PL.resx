@@ -133,23 +133,23 @@
     <value>Inicjalizuje statyczne składowe {1} &lt;see cref="{0}" /&gt;</value>
   </data>
   <data name="HeaderSummaryForBooleanGetAccessor" xml:space="preserve">
-    <value>Pobiera wartość wskazującą czy </value>
+    <value>Pobiera wartość wskazującą czy</value>
   </data>
   <data name="HeaderSummaryForBooleanGetAndSetAccessor" xml:space="preserve">
-    <value>Pobiera lub ustawia wartość wskazującą czy </value>
+    <value>Pobiera lub ustawia wartość wskazującą czy</value>
   </data>
   <data name="HeaderSummaryForBooleanSetAccessor" xml:space="preserve">
-    <value>Ustawia wartość wskazującą czy </value>
+    <value>Ustawia wartość wskazującą czy</value>
   </data>
   <data name="HeaderSummaryForDestructor" xml:space="preserve">
     <value>Finalizuje instancję klasy {0}</value>
     <comment>Finalizes an instance of the Customer class</comment>
   </data>
   <data name="HeaderSummaryForGetAccessor" xml:space="preserve">
-    <value>Pobiera </value>
+    <value>Pobiera</value>
   </data>
   <data name="HeaderSummaryForGetAndSetAccessor" xml:space="preserve">
-    <value>Pobiera lub ustawia </value>
+    <value>Pobiera lub ustawia</value>
   </data>
   <data name="HeaderSummaryForInstanceConstructor" xml:space="preserve">
     <value>Inicjalizuje nową instancję {1} {0}</value>
@@ -160,7 +160,7 @@
     <comment>Prevents a default instance of the Customer class from being created</comment>
   </data>
   <data name="HeaderSummaryForSetAccessor" xml:space="preserve">
-    <value>Ustawia </value>
+    <value>Ustawia</value>
   </data>
   <data name="HeaderSummaryForStaticConstructor" xml:space="preserve">
     <value>Inicjalizuje statyczne składowe {1} {0}</value>
