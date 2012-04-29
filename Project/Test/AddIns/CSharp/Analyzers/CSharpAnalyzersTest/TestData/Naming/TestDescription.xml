@@ -89,6 +89,7 @@
             <CollectionProperty Name="Hungarian">
               <Value>x</Value>
               <Value>xx</Value>
+              <Value>a2</Value>
             </CollectionProperty>
           </AnalyzerSettings>
           <Rules>
@@ -223,10 +224,8 @@
       <Violation Section="Root.invalidNaming1.class1._Field2" LineNumber="77" Rule="FieldNamesMustNotBeginWithUnderscore" />
       <Violation Section="Root.invalidNaming1.class1._field3" LineNumber="78" Rule="FieldNamesMustNotBeginWithUnderscore" />
       <Violation Section="Root.invalidNaming1.class1.fi_eld" LineNumber="81" Rule="FieldNamesMustNotContainUnderscore" />
-      <Violation Section="Root.invalidNaming1.class1.fi_eld" LineNumber="81" Rule="FieldNamesMustNotUseHungarianNotation" />
       <Violation Section="Root.invalidNaming1.class1.Fi_eld2" LineNumber="82" Rule="FieldNamesMustNotContainUnderscore" />
       <Violation Section="Root.invalidNaming1.class1.fi_eld3" LineNumber="83" Rule="FieldNamesMustNotContainUnderscore" />
-      <Violation Section="Root.invalidNaming1.class1.fi_eld3" LineNumber="83" Rule="FieldNamesMustNotUseHungarianNotation" />
       <Violation Section="Root.invalidNaming1.class1.field_" LineNumber="85" Rule="FieldNamesMustNotContainUnderscore" />
       <Violation Section="Root.invalidNaming1.class1.Field2_" LineNumber="86" Rule="FieldNamesMustNotContainUnderscore" />
       <Violation Section="Root.invalidNaming1.class1.field3_" LineNumber="87" Rule="FieldNamesMustNotContainUnderscore" />
@@ -252,6 +251,7 @@
       <Violation Section="Root.invalidNaming1.CheckEvents.Event11" LineNumber="195" Rule="ElementMustBeginWithUpperCaseLetter" />
       <Violation Section="Root.invalidNaming1.CheckEvents.Event14" LineNumber="196" Rule="ElementMustBeginWithUpperCaseLetter" />
       <Violation Section="Root.invalidNaming1.InvalidIndexerParameterNaming.this%char.get" LineNumber="206" Rule="FieldNamesMustBeginWithLowerCaseLetter" />
+      <Violation Section="Root.invalidNaming1.Class3.a2Field" LineNumber="221" Rule="FieldNamesMustNotUseHungarianNotation" />
     </ExpectedViolations>
   </Test>
 </StyleCopTestDescription>

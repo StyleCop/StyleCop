@@ -215,4 +215,9 @@ namespace invalidNaming1
             }
         }
     }
+
+    public class Class3
+    {
+        private int a2Field;
+    }
 }

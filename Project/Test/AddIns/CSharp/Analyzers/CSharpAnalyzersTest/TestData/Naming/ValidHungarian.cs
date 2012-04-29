@@ -92,5 +92,8 @@ namespace ValidHungarian1
         public static void Method2(string ‰Lange, int a) //invalid
         {
         }
+        public static void Method3(string a2Lange, int a) //valid
+        {
+        }
     }
 }

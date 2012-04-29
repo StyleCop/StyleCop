@@ -178,8 +178,7 @@ namespace StyleCop.CSharp
                 string prefix = null;
                 for (int i = startIndex + 1; i < 3 + startIndex; ++i)
                 {
-                    string character = name.Substring(i, 1);
-                    if (character == character.ToUpper(CultureInfo.InvariantCulture))
+                    if (Char.IsUpper(name, i))
                     {
                         prefix = name.Substring(startIndex, i - startIndex);
                         break;
