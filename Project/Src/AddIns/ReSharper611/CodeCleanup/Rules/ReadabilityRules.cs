@@ -21,6 +21,7 @@ namespace StyleCop.ReSharper611.CodeCleanup.Rules
 {
     #region Using Directives
 
+    using System;
     using System.Collections.Generic;
 
     using JetBrains.Application;
@@ -262,7 +263,7 @@ namespace StyleCop.ReSharper611.CodeCleanup.Rules
                                     }
                                 }
 
-                                if (isOverride || isNew)
+                                if (isOverride || isNew || methodName.Equals("Equals", StringComparison.InvariantCultureIgnoreCase))
                                 {
                                     return;
                                 }
