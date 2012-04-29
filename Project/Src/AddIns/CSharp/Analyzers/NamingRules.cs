@@ -178,7 +178,7 @@ namespace StyleCop.CSharp
                 string prefix = null;
                 for (int i = startIndex + 1; i < 3 + startIndex; ++i)
                 {
-                    if (Char.IsUpper(name, i))
+                    if (char.IsUpper(name, i))
                     {
                         prefix = name.Substring(startIndex, i - startIndex);
                         break;
