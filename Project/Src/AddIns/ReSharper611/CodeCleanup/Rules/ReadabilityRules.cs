@@ -910,9 +910,10 @@ namespace StyleCop.ReSharper611.CodeCleanup.Rules
                         var attribute = tokenNode.GetContainingNode<IAttribute>(true);
                         var switchLabelStatement = tokenNode.GetContainingNode<ISwitchLabelStatement>(true);
                         var constantDeclaration = tokenNode.GetContainingNode<IConstantDeclaration>(true);
+                        var parameterDeclaration = tokenNode.GetContainingNode<IRegularParameterDeclaration>(true);
 
-                        // Not for attributes switch labels or constant declarations
-                        if (attribute == null && switchLabelStatement == null && constantDeclaration == null)
+                        // Not for attributes, switch labels, constant declarations, or parameter declarations
+                        if (attribute == null && switchLabelStatement == null && constantDeclaration == null && parameterDeclaration == null)
                         {
                             var text = currentNode.GetText();
                             if (text == "\"\"" || text == "@\"\"")
