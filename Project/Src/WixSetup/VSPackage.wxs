@@ -87,6 +87,7 @@
       <ComponentRef Id="plPL" />
       <ComponentRef Id="ptBR" />
       <ComponentRef Id="ruRU" />
+      <ComponentRef Id="deDE" />
     </ComponentGroup>
 
   </Fragment>
