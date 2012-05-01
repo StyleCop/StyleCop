@@ -25,6 +25,12 @@
             </Component>
           </Directory>
 
+          <Directory Id='deDE' Name='de-DE'>
+            <Component Id="deDE" Guid="*">
+              <File Id='deDE_dll' Name='StyleCop.CSharp.Rules.resources.dll' Checksum="yes" Vital='yes' />
+            </Component>
+          </Directory>
+          
           <Directory Id='frFR' Name='fr-FR'>
             <Component Id="frFR" Guid="*">
               <File Id='frFR_dll' Name='StyleCop.CSharp.Rules.resources.dll' Checksum="yes" Vital='yes' />
