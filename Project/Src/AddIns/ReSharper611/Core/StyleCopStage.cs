@@ -30,8 +30,6 @@ namespace StyleCop.ReSharper611.Core
     using JetBrains.ReSharper.Daemon;
     using JetBrains.ReSharper.Daemon.CSharp.Stages;
     using JetBrains.ReSharper.Psi;
-    using JetBrains.ReSharper.Psi.CSharp;
-    using JetBrains.ReSharper.Psi.CSharp.Tree;
     using JetBrains.ReSharper.Psi.Tree;
 
     using StyleCop.Diagnostics;
@@ -141,6 +139,16 @@ namespace StyleCop.ReSharper611.Core
                     StyleCopTrace.Info("Source file not valid.");
                     StyleCopTrace.Out();
                     return null;
+                }
+
+                if (!settingsStore.GetValue<StyleCopOptionsSettingsKey, bool>(key => key.AnalyseReadOnlyFiles))
+                {
+                    if (process.SourceFile.Properties.IsNonUserFile)
+                    {
+                        StyleCopTrace.Info("Not analysing non user files.");
+                        StyleCopTrace.Out();
+                        return null;
+                    }
                 }
 
                 return StyleCopTrace.Out(new StyleCopStageProcess(process, settingsStore));

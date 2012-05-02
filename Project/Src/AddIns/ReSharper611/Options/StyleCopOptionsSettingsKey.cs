@@ -130,6 +130,12 @@ namespace StyleCop.ReSharper611.Options
         /// </summary>
         [SettingsEntry(true, "Check R# Code Style Options At StartUp")]
         public bool CheckReSharperCodeStyleOptionsAtStartUp { get; set; }
+        
+        /// <summary>
+        /// Gets or sets a value indicating whether to analyse read only files.
+        /// </summary>
+        [SettingsEntry(false, "Analyse read only files")]
+        public bool AnalyseReadOnlyFiles { get; set; }
 
         #endregion
         

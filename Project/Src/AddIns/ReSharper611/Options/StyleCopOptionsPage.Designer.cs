@@ -84,8 +84,9 @@ namespace StyleCop.ReSharper611.Options
             this.enableAnalysisCheckBox = new System.Windows.Forms.CheckBox();
             this.label9 = new System.Windows.Forms.Label();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.analyseReadOnlyFilesCheckBox = new System.Windows.Forms.CheckBox();
+            this.checkCodeStyleOptionsAtStartUpCheckBox = new System.Windows.Forms.CheckBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.chekcCodeStyleOptionsAtStartUpCheckBox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.performanceTrackBar)).BeginInit();
             this.flowLayoutPanel1.SuspendLayout();
             this.warningPanel.SuspendLayout();
@@ -397,15 +398,40 @@ namespace StyleCop.ReSharper611.Options
             // panel5
             // 
             this.panel5.AutoSize = true;
-            this.panel5.Controls.Add(this.chekcCodeStyleOptionsAtStartUpCheckBox);
+            this.panel5.Controls.Add(this.analyseReadOnlyFilesCheckBox);
+            this.panel5.Controls.Add(this.checkCodeStyleOptionsAtStartUpCheckBox);
             this.panel5.Controls.Add(this.label7);
             this.panel5.Controls.Add(this.justificationTextBox);
             this.panel5.Controls.Add(this.justificationLlabel);
             this.panel5.Controls.Add(this.useExcludeFromStyleCopCheckBox);
             this.panel5.Location = new System.Drawing.Point(3, 409);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(282, 116);
+            this.panel5.Size = new System.Drawing.Size(282, 139);
             this.panel5.TabIndex = 34;
+            // 
+            // analyseReadOnlyFilesCheckBox
+            // 
+            this.analyseReadOnlyFilesCheckBox.AutoSize = true;
+            this.analyseReadOnlyFilesCheckBox.Checked = true;
+            this.analyseReadOnlyFilesCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.analyseReadOnlyFilesCheckBox.Location = new System.Drawing.Point(1, 119);
+            this.analyseReadOnlyFilesCheckBox.Name = "analyseReadOnlyFilesCheckBox";
+            this.analyseReadOnlyFilesCheckBox.Size = new System.Drawing.Size(152, 17);
+            this.analyseReadOnlyFilesCheckBox.TabIndex = 32;
+            this.analyseReadOnlyFilesCheckBox.Text = "Analyse decompiled files";
+            this.analyseReadOnlyFilesCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // checkCodeStyleOptionsAtStartUpCheckBox
+            // 
+            this.checkCodeStyleOptionsAtStartUpCheckBox.AutoSize = true;
+            this.checkCodeStyleOptionsAtStartUpCheckBox.Checked = true;
+            this.checkCodeStyleOptionsAtStartUpCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkCodeStyleOptionsAtStartUpCheckBox.Location = new System.Drawing.Point(0, 96);
+            this.checkCodeStyleOptionsAtStartUpCheckBox.Name = "checkCodeStyleOptionsAtStartUpCheckBox";
+            this.checkCodeStyleOptionsAtStartUpCheckBox.Size = new System.Drawing.Size(224, 17);
+            this.checkCodeStyleOptionsAtStartUpCheckBox.TabIndex = 31;
+            this.checkCodeStyleOptionsAtStartUpCheckBox.Text = "Check R# code style options at startup";
+            this.checkCodeStyleOptionsAtStartUpCheckBox.UseVisualStyleBackColor = true;
             // 
             // label7
             // 
@@ -416,18 +442,6 @@ namespace StyleCop.ReSharper611.Options
             this.label7.Size = new System.Drawing.Size(41, 13);
             this.label7.TabIndex = 30;
             this.label7.Text = "Others";
-            // 
-            // chekcCodeStyleOptionsAtStartUpCheckBox
-            // 
-            this.chekcCodeStyleOptionsAtStartUpCheckBox.AutoSize = true;
-            this.chekcCodeStyleOptionsAtStartUpCheckBox.Checked = true;
-            this.chekcCodeStyleOptionsAtStartUpCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chekcCodeStyleOptionsAtStartUpCheckBox.Location = new System.Drawing.Point(0, 96);
-            this.chekcCodeStyleOptionsAtStartUpCheckBox.Name = "chekcCodeStyleOptionsAtStartUpCheckBox";
-            this.chekcCodeStyleOptionsAtStartUpCheckBox.Size = new System.Drawing.Size(224, 17);
-            this.chekcCodeStyleOptionsAtStartUpCheckBox.TabIndex = 31;
-            this.chekcCodeStyleOptionsAtStartUpCheckBox.Text = "Check R# code style options at startup";
-            this.chekcCodeStyleOptionsAtStartUpCheckBox.UseVisualStyleBackColor = true;
             // 
             // StyleCopOptionsPage
             // 
@@ -489,6 +503,7 @@ namespace StyleCop.ReSharper611.Options
         private Panel panel6;
         private Label label9;
         private CheckBox enableAnalysisCheckBox;
-        private CheckBox chekcCodeStyleOptionsAtStartUpCheckBox;
+        private CheckBox checkCodeStyleOptionsAtStartUpCheckBox;
+        private CheckBox analyseReadOnlyFilesCheckBox;
     }
 }

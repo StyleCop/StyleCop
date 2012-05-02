@@ -1837,7 +1837,8 @@ namespace StyleCop.ReSharper611.Options
             this.justificationTextBox.Text = this.smartContext.GetValue<StyleCopOptionsSettingsKey, string>(key => key.SuppressStyleCopAttributeJustificationText);
             this.useSingleLineForDeclarationCommentsCheckBox.Checked = this.smartContext.GetValue<StyleCopOptionsSettingsKey, bool>(key => key.UseSingleLineDeclarationComments);
             this.enableAnalysisCheckBox.Checked = this.smartContext.GetValue<StyleCopOptionsSettingsKey, bool>(key => key.AnalysisEnabled);
-            this.chekcCodeStyleOptionsAtStartUpCheckBox.Checked = this.smartContext.GetValue<StyleCopOptionsSettingsKey, bool>(key => key.CheckReSharperCodeStyleOptionsAtStartUp);
+            this.checkCodeStyleOptionsAtStartUpCheckBox.Checked = this.smartContext.GetValue<StyleCopOptionsSettingsKey, bool>(key => key.CheckReSharperCodeStyleOptionsAtStartUp);
+            this.analyseReadOnlyFilesCheckBox.Checked = this.smartContext.GetValue<StyleCopOptionsSettingsKey, bool>(key => key.AnalyseReadOnlyFiles);
         }
         
         #endregion
@@ -1880,7 +1881,8 @@ namespace StyleCop.ReSharper611.Options
                 this.smartContext.SetValue<StyleCopOptionsSettingsKey, string>(key => key.SuppressStyleCopAttributeJustificationText, this.justificationTextBox.Text.Trim());
                 this.smartContext.SetValue<StyleCopOptionsSettingsKey, bool>(key => key.UseSingleLineDeclarationComments, this.useSingleLineForDeclarationCommentsCheckBox.Checked);
                 this.smartContext.SetValue<StyleCopOptionsSettingsKey, bool>(key => key.AnalysisEnabled, this.enableAnalysisCheckBox.Checked);
-                this.smartContext.SetValue<StyleCopOptionsSettingsKey, bool>(key => key.CheckReSharperCodeStyleOptionsAtStartUp, this.chekcCodeStyleOptionsAtStartUpCheckBox.Checked);
+                this.smartContext.SetValue<StyleCopOptionsSettingsKey, bool>(key => key.CheckReSharperCodeStyleOptionsAtStartUp, this.checkCodeStyleOptionsAtStartUpCheckBox.Checked);
+                this.smartContext.SetValue<StyleCopOptionsSettingsKey, bool>(key => key.AnalyseReadOnlyFiles, this.analyseReadOnlyFilesCheckBox.Checked);
 
                 return true;
             }
