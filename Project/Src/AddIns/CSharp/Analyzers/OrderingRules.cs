@@ -489,21 +489,13 @@ namespace StyleCop.CSharp
                         }
                         else if (first.Declaration.AccessModifierType == second.Declaration.AccessModifierType)
                         {
-                            bool firstConstant = false;
-                            bool firstReadonly = false;
-
                             Field firstVariable = first as Field;
                             Field secondVariable = second as Field;
 
                             if (firstVariable != null && secondVariable != null)
-                            {
-                                firstConstant = firstVariable.Const;
-                                firstReadonly = firstVariable.Readonly;
-
-                                // Check to make sure that constant and readonly items 
-                                // come before non-constant, non-readonly items
-                                if ((secondVariable.Const || secondVariable.Readonly) && 
-                                    !(firstVariable.Const || firstVariable.Readonly))
+                            {   
+                                // Check to make sure that constant and readonly items come before non-constant, non-readonly items
+                                if ((secondVariable.Const || secondVariable.Readonly) && !(firstVariable.Const || firstVariable.Readonly))
                                 {
                                     this.AddViolation(
                                         first,
@@ -518,10 +510,8 @@ namespace StyleCop.CSharp
                                 }
                             }
 
-                            // Check to make sure that static items come before non-static items but after
-                            // const and readonly items
-                            if (second.Declaration.ContainsModifier(CsTokenType.Static) && 
-                                !(first.Declaration.ContainsModifier(CsTokenType.Static) || firstConstant || firstReadonly))
+                            // Check to make sure that static items come before non-static items 
+                            if (second.Declaration.ContainsModifier(CsTokenType.Static) && !first.Declaration.ContainsModifier(CsTokenType.Static))
                             {
                                 this.AddViolation(
                                     first,
