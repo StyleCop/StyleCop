@@ -33,10 +33,8 @@ namespace StyleCop.ReSharper611.Options
 
     using JetBrains.Application;
     using JetBrains.Application.Settings;
-    using JetBrains.Application.Settings.Store.Implementation;
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Feature.Services.CodeCleanup;
-    using JetBrains.ReSharper.Psi;
     using JetBrains.ReSharper.Psi.CSharp.CodeStyle;
     using JetBrains.ReSharper.Psi.CSharp.CodeStyle.FormatSettings;
     using JetBrains.ReSharper.Psi.CSharp.Naming2;
@@ -1839,6 +1837,7 @@ namespace StyleCop.ReSharper611.Options
             this.enableAnalysisCheckBox.Checked = this.smartContext.GetValue<StyleCopOptionsSettingsKey, bool>(key => key.AnalysisEnabled);
             this.checkCodeStyleOptionsAtStartUpCheckBox.Checked = this.smartContext.GetValue<StyleCopOptionsSettingsKey, bool>(key => key.CheckReSharperCodeStyleOptionsAtStartUp);
             this.analyseReadOnlyFilesCheckBox.Checked = this.smartContext.GetValue<StyleCopOptionsSettingsKey, bool>(key => key.AnalyseReadOnlyFiles);
+            this.insertToDoTextCheckBox.Checked = this.smartContext.GetValue<StyleCopOptionsSettingsKey, bool>(key => key.InsertToDoText);
         }
         
         #endregion
@@ -1883,7 +1882,7 @@ namespace StyleCop.ReSharper611.Options
                 this.smartContext.SetValue<StyleCopOptionsSettingsKey, bool>(key => key.AnalysisEnabled, this.enableAnalysisCheckBox.Checked);
                 this.smartContext.SetValue<StyleCopOptionsSettingsKey, bool>(key => key.CheckReSharperCodeStyleOptionsAtStartUp, this.checkCodeStyleOptionsAtStartUpCheckBox.Checked);
                 this.smartContext.SetValue<StyleCopOptionsSettingsKey, bool>(key => key.AnalyseReadOnlyFiles, this.analyseReadOnlyFilesCheckBox.Checked);
-
+                this.smartContext.SetValue<StyleCopOptionsSettingsKey, bool>(key => key.InsertToDoText, this.insertToDoTextCheckBox.Checked);
                 return true;
             }
 

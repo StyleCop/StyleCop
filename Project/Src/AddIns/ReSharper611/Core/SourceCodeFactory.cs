@@ -55,9 +55,9 @@ namespace StyleCop.ReSharper611.Core
 
             var source = (string)context;
 
-            StyleCopTrace.Out();
+            var sourceCode = source == null ? (SourceCode)new CodeFile(path, project, parser) : new StringBasedSourceCode(project, parser, path, source);
 
-            return new StringBasedSourceCode(project, parser, path, source);
+            return StyleCopTrace.Out(sourceCode);
         }
 
         #endregion

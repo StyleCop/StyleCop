@@ -137,6 +137,12 @@ namespace StyleCop.ReSharper611.Options
         [SettingsEntry(false, "Analyse read only files")]
         public bool AnalyseReadOnlyFiles { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to insert TODO into created docmentation text.
+        /// </summary>
+        [SettingsEntry(false, "Insert TODO into new documentation text")]
+        public bool InsertToDoText { get; set; }
+
         #endregion
         
         #region Methods

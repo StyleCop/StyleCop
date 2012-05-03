@@ -491,6 +491,8 @@ namespace StyleCop.ReSharper611.CodeCleanup.Rules
                 summaryText = string.Format("The {0}.", Utils.ConvertTextToSentence(declaration.DeclaredName).ToLower());
             }
 
+            summaryText = Utils.UpdateTextWithToDoPrefixIfRequired(summaryText, settingsStore);
+
             var summaryXmlNode = declarationHeader.SummaryXmlNode;
 
             if (declarationHeader.HasSummary)

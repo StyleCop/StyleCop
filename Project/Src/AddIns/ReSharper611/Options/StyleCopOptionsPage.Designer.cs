@@ -87,6 +87,7 @@ namespace StyleCop.ReSharper611.Options
             this.analyseReadOnlyFilesCheckBox = new System.Windows.Forms.CheckBox();
             this.checkCodeStyleOptionsAtStartUpCheckBox = new System.Windows.Forms.CheckBox();
             this.label7 = new System.Windows.Forms.Label();
+            this.insertToDoTextCheckBox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.performanceTrackBar)).BeginInit();
             this.flowLayoutPanel1.SuspendLayout();
             this.warningPanel.SuspendLayout();
@@ -143,7 +144,7 @@ namespace StyleCop.ReSharper611.Options
             // 
             // performanceTrackBar
             // 
-            this.performanceTrackBar.Location = new System.Drawing.Point(62, 46);
+            this.performanceTrackBar.Location = new System.Drawing.Point(62, 69);
             this.performanceTrackBar.Maximum = 9;
             this.performanceTrackBar.Name = "performanceTrackBar";
             this.performanceTrackBar.Size = new System.Drawing.Size(147, 45);
@@ -153,7 +154,7 @@ namespace StyleCop.ReSharper611.Options
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(0, 46);
+            this.label2.Location = new System.Drawing.Point(0, 69);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(59, 39);
             this.label2.TabIndex = 5;
@@ -162,7 +163,7 @@ namespace StyleCop.ReSharper611.Options
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(215, 46);
+            this.label3.Location = new System.Drawing.Point(215, 69);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(61, 39);
             this.label3.TabIndex = 6;
@@ -211,7 +212,7 @@ namespace StyleCop.ReSharper611.Options
             // useSingleLineForDeclarationCommentsCheckBox
             // 
             this.useSingleLineForDeclarationCommentsCheckBox.AutoSize = true;
-            this.useSingleLineForDeclarationCommentsCheckBox.Location = new System.Drawing.Point(0, 76);
+            this.useSingleLineForDeclarationCommentsCheckBox.Location = new System.Drawing.Point(0, 46);
             this.useSingleLineForDeclarationCommentsCheckBox.Name = "useSingleLineForDeclarationCommentsCheckBox";
             this.useSingleLineForDeclarationCommentsCheckBox.Size = new System.Drawing.Size(229, 17);
             this.useSingleLineForDeclarationCommentsCheckBox.TabIndex = 14;
@@ -308,13 +309,14 @@ namespace StyleCop.ReSharper611.Options
             // panel4
             // 
             this.panel4.AutoSize = true;
+            this.panel4.Controls.Add(this.insertToDoTextCheckBox);
             this.panel4.Controls.Add(this.useSingleLineForDeclarationCommentsCheckBox);
             this.panel4.Controls.Add(this.label6);
             this.panel4.Controls.Add(this.panel2);
             this.panel4.Controls.Add(this.insertTextCheckBox);
             this.panel4.Location = new System.Drawing.Point(3, 107);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(272, 96);
+            this.panel4.Size = new System.Drawing.Size(272, 126);
             this.panel4.TabIndex = 33;
             // 
             // label6
@@ -332,7 +334,7 @@ namespace StyleCop.ReSharper611.Options
             this.panel2.AutoSize = true;
             this.panel2.Controls.Add(this.numberOfDashesLabel);
             this.panel2.Controls.Add(this.dashesCountMaskedTextBox);
-            this.panel2.Location = new System.Drawing.Point(0, 46);
+            this.panel2.Location = new System.Drawing.Point(0, 92);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(233, 31);
             this.panel2.TabIndex = 29;
@@ -345,7 +347,7 @@ namespace StyleCop.ReSharper611.Options
             this.panel1.Controls.Add(this.StyleCopLocationTextBox);
             this.panel1.Controls.Add(this.autoDetectCheckBox);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(3, 209);
+            this.panel1.Location = new System.Drawing.Point(3, 239);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(359, 94);
             this.panel1.TabIndex = 35;
@@ -363,14 +365,15 @@ namespace StyleCop.ReSharper611.Options
             // panel6
             // 
             this.panel6.AutoSize = true;
+            this.panel6.Controls.Add(this.analyseReadOnlyFilesCheckBox);
             this.panel6.Controls.Add(this.enableAnalysisCheckBox);
             this.panel6.Controls.Add(this.label2);
             this.panel6.Controls.Add(this.label3);
             this.panel6.Controls.Add(this.label9);
             this.panel6.Controls.Add(this.performanceTrackBar);
-            this.panel6.Location = new System.Drawing.Point(3, 309);
+            this.panel6.Location = new System.Drawing.Point(3, 339);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(279, 94);
+            this.panel6.Size = new System.Drawing.Size(279, 117);
             this.panel6.TabIndex = 36;
             // 
             // enableAnalysisCheckBox
@@ -398,15 +401,14 @@ namespace StyleCop.ReSharper611.Options
             // panel5
             // 
             this.panel5.AutoSize = true;
-            this.panel5.Controls.Add(this.analyseReadOnlyFilesCheckBox);
             this.panel5.Controls.Add(this.checkCodeStyleOptionsAtStartUpCheckBox);
             this.panel5.Controls.Add(this.label7);
             this.panel5.Controls.Add(this.justificationTextBox);
             this.panel5.Controls.Add(this.justificationLlabel);
             this.panel5.Controls.Add(this.useExcludeFromStyleCopCheckBox);
-            this.panel5.Location = new System.Drawing.Point(3, 409);
+            this.panel5.Location = new System.Drawing.Point(3, 462);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(282, 139);
+            this.panel5.Size = new System.Drawing.Size(282, 116);
             this.panel5.TabIndex = 34;
             // 
             // analyseReadOnlyFilesCheckBox
@@ -414,7 +416,7 @@ namespace StyleCop.ReSharper611.Options
             this.analyseReadOnlyFilesCheckBox.AutoSize = true;
             this.analyseReadOnlyFilesCheckBox.Checked = true;
             this.analyseReadOnlyFilesCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.analyseReadOnlyFilesCheckBox.Location = new System.Drawing.Point(1, 119);
+            this.analyseReadOnlyFilesCheckBox.Location = new System.Drawing.Point(0, 46);
             this.analyseReadOnlyFilesCheckBox.Name = "analyseReadOnlyFilesCheckBox";
             this.analyseReadOnlyFilesCheckBox.Size = new System.Drawing.Size(152, 17);
             this.analyseReadOnlyFilesCheckBox.TabIndex = 32;
@@ -442,6 +444,16 @@ namespace StyleCop.ReSharper611.Options
             this.label7.Size = new System.Drawing.Size(41, 13);
             this.label7.TabIndex = 30;
             this.label7.Text = "Others";
+            // 
+            // insertToDoTextCheckBox
+            // 
+            this.insertToDoTextCheckBox.AutoSize = true;
+            this.insertToDoTextCheckBox.Location = new System.Drawing.Point(0, 69);
+            this.insertToDoTextCheckBox.Name = "insertToDoTextCheckBox";
+            this.insertToDoTextCheckBox.Size = new System.Drawing.Size(157, 17);
+            this.insertToDoTextCheckBox.TabIndex = 30;
+            this.insertToDoTextCheckBox.Text = "Insert TODO into headers";
+            this.insertToDoTextCheckBox.UseVisualStyleBackColor = true;
             // 
             // StyleCopOptionsPage
             // 
@@ -505,5 +517,6 @@ namespace StyleCop.ReSharper611.Options
         private CheckBox enableAnalysisCheckBox;
         private CheckBox checkCodeStyleOptionsAtStartUpCheckBox;
         private CheckBox analyseReadOnlyFilesCheckBox;
+        private CheckBox insertToDoTextCheckBox;
     }
 }

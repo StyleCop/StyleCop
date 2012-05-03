@@ -79,7 +79,11 @@ namespace StyleCop.ReSharper611.Core
 
         private const string HeaderSummaryForStaticConstructorXml = "Initializes static members of the <see cref=\"{0}\" /> {1}.";
 
+        private const string PrefixText = "TODO ";
+
         private static readonly NodeTypeSet ourNewLineTokens;
+
+        private static string valueText;
 
         #endregion
 
@@ -296,7 +300,7 @@ namespace StyleCop.ReSharper611.Core
         {
             if (declaration is IParameterDeclaration)
             {
-                var result = "<param name=\"" + declaration.DeclaredName + "\">";
+                var openParamElement = "<param name=\"" + declaration.DeclaredName + "\">";
 
                 var parameterDescription = string.Empty;
 
@@ -306,7 +310,9 @@ namespace StyleCop.ReSharper611.Core
                     parameterDescription = string.Format("The {0}.", ConvertTextToSentence(declaration.DeclaredName).ToLowerInvariant());
                 }
 
-                return result + parameterDescription + "</param>";
+                parameterDescription = Utils.UpdateTextWithToDoPrefixIfRequired(parameterDescription, settingsStore);
+
+                return openParamElement + parameterDescription + "</param>";
             }
 
             if (declaration is ITypeParameterDeclaration)
@@ -315,6 +321,17 @@ namespace StyleCop.ReSharper611.Core
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Returns the text provided prefixed with the prefix text if required.
+        /// </summary>
+        /// <param name="text">The text to prefix.</param>
+        /// <param name="settingsStore">The settings store.</param>
+        /// <returns>The updated text.</returns>
+        public static string UpdateTextWithToDoPrefixIfRequired(string text, IContextBoundSettingsStore settingsStore)
+        {
+            return settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.InsertToDoText) ? PrefixText + text : text;
         }
 
         /// <summary>
@@ -483,7 +500,11 @@ namespace StyleCop.ReSharper611.Core
                 return string.Empty;
             }
 
-            return string.Format("<value>The {0}.</value>", ConvertTextToSentence(propertyDeclaration.DeclaredName).ToLower());
+            valueText = ConvertTextToSentence(propertyDeclaration.DeclaredName).ToLower();
+
+            var prefix = Utils.UpdateTextWithToDoPrefixIfRequired(string.Empty, settingsStore);
+
+            return string.Format("<value>{1}The {0}.</value>", valueText, prefix);
         }
 
         /// <summary>
@@ -1881,16 +1902,11 @@ namespace StyleCop.ReSharper611.Core
         /// </returns>
         private static IList<IProjectFile> GetAllFilesForFile(IProjectFile projectFile)
         {
+            var list = new List<IProjectFile> { projectFile };
+
             var rootDependsItem = projectFile.GetDependsUponItemForItem();
 
-            if (rootDependsItem == null)
-            {
-                return new List<IProjectFile> { projectFile };
-            }
-
-            var dependentFiles = rootDependsItem.GetDependentFiles();
-
-            var list = new List<IProjectFile> { projectFile };
+            var dependentFiles = rootDependsItem != null ? rootDependsItem.GetDependentFiles() : projectFile.GetDependentFiles();
 
             list.AddRange(dependentFiles.Where(file => !file.Equals(projectFile)));
 

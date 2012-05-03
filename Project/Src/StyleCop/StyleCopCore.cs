@@ -1586,6 +1586,8 @@ namespace StyleCop
             #else
             // Create a maximum of two worker threads.
             int threadCount = Math.Max(GetCpuCount(), 2);
+
+            threadCount = 1;
             #endif
 
             try
@@ -1708,7 +1710,7 @@ namespace StyleCop
 
             StyleCopTrace.In(data, count);
 
-            // Indicates whether total sanalysis of all files has been completed.
+            // Indicates whether total analysis of all files has been completed.
             bool complete = true;
 
             // Create the worker and thread class arrays.
