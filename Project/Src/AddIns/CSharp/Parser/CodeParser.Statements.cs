@@ -171,6 +171,8 @@ namespace StyleCop.CSharp
                 {
                     switch (symbol.SymbolType)
                     {
+                        case SymbolType.True:
+                        case SymbolType.False: 
                         case SymbolType.Other:
                         case SymbolType.Number:
                         case SymbolType.String:
