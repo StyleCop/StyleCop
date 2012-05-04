@@ -33,7 +33,6 @@
               </Expression>
             </Expression>
           </Statement>
-
           <Statement Type="VariableDeclarationStatement">
             <Expression Type="VariableDeclarationExpression">
               <Expression Text="Type1.Type2.Type3" Type="LiteralExpression" />
@@ -46,69 +45,68 @@
           <Statement Type="VariableDeclarationStatement">
             <Expression Type="VariableDeclarationExpression">
               <Expression Text="Type1&lt;int,string&gt;.Type2.Type3" Type="LiteralExpression" />
-                  <Expression Type="VariableDeclaratorExpression">
-                    <Expression Text="bb" Type="LiteralExpression" />
-                    <Expression Text="null" Type="LiteralExpression" />
-                  </Expression>
-                </Expression>
-            </Statement>
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="bb" Type="LiteralExpression" />
+                <Expression Text="null" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
           <Statement Type="VariableDeclarationStatement">
             <Expression Type="VariableDeclarationExpression">
               <Expression Text="Type1.Type2&lt;int,string&gt;.Type3" Type="LiteralExpression" />
-                  <Expression Type="VariableDeclaratorExpression">
-                    <Expression Text="cc" Type="LiteralExpression" />
-                    <Expression Text="null" Type="LiteralExpression" />
-                  </Expression>
-                </Expression>
-            </Statement>
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="cc" Type="LiteralExpression" />
+                <Expression Text="null" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
           <Statement Type="VariableDeclarationStatement">
             <Expression Type="VariableDeclarationExpression">
               <Expression Text="Type1.Type2.Type3&lt;int,string&gt;" Type="LiteralExpression" />
-                  <Expression Type="VariableDeclaratorExpression">
-                    <Expression Text="dd" Type="LiteralExpression" />
-                    <Expression Text="null" Type="LiteralExpression" />
-                  </Expression>
-                </Expression>
-            </Statement>
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="dd" Type="LiteralExpression" />
+                <Expression Text="null" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
           <Statement Type="VariableDeclarationStatement">
             <Expression Type="VariableDeclarationExpression">
               <Expression Text="Type1&lt;int,string&gt;.Type2&lt;int,string&gt;.Type3" Type="LiteralExpression" />
               <Expression Type="VariableDeclaratorExpression">
-                      <Expression Text="ee" Type="LiteralExpression" />
-                      <Expression Text="null" Type="LiteralExpression" />
-                    </Expression>
-                  </Expression>
-            </Statement>
+                <Expression Text="ee" Type="LiteralExpression" />
+                <Expression Text="null" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
           <Statement Type="VariableDeclarationStatement">
             <Expression Type="VariableDeclarationExpression">
               <Expression Text="Type1&lt;int,string&gt;.Type2.Type3&lt;int,string&gt;" Type="LiteralExpression" />
               <Expression Type="VariableDeclaratorExpression">
-                      <Expression Text="ff" Type="LiteralExpression" />
-                      <Expression Text="null" Type="LiteralExpression" />
-                    </Expression>
-                  </Expression>
-            </Statement>
+                <Expression Text="ff" Type="LiteralExpression" />
+                <Expression Text="null" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
           <Statement Type="VariableDeclarationStatement">
             <Expression Type="VariableDeclarationExpression">
               <Expression Text="Type1.Type2&lt;int,string&gt;.Type3&lt;int,string&gt;" Type="LiteralExpression" />
-                <Expression Type="VariableDeclaratorExpression">
-                  <Expression Text="gg" Type="LiteralExpression" />
-                  <Expression Text="null" Type="LiteralExpression" />
-                </Expression>
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="gg" Type="LiteralExpression" />
+                <Expression Text="null" Type="LiteralExpression" />
               </Expression>
-            </Statement>
+            </Expression>
+          </Statement>
           <Statement Type="VariableDeclarationStatement">
             <Expression Type="VariableDeclarationExpression">
               <Expression Text="Type1&lt;int,string&gt;.Type2&lt;int,string&gt;.Type3&lt;int,string&gt;" Type="LiteralExpression" />
-                <Expression Type="VariableDeclaratorExpression">
-                        <Expression Text="hh" Type="LiteralExpression" />
-                        <Expression Text="null" Type="LiteralExpression" />
-                      </Expression>
-                    </Expression>
-            </Statement>
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="hh" Type="LiteralExpression" />
+                <Expression Text="null" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
         </Element>
       </Element>
-
       <Element Name="MyStruct" Type="Struct">
         <Element Name="DATA_SIZE" Type="Field">
           <Statement Type="VariableDeclarationStatement">
@@ -157,6 +155,37 @@
       <Element Name="MyDictionary&lt;TKey,TValue&gt;" Type="Class">
         <Element Name="MyDictionary" Type="Constructor" />
       </Element>
+      <Element Name="BooleanExtensionMethods" Type="Class">
+        <Element Name="BooleanExtensionMethods" Type="Constructor">
+          <Statement Type="ExpressionStatement">
+            <Expression Type="MethodInvocationExpression">
+              <Expression Type="MemberAccessExpression">
+                <Expression Text="7" Type="LiteralExpression" />
+                <Expression Text="ShouldBe" Type="LiteralExpression" />
+              </Expression>
+              <Expression Text="6" Type="LiteralExpression" />
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="MethodInvocationExpression">
+              <Expression Type="MemberAccessExpression">
+                <Expression Text="true" Type="LiteralExpression" />
+                <Expression Text="ShouldBe" Type="LiteralExpression" />
+              </Expression>
+              <Expression Text="true" Type="LiteralExpression" />
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="MethodInvocationExpression">
+              <Expression Type="MemberAccessExpression">
+                <Expression Text="false" Type="LiteralExpression" />
+                <Expression Text="ShouldBe" Type="LiteralExpression" />
+              </Expression>
+              <Expression Text="false" Type="LiteralExpression" />
+            </Expression>
+          </Statement>
+        </Element>
+      </Element>
     </Element>
-  </Element>  
+  </Element>
 </StyleCopCsParserObjectModel>

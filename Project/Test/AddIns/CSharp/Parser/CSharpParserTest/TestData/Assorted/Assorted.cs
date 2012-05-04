@@ -28,16 +28,18 @@ namespace StyleCop.CSharpParserTest.TestData
     }
 
     // The ability to create a fixed array using a hardcoded number or a const.
-    unsafe struct MyStruct
+    internal unsafe struct MyStruct
     {
-        const int DATA_SIZE = 1024;
-        fixed byte data[DATA_SIZE];
-        fixed byte data2[1024];
+        private const int DATA_SIZE = 1024;
+
+        private fixed byte data [DATA_SIZE];
+
+        private fixed byte data2 [1024];
     }
 
-    class Program
+    internal class Program
     {
-        static void Main()
+        private static void Main()
         {
             // The number one formatted as string
             1.ToString();
@@ -48,6 +50,16 @@ namespace StyleCop.CSharpParserTest.TestData
     {
         public MyDictionary(IDictionary<TKey, TValue> dictionary = null, IEqualityComparer<TKey> comparer = null)
         {
+        }
+    }
+
+    public class BooleanExtensionMethods
+    {
+        public BooleanExtensionMethods()
+        {
+            7.ShouldBe(6);
+            true.ShouldBe(true);
+            false.ShouldBe(false);
         }
     }
 }
