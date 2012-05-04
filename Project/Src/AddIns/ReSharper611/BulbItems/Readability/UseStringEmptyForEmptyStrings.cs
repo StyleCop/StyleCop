@@ -45,7 +45,9 @@ namespace StyleCop.ReSharper611.BulbItems.Readability
         /// </param>
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
-            var documentation = this.DocumentRange.GetText().Replace("\"\"", "string.Empty");
+            var documentation = this.DocumentRange.GetText().Replace("@\"\"", "string.Empty");
+
+            documentation = documentation.Replace("\"\"", "string.Empty");
 
             textControl.Document.ReplaceText(this.DocumentRange.TextRange, documentation);
         }
