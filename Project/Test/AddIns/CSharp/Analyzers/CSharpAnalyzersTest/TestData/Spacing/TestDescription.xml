@@ -212,4 +212,33 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.Spacing.Semicolon.InValidMethod1" LineNumber="43" Rule="SemicolonsMustBeSpacedCorrectly" />
     </ExpectedViolations>
   </Test>
+  <Test Name="AttributeBrackets">
+    <TestCodeFile>AttributeBrackets.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.SpacingRules">
+          <Rules>
+            <Rule Name="OpeningAttributeBracketsMustBeSpacedCorrectly">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ClosingAttributeBracketsMustBeSpacedCorrectly">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Spacing.AttributeBrackets.Property2" LineNumber="21" RuleNamespace="StyleCop.CSharp.SpacingRules" Rule="OpeningAttributeBracketsMustBeSpacedCorrectly" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Spacing.AttributeBrackets.Property2" LineNumber="24" RuleNamespace="StyleCop.CSharp.SpacingRules" Rule="ClosingAttributeBracketsMustBeSpacedCorrectly" />
+    </ExpectedViolations>
+  </Test>
 </StyleCopTestDescription>

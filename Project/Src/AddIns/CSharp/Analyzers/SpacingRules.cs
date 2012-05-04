@@ -235,7 +235,7 @@ namespace StyleCop.CSharp
                                 break;
 
                             case CsTokenType.CloseAttributeBracket:
-                                this.CheckAttributeTokenCloseBracket(tokenNode);
+                                this.CheckAttributeTokenCloseBracket(tokens, tokenNode);
                                 break;
 
                             case CsTokenType.BaseColon:
@@ -1388,10 +1388,9 @@ namespace StyleCop.CSharp
         {
             Param.AssertNotNull(tokenNode, "tokenNode");
 
-            // Open brackets should never be followed by whitespace.
+            // Open brackets should never be followed by whitespace but end of line is ok.
             Node<CsToken> nextNode = tokenNode.Next;
-            if (nextNode != null &&
-                (nextNode.Value.CsTokenType == CsTokenType.WhiteSpace || nextNode.Value.CsTokenType == CsTokenType.EndOfLine))
+            if (nextNode != null && nextNode.Value.CsTokenType == CsTokenType.WhiteSpace)
             {
                 this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.OpeningAttributeBracketsMustBeSpacedCorrectly);
             }
@@ -1400,17 +1399,17 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Checks a closing attribute bracket for spacing.
         /// </summary>
+        /// <param name="tokens">The list of tokens being parsed.</param>
         /// <param name="tokenNode">The token to check.</param>
-        private void CheckAttributeTokenCloseBracket(Node<CsToken> tokenNode)
+        private void CheckAttributeTokenCloseBracket(MasterList<CsToken> tokens, Node<CsToken> tokenNode)
         {
             Param.AssertNotNull(tokenNode, "tokenNode");
 
-            // Closing attribute brackets should be never be preceded by whitespace.
+            // Closing attribute brackets should be never be preceded by whitespace but end of line is ok.
             Node<CsToken> previousNode = tokenNode.Previous;
-            if (previousNode != null)
+            if (previousNode != null && previousNode.Value.CsTokenType == CsTokenType.WhiteSpace)
             {
-                if (previousNode.Value.CsTokenType == CsTokenType.WhiteSpace ||
-                    previousNode.Value.CsTokenType == CsTokenType.EndOfLine)
+                if (!this.IsTokenFirstNonWhitespaceTokenOnLine(tokens, tokenNode))
                 {
                     this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.ClosingAttributeBracketsMustBeSpacedCorrectly);
                 }

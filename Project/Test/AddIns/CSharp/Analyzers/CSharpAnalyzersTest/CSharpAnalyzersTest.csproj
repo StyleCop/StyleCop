@@ -64,6 +64,7 @@
   <ItemGroup>
     <Compile Include="AnalyzerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="TestData\Spacing\AttributeBrackets.cs" />
     <Compile Include="TestData\Spacing\Semicolon.cs" />
     <None Include="TestData\Spacing\UnarySymbols.cs" />
     <None Include="TestData\ElementOrder\ElementOrderUsingDirectives3.cs" />
