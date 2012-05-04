@@ -574,7 +574,8 @@ namespace StyleCop.CSharp
 
                             // Add the colon.
                             this.AdvanceToNextCodeSymbol(attributeExpressionReference);
-                            this.tokens.Add(new CsToken(colon.Text, CsTokenType.AttributeColon, symbol.Location, attributeExpressionReference, this.symbols.Generated));
+                            this.tokens.Add(new CsToken(colon.Text, CsTokenType.AttributeColon, colon.Location, attributeExpressionReference, this.symbols.Generated));
+                            
                             this.symbols.Advance();
 
                             this.AdvanceToNextCodeSymbol(attributeExpressionReference);
