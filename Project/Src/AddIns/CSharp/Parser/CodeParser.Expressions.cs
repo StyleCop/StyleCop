@@ -484,16 +484,14 @@ namespace StyleCop.CSharp
 
                 // Check if there is an extension to this expression.
                 Expression extension = this.GetExpressionExtension(expression, previousPrecedence, expressionReference, unsafeCode, typeExpression, allowVariableDeclaration);
-                if (extension != null)
-                {
-                    // The larger expression is what we want to return here.
-                    expression = extension;
-                }
-                else
+                if (extension == null)
                 {
                     // There are no more extensions.
                     break;
                 }
+
+                // The larger expression is what we want to return here.
+                expression = extension;
             }
 
             // Return the expression.
@@ -1257,6 +1255,7 @@ namespace StyleCop.CSharp
 
             // Get the inner expression.
             Expression innerExpression = this.GetNextExpression(ExpressionPrecedence.None, expressionReference, unsafeCode);
+
             if (innerExpression == null)
             {
                 throw this.CreateSyntaxException();

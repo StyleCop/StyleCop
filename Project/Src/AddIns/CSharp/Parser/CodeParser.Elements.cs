@@ -2560,6 +2560,8 @@ namespace StyleCop.CSharp
 
                     // Get the parameter name.
                     parameterName = this.GetToken(CsTokenType.Other, SymbolType.Other, parameterReference);
+                    parameterName.ParentRef = parameterReference;
+
                     this.tokens.Add(parameterName);
                 }
 
@@ -2591,6 +2593,15 @@ namespace StyleCop.CSharp
 
                 parameterReference.Target = parameter;
                 parameters.Add(parameter);
+
+                // So for some reason for parameters with defaultArguments the reference to the paramter is getting lost
+                // as it resolves which Expression to assign to. This meant the parent was clear on the defaultArgument later.
+                // This means issues couldn't be shown correctly for spacing in default arguments on parameter. Like bug 7154.
+                if (defaultArgument != null)
+                {
+                    var writeableCodeUnit = (IWriteableCodeUnit)defaultArgument;
+                    writeableCodeUnit.SetParent(parameter);
+                }
 
                 // If the next symbol, is a comma, get the next parameter.
                 symbol = this.GetNextSymbol(elementReference);
