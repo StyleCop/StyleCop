@@ -171,6 +171,11 @@
                 <BooleanProperty Name="Enabled">True</BooleanProperty>
               </RuleSettings>
             </Rule>
+            <Rule Name="ConstantsMustAppearBeforeFields">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
             <Rule Name="ElementsMustBeOrderedByAccess">
               <RuleSettings>
                 <BooleanProperty Name="Enabled">True</BooleanProperty>

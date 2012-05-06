@@ -95,4 +95,18 @@ namespace ElementOrderStatics1
             return true;
         }
     }
+
+    public class Class9
+    {
+        //correct order
+        private static readonly int staticReadonly = 1;
+
+        private static int staticNonReadonly;
+
+        private readonly int nonStaticReadonly = 1;
+
+        private const int constantField = 1;
+
+        private int regularField = 1;
+    }
 }
