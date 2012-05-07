@@ -1667,9 +1667,12 @@ namespace StyleCop.CSharp
 
             if ((commentType & InvalidCommentType.Empty) != 0)
             {
-                this.AddViolation(element, lineNumber, Rules.DocumentationTextMustNotBeEmpty, documentationType);
+                if (!documentationXml.InnerXml.StartsWith("<", StringComparison.Ordinal))
+                {
+                    this.AddViolation(element, lineNumber, Rules.DocumentationTextMustNotBeEmpty, documentationType);
+                }
             }
-            
+
             if ((commentType & InvalidCommentType.NoPeriod) != 0)
             {
                 // Allow xml closing tags
@@ -1686,10 +1689,7 @@ namespace StyleCop.CSharp
                 // begin with true or false (in a <return> element)
                 // Code like this is common:
                 // <value><c>true</c> if dirty; otherwise, <c>false</c>.</value>
-                if ((!documentationXml.InnerXml.StartsWith("<c>", StringComparison.Ordinal) && 
-                     !documentationXml.InnerXml.StartsWith("<code>", StringComparison.Ordinal) &&
-                     !documentationXml.InnerXml.StartsWith("<see", StringComparison.Ordinal) &&
-                     !documentationXml.InnerXml.StartsWith("<paramref", StringComparison.Ordinal))
+                if ((!documentationXml.InnerXml.StartsWith("<", StringComparison.Ordinal))
                     &&
                     (!documentationType.Equals("return", StringComparison.Ordinal) ||
                     (!documentationXml.InnerText.StartsWith("true", StringComparison.Ordinal) &&
@@ -1701,8 +1701,7 @@ namespace StyleCop.CSharp
 
             if ((commentType & InvalidCommentType.NoWhitespace) != 0)
             {
-                if ((!documentationXml.InnerXml.StartsWith("<see", StringComparison.Ordinal) &&
-                     !documentationXml.InnerXml.StartsWith("<paramref", StringComparison.Ordinal)))
+                if (!documentationXml.InnerXml.StartsWith("<", StringComparison.Ordinal))
                 {
                     this.AddViolation(
                         element, lineNumber, Rules.DocumentationTextMustContainWhitespace, documentationType);
@@ -1711,8 +1710,7 @@ namespace StyleCop.CSharp
 
             if ((commentType & InvalidCommentType.TooFewCharacters) != 0)
             {
-                if ((!documentationXml.InnerXml.StartsWith("<see", StringComparison.Ordinal)
-                     && !documentationXml.InnerXml.StartsWith("<paramref", StringComparison.Ordinal)))
+                if (!documentationXml.InnerXml.StartsWith("<", StringComparison.Ordinal))
                 {
                     this.AddViolation(
                         element,
@@ -1726,8 +1724,7 @@ namespace StyleCop.CSharp
 
             if ((commentType & InvalidCommentType.TooShort) != 0)
             {
-                if ((!documentationXml.InnerXml.StartsWith("<see", StringComparison.Ordinal)
-                     && !documentationXml.InnerXml.StartsWith("<paramref", StringComparison.Ordinal)))
+                if (!documentationXml.InnerXml.StartsWith("<", StringComparison.Ordinal))
                 {
                     this.AddViolation(
                         element,
