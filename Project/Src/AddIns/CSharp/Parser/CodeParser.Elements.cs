@@ -1779,15 +1779,15 @@ namespace StyleCop.CSharp
             // Get the modifiers and access.
             AccessModifierType accessModifier = AccessModifierType.Private;
 
+            // Get the declared modifiers for the method.
+            Dictionary<CsTokenType, CsToken> modifiers = this.GetElementModifiers(elementReference, ref accessModifier, MethodModifiers);
+
             // Methods within interfaces always have the access of the parent interface.
             Interface parentInterface = parent as Interface;
             if (parentInterface != null)
             {
                 accessModifier = parentInterface.AccessModifier;
             }
-
-            // Get the declared modifiers for the method.
-            Dictionary<CsTokenType, CsToken> modifiers = this.GetElementModifiers(elementReference, ref accessModifier, MethodModifiers);
 
             unsafeCode |= modifiers.ContainsKey(CsTokenType.Unsafe);
 
