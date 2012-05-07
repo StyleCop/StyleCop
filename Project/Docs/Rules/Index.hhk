@@ -459,7 +459,7 @@
 	<param name="Local" value="SA1514.html">
 	</OBJECT>
 <LI> <OBJECT type="text/sitemap">
-	<param name="Name" value="SA1515: SingleLineCommentsMustBePrecededByBlankLine">
+	<param name="Name" value="SA1515: SingleLineCommentMustBePrecededByBlankLine">
 	<param name="Local" value="SA1515.html">
 	</OBJECT>
 <LI> <OBJECT type="text/sitemap">
