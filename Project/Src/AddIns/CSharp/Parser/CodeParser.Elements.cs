@@ -160,13 +160,14 @@ namespace StyleCop.CSharp
                         // Make sure this elements is the same type as the item(s) already in the list.
                         if (elementList[0].ElementType != element.ElementType)
                         {
-                            throw new SyntaxException(element.Document.SourceCode, element.Declaration.Tokens.First.Value.LineNumber);
+                            throw new SyntaxException(
+                                element.Document.SourceCode, element.Declaration.Tokens.First.Value.LineNumber);
                         }
                     }
-                }
 
-                // Add the element to the list.
-                elementList.Add(element);
+                    // Add the element to the list.
+                    elementList.Add(element);
+                }
             }
         }
 

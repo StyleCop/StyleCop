@@ -129,7 +129,7 @@ namespace StyleCop.CSharp
                         List<CsElement> partialElementList;
                         if (doc.Parser.PartialElements.TryGetValue(this.FullNamespaceName, out partialElementList))
                         {
-                            return partialElementList.AsReadOnly();
+                            return partialElementList.ToArray();
                         }
                     }
                 }
