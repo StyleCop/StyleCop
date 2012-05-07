@@ -346,6 +346,52 @@ namespace StyleCop.ReSharper611.CodeCleanup.Rules
         }
 
         /// <summary>
+        /// Replace empty strings with string dot empty.
+        /// </summary>
+        /// <param name="node">
+        /// The node to process.
+        /// </param>
+        public static void ReplaceEmptyStringsWithStringDotEmpty(ITreeNode node)
+        {
+            for (var currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
+            {
+                if (currentNode is ITokenNode)
+                {
+                    var tokenNode = currentNode as ITokenNode;
+
+                    if (tokenNode.GetTokenType() == CSharpTokenType.STRING_LITERAL)
+                    {
+                        var attribute = tokenNode.GetContainingNode<IAttribute>(true);
+                        var switchLabelStatement = tokenNode.GetContainingNode<ISwitchLabelStatement>(true);
+                        var constantDeclaration = tokenNode.GetContainingNode<IConstantDeclaration>(true);
+                        var parameterDeclaration = tokenNode.GetContainingNode<IRegularParameterDeclaration>(true);
+
+                        // Not for attributes, switch labels, constant declarations, or parameter declarations
+                        if (attribute == null && switchLabelStatement == null && constantDeclaration == null && parameterDeclaration == null)
+                        {
+                            var text = currentNode.GetText();
+                            if (text == "\"\"" || text == "@\"\"")
+                            {
+                                const string NewText = "string.Empty";
+                                var newLiteral = (ITokenNode)CSharpTokenType.STRING_LITERAL.Create(new JB::JetBrains.Text.StringBuffer(NewText), new TreeOffset(0), new TreeOffset(NewText.Length));
+
+                                using (WriteLockCookie.Create(true))
+                                {
+                                    LowLevelModificationUtil.ReplaceChildRange(currentNode, currentNode, new ITreeNode[] { newLiteral });
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (currentNode.FirstChild != null)
+                {
+                    ReadabilityRules.ReplaceEmptyStringsWithStringDotEmpty(currentNode.FirstChild);
+                }
+            }
+        }
+
+        /// <summary>
         /// Executes the cleanup rules.
         /// </summary>
         /// <param name="options">
@@ -673,52 +719,6 @@ namespace StyleCop.ReSharper611.CodeCleanup.Rules
                     {
                         variableDeclaration.SetType(typeOwner.Type);
                     }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Replace empty strings with string dot empty.
-        /// </summary>
-        /// <param name="node">
-        /// The node to process.
-        /// </param>
-        public static void ReplaceEmptyStringsWithStringDotEmpty(ITreeNode node)
-        {
-            for (var currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
-            {
-                if (currentNode is ITokenNode)
-                {
-                    var tokenNode = currentNode as ITokenNode;
-
-                    if (tokenNode.GetTokenType() == CSharpTokenType.STRING_LITERAL)
-                    {
-                        var attribute = tokenNode.GetContainingNode<IAttribute>(true);
-                        var switchLabelStatement = tokenNode.GetContainingNode<ISwitchLabelStatement>(true);
-                        var constantDeclaration = tokenNode.GetContainingNode<IConstantDeclaration>(true);
-                        var parameterDeclaration = tokenNode.GetContainingNode<IRegularParameterDeclaration>(true);
-
-                        // Not for attributes, switch labels, constant declarations, or parameter declarations
-                        if (attribute == null && switchLabelStatement == null && constantDeclaration == null && parameterDeclaration == null)
-                        {
-                            var text = currentNode.GetText();
-                            if (text == "\"\"" || text == "@\"\"")
-                            {
-                                const string NewText = "string.Empty";
-                                var newLiteral = (ITokenNode)CSharpTokenType.STRING_LITERAL.Create(new JB::JetBrains.Text.StringBuffer(NewText), new TreeOffset(0), new TreeOffset(NewText.Length));
-
-                                using (WriteLockCookie.Create(true))
-                                {
-                                    LowLevelModificationUtil.ReplaceChildRange(currentNode, currentNode, new ITreeNode[] { newLiteral });
-                                }
-                            }
-                        }
-                    }
-                }
-
-                if (currentNode.FirstChild != null)
-                {
-                    ReadabilityRules.ReplaceEmptyStringsWithStringDotEmpty(currentNode.FirstChild);
                 }
             }
         }
