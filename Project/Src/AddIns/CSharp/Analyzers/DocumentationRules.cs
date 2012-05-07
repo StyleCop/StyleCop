@@ -2296,13 +2296,15 @@ namespace StyleCop.CSharp
 
                             string firstTypeName;
 
+                            ElementType firstElementType;
+
                             string firstTypeNameWithoutSuffixes = string.Empty;
 
                             string firstTypeNameWithGenerics = string.Empty;
 
                             // Make sure the filename matches the name of the first type in the file.
                             // If its a partial class we do nothing.
-                            if (!this.GetFirstTypeName(document.RootElement, out firstTypeName))
+                            if (!this.GetFirstTypeName(document.RootElement, out firstTypeName, out firstElementType))
                             {
                                 if (firstTypeName != null)
                                 {
@@ -2331,18 +2333,31 @@ namespace StyleCop.CSharp
                                         string.Compare(trimmedFilename, firstTypeNameWithoutSuffixes, StringComparison.OrdinalIgnoreCase) != 0 &&
                                         string.Compare(trimmedFilename, firstTypeNameWithGenerics, StringComparison.OrdinalIgnoreCase) != 0)
                                     {
-                                        string allowedNames = "\"" + firstTypeName + "\"";
-
-                                        if (!string.IsNullOrEmpty(firstTypeNameWithoutSuffixes))
+                                        string allowedNames;
+                                        
+                                        if (firstElementType == ElementType.Delegate)
                                         {
-                                            allowedNames += ", \"" + firstTypeNameWithoutSuffixes + "\"";
+                                            allowedNames = "\""
+                                                           +
+                                                           this.GetShortestItem(
+                                                               firstTypeName,
+                                                               firstTypeNameWithoutSuffixes,
+                                                               firstTypeNameWithGenerics) + "\"";
                                         }
-
-                                        if (!string.IsNullOrEmpty(firstTypeNameWithGenerics))
+                                        else
                                         {
-                                            allowedNames += ", \"" + firstTypeNameWithGenerics + "\"";
-                                        }
+                                            allowedNames = "\"" + firstTypeName + "\"";
 
+                                            if (!string.IsNullOrEmpty(firstTypeNameWithoutSuffixes) && !firstTypeNameWithoutSuffixes.Equals(firstTypeName, StringComparison.InvariantCultureIgnoreCase))
+                                            {
+                                                allowedNames += ", \"" + firstTypeNameWithoutSuffixes + "\"";
+                                            }
+
+                                            if (!string.IsNullOrEmpty(firstTypeNameWithGenerics) && !firstTypeNameWithGenerics.Equals(firstTypeName, StringComparison.InvariantCultureIgnoreCase) && !firstTypeNameWithGenerics.Equals(firstTypeNameWithoutSuffixes, StringComparison.InvariantCultureIgnoreCase))
+                                            {
+                                                allowedNames += ", \"" + firstTypeNameWithGenerics + "\"";
+                                            }
+                                        }
                                         if (document.SourceCode.Name.ToLowerInvariant() != "global.asax.cs")
                                         {
                                             this.AddViolation(document.RootElement, document.FileHeader.LineNumber, Rules.FileHeaderFileNameDocumentationMustMatchTypeName, allowedNames);
@@ -2392,6 +2407,30 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
+        /// Returns the shortest item passed in not including any empty items.
+        /// </summary>
+        /// <param name="items">The items to check.</param>
+        /// <returns>The shortest non-empty item.</returns>
+        private string GetShortestItem(params string[] items)
+        {
+            if (items.Length == 0)
+            {
+                return null;
+            }
+
+            string shortestItem = items[0];
+            foreach (var item in items)
+            {
+                if (item.Length > 0 && item.Length <= shortestItem.Length)
+                {
+                    shortestItem = item;
+                }
+            }
+
+            return shortestItem;
+        }
+
+        /// <summary>
         /// Removes all known extensions from the path provided.
         /// </summary>
         /// <param name="path">The path to remove the extensions from.</param>
@@ -2416,21 +2455,24 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Returns the first type name in the document. For partial classes it returns the name of the partial class concatenated with its first non-partial child.
+        /// Returns True if the first type defined is partial, otherwise False and also returns the first type name and first ElementType in the document. 
+        /// For partial classes it returns the name of the partial class concatenated with its first non-partial child.
         /// </summary>
         /// <param name="parentElement">The element to start at.</param>
         /// <param name="firstTypeName">The first type name found or null if no type defined.</param>
+        /// <param name="firstTypeElementType">The ElementType of the first type.</param>
         /// <returns>True if the first type defined is partial, otherwise false.</returns>
-        private bool GetFirstTypeName(CsElement parentElement, out string firstTypeName)
+        private bool GetFirstTypeName(CsElement parentElement, out string firstTypeName, out ElementType firstTypeElementType)
         {
             bool partial = false;
             firstTypeName = null;
+            firstTypeElementType = ElementType.Root;
 
             foreach (var element in parentElement.ChildElements)
             {
                 if (element.ElementType == ElementType.Namespace)
                 {
-                    partial = this.GetFirstTypeName(element, out firstTypeName);
+                    partial = this.GetFirstTypeName(element, out firstTypeName, out firstTypeElementType);
                     if (firstTypeName != null)
                     {
                         return partial;
@@ -2438,7 +2480,9 @@ namespace StyleCop.CSharp
                 }
                 else if (element.ElementType == ElementType.Class || 
                          element.ElementType == ElementType.Interface ||
-                         element.ElementType == ElementType.Struct)
+                         element.ElementType == ElementType.Struct ||
+                         element.ElementType == ElementType.Delegate ||
+                         element.ElementType == ElementType.Enum)
                 {
                     if (element.Declaration.ContainsModifier(CsTokenType.Partial))
                     {
@@ -2446,14 +2490,11 @@ namespace StyleCop.CSharp
                     }
 
                     firstTypeName = element.FullyQualifiedName.SubstringAfterLast('.');
+                    firstTypeElementType = element.ElementType;
                     break;
                 }
-                else if (element.ElementType == ElementType.Delegate || element.ElementType == ElementType.Enum)
-                {
-                    firstTypeName = element.FullyQualifiedName.SubstringAfterLast('.');
-                }
             }
-
+            
             return partial;
         }
 
