@@ -2355,6 +2355,7 @@ namespace StyleCop.CSharp
                                                 allowedNames += ", \"" + firstTypeNameWithGenerics + "\"";
                                             }
                                         }
+
                                         if (document.SourceCode.Name.ToLowerInvariant() != "global.asax.cs")
                                         {
                                             this.AddViolation(document.RootElement, document.FileHeader.LineNumber, Rules.FileHeaderFileNameDocumentationMustMatchTypeName, allowedNames);
@@ -2478,8 +2479,7 @@ namespace StyleCop.CSharp
                 else if (element.ElementType == ElementType.Class || 
                          element.ElementType == ElementType.Interface ||
                          element.ElementType == ElementType.Struct ||
-                         element.ElementType == ElementType.Delegate ||
-                         element.ElementType == ElementType.Enum)
+                         element.ElementType == ElementType.Delegate)
                 {
                     if (element.Declaration.ContainsModifier(CsTokenType.Partial))
                     {
@@ -2489,6 +2489,11 @@ namespace StyleCop.CSharp
                     firstTypeName = element.FullyQualifiedName.SubstringAfterLast('.');
                     firstTypeElementType = element.ElementType;
                     break;
+                }
+                else if (element.ElementType == ElementType.Delegate || element.ElementType == ElementType.Enum)
+                {
+                    firstTypeName = element.FullyQualifiedName.SubstringAfterLast('.');
+                    firstTypeElementType = element.ElementType;
                 }
             }
             
