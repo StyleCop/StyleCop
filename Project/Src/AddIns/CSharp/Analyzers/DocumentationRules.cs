@@ -1681,16 +1681,19 @@ namespace StyleCop.CSharp
 
             if ((commentType & InvalidCommentType.NoCapitalLetter) != 0)
             {
-                // Allow documentation to begin with <c> or <paramref> and not a capital letter
+                // Allow documentation to begin with <c>, <code>, <see or <paramref and not a capital letter
                 // Or
                 // begin with true or false (in a <return> element)
                 // Code like this is common:
                 // <value><c>true</c> if dirty; otherwise, <c>false</c>.</value>
-                if ((!documentationXml.InnerXml.StartsWith("<c>", StringComparison.Ordinal) && !documentationXml.InnerXml.StartsWith("<code>", StringComparison.Ordinal)
-                     && !documentationXml.InnerXml.StartsWith("<see", StringComparison.Ordinal) && !documentationXml.InnerXml.StartsWith("<paramref", StringComparison.Ordinal))
+                if ((!documentationXml.InnerXml.StartsWith("<c>", StringComparison.Ordinal) && 
+                     !documentationXml.InnerXml.StartsWith("<code>", StringComparison.Ordinal) &&
+                     !documentationXml.InnerXml.StartsWith("<see", StringComparison.Ordinal) &&
+                     !documentationXml.InnerXml.StartsWith("<paramref", StringComparison.Ordinal))
                     &&
-                    (!documentationType.Equals("return", StringComparison.Ordinal)
-                     || (!documentationXml.InnerText.StartsWith("true", StringComparison.Ordinal) && !documentationXml.InnerText.StartsWith("false", StringComparison.Ordinal))))
+                    (!documentationType.Equals("return", StringComparison.Ordinal) ||
+                    (!documentationXml.InnerText.StartsWith("true", StringComparison.Ordinal) &&
+                     !documentationXml.InnerText.StartsWith("false", StringComparison.Ordinal))))
                 {
                     this.AddViolation(element, lineNumber, Rules.DocumentationTextMustBeginWithACapitalLetter, documentationType);
                 }
@@ -1698,23 +1701,41 @@ namespace StyleCop.CSharp
 
             if ((commentType & InvalidCommentType.NoWhitespace) != 0)
             {
-                this.AddViolation(element, lineNumber, Rules.DocumentationTextMustContainWhitespace, documentationType);
+                if ((!documentationXml.InnerXml.StartsWith("<see", StringComparison.Ordinal) &&
+                     !documentationXml.InnerXml.StartsWith("<paramref", StringComparison.Ordinal)))
+                {
+                    this.AddViolation(
+                        element, lineNumber, Rules.DocumentationTextMustContainWhitespace, documentationType);
+                }
             }
-            
+
             if ((commentType & InvalidCommentType.TooFewCharacters) != 0)
             {
-                this.AddViolation(
-                    element,
-                    lineNumber,
-                    Rules.DocumentationMustMeetCharacterPercentage,
-                    documentationType,
-                    CommentVerifier.MinimumCharacterPercentage,
-                    100 - CommentVerifier.MinimumCharacterPercentage);
+                if ((!documentationXml.InnerXml.StartsWith("<see", StringComparison.Ordinal)
+                     && !documentationXml.InnerXml.StartsWith("<paramref", StringComparison.Ordinal)))
+                {
+                    this.AddViolation(
+                        element,
+                        lineNumber,
+                        Rules.DocumentationMustMeetCharacterPercentage,
+                        documentationType,
+                        CommentVerifier.MinimumCharacterPercentage,
+                        100 - CommentVerifier.MinimumCharacterPercentage);
+                }
             }
 
             if ((commentType & InvalidCommentType.TooShort) != 0)
             {
-                this.AddViolation(element, lineNumber, Rules.DocumentationTextMustMeetMinimumCharacterLength, documentationType, CommentVerifier.MinimumHeaderCommentLength);
+                if ((!documentationXml.InnerXml.StartsWith("<see", StringComparison.Ordinal)
+                     && !documentationXml.InnerXml.StartsWith("<paramref", StringComparison.Ordinal)))
+                {
+                    this.AddViolation(
+                        element,
+                        lineNumber,
+                        Rules.DocumentationTextMustMeetMinimumCharacterLength,
+                        documentationType,
+                        CommentVerifier.MinimumHeaderCommentLength);
+                }
             }
         }
 
