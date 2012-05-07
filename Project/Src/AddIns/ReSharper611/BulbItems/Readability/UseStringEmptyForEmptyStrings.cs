@@ -24,6 +24,8 @@ namespace StyleCop.ReSharper611.BulbItems.Readability
     using JetBrains.TextControl;
 
     using StyleCop.ReSharper611.BulbItems.Framework;
+    using StyleCop.ReSharper611.CodeCleanup.Rules;
+    using StyleCop.ReSharper611.Core;
 
     #endregion
 
@@ -45,11 +47,8 @@ namespace StyleCop.ReSharper611.BulbItems.Readability
         /// </param>
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
-            var documentation = this.DocumentRange.GetText().Replace("@\"\"", "string.Empty");
-
-            documentation = documentation.Replace("\"\"", "string.Empty");
-
-            textControl.Document.ReplaceText(this.DocumentRange.TextRange, documentation);
+            var file = Utils.GetCSharpFile(solution, textControl);
+            ReadabilityRules.ReplaceEmptyStringsWithStringDotEmpty(file.FirstChild);
         }
 
         #endregion
