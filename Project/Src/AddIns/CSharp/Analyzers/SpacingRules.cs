@@ -1819,7 +1819,7 @@ namespace StyleCop.CSharp
                     previousNodeTokenType != CsTokenType.EndOfLine &&
                     previousNodeTokenType != CsTokenType.OpenParenthesis &&
                     previousNodeTokenType != CsTokenType.OpenSquareBracket &&
-                     previousNodeTokenType != CsTokenType.CloseParenthesis)
+                    previousNodeTokenType != CsTokenType.CloseParenthesis)
                 {
                     this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.SymbolsMustBeSpacedCorrectly, tokenNode.Value.Text);
                 }
