@@ -1176,9 +1176,11 @@ namespace StyleCop
             Param.AssertNotNull(sender, "sender");
             Param.AssertNotNull(e, "e");
 
-            if (this.findRuleId.Text.Length > 0)
+            string searchText = this.findRuleId.Text.Trim();
+
+            if (searchText.Length > 0)
             {
-                this.SearchForRule(this.findRuleId.Text);
+                this.SearchForRule(searchText);
             }
         }
 
@@ -1194,9 +1196,11 @@ namespace StyleCop
 
             if (e.KeyCode == Keys.Return)
             {
-                if (this.findRuleId.Text.Length > 0)
+                string searchText = this.findRuleId.Text.Trim();
+
+                if (searchText.Length > 0)
                 {
-                    this.SearchForRule(this.findRuleId.Text);
+                    this.SearchForRule(searchText);
                 }
             }
         }
