@@ -28,17 +28,22 @@ namespace StyleCop.CSharp
         /// <summary>
         /// The type of the field.
         /// </summary>
-        private TypeToken type;
+        private readonly TypeToken type;
 
         /// <summary>
         /// Indicates whether the item is declared const.
         /// </summary>
-        private bool isConst;
+        private readonly bool isConst;
 
         /// <summary>
         /// Indicates whether the item is declared readonly.
         /// </summary>
-        private bool isReadOnly;
+        private readonly bool isReadOnly;
+
+        /// <summary>
+        /// Indicates whether the item is declared static.
+        /// </summary>
+        private readonly bool isStatic;
 
         /// <summary>
         /// The variable declaration statement within this field.
@@ -94,6 +99,7 @@ namespace StyleCop.CSharp
             // Determine whether the item is const or readonly.
             this.isConst = this.Declaration.ContainsModifier(CsTokenType.Const);
             this.isReadOnly = this.Declaration.ContainsModifier(CsTokenType.Readonly);
+            this.isStatic = this.Declaration.ContainsModifier(CsTokenType.Static);
         }
 
         #endregion Internal Constructors
@@ -111,6 +117,16 @@ namespace StyleCop.CSharp
             }
         }
 
+        /// <summary>
+        /// Gets a value indicating whether the field is declared static.
+        /// </summary>
+        public bool Static
+        {
+            get
+            {
+                return this.isStatic;
+            }
+        }
         /// <summary>
         /// Gets a value indicating whether the field is declared readonly.
         /// </summary>
