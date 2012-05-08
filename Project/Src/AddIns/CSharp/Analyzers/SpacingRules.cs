@@ -339,11 +339,11 @@ namespace StyleCop.CSharp
                                     case OperatorCategory.Unary:
                                         if (operatorSymbol.SymbolType == OperatorType.Negative)
                                         {
-                                            this.CheckNegativeSign(tokenNode);
+                                            this.CheckPositiveOrNegativeSign(tokenNode, false);
                                         }
                                         else if (operatorSymbol.SymbolType == OperatorType.Positive)
                                         {
-                                            this.CheckPositiveSign(tokenNode);
+                                            this.CheckPositiveOrNegativeSign(tokenNode, true);
                                         }
                                         else
                                         {
@@ -1547,10 +1547,8 @@ namespace StyleCop.CSharp
             else
             {
                 CsTokenType tokenType = previousNode.Value.CsTokenType;
-                if (tokenType == CsTokenType.WhiteSpace ||
-                    tokenType == CsTokenType.EndOfLine ||
-                    tokenType == CsTokenType.SingleLineComment ||
-                    tokenType == CsTokenType.MultiLineComment)
+                if (tokenType == CsTokenType.WhiteSpace || tokenType == CsTokenType.EndOfLine
+                    || tokenType == CsTokenType.SingleLineComment || tokenType == CsTokenType.MultiLineComment)
                 {
                     before = true;
                 }
@@ -1564,98 +1562,89 @@ namespace StyleCop.CSharp
             else
             {
                 CsTokenType tokenType = nextNode.Value.CsTokenType;
-                if (tokenType == CsTokenType.WhiteSpace ||
-                    tokenType == CsTokenType.EndOfLine ||
-                    tokenType == CsTokenType.SingleLineComment ||
-                    tokenType == CsTokenType.MultiLineComment)
+                if (tokenType == CsTokenType.WhiteSpace || tokenType == CsTokenType.EndOfLine
+                    || tokenType == CsTokenType.SingleLineComment || tokenType == CsTokenType.MultiLineComment)
                 {
                     after = true;
                 }
             }
 
+            bool addViolation = false;
             // If there is no whitespace on either side, then make sure that at least one of the sides
             // is touching a square bracket or a parenthesis. The right side of the symbol is also
             // allowed to be up against a comma or a semicolon.
             if (!before && !after)
             {
-                if (previousNode != null &&
-                    (previousNode.Value.CsTokenType == CsTokenType.OpenSquareBracket || previousNode.Value.CsTokenType == CsTokenType.OpenParenthesis))
+                if ((previousNode.Value.CsTokenType == CsTokenType.OpenSquareBracket
+                     || previousNode.Value.CsTokenType == CsTokenType.OpenParenthesis))
                 {
                     return;
                 }
 
-                if (nextNode != null)
+                CsTokenType tokenType = nextNode.Value.CsTokenType;
+                if (tokenType == CsTokenType.CloseSquareBracket || tokenType == CsTokenType.CloseParenthesis
+                    || tokenType == CsTokenType.Comma || tokenType == CsTokenType.Semicolon)
                 {
-                    CsTokenType tokenType = nextNode.Value.CsTokenType;
-                    if (tokenType == CsTokenType.CloseSquareBracket ||
-                        tokenType == CsTokenType.CloseParenthesis ||
-                        tokenType == CsTokenType.Comma ||
-                        tokenType == CsTokenType.Semicolon)
-                    {
-                        return;
-                    }
+                    return;
                 }
 
                 // This is a violation.
-                this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.IncrementDecrementSymbolsMustBeSpacedCorrectly);
+                addViolation = true;
             }
             else if (before && after)
             {
                 // There is whitespace on both sides.
-                this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.IncrementDecrementSymbolsMustBeSpacedCorrectly);
+                addViolation = true;
             }
-        }
-
-        /// <summary>
-        /// Checks a negative sign for spacing.
-        /// </summary>
-        /// <param name="tokenNode">The token to check.</param>
-        private void CheckNegativeSign(Node<CsToken> tokenNode)
-        {
-            Param.AssertNotNull(tokenNode, "tokenNode");
-
-            // A negative sign should be preceded by whitespace. It 
-            // can also be preceded by an open paren or an open bracket.
-            Node<CsToken> previousNode = tokenNode.Previous;
-            if (previousNode != null)
+            else if (before)
             {
-                CsTokenType tokenType = previousNode.Value.CsTokenType;
-                if (tokenType != CsTokenType.WhiteSpace &&
-                    tokenType != CsTokenType.EndOfLine &&
-                    tokenType != CsTokenType.OpenParenthesis &&
-                    tokenType != CsTokenType.OpenSquareBracket &&
-                    tokenType != CsTokenType.CloseParenthesis)
-                {
-                    this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.NegativeSignsMustBeSpacedCorrectly);
-                }
-            }
-
-            Node<CsToken> nextNode = tokenNode.Next;
-            if (nextNode != null)
-            {
+                // Whitespace before but not after
+                // In this case if we are followed by a semi colon, close paran, comma, close square
+                // Then its a violation
                 CsTokenType tokenType = nextNode.Value.CsTokenType;
-                if (tokenType == CsTokenType.WhiteSpace ||
-                    tokenType == CsTokenType.EndOfLine ||
-                    tokenType == CsTokenType.SingleLineComment ||
-                    tokenType == CsTokenType.MultiLineComment)
+                if (tokenType == CsTokenType.CloseSquareBracket || tokenType == CsTokenType.CloseParenthesis
+                    || tokenType == CsTokenType.Comma || tokenType == CsTokenType.Semicolon)
                 {
-                    this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.NegativeSignsMustBeSpacedCorrectly);
+                    addViolation = true;
                 }
+            }
+            else
+            {
+                // Whitespace after but not before
+                // In this case if we are preceeded by an open square or open paran
+                // Then its a violation
+                if ((previousNode.Value.CsTokenType == CsTokenType.OpenSquareBracket
+                     || previousNode.Value.CsTokenType == CsTokenType.OpenParenthesis))
+                {
+                    addViolation = true;
+                }
+            }
+
+            if (addViolation)
+            {
+                this.AddViolation(
+                    tokenNode.Value.FindParentElement(),
+                    tokenNode.Value.Location,
+                    Rules.IncrementDecrementSymbolsMustBeSpacedCorrectly);
             }
         }
 
         /// <summary>
-        /// Checks a positive sign for spacing.
+        /// Checks a positive/negative sign for spacing.
         /// </summary>
-        /// <param name="tokenNode">The token to check.</param>
-        private void CheckPositiveSign(Node<CsToken> tokenNode)
+        /// <param name="tokenNode">
+        /// The token to check.
+        /// </param>
+        /// <param name="positiveToken">
+        /// True is the token is positive.
+        /// </param>
+        private void CheckPositiveOrNegativeSign(Node<CsToken> tokenNode, bool positiveToken)
         {
             Param.AssertNotNull(tokenNode, "tokenNode");
+            Param.Ignore(positiveToken, "positiveToken");
 
             bool addViolation = false;
 
-            // A positive sign should be preceded by whitespace, or endofline, or close paren unless the token before the whitespace is 
-            // an open paren or an open bracket.
             Node<CsToken> previousNode = tokenNode.Previous;
 
             if (previousNode == null)
@@ -1666,22 +1655,28 @@ namespace StyleCop.CSharp
             {
                 CsTokenType previousTokenType = previousNode.Value.CsTokenType;
 
-                if (previousTokenType != CsTokenType.WhiteSpace && previousTokenType != CsTokenType.EndOfLine
-                    && previousTokenType != CsTokenType.CloseParenthesis)
+                if (previousTokenType != CsTokenType.WhiteSpace && 
+                    previousTokenType != CsTokenType.EndOfLine && 
+                    previousTokenType != CsTokenType.CloseParenthesis && 
+                    previousTokenType != CsTokenType.OpenParenthesis &&
+                    previousTokenType != CsTokenType.OpenSquareBracket)
                 {
                     addViolation = true;
                 }
                 else
                 {
-                    Node<CsToken> previousPreviousNode = previousNode.Previous;
-                    if (previousPreviousNode != null)
+                    if (previousTokenType == CsTokenType.WhiteSpace || previousTokenType == CsTokenType.EndOfLine)
                     {
-                        CsTokenType previousPreviousTokenType = previousPreviousNode.Value.CsTokenType;
-
-                        if (previousPreviousTokenType == CsTokenType.OpenParenthesis
-                            || previousPreviousTokenType == CsTokenType.OpenSquareBracket)
+                        Node<CsToken> previousPreviousNode = previousNode.Previous;
+                        if (previousPreviousNode != null)
                         {
-                            addViolation = true;
+                            CsTokenType previousPreviousTokenType = previousPreviousNode.Value.CsTokenType;
+
+                            if (previousPreviousTokenType == CsTokenType.OpenParenthesis
+                                || previousPreviousTokenType == CsTokenType.OpenSquareBracket)
+                            {
+                                addViolation = true;
+                            }
                         }
                     }
                 }
@@ -1692,19 +1687,22 @@ namespace StyleCop.CSharp
                 this.AddViolation(
                     tokenNode.Value.FindParentElement(),
                     tokenNode.Value.Location,
-                    Rules.PositiveSignsMustBeSpacedCorrectly);
+                    positiveToken ? Rules.PositiveSignsMustBeSpacedCorrectly : Rules.NegativeSignsMustBeSpacedCorrectly);
             }
 
             Node<CsToken> nextNode = tokenNode.Next;
             if (nextNode != null)
             {
                 CsTokenType tokenType = nextNode.Value.CsTokenType;
-                if (tokenType == CsTokenType.WhiteSpace ||
-                    tokenType == CsTokenType.EndOfLine ||
-                    tokenType == CsTokenType.SingleLineComment ||
-                    tokenType == CsTokenType.MultiLineComment)
+                if (tokenType == CsTokenType.WhiteSpace || tokenType == CsTokenType.EndOfLine
+                    || tokenType == CsTokenType.SingleLineComment || tokenType == CsTokenType.MultiLineComment)
                 {
-                    this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.PositiveSignsMustBeSpacedCorrectly);
+                    this.AddViolation(
+                        tokenNode.Value.FindParentElement(),
+                        tokenNode.Value.Location,
+                        positiveToken
+                            ? Rules.PositiveSignsMustBeSpacedCorrectly
+                            : Rules.NegativeSignsMustBeSpacedCorrectly);
                 }
             }
         }

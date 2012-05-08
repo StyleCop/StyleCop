@@ -265,4 +265,58 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.Spacing.PositiveSymbol.Method1%int" LineNumber="10" RuleNamespace="StyleCop.CSharp.SpacingRules" Rule="PositiveSignsMustBeSpacedCorrectly" />
     </ExpectedViolations>
   </Test>
+  <Test Name="NegativeSymbol">
+    <TestCodeFile>NegativeSymbol.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.SpacingRules">
+          <Rules>
+            <Rule Name="NegativeSignsMustBeSpacedCorrectly">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Spacing.NegativeSymbol.Method1%int" LineNumber="9" RuleNamespace="StyleCop.CSharp.SpacingRules" Rule="NegativeSignsMustBeSpacedCorrectly" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Spacing.NegativeSymbol.Method1%int" LineNumber="10" RuleNamespace="StyleCop.CSharp.SpacingRules" Rule="NegativeSignsMustBeSpacedCorrectly" />
+    </ExpectedViolations>
+  </Test>
+  <Test Name="IncrementDecrementSymbols">
+    <TestCodeFile>IncrementDecrementSymbols.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.SpacingRules">
+          <Rules>
+            <Rule Name="IncrementDecrementSymbolsMustBeSpacedCorrectly">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Spacing.IncrementDecrementSymbols.Method%int" LineNumber="12" Rule="IncrementDecrementSymbolsMustBeSpacedCorrectly" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Spacing.IncrementDecrementSymbols.Method%int" LineNumber="13" Rule="IncrementDecrementSymbolsMustBeSpacedCorrectly" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Spacing.IncrementDecrementSymbols.Method%int" LineNumber="14" Rule="IncrementDecrementSymbolsMustBeSpacedCorrectly" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Spacing.IncrementDecrementSymbols.Method%int" LineNumber="15" Rule="IncrementDecrementSymbolsMustBeSpacedCorrectly" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Spacing.IncrementDecrementSymbols.Method" LineNumber="22" Rule="IncrementDecrementSymbolsMustBeSpacedCorrectly" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Spacing.IncrementDecrementSymbols.Method" LineNumber="23" Rule="IncrementDecrementSymbolsMustBeSpacedCorrectly" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Spacing.IncrementDecrementSymbols.Method" LineNumber="24" Rule="IncrementDecrementSymbolsMustBeSpacedCorrectly" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Spacing.IncrementDecrementSymbols.Method" LineNumber="25" Rule="IncrementDecrementSymbolsMustBeSpacedCorrectly" />
+    </ExpectedViolations>
+  </Test>
 </StyleCopTestDescription>
