@@ -1700,19 +1700,30 @@ namespace StyleCop.CSharp
                 // The symbol should be followed by whitespace. It 
                 // can also be followed by a closing paren or a closing bracket,
                 // or another token of the same type.
+                bool addViolation = false;
+                
                 Node<CsToken> nextNode = tokenNode.Next;
-                if (nextNode != null)
+                if (nextNode == null)
+                {
+                    addViolation = true;
+                }
+                else
                 {
                     CsTokenType tokenType = nextNode.Value.CsTokenType;
-                    if (tokenType != CsTokenType.WhiteSpace &&
-                        tokenType != CsTokenType.EndOfLine &&
-                        tokenType != CsTokenType.OpenParenthesis &&
-                        tokenType != CsTokenType.OpenSquareBracket &&
-                        tokenType != CsTokenType.CloseParenthesis &&
-                        tokenType != tokenNode.Value.CsTokenType)
+                    if (tokenType != CsTokenType.WhiteSpace && tokenType != CsTokenType.EndOfLine
+                        && tokenType != CsTokenType.OpenParenthesis && tokenType != CsTokenType.OpenSquareBracket
+                        && tokenType != CsTokenType.CloseParenthesis && tokenType != tokenNode.Value.CsTokenType)
                     {
-                        this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.DereferenceAndAccessOfSymbolsMustBeSpacedCorrectly);
+                        addViolation = true;
                     }
+                }
+
+                if (addViolation)
+                {
+                    this.AddViolation(
+                        tokenNode.Value.FindParentElement(),
+                        tokenNode.Value.Location,
+                        Rules.DereferenceAndAccessOfSymbolsMustBeSpacedCorrectly);
                 }
 
                 // The symbol must not be preceded by whitespace.
@@ -1734,19 +1745,29 @@ namespace StyleCop.CSharp
                 // The symbol should be preceded by whitespace. It 
                 // can also be preceded by an open paren or an open bracket, or
                 // another token of the same type.
+                bool addViolation = false;
                 Node<CsToken> previousNode = tokenNode.Previous;
-                if (previousNode != null)
+                if (previousNode == null)
+                {
+                    addViolation = true;
+                }
+                else
                 {
                     CsTokenType tokenType = previousNode.Value.CsTokenType;
-                    if (tokenType != CsTokenType.WhiteSpace &&
-                        tokenType != CsTokenType.EndOfLine &&
-                        tokenType != CsTokenType.OpenParenthesis &&
-                        tokenType != CsTokenType.OpenSquareBracket &&
-                        tokenType != CsTokenType.CloseParenthesis &&
-                        tokenType != tokenNode.Value.CsTokenType)
+                    if (tokenType != CsTokenType.WhiteSpace && tokenType != CsTokenType.EndOfLine
+                        && tokenType != CsTokenType.OpenParenthesis && tokenType != CsTokenType.OpenSquareBracket
+                        && tokenType != CsTokenType.CloseParenthesis && tokenType != tokenNode.Value.CsTokenType)
                     {
-                        this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.DereferenceAndAccessOfSymbolsMustBeSpacedCorrectly);
+                        addViolation = true;
                     }
+                }
+
+                if (addViolation)
+                {
+                    this.AddViolation(
+                        tokenNode.Value.FindParentElement(),
+                        tokenNode.Value.Location,
+                        Rules.DereferenceAndAccessOfSymbolsMustBeSpacedCorrectly);
                 }
 
                 // The symbol must not be followed by whitespace.
