@@ -1531,7 +1531,7 @@ namespace StyleCop.CSharp
             }
             else
             {
-                if (summary.InnerText == null || summary.InnerText.Length == 0)
+                if (string.IsNullOrEmpty(summary.InnerXml))
                 {
                     if (partialElement)
                     {
