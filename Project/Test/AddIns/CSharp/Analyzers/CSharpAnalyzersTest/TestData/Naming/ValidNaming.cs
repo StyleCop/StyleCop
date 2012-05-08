@@ -62,9 +62,9 @@ namespace ValidNaming1
         // Const must begin with upper-case letter.
         private const int Const1 = 0;
 
-        // Private readonly may begin with either upper or lower-case letter.
+        // Private readonly must begin with lower-case letter.
         private readonly int readonly1;
-        private readonly int Readonly2;
+        private readonly int readonly2;
 
         // Non-private readonly must begin with upper-case letter.
         internal readonly int Readonly3;
