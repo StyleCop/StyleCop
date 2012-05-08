@@ -127,6 +127,7 @@ namespace StyleCop.CSharp
                 return this.isStatic;
             }
         }
+
         /// <summary>
         /// Gets a value indicating whether the field is declared readonly.
         /// </summary>
