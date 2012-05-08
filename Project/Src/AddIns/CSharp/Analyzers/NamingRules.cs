@@ -287,8 +287,8 @@ namespace StyleCop.CSharp
                         field.Declaration.Name);
                 }
 
-                // Readonly fields which are not declared private must start with an upper-case letter.
-                if (field.Readonly && field.Declaration.AccessModifierType != AccessModifierType.Private)
+                // Readonly fields non-private must start with an upper-case letter.
+                if (field.Readonly && field.AccessModifier != AccessModifierType.Private)
                 {
                     this.AddViolation(
                         field,
@@ -299,22 +299,35 @@ namespace StyleCop.CSharp
             }
             else
             {
-                // Constants must always start with an upper-case letter,
-                // while readonly fields may start with either an upper-case or
-                // a lower-case letter. Public or internal fields 
-                // also must always start with an upper-case letter.
-                if (!field.Const &&
-                    !field.Readonly &&
-                    field.AccessModifier != AccessModifierType.Public &&
-                    field.AccessModifier != AccessModifierType.Internal &&
-                    field.AccessModifier != AccessModifierType.ProtectedInternal)
+                // Constants must always start with an upper-case letter.
+                if (field.Const)
                 {
-                    this.AddViolation(
-                        field,
-                        field.LineNumber,
-                        Rules.FieldNamesMustBeginWithLowerCaseLetter,
-                        field.Declaration.Name);
+                    return;
                 }
+
+                // Readonly non-private fields must start with an upper-case letter.
+                if (field.Readonly && field.AccessModifier != AccessModifierType.Private)
+                {
+                    return;
+                }
+
+                // Public, internal or protected-internal fields also must always start with an upper-case letter.
+                if (field.AccessModifier == AccessModifierType.Public)
+                {
+                    return;
+                }
+
+                if (field.AccessModifier == AccessModifierType.Internal)
+                {
+                    return;
+                }
+
+                if (field.AccessModifier == AccessModifierType.ProtectedInternal)
+                {
+                    return;
+                }
+
+                this.AddViolation(field, field.LineNumber, Rules.FieldNamesMustBeginWithLowerCaseLetter, field.Declaration.Name);
             }
         }
 
