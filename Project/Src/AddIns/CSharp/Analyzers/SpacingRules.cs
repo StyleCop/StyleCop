@@ -1652,20 +1652,47 @@ namespace StyleCop.CSharp
         {
             Param.AssertNotNull(tokenNode, "tokenNode");
 
-            // A positive sign should be preceded by whitespace. It 
-            // can also be preceded by an open paren or an open bracket.
+            bool addViolation = false;
+
+            // A positive sign should be preceded by whitespace, or endofline, or close paren unless the token before the whitespace is 
+            // an open paren or an open bracket.
             Node<CsToken> previousNode = tokenNode.Previous;
-            if (previousNode != null)
+
+            if (previousNode == null)
             {
-                CsTokenType tokenType = previousNode.Value.CsTokenType;
-                if (tokenType != CsTokenType.WhiteSpace &&
-                    tokenType != CsTokenType.EndOfLine &&
-                    tokenType != CsTokenType.OpenParenthesis &&
-                    tokenType != CsTokenType.OpenSquareBracket &&
-                    tokenType != CsTokenType.CloseParenthesis)
+                addViolation = true;
+            }
+            else
+            {
+                CsTokenType previousTokenType = previousNode.Value.CsTokenType;
+
+                if (previousTokenType != CsTokenType.WhiteSpace && previousTokenType != CsTokenType.EndOfLine
+                    && previousTokenType != CsTokenType.CloseParenthesis)
                 {
-                    this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.PositiveSignsMustBeSpacedCorrectly);
+                    addViolation = true;
                 }
+                else
+                {
+                    Node<CsToken> previousPreviousNode = previousNode.Previous;
+                    if (previousPreviousNode != null)
+                    {
+                        CsTokenType previousPreviousTokenType = previousPreviousNode.Value.CsTokenType;
+
+                        if (previousPreviousTokenType == CsTokenType.OpenParenthesis
+                            || previousPreviousTokenType == CsTokenType.OpenSquareBracket)
+                        {
+                            addViolation = true;
+                        }
+                    }
+                }
+            }
+
+            if (addViolation)
+            {
+                this.AddViolation(
+                    tokenNode.Value.FindParentElement(),
+                    tokenNode.Value.Location,
+                    Rules.PositiveSignsMustBeSpacedCorrectly);
             }
 
             Node<CsToken> nextNode = tokenNode.Next;

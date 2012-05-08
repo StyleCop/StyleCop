@@ -241,4 +241,28 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.Spacing.AttributeBrackets.Property2" LineNumber="24" RuleNamespace="StyleCop.CSharp.SpacingRules" Rule="ClosingAttributeBracketsMustBeSpacedCorrectly" />
     </ExpectedViolations>
   </Test>
+  <Test Name="PositiveSymbol">
+    <TestCodeFile>PositiveSymbol.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.SpacingRules">
+          <Rules>
+            <Rule Name="PositiveSignsMustBeSpacedCorrectly">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Spacing.PositiveSymbol.Method1%int" LineNumber="9" RuleNamespace="StyleCop.CSharp.SpacingRules" Rule="PositiveSignsMustBeSpacedCorrectly" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Spacing.PositiveSymbol.Method1%int" LineNumber="10" RuleNamespace="StyleCop.CSharp.SpacingRules" Rule="PositiveSignsMustBeSpacedCorrectly" />
+    </ExpectedViolations>
+  </Test>
 </StyleCopTestDescription>
