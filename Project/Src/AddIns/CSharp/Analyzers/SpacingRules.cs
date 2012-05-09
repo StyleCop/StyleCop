@@ -50,7 +50,7 @@ namespace StyleCop.CSharp
 
             if (csdocument.RootElement != null && !csdocument.RootElement.Generated)
             {
-                this.CheckSpacing(csdocument.Tokens, false);
+                this.CheckSpacing(csdocument.Tokens, false, null);
             }
         }
 
@@ -136,9 +136,10 @@ namespace StyleCop.CSharp
         /// </summary>
         /// <param name="tokens">The list of tokens.</param>
         /// <param name="type">Indicates whether the tokens are part of a type declaration.</param>
+        /// <param name="parentTokenNode">The parent token of the token node being checked.</param>
         [SuppressMessage("Microsoft.Maintainability", "CA1505:AvoidUnmaintainableCode", Justification = "Minimizing refactoring before release.")]
         [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification = "Minimizing refactoring before release.")]
-        private void CheckSpacing(MasterList<CsToken> tokens, bool type)
+        private void CheckSpacing(MasterList<CsToken> tokens, bool type, Node<CsToken> parentTokenNode)
         {
             Param.AssertNotNull(tokens, "tokens");
             Param.Ignore(type);
@@ -219,7 +220,7 @@ namespace StyleCop.CSharp
                                 break;
 
                             case CsTokenType.CloseSquareBracket:
-                                this.CheckCloseSquareBracket(tokens, tokenNode);
+                                this.CheckCloseSquareBracket(tokens, tokenNode, parentTokenNode);
                                 break;
 
                             case CsTokenType.OpenCurlyBracket:
@@ -268,7 +269,7 @@ namespace StyleCop.CSharp
 
                             case CsTokenType.Attribute:
                                 StyleCop.CSharp.Attribute attribute = tokenNode.Value as StyleCop.CSharp.Attribute;
-                                this.CheckSpacing(attribute.ChildTokens, false);
+                                this.CheckSpacing(attribute.ChildTokens, false, tokenNode);
                                 break;
 
                             case CsTokenType.PreprocessorDirective:
@@ -359,7 +360,7 @@ namespace StyleCop.CSharp
                         switch (tokenNode.Value.CsTokenClass)
                         {
                             case CsTokenClass.ConstructorConstraint:
-                                this.CheckSpacing(((ConstructorConstraint)tokenNode.Value).ChildTokens, false);
+                                this.CheckSpacing(((ConstructorConstraint)tokenNode.Value).ChildTokens, false, tokenNode);
                                 break;
 
                             case CsTokenClass.GenericType:
@@ -367,7 +368,7 @@ namespace StyleCop.CSharp
                                 goto case CsTokenClass.Type;
 
                             case CsTokenClass.Type:
-                                this.CheckSpacing(((TypeToken)tokenNode.Value).ChildTokens, true);
+                                this.CheckSpacing(((TypeToken)tokenNode.Value).ChildTokens, true, tokenNode);
                                 break;
                         }
                     }
@@ -426,7 +427,7 @@ namespace StyleCop.CSharp
                                 break;
 
                             case CsTokenType.CloseSquareBracket:
-                                this.CheckCloseSquareBracket(generic.ChildTokens, tokenNode);
+                                this.CheckCloseSquareBracket(generic.ChildTokens, tokenNode, genericTokenNode);
                                 break;
 
                             case CsTokenType.WhiteSpace:
@@ -1164,11 +1165,13 @@ namespace StyleCop.CSharp
         /// </summary>
         /// <param name="tokens">The list of tokens being parsed.</param>
         /// <param name="tokenNode">The token to check.</param>
+        /// <param name="parentTokenNode">The parent token of the token node being checked.</param>
         [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification = "Minimizing refactoring before release.")]
-        private void CheckCloseSquareBracket(MasterList<CsToken> tokens, Node<CsToken> tokenNode)
+        private void CheckCloseSquareBracket(MasterList<CsToken> tokens, Node<CsToken> tokenNode, Node<CsToken> parentTokenNode)
         {
             Param.AssertNotNull(tokens, "tokens");
             Param.AssertNotNull(tokenNode, "tokenNode");
+            Param.Ignore(parentTokenNode);
 
             // Close brackets should never be preceded by whitespace.
             Node<CsToken> previousNode = tokenNode.Previous;
@@ -1180,41 +1183,45 @@ namespace StyleCop.CSharp
             
             // Close brackets should be followed either by whitespace, a bracket,
             // a paren, a semicolon, a comma, a period, or an increment or decrement symbol.
-            Node<CsToken> nextNode = tokenNode.Next;
+            Node<CsToken> nextNode = tokenNode.Next ?? parentTokenNode.Next;
+
             if (nextNode != null)
             {
                 CsTokenType nextType = nextNode.Value.CsTokenType;
-                if (nextType != CsTokenType.WhiteSpace &&
+                if (nextType != CsTokenType.WhiteSpace && 
                     nextType != CsTokenType.EndOfLine &&
-                    nextType != CsTokenType.CloseParenthesis &&
-                    nextType != CsTokenType.OpenParenthesis &&      // someDictionary["Test"]();
-                    nextType != CsTokenType.CloseSquareBracket &&   // someIndexer[someArray[1]] = 2;
-                    nextType != CsTokenType.OpenSquareBracket &&    // someArray[1][2] = 2;
-                    nextType != CsTokenType.Semicolon &&
+                    nextType != CsTokenType.CloseParenthesis && 
+                    nextType != CsTokenType.OpenParenthesis && // someDictionary["Test"]();
+                    nextType != CsTokenType.CloseSquareBracket && // someIndexer[someArray[1]] = 2;
+                    nextType != CsTokenType.OpenSquareBracket && // someArray[1][2] = 2;
+                    nextType != CsTokenType.Semicolon && 
                     nextType != CsTokenType.Comma &&
                     nextType != CsTokenType.CloseGenericBracket &&
                     nextNode.Value.Text != "++" &&
                     nextNode.Value.Text != "--" &&
                     !nextNode.Value.Text.StartsWith(".", StringComparison.Ordinal))
                 {
-                    this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.ClosingSquareBracketsMustBeSpacedCorrectly);
+                    this.AddViolation(
+                        tokenNode.Value.FindParentElement(),
+                        tokenNode.Value.Location,
+                        Rules.ClosingSquareBracketsMustBeSpacedCorrectly);
                 }
 
                 if (nextType == CsTokenType.WhiteSpace)
                 {
                     // If this is followed by whitespace, make sure that the character just
                     // after the whitespace is not a paren, bracket, comma, or semicolon.
-                    foreach (CsToken item in tokens.ForwardIterator(tokenNode.Next.Next))
+                    foreach (CsToken item in tokens.ForwardIterator(nextNode.Next))
                     {
                         CsTokenType itemType = item.CsTokenType;
-                        if (itemType == CsTokenType.CloseParenthesis ||
-                            itemType == CsTokenType.OpenParenthesis ||
-                            itemType == CsTokenType.CloseSquareBracket ||
-                            itemType == CsTokenType.OpenSquareBracket ||
-                            itemType == CsTokenType.Semicolon ||
-                            itemType == CsTokenType.Comma)
+                        if (itemType == CsTokenType.CloseParenthesis || itemType == CsTokenType.OpenParenthesis
+                            || itemType == CsTokenType.CloseSquareBracket || itemType == CsTokenType.OpenSquareBracket
+                            || itemType == CsTokenType.Semicolon || itemType == CsTokenType.Comma)
                         {
-                            this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.ClosingSquareBracketsMustBeSpacedCorrectly);
+                            this.AddViolation(
+                                tokenNode.Value.FindParentElement(),
+                                tokenNode.Value.Location,
+                                Rules.ClosingSquareBracketsMustBeSpacedCorrectly);
                         }
                         else if (itemType != CsTokenType.WhiteSpace)
                         {

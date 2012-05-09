@@ -351,4 +351,27 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.Spacing.GenericBrackets.SA1015TestCode`T.MethodName2`T1%T1" LineNumber="14" Rule="ClosingGenericBracketsMustBeSpacedCorrectly" />
     </ExpectedViolations>
   </Test>
+  <Test Name="CloseSquareBracket">
+    <TestCodeFile>CloseSquareBracket.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.SpacingRules">
+          <Rules>
+            <Rule Name="ClosingSquareBracketsMustBeSpacedCorrectly">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Spacing.CloseSquareBracket.Class1.x" LineNumber="7" Rule="ClosingSquareBracketsMustBeSpacedCorrectly" />
+    </ExpectedViolations>
+  </Test>
 </StyleCopTestDescription>
