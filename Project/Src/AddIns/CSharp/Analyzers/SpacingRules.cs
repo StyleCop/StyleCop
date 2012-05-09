@@ -363,7 +363,7 @@ namespace StyleCop.CSharp
                                 break;
 
                             case CsTokenClass.GenericType:
-                                this.CheckGenericSpacing(tokens, tokenNode.Value as GenericType);
+                                this.CheckGenericSpacing(tokens, tokenNode);
                                 goto case CsTokenClass.Type;
 
                             case CsTokenClass.Type:
@@ -379,12 +379,14 @@ namespace StyleCop.CSharp
         /// Checks the spacing of the tokens within the given generic type token.
         /// </summary>
         /// <param name="tokens">The masterlist of tokens.</param>
-        /// <param name="generic">The generic type token to check.</param>
+        /// <param name="genericTokenNode">The generic type token to check.</param>
         [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification = "Minimizing refactoring before release.")]
-        private void CheckGenericSpacing(MasterList<CsToken> tokens, GenericType generic)
+        private void CheckGenericSpacing(MasterList<CsToken> tokens, Node<CsToken> genericTokenNode)
         {
             Param.AssertNotNull(tokens, "tokens");
-            Param.AssertNotNull(generic, "generic");
+            Param.AssertNotNull(genericTokenNode, "genericTokenNode");
+
+            GenericType generic = genericTokenNode.Value as GenericType;
 
             // Make sure it contains at least one token.
             if (generic.ChildTokens.Count > 0)
@@ -400,7 +402,7 @@ namespace StyleCop.CSharp
                     // the generic statement.
                     if (tokenNode.Value.CsTokenClass == CsTokenClass.GenericType)
                     {
-                        this.CheckGenericSpacing(tokens, tokenNode.Value as GenericType);
+                        this.CheckGenericSpacing(tokens, tokenNode);
                     }
 
                     if (!tokenNode.Value.Generated)
@@ -436,7 +438,7 @@ namespace StyleCop.CSharp
                                 break;
 
                             case CsTokenType.CloseGenericBracket:
-                                this.CheckGenericTokenCloseBracket(tokenNode);
+                                this.CheckGenericTokenCloseBracket(tokenNode, genericTokenNode);
                                 break;
 
                             case CsTokenType.PreprocessorDirective:
@@ -1363,20 +1365,59 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Checks a closing generic bracket for spacing.
         /// </summary>
-        /// <param name="tokenNode">The token to check.</param>
-        private void CheckGenericTokenCloseBracket(Node<CsToken> tokenNode)
+        /// <param name="closeBracketTokenNode">
+        /// The token to check.
+        /// </param>
+        /// <param name="genericTokenNode">
+        /// The generic token which is the parent of the close bracket.
+        /// </param>
+        private void CheckGenericTokenCloseBracket(Node<CsToken> closeBracketTokenNode, Node<CsToken> genericTokenNode)
         {
-            Param.AssertNotNull(tokenNode, "tokenNode");
+            Param.AssertNotNull(closeBracketTokenNode, "tokenNode");
+            Param.AssertNotNull(genericTokenNode, "genericTokenNode");
 
             // Closing generic brackets should be never be preceded by whitespace.
-            Node<CsToken> previousNode = tokenNode.Previous;
+            Node<CsToken> previousNode = closeBracketTokenNode.Previous;
             if (previousNode != null)
             {
                 if (previousNode.Value.CsTokenType == CsTokenType.WhiteSpace ||
                     previousNode.Value.CsTokenType == CsTokenType.EndOfLine)
                 {
-                    this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.ClosingGenericBracketsMustBeSpacedCorrectly);
+                    this.AddViolation(closeBracketTokenNode.Value.FindParentElement(), closeBracketTokenNode.Value.Location, Rules.ClosingGenericBracketsMustBeSpacedCorrectly);
                 }
+            }
+
+            bool addViolation = false;
+
+            // A generic should be followed by whitespace (but not whitespace and an open paran), open paran or endofline.
+            Node<CsToken> nextNode = genericTokenNode.Next;
+            if (nextNode == null)
+            {
+                addViolation = true;
+            }
+            else
+            {
+                var nextNodeTokenType = nextNode.Value.CsTokenType;
+
+                if (nextNodeTokenType != CsTokenType.WhiteSpace && nextNodeTokenType != CsTokenType.EndOfLine
+                    && nextNodeTokenType != CsTokenType.OpenParenthesis)
+                {
+                    addViolation = true;
+                }
+
+                if (nextNodeTokenType == CsTokenType.WhiteSpace)
+                {
+                    Node<CsToken> nextNextNode = nextNode.Next;
+                    if (nextNextNode == null || nextNextNode.Value.CsTokenType == CsTokenType.OpenParenthesis)
+                    {
+                        addViolation = true;
+                    }
+                }
+            }
+
+            if (addViolation)
+            {
+                this.AddViolation(closeBracketTokenNode.Value.FindParentElement(), closeBracketTokenNode.Value.Location, Rules.ClosingGenericBracketsMustBeSpacedCorrectly);
             }
         }
 
@@ -1570,13 +1611,14 @@ namespace StyleCop.CSharp
             }
 
             bool addViolation = false;
+
             // If there is no whitespace on either side, then make sure that at least one of the sides
             // is touching a square bracket or a parenthesis. The right side of the symbol is also
             // allowed to be up against a comma or a semicolon.
             if (!before && !after)
             {
-                if ((previousNode.Value.CsTokenType == CsTokenType.OpenSquareBracket
-                     || previousNode.Value.CsTokenType == CsTokenType.OpenParenthesis))
+                if (previousNode.Value.CsTokenType == CsTokenType.OpenSquareBracket
+                     || previousNode.Value.CsTokenType == CsTokenType.OpenParenthesis)
                 {
                     return;
                 }
@@ -1613,8 +1655,8 @@ namespace StyleCop.CSharp
                 // Whitespace after but not before
                 // In this case if we are preceeded by an open square or open paran
                 // Then its a violation
-                if ((previousNode.Value.CsTokenType == CsTokenType.OpenSquareBracket
-                     || previousNode.Value.CsTokenType == CsTokenType.OpenParenthesis))
+                if (previousNode.Value.CsTokenType == CsTokenType.OpenSquareBracket
+                     || previousNode.Value.CsTokenType == CsTokenType.OpenParenthesis)
                 {
                     addViolation = true;
                 }
@@ -1655,11 +1697,10 @@ namespace StyleCop.CSharp
             {
                 CsTokenType previousTokenType = previousNode.Value.CsTokenType;
 
-                if (previousTokenType != CsTokenType.WhiteSpace && 
-                    previousTokenType != CsTokenType.EndOfLine && 
-                    previousTokenType != CsTokenType.CloseParenthesis && 
-                    previousTokenType != CsTokenType.OpenParenthesis &&
-                    previousTokenType != CsTokenType.OpenSquareBracket)
+                if (previousTokenType != CsTokenType.WhiteSpace && previousTokenType != CsTokenType.EndOfLine
+                    && previousTokenType != CsTokenType.CloseParenthesis
+                    && previousTokenType != CsTokenType.OpenParenthesis
+                    && previousTokenType != CsTokenType.OpenSquareBracket)
                 {
                     addViolation = true;
                 }
@@ -1700,9 +1741,7 @@ namespace StyleCop.CSharp
                     this.AddViolation(
                         tokenNode.Value.FindParentElement(),
                         tokenNode.Value.Location,
-                        positiveToken
-                            ? Rules.PositiveSignsMustBeSpacedCorrectly
-                            : Rules.NegativeSignsMustBeSpacedCorrectly);
+                        positiveToken ? Rules.PositiveSignsMustBeSpacedCorrectly : Rules.NegativeSignsMustBeSpacedCorrectly);
                 }
             }
         }

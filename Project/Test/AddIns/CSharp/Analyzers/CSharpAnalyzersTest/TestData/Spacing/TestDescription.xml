@@ -319,4 +319,36 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.Spacing.IncrementDecrementSymbols.Method" LineNumber="25" Rule="IncrementDecrementSymbolsMustBeSpacedCorrectly" />
     </ExpectedViolations>
   </Test>
+  <Test Name="GenericBrackets">
+    <TestCodeFile>GenericBrackets.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.SpacingRules">
+          <Rules>
+            <Rule Name="ClosingGenericBracketsMustBeSpacedCorrectly">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="OpeningGenericBracketsMustBeSpacedCorrectly">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Spacing.GenericBrackets.SA1015TestCode`T" LineNumber="7" Rule="ClosingGenericBracketsMustBeSpacedCorrectly" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Spacing.GenericBrackets.SA1015TestCode`T.ints1" LineNumber="9" Rule="ClosingGenericBracketsMustBeSpacedCorrectly" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Spacing.GenericBrackets.SA1015TestCode`T.MethodName2`T1%T1" LineNumber="11" Rule="ClosingGenericBracketsMustBeSpacedCorrectly" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Spacing.GenericBrackets.SA1015TestCode`T.MethodName2`T1%T1" LineNumber="13" Rule="ClosingGenericBracketsMustBeSpacedCorrectly" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Spacing.GenericBrackets.SA1015TestCode`T.MethodName2`T1%T1" LineNumber="14" Rule="ClosingGenericBracketsMustBeSpacedCorrectly" />
+    </ExpectedViolations>
+  </Test>
 </StyleCopTestDescription>

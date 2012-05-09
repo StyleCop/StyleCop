@@ -64,6 +64,7 @@
   <ItemGroup>
     <Compile Include="AnalyzerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="TestData\Spacing\GenericBrackets.cs" />
     <None Include="TestData\Spacing\AttributeBrackets.cs" />
     <None Include="TestData\Spacing\PositiveSymbol.cs" />
     <None Include="TestData\Spacing\NegativeSymbol.cs" />
