@@ -626,28 +626,28 @@ namespace StyleCop.Test
 
             if (violationInfo.StartLineNumber >= 0)
             {
-                XmlAttribute startLineNumber = root.OwnerDocument.CreateAttribute("StartLineNumber");
+                XmlAttribute startLineNumber = root.OwnerDocument.CreateAttribute("StartLine");
                 startLineNumber.Value = violationInfo.StartLineNumber.ToString(CultureInfo.CurrentCulture);
                 violation.Attributes.Append(startLineNumber);
             }
 
             if (violationInfo.StartColumnNumber >= 0)
             {
-                XmlAttribute startColumnNumber = root.OwnerDocument.CreateAttribute("StartColumnNumber");
+                XmlAttribute startColumnNumber = root.OwnerDocument.CreateAttribute("StartColumn");
                 startColumnNumber.Value = violationInfo.StartColumnNumber.ToString(CultureInfo.CurrentCulture);
                 violation.Attributes.Append(startColumnNumber);
             }
 
             if (violationInfo.EndLineNumber >= 0)
             {
-                XmlAttribute endLineNumber = root.OwnerDocument.CreateAttribute("EndLineNumber");
+                XmlAttribute endLineNumber = root.OwnerDocument.CreateAttribute("EndLine");
                 endLineNumber.Value = violationInfo.EndLineNumber.ToString(CultureInfo.CurrentCulture);
                 violation.Attributes.Append(endLineNumber);
             }
 
             if (violationInfo.EndColumnNumber >= 0)
             {
-                XmlAttribute endColumnNumber = root.OwnerDocument.CreateAttribute("EndColumnNumber");
+                XmlAttribute endColumnNumber = root.OwnerDocument.CreateAttribute("EndColumn");
                 endColumnNumber.Value = violationInfo.EndColumnNumber.ToString(CultureInfo.CurrentCulture);
                 violation.Attributes.Append(endColumnNumber);
             }

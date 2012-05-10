@@ -232,5 +232,10 @@ namespace Parenthesis1
         {
             M(a: () => Console.WriteLine());
         }
+
+        private void InvalidMethodParameters(int paramName)
+        {
+            this.MethodName((3 + 4));
+        }
     }
 }

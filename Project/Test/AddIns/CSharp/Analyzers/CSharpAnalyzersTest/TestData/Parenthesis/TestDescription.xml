@@ -59,8 +59,11 @@
       <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="131" Rule="StatementMustNotUseUnnecessaryParenthesis" />
       <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="134" Rule="StatementMustNotUseUnnecessaryParenthesis" />
       <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="137" Rule="StatementMustNotUseUnnecessaryParenthesis" />
-      <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="140" Rule="StatementMustNotUseUnnecessaryParenthesis" />
-      <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="141" Rule="StatementMustNotUseUnnecessaryParenthesis" />
+      <Violation Section="Root.Parenthesis1.Class1.Invalid" StartLine="140" StartColumn="22" EndLine="140" EndColumn="54" RuleNamespace="StyleCop.CSharp.MaintainabilityRules" Rule="StatementMustNotUseUnnecessaryParenthesis" />
+      <Violation Section="Root.Parenthesis1.Class1.Invalid" StartLine="140" StartColumn="23" EndLine="140" EndColumn="46" Rule="StatementMustNotUseUnnecessaryParenthesis" />
+      <Violation Section="Root.Parenthesis1.Class1.Invalid" StartLine="140" StartColumn="24" EndLine="140" EndColumn="38" Rule="StatementMustNotUseUnnecessaryParenthesis" />
+      <Violation Section="Root.Parenthesis1.Class1.Invalid" StartLine="141" StartColumn="22" EndLine="141" EndColumn="52" Rule="StatementMustNotUseUnnecessaryParenthesis" />
+      <Violation Section="Root.Parenthesis1.Class1.Invalid" StartLine="141" StartColumn="23" EndLine="141" EndColumn="44" Rule="StatementMustNotUseUnnecessaryParenthesis" />
       <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="142" Rule="StatementMustNotUseUnnecessaryParenthesis" />
       <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="145" Rule="StatementMustNotUseUnnecessaryParenthesis" />
       <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="148" Rule="StatementMustNotUseUnnecessaryParenthesis" />
@@ -72,6 +75,7 @@
       <Violation Section="Root.Parenthesis1.Class1.Lambdas" LineNumber="184" Rule="StatementMustNotUseUnnecessaryParenthesis" />
       <Violation Section="Root.Parenthesis1.Class1.Lambdas" LineNumber="185" Rule="StatementMustNotUseUnnecessaryParenthesis" />
       <Violation Section="Root.Parenthesis1.Class1.Lambdas" LineNumber="193" Rule="StatementMustNotUseUnnecessaryParenthesis" />
+      <Violation Section="Root.Parenthesis1.Class1.InvalidMethodParameters%int" StartLine="238" StartColumn="29" EndLine="238" EndColumn="35" Rule="StatementMustNotUseUnnecessaryParenthesis" />
     </ExpectedViolations>
   </Test>
 

@@ -873,7 +873,7 @@ namespace StyleCop.CSharp
                     innerExpression.ExpressionType != ExpressionType.Unary &&
                     innerExpression.ExpressionType != ExpressionType.UnsafeAccess)
                 {
-                    this.AddViolation(element, parenthesizedExpression.LineNumber, Rules.StatementMustNotUseUnnecessaryParenthesis);
+                    this.AddViolation(element, parenthesizedExpression.Location, Rules.StatementMustNotUseUnnecessaryParenthesis);
                 }
                 else
                 {
@@ -884,9 +884,10 @@ namespace StyleCop.CSharp
                     if (!(parenthesizedExpression.Parent is Expression) ||
                         parenthesizedExpression.Parent is VariableDeclaratorExpression ||
                         parenthesizedExpression.Parent is CheckedExpression ||
-                        parenthesizedExpression.Parent is UncheckedExpression)
+                        parenthesizedExpression.Parent is UncheckedExpression ||
+                        parenthesizedExpression.Parent is MethodInvocationExpression)
                     {
-                        this.AddViolation(element, parenthesizedExpression.LineNumber, Rules.StatementMustNotUseUnnecessaryParenthesis);
+                        this.AddViolation(element, parenthesizedExpression.Location, Rules.StatementMustNotUseUnnecessaryParenthesis);
                     }
                     else
                     {
@@ -894,7 +895,7 @@ namespace StyleCop.CSharp
                         AssignmentExpression assignment = parenthesizedExpression.Parent as AssignmentExpression;
                         if (assignment != null && assignment.RightHandSide == parenthesizedExpression)
                         {
-                            this.AddViolation(element, parenthesizedExpression.LineNumber, Rules.StatementMustNotUseUnnecessaryParenthesis);
+                            this.AddViolation(element, parenthesizedExpression.Location, Rules.StatementMustNotUseUnnecessaryParenthesis);
                         }
                     }
                 }
