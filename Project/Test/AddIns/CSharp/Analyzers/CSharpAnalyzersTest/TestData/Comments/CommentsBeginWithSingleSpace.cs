@@ -10,7 +10,7 @@
         private void MethodName()
         {
             //Uh oh
-            //  Uh oh 
+            //  Uh oh
         }
     }
 

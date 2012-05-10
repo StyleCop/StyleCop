@@ -282,7 +282,55 @@ namespace StyleCop.Test
                 }
             }
 
-            ViolationInfo violation = new ViolationInfo(section, lineNumber, ruleNamespace, ruleName);
+            // Load the start line number.
+            int startLineNumber = -1;
+            attribute = violationNode.Attributes["StartLine"];
+            if (attribute != null)
+            {
+                int temp;
+                if (int.TryParse(attribute.Value, out temp))
+                {
+                    startLineNumber = temp;
+                }
+            }
+
+            // Load the end line number.
+            int endLineNumber = -1;
+            attribute = violationNode.Attributes["EndLine"];
+            if (attribute != null)
+            {
+                int temp;
+                if (int.TryParse(attribute.Value, out temp))
+                {
+                    endLineNumber = temp;
+                }
+            }
+
+            // Load the start column number.
+            int startColumnNumber = -1;
+            attribute = violationNode.Attributes["StartColumn"];
+            if (attribute != null)
+            {
+                int temp;
+                if (int.TryParse(attribute.Value, out temp))
+                {
+                    startColumnNumber = temp;
+                }
+            }
+
+            // Load the end column number.
+            int endColumnNumber = -1;
+            attribute = violationNode.Attributes["EndColumn"];
+            if (attribute != null)
+            {
+                int temp;
+                if (int.TryParse(attribute.Value, out temp))
+                {
+                    endColumnNumber = temp;
+                }
+            }
+            
+            ViolationInfo violation = new ViolationInfo(section, lineNumber, startLineNumber, startColumnNumber, endLineNumber, endColumnNumber, ruleNamespace, ruleName);
             return violation;
         }
 
@@ -417,6 +465,38 @@ namespace StyleCop.Test
                 }
             }
 
+            if (expectedViolation.StartLineNumber >= 0)
+            {
+                if (actualViolation.StartLineNumber != expectedViolation.StartLineNumber)
+                {
+                    return false;
+                }
+            }
+
+            if (expectedViolation.StartColumnNumber >= 0)
+            {
+                if (actualViolation.StartColumnNumber != expectedViolation.StartColumnNumber)
+                {
+                    return false;
+                }
+            }
+
+            if (expectedViolation.EndLineNumber >= 0)
+            {
+                if (actualViolation.EndLineNumber != expectedViolation.EndLineNumber)
+                {
+                    return false;
+                }
+            }
+
+            if (expectedViolation.EndColumnNumber >= 0)
+            {
+                if (actualViolation.EndColumnNumber != expectedViolation.EndColumnNumber)
+                {
+                    return false;
+                }
+            }
+
             // Compare the rule names.
             if (expectedViolation.RuleName != null)
             {
@@ -542,6 +622,34 @@ namespace StyleCop.Test
                 XmlAttribute lineNumber = root.OwnerDocument.CreateAttribute("LineNumber");
                 lineNumber.Value = violationInfo.LineNumber.ToString(CultureInfo.CurrentCulture);
                 violation.Attributes.Append(lineNumber);
+            }
+
+            if (violationInfo.StartLineNumber >= 0)
+            {
+                XmlAttribute startLineNumber = root.OwnerDocument.CreateAttribute("StartLineNumber");
+                startLineNumber.Value = violationInfo.StartLineNumber.ToString(CultureInfo.CurrentCulture);
+                violation.Attributes.Append(startLineNumber);
+            }
+
+            if (violationInfo.StartColumnNumber >= 0)
+            {
+                XmlAttribute startColumnNumber = root.OwnerDocument.CreateAttribute("StartColumnNumber");
+                startColumnNumber.Value = violationInfo.StartColumnNumber.ToString(CultureInfo.CurrentCulture);
+                violation.Attributes.Append(startColumnNumber);
+            }
+
+            if (violationInfo.EndLineNumber >= 0)
+            {
+                XmlAttribute endLineNumber = root.OwnerDocument.CreateAttribute("EndLineNumber");
+                endLineNumber.Value = violationInfo.EndLineNumber.ToString(CultureInfo.CurrentCulture);
+                violation.Attributes.Append(endLineNumber);
+            }
+
+            if (violationInfo.EndColumnNumber >= 0)
+            {
+                XmlAttribute endColumnNumber = root.OwnerDocument.CreateAttribute("EndColumnNumber");
+                endColumnNumber.Value = violationInfo.EndColumnNumber.ToString(CultureInfo.CurrentCulture);
+                violation.Attributes.Append(endColumnNumber);
             }
 
             if (!string.IsNullOrEmpty(violationInfo.RuleNamespace))

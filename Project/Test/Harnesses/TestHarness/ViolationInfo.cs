@@ -27,22 +27,42 @@ namespace StyleCop.Test
         /// <summary>
         /// The code section that contains the violation.
         /// </summary>
-        private string section;
+        private readonly string section;
 
         /// <summary>
         /// The line in the code on which the violation appears.
         /// </summary>
-        private int lineNumber;
+        private readonly int lineNumber;
+        
+        /// <summary>
+        /// The start line in the code on which the violation appears.
+        /// </summary>
+        private readonly int startLineNumber;
+        
+        /// <summary>
+        /// The start column in the code on which the violation appears.
+        /// </summary>
+        private readonly int startColumnNumber;
+        
+        /// <summary>
+        /// The end line in the code on which the violation appears.
+        /// </summary>
+        private readonly int endLineNumber;
+        
+        /// <summary>
+        /// The end column in the code on which the violation appears.
+        /// </summary>
+        private readonly int endColumnNumber;
 
         /// <summary>
         /// The namespace of the rule that caused the violation.
         /// </summary>
-        private string ruleNamespace;
+        private readonly string ruleNamespace;
 
         /// <summary>
         /// The name of the rule that caused the violation.
         /// </summary>
-        private string ruleName;
+        private readonly string ruleName;
 
         #endregion Private Fields
 
@@ -53,14 +73,22 @@ namespace StyleCop.Test
         /// </summary>
         /// <param name="section">The code section that contains the violation.</param>
         /// <param name="lineNumber">The line in the code on which the violation appears.</param>
+        /// <param name="startLineNumber">The start line in the code on which the violation appears.</param>
+        /// <param name="startColumnNumber">The start column in the code on which the violation appears.</param>
+        /// <param name="endLineNumber">The end line in the code on which the violation appears.</param>
+        /// <param name="endColumnNumber">The end column in the code on which the violation appears.</param>
         /// <param name="ruleNamespace">The namespace of the rule that caused the violation.</param>
         /// <param name="ruleName">The name of the rule that caused the violation.</param>
-        public ViolationInfo(string section, int lineNumber, string ruleNamespace, string ruleName)
+        public ViolationInfo(string section, int lineNumber, int startLineNumber, int startColumnNumber, int endLineNumber, int endColumnNumber, string ruleNamespace, string ruleName)
         {
             this.section = section;
             this.lineNumber = lineNumber;
             this.ruleNamespace = ruleNamespace;
             this.ruleName = ruleName;
+            this.startLineNumber = startLineNumber;
+            this.startColumnNumber = startColumnNumber;
+            this.endLineNumber = endLineNumber;
+            this.endColumnNumber = endColumnNumber;
         }
 
         #endregion Public Constructors
@@ -86,6 +114,38 @@ namespace StyleCop.Test
             get
             {
                 return this.lineNumber;
+            }
+        }
+
+        public int StartLineNumber
+        {
+            get
+            {
+                return this.startLineNumber;
+            }
+        }
+
+        public int StartColumnNumber
+        {
+            get
+            {
+                return this.startColumnNumber;
+            }
+        }
+
+        public int EndLineNumber
+        {
+            get
+            {
+                return this.endLineNumber;
+            }
+        }
+
+        public int EndColumnNumber
+        {
+            get
+            {
+                return this.endColumnNumber;
             }
         }
 
