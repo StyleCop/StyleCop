@@ -1349,8 +1349,11 @@ namespace StyleCop.ReSharper611.Core
 
                 // must call GetLineCount first - it forces the line index to be built
                 document.GetLineCount();
+
+                // Our index on line needs to be 1 less
+                // For the end it stays where it is as a TextRange needs the extra char to highlight correctly
                 var start = document.GetLineStartOffset(startLine) + location.StartPoint.IndexOnLine - 1;
-                var end = document.GetLineStartOffset(endLine) + location.EndPoint.IndexOnLine - 1;
+                var end = document.GetLineStartOffset(endLine) + location.EndPoint.IndexOnLine;
                 if (start == end)
                 {
                     end += 1;

@@ -840,55 +840,35 @@ namespace StyleCop.CSharp
             // If the token length is less then two, this is not a valid comment so just ignore it.
             if (tokenNode.Value.Text.Length > 2)
             {
+                bool addViolation = false;
+
                 // The first character in the comment must be a space, except for the following four cases:
                 // 1. The comment may start with three or more slashes: ///whatever
                 // 2. The command may start with a backwards slash: //\whatever
                 // 3. The comment may start with a dash if there are at last two dashes: //--
                 // 4. The character after the second slash may be a newline character.
                 string text = tokenNode.Value.Text;
-                if (text[2] != ' ' &&
-                    text[2] != '\t' &&
-                    text[2] != '/' &&
-                    text[2] != '\\' &&
-                    text[1] != '\n' &&
-                    text[1] != '\r' &&
-                    (text.Length < 4 || text[2] != '-' || text[3] != '-'))
+                if (text[2] != ' ' && text[2] != '\t' && text[2] != '/' && text[2] != '\\' && text[1] != '\n'
+                    && text[1] != '\r' && (text.Length < 4 || text[2] != '-' || text[3] != '-'))
                 {
                     // The comment does not start with a single space.
-                    this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.SingleLineCommentsMustBeginWithSingleSpace);
+                    addViolation = true;
                 }
                 else if (text.Length > 3 && (text[3] == ' ' || text[3] == '\t') && text[2] != '\\')
                 {
-                    // The comment starts with more than one space. This is only a violation if this is the first 
-                    // single-line comment in a row. If there is another single-line comment directly above this one
-                    // with no blank line between them, this is not a violation.
-                    bool first = true;
-                    int newLineCount = 0;
-
-                    foreach (CsToken previousToken in tokens.ReverseIterator(tokenNode.Previous))
+                    if (!(tokenNode.Value.Parent is FileHeader))
                     {
-                        if (previousToken.CsTokenType == CsTokenType.EndOfLine)
-                        {
-                            if (++newLineCount == 2)
-                            {
-                                break;
-                            }
-                        }
-                        else if (previousToken.CsTokenType == CsTokenType.SingleLineComment)
-                        {
-                            first = false;
-                            break;
-                        }
-                        else if (previousToken.CsTokenType != CsTokenType.WhiteSpace)
-                        {
-                            break;
-                        }
+                        // Starting with multiple spaces is only an issue if we're outside the FileHeader
+                        addViolation = true;
                     }
+                }
 
-                    if (first)
-                    {
-                        this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.SingleLineCommentsMustBeginWithSingleSpace);
-                    }
+                if (addViolation)
+                {
+                    this.AddViolation(
+                        tokenNode.Value.FindParentElement(),
+                        tokenNode.Value.Location,
+                        Rules.SingleLineCommentsMustBeginWithSingleSpace);
                 }
             }
         }

@@ -33,4 +33,32 @@
       <Violation Section="Root" LineNumber="73" Rule="CommentsMustContainText"/>
     </ExpectedViolations>
   </Test>
+  <Test Name="CommentsBeginWithSingleSpace">
+    <TestCodeFile>CommentsBeginWithSingleSpace.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.SpacingRules">
+          <Rules>
+            <Rule Name="SingleLineCommentsMustBeginWithSingleSpace">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Comments" LineNumber="3" Rule="SingleLineCommentsMustBeginWithSingleSpace" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Comments" LineNumber="4" Rule="SingleLineCommentsMustBeginWithSingleSpace" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Comments.CommentsBeginWithSingleSpace" LineNumber="8" Rule="SingleLineCommentsMustBeginWithSingleSpace" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Comments.CommentsBeginWithSingleSpace" LineNumber="9" Rule="SingleLineCommentsMustBeginWithSingleSpace" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Comments.CommentsBeginWithSingleSpace.MethodName" LineNumber="12" Rule="SingleLineCommentsMustBeginWithSingleSpace" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Comments.CommentsBeginWithSingleSpace.MethodName" LineNumber="13" Rule="SingleLineCommentsMustBeginWithSingleSpace" />
+    </ExpectedViolations>
+  </Test>
 </StyleCopTestDescription>
