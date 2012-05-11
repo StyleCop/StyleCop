@@ -1082,6 +1082,10 @@ namespace StyleCop.VisualStudio
             catch (COMException)
             {
             }
+            catch (NotImplementedException)
+            {
+                // item.SubProject throws this for Installshield projects
+            }
 
             return null;
         }
@@ -1110,6 +1114,12 @@ namespace StyleCop.VisualStudio
                     // BuildAction 0 == None
                     return (int)buildAction.Value != 0;
                 }
+            }
+            catch (NotImplementedException)
+            {
+                // Is thrown by Installshield projects (and maybe others)
+                // If it gets here don't call item.ContainingProject later as that'll fail too
+                return false;
             }
             catch (COMException)
             {
