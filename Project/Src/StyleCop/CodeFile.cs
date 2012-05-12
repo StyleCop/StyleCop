@@ -81,60 +81,19 @@ namespace StyleCop
             // If this is not a full path, then we need to add the current directory.
             if (!path.StartsWith(@"\\", StringComparison.Ordinal) && path.Length >= 2 && path[1] != ':')
             {
-                // Get the current directory. Remove the trailing slash if it exists.
-                string directory = Directory.GetCurrentDirectory();
-                if (directory.EndsWith(@"\", StringComparison.Ordinal))
-                {
-                    directory = directory.Substring(0, directory.Length - 1);
-                }
-
-                // Check whether the path starts with a single slash or not.
-                if (path.StartsWith(@"\", StringComparison.Ordinal))
-                {
-                    // Prepend the drive letter.
-                    string newPath = directory.Substring(0, 2) + path;
-                    path = newPath;
-                }
-                else
-                {
-                    // Prepend the current directory.
-                    string newPath = directory + @"\" + path;
-                    path = newPath;
-                }
+                path = System.IO.Path.GetFullPath(path);
             }
 
             // BugFix 6777 - Update the path field after correcting the local path variable
             this.path = path;
-
-            // Strip out the name of the file.
-            int index = path.LastIndexOf(@"\", StringComparison.Ordinal);
-            if (-1 == index)
-            {
-                this.name = this.path;
-            }
-            else
-            {
-                this.name = path.Substring(index + 1, path.Length - index - 1);
-                this.folder = path.Substring(0, index);
-
-                if (this.folder != null)
-                {
-                    // Trim the path and convert it to lowercase characters
-                    // so that we can do string matches and find other files and
-                    // projects under the same path.
-                    this.folder = StyleCopCore.CleanPath(this.folder);
-                }
-            }
+            this.name = System.IO.Path.GetFileName(path);
+            this.folder = StyleCopCore.CleanPath(System.IO.Path.GetDirectoryName(path));
 
             // Strip out the file extension.
-            index = this.name.LastIndexOf(".", StringComparison.Ordinal);
-            if (-1 == index)
+            this.fileType = System.IO.Path.GetExtension(this.name).ToUpperInvariant();
+            if (this.fileType.Length > 0)
             {
-                this.fileType = string.Empty;
-            }
-            else
-            {
-                this.fileType = this.name.Substring(index + 1, this.name.Length - index - 1).ToUpperInvariant();
+                this.fileType = this.fileType.Substring(1);
             }
         }
 
