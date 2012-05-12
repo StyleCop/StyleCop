@@ -1367,8 +1367,7 @@ namespace StyleCop.CSharp
             Node<CsToken> previousNode = closeBracketTokenNode.Previous;
             if (previousNode != null)
             {
-                if (previousNode.Value.CsTokenType == CsTokenType.WhiteSpace ||
-                    previousNode.Value.CsTokenType == CsTokenType.EndOfLine)
+                if (previousNode.Value.CsTokenType == CsTokenType.WhiteSpace || previousNode.Value.CsTokenType == CsTokenType.EndOfLine)
                 {
                     this.AddViolation(closeBracketTokenNode.Value.FindParentElement(), closeBracketTokenNode.Value.Location, Rules.ClosingGenericBracketsMustBeSpacedCorrectly);
                 }
@@ -1376,7 +1375,7 @@ namespace StyleCop.CSharp
 
             bool addViolation = false;
 
-            // A generic should be followed by whitespace (but not whitespace and an open paran), open paran or endofline.
+            // A generic should be followed by whitespace (but not whitespace and an open paran), open paren, close paren, close generic bracket or endofline.
             Node<CsToken> nextNode = genericTokenNode.Next;
             if (nextNode == null)
             {
@@ -1386,8 +1385,8 @@ namespace StyleCop.CSharp
             {
                 var nextNodeTokenType = nextNode.Value.CsTokenType;
 
-                if (nextNodeTokenType != CsTokenType.WhiteSpace && nextNodeTokenType != CsTokenType.EndOfLine
-                    && nextNodeTokenType != CsTokenType.OpenParenthesis)
+                if (nextNodeTokenType != CsTokenType.WhiteSpace && nextNodeTokenType != CsTokenType.EndOfLine && nextNodeTokenType != CsTokenType.OpenParenthesis
+                    && nextNodeTokenType != CsTokenType.CloseParenthesis && nextNodeTokenType != CsTokenType.CloseGenericBracket)
                 {
                     addViolation = true;
                 }
