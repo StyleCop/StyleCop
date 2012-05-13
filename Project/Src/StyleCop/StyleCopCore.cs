@@ -45,19 +45,14 @@ namespace StyleCop
         /// </summary>
         internal const string ProjectSettingsPropertyPageIdProperty = "StyleCopLocalProperties";
 
-        /// <summary>
-        /// Default days between update checks.
-        /// </summary>
-        private const int DefaultDaysBetweenUpdateChecks = 2;
-
-        /// <summary>
-        /// This defaults to true.
-        /// </summary>
-        private const bool DefaultAutomaticallyCheckForUpdates = true;
-
         #endregion Internal Constants
 
         #region Private Fields
+
+        /// <summary>
+        /// Provides a countdown for each of the threads we will start later.
+        /// </summary>
+        private static CountdownEvent countdown;
 
         /// <summary>
         /// The Major.Minor parts of the StyleCop version number ie. 4.3 or 4.5.
@@ -1584,8 +1579,11 @@ namespace StyleCop
             // For debugging, only create a single worker thread.
             int threadCount = 1;
             #else
-            // Create a minimum of two worker threads.
-            int threadCount = Math.Max(GetCpuCount(), 2);
+            // Create a maximum of two worker threads.
+            // int threadCount = Math.Min(GetCpuCount(), 2);
+
+            // To avoid threadling issues we're moving back to 1 thread
+            int threadCount = 1;
             #endif
 
             try
@@ -1711,49 +1709,33 @@ namespace StyleCop
             // Indicates whether total analysis of all files has been completed.
             bool complete = true;
 
-            // Create the worker and thread class arrays.
-            BackgroundWorker[] workers = new BackgroundWorker[count];
+            // Create the thread class arrays.
             StyleCopThread[] threadClasses = new StyleCopThread[count];
+
+            countdown = new CountdownEvent(count);
 
             // Allocate and start all the threads.
             for (int i = 0; i < count; ++i)
             {
                 // Allocate the worker classes for this thread.
-                workers[i] = new BackgroundWorker();
                 threadClasses[i] = new StyleCopThread(data);
-
-                // Register for events on the background worker class.
-                workers[i].DoWork += new DoWorkEventHandler(threadClasses[i].DoWork);
 
                 // Register for the completion event on the thread data class. We do not use the standard BackgroundWorker
                 // completion event because for some reason it does not get fired when running inside of Visual Studio using
                 // the MSBuild task, and so everything ends up blocked. This may have to do with the way Visual Studio uses 
                 // threads when running a build. Therefore, we do not rely on the BackgroundWorker's completion event, and
                 // instead use our own event.
-                threadClasses[i].ThreadCompleted += new EventHandler<StyleCopThreadCompletedEventArgs>(this.StyleCopThreadCompleted);
+                threadClasses[i].ThreadCompleted += this.StyleCopThreadCompleted;
 
-                // Indicate that we are launching another thread.
-                data.IncrementThreadCount();
+                new Thread(threadClasses[i].DoWork).Start();
             }
 
-            // The lock is required so that we can wait on the Monitor.
-            lock (this)
-            {
-                // Start each of the worker threads.
-                for (int i = 0; i < count; ++i)
-                {
-                    workers[i].RunWorkerAsync();
-                }
-
-                // Wait for the threads to complete.
-                Monitor.Wait(this);
-            }
+            // Blocks until Signal has been called 'n' times
+            countdown.Wait();
 
             // Dispose the workers and determine whether all analysis is complete.
             for (int i = 0; i < count; ++i)
             {
-                workers[i].Dispose();
-
                 if (!threadClasses[i].Complete)
                 {
                     complete = false;
@@ -1768,23 +1750,12 @@ namespace StyleCop
         /// </summary>
         /// <param name="sender">The event sender.</param>
         /// <param name="e">The event arguments.</param>
-        private void StyleCopThreadCompleted(object sender, StyleCopThreadCompletedEventArgs e)
+        private void StyleCopThreadCompleted(object sender, EventArgs e)
         {
             Param.Ignore(sender);
             Param.AssertNotNull(e, "e");
 
-            // Get the data object.
-            Debug.Assert(e.Data != null, "The thread data object should not be null.");
-
-            lock (this)
-            {
-                // Decrement the thread count.
-                if (e.Data.DecrementThreadCount() == 0)
-                {
-                    // Release the master thread, which is currently waiting for all the workers to complete.
-                    Monitor.Pulse(this);
-                }
-            }
+            countdown.Signal();
         }
 
         #endregion Private Methods

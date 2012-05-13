@@ -32,9 +32,39 @@ namespace StyleCop
             #region Private Fields
 
             /// <summary>
-            /// The number of threads running.
+            /// The current analysis status of each source code document.
             /// </summary>
-            private int threads;
+            private readonly Dictionary<SourceCode, DocumentAnalysisStatus> sourceCodeInstanceStatus = new Dictionary<SourceCode, DocumentAnalysisStatus>();
+
+            /// <summary>
+            /// The current analysis status of each project.
+            /// </summary>
+            private readonly Dictionary<CodeProject, ProjectStatus> projectStatus = new Dictionary<CodeProject, ProjectStatus>();
+
+            /// <summary>
+            /// True if the results cache should be ignored.
+            /// </summary>
+            private readonly bool ignoreResultsCache;
+
+            /// <summary>
+            /// The path to the settings to use during analysis.
+            /// </summary>
+            private readonly string settingsPath;
+
+            /// <summary>
+            /// The list of projects to analyze.
+            /// </summary>
+            private readonly IList<CodeProject> projects;
+
+            /// <summary>
+            /// The StyleCop core instance.
+            /// </summary>
+            private readonly StyleCopCore core;
+
+            /// <summary>
+            /// The results cache manager.
+            /// </summary>
+            private readonly ResultsCache cache;
 
             /// <summary>
             /// The index of the current project.
@@ -45,32 +75,7 @@ namespace StyleCop
             /// The index of the current source code index within the current project.
             /// </summary>
             private int sourceCodeInstanceIndex = -1;
-
-            /// <summary>
-            /// True if the results cache should be ignored.
-            /// </summary>
-            private bool ignoreResultsCache;
-
-            /// <summary>
-            /// The path to the settings to use during analysis.
-            /// </summary>
-            private string settingsPath;
-
-            /// <summary>
-            /// The list of projects to analyze.
-            /// </summary>
-            private IList<CodeProject> projects;
-
-            /// <summary>
-            /// The StyleCop core instance.
-            /// </summary>
-            private StyleCopCore core;
-
-            /// <summary>
-            /// The results cache manager.
-            /// </summary>
-            private ResultsCache cache;
-
+          
             /// <summary>
             /// The pass number.
             /// </summary>
@@ -80,16 +85,6 @@ namespace StyleCop
             /// Stores the settings for each project.
             /// </summary>
             private Dictionary<int, Settings> settings;
-
-            /// <summary>
-            /// The current analysis status of each source code document.
-            /// </summary>
-            private Dictionary<SourceCode, DocumentAnalysisStatus> sourceCodeInstanceStatus = new Dictionary<SourceCode, DocumentAnalysisStatus>();
-
-            /// <summary>
-            /// The current analysis status of each project.
-            /// </summary>
-            private Dictionary<CodeProject, ProjectStatus> projectStatus = new Dictionary<CodeProject, ProjectStatus>(); 
 
             #endregion Private Fields
 
@@ -199,25 +194,6 @@ namespace StyleCop
 
                     return sourceCode;
                 }
-            }
-
-            /// <summary>
-            /// Increments the active thread count.
-            /// </summary>
-            /// <returns>Returns the new thread count.</returns>
-            public int IncrementThreadCount()
-            {
-                return ++this.threads;
-            }
-
-            /// <summary>
-            /// Decrements the active thread count. If all threads have ended,
-            /// wakes the parent thread.
-            /// </summary>
-            /// <returns>Returns the new thread count.</returns>
-            public int DecrementThreadCount()
-            {
-                return --this.threads;
             }
 
             /// <summary>

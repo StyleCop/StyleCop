@@ -180,11 +180,7 @@ namespace StyleCop.VisualStudio
 
                         this.violations = new List<ViolationInfo>();
 
-#if DEBUGTHREADING
-                    analyze.AnalyzeProc();
-#else
                         thread.Start();
-#endif
                     }
                 }
             }

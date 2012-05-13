@@ -225,7 +225,6 @@
     <Compile Include="StyleCopThread.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="StyleCopThreadCompletedEventArgs.cs" />
     <Compile Include="StyleCopTask.cs" />
     <Compile Include="Collections\MasterList{T}.cs" />
     <Compile Include="Utils.cs" />

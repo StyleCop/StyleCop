@@ -65,7 +65,7 @@ namespace StyleCop
         /// <summary>
         /// Event that is fired when the thread is completed.
         /// </summary>
-        public event EventHandler<StyleCopThreadCompletedEventArgs> ThreadCompleted;
+        public event EventHandler<EventArgs> ThreadCompleted;
 
         #endregion Public Events
 
@@ -90,13 +90,11 @@ namespace StyleCop
         /// Runs the thread operation.
         /// </summary>
         /// <param name="sender">The event sender.</param>
-        /// <param name="e">The event arguments.</param>
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Cannot allow exception from plug-in to kill VS or build")]
-        public void DoWork(object sender, DoWorkEventArgs e)
+        public void DoWork(object sender)
         {
-            Param.Ignore(sender, e);
-
-            StyleCopTrace.In(sender, e);
+            Param.Ignore(sender);
+            StyleCopTrace.In(sender);
 
             // This flag will indicated whether any source code documents need to passed through 
             // another round of analysis after this one is completed.
@@ -109,7 +107,7 @@ namespace StyleCop
                 // Keep looping until all the source code documents have been processed.
                 while (!this.data.Core.Cancel)
                 {
-                    DocumentAnalysisStatus documentStatus = null;
+                    DocumentAnalysisStatus documentStatus;
 
                     lock (this.data)
                     {
@@ -166,16 +164,12 @@ namespace StyleCop
             }
             finally
             {
-                // Send out the data object as the result of this worker thread so that the 
-                // finalization event can get access to it.
-                e.Result = this.data;
-
                 // Fire the completion event if necessary. When running under Visual Studio using MSBuild, the standard
                 // completion event from the BackgroundWorker class does not get fired. The reason is unknown. We fire
                 // our own event instead to get around this problem.
                 if (this.ThreadCompleted != null)
                 {
-                    this.ThreadCompleted(this, new StyleCopThreadCompletedEventArgs(this.data));
+                    this.ThreadCompleted(this, new EventArgs());
                 }
             }
 
