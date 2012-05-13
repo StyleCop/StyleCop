@@ -1079,22 +1079,100 @@ namespace StyleCop
 
         #if !DEBUGTHREADING
         /// <summary>
+        /// Gets the number of CPUs on an mac machine using system_profiler.
+        /// </summary>
+        /// <returns>Number of CPUs</returns>
+        private static int GetCpuCountForMac()
+        {
+            if (File.Exists("/usr/sbin/system_profiler") == false)
+            {
+                return 1;
+            }
+
+            var output = string.Empty;
+            using (Process p = new Process())
+            {
+                var info = new ProcessStartInfo("/usr/sbin/system_profiler", "-detailLevel full SPHardwareDataType");
+                info.UseShellExecute = false;
+                info.RedirectStandardOutput = true;
+                p.StartInfo = info;
+                p.Start();
+                output = p.StandardOutput.ReadToEnd();
+                p.WaitForExit();
+            }
+
+            int i;
+            if ((i = output.IndexOf("Number Of Processors")) != -1)
+            {
+                output = output.Substring(i);
+
+                int x;
+                if ((x = output.IndexOf(':')) != -1 && (i = output.IndexOf('\n')) != -1 && x < i)
+                {
+                    x++;
+                    output = output.Substring(x, i - x);
+                    return int.Parse(output);
+                }
+            }
+
+            return 1;
+        }
+
+        /// <summary>
         /// Gets the number of CPUs on the machine.
         /// </summary>
         /// <returns>The number of CPUs on the machine.</returns>
         private static int GetCpuCount()
         {
             int count = 1;
+            var platform = System.Environment.OSVersion.Platform;
 
-            RegistryKey key = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(@"HARDWARE\DESCRIPTION\System\CentralProcessor", false);
-            if (key != null)
+            try
             {
-                if (key.SubKeyCount >= 1)
+                if (platform == PlatformID.MacOSX)
                 {
-                    count = key.SubKeyCount;
+                    return GetCpuCountForMac();
                 }
+                else if (platform == PlatformID.Unix)
+                {
+                    using (StreamReader sr = new StreamReader("/proc/cpuinfo"))
+                    {
+                        while (!sr.EndOfStream)
+                        {
+                            var line = sr.ReadLine();
 
-                key.Close();
+                            if (string.IsNullOrEmpty(line))
+                            {
+                                continue;
+                            }
+
+                            int i;
+                            if (line.StartsWith("cpu cores") && (i = line.IndexOf(':')) != -1)
+                            {
+                                count = int.Parse(line.Substring(i + 1));
+                                break;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    // We will default back to windows and if that generates an error we will fallback to cpu count = 1
+                    RegistryKey key = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(@"HARDWARE\DESCRIPTION\System\CentralProcessor", false);
+                    if (key != null)
+                    {
+                        if (key.SubKeyCount >= 1)
+                        {
+                            count = key.SubKeyCount;
+                        }
+
+                        key.Close();
+                    }
+                }
+            }
+            catch
+            {
+                count = 1;
             }
 
             return count;
