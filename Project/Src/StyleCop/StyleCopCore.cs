@@ -1127,57 +1127,51 @@ namespace StyleCop
             int count = 1;
             var platform = System.Environment.OSVersion.Platform;
 
-            try
+            if (platform == PlatformID.MacOSX)
             {
-                if (platform == PlatformID.MacOSX)
-                {
-                    return GetCpuCountForMac();
-                }
-                else if (platform == PlatformID.Unix)
-                {
-                    using (StreamReader sr = new StreamReader("/proc/cpuinfo"))
-                    {
-                        while (!sr.EndOfStream)
-                        {
-                            var line = sr.ReadLine();
+                return GetCpuCountForMac();
+            }
 
-                            if (string.IsNullOrEmpty(line))
-                            {
-                                continue;
-                            }
-
-                            int i;
-                            if (line.StartsWith("cpu cores") && (i = line.IndexOf(':')) != -1)
-                            {
-                                count = int.Parse(line.Substring(i + 1));
-                                break;
-                            }
-                        }
-                    }
-                }
-                else
+            if (platform == PlatformID.Unix)
+            {
+                using (StreamReader sr = new StreamReader("/proc/cpuinfo"))
                 {
-                    // We will default back to windows and if that generates an error we will fallback to cpu count = 1
-                    RegistryKey key = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(@"HARDWARE\DESCRIPTION\System\CentralProcessor", false);
-                    if (key != null)
+                    while (!sr.EndOfStream)
                     {
-                        if (key.SubKeyCount >= 1)
+                        var line = sr.ReadLine();
+
+                        if (string.IsNullOrEmpty(line))
                         {
-                            count = key.SubKeyCount;
+                            continue;
                         }
 
-                        key.Close();
+                        int i;
+                        if (line.StartsWith("cpu cores") && (i = line.IndexOf(':')) != -1)
+                        {
+                            count = int.Parse(line.Substring(i + 1));
+                            break;
+                        }
                     }
                 }
             }
-            catch
+            else
             {
-                count = 1;
+                // We will default back to windows and if that generates an error we will fallback to cpu count = 1
+                RegistryKey key = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(@"HARDWARE\DESCRIPTION\System\CentralProcessor", false);
+                if (key != null)
+                {
+                    if (key.SubKeyCount >= 1)
+                    {
+                        count = key.SubKeyCount;
+                    }
+
+                    key.Close();
+                }
             }
 
             return count;
         }
-        #endif
+#endif
 
         /// <summary>
         /// Compares the given configuration with the given list of flags.
@@ -1660,7 +1654,7 @@ namespace StyleCop
             // Create a maximum of two worker threads.
             // int threadCount = Math.Min(GetCpuCount(), 2);
 
-            // To avoid threadling issues we're moving back to 1 thread
+            // To avoid threading issues we're moving back to 1 thread
             int threadCount = 1;
             #endif
 
