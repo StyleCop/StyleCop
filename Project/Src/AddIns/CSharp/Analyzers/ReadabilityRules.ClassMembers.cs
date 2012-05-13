@@ -433,13 +433,13 @@ namespace StyleCop.CSharp
                     // the type being initialized, not a property on the local class. Thus, it does not ever need to be prefixed by this.
                     // Without this check we can get name collisions, such as:
                     // public sealed class Person
-                    // {
-                    //     public string FirstName { get; }
-                    //     public void CreateAnonymousType()
-                    //     {
-                    //         var anonymousType = new { FirstName = this.FirstName };
-                    //     }
-                    // }
+                    //// {
+                    ////     public string FirstName { get; }
+                    ////     public void CreateAnonymousType()
+                    ////     {
+                    ////         var anonymousType = new { FirstName = this.FirstName };
+                    ////     }
+                    //// }
                     this.CheckClassMemberRulesForExpression(((AssignmentExpression)expression).RightHandSide, expression, parentElement, parentClass, members);
                 }
                 else if (expression.ChildExpressions.Count > 0)
@@ -478,66 +478,8 @@ namespace StyleCop.CSharp
                             members);
                     }
                 }
-                ////else if (expression.ExpressionType == ExpressionType.MemberAccess)
-                ////{
-                ////    MemberAccessExpression memberAccess = (MemberAccessExpression)expression;
-                ////    if (memberAccess.OperatorType != MemberAccessExpression.Operator.QualifiedAlias)
-                ////    {
-                ////        this.CheckClassMemberRulesForLiteralToken(
-                ////            memberAccess.Tokens.First,
-                ////            expression,
-                ////            parentElement,
-                ////            parentClass,
-                ////            members);
-                ////    }
-                ////}
             }
         }
-
-        ////private void CheckClassMemberRulesForChildExpressions(
-        ////    Expression expression,
-        ////    Expression parentExpression,
-        ////    CsElement parentElement,
-        ////    ClassBase parentClass,
-        ////    Dictionary<string, List<CsElement>> members)
-        ////{
-        ////    Param.AssertNotNull(expression, "expression");
-        ////    Param.Ignore(parentExpression);
-        ////    Param.AssertNotNull(parentElement, "parentElement");
-        ////    Param.AssertNotNull(parentClass, "parentClass");
-        ////    Param.AssertNotNull(members, "members");
-
-        ////    foreach (Expression childExpression in expression.ChildExpressions)
-        ////    {
-        ////        ExpressionWithParameters expressionWithParameters = childExpression as ExpressionWithParameters;
-        ////        if (expressionWithParameters != null)
-        ////        {
-        ////            foreach (Parameter parameter in expressionWithParameters.Parameters)
-        ////            {
-        ////                if (parameter.Type == null && parameter.Name != null)
-        ////                {
-        ////                    //todo
-        ////                }
-        ////            }
-        ////        }
-        ////        else if (childExpression.ExpressionType == ExpressionType.MethodInvocation)
-        ////        {
-        ////            MethodInvocationExpression methodInvocation = childExpression as MethodInvocationExpression;
-        ////            foreach (Expression argument in methodInvocation.Arguments)
-        ////            {
-        ////                // Check each expression within this child expression.
-        ////                this.CheckClassMemberRulesForExpressions(
-        ////                    argument.ChildExpressions,
-        ////                    argument,
-        ////                    parentElement,
-        ////                    parentClass,
-        ////                    members);
-        ////            }
-        ////        }
-
-        ////        this.CheckClassMemberRulesForChildExpressions(childExpression, expression, parentElement, parentClass, members);
-        ////    }
-        ////}
 
         /// <summary>
         /// Parses the given literal token.
