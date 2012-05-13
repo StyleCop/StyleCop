@@ -1584,10 +1584,8 @@ namespace StyleCop
             // For debugging, only create a single worker thread.
             int threadCount = 1;
             #else
-            // Create a maximum of two worker threads.
+            // Create a minimum of two worker threads.
             int threadCount = Math.Max(GetCpuCount(), 2);
-
-            threadCount = 1;
             #endif
 
             try
