@@ -12,6 +12,7 @@
 //   notice, or any other, from this software.
 // </license>
 //-----------------------------------------------------------------------
+
 namespace StyleCop
 {
     using System;
@@ -21,55 +22,55 @@ namespace StyleCop
     using System.Text;
 
     /// <summary>
-    /// Describes a source code file on disk.
+    ///   Describes a source code file on disk.
     /// </summary>
     public class CodeFile : SourceCode
     {
-        #region Private Fields
+        #region Constants and Fields
 
         /// <summary>
-        /// The path to the file.
-        /// </summary>
-        private string path;
-
-        /// <summary>
-        /// The name of the file.
-        /// </summary>
-        private string name;
-
-        /// <summary>
-        /// The file type extension of this file.
+        ///   The file type extension of this file.
         /// </summary>
         private string fileType;
 
         /// <summary>
-        /// The folder that the file appears in.
+        ///   The folder that the file appears in.
         /// </summary>
         private string folder;
 
-        #endregion Private Fields
-
-        #region Public Constructors
+        /// <summary>
+        ///   The name of the file.
+        /// </summary>
+        private string name;
 
         /// <summary>
-        /// Initializes a new instance of the CodeFile class.
+        ///   The path to the file.
         /// </summary>
-        /// <param name="path">The path to the code file.</param>
-        /// <param name="project">The project that contains this file.</param>
-        /// <param name="parser">The parser that created this file object.</param>
-        public CodeFile(string path, CodeProject project, SourceParser parser) 
+        private string path;
+
+        #endregion
+
+        #region Constructors and Destructors
+
+        /// <summary>
+        ///   Initializes a new instance of the CodeFile class.
+        /// </summary>
+        /// <param name="path"> The path to the code file. </param>
+        /// <param name="project"> The project that contains this file. </param>
+        /// <param name="parser"> The parser that created this file object. </param>
+        public CodeFile(string path, CodeProject project, SourceParser parser)
             : this(path, project, parser, null)
         {
             Param.Ignore(path, project, parser);
         }
 
         /// <summary>
-        /// Initializes a new instance of the CodeFile class.
+        ///   Initializes a new instance of the CodeFile class.
         /// </summary>
-        /// <param name="path">The path to the code file.</param>
-        /// <param name="project">The project that contains this file.</param>
-        /// <param name="parser">The parser that created this file object.</param>
-        /// <param name="configurations">The list of configurations for the file.</param>
+        /// <param name="path"> The path to the code file. </param>
+        /// <param name="project"> The project that contains this file. </param>
+        /// <param name="parser"> The parser that created this file object. </param>
+        /// <param name="configurations"> The list of configurations for the file. </param>
         public CodeFile(string path, CodeProject project, SourceParser parser, IEnumerable<Configuration> configurations)
             : base(project, parser, configurations)
         {
@@ -77,7 +78,7 @@ namespace StyleCop
             Param.RequireNotNull(project, "project");
             Param.RequireNotNull(parser, "parser");
             Param.Ignore(configurations);
-            
+
             // If this is not a full path, then we need to add the current directory.
             if (!path.StartsWith(@"\\", StringComparison.Ordinal) && path.Length >= 2 && path[1] != ':')
             {
@@ -97,34 +98,12 @@ namespace StyleCop
             }
         }
 
-        #endregion public Constructors
+        #endregion
 
-        #region Public Override Properties
-
-        /// <summary>
-        /// Gets the file name.
-        /// </summary>
-        public override string Name
-        {
-            get
-            {
-                return this.name;
-            }
-        }
+        #region Public Properties
 
         /// <summary>
-        /// Gets the path to the file.
-        /// </summary>
-        public override string Path
-        {
-            get
-            {
-                return this.path;
-            }
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether the source code document currently exists and is accessible.
+        ///   Gets a value indicating whether the source code document currently exists and is accessible.
         /// </summary>
         public override bool Exists
         {
@@ -135,7 +114,60 @@ namespace StyleCop
         }
 
         /// <summary>
-        /// Gets the time that the source code was last edited or updated.
+        ///   Gets the path to the folder that contains this file.
+        /// </summary>
+        public string Folder
+        {
+            get
+            {
+                return this.folder;
+            }
+        }
+
+        /// <summary>
+        ///   Gets the full path name of the file, spaced by underscores.
+        /// </summary>
+        public string FullPathName
+        {
+            get
+            {
+                char[] fullPathName = this.name.ToCharArray();
+                for (int i = 0; i < fullPathName.Length; ++i)
+                {
+                    if (fullPathName[i] == '\\' || fullPathName[i] == '.' || fullPathName[i] == ':')
+                    {
+                        fullPathName[i] = '_';
+                    }
+                }
+
+                return new string(fullPathName);
+            }
+        }
+
+        /// <summary>
+        ///   Gets the file name.
+        /// </summary>
+        public override string Name
+        {
+            get
+            {
+                return this.name;
+            }
+        }
+
+        /// <summary>
+        ///   Gets the path to the file.
+        /// </summary>
+        public override string Path
+        {
+            get
+            {
+                return this.path;
+            }
+        }
+
+        /// <summary>
+        ///   Gets the time that the source code was last edited or updated.
         /// </summary>
         public override DateTime TimeStamp
         {
@@ -163,9 +195,11 @@ namespace StyleCop
         }
 
         /// <summary>
-        /// Gets the code type identifier.
+        ///   Gets the code type identifier.
         /// </summary>
-        /// <remarks>This is eqivalent to the file extension.</remarks>
+        /// <remarks>
+        ///   This is eqivalent to the file extension.
+        /// </remarks>
         public override string Type
         {
             get
@@ -174,49 +208,16 @@ namespace StyleCop
             }
         }
 
-        #endregion Public Override Properties
+        #endregion
 
-        #region Public Properties
-
-        /// <summary>
-        /// Gets the path to the folder that contains this file.
-        /// </summary>
-        public string Folder
-        {
-            get
-            {
-                return this.folder;
-            }
-        }
-
-        /// <summary>
-        /// Gets the full path name of the file, spaced by underscores.
-        /// </summary>
-        public string FullPathName
-        {
-            get
-            {
-                char[] fullPathName = this.name.ToCharArray();
-                for (int i = 0; i < fullPathName.Length; ++i)
-                {
-                    if (fullPathName[i] == '\\' || fullPathName[i] == '.' || fullPathName[i] == ':')
-                    {
-                        fullPathName[i] = '_';
-                    }
-                }
-
-                return new string(fullPathName);
-            }
-        }
-
-        #endregion Public Properties
-
-        #region Public Override Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Reads the contents of the source code into a TextReader.
         /// </summary>
-        /// <returns>Returns the TextReader containing the source code.</returns>
+        /// <returns>
+        /// Returns the TextReader containing the source code.
+        /// </returns>
         public override TextReader Read()
         {
             if (this.Exists)
@@ -226,7 +227,7 @@ namespace StyleCop
                     // Read the file from the disk.
                     // Using the StreamReader to auto-detect the Encoding was failing. Internally the StreamReader defaults to UTF8 until you actually
                     // read from it. We now detect it ourselves.
-                    Encoding encoding = GetFileEncoding(this.path);
+                    Encoding encoding = Utils.GetFileEncoding(this.path);
                     return new StreamReader(File.OpenRead(this.path), encoding);
                 }
                 catch (UnauthorizedAccessException)
@@ -239,47 +240,7 @@ namespace StyleCop
 
             return null;
         }
-        
-        #endregion Public Override Methods
 
-        #region Private Methods
-
-        /// <summary>
-        /// Detects the encoding used by the file at the path provided.
-        /// </summary>
-        /// <param name="path">A path to a file.</param>
-        /// <returns>An Encoding of the file passed in.</returns>
-        private static Encoding GetFileEncoding(string path)
-        {
-            Param.AssertNotNull(path, "path");
-
-            var encoding = Encoding.Default;
-
-            var buffer = new byte[5];
-            var file = File.OpenRead(path);
-            file.Read(buffer, 0, 5);
-            file.Close();
-
-            if (buffer[0] == 0xef && buffer[1] == 0xbb && buffer[2] == 0xbf)
-            {
-                encoding = Encoding.UTF8;
-            }
-            else if (buffer[0] == 0xfe && buffer[1] == 0xff)
-            {
-                encoding = Encoding.Unicode;
-            }
-            else if (buffer[0] == 0 && buffer[1] == 0 && buffer[2] == 0xfe && buffer[3] == 0xff)
-            {
-                encoding = Encoding.UTF32;
-            }
-            else if (buffer[0] == 0x2b && buffer[1] == 0x2f && buffer[2] == 0x76)
-            {
-                encoding = Encoding.UTF7;
-            }
-
-            return encoding;
-        }
-
-        #endregion Private Methods
+        #endregion
     }
 }
