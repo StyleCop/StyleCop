@@ -155,7 +155,6 @@ namespace StyleCop.ReSharper611.CodeCleanup.Rules
                     endOfTokensToFormat = (IStartRegion)newLineToken;
                 }
 
-                ////CSharpFormatterHelper.FormatterInstance.Format(startOfTokensToFormat, endOfTokensToFormat);
                 var codeFormatter = (ICSharpCodeFormatter)CSharpLanguage.Instance.LanguageService().CodeFormatter;
                 codeFormatter.Format(startOfTokensToFormat, endOfTokensToFormat);
             }
@@ -316,7 +315,8 @@ namespace StyleCop.ReSharper611.CodeCleanup.Rules
                             var creationExpressionNode = currentNode as IObjectCreationExpression;
                             if (creationExpressionNode != null)
                             {
-                                SwapObjectCreationToBuiltInType(creationExpressionNode);
+                                //// No need to call this now and its messing up nested {}
+                                //// SwapObjectCreationToBuiltInType(creationExpressionNode);
                             }
                             else
                             {
@@ -642,10 +642,7 @@ namespace StyleCop.ReSharper611.CodeCleanup.Rules
             using (WriteLockCookie.Create(true))
             {
                 var tmpExpression = (IObjectCreationExpression)CSharpElementFactory.GetInstance(project).CreateExpression("new $0?()", new object[] { objectCreationExpressionNode.Type() });
-                if (tmpExpression != null)
-                {
-                    objectCreationExpressionNode.SetCreatedTypeUsage(tmpExpression.CreatedTypeUsage);
-                }
+                objectCreationExpressionNode.SetCreatedTypeUsage(tmpExpression.CreatedTypeUsage);
             }
         }
 

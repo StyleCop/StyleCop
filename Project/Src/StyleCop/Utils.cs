@@ -133,15 +133,27 @@ namespace StyleCop
             var bytesRead = file.Read(buffer, 0, BufferSize);
             file.Close();
 
-            if (bytesRead == 0)
+            if (bytesRead < 4)
             {
                 return encoding;
             }
-
-            if (buffer[0] == 0 && buffer[1] == 0 && buffer[2] == 0xfe && buffer[3] == 0xff)
+            
+            if (buffer[0] == 0xff && buffer[1] == 0xfe && buffer[2] == 0 && buffer[3] == 0)
             {
-                // 0000feff UTF32 Big Endian
-                return Encoding.GetEncoding(12001);
+                // 0000feff UTF32 Little Endian
+                return Encoding.UTF32;
+            }
+
+            if (buffer[0] == 0xfe && buffer[1] == 0xff)
+            {
+                // 1201 unicodeFFFE Unicode (Big-Endian)
+                return Encoding.BigEndianUnicode;
+            }
+
+            if (buffer[0] == 0xff && buffer[1] == 0xfe)
+            {
+                // 1200 utf-16 Unicode
+                return Encoding.GetEncoding(1200);
             }
 
             if (buffer[0] == 0x2b && buffer[1] == 0x2f && buffer[2] == 0x76)
@@ -153,24 +165,12 @@ namespace StyleCop
             {
                 return Encoding.UTF8;
             }
-            
-            if (buffer[0] == 0xfe && buffer[1] == 0xff)
-            {
-                // 1201 unicodeFFFE Unicode (Big-Endian)
-                return Encoding.BigEndianUnicode;
-            }
 
-            if (buffer[0] == 0xff && buffer[1] == 0xfe && buffer[2] == 0 && buffer[3] == 0)
+            if (buffer[0] == 0 && buffer[1] == 0 && buffer[2] == 0xfe && buffer[3] == 0xff)
             {
-                // 0000feff UTF32 Little Endian
-                return Encoding.UTF32;
-            }
-
-            if (buffer[0] == 0xff && buffer[1] == 0xfe)
-            {
-                // 1200 utf-16 Unicode
-                return Encoding.GetEncoding(1200);
-            }
+                // 0000feff UTF32 Big Endian
+                return Encoding.GetEncoding(12001);
+            } 
 
             return DetectIfByteArrayIsUtf8(buffer, bytesRead) ? Encoding.UTF8 : encoding;
         }
