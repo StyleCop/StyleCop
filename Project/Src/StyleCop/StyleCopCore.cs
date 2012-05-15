@@ -16,7 +16,6 @@ namespace StyleCop
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
@@ -53,6 +52,13 @@ namespace StyleCop
         /// Provides a countdown for each of the threads we will start later.
         /// </summary>
         private static CountdownEvent countdown;
+
+#if !DEBUGTHREADING
+        /// <summary>
+        /// The CPU count of the machine.
+        /// </summary>
+        private static int cpuCount;
+#endif
 
         /// <summary>
         /// The Major.Minor parts of the StyleCop version number ie. 4.3 or 4.5.
@@ -348,6 +354,25 @@ namespace StyleCop
                 return this.coreParser;
             }
         }
+
+#if !DEBUGTHREADING
+        /// <summary>
+        /// Gets the number of CPUs on the machine.
+        /// </summary>
+        /// <value> The number of CPUs on the machine. </value>
+        private static int CpuCount
+        {
+            get
+            {
+                if (cpuCount == 0)
+                {
+                    cpuCount = GetCpuCount();
+                }
+
+                return cpuCount;
+            }
+        }
+#endif
 
         /// <summary>
         /// Gets the Major.Minor parts of the StyleCop version number ie. 4.3 or 4.5.
@@ -1077,14 +1102,14 @@ namespace StyleCop
 
         #region Private Static Methods
 
-        #if !DEBUGTHREADING
+#if !DEBUGTHREADING
         /// <summary>
-        /// Gets the number of CPUs on an mac machine using system_profiler.
+        /// Gets the number of CPUs on a Mac machine using system_profiler.
         /// </summary>
         /// <returns>Number of CPUs</returns>
         private static int GetCpuCountForMac()
         {
-            if (File.Exists("/usr/sbin/system_profiler") == false)
+            if (!File.Exists("/usr/sbin/system_profiler"))
             {
                 return 1;
             }
@@ -1119,53 +1144,69 @@ namespace StyleCop
         }
 
         /// <summary>
-        /// Gets the number of CPUs on the machine.
+        /// Gets the CPU count. This is an expensive call. We call it once and cache the results in the CpuCount property.
         /// </summary>
-        /// <returns>The number of CPUs on the machine.</returns>
+        /// <returns>The CPU count.</returns>
         private static int GetCpuCount()
         {
+            switch (System.Environment.OSVersion.Platform)
+            {
+                case PlatformID.MacOSX:
+                    return GetCpuCountForMac();
+
+                case PlatformID.Unix:
+                    return GetCpuCountForUnix();
+
+                default:
+                    return GetCpuCountForWindows();
+            }
+        }
+
+        /// <summary>
+        /// Gets the CPU count on a Windows machine.
+        /// </summary>
+        /// <returns>The CPU count.</returns>
+        private static int GetCpuCountForWindows()
+        {
             int count = 1;
-            var platform = System.Environment.OSVersion.Platform;
-
-            if (platform == PlatformID.MacOSX)
+            RegistryKey key = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(@"HARDWARE\DESCRIPTION\System\CentralProcessor", false);
+            if (key != null)
             {
-                return GetCpuCountForMac();
-            }
-
-            if (platform == PlatformID.Unix)
-            {
-                using (StreamReader sr = new StreamReader("/proc/cpuinfo"))
+                if (key.SubKeyCount >= 1)
                 {
-                    while (!sr.EndOfStream)
-                    {
-                        var line = sr.ReadLine();
-
-                        if (string.IsNullOrEmpty(line))
-                        {
-                            continue;
-                        }
-
-                        int i;
-                        if (line.StartsWith("cpu cores") && (i = line.IndexOf(':')) != -1)
-                        {
-                            count = int.Parse(line.Substring(i + 1));
-                            break;
-                        }
-                    }
+                    count = key.SubKeyCount;
                 }
+
+                key.Close();
             }
-            else
+
+            return count;
+        }
+
+        /// <summary>
+        /// Gets the CPU count on a UNIX machine.
+        /// </summary>
+        /// <returns>The CPU count.</returns>
+        private static int GetCpuCountForUnix()
+        {
+            int count = 1;
+            using (StreamReader sr = new StreamReader("/proc/cpuinfo"))
             {
-                // We will default back to windows and if that generates an error we will fallback to cpu count = 1
-                RegistryKey key = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(@"HARDWARE\DESCRIPTION\System\CentralProcessor", false);
-                if (key != null)
+                while (!sr.EndOfStream)
                 {
-                    if (key.SubKeyCount >= 1)
+                    var line = sr.ReadLine();
+
+                    if (string.IsNullOrEmpty(line))
                     {
-                        count = key.SubKeyCount;
+                        continue;
                     }
 
-                    key.Close();
+                    int i;
+                    if (line.StartsWith("cpu cores") && (i = line.IndexOf(':')) != -1)
+                    {
+                        count = int.Parse(line.Substring(i + 1));
+                        break;
+                    }
                 }
             }
 
@@ -1647,13 +1688,13 @@ namespace StyleCop
             }
 
             // Get the CPU count.
-            #if DEBUGTHREADING
+#if DEBUGTHREADING
             // For debugging, only create a single worker thread.
             int threadCount = 1;
-            #else
+#else
             // Create a maximum of two worker threads.
-            int threadCount = Math.Min(GetCpuCount(), 2);
-            #endif
+            int threadCount = Math.Min(CpuCount, 2);
+#endif
 
             try
             {
