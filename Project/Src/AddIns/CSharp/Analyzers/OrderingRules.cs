@@ -202,6 +202,41 @@ namespace StyleCop.CSharp
             return namespace1Parts.Length < namespace2Parts.Length;
         }
 
+        /// <summary>
+        /// Returns an order number for the passed in element.
+        /// </summary>
+        /// <param name="element">The element to calculate the order of.</param>
+        /// <returns>The calculated order of the element.</returns>
+        private static int GetElementOrder(CsElement element)
+        {
+            Param.AssertNotNull(element, "first");
+
+            bool isReadonly = element.Declaration.ContainsModifier(CsTokenType.Readonly);
+            bool isStatic = element.Declaration.ContainsModifier(CsTokenType.Static);
+
+            if (element.Declaration.ContainsModifier(CsTokenType.Const))
+            {
+                return 0;
+            }
+
+            if (isStatic && isReadonly)
+            {
+                return 1;
+            }
+
+            if (isStatic)
+            {
+                return 2;
+            }
+
+            if (isReadonly)
+            {
+                return 3;
+            }
+
+            return 4;
+        }
+
         #endregion Private Static Methods
 
         #region Private Methods
@@ -416,8 +451,8 @@ namespace StyleCop.CSharp
             Param.Ignore(foundFirst);
 
             // We don't care about the order of accessors and we don't care about the order of empty elements.
-            if ((first.ElementType != ElementType.EmptyElement && second.ElementType != ElementType.EmptyElement) &&
-                (first.ElementType != ElementType.Accessor || second.ElementType != ElementType.Accessor))
+            if ((first.ElementType != ElementType.EmptyElement && second.ElementType != ElementType.EmptyElement)
+                && (first.ElementType != ElementType.Accessor || second.ElementType != ElementType.Accessor))
             {
                 // If the order turns out to be incorrect, determine which of the items is at fault.
                 CsElement invalidElement = second;
@@ -430,11 +465,7 @@ namespace StyleCop.CSharp
                 if (first.ElementType > second.ElementType)
                 {
                     this.AddViolation(
-                        first,
-                        invalidElement.LineNumber,
-                        Rules.ElementsMustAppearInTheCorrectOrder,
-                        first.FriendlyPluralTypeText,
-                        second.FriendlyPluralTypeText);
+                        first, invalidElement.LineNumber, Rules.ElementsMustAppearInTheCorrectOrder, first.FriendlyPluralTypeText, second.FriendlyPluralTypeText);
 
                     return false;
                 }
@@ -447,16 +478,17 @@ namespace StyleCop.CSharp
                         if (first.Declaration.AccessModifierType > second.Declaration.AccessModifierType)
                         {
                             // Special case for static constructors, which are always private but should still appear in front of all other constructors.
-                            if (first.ElementType != ElementType.Constructor ||
-                                second.ElementType != ElementType.Constructor ||
-                                !first.Declaration.ContainsModifier(CsTokenType.Static) ||
-                                second.Declaration.ContainsModifier(CsTokenType.Static))
+                            if (first.ElementType != ElementType.Constructor || second.ElementType != ElementType.Constructor
+                                || !first.Declaration.ContainsModifier(CsTokenType.Static) || second.Declaration.ContainsModifier(CsTokenType.Static))
                             {
                                 // If one of the elements is partial and does not have an access modifier defined, and the element
                                 // is not a method, show a special message. Partial methods are not allowed to have modifiers and are 
                                 // private by default.
-                                if ((!first.Declaration.AccessModifier && first.ElementType != ElementType.Method && first.Declaration.ContainsModifier(CsTokenType.Partial)) ||
-                                    (!second.Declaration.AccessModifier && second.ElementType != ElementType.Method && second.Declaration.ContainsModifier(CsTokenType.Partial)))
+                                if ((!first.Declaration.AccessModifier && first.ElementType != ElementType.Method
+                                     && first.Declaration.ContainsModifier(CsTokenType.Partial))
+                                    ||
+                                    (!second.Declaration.AccessModifier && second.ElementType != ElementType.Method
+                                     && second.Declaration.ContainsModifier(CsTokenType.Partial)))
                                 {
                                     // Make sure to use the line number of the partial element which does not contain
                                     // an access modifier.
@@ -490,154 +522,93 @@ namespace StyleCop.CSharp
                         else if (first.Declaration.AccessModifierType == second.Declaration.AccessModifierType)
                         {
                             // order should be :
-                            ////   0  const
-                            ////   1  static readonly
-                            ////   2  static non-readonly
-                            ////   3  instance readonly
-                            ////   4  instance non-readonly
+                            // 0  const
+                            // 1  static readonly
+                            // 2  static non-readonly
+                            // 3  instance readonly
+                            // 4  instance non-readonly
+                            int firstOrder = GetElementOrder(first);
+                            int secondOrder = GetElementOrder(second);
 
-                            
-                                int firstOrder = GetElementOrder(first);
-                                int secondOrder = GetElementOrder(second);
+                            // Check to make sure that constant are first
+                            if (secondOrder == 0 && firstOrder > 0)
+                            {
+                                this.AddViolation(first, invalidElement.LineNumber, Rules.ConstantsMustAppearBeforeFields);
+                                return false;
+                            }
 
-                                // Check to make sure that constant are first
-                                if (secondOrder == 0 && firstOrder > 0)
-                                {
-                                    this.AddViolation(first, invalidElement.LineNumber, Rules.ConstantsMustAppearBeforeFields);
-                                    return false;
-                                }
+                            // Static Readonly fields are next
+                            if (secondOrder == 1 && firstOrder == 2)
+                            {
+                                this.AddViolation(
+                                    first,
+                                    invalidElement.LineNumber,
+                                    Rules.StaticReadonlyElementsMustAppearBeforeStaticNonReadonlyElements,
+                                    OrderingRules.AccessModifierTypeString(first.Declaration.AccessModifierType),
+                                    first.FriendlyPluralTypeText,
+                                    OrderingRules.AccessModifierTypeString(second.Declaration.AccessModifierType),
+                                    second.FriendlyPluralTypeText);
 
-                                ////   0  const
-                                ////   1  static readonly
-                                ////   2  static non-readonly
-                                ////   3  instance readonly
-                                ////   4  instance non-readonly
+                                return false;
+                            }
 
-                                // Static Readonly fields are next
-                                if (secondOrder == 1 && firstOrder == 2)
-                                {
-                                    this.AddViolation(
-                                        first,
-                                        invalidElement.LineNumber,
-                                        Rules.StaticReadonlyElementsMustAppearBeforeStaticNonReadonlyElements,
-                                        OrderingRules.AccessModifierTypeString(first.Declaration.AccessModifierType),
-                                        first.FriendlyPluralTypeText,
-                                        OrderingRules.AccessModifierTypeString(second.Declaration.AccessModifierType),
-                                        second.FriendlyPluralTypeText);
+                            if (secondOrder == 1 && firstOrder > 2)
+                            {
+                                this.AddViolation(
+                                    first,
+                                    invalidElement.LineNumber,
+                                    Rules.StaticElementsMustAppearBeforeInstanceElements,
+                                    OrderingRules.AccessModifierTypeString(first.Declaration.AccessModifierType),
+                                    first.FriendlyPluralTypeText,
+                                    OrderingRules.AccessModifierTypeString(second.Declaration.AccessModifierType),
+                                    second.FriendlyPluralTypeText);
 
-                                    return false;
-                                }
+                                return false;
+                            }
 
-                                if (secondOrder == 1 && firstOrder > 2)
-                                {
-                                    this.AddViolation(
-                                        first,
-                                        invalidElement.LineNumber,
-                                        Rules.StaticElementsMustAppearBeforeInstanceElements,
-                                        OrderingRules.AccessModifierTypeString(first.Declaration.AccessModifierType),
-                                        first.FriendlyPluralTypeText,
-                                        OrderingRules.AccessModifierTypeString(second.Declaration.AccessModifierType),
-                                        second.FriendlyPluralTypeText);
+                            // Static non-Readonly fields are next
+                            if (secondOrder == 2 && firstOrder > 2)
+                            {
+                                this.AddViolation(
+                                    first,
+                                    invalidElement.LineNumber,
+                                    Rules.StaticElementsMustAppearBeforeInstanceElements,
+                                    OrderingRules.AccessModifierTypeString(first.Declaration.AccessModifierType),
+                                    first.FriendlyPluralTypeText,
+                                    OrderingRules.AccessModifierTypeString(second.Declaration.AccessModifierType),
+                                    second.FriendlyPluralTypeText);
 
-                                    return false;
-                                }
+                                return false;
+                            }
 
-                                ////   0  const
-                                ////   1  static readonly
-                                ////   2  static non-readonly
-                                ////   3  instance readonly
-                                ////   4  instance non-readonly
+                            // instance readonly
+                            if (secondOrder == 3 && firstOrder > 3)
+                            {
+                                this.AddViolation(
+                                    first,
+                                    invalidElement.LineNumber,
+                                    Rules.InstanceReadonlyElementsMustAppearBeforeInstanceNonReadonlyElements,
+                                    OrderingRules.AccessModifierTypeString(first.Declaration.AccessModifierType),
+                                    first.FriendlyPluralTypeText,
+                                    OrderingRules.AccessModifierTypeString(second.Declaration.AccessModifierType),
+                                    second.FriendlyPluralTypeText);
 
-                                // Static non-Readonly fields are next
-                                if (secondOrder == 2 && firstOrder > 2)
-                                {
-                                    this.AddViolation(
-                                        first,
-                                        invalidElement.LineNumber,
-                                        Rules.StaticElementsMustAppearBeforeInstanceElements,
-                                        OrderingRules.AccessModifierTypeString(first.Declaration.AccessModifierType),
-                                        first.FriendlyPluralTypeText,
-                                        OrderingRules.AccessModifierTypeString(second.Declaration.AccessModifierType),
-                                        second.FriendlyPluralTypeText);
-
-                                    return false;
-                                }
-
-                                ////   0  const
-                                ////   1  static readonly
-                                ////   2  static non-readonly
-                                ////   3  instance readonly
-                                ////   4  instance non-readonly 
-                                if (secondOrder == 3 && firstOrder > 3)
-                                {
-                                    this.AddViolation(
-                                        first,
-                                        invalidElement.LineNumber,
-                                        Rules.InstanceReadonlyElementsMustAppearBeforeInstanceNonReadonlyElements,
-                                        OrderingRules.AccessModifierTypeString(first.Declaration.AccessModifierType),
-                                        first.FriendlyPluralTypeText,
-                                        OrderingRules.AccessModifierTypeString(second.Declaration.AccessModifierType),
-                                        second.FriendlyPluralTypeText);
-
-                                    return false;
-                                }
-                            
-
-                            // Check to make sure that static items come before non-static items 
-                            ////if (!first.Declaration.ContainsModifier(CsTokenType.Static) && second.Declaration.ContainsModifier(CsTokenType.Static))
-                            ////{
-                            ////    this.AddViolation(
-                            ////        first,
-                            ////        invalidElement.LineNumber,
-                            ////        Rules.StaticElementsMustAppearBeforeInstanceElements,
-                            ////        OrderingRules.AccessModifierTypeString(first.Declaration.AccessModifierType),
-                            ////        first.FriendlyPluralTypeText,
-                            ////        OrderingRules.AccessModifierTypeString(second.Declaration.AccessModifierType),
-                            ////        second.FriendlyPluralTypeText);
-
-                            ////    return false;
-                            ////}
-
-                            ////// Check to make sure they are now both not static
-                            ////if (!first.Declaration.ContainsModifier(CsTokenType.Static) && !second.Declaration.ContainsModifier(CsTokenType.Static))
-                            ////{
-                            ////    Field firstVariable = first as Field;
-                            ////    Field secondVariable = second as Field;
-
-                            ////    if (firstVariable != null && secondVariable != null)
-                            ////    {
-                            ////        // Check to make sure that constant and readonly items come before non-constant, non-readonly items
-                            ////        if ((secondVariable.Const || secondVariable.Readonly) && !(firstVariable.Const || firstVariable.Readonly))
-                            ////        {
-                            ////            this.AddViolation(
-                            ////                first,
-                            ////                invalidElement.LineNumber,
-                            ////                Rules.ConstantsMustAppearBeforeFields,
-                            ////                OrderingRules.AccessModifierTypeString(first.Declaration.AccessModifierType),
-                            ////                first.FriendlyPluralTypeText,
-                            ////                OrderingRules.AccessModifierTypeString(second.Declaration.AccessModifierType),
-                            ////                second.FriendlyPluralTypeText);
-
-                            ////            return false;
-                            ////        }
-                            ////    }
-                            ////}
+                                return false;
+                            }
                         }
-                        else if (first.ElementType == ElementType.Constructor && 
-                            second.ElementType == ElementType.Constructor && 
-                            second.Declaration.ContainsModifier(CsTokenType.Static) &&
-                            !first.Declaration.ContainsModifier(CsTokenType.Static))
+                        else if (first.ElementType == ElementType.Constructor && second.ElementType == ElementType.Constructor
+                                 && second.Declaration.ContainsModifier(CsTokenType.Static) && !first.Declaration.ContainsModifier(CsTokenType.Static))
                         {
                             // If we have 2 constructors and the second one is static then they're in the wrong order, since static 
                             // constructors must always come in front of all instance constructors.
                             this.AddViolation(
-                                   first,
-                                   invalidElement.LineNumber,
-                                   Rules.StaticElementsMustAppearBeforeInstanceElements,
-                                   OrderingRules.AccessModifierTypeString(first.Declaration.AccessModifierType),
-                                   first.FriendlyPluralTypeText,
-                                   OrderingRules.AccessModifierTypeString(second.Declaration.AccessModifierType),
-                                   second.FriendlyPluralTypeText);
+                                first,
+                                invalidElement.LineNumber,
+                                Rules.StaticElementsMustAppearBeforeInstanceElements,
+                                OrderingRules.AccessModifierTypeString(first.Declaration.AccessModifierType),
+                                first.FriendlyPluralTypeText,
+                                OrderingRules.AccessModifierTypeString(second.Declaration.AccessModifierType),
+                                second.FriendlyPluralTypeText);
 
                             return false;
                         }
@@ -646,36 +617,6 @@ namespace StyleCop.CSharp
             }
 
             return true;
-        }
-
-        private static int GetElementOrder(CsElement first)
-        {
-            Param.AssertNotNull(first,"first");
-
-            bool isReadonly = first.Declaration.ContainsModifier(CsTokenType.Readonly);
-            bool isStatic = first.Declaration.ContainsModifier(CsTokenType.Static);
-
-            if (first.Declaration.ContainsModifier(CsTokenType.Const))
-            {
-                return 0;
-            }
-
-            if (isStatic && isReadonly)
-            {
-                return 1;
-            }
-            
-            if (isStatic)
-            {
-                return 2;
-            }
-            
-            if (isReadonly)
-            {
-                return 3;
-            }
-
-            return 4;
         }
 
         /// <summary>

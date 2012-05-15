@@ -2498,7 +2498,6 @@ namespace StyleCop.CSharp
 
                     break;
                 }
-
             }
             
             return partial;
