@@ -2479,7 +2479,8 @@ namespace StyleCop.CSharp
                 else if (element.ElementType == ElementType.Class || 
                          element.ElementType == ElementType.Interface ||
                          element.ElementType == ElementType.Struct ||
-                         element.ElementType == ElementType.Delegate)
+                         element.ElementType == ElementType.Delegate ||
+                         element.ElementType == ElementType.Enum)
                 {
                     if (element.Declaration.ContainsModifier(CsTokenType.Partial))
                     {
@@ -2488,13 +2489,16 @@ namespace StyleCop.CSharp
 
                     firstTypeName = element.FullyQualifiedName.SubstringAfterLast('.');
                     firstTypeElementType = element.ElementType;
+                    
+                    // If we've found an enum or delegate keep checking if there are more elements defined.
+                    if (((CsElement)element.Parent).ChildElements.Count > 1 && (element.ElementType == ElementType.Delegate || element.ElementType == ElementType.Enum))
+                    {
+                        continue;
+                    }
+
                     break;
                 }
-                else if (element.ElementType == ElementType.Delegate || element.ElementType == ElementType.Enum)
-                {
-                    firstTypeName = element.FullyQualifiedName.SubstringAfterLast('.');
-                    firstTypeElementType = element.ElementType;
-                }
+
             }
             
             return partial;
