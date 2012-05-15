@@ -59,10 +59,10 @@ namespace ElementOrderStatics1
         // Incorrect order.
         public bool Property1
         {
-            get { return true; }
+            get { return true; } //4
         }
 
-        public static bool Property2
+        public static bool Property2 //2
         {
             get { return true; }
         }
@@ -99,13 +99,13 @@ namespace ElementOrderStatics1
     public class Class9
     {
         //correct order
+        private const int constantField = 1;
+        
         private static readonly int staticReadonly = 1;
 
         private static int staticNonReadonly;
 
         private readonly int nonStaticReadonly = 1;
-
-        private const int constantField = 1;
 
         private int regularField = 1;
     }

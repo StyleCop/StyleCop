@@ -96,7 +96,7 @@ namespace StyleCop.CSharp
 
             this.type = fieldType;
 
-            // Determine whether the item is const or readonly.
+            // Determine whether the item is const /readonly / static.
             this.isConst = this.Declaration.ContainsModifier(CsTokenType.Const);
             this.isReadOnly = this.Declaration.ContainsModifier(CsTokenType.Readonly);
             this.isStatic = this.Declaration.ContainsModifier(CsTokenType.Static);

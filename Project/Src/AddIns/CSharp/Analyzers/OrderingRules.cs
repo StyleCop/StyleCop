@@ -490,49 +490,138 @@ namespace StyleCop.CSharp
                         else if (first.Declaration.AccessModifierType == second.Declaration.AccessModifierType)
                         {
                             // order should be :
-                            //      static readonly / static non-readonly
-                            //      const/readonly
-                            //      instance fields
-                         
-                            // Check to make sure that static items come before non-static items 
-                            if (!first.Declaration.ContainsModifier(CsTokenType.Static) && second.Declaration.ContainsModifier(CsTokenType.Static))
-                            {
-                                this.AddViolation(
-                                    first,
-                                    invalidElement.LineNumber,
-                                    Rules.StaticElementsMustAppearBeforeInstanceElements,
-                                    OrderingRules.AccessModifierTypeString(first.Declaration.AccessModifierType),
-                                    first.FriendlyPluralTypeText,
-                                    OrderingRules.AccessModifierTypeString(second.Declaration.AccessModifierType),
-                                    second.FriendlyPluralTypeText);
+                            ////   0  const
+                            ////   1  static readonly
+                            ////   2  static non-readonly
+                            ////   3  instance readonly
+                            ////   4  instance non-readonly
 
-                                return false;
-                            }
+                            
+                                int firstOrder = GetElementOrder(first);
+                                int secondOrder = GetElementOrder(second);
 
-                            // Check to make sure they are now both not static
-                            if (!first.Declaration.ContainsModifier(CsTokenType.Static) && !second.Declaration.ContainsModifier(CsTokenType.Static))
-                            {
-                                Field firstVariable = first as Field;
-                                Field secondVariable = second as Field;
-
-                                if (firstVariable != null && secondVariable != null)
+                                // Check to make sure that constant are first
+                                if (secondOrder == 0 && firstOrder > 0)
                                 {
-                                    // Check to make sure that constant and readonly items come before non-constant, non-readonly items
-                                    if ((secondVariable.Const || secondVariable.Readonly) && !(firstVariable.Const || firstVariable.Readonly))
-                                    {
-                                        this.AddViolation(
-                                            first,
-                                            invalidElement.LineNumber,
-                                            Rules.ConstantsMustAppearBeforeFields,
-                                            OrderingRules.AccessModifierTypeString(first.Declaration.AccessModifierType),
-                                            first.FriendlyPluralTypeText,
-                                            OrderingRules.AccessModifierTypeString(second.Declaration.AccessModifierType),
-                                            second.FriendlyPluralTypeText);
-
-                                        return false;
-                                    }
+                                    this.AddViolation(first, invalidElement.LineNumber, Rules.ConstantsMustAppearBeforeFields);
+                                    return false;
                                 }
-                            }
+
+                                ////   0  const
+                                ////   1  static readonly
+                                ////   2  static non-readonly
+                                ////   3  instance readonly
+                                ////   4  instance non-readonly
+
+                                // Static Readonly fields are next
+                                if (secondOrder == 1 && firstOrder == 2)
+                                {
+                                    this.AddViolation(
+                                        first,
+                                        invalidElement.LineNumber,
+                                        Rules.StaticReadonlyElementsMustAppearBeforeStaticNonReadonlyElements,
+                                        OrderingRules.AccessModifierTypeString(first.Declaration.AccessModifierType),
+                                        first.FriendlyPluralTypeText,
+                                        OrderingRules.AccessModifierTypeString(second.Declaration.AccessModifierType),
+                                        second.FriendlyPluralTypeText);
+
+                                    return false;
+                                }
+
+                                if (secondOrder == 1 && firstOrder > 2)
+                                {
+                                    this.AddViolation(
+                                        first,
+                                        invalidElement.LineNumber,
+                                        Rules.StaticElementsMustAppearBeforeInstanceElements,
+                                        OrderingRules.AccessModifierTypeString(first.Declaration.AccessModifierType),
+                                        first.FriendlyPluralTypeText,
+                                        OrderingRules.AccessModifierTypeString(second.Declaration.AccessModifierType),
+                                        second.FriendlyPluralTypeText);
+
+                                    return false;
+                                }
+
+                                ////   0  const
+                                ////   1  static readonly
+                                ////   2  static non-readonly
+                                ////   3  instance readonly
+                                ////   4  instance non-readonly
+
+                                // Static non-Readonly fields are next
+                                if (secondOrder == 2 && firstOrder > 2)
+                                {
+                                    this.AddViolation(
+                                        first,
+                                        invalidElement.LineNumber,
+                                        Rules.StaticElementsMustAppearBeforeInstanceElements,
+                                        OrderingRules.AccessModifierTypeString(first.Declaration.AccessModifierType),
+                                        first.FriendlyPluralTypeText,
+                                        OrderingRules.AccessModifierTypeString(second.Declaration.AccessModifierType),
+                                        second.FriendlyPluralTypeText);
+
+                                    return false;
+                                }
+
+                                ////   0  const
+                                ////   1  static readonly
+                                ////   2  static non-readonly
+                                ////   3  instance readonly
+                                ////   4  instance non-readonly 
+                                if (secondOrder == 3 && firstOrder > 3)
+                                {
+                                    this.AddViolation(
+                                        first,
+                                        invalidElement.LineNumber,
+                                        Rules.InstanceReadonlyElementsMustAppearBeforeInstanceNonReadonlyElements,
+                                        OrderingRules.AccessModifierTypeString(first.Declaration.AccessModifierType),
+                                        first.FriendlyPluralTypeText,
+                                        OrderingRules.AccessModifierTypeString(second.Declaration.AccessModifierType),
+                                        second.FriendlyPluralTypeText);
+
+                                    return false;
+                                }
+                            
+
+                            // Check to make sure that static items come before non-static items 
+                            ////if (!first.Declaration.ContainsModifier(CsTokenType.Static) && second.Declaration.ContainsModifier(CsTokenType.Static))
+                            ////{
+                            ////    this.AddViolation(
+                            ////        first,
+                            ////        invalidElement.LineNumber,
+                            ////        Rules.StaticElementsMustAppearBeforeInstanceElements,
+                            ////        OrderingRules.AccessModifierTypeString(first.Declaration.AccessModifierType),
+                            ////        first.FriendlyPluralTypeText,
+                            ////        OrderingRules.AccessModifierTypeString(second.Declaration.AccessModifierType),
+                            ////        second.FriendlyPluralTypeText);
+
+                            ////    return false;
+                            ////}
+
+                            ////// Check to make sure they are now both not static
+                            ////if (!first.Declaration.ContainsModifier(CsTokenType.Static) && !second.Declaration.ContainsModifier(CsTokenType.Static))
+                            ////{
+                            ////    Field firstVariable = first as Field;
+                            ////    Field secondVariable = second as Field;
+
+                            ////    if (firstVariable != null && secondVariable != null)
+                            ////    {
+                            ////        // Check to make sure that constant and readonly items come before non-constant, non-readonly items
+                            ////        if ((secondVariable.Const || secondVariable.Readonly) && !(firstVariable.Const || firstVariable.Readonly))
+                            ////        {
+                            ////            this.AddViolation(
+                            ////                first,
+                            ////                invalidElement.LineNumber,
+                            ////                Rules.ConstantsMustAppearBeforeFields,
+                            ////                OrderingRules.AccessModifierTypeString(first.Declaration.AccessModifierType),
+                            ////                first.FriendlyPluralTypeText,
+                            ////                OrderingRules.AccessModifierTypeString(second.Declaration.AccessModifierType),
+                            ////                second.FriendlyPluralTypeText);
+
+                            ////            return false;
+                            ////        }
+                            ////    }
+                            ////}
                         }
                         else if (first.ElementType == ElementType.Constructor && 
                             second.ElementType == ElementType.Constructor && 
@@ -557,6 +646,36 @@ namespace StyleCop.CSharp
             }
 
             return true;
+        }
+
+        private static int GetElementOrder(CsElement first)
+        {
+            Param.AssertNotNull(first,"first");
+
+            bool isReadonly = first.Declaration.ContainsModifier(CsTokenType.Readonly);
+            bool isStatic = first.Declaration.ContainsModifier(CsTokenType.Static);
+
+            if (first.Declaration.ContainsModifier(CsTokenType.Const))
+            {
+                return 0;
+            }
+
+            if (isStatic && isReadonly)
+            {
+                return 1;
+            }
+            
+            if (isStatic)
+            {
+                return 2;
+            }
+            
+            if (isReadonly)
+            {
+                return 3;
+            }
+
+            return 4;
         }
 
         /// <summary>

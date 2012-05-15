@@ -472,6 +472,14 @@
 <param name="Name" value="SA1213: EventAccessorsMustFollowOrder">
 <param name="Local" value="SA1213.html">
 </OBJECT>
+<LI><OBJECT type="text/sitemap">
+<param name="Name" value="SA1214: StaticReadonlyElementsMustAppearBeforeStaticNonReadonlyElements">
+<param name="Local" value="SA1214.html">
+</OBJECT>
+<LI><OBJECT type="text/sitemap">
+<param name="Name" value="SA1215: InstanceReadonlyElementsMustAppearBeforeInstanceNonReadonlyElements">
+<param name="Local" value="SA1215.html">
+</OBJECT>
 </UL>
 <LI><OBJECT type="text/sitemap">
 <param name="Name" value="Readability Rules">

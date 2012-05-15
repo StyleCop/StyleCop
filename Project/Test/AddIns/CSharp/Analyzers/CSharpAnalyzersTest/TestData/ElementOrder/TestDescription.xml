@@ -181,6 +181,16 @@
                 <BooleanProperty Name="Enabled">True</BooleanProperty>
               </RuleSettings>
             </Rule>
+            <Rule Name="StaticReadonlyElementsMustAppearBeforeStaticNonReadonlyElements">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="InstanceReadonlyElementsMustAppearBeforeInstanceNonReadonlyElements">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
           </Rules>
         </Analyzer>
       </Analyzers>
@@ -383,15 +393,25 @@
                 <BooleanProperty Name="Enabled">True</BooleanProperty>
               </RuleSettings>
             </Rule>
+            <Rule Name="StaticReadonlyElementsMustAppearBeforeStaticNonReadonlyElements">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="InstanceReadonlyElementsMustAppearBeforeInstanceNonReadonlyElements">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
           </Rules>
         </Analyzer>
       </Analyzers>
     </Settings>
     <ExpectedViolations>
       <Violation Section="Root.ElementOrderConstField1.Struct2.field1" LineNumber="14" Rule="ConstantsMustAppearBeforeFields" />
-      <Violation Section="Root.ElementOrderConstField1.Struct4.field1" LineNumber="30" Rule="ConstantsMustAppearBeforeFields" />
+      <Violation Section="Root.ElementOrderConstField1.Struct4.field1" LineNumber="30" Rule="InstanceReadonlyElementsMustAppearBeforeInstanceNonReadonlyElements" />
       <Violation Section="Root.ElementOrderConstField1.Class2.field1" LineNumber="62" Rule="ConstantsMustAppearBeforeFields" />
-      <Violation Section="Root.ElementOrderConstField1.Class4.field1" LineNumber="78" Rule="ConstantsMustAppearBeforeFields" />
+      <Violation Section="Root.ElementOrderConstField1.Class4.field1" LineNumber="78" Rule="InstanceReadonlyElementsMustAppearBeforeInstanceNonReadonlyElements" />
     </ExpectedViolations>
   </Test>
 
@@ -421,6 +441,16 @@
               </RuleSettings>
             </Rule>
             <Rule Name="StaticElementsMustAppearBeforeInstanceElements">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="StaticReadonlyElementsMustAppearBeforeStaticNonReadonlyElements">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="InstanceReadonlyElementsMustAppearBeforeInstanceNonReadonlyElements">
               <RuleSettings>
                 <BooleanProperty Name="Enabled">True</BooleanProperty>
               </RuleSettings>

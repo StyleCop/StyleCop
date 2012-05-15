@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<!-- Last updated 07.05.2012 -->
+<!-- Last updated 15.05.2012 -->
 <Patterns xmlns="urn:shemas-jetbrains-com:member-reordering-patterns">
 
   <!-- Do not reorder COM interfaces -->
@@ -48,7 +48,19 @@
       </Or>
     </Match>
 
-    <!-- static fields -->
+    <!-- Constants -->
+    <Entry>
+      <Match>
+        <Kind Is="constant"/>
+      </Match>
+      <Sort>
+        <Access Order="public internal protected-internal protected private"/>
+        <Name/>
+      </Sort>
+      <Group Region="Constants"/>
+    </Entry>
+
+    <!-- Static fields -->
     <Entry>
       <Match>
         <And>
@@ -64,21 +76,17 @@
       <Group Region="Static Fields"/>
     </Entry>
 
-    <!-- constants and fields -->
+    <!-- Fields -->
     <Entry>
       <Match>
-        <Or>
-          <Kind Is="constant"/>
-          <Kind Is="field"/>
-        </Or>
+        <Kind Is="field"/>
       </Match>
       <Sort>
         <Access Order="public internal protected-internal protected private"/>
-        <Kind Order="constant field"/>
         <Readonly/>
         <Name/>
       </Sort>
-      <Group Region="Constants and Fields"/>
+      <Group Region="Fields"/>
     </Entry>
 
     <!-- constructors and destructors -->

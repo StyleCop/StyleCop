@@ -35,9 +35,9 @@ namespace ElementOrderConstField1
     // Correct placement.
     public struct Struct5
     {
-        private readonly int field1 = 0;
-
         private const int field2 = 0;
+
+        private readonly int field1 = 0;
     }
 
     // Correct placement.
@@ -83,9 +83,9 @@ namespace ElementOrderConstField1
     // Correct placement.
     public class Class5
     {
-        private readonly int field1 = 0;
+        private const int field1 = 0;
 
-        private const int field2 = 0;
+        private readonly int field2 = 0;
     }
 
     // Correct placement.

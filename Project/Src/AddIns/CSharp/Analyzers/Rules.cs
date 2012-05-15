@@ -840,6 +840,16 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Ensures the file header filename attribute matches the name of the type in the file.
         /// </summary>
-        FileHeaderFileNameDocumentationMustMatchTypeName
+        FileHeaderFileNameDocumentationMustMatchTypeName,
+
+        /// <summary>
+        /// Validates that all static readonly elements are placed before all static non-readonly elements of the same type.
+        /// </summary>
+        StaticReadonlyElementsMustAppearBeforeStaticNonReadonlyElements,
+
+        /// <summary>
+        /// Validates that all non-static readonly elements are placed before non-static non-readonly elements of the same type.
+        /// </summary>
+        InstanceReadonlyElementsMustAppearBeforeInstanceNonReadonlyElements
     }
 }

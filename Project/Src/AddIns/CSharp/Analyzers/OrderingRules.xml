@@ -26,8 +26,8 @@
         <Description>Validates that elements of the same type are placed in order by access.</Description>
       </Rule>
       <Rule Name="ConstantsMustAppearBeforeFields" CheckId="SA1203">
-        <Context>All constant and readonly {0} {1} must be placed before all non-constant, non-readonly {2} {3}.</Context>
-        <Description>Validates that all constant and readonly elements are placed before non-constant, non readonly elements of the same type.</Description>
+        <Context>All constants must be placed before all non-constants.</Context>
+        <Description>Validates that all constant elements are placed before non-constant elements of the same type.</Description>
       </Rule>
       <Rule Name="StaticElementsMustAppearBeforeInstanceElements" CheckId="SA1204">
         <Context>All static {0} {1} must be placed before all non-static {2} {3}.</Context>
@@ -55,6 +55,14 @@
       <Rule Name="EventAccessorsMustFollowOrder" CheckId="SA1213">
         <Context>An add-accessor within an event must be placed before a remove-accessor.</Context>
         <Description>Verifies that add-accessors are placed before remove-accessors within events.</Description>
+      </Rule>
+      <Rule Name="StaticReadonlyElementsMustAppearBeforeStaticNonReadonlyElements" CheckId="SA1214">
+        <Context>All static readonly {0} {1} must be placed before all static non-readonly {2} {3}.</Context>
+        <Description>Validates that all static readonly elements are placed before all static non-readonly elements of the same type.</Description>
+      </Rule>
+      <Rule Name="InstanceReadonlyElementsMustAppearBeforeInstanceNonReadonlyElements" CheckId="SA1215">
+        <Context>All non-static readonly {0} {1} must be placed before all non-static non-readonly {2} {3}.</Context>
+        <Description>Validates that all non-static readonly elements are placed before non-static non-readonly elements of the same type.</Description>
       </Rule>
     </RuleGroup>
     <RuleGroup Name="Using Directives">
