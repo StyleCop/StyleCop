@@ -42,7 +42,7 @@ namespace StyleCop.ReSharper513.Options
     #endregion
 
     /// <summary>
-    /// Options page to allow the plugins options to be set from within the Resharper Options window.
+    ///   Options page to allow the plugins options to be set from within the Resharper Options window.
     /// </summary>
     [OptionsPage(PageName, "StyleCop", "StyleCop.ReSharper513.Resources.StyleCop.png", ParentId = "Tools")]
     public partial class StyleCopOptionsPage : UserControl, IOptionsPage
@@ -50,7 +50,7 @@ namespace StyleCop.ReSharper513.Options
         #region Constants
 
         /// <summary>
-        /// The unique name of this options page.
+        ///   The unique name of this options page.
         /// </summary>
         public const string PageName = "StyleCop.StyleCopOptionsPage";
 
@@ -59,15 +59,15 @@ namespace StyleCop.ReSharper513.Options
         #region Static Fields
 
         /// <summary>
-        /// The order of modifiers for StyleCop.
+        ///   The order of modifiers for StyleCop.
         /// </summary>
         private static readonly string[] modifiersOrder = new[]
             {
-               "public", "protected", "internal", "private", "static", "new", "abstract", "virtual", "override", "sealed", "readonly", "extern", "unsafe", "volatile" 
+                "public", "protected", "internal", "private", "static", "new", "abstract", "virtual", "override", "sealed", "readonly", "extern", "unsafe", "volatile"
             };
 
         /// <summary>
-        /// The instance of this options page.
+        ///   The instance of this options page.
         /// </summary>
         private static StyleCopOptionsPage instance;
 
@@ -76,12 +76,12 @@ namespace StyleCop.ReSharper513.Options
         #region Fields
 
         /// <summary>
-        /// Reference to the IOptionsDialog that opened our page.
+        ///   Reference to the IOptionsDialog that opened our page.
         /// </summary>
         private readonly IOptionsDialog dialog;
 
         /// <summary>
-        /// The currently open solution.
+        ///   The currently open solution.
         /// </summary>
         private ISolution solution;
 
@@ -90,11 +90,9 @@ namespace StyleCop.ReSharper513.Options
         #region Constructors and Destructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="StyleCopOptionsPage"/> class.
+        ///   Initializes a new instance of the <see cref="StyleCopOptionsPage" /> class.
         /// </summary>
-        /// <param name="dialog">
-        /// The options dialog reference opening our page. 
-        /// </param>
+        /// <param name="dialog"> The options dialog reference opening our page. </param>
         public StyleCopOptionsPage(IOptionsDialog dialog)
         {
             instance = this;
@@ -119,11 +117,9 @@ namespace StyleCop.ReSharper513.Options
         #region Public Properties
 
         /// <summary>
-        /// Gets the instance.
+        ///   Gets the instance.
         /// </summary>
-        /// <value>
-        /// The instance. 
-        /// </value>
+        /// <value> The instance. </value>
         public static StyleCopOptionsPage Instance
         {
             get
@@ -133,10 +129,9 @@ namespace StyleCop.ReSharper513.Options
         }
 
         /// <summary>
-        /// Gets the Control to be shown as page.
+        ///   Gets the Control to be shown as page.
         /// </summary>
-        /// <value>
-        /// </value>
+        /// <value> </value>
         public Control Control
         {
             get
@@ -146,10 +141,11 @@ namespace StyleCop.ReSharper513.Options
         }
 
         /// <summary>
-        /// Gets the ID of this option page. <see cref="T:JetBrains.UI.Options.IOptionsDialog"/> or <see cref="T:JetBrains.UI.Options.OptionsPageDescriptor"/> could be used to retrieve the <see cref="T:JetBrains.UI.Options.OptionsManager"/> out of it.
+        ///   Gets the ID of this option page. <see cref="T:JetBrains.UI.Options.IOptionsDialog" /> or <see
+        ///    cref="T:JetBrains.UI.Options.OptionsPageDescriptor" /> could be used to retrieve the <see
+        ///    cref="T:JetBrains.UI.Options.OptionsManager" /> out of it.
         /// </summary>
-        /// <value>
-        /// </value>
+        /// <value> </value>
         public string Id
         {
             get
@@ -163,14 +159,10 @@ namespace StyleCop.ReSharper513.Options
         #region Public Methods and Operators
 
         /// <summary>
-        /// Confirms that the ReSharper code style options are all valid to ensure no StyleCop issues on cleanup.
+        ///   Confirms that the ReSharper code style options are all valid to ensure no StyleCop issues on cleanup.
         /// </summary>
-        /// <param name="solution">
-        /// The solution to use to validate the settings. 
-        /// </param>
-        /// <returns>
-        /// True if options are all valid, otherwise false. 
-        /// </returns>
+        /// <param name="solution"> The solution to use to validate the settings. </param>
+        /// <returns> True if options are all valid, otherwise false. </returns>
         public static bool CodeStyleOptionsValid(ISolution solution)
         {
             CodeStyleSettings settings = solution == null
@@ -1512,11 +1504,9 @@ namespace StyleCop.ReSharper513.Options
         }
 
         /// <summary>
-        /// Resets the CodeStyleOptions to be StyleCop compatible.
+        ///   Resets the CodeStyleOptions to be StyleCop compatible.
         /// </summary>
-        /// <param name="solution">
-        /// The solution to reset. 
-        /// </param>
+        /// <param name="solution"> The solution to reset. </param>
         public static void ResetCodeStyleOptions(ISolution solution)
         {
             CodeStyleSettings settings = solution == null
@@ -1867,7 +1857,7 @@ namespace StyleCop.ReSharper513.Options
         }
 
         /// <summary>
-        /// Commits this instance.
+        ///   Commits this instance.
         /// </summary>
         public void Commit()
         {
@@ -1909,7 +1899,7 @@ namespace StyleCop.ReSharper513.Options
         }
 
         /// <summary>
-        /// Displays this instance.
+        ///   Displays this instance.
         /// </summary>
         public void Display()
         {
@@ -1941,11 +1931,9 @@ namespace StyleCop.ReSharper513.Options
         }
 
         /// <summary>
-        /// Invoked when OK button in the options dialog is pressed If the page returns <c>False.</c> , the the options dialog won't be closed, and focus will be put into this page.
+        ///   Invoked when OK button in the options dialog is pressed If the page returns <c>False.</c> , the the options dialog won't be closed, and focus will be put into this page.
         /// </summary>
-        /// <returns>
-        /// Returns a boolean to represent if the page should be closed. 
-        /// </returns>
+        /// <returns> Returns a boolean to represent if the page should be closed. </returns>
         public bool OnOk()
         {
             if (this.solution == null)
@@ -1963,11 +1951,9 @@ namespace StyleCop.ReSharper513.Options
         }
 
         /// <summary>
-        /// Check if the settings on the page are consistent, and page could be closed.
+        ///   Check if the settings on the page are consistent, and page could be closed.
         /// </summary>
-        /// <returns>
-        /// <c>True.</c> if page data is consistent. 
-        /// </returns>
+        /// <returns> <c>True.</c> if page data is consistent. </returns>
         public bool ValidatePage()
         {
             if (this.solution == null)
@@ -2008,11 +1994,9 @@ namespace StyleCop.ReSharper513.Options
         #region Methods
 
         /// <summary>
-        /// Raises the <see cref="E:System.Windows.Forms.UserControl.Load"/> event.
+        ///   Raises the <see cref="E:System.Windows.Forms.UserControl.Load" /> event.
         /// </summary>
-        /// <param name="e">
-        /// An <see cref="T:System.EventArgs"/> that contains the event data. 
-        /// </param>
+        /// <param name="e"> An <see cref="T:System.EventArgs" /> that contains the event data. </param>
         protected override void OnLoad(EventArgs e)
         {
             if (this.solution != null)
@@ -2027,26 +2011,14 @@ namespace StyleCop.ReSharper513.Options
         }
 
         /// <summary>
-        /// Returns a setting for the profile, descriptor and property name supplied.
+        ///   Returns a setting for the profile, descriptor and property name supplied.
         /// </summary>
-        /// <typeparam name="T">
-        /// The return type. 
-        /// </typeparam>
-        /// <param name="codeCleanup">
-        /// The CodeCleanup object to use. 
-        /// </param>
-        /// <param name="profile">
-        /// The Cleanup profile to set. 
-        /// </param>
-        /// <param name="descriptorName">
-        /// The name to match. 
-        /// </param>
-        /// <param name="propertyName">
-        /// The property name to match. 
-        /// </param>
-        /// <returns>
-        /// The property value. 
-        /// </returns>
+        /// <typeparam name="T"> The return type. </typeparam>
+        /// <param name="codeCleanup"> The CodeCleanup object to use. </param>
+        /// <param name="profile"> The Cleanup profile to set. </param>
+        /// <param name="descriptorName"> The name to match. </param>
+        /// <param name="propertyName"> The property name to match. </param>
+        /// <returns> The property value. </returns>
         private static T GetCodeCleanupProfileSetting<T>(CodeCleanup codeCleanup, CodeCleanupProfile profile, string descriptorName, string propertyName)
         {
             var cleanupOptionDescriptor = GetDescriptor(codeCleanup, descriptorName);
@@ -2067,17 +2039,11 @@ namespace StyleCop.ReSharper513.Options
         }
 
         /// <summary>
-        /// Gets a CleanupOptionsDescriptor matching the descriptor name passed in.
+        ///   Gets a CleanupOptionsDescriptor matching the descriptor name passed in.
         /// </summary>
-        /// <param name="codeCleanup">
-        /// The CodeCleanup object to use. 
-        /// </param>
-        /// <param name="descriptorName">
-        /// The name to match. 
-        /// </param>
-        /// <returns>
-        /// The CodeCleanupOptionDescriptor for the descriptor. 
-        /// </returns>
+        /// <param name="codeCleanup"> The CodeCleanup object to use. </param>
+        /// <param name="descriptorName"> The name to match. </param>
+        /// <returns> The CodeCleanupOptionDescriptor for the descriptor. </returns>
         private static CodeCleanupOptionDescriptor GetDescriptor(CodeCleanup codeCleanup, string descriptorName)
         {
             foreach (ICodeCleanupModule module in codeCleanup.Modules)
@@ -2098,17 +2064,11 @@ namespace StyleCop.ReSharper513.Options
         }
 
         /// <summary>
-        /// Geta a PropertyInfo object matching the descriptor and the property name supplied.
+        ///   Geta a PropertyInfo object matching the descriptor and the property name supplied.
         /// </summary>
-        /// <param name="descriptor">
-        /// The name to match. 
-        /// </param>
-        /// <param name="propertyName">
-        /// The property name to match. 
-        /// </param>
-        /// <returns>
-        /// A PropertyInfo matching. 
-        /// </returns>
+        /// <param name="descriptor"> The name to match. </param>
+        /// <param name="propertyName"> The property name to match. </param>
+        /// <returns> A PropertyInfo matching. </returns>
         private static PropertyInfo GetPropertyInfo(CodeCleanupOptionDescriptor descriptor, string propertyName)
         {
             return (from info in descriptor.Type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
@@ -2118,23 +2078,13 @@ namespace StyleCop.ReSharper513.Options
         }
 
         /// <summary>
-        /// Sets a CodeCleanupProfile setting for the profile, descriptor and property name passed in.
+        ///   Sets a CodeCleanupProfile setting for the profile, descriptor and property name passed in.
         /// </summary>
-        /// <param name="codeCleanup">
-        /// The CodeCleanup object to use. 
-        /// </param>
-        /// <param name="profile">
-        /// The Cleanup profile to set. 
-        /// </param>
-        /// <param name="descriptorName">
-        /// The descriptor name to match. 
-        /// </param>
-        /// <param name="propertyName">
-        /// The property name to match. 
-        /// </param>
-        /// <param name="value">
-        /// The new value. 
-        /// </param>
+        /// <param name="codeCleanup"> The CodeCleanup object to use. </param>
+        /// <param name="profile"> The Cleanup profile to set. </param>
+        /// <param name="descriptorName"> The descriptor name to match. </param>
+        /// <param name="propertyName"> The property name to match. </param>
+        /// <param name="value"> The new value. </param>
         private static void SetCodeCleanupProfileSetting(CodeCleanup codeCleanup, CodeCleanupProfile profile, string descriptorName, string propertyName, object value)
         {
             var cleanupOptionDescriptor = GetDescriptor(codeCleanup, descriptorName);
@@ -2163,14 +2113,10 @@ namespace StyleCop.ReSharper513.Options
         }
 
         /// <summary>
-        /// Handles the CheckedChanged event of the AutoDetectCheckBox control.
+        ///   Handles the CheckedChanged event of the AutoDetectCheckBox control.
         /// </summary>
-        /// <param name="sender">
-        /// The source of the event. 
-        /// </param>
-        /// <param name="e">
-        /// The <see cref="System.EventArgs"/> instance containing the event data. 
-        /// </param>
+        /// <param name="sender"> The source of the event. </param>
+        /// <param name="e"> The <see cref="System.EventArgs" /> instance containing the event data. </param>
         private void AutoDetectCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             if (this.autoDetectCheckBox.Checked)
@@ -2192,14 +2138,10 @@ namespace StyleCop.ReSharper513.Options
         }
 
         /// <summary>
-        /// Handles the Click event of the BrowseButton control.
+        ///   Handles the Click event of the BrowseButton control.
         /// </summary>
-        /// <param name="sender">
-        /// The source of the event. 
-        /// </param>
-        /// <param name="e">
-        /// The <see cref="System.EventArgs"/> instance containing the event data. 
-        /// </param>
+        /// <param name="sender"> The source of the event. </param>
+        /// <param name="e"> The <see cref="System.EventArgs" /> instance containing the event data. </param>
         private void BrowseButton_Click(object sender, EventArgs e)
         {
             this.ShowFileDialog();
@@ -2225,14 +2167,14 @@ namespace StyleCop.ReSharper513.Options
         {
             ResetCodeStyleOptions(this.dialog.DataContext.GetData(DataConstants.SOLUTION));
             MessageBox.Show(
-                @"C# code style options have been set in order to fix StyleCop violations. Your UserSettings.xml will be saved when you exit Visual Studio.", 
-                @"StyleCop", 
+                @"C# code style options have been set in order to fix StyleCop violations. Your UserSettings.xml will be saved when you exit Visual Studio.",
+                @"StyleCop",
                 MessageBoxButtons.OK);
             this.resetFormatOptionsButton.Enabled = false;
         }
 
         /// <summary>
-        /// Shows the detected assembly location.
+        ///   Shows the detected assembly location.
         /// </summary>
         private void ShowDetectedAssemblyLocation()
         {
@@ -2252,7 +2194,7 @@ namespace StyleCop.ReSharper513.Options
         }
 
         /// <summary>
-        /// Shows the file dialog.
+        ///   Shows the file dialog.
         /// </summary>
         private void ShowFileDialog()
         {
@@ -2275,7 +2217,7 @@ namespace StyleCop.ReSharper513.Options
         }
 
         /// <summary>
-        /// Shows the specified assembly location.
+        ///   Shows the specified assembly location.
         /// </summary>
         private void ShowSpecifiedAssemblyLocation()
         {

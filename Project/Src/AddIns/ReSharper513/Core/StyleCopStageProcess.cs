@@ -35,17 +35,17 @@ namespace StyleCop.ReSharper513.Core
     #endregion
 
     /// <summary>
-    /// Stage Process that execute the Microsoft StyleCop against the specified file.
+    ///   Stage Process that execute the Microsoft StyleCop against the specified file.
     /// </summary>
     /// <remarks>
-    /// This type is created and executed every time a .cs file is modified in the IDE.
+    ///   This type is created and executed every time a .cs file is modified in the IDE.
     /// </remarks>
     public class StyleCopStageProcess : IDaemonStageProcess
     {
         #region Constants
 
         /// <summary>
-        /// Defines the max performance value - this is used to reverse the settings.
+        ///   Defines the max performance value - this is used to reverse the settings.
         /// </summary>
         private const int MaxPerformanceValue = 9;
 
@@ -54,12 +54,12 @@ namespace StyleCop.ReSharper513.Core
         #region Static Fields
 
         /// <summary>
-        /// First run flag.
+        ///   First run flag.
         /// </summary>
         private static bool firstRunFlag = true;
 
         /// <summary>
-        /// Used to reduce the number of calls to StyleCop to help with perfromance.
+        ///   Used to reduce the number of calls to StyleCop to help with perfromance.
         /// </summary>
         private static Stopwatch performanceStopWatch;
 
@@ -76,11 +76,9 @@ namespace StyleCop.ReSharper513.Core
         #region Constructors and Destructors
 
         /// <summary>
-        /// Initializes a new instance of the StyleCopStageProcess class, using the specified <see cref="IDaemonProcess"/> .
+        ///   Initializes a new instance of the StyleCopStageProcess class, using the specified <see cref="IDaemonProcess" /> .
         /// </summary>
-        /// <param name="daemonProcess">
-        /// <see cref="IDaemonProcess"/> to execute within. 
-        /// </param>
+        /// <param name="daemonProcess"> <see cref="IDaemonProcess" /> to execute within. </param>
         public StyleCopStageProcess(IDaemonProcess daemonProcess)
         {
             StyleCopTrace.In(daemonProcess);
@@ -96,11 +94,9 @@ namespace StyleCop.ReSharper513.Core
         #region Public Methods and Operators
 
         /// <summary>
-        /// The execute.
+        ///   The execute.
         /// </summary>
-        /// <param name="commiter">
-        /// The commiter. 
-        /// </param>
+        /// <param name="commiter"> The commiter. </param>
         public void Execute(Action<DaemonStageResult> commiter)
         {
             StyleCopTrace.In();
@@ -148,7 +144,7 @@ namespace StyleCop.ReSharper513.Core
         #region Methods
 
         /// <summary>
-        /// Initialises the static timers used to regulate performance of file scavenging and execution of StyleCop analysis.
+        ///   Initialises the static timers used to regulate performance of file scavenging and execution of StyleCop analysis.
         /// </summary>
         private static void InitialiseTimers()
         {
@@ -160,7 +156,7 @@ namespace StyleCop.ReSharper513.Core
         }
 
         /// <summary>
-        /// Resets the Performance Stopwatch.
+        ///   Resets the Performance Stopwatch.
         /// </summary>
         private static void ResetPerformanceStopWatch()
         {
