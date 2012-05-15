@@ -1652,10 +1652,7 @@ namespace StyleCop
             int threadCount = 1;
             #else
             // Create a maximum of two worker threads.
-            // int threadCount = Math.Min(GetCpuCount(), 2);
-
-            // To avoid threading issues we're moving back to 1 thread
-            int threadCount = 1;
+            int threadCount = Math.Min(GetCpuCount(), 2);
             #endif
 
             try
@@ -1680,20 +1677,14 @@ namespace StyleCop
                     resultsCache = new ResultsCache(this);
                 }
 
-                StyleCopTrace.Info("about to create data object");
-                
                 // Create a data object which will passed to each worker.
                 StyleCopThread.Data data = new StyleCopThread.Data(
                     this, projects, resultsCache, ignoreCache, settingsPath);
                 
-                StyleCopTrace.Info("data object created");
-                
                 // Initialize each of the projects before analysis.
                 foreach (CodeProject project in projects)
                 {
-                    StyleCopTrace.Info("about to init project");
                     StyleCopCore.InitializeProjectForAnalysis(project, data, resultsCache);
-                    StyleCopTrace.Info("init project done");
                 }
 
                 // Run until each of the parsers have completely finished analyzing all of the files.
