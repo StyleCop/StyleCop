@@ -366,8 +366,7 @@ namespace StyleCop.CSharp
             // Loop through each of the expressions in the list.
             foreach (Expression expression in expressions)
             {
-                // If the expression is a variable declarator expression, we don't 
-                // want to match against the identifier tokens.
+                // If the expression is a variable declarator expression, we don't want to match against the identifier tokens.
                 if (expression.ExpressionType == ExpressionType.VariableDeclarator)
                 {
                     VariableDeclaratorExpression declarator = expression as VariableDeclaratorExpression;
@@ -413,20 +412,12 @@ namespace StyleCop.CSharp
                 if (!IsLiteralTokenPrecededByMemberAccessSymbol(literalExpression.TokenNode, expression.Tokens.MasterList))
                 {
                     // Process the literal.
-                    this.CheckClassMemberRulesForLiteralToken(
-                        literalExpression.TokenNode,
-                        expression,
-                        parentExpression,
-                        parentElement,
-                        parentClass,
-                        members);
+                    this.CheckClassMemberRulesForLiteralToken(literalExpression.TokenNode, expression, parentExpression, parentElement, parentClass, members);
                 }
             }
             else
             {
-                if (expression.ExpressionType == ExpressionType.Assignment &&
-                    parentExpression != null &&
-                    parentExpression.ExpressionType == ExpressionType.CollectionInitializer)
+                if (expression.ExpressionType == ExpressionType.Assignment && parentExpression != null && parentExpression.ExpressionType == ExpressionType.CollectionInitializer)
                 {
                     // When we encounter assignment expressions within collection initializer expressions, we ignore the expression
                     // on the left-hand side of the assignment. This is because we know that the left-hand side refers to a property on
@@ -445,23 +436,14 @@ namespace StyleCop.CSharp
                 else if (expression.ChildExpressions.Count > 0)
                 {
                     // Check each child expression within this expression.
-                    this.CheckClassMemberRulesForExpressions(
-                        expression.ChildExpressions,
-                        expression,
-                        parentElement,
-                        parentClass,
-                        members);
+                    this.CheckClassMemberRulesForExpressions(expression.ChildExpressions, expression, parentElement, parentClass, members);
                 }
 
                 // Check if this is an anonymous method expression, which contains a child statement list.
                 if (expression.ExpressionType == ExpressionType.AnonymousMethod)
                 {
                     // Check the statements under this anonymous method.
-                    this.CheckClassMemberRulesForStatements(
-                        expression.ChildStatements,
-                        parentElement,
-                        parentClass,
-                        members);
+                    this.CheckClassMemberRulesForStatements(expression.ChildStatements, parentElement, parentClass, members);
                 }
                 else if (expression.ExpressionType == ExpressionType.MethodInvocation)
                 {
@@ -470,12 +452,7 @@ namespace StyleCop.CSharp
                     foreach (Argument argument in methodInvocation.Arguments)
                     {
                         // Check each expression within this child expression.
-                        this.CheckClassMemberRulesForExpression(
-                            argument.Expression,
-                            null,
-                            parentElement,
-                            parentClass,
-                            members);
+                        this.CheckClassMemberRulesForExpression(argument.Expression, null, parentElement, parentClass, members);
                     }
                 }
             }
