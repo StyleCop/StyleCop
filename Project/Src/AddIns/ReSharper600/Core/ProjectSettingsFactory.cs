@@ -37,7 +37,7 @@ namespace StyleCop.ReSharper600.Core
     {
         #region Constants and Fields
 
-        private static readonly Dictionary<string, Settings> Cache = new Dictionary<string, Settings>();
+        private static readonly Dictionary<string, Settings> cache = new Dictionary<string, Settings>();
 
         #endregion
 
@@ -72,7 +72,7 @@ namespace StyleCop.ReSharper600.Core
 
             Settings result;
 
-            if (Cache.TryGetValue(cacheKey, out result))
+            if (cache.TryGetValue(cacheKey, out result))
             {
                 StyleCopTrace.Out();
 
@@ -96,7 +96,7 @@ namespace StyleCop.ReSharper600.Core
 
                     StyleCopTrace.Out();
 
-                    Cache[cacheKey] = settings;
+                    cache[cacheKey] = settings;
 
                     return settings;
                 }

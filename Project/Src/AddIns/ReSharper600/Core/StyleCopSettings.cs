@@ -41,11 +41,11 @@ namespace StyleCop.ReSharper600.Core
 
         private const string CsParserId = "StyleCop.CSharp.CsParser";
 
-        private static readonly Dictionary<string, bool> BoolCache = new Dictionary<string, bool>();
+        private static readonly Dictionary<string, bool> boolCache = new Dictionary<string, bool>();
 
-        private static readonly Dictionary<string, Settings> SettingsCache = new Dictionary<string, Settings>();
+        private static readonly Dictionary<string, Settings> settingsCache = new Dictionary<string, Settings>();
 
-        private static readonly Dictionary<string, string> StringCache = new Dictionary<string, string>();
+        private static readonly Dictionary<string, string> stringCache = new Dictionary<string, string>();
 
         private readonly StyleCopCore styleCopCore;
 
@@ -86,7 +86,7 @@ namespace StyleCop.ReSharper600.Core
 
             string settings;
 
-            if (StringCache.TryGetValue(cacheKey, out settings))
+            if (stringCache.TryGetValue(cacheKey, out settings))
             {
                 StyleCopTrace.Out();
 
@@ -97,7 +97,7 @@ namespace StyleCop.ReSharper600.Core
 
             var result = this.FindSettingsFilePath(projectFile);
 
-            StringCache[cacheKey] = result;
+            stringCache[cacheKey] = result;
 
             return StyleCopTrace.Out(result);
         }
@@ -172,7 +172,7 @@ namespace StyleCop.ReSharper600.Core
 
             bool result;
 
-            if (BoolCache.TryGetValue(cacheKey, out result))
+            if (boolCache.TryGetValue(cacheKey, out result))
             {
                 StyleCopTrace.Out();
                 return result;
@@ -204,7 +204,7 @@ namespace StyleCop.ReSharper600.Core
                         if (analyzeGeneratedFiles ||
                             (!projectFile.Name.EndsWith(".g.cs", StringComparison.OrdinalIgnoreCase) && !projectFile.Name.EndsWith(".generated.cs", StringComparison.OrdinalIgnoreCase)))
                         {
-                            BoolCache[cacheKey] = false;
+                            boolCache[cacheKey] = false;
 
                             StyleCopTrace.Out();
 
@@ -214,7 +214,7 @@ namespace StyleCop.ReSharper600.Core
                 }
             }
 
-            BoolCache[cacheKey] = true;
+            boolCache[cacheKey] = true;
 
             StyleCopTrace.Out();
 
@@ -330,7 +330,7 @@ namespace StyleCop.ReSharper600.Core
 
             Settings mergedSettings = null;
 
-            if (SettingsCache.TryGetValue(cacheKey, out mergedSettings))
+            if (settingsCache.TryGetValue(cacheKey, out mergedSettings))
             {
                 StyleCopTrace.Out();
 
@@ -346,7 +346,7 @@ namespace StyleCop.ReSharper600.Core
                 mergedSettings = merger.MergedSettings;
             }
 
-            SettingsCache[cacheKey] = mergedSettings;
+            settingsCache[cacheKey] = mergedSettings;
 
             return StyleCopTrace.Out(mergedSettings);
         }

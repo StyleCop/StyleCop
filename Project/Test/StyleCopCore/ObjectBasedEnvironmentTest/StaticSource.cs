@@ -25,8 +25,7 @@ namespace ObjectBasedEnvironmentTest
     {
         #region Constants and Fields
 
-        public static string Source1 =
-            @"using System;
+        private const string Source1 = @"using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -38,8 +37,7 @@ namespace ObjectBasedEnvironmentTest
     }
 }";
 
-        public static string Source2 =
-            @"using System;
+        private const string Source2 = @"using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -51,8 +49,7 @@ namespace ObjectBasedEnvironmentTest
     }
 }";
 
-        public static string Source3 =
-            @"using System;
+        private const string Source3 = @"using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -64,8 +61,24 @@ namespace ObjectBasedEnvironmentTest
     }
 }";
 
-        public static string[] Sources = new[] { Source1, Source2, Source3 };
+        private static string[] sources = new[] { Source1, Source2, Source3 };
 
         #endregion
+
+        /// <summary>
+        /// Gets or sets the sources for the test.
+        /// </summary>
+        public static string[] Sources
+        {
+            get
+            {
+                return sources;
+            }
+
+            set
+            {
+                sources = value;
+            }
+        }
     }
 }

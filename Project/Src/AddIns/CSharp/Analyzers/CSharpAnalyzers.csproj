@@ -199,6 +199,7 @@
   <ItemGroup>
     <EmbeddedResource Include="OrderingRules.xml">
       <CustomToolNamespace>SA1200</CustomToolNamespace>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

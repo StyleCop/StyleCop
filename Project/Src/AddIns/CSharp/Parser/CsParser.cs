@@ -56,7 +56,7 @@ namespace StyleCop.CSharp
         /// <summary>
         /// The default collection of generated file filters.
         /// </summary>
-        private static readonly string[] DefaultGeneratedFileFilters = new string[] 
+        private static readonly string[] defaultGeneratedFileFilters = new[] 
         {
             @"\.g\.cs$", @"\.generated\.cs$", @"\.g\.i\.cs$"
         };
@@ -232,7 +232,7 @@ namespace StyleCop.CSharp
                 }
 
                 // Initialize to the default set of generated file filters.
-                IEnumerable<string> filters = DefaultGeneratedFileFilters;
+                IEnumerable<string> filters = defaultGeneratedFileFilters;
 
                 // Get the file filter list for generated files.
                 CollectionProperty generatedFileFilterSettings = this.GetSetting(

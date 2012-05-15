@@ -22,11 +22,9 @@ namespace StyleCop.ReSharper600.Core
     #region Using Directives
 
     using System;
-    using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
 
-    using JetBrains.DocumentModel;
     using JetBrains.ReSharper.Daemon;
     using JetBrains.ReSharper.Psi;
     using JetBrains.ReSharper.Psi.CSharp;
@@ -38,23 +36,24 @@ namespace StyleCop.ReSharper600.Core
     #endregion
 
     /// <summary>
-    /// Stage Process that execute the Microsoft StyleCop against the
-    /// specified file.
+    /// Stage Process that execute the Microsoft StyleCop against the specified file.
     /// </summary>
     /// <remarks>
     /// This type is created and executed every time a .cs file is modified in the IDE.
     /// </remarks>
     public class StyleCopStageProcess : IDaemonStageProcess
     {
-        #region Constants and Fields
+        #region Constants
 
         /// <summary>
         /// Defines the max performance value - this is used to reverse the settings.
         /// </summary>
         private const int MaxPerformanceValue = 9;
 
-        private readonly IDaemonProcess daemonProcess;
-        
+        #endregion
+
+        #region Static Fields
+
         /// <summary>
         /// Used to reduce the number of calls to StyleCop to help with performance.
         /// </summary>
@@ -66,28 +65,35 @@ namespace StyleCop.ReSharper600.Core
         private static StyleCopRunnerInt styleCopRunnerInternal = new StyleCopRunnerInt();
 
         #endregion
-        
+
+        #region Fields
+
+        private readonly IDaemonProcess daemonProcess;
+
+        #endregion
+
         #region Constructors and Destructors
 
         /// <summary>
-        /// Initializes a new instance of the StyleCopStageProcess class, using the specified
-        /// <see cref="IDaemonProcess"/>.
+        /// Initializes a new instance of the StyleCopStageProcess class, using the specified <see cref="IDaemonProcess"/> .
         /// </summary>
         /// <param name="daemonProcess">
-        /// <see cref="IDaemonProcess"/>to execute within.
+        /// <see cref="IDaemonProcess"/> to execute within. 
         /// </param>
         public StyleCopStageProcess(IDaemonProcess daemonProcess)
         {
             StyleCopTrace.In(daemonProcess);
 
             this.daemonProcess = daemonProcess;
-            
+
             InitialiseTimers();
 
             StyleCopTrace.Out();
         }
 
         #endregion
+
+        #region Public Properties
 
         /// <summary>
         /// Gets the Daemon Process.
@@ -99,16 +105,16 @@ namespace StyleCop.ReSharper600.Core
                 return this.daemonProcess;
             }
         }
-        
-        #region Implemented Interfaces
 
-        #region IDaemonStageProcess
+        #endregion
+
+        #region Public Methods and Operators
 
         /// <summary>
         /// The execute.
         /// </summary>
         /// <param name="commiter">
-        /// The commiter.
+        /// The commiter. 
         /// </param>
         public void Execute(Action<DaemonStageResult> commiter)
         {
@@ -116,8 +122,8 @@ namespace StyleCop.ReSharper600.Core
 
             // inverse the performance value - to ensure that "more resources" actually evaluates to a lower number
             // whereas "less resources" actually evaluates to a higher number. If Performance is set to max, then execute as normal.
-            if ((StyleCopOptions.Instance.ParsingPerformance == StyleCopStageProcess.MaxPerformanceValue) ||
-                (performanceStopWatch.Elapsed > new TimeSpan(0, 0, 0, StyleCopStageProcess.MaxPerformanceValue - StyleCopOptions.Instance.ParsingPerformance)))
+            if ((StyleCopOptions.Instance.ParsingPerformance == StyleCopStageProcess.MaxPerformanceValue)
+                || (performanceStopWatch.Elapsed > new TimeSpan(0, 0, 0, StyleCopStageProcess.MaxPerformanceValue - StyleCopOptions.Instance.ParsingPerformance)))
             {
                 if (this.daemonProcess.InterruptFlag)
                 {
@@ -128,10 +134,14 @@ namespace StyleCop.ReSharper600.Core
                 {
                     return;
                 }
-                
+
                 styleCopRunnerInternal.Execute(this.daemonProcess.SourceFile.ToProjectFile(), this.daemonProcess.Document);
 
-                var violations = (from info in styleCopRunnerInternal.ViolationHighlights let range = info.Range let highlighting = info.Highlighting select new HighlightingInfo(range, highlighting)).ToList();
+                var violations =
+                    (from info in styleCopRunnerInternal.ViolationHighlights
+                     let range = info.Range
+                     let highlighting = info.Highlighting
+                     select new HighlightingInfo(range, highlighting)).ToList();
 
                 commiter(new DaemonStageResult(violations));
 
@@ -140,16 +150,13 @@ namespace StyleCop.ReSharper600.Core
 
             StyleCopTrace.Out();
         }
-        
-        #endregion
 
         #endregion
 
         #region Methods
 
         /// <summary>
-        /// Initialises the static timers used to regulate performance of file scavenging 
-        /// and execution of StyleCop analysis.
+        /// Initialises the static timers used to regulate performance of file scavenging and execution of StyleCop analysis.
         /// </summary>
         private static void InitialiseTimers()
         {
@@ -172,7 +179,7 @@ namespace StyleCop.ReSharper600.Core
         private bool FileIsValid()
         {
             var manager = PsiManager.GetInstance(this.daemonProcess.Solution);
-            
+
             if (!this.daemonProcess.SourceFile.ToProjectFile().IsValid())
             {
                 return false;
@@ -186,7 +193,7 @@ namespace StyleCop.ReSharper600.Core
             }
 
             var hasErrorElements = new RecursiveElementCollector<ErrorElement>().ProcessElement(file).GetResults().Any();
-            
+
             return !hasErrorElements;
         }
 

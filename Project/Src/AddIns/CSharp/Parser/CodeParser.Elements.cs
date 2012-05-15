@@ -35,7 +35,7 @@ namespace StyleCop.CSharp
         /// <summary>
         /// The allowable modifiers on a class element.
         /// </summary>
-        private static readonly string[] ClassModifiers = new string[] 
+        private static readonly string[] classModifiers = new[] 
         { 
             "new", "unsafe", "abstract", "sealed", "static", "partial"        
         };
@@ -43,7 +43,7 @@ namespace StyleCop.CSharp
         /// <summary>
         /// The allowable modifiers on an enum element.
         /// </summary>
-        private static readonly string[] EnumModifiers = new string[]
+        private static readonly string[] enumModifiers = new[]
         {
             "new"
         };
@@ -51,7 +51,7 @@ namespace StyleCop.CSharp
         /// <summary>
         /// The allowable modifiers on a delegate element.
         /// </summary>
-        private static readonly string[] DelegateModifiers = new string[]
+        private static readonly string[] delegateModifiers = new[]
         {
             "new", "unsafe"
         };
@@ -59,7 +59,7 @@ namespace StyleCop.CSharp
         /// <summary>
         /// The allowable modifiers on a field element.
         /// </summary>
-        private static readonly string[] FieldModifiers = new string[]
+        private static readonly string[] fieldModifiers = new[]
         {
             "new", "unsafe", "const", "readonly", "static", "volatile", "fixed"
         };
@@ -67,7 +67,7 @@ namespace StyleCop.CSharp
         /// <summary>
         /// The allowable modifiers on a method element.
         /// </summary>
-        private static readonly string[] MethodModifiers = new string[]
+        private static readonly string[] methodModifiers = new[]
         {
             "new", "unsafe", "static", "virtual", "sealed", "override", "abstract", "extern", "partial", "implicit", "explicit", "async"
         };
@@ -75,7 +75,7 @@ namespace StyleCop.CSharp
         /// <summary>
         /// The allowable modifiers on a constructor element.
         /// </summary>
-        private static readonly string[] ConstructorModifiers = new string[]
+        private static readonly string[] constructorModifiers = new[]
         {
             "unsafe", "static", "extern"
         };
@@ -83,7 +83,7 @@ namespace StyleCop.CSharp
         /// <summary>
         /// The allowable modifiers on a destructor element.
         /// </summary>
-        private static readonly string[] DestructorModifiers = new string[]
+        private static readonly string[] destructorModifiers = new[]
         {
             "unsafe", "extern", "static"
         };
@@ -91,7 +91,7 @@ namespace StyleCop.CSharp
         /// <summary>
         /// The allowable modifiers on a property element.
         /// </summary>
-        private static readonly string[] PropertyModifiers = new string[]
+        private static readonly string[] propertyModifiers = new[]
         {
             "new", "unsafe", "static", "virtual", "sealed", "override", "abstract", "extern"
         };
@@ -99,7 +99,7 @@ namespace StyleCop.CSharp
         /// <summary>
         /// The allowable modifiers on an indexer element.
         /// </summary>
-        private static readonly string[] IndexerModifiers = new string[]
+        private static readonly string[] indexerModifiers = new[]
         {
             "new", "unsafe", "virtual", "sealed", "override", "abstract", "extern"
         };
@@ -107,7 +107,7 @@ namespace StyleCop.CSharp
         /// <summary>
         /// The allowable modifiers on an event element.
         /// </summary>
-        private static readonly string[] EventModifiers = new string[]
+        private static readonly string[] eventModifiers = new[]
         {
             "new", "unsafe", "static", "virtual", "sealed", "override", "abstract", "extern"
         };
@@ -1247,7 +1247,7 @@ namespace StyleCop.CSharp
             }
 
             // Get the modifiers and access.
-            Dictionary<CsTokenType, CsToken> modifiers = this.GetElementModifiers(elementReference, ref accessModifier, ClassModifiers);
+            Dictionary<CsTokenType, CsToken> modifiers = this.GetElementModifiers(elementReference, ref accessModifier, classModifiers);
 
             unsafeCode |= modifiers.ContainsKey(CsTokenType.Unsafe);
 
@@ -1374,7 +1374,7 @@ namespace StyleCop.CSharp
             }
 
             // Get the modifiers and access.
-            Dictionary<CsTokenType, CsToken> modifiers = this.GetElementModifiers(elementReference, ref accessModifier, EnumModifiers);
+            Dictionary<CsTokenType, CsToken> modifiers = this.GetElementModifiers(elementReference, ref accessModifier, enumModifiers);
 
             // Get the enum keyword.
             this.tokens.Add(this.GetToken(CsTokenType.Enum, SymbolType.Enum, elementReference));
@@ -1546,7 +1546,7 @@ namespace StyleCop.CSharp
             }
 
             // Get the modifiers and access.
-            Dictionary<CsTokenType, CsToken> modifiers = this.GetElementModifiers(elementReference, ref accessModifier, DelegateModifiers);
+            Dictionary<CsTokenType, CsToken> modifiers = this.GetElementModifiers(elementReference, ref accessModifier, delegateModifiers);
 
             unsafeCode |= modifiers.ContainsKey(CsTokenType.Unsafe);
 
@@ -1626,7 +1626,7 @@ namespace StyleCop.CSharp
 
             // Get the modifiers and access.
             AccessModifierType accessModifier = AccessModifierType.Private;
-            Dictionary<CsTokenType, CsToken> modifiers = this.GetElementModifiers(elementReference, ref accessModifier, FieldModifiers);
+            Dictionary<CsTokenType, CsToken> modifiers = this.GetElementModifiers(elementReference, ref accessModifier, fieldModifiers);
 
             unsafeCode |= modifiers.ContainsKey(CsTokenType.Unsafe);
 
@@ -1781,7 +1781,7 @@ namespace StyleCop.CSharp
             AccessModifierType accessModifier = AccessModifierType.Private;
 
             // Get the declared modifiers for the method.
-            Dictionary<CsTokenType, CsToken> modifiers = this.GetElementModifiers(elementReference, ref accessModifier, MethodModifiers);
+            Dictionary<CsTokenType, CsToken> modifiers = this.GetElementModifiers(elementReference, ref accessModifier, methodModifiers);
 
             // Methods within interfaces always have the access of the parent interface.
             Interface parentInterface = parent as Interface;
@@ -1914,7 +1914,7 @@ namespace StyleCop.CSharp
 
             // Get the modifiers and access.
             AccessModifierType accessModifier = AccessModifierType.Private;
-            Dictionary<CsTokenType, CsToken> modifiers = this.GetElementModifiers(elementReference, ref accessModifier, ConstructorModifiers);
+            Dictionary<CsTokenType, CsToken> modifiers = this.GetElementModifiers(elementReference, ref accessModifier, constructorModifiers);
 
             unsafeCode |= modifiers.ContainsKey(CsTokenType.Unsafe);
 
@@ -2015,7 +2015,7 @@ namespace StyleCop.CSharp
 
             // Get the modifiers and access.
             AccessModifierType accessModifier = AccessModifierType.Private;
-            Dictionary<CsTokenType, CsToken> modifiers = this.GetElementModifiers(elementReference, ref accessModifier, DestructorModifiers);
+            Dictionary<CsTokenType, CsToken> modifiers = this.GetElementModifiers(elementReference, ref accessModifier, destructorModifiers);
 
             unsafeCode |= modifiers.ContainsKey(CsTokenType.Unsafe);
 
@@ -2101,7 +2101,7 @@ namespace StyleCop.CSharp
             }
 
             // Get declared modifiers.
-            Dictionary<CsTokenType, CsToken> modifiers = this.GetElementModifiers(elementReference, ref accessModifier, PropertyModifiers);
+            Dictionary<CsTokenType, CsToken> modifiers = this.GetElementModifiers(elementReference, ref accessModifier, propertyModifiers);
 
             unsafeCode |= modifiers.ContainsKey(CsTokenType.Unsafe);
 
@@ -2167,7 +2167,7 @@ namespace StyleCop.CSharp
             }
 
             // Get declared modifiers.
-            Dictionary<CsTokenType, CsToken> modifiers = this.GetElementModifiers(elementReference, ref accessModifier, IndexerModifiers);
+            Dictionary<CsTokenType, CsToken> modifiers = this.GetElementModifiers(elementReference, ref accessModifier, indexerModifiers);
 
             unsafeCode |= modifiers.ContainsKey(CsTokenType.Unsafe);
 
@@ -2244,7 +2244,7 @@ namespace StyleCop.CSharp
             }
 
             // Get declared modifiers.
-            Dictionary<CsTokenType, CsToken> modifiers = this.GetElementModifiers(elementReference, ref accessModifier, EventModifiers);
+            Dictionary<CsTokenType, CsToken> modifiers = this.GetElementModifiers(elementReference, ref accessModifier, eventModifiers);
 
             unsafeCode |= modifiers.ContainsKey(CsTokenType.Unsafe);
 

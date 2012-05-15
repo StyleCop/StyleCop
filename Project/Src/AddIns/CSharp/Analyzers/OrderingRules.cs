@@ -159,15 +159,15 @@ namespace StyleCop.CSharp
                 if (comparison < 0)
                 {
                     // The order is correct. For example: 
-                    //     A.B.C
-                    //     A.C.D
+                    // A.B.C
+                    // A.C.D
                     return true;
                 }
                 else if (comparison > 0)
                 {
                     // The order is incorrect. For example:
-                    //     A.C.D
-                    //     A.B.C
+                    // A.C.D
+                    // A.B.C
                     return false;
                 }
                 else
@@ -177,15 +177,15 @@ namespace StyleCop.CSharp
                     if (comparison < 0)
                     {
                         // The order is correct. For example:
-                        //     A.Ab.C
-                        //     A.AB.C
+                        // A.Ab.C
+                        // A.AB.C
                         return true;
                     }
                     else if (comparison > 0)
                     {
                         // The order is incorrect. For example:
-                        //     A.AB.C
-                        //     A.Ab.C
+                        // A.AB.C
+                        // A.Ab.C
                         return false;
                     }
                 }

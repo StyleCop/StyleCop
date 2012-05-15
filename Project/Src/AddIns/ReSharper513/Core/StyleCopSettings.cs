@@ -36,15 +36,23 @@ namespace StyleCop.ReSharper513.Core
     /// </summary>
     public class StyleCopSettings
     {
-        #region Constants and Fields
+        #region Constants
 
         private const string CsParserId = "StyleCop.CSharp.CsParser";
 
-        private static readonly Dictionary<string, bool> BoolCache = new Dictionary<string, bool>();
+        #endregion
 
-        private static readonly Dictionary<string, Settings> SettingsCache = new Dictionary<string, Settings>();
+        #region Static Fields
 
-        private static readonly Dictionary<string, string> StringCache = new Dictionary<string, string>();
+        private static readonly Dictionary<string, bool> boolCache = new Dictionary<string, bool>();
+
+        private static readonly Dictionary<string, Settings> settingsCache = new Dictionary<string, Settings>();
+
+        private static readonly Dictionary<string, string> stringCache = new Dictionary<string, string>();
+
+        #endregion
+
+        #region Fields
 
         private readonly StyleCopCore styleCopCore;
 
@@ -56,7 +64,7 @@ namespace StyleCop.ReSharper513.Core
         /// Initializes a new instance of the <see cref="StyleCopSettings"/> class.
         /// </summary>
         /// <param name="styleCopCore">
-        /// The style cop core.
+        /// The style cop core. 
         /// </param>
         public StyleCopSettings(StyleCopCore styleCopCore)
         {
@@ -65,17 +73,16 @@ namespace StyleCop.ReSharper513.Core
 
         #endregion
 
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
-        /// Searches directorys of the project items project file and the parents thereof to see 
-        /// if a Settings file exists.
+        /// Searches directorys of the project items project file and the parents thereof to see if a Settings file exists.
         /// </summary>
         /// <param name="projectItem">
-        /// File being examined.
+        /// File being examined. 
         /// </param>
         /// <returns>
-        /// Path to the settings file.
+        /// Path to the settings file. 
         /// </returns>
         public string FindSettingsFilePath(IProjectItem projectItem)
         {
@@ -85,7 +92,7 @@ namespace StyleCop.ReSharper513.Core
 
             string settings;
 
-            if (StringCache.TryGetValue(cacheKey, out settings))
+            if (stringCache.TryGetValue(cacheKey, out settings))
             {
                 StyleCopTrace.Out();
 
@@ -96,7 +103,7 @@ namespace StyleCop.ReSharper513.Core
 
             var result = this.FindSettingsFilePath(projectFile);
 
-            StringCache[cacheKey] = result;
+            stringCache[cacheKey] = result;
 
             return StyleCopTrace.Out(result);
         }
@@ -105,10 +112,10 @@ namespace StyleCop.ReSharper513.Core
         /// Gets the settings for the file provided.
         /// </summary>
         /// <param name="projectFile">
-        /// The project file to get the Settings for.
+        /// The project file to get the Settings for. 
         /// </param>
         /// <returns>
-        /// Null if it couldn't find one.
+        /// Null if it couldn't find one. 
         /// </returns>
         public Settings GetSettings(IProjectFile projectFile)
         {
@@ -129,10 +136,10 @@ namespace StyleCop.ReSharper513.Core
         /// The load settings files.
         /// </summary>
         /// <param name="projects">
-        /// The projects.
+        /// The projects. 
         /// </param>
         /// <param name="settingsPath">
-        /// The settings path.
+        /// The settings path. 
         /// </param>
         public void LoadSettingsFiles(IEnumerable<CodeProject> projects, string settingsPath)
         {
@@ -158,10 +165,10 @@ namespace StyleCop.ReSharper513.Core
         /// The skip analysis for document.
         /// </summary>
         /// <param name="projectFile">
-        /// The project file.
+        /// The project file. 
         /// </param>
         /// <returns>
-        /// True if analysis should be skipped.
+        /// True if analysis should be skipped. 
         /// </returns>
         public bool SkipAnalysisForDocument(IProjectFile projectFile)
         {
@@ -171,7 +178,7 @@ namespace StyleCop.ReSharper513.Core
 
             bool result;
 
-            if (BoolCache.TryGetValue(cacheKey, out result))
+            if (boolCache.TryGetValue(cacheKey, out result))
             {
                 StyleCopTrace.Out();
 
@@ -201,10 +208,12 @@ namespace StyleCop.ReSharper513.Core
                             analyzeGeneratedFiles = analyzeGeneratedFilesSetting.Value;
                         }
 
-                        if (analyzeGeneratedFiles ||
-                            (!projectFile.Name.EndsWith(".g.cs", StringComparison.OrdinalIgnoreCase) && !projectFile.Name.EndsWith(".generated.cs", StringComparison.OrdinalIgnoreCase)))
+                        if (analyzeGeneratedFiles
+                            ||
+                            (!projectFile.Name.EndsWith(".g.cs", StringComparison.OrdinalIgnoreCase)
+                             && !projectFile.Name.EndsWith(".generated.cs", StringComparison.OrdinalIgnoreCase)))
                         {
-                            BoolCache[cacheKey] = false;
+                            boolCache[cacheKey] = false;
 
                             StyleCopTrace.Out();
 
@@ -214,7 +223,7 @@ namespace StyleCop.ReSharper513.Core
                 }
             }
 
-            BoolCache[cacheKey] = true;
+            boolCache[cacheKey] = true;
 
             StyleCopTrace.Out();
 
@@ -229,10 +238,10 @@ namespace StyleCop.ReSharper513.Core
         /// Gets the settings file if it exists in this directory.
         /// </summary>
         /// <param name="directory">
-        /// The directory.
+        /// The directory. 
         /// </param>
         /// <returns>
-        /// The FileInfo for the settings file if one exists in this directory.
+        /// The FileInfo for the settings file if one exists in this directory. 
         /// </returns>
         private static FileInfo GetSettingsFileForDirectoryInfo(DirectoryInfo directory)
         {
@@ -256,14 +265,13 @@ namespace StyleCop.ReSharper513.Core
         }
 
         /// <summary>
-        /// Searches this directory and the parents thereof to see 
-        /// if a Settings file exists.
+        /// Searches this directory and the parents thereof to see if a Settings file exists.
         /// </summary>
         /// <param name="directoryInfo">
-        /// The directory.
+        /// The directory. 
         /// </param>
         /// <returns>
-        /// The FileInfo for the settings file.
+        /// The FileInfo for the settings file. 
         /// </returns>
         private FileInfo FindSettingsFile(DirectoryInfo directoryInfo)
         {
@@ -280,14 +288,13 @@ namespace StyleCop.ReSharper513.Core
         }
 
         /// <summary>
-        /// Searches directorys of the project file and the parents thereof to see 
-        /// if a Settings file exists.
+        /// Searches directorys of the project file and the parents thereof to see if a Settings file exists.
         /// </summary>
         /// <param name="project">
-        /// The project file.
+        /// The project file. 
         /// </param>
         /// <returns>
-        /// Path to the settings file.
+        /// Path to the settings file. 
         /// </returns>
         private string FindSettingsFilePath(IProject project)
         {
@@ -330,7 +337,7 @@ namespace StyleCop.ReSharper513.Core
 
             Settings mergedSettings = null;
 
-            if (SettingsCache.TryGetValue(cacheKey, out mergedSettings))
+            if (settingsCache.TryGetValue(cacheKey, out mergedSettings))
             {
                 StyleCopTrace.Out();
 
@@ -346,7 +353,7 @@ namespace StyleCop.ReSharper513.Core
                 mergedSettings = merger.MergedSettings;
             }
 
-            SettingsCache[cacheKey] = mergedSettings;
+            settingsCache[cacheKey] = mergedSettings;
 
             return StyleCopTrace.Out(mergedSettings);
         }

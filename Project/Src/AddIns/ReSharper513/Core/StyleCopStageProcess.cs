@@ -35,22 +35,23 @@ namespace StyleCop.ReSharper513.Core
     #endregion
 
     /// <summary>
-    /// Stage Process that execute the Microsoft StyleCop against the
-    /// specified file.
+    /// Stage Process that execute the Microsoft StyleCop against the specified file.
     /// </summary>
     /// <remarks>
     /// This type is created and executed every time a .cs file is modified in the IDE.
     /// </remarks>
     public class StyleCopStageProcess : IDaemonStageProcess
     {
-        #region Constants and Fields
+        #region Constants
 
         /// <summary>
         /// Defines the max performance value - this is used to reverse the settings.
         /// </summary>
         private const int MaxPerformanceValue = 9;
 
-        private readonly IDaemonProcess daemonProcess;
+        #endregion
+
+        #region Static Fields
 
         /// <summary>
         /// First run flag.
@@ -66,14 +67,19 @@ namespace StyleCop.ReSharper513.Core
 
         #endregion
 
+        #region Fields
+
+        private readonly IDaemonProcess daemonProcess;
+
+        #endregion
+
         #region Constructors and Destructors
 
         /// <summary>
-        /// Initializes a new instance of the StyleCopStageProcess class, using the specified
-        /// <see cref="IDaemonProcess"/>.
+        /// Initializes a new instance of the StyleCopStageProcess class, using the specified <see cref="IDaemonProcess"/> .
         /// </summary>
         /// <param name="daemonProcess">
-        /// <see cref="IDaemonProcess"/>to execute within.
+        /// <see cref="IDaemonProcess"/> to execute within. 
         /// </param>
         public StyleCopStageProcess(IDaemonProcess daemonProcess)
         {
@@ -87,15 +93,13 @@ namespace StyleCop.ReSharper513.Core
 
         #endregion
 
-        #region Implemented Interfaces
-
-        #region IDaemonStageProcess
+        #region Public Methods and Operators
 
         /// <summary>
         /// The execute.
         /// </summary>
         /// <param name="commiter">
-        /// The commiter.
+        /// The commiter. 
         /// </param>
         public void Execute(Action<DaemonStageResult> commiter)
         {
@@ -103,8 +107,8 @@ namespace StyleCop.ReSharper513.Core
 
             // inverse the performance value - to ensure that "more resources" actually evaluates to a lower number
             // whereas "less resources" actually evaluates to a higher number. If Performance is set to max, then execute as normal.
-            if ((firstRunFlag || StyleCopOptions.Instance.ParsingPerformance == StyleCopStageProcess.MaxPerformanceValue) ||
-                (performanceStopWatch.Elapsed > new TimeSpan(0, 0, 0, StyleCopStageProcess.MaxPerformanceValue - StyleCopOptions.Instance.ParsingPerformance)))
+            if ((firstRunFlag || StyleCopOptions.Instance.ParsingPerformance == StyleCopStageProcess.MaxPerformanceValue)
+                || (performanceStopWatch.Elapsed > new TimeSpan(0, 0, 0, StyleCopStageProcess.MaxPerformanceValue - StyleCopOptions.Instance.ParsingPerformance)))
             {
                 if (this.daemonProcess.InterruptFlag)
                 {
@@ -123,7 +127,11 @@ namespace StyleCop.ReSharper513.Core
 
                 styleCopRunner.Execute(this.daemonProcess.ProjectFile, this.daemonProcess.Document);
 
-                var violations = (from info in styleCopRunner.ViolationHighlights let range = info.Range let highlighting = info.Highlighting select new HighlightingInfo(range, highlighting)).ToList();
+                var violations =
+                    (from info in styleCopRunner.ViolationHighlights
+                     let range = info.Range
+                     let highlighting = info.Highlighting
+                     select new HighlightingInfo(range, highlighting)).ToList();
 
                 commiter(new DaemonStageResult(violations));
 
@@ -137,13 +145,10 @@ namespace StyleCop.ReSharper513.Core
 
         #endregion
 
-        #endregion
-
         #region Methods
 
         /// <summary>
-        /// Initialises the static timers used to regulate performance of file scavenging 
-        /// and execution of StyleCop analysis.
+        /// Initialises the static timers used to regulate performance of file scavenging and execution of StyleCop analysis.
         /// </summary>
         private static void InitialiseTimers()
         {
