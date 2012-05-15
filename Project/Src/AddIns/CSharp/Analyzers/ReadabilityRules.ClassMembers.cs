@@ -452,7 +452,10 @@ namespace StyleCop.CSharp
                     foreach (Argument argument in methodInvocation.Arguments)
                     {
                         // Check each expression within this child expression.
-                        this.CheckClassMemberRulesForExpression(argument.Expression, null, parentElement, parentClass, members);
+                        if (argument.Expression.ExpressionType != ExpressionType.MethodInvocation)
+                        {
+                            this.CheckClassMemberRulesForExpression(argument.Expression, null, parentElement, parentClass, members);
+                        }
                     }
                 }
             }
