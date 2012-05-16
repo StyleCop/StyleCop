@@ -249,7 +249,7 @@ namespace StyleCop.CSharp
                         var a  = (ArrayAccessExpression)expression;
                         if (a.Array.Text == "this")
                         {
-                            this.CheckIndexerAccessParameters(parentElement, ((ArrayAccessExpression)expression));
+                            this.CheckIndexerAccessParameters(parentElement, (ArrayAccessExpression)expression);
                         }
 
                         break;

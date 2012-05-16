@@ -102,7 +102,7 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Various version of the @ character.
         /// </summary>
-        private static readonly int[] CopyrightCharTable = new int[]
+        private static readonly int[] copyrightCharTable = new int[]
             {
                 169, 65533
             };
@@ -951,9 +951,9 @@ namespace StyleCop.CSharp
         {
             Param.Ignore(character);
 
-            for (int i = 0; i < CopyrightCharTable.Length; ++i)
+            for (int i = 0; i < copyrightCharTable.Length; ++i)
             {
-                if ((int)character == CopyrightCharTable[i])
+                if ((int)character == copyrightCharTable[i])
                 {
                     return true;
                 }

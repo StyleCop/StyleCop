@@ -234,13 +234,13 @@ namespace StyleCop.CSharp
                 // There is a special case where an empty statement is allowed. In some cases, a label statement must be used to mark the end of a 
                 // scope. C# requires that labels have at least one statement after them. In the developer wants to use a label to mark the end of the
                 // scope, he does not want to put a statement after the label. The best course of action is to insert a single semicolon here. For example:\
-                //    {
-                //        if (true)
-                //        {
-                //            goto end;
-                //        }
-                //        end:;
-                //    }
+                ////    {
+                ////       if (true)
+                ////        {
+                ////            goto end;
+                ////        }
+                ////        end:;
+                ////    }
                 if (previousStatement == null || previousStatement.StatementType != StatementType.Label)
                 {
                     this.AddViolation(element, statement.LineNumber, Rules.CodeMustNotContainEmptyStatements);
