@@ -1130,6 +1130,7 @@ namespace StyleCop.CSharp
                             token.CsTokenType != CsTokenType.Else &&
                             token.CsTokenType != CsTokenType.PreprocessorDirective &&
                             token.CsTokenType != CsTokenType.Select &&
+                            token.CsTokenType != CsTokenType.From && 
                             token.CsTokenType != CsTokenType.Let &&
                             token.CsTokenType != CsTokenType.OperatorSymbol &&
                             token.CsTokenType != CsTokenType.By)
