@@ -209,6 +209,11 @@ namespace StyleCop.CSharp
                         --itemLineSpan;
                     }
 
+                    if ((start.Value.LineNumber == tokenNode.Value.LineNumber) && tokenNode.Value.CsTokenType == CsTokenType.SingleLineComment)
+                    {
+                        --itemLineSpan;
+                    }
+
                     lineSpan += itemLineSpan;
                     previousLineSpan = itemLineSpan;
                     previousEndLineNumber = tokenNode.Value.Location.EndPoint.LineNumber;

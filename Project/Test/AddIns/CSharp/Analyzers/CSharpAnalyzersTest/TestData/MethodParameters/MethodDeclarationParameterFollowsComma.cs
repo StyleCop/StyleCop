@@ -520,5 +520,47 @@ namespace MethodDeclarationParameterFollowsComma1
         }
     }
 
+
+    public class Class71
+    {
+        private void MyMethod(int a, int b, int c, int d)
+        {
+        }
+
+        private void Method2()
+        {
+            // valid
+            MyMethod(
+                1,
+                2,
+                3,
+                4);
+
+            // valid
+            MyMethod(
+                1,
+                2,
+                // foo
+                3,
+                4);
+
+            // valid
+            MyMethod(
+                1,
+                2,
+                /* foo */
+                3,
+                4);
+
+            // valid
+            MyMethod(
+                1,
+                2, // bar
+                /* foo */
+                3,
+                4);
+        }
+    }
+
     #endregion Comments And Assembly Tags
 }
