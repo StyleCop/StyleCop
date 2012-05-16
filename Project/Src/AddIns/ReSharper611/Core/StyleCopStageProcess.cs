@@ -36,35 +36,28 @@ namespace StyleCop.ReSharper611.Core
     #endregion
 
     /// <summary>
-    /// Stage Process that execute the Microsoft StyleCop against the
-    /// specified file.
+    /// Stage Process that execute the Microsoft StyleCop against the specified file.
     /// </summary>
     /// <remarks>
     /// This type is created and executed every time a .cs file is modified in the IDE.
     /// </remarks>
     public class StyleCopStageProcess : IDaemonStageProcess
     {
-        #region Constants and Fields
+        #region Constants
 
         /// <summary>
         /// Defines the max performance value - this is used to reverse the settings.
         /// </summary>
         private const int MaxPerformanceValue = 9;
 
+        #endregion
+
+        #region Static Fields
+
         /// <summary>
         /// Allows us to run the StyleCop analysers.
         /// </summary>
         private static readonly StyleCopRunnerInt styleCopRunnerInternal = new StyleCopRunnerInt();
-
-        /// <summary>
-        /// The process we were started with.
-        /// </summary>
-        private readonly IDaemonProcess daemonProcess;
-
-        /// <summary>
-        /// THe settings store we were construcuted with.
-        /// </summary>
-        private readonly IContextBoundSettingsStore settingsStore;
 
         /// <summary>
         /// Used to reduce the number of calls to StyleCop to help with performance.
@@ -78,17 +71,30 @@ namespace StyleCop.ReSharper611.Core
 
         #endregion
 
+        #region Fields
+
+        /// <summary>
+        /// The process we were started with.
+        /// </summary>
+        private readonly IDaemonProcess daemonProcess;
+
+        /// <summary>
+        /// THe settings store we were construcuted with.
+        /// </summary>
+        private readonly IContextBoundSettingsStore settingsStore;
+
+        #endregion
+
         #region Constructors and Destructors
 
         /// <summary>
-        /// Initializes a new instance of the StyleCopStageProcess class, using the specified
-        /// <see cref="IDaemonProcess"/>.
+        /// Initializes a new instance of the StyleCopStageProcess class, using the specified <see cref="IDaemonProcess"/> .
         /// </summary>
         /// <param name="daemonProcess">
-        /// <see cref="IDaemonProcess"/>to execute within.
+        /// <see cref="IDaemonProcess"/> to execute within. 
         /// </param>
         /// <param name="settingsStore">
-        /// Our settings.
+        /// Our settings. 
         /// </param>
         public StyleCopStageProcess(IDaemonProcess daemonProcess, IContextBoundSettingsStore settingsStore)
         {
@@ -125,7 +131,7 @@ namespace StyleCop.ReSharper611.Core
         /// The execute.
         /// </summary>
         /// <param name="commiter">
-        /// The commiter.
+        /// The commiter. 
         /// </param>
         public void Execute(Action<DaemonStageResult> commiter)
         {
@@ -167,7 +173,10 @@ namespace StyleCop.ReSharper611.Core
                 styleCopRunnerInternal.Execute(this.daemonProcess.SourceFile.ToProjectFile(), this.daemonProcess.Document);
 
                 var violations =
-                    (from info in styleCopRunnerInternal.ViolationHighlights let range = info.Range let highlighting = info.Highlighting select new HighlightingInfo(range, highlighting)).ToList();
+                    (from info in styleCopRunnerInternal.ViolationHighlights
+                     let range = info.Range
+                     let highlighting = info.Highlighting
+                     select new HighlightingInfo(range, highlighting)).ToList();
 
                 commiter(new DaemonStageResult(violations));
 

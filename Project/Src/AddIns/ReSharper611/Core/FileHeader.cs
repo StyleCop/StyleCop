@@ -15,7 +15,6 @@
 //   File header.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 extern alias JB;
 
 namespace StyleCop.ReSharper611.Core
@@ -47,18 +46,25 @@ namespace StyleCop.ReSharper611.Core
     /// </summary>
     internal class FileHeader
     {
-        #region Constants and Fields
+        #region Constants
 
-        private static readonly string StandardHeader = "// --------------------------------------------------------------------------------------------------------------------" + Environment.NewLine +
-                                                        "// <copyright file=\"\" company=\"\">" + Environment.NewLine +
-                                                        "// </copyright>" + Environment.NewLine +
-                                                        "// <summary>" + Environment.NewLine +
-                                                        "// </summary>" + Environment.NewLine +
-                                                        "// --------------------------------------------------------------------------------------------------------------------";
+        private const string FileHeaderIndentedLinePrefix = "//   ";
 
         private const string FileHeaderLinePrefix = "// ";
 
-        private const string FileHeaderIndentedLinePrefix = "//   ";
+        #endregion
+
+        #region Static Fields
+
+        private static readonly string standardHeader =
+            "// --------------------------------------------------------------------------------------------------------------------" + Environment.NewLine
+            + "// <copyright file=\"\" company=\"\">" + Environment.NewLine + "// </copyright>" + Environment.NewLine + "// <summary>" + Environment.NewLine
+            + "// </summary>" + Environment.NewLine
+            + "// --------------------------------------------------------------------------------------------------------------------";
+
+        #endregion
+
+        #region Fields
 
         /// <summary>
         /// Company name.
@@ -90,10 +96,10 @@ namespace StyleCop.ReSharper611.Core
         #region Constructors and Destructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FileHeader"/> class. 
+        /// Initializes a new instance of the <see cref="FileHeader"/> class.
         /// </summary>
         /// <param name="file">
-        /// The file to load the header for.
+        /// The file to load the header for. 
         /// </param>
         public FileHeader(ICSharpFile file)
         {
@@ -106,7 +112,7 @@ namespace StyleCop.ReSharper611.Core
                 if (string.IsNullOrEmpty(headerText))
                 {
                     // no header provided so we'll load the default one
-                    headerText = StandardHeader;
+                    headerText = standardHeader;
                 }
                 else
                 {
@@ -129,10 +135,10 @@ namespace StyleCop.ReSharper611.Core
 
         #endregion
 
-        #region Properties
+        #region Public Properties
 
         /// <summary>
-        /// Gets or sets CompanyName.  The text you pass in will be trimmed of whitespace.
+        /// Gets or sets CompanyName. The text you pass in will be trimmed of whitespace.
         /// </summary>
         public string CompanyName
         {
@@ -165,7 +171,7 @@ namespace StyleCop.ReSharper611.Core
             {
                 var trimmedValue = value.Trim(Utils.TrimChars);
                 var copyrightNode = this.EnsureCopyrightElement();
-                
+
                 // To support multiline copyright text
                 var linesofCopyrightText = trimmedValue.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
                 var newValue = new StringBuilder();
@@ -249,13 +255,13 @@ namespace StyleCop.ReSharper611.Core
 
         #endregion
 
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Gets the correctly formatted header text string.
         /// </summary>
         /// <returns>
-        /// A string of the correctly formatted header.
+        /// A string of the correctly formatted header. 
         /// </returns>
         public string GetText()
         {
@@ -290,7 +296,7 @@ namespace StyleCop.ReSharper611.Core
         /// Load file header.
         /// </summary>
         /// <param name="headerText">
-        /// The header text.
+        /// The header text. 
         /// </param>
         public void LoadFileHeader(string headerText)
         {
@@ -312,7 +318,7 @@ namespace StyleCop.ReSharper611.Core
                 {
                     this.UnStyled = true;
                 }
-                
+
                 this.EnsureCopyrightElement();
                 this.EnsureCompanyAttribute();
                 this.EnsureFileAttribute();
@@ -362,10 +368,10 @@ namespace StyleCop.ReSharper611.Core
         /// Gets the First Child Of Type XmlElement from the node provided.
         /// </summary>
         /// <param name="node">
-        /// The node.
+        /// The node. 
         /// </param>
         /// <returns>
-        /// The first XmlElement or null.
+        /// The first XmlElement or null. 
         /// </returns>
         private static XmlNode GetFirstChildOfTypeXmlElement(XmlNode node)
         {
@@ -385,10 +391,10 @@ namespace StyleCop.ReSharper611.Core
         /// Gets the First Child Of Type XmlText from the node provided.
         /// </summary>
         /// <param name="node">
-        /// The node.
+        /// The node. 
         /// </param>
         /// <returns>
-        /// The first XmlText or null.
+        /// The first XmlText or null. 
         /// </returns>
         private static XmlNode GetFirstChildOfTypeXmlText(XmlNode node)
         {
@@ -408,10 +414,10 @@ namespace StyleCop.ReSharper611.Core
         /// Gets the last Child Of Type XmlElement from the node provided.
         /// </summary>
         /// <param name="node">
-        /// The node.
+        /// The node. 
         /// </param>
         /// <returns>
-        /// The last XmlElement or null.
+        /// The last XmlElement or null. 
         /// </returns>
         private static XmlNode GetLastChildOfTypeXmlElement(XmlNode node)
         {
@@ -458,7 +464,9 @@ namespace StyleCop.ReSharper611.Core
                         newHeader += Environment.NewLine;
                     }
 
-                    newCommentNode = (ICommentNode)CSharpTokenType.END_OF_LINE_COMMENT.Create(new JB::JetBrains.Text.StringBuffer(newHeader), new TreeOffset(0), new TreeOffset(newHeader.Length));
+                    newCommentNode =
+                        (ICommentNode)
+                        CSharpTokenType.END_OF_LINE_COMMENT.Create(new JB::JetBrains.Text.StringBuffer(newHeader), new TreeOffset(0), new TreeOffset(newHeader.Length));
 
                     LowLevelModificationUtil.AddChildBefore(file.FirstChild, new ITreeNode[] { newCommentNode });
                 }
@@ -484,7 +492,9 @@ namespace StyleCop.ReSharper611.Core
                             }
 
                             newCommentNode =
-                                (ICommentNode)CSharpTokenType.END_OF_LINE_COMMENT.Create(new JB::JetBrains.Text.StringBuffer(newHeader), new TreeOffset(0), new TreeOffset(newHeader.Length));
+                                (ICommentNode)
+                                CSharpTokenType.END_OF_LINE_COMMENT.Create(
+                                    new JB::JetBrains.Text.StringBuffer(newHeader), new TreeOffset(0), new TreeOffset(newHeader.Length));
 
                             LowLevelModificationUtil.ReplaceChildRange(existingHeaderRange.First, existingHeaderRange.Last, new ITreeNode[] { newCommentNode });
                         }
@@ -497,7 +507,7 @@ namespace StyleCop.ReSharper611.Core
         /// Ensure company attribute.
         /// </summary>
         /// <returns>
-        /// An updated XmlAttribute for the company text.
+        /// An updated XmlAttribute for the company text. 
         /// </returns>
         private XmlAttribute EnsureCompanyAttribute()
         {
@@ -517,7 +527,7 @@ namespace StyleCop.ReSharper611.Core
         /// Ensure copyright element.
         /// </summary>
         /// <returns>
-        /// An updated XmlElement for the copyright text.
+        /// An updated XmlElement for the copyright text. 
         /// </returns>
         private XmlElement EnsureCopyrightElement()
         {
@@ -559,7 +569,7 @@ namespace StyleCop.ReSharper611.Core
         /// Ensure file attribute.
         /// </summary>
         /// <returns>
-        /// An updated XmlElement with the file element updated.
+        /// An updated XmlElement with the file element updated. 
         /// </returns>
         private XmlAttribute EnsureFileAttribute()
         {
@@ -579,10 +589,10 @@ namespace StyleCop.ReSharper611.Core
         /// Ensure summary element.
         /// </summary>
         /// <param name="newSummaryElement">
-        /// The new Summary Element.
+        /// The new Summary Element. 
         /// </param>
         /// <returns>
-        /// An updated XmlElement with the summary inserted.
+        /// An updated XmlElement with the summary inserted. 
         /// </returns>
         private XmlElement EnsureSummaryElement(XmlElement newSummaryElement)
         {
@@ -614,7 +624,7 @@ namespace StyleCop.ReSharper611.Core
         {
             // no header provided so we'll load the default one
             this.HadExistingHeader = false;
-            var headerText = StandardHeader;
+            var headerText = standardHeader;
             this.LoadFileHeader(headerText);
         }
 
@@ -631,7 +641,7 @@ namespace StyleCop.ReSharper611.Core
             var settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, this.File.GetSolution());
             var dashCount = settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.DashesCountInFileHeader);
             var dashes = new string('-', dashCount);
-            
+
             var xmlTextTop = this.headerXml.CreateTextNode(string.Format("// {0}{1}// ", dashes, Environment.NewLine));
             if (this.headerXml.DocumentElement.FirstChild.NodeType == XmlNodeType.Text)
             {

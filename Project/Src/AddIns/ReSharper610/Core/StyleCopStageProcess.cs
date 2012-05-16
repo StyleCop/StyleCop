@@ -25,13 +25,9 @@ namespace StyleCop.ReSharper610.Core
     using System.Diagnostics;
     using System.Linq;
 
-    using JetBrains.Application.Progress;
     using JetBrains.Application.Settings;
     using JetBrains.ReSharper.Daemon;
-    using JetBrains.ReSharper.Daemon.Stages;
     using JetBrains.ReSharper.Psi;
-    using JetBrains.ReSharper.Psi.CSharp;
-    using JetBrains.ReSharper.Psi.Tree;
 
     using StyleCop.Diagnostics;
     using StyleCop.ReSharper610.Options;
@@ -39,36 +35,29 @@ namespace StyleCop.ReSharper610.Core
     #endregion
 
     /// <summary>
-    /// Stage Process that execute the Microsoft StyleCop against the
-    /// specified file.
+    /// Stage Process that execute the Microsoft StyleCop against the specified file.
     /// </summary>
     /// <remarks>
     /// This type is created and executed every time a .cs file is modified in the IDE.
     /// </remarks>
     public class StyleCopStageProcess : IDaemonStageProcess
     {
-        #region Constants and Fields
+        #region Constants
 
         /// <summary>
         /// Defines the max performance value - this is used to reverse the settings.
         /// </summary>
         private const int MaxPerformanceValue = 9;
-        
+
+        #endregion
+
+        #region Static Fields
+
         /// <summary>
         /// Allows us to run the StyleCop analysers.
         /// </summary>
         private static readonly StyleCopRunnerInt styleCopRunnerInternal = new StyleCopRunnerInt();
 
-        /// <summary>
-        /// The process we were started with.
-        /// </summary>
-        private readonly IDaemonProcess daemonProcess;
-
-        /// <summary>
-        /// THe settings store we were construcuted with.
-        /// </summary>
-        private readonly IContextBoundSettingsStore settingsStore;
-        
         /// <summary>
         /// Used to reduce the number of calls to StyleCop to help with performance.
         /// </summary>
@@ -80,32 +69,47 @@ namespace StyleCop.ReSharper610.Core
         private static bool runOnce = false;
 
         #endregion
-        
+
+        #region Fields
+
+        /// <summary>
+        /// The process we were started with.
+        /// </summary>
+        private readonly IDaemonProcess daemonProcess;
+
+        /// <summary>
+        /// THe settings store we were construcuted with.
+        /// </summary>
+        private readonly IContextBoundSettingsStore settingsStore;
+
+        #endregion
+
         #region Constructors and Destructors
 
         /// <summary>
-        /// Initializes a new instance of the StyleCopStageProcess class, using the specified
-        /// <see cref="IDaemonProcess"/>.
+        /// Initializes a new instance of the StyleCopStageProcess class, using the specified <see cref="IDaemonProcess"/> .
         /// </summary>
         /// <param name="daemonProcess">
-        /// <see cref="IDaemonProcess"/>to execute within.
+        /// <see cref="IDaemonProcess"/> to execute within. 
         /// </param>
         /// <param name="settingsStore">
-        /// Our settings.
+        /// Our settings. 
         /// </param>
         public StyleCopStageProcess(IDaemonProcess daemonProcess, IContextBoundSettingsStore settingsStore)
         {
             StyleCopTrace.In(daemonProcess);
-            
+
             this.daemonProcess = daemonProcess;
             this.settingsStore = settingsStore;
-            
+
             InitialiseTimers();
 
             StyleCopTrace.Out();
         }
 
         #endregion
+
+        #region Public Properties
 
         /// <summary>
         /// Gets the Daemon Process.
@@ -117,16 +121,16 @@ namespace StyleCop.ReSharper610.Core
                 return this.daemonProcess;
             }
         }
-        
-        #region Implemented Interfaces
 
-        #region IDaemonStageProcess
+        #endregion
+
+        #region Public Methods and Operators
 
         /// <summary>
         /// The execute.
         /// </summary>
         /// <param name="commiter">
-        /// The commiter.
+        /// The commiter. 
         /// </param>
         public void Execute(Action<DaemonStageResult> commiter)
         {
@@ -144,7 +148,7 @@ namespace StyleCop.ReSharper610.Core
 
             // inverse the performance value - to ensure that "more resources" actually evaluates to a lower number
             // whereas "less resources" actually evaluates to a higher number. If Performance is set to max, then execute as normal.
-             int parsingPerformance = this.settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.ParsingPerformance);
+            int parsingPerformance = this.settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.ParsingPerformance);
 
             var alwaysExecute = parsingPerformance == StyleCopStageProcess.MaxPerformanceValue;
 
@@ -161,13 +165,16 @@ namespace StyleCop.ReSharper610.Core
                 StyleCopTrace.Out();
                 return;
             }
-            
+
             runOnce = true;
 
             styleCopRunnerInternal.Execute(this.daemonProcess.SourceFile.ToProjectFile(), this.daemonProcess.Document);
 
             var violations =
-                (from info in styleCopRunnerInternal.ViolationHighlights let range = info.Range let highlighting = info.Highlighting select new HighlightingInfo(range, highlighting)).ToList();
+                (from info in styleCopRunnerInternal.ViolationHighlights
+                 let range = info.Range
+                 let highlighting = info.Highlighting
+                 select new HighlightingInfo(range, highlighting)).ToList();
 
             commiter(new DaemonStageResult(violations));
 
@@ -175,8 +182,6 @@ namespace StyleCop.ReSharper610.Core
 
             StyleCopTrace.Out();
         }
-
-        #endregion
 
         #endregion
 
@@ -202,7 +207,7 @@ namespace StyleCop.ReSharper610.Core
             performanceStopWatch.Reset();
             performanceStopWatch.Start();
         }
-        
+
         #endregion
     }
 }

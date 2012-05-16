@@ -15,7 +15,6 @@
 //   Defines the StyleCopOptionsPage type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 extern alias JB;
 
 namespace StyleCop.ReSharper611.Options
@@ -52,32 +51,21 @@ namespace StyleCop.ReSharper611.Options
     [OptionsPage(PID, "StyleCop", "StyleCop.ReSharper611.Resources.StyleCop.png", ParentId = "Tools")]
     public partial class StyleCopOptionsPage : UserControl, IOptionsPage
     {
-        #region Constants and Fields
-        
+        #region Constants
+
         /// <summary>
         /// The unique name of this options page.
         /// </summary>
         public const string PID = "StyleCopOptionsPage";
 
         /// <summary>
-        /// Reference to the IOptionsDialog that opened our page.
-        /// </summary>
-        private readonly IOptionsDialog dialog;
-
-        /// <summary>
         /// The order of modifiers for StyleCop.
         /// </summary>
         private const string ModifiersOrder = "public protected internal private static new abstract virtual override sealed readonly extern unsafe volatile async";
 
-        /// <summary>
-        /// The settings context to use.
-        /// </summary>
-        private readonly OptionsSettingsSmartContext smartContext;
+        #endregion
 
-        /// <summary>
-        /// The lifetime for this instance.
-        /// </summary>
-        private readonly JB::JetBrains.DataFlow.Lifetime lifetime;
+        #region Static Fields
 
         /// <summary>
         /// The detected StyleCop path.
@@ -86,14 +74,39 @@ namespace StyleCop.ReSharper611.Options
 
         #endregion
 
+        #region Fields
+
+        /// <summary>
+        /// Reference to the IOptionsDialog that opened our page.
+        /// </summary>
+        private readonly IOptionsDialog dialog;
+
+        /// <summary>
+        /// The lifetime for this instance.
+        /// </summary>
+        private readonly JB::JetBrains.DataFlow.Lifetime lifetime;
+
+        /// <summary>
+        /// The settings context to use.
+        /// </summary>
+        private readonly OptionsSettingsSmartContext smartContext;
+
+        #endregion
+
         #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the StyleCopOptionsPage class.
         /// </summary>
-        /// <param name="settingsSmartContext">Our settings context.</param>
-        /// <param name="threading">Our threading model.</param>
-        /// <param name="lifetime">The lifetime of the settings.</param>
+        /// <param name="settingsSmartContext">
+        /// Our settings context. 
+        /// </param>
+        /// <param name="threading">
+        /// Our threading model. 
+        /// </param>
+        /// <param name="lifetime">
+        /// The lifetime of the settings. 
+        /// </param>
         public StyleCopOptionsPage(OptionsSettingsSmartContext settingsSmartContext, IThreading threading, JB::JetBrains.DataFlow.Lifetime lifetime)
         {
             this.smartContext = settingsSmartContext;
@@ -104,9 +117,9 @@ namespace StyleCop.ReSharper611.Options
         }
 
         #endregion
-        
-        #region Properties
-        
+
+        #region Public Properties
+
         /// <summary>
         /// Gets the Control to be shown as page.
         /// </summary>
@@ -121,8 +134,7 @@ namespace StyleCop.ReSharper611.Options
         }
 
         /// <summary>
-        /// Gets the ID of this option page.
-        /// <see cref="T:JetBrains.UI.Options.IOptionsDialog"/>or <see cref="T:JetBrains.UI.Options.OptionsPageDescriptor"/> could be used to retrieve the <see cref="T:JetBrains.UI.Options.OptionsManager"/> out of it.
+        /// Gets the ID of this option page. <see cref="T:JetBrains.UI.Options.IOptionsDialog"/> or <see cref="T:JetBrains.UI.Options.OptionsPageDescriptor"/> could be used to retrieve the <see cref="T:JetBrains.UI.Options.OptionsManager"/> out of it.
         /// </summary>
         /// <value>
         /// </value>
@@ -136,13 +148,13 @@ namespace StyleCop.ReSharper611.Options
 
         #endregion
 
-        #region Public Methods
-        
+        #region Public Methods and Operators
+
         /// <summary>
         /// Resets the CodeStyleOptions to be StyleCop compatible.
         /// </summary>
         /// <param name="settingsStore">
-        /// The settings store to use.
+        /// The settings store to use. 
         /// </param>
         public static void CodeStyleOptionsReset(IContextBoundSettingsStore settingsStore)
         {
@@ -315,14 +327,16 @@ namespace StyleCop.ReSharper611.Options
             settingsStore.SetValue((CSharpFormatSettingsKey key) => key.WRAP_BEFORE_TYPE_PARAMETER_LANGLE, false);
             settingsStore.SetValue((CSharpFormatSettingsKey key) => key.WRAP_EXTENDS_LIST_STYLE, WrapStyle.CHOP_IF_LONG);
             settingsStore.SetValue((CSharpFormatSettingsKey key) => key.WRAP_FOR_STMT_HEADER_STYLE, WrapStyle.CHOP_IF_LONG);
-            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.WRAP_LIMIT, settingsStore.GetValue((CSharpFormatSettingsKey key) => key.WRAP_LIMIT)); // We don't need to set this. It's here for completeness.
+            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.WRAP_LIMIT, settingsStore.GetValue((CSharpFormatSettingsKey key) => key.WRAP_LIMIT));
+                
+                // We don't need to set this. It's here for completeness.
             settingsStore.SetValue((CSharpFormatSettingsKey key) => key.WRAP_LINES, true);
             settingsStore.SetValue((CSharpFormatSettingsKey key) => key.WRAP_MULTIPLE_DECLARATION_STYLE, WrapStyle.CHOP_IF_LONG);
             settingsStore.SetValue((CSharpFormatSettingsKey key) => key.WRAP_MULTIPLE_TYPE_PARAMEER_CONSTRAINTS_STYLE, WrapStyle.CHOP_IF_LONG);
             settingsStore.SetValue((CSharpFormatSettingsKey key) => key.WRAP_OBJECT_AND_COLLECTION_INITIALIZER_STYLE, WrapStyle.CHOP_IF_LONG);
             settingsStore.SetValue((CSharpFormatSettingsKey key) => key.WRAP_PARAMETERS_STYLE, WrapStyle.CHOP_IF_LONG);
             settingsStore.SetValue((CSharpFormatSettingsKey key) => key.WRAP_TERNARY_EXPR_STYLE, WrapStyle.CHOP_IF_LONG);
-            
+
             settingsStore.SetValue((CSharpNamingSettings key) => key.EventHandlerPatternLong, "$object$_On$event$");
             settingsStore.SetValue((CSharpNamingSettings key) => key.EventHandlerPatternShort, "$event$Handler");
 
@@ -369,7 +383,7 @@ namespace StyleCop.ReSharper611.Options
             settingsStore.SetValue(CSharpUsingSettingsAccessor.KeepNontrivialAlias, true);
             settingsStore.SetValue(CSharpUsingSettingsAccessor.PreferQualifiedReference, false);
             settingsStore.SetValue(CSharpUsingSettingsAccessor.SortUsings, true);
-            
+
             string reorderingPatterns;
             using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("StyleCop.ReSharper611.Resources.ReorderingPatterns.xml"))
             {
@@ -378,7 +392,7 @@ namespace StyleCop.ReSharper611.Options
                     reorderingPatterns = reader.ReadToEnd();
                 }
             }
-            
+
             settingsStore.SetValue((CSharpMemberOrderPatternSettings key) => key.CustomPattern, reorderingPatterns);
 
             ISolution solution = Utils.GetSolution();
@@ -437,13 +451,16 @@ namespace StyleCop.ReSharper611.Options
                 SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1615ElementReturnValueMustBeDocumented", true);
                 SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1617VoidReturnValueMustNotBeDocumented", true);
                 SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1618GenericTypeParametersMustBeDocumented", true);
-                SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1626SingleLineCommentsMustNotUseDocumentationStyleSlashes", true);
+                SetCodeCleanupProfileSetting(
+                    codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1626SingleLineCommentsMustNotUseDocumentationStyleSlashes", true);
                 SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1628DocumentationTextMustBeginWithACapitalLetter", true);
                 SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1629DocumentationTextMustEndWithAPeriod", true);
                 SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1633SA1641UpdateFileHeader", 2); // Replace Copyright
                 SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1639FileHeaderMustHaveSummary", true);
-                SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1642ConstructorSummaryDocumentationMustBeginWithStandardText", true);
-                SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1643DestructorSummaryDocumentationMustBeginWithStandardText", true);
+                SetCodeCleanupProfileSetting(
+                    codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1642ConstructorSummaryDocumentationMustBeginWithStandardText", true);
+                SetCodeCleanupProfileSetting(
+                    codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1643DestructorSummaryDocumentationMustBeginWithStandardText", true);
                 SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1644DocumentationHeadersMustNotContainBlankLines", true);
 
                 SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Layout", "SA1500CurlyBracketsForMultiLineStatementsMustNotShareLine", true);
@@ -462,7 +479,8 @@ namespace StyleCop.ReSharper611.Options
                 SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Ordering", "SA1212PropertyAccessorsMustFollowOrder", true);
                 SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Ordering", "SA1213EventAccessorsMustFollowOrder", true);
 
-                SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Readability", "SA1100DoNotPrefixCallsWithBaseUnlessLocalImplementationExists", true);
+                SetCodeCleanupProfileSetting(
+                    codeCleanupInstance, styleCopProfile, "StyleCop.Readability", "SA1100DoNotPrefixCallsWithBaseUnlessLocalImplementationExists", true);
                 SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Readability", "SA1106CodeMustNotContainEmptyStatements", true);
                 SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Readability", "SA1108BlockStatementsMustNotContainEmbeddedComments", true);
                 SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "StyleCop.Readability", "SA1109BlockStatementsMustNotContainEmbeddedRegions", true);
@@ -483,12 +501,16 @@ namespace StyleCop.ReSharper611.Options
                 codeCleanupSettings.SetSilentCleanupProfileName(settingsStore, styleCopProfile.Name);
             }
         }
-        
+
         /// <summary>
         /// Confirms that the ReSharper code style options are all valid to ensure no StyleCop issues on cleanup.
         /// </summary>
-        /// <param name="settingsStore">The settings store to use.</param>
-        /// <returns>True if options are all valid, otherwise false.</returns>
+        /// <param name="settingsStore">
+        /// The settings store to use. 
+        /// </param>
+        /// <returns>
+        /// True if options are all valid, otherwise false. 
+        /// </returns>
         public static bool CodeStyleOptionsValid(IContextBoundSettingsStore settingsStore)
         {
             if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.ALIGN_FIRST_ARG_BY_PAREN))
@@ -551,8 +573,7 @@ namespace StyleCop.ReSharper611.Options
                 return false;
             }
 
-            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.ANONYMOUS_METHOD_DECLARATION_BRACES)
-                != BraceFormatStyle.NEXT_LINE_SHIFTED_2)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.ANONYMOUS_METHOD_DECLARATION_BRACES) != BraceFormatStyle.NEXT_LINE_SHIFTED_2)
             {
                 return false;
             }
@@ -717,14 +738,12 @@ namespace StyleCop.ReSharper611.Options
                 return false;
             }
 
-            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.INITIALIZER_BRACES)
-                != BraceFormatStyle.NEXT_LINE_SHIFTED_2)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.INITIALIZER_BRACES) != BraceFormatStyle.NEXT_LINE_SHIFTED_2)
             {
                 return false;
             }
 
-            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.INVOCABLE_DECLARATION_BRACES)
-                != BraceFormatStyle.NEXT_LINE)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.INVOCABLE_DECLARATION_BRACES) != BraceFormatStyle.NEXT_LINE)
             {
                 return false;
             }
@@ -749,9 +768,7 @@ namespace StyleCop.ReSharper611.Options
                 return false;
             }
 
-            if (
-                !settingsStore.GetValue((CSharpFormatSettingsKey key) => key.MODIFIERS_ORDER).SequenceEqual(
-                    ModifiersOrder))
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.MODIFIERS_ORDER).SequenceEqual(ModifiersOrder))
             {
                 return false;
             }
@@ -761,9 +778,7 @@ namespace StyleCop.ReSharper611.Options
                 return false;
             }
 
-            if (
-                !settingsStore.GetValue(
-                    (CSharpFormatSettingsKey key) => key.PLACE_ABSTRACT_ACCESSORHOLDER_ON_SINGLE_LINE))
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.PLACE_ABSTRACT_ACCESSORHOLDER_ON_SINGLE_LINE))
             {
                 return false;
             }
@@ -813,9 +828,7 @@ namespace StyleCop.ReSharper611.Options
                 return false;
             }
 
-            if (
-                !settingsStore.GetValue(
-                    (CSharpFormatSettingsKey key) => key.PLACE_SIMPLE_ANONYMOUSMETHOD_ON_SINGLE_LINE))
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.PLACE_SIMPLE_ANONYMOUSMETHOD_ON_SINGLE_LINE))
             {
                 return false;
             }
@@ -850,14 +863,12 @@ namespace StyleCop.ReSharper611.Options
                 return false;
             }
 
-            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.REDUNDANT_THIS_QUALIFIER_STYLE)
-                != ThisQualifierStyle.ALWAYS_USE)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.REDUNDANT_THIS_QUALIFIER_STYLE) != ThisQualifierStyle.ALWAYS_USE)
             {
                 return false;
             }
 
-            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SIMPLE_EMBEDDED_STATEMENT_STYLE)
-                != SimpleEmbeddedStatementStyle.ON_SINGLE_LINE)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SIMPLE_EMBEDDED_STATEMENT_STYLE) != SimpleEmbeddedStatementStyle.ON_SINGLE_LINE)
             {
                 return false;
             }
@@ -902,9 +913,7 @@ namespace StyleCop.ReSharper611.Options
                 return false;
             }
 
-            if (
-                !settingsStore.GetValue(
-                    (CSharpFormatSettingsKey key) => key.SPACE_AFTER_TYPE_PARAMETER_CONSTRAINT_COLON))
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_AFTER_TYPE_PARAMETER_CONSTRAINT_COLON))
             {
                 return false;
             }
@@ -1119,9 +1128,7 @@ namespace StyleCop.ReSharper611.Options
                 return false;
             }
 
-            if (
-                !settingsStore.GetValue(
-                    (CSharpFormatSettingsKey key) => key.SPACE_BEFORE_TYPE_PARAMETER_CONSTRAINT_COLON))
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_BEFORE_TYPE_PARAMETER_CONSTRAINT_COLON))
             {
                 return false;
             }
@@ -1141,9 +1148,7 @@ namespace StyleCop.ReSharper611.Options
                 return false;
             }
 
-            if (
-                !settingsStore.GetValue(
-                    (CSharpFormatSettingsKey key) => key.SPACE_BETWEEN_ACCESSORS_IN_SINGLELINE_PROPERTY))
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_BETWEEN_ACCESSORS_IN_SINGLELINE_PROPERTY))
             {
                 return false;
             }
@@ -1238,9 +1243,7 @@ namespace StyleCop.ReSharper611.Options
                 return false;
             }
 
-            if (
-                !settingsStore.GetValue(
-                    (CSharpFormatSettingsKey key) => key.SPACE_WITHIN_SINGLE_LINE_ARRAY_INITIALIZER_BRACES))
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.SPACE_WITHIN_SINGLE_LINE_ARRAY_INITIALIZER_BRACES))
             {
                 return false;
             }
@@ -1295,8 +1298,7 @@ namespace StyleCop.ReSharper611.Options
                 return false;
             }
 
-            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.TYPE_DECLARATION_BRACES)
-                != BraceFormatStyle.NEXT_LINE)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.TYPE_DECLARATION_BRACES) != BraceFormatStyle.NEXT_LINE)
             {
                 return false;
             }
@@ -1311,8 +1313,7 @@ namespace StyleCop.ReSharper611.Options
                 return false;
             }
 
-            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.WRAP_ARGUMENTS_STYLE)
-                != WrapStyle.CHOP_IF_LONG)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.WRAP_ARGUMENTS_STYLE) != WrapStyle.CHOP_IF_LONG)
             {
                 return false;
             }
@@ -1332,9 +1333,7 @@ namespace StyleCop.ReSharper611.Options
                 return false;
             }
 
-            if (
-                !settingsStore.GetValue(
-                    (CSharpFormatSettingsKey key) => key.WRAP_BEFORE_FIRST_TYPE_PARAMETER_CONSTRAINT))
+            if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.WRAP_BEFORE_FIRST_TYPE_PARAMETER_CONSTRAINT))
             {
                 return false;
             }
@@ -1349,14 +1348,12 @@ namespace StyleCop.ReSharper611.Options
                 return false;
             }
 
-            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.WRAP_EXTENDS_LIST_STYLE)
-                != WrapStyle.CHOP_IF_LONG)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.WRAP_EXTENDS_LIST_STYLE) != WrapStyle.CHOP_IF_LONG)
             {
                 return false;
             }
 
-            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.WRAP_FOR_STMT_HEADER_STYLE)
-                != WrapStyle.CHOP_IF_LONG)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.WRAP_FOR_STMT_HEADER_STYLE) != WrapStyle.CHOP_IF_LONG)
             {
                 return false;
             }
@@ -1366,41 +1363,32 @@ namespace StyleCop.ReSharper611.Options
                 return false;
             }
 
-            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.WRAP_MULTIPLE_DECLARATION_STYLE)
-                != WrapStyle.CHOP_IF_LONG)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.WRAP_MULTIPLE_DECLARATION_STYLE) != WrapStyle.CHOP_IF_LONG)
             {
                 return false;
             }
 
-            if (
-                settingsStore.GetValue(
-                    (CSharpFormatSettingsKey key) => key.WRAP_MULTIPLE_TYPE_PARAMEER_CONSTRAINTS_STYLE)
-                != WrapStyle.CHOP_IF_LONG)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.WRAP_MULTIPLE_TYPE_PARAMEER_CONSTRAINTS_STYLE) != WrapStyle.CHOP_IF_LONG)
             {
                 return false;
             }
 
-            if (settingsStore.GetValue(
-                (CSharpFormatSettingsKey key) => key.WRAP_OBJECT_AND_COLLECTION_INITIALIZER_STYLE)
-                != WrapStyle.CHOP_IF_LONG)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.WRAP_OBJECT_AND_COLLECTION_INITIALIZER_STYLE) != WrapStyle.CHOP_IF_LONG)
             {
                 return false;
             }
 
-            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.WRAP_PARAMETERS_STYLE)
-                != WrapStyle.CHOP_IF_LONG)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.WRAP_PARAMETERS_STYLE) != WrapStyle.CHOP_IF_LONG)
             {
                 return false;
             }
 
-            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.WRAP_TERNARY_EXPR_STYLE)
-                != WrapStyle.CHOP_IF_LONG)
+            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.WRAP_TERNARY_EXPR_STYLE) != WrapStyle.CHOP_IF_LONG)
             {
                 return false;
             }
 
-            if (settingsStore.GetValue((CSharpNamingSettings key) => key.EventHandlerPatternLong)
-                != "$object$_On$event$")
+            if (settingsStore.GetValue((CSharpNamingSettings key) => key.EventHandlerPatternLong) != "$object$_On$event$")
             {
                 return false;
             }
@@ -1418,7 +1406,7 @@ namespace StyleCop.ReSharper611.Options
                 {
                     policy = ClrPolicyProviderBase.GetDefaultPolicy(kindOfElement);
                 }
-                
+
                 NamingRule rule = policy.NamingRule;
                 if (rule.Suffix != string.Empty)
                 {
@@ -1506,8 +1494,7 @@ namespace StyleCop.ReSharper611.Options
             }
 
             string reorderingPatterns;
-            using (
-                var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("StyleCop.ReSharper611.Resources.ReorderingPatterns.xml"))
+            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("StyleCop.ReSharper611.Resources.ReorderingPatterns.xml"))
             {
                 using (var reader = new StreamReader(stream))
                 {
@@ -1543,25 +1530,23 @@ namespace StyleCop.ReSharper611.Options
                         }
                     }
                 }
-                
+
                 if (styleCopProfile == null)
                 {
                     return false;
                 }
 
-                if (
-                    !GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "CSArrangeThisQualifier", null))
+                if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "CSArrangeThisQualifier", null))
                 {
                     return false;
                 }
-                
+
                 if (GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "CSUpdateFileHeader", null))
                 {
                     return false;
                 }
 
-                if (
-                    !GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "CSOptimizeUsings", "OptimizeUsings"))
+                if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "CSOptimizeUsings", "OptimizeUsings"))
                 {
                     return false;
                 }
@@ -1586,14 +1571,12 @@ namespace StyleCop.ReSharper611.Options
                     return false;
                 }
 
-                if (
-                    !GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "CSReorderTypeMembers", null))
+                if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "CSReorderTypeMembers", null))
                 {
                     return false;
                 }
 
-                if (
-                    !GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1600ElementsMustBeDocumented"))
+                if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1600ElementsMustBeDocumented"))
                 {
                     return false;
                 }
@@ -1628,12 +1611,16 @@ namespace StyleCop.ReSharper611.Options
                     return false;
                 }
 
-                if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1626SingleLineCommentsMustNotUseDocumentationStyleSlashes"))
+                if (
+                    !GetCodeCleanupProfileSetting<bool>(
+                        codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1626SingleLineCommentsMustNotUseDocumentationStyleSlashes"))
                 {
                     return false;
                 }
 
-                if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1628DocumentationTextMustBeginWithACapitalLetter"))
+                if (
+                    !GetCodeCleanupProfileSetting<bool>(
+                        codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1628DocumentationTextMustBeginWithACapitalLetter"))
                 {
                     return false;
                 }
@@ -1653,22 +1640,30 @@ namespace StyleCop.ReSharper611.Options
                     return false;
                 }
 
-                if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1642ConstructorSummaryDocumentationMustBeginWithStandardText"))
+                if (
+                    !GetCodeCleanupProfileSetting<bool>(
+                        codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1642ConstructorSummaryDocumentationMustBeginWithStandardText"))
                 {
                     return false;
                 }
 
-                if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1643DestructorSummaryDocumentationMustBeginWithStandardText"))
+                if (
+                    !GetCodeCleanupProfileSetting<bool>(
+                        codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1643DestructorSummaryDocumentationMustBeginWithStandardText"))
                 {
                     return false;
                 }
 
-                if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1644DocumentationHeadersMustNotContainBlankLines"))
+                if (
+                    !GetCodeCleanupProfileSetting<bool>(
+                        codeCleanupInstance, styleCopProfile, "StyleCop.Documentation", "SA1644DocumentationHeadersMustNotContainBlankLines"))
                 {
                     return false;
                 }
 
-                if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Layout", "SA1500CurlyBracketsForMultiLineStatementsMustNotShareLine"))
+                if (
+                    !GetCodeCleanupProfileSetting<bool>(
+                        codeCleanupInstance, styleCopProfile, "StyleCop.Layout", "SA1500CurlyBracketsForMultiLineStatementsMustNotShareLine"))
                 {
                     return false;
                 }
@@ -1678,7 +1673,9 @@ namespace StyleCop.ReSharper611.Options
                     return false;
                 }
 
-                if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Layout", "SA1510ChainedStatementBlocksMustNotBePrecededByBlankLine"))
+                if (
+                    !GetCodeCleanupProfileSetting<bool>(
+                        codeCleanupInstance, styleCopProfile, "StyleCop.Layout", "SA1510ChainedStatementBlocksMustNotBePrecededByBlankLine"))
                 {
                     return false;
                 }
@@ -1698,7 +1695,9 @@ namespace StyleCop.ReSharper611.Options
                     return false;
                 }
 
-                if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Layout", "SA1514ElementDocumentationHeaderMustBePrecededByBlankLine"))
+                if (
+                    !GetCodeCleanupProfileSetting<bool>(
+                        codeCleanupInstance, styleCopProfile, "StyleCop.Layout", "SA1514ElementDocumentationHeaderMustBePrecededByBlankLine"))
                 {
                     return false;
                 }
@@ -1708,7 +1707,9 @@ namespace StyleCop.ReSharper611.Options
                     return false;
                 }
 
-                if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Maintainability", "SA1119StatementMustNotUseUnnecessaryParenthesis"))
+                if (
+                    !GetCodeCleanupProfileSetting<bool>(
+                        codeCleanupInstance, styleCopProfile, "StyleCop.Maintainability", "SA1119StatementMustNotUseUnnecessaryParenthesis"))
                 {
                     return false;
                 }
@@ -1735,7 +1736,9 @@ namespace StyleCop.ReSharper611.Options
                     return false;
                 }
 
-                if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Readability", "SA1100DoNotPrefixCallsWithBaseUnlessLocalImplementationExists"))
+                if (
+                    !GetCodeCleanupProfileSetting<bool>(
+                        codeCleanupInstance, styleCopProfile, "StyleCop.Readability", "SA1100DoNotPrefixCallsWithBaseUnlessLocalImplementationExists"))
                 {
                     return false;
                 }
@@ -1745,12 +1748,16 @@ namespace StyleCop.ReSharper611.Options
                     return false;
                 }
 
-                if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Readability", "SA1108BlockStatementsMustNotContainEmbeddedComments"))
+                if (
+                    !GetCodeCleanupProfileSetting<bool>(
+                        codeCleanupInstance, styleCopProfile, "StyleCop.Readability", "SA1108BlockStatementsMustNotContainEmbeddedComments"))
                 {
                     return false;
                 }
 
-                if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "StyleCop.Readability", "SA1109BlockStatementsMustNotContainEmbeddedRegions"))
+                if (
+                    !GetCodeCleanupProfileSetting<bool>(
+                        codeCleanupInstance, styleCopProfile, "StyleCop.Readability", "SA1109BlockStatementsMustNotContainEmbeddedRegions"))
                 {
                     return false;
                 }
@@ -1820,7 +1827,7 @@ namespace StyleCop.ReSharper611.Options
         public void Display()
         {
             this.autoDetectCheckBox.Checked = string.IsNullOrEmpty(this.smartContext.GetValue<StyleCopOptionsSettingsKey, string>(key => key.SpecifiedAssemblyPath));
-            
+
             if (this.autoDetectCheckBox.Checked)
             {
                 this.ShowDetectedAssemblyLocation();
@@ -1832,30 +1839,24 @@ namespace StyleCop.ReSharper611.Options
 
             this.performanceTrackBar.Value = this.smartContext.GetValue<StyleCopOptionsSettingsKey, int>(key => key.ParsingPerformance);
             this.insertTextCheckBox.Checked = this.smartContext.GetValue<StyleCopOptionsSettingsKey, bool>(key => key.InsertTextIntoDocumentation);
-            this.dashesCountMaskedTextBox.Text = this.smartContext.GetValue<StyleCopOptionsSettingsKey, int>(key => key.DashesCountInFileHeader).ToString(CultureInfo.InvariantCulture);
+            this.dashesCountMaskedTextBox.Text =
+                this.smartContext.GetValue<StyleCopOptionsSettingsKey, int>(key => key.DashesCountInFileHeader).ToString(CultureInfo.InvariantCulture);
             this.useExcludeFromStyleCopCheckBox.Checked = this.smartContext.GetValue<StyleCopOptionsSettingsKey, bool>(key => key.UseExcludeFromStyleCopSetting);
             this.justificationTextBox.Text = this.smartContext.GetValue<StyleCopOptionsSettingsKey, string>(key => key.SuppressStyleCopAttributeJustificationText);
-            this.useSingleLineForDeclarationCommentsCheckBox.Checked = this.smartContext.GetValue<StyleCopOptionsSettingsKey, bool>(key => key.UseSingleLineDeclarationComments);
+            this.useSingleLineForDeclarationCommentsCheckBox.Checked =
+                this.smartContext.GetValue<StyleCopOptionsSettingsKey, bool>(key => key.UseSingleLineDeclarationComments);
             this.enableAnalysisCheckBox.Checked = this.smartContext.GetValue<StyleCopOptionsSettingsKey, bool>(key => key.AnalysisEnabled);
-            this.checkCodeStyleOptionsAtStartUpCheckBox.Checked = this.smartContext.GetValue<StyleCopOptionsSettingsKey, bool>(key => key.CheckReSharperCodeStyleOptionsAtStartUp);
+            this.checkCodeStyleOptionsAtStartUpCheckBox.Checked =
+                this.smartContext.GetValue<StyleCopOptionsSettingsKey, bool>(key => key.CheckReSharperCodeStyleOptionsAtStartUp);
             this.analyseReadOnlyFilesCheckBox.Checked = this.smartContext.GetValue<StyleCopOptionsSettingsKey, bool>(key => key.AnalyseReadOnlyFiles);
             this.insertToDoTextCheckBox.Checked = this.smartContext.GetValue<StyleCopOptionsSettingsKey, bool>(key => key.InsertToDoText);
         }
-        
-        #endregion
-
-        #region Implemented Interfaces
-
-        #region IOptionsPage
 
         /// <summary>
-        /// Invoked when OK button in the options dialog is pressed
-        /// If the page returns 
-        /// <c>False.</c>, the the options dialog won't be closed, and focus
-        /// will be put into this page.
+        /// Invoked when OK button in the options dialog is pressed If the page returns <c>False.</c> , the the options dialog won't be closed, and focus will be put into this page.
         /// </summary>
         /// <returns>
-        /// Returns a boolean to represent if the page should be closed.
+        /// Returns a boolean to represent if the page should be closed. 
         /// </returns>
         public bool OnOk()
         {
@@ -1863,7 +1864,7 @@ namespace StyleCop.ReSharper611.Options
             {
                 string newLocation = string.Empty;
                 var oldLocation = this.smartContext.GetValue<StyleCopOptionsSettingsKey, string>(key => key.SpecifiedAssemblyPath);
-                
+
                 if (!this.autoDetectCheckBox.Checked)
                 {
                     newLocation = this.StyleCopLocationTextBox.Text.Trim();
@@ -1871,7 +1872,8 @@ namespace StyleCop.ReSharper611.Options
 
                 if (newLocation != oldLocation)
                 {
-                    MessageBox.Show("These changes may require you to restart Visual Studio before they take effect.", "StyleCop", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(
+                        "These changes may require you to restart Visual Studio before they take effect.", "StyleCop", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     this.smartContext.SetValue<StyleCopOptionsSettingsKey, string>(key => key.SpecifiedAssemblyPath, newLocation);
                 }
 
@@ -1879,10 +1881,13 @@ namespace StyleCop.ReSharper611.Options
                 this.smartContext.SetValue<StyleCopOptionsSettingsKey, bool>(key => key.InsertTextIntoDocumentation, this.insertTextCheckBox.Checked);
                 this.smartContext.SetValue<StyleCopOptionsSettingsKey, int>(key => key.DashesCountInFileHeader, int.Parse(this.dashesCountMaskedTextBox.Text));
                 this.smartContext.SetValue<StyleCopOptionsSettingsKey, bool>(key => key.UseExcludeFromStyleCopSetting, this.useExcludeFromStyleCopCheckBox.Checked);
-                this.smartContext.SetValue<StyleCopOptionsSettingsKey, string>(key => key.SuppressStyleCopAttributeJustificationText, this.justificationTextBox.Text.Trim());
-                this.smartContext.SetValue<StyleCopOptionsSettingsKey, bool>(key => key.UseSingleLineDeclarationComments, this.useSingleLineForDeclarationCommentsCheckBox.Checked);
+                this.smartContext.SetValue<StyleCopOptionsSettingsKey, string>(
+                    key => key.SuppressStyleCopAttributeJustificationText, this.justificationTextBox.Text.Trim());
+                this.smartContext.SetValue<StyleCopOptionsSettingsKey, bool>(
+                    key => key.UseSingleLineDeclarationComments, this.useSingleLineForDeclarationCommentsCheckBox.Checked);
                 this.smartContext.SetValue<StyleCopOptionsSettingsKey, bool>(key => key.AnalysisEnabled, this.enableAnalysisCheckBox.Checked);
-                this.smartContext.SetValue<StyleCopOptionsSettingsKey, bool>(key => key.CheckReSharperCodeStyleOptionsAtStartUp, this.checkCodeStyleOptionsAtStartUpCheckBox.Checked);
+                this.smartContext.SetValue<StyleCopOptionsSettingsKey, bool>(
+                    key => key.CheckReSharperCodeStyleOptionsAtStartUp, this.checkCodeStyleOptionsAtStartUpCheckBox.Checked);
                 this.smartContext.SetValue<StyleCopOptionsSettingsKey, bool>(key => key.AnalyseReadOnlyFiles, this.analyseReadOnlyFilesCheckBox.Checked);
                 this.smartContext.SetValue<StyleCopOptionsSettingsKey, bool>(key => key.InsertToDoText, this.insertToDoTextCheckBox.Checked);
                 return true;
@@ -1895,7 +1900,7 @@ namespace StyleCop.ReSharper611.Options
         /// Check if the settings on the page are consistent, and page could be closed.
         /// </summary>
         /// <returns>
-        /// <c>True.</c>if page data is consistent.
+        /// <c>True.</c> if page data is consistent. 
         /// </returns>
         public bool ValidatePage()
         {
@@ -1909,7 +1914,7 @@ namespace StyleCop.ReSharper611.Options
                     return false;
                 }
             }
-            
+
             if (!this.dashesCountMaskedTextBox.MaskCompleted || this.dashesCountMaskedTextBox.Text == string.Empty)
             {
                 this.toolTip.ToolTipTitle = "Invalid number";
@@ -1919,8 +1924,6 @@ namespace StyleCop.ReSharper611.Options
 
             return true;
         }
-
-        #endregion
 
         #endregion
 
@@ -1942,12 +1945,24 @@ namespace StyleCop.ReSharper611.Options
         /// <summary>
         /// Returns a setting for the profile, descriptor and property name supplied.
         /// </summary>
-        /// <typeparam name="T">The return type.</typeparam>
-        /// <param name="codeCleanup">The CodeCleanup object to use.</param>
-        /// <param name="profile">The Cleanup profile to set.</param>
-        /// <param name="descriptorName">The name to match.</param>
-        /// <param name="propertyName">The property name to match.</param>
-        /// <returns>The property value.</returns>
+        /// <typeparam name="T">
+        /// The return type. 
+        /// </typeparam>
+        /// <param name="codeCleanup">
+        /// The CodeCleanup object to use. 
+        /// </param>
+        /// <param name="profile">
+        /// The Cleanup profile to set. 
+        /// </param>
+        /// <param name="descriptorName">
+        /// The name to match. 
+        /// </param>
+        /// <param name="propertyName">
+        /// The property name to match. 
+        /// </param>
+        /// <returns>
+        /// The property value. 
+        /// </returns>
         private static T GetCodeCleanupProfileSetting<T>(CodeCleanup codeCleanup, CodeCleanupProfile profile, string descriptorName, string propertyName)
         {
             var cleanupOptionDescriptor = GetDescriptor(codeCleanup, descriptorName);
@@ -1968,13 +1983,74 @@ namespace StyleCop.ReSharper611.Options
         }
 
         /// <summary>
+        /// Gets a CleanupOptionsDescriptor matching the descriptor name passed in.
+        /// </summary>
+        /// <param name="codeCleanup">
+        /// The CodeCleanup object to use. 
+        /// </param>
+        /// <param name="descriptorName">
+        /// The name to match. 
+        /// </param>
+        /// <returns>
+        /// The CodeCleanupOptionDescriptor for the descriptor. 
+        /// </returns>
+        private static CodeCleanupOptionDescriptor GetDescriptor(CodeCleanup codeCleanup, string descriptorName)
+        {
+            var codeCleanupSettings = Shell.Instance.GetComponent<CodeCleanupSettingsComponent>();
+            var currentModules = codeCleanupSettings.Modules;
+
+            foreach (ICodeCleanupModule module in currentModules)
+            {
+                foreach (CodeCleanupOptionDescriptor descriptor in module.Descriptors)
+                {
+                    if (descriptor.Name == descriptorName && module.LanguageType.Name == "CSHARP")
+                    {
+                        return descriptor;
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Geta a PropertyInfo object matching the descriptor and the property name supplied.
+        /// </summary>
+        /// <param name="descriptor">
+        /// The name to match. 
+        /// </param>
+        /// <param name="propertyName">
+        /// The property name to match. 
+        /// </param>
+        /// <returns>
+        /// A PropertyInfo matching. 
+        /// </returns>
+        private static PropertyInfo GetPropertyInfo(CodeCleanupOptionDescriptor descriptor, string propertyName)
+        {
+            return (from info in descriptor.Type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                    let browsableAttributes = (BrowsableAttribute[])info.GetCustomAttributes(typeof(BrowsableAttribute), false)
+                    where (browsableAttributes.Length != 1) || browsableAttributes[0].Browsable
+                    select info).FirstOrDefault(info => info.Name == propertyName);
+        }
+
+        /// <summary>
         /// Sets a CodeCleanupProfile setting for the profile, descriptor and property name passed in.
         /// </summary>
-        /// <param name="codeCleanup">The CodeCleanup object to use.</param>
-        /// <param name="profile">The Cleanup profile to set.</param>
-        /// <param name="descriptorName">The descriptor name to match.</param>
-        /// <param name="propertyName">The property name to match.</param>
-        /// <param name="value">The new value.</param>
+        /// <param name="codeCleanup">
+        /// The CodeCleanup object to use. 
+        /// </param>
+        /// <param name="profile">
+        /// The Cleanup profile to set. 
+        /// </param>
+        /// <param name="descriptorName">
+        /// The descriptor name to match. 
+        /// </param>
+        /// <param name="propertyName">
+        /// The property name to match. 
+        /// </param>
+        /// <param name="value">
+        /// The new value. 
+        /// </param>
         private static void SetCodeCleanupProfileSetting(CodeCleanup codeCleanup, CodeCleanupProfile profile, string descriptorName, string propertyName, object value)
         {
             var cleanupOptionDescriptor = GetDescriptor(codeCleanup, descriptorName);
@@ -2003,52 +2079,13 @@ namespace StyleCop.ReSharper611.Options
         }
 
         /// <summary>
-        /// Geta a PropertyInfo object matching the descriptor and the property name supplied.
-        /// </summary>
-        /// <param name="descriptor">The name to match.</param>
-        /// <param name="propertyName">The property name to match.</param>
-        /// <returns>A PropertyInfo matching.</returns>
-        private static PropertyInfo GetPropertyInfo(CodeCleanupOptionDescriptor descriptor, string propertyName)
-        {
-            return (from info in descriptor.Type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                    let browsableAttributes = (BrowsableAttribute[])info.GetCustomAttributes(typeof(BrowsableAttribute), false)
-                    where (browsableAttributes.Length != 1) || browsableAttributes[0].Browsable
-                    select info).FirstOrDefault(info => info.Name == propertyName);
-        }
-
-        /// <summary>
-        /// Gets a CleanupOptionsDescriptor matching the descriptor name passed in.
-        /// </summary>
-        /// <param name="codeCleanup">The CodeCleanup object to use.</param>
-        /// <param name="descriptorName">The name to match.</param>
-        /// <returns>The CodeCleanupOptionDescriptor for the descriptor.</returns>
-        private static CodeCleanupOptionDescriptor GetDescriptor(CodeCleanup codeCleanup, string descriptorName)
-        {
-            var codeCleanupSettings = Shell.Instance.GetComponent<CodeCleanupSettingsComponent>();
-            var currentModules = codeCleanupSettings.Modules;
-
-            foreach (ICodeCleanupModule module in currentModules)
-            {
-                foreach (CodeCleanupOptionDescriptor descriptor in module.Descriptors)
-                {
-                    if (descriptor.Name == descriptorName && module.LanguageType.Name == "CSHARP")
-                    {
-                        return descriptor;
-                    }
-                }
-            }
-
-            return null;
-        }
-        
-        /// <summary>
         /// Handles the CheckedChanged event of the AutoDetectCheckBox control.
         /// </summary>
         /// <param name="sender">
-        /// The source of the event.
+        /// The source of the event. 
         /// </param>
         /// <param name="e">
-        /// The <see cref="System.EventArgs"/> instance containing the event data.
+        /// The <see cref="System.EventArgs"/> instance containing the event data. 
         /// </param>
         private void AutoDetectCheckBox_CheckedChanged(object sender, EventArgs e)
         {
@@ -2061,15 +2098,15 @@ namespace StyleCop.ReSharper611.Options
                 this.ShowSpecifiedAssemblyLocation();
             }
         }
-        
+
         /// <summary>
         /// Handles the Click event of the BrowseButton control.
         /// </summary>
         /// <param name="sender">
-        /// The source of the event.
+        /// The source of the event. 
         /// </param>
         /// <param name="e">
-        /// The <see cref="System.EventArgs"/> instance containing the event data.
+        /// The <see cref="System.EventArgs"/> instance containing the event data. 
         /// </param>
         private void BrowseButton_Click(object sender, EventArgs e)
         {
@@ -2080,7 +2117,15 @@ namespace StyleCop.ReSharper611.Options
         {
             this.toolTip.Hide(this.dashesCountMaskedTextBox);
         }
-       
+
+        private void ResetFormatOptionsButton_Click(object sender, EventArgs e)
+        {
+            CodeStyleOptionsReset(this.smartContext);
+            MessageBox.Show(
+                @"C# code style options have been set in order to fix StyleCop violations. Ensure your R# Settings are saved.", @"StyleCop", MessageBoxButtons.OK);
+            this.resetFormatOptionsButton.Enabled = false;
+        }
+
         /// <summary>
         /// Shows the detected assembly location.
         /// </summary>
@@ -2134,13 +2179,6 @@ namespace StyleCop.ReSharper611.Options
             this.StyleCopLocationTextBox.Enabled = true;
         }
 
-        private void ResetFormatOptionsButton_Click(object sender, EventArgs e)
-        {
-            CodeStyleOptionsReset(this.smartContext);
-            MessageBox.Show(@"C# code style options have been set in order to fix StyleCop violations. Ensure your R# Settings are saved.", @"StyleCop", MessageBoxButtons.OK);
-            this.resetFormatOptionsButton.Enabled = false;
-        }
-       
         #endregion
     }
 }

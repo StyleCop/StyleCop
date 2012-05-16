@@ -37,7 +37,7 @@ namespace StyleCop.ReSharper611.Core
     {
         #region Constants and Fields
 
-        private static readonly Dictionary<string, Settings> Cache = new Dictionary<string, Settings>();
+        private static readonly Dictionary<string, Settings> cache = new Dictionary<string, Settings>();
 
         #endregion
 
@@ -72,7 +72,7 @@ namespace StyleCop.ReSharper611.Core
 
             Settings result;
 
-            if (Cache.TryGetValue(cacheKey, out result))
+            if (cache.TryGetValue(cacheKey, out result))
             {
                 StyleCopTrace.Out();
 
@@ -96,7 +96,7 @@ namespace StyleCop.ReSharper611.Core
 
                     StyleCopTrace.Out();
                     this.AddFileWatcher(settingsFilePath);
-                    Cache[cacheKey] = settings;
+                    cache[cacheKey] = settings;
 
                     return settings;
                 }
@@ -142,7 +142,7 @@ namespace StyleCop.ReSharper611.Core
         private static void FileChanged(object source, FileSystemEventArgs e)
         {
             StyleCopTrace.In(source, e);
-            Cache.Clear();
+            cache.Clear();
             StyleCopTrace.Out();
         }
 
@@ -154,7 +154,7 @@ namespace StyleCop.ReSharper611.Core
         private static void OnRenamed(object source, RenamedEventArgs e)
         {
             StyleCopTrace.In(source, e);
-            Cache.Clear();
+            cache.Clear();
             StyleCopTrace.Out();
         }
 
