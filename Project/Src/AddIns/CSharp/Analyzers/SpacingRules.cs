@@ -968,13 +968,14 @@ namespace StyleCop.CSharp
                         {
                             continue;
                         }
+
                         if (itemType == CsTokenType.EndOfLine)
                         {
                             firstOnLine = true;
                             break;
                         }
-                        if (
-                            itemType == CsTokenType.Case ||
+
+                        if (itemType == CsTokenType.Case ||
                             itemType == CsTokenType.Catch ||
                             itemType == CsTokenType.CloseSquareBracket ||
                             itemType == CsTokenType.Comma ||
