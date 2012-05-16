@@ -91,7 +91,7 @@
     <Compile Include="TestData\FileHeaders\FileHeadersValidWithEnumAndParam.cs" />
     <Compile Include="TestData\FileHeaders\FileHeadersValidWithEnumFirst.cs" />
     <Compile Include="TestData\FileHeaders\IFileHeadersValidMultipleTypes.cs" />
-    <Compile Include="TestData\LineSpacing\BlankLinesAtStartAndEndOfFile10.cs" />
+    <None Include="TestData\LineSpacing\BlankLinesAtStartAndEndOfFile10.cs" />
     <Compile Include="TestData\MethodParameters\ConstructorInitializerSpanningMultipleLines.cs" />
     <None Include="TestData\MethodParameters\IndexerAccessBracketPlacement.cs" />
     <None Include="TestData\Spacing\Colons.cs" />

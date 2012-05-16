@@ -291,4 +291,30 @@ namespace A
                     }
                     by shelf;
     }
+
+    class C
+    {
+        private string Method1()
+        {
+            return (from data1 in new xDataItem
+            {
+                Table = SimpleTable,
+                Columns = new[] { new FieldColumnModel(SimpleTableFields[0], "col1") },
+                Name = "data1"
+            }
+                    from data2 in new xDataItem
+                    {
+                        Table = SimpleTable,
+                        Columns = new[] { new FieldColumnModel(SimpleTableFields[0], "col2") },
+                        Name = "data2"
+                    }
+                    from data3 in new xDataItem
+                    {
+                        Table = SimpleTable,
+                        Columns = new[] { new FieldColumnModel(SimpleTableFields[0], "col3") },
+                        Name = "data3"
+                    }
+                    select data1).ToxModel(name, id);
+        }
+    }
 }
