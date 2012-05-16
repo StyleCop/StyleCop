@@ -856,10 +856,41 @@ namespace StyleCop.CSharp
                 }
                 else if (text.Length > 3 && (text[3] == ' ' || text[3] == '\t') && text[2] != '\\')
                 {
-                    if (!(tokenNode.Value.Parent is FileHeader))
+                    // The comment starts with more than one space. This is only a violation if this is the first 
+                    // single-line comment in a row. If there is another single-line comment directly above this one
+                    // with no blank line between them, this is not a violation.
+                    bool first = true;
+                    int newLineCount = 0;
+
+                    foreach (CsToken previousToken in tokens.ReverseIterator(tokenNode.Previous))
+                    {
+                        if (previousToken.CsTokenType == CsTokenType.EndOfLine)
+                        {
+                            if (++newLineCount == 2)
+                            {
+                                break;
+                            }
+                        }
+                        else if (previousToken.CsTokenType == CsTokenType.SingleLineComment)
+                        {
+                            first = false;
+                            break;
+                        }
+                        else if (previousToken.CsTokenType != CsTokenType.WhiteSpace)
+                        {
+                            break;
+                        }
+                    }
+
+                    if (first)
+                    {
+                        addViolation = true;
+                    }
+
+                    if ((tokenNode.Value.Parent is FileHeader))
                     {
                         // Starting with multiple spaces is only an issue if we're outside the FileHeader
-                        addViolation = true;
+                        addViolation = false;
                     }
                 }
 

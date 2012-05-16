@@ -1,16 +1,16 @@
 ﻿namespace CSharpAnalyzersTest.TestData.Comments
 {
-    //Uh oh
-    //  Uh oh
+    //Bad comment
+    //  This is fine as it directly follows another single comment line
 
     internal class CommentsBeginWithSingleSpace
     {
-        //Uh oh
-        //  Uh oh
+        //Bad comment
+        //  This is fine as it directly follows another single comment line
         private void MethodName()
         {
-            //Uh oh
-            //  Uh oh
+            //Bad comment
+            //  This is fine as it directly follows another single comment line
         }
     }
 
