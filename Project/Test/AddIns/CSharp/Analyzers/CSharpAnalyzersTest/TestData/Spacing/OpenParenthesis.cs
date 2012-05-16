@@ -29,6 +29,10 @@ namespace CSharpAnalyzersTest.TestData.Spacing
 
         private void Foo3(Action param)
         {
+            var x = from p in pc
+                    group p by ((int)Math.Round(p.z / 10.0) * 10) - 10 into g
+                    orderby g.Key ascending
+                    select new NameCount { Name = g.Key.ToString(), Count = g.Count() };
         }
    }
 }

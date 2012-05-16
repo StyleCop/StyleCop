@@ -968,12 +968,12 @@ namespace StyleCop.CSharp
                         {
                             continue;
                         }
-                        else if (itemType == CsTokenType.EndOfLine)
+                        if (itemType == CsTokenType.EndOfLine)
                         {
                             firstOnLine = true;
                             break;
                         }
-                        else if (
+                        if (
                             itemType == CsTokenType.Case ||
                             itemType == CsTokenType.Catch ||
                             itemType == CsTokenType.CloseSquareBracket ||
@@ -1009,14 +1009,13 @@ namespace StyleCop.CSharp
                             itemType == CsTokenType.WhileDo ||
                             itemType == CsTokenType.Yield ||
                             itemType == CsTokenType.LabelColon ||
-                            itemType == CsTokenType.Async)
+                            itemType == CsTokenType.Async ||
+                            itemType == CsTokenType.By)
                         {
                             break;
                         }
-                        else
-                        {
-                            this.AddViolation(tokenNode.Value.FindParentElement(), previousNode.Value.Location, Rules.OpeningParenthesisMustBeSpacedCorrectly);
-                        }
+
+                        this.AddViolation(tokenNode.Value.FindParentElement(), previousNode.Value.Location, Rules.OpeningParenthesisMustBeSpacedCorrectly);
                     }
                 }
             }
