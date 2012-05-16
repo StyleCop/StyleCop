@@ -374,23 +374,31 @@ namespace CSharpAnalyzersTest.TestData
         Item
     }
 
-    /////// <summary>
-    /////// This is the summary.
-    /////// </summary>
-    /////// <remarks></remarks>
-    ////public enum InvalidDocumentationEnum30
-    ////{
-    ////}
+    /// <summary>
+    /// This is the summary.
+    /// </summary>
+    /// <remarks></remarks>
+    public enum InvalidDocumentationEnum30
+    {
+    }
 
-    /////// <summary>
-    /////// This is the summary for the enum.
-    /////// </summary>
-    ////public enum InvalidDocumentationEnum31 
-    ////{
-    ////    /// <summary>
-    ////    /// This is the summary.
-    ////    /// </summary>
-    ////    /// <remarks></remarks>
-    ////    Item
-    ////}
+    /// <summary>
+    /// This is the summary for the enum.
+    /// </summary>
+    public enum InvalidDocumentationEnum31
+    {
+        /// <summary>
+        /// This is the summary.
+        /// </summary>
+        /// <remarks></remarks>
+        Item
+    }
+
+    public enum RedGreen
+    {
+        Red,
+
+        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1602:EnumerationItemsMustBeDocumented", Justification = "This is fine.")]
+        Green
+    }
 }

@@ -1490,6 +1490,10 @@ namespace StyleCop.CSharp
                 enumItem.Tokens = new CsTokenList(this.tokens, firstEnumItemToken, this.tokens.Last);
 
                 enumItems.Add(enumItem);
+
+                // Add any suppressed rules.
+                this.AddRuleSuppressionsForElement(enumItem);
+
                 parent.AddElement(enumItem);
 
                 symbol = this.GetNextSymbol(parentReference);

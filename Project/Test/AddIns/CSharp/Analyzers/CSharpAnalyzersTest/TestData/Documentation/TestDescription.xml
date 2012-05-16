@@ -730,6 +730,11 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationMethods.InvalidMethod13%int" LineNumber="201"  Rule="DocumentationTextMustMeetMinimumCharacterLength" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationMethods.InvalidMethod20" LineNumber="259"  Rule="DocumentationTextMustMeetMinimumCharacterLength" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationMethods.InvalidMethod27`T" LineNumber="318"  Rule="DocumentationTextMustMeetMinimumCharacterLength" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationEnum30" LineNumber="381" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="DocumentationTextMustNotBeEmpty" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationEnum31.Item" LineNumber="394" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="DocumentationTextMustNotBeEmpty" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.RedGreen" LineNumber="397" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.RedGreen.Red" LineNumber="399" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="EnumerationItemsMustBeDocumented" />
+
     </ExpectedViolations>
   </Test>
 
