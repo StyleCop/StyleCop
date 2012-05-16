@@ -1375,7 +1375,8 @@ namespace StyleCop.CSharp
 
             bool addViolation = false;
 
-            // A generic should be followed by whitespace (but not whitespace and an open paran), open paren, close paren, close generic bracket, comma, period, semicolon or endofline.
+            // A generic close bracketshould be followed by whitespace (but not whitespace and an open paran),
+            // open paren, close paren, close generic bracket, comma, period, semicolon open square bracket or endofline.
             Node<CsToken> nextNode = genericTokenNode.Next;
             if (nextNode == null)
             {
@@ -1387,7 +1388,7 @@ namespace StyleCop.CSharp
 
                 if (nextNodeTokenType != CsTokenType.WhiteSpace && nextNodeTokenType != CsTokenType.EndOfLine && nextNodeTokenType != CsTokenType.OpenParenthesis
                     && nextNodeTokenType != CsTokenType.CloseParenthesis && nextNodeTokenType != CsTokenType.CloseGenericBracket
-                    && nextNodeTokenType != CsTokenType.OperatorSymbol && nextNodeTokenType != CsTokenType.Comma && nextNodeTokenType != CsTokenType.Semicolon)
+                    && nextNodeTokenType != CsTokenType.OperatorSymbol && nextNodeTokenType != CsTokenType.OpenSquareBracket && nextNodeTokenType != CsTokenType.Comma && nextNodeTokenType != CsTokenType.Semicolon)
                 {
                     addViolation = true;
                 }
