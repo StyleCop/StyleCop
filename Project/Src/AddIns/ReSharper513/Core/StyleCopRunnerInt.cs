@@ -206,10 +206,6 @@ namespace StyleCop.ReSharper513.Core
         /// </param>
         private void OnViolationEncountered(object sender, ViolationEventArgs e)
         {
-            StyleCopTrace.In();
-
-            // sometimes this element is null from StyleCop we handle that now so dont' need to check for it here
-            var fileName = e.Violation.Element.Document.SourceCode.Name;
             var path = e.SourceCode.Path;
             var lineNumber = e.LineNumber;
 
@@ -230,12 +226,17 @@ namespace StyleCop.ReSharper513.Core
                     documentRange = Utils.TrimWhitespaceFromDocumentRange(documentRange);
                 }
 
+                string fileName = this.file.Location.Name;
+
+                if (e.Violation.Element != null)
+                {
+                    fileName = e.Violation.Element.Document.SourceCode.Name;
+                }
+
                 var violation = StyleCopViolationFactory.GetHighlight(e, documentRange, fileName, lineNumber);
 
                 this.CreateViolation(documentRange, violation);
             }
-
-            StyleCopTrace.Out();
         }
 
         /// <summary>

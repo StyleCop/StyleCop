@@ -208,8 +208,6 @@ namespace StyleCop.ReSharper610.Core
         /// </param>
         private void OnViolationEncountered(object sender, ViolationEventArgs e)
         {
-            // sometimes this element is null from StyleCop we handle that now so dont' need to check for it here
-            var fileName = e.Violation.Element.Document.SourceCode.Name;
             var path = e.SourceCode.Path;
             var lineNumber = e.LineNumber;
 
@@ -219,7 +217,7 @@ namespace StyleCop.ReSharper610.Core
                 var line = (JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine>)lineNumber;
 
                 var textRange = Utils.GetTextRange(this.file, line.Minus1());
-
+                
                 // The TextRange could be a completely blank line. If it is just return the line and don't trim it.
                 var documentRange = new DocumentRange(this.document, textRange);
 
@@ -228,6 +226,13 @@ namespace StyleCop.ReSharper610.Core
                     // Once we have a TextRange for the entire line reduce it to not include whitespace at the left or whitespace at the right
                     // if it wasn't empty
                     documentRange = Utils.TrimWhitespaceFromDocumentRange(documentRange);
+                }
+
+                string fileName = this.file.Location.Name;
+
+                if (e.Violation.Element != null)
+                {
+                    fileName = e.Violation.Element.Document.SourceCode.Name;
                 }
 
                 var violation = StyleCopViolationFactory.GetHighlight(e, documentRange, fileName, lineNumber);
