@@ -887,7 +887,7 @@ namespace StyleCop.CSharp
                         addViolation = true;
                     }
 
-                    if ((tokenNode.Value.Parent is FileHeader))
+                    if (tokenNode.Value.Parent is FileHeader)
                     {
                         // Starting with multiple spaces is only an issue if we're outside the FileHeader
                         addViolation = false;
