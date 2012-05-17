@@ -14,7 +14,7 @@
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
     <ProjectGuid>{AF7A7FEA-C07B-456A-B072-C7E795A6CBD4}</ProjectGuid>
     <OldToolsVersion>3.5</OldToolsVersion>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <UpgradeBackupLocation />
@@ -103,6 +103,7 @@
     <Compile Include="CacheOptions.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Countdown.cs" />
     <Compile Include="Diagnostics\SensitiveDataAttribute.cs" />
     <Compile Include="Diagnostics\StyleCopSwitch.cs" />
     <Compile Include="Diagnostics\StyleCopTrace.cs" />

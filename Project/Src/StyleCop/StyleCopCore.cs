@@ -49,9 +49,9 @@ namespace StyleCop
         #region Private Fields
 
         /// <summary>
-        /// Provides a countdown for each of the threads we will start later.
+        /// Provides a countdown for each of the threads we will start later. We will use CountdownEvent in Framework 4.0.
         /// </summary>
-        private static CountdownEvent countdown;
+        private static Countdown countdown;
 
 #if !DEBUGTHREADING
         /// <summary>
@@ -1816,7 +1816,7 @@ namespace StyleCop
             // Create the thread class arrays.
             StyleCopThread[] threadClasses = new StyleCopThread[count];
 
-            countdown = new CountdownEvent(count);
+            countdown = new Countdown(count);
 
             // Allocate and start all the threads.
             for (int i = 0; i < count; ++i)
