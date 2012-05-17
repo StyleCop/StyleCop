@@ -1313,8 +1313,13 @@ namespace StyleCop.CSharp
                 this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.ClosingCurlyBracketsMustBeSpacedCorrectly);
             }
 
-            // Close curly brackets should be followed either by whitespace, a close paren, a dot,
-            // a semicolon, or a comma.
+            // Close curly brackets should be followed either by:
+            // whitespace
+            // a close paren
+            // a dot,
+            // a semicolon
+            // open square bracket
+            // or a comma.
             Node<CsToken> nextNode = tokenNode.Next;
             if (nextNode != null)
             {
@@ -1324,6 +1329,7 @@ namespace StyleCop.CSharp
                     nextType != CsTokenType.CloseParenthesis &&
                     !IsTokenADot(nextNode.Value) &&
                     nextType != CsTokenType.Semicolon &&
+                    nextType != CsTokenType.OpenSquareBracket &&
                     nextType != CsTokenType.Comma)
                 {
                     this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.ClosingCurlyBracketsMustBeSpacedCorrectly);

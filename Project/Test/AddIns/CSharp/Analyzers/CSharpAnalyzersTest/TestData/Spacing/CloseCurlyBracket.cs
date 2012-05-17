@@ -66,6 +66,8 @@ namespace CSharpAnalyzersTest.TestData.Spacing
                                     },
                             } . ToDictionary(i => i.Key); // invalid spacing after the closing curly bracket
             }
-        }        
+        }
+
+        private static readonly string example = new[] { "Hello", "world" }[0];
     }
 }
