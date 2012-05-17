@@ -536,7 +536,7 @@ namespace StyleCop.CSharp
                         this.CheckWordUsageAgainstClassMemberRules(
                             tokenNode.Value.Text,
                             tokenNode.Value,
-                            tokenNode.Value.LineNumber,
+                            tokenNode.Value.Location,
                             expression,
                             parentElement,
                             parentClass,
@@ -552,7 +552,7 @@ namespace StyleCop.CSharp
         /// </summary>
         /// <param name="word">The word text to check.</param>
         /// <param name="item">The word being checked.</param>
-        /// <param name="line">The line that the word appears on.</param>
+        /// <param name="location">The location of the word.</param>
         /// <param name="expression">The expression the word appears within.</param>
         /// <param name="parentElement">The element that contains the word.</param>
         /// <param name="parentClass">The parent class that this element belongs to.</param>
@@ -561,7 +561,7 @@ namespace StyleCop.CSharp
         private void CheckWordUsageAgainstClassMemberRules(
             string word,
             CsToken item,
-            int line,
+            CodeLocation location,
             Expression expression,
             CsElement parentElement,
             ClassBase parentClass,
@@ -570,7 +570,7 @@ namespace StyleCop.CSharp
         {
             Param.AssertValidString(word, "word");
             Param.AssertNotNull(item, "item");
-            Param.AssertGreaterThanZero(line, "line");
+            Param.AssertNotNull(location, "location");
             Param.AssertNotNull(expression, "expression");
             Param.AssertNotNull(parentElement, "parentElement");
             Param.Ignore(parentClass);
@@ -581,7 +581,6 @@ namespace StyleCop.CSharp
             if (!IsLocalMember(word, item, expression) && !IsObjectInitializerLeftHandSideExpression(expression))
             {
                 // Determine if this is a member of our class.
-                CsElement foundMember = null;
                 ICollection<CsElement> classMembers = Utils.FindClassMember(word, parentClass, members, false);
                 if (classMembers != null)
                 {
@@ -590,62 +589,53 @@ namespace StyleCop.CSharp
                         if (classMember.Declaration.ContainsModifier(CsTokenType.Static) || (classMember.ElementType == ElementType.Field && ((Field)classMember).Const))
                         {
                             // There is a member with a matching name that is static or is a const field. In this case, 
-                            // ignore the issue and quit.
-                            foundMember = null;
-                            break;
+                            // ignore the issue and continue.
+                            continue;
                         }
-                        else if (classMember.ElementType != ElementType.Class && classMember.ElementType != ElementType.Struct && classMember.ElementType != ElementType.Delegate &&
-                                 classMember.ElementType != ElementType.Enum)
-                        {
-                            // Found a matching member.
-                            if (foundMember == null)
-                            {
-                                foundMember = classMember;
-                            }
-                        }
-                    }
 
-                    if (foundMember != null)
-                    {
-                        if (foundMember.ElementType == ElementType.Property)
+                        if (classMember.ElementType != ElementType.Class && classMember.ElementType != ElementType.Struct
+                            && classMember.ElementType != ElementType.Delegate && classMember.ElementType != ElementType.Enum)
                         {
-                            // If the property's name and type are the same, then this is not a violation.
-                            // In this case, the type is being accessed, not the property.
-                            Property property = (Property)foundMember;
-                            if (property.ReturnType.Text != property.Declaration.Name)
+                            if (classMember.ElementType == ElementType.Property)
                             {
-                                this.AddViolation(parentElement, line, Rules.PrefixLocalCallsWithThis, word);
-                            }
-                        }
-                        else
-                        {
-                            bool addViolation = true;
-
-                            if (parentExpression != null && parentExpression.ExpressionType == ExpressionType.MethodInvocation && foundMember is Method)
-                            {
-                                var methodInvocationExpression = (MethodInvocationExpression)parentExpression;
-                                
-                                var foundMethod = (Method)foundMember;
-
-                                if (methodInvocationExpression.Arguments.Count != foundMethod.Parameters.Count)
+                                // If the property's name and type are the same, then this is not a violation.
+                                // In this case, the type is being accessed, not the property.
+                                Property property = (Property)classMember;
+                                if (property.ReturnType.Text != property.Declaration.Name)
                                 {
-                                    addViolation = false;
-                                }
-
-                                // If we get to here the circumstances could be as follows.
-                                // We're calling a base class static method like Equals or ReferenceEquals.
-                                // We could also have an instance method with the same name and the same number of properties.
-                                // At this point we can't determine whether the prefix should be 'this.' or 'object.'
-                                // Being cautious we dont throw if the name of the method is Equals or ReferenceEquals.
-                                if (word == "Equals" || word == "ReferenceEquals")
-                                {
-                                    addViolation = false;
+                                    this.AddViolation(parentElement, location, Rules.PrefixLocalCallsWithThis, word);
                                 }
                             }
-
-                            if (addViolation)
+                            else
                             {
-                                this.AddViolation(parentElement, line, Rules.PrefixLocalCallsWithThis, word);
+                                bool addViolation = true;
+
+                                if (parentExpression != null && parentExpression.ExpressionType == ExpressionType.MethodInvocation && classMember is Method)
+                                {
+                                    var methodInvocationExpression = (MethodInvocationExpression)parentExpression;
+
+                                    var foundMethod = (Method)classMember;
+
+                                    if (methodInvocationExpression.Arguments.Count != foundMethod.Parameters.Count)
+                                    {
+                                        addViolation = false;
+                                    }
+
+                                    // If we get to here the circumstances could be as follows.
+                                    // We're calling a base class static method like Equals or ReferenceEquals.
+                                    // We could also have an instance method with the same name and the same number of properties.
+                                    // At this point we can't determine whether the prefix should be 'this.' or 'object.'
+                                    // Being cautious we dont throw if the name of the method is Equals or ReferenceEquals.
+                                    if (word == "Equals" || word == "ReferenceEquals")
+                                    {
+                                        addViolation = false;
+                                    }
+                                }
+
+                                if (addViolation)
+                                {
+                                    this.AddViolation(parentElement, location, Rules.PrefixLocalCallsWithThis, word);
+                                }
                             }
                         }
                     }

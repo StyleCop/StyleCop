@@ -71,6 +71,8 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.TestNestedMemberAccessAndMethodInvocationCalls.Method2" LineNumber="200" Rule="PrefixLocalCallsWithThis" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.TestNestedMemberAccessAndMethodInvocationCalls.Method2" LineNumber="188" Rule="PrefixLocalCallsWithThis" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.TestNestedMemberAccessAndMethodInvocationCalls.Method2" LineNumber="191" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.Class1.A" StartLine="94" StartColumn="13" EndLine="94" EndColumn="13" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.Class2.A" StartLine="102" StartColumn="13" EndLine="102" EndColumn="13" Rule="PrefixLocalCallsWithThis" />
     </ExpectedViolations>
   </Test>
 

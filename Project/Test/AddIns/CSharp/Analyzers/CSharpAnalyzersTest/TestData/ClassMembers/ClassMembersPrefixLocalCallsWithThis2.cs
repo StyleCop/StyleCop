@@ -82,4 +82,28 @@ namespace CSharpAnalyzersTest.TestData.ClassMembers
             return this.Prop1 != null ? this.Prop1.GetHashCode() : 0;
         }
     }
+
+    public class Class1
+    {
+        public void A(int i)
+        {
+        }
+
+        public void A()
+        {
+            A(1);
+        }
+    }
+
+    public class Class2
+    {
+        public void A()
+        {
+            A(1);
+        }
+
+        public void A(int i)
+        {
+        }
+    }
 }
