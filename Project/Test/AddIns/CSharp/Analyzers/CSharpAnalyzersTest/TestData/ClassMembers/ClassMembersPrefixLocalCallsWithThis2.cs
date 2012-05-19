@@ -28,7 +28,7 @@ namespace CSharpAnalyzersTest.TestData.ClassMembers
         /// </returns>
         public bool Equals(ClassMembersPrefixLocalCallsWithThis2 other)
         {
-            if (ReferenceEquals(null, other))
+            if (object.ReferenceEquals(null, other))
             {
                 return false;
             }
@@ -104,6 +104,32 @@ namespace CSharpAnalyzersTest.TestData.ClassMembers
 
         public void A(int i)
         {
+        }
+    }
+
+    public class Class3
+    {
+        public bool A<T>()
+        {
+            return B<T>();
+        }
+
+        private bool B<T>()
+        {
+            return true;
+        }
+    }
+
+    public class Class4
+    {
+        public bool A<T>()
+        {
+            return B();
+        }
+
+        private bool B()
+        {
+            return true;
         }
     }
 }

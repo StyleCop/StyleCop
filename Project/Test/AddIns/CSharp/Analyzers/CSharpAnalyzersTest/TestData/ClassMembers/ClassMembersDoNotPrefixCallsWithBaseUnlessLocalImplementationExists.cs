@@ -39,7 +39,7 @@ namespace CSharpAnalyzersTest.TestData
     {        
         public new void A1<T>(T value)
         {
-            base.A1(value);
+            base.A1(value); // This should have base 
             //// base.A1<T>(value); //// This works
         }
     }

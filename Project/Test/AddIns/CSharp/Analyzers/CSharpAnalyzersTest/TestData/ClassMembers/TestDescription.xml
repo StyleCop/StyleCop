@@ -31,6 +31,7 @@
   <Test Name="ClassMembersPrefixLocalCallsWithThis">
     <TestCodeFile>ClassMembersPrefixLocalCallsWithThis.cs</TestCodeFile>
     <TestCodeFile>ClassMembersPrefixLocalCallsWithThis2.cs</TestCodeFile>
+    <TestCodeFile>ValidPrefix.cs</TestCodeFile>
     <Settings>
       <GlobalSettings>
         <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
@@ -40,6 +41,11 @@
         <Analyzer AnalyzerId="StyleCop.CSharp.ReadabilityRules">
           <Rules>
             <Rule Name="PrefixLocalCallsWithThis">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="PrefixCallsCorrectly">
               <RuleSettings>
                 <BooleanProperty Name="Enabled">True</BooleanProperty>
               </RuleSettings>
@@ -71,8 +77,35 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.TestNestedMemberAccessAndMethodInvocationCalls.Method2" LineNumber="200" Rule="PrefixLocalCallsWithThis" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.TestNestedMemberAccessAndMethodInvocationCalls.Method2" LineNumber="188" Rule="PrefixLocalCallsWithThis" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.TestNestedMemberAccessAndMethodInvocationCalls.Method2" LineNumber="191" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.ClassMembersPrefixLocalCallsWithThis2.Equals%ClassMembersPrefixLocalCallsWithThis2" LineNumber="36" StartLine="36" StartColumn="17" EndLine="36" EndColumn="31" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixCallsCorrectly" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.ClassMembersPrefixLocalCallsWithThis2.Equals%ClassMembersPrefixLocalCallsWithThis2" LineNumber="41" StartLine="41" StartColumn="20" EndLine="41" EndColumn="25" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixCallsCorrectly" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.ClassMembersPrefixLocalCallsWithThis2.Equals%object" LineNumber="56" StartLine="56" StartColumn="17" EndLine="56" EndColumn="31" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixCallsCorrectly" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.ClassMembersPrefixLocalCallsWithThis2.Equals%object" LineNumber="61" StartLine="61" StartColumn="17" EndLine="61" EndColumn="31" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixCallsCorrectly" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.Class1.A" StartLine="94" StartColumn="13" EndLine="94" EndColumn="13" Rule="PrefixLocalCallsWithThis" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.Class2.A" StartLine="102" StartColumn="13" EndLine="102" EndColumn="13" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.Class3.A`T" LineNumber="114" StartLine="114" StartColumn="20" EndLine="114" EndColumn="23" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.Class4.A`T" LineNumber="127" StartLine="127" StartColumn="20" EndLine="127" EndColumn="20" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ValidPrefixes.Class1.A`T" LineNumber="12" StartLine="12" StartColumn="20" EndLine="12" EndColumn="23" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ValidPrefixes.Class2.A`T" LineNumber="25" StartLine="25" StartColumn="20" EndLine="25" EndColumn="20" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ValidPrefixes.Class4.A1`T%T" LineNumber="147" StartLine="147" StartColumn="13" EndLine="147" EndColumn="17" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixCallsCorrectly" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ValidPrefixes.Class4.A1`T%T" LineNumber="148" StartLine="148" StartColumn="13" EndLine="148" EndColumn="14" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixCallsCorrectly" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ValidPrefixes.Class5.A1%int" LineNumber="160" StartLine="160" StartColumn="13" EndLine="160" EndColumn="19" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixCallsCorrectly" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ValidPrefixes.Class5.A1%int" LineNumber="161" StartLine="161" StartColumn="13" EndLine="161" EndColumn="14" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixCallsCorrectly" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ValidPrefixes.Class5.A1`T%T" LineNumber="170" StartLine="170" StartColumn="13" EndLine="170" EndColumn="17" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixCallsCorrectly" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ValidPrefixes.Class5.A1`T%T" LineNumber="171" StartLine="171" StartColumn="13" EndLine="171" EndColumn="14" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixCallsCorrectly" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ValidPrefixes.Class6.A1%int" LineNumber="183" StartLine="183" StartColumn="13" EndLine="183" EndColumn="19" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixCallsCorrectly" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ValidPrefixes.Class6.A1%int" LineNumber="184" StartLine="184" StartColumn="13" EndLine="184" EndColumn="14" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixCallsCorrectly" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ValidPrefixes.Class6.A1%int" LineNumber="185" StartLine="185" StartColumn="13" EndLine="185" EndColumn="20" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixCallsCorrectly" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ValidPrefixes.Class7.A2`T%T" LineNumber="201" StartLine="201" StartColumn="13" EndLine="201" EndColumn="17" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixCallsCorrectly" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ValidPrefixes.Class7.A2`T%T" LineNumber="202" StartLine="202" StartColumn="13" EndLine="202" EndColumn="14" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixCallsCorrectly" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ValidPrefixes.Class7.A2`T%T" LineNumber="208" StartLine="208" StartColumn="13" EndLine="208" EndColumn="17" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixCallsCorrectly" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ValidPrefixes.Class7.A2`T%T" LineNumber="209" StartLine="209" StartColumn="13" EndLine="209" EndColumn="14" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixCallsCorrectly" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ValidPrefixes.Class8.A2`T%T" LineNumber="221" StartLine="221" StartColumn="13" EndLine="221" EndColumn="17" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixCallsCorrectly" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ValidPrefixes.Class8.A2`T%T" LineNumber="222" StartLine="222" StartColumn="13" EndLine="222" EndColumn="14" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixCallsCorrectly" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ValidPrefixes.Class8.A2`T%T" LineNumber="228" StartLine="228" StartColumn="13" EndLine="228" EndColumn="17" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixCallsCorrectly" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ValidPrefixes.Class8.A2`T%T" LineNumber="229" StartLine="229" StartColumn="13" EndLine="229" EndColumn="14" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixCallsCorrectly" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ValidPrefixes.Class9.A2`T%T" LineNumber="239" StartLine="239" StartColumn="13" EndLine="239" EndColumn="17" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ValidPrefixes.Class9.A2`T%T" LineNumber="240" StartLine="240" StartColumn="13" EndLine="240" EndColumn="14" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixLocalCallsWithThis" />
     </ExpectedViolations>
   </Test>
 

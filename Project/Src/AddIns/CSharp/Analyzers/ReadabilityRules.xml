@@ -6,12 +6,16 @@
   <Rules>
     <RuleGroup Name="Member Access">
       <Rule Name="DoNotPrefixCallsWithBaseUnlessLocalImplementationExists" CheckId="SA1100">
-        <Context>The call to {0} should only use the 'base.' prefix if the item is declared virtual in the base class and an override is defined in the local class. Otherwise, prefix the call with this rather than base.</Context>
+        <Context>The call to {0} should only use the 'base.' prefix if the item is declared virtual in the base class and an override (or new) is defined in the local class.</Context>
         <Description>Verifies that the 'base.' prefix is not misused.</Description>
       </Rule>
       <Rule Name="PrefixLocalCallsWithThis" CheckId="SA1101">
         <Context>The call to {0} must begin with the 'this.' prefix to indicate that the item is a member of the class.</Context>
         <Description>Verifies that calls to local members are prefixed with the 'this.' notation.</Description>
+      </Rule>
+      <Rule Name="PrefixCallsCorrectly" CheckId="SA1126">
+        <Context>The call to {0} must begin with the 'this.', 'base.', 'object.' or '{1}.' prefix to indicate the intended method call. </Context>
+        <Description>Verifies that calls to members are prefixed with the correct notation. In some case from sourcecode analysis we cannot be sure which prefix is required.</Description>
       </Rule>
     </RuleGroup>
     <RuleGroup Name="Query Expressions">

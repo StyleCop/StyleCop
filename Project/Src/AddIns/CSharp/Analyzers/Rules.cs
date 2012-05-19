@@ -850,6 +850,11 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Validates that all non-static readonly elements are placed before non-static non-readonly elements of the same type.
         /// </summary>
-        InstanceReadonlyElementsMustAppearBeforeInstanceNonReadonlyElements
+        InstanceReadonlyElementsMustAppearBeforeInstanceNonReadonlyElements,
+
+        /// <summary>
+        /// Verifies that calls to members are prefixed with the correct notation.
+        /// </summary>
+        PrefixCallsCorrectly
     }
 }

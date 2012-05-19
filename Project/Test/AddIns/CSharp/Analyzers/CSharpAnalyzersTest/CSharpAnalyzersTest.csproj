@@ -87,6 +87,7 @@
     <Compile Include="TestData\ClassMembers\ClassMembersDerivedWithBase.cs" />
     <None Include="TestData\Documentation\DocumentationCopiedAndPasted.cs" />
     <None Include="TestData\Comments\CommentsBeginWithSingleSpace.cs" />
+    <Compile Include="TestData\ClassMembers\ValidPrefix.cs" />
     <Compile Include="TestData\FileHeaders\Global.asax.cs" />
     <Compile Include="TestData\FileHeaders\FileHeadersValidWithEnumAndParam.cs" />
     <Compile Include="TestData\FileHeaders\FileHeadersValidWithEnumFirst.cs" />

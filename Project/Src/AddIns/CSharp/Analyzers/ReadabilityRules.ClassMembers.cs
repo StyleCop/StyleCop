@@ -462,6 +462,214 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
+        /// Checks a token to see if it should be prefixed (with this. or maybe another prefix).
+        /// </summary>
+        /// <param name="tokenNode">The TokenNode to check.</param>
+        /// <param name="expression">The expression the word appears within.</param>
+        /// <param name="parentClass">The parent class that this element belongs to.</param>
+        /// <param name="members">The collection of members of the parent class.</param>
+        /// <returns>True if the prefix is required otherwise false.</returns>
+        private bool IsThisRequired(Node<CsToken> tokenNode, Expression expression, ClassBase parentClass, Dictionary<string, List<CsElement>> members)
+        {
+            string memberName = tokenNode.Value.Text;
+
+            if (IsLocalMember(memberName, tokenNode.Value, expression) || IsObjectInitializerLeftHandSideExpression(expression))
+            {
+                return false;
+            }
+
+            ICollection<CsElement> matchesForPassedMethod = Utils.FindClassMember(memberName, parentClass, members, true);
+
+            ICollection<CsElement> matchesForGenericMethod = null;
+
+            bool memberNameHasGeneric = memberName.IndexOf('<') > -1;
+
+            if (memberNameHasGeneric)
+            {
+                // if A1<int>
+                // ! 'A1<T>' )
+                // need some prefix. either base. this. or type. or object.
+                // No BaseClass so '.base' not required
+                if (parentClass.BaseClass == string.Empty)
+                {
+                    return true;
+                }
+
+                return true;
+            }
+
+            // if 'A1'
+            // ( ! 'A1<T>' || ! 'A1' ) 
+            if (tokenNode.Value.CsTokenType != CsTokenType.Other)
+            {
+                return false;
+            }
+
+            if (memberName == "object")
+            {
+                return false;
+            }
+
+            matchesForGenericMethod = Utils.FindClassMember(memberName + "<T>", parentClass, members, true);
+
+            if (matchesForPassedMethod != null)
+            {
+                foreach (var classMember in matchesForPassedMethod)
+                {
+                    if (classMember.Declaration.ContainsModifier(CsTokenType.Static) || (classMember.ElementType == ElementType.Field && ((Field)classMember).Const))
+                    {
+                        // There is a member with a matching name that is static or is a const field. In this case, 
+                        // ignore the issue and continue.
+                        return false;
+                    }
+
+                    if (classMember.ElementType == ElementType.Class || classMember.ElementType == ElementType.Struct || classMember.ElementType == ElementType.Delegate
+                        || classMember.ElementType == ElementType.Enum)
+                    {
+                        return false;
+                    }
+
+                    if (classMember.ElementType == ElementType.Property)
+                    {
+                        // If the property's name and type are the same, then this is not a violation.
+                        // In this case, the type is being accessed, not the property.
+                        Property property = (Property)classMember;
+                        if (property.ReturnType.Text != property.Declaration.Name)
+                        {
+                            return true;
+                        }
+                    }
+                }
+
+                return true;
+            }
+
+            if (matchesForGenericMethod != null || parentClass.BaseClass != string.Empty || memberName == "Equals" || memberName == "ReferenceEquals")
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Calculates whether the base prefix is required.
+        /// </summary>
+        /// <param name="memberName">The text of the method call to check.</param>
+        /// <param name="parentClass">The class this this member belongs to.</param>
+        /// <param name="members">All the members of this class.</param>
+        /// <returns>True if base is required otherise false.</returns>
+        private bool IsBaseRequired(string memberName, ClassBase parentClass, Dictionary<string, List<CsElement>> members)
+        {
+            // An item is only allowed to start with base if there is an implementation of the
+            // item in the local class and the caller is trying to explicitly call the base
+            // class implementation instead of the local class implementation. 
+
+            // No BaseClass so '.base' not required
+            if (parentClass.BaseClass == string.Empty)
+            {
+                return false;
+            }
+
+            bool memberNameHasGeneric = memberName.IndexOf('<') > -1;
+            
+            bool overrideOnTrimmedMethod = false;
+            bool overrideOnGenericMethod = false;
+            bool overrideOnPassedMethod = false;
+
+            bool newOnPassedMethod = false;
+            bool newOnGenericMethod = false;
+
+            ICollection<CsElement> matchesForTrimmedMethod = null;
+            ICollection<CsElement> matchesForGenericMethod = null;
+            ICollection<CsElement> matchesForPassedMethod = Utils.FindClassMember(memberName, parentClass, members, true);
+
+            if (memberNameHasGeneric)
+            {
+                var trimmedName = memberName.Substring(0, memberName.IndexOf('<'));
+
+                matchesForTrimmedMethod = Utils.FindClassMember(trimmedName, parentClass, members, true);
+
+                if (matchesForTrimmedMethod != null)
+                {
+                    foreach (CsElement match in matchesForTrimmedMethod)
+                    {
+                        if (match.Declaration.ContainsModifier(CsTokenType.Override))
+                        {
+                            overrideOnTrimmedMethod = true;
+                            break;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                matchesForGenericMethod = Utils.FindClassMember(memberName + "<T>", parentClass, members, true);
+
+                if (matchesForGenericMethod != null)
+                {
+                    foreach (CsElement match in matchesForGenericMethod)
+                    {
+                        if (match.Declaration.ContainsModifier(CsTokenType.Override))
+                        {
+                            overrideOnGenericMethod = true;
+                        }
+
+                        if (match.Declaration.ContainsModifier(CsTokenType.New))
+                        {
+                            newOnGenericMethod = true;
+                        }
+                    }
+                }
+            }
+
+            // We check for a method marked override and a method marked new
+            if (matchesForPassedMethod != null)
+            {
+                foreach (CsElement match in matchesForPassedMethod)
+                {
+                    if (match.Declaration.ContainsModifier(CsTokenType.Override))
+                    {
+                        overrideOnPassedMethod = true;
+                    }
+
+                    if (match.Declaration.ContainsModifier(CsTokenType.New))
+                    {
+                        newOnPassedMethod = true;
+                        break;
+                    }
+                }
+            }
+
+            // method A1 marked override OR 
+            // method A1<T> marked new OR
+            // method A1<T> marked override OR
+            // base is ok
+            bool baseIsRequired = memberNameHasGeneric && (overrideOnTrimmedMethod || newOnPassedMethod || overrideOnPassedMethod);
+
+            if (!memberNameHasGeneric && (overrideOnPassedMethod || newOnGenericMethod || overrideOnGenericMethod || matchesForPassedMethod != null))
+            {
+                // method A1 marked override OR
+                // method A1<T> marked new OR 
+                // method A1 OR
+                // method A1<T> marked override
+                // If found then base is ok.
+                // base is ok
+                baseIsRequired = true;
+            }
+
+            if (memberNameHasGeneric && (overrideOnTrimmedMethod || matchesForTrimmedMethod != null))
+            {
+                // method A1 marked override OR
+                // method A1 
+                // base is ok
+                baseIsRequired = true;
+            }
+
+            return baseIsRequired;
+        }
+
+        /// <summary>
         /// Parses the given literal token.
         /// </summary>
         /// <param name="tokenNode">The literal token node.</param>
@@ -486,62 +694,36 @@ namespace StyleCop.CSharp
             Param.Ignore(members);
 
             // Skip types. We only care about named members.
-            if (!(tokenNode.Value is TypeToken))
+            if (!(tokenNode.Value is TypeToken) || tokenNode.Value.CsTokenClass == CsTokenClass.GenericType)
             {
                 // If the name starts with a dot, ignore it.
                 if (!tokenNode.Value.Text.StartsWith(".", StringComparison.Ordinal))
                 {
                     if (tokenNode.Value.Text == "base" && parentExpression != null)
                     {
-                        // An item is only allowed to start with base if there is an implementation of the
-                        // item in the local class and the caller is trying to explicitly call the base
-                        // class implementation instead of the local class implementation. Extract the name
-                        // of the item being accessed.
                         CsToken name = Utils.ExtractBaseClassMemberName(parentExpression, tokenNode);
                         if (name != null)
                         {
-                            string trimmedName = name.Text;
-                            int angleBracketPosition = trimmedName.IndexOf('<');
-                            
-                            if (angleBracketPosition > -1)
+                            if (!this.IsBaseRequired(name.Text, parentClass, members))
                             {
-                                trimmedName = trimmedName.Substring(0, angleBracketPosition);
-                            }
-
-                            ICollection<CsElement> matches = Utils.FindClassMember(trimmedName, parentClass, members, true);
-
-                            // Check to see if there is a non-static match.
-                            bool found = false;
-                            if (matches != null)
-                            {
-                                foreach (CsElement match in matches)
-                                {
-                                    if (!match.Declaration.ContainsModifier(CsTokenType.Static))
-                                    {
-                                        found = true;
-                                        break;
-                                    }
-                                }
-                            }
-
-                            if (!found)
-                            {
-                                this.AddViolation(parentElement, name.LineNumber, Rules.DoNotPrefixCallsWithBaseUnlessLocalImplementationExists, name);
+                                this.AddViolation(parentElement, name.Location, Rules.DoNotPrefixCallsWithBaseUnlessLocalImplementationExists, name);
                             }
                         }
                     }
                     else if (tokenNode.Value.Text != "this")
                     {
-                        // Check whether this word should really start with this.
-                        this.CheckWordUsageAgainstClassMemberRules(
-                            tokenNode.Value.Text,
-                            tokenNode.Value,
-                            tokenNode.Value.Location,
-                            expression,
-                            parentElement,
-                            parentClass,
-                            members,
-                            parentExpression);
+                        if (this.IsThisRequired(tokenNode, expression, parentClass, members))
+                        {
+                            if ((parentClass.BaseClass != string.Empty) || (tokenNode.Value.Text == "Equals" || tokenNode.Value.Text == "ReferenceEquals"))
+                            {
+                                string className = parentClass.FullyQualifiedName.SubstringAfterLast('.');
+                                this.AddViolation(parentElement, tokenNode.Value.Location, Rules.PrefixCallsCorrectly, tokenNode.Value.Text, className);
+                            }
+                            else
+                            {
+                                this.AddViolation(parentElement, tokenNode.Value.Location, Rules.PrefixLocalCallsWithThis, tokenNode.Value.Text);
+                            }
+                        }
                     }
                 }
             }

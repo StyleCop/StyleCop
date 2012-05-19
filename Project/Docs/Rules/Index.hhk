@@ -251,6 +251,10 @@
 	<param name="Local" value="SA1125.html">
 	</OBJECT>
 <LI> <OBJECT type="text/sitemap">
+	<param name="Name" value="SA1126: PrefixCallsCorrectly">
+	<param name="Local" value="SA1126.html">
+	</OBJECT>
+<LI> <OBJECT type="text/sitemap">
 	<param name="Name" value="SA1200: UsingDirectivesMustBePlacedWithinNamespace">
 	<param name="Local" value="SA1200.html">
 	</OBJECT>

@@ -586,6 +586,10 @@
 <param name="Name" value="SA1125: UseShorthandForNullableTypes">
 <param name="Local" value="SA1125.html">
 </OBJECT>
+<LI><OBJECT type="text/sitemap">
+<param name="Name" value="SA1126: PrefixCallsCorrectly">
+<param name="Local" value="SA1126.html">
+</OBJECT>
 </UL>
 <LI><OBJECT type="text/sitemap">
 <param name="Name" value="Spacing Rules">
