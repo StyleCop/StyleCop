@@ -318,7 +318,10 @@ namespace StyleCop.ReSharper611.Core
                 var expression = throwStatement.Exception;
                 if (expression != null)
                 {
-                    exceptions.Add(expression.Type());
+                    if (!exceptions.Contains(expression.Type()))
+                    {
+                        exceptions.Add(expression.Type());
+                    }
                 }
             }
             else
