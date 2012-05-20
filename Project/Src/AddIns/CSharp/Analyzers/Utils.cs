@@ -133,6 +133,32 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
+        /// Returns true if we're inside one of the container types..
+        /// </summary>
+        /// <param name="expresion"> The expression to start at.</param>
+        /// <param name="codeUnits">The containers to check.</param>
+        /// <returns>True if found.</returns>
+        public static bool IsExpressionInsideContainer(Expression expresion, params Type[] codeUnits)
+        {
+            var parent = expresion.Parent;
+
+            while (parent != null)
+            {
+                foreach (var codeUnit in codeUnits)
+                {
+                    if (parent.GetType() == codeUnit)
+                    {
+                        return true;
+                    }
+                }
+
+                parent = parent.Parent;
+            }
+
+            return false;
+        }
+
+        /// <summary>
         ///   Finds the ClassBase object above this element representing a Class or Struct.
         /// </summary>
         /// <param name="element"> The element to start at. </param>
@@ -143,7 +169,7 @@ namespace StyleCop.CSharp
 
             var parent = element.Parent;
 
-            while (!foundParentClass & parent != null)
+            while (!foundParentClass && parent != null)
             {
                 if (parent is ClassBase)
                 {

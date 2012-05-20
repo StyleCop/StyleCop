@@ -153,7 +153,7 @@ namespace StyleCop.VisualStudio
             get
             {
                 // Are we running with /setup?
-                IVsAppCommandLine commandLine = (IVsAppCommandLine)GetService(typeof(IVsAppCommandLine));
+                IVsAppCommandLine commandLine = (IVsAppCommandLine)this.GetService(typeof(IVsAppCommandLine));
                 int present;
                 string value;
 
@@ -248,7 +248,7 @@ namespace StyleCop.VisualStudio
             {
                 // Set an eventlistener for shell property changes
                 // We do this to wait for VS to leave its zombie state
-                IVsShell shellService = GetService(typeof(SVsShell)) as IVsShell;
+                IVsShell shellService = this.GetService(typeof(SVsShell)) as IVsShell;
 
                 if (shellService != null)
                 {

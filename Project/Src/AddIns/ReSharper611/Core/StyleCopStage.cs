@@ -188,7 +188,7 @@ namespace StyleCop.ReSharper611.Core
                 return false;
             }
 
-            var file = GetPsiFile(sourceFile);
+            var file = CSharpDaemonStageBase.GetPsiFile(sourceFile);
 
             if (file == null)
             {

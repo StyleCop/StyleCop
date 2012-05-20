@@ -84,10 +84,13 @@
     <None Include="TestData\FileHeaders\FileHeadersValidIGenericContravariant{T}.cs" />
     <None Include="TestData\FileHeaders\FileHeadersValidIGenericCovariant{T}.cs" />
     <None Include="TestData\FileHeaders\FileHeadersValidGenerics.cs" />
-    <Compile Include="TestData\ClassMembers\ClassMembersDerivedWithBase.cs" />
+    <None Include="TestData\ClassMembers\ClassMembersDerivedWithBase.cs" />
     <None Include="TestData\Documentation\DocumentationCopiedAndPasted.cs" />
     <None Include="TestData\Comments\CommentsBeginWithSingleSpace.cs" />
-    <Compile Include="TestData\ClassMembers\ValidPrefix.cs" />
+    <None Include="TestData\ClassMembers\ValidPrefix.cs" />
+    <None Include="TestData\ClassMembers\ClassMembersNoViolations.cs" />
+    <None Include="TestData\ClassMembers\ClassMembersCodeWalker{T}.cs" />
+    <None Include="TestData\ClassMembers\ClassMembersMaintainabilityRules.cs" />
     <Compile Include="TestData\FileHeaders\Global.asax.cs" />
     <Compile Include="TestData\FileHeaders\FileHeadersValidWithEnumAndParam.cs" />
     <Compile Include="TestData\FileHeaders\FileHeadersValidWithEnumFirst.cs" />

@@ -12,26 +12,24 @@
 //   notice, or any other, from this software.
 // </license>
 //-----------------------------------------------------------------------
+
 namespace StyleCop.CSharp
 {
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
-    using StyleCop;
 
-    /// <content>
-    /// Checks rules related to class member calls.
-    /// </content>
+    /// <content>Checks rules related to class member calls.</content>
     public partial class ReadabilityRules
     {
-        #region Public Override Methods
+        #region Public Methods and Operators
 
         /// <summary>
-        /// Returns a value indicating whether to delay analysis of this document until the next pass.
+        ///   Returns a value indicating whether to delay analysis of this document until the next pass.
         /// </summary>
-        /// <param name="document">The document to analyze.</param>
-        /// <param name="passNumber">The current pass number.</param>
-        /// <returns>Returns true if analysis should be delayed.</returns>
+        /// <param name="document"> The document to analyze. </param>
+        /// <param name="passNumber"> The current pass number. </param>
+        /// <returns> Returns true if analysis should be delayed. </returns>
         public override bool DelayAnalysis(CodeDocument document, int passNumber)
         {
             Param.RequireNotNull(document, "document");
@@ -56,23 +54,24 @@ namespace StyleCop.CSharp
             return delay;
         }
 
-        #endregion Public Override Methods
+        #endregion
 
-        #region Private Static Methods
-        
+        #region Methods
+
         /// <summary>
-        /// Determines whether a matching local variable is contained in the given variable list.
+        ///   Determines whether a matching local variable is contained in the given variable list.
         /// </summary>
-        /// <param name="variables">The variable list.</param>
-        /// <param name="word">The variable name to check.</param>
-        /// <param name="item">The token containing the variable name.</param>
-        /// <returns>Returns true if there is a matching local variable.</returns>
+        /// <param name="variables"> The variable list. </param>
+        /// <param name="word"> The variable name to check. </param>
+        /// <param name="item"> The token containing the variable name. </param>
+        /// <returns> Returns true if there is a matching local variable. </returns>
         private static bool ContainsVariable(VariableCollection variables, string word, CsToken item)
         {
             Param.AssertNotNull(variables, "variables");
             Param.AssertValidString(word, "word");
             Param.AssertNotNull(item, "item");
 
+            word = word.SubstringAfter('@');
             Variable variable = variables[word];
             if (variable != null)
             {
@@ -92,14 +91,44 @@ namespace StyleCop.CSharp
 
             return false;
         }
-        
+
         /// <summary>
-        /// Determines whether the given word is the name of a local variable.
+        ///   Determines whether the given token is preceded by a member access symbol.
         /// </summary>
-        /// <param name="word">The name to check.</param>
-        /// <param name="item">The token containing the word.</param>
-        /// <param name="parent">The code unit that the word appears in.</param>
-        /// <returns>True if the word is the name of a local variable, false if not.</returns>
+        /// <param name="literalTokenNode"> The token to check. </param>
+        /// <param name="masterList"> The list containing the token. </param>
+        /// <returns> Returns true if the token is preceded by a member access symbol. </returns>
+        private static bool IsLiteralTokenPrecededByMemberAccessSymbol(Node<CsToken> literalTokenNode, MasterList<CsToken> masterList)
+        {
+            Param.AssertNotNull(literalTokenNode, "literalTokenNode");
+            Param.AssertNotNull(masterList, "masterList");
+
+            // Get the previous non-whitespace token.
+            CsToken previousToken = ReadabilityRules.GetPreviousToken(literalTokenNode.Previous, masterList);
+            if (previousToken == null)
+            {
+                return false;
+            }
+
+            if (previousToken.CsTokenType == CsTokenType.OperatorSymbol)
+            {
+                OperatorSymbol symbol = (OperatorSymbol)previousToken;
+                if (symbol.SymbolType == OperatorType.MemberAccess || symbol.SymbolType == OperatorType.Pointer || symbol.SymbolType == OperatorType.QualifiedAlias)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        ///   Determines whether the given word is the name of a local variable.
+        /// </summary>
+        /// <param name="word"> The name to check. </param>
+        /// <param name="item"> The token containing the word. </param>
+        /// <param name="parent"> The code unit that the word appears in. </param>
+        /// <returns> True if the word is the name of a local variable, false if not. </returns>
         private static bool IsLocalMember(string word, CsToken item, ICodeUnit parent)
         {
             Param.AssertValidString(word, "word");
@@ -128,23 +157,12 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Determines whether the given expression is the left-hand-side literal in any of the assignment expressions
-        /// within an object initialize expression.
+        ///   Determines whether the given expression is the left-hand-side literal in any of the assignment expressions within an object initialize expression.
         /// </summary>
-        /// <param name="expression">The expression to check.</param>
-        /// <returns>Returns true if the expression is the left-hand-side literal in any of the assignment expressions 
-        /// within an object initializer expression.</returns>
-        /// <remarks>This method checks for the following situation:
-        /// class MyClass
-        /// {
-        ///     public bool Member { get { return true; } }
-        ///     public void SomeMethod()
-        ///     {
-        ///         MyObjectType someObject = new MyObjectType { Member = this.Member }; 
-        ///     }
-        /// }
-        /// In this case, StyleCop will raise a violation since it looks like the Member token should be prefixed by 'this.', however,
-        /// it is actually referring to a property on the MyObjectType type.
+        /// <param name="expression"> The expression to check. </param>
+        /// <returns> Returns true if the expression is the left-hand-side literal in any of the assignment expressions within an object initializer expression. </returns>
+        /// <remarks>
+        ///   This method checks for the following situation: class MyClass { public bool Member { get { return true; } } public void SomeMethod() { MyObjectType someObject = new MyObjectType { Member = this.Member }; } } In this case, StyleCop will raise a violation since it looks like the Member token should be prefixed by 'this.', however, it is actually referring to a property on the MyObjectType type.
         /// </remarks>
         private static bool IsObjectInitializerLeftHandSideExpression(Expression expression)
         {
@@ -173,36 +191,36 @@ namespace StyleCop.CSharp
             return false;
         }
 
-        /// <summary>
-        /// Determines whether the given token is preceded by a member access symbol.
-        /// </summary>
-        /// <param name="literalTokenNode">The token to check.</param>
-        /// <param name="masterList">The list containing the token.</param>
-        /// <returns>Returns true if the token is preceded by a member access symbol.</returns>
-        private static bool IsLiteralTokenPrecededByMemberAccessSymbol(Node<CsToken> literalTokenNode, MasterList<CsToken> masterList)
+        private static bool IsThisRequiredFromMemberList(ICollection<CsElement> matchesForPassedMethod)
         {
-            Param.AssertNotNull(literalTokenNode, "literalTokenNode");
-            Param.AssertNotNull(masterList, "masterList");
-
-            // Get the previous non-whitespace token.
-            CsToken previousToken = ReadabilityRules.GetPreviousToken(literalTokenNode.Previous, masterList);
-            if (previousToken == null)
+            foreach (var classMember in matchesForPassedMethod)
             {
-                return false;
-            }
-
-            if (previousToken.CsTokenType == CsTokenType.OperatorSymbol)
-            {
-                OperatorSymbol symbol = (OperatorSymbol)previousToken;
-                if (symbol.SymbolType == OperatorType.MemberAccess ||
-                    symbol.SymbolType == OperatorType.Pointer ||
-                    symbol.SymbolType == OperatorType.QualifiedAlias)
+                if (classMember.Declaration.ContainsModifier(CsTokenType.Static) || (classMember.ElementType == ElementType.Field && ((Field)classMember).Const))
                 {
-                    return true;
+                    // There is a member with a matching name that is static or is a const field. In this case, 
+                    // ignore the issue and continue.
+                    return false;
+                }
+
+                if (classMember.ElementType == ElementType.Class || classMember.ElementType == ElementType.Struct || classMember.ElementType == ElementType.Delegate
+                    || classMember.ElementType == ElementType.Enum || classMember.ElementType == ElementType.Constructor)
+                {
+                    return false;
+                }
+
+                if (classMember.ElementType == ElementType.Property)
+                {
+                    // If the property's name and type are the same, then this is not a violation.
+                    // In this case, the type is being accessed, not the property.
+                    Property property = (Property)classMember;
+                    if (property.ReturnType.Text == property.Declaration.Name)
+                    {
+                        return false;
+                    }
                 }
             }
 
-            return false;
+            return true;
         }
 
         /////// <summary>
@@ -242,17 +260,13 @@ namespace StyleCop.CSharp
         ////    return false;
         ////}
 
-        #endregion Private Static Methods
-
-        #region Private Methods
-
         /// <summary>
-        /// Checks the items within the given element.
+        ///   Checks the items within the given element.
         /// </summary>
-        /// <param name="element">The element to check.</param>
-        /// <param name="parentClass">The class that the element belongs to.</param>
-        /// <param name="members">The collection of members of the parent class.</param>
-        /// <returns>Returns false if the analyzer should quit.</returns>
+        /// <param name="element"> The element to check. </param>
+        /// <param name="parentClass"> The class that the element belongs to. </param>
+        /// <param name="members"> The collection of members of the parent class. </param>
+        /// <returns> Returns false if the analyzer should quit. </returns>
         private bool CheckClassMemberRulesForElements(CsElement element, ClassBase parentClass, Dictionary<string, List<CsElement>> members)
         {
             Param.AssertNotNull(element, "element");
@@ -265,9 +279,7 @@ namespace StyleCop.CSharp
                 return false;
             }
 
-            if (element.ElementType == ElementType.Class ||
-                element.ElementType == ElementType.Struct ||
-                element.ElementType == ElementType.Interface)
+            if (element.ElementType == ElementType.Class || element.ElementType == ElementType.Struct || element.ElementType == ElementType.Interface)
             {
                 parentClass = element as ClassBase;
                 members = Utils.CollectClassMembers(parentClass);
@@ -277,10 +289,8 @@ namespace StyleCop.CSharp
             {
                 if (!child.Generated)
                 {
-                    if (child.ElementType == ElementType.Method ||
-                        child.ElementType == ElementType.Constructor ||
-                        child.ElementType == ElementType.Destructor ||
-                        child.ElementType == ElementType.Accessor)
+                    if (child.ElementType == ElementType.Method || child.ElementType == ElementType.Constructor || child.ElementType == ElementType.Destructor
+                        || child.ElementType == ElementType.Accessor)
                     {
                         // If the parent class is null, then this element is sitting outside of a class.
                         // This is illegal in C# so the code will not compile, but we still attempt to
@@ -311,91 +321,15 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Parses the given statement list.
+        ///   Parses the given expression.
         /// </summary>
-        /// <param name="statements">The list of statements to parse.</param>
-        /// <param name="parentElement">The element that contains the statements.</param>
-        /// <param name="parentClass">The class that the element belongs to.</param>
-        /// <param name="members">The collection of members of the parent class.</param>
-        private void CheckClassMemberRulesForStatements(
-            ICollection<Statement> statements,
-            CsElement parentElement,
-            ClassBase parentClass,
-            Dictionary<string, List<CsElement>> members)
-        {
-            Param.AssertNotNull(statements, "statements");
-            Param.AssertNotNull(parentElement, "parentElement");
-            Param.Ignore(parentClass);
-            Param.Ignore(members);
-
-            // Loop through each of the statements.
-            foreach (Statement statement in statements)
-            {
-                if (statement.ChildStatements.Count > 0)
-                {
-                    // Parse the sub-statements.
-                    this.CheckClassMemberRulesForStatements(statement.ChildStatements, parentElement, parentClass, members);
-                }
-
-                // Parse the expressions in the statement.
-                this.CheckClassMemberRulesForExpressions(statement.ChildExpressions, null, parentElement, parentClass, members);
-            }
-        }
-
-        /// <summary>
-        /// Parses the list of expressions.
-        /// </summary>
-        /// <param name="expressions">The list of expressions.</param>
-        /// <param name="parentExpression">The parent expression, if there is one.</param>
-        /// <param name="parentElement">The element that contains the expressions.</param>
-        /// <param name="parentClass">The class that the element belongs to.</param>
-        /// <param name="members">The collection of members of the parent class.</param>
-        private void CheckClassMemberRulesForExpressions(
-            ICollection<Expression> expressions,
-            Expression parentExpression,
-            CsElement parentElement,
-            ClassBase parentClass,
-            Dictionary<string, List<CsElement>> members)
-        {
-            Param.AssertNotNull(expressions, "expressions");
-            Param.AssertNotNull(parentElement, "parentElement");
-            Param.Ignore(parentExpression);
-            Param.Ignore(parentClass);
-            Param.Ignore(members);
-
-            // Loop through each of the expressions in the list.
-            foreach (Expression expression in expressions)
-            {
-                // If the expression is a variable declarator expression, we don't want to match against the identifier tokens.
-                if (expression.ExpressionType == ExpressionType.VariableDeclarator)
-                {
-                    VariableDeclaratorExpression declarator = expression as VariableDeclaratorExpression;
-                    if (declarator.Initializer != null)
-                    {
-                        this.CheckClassMemberRulesForExpression(declarator.Initializer, parentExpression, parentElement, parentClass, members);
-                    }
-                }
-                else
-                {
-                    this.CheckClassMemberRulesForExpression(expression, parentExpression, parentElement, parentClass, members);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Parses the given expression.
-        /// </summary>
-        /// <param name="expression">The expression.</param>
-        /// <param name="parentExpression">The parent expression, if there is one.</param>
-        /// <param name="parentElement">The element that contains the expressions.</param>
-        /// <param name="parentClass">The class that the element belongs to.</param>
-        /// <param name="members">The collection of members of the parent class.</param>
+        /// <param name="expression"> The expression. </param>
+        /// <param name="parentExpression"> The parent expression, if there is one. </param>
+        /// <param name="parentElement"> The element that contains the expressions. </param>
+        /// <param name="parentClass"> The class that the element belongs to. </param>
+        /// <param name="members"> The collection of members of the parent class. </param>
         private void CheckClassMemberRulesForExpression(
-            Expression expression,
-            Expression parentExpression,
-            CsElement parentElement,
-            ClassBase parentClass,
-            Dictionary<string, List<CsElement>> members)
+            Expression expression, Expression parentExpression, CsElement parentElement, ClassBase parentClass, Dictionary<string, List<CsElement>> members)
         {
             Param.AssertNotNull(expression, "expression");
             Param.Ignore(parentExpression);
@@ -417,7 +351,8 @@ namespace StyleCop.CSharp
             }
             else
             {
-                if (expression.ExpressionType == ExpressionType.Assignment && parentExpression != null && parentExpression.ExpressionType == ExpressionType.CollectionInitializer)
+                if (expression.ExpressionType == ExpressionType.Assignment && parentExpression != null
+                    && parentExpression.ExpressionType == ExpressionType.CollectionInitializer)
                 {
                     // When we encounter assignment expressions within collection initializer expressions, we ignore the expression
                     // on the left-hand side of the assignment. This is because we know that the left-hand side refers to a property on
@@ -462,103 +397,265 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Checks a token to see if it should be prefixed (with this. or maybe another prefix).
+        ///   Parses the list of expressions.
         /// </summary>
-        /// <param name="tokenNode">The TokenNode to check.</param>
-        /// <param name="expression">The expression the word appears within.</param>
-        /// <param name="parentClass">The parent class that this element belongs to.</param>
-        /// <param name="members">The collection of members of the parent class.</param>
-        /// <returns>True if the prefix is required otherwise false.</returns>
-        private bool IsThisRequired(Node<CsToken> tokenNode, Expression expression, ClassBase parentClass, Dictionary<string, List<CsElement>> members)
+        /// <param name="expressions"> The list of expressions. </param>
+        /// <param name="parentExpression"> The parent expression, if there is one. </param>
+        /// <param name="parentElement"> The element that contains the expressions. </param>
+        /// <param name="parentClass"> The class that the element belongs to. </param>
+        /// <param name="members"> The collection of members of the parent class. </param>
+        private void CheckClassMemberRulesForExpressions(
+            ICollection<Expression> expressions, Expression parentExpression, CsElement parentElement, ClassBase parentClass, Dictionary<string, List<CsElement>> members)
         {
-            string memberName = tokenNode.Value.Text;
+            Param.AssertNotNull(expressions, "expressions");
+            Param.AssertNotNull(parentElement, "parentElement");
+            Param.Ignore(parentExpression);
+            Param.Ignore(parentClass);
+            Param.Ignore(members);
 
-            if (IsLocalMember(memberName, tokenNode.Value, expression) || IsObjectInitializerLeftHandSideExpression(expression))
+            // Loop through each of the expressions in the list.
+            foreach (Expression expression in expressions)
             {
-                return false;
-            }
-
-            ICollection<CsElement> matchesForPassedMethod = Utils.FindClassMember(memberName, parentClass, members, true);
-
-            ICollection<CsElement> matchesForGenericMethod = null;
-
-            bool memberNameHasGeneric = memberName.IndexOf('<') > -1;
-
-            if (memberNameHasGeneric)
-            {
-                // if A1<int>
-                // ! 'A1<T>' )
-                // need some prefix. either base. this. or type. or object.
-                // No BaseClass so '.base' not required
-                if (parentClass.BaseClass == string.Empty)
+                // If the expression is a variable declarator expression, we don't want to match against the identifier tokens.
+                if (expression.ExpressionType == ExpressionType.VariableDeclarator)
                 {
-                    return true;
+                    VariableDeclaratorExpression declarator = expression as VariableDeclaratorExpression;
+                    if (declarator.Initializer != null)
+                    {
+                        this.CheckClassMemberRulesForExpression(declarator.Initializer, parentExpression, parentElement, parentClass, members);
+                    }
                 }
-
-                return true;
-            }
-
-            // if 'A1'
-            // ( ! 'A1<T>' || ! 'A1' ) 
-            if (tokenNode.Value.CsTokenType != CsTokenType.Other)
-            {
-                return false;
-            }
-
-            if (memberName == "object")
-            {
-                return false;
-            }
-
-            matchesForGenericMethod = Utils.FindClassMember(memberName + "<T>", parentClass, members, true);
-
-            if (matchesForPassedMethod != null)
-            {
-                foreach (var classMember in matchesForPassedMethod)
+                else
                 {
-                    if (classMember.Declaration.ContainsModifier(CsTokenType.Static) || (classMember.ElementType == ElementType.Field && ((Field)classMember).Const))
-                    {
-                        // There is a member with a matching name that is static or is a const field. In this case, 
-                        // ignore the issue and continue.
-                        return false;
-                    }
+                    this.CheckClassMemberRulesForExpression(expression, parentExpression, parentElement, parentClass, members);
+                }
+            }
+        }
 
-                    if (classMember.ElementType == ElementType.Class || classMember.ElementType == ElementType.Struct || classMember.ElementType == ElementType.Delegate
-                        || classMember.ElementType == ElementType.Enum)
-                    {
-                        return false;
-                    }
+        /// <summary>
+        ///   Parses the given literal token.
+        /// </summary>
+        /// <param name="tokenNode"> The literal token node. </param>
+        /// <param name="expression"> The expression that contains the token. </param>
+        /// <param name="parentExpression"> The parent of the expression that contains the token. </param>
+        /// <param name="parentElement"> The element that contains the expression. </param>
+        /// <param name="parentClass"> The class that the element belongs to. </param>
+        /// <param name="members"> The collection of members of the parent class. </param>
+        private void CheckClassMemberRulesForLiteralToken(
+            Node<CsToken> tokenNode,
+            Expression expression,
+            Expression parentExpression,
+            CsElement parentElement,
+            ClassBase parentClass,
+            Dictionary<string, List<CsElement>> members)
+        {
+            Param.AssertNotNull(tokenNode, "token");
+            Param.AssertNotNull(expression, "expression");
+            Param.Ignore(parentExpression);
+            Param.AssertNotNull(parentElement, "parentElement");
+            Param.Ignore(parentClass);
+            Param.Ignore(members);
 
-                    if (classMember.ElementType == ElementType.Property)
+            // Skip types. We only care about named members.
+            if (!(tokenNode.Value is TypeToken) || tokenNode.Value.CsTokenClass == CsTokenClass.GenericType)
+            {
+                // If the name starts with a dot, ignore it.
+                if (!tokenNode.Value.Text.StartsWith(".", StringComparison.Ordinal))
+                {
+                    if (tokenNode.Value.Text == "base" && parentExpression != null)
                     {
-                        // If the property's name and type are the same, then this is not a violation.
-                        // In this case, the type is being accessed, not the property.
-                        Property property = (Property)classMember;
-                        if (property.ReturnType.Text != property.Declaration.Name)
+                        CsToken name = Utils.ExtractBaseClassMemberName(parentExpression, tokenNode);
+                        if (name != null)
                         {
-                            return true;
+                            if (!this.IsBaseRequired(name.Text, parentClass, members))
+                            {
+                                this.AddViolation(parentElement, name.Location, Rules.DoNotPrefixCallsWithBaseUnlessLocalImplementationExists, name);
+                            }
+                        }
+                    }
+                    else if (tokenNode.Value.Text != "this")
+                    {
+                        if (this.IsThisRequired(tokenNode, expression, parentClass, members))
+                        {
+                            if ((parentClass.BaseClass != string.Empty) || (tokenNode.Value.Text == "Equals" || tokenNode.Value.Text == "ReferenceEquals"))
+                            {
+                                string className = parentClass.FullyQualifiedName.SubstringAfterLast('.');
+                                this.AddViolation(parentElement, tokenNode.Value.Location, Rules.PrefixCallsCorrectly, tokenNode.Value.Text, className);
+                            }
+                            else
+                            {
+                                this.AddViolation(parentElement, tokenNode.Value.Location, Rules.PrefixLocalCallsWithThis, tokenNode.Value.Text);
+                            }
                         }
                     }
                 }
+            }
+        }
 
-                return true;
+        /// <summary>
+        ///   Parses the given statement list.
+        /// </summary>
+        /// <param name="statements"> The list of statements to parse. </param>
+        /// <param name="parentElement"> The element that contains the statements. </param>
+        /// <param name="parentClass"> The class that the element belongs to. </param>
+        /// <param name="members"> The collection of members of the parent class. </param>
+        private void CheckClassMemberRulesForStatements(
+            ICollection<Statement> statements, CsElement parentElement, ClassBase parentClass, Dictionary<string, List<CsElement>> members)
+        {
+            Param.AssertNotNull(statements, "statements");
+            Param.AssertNotNull(parentElement, "parentElement");
+            Param.Ignore(parentClass);
+            Param.Ignore(members);
+
+            // Loop through each of the statements.
+            foreach (Statement statement in statements)
+            {
+                if (statement.ChildStatements.Count > 0)
+                {
+                    // Parse the sub-statements.
+                    this.CheckClassMemberRulesForStatements(statement.ChildStatements, parentElement, parentClass, members);
+                }
+
+                // Parse the expressions in the statement.
+                this.CheckClassMemberRulesForExpressions(statement.ChildExpressions, null, parentElement, parentClass, members);
+            }
+        }
+
+        /// <summary>
+        ///   Checks a word to see if it should start with this. or base.
+        /// </summary>
+        /// <param name="word"> The word text to check. </param>
+        /// <param name="item"> The word being checked. </param>
+        /// <param name="location"> The location of the word. </param>
+        /// <param name="expression"> The expression the word appears within. </param>
+        /// <param name="parentElement"> The element that contains the word. </param>
+        /// <param name="parentClass"> The parent class that this element belongs to. </param>
+        /// <param name="members"> The collection of members of the parent class. </param>
+        /// <param name="parentExpression"> The parent expression of the expression being checked. </param>
+        private void CheckWordUsageAgainstClassMemberRules(
+            string word,
+            CsToken item,
+            CodeLocation location,
+            Expression expression,
+            CsElement parentElement,
+            ClassBase parentClass,
+            Dictionary<string, List<CsElement>> members,
+            Expression parentExpression)
+        {
+            Param.AssertValidString(word, "word");
+            Param.AssertNotNull(item, "item");
+            Param.AssertNotNull(location, "location");
+            Param.AssertNotNull(expression, "expression");
+            Param.AssertNotNull(parentElement, "parentElement");
+            Param.Ignore(parentClass);
+            Param.Ignore(members);
+
+            // If there is a local variable with the same name, or if the item we're checking is within the left-hand side
+            // of an object initializer expression, then ignore it.
+            if (!IsLocalMember(word, item, expression) && !IsObjectInitializerLeftHandSideExpression(expression))
+            {
+                // Determine if this is a member of our class.
+                ICollection<CsElement> classMembers = Utils.FindClassMember(word, parentClass, members, false);
+                if (classMembers != null)
+                {
+                    foreach (CsElement classMember in classMembers)
+                    {
+                        if (classMember.Declaration.ContainsModifier(CsTokenType.Static) || (classMember.ElementType == ElementType.Field && ((Field)classMember).Const))
+                        {
+                            // There is a member with a matching name that is static or is a const field. In this case, 
+                            // ignore the issue and continue.
+                            continue;
+                        }
+
+                        if (classMember.ElementType != ElementType.Class && classMember.ElementType != ElementType.Struct
+                            && classMember.ElementType != ElementType.Delegate && classMember.ElementType != ElementType.Enum)
+                        {
+                            if (classMember.ElementType == ElementType.Property)
+                            {
+                                // If the property's name and type are the same, then this is not a violation.
+                                // In this case, the type is being accessed, not the property.
+                                Property property = (Property)classMember;
+                                if (property.ReturnType.Text != property.Declaration.Name)
+                                {
+                                    this.AddViolation(parentElement, location, Rules.PrefixLocalCallsWithThis, word);
+                                }
+                            }
+                            else
+                            {
+                                bool addViolation = true;
+
+                                if (parentExpression != null && parentExpression.ExpressionType == ExpressionType.MethodInvocation && classMember is Method)
+                                {
+                                    var methodInvocationExpression = (MethodInvocationExpression)parentExpression;
+
+                                    var foundMethod = (Method)classMember;
+
+                                    if (methodInvocationExpression.Arguments.Count != foundMethod.Parameters.Count)
+                                    {
+                                        addViolation = false;
+                                    }
+
+                                    // If we get to here the circumstances could be as follows.
+                                    // We're calling a base class static method like Equals or ReferenceEquals.
+                                    // We could also have an instance method with the same name and the same number of properties.
+                                    // At this point we can't determine whether the prefix should be 'this.' or 'object.'
+                                    // Being cautious we dont throw if the name of the method is Equals or ReferenceEquals.
+                                    if (word == "Equals" || word == "ReferenceEquals")
+                                    {
+                                        addViolation = false;
+                                    }
+                                }
+
+                                if (addViolation)
+                                {
+                                    this.AddViolation(parentElement, location, Rules.PrefixLocalCallsWithThis, word);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        ///   Determines whether the given element contains any partial members.
+        /// </summary>
+        /// <param name="element"> The element to check. </param>
+        /// <returns> Returns true if the element contains at least one partial member. </returns>
+        private bool ContainsPartialMembers(CsElement element)
+        {
+            Param.AssertNotNull(element, "element");
+
+            if (element.ElementType == ElementType.Class || element.ElementType == ElementType.Struct || element.ElementType == ElementType.Interface)
+            {
+                if (element.Declaration.ContainsModifier(CsTokenType.Partial))
+                {
+                    return true;
+                }
             }
 
-            if (matchesForGenericMethod != null || parentClass.BaseClass != string.Empty || memberName == "Equals" || memberName == "ReferenceEquals")
+            if (element.ElementType == ElementType.Root || element.ElementType == ElementType.Namespace || element.ElementType == ElementType.Class
+                || element.ElementType == ElementType.Struct)
             {
-                return true;
+                foreach (CsElement child in element.ChildElements)
+                {
+                    if (this.ContainsPartialMembers(child))
+                    {
+                        return true;
+                    }
+                }
             }
 
             return false;
         }
 
         /// <summary>
-        /// Calculates whether the base prefix is required.
+        ///   Calculates whether the base prefix is required.
         /// </summary>
-        /// <param name="memberName">The text of the method call to check.</param>
-        /// <param name="parentClass">The class this this member belongs to.</param>
-        /// <param name="members">All the members of this class.</param>
-        /// <returns>True if base is required otherise false.</returns>
+        /// <param name="memberName"> The text of the method call to check. </param>
+        /// <param name="parentClass"> The class this this member belongs to. </param>
+        /// <param name="members"> All the members of this class. </param>
+        /// <returns> True if base is required otherise false. </returns>
         private bool IsBaseRequired(string memberName, ClassBase parentClass, Dictionary<string, List<CsElement>> members)
         {
             // An item is only allowed to start with base if there is an implementation of the
@@ -572,7 +669,7 @@ namespace StyleCop.CSharp
             }
 
             bool memberNameHasGeneric = memberName.IndexOf('<') > -1;
-            
+
             bool overrideOnTrimmedMethod = false;
             bool overrideOnGenericMethod = false;
             bool overrideOnPassedMethod = false;
@@ -670,197 +767,114 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Parses the given literal token.
+        ///   Checks a token to see if it should be prefixed (with this. or maybe another prefix).
         /// </summary>
-        /// <param name="tokenNode">The literal token node.</param>
-        /// <param name="expression">The expression that contains the token.</param>
-        /// <param name="parentExpression">The parent of the expression that contains the token.</param>
-        /// <param name="parentElement">The element that contains the expression.</param>
-        /// <param name="parentClass">The class that the element belongs to.</param>
-        /// <param name="members">The collection of members of the parent class.</param>
-        private void CheckClassMemberRulesForLiteralToken(
-            Node<CsToken> tokenNode,
-            Expression expression,
-            Expression parentExpression,
-            CsElement parentElement,
-            ClassBase parentClass,
-            Dictionary<string, List<CsElement>> members)
+        /// <param name="tokenNode"> The TokenNode to check. </param>
+        /// <param name="expression"> The expression the word appears within. </param>
+        /// <param name="parentClass"> The parent class that this element belongs to. </param>
+        /// <param name="members"> The collection of members of the parent class. </param>
+        /// <returns> True if the prefix is required otherwise false. </returns>
+        private bool IsThisRequired(Node<CsToken> tokenNode, Expression expression, ClassBase parentClass, Dictionary<string, List<CsElement>> members)
         {
-            Param.AssertNotNull(tokenNode, "token");
-            Param.AssertNotNull(expression, "expression");
-            Param.Ignore(parentExpression);
-            Param.AssertNotNull(parentElement, "parentElement");
-            Param.Ignore(parentClass);
-            Param.Ignore(members);
+            string memberName = tokenNode.Value.Text;
 
-            // Skip types. We only care about named members.
-            if (!(tokenNode.Value is TypeToken) || tokenNode.Value.CsTokenClass == CsTokenClass.GenericType)
+            if (IsLocalMember(memberName, tokenNode.Value, expression) || IsObjectInitializerLeftHandSideExpression(expression))
             {
-                // If the name starts with a dot, ignore it.
-                if (!tokenNode.Value.Text.StartsWith(".", StringComparison.Ordinal))
-                {
-                    if (tokenNode.Value.Text == "base" && parentExpression != null)
-                    {
-                        CsToken name = Utils.ExtractBaseClassMemberName(parentExpression, tokenNode);
-                        if (name != null)
-                        {
-                            if (!this.IsBaseRequired(name.Text, parentClass, members))
-                            {
-                                this.AddViolation(parentElement, name.Location, Rules.DoNotPrefixCallsWithBaseUnlessLocalImplementationExists, name);
-                            }
-                        }
-                    }
-                    else if (tokenNode.Value.Text != "this")
-                    {
-                        if (this.IsThisRequired(tokenNode, expression, parentClass, members))
-                        {
-                            if ((parentClass.BaseClass != string.Empty) || (tokenNode.Value.Text == "Equals" || tokenNode.Value.Text == "ReferenceEquals"))
-                            {
-                                string className = parentClass.FullyQualifiedName.SubstringAfterLast('.');
-                                this.AddViolation(parentElement, tokenNode.Value.Location, Rules.PrefixCallsCorrectly, tokenNode.Value.Text, className);
-                            }
-                            else
-                            {
-                                this.AddViolation(parentElement, tokenNode.Value.Location, Rules.PrefixLocalCallsWithThis, tokenNode.Value.Text);
-                            }
-                        }
-                    }
-                }
+                return false;
             }
-        }
 
-        /// <summary>
-        /// Checks a word to see if it should start with this. or base.
-        /// </summary>
-        /// <param name="word">The word text to check.</param>
-        /// <param name="item">The word being checked.</param>
-        /// <param name="location">The location of the word.</param>
-        /// <param name="expression">The expression the word appears within.</param>
-        /// <param name="parentElement">The element that contains the word.</param>
-        /// <param name="parentClass">The parent class that this element belongs to.</param>
-        /// <param name="members">The collection of members of the parent class.</param>
-        /// <param name="parentExpression">The parent expression of the expression being checked.</param>
-        private void CheckWordUsageAgainstClassMemberRules(
-            string word,
-            CsToken item,
-            CodeLocation location,
-            Expression expression,
-            CsElement parentElement,
-            ClassBase parentClass,
-            Dictionary<string, List<CsElement>> members,
-            Expression parentExpression)
-        {
-            Param.AssertValidString(word, "word");
-            Param.AssertNotNull(item, "item");
-            Param.AssertNotNull(location, "location");
-            Param.AssertNotNull(expression, "expression");
-            Param.AssertNotNull(parentElement, "parentElement");
-            Param.Ignore(parentClass);
-            Param.Ignore(members);
+            ICollection<CsElement> matchesForGenericMethod = null;
+            ICollection<CsElement> matchesForTrimmedMethod = null;
+            ICollection<CsElement> matchesForPassedMethod = Utils.FindClassMember(memberName, parentClass, members, true);
 
-            // If there is a local variable with the same name, or if the item we're checking is within the left-hand side
-            // of an object initializer expression, then ignore it.
-            if (!IsLocalMember(word, item, expression) && !IsObjectInitializerLeftHandSideExpression(expression))
+            bool memberNameHasGeneric = memberName.IndexOf('<') > -1;
+
+            if (memberNameHasGeneric)
             {
-                // Determine if this is a member of our class.
-                ICollection<CsElement> classMembers = Utils.FindClassMember(word, parentClass, members, false);
-                if (classMembers != null)
+                if (expression.ExpressionType == ExpressionType.MethodInvocation)
                 {
-                    foreach (CsElement classMember in classMembers)
-                    {
-                        if (classMember.Declaration.ContainsModifier(CsTokenType.Static) || (classMember.ElementType == ElementType.Field && ((Field)classMember).Const))
-                        {
-                            // There is a member with a matching name that is static or is a const field. In this case, 
-                            // ignore the issue and continue.
-                            continue;
-                        }
-
-                        if (classMember.ElementType != ElementType.Class && classMember.ElementType != ElementType.Struct
-                            && classMember.ElementType != ElementType.Delegate && classMember.ElementType != ElementType.Enum)
-                        {
-                            if (classMember.ElementType == ElementType.Property)
-                            {
-                                // If the property's name and type are the same, then this is not a violation.
-                                // In this case, the type is being accessed, not the property.
-                                Property property = (Property)classMember;
-                                if (property.ReturnType.Text != property.Declaration.Name)
-                                {
-                                    this.AddViolation(parentElement, location, Rules.PrefixLocalCallsWithThis, word);
-                                }
-                            }
-                            else
-                            {
-                                bool addViolation = true;
-
-                                if (parentExpression != null && parentExpression.ExpressionType == ExpressionType.MethodInvocation && classMember is Method)
-                                {
-                                    var methodInvocationExpression = (MethodInvocationExpression)parentExpression;
-
-                                    var foundMethod = (Method)classMember;
-
-                                    if (methodInvocationExpression.Arguments.Count != foundMethod.Parameters.Count)
-                                    {
-                                        addViolation = false;
-                                    }
-
-                                    // If we get to here the circumstances could be as follows.
-                                    // We're calling a base class static method like Equals or ReferenceEquals.
-                                    // We could also have an instance method with the same name and the same number of properties.
-                                    // At this point we can't determine whether the prefix should be 'this.' or 'object.'
-                                    // Being cautious we dont throw if the name of the method is Equals or ReferenceEquals.
-                                    if (word == "Equals" || word == "ReferenceEquals")
-                                    {
-                                        addViolation = false;
-                                    }
-                                }
-
-                                if (addViolation)
-                                {
-                                    this.AddViolation(parentElement, location, Rules.PrefixLocalCallsWithThis, word);
-                                }
-                            }
-                        }
-                    }
+                    return false;
                 }
-            }
-        }
 
-        /// <summary>
-        /// Determines whether the given element contains any partial members.
-        /// </summary>
-        /// <param name="element">The element to check.</param>
-        /// <returns>Returns true if the element contains at least one partial member.</returns>
-        private bool ContainsPartialMembers(CsElement element)
-        {
-            Param.AssertNotNull(element, "element");
-
-            if (element.ElementType == ElementType.Class ||
-                element.ElementType == ElementType.Struct ||
-                element.ElementType == ElementType.Interface)
-            {
-                if (element.Declaration.ContainsModifier(CsTokenType.Partial))
+                if (tokenNode.Value.CsTokenType != CsTokenType.Other)
                 {
+                    return false;
+                }
+
+                if (matchesForPassedMethod != null)
+                {
+                    return IsThisRequiredFromMemberList(matchesForPassedMethod);
+                }
+
+                var trimmedName = memberName.Substring(0, memberName.IndexOf('<'));
+
+                matchesForGenericMethod = Utils.FindClassMember(trimmedName + "<T>", parentClass, members, true);
+
+                if (matchesForGenericMethod != null)
+                {
+                    return IsThisRequiredFromMemberList(matchesForGenericMethod);
+                }
+
+                matchesForTrimmedMethod = Utils.FindClassMember(trimmedName, parentClass, members, true);
+
+                if (matchesForTrimmedMethod != null)
+                {
+                    return IsThisRequiredFromMemberList(matchesForTrimmedMethod);
+                }
+
+                if (parentClass.BaseClass != string.Empty)
+                {
+                    if (Utils.IsExpressionInsideContainer(expression, typeof(AsExpression), typeof(NewExpression), typeof(MemberAccessExpression), typeof(CatchStatement), typeof(VariableDeclarationExpression)))
+                    {
+                        return false;
+                    }
+
                     return true;
                 }
+
+                return false;
             }
 
-            if (element.ElementType == ElementType.Root ||
-                element.ElementType == ElementType.Namespace ||
-                element.ElementType == ElementType.Class ||
-                element.ElementType == ElementType.Struct)
+            if (tokenNode.Value.CsTokenType != CsTokenType.Other)
             {
-                foreach (CsElement child in element.ChildElements)
+                return false;
+            }
+
+            if (memberName == "object")
+            {
+                return false;
+            }
+
+            matchesForGenericMethod = Utils.FindClassMember(memberName + "<T>", parentClass, members, true);
+
+            if (matchesForPassedMethod != null)
+            {
+                return IsThisRequiredFromMemberList(matchesForPassedMethod);
+            }
+
+            if (matchesForGenericMethod != null)
+            {
+                return true;
+            }
+
+            if (parentClass.BaseClass != string.Empty)
+            {
+                if (Utils.IsExpressionInsideContainer(expression, typeof(AsExpression), typeof(NewExpression), typeof(MemberAccessExpression), typeof(CatchStatement), typeof(VariableDeclarationExpression)))
                 {
-                    if (this.ContainsPartialMembers(child))
-                    {
-                        return true;
-                    }
+                    return false;
                 }
+
+                return true;
+            }
+
+            if (memberName == "Equals" || memberName == "ReferenceEquals")
+            {
+                return true;
             }
 
             return false;
         }
 
-        #endregion Private Methods
+        #endregion
     }
 }

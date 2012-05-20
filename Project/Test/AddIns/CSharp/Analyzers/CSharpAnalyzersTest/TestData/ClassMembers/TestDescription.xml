@@ -32,6 +32,9 @@
     <TestCodeFile>ClassMembersPrefixLocalCallsWithThis.cs</TestCodeFile>
     <TestCodeFile>ClassMembersPrefixLocalCallsWithThis2.cs</TestCodeFile>
     <TestCodeFile>ValidPrefix.cs</TestCodeFile>
+    <TestCodeFile>ClassMembersNoViolations.cs</TestCodeFile>
+    <TestCodeFile>ClassMembersCodeWalker{T}.cs</TestCodeFile>
+    <TestCodeFile>ClassMembersMaintainabilityRules.cs</TestCodeFile>
     <Settings>
       <GlobalSettings>
         <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
