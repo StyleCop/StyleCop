@@ -24,7 +24,9 @@
                 <P>A call to a member is not prefixed with the 'this.', 'base.', 'object.' or 'typename.' prefix to indicate the intended method call, within a C# code file.</P>
                 <H2>Rule Description</H2>
                 <P>A violation of this rule occurs whenever the code contains a call to a member which is not prefixed correctly.</P>
-                <p>In some case from sourcecode analysis we cannot be sure which prefix is required.</p>
+                <p>In some case from sourcecode analysis we cannot be sure which prefix is required. 
+                    It could be &#39;this&#39;, &#39;base&#39;, &#39;object&#39;, the typename of the class we&#39;re in or one 
+                    of our base classes.</p>
                 <H2>How to Fix Violations</H2>
                 <P>To fix a violation of this rule, insert the correct prefix before the call to the class member.</P>
             </div>
