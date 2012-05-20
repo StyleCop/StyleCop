@@ -386,8 +386,9 @@ namespace StyleCop.ReSharper611.CodeCleanup.Rules
             var accessRights = ((IModifiersOwnerDeclaration)declaration).GetAccessRights();
 
             var elementType = declaration.DeclaredElement.GetElementType();
-            if (((!isIFieldDeclaration || docConfig.RequireFields) && (accessRights != AccessRights.PRIVATE || !docConfig.IgnorePrivates)
-                 && (accessRights != AccessRights.INTERNAL || !docConfig.IgnoreInternals)))
+            if ((!isIFieldDeclaration || docConfig.RequireFields) &&
+                (accessRights != AccessRights.PRIVATE || !docConfig.IgnorePrivates) &&
+                (accessRights != AccessRights.INTERNAL || !docConfig.IgnoreInternals))
             {
                 DeclarationHeader.CreateNewHeader(declaration, docConfig);
             }
