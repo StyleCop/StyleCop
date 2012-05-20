@@ -25,6 +25,7 @@ namespace StyleCop.ReSharper611.CodeCleanup.Rules
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Globalization;
     using System.Xml;
 
@@ -376,7 +377,8 @@ namespace StyleCop.ReSharper611.CodeCleanup.Rules
             StyleCopTrace.In(file, declaration);
             Param.RequireNotNull(file, "file");
             Param.RequireNotNull(declaration, "declaration");
-
+            Debug.Assert(declaration.DeclaredElement != null, "declaration.DeclaredElement != null");
+            
             var docConfig = this.GetDocumentationRulesConfig(file);
 
             var isIFieldDeclaration = declaration is IFieldDeclaration;
@@ -384,9 +386,8 @@ namespace StyleCop.ReSharper611.CodeCleanup.Rules
             var accessRights = ((IModifiersOwnerDeclaration)declaration).GetAccessRights();
 
             var elementType = declaration.DeclaredElement.GetElementType();
-            if ((elementType == CLRDeclaredElementType.CLASS || elementType == CLRDeclaredElementType.INTERFACE || elementType == CLRDeclaredElementType.STRUCT) ||
-                ((!isIFieldDeclaration || docConfig.RequireFields) && (accessRights != AccessRights.PRIVATE || !docConfig.IgnorePrivates) &&
-                 (accessRights != AccessRights.INTERNAL || !docConfig.IgnoreInternals)))
+            if (((!isIFieldDeclaration || docConfig.RequireFields) && (accessRights != AccessRights.PRIVATE || !docConfig.IgnorePrivates)
+                 && (accessRights != AccessRights.INTERNAL || !docConfig.IgnoreInternals)))
             {
                 DeclarationHeader.CreateNewHeader(declaration, docConfig);
             }

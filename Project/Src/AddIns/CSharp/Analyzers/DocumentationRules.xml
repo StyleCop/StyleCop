@@ -8,13 +8,13 @@
       Name="IgnorePrivates"
       DefaultValue="False"
       FriendlyName="Ignore privates"
-      Description="Do not require documentation for elements with private access. Does not apply to classes, structs, and interfaces."
+      Description="Do not require documentation for elements with private access."
     />
     <BooleanProperty
       Name="IgnoreInternals"
       DefaultValue="False"
       FriendlyName="Ignore internals"
-      Description="Do not require documentation for elements with internal access. Does not apply to classes, structs, and interfaces."
+      Description="Do not require documentation for elements with internal access."
     />
     <BooleanProperty
       Name="IncludeFields"
