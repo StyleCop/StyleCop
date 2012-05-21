@@ -26,11 +26,12 @@ namespace StyleCop.ReSharper611.BulbItems.Spacing
     using JetBrains.TextControl;
 
     using StyleCop.ReSharper611.BulbItems.Framework;
+    using StyleCop.ReSharper611.Core;
 
     #endregion
 
     /// <summary>
-    /// BulbItem - FormatDocumentationHeader : Fixes documention headers.
+    /// BulbItem - FormatDocumentationHeader : Fixes documentation headers.
     /// </summary>
     internal class FormatDocumentationHeader : V5BulbItemImpl
     {
@@ -48,7 +49,7 @@ namespace StyleCop.ReSharper611.BulbItems.Spacing
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
             var documentation = this.DocumentRange.GetText();
-            var regEx = new Regex("(((///[ ^ ] *)|\"))|((///))");
+            var regEx = new Regex("(((///[ ^ ] *)))|((///))");
             documentation = regEx.Replace(documentation, "/// ");
             textControl.Document.ReplaceText(this.DocumentRange.TextRange, documentation);
         }
