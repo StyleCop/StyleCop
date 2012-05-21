@@ -18,6 +18,7 @@ namespace StyleCop.VisualStudio
     using System.Collections;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.Runtime.InteropServices;
     using System.Security;
@@ -874,6 +875,7 @@ namespace StyleCop.VisualStudio
         /// <param name="item">The Project Item to check.</param>
         /// <param name="path">The path to file to check.</param>
         /// <returns>True if the item is excluded otherwise False.</returns>
+        [SuppressMessage("Microsoft.Usage", "CA1806:DoNotIgnoreMethodResult", Justification = "Using the default value from bool.TryParse")]
         private static bool IsProjectItemExcluded(ProjectItem item, string path)
         {
             // This function is only called when we know we haven't already cached the setting for this item.
@@ -894,7 +896,7 @@ namespace StyleCop.VisualStudio
                     {
                         bool excluded;
 
-                        string compileItemPath = buildItem.Include.ToLowerInvariant();
+                        string compileItemPath = buildItem.Include.ToUpperInvariant();
                         if (projectItemExcluded.ContainsKey(compileItemPath))
                         {
                             excluded = projectItemExcluded[compileItemPath];
@@ -913,7 +915,7 @@ namespace StyleCop.VisualStudio
                             projectItemExcluded.Add(compileItemPath, excluded);
                         }
 
-                        if (compileItemPath.Equals(path, StringComparison.InvariantCultureIgnoreCase))
+                        if (compileItemPath.Equals(path, StringComparison.OrdinalIgnoreCase))
                         {
                             return excluded;
                         }
@@ -1047,7 +1049,7 @@ namespace StyleCop.VisualStudio
             Param.AssertNotNull(item, "item");
             Param.AssertNotNull(filename, "filename");
 
-            var trimmedPath = filename.Substring(Path.GetDirectoryName(item.ContainingProject.FullName).Length + 1).ToLowerInvariant();
+            var trimmedPath = filename.Substring(Path.GetDirectoryName(item.ContainingProject.FullName).Length + 1).ToUpperInvariant();
 
             return !(projectItemExcluded.ContainsKey(trimmedPath) ? projectItemExcluded[trimmedPath] : IsProjectItemExcluded(item, trimmedPath));
         }
