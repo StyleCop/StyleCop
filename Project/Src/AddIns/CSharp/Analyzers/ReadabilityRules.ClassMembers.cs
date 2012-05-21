@@ -758,7 +758,7 @@ namespace StyleCop.CSharp
 
             if (matchesForGenericMethod != null)
             {
-                return true;
+                return IsThisRequiredFromMemberList(matchesForGenericMethod); 
             }
 
             if (parentClass.BaseClass != string.Empty)
