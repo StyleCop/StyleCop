@@ -771,7 +771,7 @@ namespace StyleCop.CSharp
                 return true;
             }
 
-            if (memberName == "Equals" || memberName == "ReferenceEquals")
+            if (memberName == "Equals")
             {
                 return true;
             }
