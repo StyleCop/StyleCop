@@ -23,6 +23,10 @@ namespace StyleCop.VisualStudio
     using System.Security;
     using EnvDTE;
 
+    using Microsoft.Build.BuildEngine;
+
+    using Project = EnvDTE.Project;
+
     /// <summary>
     /// Utility class for project related stuff.
     /// </summary>
@@ -31,11 +35,21 @@ namespace StyleCop.VisualStudio
         #region Private Static Fields
 
         /// <summary>
-        /// The "project enabled" cache used to prevent costly deep COM interactions after the "project enabled" data has already been collected.
+        /// The cache used to prevent costly deep COM interactions after the "project enabled" data has already been collected.
         /// </summary>
         private static readonly Dictionary<string, bool> projectEnabledCache = new Dictionary<string, bool>();
 
         /// <summary>
+        /// The cache used to prevent costly deep disk interactions after the 'StyleCop Excluded' data has already been collected.
+        /// </summary>
+        private static readonly Dictionary<string, bool> projectItemExcluded = new Dictionary<string, bool>();
+
+        /// <summary>
+        /// Keeps a collection of projects which do not contain the properties in the List.
+        /// </summary>
+        private static readonly Dictionary<string, List<string>> projectsMissingProperties = new Dictionary<string, List<string>>();
+
+        /// <summary>   
         /// System Service provider.
         /// </summary>
         private static IServiceProvider serviceProvider;
@@ -49,11 +63,6 @@ namespace StyleCop.VisualStudio
         /// The Solution events.
         /// </summary>
         private static SolutionEvents solutionEvents;
-
-        /// <summary>
-        /// Keeps a collection of projects which do not contain the BuildAction property.
-        /// </summary>
-        private static Dictionary<string, List<string>> projectsMissingProperties;
 
         #endregion Private Static Fields
 
@@ -118,9 +127,9 @@ namespace StyleCop.VisualStudio
                         solutionEvents = events.SolutionEvents;
                         if (solutionEvents != null)
                         {
-                            solutionEvents.ProjectAdded += SolutionEvents_ProjectAdded;
-                            solutionEvents.ProjectRemoved += SolutionEvents_ProjectRemoved;
-                            solutionEvents.ProjectRenamed += SolutionEvents_ProjectRenamed;
+                            solutionEvents.ProjectAdded += SolutionEventsProjectAdded;
+                            solutionEvents.ProjectRemoved += SolutionEventsProjectRemoved;
+                            solutionEvents.ProjectRenamed += SolutionEventsProjectRenamed;
                         }
                     }
                 }
@@ -147,12 +156,7 @@ namespace StyleCop.VisualStudio
                 {
                     foreach (Project project in applicationObject.Solution.Projects)
                     {
-                        object codeEditor = EnumerateProject(
-                            project,
-                            null,
-                            new ProjectItemInvoker(OpenCodeEditor),
-                            null,
-                            file);
+                        object codeEditor = EnumerateProject(project, null, OpenCodeEditor, null, file);
 
                         if (codeEditor != null)
                         {
@@ -208,12 +212,7 @@ namespace StyleCop.VisualStudio
                 {
                     foreach (Project project in applicationObject.Solution.Projects)
                     {
-                        object codeEditor = EnumerateProject(
-                            project,
-                            null,
-                            new ProjectItemInvoker(OpenCodeEditor),
-                            null,
-                            file);
+                        object codeEditor = EnumerateProject(project, null, OpenCodeEditor, null, file);
 
                         if (codeEditor != null)
                         {
@@ -323,7 +322,7 @@ namespace StyleCop.VisualStudio
                     {
                         // If we've already cached a value for whether this project supports StyleCop, use it, since it is very
                         // expensive to constantly scan massive unmanaged project trees through COM.  This used to render Visual 
-                        // Studio unusable in largely unmanaged solutions (http://stylecop.codeplex.com/workitem/6662).
+                        // Studio unusable in largely unmanaged solutions (#6662).
                         bool isEnabled;
                         if (projectEnabledCache.ContainsKey(project.UniqueName))
                         {
@@ -331,19 +330,11 @@ namespace StyleCop.VisualStudio
                         }
                         else
                         {
-                            isEnabled = EnumerateProject(
-                                        project,
-                                        new ProjectInvoker(IsKnownProjectTypeVisitor),
-                                        new ProjectItemInvoker(IsKnownFileTypeVisitor),
-                                        helper,
-                                        null) != null;
+                            isEnabled = EnumerateProject(project, IsKnownProjectTypeVisitor, IsKnownFileTypeVisitor, helper, null) != null;
                             projectEnabledCache.Add(project.UniqueName, isEnabled);
                         }
 
-                        if (isEnabled)
-                        {
-                            return true;
-                        }
+                        return isEnabled;
                     }
                 }
             }
@@ -410,12 +401,7 @@ namespace StyleCop.VisualStudio
                 {
                     if (project != null)
                     {
-                        EnumerateProject(
-                            project,
-                            new ProjectInvoker(AddCodeProject),
-                            new ProjectItemInvoker(AddFileToProject),
-                            codeProjects,
-                            null);
+                        EnumerateProject(project, AddCodeProject, AddFileToProject, codeProjects, null);
                     }
                 }
             }
@@ -433,17 +419,11 @@ namespace StyleCop.VisualStudio
                     string projectPath = GetProjectPath(document.ProjectItem.ContainingProject);
                     if (projectPath != null)
                     {
-                        codeProject = new CodeProject(
-                            projectPath.GetHashCode(),
-                            projectPath,
-                            GetProjectConfiguration(document.ProjectItem.ContainingProject));
+                        codeProject = new CodeProject(projectPath.GetHashCode(), projectPath, GetProjectConfiguration(document.ProjectItem.ContainingProject));
                     }
-                    else if (document.FullName != null && document.FullName.Length > 0)
+                    else if (!string.IsNullOrEmpty(document.FullName))
                     {
-                        codeProject = new CodeProject(
-                            document.FullName.GetHashCode(),
-                            Path.GetDirectoryName(document.FullName),
-                            new StyleCop.Configuration(null));
+                        codeProject = new CodeProject(document.FullName.GetHashCode(), Path.GetDirectoryName(document.FullName), new StyleCop.Configuration(null));
                     }
 
                     if (codeProject != null)
@@ -474,7 +454,7 @@ namespace StyleCop.VisualStudio
             // Check whether there are any selected files.
             if (applicationObject.SelectedItems.Count > 0)
             {
-                Dictionary<Project, CodeProject> cachedProjects = new Dictionary<Project, CodeProject>();
+                var cachedProjects = new Dictionary<Project, CodeProject>();
 
                 Project project = null;
                 CodeProject codeProject = null;
@@ -492,10 +472,7 @@ namespace StyleCop.VisualStudio
                                 string projectPath = GetProjectPath(project);
                                 if (projectPath != null)
                                 {
-                                    codeProject = new CodeProject(
-                                        projectPath.GetHashCode(),
-                                        projectPath,
-                                        GetProjectConfiguration(project));
+                                    codeProject = new CodeProject(projectPath.GetHashCode(), projectPath, GetProjectConfiguration(project));
 
                                     codeProjects.Add(codeProject);
                                     cachedProjects.Add(project, codeProject);
@@ -505,94 +482,22 @@ namespace StyleCop.VisualStudio
 
                         if (codeProject != null && project != null)
                         {
-                            EnumerateProjectItem(
-                                selectedItem.ProjectItem,
-                                project.Name,
-                                new ProjectInvoker(AddCodeProject),
-                                new ProjectItemInvoker(AddFileToProject),
-                                codeProjects,
-                                codeProject);
+                            EnumerateProjectItem(selectedItem.ProjectItem, project.Name, AddCodeProject, AddFileToProject, codeProjects, codeProject);
                         }
                     }
                     else if (selectedItem.Project != null)
                     {
-                        EnumerateProject(
-                            selectedItem.Project,
-                            new ProjectInvoker(AddCodeProject),
-                            new ProjectItemInvoker(AddFileToProject),
-                            codeProjects,
-                            null);
+                        EnumerateProject(selectedItem.Project, AddCodeProject, AddFileToProject, codeProjects, null);
                     }
                 }
             }
         }
-
-        /*
-
-        /// <summary>
-        /// Gets the opened item files.
-        /// </summary>
-        /// <param name="codeProjects">The list of projects.</param>
-        internal static void GetOpenedFiles(IList<CodeProject> codeProjects)
-        {
-            Param.AssertNotNull(codeProjects, "codeProjects");
-
-            DTE applicationObject = GetDTE();
-
-            // Check whether there are any selected files.
-            if (applicationObject.Documents.Count > 0)
-            {
-                Dictionary<Project, CodeProject> cachedProjects = new Dictionary<Project, CodeProject>();
-
-                Project project = null;
-                CodeProject codeProject = null;
-
-                foreach (Document document in applicationObject.Documents)
-                {
-                    if (document.ProjectItem != null && document.ProjectItem.ContainingProject != null)
-                    {
-                        if (document.ProjectItem.ContainingProject != project)
-                        {
-                            project = document.ProjectItem.ContainingProject;
-
-                            if (!cachedProjects.TryGetValue(project, out codeProject))
-                            {
-                                string projectPath = GetProjectPath(project);
-                                if (projectPath != null)
-                                {
-                                    codeProject = new CodeProject(
-                                        projectPath.GetHashCode(),
-                                        projectPath,
-                                        GetProjectConfiguration(project));
-
-                                    codeProjects.Add(codeProject);
-                                    cachedProjects.Add(project, codeProject);
-                                }
-                            }
-                        }
-
-                        if (codeProject != null && project != null)
-                        {
-                            EnumerateProjectItem(
-                                document.ProjectItem,
-                                project.Name,
-                                new ProjectInvoker(AddCodeProject),
-                                new ProjectItemInvoker(AddFileToProject),
-                                codeProjects,
-                                codeProject);
-                        }
-                    }
-                }
-            }
-        }
-         * 
-         * */
 
         /// <summary>
         /// Gets the path to the given project.
         /// </summary>
         /// <param name="project">The project.</param>
-        /// <returns>Returns the path to the project.</returns>
+        /// <returns>Returns the path to the project or null if we can't get it.</returns>
         internal static string GetProjectPath(Project project)
         {
             Param.AssertNotNull(project, "project");
@@ -667,14 +572,14 @@ namespace StyleCop.VisualStudio
                 // Make sure the project has a configuration manager.
                 if (project != null && project.ConfigurationManager != null)
                 {
-                    if (!IsProjectMissingProperty(project, "DefineConstants"))
+                    if (!ProjectHasPropertyMissing(project, "DefineConstants"))
                     {
                         // Check whether there is an active configuration.
                         Configuration activeConfiguration = project.ConfigurationManager.ActiveConfiguration;
                         if (activeConfiguration != null)
                         {
                             // Make sure the configuration has properties.
-                            if (activeConfiguration != null && activeConfiguration.Properties != null)
+                            if (activeConfiguration.Properties != null)
                             {
                                 // Get the constants.
                                 Property property = activeConfiguration.Properties.Item("DefineConstants");
@@ -702,10 +607,8 @@ namespace StyleCop.VisualStudio
                 // the property. This just means there is no configuration defined.
             }
 
-            if (project != null)
-            {
-                AddMissingPropertyForProject(project, "DefineConstants");
-            }
+            // If we get here we've either not got the property or had an exception
+            AddMissingPropertyForProject(project, "DefineConstants");
 
             // There is no active configuration. Just return an empty configuration object.
             return new StyleCop.Configuration(null);
@@ -766,16 +669,11 @@ namespace StyleCop.VisualStudio
                     // to tack on the project name in order to differentiate between them.
                     string projectId = Path.Combine(applicationObject.Solution.FullName, project.Name);
 
-                    object temp = projectCallback(
-                        project,
-                        projectId.GetHashCode(),
-                        solutionPath,
-                        ref projectContext,
-                        ref fileContext);
+                    object callbackResult = projectCallback(project, projectId.GetHashCode(), solutionPath, ref projectContext, ref fileContext);
 
-                    if (temp != null)
+                    if (callbackResult != null)
                     {
-                        return temp;
+                        return callbackResult;
                     }
                 }
 
@@ -783,13 +681,7 @@ namespace StyleCop.VisualStudio
                 {
                     // Enumerate the items under this solution project.
                     object temp = EnumerateSolutionProjectItems(
-                        applicationObject.Solution,
-                        project.ProjectItems,
-                        solutionPath,
-                        projectCallback,
-                        projectItemCallback,
-                        projectContext,
-                        fileContext);
+                        applicationObject.Solution, project.ProjectItems, solutionPath, projectCallback, projectItemCallback, projectContext, fileContext);
 
                     if (temp != null)
                     {
@@ -805,10 +697,10 @@ namespace StyleCop.VisualStudio
                     string projectPath = GetProjectPath(project);
                     if (projectPath != null)
                     {
-                        object temp = projectCallback(project, projectPath.GetHashCode(), projectPath, ref projectContext, ref fileContext);
-                        if (temp != null)
+                        object callbackResult = projectCallback(project, projectPath.GetHashCode(), projectPath, ref projectContext, ref fileContext);
+                        if (callbackResult != null)
                         {
-                            return temp;
+                            return callbackResult;
                         }
                     }
                 }
@@ -816,13 +708,7 @@ namespace StyleCop.VisualStudio
                 if (project.ProjectItems != null)
                 {
                     // Enumerate the items under this project.
-                    object temp = EnumerateProjectItems(
-                        project.ProjectItems,
-                        project.Name,
-                        projectCallback,
-                        projectItemCallback,
-                        projectContext,
-                        fileContext);
+                    object temp = EnumerateProjectItems(project.ProjectItems, project.Name, projectCallback, projectItemCallback, projectContext, fileContext);
 
                     if (temp != null)
                     {
@@ -982,6 +868,63 @@ namespace StyleCop.VisualStudio
         }
 
         /// <summary>
+        /// Checks to see if the project item is excluded from stylecop in the proj file.
+        /// This call is expensive as it loads from disk. Make sure the results are cached.
+        /// </summary>
+        /// <param name="item">The Project Item to check.</param>
+        /// <param name="path">The path to file to check.</param>
+        /// <returns>True if the item is excluded otherwise False.</returns>
+        private static bool IsProjectItemExcluded(ProjectItem item, string path)
+        {
+            // This function is only called when we know we haven't already cached the setting for this item.
+            var buildEngineProject = new Microsoft.Build.BuildEngine.Project();
+
+            buildEngineProject.Load(item.ContainingProject.FileName);
+
+            if (buildEngineProject.ItemGroups == null)
+            {
+                return false;
+            }
+
+            foreach (BuildItemGroup itemGroup in buildEngineProject.ItemGroups)
+            {
+                foreach (BuildItem buildItem in itemGroup)
+                {
+                    if (buildItem.Name == "Compile")
+                    {
+                        bool excluded;
+
+                        string compileItemPath = buildItem.Include.ToLowerInvariant();
+                        if (projectItemExcluded.ContainsKey(compileItemPath))
+                        {
+                            excluded = projectItemExcluded[compileItemPath];
+                        }
+                        else
+                        {
+                            bool excludeFromStyleCop;
+                            bool.TryParse(buildItem.GetMetadata("ExcludeFromStyleCop"), out excludeFromStyleCop);
+
+                            bool excludeFromSourceAnalysis;
+                            bool.TryParse(buildItem.GetMetadata("ExcludeFromSourceAnalysis"), out excludeFromSourceAnalysis);
+
+                            excluded = excludeFromStyleCop || excludeFromSourceAnalysis;
+
+                            // Cache everything else as we go past to save time later.
+                            projectItemExcluded.Add(compileItemPath, excluded);
+                        }
+
+                        if (compileItemPath.Equals(path, StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            return excluded;
+                        }
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Enumerates through the items under the given project item.
         /// </summary>
         /// <param name="item">The item to add.</param>
@@ -1040,16 +983,19 @@ namespace StyleCop.VisualStudio
                         {
                             if (projectItemCallback != null)
                             {
-                                // Only add the item if the build action is set to compile.
+                                // Only add the item if the build action is set to compile (0 = None, 1 = Compile etc)
                                 if (CheckProjectItemBuildAction(item))
                                 {
                                     string filePath = GetProjectItemPath(item);
-                                    if (filePath != null && filePath.Length > 0)
+                                    if (!string.IsNullOrEmpty(filePath))
                                     {
-                                        object temp = projectItemCallback(item, filePath, ref projectContext, ref fileContext);
-                                        if (temp != null)
+                                        if (CheckProjectItemIsIncluded(item, filePath))
                                         {
-                                            return temp;
+                                            object callbackResult = projectItemCallback(item, filePath, ref projectContext, ref fileContext);
+                                            if (callbackResult != null)
+                                            {
+                                                return callbackResult;
+                                            }
                                         }
                                     }
                                 }
@@ -1091,34 +1037,54 @@ namespace StyleCop.VisualStudio
         }
 
         /// <summary>
-        /// Checks the given project item to ensure that the build action is not set to None.
+        /// Checks to see if this Project Item is included in the analysis.
         /// </summary>
-        /// <param name="item">The build action to check.</param>
-        /// <returns>Returns true if the build action is set to anything other than None.</returns>
+        /// <param name="item">The project item to check.</param>
+        /// <param name="filename">The filename to the item to check.</param>
+        /// <returns>True if the item is included in the analysis otherwise False.</returns>
+        private static bool CheckProjectItemIsIncluded(ProjectItem item, string filename)
+        {
+            Param.AssertNotNull(item, "item");
+            Param.AssertNotNull(filename, "filename");
+
+            var trimmedPath = filename.Substring(Path.GetDirectoryName(item.ContainingProject.FullName).Length + 1).ToLowerInvariant();
+
+            return !(projectItemExcluded.ContainsKey(trimmedPath) ? projectItemExcluded[trimmedPath] : IsProjectItemExcluded(item, trimmedPath));
+        }
+
+        /// <summary>
+        /// Checks the project item to ensure that the BuildAction is set to Compile (1).
+        /// </summary>
+        /// <param name="item">The ProjectItem to check.</param>
+        /// <returns>Returns True if the BuildAction is set to Compile otherwise False.</returns>
         private static bool CheckProjectItemBuildAction(ProjectItem item)
         {
             Param.AssertNotNull(item, "item");
 
             try
             {
-                // If the project containing this item does not contain the BuildAction property, then
-                // return true to indicate that this file should be included.
-                if (IsProjectMissingProperty(item.ContainingProject, "BuildAction"))
+                // If the project containing this item does not contain the BuildAction property
+                // return false
+                if (ProjectHasPropertyMissing(item.ContainingProject, "BuildAction"))
                 {
-                    return true;
+                    return false;
                 }
 
                 Property buildAction = item.Properties.Item("BuildAction");
-                if (buildAction != null)
+                if (buildAction == null)
                 {
-                    // BuildAction 0 == None
-                    return (int)buildAction.Value != 0;
+                    AddMissingPropertyForProject(item.ContainingProject, "BuildAction");
+                    return false;
                 }
+
+                // True if BuildAction == 1 (Compile)
+                return (int)buildAction.Value == 1;
             }
             catch (NotImplementedException)
             {
                 // Is thrown by Installshield projects (and maybe others)
                 // If it gets here don't call item.ContainingProject later as that'll fail too
+                // TODO We want to record it missing.
                 return false;
             }
             catch (COMException)
@@ -1134,73 +1100,56 @@ namespace StyleCop.VisualStudio
                 // Don't think this will ever happen, but this is here for robustness.
             }
 
-            // We only get here if the BuildAction property does not exist. Make a note of this for next time.
-            if (item.ContainingProject != null)
-            {
-                AddMissingPropertyForProject(item.ContainingProject, "BuildAction");
-            }
-
-            // Return true to indicate that this file type is ok.
-            return true;
+            AddMissingPropertyForProject(item.ContainingProject, "BuildAction");
+                    
+            return false;
         }
 
         /// <summary>
-        /// Determines whether the given project type is known to not contain the given property.
+        /// Determines whether the project kind has the property missing.
         /// </summary>
         /// <param name="project">The project to check.</param>
         /// <param name="propertyName">The name of the property.</param>
-        /// <returns>Returns true if the project type is known to not contain the property.</returns>
-        private static bool IsProjectMissingProperty(Project project, string propertyName)
+        /// <returns>Returns true if the property is missing from the project.</returns>
+        private static bool ProjectHasPropertyMissing(Project project, string propertyName)
         {
-            Param.Ignore(project, "project");
+            Param.AssertNotNull(project, "project");
             Param.AssertValidString(propertyName, "propertyName");
 
-            if (project == null)
+            List<string> missingProperties;
+
+            if (projectsMissingProperties.TryGetValue(project.Kind, out missingProperties))
             {
-                return true;
+                return missingProperties.Contains(propertyName);
             }
 
-            if (projectsMissingProperties == null)
-            {
-                return false;
-            }
-
-            List<string> missingProperties = null;
-            if (!projectsMissingProperties.TryGetValue(project.Kind, out missingProperties) ||
-                missingProperties == null ||
-                !missingProperties.Contains(propertyName))
-            {
-                return false;
-            }
-
-            return true;
+            return false;
         }
 
         /// <summary>
-        /// Registers the given project type as not containing the given property.
+        /// Registers the given project Kind as having the property missing.
         /// </summary>
         /// <param name="project">The project.</param>
-        /// <param name="propertyName">The property to register.</param>
+        /// <param name="propertyName">The property to register as missing.</param>
         private static void AddMissingPropertyForProject(Project project, string propertyName)
         {
             Param.AssertNotNull(project, "project");
             Param.AssertNotNull(propertyName, "propertyName");
 
-            if (projectsMissingProperties == null)
-            {
-                projectsMissingProperties = new Dictionary<string, List<string>>();
-            }
+            List<string> missingProperties;
 
-            List<string> missingProperties = null;
             if (!projectsMissingProperties.TryGetValue(project.Kind, out missingProperties))
             {
-                missingProperties = new List<string>(2);
+                missingProperties = new List<string>(1);
                 projectsMissingProperties.Add(project.Kind, missingProperties);
             }
 
             Debug.Assert(missingProperties != null, "Properties list should always be set here");
 
-            missingProperties.Add(propertyName);
+            if (!missingProperties.Contains(propertyName))
+            {
+                missingProperties.Add(propertyName);
+            }
         }
 
         /// <summary>
@@ -1222,13 +1171,10 @@ namespace StyleCop.VisualStudio
             Param.Ignore(fileContext);
 
             // Get the list of code projects.
-            List<CodeProject> codeProjects = (List<CodeProject>)projectContext;
+            var codeProjects = (List<CodeProject>)projectContext;
 
             // Create a new CodeProject for this project.
-            CodeProject codeProject = new CodeProject(
-                projectKey,
-                path,
-                ProjectUtilities.GetProjectConfiguration(project));
+            var codeProject = new CodeProject(projectKey, path, GetProjectConfiguration(project));
 
             // Set this new CodeProject as the outgoing file context.
             fileContext = codeProject;
@@ -1321,7 +1267,7 @@ namespace StyleCop.VisualStudio
             // that this is a known project type.
             if (helper.ProjectTypes != null)
             {
-                Dictionary<string, string> properties = null;
+                Dictionary<string, string> properties;
                 if (helper.ProjectTypes.TryGetValue(project.Kind, out properties))
                 {
                     return true;
@@ -1350,25 +1296,15 @@ namespace StyleCop.VisualStudio
                 {
                     if (selectedItem.ProjectItem != null && selectedItem.ProjectItem.ContainingProject != null)
                     {
-                        if (EnumerateProjectItem(
-                            selectedItem.ProjectItem,
-                            selectedItem.ProjectItem.ContainingProject.Name,
-                            null,
-                            new ProjectItemInvoker(IsKnownFileTypeVisitor),
-                            helper,
-                            null) != null)
+                        if (EnumerateProjectItem(selectedItem.ProjectItem, selectedItem.ProjectItem.ContainingProject.Name, null, IsKnownFileTypeVisitor, helper, null)
+                            != null)
                         {
                             return true;
                         }
                     }
                     else if (selectedItem.Project != null)
                     {
-                        if (EnumerateProject(
-                            selectedItem.Project,
-                            null,
-                            new ProjectItemInvoker(IsKnownFileTypeVisitor),
-                            helper,
-                            null) != null)
+                        if (EnumerateProject(selectedItem.Project, null, IsKnownFileTypeVisitor, helper, null) != null)
                         {
                             return true;
                         }
@@ -1412,27 +1348,33 @@ namespace StyleCop.VisualStudio
         /// <summary>
         /// Gets the path to the given project item.
         /// </summary>
-        /// <param name="item">The project item.</param>
-        /// <returns>Returns the path to the project item.</returns>
-        private static string GetProjectItemPath(ProjectItem item)
+        /// <param name="projectItem">The project item.</param>
+        /// <returns>Returns the path to the project item or null.</returns>
+        private static string GetProjectItemPath(ProjectItem projectItem)
         {
-            Param.AssertNotNull(item, "item");
+            Param.AssertNotNull(projectItem, "projectItem");
 
             try
             {
-                if (item.ContainingProject != null && IsProjectMissingProperty(item.ContainingProject, "FullPath"))
+                if (projectItem.ContainingProject != null && ProjectHasPropertyMissing(projectItem.ContainingProject, "FullPath"))
                 {
                     return null;
                 }
 
-                if (item.Properties != null)
+                if (projectItem.Properties == null)
                 {
-                    Property property = item.Properties.Item("FullPath");
-                    if (property != null)
-                    {
-                        return (string)property.Value;
-                    }
+                    AddMissingPropertyForProject(projectItem.ContainingProject, "FullPath");
+                    return null;
                 }
+                
+                Property property = projectItem.Properties.Item("FullPath");
+                if (property == null)
+                {
+                    AddMissingPropertyForProject(projectItem.ContainingProject, "FullPath");
+                    return null;
+                }
+
+                return property.Value.ToString();
             }
             catch (ArgumentException)
             {
@@ -1443,12 +1385,8 @@ namespace StyleCop.VisualStudio
                 // For certain project types, this throws a COM Exception.
             }
 
-            // Register that the project type does not contain this property.
-            if (item.ContainingProject != null)
-            {
-                AddMissingPropertyForProject(item.ContainingProject, "FullPath");
-            }
-
+            AddMissingPropertyForProject(projectItem.ContainingProject, "FullPath");
+                    
             return null;
         }
 
@@ -1537,11 +1475,13 @@ namespace StyleCop.VisualStudio
         }
 
         /// <summary>
-        /// Clear the static "project enabled" cache.  Use in reaction to events which invalidate the old cache.
+        /// Clear the static caches. Used in reaction to events which invalidate the old caches.
         /// </summary>
-        private static void ClearProjectEnabledCache()
+        private static void ClearCaches()
         {
             projectEnabledCache.Clear();
+            projectItemExcluded.Clear();
+            projectsMissingProperties.Clear();
         }
 
         /// <summary>
@@ -1551,7 +1491,7 @@ namespace StyleCop.VisualStudio
         private static void ProjectItemsEventsClassItemAdded(ProjectItem projectItem)
         {
             Param.AssertNotNull(projectItem, "projectItem");
-            ClearProjectEnabledCache();
+            ClearCaches();
         }
 
         /// <summary>
@@ -1563,7 +1503,7 @@ namespace StyleCop.VisualStudio
         {
             Param.AssertNotNull(projectItem, "projectItem");
             Param.AssertNotNull(oldName, "oldName");
-            ClearProjectEnabledCache();
+            ClearCaches();
         }
 
         /// <summary>
@@ -1573,7 +1513,7 @@ namespace StyleCop.VisualStudio
         private static void ProjectItemsEventsClassItemRemoved(ProjectItem projectItem)
         {
             Param.AssertNotNull(projectItem, "projectItem");
-            ClearProjectEnabledCache();
+            ClearCaches();
         }
 
         /// <summary>
@@ -1581,239 +1521,29 @@ namespace StyleCop.VisualStudio
         /// </summary>
         /// <param name="project">The project that was renamed.</param>
         /// <param name="oldName">The old name.</param>
-        private static void SolutionEvents_ProjectRenamed(Project project, string oldName)
+        private static void SolutionEventsProjectRenamed(Project project, string oldName)
         {
-            ClearProjectEnabledCache();
+            ClearCaches();
         }
 
         /// <summary>
         /// The SolutionEventsProjectRemoved handler.
         /// </summary>
         /// <param name="project">The project that was removed.</param>
-        private static void SolutionEvents_ProjectRemoved(Project project)
+        private static void SolutionEventsProjectRemoved(Project project)
         {
-            ClearProjectEnabledCache();
+            ClearCaches();
         }
 
         /// <summary>
         /// The SolutionEventsProjecAdded handler.
         /// </summary>
         /// <param name="project">The project that was added.</param>
-        private static void SolutionEvents_ProjectAdded(Project project)
+        private static void SolutionEventsProjectAdded(Project project)
         {
-            ClearProjectEnabledCache();
+            ClearCaches();
         }
 
         #endregion Private Static Methods
-
-        /*
-        internal static IEnumerable<string> GetMultiSelectionFilenames()
-        {
-            IVsMonitorSelection selectionMonitor = serviceProvider.GetService(typeof(IVsMonitorSelection)) as IVsMonitorSelection;
-
-            IntPtr hierarchyPtr = IntPtr.Zero;
-            uint itemID = 0;
-            IVsMultiItemSelect multiSelect = null;
-            IntPtr containerPtr = IntPtr.Zero;
-
-            int hr = selectionMonitor.GetCurrentSelection(out hierarchyPtr, out itemID, out multiSelect, out containerPtr);
-            if (IntPtr.Zero != containerPtr)
-            {
-                Marshal.Release(containerPtr);
-                containerPtr = IntPtr.Zero;
-            }
-
-            Debug.Assert(hr == VSConstants.S_OK, "GetCurrentSelection failed.");
-
-            if (itemID == VSConstants.VSITEMID_SELECTION)
-            {
-                uint itemCount = 0;
-                int singleHierarchy = 0;
-                hr = multiSelect.GetSelectionInfo(out itemCount, out singleHierarchy);
-                Debug.Assert(hr == VSConstants.S_OK, "GetSelectionInfo failed.");
-                ErrorHandler.ThrowOnFailure(hr);
-
-                VSITEMSELECTION[] items = new VSITEMSELECTION[itemCount];
-                hr = multiSelect.GetSelectedItems(0, itemCount, items);
-                Debug.Assert(hr == VSConstants.S_OK, "GetSelectedItems failed.");
-                ErrorHandler.ThrowOnFailure(hr);
-
-                foreach (VSITEMSELECTION item in items)
-                {
-                    object result;
-                    item.pHier.GetProperty(item.itemid, (int)__VSHPROPID.VSHPROPID_Name, out result);
-                    string name = (string)result;
-                    yield return name;
-                }
-            }
-//            return null;
-        }
-        
-
-        internal static string GetSingleItemShortFilename()
-        {
-            IVsMonitorSelection selectionMonitor = serviceProvider.GetService(typeof(IVsMonitorSelection)) as IVsMonitorSelection;
-
-            IntPtr hierarchyPtr = IntPtr.Zero;
-            uint itemID = 0;
-            IVsMultiItemSelect multiSelect = null;
-            IntPtr containerPtr = IntPtr.Zero;
-
-            int hr = selectionMonitor.GetCurrentSelection(out hierarchyPtr, out itemID, out multiSelect, out containerPtr);
-
-            if (IntPtr.Zero != containerPtr)
-            {
-                Marshal.Release(containerPtr);
-                containerPtr = IntPtr.Zero;
-            }
-
-            Debug.Assert(hr == VSConstants.S_OK, "GetCurrentSelection failed.");
-            ErrorHandler.ThrowOnFailure(hr);
-
-            Debug.Assert(itemID != VSConstants.VSITEMID_SELECTION, "This should only be called on single item selections.");
-            Debug.Assert(multiSelect == null, "Internal error multi select is supposed to be null here");
-            if (hierarchyPtr == IntPtr.Zero)
-            {
-                Debug.Assert(itemID != VSConstants.VSITEMID_ROOT, "This was called on the solution node.");
-                throw new InvalidOperationException();
-            }
-
-            IVsHierarchy hierarchy = (IVsHierarchy)Marshal.GetUniqueObjectForIUnknown(hierarchyPtr);
-
-            object result;
-            ErrorHandler.ThrowOnFailure(
-                hierarchy.GetProperty(itemID, (int)__VSHPROPID.VSHPROPID_ProjectName, out result));
-            ErrorHandler.ThrowOnFailure(
-                hierarchy.GetProperty(itemID, (int)__VSHPROPID.VSHPROPID_SaveName, out result));
-            ErrorHandler.ThrowOnFailure(
-                hierarchy.GetProperty(itemID, (int)__VSHPROPID.VSHPROPID_TypeName, out result));
-            ErrorHandler.ThrowOnFailure(
-                hierarchy.GetProperty(itemID, (int)__VSHPROPID.VSHPROPID_Name, out result));
-
-            return result as string;
-        }
-
-        private static IVsProject GetProjectOfItem(IVsHierarchy hierarchy, uint itemID)
-        {
-            return (IVsProject)hierarchy;
-        }
-
-        /*
-        /// <summary>
-        /// Gets the projects of current selections.
-        /// </summary>
-        /// <returns>A list of projects.</returns>
-        internal static IList<IVsProject> GetProjectsOfCurrentSelections()
-        {
-            List<IVsProject> results = new List<IVsProject>();
-
-            int hr = VSConstants.S_OK;
-            IVsMonitorSelection selectionMonitor = serviceProvider.GetService(typeof(IVsMonitorSelection)) as IVsMonitorSelection;
-            IntPtr hierarchyPtr = IntPtr.Zero;
-            uint itemID = 0;
-            IVsMultiItemSelect multiSelect = null;
-            IntPtr containerPtr = IntPtr.Zero;
-            hr = selectionMonitor.GetCurrentSelection(out hierarchyPtr, out itemID, out multiSelect, out containerPtr);
-            if (IntPtr.Zero != containerPtr)
-            {
-                Marshal.Release(containerPtr);
-                containerPtr = IntPtr.Zero;
-            }
-            Debug.Assert(hr == VSConstants.S_OK, "GetCurrentSelection failed.");
-
-            if (itemID == HierarchyConstants.VSITEMID_SELECTION)
-            {
-                uint itemCount = 0;
-                int fSingleHierarchy = 0;
-                hr = multiSelect.GetSelectionInfo(out itemCount, out fSingleHierarchy);
-                Debug.Assert(hr == VSConstants.S_OK, "GetSelectionInfo failed.");
-
-                VSITEMSELECTION[] items = new VSITEMSELECTION[itemCount];
-                hr = multiSelect.GetSelectedItems(0, itemCount, items);
-                Debug.Assert(hr == VSConstants.S_OK, "GetSelectedItems failed.");
-
-                foreach (VSITEMSELECTION item in items)
-                {
-                    IVsProject project = GetProjectOfItem(item.pHier, item.itemid);
-                    if (!results.Contains(project))
-                    {
-                        results.Add(project);
-                    }
-                }
-            }
-            else
-            {
-                //case where no visible project is open (single file)
-                if (hierarchyPtr != IntPtr.Zero)
-                {
-                    IVsHierarchy hierarchy = (IVsHierarchy)Marshal.GetUniqueObjectForIUnknown(hierarchyPtr);
-                    results.Add(GetProjectOfItem(hierarchy, itemID));
-                }
-            }
-
-            return results;
-        }
-
-        internal static string GetProjectFilePath(IVsProject project)
-        {
-            string path = string.Empty;
-            int hr = project.GetMkDocument(HierarchyConstants.VSITEMID_ROOT, out path);
-            Debug.Assert(hr == VSConstants.S_OK || hr == VSConstants.E_NOTIMPL, "GetMkDocument failed for project.");
-
-            return path;
-        }
-
-        internal static string GetUniqueProjectNameFromFile(string projectFile)
-        {
-            IVsProject project = GetProjectByFileName(projectFile);
-
-            if (project != null)
-            {
-                return GetUniqueUIName(project);
-            }
-
-            return null;
-        }
-
-        internal static string GetUniqueUIName(IVsProject project)
-        {
-            IVsSolution3 solution = serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution3;
-            string name = null;
-            int hr = solution.GetUniqueUINameOfProject((IVsHierarchy)project, out name);
-            Debug.Assert(hr == VSConstants.S_OK, "GetUniqueUINameOfProject failed.");
-            return name;
-        }
-
-        /// <summary>
-        /// List the projects that are loaded in the solution.
-        /// </summary>
-        /// <returns>An enumeration of <see cref="T>IVsProject">Projects</see>.</returns>
-        internal static IEnumerable<IVsProject> GetLoadedProjects()
-        {
-            IVsSolution solution = serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution;
-            IEnumHierarchies enumerator = null;
-            Guid guid = Guid.Empty;
-            solution.GetProjectEnum((uint)__VSENUMPROJFLAGS.EPF_LOADEDINSOLUTION, ref guid, out enumerator);
-            IVsHierarchy[] hierarchy = new IVsHierarchy[1] { null };
-            uint fetched = 0;
-            for (enumerator.Reset(); enumerator.Next(1, hierarchy, out fetched) == VSConstants.S_OK && fetched == 1; ) // 1 means *nothing*
-            {
-                yield return (IVsProject)hierarchy[0];
-            }
-        }
-
-        internal static IVsProject GetProjectByFileName(string projectFile)
-        {
-            foreach (IVsProject project in GetLoadedProjects())
-            {
-                if (string.Compare(projectFile, GetProjectFilePath(project), StringComparison.OrdinalIgnoreCase) == 0)
-                {
-                    return project;
-                }
-            }
-
-            return null;
-        }
-         */
     }
 }
