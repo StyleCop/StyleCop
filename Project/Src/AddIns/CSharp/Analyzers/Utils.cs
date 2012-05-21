@@ -320,12 +320,7 @@ namespace StyleCop.CSharp
 
             // Look through all the children of this class to see if the word matches
             // against any item in the class.
-            List<CsElement> matches = null;
-
-            foreach (var member in members)
-            {
-                var e = member.Key;
-            }
+            List<CsElement> matches;
 
             if (members.TryGetValue(word, out matches))
             {
