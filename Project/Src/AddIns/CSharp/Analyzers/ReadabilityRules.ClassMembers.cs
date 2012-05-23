@@ -18,6 +18,7 @@ namespace StyleCop.CSharp
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Linq;
 
     /// <content>Checks rules related to class member calls.</content>
     public partial class ReadabilityRules
@@ -567,9 +568,19 @@ namespace StyleCop.CSharp
             // class implementation instead of the local class implementation. 
 
             // No BaseClass so '.base' not required
-            if (parentClass.BaseClass == string.Empty)
+            // What if we're a partial class and one of the other partial classes has base and not us?
+            var foundBaseClass = false;
+            if (parentClass.PartialElementList != null)
             {
-                return false;
+                if (parentClass.PartialElementList.OfType<Class>().Any(@class => @class.BaseClass != string.Empty))
+                {
+                    foundBaseClass = true;
+                }
+
+                if (!foundBaseClass)
+                {
+                    return false;
+                }
             }
 
             bool memberNameHasGeneric = memberName.IndexOf('<') > -1;
