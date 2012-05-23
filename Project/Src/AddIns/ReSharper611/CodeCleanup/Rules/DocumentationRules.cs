@@ -100,7 +100,7 @@ namespace StyleCop.ReSharper611.CodeCleanup.Rules
             }
             else if (constructorDeclaration.GetAccessRights() == AccessRights.PRIVATE && constructorParameterCount == 0)
             {
-                textWeShouldStartWith = string.Format(CultureInfo.InvariantCulture, CachedCodeStrings.ExampleHeaderSummaryForPrivateInstanceConstructor, constructorDeclaration.DeclaredName, structOrClass);
+                textWeShouldStartWith = string.Format(CultureInfo.InvariantCulture, CachedCodeStrings.HeaderSummaryForPrivateInstanceConstructor, constructorDeclaration.DeclaredName, structOrClass);
             }
             else
             {
