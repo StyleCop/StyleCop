@@ -85,10 +85,11 @@ namespace StyleCop.VisualStudio
         /// </summary>
         /// <param name="projectItem">The project item to operate on.</param>
         /// <param name="path">The path to the project item.</param>
+        /// <param name="analysisType">The type of analysis being completed.</param>
         /// <param name="projectContext">Project-specific context information.</param>
         /// <param name="fileContext">File-specific context information.</param>
         /// <returns>If an object is returned, enumeration will end.</returns>
-        private delegate object ProjectItemInvoker(ProjectItem projectItem, string path, ref object projectContext, ref object fileContext);
+        private delegate object ProjectItemInvoker(ProjectItem projectItem, string path, AnalysisType analysisType, ref object projectContext, ref object fileContext);
 
         #endregion Private Delegates
 
@@ -157,7 +158,7 @@ namespace StyleCop.VisualStudio
                 {
                     foreach (Project project in applicationObject.Solution.Projects)
                     {
-                        object codeEditor = EnumerateProject(project, null, OpenCodeEditor, null, file);
+                        object codeEditor = EnumerateProject(project, null, OpenCodeEditor,  null, file);
 
                         if (codeEditor != null)
                         {
@@ -254,10 +255,11 @@ namespace StyleCop.VisualStudio
         /// </summary>
         /// <param name="projectItem">The project item to operate on.</param>
         /// <param name="path">The path to the project item.</param>
+        /// <param name="analysisType">The type of analysis being completed.</param>
         /// <param name="projectContext">The project context.</param>
         /// <param name="fileContext">Contains the path to the file.</param>
         /// <returns>Returns the document for the given file if found.</returns>
-        internal static object OpenCodeEditor(ProjectItem projectItem, string path, ref object projectContext, ref object fileContext)
+        internal static object OpenCodeEditor(ProjectItem projectItem, string path, AnalysisType analysisType, ref object projectContext, ref object fileContext)
         {
             Param.AssertNotNull(projectItem, "projectItem");
             Param.AssertValidString(path, "path");
@@ -372,8 +374,9 @@ namespace StyleCop.VisualStudio
         /// </summary>
         /// <param name="core"><see cref="T:StyleCopCore">Core object</see> that hosts the environment.</param>
         /// <param name="type">The analyze type being performed.</param>
+        /// <param name="analysisFilePath">The path to the initial file we are analysing.</param>
         /// <returns>Returns the list of projects.</returns>
-        internal static IList<CodeProject> GetProjectList(StyleCopCore core, AnalysisType type)
+        internal static IList<CodeProject> GetProjectList(StyleCopCore core, AnalysisType type, out string analysisFilePath)
         {
             Param.AssertNotNull(core, "core");
             Param.Ignore(type);
@@ -383,72 +386,91 @@ namespace StyleCop.VisualStudio
 
             DTE applicationObject = GetDTE();
 
-            if (type == AnalysisType.Solution || type == AnalysisType.Project)
+            analysisFilePath = null;
+
+            switch (type)
             {
-                // Create a project enumerator for the correct VS project list.
-                ProjectCollection enumerator = new ProjectCollection();
+                case AnalysisType.Project:
+                case AnalysisType.Solution:
+                    // Create a project enumerator for the correct VS project list.
+                    ProjectCollection enumerator = new ProjectCollection();
 
-                if (type == AnalysisType.Solution)
-                {
-                    enumerator.SolutionProjects = applicationObject.Solution.Projects;
-                }
-                else
-                {
-                    enumerator.SelectedProjects = (IEnumerable)applicationObject.ActiveSolutionProjects;
-                }
-
-                // Enumerate through the VS projects.
-                foreach (Project project in enumerator)
-                {
-                    if (project != null)
+                    if (type == AnalysisType.Solution)
                     {
-                        EnumerateProject(project, AddCodeProject, AddFileToProject, codeProjects, null);
+                        enumerator.SolutionProjects = applicationObject.Solution.Projects;
                     }
-                }
-            }
-            else if (type == AnalysisType.Item || type == AnalysisType.Folder)
-            {
-                GetSelectedItemFiles(codeProjects);
-            }
-            else if (type == AnalysisType.File)
-            {
-                Document document = applicationObject.ActiveDocument;
-                if (document != null)
-                {
-                    CodeProject codeProject = null;
-
-                    string projectPath = GetProjectPath(document.ProjectItem.ContainingProject);
-                    if (projectPath != null)
+                    else
                     {
-                        codeProject = new CodeProject(projectPath.GetHashCode(), projectPath, GetProjectConfiguration(document.ProjectItem.ContainingProject));
-                    }
-                    else if (!string.IsNullOrEmpty(document.FullName))
-                    {
-                        codeProject = new CodeProject(document.FullName.GetHashCode(), Path.GetDirectoryName(document.FullName), new StyleCop.Configuration(null));
+                        enumerator.SelectedProjects = (IEnumerable)applicationObject.ActiveSolutionProjects;
                     }
 
-                    if (codeProject != null)
+                    // Enumerate through the VS projects.
+                    foreach (Project project in enumerator)
                     {
-                        core.Environment.AddSourceCode(codeProject, document.FullName, null);
-                        codeProjects.Add(codeProject);
+                        if (project != null)
+                        {
+                            EnumerateProject(project, AddCodeProject, AddFileToProject, codeProjects, null);
+                        }
                     }
-                }
-            }
-            else
-            {
-                Debug.Fail("Unknown analysis type requested.");
+
+                    break;
+
+                case AnalysisType.Folder:
+                case AnalysisType.Item:
+                    analysisFilePath = GetSelectedItemFiles(codeProjects);
+                    break;
+
+                case AnalysisType.File:
+                    var document = applicationObject.ActiveDocument;
+                    if (document != null)
+                    {
+                        CodeProject codeProject = null;
+
+                        string projectPath = GetProjectPath(document.ProjectItem.ContainingProject);
+                        if (projectPath != null)
+                        {
+                            codeProject = new CodeProject(projectPath.GetHashCode(), projectPath, GetProjectConfiguration(document.ProjectItem.ContainingProject));
+                        }
+                        else if (!string.IsNullOrEmpty(document.FullName))
+                        {
+                            codeProject = new CodeProject(document.FullName.GetHashCode(), Path.GetDirectoryName(document.FullName), new StyleCop.Configuration(null));
+                        }
+
+                        if (codeProject != null)
+                        {
+                            // If this is a designer.cs file (and so a dependant of another file) then we need to add it but also its parent and siblings.
+                            analysisFilePath = document.FullName;
+
+                            var allFilesForProjectItem = GetAllFilesForProjectItem(document.ProjectItem);
+
+                            foreach (var path in allFilesForProjectItem)
+                            {
+                                core.Environment.AddSourceCode(codeProject, path, null);
+                            }
+
+                            codeProjects.Add(codeProject);
+                        }
+                    }
+
+                    break;
+                default:
+                    Debug.Fail("Unknown analysis type requested.");
+                    break;
             }
 
             return codeProjects;
         }
-
+        
         /// <summary>
         /// Gets the selected item files.
         /// </summary>
         /// <param name="codeProjects">The list of projects.</param>
-        internal static void GetSelectedItemFiles(IList<CodeProject> codeProjects)
+        /// <returns>The path to the first file actually selected. Null if we were on a selected folder.</returns>
+        internal static string GetSelectedItemFiles(IList<CodeProject> codeProjects)
         {
             Param.AssertNotNull(codeProjects, "codeProjects");
+
+            string analysisFilePath = null;
 
             DTE applicationObject = GetDTE();
 
@@ -481,7 +503,7 @@ namespace StyleCop.VisualStudio
                             }
                         }
 
-                        if (codeProject != null && project != null)
+                        if (codeProject != null)
                         {
                             EnumerateProjectItem(selectedItem.ProjectItem, project.Name, AddCodeProject, AddFileToProject, codeProjects, codeProject);
                         }
@@ -492,6 +514,9 @@ namespace StyleCop.VisualStudio
                     }
                 }
             }
+
+            // Not always null because of the delegates. Leave this here.
+            return analysisFilePath;
         }
 
         /// <summary>
@@ -618,6 +643,38 @@ namespace StyleCop.VisualStudio
         #endregion Internal Static Methods
 
         #region Private Static Methods
+
+        /// <summary>
+        /// Gets a list of all the files for the given projectItem. Includes all dependant files for partial types.
+        /// </summary>
+        /// <param name="projectItem">THe projectItem to find the files for.</param>
+        /// <returns>A list of al lthe files for this project.</returns>
+        private static IEnumerable<string> GetAllFilesForProjectItem(ProjectItem projectItem)
+        {
+            var files = new List<string>();
+
+            // If this is a designer.cs file (and so a dependant of another file) then we need to add it but also its parent and siblings.
+            var parentProjectItem = projectItem.Collection.Parent as ProjectItem;
+
+            // Checking for != folder
+            if (parentProjectItem != null && parentProjectItem.Kind != "{6BB5F8EF-4483-11D3-8BCF-00C04F8EC28C}")
+            {
+                // So document is dependant on 'f' so add that too
+                files.Add(parentProjectItem.FileNames[0]);
+
+                foreach (ProjectItem dependentItem in parentProjectItem.ProjectItems)
+                {
+                    // So document is dependant on 'f' so add that too
+                    files.Add(dependentItem.FileNames[0]);
+                }
+            }
+            else
+            {
+                files.Add(projectItem.FileNames[0]);
+            }
+
+            return files;
+        }
 
         /// <summary>
         /// Gets an instance of the extensibility application object (DTE). 
@@ -787,7 +844,7 @@ namespace StyleCop.VisualStudio
                             if (projectItemCallback != null && item.Name != null && item.Name.Length > 0)
                             {
                                 string filePath = Path.Combine(solutionPath, item.Name);
-                                object temp = projectItemCallback(item, filePath, ref projectContext, ref fileContext);
+                                object temp = projectItemCallback(item, filePath, AnalysisType.Solution, ref projectContext, ref fileContext);
                                 if (temp != null)
                                 {
                                     return temp;
@@ -993,7 +1050,7 @@ namespace StyleCop.VisualStudio
                                     {
                                         if (CheckProjectItemIsIncluded(item, filePath))
                                         {
-                                            object callbackResult = projectItemCallback(item, filePath, ref projectContext, ref fileContext);
+                                            object callbackResult = projectItemCallback(item, filePath, AnalysisType.Project,  ref projectContext, ref fileContext);
                                             if (callbackResult != null)
                                             {
                                                 return callbackResult;
@@ -1192,11 +1249,11 @@ namespace StyleCop.VisualStudio
         /// </summary>
         /// <param name="projectItem">The project item to check.</param>
         /// <param name="path">The path to the project item.</param>
+        /// <param name="analysisType">The type of analysis being completed.</param>
         /// <param name="projectContext">The project context.</param>
         /// <param name="fileContext">The file context.</param>
         /// <returns>Returns a non-null value if the item is a known file type, or null otherwise.</returns>
-        private static object IsKnownFileTypeVisitor(
-            ProjectItem projectItem, string path, ref object projectContext, ref object fileContext)
+        private static object IsKnownFileTypeVisitor(ProjectItem projectItem, string path, AnalysisType analysisType, ref object projectContext, ref object fileContext)
         {
             Param.Ignore(projectItem);
             Param.AssertValidString(path, "path");
@@ -1322,11 +1379,11 @@ namespace StyleCop.VisualStudio
         /// </summary>
         /// <param name="projectItem">The project item describing the file.</param>
         /// <param name="path">The path to the file.</param>
-        /// <param name="projectContext">The project context.</param>
+        /// <param name="analysisType">The type of analysis being completed.</param>
+        /// /// <param name="projectContext">The project context.</param>
         /// <param name="fileContext">Must contain the code project.</param>
         /// <returns>Always returns null so that enumeration will continue.</returns>
-        private static object AddFileToProject(
-            ProjectItem projectItem, string path, ref object projectContext, ref object fileContext)
+        private static object AddFileToProject(ProjectItem projectItem, string path, AnalysisType analysisType, ref object projectContext, ref object fileContext)
         {
             Param.Ignore(projectItem);
             Param.AssertValidString(path, "path");
@@ -1341,7 +1398,20 @@ namespace StyleCop.VisualStudio
                 // Add the file to the code project.
                 StyleCopVSPackage package = serviceProvider.GetService(typeof(StyleCopVSPackage)) as StyleCopVSPackage;
                 Debug.Assert(package != null, "package is null");
-                package.Core.Environment.AddSourceCode(codeProject, path, null);
+
+                if (analysisType == AnalysisType.File)
+                {
+                    var allFilesForProjectItem = GetAllFilesForProjectItem(projectItem);
+
+                    foreach (var filepath in allFilesForProjectItem)
+                    {
+                        package.Core.Environment.AddSourceCode(codeProject, filepath, null);
+                    }
+                }
+                else
+                {
+                    package.Core.Environment.AddSourceCode(codeProject, path, null);
+                }
             }
 
             return null;

@@ -1909,9 +1909,18 @@ namespace StyleCop.ReSharper611.Core
 
             var rootDependsItem = projectFile.GetDependsUponItemForItem();
 
-            var dependentFiles = rootDependsItem != null ? rootDependsItem.GetDependentFiles() : projectFile.GetDependentFiles();
+            ICollection<IProjectFile> dependentFiles;
+            if (rootDependsItem == null)
+            {
+                dependentFiles = projectFile.GetDependentFiles();
+            }
+            else
+            {
+                list.Add(rootDependsItem);
+                dependentFiles = rootDependsItem.GetDependentFiles();
+            }
 
-            list.AddRange(dependentFiles.Where(file => !file.Equals(projectFile)));
+            list.AddRange(dependentFiles.Where(dependentFile => !dependentFile.Equals(projectFile)));
 
             return list;
         }

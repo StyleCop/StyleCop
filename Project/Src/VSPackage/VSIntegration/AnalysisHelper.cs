@@ -57,7 +57,11 @@ namespace StyleCop.VisualStudio
         /// Stores the list of violations encountered.
         /// </summary>
         private List<ViolationInfo> violations;
-        
+
+        private AnalysisType analysisType;
+
+        private string analysisFilePath;
+
         #endregion Private Fields
 
         #region Constructor
@@ -156,8 +160,15 @@ namespace StyleCop.VisualStudio
             if (this.SaveOpenDocuments())
             {
                 // Get the list of projects to be analyzed.
-                IList<CodeProject> projects = ProjectUtilities.GetProjectList(this.core, type);
+                // Depending on the AnalysisType we:
+                //// 1. Analyse all the files in the solution/project/folder
+                //// 2. Analyse the selected file in the solution browser/code pane
+                //// 3. If its a single file we may still analyse multiple files. We do this if the selected file has a dependancy on another file.
+                ////    so if you analyse a designer.cs file we actually analyse the parent file and all its dependants. This is genrally because we can only be sure of issues relating to partial
+                ////    types if we have all the partial types to check against.
+                IList<CodeProject> projects = ProjectUtilities.GetProjectList(this.core, type, out this.analysisFilePath);
 
+                this.analysisType = type;
                 this.ClearEnvironmentPriorToAnalysis();
 
                 this.SignalAnalysisStarted();
@@ -513,42 +524,51 @@ namespace StyleCop.VisualStudio
             }
             else
             {
-                if (!e.Warning)
-                {
-                    ++this.violationCount;
-                }
-                
-                // Check the count. At some point we don't allow any more violations so we cancel the analyze run.
-                if (e.SourceCode.Project.MaxViolationCount > 0 && this.violationCount == e.SourceCode.Project.MaxViolationCount)
-                {
-                    this.Cancel();
-                }
+                // Check the violation only occured in the file we were analysing (or we were analysing a solution/project/folder)
+                var sourceCodePath = e.SourceCode.Path;
+                var documentFullName = this.analysisFilePath;
 
-                var element = e.Element;
-                var violation = new ViolationInfo();
-                violation.Description = string.Concat(e.Violation.Rule.CheckId, ": ", e.Message);
-                violation.LineNumber = e.LineNumber;
-
-                violation.ColumnNumber = e.Location != null ? e.Location.StartPoint.IndexOnLine : 1;
-
-                violation.Rule = e.Violation.Rule;
-
-                if (element != null)
+                if ((this.analysisType == AnalysisType.File && sourceCodePath.Equals(documentFullName, StringComparison.OrdinalIgnoreCase))
+                    || this.analysisType == AnalysisType.Folder || this.analysisType == AnalysisType.Project || this.analysisType == AnalysisType.Solution
+                    || this.analysisType == AnalysisType.Item)
                 {
-                    violation.File = element.Document.SourceCode.Path;
-                }
-                else
-                {
-                    string file = string.Empty;
-                    if (e.SourceCode != null)
+                    if (!e.Warning)
                     {
-                        file = e.SourceCode.Path;
+                        ++this.violationCount;
                     }
 
-                    violation.File = file;
-                }
+                    // Check the count. At some point we don't allow any more violations so we cancel the analyze run.
+                    if (e.SourceCode.Project.MaxViolationCount > 0 && this.violationCount == e.SourceCode.Project.MaxViolationCount)
+                    {
+                        this.Cancel();
+                    }
 
-                this.violations.Add(violation);
+                    var element = e.Element;
+                    var violation = new ViolationInfo();
+                    violation.Description = string.Concat(e.Violation.Rule.CheckId, ": ", e.Message);
+                    violation.LineNumber = e.LineNumber;
+
+                    violation.ColumnNumber = e.Location != null ? e.Location.StartPoint.IndexOnLine : 1;
+
+                    violation.Rule = e.Violation.Rule;
+
+                    if (element != null)
+                    {
+                        violation.File = element.Document.SourceCode.Path;
+                    }
+                    else
+                    {
+                        string file = string.Empty;
+                        if (e.SourceCode != null)
+                        {
+                            file = e.SourceCode.Path;
+                        }
+
+                        violation.File = file;
+                    }
+
+                    this.violations.Add(violation);
+                }
             }
         }
 
