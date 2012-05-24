@@ -311,6 +311,8 @@ namespace StyleCop.VisualStudio
         {
             Param.Ignore(sender, args);
 
+            this.TaskProvider.Clear();
+
             // Notify each analyzer addin about this event.
             foreach (SourceParser parser in this.Core.Parsers)
             {
@@ -331,6 +333,8 @@ namespace StyleCop.VisualStudio
         private void SolutionClosingEventHandler(object sender, EventArgs args)
         {
             Param.Ignore(sender, args);
+
+            this.TaskProvider.Clear();
 
             // Notify each analyzer addin about this event.
             foreach (SourceParser parser in this.Core.Parsers)
