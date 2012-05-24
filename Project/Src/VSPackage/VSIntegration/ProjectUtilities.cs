@@ -1106,8 +1106,16 @@ namespace StyleCop.VisualStudio
             Param.AssertNotNull(item, "item");
             Param.AssertNotNull(filename, "filename");
 
-            var trimmedPath = filename.Substring(Path.GetDirectoryName(item.ContainingProject.FullName).Length + 1).ToUpperInvariant();
+            var isLinkProperty = item.Properties.Item("IsLink");
 
+            if (isLinkProperty != null && Boolean.Parse(isLinkProperty.Value.ToString()))
+            {
+                // The ProjectItem is a linked file to we'll assume these haven't got
+                // ExcludeFromStyleCop in the proj file
+                return true;
+            }
+
+            var trimmedPath = filename.Substring(Path.GetDirectoryName(item.ContainingProject.FullName).Length + 1).ToUpperInvariant();
             return !(projectItemExcluded.ContainsKey(trimmedPath) ? projectItemExcluded[trimmedPath] : IsProjectItemExcluded(item, trimmedPath));
         }
 
