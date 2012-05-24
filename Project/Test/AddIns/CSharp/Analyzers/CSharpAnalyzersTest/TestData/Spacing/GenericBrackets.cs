@@ -46,5 +46,7 @@
             Contract.Ensures(Contract.Result<IEnumerable<object>>() != null);
             return _collection;
         }
+
+        private KeyValuePair<CategoryKey, Color>? item; // valid
     }
 }

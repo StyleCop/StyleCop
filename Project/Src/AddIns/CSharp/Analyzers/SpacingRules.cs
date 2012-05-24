@@ -1424,7 +1424,7 @@ namespace StyleCop.CSharp
                 var nextNodeTokenType = nextNode.Value.CsTokenType;
 
                 if (nextNodeTokenType != CsTokenType.WhiteSpace && nextNodeTokenType != CsTokenType.EndOfLine && nextNodeTokenType != CsTokenType.OpenParenthesis
-                    && nextNodeTokenType != CsTokenType.CloseParenthesis && nextNodeTokenType != CsTokenType.CloseGenericBracket
+                    && nextNodeTokenType != CsTokenType.CloseParenthesis && nextNodeTokenType != CsTokenType.CloseGenericBracket && nextNodeTokenType != CsTokenType.NullableTypeSymbol
                     && nextNodeTokenType != CsTokenType.OperatorSymbol && nextNodeTokenType != CsTokenType.OpenSquareBracket && nextNodeTokenType != CsTokenType.Comma && nextNodeTokenType != CsTokenType.Semicolon)
                 {
                     addViolation = true;
