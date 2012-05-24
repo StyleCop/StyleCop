@@ -283,7 +283,7 @@
 <param name="Local" value="SA1513.html">
 </OBJECT>
 <LI><OBJECT type="text/sitemap">
-<param name="Name" value="SA1514: ElementDocumentationHeadersMustBePrecededByBlankLine">
+<param name="Name" value="SA1514: ElementDocumentationHeaderMustBePrecededByBlankLine">
 <param name="Local" value="SA1514.html">
 </OBJECT>
 <LI><OBJECT type="text/sitemap">
