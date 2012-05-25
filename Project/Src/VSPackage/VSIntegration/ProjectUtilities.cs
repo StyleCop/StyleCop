@@ -984,10 +984,10 @@ namespace StyleCop.VisualStudio
 
                 return false;
             }
-            catch(ArgumentException)
+            catch (ArgumentException)
             {
             }
-            catch(FileNotFoundException)
+            catch (FileNotFoundException)
             {
                 // For some project kinds (and we can't know them all i.e. wixproj) 
                 // The project won't load as the item.ContaningProject.Filename is not the fullpath
@@ -1121,7 +1121,7 @@ namespace StyleCop.VisualStudio
 
             var isLinkProperty = item.Properties.Item("IsLink");
 
-            if (isLinkProperty != null && Boolean.Parse(isLinkProperty.Value.ToString()))
+            if (isLinkProperty != null && bool.Parse(isLinkProperty.Value.ToString()))
             {
                 // The ProjectItem is a linked file to we'll assume these haven't got
                 // ExcludeFromStyleCop in the proj file
