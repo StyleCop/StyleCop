@@ -240,4 +240,66 @@ namespace CSharpAnalyzersTest.TestData.ValidPrefixes
             A2(value);         // should throw 1101 needs 'this' - calling the only method.
         }
     }
+
+    
+
+        /// <summary>
+        /// The class 75.
+        /// </summary>
+        internal class Class75
+        {
+            #region Fields
+
+            /// <summary>
+            /// The dictionary.
+            /// </summary>
+            private Dictionary<int, string> dictionary;
+
+            /// <summary>
+            /// The variable.
+            /// </summary>
+            private IList<int> variable;
+
+            #endregion
+
+            #region Constructors and Destructors
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="Class75"/> class.
+            /// </summary>
+            public Class75()
+            {
+                this.dictionary = new Dictionary<int, string>();
+            }
+
+            #endregion
+
+            #region Public Properties
+
+            /// <summary>
+            /// Gets Property.
+            /// </summary>
+            /// <value>
+            /// The property. 
+            /// </value>
+            public IList<int> Property
+            {
+                get
+                {
+                    return (IList<int>)this.variable;
+                }
+            }
+
+            public Dictionary<int, string> Dictionary
+            {
+                get
+                {
+                    return (Dictionary<int, string>)this.dictionary;
+                }
+            }
+
+            #endregion
+        }
+    }
+
 }

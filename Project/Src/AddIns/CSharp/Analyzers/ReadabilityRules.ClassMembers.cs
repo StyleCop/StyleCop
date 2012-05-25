@@ -711,6 +711,20 @@ namespace StyleCop.CSharp
                     return false;
                 }
 
+                var expressionParent = expression.Parent as Expression;
+
+                if (expressionParent != null && expressionParent.ExpressionType == ExpressionType.Cast)
+                {
+                    return false;
+                }
+
+                var expressionParentParent = expression.Parent.Parent as Expression;
+
+                if (expressionParentParent != null && expressionParentParent.ExpressionType == ExpressionType.New)
+                {
+                    return false;
+                }
+
                 if (tokenNode.Value.CsTokenType != CsTokenType.Other)
                 {
                     return false;
