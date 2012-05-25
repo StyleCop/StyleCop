@@ -164,7 +164,8 @@ namespace StyleCop.VisualStudio
                 //// 1. Analyse all the files in the solution/project/folder
                 //// 2. Analyse the selected file in the solution browser/code pane
                 //// 3. If its a single file we may still analyse multiple files. We do this if the selected file has a dependancy on another file.
-                ////    so if you analyse a designer.cs file we actually analyse the parent file and all its dependants. This is genrally because we can only be sure of issues relating to partial
+                ////    so if you analyse a designer.cs file we actually analyse the parent file and all its dependants.
+                ////    This is genrally because we can only be sure of issues relating to partial
                 ////    types if we have all the partial types to check against.
                 IList<CodeProject> projects = ProjectUtilities.GetProjectList(this.core, type, out this.analysisFilePath);
 

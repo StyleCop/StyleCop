@@ -935,52 +935,65 @@ namespace StyleCop.VisualStudio
         [SuppressMessage("Microsoft.Usage", "CA1806:DoNotIgnoreMethodResult", Justification = "Using the default value from bool.TryParse")]
         private static bool IsProjectItemExcluded(ProjectItem item, string path)
         {
-            // This function is only called when we know we haven't already cached the setting for this item.
-            var buildEngineProject = new Microsoft.Build.BuildEngine.Project();
-
-            buildEngineProject.Load(item.ContainingProject.FileName);
-
-            if (buildEngineProject.ItemGroups == null)
+            try
             {
-                return false;
-            }
+                // This function is only called when we know we haven't already cached the setting for this item.
+                var buildEngineProject = new Microsoft.Build.BuildEngine.Project();
 
-            foreach (BuildItemGroup itemGroup in buildEngineProject.ItemGroups)
-            {
-                foreach (BuildItem buildItem in itemGroup)
+                buildEngineProject.Load(item.ContainingProject.FileName);
+
+                if (buildEngineProject.ItemGroups == null)
                 {
-                    if (buildItem.Name == "Compile")
+                    return false;
+                }
+
+                foreach (BuildItemGroup itemGroup in buildEngineProject.ItemGroups)
+                {
+                    foreach (BuildItem buildItem in itemGroup)
                     {
-                        bool excluded;
-
-                        string compileItemPath = buildItem.Include.ToUpperInvariant();
-                        if (projectItemExcluded.ContainsKey(compileItemPath))
+                        if (buildItem.Name == "Compile")
                         {
-                            excluded = projectItemExcluded[compileItemPath];
-                        }
-                        else
-                        {
-                            bool excludeFromStyleCop;
-                            bool.TryParse(buildItem.GetMetadata("ExcludeFromStyleCop"), out excludeFromStyleCop);
+                            bool excluded;
 
-                            bool excludeFromSourceAnalysis;
-                            bool.TryParse(buildItem.GetMetadata("ExcludeFromSourceAnalysis"), out excludeFromSourceAnalysis);
+                            string compileItemPath = buildItem.Include.ToUpperInvariant();
+                            if (projectItemExcluded.ContainsKey(compileItemPath))
+                            {
+                                excluded = projectItemExcluded[compileItemPath];
+                            }
+                            else
+                            {
+                                bool excludeFromStyleCop;
+                                bool.TryParse(buildItem.GetMetadata("ExcludeFromStyleCop"), out excludeFromStyleCop);
 
-                            excluded = excludeFromStyleCop || excludeFromSourceAnalysis;
+                                bool excludeFromSourceAnalysis;
+                                bool.TryParse(buildItem.GetMetadata("ExcludeFromSourceAnalysis"), out excludeFromSourceAnalysis);
 
-                            // Cache everything else as we go past to save time later.
-                            projectItemExcluded.Add(compileItemPath, excluded);
-                        }
+                                excluded = excludeFromStyleCop || excludeFromSourceAnalysis;
 
-                        if (compileItemPath.Equals(path, StringComparison.OrdinalIgnoreCase))
-                        {
-                            return excluded;
+                                // Cache everything else as we go past to save time later.
+                                projectItemExcluded.Add(compileItemPath, excluded);
+                            }
+
+                            if (compileItemPath.Equals(path, StringComparison.OrdinalIgnoreCase))
+                            {
+                                return excluded;
+                            }
                         }
                     }
                 }
-            }
 
-            return false;
+                return false;
+            }
+            catch(ArgumentException)
+            {
+            }
+            catch(FileNotFoundException)
+            {
+                // For some project kinds (and we can't know them all i.e. wixproj) 
+                // The project won't load as the item.ContaningProject.Filename is not the fullpath
+            }
+            
+            return true;
         }
 
         /// <summary>
