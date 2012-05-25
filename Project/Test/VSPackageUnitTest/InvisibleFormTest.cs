@@ -50,11 +50,9 @@ namespace VSPackageUnitTest
             InvisibleForm_Accessor.instanceForm = null;
             actual = InvisibleForm_Accessor.Instance;
             Assert.IsNotNull(actual, "InvisibleForm.Instance returned null");
-            Assert.AreSame(actual.Target, InvisibleForm_Accessor.Instance.Target, "Second call to the property shoudl return the same opbject instance.");
+            Assert.AreSame(actual.Target, InvisibleForm_Accessor.Instance.Target, "Second call to the property should return the same opbject instance.");
 
             Form f = actual.Target as Form;
-            Assert.IsTrue(f.Location.Y > Screen.PrimaryScreen.WorkingArea.Bottom, "Invisible form should be located below the visible working area");
-
             Assert.IsFalse(f.Visible, "InvisibleForm should not be visible");
         }
 

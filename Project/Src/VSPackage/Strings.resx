@@ -175,7 +175,7 @@
   <data name="NoFilesToAnalyze" xml:space="preserve">
     <value>No files to analyze</value>
   </data>
-  <data name="NoInvisbileForm" xml:space="preserve">
+  <data name="NoInvisbleForm" xml:space="preserve">
     <value>StyleCop could not get the invisible form.</value>
     <comment>Internal violation. SHOULD NEVER BE SURFACED TO THE USER</comment>
   </data>

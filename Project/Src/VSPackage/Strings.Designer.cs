@@ -229,9 +229,9 @@ namespace StyleCop.VisualStudio {
         /// <summary>
         ///   Looks up a localized string similar to StyleCop could not get the invisible form..
         /// </summary>
-        internal static string NoInvisbileForm {
+        internal static string NoInvisbleForm {
             get {
-                return ResourceManager.GetString("NoInvisbileForm", resourceCulture);
+                return ResourceManager.GetString("NoInvisbleForm", resourceCulture);
             }
         }
         

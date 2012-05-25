@@ -307,7 +307,7 @@ namespace StyleCop.VisualStudio
                 // Ensuring that the form is created on the UI thread.
                 if (InvisibleForm.Instance == null)
                 {
-                    throw new InvalidOperationException(Strings.NoInvisbileForm);
+                    throw new InvalidOperationException(Strings.NoInvisbleForm);
                 }
 
                 // Set up the menu items.

@@ -15,6 +15,7 @@
 namespace StyleCop.VisualStudio
 {
     using System;
+    using System.Drawing;
     using System.Windows.Forms;
 
     /// <summary>
@@ -60,12 +61,14 @@ namespace StyleCop.VisualStudio
                     if (instanceForm == null)
                     {
                         instanceForm = new InvisibleForm();
+                        instanceForm.Location = new Point(-2000, -2000);
+                        instanceForm.Size = new Size(0, 0);
+                        instanceForm.StartPosition = FormStartPosition.Manual;
+                        instanceForm.VerticalScroll.Visible = false;
 
                         // This causes the form to get created.
                         instanceForm.Visible = true;
                         instanceForm.Visible = false;
-
-                        instanceForm.Location = new System.Drawing.Point(0, Screen.PrimaryScreen.WorkingArea.Bottom + 100);
                     }
 
                     return instanceForm;
