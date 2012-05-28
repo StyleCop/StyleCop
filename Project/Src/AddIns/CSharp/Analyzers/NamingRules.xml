@@ -37,7 +37,7 @@
       <Description>Validates that a variable name is not prepended with lower-case characters matching the signature of Hungarian notation.</Description>
     </Rule>
     <Rule Name="FieldNamesMustBeginWithLowerCaseLetter" CheckId="SA1306">
-      <Context>Variable names must start with a lower-case letter: {0}.</Context>
+      <Context>Variable names and private field names must start with a lower-case letter: {0}.</Context>
       <Description>Validates that the name of a variable or field begins with a lower-case letter.</Description>
     </Rule>
     <Rule Name="AccessibleFieldsMustBeginWithUpperCaseLetter" CheckId="SA1307">
