@@ -984,6 +984,9 @@ namespace StyleCop.VisualStudio
 
                 return false;
             }
+            catch (InvalidOperationException)
+            {
+            }
             catch (ArgumentException)
             {
             }
@@ -992,7 +995,7 @@ namespace StyleCop.VisualStudio
                 // For some project kinds (and we can't know them all i.e. wixproj) 
                 // The project won't load as the item.ContaningProject.Filename is not the fullpath
             }
-            
+
             return true;
         }
 
