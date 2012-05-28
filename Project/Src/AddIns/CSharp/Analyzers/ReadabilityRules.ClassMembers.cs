@@ -713,7 +713,7 @@ namespace StyleCop.CSharp
 
                 var expressionParent = expression.Parent as Expression;
 
-                if (expressionParent != null && expressionParent.ExpressionType == ExpressionType.Cast)
+                if (expressionParent != null && (expressionParent.ExpressionType == ExpressionType.Cast || expressionParent.ExpressionType == ExpressionType.Is))
                 {
                     return false;
                 }
