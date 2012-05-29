@@ -374,4 +374,27 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.Spacing.CloseSquareBracket.Class1.x" LineNumber="7" Rule="ClosingSquareBracketsMustBeSpacedCorrectly" />
     </ExpectedViolations>
   </Test>
+  <Test Name="DereferenceSymbol">
+    <TestCodeFile>DereferenceSymbol.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.SpacingRules">
+          <Rules>
+            <Rule Name="DereferenceAndAccessOfSymbolsMustBeSpacedCorrectly">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Spacing.DereferenceSymbol.Main%string[]" LineNumber="17" StartLine="17" StartColumn="29" EndLine="17" EndColumn="29" RuleNamespace="StyleCop.CSharp.SpacingRules" Rule="DereferenceAndAccessOfSymbolsMustBeSpacedCorrectly" />
+    </ExpectedViolations>
+  </Test>
 </StyleCopTestDescription>

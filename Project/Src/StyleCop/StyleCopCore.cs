@@ -1501,7 +1501,8 @@ namespace StyleCop
                             !assemblyPath.EndsWith("\\stylecop.resharper513.dll", StringComparison.OrdinalIgnoreCase) &&
                             !assemblyPath.EndsWith("\\stylecop.resharper600.dll", StringComparison.OrdinalIgnoreCase) &&
                             !assemblyPath.EndsWith("\\stylecop.resharper610.dll", StringComparison.OrdinalIgnoreCase) &&
-                            !assemblyPath.EndsWith("\\stylecop.resharper611.dll", StringComparison.OrdinalIgnoreCase))
+                            !assemblyPath.EndsWith("\\stylecop.resharper611.dll", StringComparison.OrdinalIgnoreCase) &&
+                            !assemblyPath.EndsWith("\\stylecop.resharper700.dll", StringComparison.OrdinalIgnoreCase))
                         {
                             try
                             {

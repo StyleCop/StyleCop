@@ -312,7 +312,7 @@ namespace StyleCop.CSharp
 
                                             case OperatorType.AddressOf:
                                             case OperatorType.Dereference:
-                                                this.CheckUnsafeAccessSymbols(tokenNode, type);
+                                                this.CheckUnsafeAccessSymbols(tokenNode, type, parentTokenNode);
                                                 break;
 
                                             default:
@@ -1776,8 +1776,9 @@ namespace StyleCop.CSharp
         /// </summary>
         /// <param name="tokenNode">The token to check.</param>
         /// <param name="type">Indicates whether the token is part of a type declaration.</param>
+        /// <param name="parentTokenNode">The parent token of the token node being checked.</param>
         [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification = "Minimizing refactoring before release.")]
-        private void CheckUnsafeAccessSymbols(Node<CsToken> tokenNode, bool type)
+        private void CheckUnsafeAccessSymbols(Node<CsToken> tokenNode, bool type, Node<CsToken> parentTokenNode)
         {
             Param.AssertNotNull(tokenNode, "tokenNode");
             Param.Ignore(type);
@@ -1790,8 +1791,8 @@ namespace StyleCop.CSharp
                 // can also be followed by a closing paren or a closing bracket,
                 // or another token of the same type.
                 bool addViolation = false;
-                
-                Node<CsToken> nextNode = tokenNode.Next;
+
+                Node<CsToken> nextNode = tokenNode.Next ?? parentTokenNode.Next;
                 if (nextNode == null)
                 {
                     addViolation = true;
