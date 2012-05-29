@@ -565,20 +565,7 @@ namespace StyleCop.CSharp
         {
             // An item is only allowed to start with base if there is an implementation of the
             // item in the local class and the caller is trying to explicitly call the base
-            // class implementation instead of the local class implementation. 
-
-            // No BaseClass so '.base' not required
-            // What if we're a partial class and one of the other partial classes has base and not us?
-            // all classes derived from object
-            var foundBaseClass = false;
-            if (parentClass.PartialElementList != null)
-            {
-                if (parentClass.PartialElementList.OfType<Class>().Any(@class => @class.BaseClass != string.Empty))
-                {
-                    foundBaseClass = true;
-                }
-            }
-
+            // class implementation instead of the local class implementation.
             bool memberNameHasGeneric = memberName.IndexOf('<') > -1;
 
             bool overrideOnTrimmedMethod = false;
