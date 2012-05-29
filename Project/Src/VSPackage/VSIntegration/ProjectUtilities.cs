@@ -984,6 +984,9 @@ namespace StyleCop.VisualStudio
 
                 return false;
             }
+            catch (InvalidProjectFileException)
+            {
+            }
             catch (InvalidOperationException)
             {
             }
