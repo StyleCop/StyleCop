@@ -996,7 +996,7 @@ namespace StyleCop.VisualStudio
             catch (FileNotFoundException)
             {
                 // For some project kinds (and we can't know them all i.e. wixproj) 
-                // The project won't load as the item.ContaningProject.Filename is not the fullpath
+                // The project won't load as the item.ContainingProject.Filename is not the fullpath
             }
 
             return true;

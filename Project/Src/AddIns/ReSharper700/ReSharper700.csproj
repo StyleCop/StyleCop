@@ -76,16 +76,8 @@
       <HintPath>ReferencedAssemblies\JetBrains.Platform.ReSharper.ComponentModel.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="JetBrains.Platform.ReSharper.IDE">
-      <HintPath>ReferencedAssemblies\JetBrains.Platform.ReSharper.IDE.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="JetBrains.Platform.ReSharper.Interop.WinApi">
       <HintPath>ReferencedAssemblies\JetBrains.Platform.ReSharper.Interop.WinApi.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="JetBrains.Platform.ReSharper.Metadata">
-      <HintPath>ReferencedAssemblies\JetBrains.Platform.ReSharper.Metadata.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="JetBrains.Platform.ReSharper.VisualStudio.Core">
@@ -100,15 +92,10 @@
       <HintPath>ReferencedAssemblies\JetBrains.ReSharper.Daemon.Engine.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="JetBrains.ReSharper.Features.Environment">
-      <HintPath>ReferencedAssemblies\JetBrains.ReSharper.Features.Environment.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="JetBrains.ReSharper.Resources">
       <HintPath>ReferencedAssemblies\JetBrains.ReSharper.Resources.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Microsoft.Build.Framework" />
     <Reference Include="JetBrains.Platform.ReSharper.DocumentManager, Version=4.0.819.19, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>ReferencedAssemblies\JetBrains.Platform.ReSharper.DocumentManager.dll</HintPath>
@@ -174,7 +161,6 @@
       <HintPath>ReferencedAssemblies\JetBrains.ReSharper.Psi.CSharp.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Microsoft.Build.Utilities.v3.5" />
     <Reference Include="Microsoft.VisualStudio.Shell.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>ReferencedAssemblies\Microsoft.VisualStudio.Shell.Interop.dll</HintPath>
@@ -183,7 +169,6 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
-    <Reference Include="System.configuration" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />

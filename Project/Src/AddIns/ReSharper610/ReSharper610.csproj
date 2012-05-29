@@ -72,10 +72,6 @@
     <CodeAnalysisRuleSet>..\..\FxCopRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="JetBrains.Platform.ReSharper.ActionManagement">
-      <HintPath>ReferencedAssemblies\JetBrains.Platform.ReSharper.ActionManagement.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="JetBrains.Platform.ReSharper.ComponentModel">
       <HintPath>ReferencedAssemblies\JetBrains.Platform.ReSharper.ComponentModel.dll</HintPath>
       <Private>False</Private>
@@ -90,10 +86,6 @@
     </Reference>
     <Reference Include="JetBrains.Platform.ReSharper.IDE">
       <HintPath>ReferencedAssemblies\JetBrains.Platform.ReSharper.IDE.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="JetBrains.Platform.ReSharper.Metadata">
-      <HintPath>ReferencedAssemblies\JetBrains.Platform.ReSharper.Metadata.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="JetBrains.Platform.ReSharper.ProjectModel">
@@ -133,14 +125,6 @@
       <HintPath>ReferencedAssemblies\JetBrains.ReSharper.Feature.Services.CSharp.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="JetBrains.ReSharper.Features.Environment">
-      <HintPath>ReferencedAssemblies\JetBrains.ReSharper.Features.Environment.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="JetBrains.ReSharper.Intentions">
-      <HintPath>ReferencedAssemblies\JetBrains.ReSharper.Intentions.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="JetBrains.ReSharper.Psi">
       <HintPath>ReferencedAssemblies\JetBrains.ReSharper.Psi.dll</HintPath>
       <Private>False</Private>
@@ -153,11 +137,8 @@
       <HintPath>ReferencedAssemblies\JetBrains.ReSharper.Resources.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Microsoft.Build.Framework" />
-    <Reference Include="Microsoft.Build.Utilities.v3.5" />
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
-    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />

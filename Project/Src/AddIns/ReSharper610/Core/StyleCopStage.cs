@@ -29,7 +29,6 @@ namespace StyleCop.ReSharper610.Core
     using JetBrains.ReSharper.Daemon;
     using JetBrains.ReSharper.Daemon.CSharp.Stages;
     using JetBrains.ReSharper.Psi;
-    using JetBrains.ReSharper.Psi.CSharp;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
     using JetBrains.ReSharper.Psi.Tree;
 

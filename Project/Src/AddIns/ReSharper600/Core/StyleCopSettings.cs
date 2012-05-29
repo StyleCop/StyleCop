@@ -25,7 +25,6 @@ namespace StyleCop.ReSharper600.Core
     using System.IO;
 
     using JetBrains.ProjectModel;
-    using JetBrains.ReSharper.Psi;
 
     using StyleCop.Diagnostics;
     using StyleCop.ReSharper600.Options;

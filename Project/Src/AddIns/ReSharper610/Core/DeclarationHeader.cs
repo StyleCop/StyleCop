@@ -29,7 +29,6 @@ namespace StyleCop.ReSharper610.Core
 
     using JetBrains.Application;
     using JetBrains.Application.Settings;
-    using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Psi;
     using JetBrains.ReSharper.Psi.CSharp;
     using JetBrains.ReSharper.Psi.CSharp.Impl;

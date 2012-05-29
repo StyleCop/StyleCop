@@ -27,7 +27,6 @@ namespace StyleCop.ReSharper700.QuickFixes.Framework
     using JetBrains.Application;
     using JetBrains.Application.Settings;
     using JetBrains.DocumentModel;
-    using JetBrains.IDE;
     using JetBrains.Interop.WinApi;
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Daemon;
