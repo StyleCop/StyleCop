@@ -569,17 +569,13 @@ namespace StyleCop.CSharp
 
             // No BaseClass so '.base' not required
             // What if we're a partial class and one of the other partial classes has base and not us?
+            // all classes derived from object
             var foundBaseClass = false;
             if (parentClass.PartialElementList != null)
             {
                 if (parentClass.PartialElementList.OfType<Class>().Any(@class => @class.BaseClass != string.Empty))
                 {
                     foundBaseClass = true;
-                }
-
-                if (!foundBaseClass)
-                {
-                    return false;
                 }
             }
 

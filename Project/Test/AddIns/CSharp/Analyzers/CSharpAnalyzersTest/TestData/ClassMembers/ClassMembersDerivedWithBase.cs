@@ -113,4 +113,18 @@ namespace CSharpAnalyzersTest.TestData.ClassMembers
             return false;
         }
     }
+
+    public partial class Derived2
+    {
+        public override bool Equals(object obj)
+        {
+            var a = base.Equals(obj); // base is valid here
+            if (a)
+            {
+                return false;
+            }
+
+            return true;
+        }
+    }
 }
