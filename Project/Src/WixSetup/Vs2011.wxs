@@ -43,7 +43,7 @@
       </Component>
     </DirectoryRef>
 
-    <CustomAction Id="StyleCopVS11Setup" Property="VS2011DEVENV" ExeCommand="/setup /InstallVSTemplates" Execute="deferred" Return="ignore" Impersonate="no" />
+    <CustomAction Id="StyleCopVS11Setup" Property="VS2011DEVENV" ExeCommand="/setup" Execute="deferred" Return="ignore" Impersonate="no" />
     <!--<PropertyRef Id="VS2011DEVENV" />-->
 
     <Property Id="VS2011DEVENV" Admin="yes" Secure="yes">

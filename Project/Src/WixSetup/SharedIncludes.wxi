@@ -13,7 +13,8 @@
     <?define UpgradeCode= "{A8783A1F-D366-494b-90E7-84360AC18603}" ?>
     <?define SupportedReSharper51Version = "5.1.3000.12" ?>       <!-- 5.1.3000.12  -->
     <?define SupportedReSharper60Version = "6.0.2202.688" ?>      <!-- 6.0.2202.688 -->
-    <?define SupportedReSharper610Version = "6.1.37.86" ?>        <!-- 6.1.37.86   -->
-    <?define SupportedReSharper611MinVersion = "6.1.1000.81" ?>   <!--This needs to be a.b.c.d where d is 1 less than the version number below -->
-    <?define SupportedReSharper611Version = "6.1.1000.82" ?>      <!-- 6.1.1000.82   -->
+    <?define SupportedReSharper610Version = "6.1.37.86" ?>        <!-- 6.1.37.86    -->
+    <?define SupportedReSharper611MinVersion = "6.1.1000.81" ?>   <!-- This needs to be a.b.c.d where d is 1 less than the version number below -->
+    <?define SupportedReSharper611Version = "6.1.1000.82" ?>      <!-- 6.1.1000.82  -->
+    <?define SupportedReSharper700Version = "7.0.54.77" ?>        <!-- 7.0.54.77    -->
 </Include>

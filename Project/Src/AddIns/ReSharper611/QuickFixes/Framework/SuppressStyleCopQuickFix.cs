@@ -180,6 +180,7 @@ namespace StyleCop.ReSharper611.QuickFixes.Framework
         /// </returns>
         public bool IsAvailable(JB::JetBrains.Util.IUserDataHolder cache)
         {
+            // TODO Not all StyleCop issues can be suppressed. We should check here and return false for those that cannot be handled.
             return true;
         }
 
