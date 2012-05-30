@@ -18,7 +18,6 @@ namespace StyleCop.CSharp
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
-    using System.Linq;
 
     /// <content>Checks rules related to class member calls.</content>
     public partial class ReadabilityRules
@@ -139,7 +138,7 @@ namespace StyleCop.CSharp
             while (parent != null)
             {
                 // Check to see if the name matches a local variable.
-                if (ReadabilityRules.ContainsVariable(parent.Variables, word, item))
+                if (ContainsVariable(parent.Variables, word, item))
                 {
                     return true;
                 }
@@ -192,7 +191,60 @@ namespace StyleCop.CSharp
             return false;
         }
 
-        private static bool IsThisRequiredFromMemberList(ICollection<CsElement> matchesForPassedMethod)
+        /// <summary>
+        ///   Checks a token to see if it should be prefixed (with this. or maybe another prefix).
+        /// </summary>
+        /// <param name="expression">The expression the word appears within.</param>
+        /// <param name="parentClass">The parent class that this element belongs to.</param>
+        /// <param name="matchesForGenericMethod">The matches for the generic version of the member name.</param>
+        /// <param name="memberName">The name of the member to check.</param>
+        /// <param name="matchesForPassedMethod">Matches for the passed-in version of the member name.</param>
+        /// <returns> True if the prefix is required otherwise false.</returns>
+        private static bool IsThisRequiredFromMemberList(Expression expression, ClassBase parentClass, IEnumerable<CsElement> matchesForPassedMethod, IEnumerable<CsElement> matchesForGenericMethod, string memberName)
+        {
+            if (matchesForPassedMethod != null)
+            {
+                return IsThisRequiredFromMemberList(matchesForPassedMethod);
+            }
+
+            if (matchesForGenericMethod != null)
+            {
+                return IsThisRequiredFromMemberList(matchesForGenericMethod);
+            }
+
+            if (parentClass.BaseClass != string.Empty)
+            {
+                if (Utils.IsExpressionInsideContainer(
+                    expression,
+                    typeof(TypeofExpression),
+                    typeof(IsExpression),
+                    typeof(CastExpression),
+                    typeof(AsExpression),
+                    typeof(NewExpression),
+                    typeof(MemberAccessExpression),
+                    typeof(CatchStatement),
+                    typeof(VariableDeclarationExpression)))
+                {
+                    return false;
+                }
+
+                return true;
+            }
+
+            if (parentClass.BaseClass == string.Empty && memberName == "Equals")
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Checks a token to see if it should be prefixed (with this. or maybe another prefix).
+        /// </summary>
+        /// <param name="matchesForPassedMethod">Matches for the passed-in version of the member name.</param>
+        /// <returns> True if the prefix is required otherwise false.</returns>
+        private static bool IsThisRequiredFromMemberList(IEnumerable<CsElement> matchesForPassedMethod)
         {
             foreach (var classMember in matchesForPassedMethod)
             {
@@ -223,44 +275,7 @@ namespace StyleCop.CSharp
 
             return true;
         }
-
-        /////// <summary>
-        /////// Determines whether the given expression is the left-most expression within it's call graph. For example, 
-        /////// within the expression 'Member.Property.Method()', 'Member' is the left-most expression. Within the expression
-        /////// 'Method()', 'Method' is the left-most expression.
-        /////// </summary>
-        /////// <param name="expression">The expression to check.</param>
-        /////// <param name="parent">The parent of the expression.</param>
-        /////// <returns>Returns true if the expression is the left-most expression.</returns>
-        ////private static bool IsLeftmostExpression(Expression expression, Expression parent)
-        ////{
-        ////    Param.AssertNotNull(expression, "literal");
-        ////    Param.Ignore(parent);
-
-        ////    // If the expression has no parent, it is the left-most because it is the only expression.
-        ////    if (parent == null)
-        ////    {
-        ////        return true;
-        ////    }
-
-        ////    // If the parent of the expression is not a member-access expression, then this is the left-most expression.
-        ////    if (parent.ExpressionType != ExpressionType.MemberAccess)
-        ////    {
-        ////        return IsLeftmostExpression(parent, parent.ParentExpression);
-        ////    }
-
-        ////    // The parent of this expression is a member access expression. If this expression is on the left-hand-side
-        ////    // of the parent member access expression, then recurse one level up the expression tree and check again.
-        ////    MemberAccessExpression parentMemberAccess = (MemberAccessExpression)parent;
-        ////    if (parentMemberAccess.LeftHandSide == expression)
-        ////    {
-        ////        return IsLeftmostExpression(parentMemberAccess, parentMemberAccess.ParentExpression);
-        ////    }
-
-        ////    // The expression is not on the left.
-        ////    return false;
-        ////}
-
+        
         /// <summary>
         ///   Checks the items within the given element.
         /// </summary>
@@ -406,7 +421,7 @@ namespace StyleCop.CSharp
         /// <param name="parentClass"> The class that the element belongs to. </param>
         /// <param name="members"> The collection of members of the parent class. </param>
         private void CheckClassMemberRulesForExpressions(
-            ICollection<Expression> expressions, Expression parentExpression, CsElement parentElement, ClassBase parentClass, Dictionary<string, List<CsElement>> members)
+            IEnumerable<Expression> expressions, Expression parentExpression, CsElement parentElement, ClassBase parentClass, Dictionary<string, List<CsElement>> members)
         {
             Param.AssertNotNull(expressions, "expressions");
             Param.AssertNotNull(parentElement, "parentElement");
@@ -636,28 +651,15 @@ namespace StyleCop.CSharp
                 }
             }
 
-            // method A1 marked override OR 
-            // method A1<T> marked new OR
-            // method A1<T> marked override OR
-            // base is ok
             bool baseIsRequired = memberNameHasGeneric && (overrideOnTrimmedMethod || newOnPassedMethod || overrideOnPassedMethod);
 
             if (!memberNameHasGeneric && (overrideOnPassedMethod || newOnGenericMethod || overrideOnGenericMethod || matchesForPassedMethod != null))
             {
-                // method A1 marked override OR
-                // method A1<T> marked new OR 
-                // method A1 OR
-                // method A1<T> marked override
-                // If found then base is ok.
-                // base is ok
                 baseIsRequired = true;
             }
 
             if (memberNameHasGeneric && (overrideOnTrimmedMethod || matchesForTrimmedMethod != null))
             {
-                // method A1 marked override OR
-                // method A1 
-                // base is ok
                 baseIsRequired = true;
             }
 
@@ -676,117 +678,27 @@ namespace StyleCop.CSharp
         {
             string memberName = tokenNode.Value.Text;
 
-            if (IsLocalMember(memberName, tokenNode.Value, expression) || IsObjectInitializerLeftHandSideExpression(expression))
+            if (IsLocalMember(memberName, tokenNode.Value, expression) || IsObjectInitializerLeftHandSideExpression(expression) || memberName == "object" || tokenNode.Value.CsTokenType != CsTokenType.Other)
             {
                 return false;
             }
-
-            ICollection<CsElement> matchesForGenericMethod = null;
-            ICollection<CsElement> matchesForTrimmedMethod = null;
+            
+            ICollection<CsElement> matchesForGenericMethod;
             ICollection<CsElement> matchesForPassedMethod = Utils.FindClassMember(memberName, parentClass, members, true);
 
             bool memberNameHasGeneric = memberName.IndexOf('<') > -1;
 
             if (memberNameHasGeneric)
             {
-                if (expression.ExpressionType == ExpressionType.MethodInvocation)
-                {
-                    return false;
-                }
-
-                var expressionParent = expression.Parent as Expression;
-
-                if (expressionParent != null && (expressionParent.ExpressionType == ExpressionType.Cast || expressionParent.ExpressionType == ExpressionType.Is))
-                {
-                    return false;
-                }
-
-                var expressionParentParent = expression.Parent.Parent as Expression;
-
-                if (expressionParentParent != null && expressionParentParent.ExpressionType == ExpressionType.New)
-                {
-                    return false;
-                }
-
-                if (tokenNode.Value.CsTokenType != CsTokenType.Other)
-                {
-                    return false;
-                }
-
-                if (matchesForPassedMethod != null)
-                {
-                    return IsThisRequiredFromMemberList(matchesForPassedMethod);
-                }
-
-                var trimmedName = memberName.Substring(0, memberName.IndexOf('<'));
-
-                matchesForGenericMethod = Utils.FindClassMember(trimmedName + "<T>", parentClass, members, true);
-
-                if (matchesForGenericMethod != null)
-                {
-                    return IsThisRequiredFromMemberList(matchesForGenericMethod);
-                }
-
-                matchesForTrimmedMethod = Utils.FindClassMember(trimmedName, parentClass, members, true);
-
-                if (matchesForTrimmedMethod != null)
-                {
-                    return IsThisRequiredFromMemberList(matchesForTrimmedMethod);
-                }
-
-                if (parentClass.BaseClass != string.Empty)
-                {
-                    if (Utils.IsExpressionInsideContainer(expression, typeof(TypeofExpression), typeof(AsExpression), typeof(NewExpression), typeof(MemberAccessExpression), typeof(CatchStatement), typeof(VariableDeclarationExpression)))
-                    {
-                        return false;
-                    }
-
-                    return true;
-                }
-
-                return false;
-            }
-
-            if (tokenNode.Value.CsTokenType != CsTokenType.Other)
-            {
-                return false;
-            }
-
-            if (memberName == "object")
-            {
-                return false;
+                matchesForGenericMethod = Utils.FindClassMember(memberName.Substring(0, memberName.IndexOf('<')) + "<T>", parentClass, members, true);
+                return IsThisRequiredFromMemberList(expression, parentClass, matchesForPassedMethod, matchesForGenericMethod, memberName);
             }
 
             matchesForGenericMethod = Utils.FindClassMember(memberName + "<T>", parentClass, members, true);
 
-            if (matchesForPassedMethod != null)
-            {
-                return IsThisRequiredFromMemberList(matchesForPassedMethod);
-            }
-
-            if (matchesForGenericMethod != null)
-            {
-                return IsThisRequiredFromMemberList(matchesForGenericMethod); 
-            }
-
-            if (parentClass.BaseClass != string.Empty)
-            {
-                if (Utils.IsExpressionInsideContainer(expression, typeof(AsExpression), typeof(NewExpression), typeof(MemberAccessExpression), typeof(CatchStatement), typeof(VariableDeclarationExpression)))
-                {
-                    return false;
-                }
-
-                return true;
-            }
-
-            if (memberName == "Equals")
-            {
-                return true;
-            }
-
-            return false;
+            return IsThisRequiredFromMemberList(expression, parentClass, matchesForPassedMethod, matchesForGenericMethod, memberName);
         }
-
+        
         #endregion
     }
 }
