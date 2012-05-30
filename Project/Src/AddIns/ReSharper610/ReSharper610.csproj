@@ -88,6 +88,10 @@
       <HintPath>ReferencedAssemblies\JetBrains.Platform.ReSharper.IDE.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="JetBrains.Platform.ReSharper.Metadata">
+      <HintPath>ReferencedAssemblies\JetBrains.Platform.ReSharper.Metadata.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="JetBrains.Platform.ReSharper.ProjectModel">
       <HintPath>ReferencedAssemblies\JetBrains.Platform.ReSharper.ProjectModel.dll</HintPath>
       <Private>False</Private>
@@ -137,6 +141,8 @@
       <HintPath>ReferencedAssemblies\JetBrains.ReSharper.Resources.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Microsoft.Build.Utilities.v3.5" />
+    <Reference Include="Microsoft.Build.Framework" />
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
