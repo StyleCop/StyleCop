@@ -1616,4 +1616,24 @@ namespace CSharpAnalyzersTest.TestData.ValidPrefixes
 
         #endregion
     }
+
+    public class TypeOfCheck
+    {
+        public void Method1()
+        {
+            var a = typeof(PagedEntities<Series>); // valid
+            var b = typeof(Series); // valid
+        }
+    }
+
+    public class TypeOfCheck2 : OperationHandler
+    {
+        public void Method1()
+        {
+            var a = typeof(PagedEntities<Series>); // valid
+            var b = typeof(Series); // valid
+            Debug.Assert(
+                getOperation.TargetEntityType == typeof(Device) || getOperation.TargetEntityType == typeof(PagedEntities<Device>), "This has been checked in CanHandle"); // valid
+        }
+    }
 }

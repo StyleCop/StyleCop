@@ -45,6 +45,9 @@ namespace CSharpAnalyzersTest.TestData
 
             // This should not throw a violation.
             public const int publicConst = 0;
+
+            // Should not throw a violation.
+            public static readonly int publicStaticReadOnlyField;
         }
     }
 }

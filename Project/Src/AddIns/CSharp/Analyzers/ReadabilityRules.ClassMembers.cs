@@ -736,7 +736,7 @@ namespace StyleCop.CSharp
 
                 if (parentClass.BaseClass != string.Empty)
                 {
-                    if (Utils.IsExpressionInsideContainer(expression, typeof(AsExpression), typeof(NewExpression), typeof(MemberAccessExpression), typeof(CatchStatement), typeof(VariableDeclarationExpression)))
+                    if (Utils.IsExpressionInsideContainer(expression, typeof(TypeofExpression), typeof(AsExpression), typeof(NewExpression), typeof(MemberAccessExpression), typeof(CatchStatement), typeof(VariableDeclarationExpression)))
                     {
                         return false;
                     }
