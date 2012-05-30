@@ -984,22 +984,13 @@ namespace StyleCop.VisualStudio
 
                 return false;
             }
-            catch (InvalidProjectFileException)
-            {
-            }
-            catch (InvalidOperationException)
-            {
-            }
-            catch (ArgumentException)
-            {
-            }
-            catch (FileNotFoundException)
+            catch
             {
                 // For some project kinds (and we can't know them all i.e. wixproj) 
                 // The project won't load as the item.ContainingProject.Filename is not the fullpath
+                // Any exceptions whilst attempting this we assume the item is not excluded.
+                return false;
             }
-
-            return true;
         }
 
         /// <summary>
