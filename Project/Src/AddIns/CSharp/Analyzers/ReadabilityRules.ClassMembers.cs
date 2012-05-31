@@ -196,9 +196,9 @@ namespace StyleCop.CSharp
         /// </summary>
         /// <param name="expression">The expression the word appears within.</param>
         /// <param name="parentClass">The parent class that this element belongs to.</param>
+        /// <param name="matchesForPassedMethod">Matches for the passed-in version of the member name.</param>
         /// <param name="matchesForGenericMethod">The matches for the generic version of the member name.</param>
         /// <param name="memberName">The name of the member to check.</param>
-        /// <param name="matchesForPassedMethod">Matches for the passed-in version of the member name.</param>
         /// <returns> True if the prefix is required otherwise false.</returns>
         private static bool IsThisRequiredFromMemberList(Expression expression, ClassBase parentClass, IEnumerable<CsElement> matchesForPassedMethod, IEnumerable<CsElement> matchesForGenericMethod, string memberName)
         {
