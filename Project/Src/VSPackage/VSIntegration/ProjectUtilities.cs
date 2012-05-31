@@ -933,6 +933,7 @@ namespace StyleCop.VisualStudio
         /// <param name="path">The path to file to check.</param>
         /// <returns>True if the item is excluded otherwise False.</returns>
         [SuppressMessage("Microsoft.Usage", "CA1806:DoNotIgnoreMethodResult", Justification = "Using the default value from bool.TryParse")]
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Cannot allow exception from plug-in to kill VS or build")]
         private static bool IsProjectItemExcluded(ProjectItem item, string path)
         {
             try
