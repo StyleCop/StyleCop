@@ -18,6 +18,8 @@ namespace StyleCop
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
+    using System.Linq;
+
     using Microsoft.Build.Framework;
     using Microsoft.Build.Utilities;
 
@@ -342,10 +344,10 @@ namespace StyleCop
             }
 
             // Get addin paths.
-            List<string> addinPaths = new List<string>();
-            foreach (ITaskItem addinPath in this.inputAdditionalAddinPaths)
+            var addinPaths = new List<string>();
+            if (this.inputAdditionalAddinPaths != null)
             {
-                addinPaths.Add(addinPath.GetMetadata("FullPath"));
+                addinPaths.AddRange(this.inputAdditionalAddinPaths.Select(addinPath => addinPath.GetMetadata("FullPath")));
             }
 
             // Create the StyleCop console.
