@@ -14,13 +14,13 @@
 //-----------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
-    using System.Diagnostics.CodeAnalysis;
+    using System.Diagnostics;
 
     /// <summary>
     /// Describes an argument passed to a method, constructor, indexer, etc.
     /// </summary>
     /// <subcategory>other</subcategory>
+    [DebuggerDisplay("{Expression.Text}")]
     public class Argument : ICodePart
     {
         #region Private Fields

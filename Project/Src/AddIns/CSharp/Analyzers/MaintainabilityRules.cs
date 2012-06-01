@@ -887,6 +887,16 @@ namespace StyleCop.CSharp
                         parenthesizedExpression.Parent is UncheckedExpression ||
                         parenthesizedExpression.Parent is MethodInvocationExpression)
                     {
+                        if (parenthesizedExpression.Parent is MethodInvocationExpression)
+                        {
+                            var parentMethodInvocationExpression = parenthesizedExpression.Parent as MethodInvocationExpression;
+
+                            if (parentMethodInvocationExpression.Arguments.Count == 0)
+                            {
+                                return;
+                            }
+                        }
+
                         this.AddViolation(element, parenthesizedExpression.Location, Rules.StatementMustNotUseUnnecessaryParenthesis);
                     }
                     else

@@ -22,6 +22,7 @@ namespace StyleCop.CSharp
     /// A single expression within a <see cref="Statement"/>.
     /// </summary>
     /// <subcategory>expression</subcategory>
+    [DebuggerDisplay("{Text}")]
     public class Expression : CodeUnit
     {
         #region Private Fields

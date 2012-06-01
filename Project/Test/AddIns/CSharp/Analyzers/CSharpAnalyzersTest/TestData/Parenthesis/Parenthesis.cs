@@ -235,7 +235,12 @@ namespace Parenthesis1
 
         private void InvalidMethodParameters(int paramName)
         {
-            this.MethodName((3 + 4));
+            this.MethodName((3 + 4)); // invalid
+        }
+
+        private void Method2()
+        {
+            var number = ((Func<int>)(() => 5))(); // This is valid
         }
     }
 }
