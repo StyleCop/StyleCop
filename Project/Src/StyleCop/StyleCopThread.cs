@@ -307,7 +307,7 @@ namespace StyleCop
                 return StyleCopTrace.Out(true);
             }
 
-            // Determine whether any of the analyzers wish to delay parsing until the next pass.
+            // Determine whether any of the analyzers wish to delay analysis until the next pass.
             bool delay = false;
             foreach (SourceAnalyzer analyzer in analyzers)
             {
