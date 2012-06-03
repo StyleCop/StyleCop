@@ -220,4 +220,9 @@ namespace invalidNaming1
     {
         private int a2Field;
     }
+
+    public class Class4
+    {
+        private static readonly int thisField;
+    }
 }

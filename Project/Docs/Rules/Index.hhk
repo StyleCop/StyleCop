@@ -363,6 +363,10 @@
 	<param name="Local" value="SA1310.html">
 	</OBJECT>
 <LI> <OBJECT type="text/sitemap">
+	<param name="Name" value="SA1311: StaticReadonlyFieldsMustBeginWithUpperCaseLetter">
+	<param name="Local" value="SA1311.html">
+	</OBJECT>
+<LI> <OBJECT type="text/sitemap">
 	<param name="Name" value="SA1400: AccessModifierMustBeDeclared">
 	<param name="Local" value="SA1400.html">
 	</OBJECT>

@@ -410,6 +410,10 @@
 <param name="Name" value="SA1310: FieldNamesMustNotContainUnderscore">
 <param name="Local" value="SA1310.html">
 </OBJECT>
+<LI><OBJECT type="text/sitemap">
+<param name="Name" value="SA1311: StaticReadonlyFieldsMustBeginWithUpperCaseLetter">
+<param name="Local" value="SA1311.html">
+</OBJECT>
 </UL>
 <LI><OBJECT type="text/sitemap">
 <param name="Name" value="Ordering Rules">

@@ -66,6 +66,11 @@
                 <BooleanProperty Name="Enabled">True</BooleanProperty>
               </RuleSettings>
             </Rule>
+            <Rule Name="StaticReadonlyFieldsMustBeginWithUpperCaseLetter">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
           </Rules>
         </Analyzer>
       </Analyzers>
@@ -183,6 +188,11 @@
                 <BooleanProperty Name="Enabled">True</BooleanProperty>
               </RuleSettings>
             </Rule>
+            <Rule Name="StaticReadonlyFieldsMustBeginWithUpperCaseLetter">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
           </Rules>
         </Analyzer>
       </Analyzers>
@@ -252,6 +262,7 @@
       <Violation Section="Root.invalidNaming1.CheckEvents.Event14" LineNumber="196" Rule="ElementMustBeginWithUpperCaseLetter" />
       <Violation Section="Root.invalidNaming1.InvalidIndexerParameterNaming.this%char.get" LineNumber="206" Rule="FieldNamesMustBeginWithLowerCaseLetter" />
       <Violation Section="Root.invalidNaming1.Class3.a2Field" LineNumber="221" Rule="FieldNamesMustNotUseHungarianNotation" />
+      <Violation Section="Root.invalidNaming1.Class4.thisField" LineNumber="226" Rule="StaticReadonlyFieldsMustBeginWithUpperCaseLetter" />
     </ExpectedViolations>
   </Test>
 </StyleCopTestDescription>

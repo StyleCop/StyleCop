@@ -113,4 +113,9 @@ namespace ValidNaming1
         {
         }
     }
+
+    public class Class3
+    {
+        private static readonly int AField;
+    }
 }

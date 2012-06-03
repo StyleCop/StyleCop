@@ -296,6 +296,16 @@ namespace StyleCop.CSharp
                         Rules.NonPrivateReadonlyFieldsMustBeginWithUpperCaseLetter,
                         field.Declaration.Name);
                 }
+
+                // Readonly static fields must start with an upper-case letter.
+                if (field.Readonly && field.Static)
+                {
+                    this.AddViolation(
+                        field,
+                        field.LineNumber,
+                        Rules.StaticReadonlyFieldsMustBeginWithUpperCaseLetter,
+                        field.Declaration.Name);
+                }
             }
             else
             {
@@ -307,6 +317,12 @@ namespace StyleCop.CSharp
 
                 // Readonly non-private fields must start with an upper-case letter.
                 if (field.Readonly && field.AccessModifier != AccessModifierType.Private)
+                {
+                    return;
+                }
+
+                // Readonly static fields must start with an upper-case letter.
+                if (field.Readonly && field.Static)
                 {
                     return;
                 }

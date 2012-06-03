@@ -682,7 +682,7 @@ namespace StyleCop.CSharp
         ParameterListMustFollowDeclaration,
 
         /// <summary>
-        /// The paramter must begin on the line after the previous parameter.
+        /// The parameter must begin on the line after the previous parameter.
         /// </summary>
         ParameterMustFollowComma,
 
@@ -855,6 +855,11 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Verifies that calls to members are prefixed with the correct notation.
         /// </summary>
-        PrefixCallsCorrectly
+        PrefixCallsCorrectly,
+
+        /// <summary>
+        /// A static readonly variable starts with an upper case letter.
+        /// </summary>
+        StaticReadonlyFieldsMustBeginWithUpperCaseLetter
     }
 }
