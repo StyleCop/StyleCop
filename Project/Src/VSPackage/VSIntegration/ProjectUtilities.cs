@@ -24,8 +24,10 @@ namespace StyleCop.VisualStudio
     using System.Security;
     using EnvDTE;
 
-    using Microsoft.Build.BuildEngine;
+    using Microsoft.VisualStudio.Shell;
+    using Microsoft.VisualStudio.Shell.Interop;
 
+    using Constants = EnvDTE.Constants;
     using Project = EnvDTE.Project;
 
     /// <summary>
@@ -49,7 +51,7 @@ namespace StyleCop.VisualStudio
         /// Keeps a collection of projects which do not contain the properties in the List.
         /// </summary>
         private static readonly Dictionary<string, List<string>> projectsMissingProperties = new Dictionary<string, List<string>>();
-
+        
         /// <summary>   
         /// System Service provider.
         /// </summary>
@@ -927,63 +929,54 @@ namespace StyleCop.VisualStudio
 
         /// <summary>
         /// Checks to see if the project item is excluded from stylecop in the proj file.
-        /// This call is expensive as it loads from disk. Make sure the results are cached.
         /// </summary>
-        /// <param name="item">The Project Item to check.</param>
-        /// <param name="path">The path to file to check.</param>
+        /// <param name="item">The ProjectItem to check.</param>
+        /// <param name="key">The key to use for caching.</param>
         /// <returns>True if the item is excluded otherwise False.</returns>
         [SuppressMessage("Microsoft.Usage", "CA1806:DoNotIgnoreMethodResult", Justification = "Using the default value from bool.TryParse")]
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Cannot allow exception from plug-in to kill VS or build")]
-        private static bool IsProjectItemExcluded(ProjectItem item, string path)
+        private static bool IsProjectItemExcluded(ProjectItem item, string key)
         {
             try
             {
-                // This function is only called when we know we haven't already cached the setting for this item.
-                var buildEngineProject = new Microsoft.Build.BuildEngine.Project();
+                string uniqueName = item.ContainingProject.UniqueName;
 
-                buildEngineProject.Load(item.ContainingProject.FileName);
+                var solution = (IVsSolution)Package.GetGlobalService(typeof(SVsSolution));
 
-                if (buildEngineProject.ItemGroups == null)
+                IVsHierarchy hierarchy;
+
+                solution.GetProjectOfUniqueName(uniqueName, out hierarchy);
+
+                var buildPropertyStorage = hierarchy as IVsBuildPropertyStorage;
+
+                if (buildPropertyStorage == null)
                 {
                     return false;
                 }
 
-                foreach (BuildItemGroup itemGroup in buildEngineProject.ItemGroups)
-                {
-                    foreach (BuildItem buildItem in itemGroup)
-                    {
-                        if (buildItem.Name == "Compile")
-                        {
-                            bool excluded;
+                uint itemId;
 
-                            string compileItemPath = buildItem.Include.ToUpperInvariant();
-                            if (projectItemExcluded.ContainsKey(compileItemPath))
-                            {
-                                excluded = projectItemExcluded[compileItemPath];
-                            }
-                            else
-                            {
-                                bool excludeFromStyleCop;
-                                bool.TryParse(buildItem.GetMetadata("ExcludeFromStyleCop"), out excludeFromStyleCop);
+                var fullPath = (string)item.Properties.Item("FullPath").Value;
 
-                                bool excludeFromSourceAnalysis;
-                                bool.TryParse(buildItem.GetMetadata("ExcludeFromSourceAnalysis"), out excludeFromSourceAnalysis);
+                hierarchy.ParseCanonicalName(fullPath, out itemId);
 
-                                excluded = excludeFromStyleCop || excludeFromSourceAnalysis;
+                string excludeFromStyleCopValue;
+                buildPropertyStorage.GetItemAttribute(itemId, "ExcludeFromStyleCop", out excludeFromStyleCopValue);
 
-                                // Cache everything else as we go past to save time later.
-                                projectItemExcluded.Add(compileItemPath, excluded);
-                            }
+                string excludeFromSourceAnalysisValue;
+                buildPropertyStorage.GetItemAttribute(itemId, "ExcludeFromSourceAnalysis", out excludeFromSourceAnalysisValue);
 
-                            if (compileItemPath.Equals(path, StringComparison.OrdinalIgnoreCase))
-                            {
-                                return excluded;
-                            }
-                        }
-                    }
-                }
+                bool excludeFromStyleCop;
+                bool.TryParse(excludeFromStyleCopValue, out excludeFromStyleCop);
 
-                return false;
+                bool excludeFromSourceAnalysis;
+                bool.TryParse(excludeFromSourceAnalysisValue, out excludeFromSourceAnalysis);
+
+                bool excluded = excludeFromStyleCop || excludeFromSourceAnalysis;
+
+                projectItemExcluded.Add(key, excluded);
+
+                return excludeFromStyleCop;
             }
             catch
             {
@@ -991,7 +984,7 @@ namespace StyleCop.VisualStudio
                 // The project won't load as the item.ContainingProject.Filename is not the fullpath
                 // Any exceptions whilst attempting this we assume the item is not excluded.
                 return false;
-            }
+            }  
         }
 
         /// <summary>
@@ -1127,7 +1120,8 @@ namespace StyleCop.VisualStudio
             }
 
             var trimmedPath = filename.Substring(Path.GetDirectoryName(item.ContainingProject.FullName).Length + 1).ToUpperInvariant();
-            return !(projectItemExcluded.ContainsKey(trimmedPath) ? projectItemExcluded[trimmedPath] : IsProjectItemExcluded(item, trimmedPath));
+            var key = item.ContainingProject.FileName + ":" + trimmedPath;
+            return !(projectItemExcluded.ContainsKey(key) ? projectItemExcluded[key] : IsProjectItemExcluded(item, key));
         }
 
         /// <summary>
