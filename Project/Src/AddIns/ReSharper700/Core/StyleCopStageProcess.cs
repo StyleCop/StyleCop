@@ -59,7 +59,7 @@ namespace StyleCop.ReSharper700.Core
         /// <summary>
         /// Allows us to run the StyleCop analysers.
         /// </summary>
-        private static readonly StyleCopRunnerInt styleCopRunnerInternal = new StyleCopRunnerInt();
+        private static readonly StyleCopRunnerInt StyleCopRunnerInternal = new StyleCopRunnerInt();
 
         /// <summary>
         /// Used to reduce the number of calls to StyleCop to help with performance.
@@ -188,10 +188,10 @@ namespace StyleCop.ReSharper700.Core
 
                 runOnce = true;
 
-                styleCopRunnerInternal.Execute(this.daemonProcess.SourceFile.ToProjectFile(), this.daemonProcess.Document, this.File);
+                StyleCopRunnerInternal.Execute(this.daemonProcess.SourceFile.ToProjectFile(), this.daemonProcess.Document, this.File);
 
                 var violations =
-                    (from info in styleCopRunnerInternal.ViolationHighlights
+                    (from info in StyleCopRunnerInternal.ViolationHighlights
                      let range = info.Range
                      let highlighting = info.Highlighting
                      select new HighlightingInfo(range, highlighting)).ToList();

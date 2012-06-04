@@ -30,7 +30,6 @@ namespace StyleCop.ReSharper700.Core
     using System.Xml;
 
     using JetBrains.Application;
-    using JetBrains.Application.Progress;
     using JetBrains.Application.Settings;
     using JetBrains.DocumentManagers;
     using JetBrains.DocumentModel;
@@ -82,7 +81,7 @@ namespace StyleCop.ReSharper700.Core
 
         private const string PrefixText = "TODO ";
 
-        private static readonly NodeTypeSet ourNewLineTokens;
+        private static readonly NodeTypeSet OurNewLineTokens;
 
         private static string valueText;
 
@@ -95,7 +94,7 @@ namespace StyleCop.ReSharper700.Core
         /// </summary>
         static Utils()
         {
-            ourNewLineTokens = new NodeTypeSet(new NodeType[] { CSharpTokenType.NEW_LINE });
+            OurNewLineTokens = new NodeTypeSet(new NodeType[] { CSharpTokenType.NEW_LINE });
         }
 
         #endregion
@@ -1450,7 +1449,7 @@ namespace StyleCop.ReSharper700.Core
         /// </returns>
         public static bool HasLineBreakBetween(ITreeNode node1, ITreeNode node2)
         {
-            return FormatterImplHelper.HasTokenBetween(node1, node2, ourNewLineTokens);
+            return FormatterImplHelper.HasTokenBetween(node1, node2, OurNewLineTokens);
         }
 
         /// <summary>

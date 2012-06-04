@@ -48,32 +48,32 @@ namespace StyleCop.ReSharper600.CodeCleanup
         /// <summary>
         ///   Documentation descriptor.
         /// </summary>
-        private static readonly DocumentationDescriptor documentationDescriptor = new DocumentationDescriptor();
+        private static readonly DocumentationDescriptor DocumentationDescriptor = new DocumentationDescriptor();
 
         /// <summary>
         ///   Layout descriptor.
         /// </summary>
-        private static readonly LayoutDescriptor layoutDescriptor = new LayoutDescriptor();
+        private static readonly LayoutDescriptor LayoutDescriptor = new LayoutDescriptor();
 
         /// <summary>
         ///   Maintainability descriptor.
         /// </summary>
-        private static readonly MaintainabilityDescriptor maintainabilityDescriptor = new MaintainabilityDescriptor();
+        private static readonly MaintainabilityDescriptor MaintainabilityDescriptor = new MaintainabilityDescriptor();
 
         /// <summary>
         ///   Ordering descriptor.
         /// </summary>
-        private static readonly OrderingDescriptor orderingDescriptor = new OrderingDescriptor();
+        private static readonly OrderingDescriptor OrderingDescriptor = new OrderingDescriptor();
 
         /// <summary>
         ///   Readability descriptor.
         /// </summary>
-        private static readonly ReadabilityDescriptor readabilityDescriptor = new ReadabilityDescriptor();
+        private static readonly ReadabilityDescriptor ReadabilityDescriptor = new ReadabilityDescriptor();
 
         /// <summary>
         ///   Spacing descriptor.
         /// </summary>
-        private static readonly SpacingDescriptor spacingDescriptor = new SpacingDescriptor();
+        private static readonly SpacingDescriptor SpacingDescriptor = new SpacingDescriptor();
 
         /// <summary>
         ///   Locks object passed to our constructor.
@@ -105,7 +105,7 @@ namespace StyleCop.ReSharper600.CodeCleanup
         {
             get
             {
-                return new CodeCleanupOptionDescriptor[] { documentationDescriptor, layoutDescriptor, maintainabilityDescriptor, orderingDescriptor, readabilityDescriptor, spacingDescriptor };
+                return new CodeCleanupOptionDescriptor[] { DocumentationDescriptor, LayoutDescriptor, MaintainabilityDescriptor, OrderingDescriptor, ReadabilityDescriptor, SpacingDescriptor };
             }
         }
 
@@ -212,22 +212,22 @@ namespace StyleCop.ReSharper600.CodeCleanup
         {
             // Default option are set in the constructors.
             var orderingOptions = new OrderingOptions();
-            profile.SetSetting(orderingDescriptor, orderingOptions);
+            profile.SetSetting(OrderingDescriptor, orderingOptions);
 
             var layoutOptions = new LayoutOptions();
-            profile.SetSetting(layoutDescriptor, layoutOptions);
+            profile.SetSetting(LayoutDescriptor, layoutOptions);
 
             var documentationOptions = new DocumentationOptions();
-            profile.SetSetting(documentationDescriptor, documentationOptions);
+            profile.SetSetting(DocumentationDescriptor, documentationOptions);
 
             var spacingOptions = new SpacingOptions();
-            profile.SetSetting(spacingDescriptor, spacingOptions);
+            profile.SetSetting(SpacingDescriptor, spacingOptions);
 
             var readabilityOptions = new ReadabilityOptions();
-            profile.SetSetting(readabilityDescriptor, readabilityOptions);
+            profile.SetSetting(ReadabilityDescriptor, readabilityOptions);
 
             var maintainabilityOptions = new MaintainabilityOptions();
-            profile.SetSetting(maintainabilityDescriptor, maintainabilityOptions);
+            profile.SetSetting(MaintainabilityDescriptor, maintainabilityOptions);
         }
 
         /// <summary>
@@ -237,12 +237,12 @@ namespace StyleCop.ReSharper600.CodeCleanup
         /// <param name="file">The file to clean.</param>
         private void InternalProcess(CodeCleanupProfile profile, ICSharpFile file)
         {
-            var documentationOptions = profile.GetSetting(documentationDescriptor);
-            var layoutOptions = profile.GetSetting(layoutDescriptor);
-            var maintainabilityOptions = profile.GetSetting(maintainabilityDescriptor);
-            var orderingOptions = profile.GetSetting(orderingDescriptor);
-            var readabilityOptions = profile.GetSetting(readabilityDescriptor);
-            var spacingOptions = profile.GetSetting(spacingDescriptor);
+            var documentationOptions = profile.GetSetting(DocumentationDescriptor);
+            var layoutOptions = profile.GetSetting(LayoutDescriptor);
+            var maintainabilityOptions = profile.GetSetting(MaintainabilityDescriptor);
+            var orderingOptions = profile.GetSetting(OrderingDescriptor);
+            var readabilityOptions = profile.GetSetting(ReadabilityDescriptor);
+            var spacingOptions = profile.GetSetting(SpacingDescriptor);
 
             // Process the file for all the different Code Cleanups we have here
             // we do them in a very specific order. Do not change it.

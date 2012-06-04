@@ -25,7 +25,7 @@ namespace StyleCop
         /// <summary>
         ///   The object we lock on.
         /// </summary>
-        private static readonly object lockObject = new object();
+        private static readonly object LockObject = new object();
 
         #endregion
 
@@ -88,12 +88,12 @@ namespace StyleCop
         /// <param name="signalCount"> The value by which to increase <see cref="Countdown.CurrentCount" /> . </param>
         public void AddCount(int signalCount)
         {
-            lock (lockObject)
+            lock (LockObject)
             {
                 this.countdownValue += signalCount;
                 if (this.countdownValue <= 0)
                 {
-                    Monitor.PulseAll(lockObject);
+                    Monitor.PulseAll(LockObject);
                 }
             }
         }
@@ -136,11 +136,11 @@ namespace StyleCop
         /// <exception cref="T:System.ObjectDisposedException">The current instance has already been disposed.</exception>
         public void Wait()
         {
-            lock (lockObject)
+            lock (LockObject)
             {
                 while (this.countdownValue > 0)
                 {
-                    Monitor.Wait(lockObject);
+                    Monitor.Wait(LockObject);
                 }
             }
         }

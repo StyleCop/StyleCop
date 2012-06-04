@@ -34,7 +34,7 @@ namespace StyleCop.CSharp
         /// <summary>
         /// An empty array of elements.
         /// </summary>
-        private static readonly CsElement[] emptyElementArray = new CsElement[0];
+        private static readonly CsElement[] EmptyElementArray = new CsElement[0];
 
         #endregion Private Static Fields
 
@@ -315,7 +315,7 @@ namespace StyleCop.CSharp
             {
                 if (this.elements == null)
                 {
-                    return emptyElementArray;
+                    return EmptyElementArray;
                 }
 
                 return this.elements;

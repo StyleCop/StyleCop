@@ -62,7 +62,7 @@ namespace StyleCop.ReSharper600.Options
         /// <summary>
         ///   The order of modifiers for StyleCop.
         /// </summary>
-        private static readonly string[] modifiersOrder = new[]
+        private static readonly string[] ModifiersOrder = new[]
             {
                 "public", "protected", "internal", "private", "static", "new", "abstract", "virtual", "override", "sealed", "readonly", "extern", "unsafe", "volatile"
             };
@@ -84,7 +84,7 @@ namespace StyleCop.ReSharper600.Options
         /// <summary>
         ///   The currently open solution.
         /// </summary>
-        private ISolution solution;
+        private readonly ISolution solution;
 
         #endregion
 
@@ -443,7 +443,7 @@ namespace StyleCop.ReSharper600.Options
                 return false;
             }
 
-            if (!formatSettings.MODIFIERS_ORDER.SequenceEqual(modifiersOrder))
+            if (!formatSettings.MODIFIERS_ORDER.SequenceEqual(ModifiersOrder))
             {
                 return false;
             }
@@ -1575,7 +1575,7 @@ namespace StyleCop.ReSharper600.Options
             formatSettings.KEEP_BLANK_LINES_IN_DECLARATIONS = 1;
             formatSettings.KEEP_USER_LINEBREAKS = false;
             formatSettings.LINE_FEED_AT_FILE_END = false;
-            formatSettings.MODIFIERS_ORDER = modifiersOrder;
+            formatSettings.MODIFIERS_ORDER = ModifiersOrder;
             formatSettings.OTHER_BRACES = BraceFormatStyle.NEXT_LINE;
             formatSettings.PLACE_ABSTRACT_ACCESSORHOLDER_ON_SINGLE_LINE = true;
             formatSettings.PLACE_ACCESSORHOLDER_ATTRIBUTE_ON_SAME_LINE = false;

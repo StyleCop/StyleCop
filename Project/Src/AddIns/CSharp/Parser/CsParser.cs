@@ -56,7 +56,7 @@ namespace StyleCop.CSharp
         /// <summary>
         /// The default collection of generated file filters.
         /// </summary>
-        private static readonly string[] defaultGeneratedFileFilters = new[] 
+        private static readonly string[] DefaultGeneratedFileFilters = new[] 
         {
             @"\.g\.cs$", @"\.generated\.cs$", @"\.g\.i\.cs$"
         };
@@ -66,6 +66,11 @@ namespace StyleCop.CSharp
         #region Private Fields
 
         /// <summary>
+        /// Lock object for suppressions dictionary
+        /// </summary>
+        private readonly ReaderWriterLock suppressionsLock = new ReaderWriterLock();
+
+        /// <summary>
         /// Stores the collection of partial elements found while parsing the files.
         /// </summary>
         private Dictionary<string, List<CsElement>> partialElements;
@@ -73,13 +78,8 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Stores collection of suppressions for individual elements.
         /// </summary>
-        private Dictionary<SuppressedRule, List<CsElement>> suppressions;
-        
-        /// <summary>
-        /// Lock object for suppressions dictionary
-        /// </summary>
-        private ReaderWriterLock suppressionsLock = new ReaderWriterLock();
-
+        private Dictionary<SuppressedRule, List<CsElement>> suppressions; 
+       
         #endregion Private Fields
         
         #region Public Constructors
@@ -232,7 +232,7 @@ namespace StyleCop.CSharp
                 }
 
                 // Initialize to the default set of generated file filters.
-                IEnumerable<string> filters = defaultGeneratedFileFilters;
+                IEnumerable<string> filters = DefaultGeneratedFileFilters;
 
                 // Get the file filter list for generated files.
                 CollectionProperty generatedFileFilterSettings = this.GetSetting(

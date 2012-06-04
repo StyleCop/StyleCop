@@ -49,7 +49,7 @@ namespace StyleCop.Diagnostics
             /// <summary>
             /// A regular expression to extract the names of members used with a <see cref="DebuggerDisplayAttribute"/> format string.
             /// </summary>
-            private static readonly Regex debuggerDisplayFormatRegex = new Regex(@"\{[^\{]+\}", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.ExplicitCapture);
+            private static readonly Regex DebuggerDisplayFormatRegex = new Regex(@"\{[^\{]+\}", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.ExplicitCapture);
 
             /// <summary>
             /// Caches the calling method.
@@ -328,7 +328,7 @@ namespace StyleCop.Diagnostics
                             return fieldInfo != null ? Convert.ToString(fieldInfo.GetValue(argument), CultureInfo.InvariantCulture) : "?";
                         };
 
-                        var displayString = debuggerDisplayFormatRegex.Replace(displayAttribute.Value, evaluator);
+                        var displayString = DebuggerDisplayFormatRegex.Replace(displayAttribute.Value, evaluator);
                         this.buffer.Append('[');
                         this.AppendTypeName(argumentType);
                         this.buffer.Append(": ").Append(displayString).Append(']');

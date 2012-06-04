@@ -49,9 +49,9 @@ namespace StyleCop.ReSharper610.Core
     {
         #region Constants and Fields
 
-        private static readonly ArrayList elementsThatStartOnNewLine;
+        private static readonly ArrayList ElementsThatStartOnNewLine;
 
-        private static readonly ArrayList elementsThatStartOnNewLineAndHaveNewLineOnInnerXml;
+        private static readonly ArrayList ElementsThatStartOnNewLineAndHaveNewLineOnInnerXml;
         
         #endregion
 
@@ -64,11 +64,11 @@ namespace StyleCop.ReSharper610.Core
         {
             // These elements will always start on a new line. Their InnerXml doesn't start on a new line.
             // The exception is the <para> element. If it contains -or- the InnerXml is not on a new line.
-            elementsThatStartOnNewLine = new ArrayList(new[] { "description", "exclude", "include", "para", "seealso", "term", "threadsafety" });
+            ElementsThatStartOnNewLine = new ArrayList(new[] { "description", "exclude", "include", "para", "seealso", "term", "threadsafety" });
 
             // These elements always start on a new line and their InnerXml starts on a new line.
             // The exception is the <para> element. If it contains -or- the InnerXml is not on a new line.
-            elementsThatStartOnNewLineAndHaveNewLineOnInnerXml =
+            ElementsThatStartOnNewLineAndHaveNewLineOnInnerXml =
                 new ArrayList(
                     new[]
                         {
@@ -622,7 +622,7 @@ namespace StyleCop.ReSharper610.Core
 
                         var strippedInnerText = xml.InnerText.Replace(" ", string.Empty).Replace("-", string.Empty).ToLowerInvariant();
 
-                        if (elementsThatStartOnNewLineAndHaveNewLineOnInnerXml.Contains(elementName) && strippedInnerText != "or")
+                        if (ElementsThatStartOnNewLineAndHaveNewLineOnInnerXml.Contains(elementName) && strippedInnerText != "or")
                         {
                             if (!writtenNewLine)
                             {
@@ -668,7 +668,7 @@ namespace StyleCop.ReSharper610.Core
                             return;
                         }
 
-                        if (!useSingleLineDeclarationComments && elementsThatStartOnNewLine.Contains(elementName) && !writtenNewLine)
+                        if (!useSingleLineDeclarationComments && ElementsThatStartOnNewLine.Contains(elementName) && !writtenNewLine)
                         {
                             writer.WriteLine();
                         }
@@ -676,7 +676,7 @@ namespace StyleCop.ReSharper610.Core
                         writer.Write(element.OuterXml);
                         writtenNewLine = false;
 
-                        if (!useSingleLineDeclarationComments && elementsThatStartOnNewLine.Contains(elementName))
+                        if (!useSingleLineDeclarationComments && ElementsThatStartOnNewLine.Contains(elementName))
                         {
                             writer.WriteLine();
                             writtenNewLine = true;

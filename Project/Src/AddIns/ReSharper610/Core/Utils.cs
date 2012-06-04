@@ -78,7 +78,7 @@ namespace StyleCop.ReSharper610.Core
 
         private const string HeaderSummaryForStaticConstructorXml = "Initializes static members of the <see cref=\"{0}\" /> {1}.";
 
-        private static readonly NodeTypeSet ourNewLineTokens;
+        private static readonly NodeTypeSet OurNewLineTokens;
 
         #endregion
 
@@ -89,7 +89,7 @@ namespace StyleCop.ReSharper610.Core
         /// </summary>
         static Utils()
         {
-            ourNewLineTokens = new NodeTypeSet(new NodeType[] { CSharpTokenType.NEW_LINE });
+            OurNewLineTokens = new NodeTypeSet(new NodeType[] { CSharpTokenType.NEW_LINE });
         }
 
         #endregion
@@ -1366,7 +1366,7 @@ namespace StyleCop.ReSharper610.Core
         /// </returns>
         public static bool HasLineBreakBetween(ITreeNode node1, ITreeNode node2)
         {
-            return FormatterImplHelper.HasTokenBetween(node1, node2, ourNewLineTokens);
+            return FormatterImplHelper.HasTokenBetween(node1, node2, OurNewLineTokens);
         }
 
         /// <summary>

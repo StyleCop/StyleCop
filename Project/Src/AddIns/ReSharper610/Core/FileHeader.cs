@@ -48,7 +48,7 @@ namespace StyleCop.ReSharper610.Core
     {
         #region Constants and Fields
 
-        private static readonly string standardHeader = "// --------------------------------------------------------------------------------------------------------------------" + Environment.NewLine +
+        private static readonly string StandardHeader = "// --------------------------------------------------------------------------------------------------------------------" + Environment.NewLine +
                                                         "// <copyright file=\"\" company=\"\">" + Environment.NewLine + "// </copyright>" + Environment.NewLine + "// <summary>" + Environment.NewLine +
                                                         "// </summary>" + Environment.NewLine +
                                                         "// --------------------------------------------------------------------------------------------------------------------";
@@ -99,7 +99,7 @@ namespace StyleCop.ReSharper610.Core
                 if (string.IsNullOrEmpty(headerText))
                 {
                     // no header provided so we'll load the default one
-                    headerText = standardHeader;
+                    headerText = StandardHeader;
                 }
                 else
                 {
@@ -598,7 +598,7 @@ namespace StyleCop.ReSharper610.Core
         {
             // no header provided so we'll load the default one
             this.HadExistingHeader = false;
-            var headerText = standardHeader;
+            var headerText = StandardHeader;
             this.LoadFileHeader(headerText);
         }
 

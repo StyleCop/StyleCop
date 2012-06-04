@@ -40,17 +40,17 @@ namespace StyleCop.VisualStudio
         /// <summary>
         /// The cache used to prevent costly deep COM interactions after the "project enabled" data has already been collected.
         /// </summary>
-        private static readonly Dictionary<string, bool> projectEnabledCache = new Dictionary<string, bool>();
+        private static readonly Dictionary<string, bool> ProjectEnabledCache = new Dictionary<string, bool>();
 
         /// <summary>
         /// The cache used to prevent costly deep disk interactions after the 'StyleCop Excluded' data has already been collected.
         /// </summary>
-        private static readonly Dictionary<string, bool> projectItemExcluded = new Dictionary<string, bool>();
+        private static readonly Dictionary<string, bool> ProjectItemExcluded = new Dictionary<string, bool>();
 
         /// <summary>
         /// Keeps a collection of projects which do not contain the properties in the List.
         /// </summary>
-        private static readonly Dictionary<string, List<string>> projectsMissingProperties = new Dictionary<string, List<string>>();
+        private static readonly Dictionary<string, List<string>> ProjectsMissingProperties = new Dictionary<string, List<string>>();
         
         /// <summary>   
         /// System Service provider.
@@ -329,14 +329,14 @@ namespace StyleCop.VisualStudio
                         // expensive to constantly scan massive unmanaged project trees through COM.  This used to render Visual 
                         // Studio unusable in largely unmanaged solutions (#6662).
                         bool isEnabled;
-                        if (projectEnabledCache.ContainsKey(project.UniqueName))
+                        if (ProjectEnabledCache.ContainsKey(project.UniqueName))
                         {
-                            isEnabled = projectEnabledCache[project.UniqueName];
+                            isEnabled = ProjectEnabledCache[project.UniqueName];
                         }
                         else
                         {
                             isEnabled = EnumerateProject(project, IsKnownProjectTypeVisitor, IsKnownFileTypeVisitor, helper, null) != null;
-                            projectEnabledCache.Add(project.UniqueName, isEnabled);
+                            ProjectEnabledCache.Add(project.UniqueName, isEnabled);
                         }
 
                         return isEnabled;
@@ -974,7 +974,7 @@ namespace StyleCop.VisualStudio
 
                 bool excluded = excludeFromStyleCop || excludeFromSourceAnalysis;
 
-                projectItemExcluded.Add(key, excluded);
+                ProjectItemExcluded.Add(key, excluded);
 
                 return excludeFromStyleCop;
             }
@@ -1121,7 +1121,7 @@ namespace StyleCop.VisualStudio
 
             var trimmedPath = filename.Substring(Path.GetDirectoryName(item.ContainingProject.FullName).Length + 1).ToUpperInvariant();
             var key = item.ContainingProject.FileName + ":" + trimmedPath;
-            return !(projectItemExcluded.ContainsKey(key) ? projectItemExcluded[key] : IsProjectItemExcluded(item, key));
+            return !(ProjectItemExcluded.ContainsKey(key) ? ProjectItemExcluded[key] : IsProjectItemExcluded(item, key));
         }
 
         /// <summary>
@@ -1190,7 +1190,7 @@ namespace StyleCop.VisualStudio
 
             List<string> missingProperties;
 
-            if (projectsMissingProperties.TryGetValue(project.Kind, out missingProperties))
+            if (ProjectsMissingProperties.TryGetValue(project.Kind, out missingProperties))
             {
                 return missingProperties.Contains(propertyName);
             }
@@ -1210,10 +1210,10 @@ namespace StyleCop.VisualStudio
 
             List<string> missingProperties;
 
-            if (!projectsMissingProperties.TryGetValue(project.Kind, out missingProperties))
+            if (!ProjectsMissingProperties.TryGetValue(project.Kind, out missingProperties))
             {
                 missingProperties = new List<string>(1);
-                projectsMissingProperties.Add(project.Kind, missingProperties);
+                ProjectsMissingProperties.Add(project.Kind, missingProperties);
             }
 
             Debug.Assert(missingProperties != null, "Properties list should always be set here");
@@ -1564,9 +1564,9 @@ namespace StyleCop.VisualStudio
         /// </summary>
         private static void ClearCaches()
         {
-            projectEnabledCache.Clear();
-            projectItemExcluded.Clear();
-            projectsMissingProperties.Clear();
+            ProjectEnabledCache.Clear();
+            ProjectItemExcluded.Clear();
+            ProjectsMissingProperties.Clear();
         }
 
         /// <summary>

@@ -45,12 +45,12 @@ namespace StyleCop.ReSharper700.Core
         /// <summary>
         /// SyncRoot object to lock access to the assembly.
         /// </summary>
-        private static readonly object assemblySyncRoot = new object();
+        private static readonly object AssemblySyncRoot = new object();
 
         /// <summary>
         /// SyncRoot object to lock access to the reference.
         /// </summary>
-        private static readonly object referenceSyncRoot = new object();
+        private static readonly object ReferenceSyncRoot = new object();
 
         /// <summary>
         /// Flag to indicate if the system has already attempted to load the StyleCop assembly.
@@ -98,7 +98,7 @@ namespace StyleCop.ReSharper700.Core
             {
                 if (!assemblyLoadAttempted)
                 {
-                    lock (assemblySyncRoot)
+                    lock (AssemblySyncRoot)
                     {
                         if (!assemblyLoadAttempted)
                         {
@@ -134,7 +134,7 @@ namespace StyleCop.ReSharper700.Core
             {
                 if (!assemblyRulesLoadAttempted)
                 {
-                    lock (assemblySyncRoot)
+                    lock (AssemblySyncRoot)
                     {
                         if (!assemblyRulesLoadAttempted)
                         {

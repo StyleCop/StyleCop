@@ -92,20 +92,16 @@ namespace StyleCop.CSharp
             @"(?'see'<see\s+cref\s*=\s*"")?" +      // Optionally matches '<see cref="'
             @"(?(see)({2}|(T:{0}))|({1}))" +        // if <see> tag then either the typename or the T:typename, or if no <see> tag then the typename with no generics.   
             @"(?(see)(""\s*(/>|>[\w\s]*</see>)))";  // Optionally matches '"/>' or '">some text</see>' if <see> tag is included.
-        
+
         /// <summary>
         /// A regular expression to match the generic parameters list for a type. Needs the outer parenthesis as its inserted into other RegExs.
         /// </summary>
-        private const string CrefGenericParamsRegex =
-            @"((\s*(<|&lt;)\s*{0}\s*(>|&gt;))|(\s*{{\s*{0}\s*}}))";
+        private const string CrefGenericParamsRegex = @"((\s*(<|&lt;)\s*{0}\s*(>|&gt;))|(\s*{{\s*{0}\s*}}))";
 
         /// <summary>
         /// Various version of the @ character.
         /// </summary>
-        private static readonly int[] copyrightCharTable = new int[]
-            {
-                169, 65533
-            };
+        private static readonly int[] CopyrightCharTable = new[] { 169, 65533 };
 
         #endregion Private Constants
 
@@ -951,9 +947,9 @@ namespace StyleCop.CSharp
         {
             Param.Ignore(character);
 
-            for (int i = 0; i < copyrightCharTable.Length; ++i)
+            for (int i = 0; i < CopyrightCharTable.Length; ++i)
             {
-                if ((int)character == copyrightCharTable[i])
+                if ((int)character == CopyrightCharTable[i])
                 {
                     return true;
                 }

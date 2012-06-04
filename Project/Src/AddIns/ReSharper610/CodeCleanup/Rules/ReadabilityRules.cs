@@ -50,7 +50,7 @@ namespace StyleCop.ReSharper610.CodeCleanup.Rules
         /// <summary>
         /// The built-in type aliases for C#.
         /// </summary>
-        private static readonly string[][] builtInTypes = new[]
+        private static readonly string[][] BuiltInTypes = new[]
         {
             new[] { "Boolean", "System.Boolean", "bool" },
             new[] { "Object", "System.Object", "object" },
@@ -617,7 +617,7 @@ namespace StyleCop.ReSharper610.CodeCleanup.Rules
             {
                 using (WriteLockCookie.Create(true))
                 {
-                    foreach (string[] builtInType in builtInTypes)
+                    foreach (string[] builtInType in BuiltInTypes)
                     {
                         string text = qualifierExpression.GetText();
                         if (text == builtInType[0] || text == builtInType[1])
