@@ -235,7 +235,7 @@ namespace StyleCop.VisualStudio
         }
 
         /// <summary>
-        /// Basis status handler for the analyzation menu items.
+        /// Base status handler for the analyzer menu items.
         /// </summary>
         /// <param name="menuCommand">The menu item object to set the satus on.</param>
         /// <param name="visible">Indicates whether the menu item should be visible.</param>
