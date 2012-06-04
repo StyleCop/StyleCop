@@ -329,6 +329,7 @@ namespace StyleCop.VisualStudio
                         // expensive to constantly scan massive unmanaged project trees through COM.  This used to render Visual 
                         // Studio unusable in largely unmanaged solutions (#6662).
                         bool isEnabled;
+
                         if (ProjectEnabledCache.ContainsKey(project.UniqueName))
                         {
                             isEnabled = ProjectEnabledCache[project.UniqueName];
@@ -339,9 +340,14 @@ namespace StyleCop.VisualStudio
                             ProjectEnabledCache.Add(project.UniqueName, isEnabled);
                         }
 
-                        return isEnabled;
+                        if (isEnabled)
+                        {
+                            return true;
+                        }
                     }
                 }
+
+                return false;
             }
             else if (type == AnalysisType.Item || type == AnalysisType.Folder)
             {
@@ -659,7 +665,7 @@ namespace StyleCop.VisualStudio
             var parentProjectItem = projectItem.Collection.Parent as ProjectItem;
 
             // Checking for != folder
-            if (parentProjectItem != null && parentProjectItem.Kind != "{6BB5F8EF-4483-11D3-8BCF-00C04F8EC28C}")
+            if (parentProjectItem != null && parentProjectItem.Kind != Constants.vsProjectItemKindPhysicalFolder)
             {
                 // So document is dependant on 'f' so add that too
                 files.Add(parentProjectItem.FileNames[0]);
