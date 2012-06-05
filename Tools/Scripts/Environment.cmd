@@ -70,6 +70,9 @@ set VsSDKIncludes=%VSSDKROOT%\VisualStudioIntegration\Common\Inc
 set VsSDKCommonAssemblies=%VSSDKROOT%\VisualStudioIntegration\Common\Assemblies
 set VsSDKToolsPath=%VSSDKROOT%\VisualStudioIntegration\Tools\Bin
 
+set VS11SDKROOT=%STTOOLS%\VisualStudioSDK\2012.RC
+set VS11SDKBUILD=%VS11SDKROOT%\VisualStudioIntegration\Tools\Build
+
 REM --------------------------------------------------------------------------------------
 REM Set up the global bin drop location
 
