@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="QuickFixBase.cs" company="http://stylecop.codeplex.com">
+// <copyright file="StyleCopQuickFixBase.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -15,6 +15,7 @@
 //   Basic Textual Quick Fix Example for rule SA1400QuickFix.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 extern alias JB;
 
 namespace StyleCop.ReSharper700.QuickFixes.Framework
@@ -25,106 +26,85 @@ namespace StyleCop.ReSharper700.QuickFixes.Framework
     using System.Linq;
 
     using JetBrains.ReSharper.Daemon;
-    using JetBrains.ReSharper.Feature.Services.Bulbs;
-    using JetBrains.ReSharper.Intentions.Bulbs;
+    using JetBrains.ReSharper.Intentions.Extensibility;
+    using JetBrains.ReSharper.Intentions.Extensibility.Menu;
 
     using StyleCop.ReSharper700.Violations;
 
     #endregion
 
     /// <summary>
-    /// Basic Textual Quick Fix Example for rule SA1400QuickFix.
+    ///   Basic Textual Quick Fix Example for rule SA1400QuickFix.
     /// </summary>
-    public abstract class QuickFixBase : IQuickFix
+    public abstract class StyleCopQuickFixBase : IQuickFix
     {
-        #region Constants and Fields
+        #region Fields
 
         /// <summary>
-        /// Instance of the StyleCop violation the QuickFix can deal with.
+        ///   Instance of the StyleCop violation the QuickFix can deal with.
         /// </summary>
         protected readonly StyleCopViolationBase Violation;
 
         /// <summary>
-        /// List of available actions to be displayed in the IDE.
+        ///   List of available actions to be displayed in the IDE.
         /// </summary>
-        private List<IBulbItem> bulbItems = new List<IBulbItem>();
+        private List<IBulbAction> bulbItems = new List<IBulbAction>();
 
         #endregion
 
         #region Constructors and Destructors
 
         /// <summary>
-        /// Initializes a new instance of the QuickFixBase class that can 
-        /// handle <see cref="StyleCopViolationError"/>.
+        ///   Initializes a new instance of the StyleCopQuickFixBase class that can handle <see cref="StyleCopViolationError" /> .
         /// </summary>
-        /// <param name="highlight">
-        /// <see cref="StyleCopViolationError"/>that has been detected.
-        /// </param>
-        protected QuickFixBase(StyleCopViolationError highlight)
+        /// <param name="highlight"> <see cref="StyleCopViolationError" /> that has been detected. </param>
+        protected StyleCopQuickFixBase(StyleCopViolationError highlight)
             : this(highlight, true)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the QuickFixBase class that can handle
-        /// <see cref="StyleCopViolationHint"/>.
+        ///   Initializes a new instance of the StyleCopQuickFixBase class that can handle <see cref="StyleCopViolationHint" /> .
         /// </summary>
-        /// <param name="highlight">
-        /// <see cref="StyleCopViolationHint"/>that has been detected.
-        /// </param>
-        protected QuickFixBase(StyleCopViolationHint highlight)
+        /// <param name="highlight"> <see cref="StyleCopViolationHint" /> that has been detected. </param>
+        protected StyleCopQuickFixBase(StyleCopViolationHint highlight)
             : this(highlight, true)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the QuickFixBase class that can handle
-        /// <see cref="StyleCopViolationInfo"/>.
+        ///   Initializes a new instance of the StyleCopQuickFixBase class that can handle <see cref="StyleCopViolationInfo" /> .
         /// </summary>
-        /// <param name="highlight">
-        /// <see cref="StyleCopViolationInfo"/>that has been detected.
-        /// </param>
-        protected QuickFixBase(StyleCopViolationInfo highlight)
+        /// <param name="highlight"> <see cref="StyleCopViolationInfo" /> that has been detected. </param>
+        protected StyleCopQuickFixBase(StyleCopViolationInfo highlight)
             : this(highlight, true)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the QuickFixBase class that can handle
-        /// <see cref="StyleCopViolationSuggestion"/>.
+        ///   Initializes a new instance of the StyleCopQuickFixBase class that can handle <see cref="StyleCopViolationSuggestion" /> .
         /// </summary>
-        /// <param name="highlight">
-        /// <see cref="StyleCopViolationSuggestion"/>that has been detected.
-        /// </param>
-        protected QuickFixBase(StyleCopViolationSuggestion highlight)
+        /// <param name="highlight"> <see cref="StyleCopViolationSuggestion" /> that has been detected. </param>
+        protected StyleCopQuickFixBase(StyleCopViolationSuggestion highlight)
             : this(highlight, true)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the QuickFixBase class that can handle
-        /// <see cref="StyleCopViolationWarning"/>.
+        ///   Initializes a new instance of the StyleCopQuickFixBase class that can handle <see cref="StyleCopViolationWarning" /> .
         /// </summary>
-        /// <param name="highlight">
-        /// <see cref="StyleCopViolationWarning"/>that has been detected.
-        /// </param>
-        protected QuickFixBase(StyleCopViolationWarning highlight)
+        /// <param name="highlight"> <see cref="StyleCopViolationWarning" /> that has been detected. </param>
+        protected StyleCopQuickFixBase(StyleCopViolationWarning highlight)
             : this(highlight, true)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the QuickFixBase class that can handle
-        /// <see cref="StyleCopViolationBase"/>.
+        ///   Initializes a new instance of the StyleCopQuickFixBase class that can handle <see cref="StyleCopViolationBase" /> .
         /// </summary>
-        /// <param name="highlight">
-        /// <see cref="StyleCopViolationBase"/>that has been detected.
-        /// </param>
-        /// <param name="initialise">
-        /// This value is not used, its only purpose is to differentiate 
-        /// the method signature.
-        /// </param>
-        protected QuickFixBase(StyleCopViolationBase highlight, bool initialise)
+        /// <param name="highlight"> <see cref="StyleCopViolationBase" /> that has been detected. </param>
+        /// <param name="initialise"> This value is not used, its only purpose is to differentiate the method signature. </param>
+        protected StyleCopQuickFixBase(StyleCopViolationBase highlight, bool initialise)
         {
             this.Violation = highlight;
 
@@ -133,12 +113,12 @@ namespace StyleCop.ReSharper700.QuickFixes.Framework
 
         #endregion
 
-        #region Properties
+        #region Public Properties
 
         /// <summary>
-        /// Gets a list of BulbItems to display in the IDE.
+        ///   Gets a list of BulbActions to display in the IDE.
         /// </summary>
-        public IBulbItem[] Items
+        public IBulbAction[] Items
         {
             get
             {
@@ -146,14 +126,17 @@ namespace StyleCop.ReSharper700.QuickFixes.Framework
             }
         }
 
+        #endregion
+
+        #region Properties
+
         /// <summary>
-        /// Gets or sets a list of BulbItems to be Displayed.
+        ///   Gets or sets a list of BulbItems to be Displayed.
         /// </summary>
         /// <remarks>
-        /// An internal representation of the BulbItems used for
-        /// initialisation and filtering.
+        ///   An internal representation of the BulbItems used for initialisation and filtering.
         /// </remarks>
-        protected List<IBulbItem> BulbItems
+        protected List<IBulbAction> BulbItems
         {
             get
             {
@@ -168,33 +151,26 @@ namespace StyleCop.ReSharper700.QuickFixes.Framework
 
         #endregion
 
-        #region Implemented Interfaces
-
-        #region IBulbAction
+        #region Public Methods and Operators
 
         /// <summary>
-        /// Arranges the BulbItems in the correct section.
+        ///   Arranges the BulbItems in the correct section.
         /// </summary>
-        /// <param name="menu">The BulbMenu to add the items too.</param>
-        /// <param name="severity">The severity to set the items too.</param>
+        /// <param name="menu"> The BulbMenu to add the items too. </param>
+        /// <param name="severity"> The severity to set the items too. </param>
         public void CreateBulbItems(BulbMenu menu, Severity severity)
         {
             menu.ArrangeQuickFixes(from bulbItem in this.Items select JB::JetBrains.Util.Pair.Of(bulbItem, severity));
         }
 
         /// <summary>
-        /// Determines whether the current QuickFix is available for the violation.
+        ///   Determines whether the current QuickFix is available for the violation.
         /// </summary>
         /// <remarks>
-        /// Essentially to display the bulb item in the IDE the current ViolationID
-        /// must match the name of the QuickFix Class.
+        ///   Essentially to display the bulb item in the IDE the current ViolationID must match the name of the QuickFix Class.
         /// </remarks>
-        /// <param name="cache">
-        /// Current Data Cache.
-        /// </param>
-        /// <returns>
-        /// Whether the current QuickFix is available for the violation.
-        /// </returns>
+        /// <param name="cache"> Current Data Cache. </param>
+        /// <returns> Whether the current QuickFix is available for the violation. </returns>
         public bool IsAvailable(JB::JetBrains.Util.IUserDataHolder cache)
         {
             // use a more resiliant matching method - this caught me out
@@ -210,18 +186,15 @@ namespace StyleCop.ReSharper700.QuickFixes.Framework
 
         #endregion
 
-        #endregion
-
         #region Methods
 
         /// <summary>
-        /// Abstract Initialisation method that must be called by all
-        /// derived types.
+        ///   Abstract Initialisation method that must be called by all derived types.
         /// </summary>
         protected abstract void InitialiseBulbItems();
 
         /// <summary>
-        /// Ensures that the QF are only shown is they are applicable for the current violation.
+        ///   Ensures that the QF are only shown is they are applicable for the current violation.
         /// </summary>
         protected void InitialiseIfRequired()
         {
