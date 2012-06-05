@@ -328,7 +328,7 @@
     <Compile Include="QuickFixes\Documentation\SA1644QuickFix.cs" />
     <Compile Include="QuickFixes\Framework\ChangeStyleCopRule.cs" />
     <Compile Include="QuickFixes\Framework\ChangeStyleCopRuleAction.cs" />
-    <Compile Include="QuickFixes\Framework\QuickFixBase.cs" />
+    <Compile Include="QuickFixes\Framework\StyleCopQuickFixBase.cs" />
     <Compile Include="QuickFixes\Framework\SuppressStyleCopQuickFix.cs" />
     <Compile Include="QuickFixes\Layout\SA1500QuickFix.cs" />
     <Compile Include="QuickFixes\Layout\SA1501QuickFix.cs" />

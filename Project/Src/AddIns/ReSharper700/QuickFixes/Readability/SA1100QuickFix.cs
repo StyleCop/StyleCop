@@ -22,7 +22,8 @@ namespace StyleCop.ReSharper700.QuickFixes.Readability
 
     using System.Collections.Generic;
 
-    using JetBrains.ReSharper.Feature.Services.Bulbs;
+        using JetBrains.ReSharper.Feature.Services.Bulbs;
+    using JetBrains.ReSharper.Intentions.Extensibility;
 
     using StyleCop.ReSharper700.BulbItems.Readability;
     using StyleCop.ReSharper700.QuickFixes.Framework;
@@ -35,7 +36,7 @@ namespace StyleCop.ReSharper700.QuickFixes.Readability
     /// </summary>
     //// [ShowQuickFix]
     [QuickFix]
-    public class SA1100QuickFix : QuickFixBase
+    public class SA1100QuickFix : StyleCopQuickFixBase
     {
         #region Constructors and Destructors
 
@@ -109,7 +110,7 @@ namespace StyleCop.ReSharper700.QuickFixes.Readability
         /// </summary>
         protected override void InitialiseBulbItems()
         {
-            this.BulbItems = new List<IBulbItem> { new SA1100DoNotPrefixCallsWithBaseUnlessLocalImplementationExistsBulbItem { Description = "Swap \"base.\" to \"this.\": " + this.Violation.ToolTip } };
+            this.BulbItems = new List<IBulbAction> { new SA1100DoNotPrefixCallsWithBaseUnlessLocalImplementationExistsBulbItem { Description = "Swap \"base.\" to \"this.\": " + this.Violation.ToolTip } };
         }
 
         #endregion

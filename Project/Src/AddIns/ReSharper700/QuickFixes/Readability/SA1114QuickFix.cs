@@ -23,6 +23,7 @@ namespace StyleCop.ReSharper700.QuickFixes.Readability
     using System.Collections.Generic;
 
     using JetBrains.ReSharper.Feature.Services.Bulbs;
+    using JetBrains.ReSharper.Intentions.Extensibility;
 
     using StyleCop.ReSharper700.BulbItems.Readability;
     using StyleCop.ReSharper700.QuickFixes.Framework;
@@ -31,69 +32,54 @@ namespace StyleCop.ReSharper700.QuickFixes.Readability
     #endregion
 
     /// <summary>
-    /// QuickFix - SA1114.
+    ///   QuickFix - SA1114.
     /// </summary>
     //// [ShowQuickFix]
     [QuickFix]
-    public class SA1114QuickFix : QuickFixBase
+    public class SA1114QuickFix : StyleCopQuickFixBase
     {
         #region Constructors and Destructors
 
         /// <summary>
-        /// Initializes a new instance of the SA1114QuickFix class that can 
-        /// handle <see cref="StyleCopViolationError"/>.
+        ///   Initializes a new instance of the SA1114QuickFix class that can handle <see cref="StyleCopViolationError" /> .
         /// </summary>
-        /// <param name="highlight">
-        /// <see cref="StyleCopViolationError"/>that has been detected.
-        /// </param>
+        /// <param name="highlight"> <see cref="StyleCopViolationError" /> that has been detected. </param>
         public SA1114QuickFix(StyleCopViolationError highlight)
             : base(highlight)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the SA1114QuickFix class that can handle
-        /// <see cref="StyleCopViolationHint"/>.
+        ///   Initializes a new instance of the SA1114QuickFix class that can handle <see cref="StyleCopViolationHint" /> .
         /// </summary>
-        /// <param name="highlight">
-        /// <see cref="StyleCopViolationHint"/>that has been detected.
-        /// </param>
+        /// <param name="highlight"> <see cref="StyleCopViolationHint" /> that has been detected. </param>
         public SA1114QuickFix(StyleCopViolationHint highlight)
             : base(highlight)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the SA1114QuickFix class that can handle
-        /// <see cref="StyleCopViolationInfo"/>.
+        ///   Initializes a new instance of the SA1114QuickFix class that can handle <see cref="StyleCopViolationInfo" /> .
         /// </summary>
-        /// <param name="highlight">
-        /// <see cref="StyleCopViolationInfo"/>that has been detected.
-        /// </param>
+        /// <param name="highlight"> <see cref="StyleCopViolationInfo" /> that has been detected. </param>
         public SA1114QuickFix(StyleCopViolationInfo highlight)
             : base(highlight)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the SA1114QuickFix class that can handle
-        /// <see cref="StyleCopViolationSuggestion"/>.
+        ///   Initializes a new instance of the SA1114QuickFix class that can handle <see cref="StyleCopViolationSuggestion" /> .
         /// </summary>
-        /// <param name="highlight">
-        /// <see cref="StyleCopViolationSuggestion"/>that has been detected.
-        /// </param>
+        /// <param name="highlight"> <see cref="StyleCopViolationSuggestion" /> that has been detected. </param>
         public SA1114QuickFix(StyleCopViolationSuggestion highlight)
             : base(highlight)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the SA1114QuickFix class that can handle
-        /// <see cref="StyleCopViolationWarning"/>.
+        ///   Initializes a new instance of the SA1114QuickFix class that can handle <see cref="StyleCopViolationWarning" /> .
         /// </summary>
-        /// <param name="highlight">
-        /// <see cref="StyleCopViolationWarning"/>that has been detected.
-        /// </param>
+        /// <param name="highlight"> <see cref="StyleCopViolationWarning" /> that has been detected. </param>
         public SA1114QuickFix(StyleCopViolationWarning highlight)
             : base(highlight)
         {
@@ -104,12 +90,17 @@ namespace StyleCop.ReSharper700.QuickFixes.Readability
         #region Methods
 
         /// <summary>
-        /// Initialises the QuickFix with all the available BulbItems that can fix the current
-        /// StyleCop Violation.
+        ///   Initialises the QuickFix with all the available BulbItems that can fix the current StyleCop Violation.
         /// </summary>
         protected override void InitialiseBulbItems()
         {
-            this.BulbItems = new List<IBulbItem> { new FormatLineBulbItem { DocumentRange = this.Violation.DocumentRange, LineNumber = this.Violation.LineNumber, Description = "Format line : " + this.Violation.ToolTip } };
+            this.BulbItems = new List<IBulbAction>
+                {
+                    new FormatLineBulbItem
+                        {
+                            DocumentRange = this.Violation.DocumentRange, LineNumber = this.Violation.LineNumber, Description = "Format line : " + this.Violation.ToolTip
+                        }
+                };
         }
 
         #endregion

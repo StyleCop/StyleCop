@@ -22,7 +22,8 @@ namespace StyleCop.ReSharper700.QuickFixes.Spacing
 
     using System.Collections.Generic;
 
-    using JetBrains.ReSharper.Feature.Services.Bulbs;
+        using JetBrains.ReSharper.Feature.Services.Bulbs;
+    using JetBrains.ReSharper.Intentions.Extensibility;
 
     using StyleCop.ReSharper700.BulbItems.Readability;
     using StyleCop.ReSharper700.QuickFixes.Framework;
@@ -35,7 +36,7 @@ namespace StyleCop.ReSharper700.QuickFixes.Spacing
     /// </summary>
     //// [ShowQuickFix]
     [QuickFix]
-    public class SA1024QuickFix : QuickFixBase
+    public class SA1024QuickFix : StyleCopQuickFixBase
     {
         #region Constructors and Destructors
 
@@ -109,7 +110,7 @@ namespace StyleCop.ReSharper700.QuickFixes.Spacing
         /// </summary>
         protected override void InitialiseBulbItems()
         {
-            this.BulbItems = new List<IBulbItem> { new FormatLineBulbItem { DocumentRange = this.Violation.DocumentRange, Description = "Fix Spacing : " + this.Violation.ToolTip, LineNumber = this.Violation.LineNumber } };
+            this.BulbItems = new List<IBulbAction> { new FormatLineBulbItem { DocumentRange = this.Violation.DocumentRange, Description = "Fix Spacing : " + this.Violation.ToolTip, LineNumber = this.Violation.LineNumber } };
         }
 
         #endregion

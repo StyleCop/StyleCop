@@ -24,7 +24,8 @@ namespace StyleCop.ReSharper700.QuickFixes.Spacing
     using System.Collections.Generic;
 
     using JetBrains.DocumentModel;
-    using JetBrains.ReSharper.Feature.Services.Bulbs;
+        using JetBrains.ReSharper.Feature.Services.Bulbs;
+    using JetBrains.ReSharper.Intentions.Extensibility;
 
     using StyleCop.ReSharper700.BulbItems.Readability;
     using StyleCop.ReSharper700.QuickFixes.Framework;
@@ -37,7 +38,7 @@ namespace StyleCop.ReSharper700.QuickFixes.Spacing
     /// </summary>
     //// [ShowQuickFix]
     [QuickFix]
-    public class SA1020QuickFix : QuickFixBase
+    public class SA1020QuickFix : StyleCopQuickFixBase
     {
         #region Constructors and Destructors
 
@@ -116,7 +117,7 @@ namespace StyleCop.ReSharper700.QuickFixes.Spacing
             var target = this.Violation.DocumentRange.Document.GetLineText(line.Minus1());
             target = target.Contains("++") ? "++" : "--";
 
-            this.BulbItems = new List<IBulbItem>
+            this.BulbItems = new List<IBulbAction>
                 {
                     new FormatLineBulbItem
                         {

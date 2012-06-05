@@ -23,6 +23,7 @@ namespace StyleCop.ReSharper700.QuickFixes.Documentation
     using System.Collections.Generic;
 
     using JetBrains.ReSharper.Feature.Services.Bulbs;
+    using JetBrains.ReSharper.Intentions.Extensibility;
 
     using StyleCop.ReSharper700.BulbItems.Documentation;
     using StyleCop.ReSharper700.QuickFixes.Framework;
@@ -35,7 +36,7 @@ namespace StyleCop.ReSharper700.QuickFixes.Documentation
     /// </summary>
     //// [ShowQuickFix]
     [QuickFix]
-    public class SA1602QuickFix : QuickFixBase
+    public class SA1602QuickFix : StyleCopQuickFixBase
     {
         #region Constructors and Destructors
 
@@ -109,7 +110,7 @@ namespace StyleCop.ReSharper700.QuickFixes.Documentation
         /// </summary>
         protected override void InitialiseBulbItems()
         {
-            this.BulbItems = new List<IBulbItem> { new SA1600ElementsMustBeDocumentedBulbItem { Description = "Insert header : " + this.Violation.ToolTip } };
+            this.BulbItems = new List<IBulbAction> { new SA1600ElementsMustBeDocumentedBulbItem { Description = "Insert header : " + this.Violation.ToolTip } };
         }
 
         #endregion

@@ -22,7 +22,8 @@ namespace StyleCop.ReSharper700.QuickFixes.Ordering
 
     using System.Collections.Generic;
 
-    using JetBrains.ReSharper.Feature.Services.Bulbs;
+        using JetBrains.ReSharper.Feature.Services.Bulbs;
+    using JetBrains.ReSharper.Intentions.Extensibility;
 
     using StyleCop.ReSharper700.BulbItems.Ordering;
     using StyleCop.ReSharper700.QuickFixes.Framework;
@@ -35,7 +36,7 @@ namespace StyleCop.ReSharper700.QuickFixes.Ordering
     /// </summary>
     //// [ShowQuickFix]
     [QuickFix]
-    public class SA1211QuickFix : QuickFixBase
+    public class SA1211QuickFix : StyleCopQuickFixBase
     {
         #region Constructors and Destructors
 
@@ -109,7 +110,7 @@ namespace StyleCop.ReSharper700.QuickFixes.Ordering
         /// </summary>
         protected override void InitialiseBulbItems()
         {
-            this.BulbItems = new List<IBulbItem> { new OrderUsingsBulbItem { Description = "Order Usings : " + this.Violation.ToolTip } };
+            this.BulbItems = new List<IBulbAction> { new OrderUsingsBulbItem { Description = "Order Usings : " + this.Violation.ToolTip } };
         }
 
         #endregion

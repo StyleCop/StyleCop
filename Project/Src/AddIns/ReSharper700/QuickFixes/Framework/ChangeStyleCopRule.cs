@@ -15,6 +15,7 @@
 //   DisableHighlightingActionProvider for StyleCop rules.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 extern alias JB;
 
 namespace StyleCop.ReSharper700.QuickFixes.Framework
@@ -26,7 +27,7 @@ namespace StyleCop.ReSharper700.QuickFixes.Framework
     using JetBrains.DocumentModel;
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Daemon;
-    using JetBrains.ReSharper.Feature.Services.Bulbs;
+    using JetBrains.ReSharper.Intentions.Extensibility;
     using JetBrains.ReSharper.Psi;
 
     using StyleCop.ReSharper700.Options;
@@ -35,34 +36,23 @@ namespace StyleCop.ReSharper700.QuickFixes.Framework
     #endregion
 
     /// <summary>
-    /// DisableHighlightingActionProvider for StyleCop rules.
+    ///   DisableHighlightingActionProvider for StyleCop rules.
     /// </summary>
     [CustomHighlightingActionProvider(typeof(CSharpProjectFileType))]
     public class ChangeStyleCopRule : ICustomHighlightingActionProvider
     {
-        #region Implemented Interfaces
-
-        #region IDisableHighlightingActionProvider
+        #region Public Methods and Operators
 
         /// <summary>
-        /// Gets the actions for changing the highlight options for StyleCop rules.
+        ///   Gets the actions for changing the highlight options for StyleCop rules.
         /// </summary>
-        /// <param name="highlighting">
-        /// The current highlighting.
-        /// </param>
-        /// <param name="solution">
-        /// The solution.
-        /// </param>
-        /// <param name="highlightingRange">
-        /// The current highlighting range.
-        /// </param>
-        /// <param name="sourceFile">
-        /// The file.
-        /// </param>
-        /// <returns>
-        /// The available actions.
-        /// </returns>
-        public IEnumerable<ICustomHighlightingAction> GetActions(IHighlighting highlighting, ISolution solution, DocumentRange highlightingRange, IPsiSourceFile sourceFile)
+        /// <param name="highlighting"> The current highlighting. </param>
+        /// <param name="solution"> The solution. </param>
+        /// <param name="highlightingRange"> The current highlighting range. </param>
+        /// <param name="sourceFile"> The file. </param>
+        /// <returns> The available actions. </returns>
+        public IEnumerable<ICustomHighlightingAction> GetActions(
+            IHighlighting highlighting, ISolution solution, DocumentRange highlightingRange, IPsiSourceFile sourceFile)
         {
             var violation = highlighting as StyleCopViolationBase;
 
@@ -74,10 +64,14 @@ namespace StyleCop.ReSharper700.QuickFixes.Framework
             var ruleID = violation.CheckId;
             var highlightID = HighlightingRegistering.GetHighlightID(ruleID);
 
-            return new ICustomHighlightingAction[] { new ChangeStyleCopRuleAction { HighlightID = highlightID, Text = "Inspection Options for \"" + violation.ToolTip + "\"" } };
+            return new ICustomHighlightingAction[]
+                {
+                    new ChangeStyleCopRuleAction
+                        {
+                            HighlightID = highlightID, Text = "Inspection Options for \"" + violation.ToolTip + "\""
+                        }
+                };
         }
-
-        #endregion
 
         #endregion
     }

@@ -23,6 +23,7 @@ namespace StyleCop.ReSharper700.QuickFixes.Documentation
     using System.Collections.Generic;
 
     using JetBrains.ReSharper.Feature.Services.Bulbs;
+    using JetBrains.ReSharper.Intentions.Extensibility;
 
     using StyleCop.ReSharper700.BulbItems.Documentation;
     using StyleCop.ReSharper700.QuickFixes.Framework;
@@ -31,69 +32,54 @@ namespace StyleCop.ReSharper700.QuickFixes.Documentation
     #endregion
 
     /// <summary>
-    /// QuickFix - SA1638: FileHeaderMustContainFileName.
+    ///   QuickFix - SA1638: FileHeaderMustContainFileName.
     /// </summary>
     //// [ShowQuickFix]
     [QuickFix]
-    public class SA1638QuickFix : QuickFixBase
+    public class SA1638QuickFix : StyleCopQuickFixBase
     {
         #region Constructors and Destructors
 
         /// <summary>
-        /// Initializes a new instance of the SA1638QuickFix class that can 
-        /// handle <see cref="StyleCopViolationError"/>.
+        ///   Initializes a new instance of the SA1638QuickFix class that can handle <see cref="StyleCopViolationError" /> .
         /// </summary>
-        /// <param name="highlight">
-        /// <see cref="StyleCopViolationError"/>that has been detected.
-        /// </param>
+        /// <param name="highlight"> <see cref="StyleCopViolationError" /> that has been detected. </param>
         public SA1638QuickFix(StyleCopViolationError highlight)
             : base(highlight)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the SA1638QuickFix class that can handle
-        /// <see cref="StyleCopViolationHint"/>.
+        ///   Initializes a new instance of the SA1638QuickFix class that can handle <see cref="StyleCopViolationHint" /> .
         /// </summary>
-        /// <param name="highlight">
-        /// <see cref="StyleCopViolationHint"/>that has been detected.
-        /// </param>
+        /// <param name="highlight"> <see cref="StyleCopViolationHint" /> that has been detected. </param>
         public SA1638QuickFix(StyleCopViolationHint highlight)
             : base(highlight)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the SA1638QuickFix class that can handle
-        /// <see cref="StyleCopViolationInfo"/>.
+        ///   Initializes a new instance of the SA1638QuickFix class that can handle <see cref="StyleCopViolationInfo" /> .
         /// </summary>
-        /// <param name="highlight">
-        /// <see cref="StyleCopViolationInfo"/>that has been detected.
-        /// </param>
+        /// <param name="highlight"> <see cref="StyleCopViolationInfo" /> that has been detected. </param>
         public SA1638QuickFix(StyleCopViolationInfo highlight)
             : base(highlight)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the SA1638QuickFix class that can handle
-        /// <see cref="StyleCopViolationSuggestion"/>.
+        ///   Initializes a new instance of the SA1638QuickFix class that can handle <see cref="StyleCopViolationSuggestion" /> .
         /// </summary>
-        /// <param name="highlight">
-        /// <see cref="StyleCopViolationSuggestion"/>that has been detected.
-        /// </param>
+        /// <param name="highlight"> <see cref="StyleCopViolationSuggestion" /> that has been detected. </param>
         public SA1638QuickFix(StyleCopViolationSuggestion highlight)
             : base(highlight)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the SA1638QuickFix class that can handle
-        /// <see cref="StyleCopViolationWarning"/>.
+        ///   Initializes a new instance of the SA1638QuickFix class that can handle <see cref="StyleCopViolationWarning" /> .
         /// </summary>
-        /// <param name="highlight">
-        /// <see cref="StyleCopViolationWarning"/>that has been detected.
-        /// </param>
+        /// <param name="highlight"> <see cref="StyleCopViolationWarning" /> that has been detected. </param>
         public SA1638QuickFix(StyleCopViolationWarning highlight)
             : base(highlight)
         {
@@ -104,12 +90,14 @@ namespace StyleCop.ReSharper700.QuickFixes.Documentation
         #region Methods
 
         /// <summary>
-        /// Initialises the QuickFix with all the available BulbItems that can fix the current
-        /// StyleCop Violation.
+        ///   Initialises the QuickFix with all the available BulbItems that can fix the current StyleCop Violation.
         /// </summary>
         protected override void InitialiseBulbItems()
         {
-            this.BulbItems = new List<IBulbItem> { new SA1637FileHeaderMustContainFileNameBulbItem { Description = "Update filename in header : " + this.Violation.ToolTip } };
+            this.BulbItems = new List<IBulbAction>
+                {
+                    new SA1637FileHeaderMustContainFileNameBulbItem { Description = "Update filename in header : " + this.Violation.ToolTip }
+                };
         }
 
         #endregion

@@ -22,7 +22,8 @@ namespace StyleCop.ReSharper700.QuickFixes.Layout
 
     using System.Collections.Generic;
 
-    using JetBrains.ReSharper.Feature.Services.Bulbs;
+        using JetBrains.ReSharper.Feature.Services.Bulbs;
+    using JetBrains.ReSharper.Intentions.Extensibility;
 
     using StyleCop.ReSharper700.BulbItems.Layout;
     using StyleCop.ReSharper700.QuickFixes.Framework;
@@ -35,7 +36,7 @@ namespace StyleCop.ReSharper700.QuickFixes.Layout
     /// </summary>
     //// [ShowQuickFix]
     [QuickFix]
-    public class SA1507QuickFix : QuickFixBase
+    public class SA1507QuickFix : StyleCopQuickFixBase
     {
         #region Constructors and Destructors
 
@@ -109,7 +110,7 @@ namespace StyleCop.ReSharper700.QuickFixes.Layout
         /// </summary>
         protected override void InitialiseBulbItems()
         {
-            this.BulbItems = new List<IBulbItem> { new SA1507CodeMustNotContainMultipleBlankLinesInARowBulbItem { Description = "Remove line : " + this.Violation.ToolTip } };
+            this.BulbItems = new List<IBulbAction> { new SA1507CodeMustNotContainMultipleBlankLinesInARowBulbItem { Description = "Remove line : " + this.Violation.ToolTip } };
         }
 
         #endregion
