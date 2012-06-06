@@ -178,9 +178,6 @@ IF "%ERRORLEVEL%" == "0" DEL /F /Q %PROJECTROOT%\%BuildLogFile%.err
 CALL %STTOOLS%\Scripts\DeleteEmptyFile.cmd %PROJECTROOT%\%BuildLogFile%.wrn
 IF "%ERRORLEVEL%" == "1" GOTO SUMMARY
 
-REM Build NuGet package
-CALL %STTOOLS%\Scripts\CreateNuGetPackage.cmd %PROJECTROOT%\BuildDrop\%BuildTarget% %AssemblyVersion%
-
 REM Build Setup Solution
 :WIXBUILD
 IF EXIST %PROJECTROOT%\src\WixSetup\%BuildLogFile%.wrn DEL /F /Q %PROJECTROOT%\src\WixSetup\%BuildLogFile%.wrn
@@ -217,7 +214,16 @@ REM
 REM 
 ECHO **** Run tests END *************************************************************
 
-IF "%BuildTarget%" neq "Release" GOTO SUMMARY
+:NUGET
+REM Build NuGet package
+CALL %STTOOLS%\Scripts\CreateNuGetPackage.cmd %PROJECTROOT%\BuildDrop\%BuildTarget% %AssemblyVersion%
+COPY "%PROJECTROOT%\BuildDrop\%BuildTarget%\StyleCop.%AssemblyVersion%.nupkg" "%PROJECTROOT%\InstallDrop\%BuildTarget%\StyleCop.%AssemblyVersion%.nupkg"
+
+:RELEASENOTES
+CALL "hg.exe" log >%PROJECTROOT%\BuildDrop\%BuildTarget%\ChangeHistory.txt
+CALL %STTOOLS%\HgReleaseNotesGen\HgReleaseNotesGen.exe %PROJECTROOT%\BuildDrop\%BuildTarget%\ChangeHistory.txt %PROJECTROOT%\Docs\ReleaseHistory.txt %PROJECTROOT%\InstallDrop\%BuildTarget%\ReleaseNotes.txt
+
+REM IF "%BuildTarget%" neq "Release" GOTO SUMMARY
 
 :SIGNING
 
@@ -234,6 +240,11 @@ echo Renaming StyleCop.msi as StyleCop-%AssemblyVersion%.msi
 
 COPY "%PROJECTROOT%\InstallDrop\%BuildTarget%\StyleCop.msi" "%PROJECTROOT%\InstallDrop\%BuildTarget%\StyleCop-%AssemblyVersion%.msi"
 DEL "%PROJECTROOT%\InstallDrop\%BuildTarget%\StyleCop.msi"
+
+IF "%BuildTarget%" equ "Release" GOTO :done
+
+COPY "%PROJECTROOT%\InstallDrop\%BuildTarget%\StyleCop-%AssemblyVersion%.msi" "%PROJECTROOT%\InstallDrop\%BuildTarget%\StyleCop-%AssemblyVersion%-Debug.msi"
+DEL "%PROJECTROOT%\InstallDrop\%BuildTarget%\StyleCop-%AssemblyVersion%.msi"
 
 :done
 
