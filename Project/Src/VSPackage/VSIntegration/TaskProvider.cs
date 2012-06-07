@@ -95,9 +95,11 @@ namespace StyleCop.VisualStudio
         private void AddResult(ViolationInfo violation)
         {
             Param.AssertNotNull(violation, "violation");
+            StyleCopTrace.In(violation);
 
             Task task = new ViolationTask(this.serviceProvider, violation);
             this.Tasks.Add(task);
+            StyleCopTrace.Out();
         }
         
         #endregion Private Methods
