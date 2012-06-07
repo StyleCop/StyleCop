@@ -239,11 +239,6 @@ namespace StyleCop.CSharp
             {
                 switch (firstCharacter)
                 {
-                    case ' ':
-                    case '\t':
-                        symbol = this.GetWhitespace();
-                        break;
-
                     case '\'':
                     case '\"':
                         symbol = this.GetString();
@@ -255,11 +250,7 @@ namespace StyleCop.CSharp
 
                     case '/':
                         // Try to get this as a comment. If it is not a comment, it is an operator symbol.
-                        symbol = this.GetComment();
-                        if (symbol == null)
-                        {
-                            symbol = this.GetOperatorSymbol('/');
-                        }
+                        symbol = this.GetComment() ?? this.GetOperatorSymbol('/');
 
                         break;
 
@@ -322,12 +313,7 @@ namespace StyleCop.CSharp
                         break;
 
                     case '.':
-                        symbol = this.GetNumber();
-                        if (symbol == null)
-                        {
-                            symbol = this.GetOperatorSymbol('.');
-                        }
-
+                        symbol = this.GetNumber() ?? this.GetOperatorSymbol('.');
                         break;
 
                     default:
@@ -335,11 +321,13 @@ namespace StyleCop.CSharp
                         UnicodeCategory category = char.GetUnicodeCategory(firstCharacter);
                         if (category != UnicodeCategory.Format && category != UnicodeCategory.Control && category != UnicodeCategory.OtherNotAssigned)
                         {
-                            symbol = this.GetNumber();
-                            if (symbol == null)
+                            if (category == UnicodeCategory.SpaceSeparator)
                             {
-                                symbol = this.GetOtherSymbol(this.source);
+                                symbol = this.GetWhitespace();
+                                break;
                             }
+
+                            symbol = this.GetNumber() ?? this.GetOtherSymbol(this.source);
                         }
 
                         break;
@@ -1252,7 +1240,8 @@ namespace StyleCop.CSharp
             while (true)
             {
                 char character = this.codeReader.Peek();
-                if (character == char.MinValue || (character != ' ' && character != '\t'))
+                UnicodeCategory category = char.GetUnicodeCategory(character);
+                if (character == char.MinValue || category != UnicodeCategory.SpaceSeparator)
                 {
                     break;
                 }
