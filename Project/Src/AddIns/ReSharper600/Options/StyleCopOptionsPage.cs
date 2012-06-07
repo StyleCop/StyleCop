@@ -1250,7 +1250,7 @@ namespace StyleCop.ReSharper600.Options
                 return false;
             }
 
-            if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "CSharpFormatDocComments", null))
+            if (GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "CSharpFormatDocComments", null))
             {
                 return false;
             }

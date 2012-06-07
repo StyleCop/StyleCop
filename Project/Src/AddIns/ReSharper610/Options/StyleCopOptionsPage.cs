@@ -1215,7 +1215,7 @@ namespace StyleCop.ReSharper610.Options
                     return false;
                 }
 
-                if (!GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "CSharpFormatDocComments", null))
+                if (GetCodeCleanupProfileSetting<bool>(codeCleanupInstance, styleCopProfile, "CSharpFormatDocComments", null))
                 {
                     return false;
                 }
@@ -1776,7 +1776,7 @@ namespace StyleCop.ReSharper610.Options
 
                 SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "CSReformatCode", null, true);
 
-                SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "CSharpFormatDocComments", null, true);
+                SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "CSharpFormatDocComments", null, false);
 
                 SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "CSReorderTypeMembers", null, true);
 

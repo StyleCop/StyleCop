@@ -439,7 +439,7 @@ namespace StyleCop.ReSharper611.Options
 
                 SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "CSReformatCode", null, true);
 
-                SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "CSharpFormatDocComments", null, true);
+                SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "CSharpFormatDocComments", null, false);
 
                 SetCodeCleanupProfileSetting(codeCleanupInstance, styleCopProfile, "CSReorderTypeMembers", null, true);
 
