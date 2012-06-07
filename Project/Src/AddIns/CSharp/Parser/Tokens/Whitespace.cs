@@ -70,13 +70,13 @@ namespace StyleCop.CSharp
 
             for (int i = 0; i < text.Length; ++i)
             {
-                if (text[i] == ' ')
-                {
-                    ++this.spaceCount;
-                }
-                else if (text[i] == '\t')
+                if (text[i] == '\t')
                 {
                     ++this.tabCount;
+                }
+                else
+                {
+                    ++this.spaceCount;
                 }
             }
         }
@@ -114,7 +114,7 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Gets the whitespace interpreted as a string.
         /// </summary>
-        /// <returns>Returns the whitespace interpreted a string.</returns>
+        /// <returns>Returns the whitespace interpreted as a string.</returns>
         public override string ToString()
         {
             StringBuilder output = new StringBuilder();

@@ -239,6 +239,10 @@ namespace StyleCop.CSharp
             {
                 switch (firstCharacter)
                 {
+                    case '\t':
+                        symbol = this.GetWhitespace();
+                        break;
+
                     case '\'':
                     case '\"':
                         symbol = this.GetString();
@@ -1241,13 +1245,13 @@ namespace StyleCop.CSharp
             {
                 char character = this.codeReader.Peek();
                 UnicodeCategory category = char.GetUnicodeCategory(character);
-                if (character == char.MinValue || category != UnicodeCategory.SpaceSeparator)
+
+                if (character == char.MinValue || (category != UnicodeCategory.SpaceSeparator && character != '\t'))
                 {
                     break;
                 }
 
                 text.Append(character);
-
                 // Advance past this character.
                 this.codeReader.ReadNext();
             }
