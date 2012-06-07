@@ -894,13 +894,15 @@ namespace StyleCop.CSharp
                         int temp = this.GetNextCodeSymbolIndex(index + 1);
                         if (temp != -1 && this.symbols.Peek(temp).SymbolType == SymbolType.OpenParenthesis)
                         {
+                            string symbolText = symbol.Text.TrimStart('@');
+
                             // Check whether the name of the method matches the name of the parent, and the parent is a class or a struct.
-                            if (parent.Declaration.Name.StartsWith(symbol.Text, StringComparison.Ordinal) && 
+                            if (parent.Declaration.Name.StartsWith(symbolText, StringComparison.Ordinal) && 
                                 (parent.ElementType == ElementType.Struct || parent.ElementType == ElementType.Class))
                             {
-                                if (parent.Declaration.Name.Length == symbol.Text.Length ||
-                                    parent.Declaration.Name[symbol.Text.Length] == ' ' ||
-                                    parent.Declaration.Name[symbol.Text.Length] == '<')
+                                if (parent.Declaration.Name.Length == symbolText.Length ||
+                                    parent.Declaration.Name[symbolText.Length] == ' ' ||
+                                    parent.Declaration.Name[symbolText.Length] == '<')
                                 {
                                     // This is a constructor.
                                     elementType = ElementType.Constructor;
@@ -909,7 +911,7 @@ namespace StyleCop.CSharp
                             }
                             else if (symbol.Text.StartsWith("~", StringComparison.Ordinal))
                             {
-                                string name = symbol.Text.Substring(1, symbol.Text.Length - 1);
+                                string name = symbol.Text.Substring(1, symbol.Text.Length - 1).TrimStart('@');
                                 if (parent.Declaration.Name.StartsWith(name, StringComparison.Ordinal))
                                 {
                                     if (parent.Declaration.Name.Length == name.Length ||

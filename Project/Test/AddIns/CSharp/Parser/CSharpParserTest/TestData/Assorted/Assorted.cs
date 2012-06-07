@@ -62,4 +62,17 @@ namespace StyleCop.CSharpParserTest.TestData
             false.ShouldBe(false);
         }
     }
+
+    public class @__ClassNameStartingWithAt
+    {
+        public @__ClassNameStartingWithAt()
+        {
+
+        }
+
+        ~@__ClassNameStartingWithAt()
+        {
+
+        }
+    }
 }

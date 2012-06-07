@@ -164,8 +164,18 @@ namespace StyleCop.CSharp
                         continue;
                     }
                 }
-
-                canRemoveAt = c == '.';
+                
+                if (c == '.')
+                {
+                    canRemoveAt = true;
+                }
+                else
+                {
+                    if (c != '~')
+                    {
+                        canRemoveAt = false;
+                    }
+                }
 
                 sb.Append(c);
             }
@@ -1252,6 +1262,7 @@ namespace StyleCop.CSharp
                 }
 
                 text.Append(character);
+
                 // Advance past this character.
                 this.codeReader.ReadNext();
             }

@@ -186,6 +186,10 @@
           </Statement>
         </Element>
       </Element>
+      <Element Name="__ClassNameStartingWithAt" Type="Class">
+        <Element Name="__ClassNameStartingWithAt" Type="Constructor" />
+        <Element Name="~__ClassNameStartingWithAt" Type="Destructor" />
+      </Element>
     </Element>
   </Element>
 </StyleCopCsParserObjectModel>
