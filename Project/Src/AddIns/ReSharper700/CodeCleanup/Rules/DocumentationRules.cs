@@ -34,7 +34,6 @@ namespace StyleCop.ReSharper700.CodeCleanup.Rules
     using JetBrains.ReSharper.Psi.CSharp.Parsing;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
     using JetBrains.ReSharper.Psi.CSharp.Tree.Extensions;
-    //// using JetBrains.ReSharper.Psi.DeclaredElements;
     using JetBrains.ReSharper.Psi.ExtensionsAPI;
     using JetBrains.ReSharper.Psi.Impl.Types;
     using JetBrains.ReSharper.Psi.Tree;
@@ -287,7 +286,7 @@ namespace StyleCop.ReSharper700.CodeCleanup.Rules
         {
             return new DocumentationRulesConfiguration(file.GetSourceFile());
         }
-        
+
         /// <summary>
         /// Inserts the company name into the file's header.
         /// </summary>
@@ -372,13 +371,15 @@ namespace StyleCop.ReSharper700.CodeCleanup.Rules
         /// <param name="declaration">
         /// The <see cref="ITypeDeclaration"/> to check and fix.
         /// </param>
-        public void InsertMissingDeclarationHeader(ICSharpFile file, IDeclaration declaration)
+        /// <returns>True if it inserted a missing header.</returns>
+        public bool InsertMissingDeclarationHeader(ICSharpFile file, IDeclaration declaration)
         {
             StyleCopTrace.In(file, declaration);
             Param.RequireNotNull(file, "file");
             Param.RequireNotNull(declaration, "declaration");
             Debug.Assert(declaration.DeclaredElement != null, "declaration.DeclaredElement != null");
-            
+
+            bool returnValue = false;
             var docConfig = this.GetDocumentationRulesConfig(file);
 
             var isIFieldDeclaration = declaration is IFieldDeclaration;
@@ -391,9 +392,10 @@ namespace StyleCop.ReSharper700.CodeCleanup.Rules
                 (accessRights != AccessRights.INTERNAL || !docConfig.IgnoreInternals))
             {
                 DeclarationHeader.CreateNewHeader(declaration, docConfig);
+                returnValue = true;
             }
 
-            StyleCopTrace.Out();
+            return StyleCopTrace.Out(returnValue);
         }
 
         /// <summary>
@@ -477,13 +479,15 @@ namespace StyleCop.ReSharper700.CodeCleanup.Rules
         /// <param name="declaration">
         /// The <see cref="IDeclaration"/> to get comment from.
         /// </param>
-        public void InsertMissingSummaryElement(IDeclaration declaration)
+        /// <returns>True if the element was inserted.</returns>
+        public bool InsertMissingSummaryElement(IDeclaration declaration)
         {
+            bool returnValue = false;
             var declarationHeader = new DeclarationHeader(declaration);
 
             if (declarationHeader.IsMissing || declarationHeader.IsInherited)
             {
-                return;
+                return false;
             }
 
             var summaryText = string.Empty;
@@ -503,6 +507,7 @@ namespace StyleCop.ReSharper700.CodeCleanup.Rules
                 {
                     summaryXmlNode.InnerText = summaryText;
                     declarationHeader.Update();
+                    returnValue = true;
                 }
             }
             else
@@ -511,7 +516,10 @@ namespace StyleCop.ReSharper700.CodeCleanup.Rules
                 newChild.InnerText = summaryText;
                 declarationHeader.XmlNode.InsertBefore(newChild, declarationHeader.XmlNode.FirstChild);
                 declarationHeader.Update();
+                returnValue = true;
             }
+
+            return returnValue;
         }
 
         /// <summary>
@@ -972,20 +980,21 @@ namespace StyleCop.ReSharper700.CodeCleanup.Rules
 
             var declarationHeader = new DeclarationHeader(declaration);
 
-            if (insertMissingElementDocOption && !Utils.IsRuleSuppressed(declaration, StyleCopRules.SA1600))
+            bool formatSummary = false;
+            if (insertMissingElementDocOption && !Utils.IsRuleSuppressed(declaration, StyleCopRules.SA1600) && declarationHeader.IsMissing)
             {
-                if (declarationHeader.IsMissing || (!declarationHeader.IsInherited && declarationHeader.HasEmptySummary))
-                {
-                    this.InsertMissingDeclarationHeader(file, declaration);
-                }
+                formatSummary = this.InsertMissingDeclarationHeader(file, declaration);
             }
 
-            if (elementDocumentationMustHaveSummary && !Utils.IsRuleSuppressed(declaration, StyleCopRules.SA1604) && declarationHeader.HasEmptySummary)
+            if (elementDocumentationMustHaveSummary && !Utils.IsRuleSuppressed(declaration, StyleCopRules.SA1604) && !declarationHeader.HasSummary)
             {
-                this.InsertMissingSummaryElement(declaration);
+                formatSummary = formatSummary || this.InsertMissingSummaryElement(declaration);
             }
-            
-            this.FormatSummaryElement(declaration);
+
+            if (formatSummary)
+            {
+                this.FormatSummaryElement(declaration);
+            }
 
             if (declaration is IConstructorDeclaration)
             {
@@ -1021,7 +1030,7 @@ namespace StyleCop.ReSharper700.CodeCleanup.Rules
             {
                 this.EnsureDocumentationTextEndsWithAPeriod(declaration);
             }
-            
+
             if (declaration is IDestructorDeclaration)
             {
                 if (destructorSummaryDocBeginsWithStandardText && !Utils.IsRuleSuppressed(declaration, StyleCopRules.SA1643))
@@ -1334,7 +1343,7 @@ namespace StyleCop.ReSharper700.CodeCleanup.Rules
             var docConfig = this.GetDocumentationRulesConfig(file);
             var summaryText = Utils.GetSummaryText(file);
             var fileHeader = new FileHeader(file) { InsertSummary = options.SA1639FileHeaderMustHaveSummary };
-            
+
             switch (updateFileHeaderOption)
             {
                 case UpdateFileHeaderStyle.ReplaceCopyrightElement:
