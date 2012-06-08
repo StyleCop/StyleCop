@@ -27,7 +27,7 @@
                     style="COLOR: #a31515">&quot;Justification&quot;</span>)]</pre>
                 <P>Where:</P>
                 <ul>
-                    <li><B>Rule Category -</B>The StyleCop rule namespace in which the rule is defined. For example, <I>StyleCop.CSharp.DocumentationRules</I></li>
+                    <li><B>Rule Category -</B>The StyleCop rule class in which the rule is defined. For example, <I>StyleCop.CSharp.DocumentationRules</I></li>
                     <li><B>Rule Id -</B>The identifier for the rule, using the format <I>shortname:longname</I>. For example, <I>SA1600:ElementsMustBeDocumented</I></li>
                     <li><B>Justification -</B>The text that is used to document the reason for suppressing the message.</li>
                 </ul>
@@ -44,8 +44,51 @@
                 <P>For example, a StyleCop <B style="mso-bidi-font-weight: normal">SuppressMessage</B> attribute placed on a class will suppress the rule for all contents of the class. The same attribute placed on a method will only suppress the rule within the method.</P>
                 <p></p>
                 <P><B>Global Suppressions</B></P>
-                <P>StyleCop does not support the notion of global suppressions or file-level suppressions. Suppressions must be placed on a code element.</P>
-                <p></p>
+                <P>StyleCop supports suppression at the namespace level:</P>
+                <p>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes">[SuppressMessage(<SPAN style="COLOR: #a31515">"StyleCop.CSharp.DocumentationRules"</SPAN>, <SPAN style="COLOR: #a31515">"SA1600:ElementsMustBeDocumented", 
+                    Justification = &quot;This is OK here.&quot;</SPAN>)]<o:p></o:p></SPAN></P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; COLOR: blue; FONT-SIZE: 10pt; mso-no-proof: yes">public<SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes"> 
+                    <SPAN style="COLOR: blue">namespace</SPAN> <SPAN style="COLOR: #2b91af">
+                    StyleCopExample</SPAN></SPAN></SPAN></P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal>&nbsp;<SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes">{<o:p></o:p></SPAN></P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal>
+                    <o:p></o:p>&nbsp;&nbsp;&nbsp;
+                    <SPAN style="FONT-FAMILY: 'Courier New'; COLOR: blue; FONT-SIZE: 10pt; mso-no-proof: yes">public</SPAN><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes"> <SPAN style="COLOR: blue">class</SPAN> <SPAN style="COLOR: #2b91af">MyUndocumentedClass<o:p></o:p></SPAN></SPAN></P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes">&nbsp; {<o:p></o:p></SPAN></P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes"><SPAN style="mso-spacerun: yes">&nbsp;&nbsp; </SPAN><SPAN style="mso-spacerun: yes">&nbsp;</SPAN><SPAN style="COLOR: blue"> public</SPAN> <SPAN style="COLOR: blue">void</SPAN> MyUndocumentedMethod<o:p></o:p></SPAN></P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes"><SPAN style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp; </SPAN>{<o:p></o:p></SPAN></P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes"><SPAN style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp; </SPAN>}<o:p></o:p></SPAN></P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes">&nbsp; }</SPAN></P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal>
+                    <SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes">}</SPAN></P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal>
+                    &nbsp;</P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal>
+                    &nbsp;</P>
+                <p>or:</p>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal>
+                    &nbsp;</P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal>
+                    <SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes">[SuppressMessage(<SPAN style="COLOR: #a31515">"StyleCop.CSharp.DocumentationRules"</SPAN>, <SPAN style="COLOR: #a31515">"*", 
+                    Justification = &quot;This is OK here.&quot;</SPAN>)]<o:p></o:p></SPAN></P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; COLOR: blue; FONT-SIZE: 10pt; mso-no-proof: yes">public<SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes"> 
+                    <SPAN style="COLOR: blue">namespace</SPAN> <SPAN style="COLOR: #2b91af">
+                    StyleCopExample</SPAN></SPAN></SPAN></P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal>&nbsp;<SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes">{<o:p></o:p></SPAN></P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal>
+                    <o:p></o:p>&nbsp;&nbsp;&nbsp;
+                    <SPAN style="FONT-FAMILY: 'Courier New'; COLOR: blue; FONT-SIZE: 10pt; mso-no-proof: yes">public</SPAN><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes"> <SPAN style="COLOR: blue">class</SPAN> <SPAN style="COLOR: #2b91af">MyUndocumentedClass<o:p></o:p></SPAN></SPAN></P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes">&nbsp; {<o:p></o:p></SPAN></P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes"><SPAN style="mso-spacerun: yes">&nbsp;&nbsp; &nbsp;</SPAN><SPAN style="COLOR: blue"> public</SPAN> <SPAN style="COLOR: blue">void</SPAN> MyUndocumentedMethod<o:p></o:p></SPAN></P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes"><SPAN style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp; </SPAN>{<o:p></o:p></SPAN></P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes"><SPAN style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp; </SPAN>}<o:p></o:p></SPAN></P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes">&nbsp; }</SPAN></P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal>
+                    <SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes">}</SPAN></P>
+                <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal>
+                    &nbsp;</P>
+                <P>&nbsp;</P>
                 <P><b>Examples:</B></P>
                 <P>The following code suppresses the ElementsMustBeDocumented rule for the given class and all its contents:</P>
                 <P style="LINE-HEIGHT: normal; MARGIN: 0in 0in 0pt; mso-layout-grid-align: none" class=MsoNormal><SPAN style="FONT-FAMILY: 'Courier New'; FONT-SIZE: 10pt; mso-no-proof: yes">[SuppressMessage(<SPAN style="COLOR: #a31515">"StyleCop.CSharp.DocumentationRules"</SPAN>, <SPAN style="COLOR: #a31515">"SA1600:ElementsMustBeDocumented", 
