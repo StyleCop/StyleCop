@@ -389,7 +389,10 @@ namespace StyleCop.ReSharper700.Core
                     }
                     else
                     {
-                        summaryText = "Gets or sets {0}{1}.";
+                        if (IncludeSetAccessorInDocumentation(propertyDeclaration, setter))
+                        {
+                            summaryText = "Gets or sets {0}{1}.";
+                        }
                     }
                 }
             }
@@ -1991,6 +1994,73 @@ namespace StyleCop.ReSharper700.Core
                 }
             }
 
+            return false;
+        }
+
+        /// <summary>
+        /// Determines whether to reference the set accessor within the property's summary documentation.
+        /// </summary>
+        /// <param name="property">The property.</param>
+        /// <param name="setAccessor">The set accessor.</param>
+        /// <returns>Returns true to reference the set accessor in the summary documentation, or false to omit it.</returns>
+        private static bool IncludeSetAccessorInDocumentation(IPropertyDeclaration property, IAccessor setAccessor)
+        {
+            Param.AssertNotNull(property, "property");
+            Param.AssertNotNull(setAccessor, "setAccessor");
+
+            var setterAccessRight = setAccessor.GetAccessRights();
+            var propertyAccessRight = property.GetAccessRights();
+
+            var setterDeclarations = setAccessor.GetDeclarations();
+
+            if (setterDeclarations.Count == 0)
+            {
+                return true;
+            }
+
+            var accessorDeclaration = setterDeclarations[0] as IAccessorDeclaration;
+
+            if (accessorDeclaration == null)
+            {
+                return true;
+            }
+
+            var setterModifiers = accessorDeclaration.ModifiersList;
+
+            // If the set accessor has the same access modifier as the property, always include it in the documentation.
+            // Accessors get 'private' access modifiers by default if no access modifier is defined, in which case they
+            // default to having the access of their parent property. Also include documentation for the set accessor
+            // if it appears to be private but it does not actually define the 'private' keyword.
+            if (setterAccessRight == propertyAccessRight ||
+                (setterAccessRight == AccessRights.PRIVATE && !setterModifiers.HasModifier(CSharpTokenType.PRIVATE_KEYWORD)))
+            {
+                return true;
+            }
+
+            // If the set accessor has internal access, and the property also has internal or protected internal access, 
+            // then include the set accessor in the docs since it effectively has the same access as the overall property.
+            if (setterAccessRight == AccessRights.INTERNAL &&
+                (propertyAccessRight == AccessRights.INTERNAL || propertyAccessRight == AccessRights.PROTECTED_AND_INTERNAL))
+            {
+                return true;
+            }
+
+            // If the property is effectively private (contained within a private class), and the set accessor has any access modifier other than private, then
+            // include the set accessor in the documentation. Within a private class, other access modifiers on the set accessor are meaningless.
+            if (propertyAccessRight == AccessRights.PRIVATE && !setterModifiers.HasModifier(CSharpTokenType.PRIVATE_KEYWORD))
+            {
+                return true;
+            }
+
+            // If the set accessor has protected access, then always include it in the docs since it will be visible to any
+            // class that inherits from this class.
+            if (setterAccessRight == AccessRights.PROTECTED || setterAccessRight == AccessRights.PROTECTED_AND_INTERNAL)
+            {
+                return true;
+            }
+
+            // Otherwise, omit the set accessor from the documentation since its access is more restricted
+            // than the access of the property.
             return false;
         }
         
