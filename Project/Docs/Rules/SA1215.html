@@ -16,9 +16,9 @@
             <div id="mainbody">
                 <table>
                     <col />
-                    <tr><td><p>TypeName</p></td><td><p>InstanceReadonlyElementsMustAppearBeforeInstanceNonReadonlyElements</p></td></tr>
-                    <tr><td><p>CheckId</p></td><td><p>SA1215</p></td></tr>
-                    <tr><td><p>Category</p></td><td><p>Ordering Rules</p></td></tr>
+                    <tr><td><p>TypeName</p></td><td>InstanceReadonlyElementsMustAppearBeforeInstanceNonReadonlyElements</td></tr>
+                    <tr><td><p>CheckId</p></td><td>SA1215</td></tr>
+                    <tr><td><p>Category</p></td><td>Ordering Rules</td></tr>
                 </table>           
                 <h2>Cause</h2>
                 <P>An instance readonly element is positioned beneath an instance non-readonly element of the same type.</P>
@@ -26,6 +26,8 @@
                 <P>A violation of this rule occurs when an instance readonly element is positioned beneath an instance non-readonly element of the same type.</P>
                 <H2>How to Fix Violations</H2>
                 <P>To fix an instance of this violation, place all instance readonly elements above all instance non-readonly elements of the same type.</P>
+                <h2>How to Suppress Violations</h2>
+                <pre>[SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1215:InstanceReadonlyElementsMustAppearBeforeInstanceNonReadonlyElements", Justification = "Reviewed.")]</pre>
             </div>
             <script type="text/jscript">WritePageFooter();</script>     
         </div>

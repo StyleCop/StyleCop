@@ -26,6 +26,8 @@
                 <P>A violation of this rule occurs when a static element is positioned beneath an instance element of the same type. All static elements must be placed above all instance elements of the same type to make it easier to see the interface exposed from the instance and static version of the class.</P>
                 <H2>How to Fix Violations</H2>
                 <P>To fix an instance of this violation, place all static elements above all instance elements of the same type.</P>
+                <h2>How to Suppress Violations</h2>
+                <pre>[SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1204:StaticElementsMustAppearBeforeInstanceElements", Justification = "Reviewed.")]</pre>
             </div>
             <script type="text/jscript">WritePageFooter();</script>     
         </div>

@@ -16,9 +16,9 @@
             <div id="mainbody">
                 <table>
                     <col />
-                    <tr><td><p>TypeName</p></td><td><p>StaticReadonlyFieldsMustBeginWithUpperCaseLetter</p></td></tr>
-                    <tr><td><p>CheckId</p></td><td><p>SA1311</p></td></tr>
-                    <tr><td><p>Category</p></td><td><p>Naming Rules</p></td></tr>
+                    <tr><td><p>TypeName</p></td><td>StaticReadonlyFieldsMustBeginWithUpperCaseLetter</td></tr>
+                    <tr><td><p>CheckId</p></td><td>SA1311</td></tr>
+                    <tr><td><p>Category</p></td><td>Naming Rules</td></tr>
                 </table>           
                 <h2>Cause</h2>
                 <P>The name of a static readonly field does not begin with an upper-case letter.</P>
@@ -28,6 +28,8 @@
                 <H2>How to Fix Violations</H2>
                 <P>To fix a violation of this rule, change the name of the field so that it begins with an 
                     upper-case letter.</P>
+                <h2>How to Suppress Violations</h2>
+                <pre>[SuppressMessage("StyleCop.CSharp.NamingRules", "SA1311:StaticReadonlyFieldsMustBeginWithUpperCaseLetter", Justification = "Reviewed.")]</pre>
             </div>
            <script type="text/jscript">WritePageFooter();</script>     
         </div>

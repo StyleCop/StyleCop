@@ -40,6 +40,8 @@
     <P>For this reason, calls to members from a base class should not begin with ‘base.’, unless a local override is implemented, and the developer wants to specifically call the base class member. When there is no local override of the base class member, the call should be prefixed with 'this.' rather than 'base.'.</P>
     <H2>How to Fix Violations</H2>
     <P>To fix a violation of this rule, change the ‘base.’ prefix to ‘this.’.</P>
+     <h2>How to Suppress Violations</h2>
+                <pre>[SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1100:DoNotPrefixCallsWithBaseUnlessLocalImplementationExists", Justification = "Reviewed.")]</pre>
 
             </div>
             <script type="text/jscript">WritePageFooter();</script>        

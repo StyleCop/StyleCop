@@ -26,6 +26,8 @@
                 <P>A violation of this rule occurs when a using directive for the <EM>System</EM> namespace is placed after a non-<EM>System</EM> using directive. Placing all <EM>System</EM> using directives at the top of the using directives can make the code cleaner and easier to read, and can help make it easier to identify the namespaces that are being used by the code.</P>
                 <H2>How to Fix Violations</H2>
                 <P>To fix an instance of this violation, place the <EM>System</EM> using directive above all using directives for other namespaces.</P>
+                <h2>How to Suppress Violations</h2>
+                <pre>[SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1208:SystemUsingDirectivesMustBePlacedBeforeOtherUsingDirectives", Justification = "Reviewed.")]</pre>
             </div>
         <script type="text/jscript">WritePageFooter();</script> 
         </div>

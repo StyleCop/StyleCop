@@ -16,9 +16,9 @@
             <div id="mainbody">
                 <table>
                     <col />
-                    <tr><td><p>TypeName</p></td><td><p>FieldNamesMustNotContainUnderscore</p></td></tr>
-                    <tr><td><p>CheckId</p></td><td><p>SA1310</p></td></tr>
-                    <tr><td><p>Category</p></td><td><p>Naming Rules</p></td></tr>
+                    <tr><td><p>TypeName</p></td><td>FieldNamesMustNotContainUnderscore</td></tr>
+                    <tr><td><p>CheckId</p></td><td>SA1310</td></tr>
+                    <tr><td><p>Category</p></td><td>Naming Rules</td></tr>
                 </table>           
                 <h2>Cause</h2>
                 <P>A field name in C# contains an underscore.</P>
@@ -27,6 +27,8 @@
                 <P>If the field or variable name is intended to match the name of an item associated with Win32 or COM, and thus needs to include underscores, place the field or variable within a special <EM>NativeMethods</EM> class. A NativeMethods class is any class which contains a name ending in NativeMethods, and is intended as a placeholder for Win32 or COM wrappers. StyleCop will ignore this violation if the item is placed within a NativeMethods class.</P>
                 <H2>How to Fix Violations</H2>
                 <P>To fix a violation of this rule, remove the underscore from the name of the field, or place the item within a NativeMethods class if appropriate.</P>
+            <h2>How to Suppress Violations</h2>
+                <pre>[SuppressMessage("StyleCop.CSharp.NamingRules", "SA1310:FieldNamesMustNotContainUnderscore", Justification = "Reviewed.")]</pre>
             </div>
             <script type="text/jscript">WritePageFooter();</script>     
         </div>

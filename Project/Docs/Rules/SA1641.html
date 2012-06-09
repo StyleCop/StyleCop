@@ -22,22 +22,21 @@
                     <tr><td><p>Category</p></td><td><p>Documentation Rules</p></td></tr>
                 </table>           
                 <h2>Cause</h2>
-<P>The file header at the top of a C# code file does not contain the appropriate company name text.</P>
-<H2>Rule Description</H2>
-<P>A violation of this rule occurs when the file header at the top of a C# file does not contain the company name text that has been specified for the project. To enable this rule, navigate to the StyleCop settings for the project and change to the Company Information tab, as shown below:</P>
-<P><IMG alt="" src="Images/CompanyInformationSettings.JPG" border=0></P>
-<P>Check the checkbox at the top of the settings page, and fill in the required company name text for your company. Click OK to save the settings. With these settings in place, every file within the project must contain the required company name text within its file header copyright tag, as shown in the example below:</P>
-<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal; mso-vertical-align-alt: auto; mso-layout-grid-align: none"><SPAN lang=EN-US style="FONT-SIZE: 9pt; COLOR: green; FONT-FAMILY: 'Courier New'; mso-no-proof: yes">//-----------------------------------------------------------------------<o:p></o:p></SPAN></P>
-<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal; mso-vertical-align-alt: auto; mso-layout-grid-align: none"><SPAN lang=EN-US style="FONT-SIZE: 9pt; COLOR: green; FONT-FAMILY: 'Courier New'; mso-no-proof: yes">// &lt;copyright file="Widget.cs" company="My Company"&gt;<o:p></o:p></SPAN></P>
-<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal; mso-vertical-align-alt: auto; mso-layout-grid-align: none"><SPAN lang=EN-US style="FONT-SIZE: 9pt; COLOR: green; FONT-FAMILY: 'Courier New'; mso-no-proof: yes">//<SPAN style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp; </SPAN>Custom company copyright tag.<o:p></o:p></SPAN></P>
-<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal; mso-vertical-align-alt: auto; mso-layout-grid-align: none"><SPAN lang=EN-US style="FONT-SIZE: 9pt; COLOR: green; FONT-FAMILY: 'Courier New'; mso-no-proof: yes">// &lt;/copyright&gt;<o:p></o:p></SPAN></P>
-<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal; mso-vertical-align-alt: auto; mso-layout-grid-align: none"><SPAN lang=EN-US style="FONT-SIZE: 9pt; COLOR: green; FONT-FAMILY: 'Courier New'; mso-no-proof: yes">//-----------------------------------------------------------------------<o:p></o:p></SPAN></P>
-<P></P>
-<H2>How to Fix Violations</H2>
-<P>To fix a violation of this rule, add your company’s standard company name text to the file header copyright tag.</P>
-            
-    
-        </div>
+                <P>The file header at the top of a C# code file does not contain the appropriate company name text.</P>
+                <H2>Rule Description</H2>
+                <P>A violation of this rule occurs when the file header at the top of a C# file does not contain the company name text that has been specified for the project. To enable this rule, navigate to the StyleCop settings for the project and change to the Company Information tab, as shown below:</P>
+                <P><IMG alt="" src="Images/CompanyInformationSettings.JPG" border=0></P>
+                <P>Check the checkbox at the top of the settings page, and fill in the required company name text for your company. Click OK to save the settings. With these settings in place, every file within the project must contain the required company name text within its file header copyright tag, as shown in the example below:</P>
+                <P class=MsoNormal style="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal; mso-vertical-align-alt: auto; mso-layout-grid-align: none"><SPAN lang=EN-US style="FONT-SIZE: 9pt; COLOR: green; FONT-FAMILY: 'Courier New'; mso-no-proof: yes">//-----------------------------------------------------------------------<o:p></o:p></SPAN></P>
+                <P class=MsoNormal style="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal; mso-vertical-align-alt: auto; mso-layout-grid-align: none"><SPAN lang=EN-US style="FONT-SIZE: 9pt; COLOR: green; FONT-FAMILY: 'Courier New'; mso-no-proof: yes">// &lt;copyright file="Widget.cs" company="My Company"&gt;<o:p></o:p></SPAN></P>
+                <P class=MsoNormal style="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal; mso-vertical-align-alt: auto; mso-layout-grid-align: none"><SPAN lang=EN-US style="FONT-SIZE: 9pt; COLOR: green; FONT-FAMILY: 'Courier New'; mso-no-proof: yes">//<SPAN style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp; </SPAN>Custom company copyright tag.<o:p></o:p></SPAN></P>
+                <P class=MsoNormal style="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal; mso-vertical-align-alt: auto; mso-layout-grid-align: none"><SPAN lang=EN-US style="FONT-SIZE: 9pt; COLOR: green; FONT-FAMILY: 'Courier New'; mso-no-proof: yes">// &lt;/copyright&gt;<o:p></o:p></SPAN></P>
+                <P class=MsoNormal style="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal; mso-vertical-align-alt: auto; mso-layout-grid-align: none"><SPAN lang=EN-US style="FONT-SIZE: 9pt; COLOR: green; FONT-FAMILY: 'Courier New'; mso-no-proof: yes">//-----------------------------------------------------------------------<o:p></o:p></SPAN></P>
+                <H2>How to Fix Violations</H2>
+                <P>To fix a violation of this rule, add your company’s standard company name text to the file header copyright tag.</P>
+                <h2>How to Suppress Violations</h2>
+                <pre>[SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1641:FileHeaderCompanyNameTextMustMatch", Justification = "Reviewed.")]</pre>
+            </div>
            <script type="text/jscript">WritePageFooter();</script> 
     </div>
 </body>

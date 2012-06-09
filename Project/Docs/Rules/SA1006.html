@@ -28,7 +28,9 @@
                     <P class=MsoNormal style="MARGIN: 0cm 0cm 7.5pt"><SPAN lang=EN-US>There should not be any whitespace between the opening hash mark and the preprocessor-type keyword:</SPAN><SPAN lang=EN-US style="FONT-SIZE: 9pt; LINE-HEIGHT: 140%"><o:p></o:p></SPAN></P>
                     <P class=MsoNormal style="MARGIN: 0cm 0cm 7.5pt"><SPAN lang=EN-US style="FONT-SIZE: 9pt; COLOR: blue; LINE-HEIGHT: 140%; FONT-FAMILY: 'Courier New'; mso-fareast-font-family: Calibri; mso-fareast-theme-font: minor-latin; mso-no-proof: yes"><SPAN style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </SPAN>#if</SPAN><SPAN lang=EN-US style="FONT-SIZE: 9pt; LINE-HEIGHT: 140%; FONT-FAMILY: 'Courier New'; mso-fareast-font-family: Calibri; mso-fareast-theme-font: minor-latin; mso-no-proof: yes"> Debug<o:p></o:p></SPAN></P>
                     <H2>How to Fix Violations</H2>
-                    <P>To fix a violation of this rule, ensure that there is no whitespace between the opening hash mark and the preprocessor-type keyword.</P>  
+                    <P>To fix a violation of this rule, ensure that there is no whitespace between the opening hash mark and the preprocessor-type keyword.</P>
+                     <h2>How to Suppress Violations</h2>
+                <pre>[SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1006:PreprocessorKeywordsMustNotBePrecededBySpace", Justification = "Reviewed.")]</pre>  
             </div>
             <script type="text/jscript">WritePageFooter();</script>   
         </div>

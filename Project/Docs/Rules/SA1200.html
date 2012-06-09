@@ -103,6 +103,8 @@
                 <P class=MsoNormal style="MARGIN: 0cm 0cm 7.5pt; LINE-HEIGHT: normal; mso-vertical-align-alt: auto; mso-margin-top-alt: auto; mso-margin-bottom-alt: auto"><SPAN lang=EN-US style="mso-bidi-font-family: Arial">It is important to note that when code has been written with using directives placed outside of the namespace, care should be taken when moving these directives within the namespace, to ensure that this is not changing the semantics of the code. As explained above, placing using-alias directives within the namespace element allows the compiler to choose between conflicting types in ways that will not happen when the directives are placed outside of the namespace.</SPAN></P>
                 <H2>How to Fix Violations</H2>
                 <P>To fix a violation of this rule, move all using directives and using-alias directives within the namespace element.</P>
+                <h2>How to Suppress Violations</h2>
+                <pre>[SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1200:UsingDirectivesMustBePlacedWithinNamespace", Justification = "Reviewed.")]</pre>
             </div>
             <script type="text/jscript">WritePageFooter();</script>        
         </div>

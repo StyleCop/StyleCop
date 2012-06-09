@@ -24,10 +24,12 @@
                 <h2>Cause</h2>
                 <P>&lt;inheritdoc&gt; has been used on an element that doesnt inherit from a base class or implement an interface..</P>
                 <H2>Rule Description</H2>
-                <P> Verifies that an 'inheritdoc' tag is not used when the class or interface does not inherit from a base class or interface.</P>
+                <P>Verifies that an 'inheritdoc' tag is not used when the class or interface does not inherit from a base class or interface.</P>
                 <P>A violation of this rule occurs when the element having the inheritdoc tag doesn't inherit from a base case or implement an interface.</P>
                 <H2>How to Fix Violations</H2>
-                <P >To fix a violation of this rule, remove the &lt;inheritdoc&gt; tag and document the element appropriately.</P>
+                <P>To fix a violation of this rule, remove the &lt;inheritdoc&gt; tag and document the element appropriately.</P>
+                <h2>How to Suppress Violations</h2>
+                <pre>[SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1648:InheritDocMustBeUsedWithInheritingClass", Justification = "Reviewed.")]</pre>
             </div>
             <script type="text/jscript">WritePageFooter();</script>  
         </div>

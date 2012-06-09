@@ -26,6 +26,8 @@
                 <P>A violation of this rule occurs when a protected internal element’s access modifiers are written as <EM>internal protected</EM>. In reality, an element with the keywords <EM>protected internal</EM> will have the same access level as an element with the keywords <EM>internal protected</EM>. To make the code easier to read and more consistent, StyleCop standardizes the ordering of these keywords, so that a protected internal element will always be described as such, and never as internal protected. This can help to reduce confusion about whether these access levels are indeed the same.</P>
                 <H2>How to Fix Violations</H2>
                 <P>To fix an instance of this violation, place the <EM>protected</EM> keyword before the <EM>internal</EM> keyword.</P>
+                <h2>How to Suppress Violations</h2>
+                <pre>[SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1207:ProtectedMustComeBeforeInternal", Justification = "Reviewed.")]</pre>
             </div>
             <script type="text/jscript">WritePageFooter();</script>     
         </div>

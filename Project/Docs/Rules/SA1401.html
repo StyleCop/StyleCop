@@ -27,6 +27,8 @@
                 <P>Fields located within C# structs are allowed to have any access level.</P>
                 <H2>How to Fix Violations</H2>
                 <P>To fix a violation of this rule, make the field private and add a property to expose the field outside of the class.</P>
+                <h2>How to Suppress Violations</h2>
+                <pre>[SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Reviewed.")]</pre>
             </div>
             <script type="text/jscript">WritePageFooter();</script>   
         </div>

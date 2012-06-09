@@ -26,6 +26,8 @@
                 <P>A violation of this rule occurs whenever a region is placed within the body of a code element. In many editors, including Visual Studio, the region will appear collapsed by default, hiding the code within the region. It is generally a bad practice to hide code within the body of an element, as this can lead to bad decisions as the code is maintained over time.</P>      
                 <H2>How to Fix Violations</H2>
                 <P>To fix a violation of this rule, remove the region from the code.</P>
+                <h2>How to Suppress Violations</h2>
+                <pre>[SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1123:DoNotPlaceRegionsWithinElements", Justification = "Reviewed.")]</pre>
             </div>
             <script type="text/jscript">WritePageFooter();</script>  
         </div>
