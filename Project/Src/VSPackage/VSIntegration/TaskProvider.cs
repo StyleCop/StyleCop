@@ -15,8 +15,14 @@
 namespace StyleCop.VisualStudio
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
+    using System.Globalization;
+
+    using EnvDTE;
+
     using Microsoft.VisualStudio.Shell;
+    using Microsoft.VisualStudio.Shell.Interop;
 
     using StyleCop.Diagnostics;
 
@@ -64,12 +70,26 @@ namespace StyleCop.VisualStudio
             StyleCopTrace.In(violations);
 
             this.SuspendRefresh();
-
-            foreach (ViolationInfo violation in violations)
-            {
-                this.AddResult(violation);
-            }
             
+            var hierarchyItems = new Dictionary<string, IVsHierarchy>();
+
+            for (int index = 0; index < violations.Count; index++)
+            {
+                ViolationInfo violation = violations[index];
+                IVsHierarchy hierarchyItem = hierarchyItems.ContainsKey(violation.File) ? hierarchyItems[violation.File] : null;
+
+                var task = new ViolationTask(this.serviceProvider, violation, hierarchyItem);
+                
+                hierarchyItem = task.HierarchyItem;
+
+                if (!hierarchyItems.ContainsKey(violation.File))
+                {
+                    hierarchyItems.Add(violation.File, hierarchyItem);
+                }
+
+                this.Tasks.Add(task);
+            }
+
             this.ResumeRefresh();
 
             StyleCopTrace.Out();
@@ -85,23 +105,5 @@ namespace StyleCop.VisualStudio
         }
 
         #endregion
-        
-        #region Private Methods
-
-        /// <summary>
-        /// Adds a single violation to the task provider.
-        /// </summary>
-        /// <param name="violation">The violation to add.</param>
-        private void AddResult(ViolationInfo violation)
-        {
-            Param.AssertNotNull(violation, "violation");
-            StyleCopTrace.In(violation);
-
-            Task task = new ViolationTask(this.serviceProvider, violation);
-            this.Tasks.Add(task);
-            StyleCopTrace.Out();
-        }
-        
-        #endregion Private Methods
     }
 }

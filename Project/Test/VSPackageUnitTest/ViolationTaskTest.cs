@@ -105,7 +105,7 @@ namespace VSPackageUnitTest
             this.violation = CreateDummyViolationInfo();
 
             StyleCopVSPackage_Accessor.AttachShadow(this.package).Core.DisplayUI = false;
-            this.taskUnderTest = new ViolationTask_Accessor(this.package, this.violation);
+            this.taskUnderTest = new ViolationTask_Accessor(this.package, this.violation, null);
             this.taskUnderTestShell = ErrorTask_Accessor.AttachShadow(this.taskUnderTest.Target);
         }
 

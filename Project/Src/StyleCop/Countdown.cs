@@ -101,14 +101,8 @@ namespace StyleCop
         /// <summary>
         ///   Registers a signal with the <see cref="Countdown" /> , decrementing the value of <see cref="Countdown.CurrentCount" /> .
         /// </summary>
-        /// <exception cref="T:System.InvalidOperationException">The countdown was already zero.</exception>
         public void Signal()
         {
-            if (this.countdownValue <= 0)
-            {
-                throw new InvalidOperationException("Countdown is already at zero.");
-            }
-
             this.AddCount(-1);
         }
 
