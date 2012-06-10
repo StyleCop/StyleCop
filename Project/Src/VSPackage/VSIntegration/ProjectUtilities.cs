@@ -383,8 +383,9 @@ namespace StyleCop.VisualStudio
         /// <param name="core"><see cref="T:StyleCopCore">Core object</see> that hosts the environment.</param>
         /// <param name="type">The analyze type being performed.</param>
         /// <param name="analysisFilePath">The path to the initial file we are analysing.</param>
+        /// <param name="analysisHelper">The analysis helper.</param>
         /// <returns>Returns the list of projects.</returns>
-        internal static IList<CodeProject> GetProjectList(StyleCopCore core, AnalysisType type, out string analysisFilePath)
+        internal static IList<CodeProject> GetProjectList(StyleCopCore core, AnalysisType type, out string analysisFilePath, AnalysisHelper analysisHelper)
         {
             Param.AssertNotNull(core, "core");
             Param.Ignore(type);
@@ -415,7 +416,7 @@ namespace StyleCop.VisualStudio
                     // Enumerate through the VS projects.
                     foreach (Project project in enumerator)
                     {
-                        if (project != null)
+                        if (project != null && (IsKnownProjectType(project, analysisHelper) || project.Kind == Constants.vsProjectKindMisc))
                         {
                             EnumerateProject(project, AddCodeProject, AddFileToProject, codeProjects, null);
                         }
@@ -1354,6 +1355,31 @@ namespace StyleCop.VisualStudio
 
             // Return null to indicate that this is not a known project type and that the walker should continue searching.
             return null;
+        }
+
+        /// <summary>
+        /// Determines whether the project is a known project type.
+        /// </summary>
+        /// <param name="project">The project to add.</param>
+        /// <param name="helper">The Analysis helper.</param>
+        /// <returns>Returns True if its a known file type, or False otherwise.</returns>
+        private static bool IsKnownProjectType(Project project, AnalysisHelper helper)
+        {
+            Param.AssertNotNull(project, "project");
+            Param.AssertNotNull(helper, "helper");
+            
+            // If this project type exists in the list of known project types, then return true to indicate
+            // that this is a known project type.
+            if (helper.ProjectTypes != null)
+            {
+                Dictionary<string, string> properties;
+                if (helper.ProjectTypes.TryGetValue(project.Kind, out properties))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         /// <summary>
