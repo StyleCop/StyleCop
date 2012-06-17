@@ -208,6 +208,16 @@ namespace StyleCop.ReSharper611.Core
         /// </param>
         private void OnViolationEncountered(object sender, ViolationEventArgs e)
         {
+            if (e == null || e.SourceCode == null || e.SourceCode.Path == null || e.Violation == null)
+            {
+                return;
+            }
+
+            if (this.file == null || this.file.Location == null)
+            {
+                return;
+            }
+
             var path = e.SourceCode.Path;
             var lineNumber = e.LineNumber;
 
@@ -237,7 +247,10 @@ namespace StyleCop.ReSharper611.Core
 
                 string fileName = this.file.Location.Name;
 
-                if (e.Violation.Element != null)
+                if (e.Violation.Element != null &&
+                    e.Violation.Element.Document != null &&
+                    e.Violation.Element.Document.SourceCode != null &&
+                    e.Violation.Element.Document.SourceCode.Name != null)
                 {
                     fileName = e.Violation.Element.Document.SourceCode.Name;
                 }

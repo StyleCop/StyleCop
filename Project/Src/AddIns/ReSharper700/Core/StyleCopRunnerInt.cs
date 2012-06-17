@@ -212,6 +212,16 @@ namespace StyleCop.ReSharper700.Core
         /// </param>
         private void OnViolationEncountered(object sender, ViolationEventArgs e)
         {
+            if (e == null || e.SourceCode == null || e.SourceCode.Path == null || e.Violation == null)
+            {
+                return;
+            }
+
+            if (this.file == null || this.file.Location == null)
+            {
+                return;
+            }
+
             var path = e.SourceCode.Path;
             var lineNumber = e.LineNumber;
 
@@ -228,7 +238,7 @@ namespace StyleCop.ReSharper700.Core
                 {
                     textRange = Utils.GetTextRange(this.file, e.Violation.Location);
                 }
-                
+
                 // The TextRange could be a completely blank line. If it is just return the line and don't trim it.
                 var documentRange = new DocumentRange(this.document, textRange);
 
@@ -241,14 +251,17 @@ namespace StyleCop.ReSharper700.Core
 
                 string fileName = this.file.Location.Name;
 
-                if (e.Violation.Element != null)
+                if (e.Violation.Element != null &&
+                    e.Violation.Element.Document != null &&
+                    e.Violation.Element.Document.SourceCode != null &&
+                    e.Violation.Element.Document.SourceCode.Name != null)
                 {
                     fileName = e.Violation.Element.Document.SourceCode.Name;
                 }
-               
-                var highlighting = StyleCopViolationFactory.GetHighlight(e, documentRange, fileName, lineNumber);
 
-                this.CreateViolation(documentRange, highlighting);
+                var violation = StyleCopViolationFactory.GetHighlight(e, documentRange, fileName, lineNumber);
+
+                this.CreateViolation(documentRange, violation);
             }
         }
 
