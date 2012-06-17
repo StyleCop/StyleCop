@@ -45,7 +45,7 @@ namespace StyleCop.CSharp
         /// <summary>
         /// An assembly attribute.
         /// </summary>
-        AssemblyAttribute = 4,
+        AssemblyOrModuleAttribute = 4,
 
         /// <summary>
         /// A namespace element.

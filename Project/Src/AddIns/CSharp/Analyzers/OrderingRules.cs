@@ -419,7 +419,7 @@ namespace StyleCop.CSharp
                     {
                         foreach (CsElement child in parentElement.ChildElements)
                         {
-                            if (child.ElementType == ElementType.AssemblyAttribute)
+                            if (child.ElementType == ElementType.AssemblyOrModuleAttribute)
                             {
                                 foundAssemblyAttribute = true;
                                 break;

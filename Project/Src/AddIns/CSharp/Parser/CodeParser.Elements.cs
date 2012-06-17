@@ -17,6 +17,7 @@ namespace StyleCop.CSharp
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
     using System.IO;
@@ -245,7 +246,7 @@ namespace StyleCop.CSharp
                         (parent.ElementType == ElementType.Root ||
                          parent.ElementType == ElementType.Namespace);
 
-                case ElementType.AssemblyAttribute:
+                case ElementType.AssemblyOrModuleAttribute:
                     return
                         parent != null &&
                         parent.ElementType == ElementType.Root;
@@ -603,7 +604,7 @@ namespace StyleCop.CSharp
                         // If it is don't process it here.
                         ElementType? nextElementType = this.GetElementType(element, unsafeCode);
 
-                        if (nextElementType == ElementType.AssemblyAttribute)
+                        if (nextElementType == ElementType.AssemblyOrModuleAttribute)
                         {
                             loop = false;
                         }
@@ -671,7 +672,7 @@ namespace StyleCop.CSharp
             bool externAlias = false;
 
             // Indicates we've found an assembly attribute.
-            bool assemblyAttribute = false;
+            bool assemblyOrModuleAttribute = false;
 
             // Indicates whether we've seen an operator keyword.
             bool operatorKeyword = false;
@@ -765,9 +766,9 @@ namespace StyleCop.CSharp
                     
                     case SymbolType.OpenSquareBracket:
                         temp = this.GetNextCodeSymbolIndex(index + 1);
-                        if (temp != -1 && this.symbols.Peek(temp).Text == "assembly")
+                        if (temp != -1 && (this.symbols.Peek(temp).Text == "assembly" || this.symbols.Peek(temp).Text == "module"))
                         {
-                            assemblyAttribute = true;
+                            assemblyOrModuleAttribute = true;
                         }
 
                         break;
@@ -862,9 +863,9 @@ namespace StyleCop.CSharp
                 {
                     elementType = ElementType.ExternAliasDirective;
                 }
-                else if (assemblyAttribute)
+                else if (assemblyOrModuleAttribute)
                 {
-                    elementType = ElementType.AssemblyAttribute;
+                    elementType = ElementType.AssemblyOrModuleAttribute;
                 }
                 else if (index == 2)
                 {
@@ -986,8 +987,8 @@ namespace StyleCop.CSharp
                 case ElementType.UsingDirective:
                     return this.ParseUsingDirective(parent, elementReference, unsafeCode, generated);
 
-                case ElementType.AssemblyAttribute:
-                    return this.ParseAssemblyAttribute(parent, elementReference, generated);
+                case ElementType.AssemblyOrModuleAttribute:
+                    return this.ParseAssemblyOrModuleAttribute(parent, elementReference, generated);
 
                 case ElementType.Class:
                 case ElementType.Struct:
@@ -1144,28 +1145,31 @@ namespace StyleCop.CSharp
             return element;
         }
 
-        /// <summary>
-        /// Parses and returns an assembly attribute.
-        /// </summary>
-        /// <param name="parent">The parent of the namespace.</param>
-        /// <param name="elementReference">A reference to the element being created.</param>
-        /// <param name="generated">Indicates whether the code is marked as generated code.</param>
-        /// <returns>Returns the element.</returns>
-        private AssemblyAttribute ParseAssemblyAttribute(CsElement parent, Reference<ICodePart> elementReference, bool generated)
+        ///// <summary>
+        ///// Parses and returns an assembly or module attribute.
+        ///// </summary>
+        ///// <param name="parent">The parent of the namespace.</param>
+        ///// <param name="elementReference">A reference to the element being created.</param>
+        ///// <param name="generated">Indicates whether the code is marked as generated code.</param>
+        ///// <returns>Returns the element.</returns>
+        private AssemblyOrModuleAttribute ParseAssemblyOrModuleAttribute(CsElement parent, Reference<ICodePart> elementReference, bool generated)
         {
             Param.AssertNotNull(parent, "parent");
             Param.AssertNotNull(elementReference, "elementReference");
             Param.Ignore(generated);
 
-            var a = this.GetAttribute(elementReference, false);
-            Node<CsToken> firstToken = this.tokens.InsertLast(a);
+            var attribute = this.GetAttribute(elementReference, false);
+
+            Node<CsToken> firstToken = this.tokens.InsertLast(attribute);
 
             // Create the declaration.
             CsTokenList declarationTokens = new CsTokenList(this.tokens, firstToken, this.tokens.Last);
-            
-            var declaration = new Declaration(declarationTokens, a.Text, ElementType.AssemblyAttribute, AccessModifierType.Public);
 
-            var element = new AssemblyAttribute(this.document, parent, declaration, generated);
+            var declaration = new Declaration(declarationTokens, attribute.Text, ElementType.AssemblyOrModuleAttribute, AccessModifierType.Public);
+
+            ICollection<Attribute> attributes = new List<Attribute>(1) { attribute }.ToArray();
+
+            var element = new AssemblyOrModuleAttribute(this.document, parent, declaration, generated, attributes);
             elementReference.Target = element;
             return element;
         }

@@ -84,7 +84,6 @@
   <ItemGroup>
     <Reference Include="Microsoft.Build.Framework" />
     <Reference Include="Microsoft.Build.Utilities.v3.5" />
-
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
@@ -112,7 +111,7 @@
     <Compile Include="Argument.cs" />
     <Compile Include="CsToken.cs" />
     <Compile Include="CsTokenList.cs" />
-    <Compile Include="Elements\AssemblyAttribute.cs" />
+    <Compile Include="Elements\AssemblyOrModuleAttribute.cs" />
     <Compile Include="Expressions\AwaitExpression.cs" />
     <Compile Include="Expressions\CollectionInitializerExpression.cs" />
     <Compile Include="Expressions\EventDeclaratorExpression.cs" />

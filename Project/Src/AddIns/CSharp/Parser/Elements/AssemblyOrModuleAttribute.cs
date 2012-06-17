@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="AssemblyAttribute.cs">
+// <copyright file="AssemblyOrModuleAttribute.cs">
 //   MS-PL
 // </copyright>
 // <license>
@@ -14,37 +14,37 @@
 //-----------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
+    using System.Collections.Generic;
+
     /// <summary>
-    /// Describes the contents of an assembly attribute.
+    /// Describes the contents of an assembly or module attribute.
     /// </summary>
     /// <subcategory>element</subcategory>
-    public sealed class AssemblyAttribute : CsElement
+    public sealed class AssemblyOrModuleAttribute : CsElement
     {
-        #region Private Fields
-        
-        #endregion Private Fields
-
         #region Internal Constructors
 
         /// <summary>
-        /// Initializes a new instance of the AssemblyAttribute class.
+        /// Initializes a new instance of the AssemblyOrModuleAttribute class.
         /// </summary>
         /// <param name="document">The document that contains the element.</param>
         /// <param name="parent">The parent of the element.</param>
         /// <param name="declaration">The declaration code for this element.</param>
         /// <param name="generated">Indicates whether the code element was generated or written by hand.</param>
-        internal AssemblyAttribute(
+        /// <param name="attributes">The actual attribute that this Assembly or Module level attribute contains.</param>
+        internal AssemblyOrModuleAttribute(
             CsDocument document,
             CsElement parent,
             Declaration declaration,
-            bool generated)
+            bool generated,
+            ICollection<Attribute> attributes)
             : base(
             document,
             parent,
-            ElementType.AssemblyAttribute,
-            "assembly attribute " + declaration.Name,
+            ElementType.AssemblyOrModuleAttribute,
+            "assembly or module attribute " + declaration.Name,
             null,
-            null,
+            attributes,
             declaration,
             false,
             generated)
