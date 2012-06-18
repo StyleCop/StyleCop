@@ -988,7 +988,7 @@ namespace StyleCop.ReSharper611.CodeCleanup.Rules
 
             if (elementDocumentationMustHaveSummary && !Utils.IsRuleSuppressed(declaration, StyleCopRules.SA1604) && !declarationHeader.HasSummary)
             {
-               formatSummary = formatSummary || this.InsertMissingSummaryElement(declaration);
+               formatSummary = formatSummary | this.InsertMissingSummaryElement(declaration);
             }
 
             if (formatSummary)
