@@ -416,7 +416,10 @@ namespace StyleCop.VisualStudio
                     // Enumerate through the VS projects.
                     foreach (Project project in enumerator)
                     {
-                        if (project != null && (IsKnownProjectType(project, analysisHelper) || project.Kind == Constants.vsProjectKindMisc))
+                        // We continue if we know the project type or if its a misc item or a solution folder
+                        if (project != null && (IsKnownProjectType(project, analysisHelper) ||
+                            project.Kind == Constants.vsProjectKindMisc ||
+                            project.Kind == Constants.vsProjectKindSolutionItems))
                         {
                             EnumerateProject(project, AddCodeProject, AddFileToProject, codeProjects, null);
                         }
