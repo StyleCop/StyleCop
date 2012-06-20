@@ -530,7 +530,7 @@ namespace StyleCop
             string extension = Path.GetExtension(path);
             if (extension != null && extension.Length > 0)
             {
-                // Remove the leading dot and convert the extension to lower-case.
+                // Remove the leading dot and convert the extension to uppercase.
                 extension = extension.Substring(1).ToUpperInvariant();
 
                 ICollection<SourceParser> parserList = this.GetParsersForFileType(extension);
