@@ -242,5 +242,18 @@ namespace Parenthesis1
         {
             var number = ((Func<int>)(() => 5))(); // This is valid
         }
+
+        public T GetInstance<T>(Version version, object connectionContext)
+        {
+            var contract = typeof(T);
+            var key = "a";
+            object factory = new string('c', 12);
+            if (key == "a")
+            {
+                var a = ((Func<object, T>)factory)(connectionContext); // valid
+
+                return ((Func<object, T>)factory)(connectionContext); //valid
+            }
+        }
     }
 }

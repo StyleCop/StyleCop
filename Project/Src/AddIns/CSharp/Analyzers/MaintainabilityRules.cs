@@ -890,14 +890,19 @@ namespace StyleCop.CSharp
                         if (parenthesizedExpression.Parent is MethodInvocationExpression)
                         {
                             var parentMethodInvocationExpression = parenthesizedExpression.Parent as MethodInvocationExpression;
-
-                            if (parentMethodInvocationExpression.Arguments.Count == 0)
+                            
+                            foreach (var argument in parentMethodInvocationExpression.Arguments)
                             {
-                                return;
+                                if (argument.Expression.Equals(parenthesizedExpression))
+                                {
+                                    this.AddViolation(element, parenthesizedExpression.Location, Rules.StatementMustNotUseUnnecessaryParenthesis);
+                                }
                             }
                         }
-
-                        this.AddViolation(element, parenthesizedExpression.Location, Rules.StatementMustNotUseUnnecessaryParenthesis);
+                        else
+                        {
+                            this.AddViolation(element, parenthesizedExpression.Location, Rules.StatementMustNotUseUnnecessaryParenthesis);
+                        }
                     }
                     else
                     {
