@@ -213,6 +213,25 @@ namespace StyleCop
         #region Private Methods
 
         /// <summary>
+        /// Returns the leafname of the sourcecode path.
+        /// </summary>
+        /// <param name="sourceCode">The sourcCode object to use.</param>
+        /// <returns>The leafname.</returns>
+        private string GetRelativeFileName(SourceCode sourceCode)
+        {
+            var sourceCodePath = sourceCode.Path;
+            var sourceCodeProjectLocation = sourceCode.Project.Location;
+            var outputText = sourceCode.Name;
+
+            if (sourceCodePath != null && sourceCodeProjectLocation != null && sourceCodePath.StartsWith(sourceCodeProjectLocation, true, CultureInfo.InvariantCulture))
+            {
+                outputText = sourceCodePath.SubstringAfter(sourceCodeProjectLocation, StringComparison.InvariantCultureIgnoreCase);
+            }
+
+            return outputText;
+        }
+
+        /// <summary>
         /// Parses and analyzes the given document.
         /// </summary>
         /// <param name="sourceCode">The document to parse and analyze.</param>
@@ -222,11 +241,11 @@ namespace StyleCop
             Param.AssertNotNull(sourceCode, "sourceCode");
             Param.AssertNotNull(documentStatus, "documentStatus");
             StyleCopTrace.In(sourceCode, documentStatus);
-
+            
             // Signal the output for this document.
             this.data.Core.SignalOutput(
                 MessageImportance.Low,
-                string.Format(CultureInfo.CurrentCulture, "Pass {0}: {1}", this.data.PassNumber + 1, sourceCode.Name));
+                string.Format(CultureInfo.CurrentCulture, "Pass {0}:   {1} - {2}", this.data.PassNumber + 1, sourceCode.Project.Location.SubstringAfterLast('\\'), this.GetRelativeFileName(sourceCode)));
 
             // Extract the document to parse.
             CodeDocument parsedDocument = documentStatus.Document;
@@ -332,8 +351,7 @@ namespace StyleCop
         /// <param name="document">The document to analyze.</param>
         /// <param name="parser">The parser that created the document.</param>
         /// <param name="analyzers">The list of analyzers to run against the document.</param>
-        private void RunAnalyzers(
-            CodeDocument document, SourceParser parser, IEnumerable<SourceAnalyzer> analyzers)
+        private void RunAnalyzers(CodeDocument document, SourceParser parser, IEnumerable<SourceAnalyzer> analyzers)
         {
             Param.AssertNotNull(document, "document");
             Param.AssertNotNull(parser, "parser");
@@ -346,7 +364,7 @@ namespace StyleCop
                 {
                     this.data.Core.SignalOutput(
                         MessageImportance.Normal,
-                        string.Format(CultureInfo.CurrentCulture, "Skipping {0}...", document.SourceCode.Name));
+                        string.Format(CultureInfo.CurrentCulture, "Skipping: {0} - {1}", document.SourceCode.Project.Location.SubstringAfterLast('\\'), this.GetRelativeFileName(document.SourceCode)));
                 }
                 else
                 {
@@ -373,7 +391,8 @@ namespace StyleCop
                             }
                             catch (System.Exception)
                             {
-                                string details = string.Format(CultureInfo.CurrentCulture, "Exception thrown by analyzer '{0}' while processing '{1}'.", analyzer.Name, document.SourceCode.Path);
+                                string details = string.Format(
+                                    CultureInfo.CurrentCulture, "Exception thrown by analyzer '{0}' while processing '{1}'.", analyzer.Name, document.SourceCode.Path);
 
                                 this.data.Core.SignalOutput(MessageImportance.High, details);
                                 throw;

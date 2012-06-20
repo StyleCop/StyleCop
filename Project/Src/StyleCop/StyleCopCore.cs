@@ -803,8 +803,6 @@ namespace StyleCop
                 {
                     cleanedPath = cleanedPath.Substring(0, cleanedPath.Length - 1);
                 }
-
-                cleanedPath = cleanedPath.ToUpperInvariant();
             }
 
             return cleanedPath;
