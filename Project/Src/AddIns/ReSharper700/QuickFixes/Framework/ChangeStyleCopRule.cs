@@ -24,11 +24,16 @@ namespace StyleCop.ReSharper700.QuickFixes.Framework
 
     using System.Collections.Generic;
 
+    using JetBrains.Application.Settings;
     using JetBrains.DocumentModel;
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Daemon;
+    using JetBrains.ReSharper.Daemon.Src.Bulbs.Resources;
     using JetBrains.ReSharper.Intentions.Extensibility;
+    using JetBrains.ReSharper.Intentions.Extensibility.Menu;
     using JetBrains.ReSharper.Psi;
+    using JetBrains.UI.Application;
+    using JetBrains.UI.Icons;
 
     using StyleCop.ReSharper700.Options;
     using StyleCop.ReSharper700.Violations;
@@ -41,6 +46,35 @@ namespace StyleCop.ReSharper700.QuickFixes.Framework
     [CustomHighlightingActionProvider(typeof(CSharpProjectFileType))]
     public class ChangeStyleCopRule : ICustomHighlightingActionProvider
     {
+        /// <summary>
+        /// The common icons component.
+        /// </summary>
+        private readonly IThemedIconManager commonIconsComponent;
+
+        /// <summary>
+        /// The highlighting settings manager.
+        /// </summary>
+        private readonly HighlightingSettingsManager highlightingSettingsManager;
+
+        /// <summary>
+        /// The settings store.
+        /// </summary>
+        private readonly ISettingsStore settingsStore;
+
+        /// <summary>
+        /// Initializes a new instance of the ChangeStyleCopRule class.
+        /// </summary>
+        /// <param name="highlightingSettingsManager">The settings manager to use.</param>
+        /// <param name="settingsStore">The settings store.</param>
+        /// <param name="application">The UI application.</param>
+        /// <param name="commonIconsComponent">The icon to use.</param>
+        public ChangeStyleCopRule(HighlightingSettingsManager highlightingSettingsManager, ISettingsStore settingsStore, UIApplication application, IThemedIconManager commonIconsComponent)
+        {
+            this.highlightingSettingsManager = highlightingSettingsManager;
+            this.settingsStore = settingsStore;
+            this.commonIconsComponent = commonIconsComponent;
+        }
+
         #region Public Methods and Operators
 
         /// <summary>
@@ -51,26 +85,24 @@ namespace StyleCop.ReSharper700.QuickFixes.Framework
         /// <param name="highlightingRange"> The current highlighting range. </param>
         /// <param name="sourceFile"> The file. </param>
         /// <returns> The available actions. </returns>
-        public IEnumerable<ICustomHighlightingAction> GetActions(
-            IHighlighting highlighting, ISolution solution, DocumentRange highlightingRange, IPsiSourceFile sourceFile)
+        public IEnumerable<JB::JetBrains.Util.Pair<IBulbAction, BulbMenuItemViewDescription>> GetActions(IHighlighting highlighting, ISolution solution, DocumentRange highlightingRange, IPsiSourceFile sourceFile)
         {
             var violation = highlighting as StyleCopViolationBase;
 
             if (violation == null)
             {
-                return JB::JetBrains.Util.EmptyArray<ICustomHighlightingAction>.Instance;
+                yield break;
             }
 
-            var ruleID = violation.CheckId;
-            var highlightID = HighlightingRegistering.GetHighlightID(ruleID);
+            var ruleId = violation.CheckId;
+            var highlightId = HighlightingRegistering.GetHighlightID(ruleId);
 
-            return new ICustomHighlightingAction[]
-                {
-                    new ChangeStyleCopRuleAction
-                        {
-                            HighlightID = highlightID, Text = "Inspection Options for \"" + violation.ToolTip + "\""
-                        }
-                };
+            var changeStyleCopRuleAction = new ChangeStyleCopRuleAction(this.highlightingSettingsManager, this.settingsStore, highlightId, this.commonIconsComponent)
+                            { Text = "Inspection Options for \"" + violation.ToolTip + "\"" };
+
+            yield return
+                JB::JetBrains.Util.Pair.Of<IBulbAction, BulbMenuItemViewDescription>(
+                    changeStyleCopRuleAction, new BulbMenuItemViewDescription(AnchorsForConfigureHighlightingSubmenu.ConfigureItem, BulbThemedIcons.DisableBulb.Id, changeStyleCopRuleAction.Text));
         }
 
         #endregion

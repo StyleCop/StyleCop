@@ -29,19 +29,48 @@ namespace StyleCop.ReSharper700.QuickFixes.Framework
     using JetBrains.ReSharper.Daemon;
     using JetBrains.ReSharper.Daemon.Impl;
     using JetBrains.ReSharper.Feature.Services.Bulbs;
-    using JetBrains.ReSharper.Intentions.Extensibility;
     using JetBrains.ReSharper.Intentions.Extensibility.Menu;
-    using JetBrains.ReSharper.Psi;
     using JetBrains.TextControl;
     using JetBrains.UI.CrossFramework;
+    using JetBrains.UI.Icons;
 
     #endregion
 
     /// <summary>
     ///   Adds changing the display option for the style cop rule as context menu.
     /// </summary>
-    public class ChangeStyleCopRuleAction : ICustomHighlightingAction, IBulbItem
+    public class ChangeStyleCopRuleAction : IBulbItem
     {
+        /// <summary>
+        /// The common icons component.
+        /// </summary>
+        private readonly IThemedIconManager commonIconsComponent;
+
+        /// <summary>
+        /// The highlighting settings manager.
+        /// </summary>
+        private readonly HighlightingSettingsManager highlightingSettingsManager;
+
+        /// <summary>
+        /// The settings store.
+        /// </summary>
+        private readonly ISettingsStore settingsStore;
+
+        /// <summary>
+        /// Initializes a new instance of the ChangeStyleCopRuleAction class.
+        /// </summary>
+        /// <param name="highlightingSettingsManager">The settings manager to use.</param>
+        /// <param name="settingsStore">The settings store.</param>
+        /// <param name="severityId">The severityId.</param>
+        /// <param name="commonIconsComponent">The icon to use.</param>
+        public ChangeStyleCopRuleAction(HighlightingSettingsManager highlightingSettingsManager, ISettingsStore settingsStore, string severityId, IThemedIconManager commonIconsComponent)
+        {
+            this.highlightingSettingsManager = highlightingSettingsManager;
+            this.settingsStore = settingsStore;
+            this.commonIconsComponent = commonIconsComponent;
+            this.HighlightID = severityId;
+        }
+
         #region Public Properties
 
         /// <summary>
@@ -80,7 +109,7 @@ namespace StyleCop.ReSharper700.QuickFixes.Framework
         public string Text { get; set; }
 
         #endregion
-
+        
         #region Public Methods and Operators
 
         /// <summary>
@@ -105,15 +134,11 @@ namespace StyleCop.ReSharper700.QuickFixes.Framework
             {
                 unsafe
                 {
-                    var dialog = new ChangeInspectionSeverityDialog(lifetime);
+                    var dialog = new ChangeInspectionSeverityDialog(lifetime, this.commonIconsComponent);
+                    var contextBoundSettingsStore = this.settingsStore.BindToContextTransient(ContextRange.Smart(textControl.Document.ToDataContext()));
+                    HighlightingSettingsManager.ConfigurableSeverityItem item = this.highlightingSettingsManager.GetSeverityItem(this.HighlightID);
 
-                    var settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, solution);
-                    var contextBoundSettingsStore = settingsStore.SettingsStore.BindToContextTransient(ContextRange.Smart(textControl.Document.ToDataContext()));
-
-                    HighlightingSettingsManager settingsManager = HighlightingSettingsManager.Instance;
-                    HighlightingSettingsManager.ConfigurableSeverityItem item = settingsManager.GetSeverityItem(this.HighlightID);
-
-                    dialog.Severity = settingsManager.GetConfigurableSeverity(this.HighlightID, contextBoundSettingsStore);
+                    dialog.Severity = this.highlightingSettingsManager.GetConfigurableSeverity(this.HighlightID, contextBoundSettingsStore);
                     dialog.SeverityOptionsTitle = string.Format(item.FullTitle + ":");
                     dialog.CanBeError = !item.SolutionAnalysisRequired;
 

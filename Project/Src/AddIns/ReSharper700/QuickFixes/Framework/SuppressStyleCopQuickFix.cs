@@ -163,7 +163,7 @@ namespace StyleCop.ReSharper700.QuickFixes.Framework
         /// <param name="severity"> The severity to set the items too. </param>
         public void CreateBulbItems(BulbMenu menu, Severity severity)
         {
-            menu.ArrangeDisableHighlightingItems(this.Items);
+            menu.ArrangeContextActions(this.Items);
         }
 
         /// <summary>
