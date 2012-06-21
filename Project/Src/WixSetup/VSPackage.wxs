@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?include SharedIncludes.wxi ?>
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
   <Fragment Id="VsPackageFragment">
 
     <Directory Id="TARGETDIR" Name="SourceDir">
@@ -9,13 +9,21 @@
         <Directory Id="INSTALLDIR" Name="$(var.ProductNameShort)" FileSource="$(var.DropDir)">
 
           <Component Id="VisualStudioPackageCommon" Guid="3c439240-494f-423d-bcc5-8247e4c21076">
-            <File Id='VsPackageDll' Name='StyleCop.VSPackage.dll' Checksum="yes" Vital='yes' />
+            <File Id='VsPackageDll' Name='StyleCop.VSPackage.dll' Checksum="yes" Vital='yes'>
+              <netfx:NativeImage Id="ngen_VsPackageDll" Platform="all" Priority="0"/>
+            </File>
           </Component>
-
+          
           <Component Id="StyleCopCommon" Guid="3CE3C34D-A18E-4032-A7AC-849F1E386A4E">
-            <File Id='AnalysisEngineDll' Name='StyleCop.dll' Checksum="yes" Vital='yes' />
-            <File Id='CSharpParser' Name='StyleCop.CSharp.dll' Checksum="yes" Vital='yes' />
-            <File Id='CSharpAnalyzer' Name='StyleCop.CSharp.Rules.dll' Checksum="yes" Vital='yes' />
+            <File Id='AnalysisEngineDll' Name='StyleCop.dll' Checksum="yes" Vital='yes'>
+              <netfx:NativeImage Id="ngen_AnalysisEngineDll" Platform="all" Priority="0"/>
+            </File>
+            <File Id='CSharpParser' Name='StyleCop.CSharp.dll' Checksum="yes" Vital='yes'>
+              <netfx:NativeImage Id="ngen_CSharpParser" Platform="all" Priority="0"/>
+            </File>
+            <File Id='CSharpAnalyzer' Name='StyleCop.CSharp.Rules.dll' Checksum="yes" Vital='yes'>
+              <netfx:NativeImage Id="ngen_CSharpAnalyzer" Platform="all" Priority="0"/>
+            </File>
             <File Id='Settings' Name='Settings.StyleCop' Checksum="yes" Vital='yes' />
           </Component>
 
