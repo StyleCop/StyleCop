@@ -1119,19 +1119,26 @@ namespace StyleCop.VisualStudio
         {
             Param.AssertNotNull(item, "item");
             Param.AssertNotNull(filename, "filename");
-
-            var isLinkProperty = item.Properties.Item("IsLink");
-
-            if (isLinkProperty != null && bool.Parse(isLinkProperty.Value.ToString()))
+            try
             {
-                // The ProjectItem is a linked file to we'll assume these haven't got
-                // ExcludeFromStyleCop in the proj file
+                var isLinkProperty = item.Properties.Item("IsLink");
+
+                if (isLinkProperty != null && bool.Parse(isLinkProperty.Value.ToString()))
+                {
+                    // The ProjectItem is a linked file to we'll assume these haven't got
+                    // ExcludeFromStyleCop in the proj file
+                    return true;
+                }
+
+                var trimmedPath = filename.Substring(Path.GetDirectoryName(item.ContainingProject.FullName).Length + 1).ToUpperInvariant();
+                var key = item.ContainingProject.FileName + ":" + trimmedPath;
+                return !(ProjectItemExcluded.ContainsKey(key) ? ProjectItemExcluded[key] : IsProjectItemExcluded(item, key));
+            }
+            catch (ArgumentException)
+            {
+                // Thrown if item doesn't have an IsLink property.
                 return true;
             }
-
-            var trimmedPath = filename.Substring(Path.GetDirectoryName(item.ContainingProject.FullName).Length + 1).ToUpperInvariant();
-            var key = item.ContainingProject.FileName + ":" + trimmedPath;
-            return !(ProjectItemExcluded.ContainsKey(key) ? ProjectItemExcluded[key] : IsProjectItemExcluded(item, key));
         }
 
         /// <summary>
@@ -1145,17 +1152,9 @@ namespace StyleCop.VisualStudio
 
             try
             {
-                // If the project containing this item does not contain the BuildAction property
-                // return false
-                if (ProjectHasPropertyMissing(item.ContainingProject, "BuildAction"))
-                {
-                    return false;
-                }
-
                 Property buildAction = item.Properties.Item("BuildAction");
                 if (buildAction == null)
                 {
-                    AddMissingPropertyForProject(item.ContainingProject, "BuildAction");
                     return false;
                 }
 
@@ -1164,27 +1163,24 @@ namespace StyleCop.VisualStudio
             }
             catch (NotImplementedException)
             {
-                // Is thrown by Installshield projects (and maybe others)
-                // If it gets here don't call item.ContainingProject later as that'll fail too
-                // TODO We want to record it missing.
+                // Thrown by Installshield projects (and maybe others)
                 return false;
             }
             catch (COMException)
             {
-                // Can be thrown if the BuildAction property doesn't exist.
             }
             catch (ArgumentException)
             {
-                // Can be thrown if the BuildAction property doesn't exist.
+                // Thrown if the BuildAction property doesn't exist.
+                // This is primarily for Web projects where the aspx.xs files do not have a BuildAction
+                return true;
             }
             catch (InvalidCastException)
             {
                 // Don't think this will ever happen, but this is here for robustness.
             }
 
-            AddMissingPropertyForProject(item.ContainingProject, "BuildAction");
-                    
-            return false;
+            return true;
         }
 
         /// <summary>
@@ -1347,17 +1343,8 @@ namespace StyleCop.VisualStudio
 
             // If this project type exists in the list of known project types, then return true to indicate
             // that this is a known project type.
-            if (helper.ProjectTypes != null)
-            {
-                Dictionary<string, string> properties;
-                if (helper.ProjectTypes.TryGetValue(project.Kind, out properties))
-                {
-                    return true;
-                }
-            }
-
             // Return null to indicate that this is not a known project type and that the walker should continue searching.
-            return null;
+            return IsKnownProjectType(project, helper) ? (object)true : null;
         }
 
         /// <summary>
@@ -1476,21 +1463,14 @@ namespace StyleCop.VisualStudio
 
             try
             {
-                if (projectItem.ContainingProject != null && ProjectHasPropertyMissing(projectItem.ContainingProject, "FullPath"))
-                {
-                    return null;
-                }
-
                 if (projectItem.Properties == null)
                 {
-                    AddMissingPropertyForProject(projectItem.ContainingProject, "FullPath");
                     return null;
                 }
                 
                 Property property = projectItem.Properties.Item("FullPath");
                 if (property == null)
                 {
-                    AddMissingPropertyForProject(projectItem.ContainingProject, "FullPath");
                     return null;
                 }
 
@@ -1504,9 +1484,7 @@ namespace StyleCop.VisualStudio
             {
                 // For certain project types, this throws a COM Exception.
             }
-
-            AddMissingPropertyForProject(projectItem.ContainingProject, "FullPath");
-                    
+        
             return null;
         }
 
