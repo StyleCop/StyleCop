@@ -16,9 +16,7 @@ namespace StyleCop.VisualStudio
 {
     using System;
     using System.Diagnostics;
-    using EnvDTE;
     using Microsoft.VisualStudio.Shell;
-    using Microsoft.VisualStudio.Shell.Interop;
 
     using StyleCop.Diagnostics;
 
@@ -78,7 +76,7 @@ namespace StyleCop.VisualStudio
         /// </summary>
         private void AddCommands()
         {
-            System.Diagnostics.Debug.Assert(this.CommandList != null, "The internal command list has not been created.");
+            Debug.Assert(this.CommandList != null, "The internal command list has not been created.");
 
             // StyleCop -> Analyze
             // Solution Explorer Context menu item, for a single project item 
@@ -115,6 +113,15 @@ namespace StyleCop.VisualStudio
                     null,
                     new EventHandler(this.StatusAnalyzeSolution),
                     CommandIdList.ReanalyzeSolution));
+
+            // StyleCop -> Reanalyze 
+            // Tools Main Menu And Solution Explorer Context menu item, for the project
+            this.CommandList.Add(
+                new OleMenuCommand(
+                    new EventHandler(this.InvokeReanalyzeProject),
+                    null,
+                    new EventHandler(this.StatusAnalyzeProject),
+                    CommandIdList.ReanalyzeProject));
 
             // StyleCop -> Analyze
             // Solution Explorer Context menu item, for a single project 
@@ -334,6 +341,26 @@ namespace StyleCop.VisualStudio
             CommandSet.CheckMenuItemValidity(menuCommand);
 
             this.helper.Analyze(false, AnalysisType.Solution);
+
+            StyleCopTrace.Out();
+        }
+
+        /// <summary>
+        /// Fired when the user invokes the menu item Reanalyze on a project.
+        /// </summary>
+        /// <param name="sender">The <c>OleMenuCommand</c> that represents the menu item.</param>
+        /// <param name="eventArgs">The event arguments.</param>
+        private void InvokeReanalyzeProject(object sender, EventArgs eventArgs)
+        {
+            Param.AssertNotNull(sender, "sender");
+            Param.Ignore(eventArgs);
+
+            StyleCopTrace.In(sender, eventArgs);
+
+            OleMenuCommand menuCommand = (OleMenuCommand)sender;
+            CommandSet.CheckMenuItemValidity(menuCommand);
+
+            this.helper.Analyze(true, AnalysisType.Project);
 
             StyleCopTrace.Out();
         }

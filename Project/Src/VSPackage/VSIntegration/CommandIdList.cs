@@ -55,6 +55,11 @@ namespace StyleCop.VisualStudio
         public static readonly CommandID ReanalyzeSolution = new CommandID(GuidList.StyleCopCommandSetId, (int)0x160);
 
         /// <summary>
+        /// Menu Command ID for the menu item that starts re-analysis of the project.
+        /// </summary>
+        public static readonly CommandID ReanalyzeProject = new CommandID(GuidList.StyleCopCommandSetId, (int)0x170);
+
+        /// <summary>
         /// Menu Command ID for the menu item that shows the project settings dialog.
         /// </summary>
         public static readonly CommandID ProjectSettings = new CommandID(GuidList.StyleCopCommandSetId, (int)0x240);

@@ -76,6 +76,14 @@
           <ButtonText>Run StyleCop (R&amp;escan All)</ButtonText>
         </Strings>
       </Button>
+      <Button guid="StyleCopCommandSetId" id="CommandIdReanalyzeProject" priority="0x0000" type="Button">
+        <Parent guid="StyleCopCommandSetId" id="0"/>
+        <Icon guid="StyleCopCmdBmpId" id="bmpPic1"/>
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <Strings>
+          <ButtonText>Run StyleCop (R&amp;escan All)</ButtonText>
+        </Strings>
+      </Button>
       <Button guid="StyleCopCommandSetId" id="CommandIdAnalyzeProject" priority="0x0000" type="Button">
         <Parent guid="StyleCopCommandSetId" id="0"/>
         <Icon guid="StyleCopCmdBmpId" id="bmpPic1"/>
@@ -180,11 +188,17 @@
     <CommandPlacement guid="StyleCopCommandSetId" id="CommandIdAnalyzeProject" priority="0x900">
       <Parent guid="guidSHLMainMenu" id="IDG_VS_CTXT_PROJECT_BUILD"/>
     </CommandPlacement>
+    <CommandPlacement guid="StyleCopCommandSetId" id="CommandIdReanalyzeProject" priority="0x910">
+      <Parent guid="guidSHLMainMenu" id="IDG_VS_CTXT_PROJECT_BUILD"/>
+    </CommandPlacement>
     <CommandPlacement guid="StyleCopCommandSetId" id="CommandIdProjectSettings" priority="0x950">
       <Parent guid="guidSHLMainMenu" id="IDG_VS_CTXT_PROJECT_BUILD"/>
     </CommandPlacement>
     <!--  -->
     <CommandPlacement guid="StyleCopCommandSetId" id="CommandIdAnalyzeProject" priority="0x900">
+      <Parent guid="guidVenusCmdId" id="IDG_CTX_BUILD"/>
+    </CommandPlacement>
+    <CommandPlacement guid="StyleCopCommandSetId" id="CommandIdReanalyzeProject" priority="0x910">
       <Parent guid="guidVenusCmdId" id="IDG_CTX_BUILD"/>
     </CommandPlacement>
     <CommandPlacement guid="StyleCopCommandSetId" id="CommandIdProjectSettings" priority="0x950">
@@ -193,6 +207,9 @@
     <!--  -->
     <!--   // Placement when multiple projects have been selected -->
     <CommandPlacement guid="StyleCopCommandSetId" id="CommandIdAnalyzeProject" priority="0x900">
+      <Parent guid="guidSHLMainMenu" id="IDG_VS_CTXT_MULTIPROJ_BUILD"/>
+    </CommandPlacement>
+    <CommandPlacement guid="StyleCopCommandSetId" id="CommandIdReanalyzeProject" priority="0x910">
       <Parent guid="guidSHLMainMenu" id="IDG_VS_CTXT_MULTIPROJ_BUILD"/>
     </CommandPlacement>
     <!--  -->
@@ -263,6 +280,7 @@
       <IDSymbol name="CommandIdAnalyzeThisFile" value="0x130" />
       <IDSymbol name="CommandIdAnalyzeSolution" value="0x150" />
       <IDSymbol name="CommandIdReanalyzeSolution" value="0x160" />
+      <IDSymbol name="CommandIdReanalyzeProject" value="0x170" />
       <IDSymbol name="CommandIdProjectSettings" value="0x240" />
       <IDSymbol name="CommandIdCancel" value="0x250" />
 
