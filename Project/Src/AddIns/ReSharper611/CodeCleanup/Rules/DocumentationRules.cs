@@ -494,7 +494,17 @@ namespace StyleCop.ReSharper611.CodeCleanup.Rules
             var settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, declaration.GetSolution());
             if (settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.InsertTextIntoDocumentation))
             {
-                summaryText = string.Format("The {0}.", Utils.ConvertTextToSentence(declaration.DeclaredName).ToLower());
+                string text;
+                if (declaration is IInterfaceDeclaration)
+                {
+                    text = declaration.DeclaredName.Substring(1) + " interface";
+                }
+                else
+                {
+                    text = Utils.ConvertTextToSentence(declaration.DeclaredName).ToLower();
+                }
+
+                summaryText = string.Format("The {0}.", text);
             }
 
             summaryText = Utils.UpdateTextWithToDoPrefixIfRequired(summaryText, settingsStore);
