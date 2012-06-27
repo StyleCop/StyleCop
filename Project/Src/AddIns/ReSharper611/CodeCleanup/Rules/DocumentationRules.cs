@@ -589,7 +589,7 @@ namespace StyleCop.ReSharper611.CodeCleanup.Rules
         /// <param name="memberDeclaration">
         /// The <see cref="ITypeMemberDeclaration"/> to check and fix.
         /// </param>
-        public void InsertReturnsElement(ITypeMemberDeclaration memberDeclaration)
+        public void InsertReturnsElement(ITypeMemberDeclaration memberDeclaration, string returnType)
         {
             Param.RequireNotNull(memberDeclaration, "memberDeclaration");
 
@@ -608,7 +608,7 @@ namespace StyleCop.ReSharper611.CodeCleanup.Rules
             var settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, memberDeclaration.GetSolution());
             if (settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.InsertTextIntoDocumentation))
             {
-                valueText = string.Format("The {0}.", Utils.ConvertTextToSentence(memberDeclaration.DeclaredName).ToLower());
+                valueText = string.Format("The {0}.", returnType);
             }
 
             if (declarationHeader.HasReturns)
@@ -1049,11 +1049,11 @@ namespace StyleCop.ReSharper611.CodeCleanup.Rules
                 }
             }
 
-            if (declaration is IMethodDeclaration)
+            if (declaration is IMethodDeclaration || declaration is IIndexerDeclaration)
             {
-                this.CheckMethodDeclarationDocumentation(declaration as IMethodDeclaration, options);
+                this.CheckMethodAndIndexerDeclarationDocumentation(declaration as IParametersOwnerDeclaration, options);
             }
-
+            
             if (declaration is IPropertyDeclaration)
             {
                 ruleIsEnabled = docConfig.GetStyleCopRuleEnabled("PropertyDocumentationMustHaveValue");
@@ -1079,7 +1079,7 @@ namespace StyleCop.ReSharper611.CodeCleanup.Rules
         /// <param name="options">
         /// <see cref="OrderingOptions"/>Current options that we can reference.
         /// </param>
-        private void CheckMethodDeclarationDocumentation(IMethodDeclaration methodDeclaration, DocumentationOptions options)
+        private void CheckMethodAndIndexerDeclarationDocumentation(IParametersOwnerDeclaration methodDeclaration, DocumentationOptions options)
         {
             Param.RequireNotNull(options, "options");
 
@@ -1100,23 +1100,28 @@ namespace StyleCop.ReSharper611.CodeCleanup.Rules
                 }
             }
 
-            var declaredTypeFromCLRName = methodDeclaration.GetReturnType() as DeclaredTypeFromCLRName;
+            if (methodDeclaration.DeclaredElement == null)
+            {
+                return;
+            }
+
+            var declaredTypeFromClrName = methodDeclaration.DeclaredElement.ReturnType as DeclaredTypeFromCLRName;
 
             if (removeReturnTagOnVoidElementsOption && !Utils.IsRuleSuppressed(methodDeclaration, StyleCopRules.SA1617))
             {
                 // Remove the <returns> if the return type is void
-                if (declaredTypeFromCLRName != null && declaredTypeFromCLRName.GetClrName().FullName == "System.Void")
+                if (declaredTypeFromClrName != null && declaredTypeFromClrName.GetClrName().FullName == "System.Void")
                 {
-                    this.RemoveReturnsElement(methodDeclaration);
+                    this.RemoveReturnsElement(methodDeclaration as ITypeMemberDeclaration);
                 }
             }
 
             if (insertMissingReturnTagOption && !Utils.IsRuleSuppressed(methodDeclaration, StyleCopRules.SA1615))
             {
                 // Insert the <returns> if the return type is not void and it was missing
-                if (declaredTypeFromCLRName != null && declaredTypeFromCLRName.GetClrName().FullName != "System.Void")
+                if ((declaredTypeFromClrName != null && declaredTypeFromClrName.GetClrName().FullName != "System.Void") || declaredTypeFromClrName == null)
                 {
-                    this.InsertReturnsElement(methodDeclaration);
+                    this.InsertReturnsElement(methodDeclaration as ITypeMemberDeclaration, methodDeclaration.DeclaredElement.ReturnType.ToString());
                 }
             }
         }

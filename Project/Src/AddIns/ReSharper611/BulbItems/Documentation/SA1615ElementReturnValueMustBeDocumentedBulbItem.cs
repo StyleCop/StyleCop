@@ -52,7 +52,7 @@ namespace StyleCop.ReSharper611.BulbItems.Documentation
 
             var memberDeclaration = element.GetContainingNode<IMethodDeclaration>(true);
 
-            new DocumentationRules().InsertReturnsElement(memberDeclaration);
+            new DocumentationRules().InsertReturnsElement(memberDeclaration, memberDeclaration.DeclaredElement.ReturnType.ToString());
         }
 
         #endregion

@@ -369,7 +369,7 @@ namespace StyleCop.ReSharper700.Core
             var setter = propertyDeclaration.Setter();
             var summaryText = string.Empty;
 
-            var midText = IsPropertyBoolean(propertyDeclaration) ? "a value indicating whether " : string.Empty;
+            var midText = IsPropertyBoolean(propertyDeclaration) ? "a value indicating whether " : "the ";
 
             if (getter != null)
             {
@@ -397,9 +397,8 @@ namespace StyleCop.ReSharper700.Core
                 }
             }
 
-            return string.Format(summaryText, midText, propertyDeclaration.DeclaredName);
+            return string.Format(summaryText, midText, ConvertTextToSentence(propertyDeclaration.DeclaredName).ToLower());
         }
-
         /// <summary>
         /// Creates a new summary string for this constructor.
         /// </summary>
