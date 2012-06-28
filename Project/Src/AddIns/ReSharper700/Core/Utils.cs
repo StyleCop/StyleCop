@@ -399,6 +399,7 @@ namespace StyleCop.ReSharper700.Core
 
             return string.Format(summaryText, midText, ConvertTextToSentence(propertyDeclaration.DeclaredName).ToLower());
         }
+        
         /// <summary>
         /// Creates a new summary string for this constructor.
         /// </summary>
