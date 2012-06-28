@@ -589,6 +589,9 @@ namespace StyleCop.ReSharper700.CodeCleanup.Rules
         /// <param name="memberDeclaration">
         /// The <see cref="ITypeMemberDeclaration"/> to check and fix.
         /// </param>
+        /// <param name="returnType">
+        /// The text to insert as the return type.
+        /// </param>
         public void InsertReturnsElement(ITypeMemberDeclaration memberDeclaration, string returnType)
         {
             Param.RequireNotNull(memberDeclaration, "memberDeclaration");
