@@ -255,7 +255,7 @@ namespace StyleCop.CSharp
                     return false;
                 }
 
-                if (classMember.ElementType == ElementType.Class || classMember.ElementType == ElementType.Struct || classMember.ElementType == ElementType.Delegate
+                if (classMember.ElementType == ElementType.Interface || classMember.ElementType == ElementType.Class || classMember.ElementType == ElementType.Struct || classMember.ElementType == ElementType.Delegate
                     || classMember.ElementType == ElementType.Enum || classMember.ElementType == ElementType.Constructor)
                 {
                     return false;

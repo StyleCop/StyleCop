@@ -132,4 +132,17 @@ namespace CSharpAnalyzersTest.TestData.ClassMembers
             return true;
         }
     }
+    
+    public class Class5
+    {
+        public int Method1(int i)
+        {
+            var a = typeof(IDoStuff<>);
+        }
+
+        public interface IDoStuff<T>
+        {
+            IService<T, int> Service { get; }
+        }
+     }
 }
