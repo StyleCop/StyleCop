@@ -46,7 +46,7 @@ namespace StyleCop.CSharp
         void AddStatements(IEnumerable<Statement> statements);
 
         /// <summary>
-        /// Gets the parent of this code unit.
+        /// Sets the parent of this code unit.
         /// </summary>
         /// <param name="parent">The parent of the code unit.</param>
         void SetParent(ICodePart parent);
