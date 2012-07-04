@@ -669,4 +669,16 @@
   <data name="YieldStatementPlural" xml:space="preserve">
     <value>yield statements</value>
   </data>
+  <data name="AssemblyOrModuleAttribute" xml:space="preserve">
+    <value>assembly or module attribute</value>
+  </data>
+  <data name="AssemblyOrModuleAttributePlural" xml:space="preserve">
+    <value>assembly or module attributes</value>
+  </data>
+  <data name="DocumentRoot" xml:space="preserve">
+    <value>document root</value>
+  </data>
+  <data name="DocumentRootPlural" xml:space="preserve">
+    <value>document roots</value>
+  </data>
 </root>
