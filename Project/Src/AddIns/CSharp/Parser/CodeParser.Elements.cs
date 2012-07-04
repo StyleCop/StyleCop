@@ -504,12 +504,13 @@ namespace StyleCop.CSharp
                 // Parse the element.
                 CsElement childElement = this.ParseElement(
                     childElementType.Value, element, childElementReference, partialElements, unsafeCode, generated, xmlHeader, attributes);
-
-                // Add any suppressed rules.
-                this.AddRuleSuppressionsForElement(childElement);
-
+                
                 // Add the element to its parent.
                 element.AddElement(childElement);
+
+                // Add any suppressed rules.
+                // This has to be done after the parent is set above.
+                this.AddRuleSuppressionsForElement(childElement);
 
                 // Set up the new element.
                 this.InitializeElement(childElement);
@@ -2604,10 +2605,7 @@ namespace StyleCop.CSharp
 
                 parameterReference.Target = parameter;
                 parameters.Add(parameter);
-
-                // So for some reason for parameters with defaultArguments the reference to the paramter is getting lost
-                // as it resolves which Expression to assign to. This meant the parent was clear on the defaultArgument later.
-                // This means issues couldn't be shown correctly for spacing in default arguments on parameter. Like bug 7154.
+                
                 if (defaultArgument != null)
                 {
                     var writeableCodeUnit = (IWriteableCodeUnit)defaultArgument;
@@ -3252,34 +3250,38 @@ namespace StyleCop.CSharp
         {
             Param.Ignore(element);
 
-            if (element != null && element.Attributes != null && element.Attributes.Count > 0)
+            if (element == null || element.Attributes == null || element.Attributes.Count <= 0)
             {
-                foreach (Attribute attribute in element.Attributes)
+                return;
+            }
+
+            foreach (Attribute attribute in element.Attributes)
+            {
+                if (attribute.AttributeExpressions != null)
                 {
-                    if (attribute.AttributeExpressions != null)
+                    foreach (AttributeExpression attributeExpression in attribute.AttributeExpressions)
                     {
-                        foreach (AttributeExpression attributeExpression in attribute.AttributeExpressions)
+                        if (attributeExpression.Initialization != null)
                         {
-                            if (attributeExpression.Initialization != null)
+                            MethodInvocationExpression methodInvocation = attributeExpression.Initialization as MethodInvocationExpression;
+                            if (methodInvocation != null)
                             {
-                                MethodInvocationExpression methodInvocation = attributeExpression.Initialization as MethodInvocationExpression;
-                                if (methodInvocation != null)
+                                if (IsCodeAnalysisSuppression(methodInvocation.Name))
                                 {
-                                    if (IsCodeAnalysisSuppression(methodInvocation.Name))
+                                    // Crack open the expression and extract the rule checkID.
+                                    string checkId;
+                                    string ruleName;
+                                    string ruleNamespace;
+
+                                    if (TryCrackCodeAnalysisSuppression(methodInvocation, out checkId, out ruleName, out ruleNamespace))
                                     {
-                                        // Crack open the expression and extract the rule checkID.
-                                        string checkId;
-                                        string ruleName;
-                                        string ruleNamespace;
+                                        Debug.Assert(!string.IsNullOrEmpty(checkId), "Rule ID should not be null");
+                                        Debug.Assert(checkId == "*" || !string.IsNullOrEmpty(ruleName), "Rule Name should not be null");
+                                        Debug.Assert(!string.IsNullOrEmpty(ruleNamespace), "Rule Namespace should not be null");
 
-                                        if (TryCrackCodeAnalysisSuppression(methodInvocation, out checkId, out ruleName, out ruleNamespace))
-                                        {
-                                            Debug.Assert(!string.IsNullOrEmpty(checkId), "Rule ID should not be null");
-                                            Debug.Assert(checkId == "*" || !string.IsNullOrEmpty(ruleName), "Rule Name should not be null");
-                                            Debug.Assert(!string.IsNullOrEmpty(ruleNamespace), "Rule Namespace should not be null");
+                                        var elementToAddSuppressionToo = element is AssemblyOrModuleAttribute ? element.Parent as CsElement : element;
 
-                                            this.parser.AddRuleSuppression(element, checkId, ruleName, ruleNamespace);
-                                        }
+                                        this.parser.AddRuleSuppression(elementToAddSuppressionToo, checkId, ruleName, ruleNamespace);
                                     }
                                 }
                             }
