@@ -265,9 +265,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CoreParser.xml" />
     <CodeAnalysisDictionary Include="CustomDictionary.xml" />
-    <Content Include="SdkContent\StyleCopHost.xml" />
-    <Content Include="SdkContent\SourceAnalyzer.xml" />
-    <Content Include="SdkContent\SourceParser.xml" />
     <None Include="Settings\DefaultSettings.xml">
       <SubType>Designer</SubType>
     </None>
