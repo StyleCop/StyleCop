@@ -23,7 +23,7 @@ namespace StyleCop
     using System.Text;
 
     /// <summary>
-    /// This cotnains utility functions.
+    /// This cotains utility functions.
     /// </summary>
     public sealed class Utils
     {
