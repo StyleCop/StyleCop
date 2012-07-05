@@ -21,6 +21,7 @@ namespace StyleCop.ReSharper611.BulbItems.Documentation
     #region Using Directives
 
     using JetBrains.ProjectModel;
+    using JetBrains.ReSharper.Psi.Tree;
     using JetBrains.TextControl;
 
     using StyleCop.ReSharper611.BulbItems.Framework;
@@ -47,7 +48,7 @@ namespace StyleCop.ReSharper611.BulbItems.Documentation
         /// </param>
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
-            var declaration = Utils.GetDeclarationClosestToTextControl(solution, textControl);
+            var declaration = Utils.GetTypeClosestToTextControl<IDeclaration>(solution, textControl);
 
             new DocumentationRules().EnsureDocumentationTextIsUppercase(declaration);
         }

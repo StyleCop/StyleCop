@@ -22,6 +22,7 @@ namespace StyleCop.ReSharper700.BulbItems.Documentation
     #region Using Directives
 
     using JetBrains.ProjectModel;
+    using JetBrains.ReSharper.Psi.Tree;
     using JetBrains.TextControl;
 
     using StyleCop.ReSharper700.BulbItems.Framework;
@@ -41,7 +42,7 @@ namespace StyleCop.ReSharper700.BulbItems.Documentation
         /// <inheritdoc />
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
-            var declaration = Utils.GetDeclarationClosestToTextControl(solution, textControl);
+            var declaration = Utils.GetTypeClosestToTextControl<IDeclaration>(solution, textControl);
 
             // Fixes SA1604, 1605
             new DocumentationRules().InsertMissingSummaryElement(declaration);

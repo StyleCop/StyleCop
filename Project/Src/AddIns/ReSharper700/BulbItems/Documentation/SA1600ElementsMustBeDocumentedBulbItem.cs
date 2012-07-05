@@ -21,6 +21,7 @@ namespace StyleCop.ReSharper700.BulbItems.Documentation
     #region Using Directives
 
     using JetBrains.ProjectModel;
+    using JetBrains.ReSharper.Psi.Tree;
     using JetBrains.TextControl;
 
     using StyleCop.ReSharper700.BulbItems.Framework;
@@ -42,7 +43,7 @@ namespace StyleCop.ReSharper700.BulbItems.Documentation
             var file = Utils.GetCSharpFile(solution, textControl);
 
             // this covers the issue that constants (and maybe others) return the class if called as GetContainingElement<IDeclaration)
-            var declaration = Utils.GetDeclarationClosestToTextControl(solution, textControl);
+            var declaration = Utils.GetTypeClosestToTextControl<IDeclaration>(solution, textControl);
 
             if (declaration != null)
             {

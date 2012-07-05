@@ -63,7 +63,7 @@ namespace StyleCop.ReSharper611.BulbItems.Framework
         /// </param>
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
-            var declaration = Utils.GetDeclarationClosestToTextControl(solution, textControl);
+            var declaration = Utils.GetTypeClosestToTextControl<ICSharpModifiersOwnerDeclaration>(solution, textControl);
 
             if (declaration != null)
             {
@@ -72,42 +72,24 @@ namespace StyleCop.ReSharper611.BulbItems.Framework
                 var ruleText = string.Format("{0}:{1}", this.Rule.CheckId, this.Rule.Name);
 
                 var settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, solution);
-            
+
                 var justificationText = settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.SuppressStyleCopAttributeJustificationText);
-                
+
                 var attributesOwnerDeclaration = declaration as IAttributesOwnerDeclaration;
 
-                if (attributesOwnerDeclaration != null)
-                {
-                    var factory = CSharpElementFactory.GetInstance(declaration.GetPsiModule());
+                var factory = CSharpElementFactory.GetInstance(declaration.GetPsiModule());
 
-                    var typeElement = Utils.GetTypeElement(declaration, "System.Diagnostics.CodeAnalysis.SuppressMessageAttribute");
+                var typeElement = Utils.GetTypeElement(declaration, "System.Diagnostics.CodeAnalysis.SuppressMessageAttribute");
 
-                    var attribute = factory.CreateAttribute(typeElement);
+                var attribute = factory.CreateAttribute(typeElement);
 
-                    var newArg1 = attribute.AddArgumentAfter(Utils.CreateConstructorArgumentValueExpression(declaration.GetPsiModule(), rulesNamespace), null);
+                var newArg1 = attribute.AddArgumentAfter(Utils.CreateConstructorArgumentValueExpression(declaration.GetPsiModule(), rulesNamespace), null);
 
-                    var newArg2 = attribute.AddArgumentAfter(Utils.CreateConstructorArgumentValueExpression(declaration.GetPsiModule(), ruleText), newArg1);
+                var newArg2 = attribute.AddArgumentAfter(Utils.CreateConstructorArgumentValueExpression(declaration.GetPsiModule(), ruleText), newArg1);
 
-                    attribute.AddArgumentAfter(Utils.CreateArgumentValueExpression(declaration.GetPsiModule(), "Justification = \"" + justificationText + "\""), newArg2);
+                attribute.AddArgumentAfter(Utils.CreateArgumentValueExpression(declaration.GetPsiModule(), "Justification = \"" + justificationText + "\""), newArg2);
 
-                    attributesOwnerDeclaration.AddAttributeAfter(attribute, null);
-
-                    var file = declaration.GetContainingFile();
-                    if (file != null)
-                    {
-                        var languageService = CSharpLanguage.Instance.LanguageService();
-                        if (languageService != null)
-                        {
-                            var codeFormatter = (ICSharpCodeFormatter)languageService.CodeFormatter;
-
-                            if (codeFormatter != null)
-                            {
-                                codeFormatter.FormatFile(file, CodeFormatProfile.DEFAULT, NullProgressIndicator.Instance);
-                            }
-                        }
-                    }
-                }
+                attributesOwnerDeclaration.AddAttributeAfter(attribute, null);
             }
         }
 

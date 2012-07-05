@@ -612,10 +612,11 @@ namespace StyleCop.ReSharper611.Core
 
             return psiManager.GetPsiFile(document, CSharpLanguage.Instance) as ICSharpFile;
         }
-       
+
         /// <summary>
-        /// Gets an IDeclaration that was closest to the ITextControl specified. It gets all the tokens on this line.
-        /// Then moves through them looking for the first one that implements IDeclaration or has an immediate Parent that implements IDeclaration.
+        /// Gets the Type T that was closest to the ITextControl specified.
+        /// It takes the first token on the line.
+        /// Then moves through the parents looking for the first one that implements T.
         /// </summary>
         /// <param name="solution">
         /// The solution.
@@ -623,27 +624,53 @@ namespace StyleCop.ReSharper611.Core
         /// <param name="textControl">
         /// The ITextControl.
         /// </param>
+        /// <typeparam name="T">
+        /// The type to check for.
+        /// </typeparam>
         /// <returns>
-        /// An IDeclaration closest to the textControl.
+        /// The T closest to the textControl or null.
         /// </returns>
-        public static IDeclaration GetDeclarationClosestToTextControl(ISolution solution, ITextControl textControl)
+        public static T GetTypeClosestToTextControl<T>(ISolution solution, ITextControl textControl)
         {
             var tokens = GetTokensForLineFromTextControl(solution, textControl);
 
+            // We check all the token on the line first.
+            // For a Method we will find a token (or its parent) that is the T and so use that.
             foreach (var tokenNode in tokens)
             {
-                if (tokenNode is IDeclaration)
+                if (tokenNode is T)
                 {
-                    return tokenNode as IDeclaration;
+                    return (T)tokenNode;
                 }
 
-                if (tokenNode.Parent is IDeclaration)
+                if (tokenNode.Parent is T)
                 {
-                    return tokenNode.Parent as IDeclaration;
+                    return (T)tokenNode.Parent;
                 }
             }
 
-            return null;
+            // None of the tokens on the line (or their parents) were T. Now check all ancestors of the first token for T.
+            if (tokens.Count > 0)
+            {
+                var tokenNode = tokens[0].Parent;
+
+                while (true)
+                {
+                    if (tokenNode == null)
+                    {
+                        return default(T);
+                    }
+
+                    tokenNode = tokenNode.Parent;
+
+                    if (tokenNode is T)
+                    {
+                        return (T)tokenNode;
+                    }
+                }
+            }
+
+            return default(T);
         }
 
         /// <summary>
