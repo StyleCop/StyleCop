@@ -31,7 +31,7 @@ namespace StyleCop.ReSharper611.BulbItems.Documentation
     #endregion
 
     /// <summary>
-    /// BulbItem - SA1600ElementsMustBeDocumentedBulbItem : Inserts an empty element doc header.
+    /// BulbItem - SA1600ElementsMustBeDocumentedBulbItem : Inserts a doc header.
     /// </summary>
     internal class SA1600ElementsMustBeDocumentedBulbItem : V5BulbItemImpl
     {
@@ -47,7 +47,7 @@ namespace StyleCop.ReSharper611.BulbItems.Documentation
 
             if (declaration != null)
             {
-                new DocumentationRules().InsertMissingDeclarationHeader(file, declaration);
+                new DocumentationRules().CheckDeclarationDocumentation(file, declaration, null);
             }
         }
 

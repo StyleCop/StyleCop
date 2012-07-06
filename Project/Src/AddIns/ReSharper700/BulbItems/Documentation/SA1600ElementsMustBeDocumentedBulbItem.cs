@@ -42,12 +42,12 @@ namespace StyleCop.ReSharper700.BulbItems.Documentation
         {
             var file = Utils.GetCSharpFile(solution, textControl);
 
-            // this covers the issue that constants (and maybe others) return the class if called as GetContainingElement<IDeclaration)
+            // this covers the issue that constants (and maybe others) return the class if called as GetContainingElement<IDeclaration>)
             var declaration = Utils.GetTypeClosestToTextControl<IDeclaration>(solution, textControl);
 
             if (declaration != null)
             {
-                new DocumentationRules().InsertMissingDeclarationHeader(file, declaration);
+                new DocumentationRules().CheckDeclarationDocumentation(file, declaration, null);
             }
         }
 

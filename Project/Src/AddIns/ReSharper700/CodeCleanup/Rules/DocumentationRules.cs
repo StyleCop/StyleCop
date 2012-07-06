@@ -717,6 +717,129 @@ namespace StyleCop.ReSharper700.CodeCleanup.Rules
             }
         }
 
+        /// <summary>
+        /// Checks declaration comment blocks.
+        /// </summary>
+        /// <param name="file">
+        /// The <see cref="ICSharpFile"/> to use.
+        /// </param>
+        /// <param name="declaration">
+        /// The <see cref="IDeclaration"/> to check.
+        /// </param>
+        /// <param name="options">
+        /// <see cref="OrderingOptions"/>Current options that we can reference.
+        /// </param>
+        public void CheckDeclarationDocumentation(ICSharpFile file, IDeclaration declaration, DocumentationOptions options)
+        {
+            Param.RequireNotNull(file, "file");
+            Param.RequireNotNull(declaration, "declaration");
+            Param.Ignore(options);
+
+            bool insertMissingElementDocOption = true;
+            bool documentationTextMustBeginWithACapitalLetter = true;
+            bool documentationTextMustEndWithAPeriod = true;
+            bool elementDocumentationMustHaveSummary = true;
+            bool constructorSummaryDocBeginsWithStandardText = true;
+            bool destructorSummaryDocBeginsWithStandardText = true;
+            bool propertyDocumentationMustHaveValueDocumented = true;
+            bool insertMissingParamTagOption = true;
+            bool genericTypeParametersMustBeDocumented = true;
+
+            if (options != null)
+            {
+                insertMissingElementDocOption = options.SA1600ElementsMustBeDocumented;
+                documentationTextMustBeginWithACapitalLetter = options.SA1628DocumentationTextMustBeginWithACapitalLetter;
+                documentationTextMustEndWithAPeriod = options.SA1629DocumentationTextMustEndWithAPeriod;
+                elementDocumentationMustHaveSummary = options.SA1604ElementDocumentationMustHaveSummary;
+                constructorSummaryDocBeginsWithStandardText = options.SA1642ConstructorSummaryDocumentationMustBeginWithStandardText;
+                destructorSummaryDocBeginsWithStandardText = options.SA1643DestructorSummaryDocumentationMustBeginWithStandardText;
+                propertyDocumentationMustHaveValueDocumented = options.SA1609PropertyDocumentationMustHaveValue;
+                insertMissingParamTagOption = options.SA1611ElementParametersMustBeDocumented;
+                genericTypeParametersMustBeDocumented = options.SA1618GenericTypeParametersMustBeDocumented;
+            }
+
+            var declarationHeader = new DeclarationHeader(declaration);
+
+            bool formatSummary = false;
+            if (insertMissingElementDocOption && !Utils.IsRuleSuppressed(declaration, StyleCopRules.SA1600) && declarationHeader.IsMissing)
+            {
+                formatSummary = this.InsertMissingDeclarationHeader(file, declaration);
+            }
+
+            if (elementDocumentationMustHaveSummary && !Utils.IsRuleSuppressed(declaration, StyleCopRules.SA1604) && !declarationHeader.HasSummary)
+            {
+                formatSummary = formatSummary | this.InsertMissingSummaryElement(declaration);
+            }
+
+            if (formatSummary)
+            {
+                this.FormatSummaryElement(declaration);
+            }
+
+            if (declaration is IConstructorDeclaration)
+            {
+                if (insertMissingParamTagOption && !Utils.IsRuleSuppressed(declaration, StyleCopRules.SA1611))
+                {
+                    var constructorDeclaration = declaration as IConstructorDeclaration;
+
+                    if (constructorDeclaration.ParameterDeclarations.Count > 0)
+                    {
+                        this.InsertMissingParamElement(constructorDeclaration);
+                    }
+                }
+
+                if (constructorSummaryDocBeginsWithStandardText && !Utils.IsRuleSuppressed(declaration, StyleCopRules.SA1642))
+                {
+                    this.EnsureConstructorSummaryDocBeginsWithStandardText(declaration as IConstructorDeclaration);
+                }
+            }
+
+            var docConfig = this.GetDocumentationRulesConfig(file);
+
+            // However it can be on/off depending on the file so we'd have to cache it per file
+            var ruleIsEnabled = docConfig.GetStyleCopRuleEnabled("DocumentationTextMustBeginWithACapitalLetter");
+
+            if (documentationTextMustBeginWithACapitalLetter && ruleIsEnabled && !Utils.IsRuleSuppressed(declaration, StyleCopRules.SA1628))
+            {
+                this.EnsureDocumentationTextIsUppercase(declaration);
+            }
+
+            ruleIsEnabled = docConfig.GetStyleCopRuleEnabled("DocumentationTextMustEndWithAPeriod");
+
+            if (documentationTextMustEndWithAPeriod && ruleIsEnabled && !Utils.IsRuleSuppressed(declaration, StyleCopRules.SA1629))
+            {
+                this.EnsureDocumentationTextEndsWithAPeriod(declaration);
+            }
+
+            if (declaration is IDestructorDeclaration)
+            {
+                if (destructorSummaryDocBeginsWithStandardText && !Utils.IsRuleSuppressed(declaration, StyleCopRules.SA1643))
+                {
+                    this.EnsureDestructorSummaryDocBeginsWithStandardText(declaration as IDestructorDeclaration);
+                }
+            }
+
+            if (declaration is IMethodDeclaration || declaration is IIndexerDeclaration)
+            {
+                this.CheckMethodAndIndexerDeclarationDocumentation(declaration as IParametersOwnerDeclaration, options);
+            }
+
+            if (declaration is IPropertyDeclaration)
+            {
+                ruleIsEnabled = docConfig.GetStyleCopRuleEnabled("PropertyDocumentationMustHaveValue");
+
+                if (propertyDocumentationMustHaveValueDocumented && ruleIsEnabled && !Utils.IsRuleSuppressed(declaration, StyleCopRules.SA1609))
+                {
+                    this.InsertValueElement(declaration as IPropertyDeclaration);
+                }
+            }
+
+            if (declaration is ITypeParametersOwner && (genericTypeParametersMustBeDocumented && !Utils.IsRuleSuppressed(declaration, StyleCopRules.SA1618)))
+            {
+                this.InsertMissingTypeParamElement(declaration);
+            }
+        }
+
         #endregion
 
         #region Methods
@@ -960,116 +1083,6 @@ namespace StyleCop.ReSharper700.CodeCleanup.Rules
                         this.InsertMissingTypeParamElement(typeDeclaration);
                     }
                 }
-            }
-        }
-
-        /// <summary>
-        /// Checks declaration comment blocks.
-        /// </summary>
-        /// <param name="file">
-        /// The <see cref="ICSharpFile"/> to use.
-        /// </param>
-        /// <param name="declaration">
-        /// The <see cref="IDeclaration"/> to check.
-        /// </param>
-        /// <param name="options">
-        /// <see cref="OrderingOptions"/>Current options that we can reference.
-        /// </param>
-        private void CheckDeclarationDocumentation(ICSharpFile file, IDeclaration declaration, DocumentationOptions options)
-        {
-            Param.RequireNotNull(file, "file");
-            Param.RequireNotNull(declaration, "declaration");
-            Param.RequireNotNull(options, "options");
-
-            var insertMissingElementDocOption = options.SA1600ElementsMustBeDocumented;
-            var documentationTextMustBeginWithACapitalLetter = options.SA1628DocumentationTextMustBeginWithACapitalLetter;
-            var documentationTextMustEndWithAPeriod = options.SA1629DocumentationTextMustEndWithAPeriod;
-            var elementDocumentationMustHaveSummary = options.SA1604ElementDocumentationMustHaveSummary;
-            var constructorSummaryDocBeginsWithStandardText = options.SA1642ConstructorSummaryDocumentationMustBeginWithStandardText;
-            var destructorSummaryDocBeginsWithStandardText = options.SA1643DestructorSummaryDocumentationMustBeginWithStandardText;
-            var propertyDocumentationMustHaveValueDocumented = options.SA1609PropertyDocumentationMustHaveValue;
-            var insertMissingParamTagOption = options.SA1611ElementParametersMustBeDocumented;
-            var genericTypeParametersMustBeDocumented = options.SA1618GenericTypeParametersMustBeDocumented;
-
-            var declarationHeader = new DeclarationHeader(declaration);
-
-            bool formatSummary = false;
-            if (insertMissingElementDocOption && !Utils.IsRuleSuppressed(declaration, StyleCopRules.SA1600) && declarationHeader.IsMissing)
-            {
-                formatSummary = this.InsertMissingDeclarationHeader(file, declaration);
-            }
-
-            if (elementDocumentationMustHaveSummary && !Utils.IsRuleSuppressed(declaration, StyleCopRules.SA1604) && !declarationHeader.HasSummary)
-            {
-                formatSummary = formatSummary || this.InsertMissingSummaryElement(declaration);
-            }
-
-            if (formatSummary)
-            {
-                this.FormatSummaryElement(declaration);
-            }
-
-            if (declaration is IConstructorDeclaration)
-            {
-                if (insertMissingParamTagOption && !Utils.IsRuleSuppressed(declaration, StyleCopRules.SA1611))
-                {
-                    var constructorDeclaration = declaration as IConstructorDeclaration;
-
-                    if (constructorDeclaration.ParameterDeclarations.Count > 0)
-                    {
-                        this.InsertMissingParamElement(constructorDeclaration);
-                    }
-                }
-
-                if (constructorSummaryDocBeginsWithStandardText && !Utils.IsRuleSuppressed(declaration, StyleCopRules.SA1642))
-                {
-                    this.EnsureConstructorSummaryDocBeginsWithStandardText(declaration as IConstructorDeclaration);
-                }
-            }
-
-            var docConfig = this.GetDocumentationRulesConfig(file);
-
-            // However it can be on/off depending on the file so we'd have to cache it per file
-            var ruleIsEnabled = docConfig.GetStyleCopRuleEnabled("DocumentationTextMustBeginWithACapitalLetter");
-
-            if (documentationTextMustBeginWithACapitalLetter && ruleIsEnabled && !Utils.IsRuleSuppressed(declaration, StyleCopRules.SA1628))
-            {
-                this.EnsureDocumentationTextIsUppercase(declaration);
-            }
-
-            ruleIsEnabled = docConfig.GetStyleCopRuleEnabled("DocumentationTextMustEndWithAPeriod");
-
-            if (documentationTextMustEndWithAPeriod && ruleIsEnabled && !Utils.IsRuleSuppressed(declaration, StyleCopRules.SA1629))
-            {
-                this.EnsureDocumentationTextEndsWithAPeriod(declaration);
-            }
-
-            if (declaration is IDestructorDeclaration)
-            {
-                if (destructorSummaryDocBeginsWithStandardText && !Utils.IsRuleSuppressed(declaration, StyleCopRules.SA1643))
-                {
-                    this.EnsureDestructorSummaryDocBeginsWithStandardText(declaration as IDestructorDeclaration);
-                }
-            }
-
-            if (declaration is IMethodDeclaration || declaration is IIndexerDeclaration)
-            {
-                this.CheckMethodAndIndexerDeclarationDocumentation(declaration as IParametersOwnerDeclaration, options);
-            }
-
-            if (declaration is IPropertyDeclaration)
-            {
-                ruleIsEnabled = docConfig.GetStyleCopRuleEnabled("PropertyDocumentationMustHaveValue");
-
-                if (propertyDocumentationMustHaveValueDocumented && ruleIsEnabled && !Utils.IsRuleSuppressed(declaration, StyleCopRules.SA1609))
-                {
-                    this.InsertValueElement(declaration as IPropertyDeclaration);
-                }
-            }
-
-            if (declaration is ITypeParametersOwner && (genericTypeParametersMustBeDocumented && !Utils.IsRuleSuppressed(declaration, StyleCopRules.SA1618)))
-            {
-                this.InsertMissingTypeParamElement(declaration);
             }
         }
 
