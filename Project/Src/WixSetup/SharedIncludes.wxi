@@ -16,5 +16,5 @@
     <?define SupportedReSharper610Version = "6.1.37.86" ?>        <!-- 6.1.37.86    -->
     <?define SupportedReSharper611MinVersion = "6.1.1000.81" ?>   <!-- This needs to be a.b.c.d where d is 1 less than the version number below -->
     <?define SupportedReSharper611Version = "6.1.1000.82" ?>      <!-- 6.1.1000.82  -->
-    <?define SupportedReSharper700Version = "7.0.70.157" ?>       <!-- 7.0.70.157   -->
+    <?define SupportedReSharper700Version = "7.0.83.281" ?>       <!-- 7.0.83.281   -->
 </Include>
