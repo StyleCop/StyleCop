@@ -1687,9 +1687,7 @@ namespace StyleCop.ReSharper611.Core
         {
             ITokenNode currentToken;
 
-            var token = GetNextTokenNode(node);
-
-            for (currentToken = token; currentToken != null; currentToken = currentToken.GetPrevToken())
+            for (currentToken = GetPreviousTokenNode(node); currentToken != null; currentToken = currentToken.GetPrevToken())
             {
                 if (currentToken is IWhitespaceNode)
                 {
@@ -1969,6 +1967,25 @@ namespace StyleCop.ReSharper611.Core
             while (!(node is ITokenNode) && node != null)
             {
                 node = node.NextSibling;
+            }
+
+            return (ITokenNode)node;
+        }
+
+        /// <summary>
+        /// Returns the previous TreeNode that is of type ITokenNode or null if not found.
+        /// </summary>
+        /// <param name="node">
+        /// The node to start at.
+        /// </param>
+        /// <returns>
+        /// A TokenNode.
+        /// </returns>
+        private static ITokenNode GetPreviousTokenNode(ITreeNode node)
+        {
+            while (!(node is ITokenNode) && node != null)
+            {
+                node = node.PrevSibling;
             }
 
             return (ITokenNode)node;
