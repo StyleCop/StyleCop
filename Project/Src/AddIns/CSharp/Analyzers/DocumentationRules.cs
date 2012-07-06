@@ -20,6 +20,7 @@ namespace StyleCop.CSharp
     using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.IO;
+    using System.Linq;
     using System.Security;
     using System.Text;
     using System.Text.RegularExpressions;
@@ -1411,6 +1412,8 @@ namespace StyleCop.CSharp
         {
             Param.AssertNotNull(element, "element");
 
+            // For a partial class we have to check this class and all the other partial classes to see
+            // if we have a baseclass defined or interfaces implemented.
             var throwViolation = false;
 
             if (element.ElementType == ElementType.Class)
@@ -1433,8 +1436,8 @@ namespace StyleCop.CSharp
                 // Find the parent class.
                 ClassBase parentClass = element.Parent as ClassBase;
                 if (parentClass == null ||
-                    ((parentClass.ElementType == ElementType.Class && (string.IsNullOrEmpty(parentClass.BaseClass) && parentClass.ImplementedInterfaces.Count == 0)) ||
-                     ((parentClass.ElementType == ElementType.Interface || parentClass.ElementType == ElementType.Struct) && parentClass.ImplementedInterfaces.Count == 0)))
+                    ((parentClass.ElementType == ElementType.Class && (!Utils.HasABaseClassSpecified(parentClass) && !Utils.HasImplementedInterfaces(parentClass))) ||
+                     ((parentClass.ElementType == ElementType.Interface || parentClass.ElementType == ElementType.Struct) && !Utils.HasImplementedInterfaces(parentClass))))
                 {
                     if (element.ElementType != ElementType.Method)
                     {

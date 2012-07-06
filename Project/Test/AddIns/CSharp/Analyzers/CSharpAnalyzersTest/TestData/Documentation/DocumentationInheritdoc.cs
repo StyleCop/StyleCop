@@ -153,3 +153,45 @@ namespace CSharpAnalyzersTest.InvalidTestData
         }
     }
 }
+
+namespace CSharpAnalyzersTest.ValidTestData2
+{
+    /// <summary>
+    /// A demonstration interface.
+    /// </summary>
+    public interface ICanHasCheezBurger
+    {
+        /// <summary>
+        /// Eat something.
+        /// </summary>
+        void Eat();
+
+        /// <summary>
+        /// Sleep, usually after eating.
+        /// </summary>
+        void Sleep();
+    }
+
+    /// <summary>
+    /// Represents a feline.
+    /// </summary>
+    public partial class Cat : ICanHasCheezBurger
+    {
+        /// <inheritdoc />
+        public void Eat()
+        {
+        }
+    }
+
+    /// <summary>
+    /// Represents a feline.
+    /// </summary>
+    public partial class Cat
+    {
+        /// <inheritdoc />
+        public void Sleep()
+        {
+            // Inheritdoc is valid here as the other partial class implements an interface
+        }
+    }
+}

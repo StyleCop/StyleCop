@@ -17,6 +17,7 @@ namespace StyleCop.CSharp
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     ///   Utility functions used by multiple rules.
@@ -24,6 +25,28 @@ namespace StyleCop.CSharp
     internal class Utils
     {
         #region Public Methods and Operators
+
+        /// <summary>
+        /// Returns True if this class or any of its Partial Classes has a BaseClass specified.
+        /// </summary>
+        /// <param name="classBase">The class to check.</param>
+        /// <returns>True if it finds a BaseClass.</returns>
+        public static bool HasImplementedInterfaces(ClassBase classBase)
+        {
+            return classBase.ImplementedInterfaces.Count > 0
+                   || (classBase.PartialElementList != null && classBase.PartialElementList.OfType<Class>().Any(d => d.ImplementedInterfaces.Count > 0));
+        }
+
+        /// <summary>
+        /// Returns True if this class or any of its Partial Classes has a BaseClass specified.
+        /// </summary>
+        /// <param name="classBase">The class to check.</param>
+        /// <returns>True if it finds a BaseClass.</returns>
+        public static bool HasABaseClassSpecified(ClassBase classBase)
+        {
+            return !string.IsNullOrEmpty(classBase.BaseClass)
+                   || (classBase.PartialElementList != null && classBase.PartialElementList.OfType<Class>().Any(d => !string.IsNullOrEmpty(d.BaseClass)));
+        }
 
         /// <summary>
         ///   Adds all members of a class to a dictionary, taking into account partial classes.
@@ -122,7 +145,7 @@ namespace StyleCop.CSharp
             // don't want to match against it.
             if (word != parentClass.Declaration.Name)
             {
-                ICollection<CsElement> matches = Utils.MatchClassMember(word, members, interfaces);
+                ICollection<CsElement> matches = MatchClassMember(word, members, interfaces);
                 if (matches != null && matches.Count > 0)
                 {
                     return matches;
