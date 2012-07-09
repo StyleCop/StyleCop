@@ -27,6 +27,38 @@ namespace StyleCop.CSharp
         #region Public Methods and Operators
 
         /// <summary>
+        ///   Determines whether the given element contains any partial members.
+        /// </summary>
+        /// <param name="element"> The element to check. </param>
+        /// <returns> Returns true if the element contains at least one partial member. </returns>
+        public static bool ContainsPartialMembers(CsElement element)
+        {
+            Param.AssertNotNull(element, "element");
+
+            if (element.ElementType == ElementType.Class || element.ElementType == ElementType.Struct || element.ElementType == ElementType.Interface)
+            {
+                if (element.Declaration.ContainsModifier(CsTokenType.Partial))
+                {
+                    return true;
+                }
+            }
+
+            if (element.ElementType == ElementType.Root || element.ElementType == ElementType.Namespace || element.ElementType == ElementType.Class
+                || element.ElementType == ElementType.Struct)
+            {
+                foreach (CsElement child in element.ChildElements)
+                {
+                    if (ContainsPartialMembers(child))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Returns True if this class or any of its Partial Classes has a BaseClass specified.
         /// </summary>
         /// <param name="classBase">The class to check.</param>

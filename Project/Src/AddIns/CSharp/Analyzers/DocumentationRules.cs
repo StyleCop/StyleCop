@@ -175,6 +175,36 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
+        ///   Returns a value indicating whether to delay analysis of this document until the next pass.
+        /// </summary>
+        /// <param name="document"> The document to analyze. </param>
+        /// <param name="passNumber"> The current pass number. </param>
+        /// <returns> Returns true if analysis should be delayed. </returns>
+        public override bool DelayAnalysis(CodeDocument document, int passNumber)
+        {
+            Param.RequireNotNull(document, "document");
+            Param.Ignore(passNumber);
+
+            bool delay = false;
+
+            // We sometimes delay pass zero, but never pass one.
+            if (passNumber == 0)
+            {
+                // Get the root element.
+                CsDocument csdocument = document as CsDocument;
+                if (csdocument != null && csdocument.RootElement != null)
+                {
+                    // If the element has any partial classes, structs, or interfaces, delay. This is due
+                    // to the fact that the inheritdoc rules need knowledge about all parts of the class.
+                    delay = Utils.ContainsPartialMembers(csdocument.RootElement);
+                }
+            }
+
+            return delay;
+        }
+
+
+        /// <summary>
         /// Called before an analysis run is initiated.
         /// </summary>
         public override void PreAnalyze()

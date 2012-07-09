@@ -47,7 +47,7 @@ namespace StyleCop.CSharp
                     // If the element has any partial classes, structs, or interfaces, delay. This is due
                     // to the fact that the class members rules need knowledge about all parts of the class
                     // in order to find all class members.
-                    delay = this.ContainsPartialMembers(csdocument.RootElement);
+                    delay = Utils.ContainsPartialMembers(csdocument.RootElement);
                 }
             }
 
@@ -535,38 +535,6 @@ namespace StyleCop.CSharp
                 // Parse the expressions in the statement.
                 this.CheckClassMemberRulesForExpressions(statement.ChildExpressions, null, parentElement, parentClass, members);
             }
-        }
-
-        /// <summary>
-        ///   Determines whether the given element contains any partial members.
-        /// </summary>
-        /// <param name="element"> The element to check. </param>
-        /// <returns> Returns true if the element contains at least one partial member. </returns>
-        private bool ContainsPartialMembers(CsElement element)
-        {
-            Param.AssertNotNull(element, "element");
-
-            if (element.ElementType == ElementType.Class || element.ElementType == ElementType.Struct || element.ElementType == ElementType.Interface)
-            {
-                if (element.Declaration.ContainsModifier(CsTokenType.Partial))
-                {
-                    return true;
-                }
-            }
-
-            if (element.ElementType == ElementType.Root || element.ElementType == ElementType.Namespace || element.ElementType == ElementType.Class
-                || element.ElementType == ElementType.Struct)
-            {
-                foreach (CsElement child in element.ChildElements)
-                {
-                    if (this.ContainsPartialMembers(child))
-                    {
-                        return true;
-                    }
-                }
-            }
-
-            return false;
         }
 
         /// <summary>
