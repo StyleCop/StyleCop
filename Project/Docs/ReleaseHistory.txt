@@ -1,5 +1,6 @@
 #Lists the version number, a colon, and the last changeset included in that release
 #Notes must not start with a digit
+4.7.34.0:a6b0f1365ef2
 4.7.33.0:f7cab7e6d990
 4.7.32.0:303308ba69c3
 4.7.31.0:3270f0acaf3f
