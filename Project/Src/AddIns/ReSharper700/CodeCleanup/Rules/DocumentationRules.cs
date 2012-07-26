@@ -1097,16 +1097,23 @@ namespace StyleCop.ReSharper700.CodeCleanup.Rules
         /// </param>
         private void CheckMethodAndIndexerDeclarationDocumentation(IParametersOwnerDeclaration methodDeclaration, DocumentationOptions options)
         {
-            Param.RequireNotNull(options, "options");
+            Param.Ignore(options);
 
             if (methodDeclaration == null)
             {
                 return;
             }
 
-            var insertMissingParamTagOption = options.SA1611ElementParametersMustBeDocumented;
-            var insertMissingReturnTagOption = options.SA1615ElementReturnValueMustBeDocumented;
-            var removeReturnTagOnVoidElementsOption = options.SA1617VoidReturnValueMustNotBeDocumented;
+            var insertMissingParamTagOption = true;
+            var insertMissingReturnTagOption = true;
+            var removeReturnTagOnVoidElementsOption = true;
+
+            if (options != null)
+            {
+                insertMissingParamTagOption = options.SA1611ElementParametersMustBeDocumented;
+                insertMissingReturnTagOption = options.SA1615ElementReturnValueMustBeDocumented;
+                removeReturnTagOnVoidElementsOption = options.SA1617VoidReturnValueMustNotBeDocumented;
+            }
 
             if (insertMissingParamTagOption && !Utils.IsRuleSuppressed(methodDeclaration, StyleCopRules.SA1611))
             {
