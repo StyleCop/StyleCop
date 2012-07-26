@@ -203,7 +203,6 @@ namespace StyleCop.CSharp
             return delay;
         }
 
-
         /// <summary>
         /// Called before an analysis run is initiated.
         /// </summary>

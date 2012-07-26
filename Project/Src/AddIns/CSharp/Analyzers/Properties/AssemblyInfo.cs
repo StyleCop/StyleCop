@@ -41,4 +41,4 @@ using System.Runtime.InteropServices;
 [assembly: NeutralResourcesLanguageAttribute("en-US")]
 
 // Suppress message about assembly not having a strong name. This is known since assemblies are delay-signed.
-[assembly: SuppressMessage("Microsoft.Design", "CA2210:AssembliesShouldHaveValidStrongNames")]
+[assembly: SuppressMessage("Microsoft.Design", "CA2210:AssembliesShouldHaveValidStrongNames", Justification = "Reviewed. This is OK.")]

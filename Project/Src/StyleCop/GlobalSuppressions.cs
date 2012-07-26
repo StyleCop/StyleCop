@@ -14,7 +14,7 @@
 //-----------------------------------------------------------------------
 using System.Diagnostics.CodeAnalysis;
 
-[assembly: SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "StyleCop")]
-[assembly: SuppressMessage("Microsoft.Naming", "CA1701:ResourceStringCompoundWordsShouldBeCasedCorrectly", MessageId = "StyleCop", Scope = "resource", Target = "StyleCop.Strings.resources")]
-[assembly: SuppressMessage("Microsoft.Naming", "CA1701:ResourceStringCompoundWordsShouldBeCasedCorrectly", MessageId = "StyleCop", Scope = "resource", Target = "StyleCop.CacheOptions.resources")]
-[assembly: SuppressMessage("Microsoft.Naming", "CA1701:ResourceStringCompoundWordsShouldBeCasedCorrectly", MessageId = "StyleCop", Scope = "resource", Target = "StyleCop.LogStrings.resources")]
+[assembly: SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "StyleCop", Justification = "Reviewed. This is OK.")]
+[assembly: SuppressMessage("Microsoft.Naming", "CA1701:ResourceStringCompoundWordsShouldBeCasedCorrectly", MessageId = "StyleCop", Scope = "resource", Target = "StyleCop.Strings.resources", Justification = "Reviewed. This is OK.")]
+[assembly: SuppressMessage("Microsoft.Naming", "CA1701:ResourceStringCompoundWordsShouldBeCasedCorrectly", MessageId = "StyleCop", Scope = "resource", Target = "StyleCop.CacheOptions.resources", Justification = "Reviewed. This is OK.")]
+[assembly: SuppressMessage("Microsoft.Naming", "CA1701:ResourceStringCompoundWordsShouldBeCasedCorrectly", MessageId = "StyleCop", Scope = "resource", Target = "StyleCop.LogStrings.resources", Justification = "Reviewed. This is OK.")]
