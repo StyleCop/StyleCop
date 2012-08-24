@@ -181,6 +181,36 @@ namespace StyleCop
         #region Private Static Methods
 
         /// <summary>
+        /// Returns the leafname of the sourcecode path.
+        /// </summary>
+        /// <param name="sourceCode">The SourceCode object to use.</param>
+        /// <returns>The leafname.</returns>
+        private static string GetRelativeFileName(SourceCode sourceCode)
+        {
+            var sourceCodePath = sourceCode.Path;
+            var sourceCodeProjectLocation = sourceCode.Project.Location;
+            var outputText = sourceCode.Name;
+
+            if (sourceCodePath != null && sourceCodeProjectLocation != null && sourceCodePath.StartsWith(sourceCodeProjectLocation, true, CultureInfo.InvariantCulture))
+            {
+                outputText = sourceCodePath.SubstringAfter(sourceCodeProjectLocation, StringComparison.InvariantCultureIgnoreCase);
+            }
+
+            return outputText;
+        }
+
+        /// <summary>
+        /// Returns the text to use in the signalled output.
+        /// </summary>
+        /// <param name="sourceCode">The SourceCode object to use.</param>
+        /// <returns>The text to signal.</returns>
+        private static string GetSignalOutputGetText(SourceCode sourceCode)
+        {
+            var relativeFileName = GetRelativeFileName(sourceCode);
+            return sourceCode.Project.Location == null ? relativeFileName : string.Format(CultureInfo.CurrentCulture, "{0} - {1}", sourceCode.Project.Location.SubstringAfterLast('\\'), relativeFileName);
+        }
+
+        /// <summary>
         /// Formats the exception message and stack trace into a loggable string.
         /// </summary>
         /// <param name="ex">The exception.</param>
@@ -213,25 +243,6 @@ namespace StyleCop
         #region Private Methods
 
         /// <summary>
-        /// Returns the leafname of the sourcecode path.
-        /// </summary>
-        /// <param name="sourceCode">The sourcCode object to use.</param>
-        /// <returns>The leafname.</returns>
-        private string GetRelativeFileName(SourceCode sourceCode)
-        {
-            var sourceCodePath = sourceCode.Path;
-            var sourceCodeProjectLocation = sourceCode.Project.Location;
-            var outputText = sourceCode.Name;
-
-            if (sourceCodePath != null && sourceCodeProjectLocation != null && sourceCodePath.StartsWith(sourceCodeProjectLocation, true, CultureInfo.InvariantCulture))
-            {
-                outputText = sourceCodePath.SubstringAfter(sourceCodeProjectLocation, StringComparison.InvariantCultureIgnoreCase);
-            }
-
-            return outputText;
-        }
-
-        /// <summary>
         /// Parses and analyzes the given document.
         /// </summary>
         /// <param name="sourceCode">The document to parse and analyze.</param>
@@ -244,8 +255,7 @@ namespace StyleCop
             
             // Signal the output for this document.
             this.data.Core.SignalOutput(
-                MessageImportance.Low,
-                string.Format(CultureInfo.CurrentCulture, "Pass {0}:   {1} - {2}", this.data.PassNumber + 1, sourceCode.Project.Location.SubstringAfterLast('\\'), this.GetRelativeFileName(sourceCode)));
+                MessageImportance.Low, string.Format(CultureInfo.CurrentCulture, "Pass {0}:   {1}", this.data.PassNumber + 1, GetSignalOutputGetText(sourceCode)));
 
             // Extract the document to parse.
             CodeDocument parsedDocument = documentStatus.Document;
@@ -364,7 +374,7 @@ namespace StyleCop
                 {
                     this.data.Core.SignalOutput(
                         MessageImportance.Normal,
-                        string.Format(CultureInfo.CurrentCulture, "Skipping: {0} - {1}", document.SourceCode.Project.Location.SubstringAfterLast('\\'), this.GetRelativeFileName(document.SourceCode)));
+                        string.Format(CultureInfo.CurrentCulture, "Skipping: {0} - {1}", document.SourceCode.Project.Location.SubstringAfterLast('\\'), GetRelativeFileName(document.SourceCode)));
                 }
                 else
                 {
