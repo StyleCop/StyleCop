@@ -307,6 +307,18 @@ namespace StyleCop
             }
         }
 
+        /// <summary>
+        /// Gets the number of violations seen.
+        /// </summary>
+        [Output]
+        public int ViolationCount
+        {
+            get
+            {
+                return this.violationCount;
+            }
+        }
+
         #endregion Public Properties
 
         #region Public Override Methods
