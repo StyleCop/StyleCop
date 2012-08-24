@@ -108,8 +108,7 @@ namespace StyleCop
             }
 
             this.Core = new StyleCopCore(null, hostTag);
-            this.InitCore();
-
+            this.CaptureViolations = true;
             this.Core.Initialize(addInPaths, loadFromDefaultPath);
             this.Core.WriteResultsCache = writeResultsCache;
         }
@@ -139,8 +138,8 @@ namespace StyleCop
                 this.LoadSettingsFiles(projects);
 
                 // Reset the violation count.
-                this.ViolationCount = 0;
-
+                this.Reset();
+                
                 // Delete the output file if it already exists.
                 if (!string.IsNullOrEmpty(this.outputFile))
                 {

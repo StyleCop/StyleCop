@@ -28,6 +28,8 @@ namespace StyleCop
     {
         #region Private Fields
 
+        private bool captureViolations;
+
         /// <summary>
         /// The violation count.
         /// </summary>
@@ -45,18 +47,17 @@ namespace StyleCop
 
         #endregion Private Fields
 
-        #region Protected Constructors
+        #region Constructors
 
         /// <summary>
         /// Initializes a new instance of the StyleCopRunner class.
         /// </summary>
         protected StyleCopRunner()
         {
-            XmlElement root = this.violations.CreateElement("StyleCopViolations");
-            this.violations.AppendChild(root);
+            this.Reset();
         }
 
-        #endregion Public Constructors
+        #endregion Constructors
 
         #region Public Events
 
@@ -86,7 +87,11 @@ namespace StyleCop
 
             protected set
             {
-                this.core = value;
+                if (value != this.core)
+                {
+                    this.core = value;
+                    this.core.DisplayUI = false;
+                }
             }
         }
 
@@ -95,7 +100,7 @@ namespace StyleCop
         #region Protected Properties
 
         /// <summary>
-        /// Gets or sets the violation count.
+        /// Gets the violation count.
         /// </summary>
         protected int ViolationCount
         {
@@ -103,11 +108,32 @@ namespace StyleCop
             {
                 return this.violationCount;
             }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether we should capture the violations.
+        /// </summary>
+        protected bool CaptureViolations
+        {
+            get
+            {
+                return this.captureViolations;
+            }
 
             set
             {
-                Param.AssertGreaterThanOrEqualToZero(value, "ViolationCount");
-                this.violationCount = value;
+                if (!this.captureViolations && value)
+                {
+                    this.core.ViolationEncountered += this.CoreViolationEncountered;
+                    this.core.OutputGenerated += this.CoreOutputGenerated;
+                }
+                else if (this.captureViolations && !value)
+                {
+                    this.core.ViolationEncountered -= this.CoreViolationEncountered;
+                    this.core.OutputGenerated -= this.CoreOutputGenerated;
+                }
+
+                this.captureViolations = value;
             }
         }
 
@@ -127,13 +153,13 @@ namespace StyleCop
         #region Protected Virtual Methods
 
         /// <summary>
-        /// Initializes the core module.
+        /// Resets the violation count.
         /// </summary>
-        protected virtual void InitCore()
+        protected void Reset()
         {
-            this.core.DisplayUI = false;
-            this.core.ViolationEncountered += new EventHandler<ViolationEventArgs>(this.CoreViolationEncountered);
-            this.core.OutputGenerated += new EventHandler<OutputEventArgs>(this.CoreOutputGenerated);
+            this.violations = new XmlDocument();
+            this.violations.AppendChild(this.violations.CreateElement("StyleCopViolations"));
+            this.violationCount = 0;
         }
 
         #endregion Protected Virtual Methods

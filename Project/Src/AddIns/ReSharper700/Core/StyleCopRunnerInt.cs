@@ -130,19 +130,20 @@ namespace StyleCop.ReSharper700.Core
                 return;
             }
 
-            this.Initialize();
-
-            this.violationHighlights.Clear();
-
-            if (!this.styleCopSettings.SkipAnalysisForDocument(projectFile))
+            if (this.StyleCopCore != null)
             {
-                var fileHeader = new FileHeader(file);
+                this.violationHighlights.Clear();
 
-                if (!fileHeader.UnStyled && StyleCopReferenceHelper.EnsureStyleCopIsLoaded())
+                if (!this.styleCopSettings.SkipAnalysisForDocument(projectFile))
                 {
-                    this.file = projectFile;
-                    this.document = document;
-                    this.RunStyleCop(document);
+                    var fileHeader = new FileHeader(file);
+
+                    if (!fileHeader.UnStyled && StyleCopReferenceHelper.EnsureStyleCopIsLoaded())
+                    {
+                        this.file = projectFile;
+                        this.document = document;
+                        this.RunStyleCop(document);
+                    }
                 }
             }
 
@@ -192,12 +193,6 @@ namespace StyleCop.ReSharper700.Core
         private void CreateViolation(DocumentRange range, IHighlighting highlighting)
         {
             this.violationHighlights.Add(new HighlightingInfo(range, highlighting));
-        }
-
-        private void Initialize()
-        {
-            // make sure we do
-            var initialize = this.StyleCopCore;
         }
 
         /// <summary>

@@ -87,8 +87,7 @@ namespace StyleCop
             Param.Ignore(hostTag);
 
             this.Core = new StyleCopCore(environment, hostTag);
-            this.InitCore();
-
+            this.CaptureViolations = false;
             this.Core.Initialize(addInPaths, loadFromDefaultPath);
             this.Core.WriteResultsCache = false;
 
@@ -116,7 +115,7 @@ namespace StyleCop
                 this.LoadSettings(projects);
 
                 // Reset the violation count.
-                this.ViolationCount = 0;
+                this.Reset();
 
                 // Analyze the files.
                 this.Core.FullAnalyze(projects);
