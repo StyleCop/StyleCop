@@ -112,64 +112,77 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Class" xml:space="preserve">
     <value>Klasse</value>
+    <comment>Replaced into the constructor text for a class</comment>
   </data>
   <data name="ExampleHeaderSummaryForDestructor" xml:space="preserve">
-    <value>Finalisiert eine Instanz der {{Type name}} Klasse</value>
+    <value>Finalisiert eine Instanz der &lt;see cref="{0}" /&gt; Klasse</value>
+    <comment>Finalizes an instance of the &lt;see cref="{0}" /&gt; class</comment>
   </data>
   <data name="ExampleHeaderSummaryForInstanceConstructor" xml:space="preserve">
-    <value>Initialisiert eine neue Instanz der/des {{Type name}} {0}</value>
+    <value>Initialisiert eine neue Instanz der &lt;see cref="{0}" /&gt; {1}</value>
+    <comment>Initializes a new instance of the &lt;see cref="{0}" /&gt; {1}</comment>
   </data>
   <data name="ExampleHeaderSummaryForPrivateInstanceConstructor" xml:space="preserve">
-    <value>Verhindert, dass eine Standardinstanz der/des {{Type name}} {0} erstellt wird</value>
+    <value>Verhindert, dass eine Standardinstanz der &lt;see cref="{0}" /&gt; {1} erstellt wird</value>
+    <comment>Prevents a default instance of the &lt;see cref="{0}" /&gt; {1} from being created</comment>
   </data>
   <data name="ExampleHeaderSummaryForStaticConstructor" xml:space="preserve">
-    <value>Initialisiert statische Member der/des {{Type name}} {0}</value>
+    <value>Initialisiert statische Member der &lt;see cref="{0}" /&gt; {1}</value>
+    <comment>Initializes static members of the &lt;see cref="{0}" /&gt; {1}</comment>
   </data>
   <data name="HeaderSummaryForBooleanGetAccessor" xml:space="preserve">
-    <value>Holt einen Wert der angibt, ob</value>
+    <value>Holt einen Wert, der angibt, ob</value>
+    <comment>Gets a value indicating whether</comment>
   </data>
   <data name="HeaderSummaryForBooleanGetAndSetAccessor" xml:space="preserve">
-    <value>Holt oder setzt einen Wert der angibt, ob</value>
+    <value>Holt oder setzt einen Wert, der angibt, ob</value>
+    <comment>Gets or sets a value indicating whether</comment>
   </data>
   <data name="HeaderSummaryForBooleanSetAccessor" xml:space="preserve">
-    <value>Setzt einen Wert der angibt, ob</value>
+    <value>Setzt einen Wert, der angibt, ob</value>
+    <comment>Sets a value indicating whether</comment>
   </data>
   <data name="HeaderSummaryForDestructor" xml:space="preserve">
-    <value>^Finalisiert eine Instanz der {0} Klasse</value>
-    <comment>Finalizes an instance of the Customer class</comment>
+    <value>Finalisiert eine Instanz der {0} Klasse</value>
+    <comment>Finalizes an instance of the {0} class</comment>
   </data>
   <data name="HeaderSummaryForGetAccessor" xml:space="preserve">
     <value>Holt</value>
+    <comment>Gets</comment>
   </data>
   <data name="HeaderSummaryForGetAndSetAccessor" xml:space="preserve">
     <value>Holt oder setzt</value>
+    <comment>Gets or sets</comment>
   </data>
   <data name="HeaderSummaryForInstanceConstructor" xml:space="preserve">
-    <value>^Initialisiert eine neue Instanz der/des {0} {1}</value>
-    <comment>Initializes a new instance of the Customer class</comment>
+    <value>Initialisiert eine neue Instanz der {0} {1}</value>
+    <comment>Initializes a new instance of the {0} {1}</comment>
   </data>
   <data name="HeaderSummaryForPrivateInstanceConstructor" xml:space="preserve">
-    <value>^Verhindert, dass eine Standardinstanz der/des {0} {1} erstellt wird</value>
-    <comment>Prevents a default instance of the Customer class from being created</comment>
+    <value>Verhindert, dass eine Standardinstanz der {0} {1} erstellt wird</value>
+    <comment>Prevents a default instance of the {0} {1} from being created</comment>
   </data>
   <data name="HeaderSummaryForSetAccessor" xml:space="preserve">
     <value>Setzt</value>
+    <comment>Sets</comment>
   </data>
   <data name="HeaderSummaryForStaticConstructor" xml:space="preserve">
-    <value>^Initialisiert statische Member der/des {0} {1}</value>
-    <comment>Initializes static members of the Customer class</comment>
+    <value>Initialisiert statische Member der {0} {1}</value>
+    <comment>Initializes static members of the {0} {1}</comment>
   </data>
   <data name="ParameterNotUsed" xml:space="preserve">
     <value>Dieser Parameter wird nicht verwendet.</value>
+    <comment>The parameter is not used.</comment>
   </data>
   <data name="Struct" xml:space="preserve">
-    <value>Structs</value>
+    <value>Struktur</value>
+    <comment>Replaced into the constructor text for a struct</comment>
   </data>
 </root>
