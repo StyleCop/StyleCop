@@ -106,7 +106,8 @@ namespace StyleCop.CSharp
 
                             if (!comment)
                             {
-                                this.AddViolation(element, token.LineNumber, Rules.CommentsMustContainText);
+                                CsElement csElement = token.Parent as CsElement ?? element;
+                                this.AddViolation(csElement, token.Location, Rules.CommentsMustContainText);
                             }
                             else
                             {
@@ -135,7 +136,8 @@ namespace StyleCop.CSharp
 
                                 if (!comment)
                                 {
-                                    this.AddViolation(element, token.LineNumber, Rules.CommentsMustContainText);
+                                    CsElement csElement = token.Parent as CsElement ?? element;
+                                    this.AddViolation(csElement, token.Location, Rules.CommentsMustContainText);
                                 }
                             }
                         }
@@ -168,7 +170,8 @@ namespace StyleCop.CSharp
                                 // Check whether the comment contained any text.
                                 if (!found)
                                 {
-                                    this.AddViolation(element, token.LineNumber, Rules.CommentsMustContainText);
+                                    CsElement csElement = token.Parent as CsElement ?? element;
+                                    this.AddViolation(csElement, token.Location, Rules.CommentsMustContainText);
                                 }
                             }
                         }

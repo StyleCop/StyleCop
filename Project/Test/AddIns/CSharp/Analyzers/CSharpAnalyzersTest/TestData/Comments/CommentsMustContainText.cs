@@ -74,4 +74,61 @@ This is ok
  */
         }
     }
+
+    public class CommentsMustContainText2SuppressMessage
+    {
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1120:CommentsMustContainText", Justification = "Reviewed. Suppression is OK here.")]
+        public static void Method1()
+        {
+            string s = string.Format("test {0}", "bob");
+
+            //
+            string v;
+        }
+
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1120:CommentsMustContainText", Justification = "Reviewed. Suppression is OK here.")]
+        public static void Method2()
+        {
+            //
+            string v;
+        }
+
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1120:CommentsMustContainText", Justification = "Reviewed. Suppression is OK here.")]
+        public static void Method3()
+        {
+            // Comment
+            //
+            string v;
+        }
+
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1120:CommentsMustContainText", Justification = "Reviewed. Suppression is OK here.")]
+        public static void Method4()
+        {
+            string v;
+            //
+        }
+
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1120:CommentsMustContainText", Justification = "Reviewed. Suppression is OK here.")]
+        public static void Method5()
+        {
+            /* */
+
+            /*
+             */
+
+            /*
+             
+             */
+
+            //
+
+            /* */
+
+            /*
+            */
+
+            /*
+             */
+        }
+    }
 }

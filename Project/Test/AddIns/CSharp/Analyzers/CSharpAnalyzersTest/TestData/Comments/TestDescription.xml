@@ -21,16 +21,16 @@
       </Analyzers>
     </Settings>
     <ExpectedViolations>
-      <Violation Section="Root" LineNumber="49" Rule="CommentsMustContainText"/>
-      <Violation Section="Root" LineNumber="51" Rule="CommentsMustContainText"/>
-      <Violation Section="Root" LineNumber="55" Rule="CommentsMustContainText"/>
-      <Violation Section="Root" LineNumber="57" Rule="CommentsMustContainText"/>
-      <Violation Section="Root" LineNumber="59" Rule="CommentsMustContainText"/>
-      <Violation Section="Root" LineNumber="62" Rule="CommentsMustContainText"/>
-      <Violation Section="Root" LineNumber="66" Rule="CommentsMustContainText"/>
-      <Violation Section="Root" LineNumber="68" Rule="CommentsMustContainText"/>
-      <Violation Section="Root" LineNumber="70" Rule="CommentsMustContainText"/>
-      <Violation Section="Root" LineNumber="73" Rule="CommentsMustContainText"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CommentsMustContainText.InvalidComments" LineNumber="49" Rule="CommentsMustContainText" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CommentsMustContainText.InvalidComments" LineNumber="51" Rule="CommentsMustContainText" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CommentsMustContainText.InvalidComments" LineNumber="66" Rule="CommentsMustContainText" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CommentsMustContainText.InvalidComments" LineNumber="55" StartLine="55" StartColumn="13" EndLine="55" EndColumn="14" Rule="CommentsMustContainText" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CommentsMustContainText.InvalidComments" LineNumber="57" StartLine="57" StartColumn="13" EndLine="57" EndColumn="17" Rule="CommentsMustContainText" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CommentsMustContainText.InvalidComments" LineNumber="59" StartLine="59" StartColumn="13" EndLine="60" EndColumn="15" Rule="CommentsMustContainText" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CommentsMustContainText.InvalidComments" LineNumber="62" StartLine="62" StartColumn="13" EndLine="64" EndColumn="15" Rule="CommentsMustContainText" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CommentsMustContainText.InvalidComments" LineNumber="68" StartLine="68" StartColumn="1" EndLine="68" EndColumn="5" Rule="CommentsMustContainText" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CommentsMustContainText.InvalidComments" LineNumber="70" StartLine="70" StartColumn="1" EndLine="71" EndColumn="2" Rule="CommentsMustContainText" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CommentsMustContainText.InvalidComments" LineNumber="73" StartLine="73" StartColumn="1" EndLine="74" EndColumn="3" Rule="CommentsMustContainText" />
     </ExpectedViolations>
   </Test>
   <Test Name="CommentsBeginWithSingleSpace">
