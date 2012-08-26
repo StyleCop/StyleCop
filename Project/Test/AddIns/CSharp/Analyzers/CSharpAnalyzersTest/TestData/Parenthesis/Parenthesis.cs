@@ -255,5 +255,26 @@ namespace Parenthesis1
                 return ((Func<object, T>)factory)(connectionContext); //valid
             }
         }
+  
+        internal class TypeA
+        {
+            public int Field;
+        }
+
+        public TypeA Method3()
+        {
+            
+        }
+
+        public async Task Method2() 
+        {
+
+            TypeA result = await this.Method3;
+            int field = result.Field;
+
+            int field2 = (await this.Method3).Field; //valid
+
+        }
+
     }
 }

@@ -857,6 +857,7 @@ namespace StyleCop.CSharp
                 if (innerExpression.ExpressionType != ExpressionType.Arithmetic &&
                     innerExpression.ExpressionType != ExpressionType.As &&
                     innerExpression.ExpressionType != ExpressionType.Assignment &&
+                    innerExpression.ExpressionType != ExpressionType.Await &&
                     innerExpression.ExpressionType != ExpressionType.Cast &&
                     innerExpression.ExpressionType != ExpressionType.Conditional &&
                     innerExpression.ExpressionType != ExpressionType.ConditionalLogical &&
