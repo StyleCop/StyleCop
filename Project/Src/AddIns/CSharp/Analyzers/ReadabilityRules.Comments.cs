@@ -106,8 +106,8 @@ namespace StyleCop.CSharp
 
                             if (!comment)
                             {
-                                CsElement csElement = token.Parent as CsElement ?? element;
-                                this.AddViolation(csElement, token.Location, Rules.CommentsMustContainText);
+                                CsElement errorElement = token.Parent as CsElement ?? element;
+                                this.AddViolation(errorElement, token.Location, Rules.CommentsMustContainText);
                             }
                             else
                             {
@@ -136,8 +136,8 @@ namespace StyleCop.CSharp
 
                                 if (!comment)
                                 {
-                                    CsElement csElement = token.Parent as CsElement ?? element;
-                                    this.AddViolation(csElement, token.Location, Rules.CommentsMustContainText);
+                                    CsElement errorElement = token.Parent as CsElement ?? element;
+                                    this.AddViolation(errorElement, token.Location, Rules.CommentsMustContainText);
                                 }
                             }
                         }
@@ -170,8 +170,8 @@ namespace StyleCop.CSharp
                                 // Check whether the comment contained any text.
                                 if (!found)
                                 {
-                                    CsElement csElement = token.Parent as CsElement ?? element;
-                                    this.AddViolation(csElement, token.Location, Rules.CommentsMustContainText);
+                                    CsElement errorElement = token.Parent as CsElement ?? element;
+                                    this.AddViolation(errorElement, token.Location, Rules.CommentsMustContainText);
                                 }
                             }
                         }
