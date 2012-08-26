@@ -2177,11 +2177,11 @@ namespace StyleCop.CSharp
                         if (isPartial)
                         {
                             // Output a special message for partial classes which explains about content tags.
-                            this.AddViolation(element, element.Location, Rules.GenericTypeParametersMustBeDocumentedPartialClass, element.FriendlyTypeText);
+                            this.AddViolation(element, Rules.GenericTypeParametersMustBeDocumentedPartialClass, element.FriendlyTypeText);
                         }
                         else
                         {
-                            this.AddViolation(element, element.Location, Rules.GenericTypeParametersMustBeDocumented, element.FriendlyTypeText);
+                            this.AddViolation(element, Rules.GenericTypeParametersMustBeDocumented, element.FriendlyTypeText);
                         }
                     }
                 }
@@ -2193,18 +2193,18 @@ namespace StyleCop.CSharp
                     XmlNode paramNode = paramNodes[i];
                     if (types == null || types.Count <= i)
                     {
-                        this.AddViolation(element, element.Location, Rules.GenericTypeParameterDocumentationMustMatchTypeParameters, element.FriendlyTypeText);
+                        this.AddViolation(element, Rules.GenericTypeParameterDocumentationMustMatchTypeParameters, element.FriendlyTypeText);
                         break;
                     }
 
                     XmlNode attrib = paramNode.Attributes.GetNamedItem("name");
                     if (attrib == null || attrib.Value.Length == 0)
                     {
-                        this.AddViolation(element, element.Location, Rules.GenericTypeParameterDocumentationMustDeclareParameterName);
+                        this.AddViolation(element, Rules.GenericTypeParameterDocumentationMustDeclareParameterName);
                     }
                     else if (attrib.Value != types[i])
                     {
-                        this.AddViolation(element, element.Location, Rules.GenericTypeParameterDocumentationMustMatchTypeParameters, element.FriendlyTypeText);
+                        this.AddViolation(element, Rules.GenericTypeParameterDocumentationMustMatchTypeParameters, element.FriendlyTypeText);
                         break;
                     }
                 }
@@ -2212,7 +2212,7 @@ namespace StyleCop.CSharp
                 // If the element has more parameters than param tags.
                 if (types == null || types.Count > paramNodes.Count)
                 {
-                    this.AddViolation(element, element.Location, Rules.GenericTypeParameterDocumentationMustMatchTypeParameters, element.FriendlyTypeText);
+                    this.AddViolation(element, Rules.GenericTypeParameterDocumentationMustMatchTypeParameters, element.FriendlyTypeText);
                 }
 
                 // Make sure none of the parameters is empty.
@@ -2220,7 +2220,7 @@ namespace StyleCop.CSharp
                 {
                     if (paramNode.InnerText == null || paramNode.InnerText.Length == 0)
                     {
-                        this.AddViolation(element, element.Location, Rules.GenericTypeParameterDocumentationMustHaveText, paramNode.OuterXml);
+                        this.AddViolation(element, Rules.GenericTypeParameterDocumentationMustHaveText, paramNode.OuterXml);
                     }
                     else
                     {

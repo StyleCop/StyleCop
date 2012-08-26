@@ -4143,13 +4143,13 @@
       </Analyzers>
     </Settings>
     <ExpectedViolations>
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.Documentation.DocumentationGenericTypeParameters" StartLine="7" StartColumn="5" EndLine="35" EndColumn="5" Rule="GenericTypeParameterDocumentationMustMatchTypeParameters" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.Documentation.DocumentationGenericTypeParameters" StartLine="7" StartColumn="5" EndLine="35" EndColumn="5" Rule="GenericTypeParameterDocumentationMustHaveText" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.Documentation.DocumentationGenericTypeParameters.Method1`T%int" StartLine="13" StartColumn="9" EndLine="16" EndColumn="9" Rule="GenericTypeParameterDocumentationMustHaveText" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.Documentation.DocumentationGenericTypeParameters.Method2%string[]" StartLine="23" StartColumn="9" EndLine="25" EndColumn="9" Rule="GenericTypeParameterDocumentationMustMatchTypeParameters" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.Documentation.DocumentationGenericTypeParameters.Method2%string[]" StartLine="23" StartColumn="9" EndLine="25" EndColumn="9" Rule="GenericTypeParameterDocumentationMustHaveText" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.Documentation.DocumentationGenericTypeParameters.Method3`T%int" StartLine="31" StartColumn="9" EndLine="34" EndColumn="9" Rule="GenericTypeParameterDocumentationMustMatchTypeParameters" />
-      <Violation Section="Root.CSharpAnalyzersTest.TestData.Documentation.DocumentationGenericTypeParameters.Method3`T%int" StartLine="31" StartColumn="9" EndLine="34" EndColumn="9" Rule="GenericTypeParameterDocumentationMustHaveText" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Documentation.DocumentationGenericTypeParameters" LineNumber="7" Rule="GenericTypeParameterDocumentationMustMatchTypeParameters" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Documentation.DocumentationGenericTypeParameters" LineNumber="7" Rule="GenericTypeParameterDocumentationMustHaveText" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Documentation.DocumentationGenericTypeParameters.Method1`T%int" LineNumber="13" Rule="GenericTypeParameterDocumentationMustHaveText" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Documentation.DocumentationGenericTypeParameters.Method2%string[]" LineNumber="23" Rule="GenericTypeParameterDocumentationMustMatchTypeParameters" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Documentation.DocumentationGenericTypeParameters.Method2%string[]" LineNumber="23" Rule="GenericTypeParameterDocumentationMustHaveText" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Documentation.DocumentationGenericTypeParameters.Method3`T%int" LineNumber="31" Rule="GenericTypeParameterDocumentationMustMatchTypeParameters" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Documentation.DocumentationGenericTypeParameters.Method3`T%int" LineNumber="31" Rule="GenericTypeParameterDocumentationMustHaveText" />
     </ExpectedViolations>
   </Test>
 
