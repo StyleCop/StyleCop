@@ -4096,5 +4096,61 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.PublicClass.ProtectedInternalClass.ProtectedInternalMethod" LineNumber="47" Rule="ElementsMustBeDocumented" />
     </ExpectedViolations>
   </Test>
+  
+  <!-- Tests that the DocumentationGenericTypeParameters -->
+  <Test Name="DocumentationGenericTypeParameters">
+    <TestCodeFile>DocumentationGenericTypeParameters.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.DocumentationRules">
+          <AnalyzerSettings>
+            <BooleanProperty Name="IgnorePrivates">True</BooleanProperty>
+            <BooleanProperty Name="IgnoreInternals">True</BooleanProperty>
+            <BooleanProperty Name="IncludeFields">True</BooleanProperty>
+          </AnalyzerSettings>
+          <Rules>
+            <Rule Name="GenericTypeParametersMustBeDocumented">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="GenericTypeParametersMustBeDocumentedPartialClass">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="GenericTypeParameterDocumentationMustMatchTypeParameters">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="GenericTypeParameterDocumentationMustDeclareParameterName">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="GenericTypeParameterDocumentationMustHaveText">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Documentation.DocumentationGenericTypeParameters" StartLine="7" StartColumn="5" EndLine="35" EndColumn="5" Rule="GenericTypeParameterDocumentationMustMatchTypeParameters" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Documentation.DocumentationGenericTypeParameters" StartLine="7" StartColumn="5" EndLine="35" EndColumn="5" Rule="GenericTypeParameterDocumentationMustHaveText" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Documentation.DocumentationGenericTypeParameters.Method1`T%int" StartLine="13" StartColumn="9" EndLine="16" EndColumn="9" Rule="GenericTypeParameterDocumentationMustHaveText" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Documentation.DocumentationGenericTypeParameters.Method2%string[]" StartLine="23" StartColumn="9" EndLine="25" EndColumn="9" Rule="GenericTypeParameterDocumentationMustMatchTypeParameters" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Documentation.DocumentationGenericTypeParameters.Method2%string[]" StartLine="23" StartColumn="9" EndLine="25" EndColumn="9" Rule="GenericTypeParameterDocumentationMustHaveText" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Documentation.DocumentationGenericTypeParameters.Method3`T%int" StartLine="31" StartColumn="9" EndLine="34" EndColumn="9" Rule="GenericTypeParameterDocumentationMustMatchTypeParameters" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Documentation.DocumentationGenericTypeParameters.Method3`T%int" StartLine="31" StartColumn="9" EndLine="34" EndColumn="9" Rule="GenericTypeParameterDocumentationMustHaveText" />
+    </ExpectedViolations>
+  </Test>
 
 </StyleCopTestDescription>

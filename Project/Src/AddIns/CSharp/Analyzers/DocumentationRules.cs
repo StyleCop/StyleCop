@@ -2161,11 +2161,12 @@ namespace StyleCop.CSharp
             Param.AssertNotNull(formattedDocs, "formattedDocs");
 
             List<string> types = DocumentationRules.ExtractGenericTypeList(element.Declaration.Name);
-            if (types != null && types.Count > 0)
+
+            // Go through each type and make sure there is a header for it.
+            XmlNodeList paramNodes = formattedDocs.SelectNodes("root/typeparam");
+            if (paramNodes == null || paramNodes.Count == 0)
             {
-                // Go through each type and make sure there is a header for it.
-                XmlNodeList paramNodes = formattedDocs.SelectNodes("root/typeparam");
-                if (paramNodes == null || paramNodes.Count == 0)
+                if (types != null && types.Count > 0)
                 {
                     // If this is a partial class and the header contains a content tag rather
                     // than a summary tag, then assume that the typeparams are documented on
@@ -2176,56 +2177,54 @@ namespace StyleCop.CSharp
                         if (isPartial)
                         {
                             // Output a special message for partial classes which explains about content tags.
-                            this.AddViolation(element, Rules.GenericTypeParametersMustBeDocumentedPartialClass, element.FriendlyTypeText);
+                            this.AddViolation(element, element.Location, Rules.GenericTypeParametersMustBeDocumentedPartialClass, element.FriendlyTypeText);
                         }
                         else
                         {
-                            this.AddViolation(element, Rules.GenericTypeParametersMustBeDocumented, element.FriendlyTypeText);
+                            this.AddViolation(element, element.Location, Rules.GenericTypeParametersMustBeDocumented, element.FriendlyTypeText);
                         }
                     }
                 }
-                else
+            }
+            else
+            {
+                for (int i = 0; i < paramNodes.Count; ++i)
                 {
-                    for (int i = 0; i < paramNodes.Count; ++i)
+                    XmlNode paramNode = paramNodes[i];
+                    if (types == null || types.Count <= i)
                     {
-                        XmlNode paramNode = paramNodes[i];
-                        if (types.Count <= i)
-                        {
-                            this.AddViolation(element, Rules.GenericTypeParameterDocumentationMustMatchTypeParameters, element.FriendlyTypeText);
-                            break;
-                        }
-                        else
-                        {
-                            XmlNode attrib = paramNode.Attributes.GetNamedItem("name");
-                            if (attrib == null || attrib.Value.Length == 0)
-                            {
-                                this.AddViolation(element, Rules.GenericTypeParameterDocumentationMustDeclareParameterName);
-                            }
-                            else if (attrib.Value != types[i])
-                            {
-                                this.AddViolation(element, Rules.GenericTypeParameterDocumentationMustMatchTypeParameters, element.FriendlyTypeText);
-                                break;
-                            }
-                        }
+                        this.AddViolation(element, element.Location, Rules.GenericTypeParameterDocumentationMustMatchTypeParameters, element.FriendlyTypeText);
+                        break;
                     }
 
-                    // If the element has more parameters than param tags.
-                    if (types.Count > paramNodes.Count)
+                    XmlNode attrib = paramNode.Attributes.GetNamedItem("name");
+                    if (attrib == null || attrib.Value.Length == 0)
                     {
-                        this.AddViolation(element, Rules.GenericTypeParameterDocumentationMustMatchTypeParameters, element.FriendlyTypeText);
+                        this.AddViolation(element, element.Location, Rules.GenericTypeParameterDocumentationMustDeclareParameterName);
                     }
-
-                    // Make sure none of the parameters is empty.
-                    foreach (XmlNode paramNode in paramNodes)
+                    else if (attrib.Value != types[i])
                     {
-                        if (paramNode.InnerText == null || paramNode.InnerText.Length == 0)
-                        {
-                            this.AddViolation(element, Rules.GenericTypeParameterDocumentationMustHaveText, paramNode.OuterXml);
-                        }
-                        else
-                        {
-                            this.CheckDocumentationValidity(element, element.LineNumber, paramNode, "typeparam");
-                        }
+                        this.AddViolation(element, element.Location, Rules.GenericTypeParameterDocumentationMustMatchTypeParameters, element.FriendlyTypeText);
+                        break;
+                    }
+                }
+
+                // If the element has more parameters than param tags.
+                if (types == null || types.Count > paramNodes.Count)
+                {
+                    this.AddViolation(element, element.Location, Rules.GenericTypeParameterDocumentationMustMatchTypeParameters, element.FriendlyTypeText);
+                }
+
+                // Make sure none of the parameters is empty.
+                foreach (XmlNode paramNode in paramNodes)
+                {
+                    if (paramNode.InnerText == null || paramNode.InnerText.Length == 0)
+                    {
+                        this.AddViolation(element, element.Location, Rules.GenericTypeParameterDocumentationMustHaveText, paramNode.OuterXml);
+                    }
+                    else
+                    {
+                        this.CheckDocumentationValidity(element, element.LineNumber, paramNode, "typeparam");
                     }
                 }
             }
