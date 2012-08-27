@@ -725,6 +725,38 @@ namespace CSharpAnalyzersTest.TestData.ClassMembers
 
             this.SetBoldState();
         }
+
+
+        public class DerivedClass : BaseClass
+        {
+            protected void TriggerSA1126()
+            {
+            }
+
+            protected void PassSA1126()
+            {
+                try
+                {
+                }
+                catch (Exception ex)
+                {
+                }
+
+                try
+                {
+
+                }
+                catch (ArgumentNullException)
+                {
+                    continue;
+                }
+                catch (ArgumentException)
+                {
+                    continue;
+                } 
+            }
+        }
+
     }
 }
 

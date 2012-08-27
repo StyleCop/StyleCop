@@ -222,8 +222,12 @@ namespace StyleCop.CSharp
                     typeof(AsExpression),
                     typeof(NewExpression),
                     typeof(MemberAccessExpression),
-                    typeof(CatchStatement),
                     typeof(VariableDeclarationExpression)))
+                {
+                    return false;
+                }
+
+                if (expression.Parent is CatchStatement)
                 {
                     return false;
                 }
@@ -496,6 +500,12 @@ namespace StyleCop.CSharp
                             if ((parentClass.BaseClass != string.Empty) || (tokenNode.Value.Text == "Equals" || tokenNode.Value.Text == "ReferenceEquals"))
                             {
                                 string className = parentClass.FullyQualifiedName.SubstringAfterLast('.');
+
+                                if (parentClass.BaseClass != string.Empty)
+                                {
+                                    className = className + ".' or '" + parentClass.BaseClass;
+                                }
+
                                 this.AddViolation(parentElement, tokenNode.Value.Location, Rules.PrefixCallsCorrectly, tokenNode.Value.Text, className);
                             }
                             else
