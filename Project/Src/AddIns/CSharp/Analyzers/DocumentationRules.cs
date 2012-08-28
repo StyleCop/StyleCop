@@ -897,10 +897,35 @@ namespace StyleCop.CSharp
                     type);
             }
 
+            var classDeclarationName = ((ClassBase)constructor.Parent).Declaration.Name;
+
+            string classDeclaration = "{";
+            if (classDeclarationName.Contains("<"))
+            {
+                var genericTypes = classDeclarationName.SubstringAfterLast('<').TrimEnd(new[] { '>' });
+                var generics = genericTypes.Split(',');
+
+                for (var i = 0; i < generics.Count(); i++)
+                {
+                    var parameterDeclaration = generics[i];
+                    classDeclaration += parameterDeclaration;
+                    if (i < generics.Count() - 1)
+                    {
+                        classDeclaration += ",";
+                    }
+                }
+
+                classDeclaration += "}";
+            }
+            else
+            {
+                classDeclaration = constructor.Declaration.Name;
+            }
+
             return string.Format(
                 CultureInfo.InvariantCulture,
                 CachedCodeStrings.ExampleHeaderSummaryForInstanceConstructor,
-                constructor.Declaration.Name,
+                classDeclaration,
                 type);
         }
 
