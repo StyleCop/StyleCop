@@ -34,11 +34,6 @@ namespace StyleCop
         #region Private Constants
 
         /// <summary>
-        /// Error code used when logging errors/warnings to MSBuild.
-        /// </summary>
-        private const string MSBuildErrorCode = null;
-
-        /// <summary>
         /// SubCategory used when logging errors/warnings to MSBuild.
         /// </summary>
         private const string MSBuildSubCategory = null;
@@ -443,31 +438,30 @@ namespace StyleCop
                     path = e.Element.Document.SourceCode.Path;
                 }
 
-                // Prepend the rule check-id to the message.
-                string message = string.Format(CultureInfo.CurrentCulture, Strings.ViolationFormatter, e.Violation.Rule.CheckId, e.Message);
-
                 lock (this)
                 {
+                    string warningCode = e.Violation.Rule.CheckId;
+
                     if (e.Warning || this.inputTreatErrorsAsWarnings)
                     {
                         if (e.Location == null)
                         {
-                            this.Log.LogWarning(MSBuildSubCategory, MSBuildErrorCode, null, path, e.LineNumber, 1, 0, 0, message);
+                            this.Log.LogWarning(MSBuildSubCategory, warningCode, null, path, e.LineNumber, 1, 0, 0, e.Message);
                         }
                         else
                         {
-                            this.Log.LogWarning(MSBuildSubCategory, MSBuildErrorCode, null, path, e.Location.StartPoint.LineNumber, e.Location.StartPoint.IndexOnLine, e.Location.EndPoint.LineNumber, e.Location.EndPoint.IndexOnLine, message);
+                            this.Log.LogWarning(MSBuildSubCategory, warningCode, null, path, e.Location.StartPoint.LineNumber, e.Location.StartPoint.IndexOnLine, e.Location.EndPoint.LineNumber, e.Location.EndPoint.IndexOnLine, e.Message);
                         }
                     }
                     else
                     {
                         if (e.Location == null)
                         {
-                            Log.LogError(MSBuildSubCategory, MSBuildErrorCode, null, path, e.LineNumber, 1, 0, 0, message);
+                            this.Log.LogError(MSBuildSubCategory, warningCode, null, path, e.LineNumber, 1, 0, 0, e.Message);
                         }
                         else
                         {
-                            this.Log.LogError(MSBuildSubCategory, MSBuildErrorCode, null, path, e.Location.StartPoint.LineNumber, e.Location.StartPoint.IndexOnLine, e.Location.EndPoint.LineNumber, e.Location.EndPoint.IndexOnLine, message);
+                            this.Log.LogError(MSBuildSubCategory, warningCode, null, path, e.Location.StartPoint.LineNumber, e.Location.StartPoint.IndexOnLine, e.Location.EndPoint.LineNumber, e.Location.EndPoint.IndexOnLine, e.Message);
                         }
                     }
                 }
