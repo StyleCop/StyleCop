@@ -221,6 +221,7 @@ namespace StyleCop.CSharp
                     typeof(CastExpression),
                     typeof(AsExpression),
                     typeof(NewExpression),
+                    typeof(NewArrayExpression),
                     typeof(MemberAccessExpression),
                     typeof(VariableDeclarationExpression)))
                 {
