@@ -20,6 +20,7 @@ namespace StyleCop.VisualStudio
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
     using System.IO;
+    using System.Reflection;
     using System.Runtime.InteropServices;
     using System.Security;
     using EnvDTE;
@@ -1166,21 +1167,27 @@ namespace StyleCop.VisualStudio
                 // Thrown by Installshield projects (and maybe others)
                 return false;
             }
+            catch (TargetInvocationException)
+            {
+                // Thrown by CRM 2011 Developer Toolkit (and maybe others)
+                return false;
+            }
             catch (COMException)
             {
-            }
-            catch (ArgumentException)
-            {
-                // Thrown if the BuildAction property doesn't exist.
-                // This is primarily for Web projects where the aspx.xs files do not have a BuildAction
-                return true;
+                return false;
             }
             catch (InvalidCastException)
             {
                 // Don't think this will ever happen, but this is here for robustness.
+                return false;
             }
-
-            return true;
+            catch (ArgumentException)
+            {
+                // Thrown if the BuildAction property doesn't exist.
+                // This is primarily for Web projects where the aspx.cs files do not have a BuildAction
+                // but we still want to analyse them.
+                return true;
+            }
         }
 
         /// <summary>
