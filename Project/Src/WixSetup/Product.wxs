@@ -26,7 +26,7 @@
       
       <Feature Id='Feature_ReSharper'
                Title='R# integration'
-               Description='Files for StyleCop integration with JetBrains ReSharper 5.1 ($(var.SupportedReSharper51Version)), 6.0 ($(var.SupportedReSharper60Version)), 6.1 ($(var.SupportedReSharper610Version)), 6.1.1 ($(var.SupportedReSharper611Version)) or 7.0 ($(var.SupportedReSharper700Version)).'
+               Description='Files for integration with JetBrains ReSharper 5.1.3 ($(var.SupportedReSharper51Version)), 6.0 ($(var.SupportedReSharper60Version)), 6.1 ($(var.SupportedReSharper610Version)), 6.1.1 ($(var.SupportedReSharper611Version)) or 7.0.1 ($(var.SupportedReSharper700Version)).'
                Level='500' AllowAdvertise="no" Display="expand" InstallDefault="local" TypicalDefault="install" Absent="allow">
         <ComponentGroupRef Id="ReSharper_Common" />
         <Condition Level="1"><![CDATA[RESHARPER51_VERSION <> "" OR RESHARPER60_VERSION <> "" OR RESHARPER61_VERSION <> "" OR RESHARPER70_VERSION <> ""]]></Condition>
@@ -34,7 +34,7 @@
       </Feature>
 
       <Feature Id='Feature_VisualStudioTemplates'
-               Title='Visual Studio templates'
+               Title='Visual Studio 2010 templates'
                Description='Files for updating the standard Visual Studio 2010 templates to be StyleCop compliant.'
                Level='500' AllowAdvertise="no" Display="expand" InstallDefault="local" TypicalDefault="install" Absent="allow">
         <ComponentGroupRef Id="VSTemplates_Common" /> 
