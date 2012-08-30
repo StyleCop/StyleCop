@@ -223,6 +223,7 @@ namespace StyleCop.CSharp
                     typeof(NewExpression),
                     typeof(NewArrayExpression),
                     typeof(MemberAccessExpression),
+                    typeof(DefaultValueExpression),
                     typeof(VariableDeclarationExpression)))
                 {
                     return false;
