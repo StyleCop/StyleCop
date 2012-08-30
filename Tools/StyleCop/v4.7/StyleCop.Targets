@@ -105,10 +105,10 @@
       CacheResults="$(StyleCopCacheResults)"
       OverrideSettingsFile="$(StyleCopOverrideSettingsFile)"
       OutputFile="$(StyleCopOutputFile)"
-      MaxViolationCount="$(StyleCopMaxViolationCount)"
-            />
-
-    <!-- Make output files cleanable -->
+      MaxViolationCount="$(StyleCopMaxViolationCount)">
+      <Output TaskParameter="ViolationCount" PropertyName="StyleCopViolationCount" />
+    </StyleCopTask>
+    
     <CreateItem Include="$(StyleCopOutputFile)">
       <Output TaskParameter="Include" ItemName="FileWrites"/>
     </CreateItem>
