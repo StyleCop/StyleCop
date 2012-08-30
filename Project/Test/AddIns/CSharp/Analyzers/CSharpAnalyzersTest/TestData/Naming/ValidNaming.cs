@@ -1,4 +1,4 @@
-// Namespace must begin with an upper-case letter.
+﻿// Namespace must begin with an upper-case letter.
 namespace ValidNaming1
 {
     using System;
@@ -117,5 +117,27 @@ namespace ValidNaming1
     public class Class3
     {
         private static readonly int AField;
+    }
+
+    public class ChineseCultureCasing
+    {
+        public readonly int 欢Bob;
+
+        public int 欢Field;
+
+        public static readonly int 欢StaticReadonly;
+
+        public bool 欢迎
+        {
+            set
+            {
+                int 欢field1;
+                const int 欢Const1 = 0;
+            }
+            get
+            {
+
+            }
+        }
     }
 }

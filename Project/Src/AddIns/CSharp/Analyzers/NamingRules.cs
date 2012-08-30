@@ -307,8 +307,9 @@ namespace StyleCop.CSharp
                         field.Declaration.Name);
                 }
             }
-            else
+            else if (char.IsUpper(field.Declaration.Name, index))
             {
+                // We check for IsUpper here as some languages don't have Upper/Lower case liek Chinese.
                 // Constants must always start with an upper-case letter.
                 if (field.Const)
                 {
@@ -376,8 +377,9 @@ namespace StyleCop.CSharp
                     this.AddViolation(element, variable.Location.LineNumber, Rules.ConstFieldNamesMustBeginWithUpperCaseLetter, variable.Name);
                 }
             }
-            else if ((variable.Modifiers & VariableModifiers.Const) == 0)
+            else if ((variable.Modifiers & VariableModifiers.Const) == 0 && char.IsUpper(variable.Name, index))
             {
+                // We check for IsUpper again to support languages that dont have upper or lower case like Chinese.
                 // Method variables must start with a lower-case letter.
                 this.AddViolation(element, variable.Location.LineNumber, Rules.FieldNamesMustBeginWithLowerCaseLetter, variable.Name);
             }
@@ -634,14 +636,16 @@ namespace StyleCop.CSharp
                 {
                     if (upper)
                     {
-                        if (!char.IsUpper(firstLetter))
+                        if (char.IsLower(firstLetter))
                         {
+                            // We check for IsLower and not for !isUpper. This is for cultures that don't have Upper or Lower case
+                            // letters like Chinese.
                             this.AddViolation(element, line, Rules.ElementMustBeginWithUpperCaseLetter, element.FriendlyTypeText, name);
                         }
                     }
                     else
                     {
-                        if (!char.IsLower(firstLetter))
+                        if (char.IsUpper(firstLetter))
                         {
                             this.AddViolation(element, line, Rules.ElementMustBeginWithLowerCaseLetter, element.FriendlyTypeText, name);
                         }
