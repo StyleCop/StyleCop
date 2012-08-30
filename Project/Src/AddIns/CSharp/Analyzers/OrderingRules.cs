@@ -19,6 +19,7 @@ namespace StyleCop.CSharp
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
+
     using StyleCop;
 
     /// <summary>
@@ -139,15 +140,16 @@ namespace StyleCop.CSharp
             Justification = "InvariantCulture comparison is necessary for correct namespace comparison.")]
         private static bool CheckNamespaceOrdering(string namespace1, string namespace2)
         {
+            // Use the CurrentCulture to compare namespaces for languages with different compare styles
             Param.AssertNotNull(namespace1, "namespace1");
             Param.AssertNotNull(namespace2, "namespace2");
 
             // Split each namespace into parts.
             string[] namespace1Parts = namespace1.Split('.');
             string[] namespace2Parts = namespace2.Split('.');
-            
-            namespace1Parts[0] = namespace1Parts[0].SubstringAfter("global::", StringComparison.InvariantCulture);
-            namespace2Parts[0] = namespace2Parts[0].SubstringAfter("global::", StringComparison.InvariantCulture);
+
+            namespace1Parts[0] = namespace1Parts[0].SubstringAfter("global::", StringComparison.CurrentCulture);
+            namespace2Parts[0] = namespace2Parts[0].SubstringAfter("global::", StringComparison.CurrentCulture);
             
             // Figure out which namespace has fewer parts.
             int partCount = Math.Min(namespace1Parts.Length, namespace2Parts.Length);
@@ -155,7 +157,7 @@ namespace StyleCop.CSharp
             // Compare each part of the namespaces.
             for (int i = 0; i < partCount; ++i)
             {
-                int comparison = string.Compare(namespace1Parts[i], namespace2Parts[i], StringComparison.InvariantCultureIgnoreCase);
+                int comparison = string.Compare(namespace1Parts[i], namespace2Parts[i], StringComparison.CurrentCultureIgnoreCase);
                 if (comparison < 0)
                 {
                     // The order is correct. For example: 
@@ -163,31 +165,31 @@ namespace StyleCop.CSharp
                     // A.C.D
                     return true;
                 }
-                else if (comparison > 0)
+
+                if (comparison > 0)
                 {
                     // The order is incorrect. For example:
                     // A.C.D
                     // A.B.C
                     return false;
                 }
-                else
+
+                // The two parts are equal or differ only by case.
+                comparison = string.Compare(namespace1Parts[i], namespace2Parts[i], StringComparison.CurrentCulture);
+                if (comparison < 0)
                 {
-                    // The two parts are equal or differ only by case.
-                    comparison = string.Compare(namespace1Parts[i], namespace2Parts[i], StringComparison.InvariantCulture);
-                    if (comparison < 0)
-                    {
-                        // The order is correct. For example:
-                        // A.Ab.C
-                        // A.AB.C
-                        return true;
-                    }
-                    else if (comparison > 0)
-                    {
-                        // The order is incorrect. For example:
-                        // A.AB.C
-                        // A.Ab.C
-                        return false;
-                    }
+                    // The order is correct. For example:
+                    // A.Ab.C
+                    // A.AB.C
+                    return true;
+                }
+
+                if (comparison > 0)
+                {
+                    // The order is incorrect. For example:
+                    // A.AB.C
+                    // A.Ab.C
+                    return false;
                 }
             }
 
