@@ -92,7 +92,7 @@
        <StyleCopFiles Remove="@(ExcludeFromStyleCop)" />    
     </ItemGroup>
 
-    <Message Text="Excluding @(StyleCopExcludedFiles)" Importance="Normal" />
+    <Message Text="Excluding @(StyleCopExcludedFiles)" Importance="Normal" Condition="'@(StyleCopExcludedFiles)' != ''" />
 
     <!-- Run the StyleCop MSBuild task. -->
     <StyleCopTask
