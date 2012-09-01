@@ -399,6 +399,21 @@
       <Violation Section="Root.LineSpacingOpeningCurly5.Class1.Method1" LineNumber="361" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
       <Violation Section="Root.LineSpacingOpeningCurly6.Class1.Event2" LineNumber="384" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
       <Violation Section="Root.LineSpacingOpeningCurly6.Class1.Event4.add" LineNumber="400" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingOpeningCurly6.Example.Invalid" LineNumber="483" StartLine="483" StartColumn="13" EndLine="483" EndColumn="13" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingOpeningCurly6.Example.Invalid" LineNumber="487" StartLine="487" StartColumn="13" EndLine="487" EndColumn="13" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingOpeningCurly6.Example.Invalid" LineNumber="491" StartLine="491" StartColumn="13" EndLine="491" EndColumn="13" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingOpeningCurly6.Example.Invalid" LineNumber="497" StartLine="497" StartColumn="13" EndLine="497" EndColumn="13" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingOpeningCurly6.Example.Invalid" LineNumber="504" StartLine="504" StartColumn="13" EndLine="504" EndColumn="13" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingOpeningCurly6.Example.Invalid" LineNumber="508" StartLine="508" StartColumn="13" EndLine="508" EndColumn="13" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingOpeningCurly6.Example.Invalid" LineNumber="512" StartLine="512" StartColumn="13" EndLine="512" EndColumn="13" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingOpeningCurly6.Example.Invalid" LineNumber="518" StartLine="518" StartColumn="13" EndLine="518" EndColumn="13" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingOpeningCurly6.Example.Invalid" LineNumber="525" StartLine="525" StartColumn="13" EndLine="525" EndColumn="13" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingOpeningCurly6.Example.Invalid" LineNumber="531" StartLine="531" StartColumn="13" EndLine="531" EndColumn="13" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingOpeningCurly6.Example.Invalid" LineNumber="537" StartLine="537" StartColumn="13" EndLine="537" EndColumn="13" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingOpeningCurly6.Example.Invalid" LineNumber="543" StartLine="543" StartColumn="13" EndLine="543" EndColumn="13" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingOpeningCurly6.Example.Invalid" LineNumber="549" StartLine="549" StartColumn="13" EndLine="549" EndColumn="13" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingOpeningCurly6.Example.Invalid" LineNumber="556" StartLine="556" StartColumn="13" EndLine="556" EndColumn="13" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+
     </ExpectedViolations>
   </Test>
 

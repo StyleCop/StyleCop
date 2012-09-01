@@ -986,19 +986,28 @@ namespace StyleCop.CSharp
                             {
                                 StatementType statementType = parentStatement.StatementType;
 
-                                if (statementType != StatementType.Block)
+                                if (statementType == StatementType.If || statementType == StatementType.While || statementType == StatementType.Catch
+                                    || statementType == StatementType.Try || statementType == StatementType.Finally || statementType == StatementType.DoWhile
+                                    || statementType == StatementType.Else || statementType == StatementType.Lock || statementType == StatementType.Switch
+                                    || statementType == StatementType.Unsafe || statementType == StatementType.Using)
                                 {
-                                    if (statementType != StatementType.VariableDeclaration || (statementType == StatementType.VariableDeclaration && precedingTokenNode.Value.CsTokenType != CsTokenType.Semicolon))
-                                    {
-                                        throwViolation = true;
-                                    }
+                                    throwViolation = true;
+                                }
+
+                                else if (statementType == StatementType.VariableDeclaration && precedingTokenNode.Value.CsTokenType != CsTokenType.Semicolon)
+                                {
+                                    throwViolation = true;
+                                }
+                                else if (statementType == StatementType.Expression && precedingTokenNode.Value.CsTokenType == CsTokenType.Delegate)
+                                {
+                                    throwViolation = true;
                                 }
                             }
                         }
 
                         if (throwViolation)
                         {
-                            this.AddViolation(token.FindParentElement(), token.LineNumber, Rules.OpeningCurlyBracketsMustNotBePrecededByBlankLine);
+                            this.AddViolation(token.FindParentElement(), token.Location, Rules.OpeningCurlyBracketsMustNotBePrecededByBlankLine);
                         }
                     }
                     else if (token.CsTokenType == CsTokenType.Else ||
