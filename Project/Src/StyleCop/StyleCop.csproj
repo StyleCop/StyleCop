@@ -273,6 +273,7 @@
   <ItemGroup>
     <None Include="StyleCop.Targets">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <ItemGroup>

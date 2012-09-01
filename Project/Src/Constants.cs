@@ -28,9 +28,19 @@ namespace StyleCop
         public const string ProductName = "StyleCop";
 
         /// <summary>
+        /// The Major.Minor version number of the product a.b.
+        /// </summary>
+        public const string ProductVersionMajorMinor = "4.7";
+
+        /// <summary>
+        /// The full version number of the product a.b.c.d.
+        /// </summary>
+        public const string ProductVersionFull = "4.7.37.0";
+
+        /// <summary>
         /// Name of the Product with the version i.e. StyleCop (4.7.x.y).
         /// </summary>
-        public const string ProductNameWithVersion = ProductName + " (4.7.37.0)";
+        public const string ProductNameWithVersion = ProductName + " ("+ ProductVersionFull + ")";
 
         /// <summary>
         /// The name of the StyleCop assembly i.e. StyleCop.dll.

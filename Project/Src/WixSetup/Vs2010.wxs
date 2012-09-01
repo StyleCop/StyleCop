@@ -13,7 +13,7 @@
         <RegistryValue Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\InstalledProducts\StyleCop' Type='string' Name='Package' Value='{629EB7CC-69C2-43AC-9BC9-482B0F810C4E}' Id='InstalledProducts_$(var.VsVersion)_003' />
         <RegistryValue Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\InstalledProducts\StyleCop' Type='string' Name='LogoID' Value='#400' Id='InstalledProducts_$(var.VsVersion)_004' />
         <RegistryValue Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\InstalledProducts\StyleCop' Type='string' Name='ProductDetails' Value='#112' Id='InstalledProducts_$(var.VsVersion)_005' />
-        <RegistryValue Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\InstalledProducts\StyleCop' Type='string' Name='PID' Value='$(var.WixVersionShort)' Id='InstalledProducts_$(var.VsVersion)_006' />
+        <RegistryValue Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\InstalledProducts\StyleCop' Type='string' Name='PID' Value='$(var.WixVersionLong)' Id='InstalledProducts_$(var.VsVersion)_006' />
 
         <!-- Menus -->
         <RegistryValue Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\Menus' Type='string' Name='{629EB7CC-69C2-43AC-9BC9-482B0F810C4E}' Value=', 1000, 1' Id='Menus_$(var.VsVersion)' />

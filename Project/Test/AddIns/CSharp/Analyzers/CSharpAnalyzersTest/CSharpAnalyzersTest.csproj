@@ -348,7 +348,9 @@
     <Content Include="TestData\MethodParameters\TestDescription.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="TestData\Naming\TestDescription.xml" />
+    <Content Include="TestData\Naming\TestDescription.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="TestData\Parenthesis\TestDescription.xml">
       <SubType>Designer</SubType>
     </Content>

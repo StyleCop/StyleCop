@@ -106,9 +106,9 @@
     <SuppressAllWarnings>False</SuppressAllWarnings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Vs2012.wxs" />
     <Compile Include="WixUI_FeatureTreeCustom.wxs" />
     <Compile Include="ReSharperVersionDlg.wxs" />
-    <Compile Include="Vs2011.wxs" />
     <Compile Include="MSBuild.wxs" />
     <Compile Include="Product.wxs" />
     <Compile Include="ReSharper.wxs" />

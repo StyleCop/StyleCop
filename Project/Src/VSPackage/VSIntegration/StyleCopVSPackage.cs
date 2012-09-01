@@ -17,13 +17,11 @@ namespace StyleCop.VisualStudio
     using System;
     using System.ComponentModel.Design;
     using System.Diagnostics.CodeAnalysis;
-    using System.Globalization;
     using System.Runtime.InteropServices;
 
     using Microsoft.VisualStudio;
     using Microsoft.VisualStudio.Shell;
     using Microsoft.VisualStudio.Shell.Interop;
-    using Microsoft.Win32;
 
     using StyleCop;
 
@@ -32,7 +30,7 @@ namespace StyleCop.VisualStudio
     /// </summary>
     [PackageRegistration(UseManagedResourcesOnly = true)]
     [DefaultRegistryRoot("Software\\Microsoft\\VisualStudio\\10.0")]
-    [InstalledProductRegistration(false, "#110", "#112", "4.7", IconResourceID = 400)]
+    [InstalledProductRegistration(false, "#110", "#112", StyleCop.Constants.ProductVersionFull, IconResourceID = 400)]
     [ProvideAutoLoad(/*UICONTEXT_SolutionExists*/ "{f1536ef8-92ec-443c-9ed7-fdadf150da82}")]
     [ProvideAutoLoad(/*UICONTEXT_NoSolution*/ "{ADFC4E64-0397-11D1-9F4E-00A0C911004F}")]
     [ProvideLoadKey("Standard", "4.7", "StyleCop", "stylecop.codeplex.com", 200)]
@@ -41,11 +39,6 @@ namespace StyleCop.VisualStudio
     [SuppressMessage("Microsoft.Maintainability", "CA1506:AvoidExcessiveClassCoupling", Justification = "The class is complex.")]
     public sealed class StyleCopVSPackage : Package, IDisposable, IVsShellPropertyEvents
     {
-        /// <summary>
-        /// This defaults to false.
-        /// </summary>
-        private const bool DefaultAlwaysCheckForUpdatesWhenVisualStudioStarts = false;
-
         #region Private Fields
 
         /// <summary>
@@ -69,20 +62,6 @@ namespace StyleCop.VisualStudio
         private uint cookie;
         
         #endregion Private Fields
-
-        #region Public Constructors
-
-        /// <summary>
-        /// Initializes a new instance of the StyleCopVSPackage class.
-        /// </summary>
-        /// <remarks>When the constructor is called, the package is not sited yet within Visual Studio.
-        /// To peform initialization after the package has been sited, place the initialization code within
-        /// the Initialize method.</remarks>
-        public StyleCopVSPackage()
-        {
-        }
-
-        #endregion Public Constructors
 
         #region Private Delegates
 

@@ -193,6 +193,7 @@
   <ItemGroup>
     <EmbeddedResource Include="NamingRules.xml">
       <CustomToolNamespace>SA1300</CustomToolNamespace>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
