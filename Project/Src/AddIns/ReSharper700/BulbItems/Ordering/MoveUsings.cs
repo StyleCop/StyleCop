@@ -73,6 +73,10 @@ namespace StyleCop.ReSharper700.BulbItems.Ordering
 
                 file.RemoveImport(usingDirectiveNode);
             }
+
+            // Now sort the Usings into order.
+            var orderUsingsBulbItem = new OrderUsingsBulbItem();
+            orderUsingsBulbItem.ExecuteTransactionInner(solution, textControl);
         }
 
         #endregion
