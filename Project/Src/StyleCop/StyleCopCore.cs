@@ -1187,6 +1187,12 @@ namespace StyleCop
         /// <returns>The CPU count.</returns>
         private static int GetCpuCountForUnix()
         {
+            // The OS is OSX if the Unix kernel name is Darwin so use it's function to retrieve the cpu count.
+            if (UnixNativeMethods.GetUnixKernelName().Equals("Darwin"))
+            {
+                return GetCpuCountForMac();
+            }
+
             int count = 1;
             using (StreamReader sr = new StreamReader("/proc/cpuinfo"))
             {

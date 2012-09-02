@@ -112,6 +112,7 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="NativeMethods.cs" />
+    <Compile Include="UnixNativeMethods.cs" />
     <Compile Include="Settings\IPropertyControlHost.cs" />
     <Compile Include="Settings\PropertyControlSaveResult.cs" />
     <Compile Include="Settings\PropertyDialog.cs">
