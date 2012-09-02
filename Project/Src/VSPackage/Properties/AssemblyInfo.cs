@@ -35,3 +35,9 @@ using System.Runtime.InteropServices;
 
 // Suppress message about assembly not having a strong name. This is known since assemblies are delay-signed.
 [assembly: SuppressMessage("Microsoft.Design", "CA2210:AssembliesShouldHaveValidStrongNames", Justification = "This assembly is delay signed.")]
+
+// Suppress the spelling check of StyleCop
+[assembly: SuppressMessage("Microsoft.Naming", "CA1703:ResourceStringsShouldBeSpelledCorrectly", MessageId = "stylecop", Scope = "resource", Target = "StyleCop.VisualStudio.VSPackage.resources", Justification = "StyleCop is spelled correctly.")]
+
+// Suppress the spelling check of CodePlex
+[assembly: SuppressMessage("Microsoft.Naming", "CA1703:ResourceStringsShouldBeSpelledCorrectly", MessageId = "codeplex", Scope = "resource", Target = "StyleCop.VisualStudio.VSPackage.resources", Justification = "Codeplex is spelled correctly.")]

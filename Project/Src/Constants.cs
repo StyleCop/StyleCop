@@ -40,7 +40,7 @@ namespace StyleCop
         /// <summary>
         /// Name of the Product with the version i.e. StyleCop (4.7.x.y).
         /// </summary>
-        public const string ProductNameWithVersion = ProductName + " ("+ ProductVersionFull + ")";
+        public const string ProductNameWithVersion = ProductName + " (" + ProductVersionFull + ")";
 
         /// <summary>
         /// The name of the StyleCop assembly i.e. StyleCop.dll.

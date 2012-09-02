@@ -986,14 +986,20 @@ namespace StyleCop.CSharp
                             {
                                 StatementType statementType = parentStatement.StatementType;
 
-                                if (statementType == StatementType.If || statementType == StatementType.While || statementType == StatementType.Catch
-                                    || statementType == StatementType.Try || statementType == StatementType.Finally || statementType == StatementType.DoWhile
-                                    || statementType == StatementType.Else || statementType == StatementType.Lock || statementType == StatementType.Switch
-                                    || statementType == StatementType.Unsafe || statementType == StatementType.Using)
+                                if (statementType == StatementType.If ||
+                                    statementType == StatementType.While ||
+                                    statementType == StatementType.Catch ||
+                                    statementType == StatementType.Try ||
+                                    statementType == StatementType.Finally ||
+                                    statementType == StatementType.DoWhile ||
+                                    statementType == StatementType.Else ||
+                                    statementType == StatementType.Lock ||
+                                    statementType == StatementType.Switch ||
+                                    statementType == StatementType.Unsafe ||
+                                    statementType == StatementType.Using)
                                 {
                                     throwViolation = true;
                                 }
-
                                 else if (statementType == StatementType.VariableDeclaration && precedingTokenNode.Value.CsTokenType != CsTokenType.Semicolon)
                                 {
                                     throwViolation = true;
