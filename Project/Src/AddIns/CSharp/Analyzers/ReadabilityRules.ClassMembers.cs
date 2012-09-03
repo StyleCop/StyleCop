@@ -229,7 +229,9 @@ namespace StyleCop.CSharp
                     return false;
                 }
 
-                if (expression.Parent is CatchStatement)
+                if (expression.Parent is CatchStatement ||
+                    expression.Parent is LabelStatement ||
+                    expression.Parent is GotoStatement)
                 {
                     return false;
                 }
