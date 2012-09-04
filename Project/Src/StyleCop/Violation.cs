@@ -29,7 +29,7 @@ namespace StyleCop
         private readonly int line;
 
         /// <summary>
-        /// The codelocation that the violation appears on.
+        /// The code location that the violation appears on.
         /// </summary>
         private readonly CodeLocation location;
 
@@ -175,7 +175,7 @@ namespace StyleCop
         }
 
         /// <summary>
-        /// Gets the location the violation occured on or null if we only know the line number. Location has a 1 based line and 1 based column.
+        /// Gets the location the violation occurred on or null if we only know the line number. Location has a 1 based line and 1 based column.
         /// </summary>
         public CodeLocation Location
         {

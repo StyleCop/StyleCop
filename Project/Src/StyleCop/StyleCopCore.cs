@@ -32,7 +32,7 @@ namespace StyleCop
     using StyleCop.Diagnostics;
 
     /// <summary>
-    /// The main entrypoint into the StyleCop core module.
+    /// The main entry point into the StyleCop core module.
     /// </summary>
     [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "StyleCop", Justification = "This is the correct casing.")]
     public sealed class StyleCopCore : IPropertyContainer
@@ -71,7 +71,7 @@ namespace StyleCop
         private string versionNumberFull;
 
         /// <summary>
-        /// Indicates whether the module is currently analying files.
+        /// Indicates whether the module is currently analyzing files.
         /// </summary>
         private bool analyzing;
 
@@ -217,7 +217,7 @@ namespace StyleCop
         #region Public Properties
 
         /// <summary>
-        /// Gets a value indicating whether StyleCop is currently analying files.
+        /// Gets a value indicating whether StyleCop is currently analyzing files.
         /// </summary>
         public bool Analyzing
         {
@@ -1344,7 +1344,7 @@ namespace StyleCop
         }
 
         /// <summary>
-        /// Gets the next type in the given add-in type's inheritence chain that implements the given attribute.
+        /// Gets the next type in the given add-in type's inheritance chain that implements the given attribute.
         /// </summary>
         /// <param name="addInType">The add-in type.</param>
         /// <param name="attributeType">The attribute type.</param>

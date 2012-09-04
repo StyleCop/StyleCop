@@ -181,7 +181,7 @@ namespace StyleCop
         #region Private Static Methods
 
         /// <summary>
-        /// Returns the leafname of the sourcecode path.
+        /// Returns the leafname of the source code path.
         /// </summary>
         /// <param name="sourceCode">The SourceCode object to use.</param>
         /// <returns>The leafname.</returns>

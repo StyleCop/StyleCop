@@ -408,7 +408,7 @@ namespace StyleCop
         /// <summary>
         /// Called when StyleCop encounters a violation.
         /// </summary>
-        /// <param name="sender">The eventt sender.</param>
+        /// <param name="sender">The event sender.</param>
         /// <param name="e">The event arguments.</param>
         private void OnViolationEncountered(object sender, ViolationEventArgs e)
         {

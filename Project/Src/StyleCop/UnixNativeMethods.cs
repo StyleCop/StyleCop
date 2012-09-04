@@ -23,7 +23,7 @@ namespace StyleCop
     public static class UnixNativeMethods
     {
         /// <summary>
-        /// Gets the unix kernel name by p/invoking uname (libc).
+        /// Gets the unix kernel name by p/invoking uname.
         /// </summary>
         /// <returns>The name of the unix kernel. </returns>
         internal static string GetUnixKernelName()

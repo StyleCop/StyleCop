@@ -23,7 +23,7 @@ namespace StyleCop
     using System.Text;
 
     /// <summary>
-    /// This cotains utility functions.
+    /// This contains utility functions.
     /// </summary>
     public sealed class Utils
     {
@@ -70,9 +70,9 @@ namespace StyleCop
         }
 
         /// <summary>
-        /// Replaces any tokenised strings and returns the expanded result.
+        /// Replaces any tokenized strings and returns the expanded result.
         /// </summary>
-        /// <param name="value">The tokenised string to expand.</param>
+        /// <param name="value">The tokenized string to expand.</param>
         /// <param name="file">The file to use for replaceable info.</param>
         /// <returns>The expanded string.</returns>
         public static string ReplaceTokenVariables(string value, FileInfo file)
