@@ -50,7 +50,7 @@ namespace StyleCop.CSharp
         /// Initializes a new instance of the MemberAccessExpression class.
         /// </summary>
         /// <param name="tokens">The list of tokens that form the expression.</param>
-        /// <param name="operatorType">The type of opertion being performed.</param>
+        /// <param name="operatorType">The type of operation being performed.</param>
         /// <param name="leftHandSide">The left side of the operation.</param>
         /// <param name="rightHandSide">The member being accessed.</param>
         internal MemberAccessExpression(

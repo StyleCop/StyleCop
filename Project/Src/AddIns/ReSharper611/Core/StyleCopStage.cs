@@ -141,7 +141,7 @@ namespace StyleCop.ReSharper611.Core
                     return null;
                 }
 
-                if (!settingsStore.GetValue<StyleCopOptionsSettingsKey, bool>(key => key.AnalyseReadOnlyFiles))
+                if (!settingsStore.GetValue<StyleCopOptionsSettingsKey, bool>(key => key.AnalyzeReadOnlyFiles))
                 {
                     if (process.SourceFile.Properties.IsNonUserFile)
                     {

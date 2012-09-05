@@ -64,7 +64,7 @@ namespace StyleCop.ReSharper610.CodeCleanup.Options
         public bool SA1609PropertyDocumentationMustHaveValue { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether to define the behaviour for inserting a missing param tag on elements.
+        /// Gets or sets a value indicating whether to define the behavior for inserting a missing param tag on elements.
         /// </summary>
         [DisplayName("1611: Element Parameters Must Be Documented")]
         public bool SA1611ElementParametersMustBeDocumented { get; set; }
@@ -106,13 +106,13 @@ namespace StyleCop.ReSharper610.CodeCleanup.Options
         public bool SA1629DocumentationTextMustEndWithAPeriod { get; set; }
 
         /// <summary>
-        /// Gets or sets the the behaviour for updating the file header.
+        /// Gets or sets the the behavior for updating the file header.
         /// </summary>
         [DisplayName("1633-1641: Update file header")]
         public UpdateFileHeaderStyle SA1633SA1641UpdateFileHeader { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the the behaviour for updating the file header summary.
+        /// Gets or sets a value indicating whether the the behavior for updating the file header summary.
         /// </summary>
         [DisplayName("1639: File Header Must Have Summary")]
         public bool SA1639FileHeaderMustHaveSummary { get; set; }
@@ -193,7 +193,7 @@ namespace StyleCop.ReSharper610.CodeCleanup.Options
         #region Methods
 
         /// <summary>
-        /// Builds a string reperesentation of the property value.
+        /// Builds a string representation of the property value.
         /// </summary>
         /// <param name="propertyInfo">
         /// The propertyInfo to build the description for.

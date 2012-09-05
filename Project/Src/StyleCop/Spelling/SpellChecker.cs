@@ -67,7 +67,6 @@ namespace StyleCop.Spelling
 
             internal unsafe SpellerStatus Check(string word)
             {
-                //char* pwsz = stackalloc char[(UIntPtr)65];
                 char* pwsz = stackalloc char[65];
                 SPELLERSUGGESTION* prgsugg = stackalloc SPELLERSUGGESTION[checked(1 * sizeof(SPELLERSUGGESTION) / sizeof(SPELLERSUGGESTION))];
 
@@ -300,6 +299,12 @@ namespace StyleCop.Spelling
         private struct PTEC
         {
             internal uint Code;
+
+            public PTEC(uint code)
+                : this()
+            {
+                Code = code;
+            }
 
             internal PTEC_MAJOR Major
             {
@@ -625,6 +630,15 @@ namespace StyleCop.Spelling
             internal uint cchSugg;
 
             internal uint iRating;
+
+            public unsafe SPELLERSUGGESTION(uint ichSugg, uint cchSugg, uint iRating, char* pwsz)
+                : this()
+            {
+                this.ichSugg = ichSugg;
+                this.cchSugg = cchSugg;
+                this.iRating = iRating;
+                this.pwsz = pwsz;
+            }
         }
 
         private struct WSRB
@@ -650,6 +664,18 @@ namespace StyleCop.Spelling
             internal uint cchMac;
 
             internal uint cchAlloc;
+
+            public WSRB(uint ichError, uint cchError, uint ichProcess, uint cchProcess, SpellerStatus sstat, uint csz, uint cchMac)
+                : this()
+            {
+                this.ichError = ichError;
+                this.cchError = cchError;
+                this.ichProcess = ichProcess;
+                this.cchProcess = cchProcess;
+                this.sstat = sstat;
+                this.csz = csz;
+                this.cchMac = cchMac;
+            }
         }
 
         private delegate PTEC PROOFINIT(out IntPtr pid, ref PROOFPARAMS pxpar);

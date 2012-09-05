@@ -283,7 +283,7 @@ namespace StyleCop
         #region ForwardValueEnumerator Class
 
         /// <summary>
-        /// Enumerates fowards through the items in the collection.
+        /// Enumerates forwards through the items in the collection.
         /// </summary>
         public class ForwardValueEnumerator : IEnumerator<T>
         {
@@ -529,7 +529,7 @@ namespace StyleCop
         #region ForwardNodeEnumerator Class
 
         /// <summary>
-        /// Enumerates fowards through the nodes in the collection.
+        /// Enumerates forwards through the nodes in the collection.
         /// </summary>
         public class ForwardNodeEnumerator : IEnumerator<Node<T>>
         {

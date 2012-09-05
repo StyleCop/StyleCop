@@ -55,7 +55,7 @@ namespace StyleCop.ReSharper611.Core
         #region Static Fields
 
         /// <summary>
-        /// Allows us to run the StyleCop analysers.
+        /// Allows us to run the StyleCop analyzers.
         /// </summary>
         private static readonly StyleCopRunnerInt StyleCopRunnerInternal = new StyleCopRunnerInt();
 
@@ -79,7 +79,7 @@ namespace StyleCop.ReSharper611.Core
         private readonly IDaemonProcess daemonProcess;
 
         /// <summary>
-        /// THe settings store we were construcuted with.
+        /// THe settings store we were constructed with.
         /// </summary>
         private readonly IContextBoundSettingsStore settingsStore;
 
@@ -130,10 +130,10 @@ namespace StyleCop.ReSharper611.Core
         /// <summary>
         /// The execute.
         /// </summary>
-        /// <param name="commiter">
-        /// The commiter. 
+        /// <param name="committer">
+        /// The committer. 
         /// </param>
-        public void Execute(Action<DaemonStageResult> commiter)
+        public void Execute(Action<DaemonStageResult> committer)
         {
             StyleCopTrace.In();
             try
@@ -178,7 +178,7 @@ namespace StyleCop.ReSharper611.Core
                      let highlighting = info.Highlighting
                      select new HighlightingInfo(range, highlighting)).ToList();
 
-                commiter(new DaemonStageResult(violations));
+                committer(new DaemonStageResult(violations));
 
                 ResetPerformanceStopWatch();
             }
@@ -194,7 +194,7 @@ namespace StyleCop.ReSharper611.Core
         #region Methods
 
         /// <summary>
-        /// Initialises the static timers used to regulate performance of execution of StyleCop analysis.
+        /// Initializes the static timers used to regulate performance of execution of StyleCop analysis.
         /// </summary>
         private static void InitialiseTimers()
         {

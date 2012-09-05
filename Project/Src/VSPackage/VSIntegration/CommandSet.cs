@@ -79,7 +79,7 @@ namespace StyleCop.VisualStudio
         }
 
         /// <summary>
-        /// Gets an interal list of commands that this class should add to the MenuService when <seealso cref="Initialize"/> is called.
+        /// Gets an internal list of commands that this class should add to the MenuService when <seealso cref="Initialize"/> is called.
         /// </summary>
         protected IList<OleMenuCommand> CommandList
         {
@@ -105,7 +105,7 @@ namespace StyleCop.VisualStudio
         #region Protected Internal Methods
 
         /// <summary>
-        /// Loops through the MenuCommands in 'commandset' and adds them to the menu service.
+        /// Loops through the MenuCommands in 'CommandSet' and adds them to the menu service.
         /// </summary>
         protected internal virtual void Initialize()
         {

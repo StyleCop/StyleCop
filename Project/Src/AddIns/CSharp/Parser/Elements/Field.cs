@@ -36,7 +36,7 @@ namespace StyleCop.CSharp
         private readonly bool isConst;
 
         /// <summary>
-        /// Indicates whether the item is declared readonly.
+        /// Indicates whether the item is declared read only.
         /// </summary>
         private readonly bool isReadOnly;
 
@@ -57,7 +57,7 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Initializes a new instance of the Field class.
         /// </summary>
-        /// <param name="document">The documenent that contains the element.</param>
+        /// <param name="document">The document that contains the element.</param>
         /// <param name="parent">The parent of the element.</param>
         /// <param name="header">The Xml header for this element.</param>
         /// <param name="attributes">The list of attributes attached to this element.</param>
@@ -129,7 +129,7 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Gets a value indicating whether the field is declared readonly.
+        /// Gets a value indicating whether the field is declared read only.
         /// </summary>
         [SuppressMessage(
             "Microsoft.Naming", 

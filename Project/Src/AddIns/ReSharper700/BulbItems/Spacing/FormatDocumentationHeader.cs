@@ -12,7 +12,7 @@
 //   notice, or any other, from this software.
 // </license>
 // <summary>
-//   BulbItem - FormatDocumentationHeader : Fixes documention headers.
+//   BulbItem - FormatDocumentationHeader : Fixes documentation headers.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 

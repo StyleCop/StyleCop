@@ -126,7 +126,7 @@ namespace StyleCop
         #region Private Static Methods
 
         /// <summary>
-        /// Enables or disables all ruels for the given analyzers.
+        /// Enables or disables all rules for the given analyzers.
         /// </summary>
         /// <param name="disabledAnalyzersNode">The node representing the analyzer.</param>
         /// <param name="settings">The settings.</param>
@@ -417,7 +417,7 @@ namespace StyleCop
         }
 
         /// <summary>
-        /// Adds a boolen property to the settings.
+        /// Adds a boolean property to the settings.
         /// </summary>
         /// <param name="propertyName">The name of the property.</param>
         /// <param name="value">The value of the property.</param>

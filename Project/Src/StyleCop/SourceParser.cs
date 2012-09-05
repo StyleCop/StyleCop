@@ -121,7 +121,7 @@ namespace StyleCop
         }
 
         /// <summary>
-        /// Indicates whether to skip analyzis on the given document.
+        /// Indicates whether to skip analysis on the given document.
         /// </summary>
         /// <param name="document">The document.</param>
         /// <returns>Returns true to skip analysis on the document.</returns>

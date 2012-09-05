@@ -50,7 +50,7 @@ namespace StyleCop.CSharp
         /// Initializes a new instance of the LogicalExpression class.
         /// </summary>
         /// <param name="tokens">The list of tokens that form the expression.</param>
-        /// <param name="operatorType">The type of opertion being performed.</param>
+        /// <param name="operatorType">The type of operation being performed.</param>
         /// <param name="leftHandSide">The left hand side of the expression.</param>
         /// <param name="rightHandSide">The right hand side of the expression.</param>
         internal LogicalExpression(

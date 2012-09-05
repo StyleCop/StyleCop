@@ -29,8 +29,6 @@ namespace StyleCop.VisualStudio
     using Microsoft.VisualStudio.Shell;
     using Microsoft.VisualStudio.Shell.Interop;
 
-    using StyleCop.Diagnostics;
-
     /// <summary>
     /// A representation of a StyleCop violation in the error list.
     /// </summary>
@@ -66,7 +64,7 @@ namespace StyleCop.VisualStudio
             Param.AssertNotNull(serviceProvider, "serviceProvider");
             Param.Ignore(violation);
             Param.Ignore(hierarchyItem);
-            
+
             this.violation = violation;
             this.Column = violation.ColumnNumber - 1;
             this.Document = violation.File;
@@ -76,7 +74,7 @@ namespace StyleCop.VisualStudio
             this.serviceProvider = serviceProvider;
             this.HierarchyItem = hierarchyItem ?? this.GetHierarchyItem();
         }
-        
+
         /// <summary>
         /// Gets an instance of the StyleCopCore.
         /// </summary>

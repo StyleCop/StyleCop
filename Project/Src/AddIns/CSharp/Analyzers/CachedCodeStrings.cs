@@ -222,7 +222,7 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Gets hxample header text string "Initializes static data within the {0} class".
+        /// Gets example header text string "Initializes static data within the {0} class".
         /// </summary>
         public static string ExampleHeaderSummaryForStaticConstructor
         {
@@ -350,7 +350,7 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Gets hthe text for "class".
+        /// Gets the text for "class".
         /// </summary>
         public static string ClassText
         {
@@ -366,7 +366,7 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Gets hthe text for "struct".
+        /// Gets the text for "struct".
         /// </summary>
         public static string StructText
         {
@@ -382,7 +382,7 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Gets or sets the CultureInfo we will analyse with.
+        /// Gets or sets the CultureInfo we will analyze with.
         /// </summary>
         public static CultureInfo Culture
         {

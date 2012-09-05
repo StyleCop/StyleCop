@@ -40,7 +40,7 @@ namespace StyleCop.ReSharper600.Options
         /// The name of the rule.
         /// </param>
         /// <param name="ruleID">
-        /// The IDof the rule.
+        /// The ID of the rule.
         /// </param>
         /// <param name="description">
         /// The rules description.
@@ -170,17 +170,17 @@ namespace StyleCop.ReSharper600.Options
         /// <summary>
         /// Gets the rules.
         /// </summary>
-        /// <param name="analysers">
+        /// <param name="analyzers">
         /// The analyzers.
         /// </param>
         /// <returns>
         /// A Dictionary of all the StyleCop rules indexed by their <see cref="SourceAnalyzer"/>.
         /// </returns>
-        private static Dictionary<SourceAnalyzer, List<StyleCopRule>> GetRules(IEnumerable<SourceAnalyzer> analysers)
+        private static Dictionary<SourceAnalyzer, List<StyleCopRule>> GetRules(IEnumerable<SourceAnalyzer> analyzers)
         {
             var rules = new Dictionary<SourceAnalyzer, List<StyleCopRule>>();
 
-            foreach (var analyzer in analysers)
+            foreach (var analyzer in analyzers)
             {
                 var analyzerRules = GetRules(analyzer);
                 rules.Add(analyzer, analyzerRules);

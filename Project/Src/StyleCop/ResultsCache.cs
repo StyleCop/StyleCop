@@ -46,7 +46,7 @@ namespace StyleCop
         private StyleCopCore core;
 
         /// <summary>
-        /// The hashtable to store the cached documents in.
+        /// The dictionary to store the cached documents in.
         /// </summary>
         private Dictionary<string, XmlDocument> documentHash = new Dictionary<string, XmlDocument>();
 
@@ -411,7 +411,7 @@ namespace StyleCop
         /// </summary>
         /// <param name="timeStampNode">The node containing the timestamp information.</param>
         /// <param name="timeStamp">The time to match again.</param>
-        /// <returns>Returns true if the node matchines the given timestamp.</returns>
+        /// <returns>Returns true if the node matches the given timestamp.</returns>
         private static bool IsNodeUpToDate(XmlNode timeStampNode, DateTime timeStamp)
         {
             Param.AssertNotNull(timeStampNode, "timeStampNode");

@@ -14,10 +14,11 @@
 //-----------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
-    using System.Collections.Generic;
+    using System.Globalization;
     using System.Text;
     using System.Xml;
+
+    using StyleCop.Spelling;
     
     /// <summary>
     /// Contains helper methods for verifying the validity and style of comments.
@@ -45,10 +46,13 @@ namespace StyleCop.CSharp
         /// to be a valid English-language sentence, or whether it appears to be garbage.
         /// </summary>
         /// <param name="comment">The comment to check.</param>
+        /// <param name="culture">The culture to use to spell check the comment.</param>
+        /// <param name="spellingError">Returns the first word encountered as a spelling error.</param>
         /// <returns>Returns the type of the comment.</returns>
-        public static InvalidCommentType IsGarbageComment(string comment)
+        public static InvalidCommentType IsGarbageComment(string comment, CultureInfo culture, out string spellingError)
         {
             Param.AssertNotNull(comment, "comment");
+            spellingError = null;
 
             InvalidCommentType invalid = InvalidCommentType.Valid;
             string trimmedComment = comment.Trim();
@@ -62,6 +66,12 @@ namespace StyleCop.CSharp
             }
             else
             {
+                // Check the comment spelling
+                if (TextContainsIncorectSpelling(culture, trimmedCommentWithoutPeriod, out spellingError))
+                {
+                    invalid |= InvalidCommentType.IncorrectSpelling;
+                }
+
                 // Check for the minimum length.
                 if (trimmedComment.Length < MinimumHeaderCommentLength)
                 {
@@ -118,14 +128,16 @@ namespace StyleCop.CSharp
 
             return invalid;
         }
-
+        
         /// <summary>
         /// Checks the contents of the given comment string to determine whether the comment appears
         /// to be a valid English-language sentence, or whether it appears to be garbage.
         /// </summary>
         /// <param name="commentXml">The comment to check.</param>
+        /// <param name="culture">The culture to use to spell check the comment.</param>
+        /// <param name="spellingError">Returns the first word encountered as a spelling error.</param>
         /// <returns>Returns the type of the comment.</returns>
-        public static InvalidCommentType IsGarbageComment(XmlNode commentXml)
+        public static InvalidCommentType IsGarbageComment(XmlNode commentXml, CultureInfo culture, out string spellingError)
         {
             Param.AssertNotNull(commentXml, "commentXml");
 
@@ -137,7 +149,7 @@ namespace StyleCop.CSharp
                 comment = ExtractTextFromCommentXml(commentXml);
             }
 
-            return IsGarbageComment(comment);
+            return IsGarbageComment(comment, culture, out spellingError);
         }
 
         /// <summary>
@@ -192,32 +204,49 @@ namespace StyleCop.CSharp
 
         #endregion Public Static Methods
 
-        #region Private Static Methods
+        /// <summary>
+        /// Returns True if the text has incorrect spelling.
+        /// </summary>
+        /// <param name="culture">The culture to use to spell check the comment.</param>
+        /// <param name="text">The text to spell check.</param>
+        /// <param name="spellingError">Returns the first word encountered as a spelling error.</param>
+        /// <returns>True if the text contains an incorrect spelling.</returns>
+        private static bool TextContainsIncorectSpelling(CultureInfo culture, string text, out string spellingError)
+        {
+            var namingService = NamingService.GetNamingService(culture);
 
-        /////// <summary>
-        /////// Strips out any namespaces or generic parameters from the class name.
-        /////// </summary>
-        /////// <param name="name">The class name to strip.</param>
-        /////// <returns>Returns the stripped class name.</returns>
-        ////private static string StripClassName(string name)
-        ////{
-        ////    Param.AssertNotNull(name, "name");
+            if (namingService.SupportsSpelling)
+            {
+                WordParser parser = new WordParser(text, WordParserOptions.SplitCompoundWords);
+                if (parser.PeekWord() != null)
+                {
+                    string word = parser.NextWord();
+                    do
+                    {
+                        if (!IsSpelledCorrectly(namingService, word))
+                        {
+                            spellingError = word;
+                            return true;
+                        }
+                    }
+                    while ((word = parser.NextWord()) != null);
+                }
+            }
 
-        ////    int index = name.LastIndexOf('.');
-        ////    if (index > 0)
-        ////    {
-        ////        name = name.Substring(index + 1, name.Length - index - 1);
-        ////    }
+            spellingError = null;
 
-        ////    index = name.IndexOf('{');
-        ////    if (index > 0)
-        ////    {
-        ////        name = name.Substring(0, index);
-        ////    }
+            return false;
+        }
 
-        ////    return name;
-        ////}
-
-        #endregion Private Static Methods
+        /// <summary>
+        /// Returns true if the word is spelled correctly.
+        /// </summary>
+        /// <param name="namingService">The naming service to use.</param>
+        /// <param name="word">The word to check.</param>
+        /// <returns>True if spelled correct.</returns>
+        private static bool IsSpelledCorrectly(NamingService namingService, string word)
+        {
+            return (namingService.GetPreferredAlternateForDeprecatedWord(word) != null) || (namingService.GetCompoundAlternateForDiscreteWord(word) != null) || (namingService.CheckSpelling(word) != WordSpelling.Unrecognized);
+        }
     }
 }

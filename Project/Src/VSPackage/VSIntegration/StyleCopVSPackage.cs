@@ -262,7 +262,7 @@ namespace StyleCop.VisualStudio
         #region Private Methods
        
         /// <summary>
-        /// Completes our initialization. This may be called from out overriden Initialize method and sometimes waiting until after the zombie state has
+        /// Completes our initialization. This may be called from out overridden Initialize method and sometimes waiting until after the zombie state has
         /// gone from VS.
         /// </summary>
         private void InitializeMenus()

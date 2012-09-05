@@ -43,7 +43,7 @@ namespace StyleCop.ReSharper600.Options
     #endregion
 
     /// <summary>
-    ///   Options page to allow the plugins options to be set from within the Resharper Options window.
+    ///   Options page to allow the plugins options to be set from within the ReSharper Options window.
     /// </summary>
     [OptionsPage(PageName, "StyleCop", "StyleCop.ReSharper600.Resources.StyleCop.png", ParentId = "Tools")]
     public partial class StyleCopOptionsPage : UserControl, IOptionsPage
@@ -2061,7 +2061,7 @@ namespace StyleCop.ReSharper600.Options
         }
 
         /// <summary>
-        ///   Geta a PropertyInfo object matching the descriptor and the property name supplied.
+        ///   Gets a PropertyInfo object matching the descriptor and the property name supplied.
         /// </summary>
         /// <param name="descriptor"> The name to match. </param>
         /// <param name="propertyName"> The property name to match. </param>

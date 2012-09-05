@@ -383,7 +383,7 @@ namespace StyleCop.VisualStudio
         /// </summary>
         /// <param name="core"><see cref="T:StyleCopCore">Core object</see> that hosts the environment.</param>
         /// <param name="type">The analyze type being performed.</param>
-        /// <param name="analysisFilePath">The path to the initial file we are analysing.</param>
+        /// <param name="analysisFilePath">The path to the initial file we are analyzing.</param>
         /// <param name="analysisHelper">The analysis helper.</param>
         /// <returns>Returns the list of projects.</returns>
         internal static IList<CodeProject> GetProjectList(StyleCopCore core, AnalysisType type, out string analysisFilePath, AnalysisHelper analysisHelper)
@@ -660,8 +660,8 @@ namespace StyleCop.VisualStudio
         /// <summary>
         /// Gets a list of all the files for the given projectItem. Includes all dependant files for partial types.
         /// </summary>
-        /// <param name="projectItem">THe projectItem to find the files for.</param>
-        /// <returns>A list of al lthe files for this project.</returns>
+        /// <param name="projectItem">The projectItem to find the files for.</param>
+        /// <returns>A list of all the files for this project.</returns>
         private static IEnumerable<string> GetAllFilesForProjectItem(ProjectItem projectItem)
         {
             var files = new List<string>();
@@ -794,7 +794,7 @@ namespace StyleCop.VisualStudio
         /// <summary>
         /// Enumerates through the items in the given solution project.
         /// </summary>
-        /// <param name="solution">The solution contianing the project.</param>
+        /// <param name="solution">The solution containing the project.</param>
         /// <param name="items">The list of items in the project.</param>
         /// <param name="solutionPath">The path to the solution.</param>
         /// <param name="projectCallback">Called on each project enumerated through.</param>
@@ -939,7 +939,7 @@ namespace StyleCop.VisualStudio
         }
 
         /// <summary>
-        /// Checks to see if the project item is excluded from stylecop in the proj file.
+        /// Checks to see if the project item is excluded from stylecop in the project file.
         /// </summary>
         /// <param name="item">The ProjectItem to check.</param>
         /// <param name="key">The key to use for caching.</param>
@@ -1185,7 +1185,7 @@ namespace StyleCop.VisualStudio
             {
                 // Thrown if the BuildAction property doesn't exist.
                 // This is primarily for Web projects where the aspx.cs files do not have a BuildAction
-                // but we still want to analyse them.
+                // but we still want to analyze them.
                 return true;
             }
         }
@@ -1641,7 +1641,7 @@ namespace StyleCop.VisualStudio
         }
 
         /// <summary>
-        /// The SolutionEventsProjecAdded handler.
+        /// The SolutionEventsProjectAdded handler.
         /// </summary>
         /// <param name="project">The project that was added.</param>
         private static void SolutionEventsProjectAdded(Project project)

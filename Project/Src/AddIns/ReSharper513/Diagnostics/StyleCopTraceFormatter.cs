@@ -468,7 +468,7 @@ namespace StyleCop.ReSharper513.Diagnostics
             /// whether the attribute is defined on the containing property.
             /// </summary>
             /// <param name="attributeType">
-            /// The typr of attribute to find.
+            /// The type of attribute to find.
             /// </param>
             /// <returns>
             /// <b>True</b>if the attribute is defined, or <b>False</b> otherwise.

@@ -118,7 +118,7 @@ namespace StyleCop.ReSharper700.Core
         /// The process kind.
         /// </param>
         /// /// <param name="file">
-        /// The file to analyse.
+        /// The file to analyze.
         /// </param>
         /// <returns>
         /// Current <see cref="IDaemonStageProcess"/>.
@@ -162,7 +162,7 @@ namespace StyleCop.ReSharper700.Core
                     return null;
                 }
 
-                if (!settingsStore.GetValue<StyleCopOptionsSettingsKey, bool>(key => key.AnalyseReadOnlyFiles))
+                if (!settingsStore.GetValue<StyleCopOptionsSettingsKey, bool>(key => key.AnalyzeReadOnlyFiles))
                 {
                     if (process.SourceFile.Properties.IsNonUserFile)
                     {

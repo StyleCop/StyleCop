@@ -45,7 +45,7 @@ namespace StyleCop
         #region Methods
 
         /// <summary>
-        /// Intializes the page object.
+        /// Initializes the page object.
         /// </summary>
         /// <param name="propertyControl">The property control that hosts the page.</param>
         void Initialize(PropertyControl propertyControl);

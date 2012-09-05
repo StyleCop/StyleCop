@@ -30,7 +30,7 @@ namespace StyleCop.CSharp
         /// Initializes a new instance of the DocumentRoot class.
         /// </summary>
         /// <param name="document">The document that this element belongs to.</param>
-        /// <param name="declaration">The decleration class for this element.</param>
+        /// <param name="declaration">The declaration class for this element.</param>
         /// <param name="generated">Indicates whether the element contains generated code.</param>
         internal DocumentRoot(CsDocument document, Declaration declaration, bool generated) 
             : base(

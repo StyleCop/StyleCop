@@ -341,7 +341,7 @@ namespace StyleCop.ReSharper513.CodeCleanup.Rules
         }
 
         /// <summary>
-        /// Comments must be preceeded by blank line.
+        /// Comments must be preceded by blank line.
         /// </summary>
         /// <param name="node">
         /// The node.
@@ -455,7 +455,7 @@ namespace StyleCop.ReSharper513.CodeCleanup.Rules
         private void ElementDocumentationHeadersMustBePrecededByBlankLine(ITreeNode node)
         {
             // go back to first new line to the left
-            // thisnew line must be immeidately preceeded by a new line and if not insert one
+            // thisnew line must be immeidately preceded by a new line and if not insert one
             for (var currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
             {
                 if (currentNode is IDocCommentNode)

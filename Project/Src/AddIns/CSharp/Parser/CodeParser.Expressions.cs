@@ -133,11 +133,11 @@ namespace StyleCop.CSharp
         #region Private Static Methods
 
         /// <summary>
-        /// Compares the precendence of the previous expression with the precedence of the next expression,
+        /// Compares the precedence of the previous expression with the precedence of the next expression,
         /// to determine which has the higher precedence value.
         /// </summary>
         /// <param name="previousPrecedence">The previous expression's precedence.</param>
-        /// <param name="nextPrecedence">The next expression's precendence.</param>
+        /// <param name="nextPrecedence">The next expression's precedence.</param>
         /// <returns>Returns true if the next expression has greater precedence than the next expression.</returns>
         private static bool CheckPrecedence(ExpressionPrecedence previousPrecedence, ExpressionPrecedence nextPrecedence)
         {
@@ -156,10 +156,10 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Gets the precedence of the given opereator type.
+        /// Gets the precedence of the given operator type.
         /// </summary>
         /// <param name="type">The operator type.</param>
-        /// <returns>Returns the precendece of the type.</returns>
+        /// <returns>Returns the precedence of the type.</returns>
         [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification = "The method is not complex.")]
         private static ExpressionPrecedence GetOperatorPrecedence(OperatorType type)
         {
@@ -2194,7 +2194,7 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Reads and returns the right-hand expression of an operator expression.
         /// </summary>
-        /// <param name="precedence">The precendence of this operator expression.</param>
+        /// <param name="precedence">The precedence of this operator expression.</param>
         /// <param name="parentReference">The parent code unit.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
         /// <returns>Returns the expression.</returns>

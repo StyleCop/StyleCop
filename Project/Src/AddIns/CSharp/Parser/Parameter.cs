@@ -84,7 +84,7 @@ namespace StyleCop.CSharp
         /// <param name="type">The type of the parameter.</param>
         /// <param name="name">The name of the parameter.</param>
         /// <param name="parent">The parent of the parameter.</param>
-        /// <param name="modifiers">Modifers applied to this parameter.</param>
+        /// <param name="modifiers">Modifiers applied to this parameter.</param>
         /// <param name="defaultArgument">The optional default argument for the parameter.</param>
         /// <param name="location">The location of the parameter in the code.</param>
         /// <param name="tokens">The tokens that form the parameter.</param>

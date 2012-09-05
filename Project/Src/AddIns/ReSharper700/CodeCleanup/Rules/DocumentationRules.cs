@@ -349,7 +349,7 @@ namespace StyleCop.ReSharper700.CodeCleanup.Rules
         }
 
         /// <summary>
-        /// Inserts the file anme into the file.
+        /// Inserts the file name into the file.
         /// </summary>
         /// <param name="file">
         /// The file to insert into.
@@ -868,7 +868,7 @@ namespace StyleCop.ReSharper700.CodeCleanup.Rules
         /// Creates a parameter node.
         /// </summary>
         /// <param name="xmlNode">
-        /// The <see cref="XmlNode"/> to create the paramater against.
+        /// The <see cref="XmlNode"/> to create the parameter against.
         /// </param>
         /// <param name="parameter">
         /// The parameter.
@@ -907,7 +907,7 @@ namespace StyleCop.ReSharper700.CodeCleanup.Rules
         /// Creates a type parameter node.
         /// </summary>
         /// <param name="xmlNode">
-        /// The <see cref="XmlNode"/> to create the paramater against.
+        /// The <see cref="XmlNode"/> to create the parameter against.
         /// </param>
         /// <param name="parameterName">
         /// The name of the parameter.

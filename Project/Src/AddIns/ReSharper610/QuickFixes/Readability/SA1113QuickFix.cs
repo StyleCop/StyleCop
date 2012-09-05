@@ -104,7 +104,7 @@ namespace StyleCop.ReSharper610.QuickFixes.Readability
         #region Methods
 
         /// <summary>
-        /// Initialises the QuickFix with all the available BulbItems that can fix the current
+        /// Initializes the QuickFix with all the available BulbItems that can fix the current
         /// StyleCop Violation.
         /// </summary>
         protected override void InitialiseBulbItems()

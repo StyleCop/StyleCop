@@ -17,7 +17,7 @@ namespace StyleCop.CSharp
     using System;
 
     /// <summary>
-    /// A foreach-statement.
+    /// A foreach statement.
     /// </summary>
     /// <subcategory>statement</subcategory>
     public sealed class ForeachStatement : Statement
@@ -25,17 +25,17 @@ namespace StyleCop.CSharp
         #region Private Fields
 
         /// <summary>
-        /// The variable declared in the foreach-statement declaration.
+        /// The variable declared in the foreach statement declaration.
         /// </summary>
         private VariableDeclarationExpression variable;
 
         /// <summary>
-        /// The item being interated over.
+        /// The item being iterated over.
         /// </summary>
         private Expression item;
 
         /// <summary>
-        /// The statement that is embedded within this foreach-statement.
+        /// The statement that is embedded within this foreach statement.
         /// </summary>
         private Statement embeddedStatement;
 
@@ -47,7 +47,7 @@ namespace StyleCop.CSharp
         /// Initializes a new instance of the ForeachStatement class.
         /// </summary>
         /// <param name="tokens">The list of tokens that form the statement.</param>
-        /// <param name="variable">The variable declared in foreach-statement declaration.</param>
+        /// <param name="variable">The variable declared in for each statement declaration.</param>
         /// <param name="item">The item being iterated over.</param>
         internal ForeachStatement(CsTokenList tokens, VariableDeclarationExpression variable, Expression item)
             : base(StatementType.Foreach, tokens)
@@ -68,7 +68,7 @@ namespace StyleCop.CSharp
         #region Public Properties
 
         /// <summary>
-        /// Gets the variable declared in the foreach-statement declaration.
+        /// Gets the variable declared in the foreach statement declaration.
         /// </summary>
         public VariableDeclarationExpression Variable
         {
@@ -90,7 +90,7 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Gets the statement that is embedded within this foreach-statement.
+        /// Gets the statement that is embedded within this foreach statement.
         /// </summary>
         public Statement EmbeddedStatement
         {

@@ -161,10 +161,10 @@ namespace StyleCop.VisualStudio
             {
                 // Get the list of projects to be analyzed.
                 // Depending on the AnalysisType we:
-                //// 1. Analyse all the files in the solution/project/folder
-                //// 2. Analyse the selected file in the solution browser/code pane
-                //// 3. If its a single file we may still analyse multiple files. We do this if the selected file has a dependancy on another file.
-                ////    so if you analyse a designer.cs file we actually analyse the parent file and all its dependants.
+                //// 1. analyze all the files in the solution/project/folder
+                //// 2. analyze the selected file in the solution browser/code pane
+                //// 3. If its a single file we may still analyze multiple files. We do this if the selected file has a dependancy on another file.
+                ////    so if you analyze a designer.cs file we actually analyze the parent file and all its dependants.
                 ////    This is generally because we can only be sure of issues relating to partial
                 ////    types if we have all the partial types to check against.
                 IList<CodeProject> projects = ProjectUtilities.GetProjectList(this.core, type, out this.analysisFilePath, this);
@@ -422,7 +422,7 @@ namespace StyleCop.VisualStudio
         }
         
         /// <summary>
-        /// Called when output should be added to the Ouput pane.
+        /// Called when output should be added to the Output pane.
         /// </summary>
         /// <param name="sender">The event sender.</param>
         /// <param name="e">Contains the output string.</param>
@@ -546,7 +546,13 @@ namespace StyleCop.VisualStudio
 
                     var element = e.Element;
                     var violation = new ViolationInfo();
-                    violation.Description = string.Concat(e.Violation.Rule.CheckId, ": ", e.Message);
+
+                    var trimmedNamespace = e.Violation.Rule.Namespace;
+                    trimmedNamespace = trimmedNamespace.SubstringAfter(StyleCop.Constants.ProductName + ".", StringComparison.InvariantCulture);
+                    
+                    trimmedNamespace = trimmedNamespace.SubstringBeforeLast("Rules", StringComparison.InvariantCulture);
+
+                    violation.Description =  string.Concat(e.Violation.Rule.CheckId, " : ", trimmedNamespace, " : ", e.Message);
                     violation.LineNumber = e.LineNumber;
 
                     violation.ColumnNumber = e.Location != null ? e.Location.StartPoint.IndexOnLine : 1;

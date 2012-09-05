@@ -37,7 +37,7 @@ namespace StyleCop.CSharp
         private CsTokenList tokens;
 
         /// <summary>
-        /// The type being constrainted.
+        /// The type being constrained.
         /// </summary>
         private CsToken type;
 
@@ -59,7 +59,7 @@ namespace StyleCop.CSharp
         /// Initializes a new instance of the TypeParameterConstraintClause class.
         /// </summary>
         /// <param name="tokens">The list of tokens that form the constraint.</param>
-        /// <param name="type">The type being constrainted.</param>
+        /// <param name="type">The type being constrained.</param>
         /// <param name="constraints">The list of constraints on the type, if any.</param>
         /// <param name="parent">The parent of the constraint clause.</param>
         internal TypeParameterConstraintClause(CsTokenList tokens, CsToken type, ICollection<CsToken> constraints, Reference<ICodePart> parent)
@@ -107,7 +107,7 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Gets the type being constrainted.
+        /// Gets the type being constrained.
         /// </summary>
         [SuppressMessage(
             "Microsoft.Naming", 

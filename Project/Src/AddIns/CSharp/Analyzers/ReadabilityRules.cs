@@ -517,12 +517,12 @@ namespace StyleCop.CSharp
         private struct Settings
         {
             /// <summary>
-            /// Indictes whether the DoNotUseRegions rule is enabled.
+            /// Indicates whether the DoNotUseRegions rule is enabled.
             /// </summary>
             public bool DoNotUseRegions;
 
             /// <summary>
-            /// Indictes whether the DoNotPlaceRegionsWithinElements rule is enabled.
+            /// Indicates whether the DoNotPlaceRegionsWithinElements rule is enabled.
             /// </summary>
             public bool DoNotPlaceRegionsWithinElements;
         }

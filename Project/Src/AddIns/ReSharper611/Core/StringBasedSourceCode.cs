@@ -138,7 +138,7 @@ namespace StyleCop.ReSharper611.Core
         }
 
         /// <summary>
-        /// Gets the timesptamp of the file.
+        /// Gets the TimeStamp of the file.
         /// </summary>
         public override DateTime TimeStamp
         {

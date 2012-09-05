@@ -890,7 +890,7 @@ namespace StyleCop.CSharp
         /// Gets the decimal digits that appear after a decimal point in a real literal.
         /// </summary>
         /// <param name="index">The start index of the remainder numbers.</param>
-        /// <returns>Returns the last index of the remainder nubmers.</returns>
+        /// <returns>Returns the last index of the remainder numbers.</returns>
         private int GetDecimalFraction(int index)
         {
             Param.AssertGreaterThanOrEqualToZero(index, "index");
@@ -1104,7 +1104,7 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Gathers all the characters up to the last index of an unknown word.
         /// </summary>
-        /// <param name="text">The texst buffer to add the symbol text to.</param>
+        /// <param name="text">The text buffer to add the symbol text to.</param>
         private void ReadToEndOfOtherSymbol(StringBuilder text)
         {
             Param.AssertNotNull(text, "text");
@@ -2027,11 +2027,11 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Evaluates an expression from within a conditional compiliation directive to determine
+        /// Evaluates an expression from within a conditional compilation directive to determine
         /// whether it resolves to true or false.
         /// </summary>
         /// <param name="sourceCode">The source code containing the expression.</param>
-        /// <param name="expression">The expression to evalulate.</param>
+        /// <param name="expression">The expression to evaluate.</param>
         /// <param name="configuration">The active configuration.</param>
         /// <returns>Returns true if the expression evaluates to true, otherwise returns false.</returns>
         private bool EvaluateConditionalDirectiveExpression(

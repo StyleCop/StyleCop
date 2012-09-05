@@ -12,7 +12,7 @@
 //   notice, or any other, from this software.
 // </license>
 // <summary>
-//   Enumeration to define the behaviour of sorting Using Declarations.
+//   Enumeration to define the behavior of sorting Using Declarations.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -25,7 +25,7 @@ namespace StyleCop.ReSharper600.CodeCleanup.Styles
     #endregion
 
     /// <summary>
-    /// Enumeration to define the behaviour of sorting Using Declarations.
+    /// Enumeration to define the behavior of sorting Using Declarations.
     /// </summary>
     public enum AlphabeticalUsingsStyle
     {

@@ -68,7 +68,7 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Gets a value indicating whether this is the beginning of a region block.
         /// </summary>
-        /// <remarks>A value of false indicates that this is an endregion tag.</remarks>
+        /// <remarks>A value of False indicates that this is the end of a region.</remarks>
         public bool Beginning
         {
             get

@@ -339,27 +339,27 @@ namespace StyleCop.CSharp
         New,
 
         /// <summary>
-        /// The keyword 'null'.
+        /// The keyword 'Null'.
         /// </summary>
         Null,
 
         /// <summary>
-        /// The keyword 'on'.
+        /// The keyword 'On'.
         /// </summary>
         On,
 
         /// <summary>
-        /// The keyword 'operator'.
+        /// The keyword 'Operator'.
         /// </summary>
         Operator,
 
         /// <summary>
-        /// The keyword 'orderby'.
+        /// The keyword 'OrderBy'.
         /// </summary>
         OrderBy,
 
         /// <summary>
-        /// The keyword 'out'.
+        /// The keyword 'Out'.
         /// </summary>
         Out,
 

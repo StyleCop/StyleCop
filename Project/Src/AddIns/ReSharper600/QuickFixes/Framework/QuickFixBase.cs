@@ -148,7 +148,7 @@ namespace StyleCop.ReSharper600.QuickFixes.Framework
         /// </summary>
         /// <remarks>
         /// An internal representation of the BulbItems used for
-        /// initialisation and filtering.
+        /// initialization and filtering.
         /// </remarks>
         protected List<IBulbItem> BulbItems
         {
@@ -202,7 +202,7 @@ namespace StyleCop.ReSharper600.QuickFixes.Framework
         #region Methods
 
         /// <summary>
-        /// Abstract Initialisation method that must be called by all
+        /// Abstract initialization method that must be called by all
         /// derived types.
         /// </summary>
         protected abstract void InitialiseBulbItems();

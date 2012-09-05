@@ -361,7 +361,7 @@ namespace StyleCop
         /// <summary> 
         /// Clean up any resources being used.
         /// </summary>
-        /// <param name="disposing">Dispose param.</param>
+        /// <param name="disposing">Dispose parameter.</param>
         protected override void Dispose(bool disposing)
         {
             Param.Ignore(disposing);

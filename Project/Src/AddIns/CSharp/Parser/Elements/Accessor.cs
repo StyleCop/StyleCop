@@ -32,12 +32,12 @@ namespace StyleCop.CSharp
         private AccessorType accessorType;
 
         /// <summary>
-        /// The accessor's return type.
+        /// The return type.
         /// </summary>
         private TypeToken returnType;
 
         /// <summary>
-        /// The accessor's input parameters.
+        /// The input parameters.
         /// </summary>
         private IList<Parameter> parameters;
 
@@ -48,7 +48,7 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Initializes a new instance of the Accessor class.
         /// </summary>
-        /// <param name="document">The documenent that contains the element.</param>
+        /// <param name="document">The document that contains the element.</param>
         /// <param name="parent">The parent of the element.</param>
         /// <param name="accessorType">The type of the accessor.</param>
         /// <param name="header">The Xml header for this element.</param>
@@ -114,7 +114,7 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Gets the accessor's return type.
+        /// Gets the return type.
         /// </summary>
         public TypeToken ReturnType
         {

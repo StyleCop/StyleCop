@@ -99,7 +99,7 @@ namespace StyleCop.ReSharper600.Options
         #region IComponent
 
         /// <summary>
-        /// Inits this instance.
+        /// Initializes this instance.
         /// </summary>
         public void Init()
         {

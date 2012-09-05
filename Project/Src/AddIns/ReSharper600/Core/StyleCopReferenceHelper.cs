@@ -59,7 +59,7 @@ namespace StyleCop.ReSharper600.Core
         private static bool assemblyLoadAttempted;
 
         /// <summary>
-        /// Flag to show whehter the references were added.
+        /// Flag to show whether the references were added.
         /// </summary>
         private static bool referencesAdded;
 
@@ -129,7 +129,7 @@ namespace StyleCop.ReSharper600.Core
         /// Gets a StyleCopCore instance.
         /// </summary>
         /// <returns>
-        /// A new StyleCopCore insance.
+        /// A new StyleCopCore instance.
         /// </returns>
         public static StyleCopCore GetStyleCopCore()
         {

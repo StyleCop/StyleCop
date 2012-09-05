@@ -72,7 +72,7 @@ namespace StyleCop.ReSharper700.Core
         #region Public Methods
 
         /// <summary>
-        /// Searches directorys of the project items project file and the parents thereof to see 
+        /// Searches directories of the project items project file and the parents thereof to see 
         /// if a Settings file exists.
         /// </summary>
         /// <param name="projectItem">
@@ -275,7 +275,7 @@ namespace StyleCop.ReSharper700.Core
         }
 
         /// <summary>
-        /// Called when a file being watched gets rwnamed.
+        /// Called when a file being watched gets renamed.
         /// </summary>
         /// <param name="source">The object being renamed.</param>
         /// <param name="e">The RenamedEventArgs for the file.</param>
@@ -339,7 +339,7 @@ namespace StyleCop.ReSharper700.Core
         }
 
         /// <summary>
-        /// Searches directorys of the project file and the parents thereof to see 
+        /// Searches directories of the project file and the parents thereof to see 
         /// if a Settings file exists.
         /// </summary>
         /// <param name="project">

@@ -47,13 +47,13 @@ namespace StyleCop.ReSharper700.CodeCleanup.Options
         #region Properties
 
         /// <summary>
-        /// Gets or sets the enumeration to define the behaviour of sorting Using Declarations.
+        /// Gets or sets the enumeration to define the behavior of sorting Using Declarations.
         /// </summary>
         [DisplayName("Organize 'using' statements alphabetically")]
         public AlphabeticalUsingsStyle AlphabeticalUsingDirectives { get; set; }
 
         /// <summary>
-        /// Gets or sets the enumeration to define the behaviour of Usings declarations.
+        /// Gets or sets the enumeration to define the behavior of Usings declarations.
         /// </summary>
         [DisplayName("Expand 'using' directives")]
         public ExpandUsingsStyle ExpandUsingDirectives { get; set; }
@@ -115,10 +115,10 @@ namespace StyleCop.ReSharper700.CodeCleanup.Options
         #region Methods
 
         /// <summary>
-        /// Builds a string reperesentation of the property value.
+        /// Builds a string representation of the property value.
         /// </summary>
         /// <param name="propertyInfo">
-        /// THe propertyInof to build the descriotion for.
+        /// The propertyInfo to build the description for.
         /// </param>
         /// <returns>
         /// The string representation.

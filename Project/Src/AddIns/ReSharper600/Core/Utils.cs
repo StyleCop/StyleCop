@@ -96,7 +96,7 @@ namespace StyleCop.ReSharper600.Core
         #region Public Methods
 
         /// <summary>
-        /// Calculates the number of line feeds occuring betwen the 2 nodes provided.
+        /// Calculates the number of line feeds occurring between the 2 nodes provided.
         /// </summary>
         /// <param name="node1">
         /// The first node to use.
@@ -122,7 +122,7 @@ namespace StyleCop.ReSharper600.Core
         }
 
         /// <summary>
-        /// Seperates the pascal text with space.
+        /// Separates the pascal text with space.
         /// </summary>
         /// <param name="textToParse">
         /// The text to parse.
@@ -177,13 +177,13 @@ namespace StyleCop.ReSharper600.Core
         }
 
         /// <summary>
-        /// Returns the text that the constructor should have from the containing type declaration with either with 'lessthan' and 'greaterthan' signs escaped or not.
+        /// Returns the text that the constructor should have from the containing type declaration with either with 'less than' and 'greater than' signs escaped or not.
         /// </summary>
         /// <param name="constructorDeclaration">
         /// The constructor to use.
         /// </param>
         /// <param name="encodeHtmlTags">
-        /// If True then typeparams will have {} instead of &lt; and &gt;.
+        /// If True then type params will have {} instead of &lt; and &gt;.
         /// </param>
         /// <returns>
         /// A string of the text.
@@ -212,13 +212,13 @@ namespace StyleCop.ReSharper600.Core
         }
 
         /// <summary>
-        /// Returns the text that the destructor should have from the containing type declaration with either with 'lessthan' and 'greaterthan' signs escaped or not.
+        /// Returns the text that the destructor should have from the containing type declaration with either with 'less than' and 'greater than' signs escaped or not.
         /// </summary>
         /// <param name="destructorDeclaration">
-        /// The dstructor to use.
+        /// The destructor to use.
         /// </param>
         /// <param name="encodeHtmlTags">
-        /// If True then typeparams will have {} instead of &lt; and &gt;.
+        /// If True then type params will have {} instead of &lt; and &gt;.
         /// </param>
         /// <returns>
         /// A string of the text.
@@ -787,7 +787,7 @@ namespace StyleCop.ReSharper600.Core
         /// A <see cref="string"/> of text to search.
         /// </param>
         /// <returns>
-        /// An <see cref="int"/> specifiying position of non whitespace. -1 is returned if not found.
+        /// An <see cref="int"/> specifying position of non whitespace. -1 is returned if not found.
         /// </returns>
         public static int GetFirstNonWhitespaceCharacterPosition(string text)
         {
@@ -922,7 +922,7 @@ namespace StyleCop.ReSharper600.Core
         /// A <see cref="string"/> of text to search.
         /// </param>
         /// <returns>
-        /// An <see cref="int"/> specifiying position of non whitespace. -1 is returned if not found.
+        /// An <see cref="int"/> specifying position of non whitespace. -1 is returned if not found.
         /// </returns>
         public static int GetLastNonWhitespaceCharacterPosition(string text)
         {
@@ -1242,7 +1242,7 @@ namespace StyleCop.ReSharper600.Core
         }
 
         /// <summary>
-        /// Gets a TextRange convering the entire line specified.
+        /// Gets a TextRange covering the entire line specified.
         /// </summary>
         /// <param name="document">
         /// The document the line is in.
@@ -1345,7 +1345,7 @@ namespace StyleCop.ReSharper600.Core
         /// The first node to check.
         /// </param>
         /// <param name="node2">
-        /// The second noe to check.
+        /// The second node to check.
         /// </param>
         /// <returns>
         /// True if a line break between them.
@@ -1549,7 +1549,7 @@ namespace StyleCop.ReSharper600.Core
         }
 
         /// <summary>
-        /// Removes the first blank line occuring before the node passed in.
+        /// Removes the first blank line occurring before the node passed in.
         /// </summary>
         /// <param name="node">
         /// The node to start at.
@@ -1654,7 +1654,7 @@ namespace StyleCop.ReSharper600.Core
         }
 
         /// <summary>
-        /// True if the token is preceeded on the same line by a non-whitespace token.
+        /// True if the token is preceded on the same line by a non-whitespace token.
         /// </summary>
         /// <param name="tokenNode">
         /// THe token to start at.
@@ -1734,7 +1734,7 @@ namespace StyleCop.ReSharper600.Core
         /// Count the number of whitespace characters at the left of the string.
         /// </summary>
         /// <param name="s">
-        /// The string to count the whitspace in.
+        /// The string to count the whitespace in.
         /// </param>
         /// <returns>
         /// An Int32 of the number of whitespace characters.
@@ -1762,7 +1762,7 @@ namespace StyleCop.ReSharper600.Core
         /// Count the number of whitespace characters at the right of the string.
         /// </summary>
         /// <param name="s">
-        /// The string to count the whitspace in.
+        /// The string to count the whitespace in.
         /// </param>
         /// <returns>
         /// An Int32 of the number of whitespace characters.

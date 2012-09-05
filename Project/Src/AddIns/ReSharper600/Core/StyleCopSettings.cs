@@ -68,7 +68,7 @@ namespace StyleCop.ReSharper600.Core
         #region Public Methods
 
         /// <summary>
-        /// Searches directorys of the project items project file and the parents thereof to see 
+        /// Searches directories of the project items project file and the parents thereof to see 
         /// if a Settings file exists.
         /// </summary>
         /// <param name="projectItem">
@@ -279,7 +279,7 @@ namespace StyleCop.ReSharper600.Core
         }
 
         /// <summary>
-        /// Searches directorys of the project file and the parents thereof to see 
+        /// Searches directories of the project file and the parents thereof to see 
         /// if a Settings file exists.
         /// </summary>
         /// <param name="project">

@@ -108,7 +108,7 @@ namespace StyleCop.ReSharper700.Options
         public string SpecifiedAssemblyPath { get; set; }
 
         /// <summary>
-        /// Gets or sets the text for inserting suppressmessageattributes.
+        /// Gets or sets the text for inserting suppress message attributes.
         /// </summary>
         [SettingsEntry("Reviewed. Suppression is OK here.", "Suppress StyleCop Attribute Justification Text")]
         public string SuppressStyleCopAttributeJustificationText { get; set; }
@@ -132,13 +132,13 @@ namespace StyleCop.ReSharper700.Options
         public bool CheckReSharperCodeStyleOptionsAtStartUp { get; set; }
         
         /// <summary>
-        /// Gets or sets a value indicating whether to analyse read only files.
+        /// Gets or sets a value indicating whether to analyze read only files.
         /// </summary>
-        [SettingsEntry(false, "Analyse read only files")]
-        public bool AnalyseReadOnlyFiles { get; set; }
+        [SettingsEntry(false, "analyze read only files")]
+        public bool AnalyzeReadOnlyFiles { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether to insert TODO into created docmentation text.
+        /// Gets or sets a value indicating whether to insert TODO into created documentation text.
         /// </summary>
         [SettingsEntry(false, "Insert TODO into new documentation text")]
         public bool InsertToDoText { get; set; }
@@ -212,7 +212,7 @@ namespace StyleCop.ReSharper700.Options
         /// Gets the StyleCop install location from the registry. This reg key is created by StyleCop during install.
         /// </summary>
         /// <returns>
-        /// Returns the regkey value or null if not found.
+        /// Returns the reg key value or null if not found.
         /// </returns>
         private static string RetrieveFromRegistry()
         {
@@ -224,16 +224,16 @@ namespace StyleCop.ReSharper700.Options
         }
         
         /// <summary>
-        /// Sets a regkey value in the registry.
+        /// Sets a reg key value in the registry.
         /// </summary>
         /// <param name="key">
-        /// The subkey to create.
+        /// The sub key to create.
         /// </param>
         /// <param name="value">
         /// The value to use.
         /// </param>
         /// <param name="valueKind">
-        /// The type of regkey value to set.
+        /// The type of reg key value to set.
         /// </param>
         private static void SetRegistry(string key, object value, RegistryValueKind valueKind)
         {

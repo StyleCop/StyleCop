@@ -54,7 +54,7 @@ namespace StyleCop.ReSharper600.QuickFixes.Framework
         /// Context Menu.
         /// </summary>
         /// <param name="reason">
-        /// Availablity Reason for the QF.
+        /// Availability Reason for the QF.
         /// </param>
         /// <returns>
         /// Image representing the icon.

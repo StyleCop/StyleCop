@@ -12,7 +12,7 @@
 //   notice, or any other, from this software.
 // </license>
 // <summary>
-//   Enumeration to define the behaviour of Usings declarations.
+//   Enumeration to define the behavior of Usings declarations.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -25,7 +25,7 @@ namespace StyleCop.ReSharper700.CodeCleanup.Styles
     #endregion
 
     /// <summary>
-    /// Enumeration to define the behaviour of Usings declarations.
+    /// Enumeration to define the behavior of Usings declarations.
     /// </summary>
     public enum ExpandUsingsStyle
     {

@@ -549,7 +549,7 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Checks any code analysis SupressMessage attributes on the element to make sure
+        /// Checks any code analysis SuppressMessage attributes on the element to make sure
         /// they all have justification text.
         /// </summary>
         /// <param name="element">The element being visited.</param>
@@ -583,7 +583,7 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Checks the given code analysis suppression call to ensure that it contains a justifiction parameter.
+        /// Checks the given code analysis suppression call to ensure that it contains a justification parameter.
         /// </summary>
         /// <param name="element">The element that contains the suppression attribute.</param>
         /// <param name="suppression">The suppression to check.</param>

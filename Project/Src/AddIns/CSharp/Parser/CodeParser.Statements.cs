@@ -1068,7 +1068,7 @@ namespace StyleCop.CSharp
         /// </summary>
         /// <param name="statementReference">A reference to the statement being created.</param>
         /// <param name="unsafeCode">Indicates whether the code is located within an unsafe block.</param>
-        /// <param name="openParenthesis">The opening parentheis.</param>
+        /// <param name="openParenthesis">The opening parenthesis.</param>
         /// <param name="openParenthesisNode">The opening parenthesis node.</param>
         /// <returns>Returns the list of iterators.</returns>
         private List<Expression> ParseForStatementIterators(
@@ -1126,7 +1126,7 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Reads the next foreach-statement from the file and returns it.
+        /// Reads the next foreach statement from the file and returns it.
         /// </summary>
         /// <param name="parentReference">The parent code unit.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
@@ -2008,7 +2008,7 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Reads the next goto-statement from the file and returns it.
+        /// Reads the next goto statement from the file and returns it.
         /// </summary>
         /// <param name="parentReference">The parent code unit.</param>
         /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>

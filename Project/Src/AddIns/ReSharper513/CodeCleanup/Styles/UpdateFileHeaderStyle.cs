@@ -12,7 +12,7 @@
 //   notice, or any other, from this software.
 // </license>
 // <summary>
-//   Enumeration to define the behaviour for updating the file header.
+//   Enumeration to define the behavior for updating the file header.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -25,7 +25,7 @@ namespace StyleCop.ReSharper513.CodeCleanup.Styles
     #endregion
 
     /// <summary>
-    /// Enumeration to define the behaviour for updating the file header.
+    /// Enumeration to define the behavior for updating the file header.
     /// </summary>
     public enum UpdateFileHeaderStyle
     {

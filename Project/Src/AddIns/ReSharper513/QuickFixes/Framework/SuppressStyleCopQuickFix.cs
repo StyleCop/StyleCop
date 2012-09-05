@@ -120,7 +120,7 @@ namespace StyleCop.ReSharper513.QuickFixes.Framework
         /// <see cref="StyleCopViolationWarning"/>that has been detected.
         /// </param>
         /// <param name="initialise">
-        /// True to initialise.
+        /// True to initialize.
         /// </param>
         protected SuppressStyleCopQuickFix(StyleCopViolationBase highlight, bool initialise)
         {
@@ -148,7 +148,7 @@ namespace StyleCop.ReSharper513.QuickFixes.Framework
         /// </summary>
         /// <remarks>
         /// An internal representation of the BulbItems used for
-        /// initialisation and filtering.
+        /// initialization and filtering.
         /// </remarks>
         protected List<IBulbItem> BulbItems
         {
@@ -170,10 +170,10 @@ namespace StyleCop.ReSharper513.QuickFixes.Framework
         #region IBulbAction
 
         /// <summary>
-        /// True if this quickfix is available.
+        /// True if this QuickFix is available.
         /// </summary>
         /// <param name="cache">
-        /// The chache object to use.
+        /// The cache object to use.
         /// </param>
         /// <returns>
         /// The is available.
@@ -190,7 +190,7 @@ namespace StyleCop.ReSharper513.QuickFixes.Framework
         #region Methods
 
         /// <summary>
-        /// Initialises the QuickFix with all the available BulbItems that can fix the current
+        /// Initializes the QuickFix with all the available BulbItems that can fix the current
         /// StyleCop Violation.
         /// </summary>
         protected void InitialiseBulbItems()

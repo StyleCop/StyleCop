@@ -162,7 +162,8 @@ namespace StyleCop.CSharp
         /// <param name="expression"> The expression to check. </param>
         /// <returns> Returns true if the expression is the left-hand-side literal in any of the assignment expressions within an object initializer expression. </returns>
         /// <remarks>
-        ///   This method checks for the following situation: class MyClass { public bool Member { get { return true; } } public void SomeMethod() { MyObjectType someObject = new MyObjectType { Member = this.Member }; } } In this case, StyleCop will raise a violation since it looks like the Member token should be prefixed by 'this.', however, it is actually referring to a property on the MyObjectType type.
+        ///   This method checks for the following situation:
+        ///   class MyClass { public bool Member { get { return true; } } public void SomeMethod() { MyObjectType someObject = new MyObjectType { Member = this.Member }; } } In this case, StyleCop will raise a violation since it looks like the Member token should be prefixed by 'this.', however, it is actually referring to a property on the MyObjectType type.
         /// </remarks>
         private static bool IsObjectInitializerLeftHandSideExpression(Expression expression)
         {
@@ -557,7 +558,7 @@ namespace StyleCop.CSharp
         /// <param name="memberName"> The text of the method call to check. </param>
         /// <param name="parentClass"> The class this this member belongs to. </param>
         /// <param name="members"> All the members of this class. </param>
-        /// <returns> True if base is required otherise false. </returns>
+        /// <returns> True if base is required otherwise false. </returns>
         private bool IsBaseRequired(string memberName, ClassBase parentClass, Dictionary<string, List<CsElement>> members)
         {
             // An item is only allowed to start with base if there is an implementation of the

@@ -202,7 +202,7 @@ namespace System
         /// The generic parameter <see cref="Type"/>.
         /// </param>
         /// <returns>
-        /// <c>true</c>if <paramref name="type"/> meets the generic constaints; otherwise <c>false</c>.
+        /// <c>true</c>if <paramref name="type"/> meets the generic constraints; otherwise <c>false</c>.
         /// </returns>
         /// <exception cref="ArgumentNullException">
         /// Either <paramref name="type"/> or <paramref name="parameterType"/> is <c>null</c>.
@@ -269,7 +269,7 @@ namespace System
         /// The generic parameter type constraint.
         /// </param>
         /// <returns>
-        /// <c>true</c>if <paramref name="type"/> meets the generic parameter type constaint; otherwise <c>false</c>.
+        /// <c>true</c>if <paramref name="type"/> meets the generic parameter type constraint; otherwise <c>false</c>.
         /// </returns>
         /// <exception cref="ArgumentNullException">
         /// Either <paramref name="type"/> or <paramref name="constraintType"/> is <c>null</c>.

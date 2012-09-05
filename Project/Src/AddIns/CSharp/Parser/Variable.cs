@@ -64,10 +64,10 @@ namespace StyleCop.CSharp
         /// </summary>
         /// <param name="type">The type of the variable.</param>
         /// <param name="name">The name of the variable.</param>
-        /// <param name="modifiers">Modifers applied to this variable.</param>
+        /// <param name="modifiers">Modifiers applied to this variable.</param>
         /// <param name="location">The location of the variable.</param>
         /// <param name="parent">The parent code part.</param>
-        /// <param name="generated">Indicates whethre the variable is located within a block of generated code.</param>
+        /// <param name="generated">Indicates whether the variable is located within a block of generated code.</param>
         internal Variable(TypeToken type, string name, VariableModifiers modifiers, CodeLocation location, Reference<ICodePart> parent, bool generated)
         {
             Param.Ignore(type);

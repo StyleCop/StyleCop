@@ -1163,7 +1163,7 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Processes a newline character found while checking line spacing rules.
         /// </summary>
-        /// <param name="precedingTokenNode">The preceding non-whitesapce token before the newline.</param>
+        /// <param name="precedingTokenNode">The preceding non-whitespace token before the newline.</param>
         /// <param name="node">The newline token.</param>
         /// <param name="count">The current newline count.</param>
         private void CheckLineSpacingNewline(Node<CsToken> precedingTokenNode, Node<CsToken> node, int count)

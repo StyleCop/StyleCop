@@ -186,7 +186,7 @@ namespace StyleCop.CSharp
         Typeof,
 
         /// <summary>
-        /// A unary exprssion.
+        /// A unary expression.
         /// </summary>
         Unary,
 

@@ -1,4 +1,12 @@
-﻿
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="NamingService.cs" company="http://stylecop.codeplex.com">
+//   MS-PL
+// </copyright>
+// <summary>
+//   The naming service.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace StyleCop.Spelling
 {
     using System;
@@ -10,10 +18,12 @@ namespace StyleCop.Spelling
     using System.Reflection;
     using System.Xml;
 
+    /// <summary>
+    /// The naming service.
+    /// </summary>
     public class NamingService : IDisposable
     {
         // Fields
-
         #region Static Fields
 
         private static readonly Dictionary<string, NamingService> ServiceCache = new Dictionary<string, NamingService>();
@@ -41,7 +51,6 @@ namespace StyleCop.Spelling
         #endregion
 
         // Methods
-
         #region Constructors and Destructors
 
         private NamingService(CultureInfo culture)
@@ -55,6 +64,9 @@ namespace StyleCop.Spelling
 
         #region Public Properties
 
+        /// <summary>
+        /// Gets the default naming service.
+        /// </summary>
         public static NamingService DefaultNamingService
         {
             get
@@ -63,6 +75,9 @@ namespace StyleCop.Spelling
             }
         }
 
+        /// <summary>
+        /// Gets the culture.
+        /// </summary>
         public CultureInfo Culture
         {
             get
@@ -71,11 +86,14 @@ namespace StyleCop.Spelling
             }
         }
 
+        /// <summary>
+        /// Gets a value indicating whether supports spelling.
+        /// </summary>
         public bool SupportsSpelling
         {
             get
             {
-                return (this.spellChecker != null);
+                return this.spellChecker != null;
             }
         }
 
@@ -87,8 +105,7 @@ namespace StyleCop.Spelling
         {
             get
             {
-                return (this.culture.Name.Equals("en", StringComparison.OrdinalIgnoreCase)
-                        || this.culture.Parent.Name.Equals("en", StringComparison.OrdinalIgnoreCase));
+                return this.culture.Name.Equals("en", StringComparison.OrdinalIgnoreCase) || this.culture.Parent.Name.Equals("en", StringComparison.OrdinalIgnoreCase);
             }
         }
 
@@ -96,6 +113,9 @@ namespace StyleCop.Spelling
 
         #region Public Methods and Operators
 
+        /// <summary>
+        /// The clear cached services.
+        /// </summary>
         public static void ClearCachedServices()
         {
             lock (ServiceCacheLock)
@@ -110,7 +130,16 @@ namespace StyleCop.Spelling
             }
         }
 
-        [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
+        /// <summary>
+        /// The get naming service.
+        /// </summary>
+        /// <param name="culture">
+        /// The culture.
+        /// </param>
+        /// <returns>
+        /// The StyleCop.Spelling.NamingService.
+        /// </returns>
+        [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "OK here.")]
         public static NamingService GetNamingService(CultureInfo culture)
         {
             if (culture == null)
@@ -131,6 +160,15 @@ namespace StyleCop.Spelling
             }
         }
 
+        /// <summary>
+        /// The check spelling.
+        /// </summary>
+        /// <param name="word">
+        /// The word.
+        /// </param>
+        /// <returns>
+        /// The StyleCop.Spelling.WordSpelling.
+        /// </returns>
         public WordSpelling CheckSpelling(string word)
         {
             if (!this.SupportsSpelling)
@@ -141,12 +179,24 @@ namespace StyleCop.Spelling
             return this.spellChecker.Check(word);
         }
 
+        /// <summary>
+        /// The dispose.
+        /// </summary>
         public void Dispose()
         {
             this.Dispose(true);
             GC.SuppressFinalize(this);
         }
 
+        /// <summary>
+        /// The get compound alternate for discrete word.
+        /// </summary>
+        /// <param name="word">
+        /// The word.
+        /// </param>
+        /// <returns>
+        /// The System.String.
+        /// </returns>
         public string GetCompoundAlternateForDiscreteWord(string word)
         {
             if (word == null)
@@ -163,6 +213,18 @@ namespace StyleCop.Spelling
             return str;
         }
 
+        /// <summary>
+        /// The get discrete alternate for compound word.
+        /// </summary>
+        /// <param name="word1">
+        /// The word 1.
+        /// </param>
+        /// <param name="word2">
+        /// The word 2.
+        /// </param>
+        /// <returns>
+        /// The System.String.
+        /// </returns>
         public string GetDiscreteAlternateForCompoundWord(string word1, string word2)
         {
             if ((word1 == null) || (word2 == null))
@@ -206,13 +268,22 @@ namespace StyleCop.Spelling
                 if (this.CheckSpelling(key) == WordSpelling.SpelledCorrectly)
                 {
                     string str2 = char.ToLower(word2[0], this.culture) + word2.Substring(1);
-                    return (word1 + str2);
+                    return word1 + str2;
                 }
             }
 
             return null;
         }
 
+        /// <summary>
+        /// The get preferred alternate for deprecated word.
+        /// </summary>
+        /// <param name="word">
+        /// The word.
+        /// </param>
+        /// <returns>
+        /// The System.String.
+        /// </returns>
         public string GetPreferredAlternateForDeprecatedWord(string word)
         {
             if (word == null)
@@ -223,6 +294,15 @@ namespace StyleCop.Spelling
             return this.alternatesForDeprecatedWords[word];
         }
 
+        /// <summary>
+        /// The is casing exception.
+        /// </summary>
+        /// <param name="word">
+        /// The word.
+        /// </param>
+        /// <returns>
+        /// The System.Boolean.
+        /// </returns>
         public bool IsCasingException(string word)
         {
             if (word == null)
@@ -243,7 +323,6 @@ namespace StyleCop.Spelling
             {
                 return CultureInfo.GetCultureInfo(cultureName);
             }
-
             catch (ArgumentException)
             {
             }
@@ -261,6 +340,12 @@ namespace StyleCop.Spelling
             return this.spellChecker != null && this.spellChecker.IgnoredWords.Contains(word);
         }
 
+        /// <summary>
+        /// The dispose.
+        /// </summary>
+        /// <param name="disposing">
+        /// The disposing.
+        /// </param>
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)
@@ -349,9 +434,9 @@ namespace StyleCop.Spelling
                     string item = str.ToLower(this.culture);
                     if (WordCollection.IsValidWordLength(item))
                     {
-                        spellChecker.IgnoredWords.Add(str);
-                        spellChecker.IgnoredWords.Add(item);
-                        spellChecker.IgnoredWords.Add(char.ToUpper(item[0], this.culture) + item.Substring(1));
+                        this.spellChecker.IgnoredWords.Add(str);
+                        this.spellChecker.IgnoredWords.Add(item);
+                        this.spellChecker.IgnoredWords.Add(char.ToUpper(item[0], this.culture) + item.Substring(1));
                     }
                 }
 
@@ -362,8 +447,8 @@ namespace StyleCop.Spelling
                         string str4 = str3.ToLower(this.culture);
                         if (WordCollection.IsValidWordLength(str4))
                         {
-                            spellChecker.AlwaysMisspelledWords.Add(str4);
-                            spellChecker.AlwaysMisspelledWords.Add(char.ToUpper(str4[0], this.culture) + str4.Substring(1));
+                            this.spellChecker.AlwaysMisspelledWords.Add(str4);
+                            this.spellChecker.AlwaysMisspelledWords.Add(char.ToUpper(str4[0], this.culture) + str4.Substring(1));
                         }
                     }
                 }
@@ -392,15 +477,15 @@ namespace StyleCop.Spelling
         private void InitDefaultCustomDictionaries()
         {
             var currentDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-
+            Console.WriteLine("Loading dictionary from {0}", currentDirectory);
             if (currentDirectory != null)
             {
-                foreach (string str in Directory.GetFiles(currentDirectory, "CustomDictionary.xml"))
+                foreach (string str in Directory.GetFiles(currentDirectory, "CustomDictionary.xml", SearchOption.AllDirectories))
                 {
                     this.LoadCustomDictionaryXml(str);
                 }
 
-                foreach (string str2 in Directory.GetFiles(currentDirectory, "custom.dic"))
+                foreach (string str2 in Directory.GetFiles(currentDirectory, "custom.dic", SearchOption.AllDirectories))
                 {
                     this.LoadCustomDic(str2);
                 }
@@ -432,10 +517,12 @@ namespace StyleCop.Spelling
             catch (FileNotFoundException)
             {
             }
-            catch (XmlException) //TODO exception)
+            catch (XmlException)
             {
-                //TODO throw new FxCopException(string.Format(CultureInfo.CurrentCulture, Localized.LoadXmlFileException, new object[] { fileName }), exception);
+                // TODO exception)
+                // TODO throw new FxCopException(string.Format(CultureInfo.CurrentCulture, Localized.LoadXmlFileException, new object[] { fileName }), exception);
             }
+
             IDictionary<string, string> list = this.CreateCaseInsensitiveDictionary();
             IDictionary<string, string> dictionary2 = this.CreateCaseInsensitiveDictionary();
             LoadWordsFromXml(list, document, "/Dictionary/Words/Recognized/Word", null);

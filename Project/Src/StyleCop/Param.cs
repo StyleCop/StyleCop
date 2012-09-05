@@ -71,7 +71,7 @@ namespace StyleCop
         /// Asserts that the given parameter must not be null.
         /// </summary>
         /// <param name="parameter">The parameter to check for null.</param>
-        /// <param name="parameterName">The name of the paramater.</param>
+        /// <param name="parameterName">The name of the parameter.</param>
         [Conditional("DEBUG")]
         public static void AssertNotNull(object parameter, string parameterName)
         {
@@ -83,7 +83,7 @@ namespace StyleCop
         /// Asserts that the given parameter must not be null.
         /// </summary>
         /// <param name="parameter">The parameter to check for null.</param>
-        /// <param name="parameterName">The name of the paramater.</param>
+        /// <param name="parameterName">The name of the parameter.</param>
         /// <param name="exceptionMessage">Message of the exception to create.</param>
         [Conditional("DEBUG")]
         public static void AssertNotNull(object parameter, string parameterName, string exceptionMessage)
@@ -113,7 +113,7 @@ namespace StyleCop
         /// Asserts that the given string is not null or empty.
         /// </summary>
         /// <param name="parameter">The string to check.</param>
-        /// <param name="parameterName">The name of the string paramater.</param>
+        /// <param name="parameterName">The name of the string parameter.</param>
         [Conditional("DEBUG")]
         public static void AssertValidString(string parameter, string parameterName)
         {
@@ -125,7 +125,7 @@ namespace StyleCop
         /// Asserts that the given collection is not null or empty.
         /// </summary>
         /// <param name="parameter">The collection to check.</param>
-        /// <param name="parameterName">The name of the collection paramater.</param>
+        /// <param name="parameterName">The name of the collection parameter.</param>
         [Conditional("DEBUG")]
         public static void AssertValidCollection(ICollection parameter, string parameterName)
         {
@@ -629,7 +629,7 @@ namespace StyleCop
         /// Requires that the given parameter must not be null.
         /// </summary>
         /// <param name="parameter">The parameter to check for null.</param>
-        /// <param name="parameterName">The name of the paramater.</param>
+        /// <param name="parameterName">The name of the parameter.</param>
         public static void RequireNotNull(object parameter, string parameterName)
         {
             Param.Ignore(parameter, parameterName);
@@ -719,7 +719,7 @@ namespace StyleCop
         /// Requires that the given string is not null or empty.
         /// </summary>
         /// <param name="parameter">The string to check.</param>
-        /// <param name="parameterName">The name of the string paramater.</param>
+        /// <param name="parameterName">The name of the string parameter.</param>
         public static void RequireValidString(string parameter, string parameterName)
         {
             Param.Ignore(parameterName);
@@ -730,7 +730,7 @@ namespace StyleCop
         /// Requires that the given collection is not null or empty.
         /// </summary>
         /// <param name="parameter">The collection to check.</param>
-        /// <param name="parameterName">The name of the collection paramater.</param>
+        /// <param name="parameterName">The name of the collection parameter.</param>
         public static void RequireValidCollection(ICollection parameter, string parameterName)
         {
             Param.Ignore(parameterName);

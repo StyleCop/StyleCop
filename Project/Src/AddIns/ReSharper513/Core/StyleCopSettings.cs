@@ -76,7 +76,7 @@ namespace StyleCop.ReSharper513.Core
         #region Public Methods and Operators
 
         /// <summary>
-        /// Searches directorys of the project items project file and the parents thereof to see if a Settings file exists.
+        /// Searches directories of the project items project file and the parents thereof to see if a Settings file exists.
         /// </summary>
         /// <param name="projectItem">
         /// File being examined. 
@@ -288,7 +288,7 @@ namespace StyleCop.ReSharper513.Core
         }
 
         /// <summary>
-        /// Searches directorys of the project file and the parents thereof to see if a Settings file exists.
+        /// Searches directories of the project file and the parents thereof to see if a Settings file exists.
         /// </summary>
         /// <param name="project">
         /// The project file. 

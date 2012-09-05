@@ -72,7 +72,7 @@ namespace StyleCop.VisualStudio
         #region Private Methods
 
         /// <summary>
-        /// Add Comands for the menu items handled by the package.
+        /// Add Commands for the menu items handled by the package.
         /// </summary>
         private void AddCommands()
         {
@@ -244,9 +244,9 @@ namespace StyleCop.VisualStudio
         /// <summary>
         /// Base status handler for the analyzer menu items.
         /// </summary>
-        /// <param name="menuCommand">The menu item object to set the satus on.</param>
+        /// <param name="menuCommand">The menu item object to set the status on.</param>
         /// <param name="visible">Indicates whether the menu item should be visible.</param>
-        /// <returns>false if it has been detemined that this menu item shold be hidden/disabled.</returns>
+        /// <returns>False if it has been determined that this menu item should be hidden/disabled.</returns>
         private bool StatusAnalyzeBase(OleMenuCommand menuCommand, bool visible)
         {
             Param.AssertNotNull(menuCommand, "menuCommand");

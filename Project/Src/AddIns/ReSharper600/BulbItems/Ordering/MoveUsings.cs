@@ -12,7 +12,7 @@
 //   notice, or any other, from this software.
 // </license>
 // <summary>
-//   BulbItem - MoveUsings : Moves Using statements inside the clsoest namespace.
+//   BulbItem - MoveUsings : Moves Using statements inside the closest namespace.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -30,7 +30,7 @@ namespace StyleCop.ReSharper600.BulbItems.Ordering
     #endregion
 
     /// <summary>
-    /// BulbItem - MoveUsings : Moves Using statements inside the clsoest namespace.
+    /// BulbItem - MoveUsings : Moves Using statements inside the closest namespace.
     /// </summary>
     internal class MoveUsings : V5BulbItemImpl
     {

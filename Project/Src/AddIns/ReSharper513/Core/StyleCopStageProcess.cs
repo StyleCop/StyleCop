@@ -59,7 +59,7 @@ namespace StyleCop.ReSharper513.Core
         private static bool firstRunFlag = true;
 
         /// <summary>
-        ///   Used to reduce the number of calls to StyleCop to help with perfromance.
+        ///   Used to reduce the number of calls to StyleCop to help with performance.
         /// </summary>
         private static Stopwatch performanceStopWatch;
 
@@ -94,10 +94,10 @@ namespace StyleCop.ReSharper513.Core
         #region Public Methods and Operators
 
         /// <summary>
-        ///   The execute.
+        /// The execute.
         /// </summary>
-        /// <param name="commiter"> The commiter. </param>
-        public void Execute(Action<DaemonStageResult> commiter)
+        /// <param name="committer">The committer.</param>
+        public void Execute(Action<DaemonStageResult> committer)
         {
             StyleCopTrace.In();
 
@@ -129,7 +129,7 @@ namespace StyleCop.ReSharper513.Core
                      let highlighting = info.Highlighting
                      select new HighlightingInfo(range, highlighting)).ToList();
 
-                commiter(new DaemonStageResult(violations));
+                committer(new DaemonStageResult(violations));
 
                 ResetPerformanceStopWatch();
 
@@ -144,7 +144,7 @@ namespace StyleCop.ReSharper513.Core
         #region Methods
 
         /// <summary>
-        ///   Initialises the static timers used to regulate performance of file scavenging and execution of StyleCop analysis.
+        ///   Initializes the static timers used to regulate performance of file scavenging and execution of StyleCop analysis.
         /// </summary>
         private static void InitialiseTimers()
         {

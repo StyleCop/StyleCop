@@ -254,7 +254,7 @@ namespace StyleCop
             /// Serialized version of the type.
             /// </param>
             /// <returns>
-            /// DeSerialized version of the type.
+            /// Deserialized version of the type.
             /// </returns>
             public static T CreateInstance<T>(string serializedType) where T : new()
             {

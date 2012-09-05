@@ -24,12 +24,12 @@ namespace StyleCopSettingsEditor
     using StyleCop.SettingsEditor.Properties;
 
     /// <summary>
-    /// The main entrypoint class.
+    /// The main entry point class.
     /// </summary>
     public static class Program
     {
         /// <summary>
-        /// The main entrypoint for the program.
+        /// The main entry point for the program.
         /// </summary>
         /// <param name="args">The event arguments.</param>
         [SuppressMessage("Microsoft.Globalization", "CA1300:SpecifyMessageBoxOptions", Justification = "The default options are adequate.")]

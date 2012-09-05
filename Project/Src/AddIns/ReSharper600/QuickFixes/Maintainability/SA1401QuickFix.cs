@@ -12,7 +12,7 @@
 //   notice, or any other, from this software.
 // </license>
 // <summary>
-//   QuickFi for StyleCop Rule SA1401.
+//   QuickFix for StyleCop Rule SA1401.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -31,7 +31,7 @@ namespace StyleCop.ReSharper600.QuickFixes.Maintainability
     #endregion
 
     /// <summary>
-    /// QuickFi for StyleCop Rule SA1401.
+    /// QuickFix for StyleCop Rule SA1401.
     /// </summary>
     [ShowQuickFix]
     [QuickFix]
@@ -104,7 +104,7 @@ namespace StyleCop.ReSharper600.QuickFixes.Maintainability
         #region Methods
 
         /// <summary>
-        /// Initialises the QuickFix with all the available BulbItems that can fix the current
+        /// Initializes the QuickFix with all the available BulbItems that can fix the current
         /// StyleCop Violation.
         /// </summary>
         protected override void InitialiseBulbItems()

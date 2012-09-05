@@ -221,7 +221,7 @@ namespace StyleCop
         /// </summary>
         /// <param name="name">The unique name of the form.</param>
         /// <param name="form">The form to restore.</param>
-        /// <returns>Returns false if there is no registry informtion for this form, or if 
+        /// <returns>Returns false if there is no registry information for this form, or if 
         /// the position of the form could not be restored.</returns>
         public bool RestoreWindowPosition(string name, Form form)
         {
@@ -237,7 +237,7 @@ namespace StyleCop
         /// <param name="form">The form to restore.</param>
         /// <param name="location">Form's default location (optional).</param>
         /// <param name="size">Form's default size (optional).</param>
-        /// <returns>Returns false if there is no registry informtion for this form, or if 
+        /// <returns>Returns false if there is no registry information for this form, or if 
         /// the position of the form could not be restored.</returns>
         public bool RestoreWindowPosition(string name, Form form, object location, object size)
         {

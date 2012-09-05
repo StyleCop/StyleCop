@@ -652,12 +652,12 @@ namespace StyleCop.CSharp
         UsingDirectivesMustBePlacedWithinNamespace,
 
         /// <summary>
-        /// The open paren is not on the same line as the method call.
+        /// The open parenthesis is not on the same line as the method call.
         /// </summary>
         OpeningParenthesisMustBeOnDeclarationLine,
 
         /// <summary>
-        /// The closing paren is not on the same line as the last parameter.
+        /// The closing parenthesis is not on the same line as the last parameter.
         /// </summary>
         ClosingParenthesisMustBeOnLineOfLastParameter,
 
@@ -758,12 +758,12 @@ namespace StyleCop.CSharp
         UsingAliasDirectivesMustBeOrderedAlphabeticallyByAliasName,
 
         /// <summary>
-        /// Verifies that get-accessors are placed before set-accessors within properties and indexers.
+        /// Verifies that get accessors are placed before set accessors within properties and indexers.
         /// </summary>
         PropertyAccessorsMustFollowOrder,
 
         /// <summary>
-        /// Verifies that add-accessors are placed before remove-accessors within events.
+        /// Verifies that add accessors are placed before remove accessors within events.
         /// </summary>
         EventAccessorsMustFollowOrder,
 
@@ -793,7 +793,7 @@ namespace StyleCop.CSharp
         QueryClausesSpanningMultipleLinesMustBeginOnOwnLine,
 
         /// <summary>
-        /// Enforces the use of the built-in 'bool' keyword rather than the type Boolean or System.Boolean.
+        /// Enforces the use of the built-in bool keyword rather than the type Boolean or System.Boolean.
         /// </summary>
         UseBuiltInTypeAlias,
 
@@ -860,6 +860,11 @@ namespace StyleCop.CSharp
         /// <summary>
         /// A static readonly variable starts with an upper case letter.
         /// </summary>
-        StaticReadonlyFieldsMustBeginWithUpperCaseLetter
+        StaticReadonlyFieldsMustBeginWithUpperCaseLetter,
+
+        /// <summary>
+        /// An elements documentation must be spelled correctly.
+        /// </summary>
+        ElementDocumentationMustBeSpelledCorrectly
     }
 }

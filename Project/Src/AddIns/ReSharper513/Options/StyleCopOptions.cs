@@ -214,7 +214,7 @@ namespace StyleCop.ReSharper513.Options
         public string SpecifiedAssemblyPath { get; set; }
 
         /// <summary>
-        /// Gets or sets the text for inserting suppressmessageattributes.
+        /// Gets or sets the text for inserting suppress message attributes.
         /// </summary>
         [JB::JetBrains.Util.XmlExternalizableAttribute("Reviewed. Suppression is OK here.")]
         public string SuppressStyleCopAttributeJustificationText { get; set; }
@@ -359,16 +359,16 @@ namespace StyleCop.ReSharper513.Options
         #region Methods
 
         /// <summary>
-        /// Sets a regkey value in the registry.
+        /// Sets a reg key value in the registry.
         /// </summary>
         /// <param name="key">
-        /// The subkey to create.
+        /// The sub key to create.
         /// </param>
         /// <param name="value">
         /// The value to use.
         /// </param>
         /// <param name="valueKind">
-        /// The type of regkey value to set.
+        /// The type of reg key value to set.
         /// </param>
         private static void SetRegistry(string key, object value, RegistryValueKind valueKind)
         {

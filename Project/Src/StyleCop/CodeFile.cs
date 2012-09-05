@@ -198,7 +198,7 @@ namespace StyleCop
         ///   Gets the code type identifier.
         /// </summary>
         /// <remarks>
-        ///   This is eqivalent to the file extension.
+        ///   This is equivalent to the file extension.
         /// </remarks>
         public override string Type
         {

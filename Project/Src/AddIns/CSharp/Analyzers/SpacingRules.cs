@@ -379,7 +379,7 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Checks the spacing of the tokens within the given generic type token.
         /// </summary>
-        /// <param name="tokens">The masterlist of tokens.</param>
+        /// <param name="tokens">The master list of tokens.</param>
         /// <param name="genericTokenNode">The generic type token to check.</param>
         [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification = "Minimizing refactoring before release.")]
         private void CheckGenericSpacing(MasterList<CsToken> tokens, Node<CsToken> genericTokenNode)
@@ -577,7 +577,7 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Checks a semicolon or comma for spacing.
         /// </summary>
-        /// <param name="tokens">The masterlist of tokens.</param>
+        /// <param name="tokens">The master list of tokens.</param>
         /// <param name="tokenNode">The token node to check.</param>
         [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification = "Minimizing refactoring before release.")]
         private void CheckSemicolonAndComma(MasterList<CsToken> tokens, Node<CsToken> tokenNode)
@@ -1055,7 +1055,7 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Checks a close paren for spacing.
+        /// Checks a close parenthesis for spacing.
         /// </summary>
         /// <param name="tokens">The list of tokens being parsed.</param>
         /// <param name="tokenNode">The token to check.</param>
@@ -1560,7 +1560,7 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Checks to see if the passed in node is the first node on its line.
         /// </summary>
-        /// <param name="tokens">The masterlist of tokens.</param>
+        /// <param name="tokens">The master list of tokens.</param>
         /// <param name="node">The node to check.</param>
         /// <returns>True if this node is the first on the line, otherwise false.</returns>
         private bool IsTokenFirstNonWhitespaceTokenOnLine(MasterList<CsToken> tokens, Node<CsToken> node)
@@ -1678,7 +1678,7 @@ namespace StyleCop.CSharp
             else
             {
                 // Whitespace after but not before
-                // In this case if we are preceeded by an open square or open paran
+                // In this case if we are preceded by an open square or open paran
                 // Then its a violation
                 if (previousNode.Value.CsTokenType == CsTokenType.OpenSquareBracket
                      || previousNode.Value.CsTokenType == CsTokenType.OpenParenthesis)
@@ -1935,7 +1935,7 @@ namespace StyleCop.CSharp
                     this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.SymbolsMustBeSpacedCorrectly, tokenNode.Value.Text);
                 }
 
-                // They should not be preceeded by whitespace if the whitespace is preceeded by a paranthesis.
+                // They should not be preceded by whitespace if the whitespace is preceded by a paranthesis.
                 if (previousNodeTokenType == CsTokenType.WhiteSpace || previousNodeTokenType == CsTokenType.EndOfLine)
                 {
                     foreach (CsToken item in tokens.ReverseIterator(previousNode))

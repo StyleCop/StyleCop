@@ -102,7 +102,7 @@ namespace StyleCop.ReSharper610.Options
         #region IComponent
 
         /// <summary>
-        /// Inits this instance.
+        /// Initializes this instance.
         /// </summary>
         public void Init()
         {

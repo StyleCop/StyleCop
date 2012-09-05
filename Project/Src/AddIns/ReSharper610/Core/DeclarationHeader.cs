@@ -242,7 +242,7 @@ namespace StyleCop.ReSharper610.Core
         /// The parameter name to search for.
         /// </param>
         /// <returns>
-        /// A <see cref="bool"/> of whether a param is decalared in the header.
+        /// A <see cref="bool"/> of whether a param is declared in the header.
         /// </returns>
         public bool ContainsParameter(string parameterName)
         {
@@ -261,7 +261,7 @@ namespace StyleCop.ReSharper610.Core
         /// The parameter name to search for.
         /// </param>
         /// <returns>
-        /// A <see cref="bool"/> of whether a type param is decalared in the header.
+        /// A <see cref="bool"/> of whether a type param is declared in the header.
         /// </returns>
         public bool ContainsTypeParameter(string parameterName)
         {
@@ -363,7 +363,7 @@ namespace StyleCop.ReSharper610.Core
         /// The config for the current ProjectFile.
         /// </param>
         /// <returns>
-        /// A string of the declarations sumamry text.
+        /// A string of the declarations summary text.
         /// </returns>
         private static string CreateDocumentationForElement(IDocCommentBlockOwnerNode owner, DocumentationRulesConfiguration docConfig)
         {
@@ -723,7 +723,7 @@ namespace StyleCop.ReSharper610.Core
         }
 
         /// <summary>
-        /// Ininitialises this type.
+        /// Initializes this type.
         /// </summary>
         /// <param name="declaration">The declaration.</param>
         private void Init(IDeclaration declaration)

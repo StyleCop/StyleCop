@@ -31,12 +31,12 @@ namespace StyleCop.VisualStudio
         private static volatile object mutex = new object();
 
         /// <summary>
-        /// Event cookie, set the class is initialised.
+        /// Event cookie, set the class is initialized.
         /// </summary>
         private uint eventsCookie;
 
         /// <summary>
-        /// Flag indicating whether the class has beeen disposed.
+        /// Flag indicating whether the class has been disposed.
         /// </summary>
         private bool disposed;
 

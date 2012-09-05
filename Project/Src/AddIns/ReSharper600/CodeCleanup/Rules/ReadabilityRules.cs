@@ -108,7 +108,7 @@ namespace StyleCop.ReSharper600.CodeCleanup.Rules
         }
 
         /// <summary>
-        /// Moves the IStartRegion specified inside the next open curly bracket and moves the corrsponding endregion inside too.
+        /// Moves the IStartRegion specified inside the next open curly bracket and moves the corresponding end region inside too.
         /// </summary>
         /// <param name="startRegionNode">
         /// The node to move.
@@ -443,10 +443,10 @@ namespace StyleCop.ReSharper600.CodeCleanup.Rules
         }
 
         /// <summary>
-        /// Process foreach variable declaration.
+        /// Process for each variable declaration.
         /// </summary>
         /// <param name="foreachVariableDeclaration">
-        /// The foreach variable declaration.
+        /// The for each variable declaration.
         /// </param>
         private static void ProcessForeachVariableDeclaration(IForeachVariableDeclaration foreachVariableDeclaration)
         {

@@ -37,7 +37,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <OutputPath>$(RootBin)\Debug\</OutputPath>
-    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <BaseAddress>285212672</BaseAddress>
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
     <DefineConstants>TRACE;DEBUG;DEBUGTHREADING_OFF</DefineConstants>
@@ -56,7 +56,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>$(RootBin)\Release\</OutputPath>
-    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <BaseAddress>285212672</BaseAddress>
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
     <DefineConstants>TRACE</DefineConstants>
@@ -112,6 +112,15 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="NativeMethods.cs" />
+    <Compile Include="Spelling\NamingService.cs" />
+    <Compile Include="Spelling\NullIfNotFoundDictionary.cs" />
+    <Compile Include="Spelling\SpellChecker.cs">
+      <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
+    </Compile>
+    <Compile Include="Spelling\WordCollection.cs" />
+    <Compile Include="Spelling\WordParser.cs" />
+    <Compile Include="Spelling\WordParserOptions.cs" />
+    <Compile Include="Spelling\WordSpelling.cs" />
     <Compile Include="UnixNativeMethods.cs" />
     <Compile Include="Settings\IPropertyControlHost.cs" />
     <Compile Include="Settings\PropertyControlSaveResult.cs" />
@@ -265,13 +274,21 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="CoreParser.xml" />
-    <CodeAnalysisDictionary Include="CustomDictionary.xml" />
+    <CodeAnalysisDictionary Include="CustomDictionary.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </CodeAnalysisDictionary>
     <None Include="Settings\DefaultSettings.xml">
       <SubType>Designer</SubType>
     </None>
     <EmbeddedResource Include="StyleCopAddIn.xml" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="MSSp3en.lex">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MSSp3ena.lex">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="StyleCop.Targets">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
@@ -299,11 +316,16 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="MSSpell3.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
   <Import Project="..\..\..\Tools\msbuild\StyleCop.Build.Targets" />
   <Import Project="..\..\..\Tools\msbuild\StyleCop.Shipping.Targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy /y "$(TargetPath)" "$(TestBin)"&amp;copy /y "$(ProjectDir)\Settings\DefaultSettings.xml" "$(TargetDir)\Settings.StyleCop"&amp;copy /y "$(TargetDir)\Settings.StyleCop" "$(PROJECTROOT)\BuildDrop\$(Configuration)\"&amp;copy /y "$(TargetDir)\StyleCop.Targets" "$(PROJECTROOT)\BuildDrop\$(Configuration)\"</PostBuildEvent>
+    <PostBuildEvent>xcopy /y "$(TargetPath)" "$(TestBin)"&amp;copy /y "$(ProjectDir)\Settings\DefaultSettings.xml" "$(TargetDir)Settings.StyleCop"&amp;copy /y "$(TargetDir)\Settings.StyleCop" "$(PROJECTROOT)\BuildDrop\$(Configuration)\"&amp;copy /y "$(TargetDir)StyleCop.Targets" "$(PROJECTROOT)\BuildDrop\$(Configuration)\"&amp;copy /y "$(TargetDir)*.lex" "$(PROJECTROOT)\BuildDrop\$(Configuration)\"&amp;copy /y "$(ProjectDir)CustomDictionary.xml" "$(TargetDir)CustomDictionary.xml"&amp;copy /y "$(TargetDir)CustomDictionary.xml" "$(PROJECTROOT)\BuildDrop\$(Configuration)\"</PostBuildEvent>
   </PropertyGroup>
   <Target Name="BeforeBuild">
     <!-- Since we copy to this directory in the post build event,

@@ -107,7 +107,7 @@ namespace StyleCop.ReSharper700.QuickFixes.Framework
         ///   Initializes a new instance of the SuppressStyleCopQuickFix class that can handle.
         /// </summary>
         /// <param name="highlight"> <see cref="StyleCopViolationWarning" /> that has been detected. </param>
-        /// <param name="initialise"> True to initialise. </param>
+        /// <param name="initialise"> True to initialize. </param>
         protected SuppressStyleCopQuickFix(StyleCopViolationBase highlight, bool initialise)
         {
             this.Violation = highlight;
@@ -137,7 +137,7 @@ namespace StyleCop.ReSharper700.QuickFixes.Framework
         ///   Gets or sets a list of BulbItems to be Displayed.
         /// </summary>
         /// <remarks>
-        ///   An internal representation of the BulbItems used for initialisation and filtering.
+        ///   An internal representation of the BulbItems used for initialization and filtering.
         /// </remarks>
         protected List<IBulbAction> BulbItems
         {
@@ -167,9 +167,9 @@ namespace StyleCop.ReSharper700.QuickFixes.Framework
         }
 
         /// <summary>
-        ///   True if this quickfix is available.
+        ///   True if this QuickFix is available.
         /// </summary>
-        /// <param name="cache"> The chache object to use. </param>
+        /// <param name="cache"> The cache object to use. </param>
         /// <returns> The is available. </returns>
         public bool IsAvailable(JB::JetBrains.Util.IUserDataHolder cache)
         {
@@ -182,7 +182,7 @@ namespace StyleCop.ReSharper700.QuickFixes.Framework
         #region Methods
 
         /// <summary>
-        ///   Initialises the QuickFix with all the available BulbItems that can fix the current StyleCop Violation.
+        ///   Initializes the QuickFix with all the available BulbItems that can fix the current StyleCop Violation.
         /// </summary>
         protected void InitialiseBulbItems()
         {

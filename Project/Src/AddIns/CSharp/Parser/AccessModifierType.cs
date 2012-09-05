@@ -17,7 +17,7 @@ namespace StyleCop.CSharp
     // These are listed in the order that they should appear in the code.
 
     /// <summary>
-    /// The various access modifer types for code elements.
+    /// The various access modifier types for code elements.
     /// </summary>
     /// <subcategory>element</subcategory>
     public enum AccessModifierType

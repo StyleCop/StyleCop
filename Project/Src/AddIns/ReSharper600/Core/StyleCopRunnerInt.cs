@@ -12,7 +12,7 @@
 //   notice, or any other, from this software.
 // </license>
 // <summary>
-//   Executes Microsoft StyleCop within the Resharper Environment.
+//   Executes Microsoft StyleCop within the ReSharper Environment.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 extern alias JB;
@@ -34,7 +34,7 @@ namespace StyleCop.ReSharper600.Core
     #endregion
 
     /// <summary>
-    /// Executes Microsoft StyleCop within the Resharper Environment.
+    /// Executes Microsoft StyleCop within the ReSharper Environment.
     /// </summary>
     /// <remarks>
     /// Microsoft StyleCop currently requires physical files for parsing. <see cref="StyleCopRunnerInt"/>
@@ -204,7 +204,7 @@ namespace StyleCop.ReSharper600.Core
         /// Object that raised the event.
         /// </param>
         /// <param name="e">
-        /// Data Structure containing information about the Violation encoutered.
+        /// Data Structure containing information about the Violation encountered.
         /// </param>
         private void OnViolationEncountered(object sender, ViolationEventArgs e)
         {

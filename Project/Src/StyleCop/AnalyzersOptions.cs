@@ -333,7 +333,7 @@ namespace StyleCop
         /// <summary> 
         /// Clean up any resources being used.
         /// </summary>
-        /// <param name="disposing">Dispose param.</param>
+        /// <param name="disposing">Dispose parameter.</param>
         protected override void Dispose(bool disposing)
         {
             Param.Ignore(disposing);
@@ -929,7 +929,7 @@ namespace StyleCop
         }
 
         /// <summary>
-        /// Event handler that is called when the user checks or unchecks an item in the list.
+        /// Event handler that is called when the user checks or un-checks an item in the list.
         /// </summary>
         /// <param name="sender">The event sender.</param>
         /// <param name="e">The event arguments.</param>
@@ -989,10 +989,10 @@ namespace StyleCop
         }
 
         /// <summary>
-        /// Checks or unchecks all nodes beneath the given node.
+        /// Checks or un-checks all nodes beneath the given node.
         /// </summary>
-        /// <param name="node">The node to check or uncheck.</param>
-        /// <param name="checked">Indicates whether to check or uncheck the nodes.</param>
+        /// <param name="node">The node to check or un-check.</param>
+        /// <param name="checked">Indicates whether to check or un-check the nodes.</param> 
         private void CheckAllChildNodes(TreeNode node, bool @checked)
         {
             Param.AssertNotNull(node, "node");
@@ -1010,7 +1010,7 @@ namespace StyleCop
         }
 
         /// <summary>
-        /// Event handler that is called when the user checks or unchecks an item in the list.
+        /// Event handler that is called when the user checks or un-checks an item in the list.
         /// </summary>
         /// <param name="sender">The event sender.</param>
         /// <param name="e">The event arguments.</param>

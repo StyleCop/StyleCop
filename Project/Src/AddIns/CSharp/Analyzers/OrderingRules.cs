@@ -303,7 +303,7 @@ namespace StyleCop.CSharp
         /// Checks the order of child elements of the given element.
         /// </summary>
         /// <param name="element">The element to check.</param>
-        /// <param name="checkGeneratedCode">Indicates whether to check the order of elenents
+        /// <param name="checkGeneratedCode">Indicates whether to check the order of elements
         /// within generated blocks of code.</param>
         private void CheckChildElementOrdering(CsElement element, bool checkGeneratedCode)
         {

@@ -27,7 +27,7 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Initializes a new instance of the EmptyElement class.
         /// </summary>
-        /// <param name="document">The documenent that contains the element.</param>
+        /// <param name="document">The document that contains the element.</param>
         /// <param name="parent">The parent of the element.</param>
         /// <param name="declaration">The declaration code for this element.</param>
         /// <param name="unsafeCode">Indicates whether the element resides within a block of unsafe code.</param>

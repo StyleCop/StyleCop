@@ -55,7 +55,7 @@ namespace StyleCop.ReSharper600.Core
         /// Gets the StyleCop install location from the registry. This reg key is created by StyleCop during install.
         /// </summary>
         /// <returns>
-        /// Returns the regkey value or null if not found.
+        /// Returns the reg key value or null if not found.
         /// </returns>
         private static string RetrieveFromRegistry()
         {

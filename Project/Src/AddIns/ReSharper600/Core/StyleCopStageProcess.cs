@@ -60,7 +60,7 @@ namespace StyleCop.ReSharper600.Core
         private static Stopwatch performanceStopWatch;
 
         /// <summary>
-        ///   Allows us to run the StyleCop analysers.
+        ///   Allows us to run the StyleCop analyzers.
         /// </summary>
         private static StyleCopRunnerInt styleCopRunnerInternal = new StyleCopRunnerInt();
 
@@ -111,8 +111,8 @@ namespace StyleCop.ReSharper600.Core
         /// <summary>
         ///   The execute.
         /// </summary>
-        /// <param name="commiter"> The commiter. </param>
-        public void Execute(Action<DaemonStageResult> commiter)
+        /// <param name="committer">The committer.</param>
+        public void Execute(Action<DaemonStageResult> committer)
         {
             StyleCopTrace.In();
 
@@ -139,7 +139,7 @@ namespace StyleCop.ReSharper600.Core
                      let highlighting = info.Highlighting
                      select new HighlightingInfo(range, highlighting)).ToList();
 
-                commiter(new DaemonStageResult(violations));
+                committer(new DaemonStageResult(violations));
 
                 ResetPerformanceStopWatch();
             }
@@ -152,7 +152,7 @@ namespace StyleCop.ReSharper600.Core
         #region Methods
 
         /// <summary>
-        ///   Initialises the static timers used to regulate performance of file scavenging and execution of StyleCop analysis.
+        ///   Initializes the static timers used to regulate performance of file scavenging and execution of StyleCop analysis.
         /// </summary>
         private static void InitialiseTimers()
         {

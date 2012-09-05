@@ -42,7 +42,7 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Initializes a new instance of the Constructor class.
         /// </summary>
-        /// <param name="document">The documenent that contains the element.</param>
+        /// <param name="document">The document that contains the element.</param>
         /// <param name="parent">The parent of the element.</param>
         /// <param name="header">The Xml header for this element.</param>
         /// <param name="attributes">The list of attributes attached to this element.</param>

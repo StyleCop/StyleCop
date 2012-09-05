@@ -57,7 +57,7 @@ namespace StyleCop.CSharp
         }
         
         /// <summary>
-        /// Gets the actual parent codepartof this expression. Normally a Parameter.
+        /// Gets the actual parent ICodePart of this expression. Normally a Parameter.
         /// </summary>
         ICodePart ICodePart.Parent
         {

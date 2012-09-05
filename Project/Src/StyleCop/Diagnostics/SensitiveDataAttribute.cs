@@ -59,7 +59,7 @@ namespace StyleCop.Diagnostics
     /// </code>
     /// The trace output from this will be as follows when the data is obscured:
     /// <code>
-    /// ... In  : MyNamespace.MyClass.MyMethod("&lt;******&gt;", "publicvaluetext")
+    /// ... In  : MyNamespace.MyClass.MyMethod("&lt;******&gt;", "PublicValueText")
     /// ... Out : MyNamespace.MyClass.MyMethod()="&lt;******&gt;"
     /// </code>
     /// </example>

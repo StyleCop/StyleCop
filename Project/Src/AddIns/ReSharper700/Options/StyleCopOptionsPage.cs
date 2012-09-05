@@ -46,7 +46,7 @@ namespace StyleCop.ReSharper700.Options
     #endregion
 
     /// <summary>
-    /// Options page to allow the plugins options to be set from within the Resharper Options window.
+    /// Options page to allow the plugins options to be set from within the ReSharper Options window.
     /// </summary>
     [OptionsPage(PID, "StyleCop", (Type)null, ParentId = "Tools")]
     public partial class StyleCopOptionsPage : UserControl, IOptionsPage
@@ -1846,7 +1846,7 @@ namespace StyleCop.ReSharper700.Options
             this.enableAnalysisCheckBox.Checked = this.smartContext.GetValue<StyleCopOptionsSettingsKey, bool>(key => key.AnalysisEnabled);
             this.checkCodeStyleOptionsAtStartUpCheckBox.Checked =
                 this.smartContext.GetValue<StyleCopOptionsSettingsKey, bool>(key => key.CheckReSharperCodeStyleOptionsAtStartUp);
-            this.analyseReadOnlyFilesCheckBox.Checked = this.smartContext.GetValue<StyleCopOptionsSettingsKey, bool>(key => key.AnalyseReadOnlyFiles);
+            this.analyzeReadOnlyFilesCheckBox.Checked = this.smartContext.GetValue<StyleCopOptionsSettingsKey, bool>(key => key.AnalyzeReadOnlyFiles);
             this.insertToDoTextCheckBox.Checked = this.smartContext.GetValue<StyleCopOptionsSettingsKey, bool>(key => key.InsertToDoText);
         }
 
@@ -1886,7 +1886,7 @@ namespace StyleCop.ReSharper700.Options
                 this.smartContext.SetValue<StyleCopOptionsSettingsKey, bool>(key => key.AnalysisEnabled, this.enableAnalysisCheckBox.Checked);
                 this.smartContext.SetValue<StyleCopOptionsSettingsKey, bool>(
                     key => key.CheckReSharperCodeStyleOptionsAtStartUp, this.checkCodeStyleOptionsAtStartUpCheckBox.Checked);
-                this.smartContext.SetValue<StyleCopOptionsSettingsKey, bool>(key => key.AnalyseReadOnlyFiles, this.analyseReadOnlyFilesCheckBox.Checked);
+                this.smartContext.SetValue<StyleCopOptionsSettingsKey, bool>(key => key.AnalyzeReadOnlyFiles, this.analyzeReadOnlyFilesCheckBox.Checked);
                 this.smartContext.SetValue<StyleCopOptionsSettingsKey, bool>(key => key.InsertToDoText, this.insertToDoTextCheckBox.Checked);
                 return true;
             }
@@ -2012,7 +2012,7 @@ namespace StyleCop.ReSharper700.Options
         }
 
         /// <summary>
-        /// Geta a PropertyInfo object matching the descriptor and the property name supplied.
+        /// Gets a PropertyInfo object matching the descriptor and the property name supplied.
         /// </summary>
         /// <param name="descriptor">
         /// The name to match. 

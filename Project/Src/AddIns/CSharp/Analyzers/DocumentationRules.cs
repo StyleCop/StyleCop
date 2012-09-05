@@ -85,9 +85,9 @@ namespace StyleCop.CSharp
         /// <remarks>
         /// Consider a namespace A.B and type Foo.Bar
         /// Foo has 2 generic params and Bar has 3 generic params
-        /// {0}: qualified typename with the number of generic parameters on it too (like A.B.Foo`2.Bar`3)
+        /// {0}: qualified type name with the number of generic parameters on it too (like A.B.Foo`2.Bar`3)
         /// {1}: type name options with generics removed (like A.B.Foo.Bar | B.Foo.Bar | Foo.Bar | Bar)
-        /// {2}: typename with generic parameters regex already on it ( like A.B.Foo{A,B}.Bar{C,D,E} | B.Foo{A,B}.Bar{C,D,E} | Foo{A,B}.Bar{C,D,E} | Bar{C,D,E} )
+        /// {2}: type name with generic parameters regex already on it ( like A.B.Foo{A,B}.Bar{C,D,E} | B.Foo{A,B}.Bar{C,D,E} | Foo{A,B}.Bar{C,D,E} | Bar{C,D,E} )
         /// </remarks>
         private const string CrefRegex =
             @"(?'see'<see\s+cref\s*=\s*"")?" +      // Optionally matches '<see cref="'
@@ -95,7 +95,7 @@ namespace StyleCop.CSharp
             @"(?(see)(""\s*(/>|>[\w\s]*</see>)))";  // Optionally matches '"/>' or '">some text</see>' if <see> tag is included.
 
         /// <summary>
-        /// A regular expression to match the generic parameters list for a type. Needs the outer parenthesis as its inserted into other RegExs.
+        /// A regular expression to match the generic parameters list for a type. Needs the outer parenthesis as its inserted into other regular expressions.
         /// </summary>
         private const string CrefGenericParamsRegex = @"((\s*(<|&lt;)\s*{0}\s*(>|&gt;))|(\s*{{\s*{0}\s*}}))";
 
@@ -226,7 +226,7 @@ namespace StyleCop.CSharp
         #region Private Static Methods
 
         /// <summary>
-        /// Exracts the type parameters from a generic type string.
+        /// Extracts the type parameters from a generic type string.
         /// </summary>
         /// <param name="name">The generic type string.</param>
         /// <returns>Returns the list of type parameters, if any.</returns>
@@ -597,7 +597,7 @@ namespace StyleCop.CSharp
         /// For a type Foo.Bar in namespace A.B this returns (A.B.Foo.Bar | B.Foo.Bar | Foo.Bar | Bar) and (A.B.Foo{E,F}.Bar | B.Foo{E,F}.Bar | Foo{E,F}.Bar | Bar)
         /// </summary>
         /// <param name="type">
-        /// The type to build the RegExs for.
+        /// The type to build the regex for.
         /// </param>
         /// <param name="regexWithGenerics">
         /// The regex with generics.
@@ -631,10 +631,10 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Builds a RegEx string from the typename passed in.
+        /// Builds a RegEx string from the type name passed in.
         /// </summary>
         /// <param name="qualifiedTypeName">
-        /// The qualified typename to build a RegEx for.
+        /// The qualified type name to build a RegEx for.
         /// </param>
         /// <returns>
         /// The RegEx string.
@@ -668,7 +668,7 @@ namespace StyleCop.CSharp
                 }
             }
 
-            return "(" + returnValue.ToString() + ")";
+            return "(" + returnValue + ")";
         }
 
         /// <summary>
@@ -1033,7 +1033,7 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Returns the count of occurences of stringToFind in the provided string.
+        /// Returns the count of occurrences of stringToFind in the provided string.
         /// </summary>
         /// <param name="text">The text to search through.</param>
         /// <param name="stringsToFind">The strings to count.</param>
@@ -1091,7 +1091,12 @@ namespace StyleCop.CSharp
                         continue;
                     }
 
-                    string text = child.InnerText.Trim().Replace("\n", string.Empty);
+                    string text = child.InnerText.Trim().Replace(" \n", "\n");
+                    text = text.Replace("\n ", "\n");
+                    text = text.Replace("\n\n\n\n", " ");
+                    text = text.Replace("\n\n\n", " ");
+                    text = text.Replace("\n\n", " ");
+                    text = text.Replace("\n", " ");
 
                     if (i != 0)
                     {
@@ -1629,7 +1634,7 @@ namespace StyleCop.CSharp
         /// <param name="element">The element containing the header.</param>
         /// <param name="header">The header to load.</param>
         /// <param name="lineNumber">The line number that the header begins on.</param>
-        /// <param name="rawDocs">Returns the docs with whitepace and newlines left in place.</param>
+        /// <param name="rawDocs">Returns the docs with whitespace and newlines left in place.</param>
         /// <param name="formattedDocs">Returns the docs with newlines filtered out.</param>
         private void LoadHeaderIntoDocuments(CsElement element, XmlHeader header, int lineNumber, out XmlDocument rawDocs, out XmlDocument formattedDocs)
         {
@@ -1716,7 +1721,8 @@ namespace StyleCop.CSharp
             Param.AssertNotNull(documentationXml, "documentationXml");
             Param.AssertValidString(documentationType, "documentationType");
 
-            InvalidCommentType commentType = CommentVerifier.IsGarbageComment(documentationXml);
+            string spellingError;
+            InvalidCommentType commentType = CommentVerifier.IsGarbageComment(documentationXml, element.Document.SourceCode.Project.Culture, out spellingError);
 
             if ((commentType & InvalidCommentType.Empty) != 0)
             {
@@ -1787,10 +1793,15 @@ namespace StyleCop.CSharp
                         CommentVerifier.MinimumHeaderCommentLength);
                 }
             }
+
+            if ((commentType & InvalidCommentType.IncorrectSpelling) != 0)
+            {
+                this.AddViolation(element, lineNumber, Rules.ElementDocumentationMustBeSpelledCorrectly, documentationType, spellingError);
+            }
         }
 
         /// <summary>
-        /// Checks a property element to ensure that the heade contains a 'value' tag.
+        /// Checks a property element to ensure that the header contains a 'value' tag.
         /// </summary>
         /// <param name="element">The element to check.</param>
         /// <param name="formattedDocs">The formatted header documentation.</param>
@@ -2024,7 +2035,7 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Checks the parameters of a header for consistancy with the method the header belongs to.
+        /// Checks the parameters of a header for consistency with the method the header belongs to.
         /// </summary>
         /// <param name="element">The element to check.</param>
         /// <param name="parameters">The list of parameters in the element.</param>
@@ -2176,7 +2187,7 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Checks the generic type parameters of a header for consistancy with the item the header belongs to.
+        /// Checks the generic type parameters of a header for consistency with the item the header belongs to.
         /// </summary>
         /// <param name="element">The element to check.</param>
         /// <param name="formattedDocs">The formatted Xml document that comprises the header.</param>

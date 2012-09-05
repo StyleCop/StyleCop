@@ -90,7 +90,7 @@ namespace StyleCop.ReSharper700.QuickFixes.Layout
         #region Methods
 
         /// <summary>
-        ///   Initialises the QuickFix with all the available BulbItems that can fix the current StyleCop Violation.
+        ///   Initializes the QuickFix with all the available BulbItems that can fix the current StyleCop Violation.
         /// </summary>
         protected override void InitialiseBulbItems()
         {

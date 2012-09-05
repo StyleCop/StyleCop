@@ -25,32 +25,32 @@ namespace StyleCop.VisualStudio
         #region Public Static Readonly Fields
 
         /// <summary>
-        /// Menu Command ID for the menu item that starts analyzation of a project.
+        /// Menu Command ID for the menu item that starts analysis of a project.
         /// </summary>
         public static readonly CommandID AnalyzeProject = new CommandID(GuidList.StyleCopCommandSetId, (int)0x100);
 
         /// <summary>
-        /// Menu Command ID for the menu item that starts analyzation of a Analyze Project Folder.
+        /// Menu Command ID for the menu item that starts analysis of a Analyze Project Folder.
         /// </summary>
         public static readonly CommandID AnalyzeFolder = new CommandID(GuidList.StyleCopCommandSetId, (int)0x110);
 
         /// <summary>
-        /// Menu Command ID for the menu item that starts analyzation of a single item.
+        /// Menu Command ID for the menu item that starts analysis of a single item.
         /// </summary>
         public static readonly CommandID AnalyzeItem = new CommandID(GuidList.StyleCopCommandSetId, (int)0x120);
 
         /// <summary>
-        /// Menu Command ID for the menu item that starts analyzation of an open file.
+        /// Menu Command ID for the menu item that starts analysis of an open file.
         /// </summary>
         public static readonly CommandID AnalyzeThisFile = new CommandID(GuidList.StyleCopCommandSetId, (int)0x130);
 
         /// <summary>
-        /// Menu Command ID for the menu item that starts analyzation of the solution.
+        /// Menu Command ID for the menu item that starts analysis of the solution.
         /// </summary>
         public static readonly CommandID AnalyzeSolution = new CommandID(GuidList.StyleCopCommandSetId, (int)0x150);
 
         /// <summary>
-        /// Menu Command ID for the menu item that starts analyzation of the solution.
+        /// Menu Command ID for the menu item that starts analysis of the solution.
         /// </summary>
         public static readonly CommandID ReanalyzeSolution = new CommandID(GuidList.StyleCopCommandSetId, (int)0x160);
 

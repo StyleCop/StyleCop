@@ -135,10 +135,10 @@ namespace StyleCop.ReSharper610.CodeCleanup.Options
         #region Methods
 
         /// <summary>
-        /// Builds a string reperesentation of the property value.
+        /// Builds a string representation of the property value.
         /// </summary>
         /// <param name="propertyInfo">
-        /// THe propertyInof to build the descriotion for.
+        /// The propertyInfo to build the description for.
         /// </param>
         /// <returns>
         /// The string representation.

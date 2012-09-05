@@ -55,6 +55,11 @@ namespace StyleCop.CSharp
         /// <summary>
         /// The comment does not contain any whitespace.
         /// </summary>
-        NoWhitespace = 0x0020
+        NoWhitespace = 0x0020,
+
+        /// <summary>
+        /// The comment has spelling mistakes.
+        /// </summary>
+        IncorrectSpelling = 0x0040
     }
 }

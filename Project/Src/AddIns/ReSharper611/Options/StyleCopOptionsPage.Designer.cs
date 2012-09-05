@@ -84,7 +84,7 @@ namespace StyleCop.ReSharper611.Options
             this.enableAnalysisCheckBox = new System.Windows.Forms.CheckBox();
             this.label9 = new System.Windows.Forms.Label();
             this.panel5 = new System.Windows.Forms.Panel();
-            this.analyseReadOnlyFilesCheckBox = new System.Windows.Forms.CheckBox();
+            this.analyzeReadOnlyFilesCheckBox = new System.Windows.Forms.CheckBox();
             this.checkCodeStyleOptionsAtStartUpCheckBox = new System.Windows.Forms.CheckBox();
             this.label7 = new System.Windows.Forms.Label();
             this.insertToDoTextCheckBox = new System.Windows.Forms.CheckBox();
@@ -365,7 +365,7 @@ namespace StyleCop.ReSharper611.Options
             // panel6
             // 
             this.panel6.AutoSize = true;
-            this.panel6.Controls.Add(this.analyseReadOnlyFilesCheckBox);
+            this.panel6.Controls.Add(this.analyzeReadOnlyFilesCheckBox);
             this.panel6.Controls.Add(this.enableAnalysisCheckBox);
             this.panel6.Controls.Add(this.label2);
             this.panel6.Controls.Add(this.label3);
@@ -411,17 +411,17 @@ namespace StyleCop.ReSharper611.Options
             this.panel5.Size = new System.Drawing.Size(282, 116);
             this.panel5.TabIndex = 34;
             // 
-            // analyseReadOnlyFilesCheckBox
+            // analyzeReadOnlyFilesCheckBox
             // 
-            this.analyseReadOnlyFilesCheckBox.AutoSize = true;
-            this.analyseReadOnlyFilesCheckBox.Checked = true;
-            this.analyseReadOnlyFilesCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.analyseReadOnlyFilesCheckBox.Location = new System.Drawing.Point(0, 46);
-            this.analyseReadOnlyFilesCheckBox.Name = "analyseReadOnlyFilesCheckBox";
-            this.analyseReadOnlyFilesCheckBox.Size = new System.Drawing.Size(152, 17);
-            this.analyseReadOnlyFilesCheckBox.TabIndex = 32;
-            this.analyseReadOnlyFilesCheckBox.Text = "Analyse decompiled files";
-            this.analyseReadOnlyFilesCheckBox.UseVisualStyleBackColor = true;
+            this.analyzeReadOnlyFilesCheckBox.AutoSize = true;
+            this.analyzeReadOnlyFilesCheckBox.Checked = true;
+            this.analyzeReadOnlyFilesCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.analyzeReadOnlyFilesCheckBox.Location = new System.Drawing.Point(0, 46);
+            this.analyzeReadOnlyFilesCheckBox.Name = "analyzeReadOnlyFilesCheckBox";
+            this.analyzeReadOnlyFilesCheckBox.Size = new System.Drawing.Size(152, 17);
+            this.analyzeReadOnlyFilesCheckBox.TabIndex = 32;
+            this.analyzeReadOnlyFilesCheckBox.Text = "analyze decompiled files";
+            this.analyzeReadOnlyFilesCheckBox.UseVisualStyleBackColor = true;
             // 
             // checkCodeStyleOptionsAtStartUpCheckBox
             // 
@@ -516,7 +516,7 @@ namespace StyleCop.ReSharper611.Options
         private Label label9;
         private CheckBox enableAnalysisCheckBox;
         private CheckBox checkCodeStyleOptionsAtStartUpCheckBox;
-        private CheckBox analyseReadOnlyFilesCheckBox;
+        private CheckBox analyzeReadOnlyFilesCheckBox;
         private CheckBox insertToDoTextCheckBox;
     }
 }

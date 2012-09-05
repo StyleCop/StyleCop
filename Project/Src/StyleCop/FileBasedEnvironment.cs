@@ -117,7 +117,7 @@ namespace StyleCop
         /// </summary>
         /// <param name="settingsPath">The path to the settings to load.</param>
         /// <param name="merge">Indicates whether to merge the settings with parent settings before returning them.</param>
-        /// <param name="exception">Returns an exception if one occured while loading the settings.</param>
+        /// <param name="exception">Returns an exception if one occurred while loading the settings.</param>
         /// <returns>Returns the settings.</returns>
         public override Settings GetSettings(string settingsPath, bool merge, out Exception exception)
         {
@@ -150,7 +150,7 @@ namespace StyleCop
         /// </summary>
         /// <param name="project">The project containing the settings.</param>
         /// <param name="merge">Indicates whether to merge the settings with parent settings before returning them.</param>
-        /// <param name="exception">Returns an exception if one occured while loading the settings.</param>
+        /// <param name="exception">Returns an exception if one occurred while loading the settings.</param>
         /// <returns>Returns the settings.</returns>
         public override Settings GetProjectSettings(CodeProject project, bool merge, out Exception exception)
         {
@@ -185,7 +185,7 @@ namespace StyleCop
         /// Loads or creates the settings at the given path, and returns them in writable mode.
         /// </summary>
         /// <param name="settingsPath">The path to the settings.</param>
-        /// <param name="exception">Returns an exception if one occured loading or creating the settings.</param>
+        /// <param name="exception">Returns an exception if one occurred loading or creating the settings.</param>
         /// <returns>Returns the settings.</returns>
         public override WritableSettings GetWritableSettings(string settingsPath, out Exception exception)
         {

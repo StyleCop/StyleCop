@@ -17,7 +17,7 @@ namespace StyleCop.CSharp
     using System;
 
     /// <summary>
-    /// A goto-statement.
+    /// A goto statement.
     /// </summary>
     /// <subcategory>statement</subcategory>
     public sealed class GotoStatement : Statement

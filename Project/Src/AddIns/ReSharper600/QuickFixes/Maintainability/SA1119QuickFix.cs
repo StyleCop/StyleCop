@@ -12,7 +12,7 @@
 //   notice, or any other, from this software.
 // </license>
 // <summary>
-//   QuickFi for StyleCop Rule SA1119.
+//   QuickFix for StyleCop Rule SA1119.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -23,7 +23,7 @@ namespace StyleCop.ReSharper600.QuickFixes.Maintainability
     using System.Collections.Generic;
 
     using JetBrains.ReSharper.Feature.Services.Bulbs;
-
+  
     using StyleCop.ReSharper600.BulbItems.Maintainability;
     using StyleCop.ReSharper600.QuickFixes.Framework;
     using StyleCop.ReSharper600.Violations;
@@ -31,7 +31,7 @@ namespace StyleCop.ReSharper600.QuickFixes.Maintainability
     #endregion
 
     /// <summary>
-    /// QuickFi for StyleCop Rule SA1119.
+    /// QuickFix for StyleCop Rule SA1119.
     /// </summary>
     [ShowQuickFix]
     [QuickFix]
@@ -104,7 +104,7 @@ namespace StyleCop.ReSharper600.QuickFixes.Maintainability
         #region Methods
 
         /// <summary>
-        /// Initialises the QuickFix with all the available BulbItems that can fix the current
+        /// Initializes the QuickFix with all the available BulbItems that can fix the current
         /// StyleCop Violation.
         /// </summary>
         protected override void InitialiseBulbItems()

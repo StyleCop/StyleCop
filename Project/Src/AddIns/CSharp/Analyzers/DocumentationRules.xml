@@ -205,6 +205,10 @@
         <Context>The 'inheritdoc' tag should not be used when the class or interface does not inherit from a base class or interface.</Context>
         <Description>Verifies that an 'inheritdoc' tag is not used when the class or interface does not inherit from a base class or interface.</Description>
       </Rule>
+      <Rule Name="ElementDocumentationMustBeSpelledCorrectly" CheckId="SA1650">
+        <Context>The documentation text within the {0} tag contains incorrectly spelled words: {1}</Context>
+        <Description>Verifies that an element contains correctly spelled words.</Description>
+      </Rule>
     </RuleGroup>
     <RuleGroup Name="File Headers">
       <Rule Name="FileMustHaveHeader" CheckId="SA1633">

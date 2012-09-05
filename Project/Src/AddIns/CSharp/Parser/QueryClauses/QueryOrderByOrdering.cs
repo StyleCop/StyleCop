@@ -76,7 +76,7 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Determines whether the two items are inequal.
+        /// Determines whether the two items are not equal.
         /// </summary>
         /// <param name="item1">The first item.</param>
         /// <param name="item2">The second item.</param>

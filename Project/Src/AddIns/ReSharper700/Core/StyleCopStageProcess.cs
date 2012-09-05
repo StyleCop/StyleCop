@@ -57,7 +57,7 @@ namespace StyleCop.ReSharper700.Core
         #region Static Fields
 
         /// <summary>
-        /// Allows us to run the StyleCop analysers.
+        /// Allows us to run the StyleCop analyzers.
         /// </summary>
         private static readonly StyleCopRunnerInt StyleCopRunnerInternal = new StyleCopRunnerInt();
 
@@ -81,7 +81,7 @@ namespace StyleCop.ReSharper700.Core
         private readonly IDaemonProcess daemonProcess;
 
         /// <summary>
-        /// THe settings store we were construcuted with.
+        /// THe settings store we were constructed with.
         /// </summary>
         private readonly IContextBoundSettingsStore settingsStore;
 
@@ -101,7 +101,7 @@ namespace StyleCop.ReSharper700.Core
         /// Our settings. 
         /// </param>
         /// /// <param name="file">
-        /// The file to analyse.
+        /// The file to analyze.
         /// </param>
         public StyleCopStageProcess(IDaemonProcess daemonProcess, IContextBoundSettingsStore settingsStore, ICSharpFile file)
         {
@@ -148,10 +148,10 @@ namespace StyleCop.ReSharper700.Core
         /// <summary>
         /// The execute.
         /// </summary>
-        /// <param name="commiter">
-        /// The commiter. 
+        /// <param name="committer">
+        /// The committer. 
         /// </param>
-        public void Execute(Action<DaemonStageResult> commiter)
+        public void Execute(Action<DaemonStageResult> committer)
         {
             StyleCopTrace.In();
             try
@@ -196,7 +196,7 @@ namespace StyleCop.ReSharper700.Core
                      let highlighting = info.Highlighting
                      select new HighlightingInfo(range, highlighting)).ToList();
 
-                commiter(new DaemonStageResult(violations));
+                committer(new DaemonStageResult(violations));
 
                 ResetPerformanceStopWatch();
             }
@@ -212,7 +212,7 @@ namespace StyleCop.ReSharper700.Core
         #region Methods
 
         /// <summary>
-        /// Initialises the static timers used to regulate performance of execution of StyleCop analysis.
+        /// Initializes the static timers used to regulate performance of execution of StyleCop analysis.
         /// </summary>
         private static void InitialiseTimers()
         {

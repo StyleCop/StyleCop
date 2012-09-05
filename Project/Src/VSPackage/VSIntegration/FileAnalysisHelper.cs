@@ -255,7 +255,7 @@ namespace StyleCop.VisualStudio
         }
         
         /// <summary>
-        /// Signals the helper to output that no files were avaliable for analysis.
+        /// Signals the helper to output that no files were available for analysis.
         /// </summary>
         protected override void NoFilesToAnalyze()
         {
@@ -268,7 +268,7 @@ namespace StyleCop.VisualStudio
         }
 
         /// <summary>
-        /// Provides the end analysis result to the user by adding violations to the errorlist.
+        /// Provides the end analysis result to the user by adding violations to the error list.
         /// </summary>
         /// <param name="violations">The violations.</param>
         protected override void ProvideEndAnalysisResult(List<ViolationInfo> violations)

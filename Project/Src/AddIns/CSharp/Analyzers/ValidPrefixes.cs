@@ -66,7 +66,7 @@ namespace StyleCop.CSharp
         private bool dirty;
 
         /// <summary>
-        /// The default column on the listview control.
+        /// The default column on the ListView control.
         /// </summary>
         private ColumnHeader columnHeader1;
 
@@ -519,7 +519,7 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Called when the current selection changes in the listview.
+        /// Called when the current selection changes in the ListView.
         /// </summary>
         /// <param name="sender">The event sender.</param>
         /// <param name="e">The event arguments.</param>

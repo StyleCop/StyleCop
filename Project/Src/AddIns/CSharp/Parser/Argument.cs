@@ -68,7 +68,7 @@ namespace StyleCop.CSharp
         /// Initializes a new instance of the Argument class.
         /// </summary>
         /// <param name="name">The optional name of the argument.</param>
-        /// <param name="modifiers">Modifers applied to this argument.</param>
+        /// <param name="modifiers">Modifiers applied to this argument.</param>
         /// <param name="argumentExpression">The expression that forms the body of the argument.</param>
         /// <param name="location">The location of the argument in the code.</param>
         /// <param name="parent">The parent code part.</param>

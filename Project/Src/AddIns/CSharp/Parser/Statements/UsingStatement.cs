@@ -42,7 +42,7 @@ namespace StyleCop.CSharp
         /// Initializes a new instance of the UsingStatement class.
         /// </summary>
         /// <param name="tokens">The list of tokens that form the statement.</param>
-        /// <param name="resource">The resource aquisition expression declared in the using statement.</param>
+        /// <param name="resource">The resource acquisition expression declared in the using statement.</param>
         internal UsingStatement(CsTokenList tokens, Expression resource)
             : base(StatementType.Using, tokens)
         {
@@ -58,7 +58,7 @@ namespace StyleCop.CSharp
         #region Public Properties
 
         /// <summary>
-        /// Gets the resource aquisition expression assigned to the obtained resource.
+        /// Gets the resource acquisition expression assigned to the obtained resource.
         /// </summary>
         public Expression Resource
         {

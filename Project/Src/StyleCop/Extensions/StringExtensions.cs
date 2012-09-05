@@ -37,7 +37,7 @@ namespace System
         /// The string to capitalize.
         /// </param>
         /// <returns>
-        /// A string with the first character capitialized.
+        /// A string with the first character capitalized.
         /// </returns>
         public static string Capitalize(this string s)
         {
@@ -92,7 +92,7 @@ namespace System
         /// <param name="regex">
         /// The regular expression pattern to match.
         /// </param>
-        /// <param name="options">The regex options.
+        /// <param name="options">The regular expression options.
         /// A bitwise OR combination of <see cref="RegexOptions"/> enumeration values.
         /// </param>
         /// <returns>
@@ -247,6 +247,27 @@ namespace System
         {
             var index = s.LastIndexOf(c);
             return index != -1 ? s.Substring(0, index) : s;
+        }
+
+        /// <summary>
+        /// Retrieves a substring before the last instance of a string.
+        /// </summary>
+        /// <param name="s">
+        /// The string to retrieve the substring from.
+        /// </param>
+        /// <param name="value">
+        /// The string to seek.
+        /// </param>
+        /// <param name="comparisonType">
+        /// The type of comparison to perform.
+        /// </param>
+        /// <returns>
+        /// The substring before the last occurrence of <paramref name="value"/>, or <paramref name="s"/> if <paramref name="value"/> is not found.
+        /// </returns>
+        public static string SubstringBeforeLast(this string s, string value, StringComparison comparisonType)
+        {
+            var index = s.LastIndexOf(value, comparisonType);
+            return index != - 1 ? s.Substring(0, index) : s;
         }
 
         /// <summary>

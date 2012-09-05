@@ -78,7 +78,7 @@ namespace StyleCop.CSharp
         #region Public Enums
 
         /// <summary>
-        /// The various assigment operator types.
+        /// The various assignment operator types.
         /// </summary>
         /// <subcategory>expression</subcategory>
         [SuppressMessage("Microsoft.Design", "CA1034:NestedTypesShouldNotBeVisible", Justification = "Leave nested to avoid changing external interface.")]

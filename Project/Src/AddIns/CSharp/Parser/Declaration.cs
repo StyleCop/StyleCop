@@ -17,7 +17,7 @@ namespace StyleCop.CSharp
     using System.Collections.Generic;
 
     /// <summary>
-    /// Decribes an element declaration.
+    /// Describes an element declaration.
     /// </summary>
     /// <subcategory>element</subcategory>
     public sealed class Declaration
