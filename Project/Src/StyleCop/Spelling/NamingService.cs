@@ -477,7 +477,6 @@ namespace StyleCop.Spelling
         private void InitDefaultCustomDictionaries()
         {
             var currentDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            Console.WriteLine("Loading dictionary from {0}", currentDirectory);
             if (currentDirectory != null)
             {
                 foreach (string str in Directory.GetFiles(currentDirectory, "CustomDictionary.xml", SearchOption.AllDirectories))
