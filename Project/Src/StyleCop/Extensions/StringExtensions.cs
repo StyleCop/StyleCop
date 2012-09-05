@@ -267,7 +267,7 @@ namespace System
         public static string SubstringBeforeLast(this string s, string value, StringComparison comparisonType)
         {
             var index = s.LastIndexOf(value, comparisonType);
-            return index != - 1 ? s.Substring(0, index) : s;
+            return index != -1 ? s.Substring(0, index) : s;
         }
 
         /// <summary>

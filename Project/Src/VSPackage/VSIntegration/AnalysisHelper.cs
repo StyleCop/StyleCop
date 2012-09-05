@@ -547,12 +547,10 @@ namespace StyleCop.VisualStudio
                     var element = e.Element;
                     var violation = new ViolationInfo();
 
-                    var trimmedNamespace = e.Violation.Rule.Namespace;
-                    trimmedNamespace = trimmedNamespace.SubstringAfter(StyleCop.Constants.ProductName + ".", StringComparison.InvariantCulture);
-                    
-                    trimmedNamespace = trimmedNamespace.SubstringBeforeLast("Rules", StringComparison.InvariantCulture);
+                    var trimmedNamespace = e.Violation.Rule.Namespace.SubstringAfter(StyleCop.Constants.ProductName + ".", StringComparison.Ordinal);
+                    trimmedNamespace = trimmedNamespace.SubstringBeforeLast("Rules", StringComparison.Ordinal);
 
-                    violation.Description =  string.Concat(e.Violation.Rule.CheckId, " : ", trimmedNamespace, " : ", e.Message);
+                    violation.Description = string.Concat(e.Violation.Rule.CheckId, " : ", trimmedNamespace, " : ", e.Message);
                     violation.LineNumber = e.LineNumber;
 
                     violation.ColumnNumber = e.Location != null ? e.Location.StartPoint.IndexOnLine : 1;
