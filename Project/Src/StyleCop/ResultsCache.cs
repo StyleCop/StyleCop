@@ -15,12 +15,8 @@
 namespace StyleCop
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Globalization;
-    using System.IO;
-    using System.Security;
     using System.Text;
     using System.Xml;
 
@@ -34,7 +30,7 @@ namespace StyleCop
         /// <summary>
         /// The current file cache version.
         /// </summary>
-        internal const string Version = "11";
+        internal const string Version = "12";
 
         #endregion Internal Constants
 
@@ -43,12 +39,12 @@ namespace StyleCop
         /// <summary>
         /// The StyleCop core instance.
         /// </summary>
-        private StyleCopCore core;
+        private readonly StyleCopCore core;
 
         /// <summary>
         /// The dictionary to store the cached documents in.
         /// </summary>
-        private Dictionary<string, XmlDocument> documentHash = new Dictionary<string, XmlDocument>();
+        private readonly Dictionary<string, XmlDocument> documentHash = new Dictionary<string, XmlDocument>();
 
         #endregion Private Fields
 

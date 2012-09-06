@@ -276,6 +276,7 @@
     <EmbeddedResource Include="CoreParser.xml" />
     <CodeAnalysisDictionary Include="CustomDictionary.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </CodeAnalysisDictionary>
     <None Include="Settings\DefaultSettings.xml">
       <SubType>Designer</SubType>

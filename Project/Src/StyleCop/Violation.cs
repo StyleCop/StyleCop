@@ -125,7 +125,36 @@ namespace StyleCop
 
             this.UpdateKey();
         }
-        
+
+        /// <summary>
+        /// Initializes a new instance of the Violation class.
+        /// </summary>
+        /// <param name="rule">The rule that triggered the violation.</param>
+        /// <param name="sourceCode">The source code that this violation appears in.</param>
+        /// <param name="location">The location in the source code where the violation occurs.</param>
+        /// <param name="message">The context message for the violation.</param>
+        internal Violation(Rule rule, SourceCode sourceCode, CodeLocation location, string message)
+        {
+            Param.AssertNotNull(rule, "rule");
+            Param.Ignore(sourceCode);
+            Param.AssertNotNull(location, "location");
+            Param.AssertNotNull(message, "message");
+
+            this.rule = rule;
+            this.sourceCode = sourceCode;
+            
+            // The CodeLocation passed in is zero based everywhere in StyleCop for the column. The line number is already 1 based.
+            // We convert is to 1 based here so that are xml reports etc and VisualStudio UI friendly.
+            this.location = new CodeLocation(location.StartPoint.Index, location.EndPoint.Index, location.StartPoint.IndexOnLine + 1, location.EndPoint.IndexOnLine + 1, location.StartPoint.LineNumber, location.EndPoint.LineNumber);
+
+            // If the location has been passed in we set the linenumber.
+            this.line = location.LineNumber;
+
+            this.message = message;
+
+            this.UpdateKey();
+        }
+
         /// <summary>
         /// Initializes a new instance of the Violation class.
         /// </summary>

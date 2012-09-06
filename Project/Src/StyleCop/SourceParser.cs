@@ -316,6 +316,13 @@ namespace StyleCop
                         XmlNode lineNumber = violationNode.SelectSingleNode("line");
                         XmlNode warning = violationNode.SelectSingleNode("warning");
 
+                        XmlNode index = violationNode.SelectSingleNode("index");
+                        XmlNode endIndex = violationNode.SelectSingleNode("endIndex");
+                        XmlNode startLine = violationNode.SelectSingleNode("startLine");
+                        XmlNode startColumn = violationNode.SelectSingleNode("startColumn");
+                        XmlNode endLine = violationNode.SelectSingleNode("endLine");
+                        XmlNode endColumn = violationNode.SelectSingleNode("endColumn");
+
                         // Create a Rule object representing this data.
                         Rule rule = new Rule(
                             ruleName.InnerText,
@@ -324,12 +331,28 @@ namespace StyleCop
                             context.InnerText,
                             Convert.ToBoolean(warning.InnerText, CultureInfo.InvariantCulture));
 
-                        // Create a Violation object representing this data.
-                        Violation violation = new Violation(
-                            rule,
-                            sourceCode,
-                            Convert.ToInt32(lineNumber.InnerText, null),
-                            context.InnerText);
+                        Violation violation;
+
+                        if (startLine != null &&
+                            startColumn != null &&
+                            endLine != null && endColumn != null)
+                        {
+                            CodeLocation location = new CodeLocation(
+                                Convert.ToInt32(index.InnerText, null),
+                                Convert.ToInt32(endIndex.InnerText, null),
+                                Convert.ToInt32(startColumn.InnerText, null),
+                                Convert.ToInt32(endColumn.InnerText, null),
+                                Convert.ToInt32(startLine.InnerText, null),
+                                Convert.ToInt32(endLine.InnerText, null));
+
+                            // Create a Violation object representing this data.
+                            violation = new Violation(rule, sourceCode, location, context.InnerText);
+                        }
+                        else
+                        {
+                            // Create a Violation object representing this data.
+                            violation = new Violation(rule, sourceCode, Convert.ToInt32(lineNumber.InnerText, null), context.InnerText);
+                        }
 
                         this.AddViolation(violation);
                     }
@@ -499,6 +522,33 @@ namespace StyleCop
             XmlElement lineNumber = violationsDocument.CreateElement("line");
             lineNumber.InnerText = violation.Line.ToString(CultureInfo.InvariantCulture);
             item.AppendChild(lineNumber);
+
+            if (violation.Location != null)
+            {
+                XmlElement index = violationsDocument.CreateElement("index");
+                index.InnerText = violation.Location.StartPoint.Index.ToString(CultureInfo.InvariantCulture);
+                item.AppendChild(index);
+
+                XmlElement endIndex = violationsDocument.CreateElement("endIndex");
+                endIndex.InnerText = violation.Location.EndPoint.Index.ToString(CultureInfo.InvariantCulture);
+                item.AppendChild(endIndex);
+
+                XmlElement startLine = violationsDocument.CreateElement("startLine");
+                startLine.InnerText = violation.Location.StartPoint.LineNumber.ToString(CultureInfo.InvariantCulture);
+                item.AppendChild(startLine);
+
+                XmlElement startColumn = violationsDocument.CreateElement("startColumn");
+                startColumn.InnerText = violation.Location.StartPoint.IndexOnLine.ToString(CultureInfo.InvariantCulture);
+                item.AppendChild(startColumn);
+
+                XmlElement endLine = violationsDocument.CreateElement("endLine");
+                endLine.InnerText = violation.Location.EndPoint.LineNumber.ToString(CultureInfo.InvariantCulture);
+                item.AppendChild(endLine);
+
+                XmlElement endColumn = violationsDocument.CreateElement("endColumn");
+                endColumn.InnerText = violation.Location.EndPoint.IndexOnLine.ToString(CultureInfo.InvariantCulture);
+                item.AppendChild(endColumn);
+            }
 
             // Create a child node for the warning indicator.
             XmlElement warning = violationsDocument.CreateElement("warning");
