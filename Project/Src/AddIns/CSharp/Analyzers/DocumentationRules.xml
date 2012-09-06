@@ -207,7 +207,7 @@
       </Rule>
       <Rule Name="ElementDocumentationMustBeSpelledCorrectly" CheckId="SA1650">
         <Context>The documentation text within the {0} tag contains incorrectly spelled words: {1}</Context>
-        <Description>Verifies that an element contains correctly spelled words.</Description>
+        <Description>Validates that an element's documentation header contains correctly spelled words.</Description>
       </Rule>
     </RuleGroup>
     <RuleGroup Name="File Headers">
