@@ -710,6 +710,8 @@ namespace StyleCop.Spelling
 
         private const uint PROOFTHISAPIVERSION = 50331648u;
 
+        private readonly int dependantFilesHashCode;
+
         private static SpellChecker.Language[] s_languages = new[]
             {
                 new Language("ar", "mssp3ar.dll", "mssp3ar.lex", 3073), new Language("cs", "mssp3cz.dll", "mssp3cz.lex", 1029),
@@ -779,6 +781,12 @@ namespace StyleCop.Spelling
             this.m_culture = culture;
             this.m_speller = new SpellChecker.Speller(language.LibraryFullPath);
             this.m_speller.AddLexicon(language.LCID, language.LexiconFullPath);
+
+            var libraryTimestamp = File.GetLastWriteTime(language.LibraryFullPath);
+            var lexiconTimestamp = File.GetLastWriteTime(language.LexiconFullPath);
+
+            this.dependantFilesHashCode =
+                string.Concat(libraryTimestamp.ToString(CultureInfo.InvariantCulture), lexiconTimestamp.ToString(CultureInfo.InvariantCulture)).GetHashCode();
         }
 
         public static SpellChecker FromCulture(CultureInfo culture)
@@ -799,6 +807,11 @@ namespace StyleCop.Spelling
             }
 
             return FromCulture(culture.Parent);
+        }
+
+        public int GetDependantFilesHashCode()
+        {
+            return this.dependantFilesHashCode;
         }
 
         public WordSpelling Check(string text)

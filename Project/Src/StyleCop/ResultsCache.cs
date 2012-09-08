@@ -17,6 +17,9 @@ namespace StyleCop
     using System;
     using System.Collections.Generic;
     using System.Globalization;
+    using System.IO;
+    using System.Reflection;
+    using System.Security;
     using System.Text;
     using System.Xml;
 
@@ -31,6 +34,11 @@ namespace StyleCop
         /// The current file cache version.
         /// </summary>
         internal const string Version = "12";
+
+        /// <summary>
+        /// The DateTime format we use for the results cache.
+        /// </summary>
+        private const string TimestampFormat = "yyyy/MM/dd HH:mm:ss.fff";
 
         #endregion Internal Constants
 
@@ -70,16 +78,14 @@ namespace StyleCop
         /// <param name="sourceCode">The source code to load.</param>
         /// <param name="parser">The parser that created this document.</param>
         /// <param name="writeTime">The last write time of the document.</param>
-        /// <param name="settingsTimeStamp">The time when the settings were last updated.</param>
+        /// <param name="settingsTimestamp">The time when the settings were last updated.</param>
         /// <returns>Returns true if the results were loaded from the cache.</returns>
-        public bool LoadResults(SourceCode sourceCode, SourceParser parser, DateTime writeTime, DateTime settingsTimeStamp)
+        public bool LoadResults(SourceCode sourceCode, SourceParser parser, DateTime writeTime, DateTime settingsTimestamp)
         {
             Param.AssertNotNull(sourceCode, "sourceCode");
             Param.AssertNotNull(parser, "parser");
             Param.Ignore(writeTime);
-            Param.Ignore(settingsTimeStamp);
-
-            bool success = false;
+            Param.Ignore(settingsTimestamp);
 
             lock (this)
             {
@@ -88,39 +94,66 @@ namespace StyleCop
 
                 if (doc != null && item != null)
                 {
-                    try
+                    if (!this.documentHash.ContainsKey(sourceCode.Project.Location))
                     {
-                        // Check the settings file timestamp.
-                        XmlElement settingsNode = item["settings"];
-                        if (settingsNode != null && IsNodeUpToDate(settingsNode, settingsTimeStamp))
+                        this.documentHash.Add(sourceCode.Project.Location, doc);
+                    }
+
+                    try
+                    { 
+                        // Check the timestamps of all the files.
+                        if (!IsNodeUpToDate(item.SelectSingleNode("timestamps/styleCop"), this.core.TimeStamp))
                         {
-                            // Get the timestamp and make sure the file has not been changed
-                            // since this cache was written.
-                            if (IsNodeUpToDate(item, writeTime))
+                            return false;
+                        }
+
+                        if (!IsNodeUpToDate(item.SelectSingleNode("timestamps/settingsFile"), settingsTimestamp))
+                        {
+                            return false;
+                        }
+
+                        if (!IsNodeUpToDate(item.SelectSingleNode("timestamps/sourceFile"), writeTime))
+                        {
+                            return false;
+                        }
+
+                        if (!IsNodeUpToDate(item.SelectSingleNode("timestamps/parser"), parser.TimeStamp))
+                        {
+                            return false;
+                        }
+
+                        foreach (var analyzer in parser.Analyzers)
+                        {
+                            if (!IsNodeUpToDate(item.SelectSingleNode(string.Concat("timestamps/", analyzer.Id)), analyzer.TimeStamp))
                             {
-                                XmlNode violations = item.SelectSingleNode("violations");
-                                if (violations != null)
-                                {
-                                    if (parser.ImportViolations(sourceCode, violations))
-                                    {
-                                        success = true;
-                                    }
-                                }
+                                return false;
+                            }
+
+                            if (
+                                !IsNodeUpToDate(
+                                    item.SelectSingleNode(string.Concat("timestamps/", analyzer.Id + ".FilesHashCode")),
+                                    analyzer.GetDependantFilesHashCode(sourceCode.Project.Culture)))
+                            {
+                                return false;
+                            }
+                        }
+
+                        XmlNode violations = item.SelectSingleNode("violations");
+                        if (violations != null)
+                        {
+                            if (parser.ImportViolations(sourceCode, violations))
+                            {
+                                return true;
                             }
                         }
                     }
                     catch (XmlException)
                     {
                     }
-
-                    if (!this.documentHash.ContainsKey(sourceCode.Project.Location))
-                    {
-                        this.documentHash.Add(sourceCode.Project.Location, doc);
-                    }
                 }
             }
 
-            return success;
+            return false;
         }
 
         /// <summary>
@@ -140,10 +173,9 @@ namespace StyleCop
 
             lock (this)
             {
-                XmlDocument xml = null;
-
                 try
                 {
+                    XmlDocument xml;
                     if (!this.documentHash.ContainsKey(document.SourceCode.Project.Location))
                     {
                         XmlNode temp;
@@ -193,29 +225,27 @@ namespace StyleCop
                     root.Attributes.Append(name);
                     xml.DocumentElement.AppendChild(root);
 
-                    // Save the last write time of the settings.
-                    XmlNode settingsNode = xml.CreateElement("settings");
-                    root.AppendChild(settingsNode);
-
-                    XmlNode node = xml.CreateElement("timestamp");
-                    settingsNode.AppendChild(node);
-                    node.InnerText = settingsTimeStamp.ToString(CultureInfo.InvariantCulture);
-
-                    node = xml.CreateElement("milliseconds");
-                    settingsNode.AppendChild(node);
-                    node.InnerText = settingsTimeStamp.Millisecond.ToString(CultureInfo.InvariantCulture);
-
-                    // Get the last write time of the source code.
-                    DateTime writeTime = document.SourceCode.TimeStamp;
-
-                    // Add the timestamp.
-                    node = xml.CreateElement("timestamp");
+                    // Create the timestamps node.
+                    // We need to store the timestamp of all files that were used to create the violation.
+                    // Parser, Rules, settings, source file, spell checker, and dictionaries.
+                    var node = xml.CreateElement("timestamps");
                     root.AppendChild(node);
-                    node.InnerText = writeTime.ToString(CultureInfo.InvariantCulture);
 
-                    node = xml.CreateElement("milliseconds");
-                    root.AppendChild(node);
-                    node.InnerText = writeTime.Millisecond.ToString(CultureInfo.InvariantCulture);
+                    this.AddTimestampToXml(xml, node, "styleCop", this.core.TimeStamp);
+
+                    this.AddTimestampToXml(xml, node, "settingsFile", settingsTimeStamp);
+
+                    // Stores the last write time of the source code.
+                    this.AddTimestampToXml(xml, node, "sourceFile", document.SourceCode.TimeStamp);
+
+                    // Store all the rules and parser timestamps
+                    this.AddTimestampToXml(xml, node, "parser", document.SourceCode.Parser.TimeStamp);
+
+                    foreach (var analyzer in document.SourceCode.Parser.Analyzers)
+                    {
+                        this.AddTimestampToXml(xml, node, analyzer.Id, analyzer.TimeStamp);
+                        this.AddHashCodeToXml(xml, node, analyzer.Id + ".FilesHashCode", analyzer.GetDependantFilesHashCode(document.SourceCode.Project.Culture)); 
+                    }
 
                     // Add the parser ID attribute.
                     if (document.SourceCode.Parser != null)
@@ -405,37 +435,89 @@ namespace StyleCop
         /// Determines whether the timestamp information contained in the given
         /// node is equal to the given timestamp.
         /// </summary>
-        /// <param name="timeStampNode">The node containing the timestamp information.</param>
-        /// <param name="timeStamp">The time to match again.</param>
+        /// <param name="node">The node containing the timestamp information.</param>
+        /// <param name="timestamp">The time to match again.</param>
         /// <returns>Returns true if the node matches the given timestamp.</returns>
-        private static bool IsNodeUpToDate(XmlNode timeStampNode, DateTime timeStamp)
+        private static bool IsNodeUpToDate(XmlNode node, DateTime timestamp)
         {
-            Param.AssertNotNull(timeStampNode, "timeStampNode");
-            Param.AssertNotNull(timeStamp, "timeStamp");
+            Param.Ignore(node);
+            Param.AssertNotNull(timestamp, "timestamp");
+
+            if (node == null)
+            {
+                return false;
+            }
 
             // If the timestamp is empty, then we consider the values equal.
-            if (timeStamp.Year == 0 && timeStamp.Month == 0 && timeStamp.Second == 0 && timeStamp.Millisecond == 0)
+            if (timestamp.Year == 0 && timestamp.Month == 0 && timestamp.Second == 0 && timestamp.Millisecond == 0)
             {
                 return true;
             }
 
             // Check the values in the node against the timestamp.
-            XmlNode node = timeStampNode["timestamp"];
-            if (node != null && node.InnerText == timeStamp.ToString(CultureInfo.InvariantCulture))
+            return node.InnerText == timestamp.ToString(TimestampFormat);
+        }
+
+        /// <summary>
+        /// Determines whether the timestamp information contained in the given
+        /// node is equal to the given timestamp.
+        /// </summary>
+        /// <param name="node">The node containing the timestamp information.</param>
+        /// <param name="hashCode">The time to match again.</param>
+        /// <returns>Returns true if the node matches the given timestamp.</returns>
+        private static bool IsNodeUpToDate(XmlNode node, int hashCode)
+        {
+            Param.Ignore(node);
+            Param.AssertNotNull(hashCode, "hashCode");
+
+            if (node == null)
             {
-                node = timeStampNode["milliseconds"];
-                if (node != null && node.InnerText == timeStamp.Millisecond.ToString(CultureInfo.InvariantCulture))
-                {
-                    return true;
-                }
+                return false;
             }
 
-            return false;
+            // If zero then we consider the values equal.
+            if (hashCode == 0)
+            {
+                return true;
+            }
+
+            // Check the values in the node.
+            return node.InnerText == hashCode.ToString(CultureInfo.InvariantCulture);
         }
 
         #endregion Private Static Methods
 
         #region Private Methods
+
+        /// <summary>
+        /// Adds an xml element to the xmlNode containing the Timestamp provided.
+        /// </summary>
+        /// <param name="xml">The XmlDocument to use.</param>
+        /// <param name="xmlNode">The XmlNode to add the element under.</param>
+        /// <param name="nodeName">The name to use for the element being created.</param>
+        /// <param name="timestamp">The DateTime to write into the node.</param>
+        private void AddTimestampToXml(XmlDocument xml, XmlNode xmlNode, string nodeName, DateTime timestamp)
+        {
+            // Save the last write time of the settings.
+            XmlNode settingsNode = xml.CreateElement(nodeName);
+            xmlNode.AppendChild(settingsNode);
+            settingsNode.InnerText = timestamp.ToString(TimestampFormat);
+        }
+
+        /// <summary>
+        /// Adds an xml element to the xmlNode containing the Timestamp provided.
+        /// </summary>
+        /// <param name="xml">The XmlDocument to use.</param>
+        /// <param name="xmlNode">The XmlNode to add the element under.</param>
+        /// <param name="nodeName">The name to use for the element being created.</param>
+        /// <param name="hashCode">The hashCode to write into the node.</param>
+        private void AddHashCodeToXml(XmlDocument xml, XmlNode xmlNode, string nodeName, int hashCode)
+        {
+            // Save the last write time of the settings.
+            XmlNode settingsNode = xml.CreateElement(nodeName);
+            xmlNode.AppendChild(settingsNode);
+            settingsNode.InnerText = hashCode.ToString(CultureInfo.InvariantCulture);
+        }
 
         /// <summary>
         /// Opens the results cache for the given source code document.

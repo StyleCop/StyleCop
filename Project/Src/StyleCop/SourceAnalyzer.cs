@@ -23,6 +23,8 @@ namespace StyleCop
     using System.Runtime.InteropServices;
     using System.Xml;
 
+    using StyleCop.Spelling;
+
     /// <summary>
     /// Base class for StyleCop code analyzer modules.
     /// </summary>
@@ -111,6 +113,16 @@ namespace StyleCop
         #endregion Public Properties
 
         #region Public Override Methods
+
+        /// <summary>
+        /// Returns a hash code of the files the analyzer uses to complete its analysis.
+        /// </summary>
+        /// <param name="culture">The culture we are analyzing with.</param>
+        /// <returns>The hash code or 0 if we don't use any other files.</returns>
+        public virtual int GetDependantFilesHashCode(CultureInfo culture)
+        {
+            return 0;
+        }
 
         /// <summary>
         /// Gets a value indicating whether the given rule is enabled for the given document.

@@ -27,6 +27,7 @@ namespace StyleCop.CSharp
     using System.Xml;
     using System.Xml.XPath;
     using StyleCop;
+    using StyleCop.Spelling;
 
     /// <summary>
     /// Checks element documentation for the correct contents.
@@ -143,6 +144,12 @@ namespace StyleCop.CSharp
         #endregion Public Override Properties
 
         #region Public Override Methods
+
+        /// <inheritdoc />
+        public override int GetDependantFilesHashCode(CultureInfo culture)
+        {
+            return NamingService.GetNamingService(culture).GetDependantFilesHashCode();
+        }
 
         /// <summary>
         /// Checks the element headers within the given document.

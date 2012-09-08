@@ -48,9 +48,10 @@ namespace StyleCop.Spelling
 
         private SpellChecker spellChecker;
 
+        private int customDictionaryHashCode;
+
         #endregion
 
-        // Methods
         #region Constructors and Destructors
 
         private NamingService(CultureInfo culture)
@@ -114,7 +115,7 @@ namespace StyleCop.Spelling
         #region Public Methods and Operators
 
         /// <summary>
-        /// The clear cached services.
+        /// Clears the cached services.
         /// </summary>
         public static void ClearCachedServices()
         {
@@ -131,13 +132,13 @@ namespace StyleCop.Spelling
         }
 
         /// <summary>
-        /// The get naming service.
+        /// Gets a naming service for the specified culture.
         /// </summary>
         /// <param name="culture">
-        /// The culture.
+        /// The culture to use.
         /// </param>
         /// <returns>
-        /// The StyleCop.Spelling.NamingService.
+        /// The NamingService for the culture.
         /// </returns>
         [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "OK here.")]
         public static NamingService GetNamingService(CultureInfo culture)
@@ -161,10 +162,10 @@ namespace StyleCop.Spelling
         }
 
         /// <summary>
-        /// The check spelling.
+        /// Check spelling of the word provided.
         /// </summary>
         /// <param name="word">
-        /// The word.
+        /// The word to check.
         /// </param>
         /// <returns>
         /// The StyleCop.Spelling.WordSpelling.
@@ -177,6 +178,15 @@ namespace StyleCop.Spelling
             }
 
             return this.spellChecker.Check(word);
+        }
+
+        /// <summary>
+        /// Returns a hash code of the files we use to check spelling.
+        /// </summary>
+        /// <returns>The hash code or 0 if we don't use any other files.</returns>
+        public int GetDependantFilesHashCode()
+        {
+            return this.SupportsSpelling ? this.spellChecker.GetDependantFilesHashCode() ^ this.customDictionaryHashCode : 0;
         }
 
         /// <summary>
@@ -398,6 +408,26 @@ namespace StyleCop.Spelling
             return false;
         }
 
+        /// <summary>
+        /// Called when the file changes.
+        /// </summary>
+        /// <param name="source">The source of the event.</param>
+        /// <param name="e">The FileSystemEventArgs for the changing file.</param>
+        private static void FileChanged(object source, FileSystemEventArgs e)
+        {
+            ClearCachedServices();
+        }
+
+        /// <summary>
+        /// Called when the file renames.
+        /// </summary>
+        /// <param name="source">The source of the event.</param>
+        /// <param name="e">The RenamedEventArgs for the changing file.</param>
+        private static void OnRenamed(object source, RenamedEventArgs e)
+        {
+            ClearCachedServices();
+        }
+
         private static void LoadWordsFromXml(IDictionary<string, string> list, XmlDocument document, string xPathQuery, string attributeName)
         {
             var xmlNodeList = document.SelectNodes(xPathQuery);
@@ -471,6 +501,8 @@ namespace StyleCop.Spelling
             this.alternatesForDeprecatedWords = this.CreateCaseInsensitiveDictionary();
             this.compoundAlternatesForDiscreteWords = this.CreateCaseInsensitiveDictionary();
             this.discreteWordExceptions = this.CreateCaseInsensitiveDictionary();
+
+            this.customDictionaryHashCode = 0;
             this.InitDefaultCustomDictionaries();
         }
 
@@ -503,7 +535,33 @@ namespace StyleCop.Spelling
                 }
             }
 
+            this.AddFileWatcher(fileName);
+            
+            this.customDictionaryHashCode ^= File.GetLastWriteTime(fileName).GetHashCode();
+
             this.AddWordsToSpellChecker(ignoredWords, null);
+        }
+
+        /// <summary>
+        /// Creates a FileWatcher.
+        /// </summary>
+        /// <param name="path">The file to watch.</param>
+        private void AddFileWatcher(string path)
+        {
+            if (string.IsNullOrEmpty(path) || !File.Exists(path))
+            {
+                return;
+            }
+
+            var watch = new FileSystemWatcher();
+            var directoryName = Path.GetDirectoryName(path);
+            watch.Path = directoryName;
+            watch.Filter = Path.GetFileName(path);
+            watch.Changed += FileChanged;
+            watch.Created += FileChanged;
+            watch.Deleted += FileChanged;
+            watch.Renamed += OnRenamed;
+            watch.EnableRaisingEvents = true;
         }
 
         private void LoadCustomDictionaryXml(string fileName)
@@ -521,6 +579,9 @@ namespace StyleCop.Spelling
                 // TODO exception)
                 // TODO throw new FxCopException(string.Format(CultureInfo.CurrentCulture, Localized.LoadXmlFileException, new object[] { fileName }), exception);
             }
+
+            this.AddFileWatcher(fileName);
+            this.customDictionaryHashCode ^= File.GetLastWriteTime(fileName).GetHashCode();
 
             IDictionary<string, string> list = this.CreateCaseInsensitiveDictionary();
             IDictionary<string, string> dictionary2 = this.CreateCaseInsensitiveDictionary();

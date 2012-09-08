@@ -19,6 +19,9 @@ namespace StyleCop
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
+    using System.IO;
+    using System.Reflection;
+    using System.Security;
     using System.Text;
     using System.Xml;
 
@@ -40,15 +43,24 @@ namespace StyleCop
 
         #region Private Fields
 
+        private static DateTime lastWriteTime;
+
+        private static bool lastWriteTimeInitialized;
+
+        /// <summary>
+        /// The property descriptors for the add-in.
+        /// </summary>
+        private readonly PropertyDescriptorCollection propertyDescriptors = new PropertyDescriptorCollection();
+
         /// <summary>
         /// Stores the list of rules for the add-in.
         /// </summary>
-        private Dictionary<string, Rule> rules = new Dictionary<string, Rule>();
+        private readonly Dictionary<string, Rule> rules = new Dictionary<string, Rule>();
 
         /// <summary>
         /// The unique ID of the add-in.
         /// </summary>
-        private string id;
+        private readonly string id;
 
         /// <summary>
         /// The user-friendly name of the add-in.
@@ -59,16 +71,11 @@ namespace StyleCop
         /// The user-friendly description of the add-in.
         /// </summary>
         private string description;
-
+        
         /// <summary>
         /// The StyleCop core instance.
         /// </summary>
         private StyleCopCore core;
-
-        /// <summary>
-        /// The property descriptors for the add-in.
-        /// </summary>
-        private PropertyDescriptorCollection propertyDescriptors = new PropertyDescriptorCollection();
 
         #endregion Private Fields
 
@@ -153,6 +160,35 @@ namespace StyleCop
             get
             {
                 return this.core;
+            }
+        }
+
+        /// <summary>
+        /// Gets the time stamp of this assembly.
+        /// </summary>
+        public DateTime TimeStamp
+        {
+            get
+            {
+                if (!lastWriteTimeInitialized)
+                {
+                    try
+                    {
+                        lastWriteTime = File.GetLastWriteTime(Assembly.GetExecutingAssembly().Location);
+                        lastWriteTimeInitialized = true;
+                    }
+                    catch (UnauthorizedAccessException)
+                    {
+                    }
+                    catch (SecurityException)
+                    {
+                    }
+                    catch (IOException)
+                    {
+                    }
+                }
+
+                return lastWriteTime;
             }
         }
 

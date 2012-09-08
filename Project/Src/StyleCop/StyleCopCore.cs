@@ -53,6 +53,10 @@ namespace StyleCop
         /// </summary>
         private static Countdown countdown;
 
+        private static DateTime lastWriteTime;
+
+        private static bool lastWriteTimeInitialized;
+
 #if !DEBUGTHREADING
         /// <summary>
         /// The CPU count of the machine.
@@ -247,6 +251,35 @@ namespace StyleCop
                 {
                     this.cancel = value;
                 }
+            }
+        }
+
+        /// <summary>
+        /// Gets the time stamp of this assembly.
+        /// </summary>
+        public DateTime TimeStamp
+        {
+            get
+            {
+                if (!lastWriteTimeInitialized)
+                {
+                    try
+                    {
+                        lastWriteTime = File.GetLastWriteTime(Assembly.GetExecutingAssembly().Location);
+                        lastWriteTimeInitialized = true;
+                    }
+                    catch (UnauthorizedAccessException)
+                    {
+                    }
+                    catch (SecurityException)
+                    {
+                    }
+                    catch (IOException)
+                    {
+                    }
+                }
+
+                return lastWriteTime;
             }
         }
 
