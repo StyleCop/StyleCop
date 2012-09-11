@@ -171,24 +171,9 @@ namespace StyleCop.CSharp
                 }
                 else
                 {
-                    if (childNode.Name == "paramref")
+                    if (childNode.Name == "c" || childNode.Name == "code")
                     {
-                        XmlAttribute name = childNode.Attributes["name"];
-                        if (name != null)
-                        {
-                            commentBuilder.Append(name.Value);
-                        }
-                    }
-                    else if ((childNode.Name == "see" || childNode.Name == "seealso") && childNode.ChildNodes.Count == 0)
-                    {
-                        // This is a tag of the form <see cref="something"/>. Since the tag has no
-                        // child text, the value of the cref attribute will be inserted as text into the
-                        // comment.
-                        XmlAttribute crefAttribute = childNode.Attributes["cref"];
-                        if (crefAttribute != null)
-                        {
-                            commentBuilder.Append(crefAttribute.Value);
-                        }
+                        continue;
                     }
                 }
 
@@ -208,7 +193,7 @@ namespace StyleCop.CSharp
         /// Returns True if the text has incorrect spelling.
         /// </summary>
         /// <param name="culture">The culture to use to spell check the comment.</param>
-        /// <param name="text">The text to spell check.</param>
+        /// <param name="text">The text to check.</param>
         /// <param name="spellingError">Returns the first word encountered as a spelling error.</param>
         /// <returns>True if the text contains an incorrect spelling.</returns>
         private static bool TextContainsIncorectSpelling(CultureInfo culture, string text, out string spellingError)
