@@ -14,7 +14,7 @@ namespace StyleCop.Internal
     using StyleCop.CSharp;
 
     /// <summary>
-    /// Checks the usage of the Param class to verify method parameters.
+    /// Checks the usage of the <see cref="Param"/> class to verify method parameters.
     /// </summary>
     [SuppressMessage(
         "Microsoft.Naming", 
@@ -27,7 +27,7 @@ namespace StyleCop.Internal
         #region Public Constructors
 
         /// <summary>
-        /// Initializes a new instance of the ParamCheck class.
+        /// Initializes a new instance of the <see cref="ParamCheck"/> class.
         /// </summary>
         public ParamCheck()
         {
@@ -73,10 +73,10 @@ namespace StyleCop.Internal
         #region Private Static Methods
 
         /// <summary>
-        /// Gets the list of all tokens within Param statements found in the given element.
+        /// Gets the list of all tokens within <c>Param</c> statements found in the given element.
         /// </summary>
-        /// <param name="element">The element to get the param tokens from.</param>
-        /// <returns>Returns the list of param check tokens.</returns>
+        /// <param name="element">The element to get the <c>param</c> tokens from.</param>
+        /// <returns>Returns the list of <c>param</c> check tokens.</returns>
         private static List<ParamTokens> GetParamCheckTokens(CsElement element)
         {
             Param.AssertNotNull(element, "element");

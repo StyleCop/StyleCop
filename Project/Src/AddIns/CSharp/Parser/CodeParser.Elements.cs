@@ -42,7 +42,7 @@ namespace StyleCop.CSharp
         };
 
         /// <summary>
-        /// The allowable modifiers on an enum element.
+        /// The allowable modifiers on an <see cref="Enum"/> element.
         /// </summary>
         private static readonly string[] EnumModifiers = new[]
         {
@@ -1347,7 +1347,7 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Parses and returns an enum.
+        /// Parses and returns an <see cref="Enum"/>.
         /// </summary>
         /// <param name="parent">The parent of the element.</param>
         /// <param name="elementReference">A reference to the element being created.</param>
@@ -1428,9 +1428,9 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Parses and returns the items within an enum element.
+        /// Parses and returns the items within an <see cref="Enum"/> element.
         /// </summary>
-        /// <param name="parent">The parent enum element.</param>
+        /// <param name="parent">The parent <see cref="Enum"/> element.</param>
         /// <param name="parentReference">Reference to the parent of the items we're creating.</param>
         /// <param name="unsafeCode">Indicates whether the code is marked as unsafe.</param>
         /// <returns>Returns the element.</returns>

@@ -83,17 +83,17 @@ namespace StyleCop.CSharp
         PartialElementDocumentationMustHaveSummaryText,
 
         /// <summary>
-        /// The element has parameters but the header does not contain param tags.
+        /// The element has parameters but the header does not contain <c>param</c> tags.
         /// </summary>
         ElementParametersMustBeDocumented,
 
         /// <summary>
-        /// The header has a param tag with no name.
+        /// The header has a  <c>param</c> tag with no name.
         /// </summary>
         ElementParameterDocumentationMustDeclareParameterName,
 
         /// <summary>
-        /// The param tag is empty.
+        /// The  <c>param</c> tag is empty.
         /// </summary>
         ElementParameterDocumentationMustHaveText,
 
@@ -113,27 +113,27 @@ namespace StyleCop.CSharp
         VoidReturnValueMustNotBeDocumented,
 
         /// <summary>
-        /// The partial element has generic types but the Xml header has no 'typeparam' tags.
+        /// The partial element has generic types but the Xml header has no '<c>typeparam</c>' tags.
         /// </summary>
         GenericTypeParametersMustBeDocumented,
 
         /// <summary>
-        /// The documentation header must contain typeparam tags matching the generic types for the {0}.
+        /// The documentation header must contain <c>typeparam</c> tags matching the generic types for the {0}.
         /// </summary>
         GenericTypeParametersMustBeDocumentedPartialClass,
 
         /// <summary>
-        /// The element's generic type parameters do not match the 'typeparam' tags in the header.
+        /// The element's generic type parameters do not match the '<c>typeparam</c>' tags in the header.
         /// </summary>
         GenericTypeParameterDocumentationMustMatchTypeParameters,
 
         /// <summary>
-        /// The Xml header has a 'typeparam' tag with no 'name' attribute.
+        /// The Xml header has a '<c>typeparam</c>' tag with no 'name' attribute.
         /// </summary>
         GenericTypeParameterDocumentationMustDeclareParameterName,
 
         /// <summary>
-        /// The element header 'typeparam' tag is empty for the '{0}' item.
+        /// The element header '<c>typeparam</c>' tag is empty for the '{0}' item.
         /// </summary>
         GenericTypeParameterDocumentationMustHaveText,
 
@@ -148,7 +148,7 @@ namespace StyleCop.CSharp
         DocumentationMustContainValidXml,
 
         /// <summary>
-        /// The enum sub-item has no header.
+        /// The <see cref="Enum"/> sub-item has no header.
         /// </summary>
         EnumerationItemsMustBeDocumented,
 
@@ -228,7 +228,7 @@ namespace StyleCop.CSharp
         IncludeNodeDoesNotContainValidFileAndPath,
 
         /// <summary>
-        /// Verifies that an 'includedoc' tag is not used when the class does not inherit from a base class.
+        /// Verifies that an <c>includedoc</c> tag is not used when the class does not inherit from a base class.
         /// </summary>
         InheritDocMustBeUsedWithInheritingClass,
 
@@ -571,7 +571,7 @@ namespace StyleCop.CSharp
         ClosingAttributeBracketsMustBeSpacedCorrectly,
 
         /// <summary>
-        /// A nullable type symbol should not be preceded by whitespace.
+        /// A <see cref="Nullable"/> type symbol should not be preceded by whitespace.
         /// </summary>
         NullableTypeSymbolsMustNotBePrecededBySpace,
 
@@ -687,7 +687,7 @@ namespace StyleCop.CSharp
         ParameterMustFollowComma,
 
         /// <summary>
-        /// If there are multiple params and each is on it's own line, they cannot start on the same 
+        /// If there are multiple parameters and each is on it's own line, they cannot start on the same 
         /// line as the method declaration or name.
         /// </summary>
         SplitParametersMustStartOnLineAfterDeclaration,
@@ -793,7 +793,7 @@ namespace StyleCop.CSharp
         QueryClausesSpanningMultipleLinesMustBeginOnOwnLine,
 
         /// <summary>
-        /// Enforces the use of the built-in bool keyword rather than the type Boolean or System.Boolean.
+        /// Enforces the use of the built-in <see cref="bool"/> keyword rather than the type Boolean or System.Boolean.
         /// </summary>
         UseBuiltInTypeAlias,
 
@@ -803,7 +803,7 @@ namespace StyleCop.CSharp
         AvoidVarType,
 
         /// <summary>
-        /// Enforces the use of the shorthand for a nullable type.
+        /// Enforces the use of the shorthand for a <see cref="Nullable"/> type.
         /// </summary>
         UseShorthandForNullableTypes,
 

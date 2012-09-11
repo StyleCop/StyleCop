@@ -359,7 +359,7 @@ namespace StyleCop
         }
 
         /// <summary>
-        /// Saves the given int property into the given node.
+        /// Saves the given <see cref="int"/> property into the given node.
         /// </summary>
         /// <param name="rootNode">The node under which to store the new property node.</param>
         /// <param name="property">The property to save.</param>

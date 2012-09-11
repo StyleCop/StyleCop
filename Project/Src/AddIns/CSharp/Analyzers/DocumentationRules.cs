@@ -81,14 +81,14 @@ namespace StyleCop.CSharp
 
         #region Private Constants
         /// <summary>
-        /// A regular expression to match a type reference included within a cref attribute.
+        /// A regular expression to match a type reference included within a <c>cref</c> attribute.
         /// </summary>
         /// <remarks>
         /// Consider a namespace A.B and type Foo.Bar
-        /// Foo has 2 generic params and Bar has 3 generic params
+        /// Foo has 2 generic parameters and Bar has 3 generic parameters
         /// {0}: qualified type name with the number of generic parameters on it too (like A.B.Foo`2.Bar`3)
         /// {1}: type name options with generics removed (like A.B.Foo.Bar | B.Foo.Bar | Foo.Bar | Bar)
-        /// {2}: type name with generic parameters regex already on it ( like A.B.Foo{A,B}.Bar{C,D,E} | B.Foo{A,B}.Bar{C,D,E} | Foo{A,B}.Bar{C,D,E} | Bar{C,D,E} )
+        /// {2}: type name with generic parameters <see cref="Regex"/> already on it ( like A.B.Foo{A,B}.Bar{C,D,E} | B.Foo{A,B}.Bar{C,D,E} | Foo{A,B}.Bar{C,D,E} | Bar{C,D,E} )
         /// </remarks>
         private const string CrefRegex =
             @"(?'see'<see\s+cref\s*=\s*"")?" +      // Optionally matches '<see cref="'
@@ -568,7 +568,7 @@ namespace StyleCop.CSharp
         
         /// <summary>
         /// Builds a regular expression that can be used to validate the name of the given type when 
-        /// used within a documentation cref attribute.
+        /// used within a documentation <c>cref</c> attribute.
         /// </summary>
         /// <param name="type">The type to match against.</param>
         /// <returns>Returns the regular expression object.</returns>
@@ -604,13 +604,13 @@ namespace StyleCop.CSharp
         /// For a type Foo.Bar in namespace A.B this returns (A.B.Foo.Bar | B.Foo.Bar | Foo.Bar | Bar) and (A.B.Foo{E,F}.Bar | B.Foo{E,F}.Bar | Foo{E,F}.Bar | Bar)
         /// </summary>
         /// <param name="type">
-        /// The type to build the regex for.
+        /// The type to build the <see cref="Regex"/> for.
         /// </param>
         /// <param name="regexWithGenerics">
-        /// The regex with generics.
+        /// The <see cref="Regex"/> with generics.
         /// </param>
         /// <param name="regexWithoutGenerics">
-        /// The regex without generics.
+        /// The <see cref="Regex"/> without generics.
         /// </param>
         private static void BuildRegExForAllTypeOptions(ClassBase type, out string regexWithGenerics, out string regexWithoutGenerics)
         {
@@ -723,7 +723,7 @@ namespace StyleCop.CSharp
         /// Builds the type name string with generics.
         /// </summary>
         /// <param name="typeName">Name of the type.</param>
-        /// <returns>A type name string with a regex to match generics as the suffix.</returns>
+        /// <returns>A type name string with a <see cref="Regex"/> to match generics as the suffix.</returns>
         private static string BuildTypeNameStringWithGenerics(string typeName)
         {
             Param.AssertNotNull(typeName, "typeName");
@@ -742,7 +742,7 @@ namespace StyleCop.CSharp
         }
         
         /// <summary>
-        /// Builds the type name string with params number.
+        /// Builds the type name string with parameters number.
         /// </summary>
         /// <param name="typeName">Name of the type.</param>
         /// <returns>A type name string with the numbers of generics as the suffix.</returns>
@@ -768,10 +768,10 @@ namespace StyleCop.CSharp
         }
         
         /// <summary>
-        /// Builds a regex matching string to match the given generic parameter list.
+        /// Builds a <see cref="Regex"/> matching string to match the given generic parameter list.
         /// </summary>
         /// <param name="genericParams">The list of generic parameters.</param>
-        /// <returns>Returns the regex string.</returns>
+        /// <returns>Returns the <see cref="Regex"/> string.</returns>
         private static string BuildGenericParametersRegex(string[] genericParams)
         {
             Param.AssertNotNull(genericParams, "genericParams");
@@ -838,12 +838,12 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Gets the expected summary text regex for a constructor, based on the type of the constructor.
+        /// Gets the expected summary text <see cref="Regex"/> for a constructor, based on the type of the constructor.
         /// </summary>
         /// <param name="constructor">The constructor.</param>
         /// <param name="type">The type of the element containing the constructor.</param>
         /// <param name="typeRegex">The regular expression for matching the type name.</param>
-        /// <returns>Returns the expected summary text regex.</returns>
+        /// <returns>Returns the expected summary text <see cref="Regex"/>.</returns>
         private static string GetExpectedSummaryTextForConstructorType(Constructor constructor, string type, string typeRegex)
         {
             Param.AssertNotNull(constructor, "constructor");
@@ -937,10 +937,10 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Gets the expected summary text regex for a destructor.
+        /// Gets the expected summary text <see cref="Regex"/> for a destructor.
         /// </summary>
         /// <param name="typeRegex">The regular expression for matching the type name.</param>
-        /// <returns>Returns the expected summary text regex.</returns>
+        /// <returns>Returns the expected summary text <see cref="Regex"/>.</returns>
         private static string GetExpectedSummaryTextForDestructor(string typeRegex)
         {
             Param.AssertValidString(typeRegex, "typeRegex");
@@ -1471,7 +1471,7 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Checks the given element which contains an inheritdoc tag in the header.
+        /// Checks the given element which contains an <c>inheritdoc</c> tag in the header.
         /// </summary>
         /// <param name="element">The element to check.</param>
         private void CheckInheritDocRules(CsElement element)

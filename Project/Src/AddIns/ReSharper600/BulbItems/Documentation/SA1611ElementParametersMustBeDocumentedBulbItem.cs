@@ -32,7 +32,7 @@ namespace StyleCop.ReSharper600.BulbItems.Documentation
     #endregion
 
     /// <summary>
-    /// BulbItem - SA1611ElementParametersMustBeDocumentedBulbItem : Inserts a param into the header.
+    /// BulbItem - SA1611ElementParametersMustBeDocumentedBulbItem : Inserts a <c>param</c> into the header.
     /// </summary>
     internal class SA1611ElementParametersMustBeDocumentedBulbItem : V5BulbItemImpl
     {

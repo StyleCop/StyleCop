@@ -1483,7 +1483,7 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Checks a nullable type symbol for spacing.
+        /// Checks a <see cref="Nullable"/> type symbol for spacing.
         /// </summary>
         /// <param name="tokenNode">The token to check.</param>
         private void CheckNullableTypeSymbol(Node<CsToken> tokenNode)

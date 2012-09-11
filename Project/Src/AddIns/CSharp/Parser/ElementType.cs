@@ -78,7 +78,7 @@ namespace StyleCop.CSharp
         Event = 10,
 
         /// <summary>
-        /// An enum element.
+        /// An <see cref="Enum"/> element.
         /// </summary>
         Enum = 11,
 

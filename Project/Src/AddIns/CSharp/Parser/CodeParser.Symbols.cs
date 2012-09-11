@@ -1006,7 +1006,7 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Gets a nullable type symbol for a type token, if one exists.
+        /// Gets a <see cref="Nullable"/> type symbol for a type token, if one exists.
         /// </summary>
         /// <param name="typeTokenReference">A reference to the type token.</param>
         /// <param name="typeTokens">The tokens within the type token.</param>
@@ -1155,10 +1155,10 @@ namespace StyleCop.CSharp
 
         /// <summary>
         /// Determines whether a question mark following the type from an 'is' or an 'as' statement is
-        /// actually a nullable type question mark rather than a conditional question mark.
+        /// actually a <see cref="Nullable"/> type question mark rather than a conditional question mark.
         /// </summary>
         /// <param name="index">The peek index of the question mark within the symbol manager.</param>
-        /// <returns>Returns true if the question mark is a nullable type question mark.</returns>
+        /// <returns>Returns true if the question mark is a <see cref="Nullable"/> type question mark.</returns>
         private bool IsNullableTypeSymbolFromIsExpression(int index)
         {
             Param.AssertGreaterThanZero(index, "index");

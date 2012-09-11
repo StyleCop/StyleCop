@@ -100,7 +100,7 @@ namespace StyleCop.ReSharper611.Core
         /// The process kind.
         /// </param>
         /// <returns>
-        /// Current <see cref="IDaemonStageProcess"/>.
+        /// The current <see cref="IDaemonStageProcess"/>.
         /// </returns>
         public override IDaemonStageProcess CreateProcess(IDaemonProcess process, IContextBoundSettingsStore settingsStore, DaemonProcessKind processKind)
         {

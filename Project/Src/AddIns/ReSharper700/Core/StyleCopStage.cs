@@ -121,7 +121,7 @@ namespace StyleCop.ReSharper700.Core
         /// The file to analyze.
         /// </param>
         /// <returns>
-        /// Current <see cref="IDaemonStageProcess"/>.
+        /// The current <see cref="IDaemonStageProcess"/>.
         /// </returns>
         protected override IDaemonStageProcess CreateProcess(IDaemonProcess process, IContextBoundSettingsStore settingsStore, DaemonProcessKind processKind, ICSharpFile file)
         {

@@ -522,7 +522,7 @@ namespace StyleCop.ReSharper610.CodeCleanup.Rules
         }
 
         /// <summary>
-        /// Updates the summary to include all typeparam and remove any extra ones and in the correct order.
+        /// Updates the summary to include all <c>typeparam</c> and remove any extra ones and in the correct order.
         /// </summary>
         /// <param name="declaration">
         /// The <see cref="ITypeDeclaration"/> to check and fix.
@@ -804,10 +804,10 @@ namespace StyleCop.ReSharper610.CodeCleanup.Rules
         /// Removes the parameters that are not required.
         /// </summary>
         /// <param name="xmlNode">
-        /// <see cref="XmlNode"/>to search for params.
+        /// <see cref="XmlNode"/>to search for <c>param</c> elements.
         /// </param>
         /// <param name="hashtable">
-        /// <see cref="Hashtable"/>of params that are not required.
+        /// <see cref="Hashtable"/>of <c>params</c> that are not required.
         /// </param>
         private static void RemoveParamsNotRequired(XmlNode xmlNode, Hashtable hashtable)
         {
@@ -840,10 +840,10 @@ namespace StyleCop.ReSharper610.CodeCleanup.Rules
         /// Removes the parameter types that are not required.
         /// </summary>
         /// <param name="xmlNode">
-        /// <see cref="XmlNode"/>to search for params.
+        /// <see cref="XmlNode"/>to search for parameters.
         /// </param>
         /// <param name="hashtable">
-        /// <see cref="Hashtable"/>of param types that are not required.
+        /// <see cref="Hashtable"/>of <c>paramTypes</c> that are not required.
         /// </param>
         private static void RemoveTypeParamsNotRequired(XmlNode xmlNode, Hashtable hashtable)
         {
@@ -867,7 +867,7 @@ namespace StyleCop.ReSharper610.CodeCleanup.Rules
         }
 
         /// <summary>
-        /// Reorder params.
+        /// Reorder the <see cref="IParameterDeclaration"/>.
         /// </summary>
         /// <param name="xmlNode">
         /// The xml node.
@@ -902,7 +902,7 @@ namespace StyleCop.ReSharper610.CodeCleanup.Rules
         }
 
         /// <summary>
-        /// Reorder type params.
+        /// Reorder the <see cref="ITypeParameter"/>.
         /// </summary>
         /// <param name="xmlNode">
         /// The xml node.

@@ -64,7 +64,7 @@ namespace StyleCop.ReSharper700.CodeCleanup.Options
         public bool SA1609PropertyDocumentationMustHaveValue { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether to define the behavior for inserting a missing param tag on elements.
+        /// Gets or sets a value indicating whether to define the behavior for inserting a missing parameter tag on elements.
         /// </summary>
         [DisplayName("1611: Element Parameters Must Be Documented")]
         public bool SA1611ElementParametersMustBeDocumented { get; set; }

@@ -39,7 +39,7 @@ namespace StyleCop.CSharp
         Ref = 0x02,
 
         /// <summary>
-        /// The 'params' modifier.
+        /// The <c>'params'</c> modifier.
         /// </summary>
         Params = 0x04,
 

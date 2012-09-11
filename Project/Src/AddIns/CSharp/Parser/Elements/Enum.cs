@@ -20,7 +20,7 @@ namespace StyleCop.CSharp
     using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
-    /// Describes the contents of an enum element.
+    /// Describes the contents of an <see cref="Enum"/> element.
     /// </summary>
     /// <subcategory>element</subcategory>
     [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", Justification = "The class describes a C# enum.")]
@@ -35,7 +35,7 @@ namespace StyleCop.CSharp
         private string baseType;
 
         /// <summary>
-        /// The list of items in the enum.
+        /// The list of items in the <see cref="Enum"/>.
         /// </summary>
         private ICollection<EnumItem> items;
 
@@ -44,7 +44,7 @@ namespace StyleCop.CSharp
         #region Internal Constructors
 
         /// <summary>
-        /// Initializes a new instance of the Enum class.
+        /// Initializes a new instance of the <see cref="Enum"/> class.
         /// </summary>
         /// <param name="document">The document that contains the element.</param>
         /// <param name="parent">The parent of the element.</param>
@@ -80,7 +80,7 @@ namespace StyleCop.CSharp
         #region Public Properties
 
         /// <summary>
-        /// Gets the base type for the enum.
+        /// Gets the base type for the <see cref="Enum"/>.
         /// </summary>
         public string BaseType
         {
@@ -91,7 +91,7 @@ namespace StyleCop.CSharp
         }
         
         /// <summary>
-        /// Gets the collection of items in the enum.
+        /// Gets the collection of items in the <see cref="Enum"/>.
         /// </summary>
         public ICollection<EnumItem> Items
         {

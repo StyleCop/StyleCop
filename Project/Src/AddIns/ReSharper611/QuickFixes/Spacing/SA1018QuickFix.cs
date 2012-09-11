@@ -31,7 +31,7 @@ namespace StyleCop.ReSharper611.QuickFixes.Spacing
     #endregion
 
     /// <summary>
-    /// QuickFix - SA1018: NullableTypeSymbolsMustNotBePrecededBySpace.
+    /// QuickFix - SA1018.
     /// </summary>
     [ShowQuickFix]
     [QuickFix]

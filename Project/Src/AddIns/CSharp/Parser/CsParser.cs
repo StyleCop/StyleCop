@@ -492,7 +492,7 @@ namespace StyleCop.CSharp
             /// <summary>
             /// Generates a unique hash code for this struct.
             /// </summary>
-            /// <returns>An int of the unique HashCode.</returns>
+            /// <returns>An <see cref="int"/> of the unique HashCode.</returns>
             public override int GetHashCode()
             {
                 return (this.RuleId + ":" + this.RuleNamespace + "." + this.RuleName).GetHashCode();

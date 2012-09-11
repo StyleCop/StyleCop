@@ -163,7 +163,10 @@ namespace StyleCop.CSharp
         /// <returns> Returns true if the expression is the left-hand-side literal in any of the assignment expressions within an object initializer expression. </returns>
         /// <remarks>
         ///   This method checks for the following situation:
-        ///   class MyClass { public bool Member { get { return true; } } public void SomeMethod() { MyObjectType someObject = new MyObjectType { Member = this.Member }; } } In this case, StyleCop will raise a violation since it looks like the Member token should be prefixed by 'this.', however, it is actually referring to a property on the MyObjectType type.
+        /// <code>
+        ///   class MyClass { public bool Member { get { return true; } } public void SomeMethod() { MyObjectType someObject = new MyObjectType { Member = this.Member }; } } 
+        /// </code>
+        /// In this case, StyleCop will raise a violation since it looks like the Member token should be prefixed by 'this.', however, it is actually referring to a property on the MyObjectType type.
         /// </remarks>
         private static bool IsObjectInitializerLeftHandSideExpression(Expression expression)
         {

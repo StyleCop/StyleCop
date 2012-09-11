@@ -259,10 +259,10 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        ///   Returns true if the node Contains any sort of Nullable.
+        /// Returns true if the node Contains any sort of <see cref="Nullable"/>.
         /// </summary>
         /// <param name="token"> The token to check. </param>
-        /// <returns> True if Nullable otherwise False. </returns>
+        /// <returns> True if <see cref="Nullable"/> otherwise False. </returns>
         public static bool TokenContainNullable(Node<CsToken> token)
         {
             if (CsTokenList.MatchTokens(StringComparison.Ordinal, token, new[] { "System", ".", "Nullable" })

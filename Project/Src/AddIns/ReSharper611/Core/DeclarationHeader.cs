@@ -154,7 +154,7 @@ namespace StyleCop.ReSharper611.Core
         public bool HasValue { get; private set; }
 
         /// <summary>
-        /// Gets a value indicating whether the header has an inheritdoc element.
+        /// Gets a value indicating whether the header has an <c>inheritdoc</c> element.
         /// </summary>
         public bool IsInherited { get; private set; }
 
@@ -240,7 +240,7 @@ namespace StyleCop.ReSharper611.Core
         /// The parameter name to search for.
         /// </param>
         /// <returns>
-        /// A <see cref="bool"/> of whether a param is declared in the header.
+        /// A <see cref="bool"/> of whether a <c>param</c> is declared in the header.
         /// </returns>
         public bool ContainsParameter(string parameterName)
         {
@@ -259,7 +259,7 @@ namespace StyleCop.ReSharper611.Core
         /// The parameter name to search for.
         /// </param>
         /// <returns>
-        /// A <see cref="bool"/> of whether a type param is declared in the header.
+        /// A <see cref="bool"/> of whether a type <c>param</c> is declared in the header.
         /// </returns>
         public bool ContainsTypeParameter(string parameterName)
         {

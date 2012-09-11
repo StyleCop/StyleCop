@@ -95,7 +95,7 @@ namespace StyleCop.ReSharper600.Core
         /// The process kind.
         /// </param>
         /// <returns>
-        /// Current <see cref="IDaemonStageProcess"/>.
+        /// The current <see cref="IDaemonStageProcess"/>.
         /// </returns>
         public IDaemonStageProcess CreateProcess(IDaemonProcess process, DaemonProcessKind processKind)
         {

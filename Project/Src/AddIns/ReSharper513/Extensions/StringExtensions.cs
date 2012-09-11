@@ -137,7 +137,7 @@ namespace System
         /// The regular expression pattern to match.
         /// </param>
         /// <param name="options">
-        /// The regex options.
+        /// The <see cref="Regex"/> options.
         /// A bitwise OR combination of <see cref="RegexOptions"/> enumeration values.
         /// </param>
         /// <returns>

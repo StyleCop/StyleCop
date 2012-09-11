@@ -184,7 +184,7 @@ namespace StyleCop.ReSharper610.Core
         /// The constructor to use.
         /// </param>
         /// <param name="encodeHtmlTags">
-        /// If True then type params will have {} instead of &lt; and &gt;.
+        /// If True then <c>typeParams</c> will have {} instead of &lt; and &gt;.
         /// </param>
         /// <returns>
         /// A string of the text.
@@ -219,7 +219,7 @@ namespace StyleCop.ReSharper610.Core
         /// The destructor to use.
         /// </param>
         /// <param name="encodeHtmlTags">
-        /// If True then type params will have {} instead of &lt; and &gt;.
+        /// If True then <c>TypeParams</c> will have {} instead of &lt; and &gt;.
         /// </param>
         /// <returns>
         /// A string of the text.
@@ -998,7 +998,7 @@ namespace StyleCop.ReSharper610.Core
         /// The element to use.
         /// </param>
         /// <returns>
-        /// An int of the line number. 0 based. -1 if the element was invalid.
+        /// An <see cref="int"/> of the line number. 0 based. -1 if the element was invalid.
         /// </returns>
         public static JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> GetLineNumberForElement(ITreeNode element)
         {
@@ -1760,7 +1760,7 @@ namespace StyleCop.ReSharper610.Core
         /// The string to count the whitespace in.
         /// </param>
         /// <returns>
-        /// An Int32 of the number of whitespace characters.
+        /// An <see cref="Int32"/> of the number of whitespace characters.
         /// </returns>
         private static int CountOfWhitespaceAtLeft(string s)
         {
@@ -1788,7 +1788,7 @@ namespace StyleCop.ReSharper610.Core
         /// The string to count the whitespace in.
         /// </param>
         /// <returns>
-        /// An Int32 of the number of whitespace characters.
+        /// An <see cref="Int32"/> of the number of whitespace characters.
         /// </returns>
         private static int CountOfWhitespaceAtRight(string s)
         {

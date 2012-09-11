@@ -45,7 +45,7 @@ namespace StyleCop
         #region Private Constructors
 
         /// <summary>
-        /// Prevents a default instance of the Param class from being created.
+        /// Prevents a default instance of the <see cref="Param"/> class from being created.
         /// </summary>
         private Param()
         {

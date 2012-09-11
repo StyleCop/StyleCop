@@ -31,7 +31,7 @@ namespace StyleCop.ReSharper700.BulbItems.Documentation
     #endregion
 
     /// <summary>
-    /// BulbItem - SA1618GenericTypeParametersMustBeDocumentedBulbItem : Inserts a param into the header.
+    /// BulbItem - SA1618GenericTypeParametersMustBeDocumentedBulbItem : Inserts a parameter into the header.
     /// </summary>
     internal class SA1618GenericTypeParametersMustBeDocumentedBulbItem : V5BulbItemImpl
     {

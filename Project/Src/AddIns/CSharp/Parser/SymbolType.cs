@@ -330,7 +330,7 @@ namespace StyleCop.CSharp
         Else,
 
         /// <summary>
-        /// The keyword 'enum'.
+        /// The keyword '<see cref="Enum"/>'.
         /// </summary>
         Enum,
 
@@ -445,7 +445,7 @@ namespace StyleCop.CSharp
         Override,
 
         /// <summary>
-        /// The keyword 'params'.
+        /// The keyword '<c>params</c>'.
         /// </summary>
         Params,
 

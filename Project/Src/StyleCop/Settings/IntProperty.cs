@@ -22,7 +22,7 @@ namespace StyleCop
         #region Public Constructors
 
         /// <summary>
-        /// Initializes a new instance of the IntProperty class.
+        /// Initializes a new instance of the <see cref="IntProperty"/> class.
         /// </summary>
         /// <param name="propertyDescriptor">The property descriptor that this value represents.</param>
         /// <param name="value">The value of the property.</param>
@@ -34,7 +34,7 @@ namespace StyleCop
         }
 
         /// <summary>
-        /// Initializes a new instance of the IntProperty class.
+        /// Initializes a new instance of the <see cref="IntProperty"/> class.
         /// </summary>
         /// <param name="propertyContainer">The container of this property.</param>
         /// <param name="propertyName">The name of the property.</param>

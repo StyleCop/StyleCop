@@ -19,7 +19,7 @@ namespace StyleCop.Internal
     using StyleCop.CSharp;
 
     /// <summary>
-    /// Contains tokens inside of a Param statement.
+    /// Contains tokens inside of a <c>Param</c> statement.
     /// </summary>
     internal class ParamTokens
     {
@@ -40,9 +40,9 @@ namespace StyleCop.Internal
         #region Public Constructors
 
         /// <summary>
-        /// Initializes a new instance of the ParamTokens class.
+        /// Initializes a new instance of the <see cref="ParamTokens"/> class.
         /// </summary>
-        /// <param name="paramTokenNode">The param check token node.</param>
+        /// <param name="paramTokenNode">The check token node.</param>
         /// <param name="tokenNodes">The token node collection.</param>
         public ParamTokens(Node<CsToken> paramTokenNode, ICollection<Node<CsToken>> tokenNodes)
         {
@@ -58,7 +58,7 @@ namespace StyleCop.Internal
         #region Public Properties
 
         /// <summary>
-        /// Gets the param token node.
+        /// Gets the node.
         /// </summary>
         public Node<CsToken> ParamTokenNode
         {

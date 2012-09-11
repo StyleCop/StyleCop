@@ -18,7 +18,7 @@ namespace StyleCop.CSharp
     using System.Collections.Generic;
     
     /// <summary>
-    /// Describes a single item within an enum element.
+    /// Describes a single item within an <see cref="Enum"/> element.
     /// </summary>
     /// <subcategory>element</subcategory>
     public sealed class EnumItem : CsElement
@@ -35,7 +35,7 @@ namespace StyleCop.CSharp
         #region Internal Constructors
 
         /// <summary>
-        /// Initializes a new instance of the EnumItem class.
+        /// Initializes a new instance of the <see cref="EnumItem"/> class.
         /// </summary>
         /// <param name="document">The document that contains the element.</param>
         /// <param name="parent">The parent of the element.</param>
@@ -79,7 +79,7 @@ namespace StyleCop.CSharp
         #region Public Properties
 
         /// <summary>
-        /// Gets the initialization expression for the enum item, if there is one.
+        /// Gets the initialization expression for the <see cref="Enum"/> item, if there is one.
         /// </summary>
         public Expression Initialization
         {
