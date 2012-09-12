@@ -522,7 +522,27 @@ namespace StyleCop.Spelling
                     this.LoadCustomDictionaryXml(str);
                 }
 
+                foreach (string str in Directory.GetFiles(currentDirectory, string.Format("CustomDictionary.{0}.xml", this.culture.Name), SearchOption.AllDirectories))
+                {
+                    this.LoadCustomDictionaryXml(str);
+                }
+
+                foreach (string str in Directory.GetFiles(currentDirectory, string.Format("CustomDictionary.{0}.xml", this.culture.Parent.Name), SearchOption.AllDirectories))
+                {
+                    this.LoadCustomDictionaryXml(str);
+                }
+
                 foreach (string str2 in Directory.GetFiles(currentDirectory, "custom.dic", SearchOption.AllDirectories))
+                {
+                    this.LoadCustomDic(str2);
+                }
+
+                foreach (string str2 in Directory.GetFiles(currentDirectory, string.Format("custom.{0}.dic", this.culture.Name), SearchOption.AllDirectories))
+                {
+                    this.LoadCustomDic(str2);
+                }
+
+                foreach (string str2 in Directory.GetFiles(currentDirectory, string.Format("custom.{0}.dic", this.culture.Parent.Name), SearchOption.AllDirectories))
                 {
                     this.LoadCustomDic(str2);
                 }
