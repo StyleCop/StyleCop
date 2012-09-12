@@ -45,47 +45,52 @@ namespace StyleCop.CSharp
         /// Checks the contents of the given comment string to determine whether the comment appears
         /// to be a valid English-language sentence, or whether it appears to be garbage.
         /// </summary>
-        /// <param name="comment">The comment to check.</param>
+        /// <param name="commentWithAttributesRemoved">The comment to check (which has had its attributes removed).</param>
+        /// <param name="commentWithAttributesPreserved">The comment to check with attribute values inserted into the text.</param>
         /// <param name="culture">The culture to use to spell check the comment.</param>
         /// <param name="spellingError">Returns the first word encountered as a spelling error.</param>
         /// <returns>Returns the type of the comment.</returns>
-        public static InvalidCommentType IsGarbageComment(string comment, CultureInfo culture, out string spellingError)
+        public static InvalidCommentType IsGarbageComment(string commentWithAttributesRemoved, string commentWithAttributesPreserved, CultureInfo culture, out string spellingError)
         {
-            Param.AssertNotNull(comment, "comment");
+            Param.AssertNotNull(commentWithAttributesRemoved, "commentWithAttributesRemoved");
+            Param.AssertNotNull(commentWithAttributesPreserved, "commentWithAttributesPreserved");
             spellingError = null;
 
             InvalidCommentType invalid = InvalidCommentType.Valid;
-            string trimmedComment = comment.Trim();
 
-            string trimmedCommentWithoutPeriod = trimmedComment.TrimEnd(new[] { '.' }).Trim();
+            string trimmedCommentWithoutAttributes = commentWithAttributesRemoved.Trim();
+
+            string trimmedCommentWithAttributesPreserved = commentWithAttributesPreserved.Trim();
+
+            string trimmedCommentWithAttributesPreservedWithoutPeriod = trimmedCommentWithAttributesPreserved.TrimEnd(new[] { '.' }).Trim();
 
             // Make sure the comment string is valid.
-            if (string.IsNullOrEmpty(trimmedComment))
+            if (string.IsNullOrEmpty(trimmedCommentWithAttributesPreserved))
             {
                 invalid |= InvalidCommentType.Empty;
             }
             else
             {
                 // Check the comment spelling
-                if (TextContainsIncorectSpelling(culture, trimmedCommentWithoutPeriod, out spellingError))
+                if (TextContainsIncorectSpelling(culture, trimmedCommentWithoutAttributes, out spellingError))
                 {
                     invalid |= InvalidCommentType.IncorrectSpelling;
                 }
 
                 // Check for the minimum length.
-                if (trimmedComment.Length < MinimumHeaderCommentLength)
+                if (trimmedCommentWithAttributesPreserved.Length < MinimumHeaderCommentLength)
                 {
                     invalid |= InvalidCommentType.TooShort;
                 }
 
                 // Verify that the comment starts with a capital letter.
-                if (!char.IsUpper(trimmedComment[0]) && !char.IsDigit(trimmedComment[0]))
+                if (!char.IsUpper(trimmedCommentWithAttributesPreserved[0]) && !char.IsDigit(trimmedCommentWithAttributesPreserved[0]))
                 {
                     invalid |= InvalidCommentType.NoCapitalLetter;
                 }
 
                 // Verify that the comment ends with a period.
-                if (trimmedComment[trimmedComment.Length - 1] != '.')
+                if (trimmedCommentWithAttributesPreserved[trimmedCommentWithAttributesPreserved.Length - 1] != '.')
                 {
                     invalid |= InvalidCommentType.NoPeriod;
                 }
@@ -96,7 +101,7 @@ namespace StyleCop.CSharp
                 float nonCharCount = 0;
                 bool space = false;
 
-                foreach (char character in trimmedCommentWithoutPeriod)
+                foreach (char character in trimmedCommentWithAttributesPreservedWithoutPeriod)
                 {
                     if (char.IsLetter(character))
                     {
@@ -141,50 +146,111 @@ namespace StyleCop.CSharp
         {
             Param.AssertNotNull(commentXml, "commentXml");
 
-            string comment = commentXml.InnerText;
+            string commentWithAttributesRemoved = commentXml.InnerText;
+            string commentWithAttributesPreserved = commentXml.InnerText;
 
             if (commentXml.HasChildNodes &&
                 (commentXml.ChildNodes.Count > 1 || commentXml.ChildNodes[0].NodeType != XmlNodeType.Text))
             {
-                comment = ExtractTextFromCommentXml(commentXml);
+                ExtractTextFromCommentXml(commentXml, out commentWithAttributesRemoved, out commentWithAttributesPreserved);
             }
 
-            return IsGarbageComment(comment, culture, out spellingError);
+            return IsGarbageComment(commentWithAttributesRemoved, commentWithAttributesPreserved, culture, out spellingError);
         }
 
         /// <summary>
         /// Extracts text from a comment Xml, including special values in attributes.
         /// </summary>
         /// <param name="commentXml">The comment Xml.</param>
-        /// <returns>Returns the text.</returns>
-        public static string ExtractTextFromCommentXml(XmlNode commentXml)
+        /// <param name="textWithAttributesRemoved">The text from the XmlNode with all attributes values and code elements removed.</param>
+        /// <param name="textWithAttributesPreserved">The text with all attribute and code elements inserted into text.</param>
+        public static void ExtractTextFromCommentXml(XmlNode commentXml, out string textWithAttributesRemoved, out string textWithAttributesPreserved)
         {
             Param.AssertNotNull(commentXml, "commentXml");
 
-            StringBuilder commentBuilder = new StringBuilder();
+            StringBuilder commentWithAttributesRemovedBuilder = new StringBuilder();
+            StringBuilder commentWithAttributesPreservedBuilder = new StringBuilder();
 
             foreach (XmlNode childNode in commentXml.ChildNodes)
             {
                 if (childNode.NodeType == XmlNodeType.Text)
                 {
-                    commentBuilder.Append(childNode.Value);
+                    commentWithAttributesRemovedBuilder.Append(childNode.Value);
+                    commentWithAttributesPreservedBuilder.Append(childNode.Value);
                 }
                 else
                 {
-                    if (childNode.Name == "c" || childNode.Name == "code")
+                    switch (childNode.Name)
                     {
-                        continue;
+                        case "typeparamref":
+                        case "typeparam":
+                        case "paramref":
+                        case "param":
+                            AddAttributeValue(commentWithAttributesPreservedBuilder, childNode, "name");
+                            break;
+
+                        case "code":
+                        case "c":
+                            continue;
+
+                        case "exception":
+                        case "event":
+                        case "permission":
+                            AddAttributeValue(commentWithAttributesPreservedBuilder, childNode, "cref");
+                            break;
+
+                        case "see":
+                            if (childNode.ChildNodes.Count == 0)
+                            {
+                                // This is a tag of the form <see cref="something"/>. Since the tag has no
+                                // child text, the value of the cref attribute will be inserted as text into the
+                                // comment.
+                                AddAttributeValue(commentWithAttributesPreservedBuilder, childNode, "cref");
+                                AddAttributeValue(commentWithAttributesPreservedBuilder, childNode, "href");
+                                AddAttributeValue(commentWithAttributesPreservedBuilder, childNode, "langword");
+                            }
+
+                            break;
+
+                        case "seealso":
+                            if (childNode.ChildNodes.Count == 0)
+                            {
+                                // This is a tag of the form <seealso cref="something"/>. Since the tag has no
+                                // child text, the value of the cref attribute will be inserted as text into the
+                                // comment.
+                                AddAttributeValue(commentWithAttributesPreservedBuilder, childNode, "cref");
+                                AddAttributeValue(commentWithAttributesPreservedBuilder, childNode, "href");
+                            }
+
+                            break;
                     }
                 }
 
-                if (childNode.HasChildNodes &&
-                    (childNode.ChildNodes.Count > 0 || childNode.ChildNodes[0].NodeType != XmlNodeType.Text))
+                if (childNode.HasChildNodes && childNode.ChildNodes[0].NodeType != XmlNodeType.Text)
                 {
-                    commentBuilder.Append(ExtractTextFromCommentXml(childNode));
+                    string textWithAttRemoved;
+                    string textWithAttPreserved;
+                    ExtractTextFromCommentXml(childNode, out textWithAttRemoved, out textWithAttPreserved);
+
+                    commentWithAttributesRemovedBuilder.Append(textWithAttRemoved);
+                    commentWithAttributesPreservedBuilder.Append(textWithAttPreserved);
                 }
             }
 
-            return commentBuilder.ToString().Trim();
+            textWithAttributesRemoved = commentWithAttributesRemovedBuilder.ToString().Trim();
+            textWithAttributesPreserved = commentWithAttributesPreservedBuilder.ToString().Trim();
+        }
+
+        private static void AddAttributeValue(StringBuilder commentWithAttributesBuilder, XmlNode childNode, string attributeName)
+        {
+            if (childNode.Attributes != null)
+            {
+                XmlAttribute attribute = childNode.Attributes[attributeName];
+                if (attribute != null)
+                {
+                    commentWithAttributesBuilder.Append(attribute.Value);
+                }
+            }
         }
 
         #endregion Public Static Methods

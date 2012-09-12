@@ -1098,18 +1098,13 @@ namespace StyleCop.CSharp
                         continue;
                     }
 
-                    string text = child.InnerText.Trim().Replace(" \n", "\n");
+                    string text = child.InnerText.TrimEnd().Replace(" \n", "\n");
                     text = text.Replace("\n ", "\n");
                     text = text.Replace("\n\n\n\n", " ");
                     text = text.Replace("\n\n\n", " ");
                     text = text.Replace("\n\n", " ");
                     text = text.Replace("\n", " ");
-
-                    if (i != 0)
-                    {
-                        text = " " + text;
-                    }
-
+                    
                     if (i != childNodes.Count - 1)
                     {
                         text = text + " ";
