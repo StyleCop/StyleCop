@@ -1804,6 +1804,16 @@ namespace StyleCop.ReSharper700.Core
         }
 
         /// <summary>
+        /// The type to prepare an Xml presentable name for. All less than or greater than signs are replaced with curly brackets.
+        /// </summary>
+        /// <param name="returnType">The type to get the presentable name for.</param>
+        /// <returns>The presentable name.</returns>
+        public static string GetXmlPresentableName(IType returnType)
+        {
+            return returnType == null ? string.Empty : returnType.GetPresentableName(CSharpLanguage.Instance).Replace('<', '{').Replace('>', '}');
+        }
+
+        /// <summary>
         /// True if the token is followed on the same line with a non-whitespace token.
         /// </summary>
         /// <param name="tokenNode">

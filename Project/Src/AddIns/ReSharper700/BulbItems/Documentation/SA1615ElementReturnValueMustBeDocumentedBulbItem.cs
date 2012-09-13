@@ -21,6 +21,7 @@ namespace StyleCop.ReSharper700.BulbItems.Documentation
     #region Using Directives
 
     using JetBrains.ProjectModel;
+    using JetBrains.ReSharper.Psi.CSharp;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
     using JetBrains.TextControl;
 
@@ -51,8 +52,10 @@ namespace StyleCop.ReSharper700.BulbItems.Documentation
             var element = Utils.GetElementAtCaret(solution, textControl);
 
             var memberDeclaration = element.GetContainingNode<IMethodDeclaration>(true);
-
-            new DocumentationRules().InsertReturnsElement(memberDeclaration, memberDeclaration.DeclaredElement.ReturnType.ToString());
+            if (memberDeclaration != null)
+            {
+                new DocumentationRules().InsertReturnsElement(memberDeclaration, Utils.GetXmlPresentableName(memberDeclaration.DeclaredElement.ReturnType));
+            }
         }
 
         #endregion

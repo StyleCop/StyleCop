@@ -31,9 +31,9 @@ namespace StyleCop.ReSharper700.CodeCleanup.Rules
 
     using JetBrains.Application.Settings;
     using JetBrains.ReSharper.Psi;
+    using JetBrains.ReSharper.Psi.CSharp;
     using JetBrains.ReSharper.Psi.CSharp.Parsing;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
-    using JetBrains.ReSharper.Psi.CSharp.Tree.Extensions;
     using JetBrains.ReSharper.Psi.ExtensionsAPI;
     using JetBrains.ReSharper.Psi.Impl.Types;
     using JetBrains.ReSharper.Psi.Tree;
@@ -1144,7 +1144,7 @@ namespace StyleCop.ReSharper700.CodeCleanup.Rules
                 // Insert the <returns> if the return type is not void and it was missing
                 if ((declaredTypeFromClrName != null && declaredTypeFromClrName.GetClrName().FullName != "System.Void") || declaredTypeFromClrName == null)
                 {
-                    this.InsertReturnsElement(methodDeclaration as ITypeMemberDeclaration, methodDeclaration.DeclaredElement.ReturnType.ToString());
+                    this.InsertReturnsElement(methodDeclaration as ITypeMemberDeclaration, Utils.GetXmlPresentableName(methodDeclaration.DeclaredElement.ReturnType));
                 }
             }
         }

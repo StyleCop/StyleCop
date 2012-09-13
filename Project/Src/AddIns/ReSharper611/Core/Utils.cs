@@ -1831,6 +1831,16 @@ namespace StyleCop.ReSharper611.Core
         }
 
         /// <summary>
+        /// The type to prepare an Xml presentable name for. All less than or greater than signs are replaced with curly brackets.
+        /// </summary>
+        /// <param name="returnType">The type to get the presentable name for.</param>
+        /// <returns>The presentable name.</returns>
+        public static string GetXmlPresentableName(IType returnType)
+        {
+            return returnType == null ? string.Empty : returnType.GetPresentableName(CSharpLanguage.Instance).Replace('<', '{').Replace('>', '}');
+        }
+
+        /// <summary>
         /// Gets a trimmed DocumentRange for the DocumentRange provided.
         /// </summary>
         /// <param name="documentRange">
