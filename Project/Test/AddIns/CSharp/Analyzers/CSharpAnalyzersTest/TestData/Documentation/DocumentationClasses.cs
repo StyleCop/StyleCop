@@ -447,6 +447,14 @@ namespace CSharpAnalyzersTest.TestData
         /// </remarks>
         public class InvalidDocumentationClass6
         {
+            /// <summary>
+            /// Gets a value indicating whether the component is in design mode.
+            /// </summary>
+            /// <value>Always <c>false</c>.</value>
+            public bool Property1
+            {
+                get { return false; }
+            }
         }
     }
 }

@@ -189,10 +189,6 @@ namespace StyleCop.CSharp
                             AddAttributeValue(commentWithAttributesPreservedBuilder, childNode, "name");
                             break;
 
-                        case "code":
-                        case "c":
-                            continue;
-
                         case "exception":
                         case "event":
                         case "permission":
@@ -226,13 +222,17 @@ namespace StyleCop.CSharp
                     }
                 }
 
-                if (childNode.HasChildNodes && childNode.ChildNodes[0].NodeType != XmlNodeType.Text)
+                if (childNode.HasChildNodes)
                 {
                     string textWithAttRemoved;
                     string textWithAttPreserved;
                     ExtractTextFromCommentXml(childNode, out textWithAttRemoved, out textWithAttPreserved);
 
-                    commentWithAttributesRemovedBuilder.Append(textWithAttRemoved);
+                    if (childNode.Name != "c" && childNode.Name != "code")
+                    {
+                        commentWithAttributesRemovedBuilder.Append(textWithAttRemoved);
+                    }
+
                     commentWithAttributesPreservedBuilder.Append(textWithAttPreserved);
                 }
             }
