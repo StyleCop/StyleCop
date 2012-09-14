@@ -611,21 +611,21 @@ namespace StyleCop.ReSharper611.CodeCleanup.Rules
             var settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, memberDeclaration.GetSolution());
             if (settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.InsertTextIntoDocumentation))
             {
-                valueText = string.Format("The {0}.", returnType);
+                valueText = string.Format("The <see cref=\"{0}\"/>.", returnType.SubstringBefore('{'));
             }
 
             if (declarationHeader.HasReturns)
             {
                 if (string.IsNullOrEmpty(returnsXmlNode.InnerText.Trim()))
                 {
-                    returnsXmlNode.InnerText = valueText;
+                    returnsXmlNode.InnerXml = valueText;
                     declarationHeader.Update();
                 }
             }
             else
             {
                 var valueNode = CreateNode(xmlNode, "returns");
-                valueNode.InnerText = valueText;
+                valueNode.InnerXml = valueText;
                 xmlNode.AppendChild(valueNode);
                 declarationHeader.Update();
             }

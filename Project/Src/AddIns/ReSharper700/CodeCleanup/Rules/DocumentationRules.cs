@@ -603,29 +603,29 @@ namespace StyleCop.ReSharper700.CodeCleanup.Rules
                 return;
             }
 
-            var xmlNode = declarationHeader.XmlNode;
-
-            var returnsXmlNode = declarationHeader.ReturnsXmlNode;
-
             var valueText = string.Empty;
             var settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, memberDeclaration.GetSolution());
             if (settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.InsertTextIntoDocumentation))
             {
-                valueText = string.Format("The {0}.", returnType);
+                valueText = string.Format("The <see cref=\"{0}\"/>.", returnType.SubstringBefore('{'));
             }
+
+            var xmlNode = declarationHeader.XmlNode;
+
+            var returnsXmlNode = declarationHeader.ReturnsXmlNode;
 
             if (declarationHeader.HasReturns)
             {
                 if (string.IsNullOrEmpty(returnsXmlNode.InnerText.Trim()))
                 {
-                    returnsXmlNode.InnerText = valueText;
+                    returnsXmlNode.InnerXml = valueText;
                     declarationHeader.Update();
                 }
             }
             else
             {
                 var valueNode = CreateNode(xmlNode, "returns");
-                valueNode.InnerText = valueText;
+                valueNode.InnerXml = valueText;
                 xmlNode.AppendChild(valueNode);
                 declarationHeader.Update();
             }
