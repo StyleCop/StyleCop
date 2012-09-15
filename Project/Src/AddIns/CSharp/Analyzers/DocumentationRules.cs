@@ -954,10 +954,11 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Gets the example expected summary text for a destructor.
         /// </summary>
+        /// <param name="destructor">The destructor.</param>
         /// <returns>Returns the example summary text.</returns>
-        private static string GetExampleSummaryTextForDestructor()
+        private static string GetExampleSummaryTextForDestructor(Destructor destructor)
         {
-            return CachedCodeStrings.ExampleHeaderSummaryForDestructor;
+            return string.Format(CultureInfo.InvariantCulture, CachedCodeStrings.ExampleHeaderSummaryForDestructor, destructor.Declaration.Name.Substring(1));
         }
 
         /// <summary>
@@ -1959,7 +1960,7 @@ namespace StyleCop.CSharp
                     this.AddViolation(
                         destructor, 
                         Rules.DestructorSummaryDocumentationMustBeginWithStandardText, 
-                        GetExampleSummaryTextForDestructor());
+                        GetExampleSummaryTextForDestructor(destructor));
                 }
             }
         }
