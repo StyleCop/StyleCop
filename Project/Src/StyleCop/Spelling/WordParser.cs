@@ -316,13 +316,17 @@ namespace StyleCop.Spelling
 
         private void ParseLatex()
         {
+            this.Read();
+                
             char ch;
             do
             {
                 this.Read();
                 ch = this.Peek();
             }
-            while (ch == '$' || IsLetterOrDigit(ch));
+            while (ch != '$');
+
+            this.Read();
         }
 
         private void ParseInteger()
@@ -529,8 +533,20 @@ namespace StyleCop.Spelling
 
                 if (c == '$')
                 {
-                    this.ParseLatex();
-                    return true;
+                    int i = 2;
+                    char peek;
+                    do
+                    {
+                        peek = this.Peek(i);
+                        i++;
+                    }
+                    while (peek != '$' && peek != '\0');
+
+                    if (peek == '$')
+                    {
+                        this.ParseLatex();
+                        return true;
+                    }
                 }
             }
             else if (IsLetterOrDigit(c))
