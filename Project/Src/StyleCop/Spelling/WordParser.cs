@@ -316,17 +316,31 @@ namespace StyleCop.Spelling
 
         private void ParseLatex()
         {
+            bool doubleDollar = false;
             this.Read();
                 
             char ch;
             do
             {
+                if (this.Peek() == '$') // second $ like $$thoptkhpoktphok$$
+                {
+                    doubleDollar = true;
+                }
+
                 this.Read();
                 ch = this.Peek();
             }
             while (ch != '$');
 
             this.Read();
+
+            if (doubleDollar)
+            {
+                if (this.Peek() == '$')
+                {
+                    this.Read();
+                }
+            }
         }
 
         private void ParseInteger()
