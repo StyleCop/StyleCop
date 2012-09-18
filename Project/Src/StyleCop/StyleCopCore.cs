@@ -1017,6 +1017,9 @@ namespace StyleCop
                 // And the cache tab after that.
                 pages.Insert(2, new CacheOptions());
 
+                // And the spelling tab after that.
+                pages.Insert(3, new SpellingTab());
+
                 // Get settings pages from event listeners and add them to the end.
                 AddSettingsPagesEventArgs eventArgs = new AddSettingsPagesEventArgs(settingsPath);
                 this.OnAddSettingsPages(eventArgs);

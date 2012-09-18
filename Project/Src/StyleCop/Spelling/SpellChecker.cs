@@ -274,7 +274,24 @@ namespace StyleCop.Spelling
                 this.LCID = lcid;
                 this.LibraryFullPath = Probe(library);
                 this.LexiconFullPath = Probe(lexicon);
-                this.IsAvailable = (this.LibraryFullPath != null && this.LexiconFullPath != null);
+                
+                if (this.LibraryFullPath != null && this.LexiconFullPath != null)
+                {
+                    IntPtr handle = NativeMethods.LoadLibrary(this.LibraryFullPath);
+                   
+                    if (handle == IntPtr.Zero)
+                    {
+                        this.IsAvailable = false;
+                    }
+                    else
+                    {
+                        this.IsAvailable = true;
+                        if (!NativeMethods.FreeLibrary(handle))
+                        {
+                            throw new Win32Exception();
+                        }
+                    }
+                }
             }
 
             private static string Probe(string library)
@@ -287,6 +304,11 @@ namespace StyleCop.Spelling
                 }
 
                 baseDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                if (baseDirectory == null)
+                {
+                    return null;
+                }
+
                 libraryPath = Path.Combine(baseDirectory, library);
                 if (File.Exists(libraryPath))
                 {

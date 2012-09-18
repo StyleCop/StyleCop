@@ -47,10 +47,10 @@ namespace StyleCop.CSharp
         /// </summary>
         /// <param name="commentWithAttributesRemoved">The comment to check (which has had its attributes removed).</param>
         /// <param name="commentWithAttributesPreserved">The comment to check with attribute values inserted into the text.</param>
-        /// <param name="culture">The culture to use to spell check the comment.</param>
+        /// <param name="element">The element containing the text we're checking.</param>
         /// <param name="spellingError">Returns the first word encountered as a spelling error.</param>
         /// <returns>Returns the type of the comment.</returns>
-        public static InvalidCommentType IsGarbageComment(string commentWithAttributesRemoved, string commentWithAttributesPreserved, CultureInfo culture, out string spellingError)
+        public static InvalidCommentType IsGarbageComment(string commentWithAttributesRemoved, string commentWithAttributesPreserved, CsElement element, out string spellingError)
         {
             Param.AssertNotNull(commentWithAttributesRemoved, "commentWithAttributesRemoved");
             Param.AssertNotNull(commentWithAttributesPreserved, "commentWithAttributesPreserved");
@@ -72,7 +72,7 @@ namespace StyleCop.CSharp
             else
             {
                 // Check the comment spelling
-                if (TextContainsIncorectSpelling(culture, trimmedCommentWithoutAttributes, out spellingError))
+                if (TextContainsIncorectSpelling(element, trimmedCommentWithoutAttributes, out spellingError))
                 {
                     invalid |= InvalidCommentType.IncorrectSpelling;
                 }
@@ -139,10 +139,10 @@ namespace StyleCop.CSharp
         /// to be a valid English-language sentence, or whether it appears to be garbage.
         /// </summary>
         /// <param name="commentXml">The comment to check.</param>
-        /// <param name="culture">The culture to use to spell check the comment.</param>
+        /// <param name="element">The element containing the text we're checking.</param>
         /// <param name="spellingError">Returns the first word encountered as a spelling error.</param>
         /// <returns>Returns the type of the comment.</returns>
-        public static InvalidCommentType IsGarbageComment(XmlNode commentXml, CultureInfo culture, out string spellingError)
+        public static InvalidCommentType IsGarbageComment(XmlNode commentXml, CsElement element, out string spellingError)
         {
             Param.AssertNotNull(commentXml, "commentXml");
 
@@ -155,7 +155,7 @@ namespace StyleCop.CSharp
                 ExtractTextFromCommentXml(commentXml, out commentWithAttributesRemoved, out commentWithAttributesPreserved);
             }
 
-            return IsGarbageComment(commentWithAttributesRemoved, commentWithAttributesPreserved, culture, out spellingError);
+            return IsGarbageComment(commentWithAttributesRemoved, commentWithAttributesPreserved, element, out spellingError);
         }
 
         /// <summary>
@@ -258,23 +258,26 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Returns True if the text has incorrect spelling.
         /// </summary>
-        /// <param name="culture">The culture to use to spell check the comment.</param>
+        /// <param name="element">The element containing the text we're checking.</param>
         /// <param name="text">The text to check.</param>
         /// <param name="spellingError">Returns the first word encountered as a spelling error.</param>
         /// <returns>True if the text contains an incorrect spelling.</returns>
-        private static bool TextContainsIncorectSpelling(CultureInfo culture, string text, out string spellingError)
+        private static bool TextContainsIncorectSpelling(CsElement element, string text, out string spellingError)
         {
-            var namingService = NamingService.GetNamingService(culture);
+            var namingService = NamingService.GetNamingService(element.Document.SourceCode.Project.Culture);
 
             if (namingService.SupportsSpelling)
             {
                 WordParser parser = new WordParser(text, WordParserOptions.SplitCompoundWords);
                 if (parser.PeekWord() != null)
                 {
+                    var recognizedWords = element.Document.SourceCode.Project.RecognizedWords;
                     string word = parser.NextWord();
                     do
                     {
-                        if (!IsSpelledCorrectly(namingService, word))
+                        // Ignore words starting and ending with '$'.
+                        // Ignore if in our recognized words list.
+                        if ((!word.StartsWith("$") || !word.EndsWith("$")) && (!recognizedWords.Contains(word) && !IsSpelledCorrectly(namingService, word)))
                         {
                             spellingError = word;
                             return true;

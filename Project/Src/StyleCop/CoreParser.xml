@@ -56,6 +56,12 @@
       FriendlyName="Culture"
       Description="The Culture to use for analysis."
     />
+    <CollectionProperty
+     Name="RecognizedWords"
+     Aggregate="True"
+     FriendlyName="Recognized Words"
+     Description="The list of recognized words for the specified culture.">
+    </CollectionProperty>
   </Properties>
   <Rules>
     <Rule Name="ExceptionOccurred" CheckId="SA0001">

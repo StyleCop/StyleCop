@@ -1725,7 +1725,7 @@ namespace StyleCop.CSharp
             Param.AssertValidString(documentationType, "documentationType");
 
             string spellingError;
-            InvalidCommentType commentType = CommentVerifier.IsGarbageComment(documentationXml, element.Document.SourceCode.Project.Culture, out spellingError);
+            InvalidCommentType commentType = CommentVerifier.IsGarbageComment(documentationXml, element, out spellingError);
 
             if ((commentType & InvalidCommentType.Empty) != 0)
             {

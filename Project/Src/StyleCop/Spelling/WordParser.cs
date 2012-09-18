@@ -110,7 +110,7 @@ namespace StyleCop.Spelling
         /// The options.
         /// </param>
         /// <returns>
-        /// The System.Collections.ObjectModel.Collection`1[T -&gt; System.String].
+        /// The System.Collections.ObjectModel.Collection.
         /// </returns>
         public static Collection<string> Parse(string text, WordParserOptions options)
         {
@@ -314,6 +314,17 @@ namespace StyleCop.Spelling
             while (IsHexDigit(this.Peek()));
         }
 
+        private void ParseLatex()
+        {
+            char ch;
+            do
+            {
+                this.Read();
+                ch = this.Peek();
+            }
+            while (ch == '$' || IsLetterOrDigit(ch));
+        }
+
         private void ParseInteger()
         {
             do
@@ -513,6 +524,12 @@ namespace StyleCop.Spelling
                 if ((c == '#') && IsHexDigit(this.Peek(2)))
                 {
                     this.ParseHex();
+                    return true;
+                }
+
+                if (c == '$')
+                {
+                    this.ParseLatex();
                     return true;
                 }
             }

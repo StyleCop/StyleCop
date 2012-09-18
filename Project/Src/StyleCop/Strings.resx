@@ -367,4 +367,10 @@ Once downloaded and installed you will need to restart Visual Studio.
 
 Do you wish to download the latest version?</value>
   </data>
+  <data name="EnterValidWord" xml:space="preserve">
+    <value>Please enter a valid word before clicking the Add button</value>
+  </data>
+  <data name="SpellingTab" xml:space="preserve">
+    <value>Spelling</value>
+  </data>
 </root>

@@ -16,6 +16,7 @@ namespace StyleCop
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Globalization;
 
     /// <summary>
@@ -79,6 +80,11 @@ namespace StyleCop
         /// How many days to wait before checking for updates.
         /// </summary>
         private int? daysToCheckForUpdates;
+
+        /// <summary>
+        /// Recognized words for the spell checker.
+        /// </summary>
+        private ICollection<string> recognizedWords;
 
         /// <summary>
         /// Maximum number of violations to occur before cancelling analysis.
@@ -246,6 +252,38 @@ namespace StyleCop
             }
         }
 
+        /// <summary>
+        /// Gets the list of recognized words.
+        /// </summary>
+        public virtual ICollection<string> RecognizedWords
+        {
+            get
+            {
+                if (this.recognizedWords == null && this.settingsLoaded)
+                {
+                    if (this.settings != null)
+                    {
+                        var descriptor = this.settings.Core.PropertyDescriptors["RecognizedWords"] as CollectionPropertyDescriptor;
+                        if (descriptor != null)
+                        {
+                            var property = this.settings.GlobalSettings.GetProperty(descriptor.PropertyName) as CollectionProperty;
+                            this.recognizedWords = property == null ? null : property.Values;
+                        }
+                        else
+                        {
+                            this.recognizedWords = new Collection<string>();
+                        }
+                    }
+                    else
+                    {
+                        this.recognizedWords = new Collection<string>();
+                    }
+                }
+
+                return this.recognizedWords ?? new Collection<string>();
+            }
+        }
+        
         /// <summary>
         /// Gets a value indicating whether to automatically check for updates to StyleCop.
         /// </summary>

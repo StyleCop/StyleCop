@@ -461,32 +461,51 @@ namespace StyleCop.Spelling
             }
         }
 
+        private void AddWordsToSpellChecker(IEnumerable<string> ignoredWords, IEnumerable<string> alwaysMisspelledWords)
+        {
+            if (this.spellChecker == null)
+            {
+                return;
+            }
+
+            if (ignoredWords != null)
+            {
+                this.AddWordsToCollection(this.spellChecker.IgnoredWords, ignoredWords);
+            }
+
+            if (alwaysMisspelledWords != null)
+            {
+                this.AddWordsToCollection(this.spellChecker.AlwaysMisspelledWords, alwaysMisspelledWords);
+            }
+        }
+
         private void AddWordsToSpellChecker(IDictionary<string, string> ignoredWords, IDictionary<string, string> alwaysMisspelledWords)
         {
-            if (this.spellChecker != null)
+            if (this.spellChecker == null)
             {
-                foreach (string str in ignoredWords.Keys)
-                {
-                    string item = str.ToLower(this.culture);
-                    if (WordCollection.IsValidWordLength(item))
-                    {
-                        this.spellChecker.IgnoredWords.Add(str);
-                        this.spellChecker.IgnoredWords.Add(item);
-                        this.spellChecker.IgnoredWords.Add(char.ToUpper(item[0], this.culture) + item.Substring(1));
-                    }
-                }
+                return;
+            }
 
-                if (alwaysMisspelledWords != null)
+            if (ignoredWords != null)
+            {
+                this.AddWordsToCollection(this.spellChecker.IgnoredWords, ignoredWords.Keys);
+            }
+
+            if (alwaysMisspelledWords != null)
+            {
+                this.AddWordsToCollection(this.spellChecker.AlwaysMisspelledWords, alwaysMisspelledWords.Keys);
+            }
+        }
+
+        private void AddWordsToCollection(ICollection<string> collection,  IEnumerable<string> wordsToAdd)
+        {
+            foreach (string word in wordsToAdd)
+            {
+                if (!collection.Contains(word) && WordCollection.IsValidWordLength(word))
                 {
-                    foreach (string str3 in alwaysMisspelledWords.Keys)
-                    {
-                        string str4 = str3.ToLower(this.culture);
-                        if (WordCollection.IsValidWordLength(str4))
-                        {
-                            this.spellChecker.AlwaysMisspelledWords.Add(str4);
-                            this.spellChecker.AlwaysMisspelledWords.Add(char.ToUpper(str4[0], this.culture) + str4.Substring(1));
-                        }
-                    }
+                    collection.Add(word);
+                    collection.Add(word.ToLower(this.culture));
+                    collection.Add(char.ToUpper(word.ToLower(this.culture)[0], this.culture) + word.ToLower(this.culture).Substring(1));
                 }
             }
         }
