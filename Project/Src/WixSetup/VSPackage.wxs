@@ -25,10 +25,11 @@
               <netfx:NativeImage Id="ngen_CSharpAnalyzer" Platform="all" Priority="0"/>
             </File>
             <File Id='Settings' Name='Settings.StyleCop' Checksum="yes" Vital='yes' />
-            <File Id='SpellingDll' Name='MSSpell3.dll' Checksum="yes" Vital='yes' />
-            <File Id='Spelling_Lex_1' Name='MSSp3en.lex' Checksum="yes" Vital='yes' />
-            <File Id='Spelling_Lex_2' Name='MSSp3ena.lex' Checksum="yes" Vital='yes' />
-            <File Id='SpellingDictionary' Name='CustomDictionary.xml' Checksum="yes" Vital='yes' />
+            <File Id='SpellingDll' Name='mssp7en.dll' Checksum="yes" Vital='yes' />
+            <File Id='SpellingLex' Name='mssp7en.lex' Checksum="yes" Vital='yes' />
+            <File Id='SpellingDictionary1' Name='CustomDictionary.xml' Checksum="yes" Vital='yes' />
+            <File Id='SpellingDictionary2' Name='CustomDictionary.en-US.xml' Checksum="yes" Vital='yes' />
+            <File Id='SpellingDictionary3' Name='CustomDictionary.en-GB.xml' Checksum="yes" Vital='yes' />
           </Component>
 
           <Directory Id='enGB' Name='en-GB'>
