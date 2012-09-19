@@ -18,7 +18,6 @@ namespace StyleCop.Spelling
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
-    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.IO;
     using System.Reflection;
@@ -26,7 +25,13 @@ namespace StyleCop.Spelling
 
     internal sealed class SpellChecker : IDisposable
     {
+        #region Constants
+
         internal const int MaximumTextLength = 0x40;
+
+        #endregion
+
+        #region Static Fields
 
         private static readonly Language[] Languages = new[]
             {
@@ -47,22 +52,31 @@ namespace StyleCop.Spelling
                 new Language("tr", "mssp7tr.dll", "mssp7tr.lex", 0x41f), new Language("uk", "mssp7ua.dll", "mssp7ua.lex", 0x422)
             };
 
-        private static readonly Dictionary<string, Language> LanguageTable = BuildLanguageTable();
-
         private static readonly TextInfo UsaTextInfo = new CultureInfo("en-US", false).TextInfo;
-        
-        private readonly int dependantFilesHashCode;
+
+        // The Languages array above needs to be initialized before this static executes.
+        private static Dictionary<string, Language> languageTable = BuildLanguageTable();
+
+        #endregion
+
+        #region Fields
 
         private readonly CultureInfo culture;
 
+        private readonly int dependantFilesHashCode;
+
         private WordCollection alwaysMisspelledWords;
-        
+
         private WordCollection ignoredWords;
 
         private Speller speller;
 
         private Dictionary<string, WordSpelling> wordSpellingCache = new Dictionary<string, WordSpelling>();
-        
+
+        #endregion
+
+        #region Constructors and Destructors
+
         private SpellChecker(CultureInfo culture, Language language)
         {
             this.culture = culture;
@@ -75,6 +89,10 @@ namespace StyleCop.Spelling
             this.dependantFilesHashCode =
                 string.Concat(libraryTimestamp.ToString(CultureInfo.InvariantCulture), lexiconTimestamp.ToString(CultureInfo.InvariantCulture)).GetHashCode();
         }
+
+        #endregion
+
+        #region Delegates
 
         private delegate PTEC PROOFCLOSELEX(IntPtr id, IntPtr lex, bool force);
 
@@ -95,6 +113,10 @@ namespace StyleCop.Spelling
         private delegate PTEC SPELLERCLEARUDR(IntPtr sid, IntPtr lex);
 
         private delegate PTEC SPELLERDELUDR(IntPtr sid, IntPtr lex, [MarshalAs(UnmanagedType.LPTStr)] string delete);
+
+        #endregion
+
+        #region Enums
 
         private enum PROOFLEXTYPE : uint
         {
@@ -259,6 +281,7 @@ namespace StyleCop.Spelling
 
             ErrorAccent
         }
+
         [Flags]
         private enum SpellingOptions : uint
         {
@@ -323,6 +346,10 @@ namespace StyleCop.Spelling
             SuggestFromUserLex = 1
         }
 
+        #endregion
+
+        #region Public Properties
+
         public WordCollection AlwaysMisspelledWords
         {
             get
@@ -350,6 +377,10 @@ namespace StyleCop.Spelling
             }
         }
 
+        #endregion
+
+        #region Properties
+
         private bool IsDisposed
         {
             get
@@ -357,7 +388,11 @@ namespace StyleCop.Spelling
                 return this.speller == null;
             }
         }
-        
+
+        #endregion
+
+        #region Public Methods and Operators
+
         public static SpellChecker FromCulture(CultureInfo culture)
         {
             Language language;
@@ -371,7 +406,7 @@ namespace StyleCop.Spelling
                 return null;
             }
 
-            if (LanguageTable.TryGetValue(culture.Name, out language) && language.IsAvailable)
+            if (languageTable.TryGetValue(culture.Name, out language) && language.IsAvailable)
             {
                 return new SpellChecker(culture, language);
             }
@@ -430,11 +465,6 @@ namespace StyleCop.Spelling
             return spelledCorrectly;
         }
 
-        public int GetDependantFilesHashCode()
-        {
-            return this.dependantFilesHashCode;
-        }
-
         public void Dispose()
         {
             try
@@ -450,6 +480,15 @@ namespace StyleCop.Spelling
                 this.wordSpellingCache = null;
             }
         }
+
+        public int GetDependantFilesHashCode()
+        {
+            return this.dependantFilesHashCode;
+        }
+
+        #endregion
+
+        #region Methods
 
         private static Dictionary<string, Language> BuildLanguageTable()
         {
@@ -482,61 +521,35 @@ namespace StyleCop.Spelling
                 }
             }
         }
-       
-        [StructLayout(LayoutKind.Sequential)]
-        private struct SPELLERSUGGESTION
-        {
-            internal unsafe char* pwsz;
 
-            internal uint ichSugg;
+        #endregion
 
-            internal uint cchSugg;
-
-            internal uint iRating;
-        }
-        
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-        private struct WSIB
+        private struct PROOFLEXIN
         {
-            internal string pwsz;
+            internal string pwszLex;
 
-            internal unsafe IntPtr* prglex;
+            internal bool fCreate;
 
-            internal UIntPtr cch;
+            internal SpellChecker.PROOFLEXTYPE lxt;
 
-            internal UIntPtr clex;
-
-            internal SpellChecker.SpellerState sstate;
-
-            internal uint ichStart;
-
-            internal UIntPtr cchUse;
+            internal ushort lidExpected;
         }
 
-        [StructLayout(LayoutKind.Sequential)]
-        private struct WSRB
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+        private struct PROOFLEXOUT
         {
-            internal unsafe char* pwsz;
+            internal string pwszCopyright;
 
-            internal unsafe SpellChecker.SPELLERSUGGESTION* prgsugg;
+            internal IntPtr lex;
 
-            internal uint ichError;
+            internal uint cchCopyright;
 
-            internal uint cchError;
+            internal uint version;
 
-            internal uint ichProcess;
+            internal bool fReadOnly;
 
-            internal uint cchProcess;
-
-            internal SpellChecker.SpellerStatus sstat;
-
-            internal uint csz;
-
-            internal uint cszAlloc;
-
-            internal uint cchMac;
-
-            internal uint cchAlloc;
+            internal ushort lid;
         }
 
         [StructLayout(LayoutKind.Sequential)]
@@ -586,32 +599,60 @@ namespace StyleCop.Spelling
             }
         }
 
-        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-        private struct PROOFLEXIN
+        [StructLayout(LayoutKind.Sequential)]
+        private struct SPELLERSUGGESTION
         {
-            internal string pwszLex;
+            internal unsafe char* pwsz;
 
-            internal bool fCreate;
+            internal uint ichSugg;
 
-            internal SpellChecker.PROOFLEXTYPE lxt;
+            internal uint cchSugg;
 
-            internal ushort lidExpected;
+            internal uint iRating;
         }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-        private struct PROOFLEXOUT
+        private struct WSIB
         {
-            internal string pwszCopyright;
+            internal string pwsz;
 
-            internal IntPtr lex;
+            internal unsafe IntPtr* prglex;
 
-            internal uint cchCopyright;
+            internal UIntPtr cch;
 
-            internal uint version;
+            internal UIntPtr clex;
 
-            internal bool fReadOnly;
+            internal SpellChecker.SpellerState sstate;
 
-            internal ushort lid;
+            internal uint ichStart;
+
+            internal UIntPtr cchUse;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        private struct WSRB
+        {
+            internal unsafe char* pwsz;
+
+            internal unsafe SpellChecker.SPELLERSUGGESTION* prgsugg;
+
+            internal uint ichError;
+
+            internal uint cchError;
+
+            internal uint ichProcess;
+
+            internal uint cchProcess;
+
+            internal SpellChecker.SpellerStatus sstat;
+
+            internal uint csz;
+
+            internal uint cszAlloc;
+
+            internal uint cchMac;
+
+            internal uint cchAlloc;
         }
 
         private static class NativeMethods
@@ -627,8 +668,85 @@ namespace StyleCop.Spelling
             internal static extern IntPtr LoadLibrary(string lpFileName);
         }
 
+        private class Language
+        {
+            #region Fields
+
+            internal readonly bool IsAvailable;
+
+            internal readonly ushort Lcid;
+
+            internal readonly string LexiconFullPath;
+
+            internal readonly string LibraryFullPath;
+
+            internal readonly string Name;
+
+            #endregion
+
+            #region Constructors and Destructors
+
+            internal Language(string name, string library, string lexicon, ushort lcid)
+            {
+                this.Name = name;
+                this.Lcid = lcid;
+                this.LibraryFullPath = Probe(library);
+                this.LexiconFullPath = Probe(lexicon);
+
+                if (this.LibraryFullPath != null && this.LexiconFullPath != null)
+                {
+                    IntPtr handle = NativeMethods.LoadLibrary(this.LibraryFullPath);
+
+                    if (handle == IntPtr.Zero)
+                    {
+                        this.IsAvailable = false;
+                    }
+                    else
+                    {
+                        this.IsAvailable = true;
+                        if (!NativeMethods.FreeLibrary(handle))
+                        {
+                            throw new Win32Exception();
+                        }
+                    }
+                }
+            }
+
+            #endregion
+
+            #region Methods
+
+            private static string Probe(string library)
+            {
+                string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+                string libraryPath = Path.Combine(baseDirectory, library);
+                if (File.Exists(libraryPath))
+                {
+                    return libraryPath;
+                }
+
+                baseDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                if (baseDirectory == null)
+                {
+                    return null;
+                }
+
+                libraryPath = Path.Combine(baseDirectory, library);
+                if (File.Exists(libraryPath))
+                {
+                    return libraryPath;
+                }
+
+                return null;
+            }
+
+            #endregion
+        }
+
         private sealed class Speller : IDisposable
         {
+            #region Fields
+
             private SPELLERADDUDR addUdr;
 
             private SPELLERCHECK check;
@@ -650,6 +768,10 @@ namespace StyleCop.Spelling
             private PROOFOPENLEX openLex;
 
             private PROOFTERMINATE terminate;
+
+            #endregion
+
+            #region Constructors and Destructors
 
             internal Speller(string path)
             {
@@ -681,22 +803,25 @@ namespace StyleCop.Spelling
                 this.Dispose(false);
             }
 
+            #endregion
+
+            #region Public Methods and Operators
+
             public void Dispose()
             {
                 this.Dispose(true);
                 GC.SuppressFinalize(this);
             }
 
+            #endregion
+
+            #region Methods
+
             internal void AddIgnoredWord(string word)
             {
                 CheckErrorCode(this.addUdr(this.id, this.ignoredDictionary, word));
             }
 
-            internal void RemoveIgnoredWord(string word)
-            {
-                CheckErrorCode(this.deleteUdr(this.id, this.ignoredDictionary, word));
-            }
-            
             internal void AddLexicon(ushort lcid, string path)
             {
                 PROOFLEXIN plxin = new PROOFLEXIN { pwszLex = path, lxt = PROOFLEXTYPE.Main, lidExpected = lcid };
@@ -737,10 +862,23 @@ namespace StyleCop.Spelling
                     return wSrb.sstat;
                 }
             }
-            
+
             internal void ClearIgnoredWords()
             {
                 CheckErrorCode(this.clearUdr(this.id, this.ignoredDictionary));
+            }
+
+            internal void RemoveIgnoredWord(string word)
+            {
+                CheckErrorCode(this.deleteUdr(this.id, this.ignoredDictionary, word));
+            }
+
+            private static void CheckErrorCode(SpellChecker.PTEC error)
+            {
+                if (!error.Succeeded)
+                {
+                    throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, "Unexpected proofing tool error code: {0}.", new object[] { error }));
+                }
             }
 
             private static T GetProc<T>(IntPtr library, string procName) where T : class
@@ -752,14 +890,6 @@ namespace StyleCop.Spelling
                 }
 
                 return (T)((object)Marshal.GetDelegateForFunctionPointer(procAddress, typeof(T)));
-            }
-
-            private static void CheckErrorCode(SpellChecker.PTEC error)
-            {
-                if (!error.Succeeded)
-                {
-                    throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, "Unexpected proofing tool error code: {0}.", new object[] { error }));
-                }
             }
 
             private void AddLexicon(IntPtr lex)
@@ -781,7 +911,7 @@ namespace StyleCop.Spelling
                 ptrArray[length] = lex;
                 this.lexicons = ptrArray;
             }
-            
+
             private void Dispose(bool disposing)
             {
                 try
@@ -826,7 +956,7 @@ namespace StyleCop.Spelling
                     }
                 }
             }
-            
+
             private void InitIgnoreDictionary()
             {
                 SPELLERBUILTINUDR proc = GetProc<SPELLERBUILTINUDR>(this.libraryHandle, "SpellerBuiltinUdr");
@@ -836,70 +966,8 @@ namespace StyleCop.Spelling
                     throw new InvalidOperationException("Failed to get the ignored dictionary handle.");
                 }
             }
+
+            #endregion
         }
-        
-        private class Language
-        {
-            internal readonly bool IsAvailable;
-
-            internal readonly ushort Lcid;
-
-            internal readonly string LexiconFullPath;
-
-            internal readonly string LibraryFullPath;
-
-            internal readonly string Name;
-
-            internal Language(string name, string library, string lexicon, ushort lcid)
-            {
-                this.Name = name;
-                this.Lcid = lcid;
-                this.LibraryFullPath = Probe(library);
-                this.LexiconFullPath = Probe(lexicon);
-
-                if (this.LibraryFullPath != null && this.LexiconFullPath != null)
-                {
-                    IntPtr handle = NativeMethods.LoadLibrary(this.LibraryFullPath);
-
-                    if (handle == IntPtr.Zero)
-                    {
-                        this.IsAvailable = false;
-                    }
-                    else
-                    {
-                        this.IsAvailable = true;
-                        if (!NativeMethods.FreeLibrary(handle))
-                        {
-                            throw new Win32Exception();
-                        }
-                    }
-                }
-            }
-
-            private static string Probe(string library)
-            {
-                string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-                string libraryPath = Path.Combine(baseDirectory, library);
-                if (File.Exists(libraryPath))
-                {
-                    return libraryPath;
-                }
-
-                baseDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-                if (baseDirectory == null)
-                {
-                    return null;
-                }
-
-                libraryPath = Path.Combine(baseDirectory, library);
-                if (File.Exists(libraryPath))
-                {
-                    return libraryPath;
-                }
-
-                return null;
-            }
-        }
-       
     }
 }
