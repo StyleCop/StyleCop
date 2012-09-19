@@ -69,7 +69,7 @@ namespace StyleCop.Spelling
 
         private WordCollection ignoredWords;
 
-        private Speller speller;
+        private NativeMethods.Speller speller;
 
         private Dictionary<string, WordSpelling> wordSpellingCache = new Dictionary<string, WordSpelling>();
 
@@ -80,7 +80,7 @@ namespace StyleCop.Spelling
         private SpellChecker(CultureInfo culture, Language language)
         {
             this.culture = culture;
-            this.speller = new Speller(language.LibraryFullPath);
+            this.speller = new NativeMethods.Speller(language.LibraryFullPath);
             this.speller.AddLexicon(language.Lcid, language.LexiconFullPath);
 
             var libraryTimestamp = File.GetLastWriteTime(language.LibraryFullPath);
@@ -94,31 +94,31 @@ namespace StyleCop.Spelling
 
         #region Delegates
 
-        private delegate Ptec ProofCloseLex(IntPtr id, IntPtr lex, bool force);
+        private delegate NativeMethods.Ptec ProofCloseLex(IntPtr id, IntPtr lex, bool force);
 
-        private delegate Ptec ProofInit(out IntPtr pid, ref ProofParams pxpar);
+        private delegate NativeMethods.Ptec ProofInit(out IntPtr pid, ref NativeMethods.ProofParams pxpar);
 
-        private delegate Ptec ProofOpenLex(IntPtr id, ref ProofLexIn plxin, ref ProofLexOut plxout);
+        private delegate NativeMethods.Ptec ProofOpenLex(IntPtr id, ref NativeMethods.ProofLexIn plxin, ref NativeMethods.ProofLexOut plxout);
 
-        private delegate Ptec ProofSetOptions(IntPtr id, uint iOptionSelect, uint iOptVal);
+        private delegate NativeMethods.Ptec ProofSetOptions(IntPtr id, uint iOptionSelect, uint iOptVal);
 
-        private delegate Ptec ProofTerminate(IntPtr id, bool fForce);
+        private delegate NativeMethods.Ptec ProofTerminate(IntPtr id, bool fForce);
 
-        private delegate Ptec SpellerAddUdr(IntPtr sid, IntPtr lex, [MarshalAs(UnmanagedType.LPTStr)] string add);
+        private delegate NativeMethods.Ptec SpellerAddUdr(IntPtr sid, IntPtr lex, [MarshalAs(UnmanagedType.LPTStr)] string add);
 
         private delegate IntPtr SpellerBuiltInUdr(IntPtr sid, ProofLexType lxt);
 
-        private delegate Ptec SpellerCheck(IntPtr sid, SpellerCommand scmd, ref Wsib psib, ref Wsrb psrb);
+        private delegate NativeMethods.Ptec SpellerCheck(IntPtr sid, SpellerCommand scmd, ref NativeMethods.Wsib psib, ref NativeMethods.Wsrb psrb);
 
-        private delegate Ptec SpellerClearUdr(IntPtr sid, IntPtr lex);
+        private delegate NativeMethods.Ptec SpellerClearUdr(IntPtr sid, IntPtr lex);
 
-        private delegate Ptec SpellerDelUdr(IntPtr sid, IntPtr lex, [MarshalAs(UnmanagedType.LPTStr)] string delete);
+        private delegate NativeMethods.Ptec SpellerDelUdr(IntPtr sid, IntPtr lex, [MarshalAs(UnmanagedType.LPTStr)] string delete);
 
         #endregion
 
         #region Enums
 
-        private enum ProofLexType : uint
+        internal enum ProofLexType : uint
         {
             ChangeAlways = 1,
 
@@ -137,7 +137,7 @@ namespace StyleCop.Spelling
             User = 2
         }
 
-        private enum PtecMajor : uint
+        internal enum PtecMajor : uint
         {
             BufferTooSmall = 6,
 
@@ -158,7 +158,7 @@ namespace StyleCop.Spelling
             OutOfMemory = 1
         }
 
-        private enum PtecMinor : uint
+        internal enum PtecMinor : uint
         {
             EntryTooLong = 0x8f,
 
@@ -207,23 +207,8 @@ namespace StyleCop.Spelling
             UserLexReadOnly = 0x94
         }
 
-        private enum SpellerCommand : uint
-        {
-            Anagram = 7,
-
-            Suggest = 3,
-
-            SuggestMore = 4,
-
-            VerifyBuffer = 2,
-
-            VerifyBufferAutoReplace = 10,
-
-            Wildcard = 6
-        }
-
         [Flags]
-        private enum SpellerState : uint
+        internal enum SpellerState : uint
         {
             IsContinued = 1,
 
@@ -234,7 +219,7 @@ namespace StyleCop.Spelling
             StartsSentence = 2
         }
 
-        private enum SpellerStatus
+        internal enum SpellerStatus
         {
             NoErrors,
 
@@ -271,6 +256,21 @@ namespace StyleCop.Spelling
             ReturningAutoReplace,
 
             ErrorAccent
+        }
+
+        private enum SpellerCommand : uint
+        {
+            Anagram = 7,
+
+            Suggest = 3,
+
+            SuggestMore = 4,
+
+            VerifyBuffer = 2,
+
+            VerifyBufferAutoReplace = 10,
+
+            Wildcard = 6
         }
 
         #endregion
@@ -451,138 +451,7 @@ namespace StyleCop.Spelling
 
         #endregion
 
-        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-        private struct ProofLexIn
-        {
-            internal string pwszLex;
-
-            internal bool create;
-
-            internal SpellChecker.ProofLexType lxt;
-
-            internal ushort lidExpected;
-        }
-
-        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-        private struct ProofLexOut
-        {
-            internal string pwszCopyright;
-
-            internal IntPtr lex;
-
-            internal uint cchCopyright;
-
-            internal uint version;
-
-            internal bool readOnly;
-
-            internal ushort lid;
-        }
-
-        [StructLayout(LayoutKind.Sequential)]
-        private struct ProofParams
-        {
-            internal uint VersionApi;
-        }
-
-        [StructLayout(LayoutKind.Sequential)]
-        private struct Ptec
-        {
-            internal uint Code;
-
-            internal PtecMajor Major
-            {
-                get
-                {
-                    return ((PtecMajor)this.Code) & ((PtecMajor)0xff);
-                }
-            }
-
-            internal PtecMinor Minor
-            {
-                get
-                {
-                    return (PtecMinor)(this.Code >> 0x10);
-                }
-            }
-
-            internal bool Succeeded
-            {
-                get
-                {
-                    return this.Code == 0;
-                }
-            }
-
-            public override string ToString()
-            {
-                string str = ("0x" + this.Code.ToString("X", CultureInfo.InvariantCulture)) + " -- " + this.Major.ToString();
-                if (this.Minor != 0)
-                {
-                    str = str + ":" + this.Minor.ToString();
-                }
-
-                return str;
-            }
-        }
-
-        [StructLayout(LayoutKind.Sequential)]
-        private struct SpellerSuggestion
-        {
-            internal unsafe char* pwsz;
-
-            internal uint ichSugg;
-
-            internal uint cchSugg;
-
-            internal uint rating;
-        }
-
-        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-        private struct Wsib
-        {
-            internal string pwsz;
-
-            internal unsafe IntPtr* prglex;
-
-            internal UIntPtr cch;
-
-            internal UIntPtr clex;
-
-            internal SpellerState sstate;
-
-            internal uint ichStart;
-
-            internal UIntPtr cchUse;
-        }
-
-        [StructLayout(LayoutKind.Sequential)]
-        private struct Wsrb
-        {
-            internal unsafe char* pwsz;
-
-            internal unsafe SpellerSuggestion* prgsugg;
-
-            internal uint ichError;
-
-            internal uint cchError;
-
-            internal uint ichProcess;
-
-            internal uint cchProcess;
-
-            internal SpellerStatus sstat;
-
-            internal uint csz;
-
-            internal uint cszAlloc;
-
-            internal uint cchMac;
-
-            internal uint cchAlloc;
-        }
-
-        private static class NativeMethods
+        internal static class KernalNativeMethods
         {
             [return: MarshalAs(UnmanagedType.Bool)]
             [DllImport("kernel32.dll", SetLastError = true)]
@@ -595,7 +464,7 @@ namespace StyleCop.Spelling
             internal static extern IntPtr LoadLibrary(string lpFileName);
         }
 
-        private class Language
+        internal class Language
         {
             #region Fields
 
@@ -622,7 +491,7 @@ namespace StyleCop.Spelling
 
                 if (this.LibraryFullPath != null && this.LexiconFullPath != null)
                 {
-                    IntPtr handle = NativeMethods.LoadLibrary(this.LibraryFullPath);
+                    IntPtr handle = KernalNativeMethods.LoadLibrary(this.LibraryFullPath);
 
                     if (handle == IntPtr.Zero)
                     {
@@ -631,7 +500,7 @@ namespace StyleCop.Spelling
                     else
                     {
                         this.IsAvailable = true;
-                        if (!NativeMethods.FreeLibrary(handle))
+                        if (!KernalNativeMethods.FreeLibrary(handle))
                         {
                             throw new Win32Exception();
                         }
@@ -670,231 +539,366 @@ namespace StyleCop.Spelling
             #endregion
         }
 
-        private sealed class Speller : IDisposable
+        internal class NativeMethods
         {
-            #region Fields
-
-            private SpellerAddUdr addUdr;
-
-            private SpellerCheck check;
-
-            private SpellerClearUdr clearUdr;
-
-            private ProofCloseLex closeLex;
-
-            private SpellerDelUdr deleteUdr;
-
-            private IntPtr id;
-
-            private IntPtr ignoredDictionary;
-
-            private IntPtr[] lexicons;
-
-            private IntPtr libraryHandle;
-
-            private ProofOpenLex openLex;
-
-            private ProofTerminate terminate;
-
-            #endregion
-
-            #region Constructors and Destructors
-
-            internal Speller(string path)
+            [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+            internal struct ProofLexIn
             {
-                IntPtr ptr;
-                this.libraryHandle = NativeMethods.LoadLibrary(path);
-                if (this.libraryHandle == IntPtr.Zero)
+                internal string pwszLex;
+
+                internal bool create;
+
+                internal ProofLexType lxt;
+
+                internal ushort lidExpected;
+            }
+
+            [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+            internal struct ProofLexOut
+            {
+                internal string pwszCopyright;
+
+                internal IntPtr lex;
+
+                internal uint CchCopyright;
+
+                internal uint version;
+
+                internal bool readOnly;
+
+                internal ushort lid;
+            }
+
+            [StructLayout(LayoutKind.Sequential)]
+            internal struct ProofParams
+            {
+                internal uint VersionApi;
+            }
+
+            [StructLayout(LayoutKind.Sequential)]
+            internal struct Ptec
+            {
+                internal uint Code;
+
+                internal PtecMajor Major
                 {
-                    throw new Win32Exception();
+                    get
+                    {
+                        return ((PtecMajor)this.Code) & ((PtecMajor)0xff);
+                    }
                 }
 
-                ProofInit proc = GetProc<ProofInit>(this.libraryHandle, "SpellerInit");
-                ProofSetOptions proofSetOptions = GetProc<ProofSetOptions>(this.libraryHandle, "SpellerSetOptions");
-                this.terminate = GetProc<ProofTerminate>(this.libraryHandle, "SpellerTerminate");
-                this.openLex = GetProc<ProofOpenLex>(this.libraryHandle, "SpellerOpenLex");
-                this.closeLex = GetProc<ProofCloseLex>(this.libraryHandle, "SpellerCloseLex");
-                this.check = GetProc<SpellerCheck>(this.libraryHandle, "SpellerCheck");
-                this.addUdr = GetProc<SpellerAddUdr>(this.libraryHandle, "SpellerAddUdr");
-                this.deleteUdr = GetProc<SpellerDelUdr>(this.libraryHandle, "SpellerDelUdr");
-                this.clearUdr = GetProc<SpellerClearUdr>(this.libraryHandle, "SpellerClearUdr");
-                ProofParams pxpar = new ProofParams { VersionApi = 0x3000000 };
-                CheckErrorCode(proc(out ptr, ref pxpar));
-                this.id = ptr;
-                CheckErrorCode(proofSetOptions(ptr, 0, 0x20006));
-                this.InitIgnoreDictionary();
-            }
-
-            ~Speller()
-            {
-                this.Dispose(false);
-            }
-
-            #endregion
-
-            #region Public Methods and Operators
-
-            public void Dispose()
-            {
-                this.Dispose(true);
-                GC.SuppressFinalize(this);
-            }
-
-            #endregion
-
-            #region Methods
-
-            internal void AddIgnoredWord(string word)
-            {
-                CheckErrorCode(this.addUdr(this.id, this.ignoredDictionary, word));
-            }
-
-            internal void AddLexicon(ushort lcid, string path)
-            {
-                ProofLexIn plxin = new ProofLexIn { pwszLex = path, lxt = ProofLexType.Main, lidExpected = lcid };
-                ProofLexOut plxout = new ProofLexOut { cchCopyright = 0, readOnly = true };
-                CheckErrorCode(this.openLex(this.id, ref plxin, ref plxout));
-                this.AddLexicon(plxout.lex);
-            }
-
-            internal unsafe SpellerStatus Check(string word)
-            {
-                char* pwsz = stackalloc char[65];
-                SpellerSuggestion* prgsugg = stackalloc SpellerSuggestion[checked(1 * sizeof(SpellerSuggestion) / sizeof(SpellerSuggestion))];
-
-                fixed (IntPtr* lexicons2 = this.lexicons)
+                internal PtecMinor Minor
                 {
-                    Wsib wsib = default(Wsib);
-                    wsib.pwsz = word;
-                    wsib.ichStart = 0u;
-                    wsib.cch = (UIntPtr)((ulong)word.Length);
-                    wsib.cchUse = wsib.cch;
-                    wsib.prglex = lexicons2;
-                    wsib.clex = (UIntPtr)((ulong)this.lexicons.Length);
-                    wsib.sstate = SpellerState.StartsSentence;
-
-                    Wsrb wsrb = default(Wsrb);
-                    wsrb.pwsz = pwsz;
-                    wsrb.cchAlloc = 65u;
-                    wsrb.cszAlloc = 1u;
-                    wsrb.prgsugg = prgsugg;
-
-                    Ptec error;
-                    lock (this)
+                    get
                     {
-                        error = this.check(this.id, SpellerCommand.VerifyBuffer, ref wsib, ref wsrb);
+                        return (PtecMinor)(this.Code >> 0x10);
+                    }
+                }
+
+                internal bool Succeeded
+                {
+                    get
+                    {
+                        return this.Code == 0;
+                    }
+                }
+
+                public override string ToString()
+                {
+                    string str = ("0x" + this.Code.ToString("X", CultureInfo.InvariantCulture)) + " -- " + this.Major.ToString();
+                    if (this.Minor != 0)
+                    {
+                        str = str + ":" + this.Minor.ToString();
                     }
 
-                    CheckErrorCode(error);
-                    return wsrb.sstat;
+                    return str;
                 }
             }
 
-            internal void ClearIgnoredWords()
+            [StructLayout(LayoutKind.Sequential)]
+            internal struct SpellerSuggestion
             {
-                CheckErrorCode(this.clearUdr(this.id, this.ignoredDictionary));
+                internal unsafe char* pwsz;
+
+                internal uint ichSugg;
+
+                internal uint CchSugg;
+
+                internal uint rating;
             }
 
-            internal void RemoveIgnoredWord(string word)
+            [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+            internal struct Wsib
             {
-                CheckErrorCode(this.deleteUdr(this.id, this.ignoredDictionary, word));
+                internal string pwsz;
+
+                internal unsafe IntPtr* prglex;
+
+                internal UIntPtr Cch;
+
+                internal UIntPtr Clex;
+
+                internal SpellerState sstate;
+
+                internal uint ichStart;
+
+                internal UIntPtr CchUse;
             }
 
-            private static void CheckErrorCode(SpellChecker.Ptec error)
+            [StructLayout(LayoutKind.Sequential)]
+            internal struct Wsrb
             {
-                if (!error.Succeeded)
-                {
-                    throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, "Unexpected proofing tool error code: {0}.", new object[] { error }));
-                }
+                internal unsafe char* pwsz;
+
+                internal unsafe SpellerSuggestion* prgsugg;
+
+                internal uint ichError;
+
+                internal uint CchError;
+
+                internal uint ichProcess;
+
+                internal uint CchProcess;
+
+                internal SpellerStatus sstat;
+
+                internal uint csz;
+
+                internal uint cszAlloc;
+
+                internal uint CchMac;
+
+                internal uint CchAlloc;
             }
 
-            private static T GetProc<T>(IntPtr library, string procName) where T : class
+            internal sealed class Speller : IDisposable
             {
-                IntPtr procAddress = NativeMethods.GetProcAddress(library, procName);
-                if (procAddress == IntPtr.Zero)
-                {
-                    throw new Win32Exception();
-                }
+                #region Fields
 
-                return (T)((object)Marshal.GetDelegateForFunctionPointer(procAddress, typeof(T)));
-            }
+                private SpellerAddUdr addUdr;
 
-            private void AddLexicon(IntPtr lex)
-            {
-                IntPtr[] ptrArray;
-                int length;
-                if (this.lexicons == null)
-                {
-                    ptrArray = new IntPtr[1];
-                    length = 0;
-                }
-                else
-                {
-                    ptrArray = new IntPtr[this.lexicons.Length + 1];
-                    this.lexicons.CopyTo(ptrArray, 0);
-                    length = this.lexicons.Length;
-                }
+                private SpellerCheck check;
 
-                ptrArray[length] = lex;
-                this.lexicons = ptrArray;
-            }
+                private SpellerClearUdr clearUdr;
 
-            private void Dispose(bool disposing)
-            {
-                try
+                private ProofCloseLex closeLex;
+
+                private SpellerDelUdr deleteUdr;
+
+                private IntPtr id;
+
+                private IntPtr ignoredDictionary;
+
+                private IntPtr[] lexicons;
+
+                private IntPtr libraryHandle;
+
+                private ProofOpenLex openLex;
+
+                private ProofTerminate terminate;
+
+                #endregion
+
+                #region Constructors and Destructors
+
+                internal Speller(string path)
                 {
-                    if (this.lexicons != null)
+                    IntPtr ptr;
+                    this.libraryHandle = KernalNativeMethods.LoadLibrary(path);
+                    if (this.libraryHandle == IntPtr.Zero)
                     {
-                        foreach (IntPtr ptr in this.lexicons)
+                        throw new Win32Exception();
+                    }
+
+                    ProofInit proc = GetProc<ProofInit>(this.libraryHandle, "SpellerInit");
+                    ProofSetOptions proofSetOptions = GetProc<ProofSetOptions>(this.libraryHandle, "SpellerSetOptions");
+                    this.terminate = GetProc<ProofTerminate>(this.libraryHandle, "SpellerTerminate");
+                    this.openLex = GetProc<ProofOpenLex>(this.libraryHandle, "SpellerOpenLex");
+                    this.closeLex = GetProc<ProofCloseLex>(this.libraryHandle, "SpellerCloseLex");
+                    this.check = GetProc<SpellerCheck>(this.libraryHandle, "SpellerCheck");
+                    this.addUdr = GetProc<SpellerAddUdr>(this.libraryHandle, "SpellerAddUdr");
+                    this.deleteUdr = GetProc<SpellerDelUdr>(this.libraryHandle, "SpellerDelUdr");
+                    this.clearUdr = GetProc<SpellerClearUdr>(this.libraryHandle, "SpellerClearUdr");
+                    ProofParams pxpar = new ProofParams { VersionApi = 0x3000000 };
+                    CheckErrorCode(proc(out ptr, ref pxpar));
+                    this.id = ptr;
+                    CheckErrorCode(proofSetOptions(ptr, 0, 0x20006));
+                    this.InitIgnoreDictionary();
+                }
+
+                ~Speller()
+                {
+                    this.Dispose(false);
+                }
+
+                #endregion
+
+                #region Public Methods and Operators
+
+                public void Dispose()
+                {
+                    this.Dispose(true);
+                    GC.SuppressFinalize(this);
+                }
+
+                #endregion
+
+                #region Methods
+
+                internal void AddIgnoredWord(string word)
+                {
+                    CheckErrorCode(this.addUdr(this.id, this.ignoredDictionary, word));
+                }
+
+                internal void AddLexicon(ushort lcid, string path)
+                {
+                    ProofLexIn plxin = new ProofLexIn { pwszLex = path, lxt = ProofLexType.Main, lidExpected = lcid };
+                    ProofLexOut plxout = new ProofLexOut { CchCopyright = 0, readOnly = true };
+                    CheckErrorCode(this.openLex(this.id, ref plxin, ref plxout));
+                    this.AddLexicon(plxout.lex);
+                }
+
+                internal unsafe SpellerStatus Check(string word)
+                {
+                    char* pwsz = stackalloc char[65];
+                    SpellerSuggestion* prgsugg = stackalloc SpellerSuggestion[checked(1 * sizeof(SpellerSuggestion) / sizeof(SpellerSuggestion))];
+
+                    fixed (IntPtr* lexicons2 = this.lexicons)
+                    {
+                        Wsib wsib = default(Wsib);
+                        wsib.pwsz = word;
+                        wsib.ichStart = 0u;
+                        wsib.Cch = (UIntPtr)((ulong)word.Length);
+                        wsib.CchUse = wsib.Cch;
+                        wsib.prglex = lexicons2;
+                        wsib.Clex = (UIntPtr)((ulong)this.lexicons.Length);
+                        wsib.sstate = SpellerState.StartsSentence;
+
+                        Wsrb wsrb = default(Wsrb);
+                        wsrb.pwsz = pwsz;
+                        wsrb.CchAlloc = 65u;
+                        wsrb.cszAlloc = 1u;
+                        wsrb.prgsugg = prgsugg;
+
+                        Ptec error;
+                        lock (this)
                         {
-                            CheckErrorCode(this.closeLex(this.id, ptr, true));
+                            error = this.check(this.id, SpellerCommand.VerifyBuffer, ref wsib, ref wsrb);
                         }
 
-                        this.lexicons = null;
+                        CheckErrorCode(error);
+                        return wsrb.sstat;
+                    }
+                }
+
+                internal void ClearIgnoredWords()
+                {
+                    CheckErrorCode(this.clearUdr(this.id, this.ignoredDictionary));
+                }
+
+                internal void RemoveIgnoredWord(string word)
+                {
+                    CheckErrorCode(this.deleteUdr(this.id, this.ignoredDictionary, word));
+                }
+
+                private static void CheckErrorCode(Ptec error)
+                {
+                    if (!error.Succeeded)
+                    {
+                        throw new InvalidOperationException(
+                            string.Format(CultureInfo.CurrentCulture, "Unexpected proofing tool error code: {0}.", new object[] { error }));
+                    }
+                }
+
+                private static T GetProc<T>(IntPtr library, string procName) where T : class
+                {
+                    IntPtr procAddress = KernalNativeMethods.GetProcAddress(library, procName);
+                    if (procAddress == IntPtr.Zero)
+                    {
+                        throw new Win32Exception();
                     }
 
-                    if (this.id != IntPtr.Zero)
+                    return (T)((object)Marshal.GetDelegateForFunctionPointer(procAddress, typeof(T)));
+                }
+
+                private void AddLexicon(IntPtr lex)
+                {
+                    IntPtr[] ptrArray;
+                    int length;
+                    if (this.lexicons == null)
                     {
-                        CheckErrorCode(this.terminate(this.id, true));
-                        this.id = IntPtr.Zero;
+                        ptrArray = new IntPtr[1];
+                        length = 0;
+                    }
+                    else
+                    {
+                        ptrArray = new IntPtr[this.lexicons.Length + 1];
+                        this.lexicons.CopyTo(ptrArray, 0);
+                        length = this.lexicons.Length;
                     }
 
-                    if (this.libraryHandle != IntPtr.Zero)
+                    ptrArray[length] = lex;
+                    this.lexicons = ptrArray;
+                }
+
+                private void Dispose(bool disposing)
+                {
+                    try
                     {
-                        if (!NativeMethods.FreeLibrary(this.libraryHandle))
+                        if (this.lexicons != null)
                         {
-                            throw new Win32Exception();
+                            foreach (IntPtr ptr in this.lexicons)
+                            {
+                                CheckErrorCode(this.closeLex(this.id, ptr, true));
+                            }
+
+                            this.lexicons = null;
                         }
 
-                        this.libraryHandle = IntPtr.Zero;
+                        if (this.id != IntPtr.Zero)
+                        {
+                            CheckErrorCode(this.terminate(this.id, true));
+                            this.id = IntPtr.Zero;
+                        }
+
+                        if (this.libraryHandle != IntPtr.Zero)
+                        {
+                            if (!KernalNativeMethods.FreeLibrary(this.libraryHandle))
+                            {
+                                throw new Win32Exception();
+                            }
+
+                            this.libraryHandle = IntPtr.Zero;
+                        }
                     }
-                }
-                finally
-                {
-                    if (disposing)
+                    finally
                     {
-                        this.terminate = null;
-                        this.closeLex = null;
-                        this.openLex = null;
-                        this.check = null;
-                        this.addUdr = null;
-                        this.clearUdr = null;
-                        this.deleteUdr = null;
+                        if (disposing)
+                        {
+                            this.terminate = null;
+                            this.closeLex = null;
+                            this.openLex = null;
+                            this.check = null;
+                            this.addUdr = null;
+                            this.clearUdr = null;
+                            this.deleteUdr = null;
+                        }
                     }
                 }
-            }
 
-            private void InitIgnoreDictionary()
-            {
-                SpellerBuiltInUdr proc = GetProc<SpellerBuiltInUdr>(this.libraryHandle, "SpellerBuiltinUdr");
-                this.ignoredDictionary = proc(this.id, ProofLexType.User);
-                if (this.ignoredDictionary == IntPtr.Zero)
+                private void InitIgnoreDictionary()
                 {
-                    throw new InvalidOperationException("Failed to get the ignored dictionary handle.");
+                    SpellerBuiltInUdr proc = GetProc<SpellerBuiltInUdr>(this.libraryHandle, "SpellerBuiltinUdr");
+                    this.ignoredDictionary = proc(this.id, ProofLexType.User);
+                    if (this.ignoredDictionary == IntPtr.Zero)
+                    {
+                        throw new InvalidOperationException("Failed to get the ignored dictionary handle.");
+                    }
                 }
-            }
 
-            #endregion
+                #endregion
+            }
         }
     }
 }

@@ -114,9 +114,7 @@
     <Compile Include="NativeMethods.cs" />
     <Compile Include="Spelling\NamingService.cs" />
     <Compile Include="Spelling\NullIfNotFoundDictionary.cs" />
-    <Compile Include="Spelling\SpellChecker.cs">
-      <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
-    </Compile>
+    <Compile Include="Spelling\SpellChecker.cs" />
     <Compile Include="Spelling\WordCollection.cs" />
     <Compile Include="Spelling\WordParser.cs" />
     <Compile Include="Spelling\WordParserOptions.cs" />
