@@ -488,115 +488,117 @@ namespace StyleCop.Spelling
 
         private sealed class Speller : IDisposable
         {
-            private SPELLERADDUDR m_addUdr;
+            private SPELLERADDUDR addUdr;
 
-            private SPELLERCHECK m_check;
+            private SPELLERCHECK check;
 
-            private SPELLERCLEARUDR m_clearUdr;
+            private SPELLERCLEARUDR clearUdr;
 
-            private PROOFCLOSELEX m_closeLex;
+            private PROOFCLOSELEX closeLex;
 
-            private SPELLERDELUDR m_deleteUdr;
+            private SPELLERDELUDR deleteUdr;
 
-            private IntPtr m_id;
+            private IntPtr id;
 
-            private IntPtr m_ignoredDictionary;
+            private IntPtr ignoredDictionary;
 
-            private IntPtr[] m_lexicons;
+            private IntPtr[] lexicons;
 
             [SuppressMessage("Microsoft.Reliability", "CA2006:UseSafeHandleToEncapsulateNativeResources")]
-            private IntPtr m_libraryHandle;
+            private IntPtr libraryHandle;
 
-            private PROOFOPENLEX m_openLex;
+            private PROOFOPENLEX openLex;
 
-            private PROOFTERMINATE m_terminate;
+            private PROOFTERMINATE terminate;
 
             internal Speller(string path)
             {
                 IntPtr ptr;
-                this.m_libraryHandle = SpellChecker.NativeMethods.LoadLibrary(path);
-                if (this.m_libraryHandle == IntPtr.Zero)
+                this.libraryHandle = NativeMethods.LoadLibrary(path);
+                if (this.libraryHandle == IntPtr.Zero)
                 {
                     throw new Win32Exception();
                 }
-                SpellChecker.PROOFINIT proc = GetProc<SpellChecker.PROOFINIT>(this.m_libraryHandle, "SpellerInit");
-                SpellChecker.PROOFSETOPTIONS proofsetoptions = GetProc<SpellChecker.PROOFSETOPTIONS>(this.m_libraryHandle, "SpellerSetOptions");
-                this.m_terminate = GetProc<SpellChecker.PROOFTERMINATE>(this.m_libraryHandle, "SpellerTerminate");
-                this.m_openLex = GetProc<SpellChecker.PROOFOPENLEX>(this.m_libraryHandle, "SpellerOpenLex");
-                this.m_closeLex = GetProc<SpellChecker.PROOFCLOSELEX>(this.m_libraryHandle, "SpellerCloseLex");
-                this.m_check = GetProc<SpellChecker.SPELLERCHECK>(this.m_libraryHandle, "SpellerCheck");
-                this.m_addUdr = GetProc<SpellChecker.SPELLERADDUDR>(this.m_libraryHandle, "SpellerAddUdr");
-                this.m_deleteUdr = GetProc<SpellChecker.SPELLERDELUDR>(this.m_libraryHandle, "SpellerDelUdr");
-                this.m_clearUdr = GetProc<SpellChecker.SPELLERCLEARUDR>(this.m_libraryHandle, "SpellerClearUdr");
-                SpellChecker.PROOFPARAMS pxpar = new SpellChecker.PROOFPARAMS { VersionApi = 0x3000000 };
+
+                PROOFINIT proc = GetProc<PROOFINIT>(this.libraryHandle, "SpellerInit");
+                PROOFSETOPTIONS proofsetoptions = GetProc<PROOFSETOPTIONS>(this.libraryHandle, "SpellerSetOptions");
+                this.terminate = GetProc<PROOFTERMINATE>(this.libraryHandle, "SpellerTerminate");
+                this.openLex = GetProc<PROOFOPENLEX>(this.libraryHandle, "SpellerOpenLex");
+                this.closeLex = GetProc<PROOFCLOSELEX>(this.libraryHandle, "SpellerCloseLex");
+                this.check = GetProc<SPELLERCHECK>(this.libraryHandle, "SpellerCheck");
+                this.addUdr = GetProc<SPELLERADDUDR>(this.libraryHandle, "SpellerAddUdr");
+                this.deleteUdr = GetProc<SPELLERDELUDR>(this.libraryHandle, "SpellerDelUdr");
+                this.clearUdr = GetProc<SPELLERCLEARUDR>(this.libraryHandle, "SpellerClearUdr");
+                PROOFPARAMS pxpar = new PROOFPARAMS { VersionApi = 0x3000000 };
                 CheckErrorCode(proc(out ptr, ref pxpar));
-                this.m_id = ptr;
+                this.id = ptr;
                 CheckErrorCode(proofsetoptions(ptr, 0, 0x20006));
                 this.InitIgnoreDictionary();
             }
 
             internal void AddIgnoredWord(string word)
             {
-                CheckErrorCode(this.m_addUdr(this.m_id, this.m_ignoredDictionary, word));
+                CheckErrorCode(this.addUdr(this.id, this.ignoredDictionary, word));
             }
 
             private void AddLexicon(IntPtr lex)
             {
                 IntPtr[] ptrArray;
                 int length;
-                if (this.m_lexicons == null)
+                if (this.lexicons == null)
                 {
                     ptrArray = new IntPtr[1];
                     length = 0;
                 }
                 else
                 {
-                    ptrArray = new IntPtr[this.m_lexicons.Length + 1];
-                    this.m_lexicons.CopyTo(ptrArray, 0);
-                    length = this.m_lexicons.Length;
+                    ptrArray = new IntPtr[this.lexicons.Length + 1];
+                    this.lexicons.CopyTo(ptrArray, 0);
+                    length = this.lexicons.Length;
                 }
+
                 ptrArray[length] = lex;
-                this.m_lexicons = ptrArray;
+                this.lexicons = ptrArray;
             }
 
             internal void AddLexicon(ushort lcid, string path)
             {
-                SpellChecker.PROOFLEXIN plxin = new SpellChecker.PROOFLEXIN { pwszLex = path, lxt = SpellChecker.PROOFLEXTYPE.Main, lidExpected = lcid };
-                SpellChecker.PROOFLEXOUT plxout = new SpellChecker.PROOFLEXOUT { cchCopyright = 0, fReadOnly = true };
-                CheckErrorCode(this.m_openLex(this.m_id, ref plxin, ref plxout));
+                PROOFLEXIN plxin = new PROOFLEXIN { pwszLex = path, lxt = PROOFLEXTYPE.Main, lidExpected = lcid };
+                PROOFLEXOUT plxout = new PROOFLEXOUT { cchCopyright = 0, fReadOnly = true };
+                CheckErrorCode(this.openLex(this.id, ref plxin, ref plxout));
                 this.AddLexicon(plxout.lex);
             }
-
-
+            
             internal unsafe SpellerStatus Check(string word)
             {
                 char* pwsz = stackalloc char[65];
                 SPELLERSUGGESTION* prgsugg = stackalloc SPELLERSUGGESTION[checked(1 * sizeof(SPELLERSUGGESTION) / sizeof(SPELLERSUGGESTION))];
 
-                fixed (IntPtr* lexicons = this.m_lexicons)
+                fixed (IntPtr* lexicons2 = this.lexicons)
                 {
-                    WSIB wSIB = default(WSIB);
-                    wSIB.pwsz = word;
-                    wSIB.ichStart = 0u;
-                    wSIB.cch = (UIntPtr)((ulong)(word.Length));
-                    wSIB.cchUse = wSIB.cch;
-                    wSIB.prglex = lexicons;
-                    wSIB.clex = (UIntPtr)((ulong)((long)this.m_lexicons.Length));
-                    wSIB.sstate = SpellerState.StartsSentence;
-                    WSRB wSRB = default(WSRB);
-                    wSRB.pwsz = pwsz;
-                    wSRB.cchAlloc = 65u;
-                    wSRB.cszAlloc = 1u;
-                    wSRB.prgsugg = prgsugg;
+                    WSIB wSib = default(WSIB);
+                    wSib.pwsz = word;
+                    wSib.ichStart = 0u;
+                    wSib.cch = (UIntPtr)((ulong)(word.Length));
+                    wSib.cchUse = wSib.cch;
+                    wSib.prglex = lexicons2;
+                    wSib.clex = (UIntPtr)((ulong)this.lexicons.Length);
+                    wSib.sstate = SpellerState.StartsSentence;
+
+                    WSRB wSrb = default(WSRB);
+                    wSrb.pwsz = pwsz;
+                    wSrb.cchAlloc = 65u;
+                    wSrb.cszAlloc = 1u;
+                    wSrb.prgsugg = prgsugg;
 
                     PTEC error;
                     lock (this)
                     {
-                        error = this.m_check(this.m_id, SPELLERCOMMAND.VerifyBuffer, ref wSIB, ref wSRB);
+                        error = this.check(this.id, SPELLERCOMMAND.VerifyBuffer, ref wSib, ref wSrb);
                     }
 
                     CheckErrorCode(error);
-                    return wSRB.sstat;
+                    return wSrb.sstat;
                 }
             }
 
@@ -610,7 +612,7 @@ namespace StyleCop.Spelling
 
             internal void ClearIgnoredWords()
             {
-                CheckErrorCode(this.m_clearUdr(this.m_id, this.m_ignoredDictionary));
+                CheckErrorCode(this.clearUdr(this.id, this.ignoredDictionary));
             }
 
             public void Dispose()
@@ -624,39 +626,41 @@ namespace StyleCop.Spelling
             {
                 try
                 {
-                    if (this.m_lexicons != null)
+                    if (this.lexicons != null)
                     {
-                        foreach (IntPtr ptr in this.m_lexicons)
+                        foreach (IntPtr ptr in this.lexicons)
                         {
-                            CheckErrorCode(this.m_closeLex(this.m_id, ptr, true));
+                            CheckErrorCode(this.closeLex(this.id, ptr, true));
                         }
-                        this.m_lexicons = null;
+                        this.lexicons = null;
                     }
-                    if (this.m_id != IntPtr.Zero)
+
+                    if (this.id != IntPtr.Zero)
                     {
-                        CheckErrorCode(this.m_terminate(this.m_id, true));
-                        this.m_id = IntPtr.Zero;
+                        CheckErrorCode(this.terminate(this.id, true));
+                        this.id = IntPtr.Zero;
                     }
-                    if (this.m_libraryHandle != IntPtr.Zero)
+
+                    if (this.libraryHandle != IntPtr.Zero)
                     {
-                        if (!SpellChecker.NativeMethods.FreeLibrary(this.m_libraryHandle))
+                        if (!SpellChecker.NativeMethods.FreeLibrary(this.libraryHandle))
                         {
                             throw new Win32Exception();
                         }
-                        this.m_libraryHandle = IntPtr.Zero;
+                        this.libraryHandle = IntPtr.Zero;
                     }
                 }
                 finally
                 {
                     if (disposing)
                     {
-                        this.m_terminate = null;
-                        this.m_closeLex = null;
-                        this.m_openLex = null;
-                        this.m_check = null;
-                        this.m_addUdr = null;
-                        this.m_clearUdr = null;
-                        this.m_deleteUdr = null;
+                        this.terminate = null;
+                        this.closeLex = null;
+                        this.openLex = null;
+                        this.check = null;
+                        this.addUdr = null;
+                        this.clearUdr = null;
+                        this.deleteUdr = null;
                     }
                 }
             }
@@ -678,9 +682,9 @@ namespace StyleCop.Spelling
 
             private void InitIgnoreDictionary()
             {
-                SpellChecker.SPELLERBUILTINUDR proc = GetProc<SpellChecker.SPELLERBUILTINUDR>(this.m_libraryHandle, "SpellerBuiltinUdr");
-                this.m_ignoredDictionary = proc(this.m_id, SpellChecker.PROOFLEXTYPE.User);
-                if (this.m_ignoredDictionary == IntPtr.Zero)
+                SPELLERBUILTINUDR proc = GetProc<SPELLERBUILTINUDR>(this.libraryHandle, "SpellerBuiltinUdr");
+                this.ignoredDictionary = proc(this.id, PROOFLEXTYPE.User);
+                if (this.ignoredDictionary == IntPtr.Zero)
                 {
                     throw new InvalidOperationException("Failed to get the ignored dictionary handle.");
                 }
@@ -688,17 +692,17 @@ namespace StyleCop.Spelling
 
             internal void RemoveIgnoredWord(string word)
             {
-                CheckErrorCode(this.m_deleteUdr(this.m_id, this.m_ignoredDictionary, word));
+                CheckErrorCode(this.deleteUdr(this.id, this.ignoredDictionary, word));
             }
         }
 
-        private delegate SpellChecker.PTEC SPELLERADDUDR(IntPtr sid, IntPtr lex, [MarshalAs(UnmanagedType.LPTStr)] string add);
+        private delegate PTEC SPELLERADDUDR(IntPtr sid, IntPtr lex, [MarshalAs(UnmanagedType.LPTStr)] string add);
 
-        private delegate IntPtr SPELLERBUILTINUDR(IntPtr sid, SpellChecker.PROOFLEXTYPE lxt);
+        private delegate IntPtr SPELLERBUILTINUDR(IntPtr sid, PROOFLEXTYPE lxt);
 
-        private delegate SpellChecker.PTEC SPELLERCHECK(IntPtr sid, SpellChecker.SPELLERCOMMAND scmd, ref SpellChecker.WSIB psib, ref SpellChecker.WSRB psrb);
+        private delegate PTEC SPELLERCHECK(IntPtr sid, SPELLERCOMMAND scmd, ref WSIB psib, ref WSRB psrb);
 
-        private delegate SpellChecker.PTEC SPELLERCLEARUDR(IntPtr sid, IntPtr lex);
+        private delegate PTEC SPELLERCLEARUDR(IntPtr sid, IntPtr lex);
 
         private enum SPELLERCOMMAND : uint
         {
@@ -715,7 +719,7 @@ namespace StyleCop.Spelling
             Wildcard = 6
         }
 
-        private delegate SpellChecker.PTEC SPELLERDELUDR(IntPtr sid, IntPtr lex, [MarshalAs(UnmanagedType.LPTStr)] string delete);
+        private delegate PTEC SPELLERDELUDR(IntPtr sid, IntPtr lex, [MarshalAs(UnmanagedType.LPTStr)] string delete);
 
         private enum SPELLEROPTIONSELECT : uint
         {
