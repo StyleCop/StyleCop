@@ -44,7 +44,7 @@ namespace StyleCop.Spelling
 
         private Dictionary<string, WordSpelling> wordSpellingCache = new Dictionary<string, WordSpelling>();
         
-        internal const int MAX_TEXT_LENGTH = 0x40;
+        internal const int MaximumTextLength = 0x40;
         
         private static readonly Language[] Languages = new[]
             {
@@ -73,7 +73,7 @@ namespace StyleCop.Spelling
         {
             this.culture = culture;
             this.speller = new Speller(language.LibraryFullPath);
-            this.speller.AddLexicon(language.LCID, language.LexiconFullPath);
+            this.speller.AddLexicon(language.Lcid, language.LexiconFullPath);
 
             var libraryTimestamp = File.GetLastWriteTime(language.LibraryFullPath);
             var lexiconTimestamp = File.GetLastWriteTime(language.LexiconFullPath);
@@ -99,18 +99,22 @@ namespace StyleCop.Spelling
             {
                 throw new ArgumentNullException("text");
             }
+
             if (this.IsDisposed)
             {
                 throw new ObjectDisposedException("SpellChecker");
             }
+
             if (text.Length == 0)
             {
                 return WordSpelling.SpelledCorrectly;
             }
+
             if ((this.alwaysMisspelledWords != null) && this.alwaysMisspelledWords.Contains(text))
             {
                 return WordSpelling.Unrecognized;
             }
+
             lock (this.wordSpellingCache)
             {
                 if (this.wordSpellingCache.TryGetValue(text, out spelledCorrectly))
@@ -122,6 +126,7 @@ namespace StyleCop.Spelling
                 {
                     status = this.speller.Check(UsaTextInfo.ToTitleCase(text));
                 }
+
                 if (status == SpellerStatus.NoErrors)
                 {
                     spelledCorrectly = WordSpelling.SpelledCorrectly;
@@ -130,8 +135,10 @@ namespace StyleCop.Spelling
                 {
                     spelledCorrectly = WordSpelling.Unrecognized;
                 }
+
                 this.wordSpellingCache[text] = spelledCorrectly;
             }
+
             return spelledCorrectly;
         }
 
@@ -158,14 +165,17 @@ namespace StyleCop.Spelling
             {
                 throw new ArgumentNullException("culture");
             }
+
             if (culture.Equals(CultureInfo.InvariantCulture))
             {
                 return null;
             }
+
             if (LanguageTable.TryGetValue(culture.Name, out language) && language.IsAvailable)
             {
                 return new SpellChecker(culture, language);
             }
+
             return FromCulture(culture.Parent);
         }
 
@@ -198,6 +208,7 @@ namespace StyleCop.Spelling
                 {
                     this.alwaysMisspelledWords = new WordCollection(StringComparer.Create(this.culture, false));
                 }
+
                 return this.alwaysMisspelledWords;
             }
         }
@@ -211,6 +222,7 @@ namespace StyleCop.Spelling
                     this.ignoredWords = new WordCollection(StringComparer.Create(this.culture, false));
                     this.ignoredWords.CollectionChanged += new CollectionChangeEventHandler(this.OnIgnoredWordsChanged);
                 }
+
                 return this.ignoredWords;
             }
         }
@@ -227,7 +239,7 @@ namespace StyleCop.Spelling
         {
             internal readonly bool IsAvailable;
 
-            internal readonly ushort LCID;
+            internal readonly ushort Lcid;
 
             internal readonly string LexiconFullPath;
 
@@ -238,7 +250,7 @@ namespace StyleCop.Spelling
             internal Language(string name, string library, string lexicon, ushort lcid)
             {
                 this.Name = name;
-                this.LCID = lcid;
+                this.Lcid = lcid;
                 this.LibraryFullPath = Probe(library);
                 this.LexiconFullPath = Probe(lexicon);
 
@@ -399,6 +411,7 @@ namespace StyleCop.Spelling
                 {
                     str = str + ":" + this.Minor.ToString();
                 }
+
                 return str;
             }
         }
@@ -475,16 +488,15 @@ namespace StyleCop.Spelling
 
         private sealed class Speller : IDisposable
         {
-            // Fields
-            private SpellChecker.SPELLERADDUDR m_addUdr;
+            private SPELLERADDUDR m_addUdr;
 
-            private SpellChecker.SPELLERCHECK m_check;
+            private SPELLERCHECK m_check;
 
-            private SpellChecker.SPELLERCLEARUDR m_clearUdr;
+            private SPELLERCLEARUDR m_clearUdr;
 
-            private SpellChecker.PROOFCLOSELEX m_closeLex;
+            private PROOFCLOSELEX m_closeLex;
 
-            private SpellChecker.SPELLERDELUDR m_deleteUdr;
+            private SPELLERDELUDR m_deleteUdr;
 
             private IntPtr m_id;
 
@@ -495,9 +507,9 @@ namespace StyleCop.Spelling
             [SuppressMessage("Microsoft.Reliability", "CA2006:UseSafeHandleToEncapsulateNativeResources")]
             private IntPtr m_libraryHandle;
 
-            private SpellChecker.PROOFOPENLEX m_openLex;
+            private PROOFOPENLEX m_openLex;
 
-            private SpellChecker.PROOFTERMINATE m_terminate;
+            private PROOFTERMINATE m_terminate;
 
             internal Speller(string path)
             {
