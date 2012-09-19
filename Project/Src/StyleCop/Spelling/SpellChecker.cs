@@ -94,31 +94,31 @@ namespace StyleCop.Spelling
 
         #region Delegates
 
-        private delegate PTEC PROOFCLOSELEX(IntPtr id, IntPtr lex, bool force);
+        private delegate Ptec ProofCloseLex(IntPtr id, IntPtr lex, bool force);
 
-        private delegate PTEC PROOFINIT(out IntPtr pid, ref PROOFPARAMS pxpar);
+        private delegate Ptec ProofInit(out IntPtr pid, ref ProofParams pxpar);
 
-        private delegate PTEC PROOFOPENLEX(IntPtr id, ref PROOFLEXIN plxin, ref PROOFLEXOUT plxout);
+        private delegate Ptec ProofOpenLex(IntPtr id, ref ProofLexIn plxin, ref ProofLexOut plxout);
 
-        private delegate PTEC PROOFSETOPTIONS(IntPtr id, uint iOptionSelect, uint iOptVal);
+        private delegate Ptec ProofSetOptions(IntPtr id, uint iOptionSelect, uint iOptVal);
 
-        private delegate PTEC PROOFTERMINATE(IntPtr id, bool fForce);
+        private delegate Ptec ProofTerminate(IntPtr id, bool fForce);
 
-        private delegate PTEC SPELLERADDUDR(IntPtr sid, IntPtr lex, [MarshalAs(UnmanagedType.LPTStr)] string add);
+        private delegate Ptec SpellerAddUdr(IntPtr sid, IntPtr lex, [MarshalAs(UnmanagedType.LPTStr)] string add);
 
-        private delegate IntPtr SPELLERBUILTINUDR(IntPtr sid, PROOFLEXTYPE lxt);
+        private delegate IntPtr SpellerBuiltInUdr(IntPtr sid, ProofLexType lxt);
 
-        private delegate PTEC SPELLERCHECK(IntPtr sid, SPELLERCOMMAND scmd, ref WSIB psib, ref WSRB psrb);
+        private delegate Ptec SpellerCheck(IntPtr sid, SpellerCommand scmd, ref Wsib psib, ref Wsrb psrb);
 
-        private delegate PTEC SPELLERCLEARUDR(IntPtr sid, IntPtr lex);
+        private delegate Ptec SpellerClearUdr(IntPtr sid, IntPtr lex);
 
-        private delegate PTEC SPELLERDELUDR(IntPtr sid, IntPtr lex, [MarshalAs(UnmanagedType.LPTStr)] string delete);
+        private delegate Ptec SpellerDelUdr(IntPtr sid, IntPtr lex, [MarshalAs(UnmanagedType.LPTStr)] string delete);
 
         #endregion
 
         #region Enums
 
-        private enum PROOFLEXTYPE : uint
+        private enum ProofLexType : uint
         {
             ChangeAlways = 1,
 
@@ -137,13 +137,13 @@ namespace StyleCop.Spelling
             User = 2
         }
 
-        private enum PTEC_MAJOR : uint
+        private enum PtecMajor : uint
         {
             BufferTooSmall = 6,
 
-            IOErrorMainLex = 3,
+            IoErrorMainLex = 3,
 
-            IOErrorUserLex = 4,
+            IoErrorUserLex = 4,
 
             ModuleError = 2,
 
@@ -155,10 +155,10 @@ namespace StyleCop.Spelling
 
             NotSupported = 5,
 
-            OOM = 1
+            OutOfMemory = 1
         }
 
-        private enum PTEC_MINOR : uint
+        private enum PtecMinor : uint
         {
             EntryTooLong = 0x8f,
 
@@ -180,7 +180,7 @@ namespace StyleCop.Spelling
 
             InvalidFormat = 0x86,
 
-            InvalidID = 0x81,
+            InvalidId = 0x81,
 
             InvalidLanguage = 150,
 
@@ -207,7 +207,7 @@ namespace StyleCop.Spelling
             UserLexReadOnly = 0x94
         }
 
-        private enum SPELLERCOMMAND : uint
+        private enum SpellerCommand : uint
         {
             Anagram = 7,
 
@@ -220,15 +220,6 @@ namespace StyleCop.Spelling
             VerifyBufferAutoReplace = 10,
 
             Wildcard = 6
-        }
-
-        private enum SPELLEROPTIONSELECT : uint
-        {
-            AutoReplace = 2,
-
-            Bits = 0,
-
-            PossibleBits = 1
         }
 
         [Flags]
@@ -275,75 +266,11 @@ namespace StyleCop.Spelling
 
             InitialNumeral,
 
-            NoErrorsUDHit,
+            NoErrorsUdHit,
 
             ReturningAutoReplace,
 
             ErrorAccent
-        }
-
-        [Flags]
-        private enum SpellingOptions : uint
-        {
-            ArabicBothStrict = 0x30000000,
-
-            ArabicNone = 0,
-
-            ArabicStrictAlefHamza = 0x10000000,
-
-            ArabicStrictFinalYaa = 0x20000000,
-
-            FindInitialNumerals = 0x800,
-
-            FindRepeatWord = 0x40,
-
-            FrenchAccentedUppercase = 0x20000000,
-
-            FrenchDialectDefault = 0,
-
-            FrenchUnaccentedUppercase = 0x10000000,
-
-            GermanUsePrereform = 0x10000000,
-
-            HebrewFullScript = 0,
-
-            HebrewMixedAuthorizedScript = 0x30000000,
-
-            HebrewMixedScript = 0x20000000,
-
-            HebrewPartialScript = 0x10000000,
-
-            IgnoreAllCaps = 2,
-
-            IgnoreInitialCap = 0x40000,
-
-            IgnoreMixedDigits = 4,
-
-            IgnoreRomanNumerals = 8,
-
-            IgnoreSingleLetter = 0x20000,
-
-            KoreanDefault = 0,
-
-            KoreanNoAuxCombine = 0x10000000,
-
-            KoreanNoCompoundNounProc = 0x40000000,
-
-            KoreanNoMissSpellDictSearch = 0x20000000,
-
-            LangMode = 0xf0000000,
-
-            RateSuggestions = 0x400,
-
-            RussianDialectDefault = 0,
-
-            RussianIE = 0x10000000,
-
-            RussianIO = 0x20000000,
-
-            SglStepSugg = 0x10000,
-
-            SuggestFromUserLex = 1
         }
 
         #endregion
@@ -525,19 +452,19 @@ namespace StyleCop.Spelling
         #endregion
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-        private struct PROOFLEXIN
+        private struct ProofLexIn
         {
             internal string pwszLex;
 
-            internal bool fCreate;
+            internal bool create;
 
-            internal SpellChecker.PROOFLEXTYPE lxt;
+            internal SpellChecker.ProofLexType lxt;
 
             internal ushort lidExpected;
         }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-        private struct PROOFLEXOUT
+        private struct ProofLexOut
         {
             internal string pwszCopyright;
 
@@ -547,35 +474,35 @@ namespace StyleCop.Spelling
 
             internal uint version;
 
-            internal bool fReadOnly;
+            internal bool readOnly;
 
             internal ushort lid;
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        private struct PROOFPARAMS
+        private struct ProofParams
         {
             internal uint VersionApi;
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        private struct PTEC
+        private struct Ptec
         {
             internal uint Code;
 
-            internal PTEC_MAJOR Major
+            internal PtecMajor Major
             {
                 get
                 {
-                    return ((PTEC_MAJOR)this.Code) & ((PTEC_MAJOR)0xff);
+                    return ((PtecMajor)this.Code) & ((PtecMajor)0xff);
                 }
             }
 
-            internal PTEC_MINOR Minor
+            internal PtecMinor Minor
             {
                 get
                 {
-                    return (PTEC_MINOR)(this.Code >> 0x10);
+                    return (PtecMinor)(this.Code >> 0x10);
                 }
             }
 
@@ -600,7 +527,7 @@ namespace StyleCop.Spelling
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        private struct SPELLERSUGGESTION
+        private struct SpellerSuggestion
         {
             internal unsafe char* pwsz;
 
@@ -608,11 +535,11 @@ namespace StyleCop.Spelling
 
             internal uint cchSugg;
 
-            internal uint iRating;
+            internal uint rating;
         }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-        private struct WSIB
+        private struct Wsib
         {
             internal string pwsz;
 
@@ -622,7 +549,7 @@ namespace StyleCop.Spelling
 
             internal UIntPtr clex;
 
-            internal SpellChecker.SpellerState sstate;
+            internal SpellerState sstate;
 
             internal uint ichStart;
 
@@ -630,11 +557,11 @@ namespace StyleCop.Spelling
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        private struct WSRB
+        private struct Wsrb
         {
             internal unsafe char* pwsz;
 
-            internal unsafe SpellChecker.SPELLERSUGGESTION* prgsugg;
+            internal unsafe SpellerSuggestion* prgsugg;
 
             internal uint ichError;
 
@@ -644,7 +571,7 @@ namespace StyleCop.Spelling
 
             internal uint cchProcess;
 
-            internal SpellChecker.SpellerStatus sstat;
+            internal SpellerStatus sstat;
 
             internal uint csz;
 
@@ -747,15 +674,15 @@ namespace StyleCop.Spelling
         {
             #region Fields
 
-            private SPELLERADDUDR addUdr;
+            private SpellerAddUdr addUdr;
 
-            private SPELLERCHECK check;
+            private SpellerCheck check;
 
-            private SPELLERCLEARUDR clearUdr;
+            private SpellerClearUdr clearUdr;
 
-            private PROOFCLOSELEX closeLex;
+            private ProofCloseLex closeLex;
 
-            private SPELLERDELUDR deleteUdr;
+            private SpellerDelUdr deleteUdr;
 
             private IntPtr id;
 
@@ -765,9 +692,9 @@ namespace StyleCop.Spelling
 
             private IntPtr libraryHandle;
 
-            private PROOFOPENLEX openLex;
+            private ProofOpenLex openLex;
 
-            private PROOFTERMINATE terminate;
+            private ProofTerminate terminate;
 
             #endregion
 
@@ -782,19 +709,19 @@ namespace StyleCop.Spelling
                     throw new Win32Exception();
                 }
 
-                PROOFINIT proc = GetProc<PROOFINIT>(this.libraryHandle, "SpellerInit");
-                PROOFSETOPTIONS proofsetoptions = GetProc<PROOFSETOPTIONS>(this.libraryHandle, "SpellerSetOptions");
-                this.terminate = GetProc<PROOFTERMINATE>(this.libraryHandle, "SpellerTerminate");
-                this.openLex = GetProc<PROOFOPENLEX>(this.libraryHandle, "SpellerOpenLex");
-                this.closeLex = GetProc<PROOFCLOSELEX>(this.libraryHandle, "SpellerCloseLex");
-                this.check = GetProc<SPELLERCHECK>(this.libraryHandle, "SpellerCheck");
-                this.addUdr = GetProc<SPELLERADDUDR>(this.libraryHandle, "SpellerAddUdr");
-                this.deleteUdr = GetProc<SPELLERDELUDR>(this.libraryHandle, "SpellerDelUdr");
-                this.clearUdr = GetProc<SPELLERCLEARUDR>(this.libraryHandle, "SpellerClearUdr");
-                PROOFPARAMS pxpar = new PROOFPARAMS { VersionApi = 0x3000000 };
+                ProofInit proc = GetProc<ProofInit>(this.libraryHandle, "SpellerInit");
+                ProofSetOptions proofSetOptions = GetProc<ProofSetOptions>(this.libraryHandle, "SpellerSetOptions");
+                this.terminate = GetProc<ProofTerminate>(this.libraryHandle, "SpellerTerminate");
+                this.openLex = GetProc<ProofOpenLex>(this.libraryHandle, "SpellerOpenLex");
+                this.closeLex = GetProc<ProofCloseLex>(this.libraryHandle, "SpellerCloseLex");
+                this.check = GetProc<SpellerCheck>(this.libraryHandle, "SpellerCheck");
+                this.addUdr = GetProc<SpellerAddUdr>(this.libraryHandle, "SpellerAddUdr");
+                this.deleteUdr = GetProc<SpellerDelUdr>(this.libraryHandle, "SpellerDelUdr");
+                this.clearUdr = GetProc<SpellerClearUdr>(this.libraryHandle, "SpellerClearUdr");
+                ProofParams pxpar = new ProofParams { VersionApi = 0x3000000 };
                 CheckErrorCode(proc(out ptr, ref pxpar));
                 this.id = ptr;
-                CheckErrorCode(proofsetoptions(ptr, 0, 0x20006));
+                CheckErrorCode(proofSetOptions(ptr, 0, 0x20006));
                 this.InitIgnoreDictionary();
             }
 
@@ -824,8 +751,8 @@ namespace StyleCop.Spelling
 
             internal void AddLexicon(ushort lcid, string path)
             {
-                PROOFLEXIN plxin = new PROOFLEXIN { pwszLex = path, lxt = PROOFLEXTYPE.Main, lidExpected = lcid };
-                PROOFLEXOUT plxout = new PROOFLEXOUT { cchCopyright = 0, fReadOnly = true };
+                ProofLexIn plxin = new ProofLexIn { pwszLex = path, lxt = ProofLexType.Main, lidExpected = lcid };
+                ProofLexOut plxout = new ProofLexOut { cchCopyright = 0, readOnly = true };
                 CheckErrorCode(this.openLex(this.id, ref plxin, ref plxout));
                 this.AddLexicon(plxout.lex);
             }
@@ -833,33 +760,33 @@ namespace StyleCop.Spelling
             internal unsafe SpellerStatus Check(string word)
             {
                 char* pwsz = stackalloc char[65];
-                SPELLERSUGGESTION* prgsugg = stackalloc SPELLERSUGGESTION[checked(1 * sizeof(SPELLERSUGGESTION) / sizeof(SPELLERSUGGESTION))];
+                SpellerSuggestion* prgsugg = stackalloc SpellerSuggestion[checked(1 * sizeof(SpellerSuggestion) / sizeof(SpellerSuggestion))];
 
                 fixed (IntPtr* lexicons2 = this.lexicons)
                 {
-                    WSIB wSib = default(WSIB);
-                    wSib.pwsz = word;
-                    wSib.ichStart = 0u;
-                    wSib.cch = (UIntPtr)((ulong)word.Length);
-                    wSib.cchUse = wSib.cch;
-                    wSib.prglex = lexicons2;
-                    wSib.clex = (UIntPtr)((ulong)this.lexicons.Length);
-                    wSib.sstate = SpellerState.StartsSentence;
+                    Wsib wsib = default(Wsib);
+                    wsib.pwsz = word;
+                    wsib.ichStart = 0u;
+                    wsib.cch = (UIntPtr)((ulong)word.Length);
+                    wsib.cchUse = wsib.cch;
+                    wsib.prglex = lexicons2;
+                    wsib.clex = (UIntPtr)((ulong)this.lexicons.Length);
+                    wsib.sstate = SpellerState.StartsSentence;
 
-                    WSRB wSrb = default(WSRB);
-                    wSrb.pwsz = pwsz;
-                    wSrb.cchAlloc = 65u;
-                    wSrb.cszAlloc = 1u;
-                    wSrb.prgsugg = prgsugg;
+                    Wsrb wsrb = default(Wsrb);
+                    wsrb.pwsz = pwsz;
+                    wsrb.cchAlloc = 65u;
+                    wsrb.cszAlloc = 1u;
+                    wsrb.prgsugg = prgsugg;
 
-                    PTEC error;
+                    Ptec error;
                     lock (this)
                     {
-                        error = this.check(this.id, SPELLERCOMMAND.VerifyBuffer, ref wSib, ref wSrb);
+                        error = this.check(this.id, SpellerCommand.VerifyBuffer, ref wsib, ref wsrb);
                     }
 
                     CheckErrorCode(error);
-                    return wSrb.sstat;
+                    return wsrb.sstat;
                 }
             }
 
@@ -873,7 +800,7 @@ namespace StyleCop.Spelling
                 CheckErrorCode(this.deleteUdr(this.id, this.ignoredDictionary, word));
             }
 
-            private static void CheckErrorCode(SpellChecker.PTEC error)
+            private static void CheckErrorCode(SpellChecker.Ptec error)
             {
                 if (!error.Succeeded)
                 {
@@ -959,8 +886,8 @@ namespace StyleCop.Spelling
 
             private void InitIgnoreDictionary()
             {
-                SPELLERBUILTINUDR proc = GetProc<SPELLERBUILTINUDR>(this.libraryHandle, "SpellerBuiltinUdr");
-                this.ignoredDictionary = proc(this.id, PROOFLEXTYPE.User);
+                SpellerBuiltInUdr proc = GetProc<SpellerBuiltInUdr>(this.libraryHandle, "SpellerBuiltinUdr");
+                this.ignoredDictionary = proc(this.id, ProofLexType.User);
                 if (this.ignoredDictionary == IntPtr.Zero)
                 {
                     throw new InvalidOperationException("Failed to get the ignored dictionary handle.");
