@@ -26,6 +26,8 @@ namespace StyleCop.Spelling
 
     internal sealed class SpellChecker : IDisposable
     {
+        internal const int MaximumTextLength = 0x40;
+
         private static readonly Language[] Languages = new[]
             {
                 new Language("ar", "mssp7ar.dll", "mssp7ar.lex", 0xc01), new Language("cs", "mssp7cz.dll", "mssp7cz.lex", 0x405),
@@ -51,18 +53,16 @@ namespace StyleCop.Spelling
         
         private readonly int dependantFilesHashCode;
 
-        private WordCollection alwaysMisspelledWords;
-
         private readonly CultureInfo culture;
 
+        private WordCollection alwaysMisspelledWords;
+        
         private WordCollection ignoredWords;
 
         private Speller speller;
 
         private Dictionary<string, WordSpelling> wordSpellingCache = new Dictionary<string, WordSpelling>();
-
-        internal const int MaximumTextLength = 0x40;
-
+        
         private SpellChecker(CultureInfo culture, Language language)
         {
             this.culture = culture;
@@ -358,15 +358,25 @@ namespace StyleCop.Spelling
             }
         }
         
-        private static Dictionary<string, Language> BuildLanguageTable()
+        public static SpellChecker FromCulture(CultureInfo culture)
         {
-            Dictionary<string, Language> dictionary = new Dictionary<string, Language>(Languages.Length, StringComparer.OrdinalIgnoreCase);
-            foreach (Language language in Languages)
+            Language language;
+            if (culture == null)
             {
-                dictionary.Add(language.Name, language);
+                throw new ArgumentNullException("culture");
             }
 
-            return dictionary;
+            if (culture.Equals(CultureInfo.InvariantCulture))
+            {
+                return null;
+            }
+
+            if (LanguageTable.TryGetValue(culture.Name, out language) && language.IsAvailable)
+            {
+                return new SpellChecker(culture, language);
+            }
+
+            return FromCulture(culture.Parent);
         }
 
         public WordSpelling Check(string text)
@@ -441,25 +451,15 @@ namespace StyleCop.Spelling
             }
         }
 
-        public static SpellChecker FromCulture(CultureInfo culture)
+        private static Dictionary<string, Language> BuildLanguageTable()
         {
-            Language language;
-            if (culture == null)
+            Dictionary<string, Language> dictionary = new Dictionary<string, Language>(Languages.Length, StringComparer.OrdinalIgnoreCase);
+            foreach (Language language in Languages)
             {
-                throw new ArgumentNullException("culture");
+                dictionary.Add(language.Name, language);
             }
 
-            if (culture.Equals(CultureInfo.InvariantCulture))
-            {
-                return null;
-            }
-
-            if (LanguageTable.TryGetValue(culture.Name, out language) && language.IsAvailable)
-            {
-                return new SpellChecker(culture, language);
-            }
-
-            return FromCulture(culture.Parent);
+            return dictionary;
         }
 
         private void OnIgnoredWordsChanged(object sender, CollectionChangeEventArgs e)
@@ -676,31 +676,27 @@ namespace StyleCop.Spelling
                 this.InitIgnoreDictionary();
             }
 
+            ~Speller()
+            {
+                this.Dispose(false);
+            }
+
+            public void Dispose()
+            {
+                this.Dispose(true);
+                GC.SuppressFinalize(this);
+            }
+
             internal void AddIgnoredWord(string word)
             {
                 CheckErrorCode(this.addUdr(this.id, this.ignoredDictionary, word));
             }
 
-            private void AddLexicon(IntPtr lex)
+            internal void RemoveIgnoredWord(string word)
             {
-                IntPtr[] ptrArray;
-                int length;
-                if (this.lexicons == null)
-                {
-                    ptrArray = new IntPtr[1];
-                    length = 0;
-                }
-                else
-                {
-                    ptrArray = new IntPtr[this.lexicons.Length + 1];
-                    this.lexicons.CopyTo(ptrArray, 0);
-                    length = this.lexicons.Length;
-                }
-
-                ptrArray[length] = lex;
-                this.lexicons = ptrArray;
+                CheckErrorCode(this.deleteUdr(this.id, this.ignoredDictionary, word));
             }
-
+            
             internal void AddLexicon(ushort lcid, string path)
             {
                 PROOFLEXIN plxin = new PROOFLEXIN { pwszLex = path, lxt = PROOFLEXTYPE.Main, lidExpected = lcid };
@@ -741,6 +737,22 @@ namespace StyleCop.Spelling
                     return wSrb.sstat;
                 }
             }
+            
+            internal void ClearIgnoredWords()
+            {
+                CheckErrorCode(this.clearUdr(this.id, this.ignoredDictionary));
+            }
+
+            private static T GetProc<T>(IntPtr library, string procName) where T : class
+            {
+                IntPtr procAddress = NativeMethods.GetProcAddress(library, procName);
+                if (procAddress == IntPtr.Zero)
+                {
+                    throw new Win32Exception();
+                }
+
+                return (T)((object)Marshal.GetDelegateForFunctionPointer(procAddress, typeof(T)));
+            }
 
             private static void CheckErrorCode(SpellChecker.PTEC error)
             {
@@ -750,17 +762,26 @@ namespace StyleCop.Spelling
                 }
             }
 
-            internal void ClearIgnoredWords()
+            private void AddLexicon(IntPtr lex)
             {
-                CheckErrorCode(this.clearUdr(this.id, this.ignoredDictionary));
-            }
+                IntPtr[] ptrArray;
+                int length;
+                if (this.lexicons == null)
+                {
+                    ptrArray = new IntPtr[1];
+                    length = 0;
+                }
+                else
+                {
+                    ptrArray = new IntPtr[this.lexicons.Length + 1];
+                    this.lexicons.CopyTo(ptrArray, 0);
+                    length = this.lexicons.Length;
+                }
 
-            public void Dispose()
-            {
-                this.Dispose(true);
-                GC.SuppressFinalize(this);
+                ptrArray[length] = lex;
+                this.lexicons = ptrArray;
             }
-
+            
             private void Dispose(bool disposing)
             {
                 try
@@ -805,23 +826,7 @@ namespace StyleCop.Spelling
                     }
                 }
             }
-
-            ~Speller()
-            {
-                this.Dispose(false);
-            }
-
-            private static T GetProc<T>(IntPtr library, string procName) where T : class
-            {
-                IntPtr procAddress = NativeMethods.GetProcAddress(library, procName);
-                if (procAddress == IntPtr.Zero)
-                {
-                    throw new Win32Exception();
-                }
-
-                return (T)((object)Marshal.GetDelegateForFunctionPointer(procAddress, typeof(T)));
-            }
-
+            
             private void InitIgnoreDictionary()
             {
                 SPELLERBUILTINUDR proc = GetProc<SPELLERBUILTINUDR>(this.libraryHandle, "SpellerBuiltinUdr");
@@ -830,11 +835,6 @@ namespace StyleCop.Spelling
                 {
                     throw new InvalidOperationException("Failed to get the ignored dictionary handle.");
                 }
-            }
-
-            internal void RemoveIgnoredWord(string word)
-            {
-                CheckErrorCode(this.deleteUdr(this.id, this.ignoredDictionary, word));
             }
         }
         
