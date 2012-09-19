@@ -531,7 +531,7 @@ namespace StyleCop.ReSharper700.Core
         /// Builds a xml doc header from the string passed in all set out correctly.
         /// </summary>
         /// <param name="header">
-        /// The text ot use to build the header.
+        /// The text to use to build the header.
         /// </param>
         /// <param name="declaration">
         /// The declaration we start with.
@@ -553,7 +553,7 @@ namespace StyleCop.ReSharper700.Core
         }
 
         /// <summary>
-        /// Takes te XmlNode and creates a formatted StringBuilder of it all formatted lovely.
+        /// Takes the XmlNode and creates a formatted StringBuilder of it all formatted lovely.
         /// </summary>
         /// <param name="xml">
         /// The xml to use.

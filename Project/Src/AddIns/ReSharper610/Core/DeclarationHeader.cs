@@ -31,9 +31,7 @@ namespace StyleCop.ReSharper610.Core
     using JetBrains.Application.Settings;
     using JetBrains.ReSharper.Psi;
     using JetBrains.ReSharper.Psi.CSharp;
-    using JetBrains.ReSharper.Psi.CSharp.Impl;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
-    using JetBrains.ReSharper.Psi.ExtensionsAPI;
     using JetBrains.ReSharper.Psi.ExtensionsAPI.Tree;
     using JetBrains.ReSharper.Psi.Tree;
 
@@ -530,7 +528,7 @@ namespace StyleCop.ReSharper610.Core
         /// Builds a xml doc header from the string passed in all set out correctly.
         /// </summary>
         /// <param name="header">
-        /// The text ot use to build the header.
+        /// The text to use to build the header.
         /// </param>
         /// <param name="declaration">
         /// The declaration we start with.
@@ -552,7 +550,7 @@ namespace StyleCop.ReSharper610.Core
         }
 
         /// <summary>
-        /// Takes te XmlNode and creates a formatted StringBuilder of it all formatted lovely.
+        /// Takes the XmlNode and creates a formatted StringBuilder of it all formatted lovely.
         /// </summary>
         /// <param name="xml">
         /// The xml to use.

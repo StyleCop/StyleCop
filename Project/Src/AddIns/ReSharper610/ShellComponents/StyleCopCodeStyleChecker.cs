@@ -52,7 +52,7 @@ namespace StyleCop.ReSharper610.ShellComponents
         #region IComponent
 
         /// <summary>
-        /// The init.
+        /// The initializer for this ShellComponent.
         /// </summary>
         /// <param name="lifetime">
         /// The lifetime for this object.

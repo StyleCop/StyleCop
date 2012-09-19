@@ -29,7 +29,7 @@ namespace StyleCop.ReSharper600.CodeCleanup.Options
     #endregion
 
     /// <summary>
-    /// Defines options for SCfR#.
+    /// Defines options for.
     /// </summary>
     public class OrderingOptions : OptionsBase
     {

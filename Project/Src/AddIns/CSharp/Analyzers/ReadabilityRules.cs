@@ -121,10 +121,10 @@ namespace StyleCop.CSharp
         #region Private Static Methods
 
         /// <summary>
-        /// Determines whether the statement is declaring a const field or variable.
+        /// Determines whether the statement is declaring a constant field or variable.
         /// </summary>
         /// <param name="assignmentOperator">The assignment operator for the variable declaration.</param>
-        /// <returns>Returns true if the statement is declaring a const, false otherwise.</returns>
+        /// <returns>Returns true if the statement is declaring a constant, false otherwise.</returns>
         private static bool IsConstVariableDeclaration(Node<CsToken> assignmentOperator)
         {
             Param.Ignore(assignmentOperator);

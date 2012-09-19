@@ -300,7 +300,7 @@ namespace StyleCop.CSharp
         Class,
 
         /// <summary>
-        /// The keyword 'const'.
+        /// The keyword <see langword="const"/>.
         /// </summary>
         Const,
 

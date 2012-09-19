@@ -40,7 +40,7 @@ namespace StyleCop.ReSharper600.ShellComponents
         /// </summary>
         public StyleCopCodeStyleChecker()
         {
-            this.Init();
+            this.Initialize();
         }
 
         #region Implemented Interfaces
@@ -48,9 +48,9 @@ namespace StyleCop.ReSharper600.ShellComponents
         #region IComponent
 
         /// <summary>
-        /// The init.
+        /// Initializes our startup checks.
         /// </summary>
-        public void Init()
+        public void Initialize()
         {
             var oneTimeInitializationRequiredRegistryKey = RetrieveFromRegistry("LastInitializationDate");
 

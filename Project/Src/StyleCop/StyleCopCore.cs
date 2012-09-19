@@ -65,7 +65,7 @@ namespace StyleCop
 #endif
 
         /// <summary>
-        /// The Major.Minor parts of the StyleCop version number ie. 4.3 or 4.5.
+        /// The Major.Minor parts of the StyleCop version number i.e. 4.3 or 4.5.
         /// </summary>
         private string versionNumberMajorMinor;
 
@@ -408,7 +408,7 @@ namespace StyleCop
 #endif
 
         /// <summary>
-        /// Gets the Major.Minor parts of the StyleCop version number ie. 4.3 or 4.5.
+        /// Gets the Major.Minor parts of the StyleCop version number i.e. 4.3 or 4.5.
         /// </summary>
         private string VersionNumberMajorMinor
         {
@@ -1178,7 +1178,7 @@ namespace StyleCop
         }
 
         /// <summary>
-        /// Gets the CPU count. This is an expensive call. We call it once and cache the results in the CpuCount property.
+        /// Gets the CPU count. This is an expensive call. We call it once and cache the results in the property.
         /// </summary>
         /// <returns>The CPU count.</returns>
         private static int GetCpuCount()

@@ -31,7 +31,7 @@ namespace StyleCop.CSharp
         private readonly TypeToken type;
 
         /// <summary>
-        /// Indicates whether the item is declared const.
+        /// Indicates whether the item is declared as a constant.
         /// </summary>
         private readonly bool isConst;
 
@@ -107,7 +107,7 @@ namespace StyleCop.CSharp
         #region Public Properties
 
         /// <summary>
-        /// Gets a value indicating whether the field is declared const.
+        /// Gets a value indicating whether the field is declared as a constant.
         /// </summary>
         public bool Const
         {

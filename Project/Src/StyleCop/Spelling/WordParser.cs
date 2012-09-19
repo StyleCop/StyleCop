@@ -317,9 +317,12 @@ namespace StyleCop.Spelling
         private void ParseLatex()
         {
             bool doubleDollar = false;
-            this.Read(); // reads the first '$'
 
-            if (this.Peek() == '$') // second $ like $$thoptkhpoktphok$$
+            // reads the first '$'
+            this.Read(); 
+
+            // second $ like $$thoptkhpoktphok$$
+            if (this.Peek() == '$')
             {
                 doubleDollar = true;
             }
@@ -330,7 +333,8 @@ namespace StyleCop.Spelling
             }
             while (this.Peek() != '$');
 
-            this.Read(); // the last '$' (or 2nd to last if $$.....$$ )
+            // the last '$' (or 2nd to last if $$.....$$ )
+            this.Read(); 
 
             if (doubleDollar && this.Peek() == '$')
             {

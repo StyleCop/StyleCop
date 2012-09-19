@@ -226,7 +226,7 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Checks the field name to look for underscores.
         /// </summary>
-        /// <param name="field">The field ot check.</param>
+        /// <param name="field">The field to check.</param>
         private void CheckFieldUnderscores(CsElement field)
         {
             Param.AssertNotNull(field, "field");

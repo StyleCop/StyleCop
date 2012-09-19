@@ -40,7 +40,7 @@ namespace StyleCop.ReSharper513.ShellComponents
         #region IComponent
 
         /// <summary>
-        /// The init.
+        /// Initializes our ShellComponent.
         /// </summary>
         public void Init()
         {

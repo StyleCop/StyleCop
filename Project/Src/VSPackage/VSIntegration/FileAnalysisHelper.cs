@@ -34,7 +34,7 @@ namespace StyleCop.VisualStudio
         #region Fields
 
         /// <summary>
-        /// The Major.Minor parts of the StyleCop version number ie. 4.3 or 4.5.
+        /// The Major.Minor parts of the StyleCop version number i.e. 4.3 or 4.5.
         /// </summary>
         private string versionNumberMajorMinor;
 
@@ -78,7 +78,7 @@ namespace StyleCop.VisualStudio
         #region Properties
 
         /// <summary>
-        /// Gets the Major.Minor parts of the StyleCop version number ie. 4.3 or 4.5.
+        /// Gets the Major.Minor parts of the StyleCop version number i.e. 4.3 or 4.5.
         /// </summary>
         private string VersionNumberMajorMinor
         {

@@ -27,7 +27,7 @@ namespace StyleCop.ReSharper600.CodeCleanup.Options
     #endregion
 
     /// <summary>
-    /// Defines options for SCfR#.
+    /// Defines options.
     /// </summary>
     public class MaintainabilityOptions : OptionsBase
     {

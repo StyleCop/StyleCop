@@ -308,7 +308,7 @@ namespace StyleCop.CSharp
         BaseUsed,
 
         /// <summary>
-        /// A const field starts with a lower case letter.
+        /// A constant field starts with a lower case letter.
         /// </summary>
         ConstFieldNamesMustBeginWithUpperCaseLetter,
 
@@ -798,7 +798,7 @@ namespace StyleCop.CSharp
         UseBuiltInTypeAlias,
 
         /// <summary>
-        /// Prohibits the use of the var type outside of query expressions and anonymous types.
+        /// Prohibits the use of the <c>var</c> type outside of query expressions and anonymous types.
         /// </summary>
         AvoidVarType,
 

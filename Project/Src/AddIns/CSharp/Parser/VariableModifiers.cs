@@ -30,7 +30,7 @@ namespace StyleCop.CSharp
         None = 0x00,
 
         /// <summary>
-        /// The 'const' modifier.
+        /// The <see langword="const"/> modifier.
         /// </summary>
         Const = 0x01,
 

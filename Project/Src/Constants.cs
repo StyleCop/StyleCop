@@ -43,7 +43,7 @@ namespace StyleCop
         public const string ProductNameWithVersion = ProductName + " (" + ProductVersionFull + ")";
 
         /// <summary>
-        /// The name of the StyleCop assembly i.e. StyleCop.dll.
+        /// The name of the StyleCop assembly.
         /// </summary>
         public const string StyleCopAssemblyName = ProductName + ".dll";
         

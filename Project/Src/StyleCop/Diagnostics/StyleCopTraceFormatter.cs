@@ -462,7 +462,7 @@ namespace StyleCop.Diagnostics
             /// The type of attribute to find.
             /// </param>
             /// <returns>
-            /// <b>True</b>if the attribute is defined, or <b>False</b> otherwise.
+            /// <b>True</b> if the attribute is defined, or <b>False</b> otherwise.
             /// </returns>
             private bool IsAttributeDefined(Type attributeType)
             {

@@ -28,7 +28,7 @@ namespace StyleCop.ReSharper600.CodeCleanup.Options
     #endregion
 
     /// <summary>
-    /// Defines the base options class for SCfR#. 
+    /// Defines the base options class.
     /// </summary>
     public abstract class OptionsBase
     {
@@ -54,7 +54,7 @@ namespace StyleCop.ReSharper600.CodeCleanup.Options
 
         /// <summary>
         /// Initializes the properties defaults from StyleCop settings.
-        /// It assumes that the first 6 chars of each property are the code (ie: SA1600) and the rest matches the name as defined in StyleCop settings
+        /// It assumes that the first 6 chars of each property are the code (i.e. SA1600) and the rest matches the name as defined in StyleCop settings
         /// (ex: SA1500CurlyBracketsForMultiLineStatementsMustNotShareLine =&gt;  CurlyBracketsForMultiLineStatementsMustNotShareLine should be the name in StyleCop settings). 
         /// </summary>
         protected void InitPropertiesDefaults()
