@@ -2,6 +2,9 @@
   <GlobalSettings>
     <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
     <StringProperty Name="Culture">en-US</StringProperty>
+    <CollectionProperty Name="RecognizedWords">
+      <Value>Dll</Value>          
+    </CollectionProperty>
   </GlobalSettings>
   <Parsers>
     <Parser ParserId="StyleCop.CSharp.CsParser">
