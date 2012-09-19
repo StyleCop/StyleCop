@@ -26,26 +26,6 @@ namespace StyleCop.Spelling
 
     internal sealed class SpellChecker : IDisposable
     {
-
-        public int GetDependantFilesHashCode()
-        {
-            return this.dependantFilesHashCode;
-        }
-
-        private readonly int dependantFilesHashCode;
-        
-        private WordCollection alwaysMisspelledWords;
-
-        private readonly CultureInfo culture;
-
-        private WordCollection ignoredWords;
-
-        private Speller speller;
-
-        private Dictionary<string, WordSpelling> wordSpellingCache = new Dictionary<string, WordSpelling>();
-        
-        internal const int MaximumTextLength = 0x40;
-        
         private static readonly Language[] Languages = new[]
             {
                 new Language("ar", "mssp7ar.dll", "mssp7ar.lex", 0xc01), new Language("cs", "mssp7cz.dll", "mssp7cz.lex", 0x405),
@@ -68,6 +48,20 @@ namespace StyleCop.Spelling
         private static readonly Dictionary<string, Language> LanguageTable = BuildLanguageTable();
 
         private static readonly TextInfo UsaTextInfo = new CultureInfo("en-US", false).TextInfo;
+        
+        private readonly int dependantFilesHashCode;
+
+        private WordCollection alwaysMisspelledWords;
+
+        private readonly CultureInfo culture;
+
+        private WordCollection ignoredWords;
+
+        private Speller speller;
+
+        private Dictionary<string, WordSpelling> wordSpellingCache = new Dictionary<string, WordSpelling>();
+
+        internal const int MaximumTextLength = 0x40;
 
         private SpellChecker(CultureInfo culture, Language language)
         {
@@ -82,267 +76,25 @@ namespace StyleCop.Spelling
                 string.Concat(libraryTimestamp.ToString(CultureInfo.InvariantCulture), lexiconTimestamp.ToString(CultureInfo.InvariantCulture)).GetHashCode();
         }
 
-        private static Dictionary<string, Language> BuildLanguageTable()
-        {
-            Dictionary<string, Language> dictionary = new Dictionary<string, Language>(Languages.Length, StringComparer.OrdinalIgnoreCase);
-            foreach (Language language in Languages)
-            {
-                dictionary.Add(language.Name, language);
-            }
-            return dictionary;
-        }
+        private delegate PTEC PROOFCLOSELEX(IntPtr id, IntPtr lex, bool force);
 
-        public WordSpelling Check(string text)
-        {
-            WordSpelling spelledCorrectly;
-            if (text == null)
-            {
-                throw new ArgumentNullException("text");
-            }
+        private delegate PTEC PROOFINIT(out IntPtr pid, ref PROOFPARAMS pxpar);
 
-            if (this.IsDisposed)
-            {
-                throw new ObjectDisposedException("SpellChecker");
-            }
+        private delegate PTEC PROOFOPENLEX(IntPtr id, ref PROOFLEXIN plxin, ref PROOFLEXOUT plxout);
 
-            if (text.Length == 0)
-            {
-                return WordSpelling.SpelledCorrectly;
-            }
+        private delegate PTEC PROOFSETOPTIONS(IntPtr id, uint iOptionSelect, uint iOptVal);
 
-            if ((this.alwaysMisspelledWords != null) && this.alwaysMisspelledWords.Contains(text))
-            {
-                return WordSpelling.Unrecognized;
-            }
+        private delegate PTEC PROOFTERMINATE(IntPtr id, bool fForce);
 
-            lock (this.wordSpellingCache)
-            {
-                if (this.wordSpellingCache.TryGetValue(text, out spelledCorrectly))
-                {
-                    return spelledCorrectly;
-                }
-                SpellerStatus status = this.speller.Check(text);
-                if (status != SpellerStatus.NoErrors)
-                {
-                    status = this.speller.Check(UsaTextInfo.ToTitleCase(text));
-                }
+        private delegate PTEC SPELLERADDUDR(IntPtr sid, IntPtr lex, [MarshalAs(UnmanagedType.LPTStr)] string add);
 
-                if (status == SpellerStatus.NoErrors)
-                {
-                    spelledCorrectly = WordSpelling.SpelledCorrectly;
-                }
-                else
-                {
-                    spelledCorrectly = WordSpelling.Unrecognized;
-                }
+        private delegate IntPtr SPELLERBUILTINUDR(IntPtr sid, PROOFLEXTYPE lxt);
 
-                this.wordSpellingCache[text] = spelledCorrectly;
-            }
+        private delegate PTEC SPELLERCHECK(IntPtr sid, SPELLERCOMMAND scmd, ref WSIB psib, ref WSRB psrb);
 
-            return spelledCorrectly;
-        }
+        private delegate PTEC SPELLERCLEARUDR(IntPtr sid, IntPtr lex);
 
-        public void Dispose()
-        {
-            try
-            {
-                if (this.speller != null)
-                {
-                    this.speller.Dispose();
-                }
-            }
-            finally
-            {
-                this.speller = null;
-                this.wordSpellingCache = null;
-            }
-        }
-
-        public static SpellChecker FromCulture(CultureInfo culture)
-        {
-            Language language;
-            if (culture == null)
-            {
-                throw new ArgumentNullException("culture");
-            }
-
-            if (culture.Equals(CultureInfo.InvariantCulture))
-            {
-                return null;
-            }
-
-            if (LanguageTable.TryGetValue(culture.Name, out language) && language.IsAvailable)
-            {
-                return new SpellChecker(culture, language);
-            }
-
-            return FromCulture(culture.Parent);
-        }
-
-        private void OnIgnoredWordsChanged(object sender, CollectionChangeEventArgs e)
-        {
-            if (!this.IsDisposed)
-            {
-                switch (e.Action)
-                {
-                    case CollectionChangeAction.Add:
-                        this.speller.AddIgnoredWord((string)e.Element);
-                        return;
-
-                    case CollectionChangeAction.Remove:
-                        this.speller.RemoveIgnoredWord((string)e.Element);
-                        return;
-
-                    case CollectionChangeAction.Refresh:
-                        this.speller.ClearIgnoredWords();
-                        return;
-                }
-            }
-        }
-
-        public WordCollection AlwaysMisspelledWords
-        {
-            get
-            {
-                if (this.alwaysMisspelledWords == null)
-                {
-                    this.alwaysMisspelledWords = new WordCollection(StringComparer.Create(this.culture, false));
-                }
-
-                return this.alwaysMisspelledWords;
-            }
-        }
-
-        public WordCollection IgnoredWords
-        {
-            get
-            {
-                if (this.ignoredWords == null)
-                {
-                    this.ignoredWords = new WordCollection(StringComparer.Create(this.culture, false));
-                    this.ignoredWords.CollectionChanged += new CollectionChangeEventHandler(this.OnIgnoredWordsChanged);
-                }
-
-                return this.ignoredWords;
-            }
-        }
-
-        private bool IsDisposed
-        {
-            get
-            {
-                return (this.speller == null);
-            }
-        }
-
-        private class Language
-        {
-            internal readonly bool IsAvailable;
-
-            internal readonly ushort Lcid;
-
-            internal readonly string LexiconFullPath;
-
-            internal readonly string LibraryFullPath;
-
-            internal readonly string Name;
-
-            internal Language(string name, string library, string lexicon, ushort lcid)
-            {
-                this.Name = name;
-                this.Lcid = lcid;
-                this.LibraryFullPath = Probe(library);
-                this.LexiconFullPath = Probe(lexicon);
-
-                if (this.LibraryFullPath != null && this.LexiconFullPath != null)
-                {
-                    IntPtr handle = NativeMethods.LoadLibrary(this.LibraryFullPath);
-
-                    if (handle == IntPtr.Zero)
-                    {
-                        this.IsAvailable = false;
-                    }
-                    else
-                    {
-                        this.IsAvailable = true;
-                        if (!NativeMethods.FreeLibrary(handle))
-                        {
-                            throw new Win32Exception();
-                        }
-                    }
-                }
-            }
-
-            private static string Probe(string library)
-            {
-                string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-                string libraryPath = Path.Combine(baseDirectory, library);
-                if (File.Exists(libraryPath))
-                {
-                    return libraryPath;
-                }
-
-                baseDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-                if (baseDirectory == null)
-                {
-                    return null;
-                }
-
-                libraryPath = Path.Combine(baseDirectory, library);
-                if (File.Exists(libraryPath))
-                {
-                    return libraryPath;
-                }
-
-                return null;
-            }
-        }
-
-        private static class NativeMethods
-        {
-            // Methods
-            [return: MarshalAs(UnmanagedType.Bool)]
-            [DllImport("kernel32.dll", SetLastError = true)]
-            internal static extern bool FreeLibrary(IntPtr hModule);
-
-            [DllImport("kernel32.dll", CharSet = CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
-            internal static extern IntPtr GetProcAddress(IntPtr hModule, string procName);
-
-            [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-            internal static extern IntPtr LoadLibrary(string lpFileName);
-        }
-
-        private delegate SpellChecker.PTEC PROOFCLOSELEX(IntPtr id, IntPtr lex, bool force);
-
-        private delegate SpellChecker.PTEC PROOFINIT(out IntPtr pid, ref SpellChecker.PROOFPARAMS pxpar);
-
-        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-        private struct PROOFLEXIN
-        {
-            internal string pwszLex;
-
-            internal bool fCreate;
-
-            internal SpellChecker.PROOFLEXTYPE lxt;
-
-            internal ushort lidExpected;
-        }
-
-        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-        private struct PROOFLEXOUT
-        {
-            internal string pwszCopyright;
-
-            internal IntPtr lex;
-
-            internal uint cchCopyright;
-
-            internal uint version;
-
-            internal bool fReadOnly;
-
-            internal ushort lid;
-        }
+        private delegate PTEC SPELLERDELUDR(IntPtr sid, IntPtr lex, [MarshalAs(UnmanagedType.LPTStr)] string delete);
 
         private enum PROOFLEXTYPE : uint
         {
@@ -361,59 +113,6 @@ namespace StyleCop.Spelling
             SysUdr = 5,
 
             User = 2
-        }
-
-        private delegate SpellChecker.PTEC PROOFOPENLEX(IntPtr id, ref SpellChecker.PROOFLEXIN plxin, ref SpellChecker.PROOFLEXOUT plxout);
-
-        [StructLayout(LayoutKind.Sequential)]
-        private struct PROOFPARAMS
-        {
-            internal uint VersionApi;
-        }
-
-        private delegate SpellChecker.PTEC PROOFSETOPTIONS(IntPtr id, uint iOptionSelect, uint iOptVal);
-
-        private delegate SpellChecker.PTEC PROOFTERMINATE(IntPtr id, bool fForce);
-
-        [StructLayout(LayoutKind.Sequential)]
-        private struct PTEC
-        {
-            internal uint Code;
-
-            internal SpellChecker.PTEC_MAJOR Major
-            {
-                get
-                {
-                    return (((SpellChecker.PTEC_MAJOR)this.Code) & ((SpellChecker.PTEC_MAJOR)0xff));
-                }
-            }
-
-            internal SpellChecker.PTEC_MINOR Minor
-            {
-                get
-                {
-                    return (SpellChecker.PTEC_MINOR)(this.Code >> 0x10);
-                }
-            }
-
-            internal bool Succeeded
-            {
-                get
-                {
-                    return (this.Code == 0);
-                }
-            }
-
-            public override string ToString()
-            {
-                string str = ("0x" + this.Code.ToString("X", CultureInfo.InvariantCulture)) + " -- " + this.Major.ToString();
-                if (this.Minor != 0)
-                {
-                    str = str + ":" + this.Minor.ToString();
-                }
-
-                return str;
-            }
         }
 
         private enum PTEC_MAJOR : uint
@@ -486,224 +185,6 @@ namespace StyleCop.Spelling
             UserLexReadOnly = 0x94
         }
 
-        private sealed class Speller : IDisposable
-        {
-            private SPELLERADDUDR addUdr;
-
-            private SPELLERCHECK check;
-
-            private SPELLERCLEARUDR clearUdr;
-
-            private PROOFCLOSELEX closeLex;
-
-            private SPELLERDELUDR deleteUdr;
-
-            private IntPtr id;
-
-            private IntPtr ignoredDictionary;
-
-            private IntPtr[] lexicons;
-
-            [SuppressMessage("Microsoft.Reliability", "CA2006:UseSafeHandleToEncapsulateNativeResources")]
-            private IntPtr libraryHandle;
-
-            private PROOFOPENLEX openLex;
-
-            private PROOFTERMINATE terminate;
-
-            internal Speller(string path)
-            {
-                IntPtr ptr;
-                this.libraryHandle = NativeMethods.LoadLibrary(path);
-                if (this.libraryHandle == IntPtr.Zero)
-                {
-                    throw new Win32Exception();
-                }
-
-                PROOFINIT proc = GetProc<PROOFINIT>(this.libraryHandle, "SpellerInit");
-                PROOFSETOPTIONS proofsetoptions = GetProc<PROOFSETOPTIONS>(this.libraryHandle, "SpellerSetOptions");
-                this.terminate = GetProc<PROOFTERMINATE>(this.libraryHandle, "SpellerTerminate");
-                this.openLex = GetProc<PROOFOPENLEX>(this.libraryHandle, "SpellerOpenLex");
-                this.closeLex = GetProc<PROOFCLOSELEX>(this.libraryHandle, "SpellerCloseLex");
-                this.check = GetProc<SPELLERCHECK>(this.libraryHandle, "SpellerCheck");
-                this.addUdr = GetProc<SPELLERADDUDR>(this.libraryHandle, "SpellerAddUdr");
-                this.deleteUdr = GetProc<SPELLERDELUDR>(this.libraryHandle, "SpellerDelUdr");
-                this.clearUdr = GetProc<SPELLERCLEARUDR>(this.libraryHandle, "SpellerClearUdr");
-                PROOFPARAMS pxpar = new PROOFPARAMS { VersionApi = 0x3000000 };
-                CheckErrorCode(proc(out ptr, ref pxpar));
-                this.id = ptr;
-                CheckErrorCode(proofsetoptions(ptr, 0, 0x20006));
-                this.InitIgnoreDictionary();
-            }
-
-            internal void AddIgnoredWord(string word)
-            {
-                CheckErrorCode(this.addUdr(this.id, this.ignoredDictionary, word));
-            }
-
-            private void AddLexicon(IntPtr lex)
-            {
-                IntPtr[] ptrArray;
-                int length;
-                if (this.lexicons == null)
-                {
-                    ptrArray = new IntPtr[1];
-                    length = 0;
-                }
-                else
-                {
-                    ptrArray = new IntPtr[this.lexicons.Length + 1];
-                    this.lexicons.CopyTo(ptrArray, 0);
-                    length = this.lexicons.Length;
-                }
-
-                ptrArray[length] = lex;
-                this.lexicons = ptrArray;
-            }
-
-            internal void AddLexicon(ushort lcid, string path)
-            {
-                PROOFLEXIN plxin = new PROOFLEXIN { pwszLex = path, lxt = PROOFLEXTYPE.Main, lidExpected = lcid };
-                PROOFLEXOUT plxout = new PROOFLEXOUT { cchCopyright = 0, fReadOnly = true };
-                CheckErrorCode(this.openLex(this.id, ref plxin, ref plxout));
-                this.AddLexicon(plxout.lex);
-            }
-            
-            internal unsafe SpellerStatus Check(string word)
-            {
-                char* pwsz = stackalloc char[65];
-                SPELLERSUGGESTION* prgsugg = stackalloc SPELLERSUGGESTION[checked(1 * sizeof(SPELLERSUGGESTION) / sizeof(SPELLERSUGGESTION))];
-
-                fixed (IntPtr* lexicons2 = this.lexicons)
-                {
-                    WSIB wSib = default(WSIB);
-                    wSib.pwsz = word;
-                    wSib.ichStart = 0u;
-                    wSib.cch = (UIntPtr)((ulong)(word.Length));
-                    wSib.cchUse = wSib.cch;
-                    wSib.prglex = lexicons2;
-                    wSib.clex = (UIntPtr)((ulong)this.lexicons.Length);
-                    wSib.sstate = SpellerState.StartsSentence;
-
-                    WSRB wSrb = default(WSRB);
-                    wSrb.pwsz = pwsz;
-                    wSrb.cchAlloc = 65u;
-                    wSrb.cszAlloc = 1u;
-                    wSrb.prgsugg = prgsugg;
-
-                    PTEC error;
-                    lock (this)
-                    {
-                        error = this.check(this.id, SPELLERCOMMAND.VerifyBuffer, ref wSib, ref wSrb);
-                    }
-
-                    CheckErrorCode(error);
-                    return wSrb.sstat;
-                }
-            }
-
-            private static void CheckErrorCode(SpellChecker.PTEC error)
-            {
-                if (!error.Succeeded)
-                {
-                    throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, "Unexpected proofing tool error code: {0}.", new object[] { error }));
-                }
-            }
-
-            internal void ClearIgnoredWords()
-            {
-                CheckErrorCode(this.clearUdr(this.id, this.ignoredDictionary));
-            }
-
-            public void Dispose()
-            {
-                this.Dispose(true);
-                GC.SuppressFinalize(this);
-            }
-
-            [SuppressMessage("Microsoft.Design", "CA1065:DoNotRaiseExceptionsInUnexpectedLocations")]
-            private void Dispose(bool disposing)
-            {
-                try
-                {
-                    if (this.lexicons != null)
-                    {
-                        foreach (IntPtr ptr in this.lexicons)
-                        {
-                            CheckErrorCode(this.closeLex(this.id, ptr, true));
-                        }
-                        this.lexicons = null;
-                    }
-
-                    if (this.id != IntPtr.Zero)
-                    {
-                        CheckErrorCode(this.terminate(this.id, true));
-                        this.id = IntPtr.Zero;
-                    }
-
-                    if (this.libraryHandle != IntPtr.Zero)
-                    {
-                        if (!SpellChecker.NativeMethods.FreeLibrary(this.libraryHandle))
-                        {
-                            throw new Win32Exception();
-                        }
-                        this.libraryHandle = IntPtr.Zero;
-                    }
-                }
-                finally
-                {
-                    if (disposing)
-                    {
-                        this.terminate = null;
-                        this.closeLex = null;
-                        this.openLex = null;
-                        this.check = null;
-                        this.addUdr = null;
-                        this.clearUdr = null;
-                        this.deleteUdr = null;
-                    }
-                }
-            }
-
-            ~Speller()
-            {
-                this.Dispose(false);
-            }
-            
-            private static T GetProc<T>(IntPtr library, string procName) where T : class
-            {
-                IntPtr procAddress = NativeMethods.GetProcAddress(library, procName);
-                if (procAddress == IntPtr.Zero)
-                {
-                    throw new Win32Exception();
-                }
-                return (T)((object)Marshal.GetDelegateForFunctionPointer(procAddress, typeof(T)));
-            }
-
-            private void InitIgnoreDictionary()
-            {
-                SPELLERBUILTINUDR proc = GetProc<SPELLERBUILTINUDR>(this.libraryHandle, "SpellerBuiltinUdr");
-                this.ignoredDictionary = proc(this.id, PROOFLEXTYPE.User);
-                if (this.ignoredDictionary == IntPtr.Zero)
-                {
-                    throw new InvalidOperationException("Failed to get the ignored dictionary handle.");
-                }
-            }
-
-            internal void RemoveIgnoredWord(string word)
-            {
-                CheckErrorCode(this.deleteUdr(this.id, this.ignoredDictionary, word));
-            }
-        }
-
-        private delegate PTEC SPELLERADDUDR(IntPtr sid, IntPtr lex, [MarshalAs(UnmanagedType.LPTStr)] string add);
-
-        private delegate IntPtr SPELLERBUILTINUDR(IntPtr sid, PROOFLEXTYPE lxt);
-
-        private delegate PTEC SPELLERCHECK(IntPtr sid, SPELLERCOMMAND scmd, ref WSIB psib, ref WSRB psrb);
-
-        private delegate PTEC SPELLERCLEARUDR(IntPtr sid, IntPtr lex);
-
         private enum SPELLERCOMMAND : uint
         {
             Anagram = 7,
@@ -718,8 +199,6 @@ namespace StyleCop.Spelling
 
             Wildcard = 6
         }
-
-        private delegate PTEC SPELLERDELUDR(IntPtr sid, IntPtr lex, [MarshalAs(UnmanagedType.LPTStr)] string delete);
 
         private enum SPELLEROPTIONSELECT : uint
         {
@@ -780,19 +259,6 @@ namespace StyleCop.Spelling
 
             ErrorAccent
         }
-
-        [StructLayout(LayoutKind.Sequential)]
-        private struct SPELLERSUGGESTION
-        {
-            internal unsafe char* pwsz;
-
-            internal uint ichSugg;
-
-            internal uint cchSugg;
-
-            internal uint iRating;
-        }
-
         [Flags]
         private enum SpellingOptions : uint
         {
@@ -857,6 +323,178 @@ namespace StyleCop.Spelling
             SuggestFromUserLex = 1
         }
 
+        public WordCollection AlwaysMisspelledWords
+        {
+            get
+            {
+                if (this.alwaysMisspelledWords == null)
+                {
+                    this.alwaysMisspelledWords = new WordCollection(StringComparer.Create(this.culture, false));
+                }
+
+                return this.alwaysMisspelledWords;
+            }
+        }
+
+        public WordCollection IgnoredWords
+        {
+            get
+            {
+                if (this.ignoredWords == null)
+                {
+                    this.ignoredWords = new WordCollection(StringComparer.Create(this.culture, false));
+                    this.ignoredWords.CollectionChanged += new CollectionChangeEventHandler(this.OnIgnoredWordsChanged);
+                }
+
+                return this.ignoredWords;
+            }
+        }
+
+        private bool IsDisposed
+        {
+            get
+            {
+                return this.speller == null;
+            }
+        }
+        
+        private static Dictionary<string, Language> BuildLanguageTable()
+        {
+            Dictionary<string, Language> dictionary = new Dictionary<string, Language>(Languages.Length, StringComparer.OrdinalIgnoreCase);
+            foreach (Language language in Languages)
+            {
+                dictionary.Add(language.Name, language);
+            }
+
+            return dictionary;
+        }
+
+        public WordSpelling Check(string text)
+        {
+            WordSpelling spelledCorrectly;
+            if (text == null)
+            {
+                throw new ArgumentNullException("text");
+            }
+
+            if (this.IsDisposed)
+            {
+                throw new ObjectDisposedException("SpellChecker");
+            }
+
+            if (text.Length == 0)
+            {
+                return WordSpelling.SpelledCorrectly;
+            }
+
+            if ((this.alwaysMisspelledWords != null) && this.alwaysMisspelledWords.Contains(text))
+            {
+                return WordSpelling.Unrecognized;
+            }
+
+            lock (this.wordSpellingCache)
+            {
+                if (this.wordSpellingCache.TryGetValue(text, out spelledCorrectly))
+                {
+                    return spelledCorrectly;
+                }
+
+                SpellerStatus status = this.speller.Check(text);
+                if (status != SpellerStatus.NoErrors)
+                {
+                    status = this.speller.Check(UsaTextInfo.ToTitleCase(text));
+                }
+
+                if (status == SpellerStatus.NoErrors)
+                {
+                    spelledCorrectly = WordSpelling.SpelledCorrectly;
+                }
+                else
+                {
+                    spelledCorrectly = WordSpelling.Unrecognized;
+                }
+
+                this.wordSpellingCache[text] = spelledCorrectly;
+            }
+
+            return spelledCorrectly;
+        }
+
+        public int GetDependantFilesHashCode()
+        {
+            return this.dependantFilesHashCode;
+        }
+
+        public void Dispose()
+        {
+            try
+            {
+                if (this.speller != null)
+                {
+                    this.speller.Dispose();
+                }
+            }
+            finally
+            {
+                this.speller = null;
+                this.wordSpellingCache = null;
+            }
+        }
+
+        public static SpellChecker FromCulture(CultureInfo culture)
+        {
+            Language language;
+            if (culture == null)
+            {
+                throw new ArgumentNullException("culture");
+            }
+
+            if (culture.Equals(CultureInfo.InvariantCulture))
+            {
+                return null;
+            }
+
+            if (LanguageTable.TryGetValue(culture.Name, out language) && language.IsAvailable)
+            {
+                return new SpellChecker(culture, language);
+            }
+
+            return FromCulture(culture.Parent);
+        }
+
+        private void OnIgnoredWordsChanged(object sender, CollectionChangeEventArgs e)
+        {
+            if (!this.IsDisposed)
+            {
+                switch (e.Action)
+                {
+                    case CollectionChangeAction.Add:
+                        this.speller.AddIgnoredWord((string)e.Element);
+                        return;
+
+                    case CollectionChangeAction.Remove:
+                        this.speller.RemoveIgnoredWord((string)e.Element);
+                        return;
+
+                    case CollectionChangeAction.Refresh:
+                        this.speller.ClearIgnoredWords();
+                        return;
+                }
+            }
+        }
+       
+        [StructLayout(LayoutKind.Sequential)]
+        private struct SPELLERSUGGESTION
+        {
+            internal unsafe char* pwsz;
+
+            internal uint ichSugg;
+
+            internal uint cchSugg;
+
+            internal uint iRating;
+        }
+        
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
         private struct WSIB
         {
@@ -900,5 +538,368 @@ namespace StyleCop.Spelling
 
             internal uint cchAlloc;
         }
+
+        [StructLayout(LayoutKind.Sequential)]
+        private struct PROOFPARAMS
+        {
+            internal uint VersionApi;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        private struct PTEC
+        {
+            internal uint Code;
+
+            internal PTEC_MAJOR Major
+            {
+                get
+                {
+                    return ((PTEC_MAJOR)this.Code) & ((PTEC_MAJOR)0xff);
+                }
+            }
+
+            internal PTEC_MINOR Minor
+            {
+                get
+                {
+                    return (PTEC_MINOR)(this.Code >> 0x10);
+                }
+            }
+
+            internal bool Succeeded
+            {
+                get
+                {
+                    return this.Code == 0;
+                }
+            }
+
+            public override string ToString()
+            {
+                string str = ("0x" + this.Code.ToString("X", CultureInfo.InvariantCulture)) + " -- " + this.Major.ToString();
+                if (this.Minor != 0)
+                {
+                    str = str + ":" + this.Minor.ToString();
+                }
+
+                return str;
+            }
+        }
+
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+        private struct PROOFLEXIN
+        {
+            internal string pwszLex;
+
+            internal bool fCreate;
+
+            internal SpellChecker.PROOFLEXTYPE lxt;
+
+            internal ushort lidExpected;
+        }
+
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+        private struct PROOFLEXOUT
+        {
+            internal string pwszCopyright;
+
+            internal IntPtr lex;
+
+            internal uint cchCopyright;
+
+            internal uint version;
+
+            internal bool fReadOnly;
+
+            internal ushort lid;
+        }
+
+        private static class NativeMethods
+        {
+            [return: MarshalAs(UnmanagedType.Bool)]
+            [DllImport("kernel32.dll", SetLastError = true)]
+            internal static extern bool FreeLibrary(IntPtr hModule);
+
+            [DllImport("kernel32.dll", CharSet = CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
+            internal static extern IntPtr GetProcAddress(IntPtr hModule, string procName);
+
+            [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+            internal static extern IntPtr LoadLibrary(string lpFileName);
+        }
+
+        private sealed class Speller : IDisposable
+        {
+            private SPELLERADDUDR addUdr;
+
+            private SPELLERCHECK check;
+
+            private SPELLERCLEARUDR clearUdr;
+
+            private PROOFCLOSELEX closeLex;
+
+            private SPELLERDELUDR deleteUdr;
+
+            private IntPtr id;
+
+            private IntPtr ignoredDictionary;
+
+            private IntPtr[] lexicons;
+
+            private IntPtr libraryHandle;
+
+            private PROOFOPENLEX openLex;
+
+            private PROOFTERMINATE terminate;
+
+            internal Speller(string path)
+            {
+                IntPtr ptr;
+                this.libraryHandle = NativeMethods.LoadLibrary(path);
+                if (this.libraryHandle == IntPtr.Zero)
+                {
+                    throw new Win32Exception();
+                }
+
+                PROOFINIT proc = GetProc<PROOFINIT>(this.libraryHandle, "SpellerInit");
+                PROOFSETOPTIONS proofsetoptions = GetProc<PROOFSETOPTIONS>(this.libraryHandle, "SpellerSetOptions");
+                this.terminate = GetProc<PROOFTERMINATE>(this.libraryHandle, "SpellerTerminate");
+                this.openLex = GetProc<PROOFOPENLEX>(this.libraryHandle, "SpellerOpenLex");
+                this.closeLex = GetProc<PROOFCLOSELEX>(this.libraryHandle, "SpellerCloseLex");
+                this.check = GetProc<SPELLERCHECK>(this.libraryHandle, "SpellerCheck");
+                this.addUdr = GetProc<SPELLERADDUDR>(this.libraryHandle, "SpellerAddUdr");
+                this.deleteUdr = GetProc<SPELLERDELUDR>(this.libraryHandle, "SpellerDelUdr");
+                this.clearUdr = GetProc<SPELLERCLEARUDR>(this.libraryHandle, "SpellerClearUdr");
+                PROOFPARAMS pxpar = new PROOFPARAMS { VersionApi = 0x3000000 };
+                CheckErrorCode(proc(out ptr, ref pxpar));
+                this.id = ptr;
+                CheckErrorCode(proofsetoptions(ptr, 0, 0x20006));
+                this.InitIgnoreDictionary();
+            }
+
+            internal void AddIgnoredWord(string word)
+            {
+                CheckErrorCode(this.addUdr(this.id, this.ignoredDictionary, word));
+            }
+
+            private void AddLexicon(IntPtr lex)
+            {
+                IntPtr[] ptrArray;
+                int length;
+                if (this.lexicons == null)
+                {
+                    ptrArray = new IntPtr[1];
+                    length = 0;
+                }
+                else
+                {
+                    ptrArray = new IntPtr[this.lexicons.Length + 1];
+                    this.lexicons.CopyTo(ptrArray, 0);
+                    length = this.lexicons.Length;
+                }
+
+                ptrArray[length] = lex;
+                this.lexicons = ptrArray;
+            }
+
+            internal void AddLexicon(ushort lcid, string path)
+            {
+                PROOFLEXIN plxin = new PROOFLEXIN { pwszLex = path, lxt = PROOFLEXTYPE.Main, lidExpected = lcid };
+                PROOFLEXOUT plxout = new PROOFLEXOUT { cchCopyright = 0, fReadOnly = true };
+                CheckErrorCode(this.openLex(this.id, ref plxin, ref plxout));
+                this.AddLexicon(plxout.lex);
+            }
+
+            internal unsafe SpellerStatus Check(string word)
+            {
+                char* pwsz = stackalloc char[65];
+                SPELLERSUGGESTION* prgsugg = stackalloc SPELLERSUGGESTION[checked(1 * sizeof(SPELLERSUGGESTION) / sizeof(SPELLERSUGGESTION))];
+
+                fixed (IntPtr* lexicons2 = this.lexicons)
+                {
+                    WSIB wSib = default(WSIB);
+                    wSib.pwsz = word;
+                    wSib.ichStart = 0u;
+                    wSib.cch = (UIntPtr)((ulong)word.Length);
+                    wSib.cchUse = wSib.cch;
+                    wSib.prglex = lexicons2;
+                    wSib.clex = (UIntPtr)((ulong)this.lexicons.Length);
+                    wSib.sstate = SpellerState.StartsSentence;
+
+                    WSRB wSrb = default(WSRB);
+                    wSrb.pwsz = pwsz;
+                    wSrb.cchAlloc = 65u;
+                    wSrb.cszAlloc = 1u;
+                    wSrb.prgsugg = prgsugg;
+
+                    PTEC error;
+                    lock (this)
+                    {
+                        error = this.check(this.id, SPELLERCOMMAND.VerifyBuffer, ref wSib, ref wSrb);
+                    }
+
+                    CheckErrorCode(error);
+                    return wSrb.sstat;
+                }
+            }
+
+            private static void CheckErrorCode(SpellChecker.PTEC error)
+            {
+                if (!error.Succeeded)
+                {
+                    throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, "Unexpected proofing tool error code: {0}.", new object[] { error }));
+                }
+            }
+
+            internal void ClearIgnoredWords()
+            {
+                CheckErrorCode(this.clearUdr(this.id, this.ignoredDictionary));
+            }
+
+            public void Dispose()
+            {
+                this.Dispose(true);
+                GC.SuppressFinalize(this);
+            }
+
+            private void Dispose(bool disposing)
+            {
+                try
+                {
+                    if (this.lexicons != null)
+                    {
+                        foreach (IntPtr ptr in this.lexicons)
+                        {
+                            CheckErrorCode(this.closeLex(this.id, ptr, true));
+                        }
+
+                        this.lexicons = null;
+                    }
+
+                    if (this.id != IntPtr.Zero)
+                    {
+                        CheckErrorCode(this.terminate(this.id, true));
+                        this.id = IntPtr.Zero;
+                    }
+
+                    if (this.libraryHandle != IntPtr.Zero)
+                    {
+                        if (!NativeMethods.FreeLibrary(this.libraryHandle))
+                        {
+                            throw new Win32Exception();
+                        }
+
+                        this.libraryHandle = IntPtr.Zero;
+                    }
+                }
+                finally
+                {
+                    if (disposing)
+                    {
+                        this.terminate = null;
+                        this.closeLex = null;
+                        this.openLex = null;
+                        this.check = null;
+                        this.addUdr = null;
+                        this.clearUdr = null;
+                        this.deleteUdr = null;
+                    }
+                }
+            }
+
+            ~Speller()
+            {
+                this.Dispose(false);
+            }
+
+            private static T GetProc<T>(IntPtr library, string procName) where T : class
+            {
+                IntPtr procAddress = NativeMethods.GetProcAddress(library, procName);
+                if (procAddress == IntPtr.Zero)
+                {
+                    throw new Win32Exception();
+                }
+
+                return (T)((object)Marshal.GetDelegateForFunctionPointer(procAddress, typeof(T)));
+            }
+
+            private void InitIgnoreDictionary()
+            {
+                SPELLERBUILTINUDR proc = GetProc<SPELLERBUILTINUDR>(this.libraryHandle, "SpellerBuiltinUdr");
+                this.ignoredDictionary = proc(this.id, PROOFLEXTYPE.User);
+                if (this.ignoredDictionary == IntPtr.Zero)
+                {
+                    throw new InvalidOperationException("Failed to get the ignored dictionary handle.");
+                }
+            }
+
+            internal void RemoveIgnoredWord(string word)
+            {
+                CheckErrorCode(this.deleteUdr(this.id, this.ignoredDictionary, word));
+            }
+        }
+        
+        private class Language
+        {
+            internal readonly bool IsAvailable;
+
+            internal readonly ushort Lcid;
+
+            internal readonly string LexiconFullPath;
+
+            internal readonly string LibraryFullPath;
+
+            internal readonly string Name;
+
+            internal Language(string name, string library, string lexicon, ushort lcid)
+            {
+                this.Name = name;
+                this.Lcid = lcid;
+                this.LibraryFullPath = Probe(library);
+                this.LexiconFullPath = Probe(lexicon);
+
+                if (this.LibraryFullPath != null && this.LexiconFullPath != null)
+                {
+                    IntPtr handle = NativeMethods.LoadLibrary(this.LibraryFullPath);
+
+                    if (handle == IntPtr.Zero)
+                    {
+                        this.IsAvailable = false;
+                    }
+                    else
+                    {
+                        this.IsAvailable = true;
+                        if (!NativeMethods.FreeLibrary(handle))
+                        {
+                            throw new Win32Exception();
+                        }
+                    }
+                }
+            }
+
+            private static string Probe(string library)
+            {
+                string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+                string libraryPath = Path.Combine(baseDirectory, library);
+                if (File.Exists(libraryPath))
+                {
+                    return libraryPath;
+                }
+
+                baseDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                if (baseDirectory == null)
+                {
+                    return null;
+                }
+
+                libraryPath = Path.Combine(baseDirectory, library);
+                if (File.Exists(libraryPath))
+                {
+                    return libraryPath;
+                }
+
+                return null;
+            }
+        }
+       
     }
 }
