@@ -285,18 +285,15 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </CodeAnalysisDictionary>
+    <None Include="mssp7en.lex">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Settings\DefaultSettings.xml">
       <SubType>Designer</SubType>
     </None>
     <EmbeddedResource Include="StyleCopAddIn.xml" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="MSSp3en.lex">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="MSSp3ena.lex">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="StyleCop.Targets">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
@@ -325,15 +322,27 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="MSSpell3.dll">
+    <None Include="mssp7en.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="CustomDictionary.en-GB.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </CodeAnalysisDictionary>
+  </ItemGroup>
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="CustomDictionary.en-US.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </CodeAnalysisDictionary>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
   <Import Project="..\..\..\Tools\msbuild\StyleCop.Build.Targets" />
   <Import Project="..\..\..\Tools\msbuild\StyleCop.Shipping.Targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy /y "$(TargetPath)" "$(TestBin)"&amp;copy /y "$(ProjectDir)\Settings\DefaultSettings.xml" "$(TargetDir)Settings.StyleCop"&amp;copy /y "$(TargetDir)\Settings.StyleCop" "$(PROJECTROOT)\BuildDrop\$(Configuration)\"&amp;copy /y "$(TargetDir)StyleCop.Targets" "$(PROJECTROOT)\BuildDrop\$(Configuration)\"&amp;copy /y "$(TargetDir)*.lex" "$(PROJECTROOT)\BuildDrop\$(Configuration)\"&amp;copy /y "$(ProjectDir)CustomDictionary.xml" "$(TargetDir)CustomDictionary.xml"&amp;copy /y "$(TargetDir)CustomDictionary.xml" "$(PROJECTROOT)\BuildDrop\$(Configuration)\"</PostBuildEvent>
+    <PostBuildEvent>xcopy /y "$(TargetPath)" "$(TestBin)"&amp;copy /y "$(ProjectDir)\Settings\DefaultSettings.xml" "$(TargetDir)Settings.StyleCop"&amp;copy /y "$(TargetDir)\Settings.StyleCop" "$(PROJECTROOT)\BuildDrop\$(Configuration)\"&amp;copy /y "$(TargetDir)StyleCop.Targets" "$(PROJECTROOT)\BuildDrop\$(Configuration)\"&amp;copy /y "$(TargetDir)*.lex" "$(PROJECTROOT)\BuildDrop\$(Configuration)\"&amp;copy /y "$(ProjectDir)CustomDictionary*" "$(TargetDir)"&amp;copy /y "$(TargetDir)CustomDictionary*" "$(PROJECTROOT)\BuildDrop\$(Configuration)\"</PostBuildEvent>
   </PropertyGroup>
   <Target Name="BeforeBuild">
     <!-- Since we copy to this directory in the post build event,
