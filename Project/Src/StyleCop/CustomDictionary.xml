@@ -10,7 +10,6 @@
       <Word>async</Word>
       <Word>cacheability</Word>
       <Word>callee</Word>
-      <Word>canonicalized</Word>
       <Word>captcha</Word>
       <Word>CodePlex</Word>
       <Word>comparand</Word>
@@ -20,22 +19,18 @@
       <Word>declarator</Word>
       <Word>declarators</Word>
       <Word>decryptable</Word>
-      <Word>deserialize</Word>
-      <Word>deserialized</Word>
-      <Word>deserializes</Word>
+      <Word>dependant</Word>
       <Word>dialog</Word>
       <Word>elif</Word>
       <Word>endif</Word>
       <Word>Env</Word>
-      <Word>favorited</Word>
+      <Word>etc</Word>
       <Word>Foo</Word>
       <Word>foreach</Word>
       <Word>goto</Word>
       <Word>Guids</Word>
       <Word>hexidecimal</Word>
       <Word>ietf</Word>
-      <Word>initializer</Word>
-      <Word>initializers</Word>
       <Word>inlined</Word>
       <Word>iterator</Word>
       <Word>iterators</Word>
@@ -71,12 +66,11 @@
       <Word>undefines</Word>
       <Word>unescaped</Word>
       <Word>Unescapes</Word>
-      <Word>uninitialize</Word>
-      <Word>uninitializes</Word>
       <Word>unix</Word>
       <Word>unowned</Word>
       <Word>Unsecures</Word>
       <Word>unsecuring</Word>
+      <Word>Url</Word>
       <Word>Usings</Word>
       <Word>utils</Word>
       <Word>xpath</Word>
