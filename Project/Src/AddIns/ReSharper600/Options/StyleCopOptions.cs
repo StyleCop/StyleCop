@@ -122,7 +122,7 @@ namespace StyleCop.ReSharper600.Options
             {
                 this.alwaysCheckForUpdatesWhenVisualStudioStarts = value;
 
-                SetRegistry("AlwaysCheckForUpdatesWhenVisualStudioStarts", value, RegistryValueKind.DWord);
+                StyleCop.Utils.SetRegistry("AlwaysCheckForUpdatesWhenVisualStudioStarts", value, RegistryValueKind.DWord);
             }
         }
 
@@ -140,7 +140,7 @@ namespace StyleCop.ReSharper600.Options
             set
             {
                 this.automaticallyCheckForUpdates = value;
-                SetRegistry("AutomaticallyCheckForUpdates", value, RegistryValueKind.DWord);
+                StyleCop.Utils.SetRegistry("AutomaticallyCheckForUpdates", value, RegistryValueKind.DWord);
             }
         }
 
@@ -164,7 +164,7 @@ namespace StyleCop.ReSharper600.Options
             set
             {
                 this.daysBetweenUpdateChecks = value;
-                SetRegistry("DaysBetweenUpdateChecks", value, RegistryValueKind.DWord);
+                StyleCop.Utils.SetRegistry("DaysBetweenUpdateChecks", value, RegistryValueKind.DWord);
             }
         }
 
@@ -354,33 +354,6 @@ namespace StyleCop.ReSharper600.Options
         }
 
         #endregion
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// Sets a reg key value in the registry.
-        /// </summary>
-        /// <param name="key">
-        /// The sub key to create.
-        /// </param>
-        /// <param name="value">
-        /// The value to use.
-        /// </param>
-        /// <param name="valueKind">
-        /// The type of reg key value to set.
-        /// </param>
-        private static void SetRegistry(string key, object value, RegistryValueKind valueKind)
-        {
-            const string SubKey = @"SOFTWARE\CodePlex\StyleCop";
-
-            var registryKey = Registry.CurrentUser.CreateSubKey(SubKey);
-            if (registryKey != null)
-            {
-                registryKey.SetValue(key, value, valueKind);
-            }
-        }
 
         #endregion
     }

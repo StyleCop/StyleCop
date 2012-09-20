@@ -33,7 +33,7 @@ namespace StyleCop
         private List<IPropertyControlPage> pages = new List<IPropertyControlPage>();
 
         /// <summary>
-        /// Initializes a new instance of the AddSettingsPagesEventArgs class.
+        /// Initializes a new instance of the <see cref="AddSettingsPagesEventArgs"/> class.
         /// </summary>
         /// <param name="settingsPath">The path to the settings file.</param>
         internal AddSettingsPagesEventArgs(string settingsPath)

@@ -19,8 +19,6 @@ namespace StyleCop
     using System.Drawing;
     using System.IO;
     using System.Security;
-    using System.Security.Permissions;
-    using System.Text;
     using System.Windows.Forms;
     using Microsoft.Win32;
 

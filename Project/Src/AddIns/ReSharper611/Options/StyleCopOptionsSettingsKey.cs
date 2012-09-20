@@ -203,47 +203,9 @@ namespace StyleCop.ReSharper611.Options
         /// </returns>
         private static string GetStyleCopPath()
         {
-            var directory = RetrieveFromRegistry() ?? Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var directory = StyleCop.Utils.InstallDirFromRegistry() ?? Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
             return directory == null ? directory : Path.Combine(directory, Constants.StyleCopAssemblyName);
-        }
-
-        /// <summary>
-        /// Gets the StyleCop install location from the registry. This reg key is created by StyleCop during install.
-        /// </summary>
-        /// <returns>
-        /// Returns the reg key value or null if not found.
-        /// </returns>
-        private static string RetrieveFromRegistry()
-        {
-            const string SubKey = @"SOFTWARE\CodePlex\StyleCop";
-            const string Key = "InstallDir";
-
-            RegistryKey registryKey = Registry.LocalMachine.OpenSubKey(SubKey);
-            return registryKey == null ? null : registryKey.GetValue(Key) as string;
-        }
-        
-        /// <summary>
-        /// Sets a reg key value in the registry.
-        /// </summary>
-        /// <param name="key">
-        /// The sub key to create.
-        /// </param>
-        /// <param name="value">
-        /// The value to use.
-        /// </param>
-        /// <param name="valueKind">
-        /// The type of reg key value to set.
-        /// </param>
-        private static void SetRegistry(string key, object value, RegistryValueKind valueKind)
-        {
-            const string SubKey = @"SOFTWARE\CodePlex\StyleCop";
-
-            var registryKey = Registry.CurrentUser.CreateSubKey(SubKey);
-            if (registryKey != null)
-            {
-                registryKey.SetValue(key, value, valueKind);
-            }
         }
         
         #endregion

@@ -52,7 +52,7 @@ namespace StyleCop.ReSharper600.ShellComponents
         /// </summary>
         public void Initialize()
         {
-            var oneTimeInitializationRequiredRegistryKey = RetrieveFromRegistry("LastInitializationDate");
+            var oneTimeInitializationRequiredRegistryKey = Utils.RetrieveFromRegistry("LastInitializationDate");
 
             var initializationDate = Convert.ToDateTime(oneTimeInitializationRequiredRegistryKey);
 
@@ -101,7 +101,7 @@ namespace StyleCop.ReSharper600.ShellComponents
                   }
                 }
 
-                SetRegistry("LastInitializationDate", todayAsString, RegistryValueKind.String);
+                Utils.SetRegistry("LastInitializationDate", todayAsString, RegistryValueKind.String);
             }
         }
 
@@ -126,47 +126,17 @@ namespace StyleCop.ReSharper600.ShellComponents
         /// Loads the InstallDate registry key value.
         /// </summary>
         /// <param name="defaultDateAsString">The date to set the install date to if its value is not found in the registry.</param>
-        /// <returns>The DateTime of the InstallDate LOCALUSER reg key.</returns>
+        /// <returns>The DateTime of the InstallDate LOCALUSER registry key.</returns>
         private static DateTime GetInstallDateFromLocalUserRegistry(string defaultDateAsString)
         {
-            var installDateRegistryKey = RetrieveFromRegistry("InstallDate");
+            var installDateRegistryKey = Utils.RetrieveFromRegistry("InstallDate");
             if (installDateRegistryKey == null)
             {
-                SetRegistry("InstallDate", defaultDateAsString, RegistryValueKind.String);
+                Utils.SetRegistry("InstallDate", defaultDateAsString, RegistryValueKind.String);
                 return Convert.ToDateTime(defaultDateAsString);
             }
 
             return Convert.ToDateTime(installDateRegistryKey);
-        }
-
-        /// <summary>
-        /// Sets a reg key value in the registry.
-        /// </summary>
-        /// <param name="key">The sub key to create.</param>
-        /// <param name="value">The value to use</param>
-        /// <param name="valueKind">The type of reg key value to set.</param>
-        private static void SetRegistry(string key, object value, RegistryValueKind valueKind)
-        {
-            const string SubKey = @"SOFTWARE\CodePlex\StyleCop";
-
-            RegistryKey registryKey = Registry.CurrentUser.CreateSubKey(SubKey);
-            if (registryKey != null)
-            {
-                registryKey.SetValue(key, value, valueKind);
-            }
-        }
-
-        /// <summary>
-        /// Retrieves a Reg Key value for the registry.
-        /// </summary>
-        /// <param name="key">The sub key to open.</param>
-        /// <returns>The value of the reg key.</returns>
-        private static object RetrieveFromRegistry(string key)
-        {
-            const string SubKey = @"SOFTWARE\CodePlex\StyleCop";
-
-            RegistryKey registryKey = Registry.CurrentUser.OpenSubKey(SubKey);
-            return registryKey == null ? null : registryKey.GetValue(key);
         }
 
         #endregion

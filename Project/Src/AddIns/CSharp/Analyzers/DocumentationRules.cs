@@ -638,13 +638,13 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Builds a RegEx string from the type name passed in.
+        /// Builds a <see cref="Regex"/> string from the type name passed in.
         /// </summary>
         /// <param name="qualifiedTypeName">
-        /// The qualified type name to build a RegEx for.
+        /// The qualified type name to build a <see cref="Regex"/> for.
         /// </param>
         /// <returns>
-        /// The RegEx string.
+        /// The <see cref="Regex"/> string.
         /// </returns>
         private static string BuildRegExStringFromTypeName(string qualifiedTypeName)
         {
