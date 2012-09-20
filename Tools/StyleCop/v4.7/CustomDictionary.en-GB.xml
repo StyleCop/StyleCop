@@ -2,13 +2,21 @@
 <Dictionary>
   <Words>
     <Recognized>
+      <Word>canonicalise</Word>
       <Word>canonicalised</Word>
+      <Word>canonicaliser</Word>
+      <Word>canonicalisers</Word>
+      <Word>canonicalises</Word>
       <Word>deserialise</Word>
       <Word>deserialised</Word>
+      <Word>deserialiser</Word>
+      <Word>deserialisers</Word>
       <Word>deserialises</Word>
-      <Word>favorited</Word>
+      <Word>favourited</Word>
       <Word>initialiser</Word>
       <Word>initialisers</Word>
+      <Word>serialisable</Word>
+      <Word>serialiser</Word>
       <Word>uninitialise</Word>
       <Word>uninitialises</Word>
     </Recognized>

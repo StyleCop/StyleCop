@@ -2,13 +2,20 @@
 <Dictionary>
   <Words>
     <Recognized>
+      <Word>canonicalize</Word>
       <Word>canonicalized</Word>
+      <Word>canonicalizer</Word>
+      <Word>canonicalizers</Word>
+      <Word>canonicalizes</Word>
       <Word>deserialize</Word>
       <Word>deserialized</Word>
       <Word>deserializes</Word>
-      <Word>favourited</Word>
+      <Word>deserialized</Word>
+      <Word>favorited</Word>
       <Word>initializer</Word>
       <Word>initializers</Word>
+      <Word>serializable</Word>
+      <Word>serializer</Word>
       <Word>uninitialize</Word>
       <Word>uninitializes</Word>
     </Recognized>
