@@ -35,7 +35,7 @@ namespace StyleCop
         /// <summary>
         /// The full version number of the product a.b.c.d.
         /// </summary>
-        public const string ProductVersionFull = "4.7.38.0";
+        public const string ProductVersionFull = "4.7.39.0";
 
         /// <summary>
         /// Name of the Product with the version i.e. StyleCop (4.7.x.y).
