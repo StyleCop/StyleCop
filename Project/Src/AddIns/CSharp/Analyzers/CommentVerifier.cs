@@ -260,11 +260,13 @@ namespace StyleCop.CSharp
         /// </summary>
         /// <param name="element">The element containing the text we're checking.</param>
         /// <param name="text">The text to check.</param>
-        /// <param name="spellingError">Returns the first word encountered as a spelling error.</param>
+        /// <param name="spellingError">Returns a comma seperated list of words encountered as spelling errors.</param>
         /// <returns>True if the text contains an incorrect spelling.</returns>
         private static bool TextContainsIncorectSpelling(CsElement element, string text, out string spellingError)
         {
             var namingService = NamingService.GetNamingService(element.Document.SourceCode.Project.Culture);
+
+            spellingError = string.Empty;
 
             if (namingService.SupportsSpelling)
             {
@@ -277,19 +279,24 @@ namespace StyleCop.CSharp
                     {
                         // Ignore words starting and ending with '$'.
                         // Ignore if in our recognized words list.
-                        if ((!word.StartsWith("$") || !word.EndsWith("$")) && (!recognizedWords.Contains(word) && !IsSpelledCorrectly(namingService, word)))
+                        // Ignore if correct spelling.
+                        if ((word.StartsWith("$") && word.EndsWith("$")) || (recognizedWords.Contains(word) || IsSpelledCorrectly(namingService, word)))
                         {
-                            spellingError = word;
-                            return true;
+                            continue;
                         }
+
+                        if (!string.IsNullOrEmpty(spellingError))
+                        {
+                            spellingError += ", ";
+                        }
+
+                        spellingError += word;
                     }
                     while ((word = parser.NextWord()) != null);
                 }
             }
 
-            spellingError = null;
-
-            return false;
+            return !string.IsNullOrEmpty(spellingError);
         }
 
         /// <summary>
