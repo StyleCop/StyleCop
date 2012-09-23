@@ -185,6 +185,7 @@
     <Compile Include="..\..\AssemblyVersion.cs">
       <Link>Properties\AssemblyVersion.cs</Link>
     </Compile>
+    <Compile Include="BulbItems\Documentation\SA1650ElementDocumentationMustBeSpelledCorrectlyBulbItem.cs" />
     <Compile Include="BulbItems\Documentation\SA1600ElementsMustBeDocumentedBulbItem.cs" />
     <Compile Include="BulbItems\Documentation\SA1604ElementDocumentationMustHaveSummaryBulbItem.cs" />
     <Compile Include="BulbItems\Documentation\SA1605PartialElementDocumentationMustHaveSummaryBulbItem.cs" />
@@ -284,7 +285,6 @@
     <Compile Include="Extensions\IPropertyDeclarationExtensions.cs" />
     <Compile Include="Extensions\ITreeNodeExtensions.cs" />
     <Compile Include="Extensions\IUsingDirectiveExtensions.cs" />
-    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\TokenNodeTypeExtensions.cs" />
     <Compile Include="Options\HighlightingRegistering.cs" />
     <Compile Include="Options\StyleCopOptionsPage.cs">
@@ -296,6 +296,7 @@
     <Compile Include="Options\StyleCopOptionsSettingsKey.cs" />
     <Compile Include="Options\StyleCopRule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QuickFixes\Documentation\SA1650QuickFix.cs" />
     <Compile Include="QuickFixes\Documentation\SA1600QuickFix.cs" />
     <Compile Include="QuickFixes\Documentation\SA1601QuickFix.cs" />
     <Compile Include="QuickFixes\Documentation\SA1602QuickFix.cs" />
