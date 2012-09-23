@@ -242,6 +242,15 @@ namespace StyleCop {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please enter a valid deprecated word and it&apos;s alternative before clicking the Add button.
+        /// </summary>
+        internal static string EnterValidDeprecatedWord {
+            get {
+                return ResourceManager.GetString("EnterValidDeprecatedWord", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please enter a valid word before clicking the Add button.
         /// </summary>
         internal static string EnterValidWord {
