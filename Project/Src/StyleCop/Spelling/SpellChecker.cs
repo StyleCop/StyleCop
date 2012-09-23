@@ -23,6 +23,8 @@ namespace StyleCop.Spelling
     using System.Reflection;
     using System.Runtime.InteropServices;
 
+    using Microsoft.Win32;
+
     internal sealed class SpellChecker : IDisposable
     {
         #region Constants
@@ -477,7 +479,9 @@ namespace StyleCop.Spelling
             internal readonly string LibraryFullPath;
 
             internal readonly string Name;
-
+            
+            private static string pathToOfficeProofingTools;
+            
             #endregion
 
             #region Constructors and Destructors
@@ -511,9 +515,44 @@ namespace StyleCop.Spelling
             #endregion
 
             #region Methods
+            
+            /// <summary>
+            /// Gets a path to the Office 2010 proof directory. Returns string.Empty if the path could not be found.
+            /// </summary>
+            private static string PathToOfficeProofingTools
+            {
+                get
+                {
+                    if (pathToOfficeProofingTools == null)
+                    {
+                        RegistryKey registryKey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Office\14.0\Common\InstallRoot");
+
+                        if (registryKey == null)
+                        {
+                            pathToOfficeProofingTools = string.Empty;
+                        }
+                        else
+                        {
+                            string registryValue = registryKey.GetValue("Path") as string;
+                            pathToOfficeProofingTools = registryValue == null ? string.Empty : Path.Combine(registryValue, @"Proof\");
+                        }
+                    }
+
+                    return pathToOfficeProofingTools;
+                }
+            }
 
             private static string Probe(string library)
-            {
+            { 
+                if (!string.IsNullOrEmpty(PathToOfficeProofingTools))
+                {
+                    string path = Path.Combine(PathToOfficeProofingTools, library);
+                    if (File.Exists(path))
+                    {
+                        return path;
+                    }
+                }
+
                 string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
                 string libraryPath = Path.Combine(baseDirectory, library);
                 if (File.Exists(libraryPath))

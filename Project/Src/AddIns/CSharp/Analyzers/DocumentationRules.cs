@@ -163,6 +163,9 @@ namespace StyleCop.CSharp
 
             if (csdocument.RootElement != null && !csdocument.RootElement.Generated)
             {
+                NamingService namingService = NamingService.GetNamingService(document.SourceCode.Project.Culture);
+                namingService.AddDeprecatedWords(document.SourceCode.Project.DeprecatedWords);
+
                 this.CheckElementDocumentation(csdocument);
                 this.CheckFileHeader(csdocument);
                 this.CheckSingleLineComments(csdocument.RootElement);

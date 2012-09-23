@@ -26,22 +26,24 @@ namespace StyleCop
     {
         private const string RecognizedWordsPropertyName = "RecognizedWords";
 
+        private const string DeprecatedWordsPropertyName = "DeprecatedWords";
+
         #region Private Fields
 
         /// <summary>
         /// The Remove button.
         /// </summary>
-        private Button removeButton;
+        private Button removeRecognizedWordButton;
 
         /// <summary>
         /// The Add button.
         /// </summary>
-        private Button addButton;
+        private Button addRecognizedWordButton;
 
         /// <summary>
         /// The current words box.
         /// </summary>
-        private ListView wordsListView;
+        private ListView recognizedWordsListView;
 
         /// <summary>
         /// The static text label.
@@ -51,7 +53,7 @@ namespace StyleCop
         /// <summary>
         /// The add prefix box.
         /// </summary>
-        private TextBox addWordTextBox;
+        private TextBox addRecognizedWordTextBox;
 
         /// <summary>
         /// The static text label.
@@ -77,6 +79,16 @@ namespace StyleCop
         /// Contains help text.
         /// </summary>
         private Label label3;
+        private Label label4;
+        private Button addDeprecatedWordButton;
+        private TextBox addDeprecatedWordTextBox;
+        private Label label5;
+        private TextBox addAlternateWordTextBox;
+        private Label label6;
+        private ListView deprecatedWordsListView;
+        private ColumnHeader columnHeader2;
+        private Button removeDeprecatedWordButton;
+        private Label label7;
         
         /// <summary>
         /// Stores the form's accept button while focus is on the add textbox.
@@ -158,20 +170,46 @@ namespace StyleCop
                 {
                     if (!string.IsNullOrEmpty(value))
                     {
-                        ListViewItem item = this.wordsListView.Items.Add(value);
+                        ListViewItem item = this.recognizedWordsListView.Items.Add(value);
                         item.Tag = true;
-                        this.SetBoldState(item);
+                        this.SetBoldState(item, this.recognizedWordsListView);
                     }
                 }
             }
             
             // Select the first item in the list.
-            if (this.wordsListView.Items.Count > 0)
+            if (this.recognizedWordsListView.Items.Count > 0)
             {
-                this.wordsListView.Items[0].Selected = true;
+                this.recognizedWordsListView.Items[0].Selected = true;
             }
 
-            this.EnableDisableRemoveButton();
+            // Get the list of deprecated words from the local settings.
+            CollectionProperty deprecatedWordsProperty = this.tabControl.LocalSettings.GlobalSettings.GetProperty(DeprecatedWordsPropertyName) as CollectionProperty;
+
+            if (deprecatedWordsProperty != null && deprecatedWordsProperty.Values.Count > 0)
+            {
+                foreach (string value in deprecatedWordsProperty)
+                {
+                    if (!string.IsNullOrEmpty(value))
+                    {
+                        var valueParts = value.Split(',');
+                        if (valueParts.Length == 2)
+                        {
+                            ListViewItem item = this.deprecatedWordsListView.Items.Add(valueParts[0].Trim() + ", " + valueParts[1].Trim());
+                            item.Tag = true;
+                            this.SetBoldState(item, this.deprecatedWordsListView);
+                        }
+                    }
+                }
+            }
+
+            // Select the first item in the list.
+            if (this.deprecatedWordsListView.Items.Count > 0)
+            {
+                this.deprecatedWordsListView.Items[0].Selected = true;
+            }
+
+            this.EnableDisableRemoveButtons();
 
             this.dirty = false;
             this.tabControl.DirtyChanged();
@@ -201,9 +239,9 @@ namespace StyleCop
         /// <returns>Returns true if the data is saved, false if not.</returns>
         public bool Apply()
         {
-            List<string> values = new List<string>(this.wordsListView.Items.Count);
+            List<string> values = new List<string>(this.recognizedWordsListView.Items.Count);
 
-            foreach (ListViewItem word in this.wordsListView.Items)
+            foreach (ListViewItem word in this.recognizedWordsListView.Items)
             {
                 // Only save local tags.
                 if ((bool)word.Tag)
@@ -213,7 +251,20 @@ namespace StyleCop
             }
 
             this.tabControl.LocalSettings.GlobalSettings.SetProperty(new CollectionProperty(this.tabControl.Core, RecognizedWordsPropertyName, values));
-            
+
+            values = new List<string>(this.deprecatedWordsListView.Items.Count);
+
+            foreach (ListViewItem word in this.deprecatedWordsListView.Items)
+            {
+                // Only save local tags.
+                if ((bool)word.Tag)
+                {
+                    values.Add(word.Text);
+                }
+            }
+
+            this.tabControl.LocalSettings.GlobalSettings.SetProperty(new CollectionProperty(this.tabControl.Core, DeprecatedWordsPropertyName, values));
+  
             this.dirty = false;
             this.tabControl.DirtyChanged();
 
@@ -236,7 +287,7 @@ namespace StyleCop
         {
             // Loop through the existing items and remove all parent items.
             List<ListViewItem> itemsToRemove = new List<ListViewItem>();
-            foreach (ListViewItem prefix in this.wordsListView.Items)
+            foreach (ListViewItem prefix in this.recognizedWordsListView.Items)
             {
                 if (!(bool)prefix.Tag)
                 {
@@ -246,18 +297,42 @@ namespace StyleCop
 
             foreach (ListViewItem itemToRemove in itemsToRemove)
             {
-                this.wordsListView.Items.Remove(itemToRemove);
+                this.recognizedWordsListView.Items.Remove(itemToRemove);
             }
 
+            // Loop through the existing items and remove all parent items.
+            itemsToRemove = new List<ListViewItem>();
+            foreach (ListViewItem listViewItem in this.deprecatedWordsListView.Items)
+            {
+                if (!(bool)listViewItem.Tag)
+                {
+                    itemsToRemove.Add(listViewItem);
+                }
+            }
+
+            foreach (ListViewItem itemToRemove in itemsToRemove)
+            {
+                this.deprecatedWordsListView.Items.Remove(itemToRemove);
+            }
+           
             // Add any new parent items now.
             this.AddParentWords();
 
             // Loop through the list again and set the bold state for locally added items.
-            foreach (ListViewItem prefix in this.wordsListView.Items)
+            foreach (ListViewItem listViewItem in this.recognizedWordsListView.Items)
             {
-                if ((bool)prefix.Tag)
+                if ((bool)listViewItem.Tag)
                 {
-                    this.SetBoldState(prefix);
+                    this.SetBoldState(listViewItem, this.recognizedWordsListView);
+                }
+            }
+
+            // Loop through the list again and set the bold state for locally added items.
+            foreach (ListViewItem listViewItem in this.deprecatedWordsListView.Items)
+            {
+                if ((bool)listViewItem.Tag)
+                {
+                    this.SetBoldState(listViewItem, this.deprecatedWordsListView);
                 }
             }
         }
@@ -274,60 +349,70 @@ namespace StyleCop
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SpellingTab));
-            this.removeButton = new System.Windows.Forms.Button();
-            this.addButton = new System.Windows.Forms.Button();
+            this.removeRecognizedWordButton = new System.Windows.Forms.Button();
+            this.addRecognizedWordButton = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
-            this.addWordTextBox = new System.Windows.Forms.TextBox();
+            this.addRecognizedWordTextBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.wordsListView = new System.Windows.Forms.ListView();
+            this.recognizedWordsListView = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.addDeprecatedWordButton = new System.Windows.Forms.Button();
+            this.addDeprecatedWordTextBox = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.addAlternateWordTextBox = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.deprecatedWordsListView = new System.Windows.Forms.ListView();
+            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.removeDeprecatedWordButton = new System.Windows.Forms.Button();
+            this.label7 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // removeButton
+            // removeRecognizedWordButton
             // 
-            resources.ApplyResources(this.removeButton, "removeButton");
-            this.removeButton.Name = "removeButton";
-            this.removeButton.Click += new System.EventHandler(this.RemoveButtonClick);
+            resources.ApplyResources(this.removeRecognizedWordButton, "removeRecognizedWordButton");
+            this.removeRecognizedWordButton.Name = "removeRecognizedWordButton";
+            this.removeRecognizedWordButton.Click += new System.EventHandler(this.RemoveRecognizedWordButtonClick);
             // 
-            // addButton
+            // addRecognizedWordButton
             // 
-            resources.ApplyResources(this.addButton, "addButton");
-            this.addButton.Name = "addButton";
-            this.addButton.Click += new System.EventHandler(this.AddButtonClick);
+            resources.ApplyResources(this.addRecognizedWordButton, "addRecognizedWordButton");
+            this.addRecognizedWordButton.Name = "addRecognizedWordButton";
+            this.addRecognizedWordButton.Click += new System.EventHandler(this.AddRecognizedWordButtonClick);
             // 
             // label2
             // 
             resources.ApplyResources(this.label2, "label2");
             this.label2.Name = "label2";
             // 
-            // addWordTextBox
+            // addRecognizedWordTextBox
             // 
-            resources.ApplyResources(this.addWordTextBox, "addWordTextBox");
-            this.addWordTextBox.Name = "addWordTextBox";
-            this.addWordTextBox.GotFocus += new System.EventHandler(this.AddPrefixGotFocus);
-            this.addWordTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.AddPrefixKeyDown);
-            this.addWordTextBox.LostFocus += new System.EventHandler(this.AddPrefixLostFocus);
+            resources.ApplyResources(this.addRecognizedWordTextBox, "addRecognizedWordTextBox");
+            this.addRecognizedWordTextBox.Name = "addRecognizedWordTextBox";
+            this.addRecognizedWordTextBox.GotFocus += new System.EventHandler(this.AddWordGotFocus);
+            this.addRecognizedWordTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.AddRecognizedWordKeyDown);
+            this.addRecognizedWordTextBox.LostFocus += new System.EventHandler(this.AddWordLostFocus);
             // 
             // label1
             // 
             resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
             // 
-            // wordsListView
+            // recognizedWordsListView
             // 
-            resources.ApplyResources(this.wordsListView, "wordsListView");
-            this.wordsListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            resources.ApplyResources(this.recognizedWordsListView, "recognizedWordsListView");
+            this.recognizedWordsListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1});
-            this.wordsListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
-            this.wordsListView.HideSelection = false;
-            this.wordsListView.MultiSelect = false;
-            this.wordsListView.Name = "wordsListView";
-            this.wordsListView.Sorting = System.Windows.Forms.SortOrder.Ascending;
-            this.wordsListView.UseCompatibleStateImageBehavior = false;
-            this.wordsListView.View = System.Windows.Forms.View.Details;
-            this.wordsListView.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.WordListItemSelectionChanged);
-            this.wordsListView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.WordListKeyDown);
+            this.recognizedWordsListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            this.recognizedWordsListView.HideSelection = false;
+            this.recognizedWordsListView.MultiSelect = false;
+            this.recognizedWordsListView.Name = "recognizedWordsListView";
+            this.recognizedWordsListView.Sorting = System.Windows.Forms.SortOrder.Ascending;
+            this.recognizedWordsListView.UseCompatibleStateImageBehavior = false;
+            this.recognizedWordsListView.View = System.Windows.Forms.View.Details;
+            this.recognizedWordsListView.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.WordListItemSelectionChanged);
+            this.recognizedWordsListView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.RecognizedWordListKeyDown);
             // 
             // columnHeader1
             // 
@@ -338,14 +423,90 @@ namespace StyleCop
             resources.ApplyResources(this.label3, "label3");
             this.label3.Name = "label3";
             // 
+            // label4
+            // 
+            resources.ApplyResources(this.label4, "label4");
+            this.label4.Name = "label4";
+            // 
+            // addDeprecatedWordButton
+            // 
+            resources.ApplyResources(this.addDeprecatedWordButton, "addDeprecatedWordButton");
+            this.addDeprecatedWordButton.Name = "addDeprecatedWordButton";
+            this.addDeprecatedWordButton.Click += new System.EventHandler(this.AddDeprecatedWordButtonClick);
+            // 
+            // addDeprecatedWordTextBox
+            // 
+            resources.ApplyResources(this.addDeprecatedWordTextBox, "addDeprecatedWordTextBox");
+            this.addDeprecatedWordTextBox.Name = "addDeprecatedWordTextBox";
+            this.addDeprecatedWordTextBox.GotFocus += new System.EventHandler(this.AddWordGotFocus);
+            this.addDeprecatedWordTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.AddDeprecatedWordKeyDown);
+            this.addDeprecatedWordTextBox.LostFocus += new System.EventHandler(this.AddWordLostFocus);
+            // 
+            // label5
+            // 
+            resources.ApplyResources(this.label5, "label5");
+            this.label5.Name = "label5";
+            // 
+            // addAlternateWordTextBox
+            // 
+            resources.ApplyResources(this.addAlternateWordTextBox, "addAlternateWordTextBox");
+            this.addAlternateWordTextBox.Name = "addAlternateWordTextBox";
+            this.addAlternateWordTextBox.GotFocus += new System.EventHandler(this.AddWordGotFocus);
+            this.addAlternateWordTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.AddDeprecatedWordKeyDown);
+            this.addAlternateWordTextBox.LostFocus += new System.EventHandler(this.AddWordLostFocus);
+            // 
+            // label6
+            // 
+            resources.ApplyResources(this.label6, "label6");
+            this.label6.Name = "label6";
+            // 
+            // deprecatedWordsListView
+            // 
+            resources.ApplyResources(this.deprecatedWordsListView, "deprecatedWordsListView");
+            this.deprecatedWordsListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader2});
+            this.deprecatedWordsListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            this.deprecatedWordsListView.HideSelection = false;
+            this.deprecatedWordsListView.MultiSelect = false;
+            this.deprecatedWordsListView.Name = "deprecatedWordsListView";
+            this.deprecatedWordsListView.Sorting = System.Windows.Forms.SortOrder.Ascending;
+            this.deprecatedWordsListView.UseCompatibleStateImageBehavior = false;
+            this.deprecatedWordsListView.View = System.Windows.Forms.View.Details;
+            this.deprecatedWordsListView.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.WordListItemSelectionChanged);
+            this.deprecatedWordsListView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DeprecatedWordListKeyDown);
+            // 
+            // columnHeader2
+            // 
+            resources.ApplyResources(this.columnHeader2, "columnHeader2");
+            // 
+            // removeDeprecatedWordButton
+            // 
+            resources.ApplyResources(this.removeDeprecatedWordButton, "removeDeprecatedWordButton");
+            this.removeDeprecatedWordButton.Name = "removeDeprecatedWordButton";
+            this.removeDeprecatedWordButton.Click += new System.EventHandler(this.RemoveDeprecatedWordButtonClick);
+            // 
+            // label7
+            // 
+            resources.ApplyResources(this.label7, "label7");
+            this.label7.Name = "label7";
+            // 
             // SpellingTab
             // 
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.deprecatedWordsListView);
+            this.Controls.Add(this.removeDeprecatedWordButton);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.addAlternateWordTextBox);
+            this.Controls.Add(this.addDeprecatedWordButton);
+            this.Controls.Add(this.addDeprecatedWordTextBox);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.wordsListView);
-            this.Controls.Add(this.removeButton);
-            this.Controls.Add(this.addButton);
+            this.Controls.Add(this.recognizedWordsListView);
+            this.Controls.Add(this.removeRecognizedWordButton);
+            this.Controls.Add(this.addRecognizedWordButton);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.addWordTextBox);
+            this.Controls.Add(this.addRecognizedWordTextBox);
             this.Controls.Add(this.label1);
             this.Name = "SpellingTab";
             resources.ApplyResources(this, "$this");
@@ -362,18 +523,39 @@ namespace StyleCop
         {
             if (this.tabControl.ParentSettings != null)
             {
-                CollectionProperty parentPrefixesProperty = this.tabControl.ParentSettings.GlobalSettings.GetProperty(RecognizedWordsPropertyName) as CollectionProperty;
+                CollectionProperty parentProperty = this.tabControl.ParentSettings.GlobalSettings.GetProperty(RecognizedWordsPropertyName) as CollectionProperty;
 
-                if (parentPrefixesProperty != null)
+                if (parentProperty != null)
                 {
-                    if (parentPrefixesProperty.Values.Count > 0)
+                    if (parentProperty.Values.Count > 0)
                     {
-                        foreach (string value in parentPrefixesProperty)
+                        foreach (string value in parentProperty)
                         {
                             if (!string.IsNullOrEmpty(value))
                             {
-                                ListViewItem item = this.wordsListView.Items.Add(value);
+                                ListViewItem item = this.recognizedWordsListView.Items.Add(value);
                                 item.Tag = false;
+                            }
+                        }
+                    }
+                }
+
+                parentProperty = this.tabControl.ParentSettings.GlobalSettings.GetProperty(DeprecatedWordsPropertyName) as CollectionProperty;
+
+                if (parentProperty != null)
+                {
+                    if (parentProperty.Values.Count > 0)
+                    {
+                        foreach (string value in parentProperty)
+                        {
+                            if (!string.IsNullOrEmpty(value))
+                            {
+                                var splitValue = value.Split(',');
+                                if (splitValue.Length == 2)
+                                {
+                                    ListViewItem item = this.deprecatedWordsListView.Items.Add(splitValue[0].Trim() + ", " + splitValue[1].Trim());
+                                    item.Tag = false;
+                                }
                             }
                         }
                     }
@@ -385,12 +567,13 @@ namespace StyleCop
         /// Sets the bold state of the item.
         /// </summary>
         /// <param name="item">The item to set.</param>
-        private void SetBoldState(ListViewItem item)
+        /// <param name="listView">The ListView to use.</param>
+        private void SetBoldState(ListViewItem item, ListView listView)
         {
             Param.AssertNotNull(item, "item");
 
             // Dispose the item's current font if necessary.
-            if (item.Font != this.wordsListView.Font && item.Font != null)
+            if (!object.Equals(item.Font, listView.Font) && item.Font != null)
             {
                 item.Font.Dispose();
             }
@@ -398,11 +581,11 @@ namespace StyleCop
             // Create and set the new font.
             if ((bool)item.Tag)
             {
-                item.Font = new Font(this.wordsListView.Font, FontStyle.Bold);
+                item.Font = new Font(listView.Font, FontStyle.Bold);
             }
             else
             {
-                item.Font = new Font(this.wordsListView.Font, FontStyle.Regular);
+                item.Font = new Font(listView.Font, FontStyle.Regular);
             }
         }
 
@@ -411,11 +594,11 @@ namespace StyleCop
         /// </summary>
         /// <param name="sender">The event sender.</param>
         /// <param name="e">The event arguments.</param>
-        private void AddButtonClick(object sender, System.EventArgs e)
+        private void AddRecognizedWordButtonClick(object sender, System.EventArgs e)
         {
             Param.Ignore(sender, e);
 
-            if (this.addWordTextBox.Text.Length == 0 || this.addWordTextBox.Text.Length < 2)
+            if (this.addRecognizedWordTextBox.Text.Length == 0 || this.addRecognizedWordTextBox.Text.Length < 2)
             {
                 AlertDialog.Show(
                     this.tabControl.Core,
@@ -427,25 +610,74 @@ namespace StyleCop
                 return;
             }
 
-            foreach (ListViewItem item in this.wordsListView.Items)
+            foreach (ListViewItem item in this.recognizedWordsListView.Items)
             {
-                if (item.Text == this.addWordTextBox.Text)
+                if (item.Text == this.addRecognizedWordTextBox.Text)
                 {
                     item.Selected = true;
                     item.EnsureVisible();
-                    this.addWordTextBox.Clear();
+                    this.addRecognizedWordTextBox.Clear();
                     return;
                 }
             }
 
-            ListViewItem addedItem = this.wordsListView.Items.Add(this.addWordTextBox.Text);
+            ListViewItem addedItem = this.recognizedWordsListView.Items.Add(this.addRecognizedWordTextBox.Text);
             addedItem.Tag = true;
             addedItem.Selected = true;
-            this.wordsListView.EnsureVisible(addedItem.Index);
-            this.SetBoldState(addedItem);
+            this.recognizedWordsListView.EnsureVisible(addedItem.Index);
+            this.SetBoldState(addedItem, this.recognizedWordsListView);
 
-            this.addWordTextBox.Clear();
+            this.addRecognizedWordTextBox.Clear();
             
+            this.dirty = true;
+            this.tabControl.DirtyChanged();
+        }
+
+        /// <summary>
+        /// Event that is fired when the add deprecated word button is clicked.
+        /// </summary>
+        /// <param name="sender">The event sender.</param>
+        /// <param name="e">The event arguments.</param>
+        private void AddDeprecatedWordButtonClick(object sender, System.EventArgs e)
+        {
+            Param.Ignore(sender, e);
+
+            if (this.addDeprecatedWordTextBox.Text.Length == 0 ||
+                this.addDeprecatedWordTextBox.Text.Length < 2 ||
+                this.addAlternateWordTextBox.Text.Length == 0 ||
+                this.addAlternateWordTextBox.Text.Length < 2)
+            {
+                AlertDialog.Show(
+                    this.tabControl.Core,
+                    this,
+                    Strings.EnterValidDeprecatedWord,
+                    Strings.Title,
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Exclamation);
+                return;
+            }
+
+            foreach (ListViewItem item in this.deprecatedWordsListView.Items)
+            {
+                if (item.Text == this.addDeprecatedWordTextBox.Text.Trim() + ", " + this.addAlternateWordTextBox.Text.Trim())
+                {
+                    item.Selected = true;
+                    item.EnsureVisible();
+                    this.addDeprecatedWordTextBox.Clear();
+                    this.addAlternateWordTextBox.Clear();
+                    return;
+                }
+            }
+
+            ListViewItem addedItem = this.deprecatedWordsListView.Items.Add(this.addDeprecatedWordTextBox.Text.Trim() + ", " + this.addAlternateWordTextBox.Text.Trim());
+            addedItem.Tag = true;
+            addedItem.Selected = true;
+            this.deprecatedWordsListView.EnsureVisible(addedItem.Index);
+            this.SetBoldState(addedItem, this.deprecatedWordsListView);
+
+            this.addDeprecatedWordTextBox.Clear();
+            this.addAlternateWordTextBox.Clear();
+
             this.dirty = true;
             this.tabControl.DirtyChanged();
         }
@@ -455,24 +687,54 @@ namespace StyleCop
         /// </summary>
         /// <param name="sender">The event sender.</param>
         /// <param name="e">The event arguments.</param>
-        private void RemoveButtonClick(object sender, System.EventArgs e)
+        private void RemoveRecognizedWordButtonClick(object sender, EventArgs e)
         {
             Param.Ignore(sender, e);
 
-            if (this.wordsListView.SelectedItems.Count > 0)
+            if (this.recognizedWordsListView.SelectedItems.Count > 0)
             {
-                int index = this.wordsListView.SelectedIndices[0];
+                int index = this.recognizedWordsListView.SelectedIndices[0];
 
-                this.wordsListView.Items.RemoveAt(index);
-                this.EnableDisableRemoveButton();
+                this.recognizedWordsListView.Items.RemoveAt(index);
+                this.EnableDisableRemoveButtons();
 
-                if (this.wordsListView.Items.Count > index)
+                if (this.recognizedWordsListView.Items.Count > index)
                 {
-                    this.wordsListView.Items[index].Selected = true;
+                    this.recognizedWordsListView.Items[index].Selected = true;
                 }
-                else if (this.wordsListView.Items.Count > 0)
+                else if (this.recognizedWordsListView.Items.Count > 0)
                 {
-                    this.wordsListView.Items[this.wordsListView.Items.Count - 1].Selected = true;
+                    this.recognizedWordsListView.Items[this.recognizedWordsListView.Items.Count - 1].Selected = true;
+                }
+
+                this.dirty = true;
+                this.tabControl.DirtyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Event that is fired when the remove button is clicked.
+        /// </summary>
+        /// <param name="sender">The event sender.</param>
+        /// <param name="e">The event arguments.</param>
+        private void RemoveDeprecatedWordButtonClick(object sender, EventArgs e)
+        {
+            Param.Ignore(sender, e);
+
+            if (this.deprecatedWordsListView.SelectedItems.Count > 0)
+            {
+                int index = this.deprecatedWordsListView.SelectedIndices[0];
+
+                this.deprecatedWordsListView.Items.RemoveAt(index);
+                this.EnableDisableRemoveButtons();
+
+                if (this.deprecatedWordsListView.Items.Count > index)
+                {
+                    this.deprecatedWordsListView.Items[index].Selected = true;
+                }
+                else if (this.deprecatedWordsListView.Items.Count > 0)
+                {
+                    this.deprecatedWordsListView.Items[this.deprecatedWordsListView.Items.Count - 1].Selected = true;
                 }
 
                 this.dirty = true;
@@ -488,7 +750,7 @@ namespace StyleCop
         private void WordListItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
             Param.Ignore(sender, e);
-            this.EnableDisableRemoveButton();
+            this.EnableDisableRemoveButtons();
         }
 
         /// <summary>
@@ -496,35 +758,66 @@ namespace StyleCop
         /// </summary>
         /// <param name="sender">The event sender.</param>
         /// <param name="e">The event arguments.</param>
-        private void WordListKeyDown(object sender, KeyEventArgs e)
+        private void RecognizedWordListKeyDown(object sender, KeyEventArgs e)
         {
             Param.AssertNotNull(sender, "sender");
             Param.AssertNotNull(e, "e");
 
             if (e.KeyCode == Keys.Delete)
             {
-                if (this.addWordTextBox.Text.Length > 0)
+                if (this.addRecognizedWordTextBox.Text.Length > 0)
                 {
                     // Simulate a click of the remove button.
-                    this.RemoveButtonClick(sender, e);
+                    this.RemoveRecognizedWordButtonClick(sender, e);
                 }
             }
         }
 
         /// <summary>
-        /// Sets the enabled state of the remove button.
+        /// Called when a key is clicked while focus is on the list.
         /// </summary>
-        private void EnableDisableRemoveButton()
+        /// <param name="sender">The event sender.</param>
+        /// <param name="e">The event arguments.</param>
+        private void DeprecatedWordListKeyDown(object sender, KeyEventArgs e)
         {
-            if (this.wordsListView.SelectedItems.Count > 0)
+            Param.AssertNotNull(sender, "sender");
+            Param.AssertNotNull(e, "e");
+
+            if (e.KeyCode == Keys.Delete)
+            {
+                if (this.addDeprecatedWordTextBox.Text.Length > 0 && this.addAlternateWordTextBox.Text.Length > 0)
+                {
+                    // Simulate a click of the remove button.
+                    this.RemoveDeprecatedWordButtonClick(sender, e);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Sets the enabled state of the remove buttons.
+        /// </summary>
+        private void EnableDisableRemoveButtons()
+        {
+            if (this.recognizedWordsListView.SelectedItems.Count > 0)
             {
                 // Get the currently selected item.
-                ListViewItem selectedItem = this.wordsListView.SelectedItems[0];
-                this.removeButton.Enabled = (bool)selectedItem.Tag;
+                ListViewItem selectedItem = this.recognizedWordsListView.SelectedItems[0];
+                this.removeRecognizedWordButton.Enabled = (bool)selectedItem.Tag;
             }
             else
             {
-                this.removeButton.Enabled = false;
+                this.removeRecognizedWordButton.Enabled = false;
+            }
+
+            if (this.deprecatedWordsListView.SelectedItems.Count > 0)
+            {
+                // Get the currently selected item.
+                ListViewItem selectedItem = this.deprecatedWordsListView.SelectedItems[0];
+                this.removeDeprecatedWordButton.Enabled = (bool)selectedItem.Tag;
+            }
+            else
+            {
+                this.removeDeprecatedWordButton.Enabled = false;
             }
         }
 
@@ -533,17 +826,37 @@ namespace StyleCop
         /// </summary>
         /// <param name="sender">The event sender.</param>
         /// <param name="e">The event arguments.</param>
-        private void AddPrefixKeyDown(object sender, KeyEventArgs e)
+        private void AddRecognizedWordKeyDown(object sender, KeyEventArgs e)
         {
             Param.AssertNotNull(sender, "sender");
             Param.AssertNotNull(e, "e");
 
             if (e.KeyCode == Keys.Return)
             {
-                if (this.addWordTextBox.Text.Length > 0)
+                if (this.addRecognizedWordTextBox.Text.Length > 0)
                 {
                     // Simulate a click of the add button.
-                    this.AddButtonClick(sender, e);
+                    this.AddRecognizedWordButtonClick(sender, e);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Called when a key is clicked while focus is on the add textbox.
+        /// </summary>
+        /// <param name="sender">The event sender.</param>
+        /// <param name="e">The event arguments.</param>
+        private void AddDeprecatedWordKeyDown(object sender, KeyEventArgs e)
+        {
+            Param.AssertNotNull(sender, "sender");
+            Param.AssertNotNull(e, "e");
+
+            if (e.KeyCode == Keys.Return)
+            {
+                if (this.addDeprecatedWordTextBox.Text.Length > 0 && this.addAlternateWordTextBox.Text.Length > 0)
+                {
+                    // Simulate a click of the add button.
+                    this.AddDeprecatedWordButtonClick(sender, e);
                 }
             }
         }
@@ -553,7 +866,7 @@ namespace StyleCop
         /// </summary>
         /// <param name="sender">The event sender.</param>
         /// <param name="e">The event arguments.</param>
-        private void AddPrefixGotFocus(object sender, EventArgs e)
+        private void AddWordGotFocus(object sender, EventArgs e)
         {
             Param.Ignore(sender, e);
 
@@ -568,7 +881,7 @@ namespace StyleCop
         /// </summary>
         /// <param name="sender">The event sender.</param>
         /// <param name="e">The event arguments.</param>
-        private void AddPrefixLostFocus(object sender, EventArgs e)
+        private void AddWordLostFocus(object sender, EventArgs e)
         {
             Param.Ignore(sender, e);
 

@@ -118,64 +118,64 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="removeButton.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+  <data name="removeRecognizedWordButton.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
     <value>System</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="removeButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>160, 127</value>
+  <data name="removeRecognizedWordButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>300, 109</value>
   </data>
-  <data name="removeButton.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="removeRecognizedWordButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="removeButton.TabIndex" type="System.Int32, mscorlib">
+  <data name="removeRecognizedWordButton.TabIndex" type="System.Int32, mscorlib">
     <value>31</value>
   </data>
-  <data name="removeButton.Text" xml:space="preserve">
+  <data name="removeRecognizedWordButton.Text" xml:space="preserve">
     <value>&amp;Remove</value>
   </data>
-  <data name="&gt;&gt;removeButton.Name" xml:space="preserve">
-    <value>removeButton</value>
+  <data name="&gt;&gt;removeRecognizedWordButton.Name" xml:space="preserve">
+    <value>removeRecognizedWordButton</value>
   </data>
-  <data name="&gt;&gt;removeButton.Type" xml:space="preserve">
+  <data name="&gt;&gt;removeRecognizedWordButton.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;removeButton.Parent" xml:space="preserve">
+  <data name="&gt;&gt;removeRecognizedWordButton.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;removeButton.ZOrder" xml:space="preserve">
-    <value>2</value>
+  <data name="&gt;&gt;removeRecognizedWordButton.ZOrder" xml:space="preserve">
+    <value>11</value>
   </data>
-  <data name="addButton.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+  <data name="addRecognizedWordButton.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
     <value>System</value>
   </data>
-  <data name="addButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>160, 71</value>
+  <data name="addRecognizedWordButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>300, 48</value>
   </data>
-  <data name="addButton.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="addRecognizedWordButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
   </data>
-  <data name="addButton.TabIndex" type="System.Int32, mscorlib">
+  <data name="addRecognizedWordButton.TabIndex" type="System.Int32, mscorlib">
     <value>30</value>
   </data>
-  <data name="addButton.Text" xml:space="preserve">
+  <data name="addRecognizedWordButton.Text" xml:space="preserve">
     <value>&amp;Add</value>
   </data>
-  <data name="&gt;&gt;addButton.Name" xml:space="preserve">
-    <value>addButton</value>
+  <data name="&gt;&gt;addRecognizedWordButton.Name" xml:space="preserve">
+    <value>addRecognizedWordButton</value>
   </data>
-  <data name="&gt;&gt;addButton.Type" xml:space="preserve">
+  <data name="&gt;&gt;addRecognizedWordButton.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;addButton.Parent" xml:space="preserve">
+  <data name="&gt;&gt;addRecognizedWordButton.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;addButton.ZOrder" xml:space="preserve">
-    <value>3</value>
+  <data name="&gt;&gt;addRecognizedWordButton.ZOrder" xml:space="preserve">
+    <value>12</value>
   </data>
   <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 111</value>
+    <value>8, 84</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
     <value>152, 23</value>
@@ -184,7 +184,7 @@
     <value>28</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>Currently recognized words:</value>
+    <value>Recognized words:</value>
   </data>
   <data name="&gt;&gt;label2.Name" xml:space="preserve">
     <value>label2</value>
@@ -196,40 +196,40 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>13</value>
   </data>
-  <data name="addWordTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 71</value>
+  <data name="addRecognizedWordTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>144, 50</value>
   </data>
-  <data name="addWordTextBox.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="addRecognizedWordTextBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>144, 20</value>
   </data>
-  <data name="addWordTextBox.TabIndex" type="System.Int32, mscorlib">
+  <data name="addRecognizedWordTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>27</value>
   </data>
-  <data name="&gt;&gt;addWordTextBox.Name" xml:space="preserve">
-    <value>addWordTextBox</value>
+  <data name="&gt;&gt;addRecognizedWordTextBox.Name" xml:space="preserve">
+    <value>addRecognizedWordTextBox</value>
   </data>
-  <data name="&gt;&gt;addWordTextBox.Type" xml:space="preserve">
+  <data name="&gt;&gt;addRecognizedWordTextBox.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;addWordTextBox.Parent" xml:space="preserve">
+  <data name="&gt;&gt;addRecognizedWordTextBox.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;addWordTextBox.ZOrder" xml:space="preserve">
-    <value>5</value>
+  <data name="&gt;&gt;addRecognizedWordTextBox.ZOrder" xml:space="preserve">
+    <value>14</value>
   </data>
   <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 56</value>
+    <value>8, 53</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>216, 16</value>
+    <value>130, 21</value>
   </data>
   <data name="label1.TabIndex" type="System.Int32, mscorlib">
     <value>26</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>Enter a word to add:</value>
+    <value>Recognized word to add:</value>
   </data>
   <data name="&gt;&gt;label1.Name" xml:space="preserve">
     <value>label1</value>
@@ -241,34 +241,34 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>15</value>
   </data>
-  <data name="wordsListView.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left</value>
+  <data name="recognizedWordsListView.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left</value>
   </data>
   <data name="columnHeader1.Width" type="System.Int32, mscorlib">
     <value>140</value>
   </data>
-  <data name="wordsListView.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 126</value>
+  <data name="recognizedWordsListView.Location" type="System.Drawing.Point, System.Drawing">
+    <value>144, 82</value>
   </data>
-  <data name="wordsListView.Size" type="System.Drawing.Size, System.Drawing">
-    <value>144, 374</value>
+  <data name="recognizedWordsListView.Size" type="System.Drawing.Size, System.Drawing">
+    <value>144, 144</value>
   </data>
-  <data name="wordsListView.TabIndex" type="System.Int32, mscorlib">
+  <data name="recognizedWordsListView.TabIndex" type="System.Int32, mscorlib">
     <value>32</value>
   </data>
-  <data name="&gt;&gt;wordsListView.Name" xml:space="preserve">
-    <value>wordsListView</value>
+  <data name="&gt;&gt;recognizedWordsListView.Name" xml:space="preserve">
+    <value>recognizedWordsListView</value>
   </data>
-  <data name="&gt;&gt;wordsListView.Type" xml:space="preserve">
+  <data name="&gt;&gt;recognizedWordsListView.Type" xml:space="preserve">
     <value>System.Windows.Forms.ListView, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;wordsListView.Parent" xml:space="preserve">
+  <data name="&gt;&gt;recognizedWordsListView.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;wordsListView.ZOrder" xml:space="preserve">
-    <value>1</value>
+  <data name="&gt;&gt;recognizedWordsListView.ZOrder" xml:space="preserve">
+    <value>10</value>
   </data>
   <data name="label3.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -277,13 +277,13 @@
     <value>8, 4</value>
   </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>561, 51</value>
+    <value>561, 32</value>
   </data>
   <data name="label3.TabIndex" type="System.Int32, mscorlib">
     <value>33</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>Any words in the following list will not be reported as spelling mistakes.. Add words to this list if they should be ignored by spelling rules.</value>
+    <value>Any words in the following list will not be reported as spelling mistakes. Add words to this list if they should be ignored by spelling rules.</value>
   </data>
   <data name="&gt;&gt;label3.Name" xml:space="preserve">
     <value>label3</value>
@@ -295,18 +295,264 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="label4.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="label4.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 287</value>
+  </data>
+  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>561, 44</value>
+  </data>
+  <data name="label4.TabIndex" type="System.Int32, mscorlib">
+    <value>34</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>Any words in the following list will be reported as spelling mistakes. Add words to this list so that spelling suggestions may be made.</value>
+  </data>
+  <data name="&gt;&gt;label4.Name" xml:space="preserve">
+    <value>label4</value>
+  </data>
+  <data name="&gt;&gt;label4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label4.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="addDeprecatedWordButton.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="addDeprecatedWordButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="addDeprecatedWordButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>300, 358</value>
+  </data>
+  <data name="addDeprecatedWordButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="addDeprecatedWordButton.TabIndex" type="System.Int32, mscorlib">
+    <value>37</value>
+  </data>
+  <data name="addDeprecatedWordButton.Text" xml:space="preserve">
+    <value>&amp;Add</value>
+  </data>
+  <data name="&gt;&gt;addDeprecatedWordButton.Name" xml:space="preserve">
+    <value>addDeprecatedWordButton</value>
+  </data>
+  <data name="&gt;&gt;addDeprecatedWordButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;addDeprecatedWordButton.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;addDeprecatedWordButton.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="addDeprecatedWordTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>144, 329</value>
+  </data>
+  <data name="addDeprecatedWordTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>144, 20</value>
+  </data>
+  <data name="addDeprecatedWordTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>36</value>
+  </data>
+  <data name="&gt;&gt;addDeprecatedWordTextBox.Name" xml:space="preserve">
+    <value>addDeprecatedWordTextBox</value>
+  </data>
+  <data name="&gt;&gt;addDeprecatedWordTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;addDeprecatedWordTextBox.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;addDeprecatedWordTextBox.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="label5.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 332</value>
+  </data>
+  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>130, 17</value>
+  </data>
+  <data name="label5.TabIndex" type="System.Int32, mscorlib">
+    <value>35</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>Deprecated word to add:</value>
+  </data>
+  <data name="&gt;&gt;label5.Name" xml:space="preserve">
+    <value>label5</value>
+  </data>
+  <data name="&gt;&gt;label5.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label5.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="addAlternateWordTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>144, 360</value>
+  </data>
+  <data name="addAlternateWordTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>144, 20</value>
+  </data>
+  <data name="addAlternateWordTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>38</value>
+  </data>
+  <data name="&gt;&gt;addAlternateWordTextBox.Name" xml:space="preserve">
+    <value>addAlternateWordTextBox</value>
+  </data>
+  <data name="&gt;&gt;addAlternateWordTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;addAlternateWordTextBox.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;addAlternateWordTextBox.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="label6.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 363</value>
+  </data>
+  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>130, 18</value>
+  </data>
+  <data name="label6.TabIndex" type="System.Int32, mscorlib">
+    <value>39</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>Alternative word:</value>
+  </data>
+  <data name="&gt;&gt;label6.Name" xml:space="preserve">
+    <value>label6</value>
+  </data>
+  <data name="&gt;&gt;label6.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label6.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="deprecatedWordsListView.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left</value>
+  </data>
+  <data name="columnHeader2.Width" type="System.Int32, mscorlib">
+    <value>140</value>
+  </data>
+  <data name="deprecatedWordsListView.Location" type="System.Drawing.Point, System.Drawing">
+    <value>144, 392</value>
+  </data>
+  <data name="deprecatedWordsListView.Size" type="System.Drawing.Size, System.Drawing">
+    <value>144, 144</value>
+  </data>
+  <data name="deprecatedWordsListView.TabIndex" type="System.Int32, mscorlib">
+    <value>41</value>
+  </data>
+  <data name="&gt;&gt;deprecatedWordsListView.Name" xml:space="preserve">
+    <value>deprecatedWordsListView</value>
+  </data>
+  <data name="&gt;&gt;deprecatedWordsListView.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ListView, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;deprecatedWordsListView.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;deprecatedWordsListView.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="removeDeprecatedWordButton.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="removeDeprecatedWordButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="removeDeprecatedWordButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>300, 428</value>
+  </data>
+  <data name="removeDeprecatedWordButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="removeDeprecatedWordButton.TabIndex" type="System.Int32, mscorlib">
+    <value>40</value>
+  </data>
+  <data name="removeDeprecatedWordButton.Text" xml:space="preserve">
+    <value>&amp;Remove</value>
+  </data>
+  <data name="&gt;&gt;removeDeprecatedWordButton.Name" xml:space="preserve">
+    <value>removeDeprecatedWordButton</value>
+  </data>
+  <data name="&gt;&gt;removeDeprecatedWordButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;removeDeprecatedWordButton.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;removeDeprecatedWordButton.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="label7.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label7.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 395</value>
+  </data>
+  <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
+    <value>130, 41</value>
+  </data>
+  <data name="label7.TabIndex" type="System.Int32, mscorlib">
+    <value>42</value>
+  </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>Deprecated word, alternative word:</value>
+  </data>
+  <data name="&gt;&gt;label7.Name" xml:space="preserve">
+    <value>label7</value>
+  </data>
+  <data name="&gt;&gt;label7.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label7.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label7.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>572, 509</value>
+    <value>572, 542</value>
   </data>
   <data name="&gt;&gt;columnHeader1.Name" xml:space="preserve">
     <value>columnHeader1</value>
   </data>
   <data name="&gt;&gt;columnHeader1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;columnHeader2.Name" xml:space="preserve">
+    <value>columnHeader2</value>
+  </data>
+  <data name="&gt;&gt;columnHeader2.Type" xml:space="preserve">
     <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">

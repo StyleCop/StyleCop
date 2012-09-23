@@ -266,8 +266,8 @@ namespace StyleCop.CSharp
         /// <returns>True if spelled correct.</returns>
         private static bool IsSpelledCorrectly(NamingService namingService, string word)
         {
-            return (namingService.GetPreferredAlternateForDeprecatedWord(word) != null) || (namingService.GetCompoundAlternateForDiscreteWord(word) != null)
-                   || (namingService.CheckSpelling(word) != WordSpelling.Unrecognized);
+            return (namingService.GetPreferredAlternateForDeprecatedWord(word) == null) && (namingService.GetCompoundAlternateForDiscreteWord(word) == null)
+                   && (namingService.CheckSpelling(word) != WordSpelling.Unrecognized);
         }
 
         /// <summary>
@@ -289,12 +289,12 @@ namespace StyleCop.CSharp
                 if (parser.PeekWord() != null)
                 {
                     ICollection<string> recognizedWords = element.Document.SourceCode.Project.RecognizedWords;
+
                     string word = parser.NextWord();
                     do
                     {
                         // Ignore words starting and ending with '$'.
-                        // Ignore if in our recognized words list.
-                        // Ignore if correct spelling.
+                        // Ignore if in our recognized words list or correct spelling
                         if ((word.StartsWith("$") && word.EndsWith("$")) || (recognizedWords.Contains(word) || IsSpelledCorrectly(namingService, word)))
                         {
                             continue;

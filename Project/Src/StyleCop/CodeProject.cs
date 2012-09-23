@@ -17,6 +17,7 @@ namespace StyleCop
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Collections.Specialized;
     using System.Globalization;
 
     /// <summary>
@@ -85,6 +86,11 @@ namespace StyleCop
         /// Recognized words for the spell checker.
         /// </summary>
         private ICollection<string> recognizedWords;
+
+        /// <summary>
+        /// Deprecated words for the spell checker.
+        /// </summary>
+        private Dictionary<string, string> deprecatedWords;
 
         /// <summary>
         /// Maximum number of violations to occur before cancelling analysis.
@@ -281,6 +287,54 @@ namespace StyleCop
                 }
 
                 return this.recognizedWords ?? new Collection<string>();
+            }
+        }
+
+        /// <summary>
+        /// Gets the dictionary of deprecated words and their alternatives.
+        /// </summary>
+        public virtual IDictionary<string, string> DeprecatedWords
+        {
+            get
+            {
+                if (this.deprecatedWords == null && this.settingsLoaded)
+                {
+                    if (this.settings != null)
+                    {
+                        var descriptor = this.settings.Core.PropertyDescriptors["DeprecatedWords"] as CollectionPropertyDescriptor;
+                        if (descriptor != null)
+                        {
+                            var property = this.settings.GlobalSettings.GetProperty(descriptor.PropertyName) as CollectionProperty;
+                            if (property == null)
+                            {
+                                this.deprecatedWords = null;
+                            }
+                            else
+                            {
+                                this.deprecatedWords = new Dictionary<string, string>();
+
+                                foreach (var propertyValue in property.Values)
+                                {
+                                    var propertyParts = propertyValue.Split(',');
+                                    if (propertyParts.Length == 2)
+                                    {
+                                        this.deprecatedWords.Add(propertyParts[0].Trim(), propertyParts[1].Trim());
+                                    }
+                                } 
+                            }
+                        }
+                        else
+                        {
+                            this.deprecatedWords = new Dictionary<string, string>();
+                        }
+                    }
+                    else
+                    {
+                        this.deprecatedWords = new Dictionary<string, string>();
+                    }
+                }
+
+                return this.deprecatedWords ?? new Dictionary<string, string>();
             }
         }
         

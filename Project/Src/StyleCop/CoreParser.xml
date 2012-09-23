@@ -62,6 +62,12 @@
      FriendlyName="Recognized Words"
      Description="The list of recognized words for the specified culture.">
     </CollectionProperty>
+    <CollectionProperty
+        Name="DeprecatedWords"
+        Aggregate="True"
+        FriendlyName="Deprecated Words"
+        Description="The list of deprecated words for the specified culture with the preferred alternative.">
+    </CollectionProperty>
   </Properties>
   <Rules>
     <Rule Name="ExceptionOccurred" CheckId="SA0001">

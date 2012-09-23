@@ -16,7 +16,9 @@
 namespace StyleCop.Spelling
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
+    using System.Collections.Specialized;
     using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.IO;
@@ -29,7 +31,6 @@ namespace StyleCop.Spelling
     /// </summary>
     public class NamingService : IDisposable
     {
-
         #region Static Fields
 
         private static readonly Dictionary<string, NamingService> ServiceCache = new Dictionary<string, NamingService>();
@@ -311,6 +312,24 @@ namespace StyleCop.Spelling
         }
 
         /// <summary>
+        /// Adds the deprecated words dictionary and their preferred alternatives to the list of current deprecated words.
+        /// </summary>
+        /// <param name="deprecatedWords">The dictionary of words to add.</param>
+        public void AddDeprecatedWords(IDictionary<string, string> deprecatedWords)
+        {
+            if (deprecatedWords != null)
+            {
+                foreach (KeyValuePair<string, string> deprecatedWord in deprecatedWords)
+                {
+                    if (!this.alternatesForDeprecatedWords.ContainsKey(deprecatedWord.Key))
+                    {
+                        this.alternatesForDeprecatedWords.Add(deprecatedWord);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         /// The is casing exception.
         /// </summary>
         /// <param name="word">
@@ -493,24 +512,6 @@ namespace StyleCop.Spelling
                     collection.Add(word.ToLower(this.culture));
                     collection.Add(char.ToUpper(word.ToLower(this.culture)[0], this.culture) + word.ToLower(this.culture).Substring(1));
                 }
-            }
-        }
-
-        private void AddWordsToSpellChecker(IEnumerable<string> ignoredWords, IEnumerable<string> alwaysMisspelledWords)
-        {
-            if (this.spellChecker == null)
-            {
-                return;
-            }
-
-            if (ignoredWords != null)
-            {
-                this.AddWordsToCollection(this.spellChecker.IgnoredWords, ignoredWords);
-            }
-
-            if (alwaysMisspelledWords != null)
-            {
-                this.AddWordsToCollection(this.spellChecker.AlwaysMisspelledWords, alwaysMisspelledWords);
             }
         }
 
