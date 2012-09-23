@@ -373,4 +373,7 @@ Do you wish to download the latest version?</value>
   <data name="SpellingTab" xml:space="preserve">
     <value>Spelling</value>
   </data>
+  <data name="EnterValidDeprecatedWord" xml:space="preserve">
+    <value>Please enter a valid deprecated word and it's alternative before clicking the Add button</value>
+  </data>
 </root>
