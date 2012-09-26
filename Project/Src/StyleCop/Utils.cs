@@ -122,7 +122,7 @@ namespace StyleCop
         public static Encoding GetFileEncoding(string path)
         {
             Param.AssertNotNull(path, "path");
-            
+
             // We check the first 4K.
             // If we get completely valid UTF-8 bytes in there with no BOM then we assume UTF-8 otherwise we return the Encoding.Default.
             const int BufferSize = 4096;
@@ -137,7 +137,7 @@ namespace StyleCop
             {
                 return encoding;
             }
-            
+
             if (buffer[0] == 0xff && buffer[1] == 0xfe && buffer[2] == 0 && buffer[3] == 0)
             {
                 // 0000feff UTF32 Little Endian
@@ -170,7 +170,7 @@ namespace StyleCop
             {
                 // 0000feff UTF32 Big Endian
                 return Encoding.GetEncoding(12001);
-            } 
+            }
 
             return DetectIfByteArrayIsUtf8(buffer, bytesRead) ? Encoding.UTF8 : encoding;
         }

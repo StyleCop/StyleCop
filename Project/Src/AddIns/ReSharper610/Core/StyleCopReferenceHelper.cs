@@ -28,7 +28,6 @@ namespace StyleCop.ReSharper610.Core
     using System.IO;
     using System.Reflection;
 
-    using StyleCop.Diagnostics;
     using StyleCop.ReSharper610.Options;
 
     #endregion
@@ -42,7 +41,7 @@ namespace StyleCop.ReSharper610.Core
     public class StyleCopReferenceHelper
     {
         #region Constants and Fields
-        
+
         /// <summary>
         /// SyncRoot object to lock access to the assembly.
         /// </summary>
@@ -59,14 +58,19 @@ namespace StyleCop.ReSharper610.Core
         private static bool assemblyLoadAttempted;
 
         /// <summary>
-        /// Flag to show whether the references were added.
+        /// Flag to indicate if the system has already attempted to load the StyleCop.CSharp.Rules assembly.
         /// </summary>
-        private static bool referencesAdded;
+        private static bool assemblyRulesLoadAttempted;
 
         /// <summary>
         /// The located StyleCop assembly.
         /// </summary>
         private static Assembly styleCopAssembly;
+
+        /// <summary>
+        /// The located StyleCop.CSharp.Rules assembly.
+        /// </summary>
+        private static Assembly styleCopCSharpRulesAssembly;
 
         #endregion
 
@@ -78,7 +82,7 @@ namespace StyleCop.ReSharper610.Core
         static StyleCopReferenceHelper()
         {
             assemblyLoadAttempted = false;
-            referencesAdded = false;
+            AppDomain.CurrentDomain.AssemblyResolve += OnEventHandler;
         }
 
         #endregion
@@ -121,22 +125,46 @@ namespace StyleCop.ReSharper610.Core
             }
         }
 
+        /// <summary>
+        /// Gets the StyleCop.CSharp.Rules Assembly from the install location.
+        /// </summary>
+        private static Assembly StyleCopCSharpRulesAssembly
+        {
+            get
+            {
+                if (!assemblyRulesLoadAttempted)
+                {
+                    lock (AssemblySyncRoot)
+                    {
+                        if (!assemblyRulesLoadAttempted)
+                        {
+                            try
+                            {
+                                var styleCopAssemblyPath = new StyleCopOptionsSettingsKey().GetAssemblyPath();
+
+                                if (!string.IsNullOrEmpty(styleCopAssemblyPath))
+                                {
+                                    var rulesPath = Path.GetDirectoryName(styleCopAssemblyPath);
+                                    styleCopCSharpRulesAssembly = Assembly.LoadFrom(Path.Combine(rulesPath, "StyleCop.CSharp.Rules.dll"));
+                                }
+
+                                assemblyRulesLoadAttempted = true;
+                            }
+                            catch (Exception exception)
+                            {
+                                JB::JetBrains.Util.Logger.LogException(exception);
+                            }
+                        }
+                    }
+                }
+
+                return styleCopCSharpRulesAssembly;
+            }
+        }
+
         #endregion
 
         #region Public Methods
-
-        /// <summary>
-        /// Gets a StyleCopCore instance.
-        /// </summary>
-        /// <returns>
-        /// A new StyleCopCore instance.
-        /// </returns>
-        public static StyleCopCore GetStyleCopCore()
-        {
-            AddStyleCopReferencesIfNeeded();
-
-            return new StyleCopCore();
-        }
 
         /// <summary>
         /// Checks if the path is a valid StyleCop assembly path.
@@ -165,61 +193,19 @@ namespace StyleCop.ReSharper610.Core
         }
 
         /// <summary>
-        /// Checks if StyleCop is available (i.e. the assembly has been found).
+        /// Checks if StyleCop is available (i.e. the assembly has been found) and loads it if required.
         /// </summary>
         /// <returns>
         /// A boolean to say if StyleCop is available.
         /// </returns>
-        public static bool StyleCopIsAvailable()
+        public static bool EnsureStyleCopIsLoaded()
         {
-            StyleCopTrace.In();
-
-            if (StyleCopAssembly != null)
-            {
-                return StyleCopTrace.Out(true);
-            }
-
-            AddStyleCopReferencesIfNeeded();
-
-            return StyleCopTrace.Out(StyleCopAssembly != null);
+            return StyleCopAssembly != null;
         }
 
         #endregion
 
         #region Methods
-
-        /// <summary>
-        /// Adds the style cop references by hooking into the assembly 
-        /// resolution event.
-        /// </summary>
-        private static void AddStyleCopReferencesIfNeeded()
-        {
-            StyleCopTrace.In();
-
-            if (!referencesAdded)
-            {
-                lock (ReferenceSyncRoot)
-                {
-                    if (!referencesAdded)
-                    {
-                        HookAssemblyResolveEvent();
-                        referencesAdded = true;
-                    }
-                }
-            }
-
-            StyleCopTrace.Out();
-        }
-
-        /// <summary>
-        /// Hooks the assembly resolve event to add the StyleCop references.
-        /// </summary>
-        private static void HookAssemblyResolveEvent()
-        {
-            StyleCopTrace.In();
-            AppDomain.CurrentDomain.AssemblyResolve += OnEventHandler;
-            StyleCopTrace.Out();
-        }
 
         /// <summary>
         /// On event handler.
@@ -235,16 +221,19 @@ namespace StyleCop.ReSharper610.Core
         /// </returns>
         private static Assembly OnEventHandler(object sender, ResolveEventArgs args)
         {
-            StyleCopTrace.In();
             var styleCopAssemblyPath = new StyleCopOptionsSettingsKey().GetAssemblyPath();
             var assemblyName = Path.GetFileNameWithoutExtension(styleCopAssemblyPath) + ",";
 
             if (args.Name.StartsWith(assemblyName))
             {
-                return StyleCopTrace.Out(StyleCopAssembly);
+                return StyleCopAssembly;
             }
 
-            StyleCopTrace.Out();
+            if (args.Name.StartsWith("StyleCop.CSharp.Rules,"))
+            {
+                return StyleCopCSharpRulesAssembly;
+            }
+
             return null;
         }
 

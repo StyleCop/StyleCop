@@ -63,6 +63,10 @@ namespace StyleCop.ReSharper600.Options
         /// </summary>
         public HighlightingRegistering()
         {
+            // Force StyleCop.dll to be loaded.
+            // Do not inline the Init method below.
+            // If you do then *sometimes* the StyleCop dll won't be loaded before you need it.
+            StyleCopReferenceHelper.EnsureStyleCopIsLoaded();
             this.Init();
         }
 
@@ -103,10 +107,7 @@ namespace StyleCop.ReSharper600.Options
         /// </summary>
         public void Init()
         {
-            if (StyleCopReferenceHelper.StyleCopIsAvailable())
-            {
-                this.AddHighlights();
-            }
+            this.AddHighlights();
         }
 
         #endregion
@@ -223,7 +224,7 @@ namespace StyleCop.ReSharper600.Options
         /// </summary>
         private void AddHighlights()
         {
-            var core = StyleCopReferenceHelper.GetStyleCopCore();
+            var core = new StyleCopCore();
             core.Initialize(new List<string>(), true);
 
             var analyzerRulesDictionary = StyleCopRule.GetRules(core);

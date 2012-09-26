@@ -133,7 +133,7 @@ namespace StyleCop.ReSharper513.Core
             {
                 var fileHeader = new FileHeader(Utils.GetCSharpFile(projectFile.GetSolution(), document));
 
-                if (!fileHeader.UnStyled && StyleCopReferenceHelper.StyleCopIsAvailable())
+                if (!fileHeader.UnStyled && StyleCopReferenceHelper.EnsureStyleCopIsLoaded())
                 {
                     this.file = projectFile;
                     this.RunStyleCop(document);

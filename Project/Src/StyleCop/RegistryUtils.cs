@@ -154,35 +154,7 @@ namespace StyleCop
 
             return count;
         }
-
-        /// <summary>
-        /// Gets the StyleCop install location from the registry. This RegistryKey is created by StyleCop during install.
-        /// </summary>
-        /// <returns>
-        /// Returns the RegistryKey value or null if not found.
-        /// </returns>
-        public static string InstallDirFromRegistry()
-        {
-            const string SubKey = @"SOFTWARE\CodePlex\StyleCop";
-            const string Key = "InstallDir";
-
-            RegistryKey registryKey = Registry.LocalMachine.OpenSubKey(SubKey);
-            return registryKey == null ? null : registryKey.GetValue(Key) as string;
-        }
-
-        /// <summary>
-        /// Retrieves a RegistryKey value for the registry for the current user.
-        /// </summary>
-        /// <param name="key">The sub key to open.</param>
-        /// <returns>The value of the RegistryKey.</returns>
-        public static object RetrieveFromRegistry(string key)
-        {
-            const string SubKey = @"SOFTWARE\CodePlex\StyleCop";
-
-            RegistryKey registryKey = Registry.CurrentUser.OpenSubKey(SubKey);
-            return registryKey == null ? null : registryKey.GetValue(key);
-        }
-
+        
         #region Public Methods
 
         /// <summary>

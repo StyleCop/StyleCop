@@ -222,30 +222,7 @@ namespace StyleCop.ReSharper700.Options
             RegistryKey registryKey = Registry.LocalMachine.OpenSubKey(SubKey);
             return registryKey == null ? null : registryKey.GetValue(Key) as string;
         }
-
-        /// <summary>
-        /// Sets a registry key value in the registry.
-        /// </summary>
-        /// <param name="key">
-        /// The sub key to create.
-        /// </param>
-        /// <param name="value">
-        /// The value to use.
-        /// </param>
-        /// <param name="valueKind">
-        /// The type of registry key value to set.
-        /// </param>
-        private static void SetRegistry(string key, object value, RegistryValueKind valueKind)
-        {
-            const string SubKey = @"SOFTWARE\CodePlex\StyleCop";
-
-            var registryKey = Registry.CurrentUser.CreateSubKey(SubKey);
-            if (registryKey != null)
-            {
-                registryKey.SetValue(key, value, valueKind);
-            }
-        }
-
+        
         #endregion
     }
 }
