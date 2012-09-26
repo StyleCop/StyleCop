@@ -42,9 +42,28 @@ namespace StyleCop.ReSharper600.Core
         /// </returns>
         public static string GetStyleCopPath()
         {
-            var directory = StyleCop.Utils.InstallDirFromRegistry() ?? Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var directory = RetrieveFromRegistry() ?? Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
             return directory == null ? directory : Path.Combine(directory, Constants.StyleCopAssemblyName);
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Gets the StyleCop install location from the registry. This registry key is created by StyleCop during install.
+        /// </summary>
+        /// <returns>
+        /// Returns the registry key value or null if not found.
+        /// </returns>
+        private static string RetrieveFromRegistry()
+        {
+            const string SubKey = @"SOFTWARE\CodePlex\StyleCop";
+            const string Key = "InstallDir";
+
+            RegistryKey registryKey = Registry.LocalMachine.OpenSubKey(SubKey);
+            return registryKey == null ? null : registryKey.GetValue(Key) as string;
         }
 
         #endregion

@@ -46,7 +46,7 @@ namespace StyleCop.ReSharper611.Options
         /// Set to true to always check for updates when Visual Studio starts.
         /// </summary>
         private bool alwaysCheckForUpdatesWhenVisualStudioStarts;
-        
+
         /// <summary>
         /// Tracks whether we should check for updates.
         /// </summary>
@@ -68,21 +68,21 @@ namespace StyleCop.ReSharper611.Options
         private bool attemptedToGetStyleCopPath;
 
         #endregion
-        
+
         #region Properties
-        
+
         /// <summary>
         /// Gets or sets DashesCountInFileHeader.
         /// </summary>
         [SettingsEntry(116, "Dashes Count In File Header")]
         public int DashesCountInFileHeader { get; set; }
-        
+
         /// <summary>
         /// Gets or sets a value indicating whether descriptive text should be inserted into missing documentation headers.
         /// </summary>
         [SettingsEntry(true, "Insert Text Into Documentation")]
         public bool InsertTextIntoDocumentation { get; set; }
-        
+
         /// <summary>
         /// Gets or sets the ParsingPerformance value. 9 means every time R# calls us, 8 means after 1 second, 7 means after 2 seconds, etc.
         /// </summary>
@@ -97,7 +97,7 @@ namespace StyleCop.ReSharper611.Options
         /// </summary>
         [SettingsEntry(true, "Analysis Enabled")]
         public bool AnalysisEnabled { get; set; }
-        
+
         /// <summary>
         /// Gets or sets the Specified Assembly Path.
         /// </summary>
@@ -112,7 +112,7 @@ namespace StyleCop.ReSharper611.Options
         /// </summary>
         [SettingsEntry("Reviewed. Suppression is OK here.", "Suppress StyleCop Attribute Justification Text")]
         public string SuppressStyleCopAttributeJustificationText { get; set; }
-        
+
         /// <summary>
         /// Gets or sets a value indicating whether to use exclude from style cop setting.
         /// </summary>
@@ -130,7 +130,7 @@ namespace StyleCop.ReSharper611.Options
         /// </summary>
         [SettingsEntry(true, "Check R# Code Style Options At StartUp")]
         public bool CheckReSharperCodeStyleOptionsAtStartUp { get; set; }
-        
+
         /// <summary>
         /// Gets or sets a value indicating whether to analyze read only files.
         /// </summary>
@@ -144,7 +144,7 @@ namespace StyleCop.ReSharper611.Options
         public bool InsertToDoText { get; set; }
 
         #endregion
-        
+
         #region Methods
 
         /// <summary>
@@ -203,11 +203,49 @@ namespace StyleCop.ReSharper611.Options
         /// </returns>
         private static string GetStyleCopPath()
         {
-            var directory = StyleCop.Utils.InstallDirFromRegistry() ?? Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var directory = RetrieveFromRegistry() ?? Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
             return directory == null ? directory : Path.Combine(directory, Constants.StyleCopAssemblyName);
         }
-        
+
+        /// <summary>
+        /// Gets the StyleCop install location from the registry. This registry key is created by StyleCop during install.
+        /// </summary>
+        /// <returns>
+        /// Returns the registry key value or null if not found.
+        /// </returns>
+        private static string RetrieveFromRegistry()
+        {
+            const string SubKey = @"SOFTWARE\CodePlex\StyleCop";
+            const string Key = "InstallDir";
+
+            RegistryKey registryKey = Registry.LocalMachine.OpenSubKey(SubKey);
+            return registryKey == null ? null : registryKey.GetValue(Key) as string;
+        }
+
+        /// <summary>
+        /// Sets a registry key value in the registry.
+        /// </summary>
+        /// <param name="key">
+        /// The sub key to create.
+        /// </param>
+        /// <param name="value">
+        /// The value to use.
+        /// </param>
+        /// <param name="valueKind">
+        /// The type of registry key value to set.
+        /// </param>
+        private static void SetRegistry(string key, object value, RegistryValueKind valueKind)
+        {
+            const string SubKey = @"SOFTWARE\CodePlex\StyleCop";
+
+            var registryKey = Registry.CurrentUser.CreateSubKey(SubKey);
+            if (registryKey != null)
+            {
+                registryKey.SetValue(key, value, valueKind);
+            }
+        }
+
         #endregion
     }
 }

@@ -22,64 +22,11 @@ namespace StyleCop
     using System.Reflection;
     using System.Text;
 
-    using Microsoft.Win32;
-
     /// <summary>
     /// This contains utility functions.
     /// </summary>
     public sealed class Utils
     {
-        /// <summary>
-        /// Retrieves a RegistryKey value for the registry for the current user.
-        /// </summary>
-        /// <param name="key">The sub key to open.</param>
-        /// <returns>The value of the RegistryKey.</returns>
-        public static object RetrieveFromRegistry(string key)
-        {
-            const string SubKey = @"SOFTWARE\CodePlex\StyleCop";
-
-            RegistryKey registryKey = Registry.CurrentUser.OpenSubKey(SubKey);
-            return registryKey == null ? null : registryKey.GetValue(key);
-        }
-
-        /// <summary>
-        /// Gets the StyleCop install location from the registry. This RegistryKey is created by StyleCop during install.
-        /// </summary>
-        /// <returns>
-        /// Returns the RegistryKey value or null if not found.
-        /// </returns>
-        public static string InstallDirFromRegistry()
-        {
-            const string SubKey = @"SOFTWARE\CodePlex\StyleCop";
-            const string Key = "InstallDir";
-
-            RegistryKey registryKey = Registry.LocalMachine.OpenSubKey(SubKey);
-            return registryKey == null ? null : registryKey.GetValue(Key) as string;
-        }
-
-        /// <summary>
-        /// Sets a RegistryKey value in the registry for the current user.
-        /// </summary>
-        /// <param name="key">
-        /// The sub key to create.
-        /// </param>
-        /// <param name="value">
-        /// The value to use.
-        /// </param>
-        /// <param name="valueKind">
-        /// The type of RegistryKey value to set.
-        /// </param>
-        public static void SetRegistry(string key, object value, RegistryValueKind valueKind)
-        {
-            const string SubKey = @"SOFTWARE\CodePlex\StyleCop";
-
-            var registryKey = Registry.CurrentUser.CreateSubKey(SubKey);
-            if (registryKey != null)
-            {
-                registryKey.SetValue(key, value, valueKind);
-            }
-        }
-
         /// <summary>
         /// Returns the specified Attribute for the assembly.
         /// </summary>

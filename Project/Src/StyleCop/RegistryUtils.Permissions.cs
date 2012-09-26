@@ -17,6 +17,8 @@ namespace StyleCop
     using System;
     using System.Security.Permissions;
 
+    using Microsoft.Win32;
+
     /// <content>
     /// Performs operations in the registry.
     /// </content>
@@ -25,19 +27,8 @@ namespace StyleCop
         /// <summary>
         /// Demands permissions on behalf of the RegistryUtils class.
         /// </summary>
-        internal sealed class Permissions
+        internal static class Permissions
         {
-            #region Private Constructors
-
-            /// <summary>
-            /// Prevents a default instance of the Permissions class from being created.
-            /// </summary>
-            private Permissions()
-            {
-            }
-
-            #endregion Private Constructors
-
             #region Public Static Methods
 
             /// <summary>
@@ -47,9 +38,8 @@ namespace StyleCop
             public static void Demand()
             {
                 // Create permission objects for the registry keys we're about to use.
-                string fullRegistryPath = @"HKEY_CURRENT_USER\Software\" + ApplicationAcronym;
                 RegistryPermission fullPermissions = 
-                    new RegistryPermission(RegistryPermissionAccess.AllAccess, fullRegistryPath);
+                    new RegistryPermission(RegistryPermissionAccess.AllAccess, @"HKEY_CURRENT_USER\Software\" + @"CodePlex\StyleCop");
             
                 // Now force this function to throw a SecurityException if we don't already have these permissions.
                 fullPermissions.Demand();

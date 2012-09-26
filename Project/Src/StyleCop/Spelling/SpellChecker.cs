@@ -525,17 +525,8 @@ namespace StyleCop.Spelling
                 {
                     if (pathToOfficeProofingTools == null)
                     {
-                        RegistryKey registryKey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Office\14.0\Common\InstallRoot");
-
-                        if (registryKey == null)
-                        {
-                            pathToOfficeProofingTools = string.Empty;
-                        }
-                        else
-                        {
-                            string registryValue = registryKey.GetValue("Path") as string;
-                            pathToOfficeProofingTools = registryValue == null ? string.Empty : Path.Combine(registryValue, @"Proof\");
-                        }
+                        string registryValue = RegistryUtils.LocalMachineGetValue(@"SOFTWARE\Microsoft\Office\14.0\Common\InstallRoot", "Path");
+                        pathToOfficeProofingTools = registryValue == null ? string.Empty : Path.Combine(registryValue, @"Proof\");
                     }
 
                     return pathToOfficeProofingTools;

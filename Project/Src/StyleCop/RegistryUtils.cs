@@ -32,41 +32,20 @@ namespace StyleCop
         Justification = "API has already been published and should not be changed.")]
     public partial class RegistryUtils
     {
-        #region Private Constants
-
-        /// <summary>
-        /// The key to place all data for this application under.
-        /// </summary>
-        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields", Justification = "False positive")]
-        private const string ApplicationAcronym = @"CodePlex\StyleCop";
-
-        #endregion Private Constants
-
-        #region Private Fields
-
-        /// <summary>
-        /// The root key.
-        /// </summary>
-        private RegistryKey curoot;
-
-        #endregion Private Fields
-
+        private const string StyleCopSubKey = @"Software\CodePlex\StyleCop";
+            
         #region Internal Constructors
 
         /// <summary>
         /// Initializes a new instance of the RegistryUtils class.
         /// </summary>
-        internal RegistryUtils()
+        public RegistryUtils()
         {
             // Demand our permissions
             Permissions.Demand();
 
-            string path = @"Software\" + ApplicationAcronym;
-            this.curoot = Registry.CurrentUser.OpenSubKey(path, true);
-            if (null == this.curoot)
-            {
-                this.curoot = Registry.CurrentUser.CreateSubKey(path);
-            }
+            this.CurrentUserRoot = Registry.CurrentUser.OpenSubKey(StyleCopSubKey, true) ?? Registry.CurrentUser.CreateSubKey(StyleCopSubKey);
+            this.LocalMachineRoot = Registry.LocalMachine.OpenSubKey(StyleCopSubKey, true) ?? Registry.LocalMachine.CreateSubKey(StyleCopSubKey);
         }
 
         #endregion Internal Constructors
@@ -78,9 +57,14 @@ namespace StyleCop
         /// </summary>
         ~RegistryUtils()
         {
-            if (this.curoot != null)
+            if (this.CurrentUserRoot != null)
             {
-                this.curoot.Close();
+                this.CurrentUserRoot.Close();
+            }
+
+            if (this.LocalMachineRoot != null)
+            {
+                this.LocalMachineRoot.Close();
             }
         }
 
@@ -91,15 +75,113 @@ namespace StyleCop
         /// <summary>
         /// Gets the HKCU root key.
         /// </summary>
-        public RegistryKey CURoot
-        {
-            get 
-            { 
-                return this.curoot; 
+        public RegistryKey CurrentUserRoot { get; private set; }
+
+        /// <summary>
+        /// Gets the HKLM root key.
+        /// </summary>
+        public RegistryKey LocalMachineRoot { get; private set; }
+
+        #endregion Public Properties
+
+        /// <summary>
+        /// Sets a RegistryKey value in the registry for the current user.
+        /// </summary>
+        /// <param name="key">
+        /// The sub key to create.
+        /// </param>
+        /// <param name="value">
+        /// The value to use.
+        /// </param>
+        /// <param name="valueKind">
+        /// The type of RegistryKey value to set.
+        /// </param>
+        public static void SetRegistry(string key, object value, RegistryValueKind valueKind)
+        {   
+            var registryKey = Registry.CurrentUser.CreateSubKey(StyleCopSubKey);
+            if (registryKey != null)
+            {
+                registryKey.SetValue(key, value, valueKind);
             }
         }
 
-        #endregion Public Properties
+        /// <summary>
+        /// Gets a RegistryKey value for the specified <paramref name="keyName"/> and <paramref name="valueName"/> from the local machine hive.
+        /// </summary>
+        /// <param name="keyName">The key to retrieve from the registry.</param>
+        /// <param name="valueName">The value to retrieve from the key provided.</param>
+        /// <returns>
+        /// Returns the RegistryKey value or null if not found.
+        /// </returns>
+        public static string LocalMachineGetValue(string keyName, string valueName)
+        {
+            return Registry.GetValue(@"HKEY_LOCAL_MACHINE\" + keyName, valueName, null) as string;
+        }
+
+        /// <summary>
+        /// Gets a RegistryKey value for the specified <paramref name="keyName"/> and <paramref name="valueName"/> for the Current User.
+        /// </summary>
+        /// <param name="keyName">The key to retrieve from the registry.</param>
+        /// <param name="valueName">The value to retrieve from the key provided.</param>
+        /// <returns>
+        /// Returns the RegistryKey value or null if not found.
+        /// </returns>
+        public static string CurrentUserGetValue(string keyName, string valueName)
+        {
+            return Registry.GetValue(@"HKEY_CURRENT_USER\" + keyName, valueName, null) as string;
+        }
+
+        /// <summary>
+        /// Gets the count of the number of keys under the <paramref name="keyName"/> provided.
+        /// </summary>
+        /// <param name="keyName">The key to retrieve from the registry.</param>
+        /// <returns>
+        /// Returns the count of the keys under the key provided or 1.
+        /// </returns>
+        public static int LocalMachineGetSubKeyCount(string keyName)
+        {
+            int count = 1;
+            using (RegistryKey key = Registry.LocalMachine.OpenSubKey(keyName))
+            {
+                if (key != null)
+                {
+                    if (key.SubKeyCount >= 1)
+                    {
+                        count = key.SubKeyCount;
+                    }
+                }
+            }
+
+            return count;
+        }
+
+        /// <summary>
+        /// Gets the StyleCop install location from the registry. This RegistryKey is created by StyleCop during install.
+        /// </summary>
+        /// <returns>
+        /// Returns the RegistryKey value or null if not found.
+        /// </returns>
+        public static string InstallDirFromRegistry()
+        {
+            const string SubKey = @"SOFTWARE\CodePlex\StyleCop";
+            const string Key = "InstallDir";
+
+            RegistryKey registryKey = Registry.LocalMachine.OpenSubKey(SubKey);
+            return registryKey == null ? null : registryKey.GetValue(Key) as string;
+        }
+
+        /// <summary>
+        /// Retrieves a RegistryKey value for the registry for the current user.
+        /// </summary>
+        /// <param name="key">The sub key to open.</param>
+        /// <returns>The value of the RegistryKey.</returns>
+        public static object RetrieveFromRegistry(string key)
+        {
+            const string SubKey = @"SOFTWARE\CodePlex\StyleCop";
+
+            RegistryKey registryKey = Registry.CurrentUser.OpenSubKey(SubKey);
+            return registryKey == null ? null : registryKey.GetValue(key);
+        }
 
         #region Public Methods
 
@@ -114,7 +196,7 @@ namespace StyleCop
             Param.RequireValidString(name, "name");
             Param.RequireNotNull(value, "value");
 
-            return RegistryUtils.SetValue(this.curoot, name, value);
+            return SetValue(this.CurrentUserRoot, name, value);
         }
 
         /// <summary>
@@ -125,7 +207,18 @@ namespace StyleCop
         public object CUGetValue(string name)
         {
             Param.RequireValidString(name, "name");
-            return RegistryUtils.GetValue(this.curoot, name);
+            return GetValue(this.CurrentUserRoot, name);
+        }
+
+        /// <summary>
+        /// Gets a value under the StyleCop HKLM key.
+        /// </summary>
+        /// <param name="name">The path to the value.</param>
+        /// <returns>Returns the object retrieved.</returns>
+        public object LMGetValue(string name)
+        {
+            Param.RequireValidString(name, "name");
+            return GetValue(this.LocalMachineRoot, name);
         }
 
         /// <summary>
@@ -135,7 +228,7 @@ namespace StyleCop
         public void CUDeleteValue(string name)
         {
             Param.RequireValidString(name, "name");
-            RegistryUtils.DeleteValue(this.curoot, name);
+            DeleteValue(this.CurrentUserRoot, name);
         }
 
         /// <summary>
@@ -146,7 +239,7 @@ namespace StyleCop
         public RegistryKey CUOpenKey(string name)
         {
             Param.RequireValidString(name, "name");
-            return RegistryUtils.OpenKey(this.curoot, name);
+            return OpenKey(this.CurrentUserRoot, name);
         }
         
         /// <summary>
@@ -157,7 +250,7 @@ namespace StyleCop
         public RegistryKey CUAddKey(string name)
         {
             Param.RequireValidString(name, "name");
-            return RegistryUtils.AddKey(this.curoot, name);
+            return AddKey(this.CurrentUserRoot, name);
         }
 
         /// <summary>
@@ -167,7 +260,7 @@ namespace StyleCop
         public void CUDeleteKey(string name)
         {
             Param.RequireValidString(name, "name");
-            RegistryUtils.DeleteKey(this.curoot, name);
+            DeleteKey(this.CurrentUserRoot, name);
         }
 
         /// <summary>
@@ -274,7 +367,7 @@ namespace StyleCop
             // Determine if the Location and Size is within the Screen's boundaries.
             if (form.WindowState == FormWindowState.Normal)
             {
-                System.Drawing.Rectangle workArea = Screen.PrimaryScreen.WorkingArea;
+                Rectangle workArea = Screen.PrimaryScreen.WorkingArea;
 
                 if (form.Width > workArea.Width)
                 {
@@ -331,7 +424,7 @@ namespace StyleCop
 
             try
             {
-                PathInfo pathinfo = RegistryUtils.CreatePath(root, name);
+                PathInfo pathinfo = CreatePath(root, name);
                 if (pathinfo.Key == null)
                 {
                     return null;
@@ -367,7 +460,7 @@ namespace StyleCop
 
             try
             {
-                PathInfo pathinfo = RegistryUtils.CreatePath(root, name);
+                PathInfo pathinfo = CreatePath(root, name);
                 if (pathinfo.Key == null)
                 {
                     return null;
@@ -511,7 +604,7 @@ namespace StyleCop
 
             try
             {
-                PathInfo pathinfo = RegistryUtils.CreatePath(root, name);
+                PathInfo pathinfo = CreatePath(root, name);
                 if (pathinfo.Key == null)
                 {
                     return false;
@@ -552,7 +645,7 @@ namespace StyleCop
 
             try
             {
-                PathInfo pathinfo = RegistryUtils.GetPath(root, name);
+                PathInfo pathinfo = GetPath(root, name);
                 if (pathinfo.Key == null)
                 {
                     return null;
@@ -587,7 +680,7 @@ namespace StyleCop
 
             try
             {
-                PathInfo pathinfo = RegistryUtils.GetPath(root, name);
+                PathInfo pathinfo = GetPath(root, name);
                 if (pathinfo.Key != null)
                 {
                     pathinfo.Key.DeleteValue(pathinfo.Stub);
@@ -627,7 +720,7 @@ namespace StyleCop
                 else
                 {
                     string delete = name.Substring(index + 1, name.Length - index - 1);
-                    PathInfo pathinfo = RegistryUtils.GetPath(root, name);
+                    PathInfo pathinfo = GetPath(root, name);
                     if (pathinfo.Key != null)
                     {
                         pathinfo.Key.DeleteSubKeyTree(delete);

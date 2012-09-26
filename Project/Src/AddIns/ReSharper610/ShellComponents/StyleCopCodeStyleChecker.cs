@@ -59,7 +59,7 @@ namespace StyleCop.ReSharper610.ShellComponents
         /// </param>
         public void Init(JB::JetBrains.DataFlow.Lifetime lifetime)
         {
-            var oneTimeInitializationRequiredRegistryKey = Utils.RetrieveFromRegistry("LastInitializationDate");
+            var oneTimeInitializationRequiredRegistryKey = RetrieveFromRegistry("LastInitializationDate");
 
             var initializationDate = Convert.ToDateTime(oneTimeInitializationRequiredRegistryKey);
 
@@ -113,7 +113,7 @@ namespace StyleCop.ReSharper610.ShellComponents
                     }
                 }
 
-                StyleCop.Utils.SetRegistry("LastInitializationDate", todayAsString, RegistryValueKind.String);
+                SetRegistry("LastInitializationDate", todayAsString, RegistryValueKind.String);
             }
         }
 
@@ -141,16 +141,46 @@ namespace StyleCop.ReSharper610.ShellComponents
         /// <returns>The DateTime of the InstallDate LOCALUSER registry key.</returns>
         private static DateTime GetInstallDateFromLocalUserRegistry(string defaultDateAsString)
         {
-            var installDateRegistryKey = Utils.RetrieveFromRegistry("InstallDate");
+            var installDateRegistryKey = RetrieveFromRegistry("InstallDate");
             if (installDateRegistryKey == null)
             {
-                Utils.SetRegistry("InstallDate", defaultDateAsString, RegistryValueKind.String);
+                SetRegistry("InstallDate", defaultDateAsString, RegistryValueKind.String);
                 return Convert.ToDateTime(defaultDateAsString);
             }
 
             return Convert.ToDateTime(installDateRegistryKey);
         }
-        
+
+        /// <summary>
+        /// Sets a registry key value in the registry.
+        /// </summary>
+        /// <param name="key">The sub key to create.</param>
+        /// <param name="value">The value to use</param>
+        /// <param name="valueKind">The type of registry key value to set.</param>
+        private static void SetRegistry(string key, object value, RegistryValueKind valueKind)
+        {
+            const string SubKey = @"SOFTWARE\CodePlex\StyleCop";
+
+            RegistryKey registryKey = Registry.CurrentUser.CreateSubKey(SubKey);
+            if (registryKey != null)
+            {
+                registryKey.SetValue(key, value, valueKind);
+            }
+        }
+
+        /// <summary>
+        /// Retrieves a registry key value for the registry.
+        /// </summary>
+        /// <param name="key">The sub key to open.</param>
+        /// <returns>The value of the registry key.</returns>
+        private static object RetrieveFromRegistry(string key)
+        {
+            const string SubKey = @"SOFTWARE\CodePlex\StyleCop";
+
+            RegistryKey registryKey = Registry.CurrentUser.OpenSubKey(SubKey);
+            return registryKey == null ? null : registryKey.GetValue(key);
+        }
+
         #endregion
     }
 }

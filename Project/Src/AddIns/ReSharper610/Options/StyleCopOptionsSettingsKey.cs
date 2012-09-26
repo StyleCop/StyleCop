@@ -32,8 +32,6 @@ namespace StyleCop.ReSharper610.Options
 
     using StyleCop.ReSharper610.Core;
 
-    using Utils = StyleCop.Utils;
-
     #endregion
 
     /// <summary>
@@ -48,7 +46,7 @@ namespace StyleCop.ReSharper610.Options
         /// Set to true to always check for updates when Visual Studio starts.
         /// </summary>
         private bool alwaysCheckForUpdatesWhenVisualStudioStarts;
-        
+
         /// <summary>
         /// Tracks whether we should check for updates.
         /// </summary>
@@ -70,9 +68,9 @@ namespace StyleCop.ReSharper610.Options
         private bool attemptedToGetStyleCopPath;
 
         #endregion
-        
+
         #region Properties
-        
+
         /// <summary>
         /// Gets or sets a value indicating whether AlwaysCheckForUpdatesWhenVisualStudioStarts.
         /// </summary>
@@ -87,7 +85,7 @@ namespace StyleCop.ReSharper610.Options
             set
             {
                 this.alwaysCheckForUpdatesWhenVisualStudioStarts = value;
-                StyleCop.Utils.SetRegistry("AlwaysCheckForUpdatesWhenVisualStudioStarts", value, RegistryValueKind.DWord);
+                SetRegistry("AlwaysCheckForUpdatesWhenVisualStudioStarts", value, RegistryValueKind.DWord);
             }
         }
 
@@ -105,7 +103,7 @@ namespace StyleCop.ReSharper610.Options
             set
             {
                 this.automaticallyCheckForUpdates = value;
-                StyleCop.Utils.SetRegistry("AutomaticallyCheckForUpdates", value, RegistryValueKind.DWord);
+                SetRegistry("AutomaticallyCheckForUpdates", value, RegistryValueKind.DWord);
             }
         }
 
@@ -129,7 +127,7 @@ namespace StyleCop.ReSharper610.Options
             set
             {
                 this.daysBetweenUpdateChecks = value;
-                StyleCop.Utils.SetRegistry("DaysBetweenUpdateChecks", value, RegistryValueKind.DWord);
+                SetRegistry("DaysBetweenUpdateChecks", value, RegistryValueKind.DWord);
             }
         }
 
@@ -159,7 +157,7 @@ namespace StyleCop.ReSharper610.Options
         /// </summary>
         [SettingsEntry(true, "Analysis Enabled")]
         public bool AnalysisEnabled { get; set; }
-        
+
         /// <summary>
         /// Gets or sets the Specified Assembly Path.
         /// </summary>
@@ -174,7 +172,7 @@ namespace StyleCop.ReSharper610.Options
         /// </summary>
         [SettingsEntry("Reviewed. Suppression is OK here.", "Suppress StyleCop Attribute Justification Text")]
         public string SuppressStyleCopAttributeJustificationText { get; set; }
-        
+
         /// <summary>
         /// Gets or sets a value indicating whether to use exclude from style cop setting.
         /// </summary>
@@ -188,9 +186,9 @@ namespace StyleCop.ReSharper610.Options
         public bool UseSingleLineDeclarationComments { get; set; }
 
         #endregion
-        
+
         #region Methods
-        
+
         /// <summary>
         /// Detects the style cop path.
         /// </summary>
@@ -247,9 +245,47 @@ namespace StyleCop.ReSharper610.Options
         /// </returns>
         private static string GetStyleCopPath()
         {
-            var directory = Utils.InstallDirFromRegistry() ?? Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var directory = RetrieveFromRegistry() ?? Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
             return directory == null ? directory : Path.Combine(directory, Constants.StyleCopAssemblyName);
+        }
+
+        /// <summary>
+        /// Gets the StyleCop install location from the registry. This registry key is created by StyleCop during install.
+        /// </summary>
+        /// <returns>
+        /// Returns the registry key value or null if not found.
+        /// </returns>
+        private static string RetrieveFromRegistry()
+        {
+            const string SubKey = @"SOFTWARE\CodePlex\StyleCop";
+            const string Key = "InstallDir";
+
+            RegistryKey registryKey = Registry.LocalMachine.OpenSubKey(SubKey);
+            return registryKey == null ? null : registryKey.GetValue(Key) as string;
+        }
+
+        /// <summary>
+        /// Sets a registry key value in the registry.
+        /// </summary>
+        /// <param name="key">
+        /// The sub key to create.
+        /// </param>
+        /// <param name="value">
+        /// The value to use.
+        /// </param>
+        /// <param name="valueKind">
+        /// The type of registry key value to set.
+        /// </param>
+        private static void SetRegistry(string key, object value, RegistryValueKind valueKind)
+        {
+            const string SubKey = @"SOFTWARE\CodePlex\StyleCop";
+
+            var registryKey = Registry.CurrentUser.CreateSubKey(SubKey);
+            if (registryKey != null)
+            {
+                registryKey.SetValue(key, value, valueKind);
+            }
         }
 
         #endregion

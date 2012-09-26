@@ -69,8 +69,7 @@ namespace StyleCop
                 string[] sections = input.Split(',');
                 if (sections.Length < 5)
                 {
-                    throw new ArgumentException(string.Format(
-                        CultureInfo.CurrentCulture, Strings.InvalidWindowLocationInputString, input));
+                    throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Strings.InvalidWindowLocationInputString, input));
                 }
 
                 this.location.X = Convert.ToInt32(sections[0], null);

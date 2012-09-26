@@ -1202,19 +1202,7 @@ namespace StyleCop
         /// <returns>The CPU count.</returns>
         private static int GetCpuCountForWindows()
         {
-            int count = 1;
-            RegistryKey key = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(@"HARDWARE\DESCRIPTION\System\CentralProcessor", false);
-            if (key != null)
-            {
-                if (key.SubKeyCount >= 1)
-                {
-                    count = key.SubKeyCount;
-                }
-
-                key.Close();
-            }
-
-            return count;
+            return RegistryUtils.LocalMachineGetSubKeyCount(@"HARDWARE\DESCRIPTION\System\CentralProcessor");
         }
 
         /// <summary>
@@ -1360,6 +1348,7 @@ namespace StyleCop
         private static DateTime GetLastUpdateCheckDate()
         {
             var dateTime = new RegistryUtils().CUGetValue("LastUpdateCheckDate");
+
             if (dateTime == null)
             {
                 // Default to now.
