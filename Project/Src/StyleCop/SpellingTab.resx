@@ -130,7 +130,7 @@
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="removeRecognizedWordButton.TabIndex" type="System.Int32, mscorlib">
-    <value>31</value>
+    <value>4</value>
   </data>
   <data name="removeRecognizedWordButton.Text" xml:space="preserve">
     <value>&amp;Remove</value>
@@ -157,7 +157,7 @@
     <value>75, 23</value>
   </data>
   <data name="addRecognizedWordButton.TabIndex" type="System.Int32, mscorlib">
-    <value>30</value>
+    <value>2</value>
   </data>
   <data name="addRecognizedWordButton.Text" xml:space="preserve">
     <value>&amp;Add</value>
@@ -205,7 +205,7 @@
     <value>144, 20</value>
   </data>
   <data name="addRecognizedWordTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>27</value>
+    <value>1</value>
   </data>
   <data name="&gt;&gt;addRecognizedWordTextBox.Name" xml:space="preserve">
     <value>addRecognizedWordTextBox</value>
@@ -256,7 +256,7 @@
     <value>144, 144</value>
   </data>
   <data name="recognizedWordsListView.TabIndex" type="System.Int32, mscorlib">
-    <value>32</value>
+    <value>3</value>
   </data>
   <data name="&gt;&gt;recognizedWordsListView.Name" xml:space="preserve">
     <value>recognizedWordsListView</value>
@@ -340,7 +340,7 @@
     <value>75, 23</value>
   </data>
   <data name="addDeprecatedWordButton.TabIndex" type="System.Int32, mscorlib">
-    <value>37</value>
+    <value>7</value>
   </data>
   <data name="addDeprecatedWordButton.Text" xml:space="preserve">
     <value>&amp;Add</value>
@@ -364,7 +364,7 @@
     <value>144, 20</value>
   </data>
   <data name="addDeprecatedWordTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>36</value>
+    <value>5</value>
   </data>
   <data name="&gt;&gt;addDeprecatedWordTextBox.Name" xml:space="preserve">
     <value>addDeprecatedWordTextBox</value>
@@ -412,7 +412,7 @@
     <value>144, 20</value>
   </data>
   <data name="addAlternateWordTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>38</value>
+    <value>6</value>
   </data>
   <data name="&gt;&gt;addAlternateWordTextBox.Name" xml:space="preserve">
     <value>addAlternateWordTextBox</value>
@@ -466,7 +466,7 @@
     <value>144, 144</value>
   </data>
   <data name="deprecatedWordsListView.TabIndex" type="System.Int32, mscorlib">
-    <value>41</value>
+    <value>8</value>
   </data>
   <data name="&gt;&gt;deprecatedWordsListView.Name" xml:space="preserve">
     <value>deprecatedWordsListView</value>
@@ -493,7 +493,7 @@
     <value>75, 23</value>
   </data>
   <data name="removeDeprecatedWordButton.TabIndex" type="System.Int32, mscorlib">
-    <value>40</value>
+    <value>9</value>
   </data>
   <data name="removeDeprecatedWordButton.Text" xml:space="preserve">
     <value>&amp;Remove</value>
