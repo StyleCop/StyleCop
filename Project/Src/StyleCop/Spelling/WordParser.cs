@@ -130,9 +130,9 @@ namespace StyleCop.Spelling
                 return this.NextWordCore();
             }
 
-            string peekedWord = this.peekedWord;
+            string returnValue = this.peekedWord;
             this.peekedWord = null;
-            return peekedWord;
+            return returnValue;
         }
 
         /// <summary>
@@ -143,12 +143,7 @@ namespace StyleCop.Spelling
         /// </returns>
         public string PeekWord()
         {
-            if (this.peekedWord == null)
-            {
-                this.peekedWord = this.NextWordCore();
-            }
-
-            return this.peekedWord;
+            return this.peekedWord ?? (this.peekedWord = this.NextWordCore());
         }
 
         #endregion
@@ -331,14 +326,17 @@ namespace StyleCop.Spelling
             {
                 this.Read();
             }
-            while (this.Peek() != '$');
+            while (this.Peek() != '$' && this.Peek() != '\0');
 
-            // the last '$' (or 2nd to last if $$.....$$ )
-            this.Read(); 
-
-            if (doubleDollar && this.Peek() == '$')
+            if (this.Peek() != '\0')
             {
+                // the last '$' (or 2nd to last if $$.....$$ )
                 this.Read();
+
+                if (doubleDollar && this.Peek() == '$')
+                {
+                    this.Read();
+                }
             }
         }
 
