@@ -19,6 +19,7 @@ namespace StyleCop
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using System.Globalization;
+    using System.IO;
 
     /// <summary>
     /// Describes a project containing one or more source code documents.
@@ -101,7 +102,12 @@ namespace StyleCop
         /// The CultureInfo to use during analysis.
         /// </summary>
         private CultureInfo culture;
-        
+
+        /// <summary>
+        /// Folders to scan for CustomDictionary.xml files.
+        /// </summary>
+        private ICollection<string> dictionaryFolders;
+
         #endregion Private Fields
 
         #region Public Constructors
@@ -335,6 +341,51 @@ namespace StyleCop
                 }
 
                 return this.deprecatedWords ?? new Dictionary<string, string>();
+            }
+        }
+        
+        /// <summary>
+        /// Gets the dictionary of folders that will be scanned for CustomDictionary.xml files.
+        /// </summary>
+        public virtual ICollection<string> DictionaryFolders
+        {
+            get
+            {
+                if (this.dictionaryFolders == null && this.settingsLoaded)
+                {
+                    if (this.settings != null)
+                    {
+                        var descriptor = this.settings.Core.PropertyDescriptors["DictionaryFolders"] as CollectionPropertyDescriptor;
+                        if (descriptor != null)
+                        {
+                            var property = this.settings.GlobalSettings.GetProperty(descriptor.PropertyName) as CollectionProperty;
+                            if (property == null)
+                            {
+                                this.dictionaryFolders = null;
+                            }
+                            else
+                            {
+                                this.dictionaryFolders = new Collection<string>();
+
+                                foreach (var propertyValue in property.Values)
+                                {
+                                    var path = Environment.ExpandEnvironmentVariables(propertyValue);
+                                    this.dictionaryFolders.Add(Path.GetFullPath(path));
+                                }
+                            }
+                        }
+                        else
+                        {
+                            this.dictionaryFolders = new Collection<string>();
+                        }
+                    }
+                    else
+                    {
+                        this.dictionaryFolders = new Collection<string>();
+                    }
+                }
+
+                return this.dictionaryFolders ?? new Collection<string>();
             }
         }
         

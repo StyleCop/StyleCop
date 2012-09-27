@@ -68,6 +68,12 @@
         FriendlyName="Deprecated Words"
         Description="The list of deprecated words for the specified culture with the preferred alternative.">
     </CollectionProperty>
+    <CollectionProperty
+        Name="DictionaryFolders"
+        Aggregate="True"
+        FriendlyName="Dictionary Folders"
+        Description="The list of folders that will be scanned for CustomDictionary.xml files.">
+    </CollectionProperty>
   </Properties>
   <Rules>
     <Rule Name="ExceptionOccurred" CheckId="SA0001">

@@ -18,6 +18,7 @@ namespace StyleCop.Spelling
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
@@ -57,6 +58,8 @@ namespace StyleCop.Spelling
 
         private SpellChecker spellChecker;
 
+        private ICollection<string> dictionaryFolders;
+
         #endregion
 
         #region Constructors and Destructors
@@ -72,6 +75,13 @@ namespace StyleCop.Spelling
 
         #region Public Properties
 
+        public ICollection<string> DictionaryFolders
+        {
+           get
+           {
+               return this.dictionaryFolders.ToArray();
+           }       
+        }
         /// <summary>
         /// Gets the default naming service.
         /// </summary>
@@ -352,6 +362,27 @@ namespace StyleCop.Spelling
 
         #region Methods
 
+        /// <summary>
+        /// Adds a folder to the list of folders scanned for CustomDictionary.xml files.
+        /// </summary>
+        /// <param name="path">The path to add.</param>
+        public void AddDictionaryFolder(string path)
+        {
+            if (!string.IsNullOrEmpty(path))
+            {
+                var fullPath = Path.GetFullPath(Environment.ExpandEnvironmentVariables(path));
+
+                if (Directory.Exists(fullPath))
+                {
+                    if (!this.dictionaryFolders.Contains(fullPath, StringComparer.InvariantCultureIgnoreCase))
+                    {
+                        this.dictionaryFolders.Add(fullPath);
+                        this.ScanAndLoadDictionaries(fullPath);
+                    }
+                }
+            }
+        }
+
         internal static CultureInfo TryParseCulture(string cultureName)
         {
             try
@@ -549,43 +580,43 @@ namespace StyleCop.Spelling
             this.alternatesForDeprecatedWords = this.CreateCaseInsensitiveDictionary();
             this.compoundAlternatesForDiscreteWords = this.CreateCaseInsensitiveDictionary();
             this.discreteWordExceptions = this.CreateCaseInsensitiveDictionary();
+            this.dictionaryFolders = new Collection<string>();
 
             this.customDictionaryHashCode = 0;
-            this.InitDefaultCustomDictionaries();
+            this.ScanAndLoadDictionaries(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
         }
 
-        private void InitDefaultCustomDictionaries()
+        private void ScanAndLoadDictionaries(string directory)
         {
-            string currentDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            if (currentDirectory != null)
+            if (!string.IsNullOrEmpty(directory))
             {
-                foreach (string str in Directory.GetFiles(currentDirectory, "CustomDictionary.xml", SearchOption.AllDirectories))
+                foreach (string str in Directory.GetFiles(directory, "CustomDictionary.xml", SearchOption.AllDirectories))
                 {
                     this.LoadCustomDictionaryXml(str);
                 }
 
-                foreach (string str in Directory.GetFiles(currentDirectory, string.Format("CustomDictionary.{0}.xml", this.culture.Name), SearchOption.AllDirectories))
+                foreach (string str in Directory.GetFiles(directory, string.Format("CustomDictionary.{0}.xml", this.culture.Name), SearchOption.AllDirectories))
                 {
                     this.LoadCustomDictionaryXml(str);
                 }
 
                 foreach (
-                    string str in Directory.GetFiles(currentDirectory, string.Format("CustomDictionary.{0}.xml", this.culture.Parent.Name), SearchOption.AllDirectories))
+                    string str in Directory.GetFiles(directory, string.Format("CustomDictionary.{0}.xml", this.culture.Parent.Name), SearchOption.AllDirectories))
                 {
                     this.LoadCustomDictionaryXml(str);
                 }
 
-                foreach (string str2 in Directory.GetFiles(currentDirectory, "custom.dic", SearchOption.AllDirectories))
+                foreach (string str2 in Directory.GetFiles(directory, "custom.dic", SearchOption.AllDirectories))
                 {
                     this.LoadCustomDic(str2);
                 }
 
-                foreach (string str2 in Directory.GetFiles(currentDirectory, string.Format("custom.{0}.dic", this.culture.Name), SearchOption.AllDirectories))
+                foreach (string str2 in Directory.GetFiles(directory, string.Format("custom.{0}.dic", this.culture.Name), SearchOption.AllDirectories))
                 {
                     this.LoadCustomDic(str2);
                 }
 
-                foreach (string str2 in Directory.GetFiles(currentDirectory, string.Format("custom.{0}.dic", this.culture.Parent.Name), SearchOption.AllDirectories))
+                foreach (string str2 in Directory.GetFiles(directory, string.Format("custom.{0}.dic", this.culture.Parent.Name), SearchOption.AllDirectories))
                 {
                     this.LoadCustomDic(str2);
                 }

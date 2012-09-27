@@ -165,6 +165,11 @@ namespace StyleCop.CSharp
             {
                 NamingService namingService = NamingService.GetNamingService(document.SourceCode.Project.Culture);
                 namingService.AddDeprecatedWords(document.SourceCode.Project.DeprecatedWords);
+                
+                foreach (var dictionaryFolder in document.SourceCode.Project.DictionaryFolders)
+                {
+                    namingService.AddDictionaryFolder(dictionaryFolder);
+                }
 
                 this.CheckElementDocumentation(csdocument);
                 this.CheckFileHeader(csdocument);
