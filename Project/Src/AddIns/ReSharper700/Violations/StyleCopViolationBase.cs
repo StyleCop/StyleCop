@@ -57,6 +57,7 @@ namespace StyleCop.ReSharper700.Violations
             this.FileName = fileName;
             this.LineNumber = lineNumber;
             this.Rule = violation.Violation.Rule;
+            this.Violation = violation.Violation;
         }
 
         /// <summary>
@@ -114,6 +115,11 @@ namespace StyleCop.ReSharper700.Violations
                 return null;
             }
         }
+
+        /// <summary>
+        /// Gets the internal Violation.
+        /// </summary>
+        public Violation Violation { get; private set; }
 
         /// <summary>
         /// Gets the check id for the Violation.

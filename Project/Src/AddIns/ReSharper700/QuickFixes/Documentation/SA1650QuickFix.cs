@@ -19,6 +19,7 @@ namespace StyleCop.ReSharper700.QuickFixes.Documentation
 
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
 
     using JetBrains.ReSharper.Feature.Services.Bulbs;
     using JetBrains.ReSharper.Intentions.Extensibility;
@@ -107,8 +108,11 @@ namespace StyleCop.ReSharper700.QuickFixes.Documentation
         /// StyleCop Violation.
         /// </summary>
         protected override void InitialiseBulbItems()
-        { 
-            var namingService = NamingService.DefaultNamingService;
+        {
+            CultureInfo culture = this.Violation.Violation.SourceCode.Project.Culture;
+
+            NamingService namingService = NamingService.GetNamingService(culture);
+            
             if (!namingService.SupportsSpelling)
             {
                 return;
@@ -131,7 +135,9 @@ namespace StyleCop.ReSharper700.QuickFixes.Documentation
                         this.BulbItems.Add(
                             new SA1650ElementDocumentationMustBeSpelledCorrectlyBulbItem
                                 {
-                                    Description = description, DeprecatedWord = trimmedWord, AlternateWord = preferredAlternateForDeprecatedWord
+                                    Description = description,
+                                    DeprecatedWord = trimmedWord,
+                                    AlternateWord = preferredAlternateForDeprecatedWord
                                 });
                     }
                 }
