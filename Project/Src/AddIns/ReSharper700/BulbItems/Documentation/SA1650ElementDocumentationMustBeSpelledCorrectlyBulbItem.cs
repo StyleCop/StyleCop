@@ -17,6 +17,7 @@ namespace StyleCop.ReSharper700.BulbItems.Documentation
 {
     #region Using Directives
 
+    using System;
     using System.Xml;
 
     using JetBrains.ProjectModel;
@@ -60,12 +61,12 @@ namespace StyleCop.ReSharper700.BulbItems.Documentation
 
             var declarationHeader = new DeclarationHeader(declaration);
             
-            this.SwapWord(declarationHeader.XmlNode, this.DeprecatedWord, this.AlternateWord);
+            this.ProcessXmlNode(declarationHeader.XmlNode, this.DeprecatedWord, this.AlternateWord);
 
             declarationHeader.Update();
         }
 
-        private void SwapWord(XmlNode node, string word, string alternativeWord)
+        private void ProcessXmlNode(XmlNode node, string word, string alternativeWord)
         {
             for (var i = 0; i < node.ChildNodes.Count; i++)
             {
@@ -73,14 +74,37 @@ namespace StyleCop.ReSharper700.BulbItems.Documentation
 
                 if (childNode is XmlText && i == 0)
                 {
-                    if (childNode.InnerText.Contains(word))
-                    {
-                        childNode.InnerText = childNode.InnerText.Replace(word, alternativeWord);
-                    }
+                    childNode.InnerText = this.ReplaceWord(childNode.InnerText, word, alternativeWord);
                 }
 
-                this.SwapWord(childNode, word, alternativeWord);
+                this.ProcessXmlNode(childNode, word, alternativeWord);
             }
+        }
+
+        private string ReplaceWord(string text, string word, string alternativeWord)
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                return text;
+            }
+
+            int indexOfWord = -1;
+            do
+            {
+                indexOfWord = text.IndexOf(word, indexOfWord + 1, StringComparison.CurrentCulture);
+                if (indexOfWord > -1)
+                {
+                    if ((indexOfWord == 0 || !char.IsLetter(text, indexOfWord - 1)) && (indexOfWord == text.Length || !char.IsLetter(text, indexOfWord + word.Length)))
+                    {
+                        var firstPart = text.Substring(0, indexOfWord);
+                        var secondPart = text.Substring(indexOfWord + word.Length);
+                        text = string.Concat(firstPart, alternativeWord, secondPart);
+                    }
+                }
+            }
+            while (indexOfWord > -1);
+
+            return text;
         }
 
         #endregion
