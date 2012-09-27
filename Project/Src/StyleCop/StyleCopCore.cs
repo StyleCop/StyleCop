@@ -27,7 +27,6 @@ namespace StyleCop
     using System.Windows.Forms;
     using System.Xml;
     using Microsoft.Build.Framework;
-    using Microsoft.Win32;
 
     using StyleCop.Diagnostics;
 
@@ -48,21 +47,21 @@ namespace StyleCop
 
         #region Private Fields
 
-        /// <summary>
-        /// Provides a countdown for each of the threads we will start later. We will use CountdownEvent in Framework 4.0.
-        /// </summary>
-        private static Countdown countdown;
+        //// <summary>
+        //// Provides a countdown for each of the threads we will start later. We will use CountdownEvent in Framework 4.0.
+        //// </summary>
+        //// private static Countdown countdown;
 
         private static DateTime lastWriteTime;
 
         private static bool lastWriteTimeInitialized;
 
-#if !DEBUGTHREADING
-        /// <summary>
-        /// The CPU count of the machine.
-        /// </summary>
-        private static int cpuCount;
-#endif
+        //// #if !DEBUGTHREADING
+        //// <summary>
+        //// The CPU count of the machine.
+        //// </summary>
+        //// private static int cpuCount;
+        //// #endif
 
         /// <summary>
         /// The Major.Minor parts of the StyleCop version number i.e. 4.3 or 4.5.
@@ -388,24 +387,24 @@ namespace StyleCop
             }
         }
 
-#if !DEBUGTHREADING
-        /// <summary>
-        /// Gets the number of CPUs on the machine.
-        /// </summary>
-        /// <value> The number of CPUs on the machine. </value>
-        private static int CpuCount
-        {
-            get
-            {
-                if (cpuCount == 0)
-                {
-                    cpuCount = GetCpuCount();
-                }
+        //// #if !DEBUGTHREADING
+        //// <summary>
+        //// Gets the number of CPUs on the machine.
+        //// </summary>
+        //// <value> The number of CPUs on the machine. </value>
+        ////private static int CpuCount
+        ////{
+        ////    get
+        ////    {
+        ////        if (cpuCount == 0)
+        ////        {
+        ////            cpuCount = GetCpuCount();
+        ////        }
 
-                return cpuCount;
-            }
-        }
-#endif
+        ////        return cpuCount;
+        ////    }
+        ////}
+        ////#endif
 
         /// <summary>
         /// Gets the Major.Minor parts of the StyleCop version number i.e. 4.3 or 4.5.
@@ -1717,14 +1716,15 @@ namespace StyleCop
                 this.cancel = false;
             }
 
-            // Get the CPU count.
-#if DEBUGTHREADING
-            // For debugging, only create a single worker thread.
+            //// TODO When we move to FRamework 4 we can re-introduce the threads and use the CountdownEvent to synchronize.
+            //// Get the CPU count.
+            //// #if DEBUGTHREADING
+            //// For debugging, only create a single worker thread.
             int threadCount = 1;
-#else
-            // Create a maximum of two worker threads.
-            int threadCount = Math.Min(CpuCount, 2);
-#endif
+            //// #else
+            //// Create a maximum of two worker threads.
+            //// int threadCount = Math.Min(CpuCount, 2);
+            //// #endif
 
             try
             {
@@ -1844,53 +1844,56 @@ namespace StyleCop
             bool complete = true;
 
             // Create the thread class arrays.
-            StyleCopThread[] threadClasses = new StyleCopThread[count];
+            //// StyleCopThread[] threadClasses = new StyleCopThread[count];
+            StyleCopThread thread = new StyleCopThread(data);
+            thread.DoWork(null);
+            
+            //// countdown = new Countdown(count);
 
-            countdown = new Countdown(count);
+            //// Allocate and start all the threads.
+            //// for (int i = 0; i < count; ++i)
+            //// {
+                //// Allocate the worker classes for this thread.
+                //// threadClasses[i] = new StyleCopThread(data);
 
-            // Allocate and start all the threads.
-            for (int i = 0; i < count; ++i)
-            {
-                // Allocate the worker classes for this thread.
-                threadClasses[i] = new StyleCopThread(data);
+                //// Register for the completion event on the thread data class. We do not use the standard BackgroundWorker
+                //// completion event because for some reason it does not get fired when running inside of Visual Studio using
+                //// the MSBuild task, and so everything ends up blocked. This may have to do with the way Visual Studio uses 
+                //// threads when running a build. Therefore, we do not rely on the BackgroundWorker's completion event, and
+                //// instead use our own event.
+               //// threadClasses[i].ThreadCompleted += this.StyleCopThreadCompleted;
 
-                // Register for the completion event on the thread data class. We do not use the standard BackgroundWorker
-                // completion event because for some reason it does not get fired when running inside of Visual Studio using
-                // the MSBuild task, and so everything ends up blocked. This may have to do with the way Visual Studio uses 
-                // threads when running a build. Therefore, we do not rely on the BackgroundWorker's completion event, and
-                // instead use our own event.
-                threadClasses[i].ThreadCompleted += this.StyleCopThreadCompleted;
-
-                new Thread(threadClasses[i].DoWork).Start();
-            }
+                //// new Thread(threadClasses[i].DoWork).Start();
+            ////}
 
             // Blocks until Signal has been called 'n' times
-            countdown.Wait();
-
-            // Dispose the workers and determine whether all analysis is complete.
-            for (int i = 0; i < count; ++i)
-            {
-                if (!threadClasses[i].Complete)
-                {
-                    complete = false;
-                }
-            }
+            //// countdown.Wait();
+            complete = thread.Complete;
+            
+            //// Dispose the workers and determine whether all analysis is complete.
+            ////for (int i = 0; i < count; ++i)
+            ////{
+            ////    if (!threadClasses[i].Complete)
+            ////    {
+            ////        complete = false;
+            ////    }
+            ////}
 
             return StyleCopTrace.Out(complete);
         }
 
-        /// <summary>
-        /// Called when one of the worker threads completes its work.
-        /// </summary>
-        /// <param name="sender">The event sender.</param>
-        /// <param name="e">The event arguments.</param>
-        private void StyleCopThreadCompleted(object sender, EventArgs e)
-        {
-            Param.Ignore(sender);
-            Param.AssertNotNull(e, "e");
+        //// <summary>
+        //// Called when one of the worker threads completes its work.
+        //// </summary>
+        //// <param name="sender">The event sender.</param>
+        //// <param name="e">The event arguments.</param>
+        //// private void StyleCopThreadCompleted(object sender, EventArgs e)
+        //// {
+        ////    Param.Ignore(sender);
+        ////    Param.AssertNotNull(e, "e");
 
-            countdown.Signal();
-        }
+        ////    countdown.Signal();
+        //// }
 
         #endregion Private Methods
     }
