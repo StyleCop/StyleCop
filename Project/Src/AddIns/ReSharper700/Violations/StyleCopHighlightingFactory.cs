@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="StyleCopViolationFactory.cs" company="http://stylecop.codeplex.com">
+// <copyright file="StyleCopHighlightingFactory.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -35,7 +35,7 @@ namespace StyleCop.ReSharper700.Violations
     /// <summary>
     /// Factory class for getting HighLights for StyleCop violations.
     /// </summary>
-    public static class StyleCopViolationFactory
+    public static class StyleCopHighlightingFactory
     {
         #region Public Methods
 
@@ -71,17 +71,17 @@ namespace StyleCop.ReSharper700.Violations
             switch (severity)
             {
                 case Severity.ERROR:
-                    return new StyleCopViolationError(violation, documentRange, fileName, lineNumber);
+                    return new StyleCopHighlightingError(violation, documentRange, fileName, lineNumber);
                 case Severity.HINT:
-                    return new StyleCopViolationHint(violation, documentRange, fileName, lineNumber);
+                    return new StyleCopHighlightingHint(violation, documentRange, fileName, lineNumber);
                 case Severity.INFO:
-                    return new StyleCopViolationError(violation, documentRange, fileName, lineNumber);
+                    return new StyleCopHighlightingError(violation, documentRange, fileName, lineNumber);
                 case Severity.SUGGESTION:
-                    return new StyleCopViolationSuggestion(violation, documentRange, fileName, lineNumber);
+                    return new StyleCopHighlightingSuggestion(violation, documentRange, fileName, lineNumber);
                 case Severity.WARNING:
-                    return new StyleCopViolationWarning(violation, documentRange, fileName, lineNumber);
+                    return new StyleCopHighlightingWarning(violation, documentRange, fileName, lineNumber);
                 default:
-                    return new StyleCopViolationDoNotShow(violation, documentRange, fileName, lineNumber);
+                    return new StyleCopHighlightingDoNotShow(violation, documentRange, fileName, lineNumber);
             }
         }
 

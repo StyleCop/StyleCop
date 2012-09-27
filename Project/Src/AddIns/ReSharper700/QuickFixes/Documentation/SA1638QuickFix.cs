@@ -41,46 +41,46 @@ namespace StyleCop.ReSharper700.QuickFixes.Documentation
         #region Constructors and Destructors
 
         /// <summary>
-        ///   Initializes a new instance of the SA1638QuickFix class that can handle <see cref="StyleCopViolationError" /> .
+        ///   Initializes a new instance of the SA1638QuickFix class that can handle <see cref="StyleCopHighlightingError" /> .
         /// </summary>
-        /// <param name="highlight"> <see cref="StyleCopViolationError" /> that has been detected. </param>
-        public SA1638QuickFix(StyleCopViolationError highlight)
+        /// <param name="highlight"> <see cref="StyleCopHighlightingError" /> that has been detected. </param>
+        public SA1638QuickFix(StyleCopHighlightingError highlight)
             : base(highlight)
         {
         }
 
         /// <summary>
-        ///   Initializes a new instance of the SA1638QuickFix class that can handle <see cref="StyleCopViolationHint" /> .
+        ///   Initializes a new instance of the SA1638QuickFix class that can handle <see cref="StyleCopHighlightingHint" /> .
         /// </summary>
-        /// <param name="highlight"> <see cref="StyleCopViolationHint" /> that has been detected. </param>
-        public SA1638QuickFix(StyleCopViolationHint highlight)
+        /// <param name="highlight"> <see cref="StyleCopHighlightingHint" /> that has been detected. </param>
+        public SA1638QuickFix(StyleCopHighlightingHint highlight)
             : base(highlight)
         {
         }
 
         /// <summary>
-        ///   Initializes a new instance of the SA1638QuickFix class that can handle <see cref="StyleCopViolationInfo" /> .
+        ///   Initializes a new instance of the SA1638QuickFix class that can handle <see cref="StyleCopHighlightingInfo" /> .
         /// </summary>
-        /// <param name="highlight"> <see cref="StyleCopViolationInfo" /> that has been detected. </param>
-        public SA1638QuickFix(StyleCopViolationInfo highlight)
+        /// <param name="highlight"> <see cref="StyleCopHighlightingInfo" /> that has been detected. </param>
+        public SA1638QuickFix(StyleCopHighlightingInfo highlight)
             : base(highlight)
         {
         }
 
         /// <summary>
-        ///   Initializes a new instance of the SA1638QuickFix class that can handle <see cref="StyleCopViolationSuggestion" /> .
+        ///   Initializes a new instance of the SA1638QuickFix class that can handle <see cref="StyleCopHighlightingSuggestion" /> .
         /// </summary>
-        /// <param name="highlight"> <see cref="StyleCopViolationSuggestion" /> that has been detected. </param>
-        public SA1638QuickFix(StyleCopViolationSuggestion highlight)
+        /// <param name="highlight"> <see cref="StyleCopHighlightingSuggestion" /> that has been detected. </param>
+        public SA1638QuickFix(StyleCopHighlightingSuggestion highlight)
             : base(highlight)
         {
         }
 
         /// <summary>
-        ///   Initializes a new instance of the SA1638QuickFix class that can handle <see cref="StyleCopViolationWarning" /> .
+        ///   Initializes a new instance of the SA1638QuickFix class that can handle <see cref="StyleCopHighlightingWarning" /> .
         /// </summary>
-        /// <param name="highlight"> <see cref="StyleCopViolationWarning" /> that has been detected. </param>
-        public SA1638QuickFix(StyleCopViolationWarning highlight)
+        /// <param name="highlight"> <see cref="StyleCopHighlightingWarning" /> that has been detected. </param>
+        public SA1638QuickFix(StyleCopHighlightingWarning highlight)
             : base(highlight)
         {
         }
@@ -96,7 +96,7 @@ namespace StyleCop.ReSharper700.QuickFixes.Documentation
         {
             this.BulbItems = new List<IBulbAction>
                 {
-                    new SA1637FileHeaderMustContainFileNameBulbItem { Description = "Update filename in header : " + this.Violation.ToolTip }
+                    new SA1637FileHeaderMustContainFileNameBulbItem { Description = "Update filename in header : " + this.Highlighting.ToolTip }
                 };
         }
 

@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="StyleCopViolationWarning.cs" company="http://stylecop.codeplex.com">
+// <copyright file="StyleCopHighlightingSuggestion.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -12,7 +12,7 @@
 //   notice, or any other, from this software.
 // </license>
 // <summary>
-//   Highlighting class for a StyleCop Violation set to severity level Warning.
+//   Highlighting class for a StyleCop Violation set to severity level Suggestion.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -26,26 +26,26 @@ namespace StyleCop.ReSharper700.Violations
     #endregion
 
     /// <summary>
-    /// Highlighting class for a StyleCop Violation set to severity level Warning.
+    /// Highlighting class for a StyleCop Violation set to severity level Suggestion.
     /// </summary>
     [StaticSeverityHighlighting(ViolationSeverity, "a")]
-    public class StyleCopViolationWarning : StyleCopViolationBase
+    public class StyleCopHighlightingSuggestion : StyleCopHighlightingBase
     {
         #region Constants and Fields
 
         /// <summary>
         /// The Violation severity.
         /// </summary>
-        private const Severity ViolationSeverity = Severity.WARNING;
+        private const Severity ViolationSeverity = Severity.SUGGESTION;
 
         #endregion
 
         #region Constructors and Destructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="StyleCopViolationWarning"/> class.
+        /// Initializes a new instance of the <see cref="StyleCopHighlightingSuggestion"/> class.
         /// </summary>
-        /// <param name="violation">
+        /// <param name="violationEventArgs">
         /// The <see cref="StyleCop.ViolationEventArgs"/> instance containing the event data.
         /// </param>
         /// <param name="documentRange">
@@ -57,18 +57,18 @@ namespace StyleCop.ReSharper700.Violations
         /// <param name="lineNumber">
         /// Line number of the violation.
         /// </param>
-        public StyleCopViolationWarning(ViolationEventArgs violation, DocumentRange documentRange, string fileName, int lineNumber)
-            : base(violation, documentRange, fileName, lineNumber)
+        public StyleCopHighlightingSuggestion(ViolationEventArgs violationEventArgs, DocumentRange documentRange, string fileName, int lineNumber)
+            : base(violationEventArgs, documentRange, fileName, lineNumber)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="StyleCopViolationWarning"/> class.
+        /// Initializes a new instance of the <see cref="StyleCopHighlightingSuggestion"/> class.
         /// </summary>
         /// <param name="tooltip">
         /// The tooltip.
         /// </param>
-        public StyleCopViolationWarning(string tooltip)
+        public StyleCopHighlightingSuggestion(string tooltip)
             : base(tooltip)
         {
         }

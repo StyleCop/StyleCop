@@ -42,60 +42,60 @@ namespace StyleCop.ReSharper700.QuickFixes.Maintainability
 
         /// <summary>
         /// Initializes a new instance of the SA1400QuickFix class that can 
-        /// handle <see cref="StyleCopViolationError"/>.
+        /// handle <see cref="StyleCopHighlightingError"/>.
         /// </summary>
         /// <param name="highlight">
-        /// <see cref="StyleCopViolationError"/>that has been detected.
+        /// <see cref="StyleCopHighlightingError"/>that has been detected.
         /// </param>
-        public SA1400QuickFix(StyleCopViolationError highlight)
+        public SA1400QuickFix(StyleCopHighlightingError highlight)
             : base(highlight)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the SA1400QuickFix class that can handle
-        /// <see cref="StyleCopViolationHint"/>.
+        /// <see cref="StyleCopHighlightingHint"/>.
         /// </summary>
         /// <param name="highlight">
-        /// <see cref="StyleCopViolationHint"/>that has been detected.
+        /// <see cref="StyleCopHighlightingHint"/>that has been detected.
         /// </param>
-        public SA1400QuickFix(StyleCopViolationHint highlight)
+        public SA1400QuickFix(StyleCopHighlightingHint highlight)
             : base(highlight)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the SA1400QuickFix class that can handle
-        /// <see cref="StyleCopViolationInfo"/>.
+        /// <see cref="StyleCopHighlightingInfo"/>.
         /// </summary>
         /// <param name="highlight">
-        /// <see cref="StyleCopViolationInfo"/>that has been detected.
+        /// <see cref="StyleCopHighlightingInfo"/>that has been detected.
         /// </param>
-        public SA1400QuickFix(StyleCopViolationInfo highlight)
+        public SA1400QuickFix(StyleCopHighlightingInfo highlight)
             : base(highlight)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the SA1400QuickFix class that can handle
-        /// <see cref="StyleCopViolationSuggestion"/>.
+        /// <see cref="StyleCopHighlightingSuggestion"/>.
         /// </summary>
         /// <param name="highlight">
-        /// <see cref="StyleCopViolationSuggestion"/>that has been detected.
+        /// <see cref="StyleCopHighlightingSuggestion"/>that has been detected.
         /// </param>
-        public SA1400QuickFix(StyleCopViolationSuggestion highlight)
+        public SA1400QuickFix(StyleCopHighlightingSuggestion highlight)
             : base(highlight)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the SA1400QuickFix class that can handle
-        /// <see cref="StyleCopViolationWarning"/>.
+        /// <see cref="StyleCopHighlightingWarning"/>.
         /// </summary>
         /// <param name="highlight">
-        /// <see cref="StyleCopViolationWarning"/>that has been detected.
+        /// <see cref="StyleCopHighlightingWarning"/>that has been detected.
         /// </param>
-        public SA1400QuickFix(StyleCopViolationWarning highlight)
+        public SA1400QuickFix(StyleCopHighlightingWarning highlight)
             : base(highlight)
         {
         }
@@ -112,10 +112,10 @@ namespace StyleCop.ReSharper700.QuickFixes.Maintainability
         {
             this.BulbItems = new List<IBulbAction>
                 {
-                    new SA1400AccessModifierMustBeDeclaredBulbItem { Modifier = "public", DocumentRange = this.Violation.DocumentRange, Description = "Make Public : " + this.Violation.ToolTip },
-                    new SA1400AccessModifierMustBeDeclaredBulbItem { Modifier = "private", DocumentRange = this.Violation.DocumentRange, Description = "Make Private : " + this.Violation.ToolTip },
-                    new SA1400AccessModifierMustBeDeclaredBulbItem { Modifier = "protected", DocumentRange = this.Violation.DocumentRange, Description = "Make Protected : " + this.Violation.ToolTip },
-                    new SA1400AccessModifierMustBeDeclaredBulbItem { Modifier = "internal", DocumentRange = this.Violation.DocumentRange, Description = "Make Internal : " + this.Violation.ToolTip },
+                    new SA1400AccessModifierMustBeDeclaredBulbItem { Modifier = "public", DocumentRange = this.Highlighting.DocumentRange, Description = "Make Public : " + this.Highlighting.ToolTip },
+                    new SA1400AccessModifierMustBeDeclaredBulbItem { Modifier = "private", DocumentRange = this.Highlighting.DocumentRange, Description = "Make Private : " + this.Highlighting.ToolTip },
+                    new SA1400AccessModifierMustBeDeclaredBulbItem { Modifier = "protected", DocumentRange = this.Highlighting.DocumentRange, Description = "Make Protected : " + this.Highlighting.ToolTip },
+                    new SA1400AccessModifierMustBeDeclaredBulbItem { Modifier = "internal", DocumentRange = this.Highlighting.DocumentRange, Description = "Make Internal : " + this.Highlighting.ToolTip },
                 };
         }
 

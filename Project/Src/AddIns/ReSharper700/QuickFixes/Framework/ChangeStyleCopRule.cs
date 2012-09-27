@@ -87,7 +87,7 @@ namespace StyleCop.ReSharper700.QuickFixes.Framework
         /// <returns> The available actions. </returns>
         public IEnumerable<JB::JetBrains.Util.Pair<IBulbAction, BulbMenuItemViewDescription>> GetActions(IHighlighting highlighting, ISolution solution, DocumentRange highlightingRange, IPsiSourceFile sourceFile)
         {
-            var violation = highlighting as StyleCopViolationBase;
+            var violation = highlighting as StyleCopHighlightingBase;
 
             if (violation == null)
             {

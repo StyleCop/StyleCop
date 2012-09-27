@@ -42,60 +42,60 @@ namespace StyleCop.ReSharper700.QuickFixes.Spacing
 
         /// <summary>
         /// Initializes a new instance of the SA1026QuickFix class that can 
-        /// handle <see cref="StyleCopViolationError"/>.
+        /// handle <see cref="StyleCopHighlightingError"/>.
         /// </summary>
         /// <param name="highlight">
-        /// <see cref="StyleCopViolationError"/>that has been detected.
+        /// <see cref="StyleCopHighlightingError"/>that has been detected.
         /// </param>
-        public SA1026QuickFix(StyleCopViolationError highlight)
+        public SA1026QuickFix(StyleCopHighlightingError highlight)
             : base(highlight)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the SA1026QuickFix class that can handle
-        /// <see cref="StyleCopViolationHint"/>.
+        /// <see cref="StyleCopHighlightingHint"/>.
         /// </summary>
         /// <param name="highlight">
-        /// <see cref="StyleCopViolationHint"/>that has been detected.
+        /// <see cref="StyleCopHighlightingHint"/>that has been detected.
         /// </param>
-        public SA1026QuickFix(StyleCopViolationHint highlight)
+        public SA1026QuickFix(StyleCopHighlightingHint highlight)
             : base(highlight)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the SA1026QuickFix class that can handle
-        /// <see cref="StyleCopViolationInfo"/>.
+        /// <see cref="StyleCopHighlightingInfo"/>.
         /// </summary>
         /// <param name="highlight">
-        /// <see cref="StyleCopViolationInfo"/>that has been detected.
+        /// <see cref="StyleCopHighlightingInfo"/>that has been detected.
         /// </param>
-        public SA1026QuickFix(StyleCopViolationInfo highlight)
+        public SA1026QuickFix(StyleCopHighlightingInfo highlight)
             : base(highlight)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the SA1026QuickFix class that can handle
-        /// <see cref="StyleCopViolationSuggestion"/>.
+        /// <see cref="StyleCopHighlightingSuggestion"/>.
         /// </summary>
         /// <param name="highlight">
-        /// <see cref="StyleCopViolationSuggestion"/>that has been detected.
+        /// <see cref="StyleCopHighlightingSuggestion"/>that has been detected.
         /// </param>
-        public SA1026QuickFix(StyleCopViolationSuggestion highlight)
+        public SA1026QuickFix(StyleCopHighlightingSuggestion highlight)
             : base(highlight)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the SA1026QuickFix class that can handle
-        /// <see cref="StyleCopViolationWarning"/>.
+        /// <see cref="StyleCopHighlightingWarning"/>.
         /// </summary>
         /// <param name="highlight">
-        /// <see cref="StyleCopViolationWarning"/>that has been detected.
+        /// <see cref="StyleCopHighlightingWarning"/>that has been detected.
         /// </param>
-        public SA1026QuickFix(StyleCopViolationWarning highlight)
+        public SA1026QuickFix(StyleCopHighlightingWarning highlight)
             : base(highlight)
         {
         }
@@ -110,7 +110,7 @@ namespace StyleCop.ReSharper700.QuickFixes.Spacing
         /// </summary>
         protected override void InitialiseBulbItems()
         {
-            this.BulbItems = new List<IBulbAction> { new FormatLineBulbItem { DocumentRange = this.Violation.DocumentRange, Description = "Fix Spacing : " + this.Violation.ToolTip, LineNumber = this.Violation.LineNumber } };
+            this.BulbItems = new List<IBulbAction> { new FormatLineBulbItem { DocumentRange = this.Highlighting.DocumentRange, Description = "Fix Spacing : " + this.Highlighting.ToolTip, LineNumber = this.Highlighting.LineNumber } };
         }
 
         #endregion

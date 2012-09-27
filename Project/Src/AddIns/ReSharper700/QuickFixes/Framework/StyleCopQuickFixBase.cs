@@ -43,7 +43,7 @@ namespace StyleCop.ReSharper700.QuickFixes.Framework
         /// <summary>
         ///   Instance of the StyleCop violation the QuickFix can deal with.
         /// </summary>
-        protected readonly StyleCopViolationBase Violation;
+        protected readonly StyleCopHighlightingBase Highlighting;
 
         /// <summary>
         ///   List of available actions to be displayed in the IDE.
@@ -55,58 +55,58 @@ namespace StyleCop.ReSharper700.QuickFixes.Framework
         #region Constructors and Destructors
 
         /// <summary>
-        ///   Initializes a new instance of the StyleCopQuickFixBase class that can handle <see cref="StyleCopViolationError" /> .
+        ///   Initializes a new instance of the StyleCopQuickFixBase class that can handle <see cref="StyleCopHighlightingError" /> .
         /// </summary>
-        /// <param name="highlight"> <see cref="StyleCopViolationError" /> that has been detected. </param>
-        protected StyleCopQuickFixBase(StyleCopViolationError highlight)
+        /// <param name="highlight"> <see cref="StyleCopHighlightingError" /> that has been detected. </param>
+        protected StyleCopQuickFixBase(StyleCopHighlightingError highlight)
             : this(highlight, true)
         {
         }
 
         /// <summary>
-        ///   Initializes a new instance of the StyleCopQuickFixBase class that can handle <see cref="StyleCopViolationHint" /> .
+        ///   Initializes a new instance of the StyleCopQuickFixBase class that can handle <see cref="StyleCopHighlightingHint" /> .
         /// </summary>
-        /// <param name="highlight"> <see cref="StyleCopViolationHint" /> that has been detected. </param>
-        protected StyleCopQuickFixBase(StyleCopViolationHint highlight)
+        /// <param name="highlight"> <see cref="StyleCopHighlightingHint" /> that has been detected. </param>
+        protected StyleCopQuickFixBase(StyleCopHighlightingHint highlight)
             : this(highlight, true)
         {
         }
 
         /// <summary>
-        ///   Initializes a new instance of the StyleCopQuickFixBase class that can handle <see cref="StyleCopViolationInfo" /> .
+        ///   Initializes a new instance of the StyleCopQuickFixBase class that can handle <see cref="StyleCopHighlightingInfo" /> .
         /// </summary>
-        /// <param name="highlight"> <see cref="StyleCopViolationInfo" /> that has been detected. </param>
-        protected StyleCopQuickFixBase(StyleCopViolationInfo highlight)
+        /// <param name="highlight"> <see cref="StyleCopHighlightingInfo" /> that has been detected. </param>
+        protected StyleCopQuickFixBase(StyleCopHighlightingInfo highlight)
             : this(highlight, true)
         {
         }
 
         /// <summary>
-        ///   Initializes a new instance of the StyleCopQuickFixBase class that can handle <see cref="StyleCopViolationSuggestion" /> .
+        ///   Initializes a new instance of the StyleCopQuickFixBase class that can handle <see cref="StyleCopHighlightingSuggestion" /> .
         /// </summary>
-        /// <param name="highlight"> <see cref="StyleCopViolationSuggestion" /> that has been detected. </param>
-        protected StyleCopQuickFixBase(StyleCopViolationSuggestion highlight)
+        /// <param name="highlight"> <see cref="StyleCopHighlightingSuggestion" /> that has been detected. </param>
+        protected StyleCopQuickFixBase(StyleCopHighlightingSuggestion highlight)
             : this(highlight, true)
         {
         }
 
         /// <summary>
-        ///   Initializes a new instance of the StyleCopQuickFixBase class that can handle <see cref="StyleCopViolationWarning" /> .
+        ///   Initializes a new instance of the StyleCopQuickFixBase class that can handle <see cref="StyleCopHighlightingWarning" /> .
         /// </summary>
-        /// <param name="highlight"> <see cref="StyleCopViolationWarning" /> that has been detected. </param>
-        protected StyleCopQuickFixBase(StyleCopViolationWarning highlight)
+        /// <param name="highlight"> <see cref="StyleCopHighlightingWarning" /> that has been detected. </param>
+        protected StyleCopQuickFixBase(StyleCopHighlightingWarning highlight)
             : this(highlight, true)
         {
         }
 
         /// <summary>
-        ///   Initializes a new instance of the StyleCopQuickFixBase class that can handle <see cref="StyleCopViolationBase" /> .
+        ///   Initializes a new instance of the StyleCopQuickFixBase class that can handle <see cref="StyleCopHighlightingBase" /> .
         /// </summary>
-        /// <param name="highlight"> <see cref="StyleCopViolationBase" /> that has been detected. </param>
+        /// <param name="highlight"> <see cref="StyleCopHighlightingBase" /> that has been detected. </param>
         /// <param name="initialise"> This value is not used, its only purpose is to differentiate the method signature. </param>
-        protected StyleCopQuickFixBase(StyleCopViolationBase highlight, bool initialise)
+        protected StyleCopQuickFixBase(StyleCopHighlightingBase highlight, bool initialise)
         {
-            this.Violation = highlight;
+            this.Highlighting = highlight;
 
             this.InitialiseIfRequired();
         }
@@ -176,12 +176,12 @@ namespace StyleCop.ReSharper700.QuickFixes.Framework
             // use a more resiliant matching method - this caught me out
             // quite a bit while I was refactoring and debugging and wondering
             // why no bulb items were appearing
-            if (this.Violation.CheckId.StartsWith("SA") || this.Violation.CheckId.StartsWith("BB"))
+            if (this.Highlighting.CheckId.StartsWith("SA") || this.Highlighting.CheckId.StartsWith("BB"))
             {
-                return this.GetType().Name.Substring(2).StartsWith(this.Violation.CheckId.Substring(2));
+                return this.GetType().Name.Substring(2).StartsWith(this.Highlighting.CheckId.Substring(2));
             }
 
-            return this.GetType().Name.StartsWith(this.Violation.CheckId);
+            return this.GetType().Name.StartsWith(this.Highlighting.CheckId);
         }
 
         #endregion

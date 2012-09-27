@@ -42,60 +42,60 @@ namespace StyleCop.ReSharper700.QuickFixes.Spacing
 
         /// <summary>
         /// Initializes a new instance of the SA1021QuickFix class that can 
-        /// handle <see cref="StyleCopViolationError"/>.
+        /// handle <see cref="StyleCopHighlightingError"/>.
         /// </summary>
         /// <param name="highlight">
-        /// <see cref="StyleCopViolationError"/>that has been detected.
+        /// <see cref="StyleCopHighlightingError"/>that has been detected.
         /// </param>
-        public SA1021QuickFix(StyleCopViolationError highlight)
+        public SA1021QuickFix(StyleCopHighlightingError highlight)
             : base(highlight)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the SA1021QuickFix class that can handle
-        /// <see cref="StyleCopViolationHint"/>.
+        /// <see cref="StyleCopHighlightingHint"/>.
         /// </summary>
         /// <param name="highlight">
-        /// <see cref="StyleCopViolationHint"/>that has been detected.
+        /// <see cref="StyleCopHighlightingHint"/>that has been detected.
         /// </param>
-        public SA1021QuickFix(StyleCopViolationHint highlight)
+        public SA1021QuickFix(StyleCopHighlightingHint highlight)
             : base(highlight)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the SA1021QuickFix class that can handle
-        /// <see cref="StyleCopViolationInfo"/>.
+        /// <see cref="StyleCopHighlightingInfo"/>.
         /// </summary>
         /// <param name="highlight">
-        /// <see cref="StyleCopViolationInfo"/>that has been detected.
+        /// <see cref="StyleCopHighlightingInfo"/>that has been detected.
         /// </param>
-        public SA1021QuickFix(StyleCopViolationInfo highlight)
+        public SA1021QuickFix(StyleCopHighlightingInfo highlight)
             : base(highlight)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the SA1021QuickFix class that can handle
-        /// <see cref="StyleCopViolationSuggestion"/>.
+        /// <see cref="StyleCopHighlightingSuggestion"/>.
         /// </summary>
         /// <param name="highlight">
-        /// <see cref="StyleCopViolationSuggestion"/>that has been detected.
+        /// <see cref="StyleCopHighlightingSuggestion"/>that has been detected.
         /// </param>
-        public SA1021QuickFix(StyleCopViolationSuggestion highlight)
+        public SA1021QuickFix(StyleCopHighlightingSuggestion highlight)
             : base(highlight)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the SA1021QuickFix class that can handle
-        /// <see cref="StyleCopViolationWarning"/>.
+        /// <see cref="StyleCopHighlightingWarning"/>.
         /// </summary>
         /// <param name="highlight">
-        /// <see cref="StyleCopViolationWarning"/>that has been detected.
+        /// <see cref="StyleCopHighlightingWarning"/>that has been detected.
         /// </param>
-        public SA1021QuickFix(StyleCopViolationWarning highlight)
+        public SA1021QuickFix(StyleCopHighlightingWarning highlight)
             : base(highlight)
         {
         }
@@ -114,7 +114,7 @@ namespace StyleCop.ReSharper700.QuickFixes.Spacing
                 {
                     new SA1021NegativeSignsMustBeSpacedCorrectlyBulbItem
                         {
-                            DocumentRange = this.Violation.DocumentRange, Description = "Fix Spacing : " + this.Violation.ToolTip, LineNumber = this.Violation.LineNumber
+                            DocumentRange = this.Highlighting.DocumentRange, Description = "Fix Spacing : " + this.Highlighting.ToolTip, LineNumber = this.Highlighting.LineNumber
                         }
                 };
         }

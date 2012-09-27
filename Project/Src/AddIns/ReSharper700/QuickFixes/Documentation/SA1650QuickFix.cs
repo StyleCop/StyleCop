@@ -41,60 +41,60 @@ namespace StyleCop.ReSharper700.QuickFixes.Documentation
 
         /// <summary>
         /// Initializes a new instance of the SA1650QuickFix class that can 
-        /// handle <see cref="StyleCopViolationError"/>.
+        /// handle <see cref="StyleCopHighlightingError"/>.
         /// </summary>
         /// <param name="highlight">
-        /// <see cref="StyleCopViolationError"/>that has been detected.
+        /// <see cref="StyleCopHighlightingError"/>that has been detected.
         /// </param>
-        public SA1650QuickFix(StyleCopViolationError highlight)
+        public SA1650QuickFix(StyleCopHighlightingError highlight)
             : base(highlight)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the SA1650QuickFix class that can handle
-        /// <see cref="StyleCopViolationHint"/>.
+        /// <see cref="StyleCopHighlightingHint"/>.
         /// </summary>
         /// <param name="highlight">
-        /// <see cref="StyleCopViolationHint"/>that has been detected.
+        /// <see cref="StyleCopHighlightingHint"/>that has been detected.
         /// </param>
-        public SA1650QuickFix(StyleCopViolationHint highlight)
+        public SA1650QuickFix(StyleCopHighlightingHint highlight)
             : base(highlight)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the SA1650QuickFix class that can handle
-        /// <see cref="StyleCopViolationInfo"/>.
+        /// <see cref="StyleCopHighlightingInfo"/>.
         /// </summary>
         /// <param name="highlight">
-        /// <see cref="StyleCopViolationInfo"/>that has been detected.
+        /// <see cref="StyleCopHighlightingInfo"/>that has been detected.
         /// </param>
-        public SA1650QuickFix(StyleCopViolationInfo highlight)
+        public SA1650QuickFix(StyleCopHighlightingInfo highlight)
             : base(highlight)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the SA1650QuickFix class that can handle
-        /// <see cref="StyleCopViolationSuggestion"/>.
+        /// <see cref="StyleCopHighlightingSuggestion"/>.
         /// </summary>
         /// <param name="highlight">
-        /// <see cref="StyleCopViolationSuggestion"/>that has been detected.
+        /// <see cref="StyleCopHighlightingSuggestion"/>that has been detected.
         /// </param>
-        public SA1650QuickFix(StyleCopViolationSuggestion highlight)
+        public SA1650QuickFix(StyleCopHighlightingSuggestion highlight)
             : base(highlight)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the SA1650QuickFix class that can handle
-        /// <see cref="StyleCopViolationWarning"/>.
+        /// <see cref="StyleCopHighlightingWarning"/>.
         /// </summary>
         /// <param name="highlight">
-        /// <see cref="StyleCopViolationWarning"/>that has been detected.
+        /// <see cref="StyleCopHighlightingWarning"/>that has been detected.
         /// </param>
-        public SA1650QuickFix(StyleCopViolationWarning highlight)
+        public SA1650QuickFix(StyleCopHighlightingWarning highlight)
             : base(highlight)
         {
         }
@@ -109,7 +109,7 @@ namespace StyleCop.ReSharper700.QuickFixes.Documentation
         /// </summary>
         protected override void InitialiseBulbItems()
         {
-            CultureInfo culture = this.Violation.Violation.SourceCode.Project.Culture;
+            CultureInfo culture = this.Highlighting.Violation.SourceCode.Project.Culture;
 
             NamingService namingService = NamingService.GetNamingService(culture);
             
@@ -118,7 +118,7 @@ namespace StyleCop.ReSharper700.QuickFixes.Documentation
                 return;
             }
 
-            var words = this.Violation.ToolTip.SubstringAfter(':').SubstringBeforeLast('[').Split(',');
+            var words = this.Highlighting.ToolTip.SubstringAfter(':').SubstringBeforeLast('[').Split(',');
 
             if (words.Length > 0)
             {
@@ -131,7 +131,7 @@ namespace StyleCop.ReSharper700.QuickFixes.Documentation
                     if (!string.IsNullOrEmpty(preferredAlternateForDeprecatedWord))
                     {
                         var description = string.Format(
-                            "Change spelling of '{0}' to '{1}' [StyleCop Rule: {2}]", trimmedWord, preferredAlternateForDeprecatedWord, this.Violation.CheckId);
+                            "Change spelling of '{0}' to '{1}' [StyleCop Rule: {2}]", trimmedWord, preferredAlternateForDeprecatedWord, this.Highlighting.CheckId);
                         this.BulbItems.Add(
                             new SA1650ElementDocumentationMustBeSpelledCorrectlyBulbItem
                                 {

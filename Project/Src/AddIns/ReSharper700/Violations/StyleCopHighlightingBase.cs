@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="StyleCopViolationBase.cs" company="http://stylecop.codeplex.com">
+// <copyright file="StyleCopHighlightingBase.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -30,14 +30,14 @@ namespace StyleCop.ReSharper700.Violations
     /// <summary>
     /// Highlights the StyleCop Violation within the IDE.
     /// </summary>
-    public abstract class StyleCopViolationBase : IHighlighting
+    public abstract class StyleCopHighlightingBase : IHighlighting
     {
         #region Constructors and Destructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="StyleCopViolationBase"/> class.
+        /// Initializes a new instance of the <see cref="StyleCopHighlightingBase"/> class.
         /// </summary>
-        /// <param name="violation">
+        /// <param name="violationEventArgs">
         /// The <see cref="StyleCop.ViolationEventArgs"/> instance containing the Violation data.
         /// </param>
         /// <param name="documentRange">
@@ -49,36 +49,36 @@ namespace StyleCop.ReSharper700.Violations
         /// <param name="lineNumber">
         /// Line number of where the violation happened.
         /// </param>
-        protected StyleCopViolationBase(ViolationEventArgs violation, DocumentRange documentRange, string fileName, int lineNumber)
+        protected StyleCopHighlightingBase(ViolationEventArgs violationEventArgs, DocumentRange documentRange, string fileName, int lineNumber)
         {
-            this.CheckId = violation.Violation.Rule.CheckId;
-            this.ToolTip = violation.Message + " [StyleCop Rule: " + this.CheckId + "]";
+            this.CheckId = violationEventArgs.Violation.Rule.CheckId;
+            this.ToolTip = violationEventArgs.Message + " [StyleCop Rule: " + this.CheckId + "]";
             this.DocumentRange = documentRange;
             this.FileName = fileName;
             this.LineNumber = lineNumber;
-            this.Rule = violation.Violation.Rule;
-            this.Violation = violation.Violation;
+            this.Rule = violationEventArgs.Violation.Rule;
+            this.Violation = violationEventArgs.Violation;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="StyleCopViolationBase"/> class.
+        /// Initializes a new instance of the <see cref="StyleCopHighlightingBase"/> class.
         /// </summary>
-        /// <param name="violation">
+        /// <param name="violationEventArgs">
         /// The <see cref="StyleCop.ViolationEventArgs"/> instance containing the Violation data.
         /// </param>
-        protected StyleCopViolationBase(ViolationEventArgs violation)
+        protected StyleCopHighlightingBase(ViolationEventArgs violationEventArgs)
         {
-            this.CheckId = violation.Violation.Rule.CheckId;
-            this.ToolTip = violation.Message + " [StyleCop Rule: " + this.CheckId + "]";
+            this.CheckId = violationEventArgs.Violation.Rule.CheckId;
+            this.ToolTip = violationEventArgs.Message + " [StyleCop Rule: " + this.CheckId + "]";
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="StyleCopViolationBase"/> class with the specified tooltip and text range.
+        /// Initializes a new instance of the <see cref="StyleCopHighlightingBase"/> class with the specified tooltip and text range.
         /// </summary>
         /// <param name="tooltip">
         /// The tooltip.
         /// </param>
-        protected StyleCopViolationBase(string tooltip)
+        protected StyleCopHighlightingBase(string tooltip)
         {
             this.ToolTip = tooltip;
         }

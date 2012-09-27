@@ -254,7 +254,7 @@ namespace StyleCop.ReSharper700.Core
                     fileName = e.Violation.Element.Document.SourceCode.Name;
                 }
 
-                var violation = StyleCopViolationFactory.GetHighlight(e, documentRange, fileName, lineNumber);
+                var violation = StyleCopHighlightingFactory.GetHighlight(e, documentRange, fileName, lineNumber);
 
                 this.CreateViolation(documentRange, violation);
             }

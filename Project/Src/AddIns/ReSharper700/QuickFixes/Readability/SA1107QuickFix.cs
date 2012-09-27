@@ -42,60 +42,60 @@ namespace StyleCop.ReSharper700.QuickFixes.Readability
 
         /// <summary>
         /// Initializes a new instance of the SA1107QuickFix class that can 
-        /// handle <see cref="StyleCopViolationError"/>.
+        /// handle <see cref="StyleCopHighlightingError"/>.
         /// </summary>
         /// <param name="highlight">
-        /// <see cref="StyleCopViolationError"/>that has been detected.
+        /// <see cref="StyleCopHighlightingError"/>that has been detected.
         /// </param>
-        public SA1107QuickFix(StyleCopViolationError highlight)
+        public SA1107QuickFix(StyleCopHighlightingError highlight)
             : base(highlight)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the SA1107QuickFix class that can handle
-        /// <see cref="StyleCopViolationHint"/>.
+        /// <see cref="StyleCopHighlightingHint"/>.
         /// </summary>
         /// <param name="highlight">
-        /// <see cref="StyleCopViolationHint"/>that has been detected.
+        /// <see cref="StyleCopHighlightingHint"/>that has been detected.
         /// </param>
-        public SA1107QuickFix(StyleCopViolationHint highlight)
+        public SA1107QuickFix(StyleCopHighlightingHint highlight)
             : base(highlight)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the SA1107QuickFix class that can handle
-        /// <see cref="StyleCopViolationInfo"/>.
+        /// <see cref="StyleCopHighlightingInfo"/>.
         /// </summary>
         /// <param name="highlight">
-        /// <see cref="StyleCopViolationInfo"/>that has been detected.
+        /// <see cref="StyleCopHighlightingInfo"/>that has been detected.
         /// </param>
-        public SA1107QuickFix(StyleCopViolationInfo highlight)
+        public SA1107QuickFix(StyleCopHighlightingInfo highlight)
             : base(highlight)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the SA1107QuickFix class that can handle
-        /// <see cref="StyleCopViolationSuggestion"/>.
+        /// <see cref="StyleCopHighlightingSuggestion"/>.
         /// </summary>
         /// <param name="highlight">
-        /// <see cref="StyleCopViolationSuggestion"/>that has been detected.
+        /// <see cref="StyleCopHighlightingSuggestion"/>that has been detected.
         /// </param>
-        public SA1107QuickFix(StyleCopViolationSuggestion highlight)
+        public SA1107QuickFix(StyleCopHighlightingSuggestion highlight)
             : base(highlight)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the SA1107QuickFix class that can handle
-        /// <see cref="StyleCopViolationWarning"/>.
+        /// <see cref="StyleCopHighlightingWarning"/>.
         /// </summary>
         /// <param name="highlight">
-        /// <see cref="StyleCopViolationWarning"/>that has been detected.
+        /// <see cref="StyleCopHighlightingWarning"/>that has been detected.
         /// </param>
-        public SA1107QuickFix(StyleCopViolationWarning highlight)
+        public SA1107QuickFix(StyleCopHighlightingWarning highlight)
             : base(highlight)
         {
         }
@@ -114,10 +114,10 @@ namespace StyleCop.ReSharper700.QuickFixes.Readability
                 {
                     new FormatLineBulbItem
                         {
-                            FileName = this.Violation.FileName,
-                            LineNumber = this.Violation.LineNumber,
-                            DocumentRange = this.Violation.DocumentRange,
-                            Description = "Format line : " + this.Violation.ToolTip
+                            FileName = this.Highlighting.FileName,
+                            LineNumber = this.Highlighting.LineNumber,
+                            DocumentRange = this.Highlighting.DocumentRange,
+                            Description = "Format line : " + this.Highlighting.ToolTip
                         }
                 };
         }

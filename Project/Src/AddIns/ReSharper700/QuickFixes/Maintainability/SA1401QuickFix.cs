@@ -42,60 +42,60 @@ namespace StyleCop.ReSharper700.QuickFixes.Maintainability
 
         /// <summary>
         /// Initializes a new instance of the SA1401QuickFix class that can 
-        /// handle <see cref="StyleCopViolationError"/>.
+        /// handle <see cref="StyleCopHighlightingError"/>.
         /// </summary>
         /// <param name="highlight">
-        /// <see cref="StyleCopViolationError"/>that has been detected.
+        /// <see cref="StyleCopHighlightingError"/>that has been detected.
         /// </param>
-        public SA1401QuickFix(StyleCopViolationError highlight)
+        public SA1401QuickFix(StyleCopHighlightingError highlight)
             : base(highlight)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the SA1401QuickFix class that can handle
-        /// <see cref="StyleCopViolationHint"/>.
+        /// <see cref="StyleCopHighlightingHint"/>.
         /// </summary>
         /// <param name="highlight">
-        /// <see cref="StyleCopViolationHint"/>that has been detected.
+        /// <see cref="StyleCopHighlightingHint"/>that has been detected.
         /// </param>
-        public SA1401QuickFix(StyleCopViolationHint highlight)
+        public SA1401QuickFix(StyleCopHighlightingHint highlight)
             : base(highlight)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the SA1401QuickFix class that can handle
-        /// <see cref="StyleCopViolationInfo"/>.
+        /// <see cref="StyleCopHighlightingInfo"/>.
         /// </summary>
         /// <param name="highlight">
-        /// <see cref="StyleCopViolationInfo"/>that has been detected.
+        /// <see cref="StyleCopHighlightingInfo"/>that has been detected.
         /// </param>
-        public SA1401QuickFix(StyleCopViolationInfo highlight)
+        public SA1401QuickFix(StyleCopHighlightingInfo highlight)
             : base(highlight)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the SA1401QuickFix class that can handle
-        /// <see cref="StyleCopViolationSuggestion"/>.
+        /// <see cref="StyleCopHighlightingSuggestion"/>.
         /// </summary>
         /// <param name="highlight">
-        /// <see cref="StyleCopViolationSuggestion"/>that has been detected.
+        /// <see cref="StyleCopHighlightingSuggestion"/>that has been detected.
         /// </param>
-        public SA1401QuickFix(StyleCopViolationSuggestion highlight)
+        public SA1401QuickFix(StyleCopHighlightingSuggestion highlight)
             : base(highlight)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the SA1401QuickFix class that can handle
-        /// <see cref="StyleCopViolationWarning"/>.
+        /// <see cref="StyleCopHighlightingWarning"/>.
         /// </summary>
         /// <param name="highlight">
-        /// <see cref="StyleCopViolationWarning"/>that has been detected.
+        /// <see cref="StyleCopHighlightingWarning"/>that has been detected.
         /// </param>
-        public SA1401QuickFix(StyleCopViolationWarning highlight)
+        public SA1401QuickFix(StyleCopHighlightingWarning highlight)
             : base(highlight)
         {
         }
@@ -110,7 +110,7 @@ namespace StyleCop.ReSharper700.QuickFixes.Maintainability
         /// </summary>
         protected override void InitialiseBulbItems()
         {
-            this.BulbItems = new List<IBulbAction> { new SA1401FieldsMustBePrivateBulbItem { Description = "Make Private : " + this.Violation.ToolTip } };
+            this.BulbItems = new List<IBulbAction> { new SA1401FieldsMustBePrivateBulbItem { Description = "Make Private : " + this.Highlighting.ToolTip } };
         }
 
         #endregion

@@ -408,14 +408,14 @@
     <Compile Include="QuickFixes\Spacing\SA1025QuickFix.cs" />
     <Compile Include="QuickFixes\Spacing\SA1026QuickFix.cs" />
     <Compile Include="ShellComponents\StyleCopCodeStyleChecker.cs" />
-    <Compile Include="Violations\StyleCopViolationBase.cs" />
-    <Compile Include="Violations\StyleCopViolationDoNotShow.cs" />
-    <Compile Include="Violations\StyleCopViolationError.cs" />
-    <Compile Include="Violations\StyleCopViolationFactory.cs" />
-    <Compile Include="Violations\StyleCopViolationHint.cs" />
-    <Compile Include="Violations\StyleCopViolationInfo.cs" />
-    <Compile Include="Violations\StyleCopViolationSuggestion.cs" />
-    <Compile Include="Violations\StyleCopViolationWarning.cs" />
+    <Compile Include="Violations\StyleCopHighlightingBase.cs" />
+    <Compile Include="Violations\StyleCopHighlightingDoNotShow.cs" />
+    <Compile Include="Violations\StyleCopHighlightingError.cs" />
+    <Compile Include="Violations\StyleCopHighlightingFactory.cs" />
+    <Compile Include="Violations\StyleCopHighlightingHint.cs" />
+    <Compile Include="Violations\StyleCopHighlightingInfo.cs" />
+    <Compile Include="Violations\StyleCopHighlightingSuggestion.cs" />
+    <Compile Include="Violations\StyleCopHighlightingWarning.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\StyleCop\StyleCop.csproj">
