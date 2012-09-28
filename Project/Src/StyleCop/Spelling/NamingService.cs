@@ -579,7 +579,7 @@ namespace StyleCop.Spelling
         private void InitCustomDictionaries()
         {
             this.casingExceptions = this.CreateDictionary();
-            this.alternatesForDeprecatedWords = this.CreateCaseInsensitiveDictionary();
+            this.alternatesForDeprecatedWords = this.CreateDictionary();
             this.compoundAlternatesForDiscreteWords = this.CreateCaseInsensitiveDictionary();
             this.discreteWordExceptions = this.CreateCaseInsensitiveDictionary();
             this.dictionaryFolders = new Collection<string>();

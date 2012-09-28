@@ -279,7 +279,33 @@ namespace StyleCop
                         if (descriptor != null)
                         {
                             var property = this.settings.GlobalSettings.GetProperty(descriptor.PropertyName) as CollectionProperty;
-                            this.recognizedWords = property == null ? null : property.Values;
+                            if (property == null)
+                            {
+                                this.recognizedWords = null;
+                            }
+                            else
+                            {
+                                this.recognizedWords = new Collection<string>();
+                                foreach (var word in property.Values)
+                                {
+                                    if (!this.recognizedWords.Contains(word))
+                                    {
+                                       this.recognizedWords.Add(word); 
+                                    }
+
+                                    string lowercaseWord = word.ToLower(this.culture);
+                                    if (!this.recognizedWords.Contains(lowercaseWord))
+                                    {
+                                        this.recognizedWords.Add(lowercaseWord);
+                                    }
+
+                                    string properCaseWord = char.ToUpper(lowercaseWord[0], this.culture) + lowercaseWord.Substring(1);
+                                    if (!this.recognizedWords.Contains(properCaseWord))
+                                    {
+                                        this.recognizedWords.Add(properCaseWord);
+                                    }
+                                }
+                            }
                         }
                         else
                         {
@@ -324,7 +350,29 @@ namespace StyleCop
                                     var propertyParts = propertyValue.Split(',');
                                     if (propertyParts.Length == 2)
                                     {
-                                        this.deprecatedWords.Add(propertyParts[0].Trim(), propertyParts[1].Trim());
+                                        var word = propertyParts[0].Trim();
+                                        var alternativeWord = propertyParts[1].Trim();
+
+                                        if (!this.deprecatedWords.ContainsKey(word))
+                                        {
+                                            this.deprecatedWords.Add(word, alternativeWord);
+                                        }
+
+                                        var lowercaseWord = word.ToLower(this.culture);
+                                        var lowerAlternativeWord = alternativeWord.ToLower(this.culture);
+
+                                        if (!this.deprecatedWords.ContainsKey(lowercaseWord))
+                                        {
+                                            this.deprecatedWords.Add(lowercaseWord, lowerAlternativeWord);
+                                        }
+
+                                        string properCaseWord = char.ToUpper(lowercaseWord[0], this.culture) + lowercaseWord.Substring(1);
+                                        string properCaseAlternativeWord = char.ToUpper(lowerAlternativeWord[0], this.culture) + lowerAlternativeWord.Substring(1);
+
+                                        if (!this.deprecatedWords.ContainsKey(properCaseWord))
+                                        {
+                                            this.deprecatedWords.Add(properCaseWord, properCaseAlternativeWord);
+                                        }
                                     }
                                 } 
                             }
