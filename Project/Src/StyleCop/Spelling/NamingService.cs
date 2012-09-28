@@ -16,10 +16,8 @@
 namespace StyleCop.Spelling
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.Collections.Specialized;
     using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.IO;
@@ -75,13 +73,6 @@ namespace StyleCop.Spelling
 
         #region Public Properties
 
-        public ICollection<string> DictionaryFolders
-        {
-           get
-           {
-               return this.dictionaryFolders.ToArray();
-           }       
-        }
         /// <summary>
         /// Gets the default naming service.
         /// </summary>
@@ -90,6 +81,17 @@ namespace StyleCop.Spelling
             get
             {
                 return defaultNamingService ?? (defaultNamingService = GetNamingService(System.Threading.Thread.CurrentThread.CurrentCulture));
+            }
+        }
+
+        /// <summary>
+        /// Gets an array of the dictionary folders which have been scanned for dictionaries.
+        /// </summary>
+        public ICollection<string> DictionaryFolders
+        {
+            get
+            {
+                return this.dictionaryFolders.ToArray();
             }
         }
 
