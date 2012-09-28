@@ -111,6 +111,9 @@ namespace StyleCop.CSharp
                     string textWithAttRemoved;
                     string textWithAttPreserved;
                     ExtractTextFromCommentXml(childNode, out textWithAttRemoved, out textWithAttPreserved);
+                    
+                    commentWithAttributesRemovedBuilder.Append(" ");
+                    commentWithAttributesPreservedBuilder.Append(" ");
 
                     if (childNode.Name != "c" && childNode.Name != "code")
                     {
