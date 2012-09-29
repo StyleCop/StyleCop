@@ -39,6 +39,13 @@ namespace StyleCop
             
                 // Now force this function to throw a SecurityException if we don't already have these permissions.
                 fullPermissions.Demand();
+
+                // Create permission objects for the registry keys we're about to use.
+                RegistryPermission readPermissions = new RegistryPermission(RegistryPermissionAccess.Read, @"HKEY_LOCAL_MACHINE\Software\CodePlex\StyleCop");
+
+                // Now force this function to throw a SecurityException if we don't already have these permissions.
+                readPermissions.Demand();
+
             }
 
             #endregion Public Static Methods

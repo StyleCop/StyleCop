@@ -45,7 +45,7 @@ namespace StyleCop
             Permissions.Demand();
 
             this.CurrentUserRoot = Registry.CurrentUser.OpenSubKey(StyleCopSubKey, true) ?? Registry.CurrentUser.CreateSubKey(StyleCopSubKey);
-            this.LocalMachineRoot = Registry.LocalMachine.OpenSubKey(StyleCopSubKey, true) ?? Registry.LocalMachine.CreateSubKey(StyleCopSubKey);
+            this.LocalMachineRoot = Registry.LocalMachine.OpenSubKey(StyleCopSubKey, false);
         }
 
         #endregion Internal Constructors
