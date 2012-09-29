@@ -45,7 +45,6 @@ namespace StyleCop
 
                 // Now force this function to throw a SecurityException if we don't already have these permissions.
                 readPermissions.Demand();
-
             }
 
             #endregion Public Static Methods
