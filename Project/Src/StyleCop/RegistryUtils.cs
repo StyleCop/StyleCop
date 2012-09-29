@@ -190,7 +190,7 @@ namespace StyleCop
         public object LMGetValue(string name)
         {
             Param.RequireValidString(name, "name");
-            return GetValue(this.LocalMachineRoot, name);
+            return this.LocalMachineRoot == null ? null : GetValue(this.LocalMachineRoot, name);
         }
 
         /// <summary>
