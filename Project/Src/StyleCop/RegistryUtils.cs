@@ -73,12 +73,12 @@ namespace StyleCop
         #region Public Properties
 
         /// <summary>
-        /// Gets the HKCU root key.
+        /// Gets the HKCU root key for the StyleCop key as read/write. It will be created if it doesn't exist.
         /// </summary>
         public RegistryKey CurrentUserRoot { get; private set; }
 
         /// <summary>
-        /// Gets the HKLM root key.
+        /// Gets the HKLM root key for the StyleCop key as read only.
         /// </summary>
         public RegistryKey LocalMachineRoot { get; private set; }
 
