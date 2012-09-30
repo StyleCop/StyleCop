@@ -38,16 +38,15 @@
         <RegistryValue Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\Packages\{629EB7CC-69C2-43AC-9BC9-482B0F810C4E}' Type='string' Name='CodeBase' Value='[INSTALLDIR]StyleCop.VSPackage.dll' Id='Package_$(var.VsVersion)_009' />
 
         <!-- Only install this component if the right VS version is installed -->
-        <Condition>VS2011DEVENV</Condition>
+        <Condition>VS2012DEVENV</Condition>
 
       </Component>
     </DirectoryRef>
 
-    <CustomAction Id="StyleCopVS11Setup" Property="VS2011DEVENV" ExeCommand="/setup" Execute="deferred" Return="ignore" Impersonate="no" />
-    <!--<PropertyRef Id="VS2011DEVENV" />-->
-
-    <Property Id="VS2011DEVENV" Admin="yes" Secure="yes">
-      <RegistrySearch Id="VS2011DevEnvSearch" Root="HKLM" Key="SOFTWARE\Microsoft\VisualStudio\$(var.VsVersion)\Setup\VS" Name="EnvironmentPath" Type="raw" />
+    <CustomAction Id="StyleCopVS11Setup" Property="VS2012DEVENV" ExeCommand="/setup" Execute="deferred" Return="ignore" Impersonate="no" />
+    
+    <Property Id="VS2012DEVENV" Admin="yes" Secure="yes">
+      <RegistrySearch Id="VS2012DevEnvSearch" Root="HKLM" Key="SOFTWARE\Microsoft\VisualStudio\$(var.VsVersion)\Setup\VS" Name="EnvironmentPath" Type="raw" />
     </Property>  
 
   </Fragment>

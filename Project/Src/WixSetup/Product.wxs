@@ -21,8 +21,8 @@
              Level="1" Display='expand' ConfigurableDirectory='INSTALLDIR' AllowAdvertise='no' InstallDefault='local' Absent='allow'>
       <ComponentGroupRef Id="VisualStudio_Common" />
       <!-- Require VS 2008, 2010 or 2012 to be installed -->
-      <Condition Level="1"><![CDATA[VS90DEVENV <> "" OR VS2010DEVENV <> "" OR VS2011DEVENV <> ""]]></Condition>
-      <Condition Level="0"><![CDATA[VS90DEVENV = "" AND VS2010DEVENV = "" AND VS2011DEVENV = ""]]></Condition>
+      <Condition Level="1"><![CDATA[VS90DEVENV <> "" OR VS2010DEVENV <> "" OR VS2012DEVENV <> ""]]></Condition>
+      <Condition Level="0"><![CDATA[VS90DEVENV = "" AND VS2010DEVENV = "" AND VS2012DEVENV = ""]]></Condition>
       
       <Feature Id='Feature_ReSharper'
                Title='R# integration'
@@ -69,7 +69,7 @@
       <!--  We replace the use of VS90Setup with StyleCopVS90Setup to add support for other devenv.exe flags -->
       <Custom Action="StyleCopVS90Setup" Before="InstallFinalize"><![CDATA[&Feature_StyleCopPackage > 1 AND VS90DEVENV <> "" AND NOT Installed]]></Custom>
       <Custom Action="StyleCopVS10Setup" Before="InstallFinalize"><![CDATA[(&Feature_StyleCopPackage > 1 AND VS2010DEVENV <> "" AND NOT Installed) OR (&Feature_VisualStudioTemplates = 3)]]></Custom>
-      <Custom Action="StyleCopVS11Setup" Before="InstallFinalize"><![CDATA[(&Feature_StyleCopPackage > 1 AND VS2011DEVENV <> "" AND NOT Installed) OR (&Feature_VisualStudioTemplates = 3)]]></Custom>
+      <Custom Action="StyleCopVS11Setup" Before="InstallFinalize"><![CDATA[(&Feature_StyleCopPackage > 1 AND VS2012DEVENV <> "" AND NOT Installed) OR (&Feature_VisualStudioTemplates = 3)]]></Custom>
       <Custom Action="SetARPINSTALLLOCATION" After="InstallValidate"></Custom>
       <Custom Action='CA_BackupVisualStudioTemplateFiles' Before='InstallFiles'><![CDATA[&Feature_VisualStudioTemplates = 3]]></Custom>
       <Custom Action='CA_RestoreVisualStudioTemplateFiles' Before='InstallFinalize'><![CDATA[&Feature_VisualStudioTemplates = 2 AND !Feature_VisualStudioTemplates = 3]]></Custom>
