@@ -525,7 +525,9 @@ namespace StyleCop
         {
             if (this.tabControl.ParentSettings != null)
             {
-                CollectionProperty parentProperty = this.tabControl.ParentSettings.GlobalSettings.GetProperty(RecognizedWordsPropertyName) as CollectionProperty;
+                PropertyCollection globalPropertyCollection = this.tabControl.ParentSettings.GlobalSettings;
+
+                CollectionProperty parentProperty = globalPropertyCollection.GetProperty(RecognizedWordsPropertyName) as CollectionProperty;
 
                 if (parentProperty != null)
                 {
@@ -542,7 +544,7 @@ namespace StyleCop
                     }
                 }
 
-                parentProperty = this.tabControl.ParentSettings.GlobalSettings.GetProperty(DeprecatedWordsPropertyName) as CollectionProperty;
+                parentProperty = globalPropertyCollection.GetProperty(DeprecatedWordsPropertyName) as CollectionProperty;
 
                 if (parentProperty != null)
                 {
@@ -600,7 +602,9 @@ namespace StyleCop
         {
             Param.Ignore(sender, e);
 
-            if (this.addRecognizedWordTextBox.Text.Length == 0 || this.addRecognizedWordTextBox.Text.Length < 2)
+            string recognizedText = this.addRecognizedWordTextBox.Text;
+
+            if (recognizedText.Length == 0 || recognizedText.Length < 2 || recognizedText.Contains(" "))
             {
                 AlertDialog.Show(
                     this.tabControl.Core,
@@ -614,7 +618,7 @@ namespace StyleCop
 
             foreach (ListViewItem item in this.recognizedWordsListView.Items)
             {
-                if (item.Text == this.addRecognizedWordTextBox.Text)
+                if (item.Text == recognizedText)
                 {
                     item.Selected = true;
                     item.EnsureVisible();
@@ -623,7 +627,7 @@ namespace StyleCop
                 }
             }
 
-            ListViewItem addedItem = this.recognizedWordsListView.Items.Add(this.addRecognizedWordTextBox.Text);
+            ListViewItem addedItem = this.recognizedWordsListView.Items.Add(recognizedText);
             addedItem.Tag = true;
             addedItem.Selected = true;
             this.recognizedWordsListView.EnsureVisible(addedItem.Index);
@@ -644,24 +648,22 @@ namespace StyleCop
         {
             Param.Ignore(sender, e);
 
-            if (this.addDeprecatedWordTextBox.Text.Length == 0 ||
-                this.addDeprecatedWordTextBox.Text.Length < 2 ||
-                this.addAlternateWordTextBox.Text.Length == 0 ||
-                this.addAlternateWordTextBox.Text.Length < 2)
+            string deprecatedText = this.addDeprecatedWordTextBox.Text;
+            string alternateText = this.addAlternateWordTextBox.Text;
+
+            if (deprecatedText.Length == 0 || deprecatedText.Length < 2 ||
+                alternateText.Length == 0 || alternateText.Length < 2 ||
+                deprecatedText.Contains(" ") || alternateText.Contains(" "))
             {
-                AlertDialog.Show(
-                    this.tabControl.Core,
-                    this,
-                    Strings.EnterValidDeprecatedWord,
-                    Strings.Title,
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Exclamation);
+                AlertDialog.Show(this.tabControl.Core, this, Strings.EnterValidDeprecatedWord, Strings.Title, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
 
+            string newDeprecatedAndAlternateText = string.Concat(deprecatedText.Trim(), ", ", alternateText.Trim());
+
             foreach (ListViewItem item in this.deprecatedWordsListView.Items)
             {
-                if (item.Text == this.addDeprecatedWordTextBox.Text.Trim() + ", " + this.addAlternateWordTextBox.Text.Trim())
+                if (item.Text == newDeprecatedAndAlternateText)
                 {
                     item.Selected = true;
                     item.EnsureVisible();
@@ -671,7 +673,7 @@ namespace StyleCop
                 }
             }
 
-            ListViewItem addedItem = this.deprecatedWordsListView.Items.Add(this.addDeprecatedWordTextBox.Text.Trim() + ", " + this.addAlternateWordTextBox.Text.Trim());
+            ListViewItem addedItem = this.deprecatedWordsListView.Items.Add(newDeprecatedAndAlternateText);
             addedItem.Tag = true;
             addedItem.Selected = true;
             this.deprecatedWordsListView.EnsureVisible(addedItem.Index);
