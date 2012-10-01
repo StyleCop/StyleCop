@@ -68,7 +68,7 @@ namespace StyleCop
         /// <summary>
         /// The default column on the ListView control.
         /// </summary>
-        private ColumnHeader columnHeader1;
+        private ColumnHeader recognizedWordsColumnHeader;
 
         /// <summary>
         /// The tab control which hosts this page.
@@ -86,7 +86,7 @@ namespace StyleCop
         private TextBox addAlternateWordTextBox;
         private Label label6;
         private ListView deprecatedWordsListView;
-        private ColumnHeader columnHeader2;
+        private ColumnHeader deprecatedWordsColumnHeader;
         private Button removeDeprecatedWordButton;
         private Label label7;
         
@@ -355,7 +355,7 @@ namespace StyleCop
             this.addRecognizedWordTextBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.recognizedWordsListView = new System.Windows.Forms.ListView();
-            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.recognizedWordsColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.addDeprecatedWordButton = new System.Windows.Forms.Button();
@@ -364,7 +364,7 @@ namespace StyleCop
             this.addAlternateWordTextBox = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.deprecatedWordsListView = new System.Windows.Forms.ListView();
-            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.deprecatedWordsColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.removeDeprecatedWordButton = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.SuspendLayout();
@@ -403,7 +403,7 @@ namespace StyleCop
             // 
             resources.ApplyResources(this.recognizedWordsListView, "recognizedWordsListView");
             this.recognizedWordsListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader1});
+            this.recognizedWordsColumnHeader});
             this.recognizedWordsListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.recognizedWordsListView.HideSelection = false;
             this.recognizedWordsListView.MultiSelect = false;
@@ -412,11 +412,12 @@ namespace StyleCop
             this.recognizedWordsListView.UseCompatibleStateImageBehavior = false;
             this.recognizedWordsListView.View = System.Windows.Forms.View.Details;
             this.recognizedWordsListView.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.WordListItemSelectionChanged);
+            this.recognizedWordsListView.SizeChanged += new System.EventHandler(this.RecognizedWordsListViewSizeChanged);
             this.recognizedWordsListView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.RecognizedWordListKeyDown);
             // 
-            // columnHeader1
+            // recognizedWordsColumnHeader
             // 
-            resources.ApplyResources(this.columnHeader1, "columnHeader1");
+            resources.ApplyResources(this.recognizedWordsColumnHeader, "recognizedWordsColumnHeader");
             // 
             // label3
             // 
@@ -464,7 +465,7 @@ namespace StyleCop
             // 
             resources.ApplyResources(this.deprecatedWordsListView, "deprecatedWordsListView");
             this.deprecatedWordsListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader2});
+            this.deprecatedWordsColumnHeader});
             this.deprecatedWordsListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.deprecatedWordsListView.HideSelection = false;
             this.deprecatedWordsListView.MultiSelect = false;
@@ -473,11 +474,12 @@ namespace StyleCop
             this.deprecatedWordsListView.UseCompatibleStateImageBehavior = false;
             this.deprecatedWordsListView.View = System.Windows.Forms.View.Details;
             this.deprecatedWordsListView.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.WordListItemSelectionChanged);
+            this.deprecatedWordsListView.SizeChanged += new System.EventHandler(this.DeprecatedWordsListViewSizeChanged);
             this.deprecatedWordsListView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DeprecatedWordListKeyDown);
             // 
-            // columnHeader2
+            // deprecatedWordsColumnHeader
             // 
-            resources.ApplyResources(this.columnHeader2, "columnHeader2");
+            resources.ApplyResources(this.deprecatedWordsColumnHeader, "deprecatedWordsColumnHeader");
             // 
             // removeDeprecatedWordButton
             // 
@@ -891,6 +893,26 @@ namespace StyleCop
                 this.ParentForm.AcceptButton = this.formAcceptButton;
                 this.formAcceptButton = null;
             }
+        }
+
+        /// <summary>
+        /// Resizes the column inside the ListView.
+        /// </summary>
+        /// <param name="sender">The event sender.</param>
+        /// <param name="e">The event arguments.</param>
+        private void RecognizedWordsListViewSizeChanged(object sender, EventArgs e)
+        {
+            this.recognizedWordsColumnHeader.Width = recognizedWordsListView.Width - 64;
+        }
+
+        /// <summary>
+        /// Resizes the column inside the ListView.
+        /// </summary>
+        /// <param name="sender">The event sender.</param>
+        /// <param name="e">The event arguments.</param>
+        private void DeprecatedWordsListViewSizeChanged(object sender, EventArgs e)
+        {
+            this.deprecatedWordsColumnHeader.Width = deprecatedWordsListView.Width - 64;
         }
 
         #endregion Private Methods
