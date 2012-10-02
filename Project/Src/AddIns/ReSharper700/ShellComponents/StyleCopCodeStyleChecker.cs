@@ -26,8 +26,6 @@ namespace StyleCop.ReSharper700.ShellComponents
     using JetBrains.Application.Settings;
     using JetBrains.Application.Settings.Store.Implementation;
 
-    using Microsoft.Win32;
-
     using StyleCop.ReSharper700.Core;
     using StyleCop.ReSharper700.Options;
 
@@ -63,8 +61,7 @@ namespace StyleCop.ReSharper700.ShellComponents
         {
             RegistryUtils registryUtils = new RegistryUtils();
 
-            var oneTimeInitializationRequiredRegistryKey = registryUtils.CUGetValue("LastInitializationDate");
-            var initializationDate = Convert.ToDateTime(oneTimeInitializationRequiredRegistryKey);
+            var initializationDate = Convert.ToDateTime(registryUtils.CUGetValue("LastInitializationDate"));
 
             string todayAsString = DateTime.Today.ToString("yyyy-MM-dd");
 
@@ -90,7 +87,7 @@ namespace StyleCop.ReSharper700.ShellComponents
                 lastInstalledDate = GetInstallDateFromLocalUserRegistry(registryUtils, todayAsString);
             }
 
-            if (oneTimeInitializationRequiredRegistryKey == null || initializationDate < lastInstalledDate)
+            if (registryUtils.CUGetValue("LastInitializationDate") == null || initializationDate < lastInstalledDate)
             {
                 var settingsStore = Shell.Instance.GetComponent<SettingsStore>();
 
