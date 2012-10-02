@@ -418,7 +418,7 @@ namespace StyleCop
                                 foreach (var propertyValue in property.Values)
                                 {
                                     var path = Environment.ExpandEnvironmentVariables(propertyValue);
-                                    this.dictionaryFolders.Add(Path.GetFullPath(path));
+                                    this.dictionaryFolders.Add(path);
                                 }
                             }
                         }
