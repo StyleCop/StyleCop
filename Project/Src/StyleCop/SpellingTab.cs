@@ -904,7 +904,7 @@ namespace StyleCop
         /// <param name="e">The event arguments.</param>
         private void RecognizedWordsListViewSizeChanged(object sender, EventArgs e)
         {
-            this.recognizedWordsColumnHeader.Width = recognizedWordsListView.Width - 64;
+            this.recognizedWordsColumnHeader.Width = this.recognizedWordsListView.Width - 64;
         }
 
         /// <summary>
@@ -914,7 +914,7 @@ namespace StyleCop
         /// <param name="e">The event arguments.</param>
         private void DeprecatedWordsListViewSizeChanged(object sender, EventArgs e)
         {
-            this.deprecatedWordsColumnHeader.Width = deprecatedWordsListView.Width - 64;
+            this.deprecatedWordsColumnHeader.Width = this.deprecatedWordsListView.Width - 64;
         }
 
         #endregion Private Methods
