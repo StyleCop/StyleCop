@@ -754,70 +754,7 @@ namespace StyleCop
                 throw;
             }
         }
-
-        /// <summary>
-        /// Creates an absolute path given a relative path and the root directory.
-        /// </summary>
-        /// <param name="rootFolder">The root directory.</param>
-        /// <param name="relativePath">The relative path.</param>
-        /// <returns>Returns the absolute path.</returns>
-        internal static string MakeAbsolutePath(string rootFolder, string relativePath)
-        {
-            Param.AssertValidString(rootFolder, "rootFolder");
-            Param.AssertValidString(relativePath, "relativePath");
-
-            // Make a copy of the root folder path.
-            string absolutePath = rootFolder.Substring(0, rootFolder.Length);
-
-            int index = 0;
-
-            // Back up all directories specified in the relative path.
-            while (true)
-            {
-                if (relativePath.Length - index < 3)
-                {
-                    break;
-                }
-                else if (relativePath[index] == '.' && relativePath[index + 1] == '\\')
-                {
-                    index += 2;
-                }
-                else if (relativePath[index] == '\\')
-                {
-                    index += 1;
-                }
-                else if (relativePath[index] == '.' && relativePath[index + 1] == '.' && relativePath[index + 2] == '\\')
-                {
-                    // Back up one folder.
-                    index += 3;
-
-                    // First, remove all backslashes from the end of the absolute path.
-                    while (absolutePath.Length > 0 && absolutePath[absolutePath.Length - 1] == '\\')
-                    {
-                        absolutePath = absolutePath.Substring(0, absolutePath.Length - 1);
-                    }
-
-                    // Now cut off the last directory.
-                    int lastSlashIndex = absolutePath.LastIndexOf("\\", StringComparison.Ordinal);
-                    if (lastSlashIndex == -1)
-                    {
-                        // We've reached the end of the string. It's not possible to create 
-                        // an absolute path.
-                        return relativePath;
-                    }
-
-                    absolutePath = absolutePath.Substring(0, lastSlashIndex + 1);
-                }
-                else
-                {
-                    break;
-                }
-            }
-
-            // Now add the remainder of the relative path onto the absolute path.
-            return Path.Combine(absolutePath, relativePath.Substring(index, relativePath.Length - index));
-        }
-
+        
         /// <summary>
         /// Cleans up the given path so that it can always be matched against other paths.
         /// </summary>

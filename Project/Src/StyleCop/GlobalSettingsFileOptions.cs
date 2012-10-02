@@ -183,7 +183,7 @@ namespace StyleCop
 
                     if (linkedSettingsFile.StartsWith(".", StringComparison.Ordinal))
                     {
-                        linkedSettingsFile = StyleCopCore.MakeAbsolutePath(Path.GetDirectoryName(this.tabControl.LocalSettings.Location), linkedSettingsFile);
+                        linkedSettingsFile = Utils.MakeAbsolutePath(Path.GetDirectoryName(this.tabControl.LocalSettings.Location), linkedSettingsFile);
                     }
 
                     this.linkedFilePath.Text = linkedSettingsFile;
@@ -633,7 +633,7 @@ namespace StyleCop
 
                 if (expandedPath.StartsWith(".", StringComparison.Ordinal) || !expandedPath.Contains("\\"))
                 {
-                    expandedPath = StyleCopCore.MakeAbsolutePath(Path.GetDirectoryName(this.tabControl.LocalSettings.Location), expandedPath);
+                    expandedPath = Utils.MakeAbsolutePath(Path.GetDirectoryName(this.tabControl.LocalSettings.Location), expandedPath);
                 }
 
                 // Check if there is a file at the given path. Create the settings file if needed.

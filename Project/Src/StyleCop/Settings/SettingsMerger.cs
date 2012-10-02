@@ -501,7 +501,7 @@ namespace StyleCop
 
                 if (linkedSettingsFile.StartsWith(".", StringComparison.Ordinal) || !linkedSettingsFile.Contains("\\"))
                 {
-                    linkedSettingsFile = StyleCopCore.MakeAbsolutePath(Path.GetDirectoryName(originalSettings.Location), linkedSettingsFile);
+                    linkedSettingsFile = Utils.MakeAbsolutePath(Path.GetDirectoryName(originalSettings.Location), linkedSettingsFile);
                 }
 
                 if (File.Exists(linkedSettingsFile))
