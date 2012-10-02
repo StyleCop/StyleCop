@@ -168,10 +168,19 @@ namespace StyleCop.CSharp
                 
                 foreach (var dictionaryFolder in document.SourceCode.Project.DictionaryFolders)
                 {
-                    namingService.AddDictionaryFolder(dictionaryFolder);
+                    if (dictionaryFolder.StartsWith(".", StringComparison.Ordinal))
+                    {
+                        namingService.AddDictionaryFolder(StyleCop.Utils.MakeAbsolutePath(Path.GetDirectoryName(document.SourceCode.Path), dictionaryFolder));
+                    }
+                    else
+                    {
+                        namingService.AddDictionaryFolder(dictionaryFolder);
+                    }
                 }
 
                 namingService.AddDictionaryFolder(Path.GetDirectoryName(document.SourceCode.Path));
+
+                namingService.AddDictionaryFolder(Path.GetDirectoryName(document.SourceCode.Project.Location));
 
                 this.CheckElementDocumentation(csdocument);
                 this.CheckFileHeader(csdocument);
