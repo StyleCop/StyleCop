@@ -65,7 +65,12 @@ namespace StyleCop.Spelling
         private NamingService(CultureInfo culture)
         {
             this.culture = culture;
-            this.spellChecker = SpellChecker.FromCulture(culture);
+
+            if (StyleCopCore.PlatformID == PlatformID.Win32NT)
+            {
+                this.spellChecker = SpellChecker.FromCulture(culture);
+            }
+            
             this.InitCustomDictionaries();
         }
 

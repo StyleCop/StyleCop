@@ -29,8 +29,16 @@ namespace StyleCop
         internal static string GetUnixKernelName()
         {
             UnixNameStruct result = new UnixNameStruct();
-            UnixKernelName(out result);
-
+            
+            try
+            {
+                UnixKernelName(out result);
+            }
+            catch
+            {
+                result.SystemName = string.Empty;
+            }
+            
             return result.SystemName;
         }
 

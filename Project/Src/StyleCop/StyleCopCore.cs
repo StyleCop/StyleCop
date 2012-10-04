@@ -216,7 +216,30 @@ namespace StyleCop
         public event EventHandler<AddSettingsPagesEventArgs> AddSettingsPages;
 
         #endregion Public Events
+        
+         #region Public Static Properties
 
+        /// <summary>
+        /// Gets the current operating system PlatformID.
+        /// </summary>
+        public static PlatformID PlatformID
+        {
+            get
+            {
+                if (System.Environment.OSVersion.Platform == PlatformID.Unix)
+                {
+                    // The OS is OSX if the Unix kernel name is Darwin.
+                    return UnixNativeMethods.GetUnixKernelName().Equals("Darwin") ? PlatformID.MacOSX : PlatformID.Unix;
+                }
+                else
+                {
+                    return System.Environment.OSVersion.Platform;
+                }
+            }
+        }
+
+        #endregion
+ 	  
         #region Public Properties
 
         /// <summary>
