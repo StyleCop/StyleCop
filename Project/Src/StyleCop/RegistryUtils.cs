@@ -33,6 +33,11 @@ namespace StyleCop
     public partial class RegistryUtils
     {
         /// <summary>
+        /// The StyleCop sub key.
+        /// </summary>
+        private const string StyleCopSubKey = @"Software\CodePlex\StyleCop";
+        
+        /// <summary>
         /// The local machine registry key for StyleCop.
         /// </summary>
         private RegistryKey localMachineRoot;
@@ -41,9 +46,7 @@ namespace StyleCop
         /// The current user registry key for StyleCop.
         /// </summary>
         private RegistryKey currentUserRoot;
-
-        private const string StyleCopSubKey = @"Software\CodePlex\StyleCop";
-            
+    
         #region Destructors
 
         /// <summary>
