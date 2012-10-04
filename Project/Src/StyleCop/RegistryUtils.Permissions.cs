@@ -32,16 +32,25 @@ namespace StyleCop
             /// Call this function before creating the RegistryUtils class in order to make sure that
             /// you (the caller) will have permissions to access the class.
             /// </summary>
-            public static void Demand()
+            /// <param name="subKey">The sub key to demand permissions for.</param>
+            public static void DemandCurrentUserAccess(string subKey)
             {
                 // Create permission objects for the registry keys we're about to use.
-                RegistryPermission fullPermissions = new RegistryPermission(RegistryPermissionAccess.AllAccess, @"HKEY_CURRENT_USER\Software\CodePlex\StyleCop");
+                RegistryPermission fullPermissions = new RegistryPermission(RegistryPermissionAccess.AllAccess, @"HKEY_CURRENT_USER\" + subKey);
             
                 // Now force this function to throw a SecurityException if we don't already have these permissions.
                 fullPermissions.Demand();
+            }
 
+            /// <summary>
+            /// Call this function before creating the RegistryUtils class in order to make sure that
+            /// you (the caller) will have permissions to access the class.
+            /// </summary>
+            /// <param name="subKey">The sub key to demand permissions for.</param>
+            public static void DemandLocalMachineAccess(string subKey)
+            {
                 // Create permission objects for the registry keys we're about to use.
-                RegistryPermission readPermissions = new RegistryPermission(RegistryPermissionAccess.Read, @"HKEY_LOCAL_MACHINE\Software\CodePlex\StyleCop");
+                RegistryPermission readPermissions = new RegistryPermission(RegistryPermissionAccess.Read, @"HKEY_LOCAL_MACHINE\" + subKey);
 
                 // Now force this function to throw a SecurityException if we don't already have these permissions.
                 readPermissions.Demand();

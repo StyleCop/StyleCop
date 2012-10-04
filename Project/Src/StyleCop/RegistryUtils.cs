@@ -32,24 +32,18 @@ namespace StyleCop
         Justification = "API has already been published and should not be changed.")]
     public partial class RegistryUtils
     {
-        private const string StyleCopSubKey = @"Software\CodePlex\StyleCop";
-            
-        #region Internal Constructors
+        /// <summary>
+        /// The local machine registry key for StyleCop.
+        /// </summary>
+        private RegistryKey localMachineRoot;
 
         /// <summary>
-        /// Initializes a new instance of the RegistryUtils class.
+        /// The current user registry key for StyleCop.
         /// </summary>
-        public RegistryUtils()
-        {
-            // Demand our permissions
-            Permissions.Demand();
+        private RegistryKey currentUserRoot;
 
-            this.CurrentUserRoot = Registry.CurrentUser.OpenSubKey(StyleCopSubKey, true) ?? Registry.CurrentUser.CreateSubKey(StyleCopSubKey);
-            this.LocalMachineRoot = Registry.LocalMachine.OpenSubKey(StyleCopSubKey, false);
-        }
-
-        #endregion Internal Constructors
-
+        private const string StyleCopSubKey = @"Software\CodePlex\StyleCop";
+            
         #region Destructors
 
         /// <summary>
@@ -57,14 +51,14 @@ namespace StyleCop
         /// </summary>
         ~RegistryUtils()
         {
-            if (this.CurrentUserRoot != null)
+            if (this.currentUserRoot != null)
             {
-                this.CurrentUserRoot.Close();
+                this.currentUserRoot.Close();
             }
 
-            if (this.LocalMachineRoot != null)
+            if (this.localMachineRoot != null)
             {
-                this.LocalMachineRoot.Close();
+                this.localMachineRoot.Close();
             }
         }
 
@@ -75,12 +69,40 @@ namespace StyleCop
         /// <summary>
         /// Gets the HKCU root key for the StyleCop key as read/write. It will be created if it doesn't exist.
         /// </summary>
-        public RegistryKey CurrentUserRoot { get; private set; }
+        public RegistryKey CurrentUserRoot
+        {
+            get
+            {
+                if (this.currentUserRoot == null)
+                {
+                    Permissions.DemandCurrentUserAccess(StyleCopSubKey);
+                    this.currentUserRoot = Registry.CurrentUser.OpenSubKey(StyleCopSubKey, true) ?? Registry.CurrentUser.CreateSubKey(StyleCopSubKey);
+                }
+
+                return this.currentUserRoot;
+            }
+        }
 
         /// <summary>
         /// Gets the HKLM root key for the StyleCop key as read only.
         /// </summary>
-        public RegistryKey LocalMachineRoot { get; private set; }
+        public RegistryKey LocalMachineRoot
+        {
+            get
+            {
+                if (this.localMachineRoot == null)
+                {
+                    // Don't open local machine key on non-windows as it fails.
+                    if (StyleCopCore.PlatformID == PlatformID.Win32NT)
+                    {
+                        Permissions.DemandLocalMachineAccess(StyleCopSubKey);
+                        this.localMachineRoot = Registry.LocalMachine.OpenSubKey(StyleCopSubKey, false);
+                    }
+                }
+
+                return this.localMachineRoot;
+            }
+        }
 
         #endregion Public Properties
 
