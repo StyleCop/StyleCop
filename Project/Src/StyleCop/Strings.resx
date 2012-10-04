@@ -376,4 +376,7 @@ Do you wish to download the latest version?</value>
   <data name="EnterValidDeprecatedWord" xml:space="preserve">
     <value>Please enter a valid deprecated word and it's alternative before clicking the Add button</value>
   </data>
+  <data name="EnterValidFolder" xml:space="preserve">
+    <value>Enter a valid folder path before clicking Add</value>
+  </data>
 </root>

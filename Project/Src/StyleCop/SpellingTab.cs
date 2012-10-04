@@ -28,6 +28,8 @@ namespace StyleCop
 
         private const string DeprecatedWordsPropertyName = "DeprecatedWords";
 
+        private const string DictionaryFoldersPropertyName = "DictionaryFolders";
+
         #region Private Fields
 
         /// <summary>
@@ -89,6 +91,17 @@ namespace StyleCop
         private ColumnHeader deprecatedWordsColumnHeader;
         private Button removeDeprecatedWordButton;
         private Label label7;
+        private TextBox addFolderTextBox;
+        private ListView foldersListView;
+        private ColumnHeader dictionaryFoldersColumnHeader;
+        private Button removeFolderButton;
+        private Button addFolderButton;
+        private Label label9;
+        private Label label10;
+        private GroupBox groupBox1;
+        private GroupBox groupBox2;
+        private GroupBox groupBox3;
+        private Label label8;
         
         /// <summary>
         /// Stores the form's accept button while focus is on the add textbox.
@@ -159,7 +172,7 @@ namespace StyleCop
             this.tabControl = propertyControl;
             
             // Get the list of allowed words from the parent settings.
-            this.AddParentWords();
+            this.AddParentSettingsValues();
 
             // Get the list of allowed words from the local settings.
             CollectionProperty recognizedWordsProperty = this.tabControl.LocalSettings.GlobalSettings.GetProperty(RecognizedWordsPropertyName) as CollectionProperty;
@@ -207,6 +220,28 @@ namespace StyleCop
             if (this.deprecatedWordsListView.Items.Count > 0)
             {
                 this.deprecatedWordsListView.Items[0].Selected = true;
+            }
+
+            // Get the list of folders from the local settings.
+            CollectionProperty dictionaryFoldersProperty = this.tabControl.LocalSettings.GlobalSettings.GetProperty(DictionaryFoldersPropertyName) as CollectionProperty;
+
+            if (dictionaryFoldersProperty != null && dictionaryFoldersProperty.Values.Count > 0)
+            {
+                foreach (string value in dictionaryFoldersProperty)
+                {
+                    if (!string.IsNullOrEmpty(value))
+                    {
+                        ListViewItem item = this.foldersListView.Items.Add(value);
+                        item.Tag = true;
+                        this.SetBoldState(item, this.foldersListView);
+                    }
+                }
+            }
+
+            // Select the first item in the list.
+            if (this.foldersListView.Items.Count > 0)
+            {
+                this.foldersListView.Items[0].Selected = true;
             }
 
             this.EnableDisableRemoveButtons();
@@ -264,6 +299,19 @@ namespace StyleCop
             }
 
             this.tabControl.LocalSettings.GlobalSettings.SetProperty(new CollectionProperty(this.tabControl.Core, DeprecatedWordsPropertyName, values));
+
+            values = new List<string>(this.deprecatedWordsListView.Items.Count);
+
+            foreach (ListViewItem word in this.foldersListView.Items)
+            {
+                // Only save local tags.
+                if ((bool)word.Tag)
+                {
+                    values.Add(word.Text);
+                }
+            }
+
+            this.tabControl.LocalSettings.GlobalSettings.SetProperty(new CollectionProperty(this.tabControl.Core, DictionaryFoldersPropertyName, values));
   
             this.dirty = false;
             this.tabControl.DirtyChanged();
@@ -314,9 +362,24 @@ namespace StyleCop
             {
                 this.deprecatedWordsListView.Items.Remove(itemToRemove);
             }
+
+            // Loop through the existing items and remove all parent items.
+            itemsToRemove = new List<ListViewItem>();
+            foreach (ListViewItem prefix in this.foldersListView.Items)
+            {
+                if (!(bool)prefix.Tag)
+                {
+                    itemsToRemove.Add(prefix);
+                }
+            }
+
+            foreach (ListViewItem itemToRemove in itemsToRemove)
+            {
+                this.foldersListView.Items.Remove(itemToRemove);
+            }
            
             // Add any new parent items now.
-            this.AddParentWords();
+            this.AddParentSettingsValues();
 
             // Loop through the list again and set the bold state for locally added items.
             foreach (ListViewItem listViewItem in this.recognizedWordsListView.Items)
@@ -333,6 +396,15 @@ namespace StyleCop
                 if ((bool)listViewItem.Tag)
                 {
                     this.SetBoldState(listViewItem, this.deprecatedWordsListView);
+                }
+            }
+
+            // Loop through the list again and set the bold state for locally added items.
+            foreach (ListViewItem listViewItem in this.foldersListView.Items)
+            {
+                if ((bool)listViewItem.Tag)
+                {
+                    this.SetBoldState(listViewItem, this.foldersListView);
                 }
             }
         }
@@ -367,6 +439,20 @@ namespace StyleCop
             this.deprecatedWordsColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.removeDeprecatedWordButton = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
+            this.addFolderTextBox = new System.Windows.Forms.TextBox();
+            this.foldersListView = new System.Windows.Forms.ListView();
+            this.dictionaryFoldersColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.removeFolderButton = new System.Windows.Forms.Button();
+            this.addFolderButton = new System.Windows.Forms.Button();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // removeRecognizedWordButton
@@ -492,36 +578,122 @@ namespace StyleCop
             resources.ApplyResources(this.label7, "label7");
             this.label7.Name = "label7";
             // 
+            // addFolderTextBox
+            // 
+            resources.ApplyResources(this.addFolderTextBox, "addFolderTextBox");
+            this.addFolderTextBox.Name = "addFolderTextBox";
+            this.addFolderTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.AddDictionaryFolderKeyDown);
+            // 
+            // foldersListView
+            // 
+            resources.ApplyResources(this.foldersListView, "foldersListView");
+            this.foldersListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.dictionaryFoldersColumnHeader});
+            this.foldersListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            this.foldersListView.HideSelection = false;
+            this.foldersListView.MultiSelect = false;
+            this.foldersListView.Name = "foldersListView";
+            this.foldersListView.Sorting = System.Windows.Forms.SortOrder.Ascending;
+            this.foldersListView.UseCompatibleStateImageBehavior = false;
+            this.foldersListView.View = System.Windows.Forms.View.Details;
+            this.foldersListView.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.WordListItemSelectionChanged);
+            this.foldersListView.SizeChanged += new System.EventHandler(this.DictionaryFoldersListViewSizeChanged);
+            this.foldersListView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DictionaryFoldersKeyDown);
+            // 
+            // dictionaryFoldersColumnHeader
+            // 
+            resources.ApplyResources(this.dictionaryFoldersColumnHeader, "dictionaryFoldersColumnHeader");
+            // 
+            // removeFolderButton
+            // 
+            resources.ApplyResources(this.removeFolderButton, "removeFolderButton");
+            this.removeFolderButton.Name = "removeFolderButton";
+            this.removeFolderButton.Click += new System.EventHandler(this.RemoveFolderButtonClick);
+            // 
+            // addFolderButton
+            // 
+            resources.ApplyResources(this.addFolderButton, "addFolderButton");
+            this.addFolderButton.Name = "addFolderButton";
+            this.addFolderButton.Click += new System.EventHandler(this.AddFolderButtonClick);
+            // 
+            // label9
+            // 
+            resources.ApplyResources(this.label9, "label9");
+            this.label9.Name = "label9";
+            // 
+            // label10
+            // 
+            resources.ApplyResources(this.label10, "label10");
+            this.label10.Name = "label10";
+            // 
+            // groupBox1
+            // 
+            resources.ApplyResources(this.groupBox1, "groupBox1");
+            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.addRecognizedWordTextBox);
+            this.groupBox1.Controls.Add(this.addRecognizedWordButton);
+            this.groupBox1.Controls.Add(this.removeRecognizedWordButton);
+            this.groupBox1.Controls.Add(this.recognizedWordsListView);
+            this.groupBox1.Controls.Add(this.label3);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.TabStop = false;
+            // 
+            // groupBox2
+            // 
+            resources.ApplyResources(this.groupBox2, "groupBox2");
+            this.groupBox2.Controls.Add(this.label8);
+            this.groupBox2.Controls.Add(this.label9);
+            this.groupBox2.Controls.Add(this.label10);
+            this.groupBox2.Controls.Add(this.addFolderTextBox);
+            this.groupBox2.Controls.Add(this.foldersListView);
+            this.groupBox2.Controls.Add(this.addFolderButton);
+            this.groupBox2.Controls.Add(this.removeFolderButton);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.TabStop = false;
+            // 
+            // label8
+            // 
+            resources.ApplyResources(this.label8, "label8");
+            this.label8.Name = "label8";
+            // 
+            // groupBox3
+            // 
+            resources.ApplyResources(this.groupBox3, "groupBox3");
+            this.groupBox3.Controls.Add(this.deprecatedWordsListView);
+            this.groupBox3.Controls.Add(this.label4);
+            this.groupBox3.Controls.Add(this.label5);
+            this.groupBox3.Controls.Add(this.label7);
+            this.groupBox3.Controls.Add(this.addDeprecatedWordTextBox);
+            this.groupBox3.Controls.Add(this.addDeprecatedWordButton);
+            this.groupBox3.Controls.Add(this.removeDeprecatedWordButton);
+            this.groupBox3.Controls.Add(this.addAlternateWordTextBox);
+            this.groupBox3.Controls.Add(this.label6);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.TabStop = false;
+            // 
             // SpellingTab
             // 
-            this.Controls.Add(this.label7);
-            this.Controls.Add(this.deprecatedWordsListView);
-            this.Controls.Add(this.removeDeprecatedWordButton);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.addAlternateWordTextBox);
-            this.Controls.Add(this.addDeprecatedWordButton);
-            this.Controls.Add(this.addDeprecatedWordTextBox);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.recognizedWordsListView);
-            this.Controls.Add(this.removeRecognizedWordButton);
-            this.Controls.Add(this.addRecognizedWordButton);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.addRecognizedWordTextBox);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.groupBox3);
+            this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.groupBox1);
             this.Name = "SpellingTab";
             resources.ApplyResources(this, "$this");
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
         #endregion
 
         /// <summary>
-        /// Add prefixes from the parent settings.
+        /// Adds values from the parent settings.
         /// </summary>
-        private void AddParentWords()
+        private void AddParentSettingsValues()
         {
             if (this.tabControl.ParentSettings != null)
             {
@@ -560,6 +732,23 @@ namespace StyleCop
                                     ListViewItem item = this.deprecatedWordsListView.Items.Add(splitValue[0].Trim() + ", " + splitValue[1].Trim());
                                     item.Tag = false;
                                 }
+                            }
+                        }
+                    }
+                }
+
+                parentProperty = globalPropertyCollection.GetProperty(DictionaryFoldersPropertyName) as CollectionProperty;
+
+                if (parentProperty != null)
+                {
+                    if (parentProperty.Values.Count > 0)
+                    {
+                        foreach (string value in parentProperty)
+                        {
+                            if (!string.IsNullOrEmpty(value))
+                            {
+                                    ListViewItem item = this.foldersListView.Items.Add(value);
+                                    item.Tag = false;
                             }
                         }
                     }
@@ -823,6 +1012,17 @@ namespace StyleCop
             {
                 this.removeDeprecatedWordButton.Enabled = false;
             }
+
+            if (this.foldersListView.SelectedItems.Count > 0)
+            {
+                // Get the currently selected item.
+                ListViewItem selectedItem = this.foldersListView.SelectedItems[0];
+                this.removeFolderButton.Enabled = (bool)selectedItem.Tag;
+            }
+            else
+            {
+                this.removeFolderButton.Enabled = false;
+            }
         }
 
         /// <summary>
@@ -917,6 +1117,107 @@ namespace StyleCop
             this.deprecatedWordsColumnHeader.Width = this.deprecatedWordsListView.Width - 64;
         }
 
-        #endregion Private Methods
+        #endregion Private Methods    
+
+        private void AddFolderButtonClick(object sender, EventArgs e)
+        {
+            Param.Ignore(sender, e);
+
+            string folderText = this.addFolderTextBox.Text;
+
+            if (folderText.Length == 0 || folderText.Length < 2)
+            {
+                AlertDialog.Show(
+                    this.tabControl.Core,
+                    this,
+                    Strings.EnterValidFolder,
+                    Strings.Title,
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Exclamation);
+                return;
+            }
+
+            foreach (ListViewItem item in this.foldersListView.Items)
+            {
+                if (item.Text == folderText)
+                {
+                    item.Selected = true;
+                    item.EnsureVisible();
+                    this.addFolderTextBox.Clear();
+                    return;
+                }
+            }
+
+            ListViewItem addedItem = this.foldersListView.Items.Add(folderText);
+            addedItem.Tag = true;
+            addedItem.Selected = true;
+            this.foldersListView.EnsureVisible(addedItem.Index);
+            this.SetBoldState(addedItem, this.foldersListView);
+
+            this.addFolderTextBox.Clear();
+
+            this.dirty = true;
+            this.tabControl.DirtyChanged();
+        }
+
+        private void RemoveFolderButtonClick(object sender, EventArgs e)
+        {
+            Param.Ignore(sender, e);
+
+            if (this.foldersListView.SelectedItems.Count > 0)
+            {
+                int index = this.foldersListView.SelectedIndices[0];
+
+                this.foldersListView.Items.RemoveAt(index);
+                this.EnableDisableRemoveButtons();
+
+                if (this.foldersListView.Items.Count > index)
+                {
+                    this.foldersListView.Items[index].Selected = true;
+                }
+                else if (this.foldersListView.Items.Count > 0)
+                {
+                    this.foldersListView.Items[this.foldersListView.Items.Count - 1].Selected = true;
+                }
+
+                this.dirty = true;
+                this.tabControl.DirtyChanged();
+            }
+        }
+
+        private void DictionaryFoldersKeyDown(object sender, KeyEventArgs e)
+        {
+            Param.AssertNotNull(sender, "sender");
+            Param.AssertNotNull(e, "e");
+
+            if (e.KeyCode == Keys.Delete)
+            {
+                if (this.addFolderTextBox.Text.Length > 0)
+                {
+                    // Simulate a click of the remove button.
+                    this.RemoveFolderButtonClick(sender, e);
+                }
+            }
+        }
+
+        private void DictionaryFoldersListViewSizeChanged(object sender, EventArgs e)
+        {
+            this.dictionaryFoldersColumnHeader.Width = this.foldersListView.Width - 64;
+        }
+
+        private void AddDictionaryFolderKeyDown(object sender, KeyEventArgs e)
+        {
+            Param.AssertNotNull(sender, "sender");
+            Param.AssertNotNull(e, "e");
+
+            if (e.KeyCode == Keys.Return)
+            {
+                if (this.addFolderTextBox.Text.Length > 0)
+                {
+                    // Simulate a click of the add button.
+                    this.AddFolderButtonClick(sender, e);
+                }
+            }
+        }
     }
 }

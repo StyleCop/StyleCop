@@ -251,6 +251,15 @@ namespace StyleCop {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enter a valid folder path before clicking Add.
+        /// </summary>
+        internal static string EnterValidFolder {
+            get {
+                return ResourceManager.GetString("EnterValidFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please enter a valid word before clicking the Add button.
         /// </summary>
         internal static string EnterValidWord {

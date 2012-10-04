@@ -126,7 +126,7 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="removeRecognizedWordButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>369, 109</value>
+    <value>405, 125</value>
   </data>
   <data name="removeRecognizedWordButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -145,10 +145,10 @@
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;removeRecognizedWordButton.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;removeRecognizedWordButton.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>4</value>
   </data>
   <data name="addRecognizedWordButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -157,7 +157,7 @@
     <value>System</value>
   </data>
   <data name="addRecognizedWordButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>369, 48</value>
+    <value>405, 64</value>
   </data>
   <data name="addRecognizedWordButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -175,16 +175,16 @@
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;addRecognizedWordButton.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;addRecognizedWordButton.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>3</value>
   </data>
   <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 84</value>
+    <value>8, 98</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 23</value>
+    <value>118, 23</value>
   </data>
   <data name="label2.TabIndex" type="System.Int32, mscorlib">
     <value>28</value>
@@ -199,19 +199,19 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label2.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>0</value>
   </data>
   <data name="addRecognizedWordTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
   </data>
   <data name="addRecognizedWordTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>144, 50</value>
+    <value>138, 66</value>
   </data>
   <data name="addRecognizedWordTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>204, 20</value>
+    <value>232, 20</value>
   </data>
   <data name="addRecognizedWordTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -223,13 +223,13 @@
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;addRecognizedWordTextBox.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;addRecognizedWordTextBox.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>2</value>
   </data>
   <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 53</value>
+    <value>8, 69</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
     <value>130, 21</value>
@@ -247,10 +247,10 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label1.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>15</value>
+    <value>1</value>
   </data>
   <data name="recognizedWordsListView.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -259,10 +259,10 @@
     <value>140</value>
   </data>
   <data name="recognizedWordsListView.Location" type="System.Drawing.Point, System.Drawing">
-    <value>144, 82</value>
+    <value>138, 98</value>
   </data>
   <data name="recognizedWordsListView.Size" type="System.Drawing.Size, System.Drawing">
-    <value>204, 144</value>
+    <value>232, 80</value>
   </data>
   <data name="recognizedWordsListView.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -274,19 +274,19 @@
     <value>System.Windows.Forms.ListView, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;recognizedWordsListView.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;recognizedWordsListView.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>5</value>
   </data>
   <data name="label3.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
   </data>
   <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 4</value>
+    <value>8, 24</value>
   </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>513, 32</value>
+    <value>504, 32</value>
   </data>
   <data name="label3.TabIndex" type="System.Int32, mscorlib">
     <value>33</value>
@@ -301,10 +301,10 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label3.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>6</value>
   </data>
   <data name="label4.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -313,10 +313,10 @@
     <value>NoControl</value>
   </data>
   <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 287</value>
+    <value>8, 24</value>
   </data>
   <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>513, 44</value>
+    <value>503, 39</value>
   </data>
   <data name="label4.TabIndex" type="System.Int32, mscorlib">
     <value>34</value>
@@ -331,10 +331,10 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label4.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupBox3</value>
   </data>
   <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>1</value>
   </data>
   <data name="addDeprecatedWordButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -346,7 +346,7 @@
     <value>NoControl</value>
   </data>
   <data name="addDeprecatedWordButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>369, 358</value>
+    <value>405, 66</value>
   </data>
   <data name="addDeprecatedWordButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -364,7 +364,7 @@
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;addDeprecatedWordButton.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupBox3</value>
   </data>
   <data name="&gt;&gt;addDeprecatedWordButton.ZOrder" xml:space="preserve">
     <value>5</value>
@@ -373,10 +373,10 @@
     <value>Top, Bottom, Left, Right</value>
   </data>
   <data name="addDeprecatedWordTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>144, 329</value>
+    <value>138, 66</value>
   </data>
   <data name="addDeprecatedWordTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>204, 20</value>
+    <value>232, 20</value>
   </data>
   <data name="addDeprecatedWordTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -388,16 +388,16 @@
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;addDeprecatedWordTextBox.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupBox3</value>
   </data>
   <data name="&gt;&gt;addDeprecatedWordTextBox.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>4</value>
   </data>
   <data name="label5.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 332</value>
+    <value>8, 69</value>
   </data>
   <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
     <value>130, 17</value>
@@ -415,19 +415,19 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label5.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupBox3</value>
   </data>
   <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>2</value>
   </data>
   <data name="addAlternateWordTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
   </data>
   <data name="addAlternateWordTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>144, 360</value>
+    <value>138, 98</value>
   </data>
   <data name="addAlternateWordTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>204, 20</value>
+    <value>232, 20</value>
   </data>
   <data name="addAlternateWordTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -439,16 +439,16 @@
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;addAlternateWordTextBox.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupBox3</value>
   </data>
   <data name="&gt;&gt;addAlternateWordTextBox.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>7</value>
   </data>
   <data name="label6.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 363</value>
+    <value>8, 100</value>
   </data>
   <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
     <value>130, 18</value>
@@ -466,22 +466,22 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label6.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupBox3</value>
   </data>
   <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>8</value>
   </data>
   <data name="deprecatedWordsListView.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left, Right</value>
+    <value>Top, Left, Right</value>
   </data>
   <data name="deprecatedWordsColumnHeader.Width" type="System.Int32, mscorlib">
     <value>140</value>
   </data>
   <data name="deprecatedWordsListView.Location" type="System.Drawing.Point, System.Drawing">
-    <value>144, 392</value>
+    <value>138, 130</value>
   </data>
   <data name="deprecatedWordsListView.Size" type="System.Drawing.Size, System.Drawing">
-    <value>204, 144</value>
+    <value>232, 80</value>
   </data>
   <data name="deprecatedWordsListView.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -493,10 +493,10 @@
     <value>System.Windows.Forms.ListView, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;deprecatedWordsListView.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupBox3</value>
   </data>
   <data name="&gt;&gt;deprecatedWordsListView.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>0</value>
   </data>
   <data name="removeDeprecatedWordButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -508,7 +508,7 @@
     <value>NoControl</value>
   </data>
   <data name="removeDeprecatedWordButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>369, 428</value>
+    <value>405, 142</value>
   </data>
   <data name="removeDeprecatedWordButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -526,16 +526,16 @@
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;removeDeprecatedWordButton.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupBox3</value>
   </data>
   <data name="&gt;&gt;removeDeprecatedWordButton.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>6</value>
   </data>
   <data name="label7.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="label7.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 395</value>
+    <value>8, 130</value>
   </data>
   <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
     <value>130, 41</value>
@@ -553,16 +553,298 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label7.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupBox3</value>
   </data>
   <data name="&gt;&gt;label7.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="addFolderTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="addFolderTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>138, 66</value>
+  </data>
+  <data name="addFolderTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>232, 20</value>
+  </data>
+  <data name="addFolderTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;addFolderTextBox.Name" xml:space="preserve">
+    <value>addFolderTextBox</value>
+  </data>
+  <data name="&gt;&gt;addFolderTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;addFolderTextBox.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;addFolderTextBox.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="foldersListView.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="dictionaryFoldersColumnHeader.Width" type="System.Int32, mscorlib">
+    <value>140</value>
+  </data>
+  <data name="foldersListView.Location" type="System.Drawing.Point, System.Drawing">
+    <value>138, 98</value>
+  </data>
+  <data name="foldersListView.Size" type="System.Drawing.Size, System.Drawing">
+    <value>232, 86</value>
+  </data>
+  <data name="foldersListView.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="&gt;&gt;foldersListView.Name" xml:space="preserve">
+    <value>foldersListView</value>
+  </data>
+  <data name="&gt;&gt;foldersListView.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ListView, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;foldersListView.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;foldersListView.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="removeFolderButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="removeFolderButton.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="removeFolderButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="removeFolderButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>405, 125</value>
+  </data>
+  <data name="removeFolderButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="removeFolderButton.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="removeFolderButton.Text" xml:space="preserve">
+    <value>&amp;Remove</value>
+  </data>
+  <data name="&gt;&gt;removeFolderButton.Name" xml:space="preserve">
+    <value>removeFolderButton</value>
+  </data>
+  <data name="&gt;&gt;removeFolderButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;removeFolderButton.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;removeFolderButton.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="addFolderButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="addFolderButton.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="addFolderButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="addFolderButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>405, 65</value>
+  </data>
+  <data name="addFolderButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="addFolderButton.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="addFolderButton.Text" xml:space="preserve">
+    <value>&amp;Add</value>
+  </data>
+  <data name="&gt;&gt;addFolderButton.Name" xml:space="preserve">
+    <value>addFolderButton</value>
+  </data>
+  <data name="&gt;&gt;addFolderButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;addFolderButton.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;addFolderButton.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="label9.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label9.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 66</value>
+  </data>
+  <data name="label9.Size" type="System.Drawing.Size, System.Drawing">
+    <value>124, 23</value>
+  </data>
+  <data name="label9.TabIndex" type="System.Int32, mscorlib">
+    <value>48</value>
+  </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>Dictionary folder to add:</value>
+  </data>
+  <data name="&gt;&gt;label9.Name" xml:space="preserve">
+    <value>label9</value>
+  </data>
+  <data name="&gt;&gt;label9.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label9.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;label9.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="label10.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="label10.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label10.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 24</value>
+  </data>
+  <data name="label10.Size" type="System.Drawing.Size, System.Drawing">
+    <value>466, 23</value>
+  </data>
+  <data name="label10.TabIndex" type="System.Int32, mscorlib">
+    <value>49</value>
+  </data>
+  <data name="label10.Text" xml:space="preserve">
+    <value>Any folders in the following list will be searched for CustomDictionary files.</value>
+  </data>
+  <data name="&gt;&gt;label10.Name" xml:space="preserve">
+    <value>label10</value>
+  </data>
+  <data name="&gt;&gt;label10.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label10.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;label10.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="groupBox1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 0</value>
+  </data>
+  <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>516, 190</value>
+  </data>
+  <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
+    <value>50</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>Recognized Words</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="groupBox2.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="label8.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label8.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 98</value>
+  </data>
+  <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
+    <value>118, 23</value>
+  </data>
+  <data name="label8.TabIndex" type="System.Int32, mscorlib">
+    <value>50</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>Dictionary folders:</value>
+  </data>
+  <data name="&gt;&gt;label8.Name" xml:space="preserve">
+    <value>label8</value>
+  </data>
+  <data name="&gt;&gt;label8.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label8.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;label8.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="groupBox2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 430</value>
+  </data>
+  <data name="groupBox2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>516, 190</value>
+  </data>
+  <data name="groupBox2.TabIndex" type="System.Int32, mscorlib">
+    <value>51</value>
+  </data>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>Dictionary Folders</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.Name" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="groupBox3.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="groupBox3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 197</value>
+  </data>
+  <data name="groupBox3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>516, 223</value>
+  </data>
+  <data name="groupBox3.TabIndex" type="System.Int32, mscorlib">
+    <value>52</value>
+  </data>
+  <data name="groupBox3.Text" xml:space="preserve">
+    <value>Deprecated Words</value>
+  </data>
+  <data name="&gt;&gt;groupBox3.Name" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;groupBox3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox3.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupBox3.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>524, 542</value>
+    <value>534, 630</value>
   </data>
   <data name="&gt;&gt;recognizedWordsColumnHeader.Name" xml:space="preserve">
     <value>recognizedWordsColumnHeader</value>
@@ -574,6 +856,12 @@
     <value>deprecatedWordsColumnHeader</value>
   </data>
   <data name="&gt;&gt;deprecatedWordsColumnHeader.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;dictionaryFoldersColumnHeader.Name" xml:space="preserve">
+    <value>dictionaryFoldersColumnHeader</value>
+  </data>
+  <data name="&gt;&gt;dictionaryFoldersColumnHeader.Type" xml:space="preserve">
     <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">

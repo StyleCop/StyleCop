@@ -231,15 +231,13 @@ namespace StyleCop
                     // The OS is OSX if the Unix kernel name is Darwin.
                     return UnixNativeMethods.GetUnixKernelName().Equals("Darwin") ? PlatformID.MacOSX : PlatformID.Unix;
                 }
-                else
-                {
-                    return System.Environment.OSVersion.Platform;
-                }
+
+                return System.Environment.OSVersion.Platform;
             }
         }
 
         #endregion
- 	  
+
         #region Public Properties
 
         /// <summary>

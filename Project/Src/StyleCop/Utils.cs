@@ -129,7 +129,7 @@ namespace StyleCop
                 }
             }
 
-            return String.Empty;
+            return string.Empty;
         }
 
         /// <summary>
@@ -140,7 +140,7 @@ namespace StyleCop
         /// <returns>The expanded string.</returns>
         public static string ReplaceTokenVariables(string value, FileInfo file)
         {
-            if (String.IsNullOrEmpty(value))
+            if (string.IsNullOrEmpty(value))
             {
                 return value;
             }
@@ -151,7 +151,8 @@ namespace StyleCop
             var lastWriteTime = file.LastWriteTime;
             var lastAccessTime = file.LastAccessTime;
 
-            var stringDictionary = new Dictionary<string, string> {
+            var stringDictionary = new Dictionary<string, string>
+            {
                     { "$USER_LOGIN$", Environment.UserName },
                     { "$USER_NAME$", GetDisplayUserName() },
                     { "$FILENAME$", file.Name },
