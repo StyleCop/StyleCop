@@ -1481,87 +1481,88 @@ namespace StyleCop
                     string[] assemblyPaths = Directory.GetFiles(path, "*.dll");
                     foreach (string assemblyPath in assemblyPaths)
                     {
+                        var fileName = Path.GetFileName(assemblyPath);
+
                         // We want to skip the StyleCop assemblies.
-                        if (!assemblyPath.EndsWith("\\stylecop.dll", StringComparison.OrdinalIgnoreCase) &&
-                            !assemblyPath.EndsWith("\\stylecop.vspackage.dll", StringComparison.OrdinalIgnoreCase) &&
-                            !assemblyPath.EndsWith("\\stylecop.resharper513.dll", StringComparison.OrdinalIgnoreCase) &&
-                            !assemblyPath.EndsWith("\\stylecop.resharper600.dll", StringComparison.OrdinalIgnoreCase) &&
-                            !assemblyPath.EndsWith("\\stylecop.resharper610.dll", StringComparison.OrdinalIgnoreCase) &&
-                            !assemblyPath.EndsWith("\\stylecop.resharper611.dll", StringComparison.OrdinalIgnoreCase) &&
-                            !assemblyPath.EndsWith("\\stylecop.resharper700.dll", StringComparison.OrdinalIgnoreCase))
+                        if (fileName == null ||
+                            fileName.Equals("stylecop.dll", StringComparison.OrdinalIgnoreCase) ||
+                            fileName.StartsWith("stylecop.resharper", StringComparison.OrdinalIgnoreCase) ||
+                            fileName.Equals("stylecop.vspackage.dll"))
                         {
-                            try
+                            continue;
+                        }
+
+                        try
+                        {
+                            Assembly assembly = Assembly.LoadFrom(assemblyPath);
+
+                            // BUGBUG: For some reason, GetExportedTypes throws a FileNotFoundException
+                            // while loading addins that reference StyleCop.dll (this assembly). 
+                            // This exception is NOT thrown as long as I call GetCustomAttributes on
+                            // the assembly before calling GetExportedTypes. I have no idea why this is.
+                            assembly.GetCustomAttributes(true);
+
+                            // Now get the list of exported types from the assembly.
+                            Type[] types = assembly.GetExportedTypes();
+
+                            // Match the assembly's public key.
+                            byte[] addInAssemblyPublicKey = assembly.GetName().GetPublicKeyToken();
+                            bool keyMatch = ComparePublicKeys(publicKey, addInAssemblyPublicKey);
+
+                            foreach (Type type in types)
                             {
-                                Assembly assembly = Assembly.LoadFrom(assemblyPath);
-
-                                // BUGBUG: For some reason, GetExportedTypes throws a FileNotFoundException
-                                // while loading addins that reference StyleCop.dll (this assembly). 
-                                // This exception is NOT thrown as long as I call GetCustomAttributes on
-                                // the assembly before calling GetExportedTypes. I have no idea why this is.
-                                assembly.GetCustomAttributes(true);
-
-                                // Now get the list of exported types from the assembly.
-                                Type[] types = assembly.GetExportedTypes();
-
-                                // Match the assembly's public key.
-                                byte[] addInAssemblyPublicKey = assembly.GetName().GetPublicKeyToken();
-                                bool keyMatch = ComparePublicKeys(publicKey, addInAssemblyPublicKey);
-
-                                foreach (Type type in types)
+                                if (type.IsSubclassOf(typeof(SourceAnalyzer)))
                                 {
-                                    if (type.IsSubclassOf(typeof(SourceAnalyzer)))
-                                    {
-                                        SourceAnalyzer analyzer = this.InitializeAddIn(type, keyMatch) as SourceAnalyzer;
+                                    SourceAnalyzer analyzer = this.InitializeAddIn(type, keyMatch) as SourceAnalyzer;
 
-                                        if (analyzer != null && !this.analyzers.ContainsKey(analyzer.Id))
-                                        {
-                                            this.analyzers.Add(analyzer.Id, analyzer);
-                                        }
+                                    if (analyzer != null && !this.analyzers.ContainsKey(analyzer.Id))
+                                    {
+                                        this.analyzers.Add(analyzer.Id, analyzer);
                                     }
-                                    else if (type.IsSubclassOf(typeof(SourceParser)))
+                                }
+                                else if (type.IsSubclassOf(typeof(SourceParser)))
+                                {
+                                    SourceParser parser = this.InitializeAddIn(type, keyMatch) as SourceParser;
+                                    if (parser != null && !this.parsers.ContainsKey(parser.Id))
                                     {
-                                        SourceParser parser = this.InitializeAddIn(type, keyMatch) as SourceParser;
-                                        if (parser != null && !this.parsers.ContainsKey(parser.Id))
-                                        {
-                                            this.parsers.Add(parser.Id, parser);
+                                        this.parsers.Add(parser.Id, parser);
 
-                                            // Let the environment know about the parser.
-                                            this.environment.AddParser(parser);
-                                        }
+                                        // Let the environment know about the parser.
+                                        this.environment.AddParser(parser);
                                     }
                                 }
                             }
-                            catch (FileNotFoundException)
-                            {
-                                // If they have dependant types we may get this.
-                                // Move on to the next item.
-                            }
-                            catch (BadImageFormatException)
-                            {
-                                // Attempting to load certain dll's (corrupted or native) may throw a BadImageFormatException.
-                                // We do not consider it a failure if we cannot load add-ins from these assemblies.
-                            }
-                            catch (ThreadAbortException)
-                            {
-                                // The thread is being aborted. Stop loading the Add-ins.
-                            }
-                            catch (OutOfMemoryException)
-                            {
-                                // If we run out of memory, we cannot load and complete analysis anyway.
-                                throw;
-                            }
-                            catch (Exception ex)
-                            {
-                                AlertDialog.Show(
-                                    this,
-                                    null,
-                                    string.Format(CultureInfo.CurrentUICulture, Strings.ExceptionWhileLoadingAddins, ex.GetType(), ex.Message),
-                                    Strings.Title,
-                                    MessageBoxButtons.OK,
-                                    MessageBoxIcon.Error);
+                        }
+                        catch (FileNotFoundException)
+                        {
+                            // If they have dependant types we may get this.
+                            // Move on to the next item.
+                        }
+                        catch (BadImageFormatException)
+                        {
+                            // Attempting to load certain dll's (corrupted or native) may throw a BadImageFormatException.
+                            // We do not consider it a failure if we cannot load add-ins from these assemblies.
+                        }
+                        catch (ThreadAbortException)
+                        {
+                            // The thread is being aborted. Stop loading the Add-ins.
+                        }
+                        catch (OutOfMemoryException)
+                        {
+                            // If we run out of memory, we cannot load and complete analysis anyway.
+                            throw;
+                        }
+                        catch (Exception ex)
+                        {
+                            AlertDialog.Show(
+                                this,
+                                null,
+                                string.Format(CultureInfo.CurrentUICulture, Strings.ExceptionWhileLoadingAddins, ex.GetType(), ex.Message),
+                                Strings.Title,
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
 
-                                throw;
-                            }
+                            throw;
                         }
                     }
 
