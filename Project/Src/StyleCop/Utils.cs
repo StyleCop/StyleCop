@@ -21,12 +21,28 @@ namespace StyleCop
     using System.Linq;
     using System.Reflection;
     using System.Text;
+    using System.Text.RegularExpressions;
 
     /// <summary>
     /// This contains utility functions.
     /// </summary>
     public sealed class Utils
     {
+
+        /// <summary>
+        /// Determines whether the given file path matches any of the filter patterns.
+        /// </summary>
+        /// <param name="input">The string to match with the Regular Expressions.</param>
+        /// <param name="patterns">The RegEx patterns to match with.</param>
+        /// <returns>Returns true if the file path name matches any of the patterns.</returns>
+        public static bool InputMatchesRegExPattern(string input, IEnumerable<string> patterns)
+        {
+            Param.AssertNotNull(input, "input");
+            Param.Ignore(patterns);
+
+            return patterns != null && patterns.Any(pattern => Regex.IsMatch(input, pattern, RegexOptions.IgnoreCase));
+        }   
+
         /// <summary>
         /// Returns the specified Attribute for the assembly.
         /// </summary>

@@ -243,11 +243,7 @@ namespace StyleCop.CSharp
                     filters = generatedFileFilterSettings.Values;
                 }
 
-                if (!FileNameMatchesFilter(document.SourceCode.Name, filters))
-                {
-                    // This document should be analyzed.
-                    return false;
-                }
+                return Utils.InputMatchesRegExPattern(document.SourceCode.Path, filters);
             }
 
             return true;
@@ -442,30 +438,7 @@ namespace StyleCop.CSharp
             return false;
         }
 
-        /// <summary>
-        /// Determines whether the given file name matches any of the filter patterns.
-        /// </summary>
-        /// <param name="fileName">The name of the file.</param>
-        /// <param name="filters">The filter patterns.</param>
-        /// <returns>Returns true if the file name matches the patterns.</returns>
-        private static bool FileNameMatchesFilter(string fileName, IEnumerable<string> filters)
-        {
-            Param.AssertNotNull(fileName, "fileName");
-            Param.Ignore(filters);
-
-            if (filters != null)
-            {
-                foreach (string filter in filters)
-                {
-                    if (Regex.IsMatch(fileName, filter, RegexOptions.IgnoreCase))
-                    {
-                        return true;
-                    }
-                }
-            }
-
-            return false;
-        }
+       
 
         #endregion Private Static Methods
 
