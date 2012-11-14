@@ -200,7 +200,6 @@ namespace StyleCop.ReSharper710.Options
             settingsStore.SetValue((CSharpFormatSettingsKey key) => key.FORCE_WHILE_BRACES_STYLE, ForceBraceStyle.ALWAYS_ADD);
             settingsStore.SetValue((CSharpFormatSettingsKey key) => key.INDENT_ANONYMOUS_METHOD_BLOCK, false);
             settingsStore.SetValue((CSharpFormatSettingsKey key) => key.INDENT_CASE_FROM_SWITCH, true);
-            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.INDENT_EMBRACED_INITIALIZER_BLOCK, false);
             settingsStore.SetValue((CSharpFormatSettingsKey key) => key.INDENT_NESTED_FIXED_STMT, false);
             settingsStore.SetValue((CSharpFormatSettingsKey key) => key.INDENT_NESTED_USINGS_STMT, false);
             settingsStore.SetValue((CSharpFormatSettingsKey key) => key.INITIALIZER_BRACES, BraceFormatStyle.NEXT_LINE_SHIFTED_2);
@@ -721,12 +720,7 @@ namespace StyleCop.ReSharper710.Options
             {
                 return false;
             }
-
-            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.INDENT_EMBRACED_INITIALIZER_BLOCK))
-            {
-                return false;
-            }
-
+            
             if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.INDENT_NESTED_FIXED_STMT))
             {
                 return false;
