@@ -28,12 +28,11 @@ namespace StyleCop
     /// </summary>
     public sealed class Utils
     {
-
         /// <summary>
         /// Determines whether the given file path matches any of the filter patterns.
         /// </summary>
         /// <param name="input">The string to match with the Regular Expressions.</param>
-        /// <param name="patterns">The RegEx patterns to match with.</param>
+        /// <param name="patterns">The <see cref="Regex"/> patterns to match with.</param>
         /// <returns>Returns true if the file path name matches any of the patterns.</returns>
         public static bool InputMatchesRegExPattern(string input, IEnumerable<string> patterns)
         {
