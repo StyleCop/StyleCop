@@ -438,8 +438,6 @@ namespace StyleCop.CSharp
             return false;
         }
 
-       
-
         #endregion Private Static Methods
 
         /// <summary>
