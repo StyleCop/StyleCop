@@ -6,7 +6,6 @@
 //   Defines the WordCollection type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.Spelling
 {
     using System;

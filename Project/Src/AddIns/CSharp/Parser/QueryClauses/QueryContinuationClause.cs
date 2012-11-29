@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="QueryContinuationClause.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="QueryContinuationClause.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,10 +11,12 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Describes a continuation clause in a query expression.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
 
@@ -23,29 +25,35 @@ namespace StyleCop.CSharp
     /// </summary>
     public sealed class QueryContinuationClause : QueryClause
     {
-        #region Private Fields
-
-        /// <summary>
-        /// The continuation clause variable.
-        /// </summary>
-        private Variable variable;
+        #region Fields
 
         /// <summary>
         /// The list of clauses in the expression.
         /// </summary>
-        private CodeUnitCollection<QueryClause> clauses;
+        private readonly CodeUnitCollection<QueryClause> clauses;
 
-        #endregion Private Fields
+        /// <summary>
+        /// The continuation clause variable.
+        /// </summary>
+        private readonly Variable variable;
 
-        #region Internal Constructors
+        #endregion
+
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the QueryContinuationClause class.
         /// </summary>
-        /// <param name="tokens">The list of tokens that form the clause.</param>
-        /// <param name="variable">The continuation clause variable.</param>
-        /// <param name="clauses">The collection of clauses in the expression.</param>
-        internal QueryContinuationClause(CsTokenList tokens, Variable variable, ICollection<QueryClause> clauses) 
+        /// <param name="tokens">
+        /// The list of tokens that form the clause.
+        /// </param>
+        /// <param name="variable">
+        /// The continuation clause variable.
+        /// </param>
+        /// <param name="clauses">
+        /// The collection of clauses in the expression.
+        /// </param>
+        internal QueryContinuationClause(CsTokenList tokens, Variable variable, ICollection<QueryClause> clauses)
             : base(QueryClauseType.Continuation, tokens)
         {
             Param.AssertNotNull(tokens, "tokens");
@@ -59,20 +67,9 @@ namespace StyleCop.CSharp
             Debug.Assert(clauses.IsReadOnly, "The collection of query clauses should be read-only.");
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
-
-        /// <summary>
-        /// Gets the continuation clause variable.
-        /// </summary>
-        public Variable Variable
-        {
-            get
-            {
-                return this.variable;
-            }
-        }
 
         /// <summary>
         /// Gets the list of query clauses within this expression.
@@ -85,6 +82,17 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Properties
+        /// <summary>
+        /// Gets the continuation clause variable.
+        /// </summary>
+        public Variable Variable
+        {
+            get
+            {
+                return this.variable;
+            }
+        }
+
+        #endregion
     }
 }

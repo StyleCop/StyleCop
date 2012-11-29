@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="UnaryExpression.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="UnaryExpression.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,13 +11,13 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   An expression representing a unary operation.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
-    using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
-    using System.Text;
 
     /// <summary>
     /// An expression representing a unary operation.
@@ -25,32 +25,35 @@ namespace StyleCop.CSharp
     /// <subcategory>expression</subcategory>
     public sealed class UnaryExpression : Expression
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// The type of operation being performed.
         /// </summary>
-        private Operator operatorType;
+        private readonly Operator operatorType;
 
         /// <summary>
         /// The expression the operator is being applied to.
         /// </summary>
-        private Expression value;
+        private readonly Expression value;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the UnaryExpression class.
         /// </summary>
-        /// <param name="tokens">The list of tokens that form the expression.</param>
-        /// <param name="operatorType">The type of operation being performed.</param>
-        /// <param name="value">The value the operator is being applied to.</param>
-        internal UnaryExpression(
-            CsTokenList tokens,
-            Operator operatorType,
-            Expression value)
+        /// <param name="tokens">
+        /// The list of tokens that form the expression.
+        /// </param>
+        /// <param name="operatorType">
+        /// The type of operation being performed.
+        /// </param>
+        /// <param name="value">
+        /// The value the operator is being applied to.
+        /// </param>
+        internal UnaryExpression(CsTokenList tokens, Operator operatorType, Expression value)
             : base(ExpressionType.Unary, tokens)
         {
             Param.AssertNotNull(tokens, "tokens");
@@ -63,9 +66,9 @@ namespace StyleCop.CSharp
             this.AddExpression(value);
         }
 
-        #endregion Internal Constructors
+        #endregion
 
-        #region Public Enums
+        #region Enums
 
         /// <summary>
         /// The possible unary operator types.
@@ -78,17 +81,17 @@ namespace StyleCop.CSharp
             /// <summary>
             /// The + operator.
             /// </summary>
-            Positive,
+            Positive, 
 
             /// <summary>
             /// The - operator.
             /// </summary>
-            Negative,
+            Negative, 
 
             /// <summary>
             /// The ! operator.
             /// </summary>
-            Not,
+            Not, 
 
             /// <summary>
             /// The ~ operator.
@@ -96,7 +99,7 @@ namespace StyleCop.CSharp
             BitwiseCompliment
         }
 
-        #endregion Public Enums
+        #endregion
 
         #region Public Properties
 
@@ -122,6 +125,6 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Properties
+        #endregion
     }
 }

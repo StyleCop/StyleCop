@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="Variable.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Variable.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,10 +11,12 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Describes a field, variable or constant.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
     using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
@@ -23,51 +25,63 @@ namespace StyleCop.CSharp
     /// <subcategory>other</subcategory>
     public class Variable : ICodePart
     {
-        #region Private Fields
-
-        /// <summary>
-        /// The variable type.
-        /// </summary>
-        private TypeToken type;
-
-        /// <summary>
-        /// The variable name.
-        /// </summary>
-        private string name;
-
-        /// <summary>
-        /// The variable modifiers, if any.
-        /// </summary>
-        private VariableModifiers modifiers;
-
-        /// <summary>
-        /// The location of the variable.
-        /// </summary>
-        private CodeLocation location;
+        #region Fields
 
         /// <summary>
         /// Indicates whether the variable is located within a block of generated code.
         /// </summary>
-        private bool generated;
+        private readonly bool generated;
+
+        /// <summary>
+        /// The location of the variable.
+        /// </summary>
+        private readonly CodeLocation location;
+
+        /// <summary>
+        /// The variable modifiers, if any.
+        /// </summary>
+        private readonly VariableModifiers modifiers;
+
+        /// <summary>
+        /// The variable name.
+        /// </summary>
+        private readonly string name;
 
         /// <summary>
         /// The parent of the variable.
         /// </summary>
-        private Reference<ICodePart> parent;
+        private readonly Reference<ICodePart> parent;
 
-        #endregion Private Fields
+        /// <summary>
+        /// The variable type.
+        /// </summary>
+        private readonly TypeToken type;
 
-        #region Internal Constructors
+        #endregion
+
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the Variable class.
         /// </summary>
-        /// <param name="type">The type of the variable.</param>
-        /// <param name="name">The name of the variable.</param>
-        /// <param name="modifiers">Modifiers applied to this variable.</param>
-        /// <param name="location">The location of the variable.</param>
-        /// <param name="parent">The parent code part.</param>
-        /// <param name="generated">Indicates whether the variable is located within a block of generated code.</param>
+        /// <param name="type">
+        /// The type of the variable.
+        /// </param>
+        /// <param name="name">
+        /// The name of the variable.
+        /// </param>
+        /// <param name="modifiers">
+        /// Modifiers applied to this variable.
+        /// </param>
+        /// <param name="location">
+        /// The location of the variable.
+        /// </param>
+        /// <param name="parent">
+        /// The parent code part.
+        /// </param>
+        /// <param name="generated">
+        /// Indicates whether the variable is located within a block of generated code.
+        /// </param>
         internal Variable(TypeToken type, string name, VariableModifiers modifiers, CodeLocation location, Reference<ICodePart> parent, bool generated)
         {
             Param.Ignore(type);
@@ -85,20 +99,9 @@ namespace StyleCop.CSharp
             this.generated = generated;
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
-
-        /// <summary>
-        /// Gets the variable name.
-        /// </summary>
-        public string Name
-        {
-            get
-            {
-                return this.name;
-            }
-        }
 
         /// <summary>
         /// Gets the type of this code part.
@@ -108,54 +111,6 @@ namespace StyleCop.CSharp
             get
             {
                 return CodePartType.Variable;
-            }
-        }
-
-        /// <summary>
-        /// Gets the variable type.
-        /// </summary>
-        [SuppressMessage(
-            "Microsoft.Naming", 
-            "CA1721:PropertyNamesShouldNotMatchGetMethods",
-            Justification = "API has already been published and should not be changed.")]
-        public TypeToken Type
-        {
-            get
-            {
-                return this.type;
-            }
-        }
-
-        /// <summary>
-        /// Gets the line number on which this variable appears.
-        /// </summary>
-        public int LineNumber
-        {
-            get
-            {
-                return this.location.LineNumber;
-            }
-        }
-
-        /// <summary>
-        /// Gets the modifiers applied to this variable.
-        /// </summary>
-        public VariableModifiers Modifiers
-        {
-            get
-            {
-                return this.modifiers;
-            }
-        }
-
-        /// <summary>
-        /// Gets the location of the variable.
-        /// </summary>
-        public CodeLocation Location
-        {
-            get
-            {
-                return this.location;
             }
         }
 
@@ -171,6 +126,50 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
+        /// Gets the line number on which this variable appears.
+        /// </summary>
+        public int LineNumber
+        {
+            get
+            {
+                return this.location.LineNumber;
+            }
+        }
+
+        /// <summary>
+        /// Gets the location of the variable.
+        /// </summary>
+        public CodeLocation Location
+        {
+            get
+            {
+                return this.location;
+            }
+        }
+
+        /// <summary>
+        /// Gets the modifiers applied to this variable.
+        /// </summary>
+        public VariableModifiers Modifiers
+        {
+            get
+            {
+                return this.modifiers;
+            }
+        }
+
+        /// <summary>
+        /// Gets the variable name.
+        /// </summary>
+        public string Name
+        {
+            get
+            {
+                return this.name;
+            }
+        }
+
+        /// <summary>
         /// Gets the parent of the variable.
         /// </summary>
         public ICodePart Parent
@@ -181,6 +180,18 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Properties
+        /// <summary>
+        /// Gets the variable type.
+        /// </summary>
+        [SuppressMessage("Microsoft.Naming", "CA1721:PropertyNamesShouldNotMatchGetMethods", Justification = "API has already been published and should not be changed.")]
+        public TypeToken Type
+        {
+            get
+            {
+                return this.type;
+            }
+        }
+
+        #endregion
     }
 }

@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="Rules.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Rules.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,11 +11,13 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   The list of rules triggered by this module.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
     using System;
-    using System.Xml;
 
     /// <summary>
     /// The list of rules triggered by this module.
@@ -25,842 +27,842 @@ namespace StyleCop.CSharp
         /// <summary>
         /// The element does not have an access modifier.
         /// </summary>
-        AccessModifierMustBeDeclared,
+        AccessModifierMustBeDeclared, 
 
         /// <summary>
         /// The curly bracket must be on a line by itself, unless the entire statement is on a single line.
         /// </summary>
-        CurlyBracketsForMultiLineStatementsMustNotShareLine,
+        CurlyBracketsForMultiLineStatementsMustNotShareLine, 
 
         /// <summary>
         /// The statement wrapped in curly brackets must not be entirely on the same line.
         /// </summary>
-        StatementMustNotBeOnSingleLine,
+        StatementMustNotBeOnSingleLine, 
 
         /// <summary>
         /// The {0} must not be placed entirely on the same line.
         /// </summary>
-        ElementMustNotBeOnSingleLine,
+        ElementMustNotBeOnSingleLine, 
 
         /// <summary>
         /// The body of the statement must be wrapped in curly brackets.
         /// </summary>
-        CurlyBracketsMustNotBeOmitted,
+        CurlyBracketsMustNotBeOmitted, 
 
         /// <summary>
         /// If an accessor is completely on a single line, its sibling accessors must also each be on a single line.
         /// </summary>
-        AllAccessorsMustBeMultiLineOrSingleLine,
+        AllAccessorsMustBeMultiLineOrSingleLine, 
 
         /// <summary>
         /// The Xml header is missing.
         /// </summary>
-        ElementsMustBeDocumented,
+        ElementsMustBeDocumented, 
 
         /// <summary>
         /// The Xml header is missing from a partial element.
         /// </summary>
-        PartialElementsMustBeDocumented,
+        PartialElementsMustBeDocumented, 
 
         /// <summary>
         /// The header is missing the summary tag.
         /// </summary>
-        ElementDocumentationMustHaveSummary,
+        ElementDocumentationMustHaveSummary, 
 
         /// <summary>
         /// The header is missing the summary tag.
         /// </summary>
-        PartialElementDocumentationMustHaveSummary,
+        PartialElementDocumentationMustHaveSummary, 
 
         /// <summary>
         /// The summary tag is empty.
         /// </summary>
-        ElementDocumentationMustHaveSummaryText,
+        ElementDocumentationMustHaveSummaryText, 
 
         /// <summary>
         /// The summary tag is empty.
         /// </summary>
-        PartialElementDocumentationMustHaveSummaryText,
+        PartialElementDocumentationMustHaveSummaryText, 
 
         /// <summary>
         /// The element has parameters but the header does not contain <c>param</c> tags.
         /// </summary>
-        ElementParametersMustBeDocumented,
+        ElementParametersMustBeDocumented, 
 
         /// <summary>
         /// The header has a  <c>param</c> tag with no name.
         /// </summary>
-        ElementParameterDocumentationMustDeclareParameterName,
+        ElementParameterDocumentationMustDeclareParameterName, 
 
         /// <summary>
         /// The  <c>param</c> tag is empty.
         /// </summary>
-        ElementParameterDocumentationMustHaveText,
+        ElementParameterDocumentationMustHaveText, 
 
         /// <summary>
         /// The method does not return void but the header does not have a returns tag.
         /// </summary>
-        ElementReturnValueMustBeDocumented,
+        ElementReturnValueMustBeDocumented, 
 
         /// <summary>
         /// The returns tag is empty.
         /// </summary>
-        ElementReturnValueDocumentationMustHaveText,
+        ElementReturnValueDocumentationMustHaveText, 
 
         /// <summary>
         /// The method returns void but the header contains a returns tag.
         /// </summary>
-        VoidReturnValueMustNotBeDocumented,
+        VoidReturnValueMustNotBeDocumented, 
 
         /// <summary>
         /// The partial element has generic types but the Xml header has no '<c>typeparam</c>' tags.
         /// </summary>
-        GenericTypeParametersMustBeDocumented,
+        GenericTypeParametersMustBeDocumented, 
 
         /// <summary>
         /// The documentation header must contain <c>typeparam</c> tags matching the generic types for the {0}.
         /// </summary>
-        GenericTypeParametersMustBeDocumentedPartialClass,
+        GenericTypeParametersMustBeDocumentedPartialClass, 
 
         /// <summary>
         /// The element's generic type parameters do not match the '<c>typeparam</c>' tags in the header.
         /// </summary>
-        GenericTypeParameterDocumentationMustMatchTypeParameters,
+        GenericTypeParameterDocumentationMustMatchTypeParameters, 
 
         /// <summary>
         /// The Xml header has a '<c>typeparam</c>' tag with no 'name' attribute.
         /// </summary>
-        GenericTypeParameterDocumentationMustDeclareParameterName,
+        GenericTypeParameterDocumentationMustDeclareParameterName, 
 
         /// <summary>
         /// The element header '<c>typeparam</c>' tag is empty for the '{0}' item.
         /// </summary>
-        GenericTypeParameterDocumentationMustHaveText,
+        GenericTypeParameterDocumentationMustHaveText, 
 
         /// <summary>
         /// The summary tag has the default text generated by Visual Studio.
         /// </summary>
-        ElementDocumentationMustNotHaveDefaultSummary,
+        ElementDocumentationMustNotHaveDefaultSummary, 
 
         /// <summary>
         /// The header is invalid Xml.
         /// </summary>
-        DocumentationMustContainValidXml,
+        DocumentationMustContainValidXml, 
 
         /// <summary>
         /// The <see cref="Enum"/> sub-item has no header.
         /// </summary>
-        EnumerationItemsMustBeDocumented,
+        EnumerationItemsMustBeDocumented, 
 
         /// <summary>
         /// The method parameters do not match those in the header.
         /// </summary>
-        ElementParameterDocumentationMustMatchElementParameters,
+        ElementParameterDocumentationMustMatchElementParameters, 
 
         /// <summary>
         /// The property is missing a value tag.
         /// </summary>
-        PropertyDocumentationMustHaveValue,
+        PropertyDocumentationMustHaveValue, 
 
         /// <summary>
         /// The property has a value tag but it has no text.
         /// </summary>
-        PropertyDocumentationMustHaveValueText,
+        PropertyDocumentationMustHaveValueText, 
 
         /// <summary>
         /// The text in a documentation string must not be empty.
         /// </summary>
-        DocumentationTextMustNotBeEmpty,
+        DocumentationTextMustNotBeEmpty, 
 
         /// <summary>
         /// Documentation text must end with a period.
         /// </summary>
-        DocumentationTextMustEndWithAPeriod,
+        DocumentationTextMustEndWithAPeriod, 
 
         /// <summary>
         /// Documentation text must begin with a capital letter.
         /// </summary>
-        DocumentationTextMustBeginWithACapitalLetter,
+        DocumentationTextMustBeginWithACapitalLetter, 
 
         /// <summary>
         /// Documentation text must contain whitespace.
         /// </summary>
-        DocumentationTextMustContainWhitespace,
+        DocumentationTextMustContainWhitespace, 
 
         /// <summary>
         /// Documentation text must consist of a certain percentage of characters.
         /// </summary>
-        DocumentationMustMeetCharacterPercentage,
+        DocumentationMustMeetCharacterPercentage, 
 
         /// <summary>
         /// Documentation text must be a certain length.
         /// </summary>
-        DocumentationTextMustMeetMinimumCharacterLength,
+        DocumentationTextMustMeetMinimumCharacterLength, 
 
         /// <summary>
         /// The documentation text within the constructor's summary tag must begin with the text.
         /// </summary>
-        ConstructorSummaryDocumentationMustBeginWithStandardText,
+        ConstructorSummaryDocumentationMustBeginWithStandardText, 
 
         /// <summary>
         /// The documentation text within the destructor's summary tag must begin with the text.
         /// </summary>
-        DestructorSummaryDocumentationMustBeginWithStandardText,
+        DestructorSummaryDocumentationMustBeginWithStandardText, 
 
         /// <summary>
         /// Verifies that a documentation header does not contain blank lines.
         /// </summary>
-        DocumentationHeadersMustNotContainBlankLines,
+        DocumentationHeadersMustNotContainBlankLines, 
 
         /// <summary>
         /// Verifies that an included documentation header file can be loaded.
         /// </summary>
-        IncludedDocumentationFileDoesNotExist,
+        IncludedDocumentationFileDoesNotExist, 
 
         /// <summary>
         /// Verifies that an included documentation tag's XPath expression is valid.
         /// </summary>
-        IncludedDocumentationXPathDoesNotExist,
+        IncludedDocumentationXPathDoesNotExist, 
 
         /// <summary>
         /// Verifies that an 'include' tag contains a valid file and path attribute.
         /// </summary>
-        IncludeNodeDoesNotContainValidFileAndPath,
+        IncludeNodeDoesNotContainValidFileAndPath, 
 
         /// <summary>
         /// Verifies that an <c>includedoc</c> tag is not used when the class does not inherit from a base class.
         /// </summary>
-        InheritDocMustBeUsedWithInheritingClass,
+        InheritDocMustBeUsedWithInheritingClass, 
 
         /// <summary>
         /// The property's summary tag starts with invalid text.
         /// </summary>
-        PropertySummaryDocumentationMustMatchAccessors,
+        PropertySummaryDocumentationMustMatchAccessors, 
 
         /// <summary>
         /// The property only has a get accessor but the summary starts with 'gets or sets'.
         /// </summary>
-        PropertySummaryDocumentationMustOmitSetAccessorWithRestrictedAccess,
+        PropertySummaryDocumentationMustOmitSetAccessorWithRestrictedAccess, 
 
         /// <summary>
         /// The element's documentation header contains two or more identical strings.
         /// </summary>
-        ElementDocumentationMustNotBeCopiedAndPasted,
+        ElementDocumentationMustNotBeCopiedAndPasted, 
 
         /// <summary>
         /// A single line comment begins with a triple slash like an Xml header.
         /// </summary>
-        SingleLineCommentsMustNotUseDocumentationStyleSlashes,
+        SingleLineCommentsMustNotUseDocumentationStyleSlashes, 
 
         /// <summary>
         /// There is no file header.
         /// </summary>
-        FileMustHaveHeader,
+        FileMustHaveHeader, 
 
         /// <summary>
         /// The copyright node is missing.
         /// </summary>
-        FileHeaderMustShowCopyright,
+        FileHeaderMustShowCopyright, 
 
         /// <summary>
         /// The copyright tag is empty.
         /// </summary>
-        FileHeaderMustHaveCopyrightText,
+        FileHeaderMustHaveCopyrightText, 
 
         /// <summary>
         /// The copyright tag must match the required value.
         /// </summary>
-        FileHeaderCopyrightTextMustMatch,
+        FileHeaderCopyrightTextMustMatch, 
 
         /// <summary>
         /// The copyright's file attribute is missing.
         /// </summary>
-        FileHeaderMustContainFileName,
+        FileHeaderMustContainFileName, 
 
         /// <summary>
         /// The copyright's file attribute does not contain the name of the file.
         /// </summary>
-        FileHeaderFileNameDocumentationMustMatchFileName,
+        FileHeaderFileNameDocumentationMustMatchFileName, 
 
         /// <summary>
         /// The copyright's company tag is missing or empty.
         /// </summary>
-        FileHeaderMustHaveValidCompanyText,
+        FileHeaderMustHaveValidCompanyText, 
 
         /// <summary>
         /// The company text must match.
         /// </summary>
-        FileHeaderCompanyNameTextMustMatch,
+        FileHeaderCompanyNameTextMustMatch, 
 
         /// <summary>
         /// The summary tag is missing or empty.
         /// </summary>
-        FileHeaderMustHaveSummary,
+        FileHeaderMustHaveSummary, 
 
         /// <summary>
         /// A this prefix is missing.
         /// </summary>
-        ThisMissing,
+        ThisMissing, 
 
         /// <summary>
         /// A base prefix was used when it should be this.
         /// </summary>
-        BaseUsed,
+        BaseUsed, 
 
         /// <summary>
         /// A constant field starts with a lower case letter.
         /// </summary>
-        ConstFieldNamesMustBeginWithUpperCaseLetter,
+        ConstFieldNamesMustBeginWithUpperCaseLetter, 
 
         /// <summary>
         /// Readonly variables that are not declared private must start with an upper case letter.
         /// </summary>
-        NonPrivateReadonlyFieldsMustBeginWithUpperCaseLetter,
+        NonPrivateReadonlyFieldsMustBeginWithUpperCaseLetter, 
 
         /// <summary>
         /// A variable starts with an upper case letter.
         /// </summary>
-        AccessibleFieldsMustBeginWithUpperCaseLetter,
+        AccessibleFieldsMustBeginWithUpperCaseLetter, 
 
         /// <summary>
         /// A variable starts with an upper case letter.
         /// </summary>
-        FieldNamesMustBeginWithLowerCaseLetter,
+        FieldNamesMustBeginWithLowerCaseLetter, 
 
         /// <summary>
         /// A variable name contains Hungarian notation.
         /// </summary>
-        FieldNamesMustNotUseHungarianNotation,
+        FieldNamesMustNotUseHungarianNotation, 
 
         /// <summary>
         /// A variable name contains a m_ or s_ prefix.
         /// </summary>
-        VariableNamesMustNotBePrefixed,
+        VariableNamesMustNotBePrefixed, 
 
         /// <summary>
         /// A word that should start with a lower-case letter start with an upper-case letter.
         /// </summary>
-        ElementMustBeginWithLowerCaseLetter,
+        ElementMustBeginWithLowerCaseLetter, 
 
         /// <summary>
         /// A word that should start with an upper-case letter start with a lower-case letter.
         /// </summary>
-        ElementMustBeginWithUpperCaseLetter,
+        ElementMustBeginWithUpperCaseLetter, 
 
         /// <summary>
         /// An interface name does not begin with I.
         /// </summary>
-        InterfaceNamesMustBeginWithI,
+        InterfaceNamesMustBeginWithI, 
 
         /// <summary>
         /// A variable name starts with an underscore.
         /// </summary>
-        FieldNamesMustNotBeginWithUnderscore,
+        FieldNamesMustNotBeginWithUnderscore, 
 
         /// <summary>
         /// A variable name contains an underscore.
         /// </summary>
-        FieldNamesMustNotContainUnderscore,
+        FieldNamesMustNotContainUnderscore, 
 
         /// <summary>
         /// Multiple blank lines in a row.
         /// </summary>
-        CodeMustNotContainMultipleBlankLinesInARow,
+        CodeMustNotContainMultipleBlankLinesInARow, 
 
         /// <summary>
         /// Blank line before an opening curly bracket.
         /// </summary>
-        ClosingCurlyBracketsMustNotBePrecededByBlankLine,
+        ClosingCurlyBracketsMustNotBePrecededByBlankLine, 
 
         /// <summary>
         /// Blank line before an opening curly bracket.
         /// </summary>
-        OpeningCurlyBracketsMustNotBePrecededByBlankLine,
+        OpeningCurlyBracketsMustNotBePrecededByBlankLine, 
 
         /// <summary>
         /// Blank line after an opening curly bracket.
         /// </summary>
-        OpeningCurlyBracketsMustNotBeFollowedByBlankLine,
+        OpeningCurlyBracketsMustNotBeFollowedByBlankLine, 
 
         /// <summary>
         /// A closing curly bracket is not followed by a blank line.
         /// </summary>
-        ClosingCurlyBracketMustBeFollowedByBlankLine,
+        ClosingCurlyBracketMustBeFollowedByBlankLine, 
 
         /// <summary>
         /// No blank line appears before a single-line comment.
         /// </summary>
-        SingleLineCommentMustBePrecededByBlankLine,
+        SingleLineCommentMustBePrecededByBlankLine, 
 
         /// <summary>
         /// Adjacent elements must be separated by a blank line.
         /// </summary>
-        ElementsMustBeSeparatedByBlankLine,
+        ElementsMustBeSeparatedByBlankLine, 
 
         /// <summary>
         /// No blank line appears before an Xml header.
         /// </summary>
-        ElementDocumentationHeaderMustBePrecededByBlankLine,
+        ElementDocumentationHeaderMustBePrecededByBlankLine, 
 
         /// <summary>
         /// A blank line appears after an Xml header.
         /// </summary>
-        ElementDocumentationHeadersMustNotBeFollowedByBlankLine,
+        ElementDocumentationHeadersMustNotBeFollowedByBlankLine, 
 
         /// <summary>
         /// A blank line appears after an else, catch, or finally statement.
         /// </summary>
-        ChainedStatementBlocksMustNotBePrecededByBlankLine,
+        ChainedStatementBlocksMustNotBePrecededByBlankLine, 
 
         /// <summary>
         /// A single-line comment must not be followed by a blank line. 
         /// </summary>
-        SingleLineCommentsMustNotBeFollowedByBlankLine,
+        SingleLineCommentsMustNotBeFollowedByBlankLine, 
 
         /// <summary>
         /// A blank line appears before a while/do statement.
         /// </summary>
-        WhileDoFooterMustNotBePrecededByBlankLine,
+        WhileDoFooterMustNotBePrecededByBlankLine, 
 
         /// <summary>
         /// Elements in the wrong order.
         /// </summary>
-        ElementsMustAppearInTheCorrectOrder,
+        ElementsMustAppearInTheCorrectOrder, 
 
         /// <summary>
         /// Partial elements in the wrong order.
         /// </summary>
-        PartialElementsMustDeclareAccess,
+        PartialElementsMustDeclareAccess, 
 
         /// <summary>
         /// Access modifiers in the wrong order.
         /// </summary>
-        ElementsMustBeOrderedByAccess,
+        ElementsMustBeOrderedByAccess, 
 
         /// <summary>
         /// Static elements in the wrong order.
         /// </summary>
-        StaticElementsMustAppearBeforeInstanceElements,
+        StaticElementsMustAppearBeforeInstanceElements, 
 
         /// <summary>
         /// Multiple classes at the top level of a file.
         /// </summary>
-        FileMayOnlyContainASingleClass,
+        FileMayOnlyContainASingleClass, 
 
         /// <summary>
         /// Multiple namespaces within a file.
         /// </summary>
-        FileMayOnlyContainASingleNamespace,
+        FileMayOnlyContainASingleNamespace, 
 
         /// <summary>
         /// A Code Analysis suppression must contain a non-empty justification 
         /// describing the reason for the suppression.
         /// </summary>
-        CodeAnalysisSuppressionMustHaveJustification,
+        CodeAnalysisSuppressionMustHaveJustification, 
 
         /// <summary>
         /// A call to Debug.Assert must provide a message in the second parameter describing 
         /// the reason for the assert.
         /// </summary>
-        DebugAssertMustProvideMessageText,
+        DebugAssertMustProvideMessageText, 
 
         /// <summary>
         /// A call to Debug.Fail must provide a message in the first parameter describing 
         /// the reason for the failure.
         /// </summary>
-        DebugFailMustProvideMessageText,
+        DebugFailMustProvideMessageText, 
 
         /// <summary>
         /// Insert parenthesis within the arithmetic expression to declare the operator precedence.
         /// </summary>
-        ArithmeticExpressionsMustDeclarePrecedence,
+        ArithmeticExpressionsMustDeclarePrecedence, 
 
         /// <summary>
         /// Insert parenthesis within the conditional AND and OR expressions to declare the operator precedence.
         /// </summary>
-        ConditionalExpressionsMustDeclarePrecedence,
+        ConditionalExpressionsMustDeclarePrecedence, 
 
         /// <summary>
         /// Verifies that the code does not contain empty elements or statements which can be safely removed.
         /// </summary>
-        RemoveUnnecessaryCode,
+        RemoveUnnecessaryCode, 
 
         /// <summary>
         /// Verifies that parenthesis are removed from anonymous methods when there are no method parameters.
         /// </summary>
-        RemoveDelegateParenthesisWhenPossible,
+        RemoveDelegateParenthesisWhenPossible, 
 
         /// <summary>
         /// Publicly exposed fields.
         /// </summary>
-        FieldsMustBePrivate,
+        FieldsMustBePrivate, 
 
         /// <summary>
         /// Constant elements in the wrong order.
         /// </summary>
-        ConstantsMustAppearBeforeFields,
+        ConstantsMustAppearBeforeFields, 
 
         /// <summary>
         /// The spacing around the keyword '{0}' is invalid.
         /// </summary>
-        KeywordsMustBeSpacedCorrectly,
+        KeywordsMustBeSpacedCorrectly, 
 
         /// <summary>
         /// Invalid spacing around a comma.
         /// </summary>
-        CommasMustBeSpacedCorrectly,
+        CommasMustBeSpacedCorrectly, 
 
         /// <summary>
         /// Invalid spacing around a semicolon.
         /// </summary>
-        SemicolonsMustBeSpacedCorrectly,
+        SemicolonsMustBeSpacedCorrectly, 
 
         /// <summary>
         /// Invalid spacing around a symbol.
         /// </summary>
-        SymbolsMustBeSpacedCorrectly,
+        SymbolsMustBeSpacedCorrectly, 
 
         /// <summary>
         /// Invalid spacing around an open parenthesis.
         /// </summary>
-        OpeningParenthesisMustBeSpacedCorrectly,
+        OpeningParenthesisMustBeSpacedCorrectly, 
 
         /// <summary>
         /// Invalid spacing around a close parenthesis.
         /// </summary>
-        ClosingParenthesisMustBeSpacedCorrectly,
+        ClosingParenthesisMustBeSpacedCorrectly, 
 
         /// <summary>
         /// Invalid spacing around an open square bracket.
         /// </summary>
-        OpeningSquareBracketsMustBeSpacedCorrectly,
+        OpeningSquareBracketsMustBeSpacedCorrectly, 
 
         /// <summary>
         /// Invalid spacing around a close square bracket.
         /// </summary>
-        ClosingSquareBracketsMustBeSpacedCorrectly,
+        ClosingSquareBracketsMustBeSpacedCorrectly, 
 
         /// <summary>
         /// Invalid spacing around an open curly bracket.
         /// </summary>
-        OpeningCurlyBracketsMustBeSpacedCorrectly,
+        OpeningCurlyBracketsMustBeSpacedCorrectly, 
 
         /// <summary>
         /// Invalid spacing around a close curly bracket.
         /// </summary>
-        ClosingCurlyBracketsMustBeSpacedCorrectly,
+        ClosingCurlyBracketsMustBeSpacedCorrectly, 
 
         /// <summary>
         /// Invalid spacing around the opening bracket of a generic statement.
         /// </summary>
-        OpeningGenericBracketsMustBeSpacedCorrectly,
+        OpeningGenericBracketsMustBeSpacedCorrectly, 
 
         /// <summary>
         /// Invalid spacing around the closing bracket of a generic statement.
         /// </summary>
-        ClosingGenericBracketsMustBeSpacedCorrectly,
+        ClosingGenericBracketsMustBeSpacedCorrectly, 
 
         /// <summary>
         /// Invalid spacing around an open attribute bracket.
         /// </summary>
-        OpeningAttributeBracketsMustBeSpacedCorrectly,
+        OpeningAttributeBracketsMustBeSpacedCorrectly, 
 
         /// <summary>
         /// Invalid spacing around a close attribute bracket.
         /// </summary>
-        ClosingAttributeBracketsMustBeSpacedCorrectly,
+        ClosingAttributeBracketsMustBeSpacedCorrectly, 
 
         /// <summary>
         /// A <see cref="Nullable"/> type symbol should not be preceded by whitespace.
         /// </summary>
-        NullableTypeSymbolsMustNotBePrecededBySpace,
+        NullableTypeSymbolsMustNotBePrecededBySpace, 
 
         /// <summary>
         /// Invalid spacing around a member access symbol.
         /// </summary>
-        MemberAccessSymbolsMustBeSpacedCorrectly,
+        MemberAccessSymbolsMustBeSpacedCorrectly, 
 
         /// <summary>
         /// Invalid spacing around a decrement or increment symbol.
         /// </summary>
-        IncrementDecrementSymbolsMustBeSpacedCorrectly,
+        IncrementDecrementSymbolsMustBeSpacedCorrectly, 
 
         /// <summary>
         /// Invalid spacing around a negative sign.
         /// </summary>
-        NegativeSignsMustBeSpacedCorrectly,
+        NegativeSignsMustBeSpacedCorrectly, 
 
         /// <summary>
         /// Invalid spacing around a positive sign.
         /// </summary>
-        PositiveSignsMustBeSpacedCorrectly,
+        PositiveSignsMustBeSpacedCorrectly, 
 
         /// <summary>
         /// Invalid spacing around the increment or decrement symbol.
         /// </summary>
-        DereferenceAndAccessOfSymbolsMustBeSpacedCorrectly,
+        DereferenceAndAccessOfSymbolsMustBeSpacedCorrectly, 
 
         /// <summary>
         /// Invalid spacing around a colon.
         /// </summary>
-        ColonsMustBeSpacedCorrectly,
+        ColonsMustBeSpacedCorrectly, 
 
         /// <summary>
         /// The code contains tabs, which is not allowed.
         /// </summary>
-        TabsMustNotBeUsed,
+        TabsMustNotBeUsed, 
 
         /// <summary>
         /// There are multiple spaces in a row.
         /// </summary>
-        CodeMustNotContainMultipleWhitespaceInARow,
+        CodeMustNotContainMultipleWhitespaceInARow, 
 
         /// <summary>
         /// There should be no space between the new keyword and the opening square bracket in 
         /// an implicitly typed array allocation.
         /// </summary>
-        CodeMustNotContainSpaceAfterNewKeywordInImplicitlyTypedArrayAllocation,
+        CodeMustNotContainSpaceAfterNewKeywordInImplicitlyTypedArrayAllocation, 
 
         /// <summary>
         /// Too many parenthesis.
         /// </summary>
-        StatementMustNotUseUnnecessaryParenthesis,
+        StatementMustNotUseUnnecessaryParenthesis, 
 
         /// <summary>
         /// The preprocessor keyword must be followed by a space.
         /// </summary>
-        PreprocessorKeywordsMustNotBePrecededBySpace,
+        PreprocessorKeywordsMustNotBePrecededBySpace, 
 
         /// <summary>
         /// The operator keyword must be followed by a space.
         /// </summary>
-        OperatorKeywordMustBeFollowedBySpace,
+        OperatorKeywordMustBeFollowedBySpace, 
 
         /// <summary>
         /// The comment must start with a single space.
         /// </summary>
-        SingleLineCommentsMustBeginWithSingleSpace,
+        SingleLineCommentsMustBeginWithSingleSpace, 
 
         /// <summary>
         /// The documentation header line must start with a single space.
         /// </summary>
-        DocumentationLinesMustBeginWithSingleSpace,
+        DocumentationLinesMustBeginWithSingleSpace, 
 
         /// <summary>
         /// A using statement is outside of a namespace.
         /// </summary>
-        UsingDirectivesMustBePlacedWithinNamespace,
+        UsingDirectivesMustBePlacedWithinNamespace, 
 
         /// <summary>
         /// The open parenthesis is not on the same line as the method call.
         /// </summary>
-        OpeningParenthesisMustBeOnDeclarationLine,
+        OpeningParenthesisMustBeOnDeclarationLine, 
 
         /// <summary>
         /// The closing parenthesis is not on the same line as the last parameter.
         /// </summary>
-        ClosingParenthesisMustBeOnLineOfLastParameter,
+        ClosingParenthesisMustBeOnLineOfLastParameter, 
 
         /// <summary>
         /// The closing parenthesis or bracket must be placed on the same line as the opening parenthesis or bracket.
         /// </summary>
-        ClosingParenthesisMustBeOnLineOfOpeningParenthesis,
+        ClosingParenthesisMustBeOnLineOfOpeningParenthesis, 
 
         /// <summary>
         /// The parameter spans multiple lines.
         /// </summary>
-        ParameterMustNotSpanMultipleLines,
+        ParameterMustNotSpanMultipleLines, 
 
         /// <summary>
         /// The comma must be on the same line as the previous parameter.
         /// </summary>
-        CommaMustBeOnSameLineAsPreviousParameter,
+        CommaMustBeOnSameLineAsPreviousParameter, 
 
         /// <summary>
         /// The parameter list must be on the same line or the next line as the method name.
         /// </summary>
-        ParameterListMustFollowDeclaration,
+        ParameterListMustFollowDeclaration, 
 
         /// <summary>
         /// The parameter must begin on the line after the previous parameter.
         /// </summary>
-        ParameterMustFollowComma,
+        ParameterMustFollowComma, 
 
         /// <summary>
         /// If there are multiple parameters and each is on it's own line, they cannot start on the same 
         /// line as the method declaration or name.
         /// </summary>
-        SplitParametersMustStartOnLineAfterDeclaration,
+        SplitParametersMustStartOnLineAfterDeclaration, 
 
         /// <summary>
         /// All parameters must be on the same line, or each parameter must be on a separate line.
         /// </summary>
-        ParametersMustBeOnSameLineOrSeparateLines,
+        ParametersMustBeOnSameLineOrSeparateLines, 
 
         /// <summary>
         /// The statement is empty.
         /// </summary>
-        CodeMustNotContainEmptyStatements,
+        CodeMustNotContainEmptyStatements, 
 
         /// <summary>
         /// A line may only contain a single statement.
         /// </summary>
-        CodeMustNotContainMultipleStatementsOnOneLine,
+        CodeMustNotContainMultipleStatementsOnOneLine, 
 
         /// <summary>
         /// A block statement may not contain a comment embedded within the statement.
         /// </summary>
-        BlockStatementsMustNotContainEmbeddedComments,
+        BlockStatementsMustNotContainEmbeddedComments, 
 
         /// <summary>
         /// A block statement may not contain a region embedded within the statement.
         /// </summary>
-        BlockStatementsMustNotContainEmbeddedRegions,
+        BlockStatementsMustNotContainEmbeddedRegions, 
 
         /// <summary>
         /// The call to {0} can only use 'base.' if there is a local override and the caller is explicitly calling the base implementation.
         /// </summary>
-        DoNotPrefixCallsWithBaseUnlessLocalImplementationExists,
+        DoNotPrefixCallsWithBaseUnlessLocalImplementationExists, 
 
         /// <summary>
         /// The class member {0} does not start with 'this'.
         /// </summary>
-        PrefixLocalCallsWithThis,
+        PrefixLocalCallsWithThis, 
 
         /// <summary>
         /// The {0} keyword must come before the {1} keyword in the element declaration.
         /// </summary>
-        DeclarationKeywordsMustFollowOrder,
+        DeclarationKeywordsMustFollowOrder, 
 
         /// <summary>
         /// The keyword 'protected' must come before 'internal'.
         /// </summary>
-        ProtectedMustComeBeforeInternal,
+        ProtectedMustComeBeforeInternal, 
 
         /// <summary>
         /// Verifies that all using directives within the System namespace are placed before all other using directives.
         /// </summary>
-        SystemUsingDirectivesMustBePlacedBeforeOtherUsingDirectives,
+        SystemUsingDirectivesMustBePlacedBeforeOtherUsingDirectives, 
 
         /// <summary>
         /// Verifies that all using alias directives are placed after all using namespace directives.
         /// </summary>
-        UsingAliasDirectivesMustBePlacedAfterOtherUsingDirectives,
+        UsingAliasDirectivesMustBePlacedAfterOtherUsingDirectives, 
 
         /// <summary>
         /// Verifies that using directives are sorted alphabetically by the namespaces.
         /// </summary>
-        UsingDirectivesMustBeOrderedAlphabeticallyByNamespace,
+        UsingDirectivesMustBeOrderedAlphabeticallyByNamespace, 
 
         /// <summary>
         /// Verifies that using alias directives are sorted alphabetically by the alias names.
         /// </summary>
-        UsingAliasDirectivesMustBeOrderedAlphabeticallyByAliasName,
+        UsingAliasDirectivesMustBeOrderedAlphabeticallyByAliasName, 
 
         /// <summary>
         /// Verifies that get accessors are placed before set accessors within properties and indexers.
         /// </summary>
-        PropertyAccessorsMustFollowOrder,
+        PropertyAccessorsMustFollowOrder, 
 
         /// <summary>
         /// Verifies that add accessors are placed before remove accessors within events.
         /// </summary>
-        EventAccessorsMustFollowOrder,
+        EventAccessorsMustFollowOrder, 
 
         /// <summary>
         /// Empty comments are not allowed.
         /// </summary>
-        CommentsMustContainText,
+        CommentsMustContainText, 
 
         /// <summary>
         /// The query clause must begin on the line following the previous clause.
         /// </summary>
-        QueryClauseMustFollowPreviousClause,
+        QueryClauseMustFollowPreviousClause, 
 
         /// <summary>
         /// All query clauses must be placed on the same line, or each clause must begin on a new line.
         /// </summary>
-        QueryClausesMustBeOnSeparateLinesOrAllOnOneLine,
+        QueryClausesMustBeOnSeparateLinesOrAllOnOneLine, 
 
         /// <summary>
         /// A query clause must begin on a new line if the previous clause spans multiple lines.
         /// </summary>
-        QueryClauseMustBeginOnNewLineWhenPreviousClauseSpansMultipleLines,
+        QueryClauseMustBeginOnNewLineWhenPreviousClauseSpansMultipleLines, 
 
         /// <summary>
         /// If a query clause spans multiple lines, it must begin on its own line.
         /// </summary>
-        QueryClausesSpanningMultipleLinesMustBeginOnOwnLine,
+        QueryClausesSpanningMultipleLinesMustBeginOnOwnLine, 
 
         /// <summary>
         /// Enforces the use of the built-in <see cref="bool"/> keyword rather than the type Boolean or System.Boolean.
         /// </summary>
-        UseBuiltInTypeAlias,
+        UseBuiltInTypeAlias, 
 
         /// <summary>
         /// Prohibits the use of the <c>var</c> type outside of query expressions and anonymous types.
         /// </summary>
-        AvoidVarType,
+        AvoidVarType, 
 
         /// <summary>
         /// Enforces the use of the shorthand for a <see cref="Nullable"/> type.
         /// </summary>
-        UseShorthandForNullableTypes,
+        UseShorthandForNullableTypes, 
 
         /// <summary>
         /// Use the String.Empty property rather than "".
         /// </summary>
-        UseStringEmptyForEmptyStrings,
+        UseStringEmptyForEmptyStrings, 
 
         /// <summary>
         /// Prevents the use of regions within code elements, which limits code readability.
         /// </summary>
-        DoNotPlaceRegionsWithinElements,
+        DoNotPlaceRegionsWithinElements, 
 
         /// <summary>
         /// Prevents the use of regions anywhere within the code.
         /// </summary>
-        DoNotUseRegions,
+        DoNotUseRegions, 
 
         /// <summary>
         /// The code must not contain blank lines at the start of the file.
         /// </summary>
-        CodeMustNotContainBlankLinesAtStartOfFile,
+        CodeMustNotContainBlankLinesAtStartOfFile, 
 
         /// <summary>
         /// The code must not contain blank lines at the end of the file.
         /// </summary>
-        CodeMustNotContainBlankLinesAtEndOfFile,
+        CodeMustNotContainBlankLinesAtEndOfFile, 
 
         /// <summary>
         /// Prevents the use of parenthesis on attribute constructors when they are not required.
         /// </summary>
-        AttributeConstructorMustNotUseUnnecessaryParenthesis,
+        AttributeConstructorMustNotUseUnnecessaryParenthesis, 
 
         /// <summary>
         /// Ensures the file header filename attribute matches the name of the type in the file.
         /// </summary>
-        FileHeaderFileNameDocumentationMustMatchTypeName,
+        FileHeaderFileNameDocumentationMustMatchTypeName, 
 
         /// <summary>
         /// Validates that all static readonly elements are placed before all static non-readonly elements of the same type.
         /// </summary>
-        StaticReadonlyElementsMustAppearBeforeStaticNonReadonlyElements,
+        StaticReadonlyElementsMustAppearBeforeStaticNonReadonlyElements, 
 
         /// <summary>
         /// Validates that all non-static readonly elements are placed before non-static non-readonly elements of the same type.
         /// </summary>
-        InstanceReadonlyElementsMustAppearBeforeInstanceNonReadonlyElements,
+        InstanceReadonlyElementsMustAppearBeforeInstanceNonReadonlyElements, 
 
         /// <summary>
         /// Verifies that calls to members are prefixed with the correct notation.
         /// </summary>
-        PrefixCallsCorrectly,
+        PrefixCallsCorrectly, 
 
         /// <summary>
         /// A static readonly variable starts with an upper case letter.
         /// </summary>
-        StaticReadonlyFieldsMustBeginWithUpperCaseLetter,
+        StaticReadonlyFieldsMustBeginWithUpperCaseLetter, 
 
         /// <summary>
         /// An elements documentation must be spelled correctly.

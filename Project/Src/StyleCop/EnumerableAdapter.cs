@@ -1,6 +1,6 @@
-//--------------------------------------------------------------------------
-// <copyright file="EnumerableAdapter.cs">
-//  MS-PL
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="EnumerableAdapter.cs" company="http://stylecop.codeplex.com">
+//   MS-PL
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Event handler for converting elements within an adapted collection.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop
 {
     using System.Collections;
@@ -21,41 +24,59 @@ namespace StyleCop
     /// <summary>
     /// Event handler for converting elements within an adapted collection.
     /// </summary>
-    /// <typeparam name="TOriginal">The type of the elements stored in the original collection.</typeparam>
-    /// <typeparam name="TAdapted">The type of the element returned in the adapted collection.</typeparam>
-    /// <param name="item">The element to convert.</param>
-    /// <returns>Returns the converted element.</returns>
+    /// <typeparam name="TOriginal">
+    /// The type of the elements stored in the original collection.
+    /// </typeparam>
+    /// <typeparam name="TAdapted">
+    /// The type of the element returned in the adapted collection.
+    /// </typeparam>
+    /// <param name="item">
+    /// The element to convert.
+    /// </param>
+    /// <returns>
+    /// Returns the converted element.
+    /// </returns>
     public delegate TAdapted AdapterConverterHandler<TOriginal, TAdapted>(TOriginal item);
 
     /// <summary>
     /// Adapts an enumerable collection from one format to another.
     /// </summary>
-    /// <typeparam name="TOriginal">The type of the elements stored in the original collection.</typeparam>
-    /// <typeparam name="TAdapted">The type of the elements returned in the adapted collection.</typeparam>
-    [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Scope = "type", Justification = "The type is an adapter for a collection, not a simple collection.")]
+    /// <typeparam name="TOriginal">
+    /// The type of the elements stored in the original collection.
+    /// </typeparam>
+    /// <typeparam name="TAdapted">
+    /// The type of the elements returned in the adapted collection.
+    /// </typeparam>
+    [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Scope = "type", 
+        Justification = "The type is an adapter for a collection, not a simple collection.")]
     public sealed partial class EnumerableAdapter<TOriginal, TAdapted> : IEnumerable<TAdapted>
     {
-        #region Private Fields
-
-        /// <summary>
-        /// The enumerable collection that is wrapped by this class.
-        /// </summary>
-        private IEnumerable<TOriginal> innerEnumerable;
+        #region Fields
 
         /// <summary>
         /// The adapter converter.
         /// </summary>
-        private AdapterConverterHandler<TOriginal, TAdapted> converter;
-
-        #endregion Private Fields
-
-        #region Public Constructors
+        private readonly AdapterConverterHandler<TOriginal, TAdapted> converter;
 
         /// <summary>
+        /// The enumerable collection that is wrapped by this class.
+        /// </summary>
+        private readonly IEnumerable<TOriginal> innerEnumerable;
+
+        #endregion
+
+        #region Constructors and Destructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EnumerableAdapter{TOriginal,TAdapted}"/> class. 
         /// Initializes a new instance of the EnumerableAdapter class.
         /// </summary>
-        /// <param name="enumerable">The enumerable collection to wrap.</param>
-        /// <param name="converter">Converts elements from the original list to the adapted list.</param>
+        /// <param name="enumerable">
+        /// The enumerable collection to wrap.
+        /// </param>
+        /// <param name="converter">
+        /// Converts elements from the original list to the adapted list.
+        /// </param>
         public EnumerableAdapter(IEnumerable<TOriginal> enumerable, AdapterConverterHandler<TOriginal, TAdapted> converter)
         {
             Param.Ignore(enumerable);
@@ -65,10 +86,10 @@ namespace StyleCop
             this.converter = converter;
         }
 
-        #endregion Public Constructors
+        #endregion
 
         #region Public Properties
-        
+
         /// <summary>
         /// Gets the inner enumerable collection wrapped by this adapter.
         /// </summary>
@@ -80,9 +101,9 @@ namespace StyleCop
             }
         }
 
-        #endregion Public Properties
+        #endregion
 
-        #region Public Methods
+        #region Explicit Interface Methods
 
         /// <summary>
         /// Gets an enumerator for iterating through the items in the list.
@@ -101,15 +122,19 @@ namespace StyleCop
             }
         }
 
-        #endregion Public Methods
+        #endregion
 
-        #region Private Methods
+        #region Methods
 
         /// <summary>
         /// Converts the item to its adapted format.
         /// </summary>
-        /// <param name="item">The item to convert.</param>
-        /// <returns>Returns the converted item.</returns>
+        /// <param name="item">
+        /// The item to convert.
+        /// </param>
+        /// <returns>
+        /// Returns the converted item.
+        /// </returns>
         private TAdapted Convert(TOriginal item)
         {
             Param.Ignore(item);
@@ -117,21 +142,21 @@ namespace StyleCop
             return this.converter(item);
         }
 
-        #endregion Private Methods
+        #endregion
     }
-
+    
     /// <content>
     /// Implements the weakly typed interface IEnumerable.
     /// </content>
-    public partial class EnumerableAdapter<TOriginal, TAdapted> : IEnumerable
+    public partial class EnumerableAdapter<TOriginal, TAdapted>
     {
-        #region Public Methods
+        #region Explicit Interface Methods
 
         /// <summary>
         /// Gets an enumerator for iterating through the items in the list.
         /// </summary>
         /// <returns>Returns the enumerator.</returns>
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
             if (this.innerEnumerable == null)
             {
@@ -144,6 +169,6 @@ namespace StyleCop
             }
         }
 
-        #endregion Private Methods
+        #endregion
     }
 }

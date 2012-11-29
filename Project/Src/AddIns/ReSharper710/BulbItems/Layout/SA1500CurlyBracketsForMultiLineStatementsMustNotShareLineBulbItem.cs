@@ -15,7 +15,6 @@
 //   The s a 1500 curly brackets for multi line statements must not share line bulb item.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper710.BulbItems.Layout
 {
     #region Using Directives
@@ -26,6 +25,7 @@ namespace StyleCop.ReSharper710.BulbItems.Layout
     using JetBrains.ReSharper.Psi.CSharp;
     using JetBrains.ReSharper.Psi.CSharp.CodeStyle;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
+    using JetBrains.ReSharper.Psi.Tree;
     using JetBrains.TextControl;
 
     using StyleCop.ReSharper710.BulbItems.Framework;
@@ -39,7 +39,7 @@ namespace StyleCop.ReSharper710.BulbItems.Layout
     /// </summary>
     public class SA1500CurlyBracketsForMultiLineStatementsMustNotShareLineBulbItem : V5BulbItemImpl
     {
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// The execute transaction inner.
@@ -52,24 +52,24 @@ namespace StyleCop.ReSharper710.BulbItems.Layout
         /// </param>
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
-            var element = Utils.GetElementAtCaret(solution, textControl);
-            var containingBlock = element.GetContainingNode<IBlock>(true);
+            ITreeNode element = Utils.GetElementAtCaret(solution, textControl);
+            IBlock containingBlock = element.GetContainingNode<IBlock>(true);
 
             if (containingBlock != null)
             {
                 //// CSharpFormatterHelper.FormatterInstance.Format(containingBlock);
-                var codeFormatter = (ICSharpCodeFormatter)CSharpLanguage.Instance.LanguageService().CodeFormatter;
+                ICSharpCodeFormatter codeFormatter = (ICSharpCodeFormatter)CSharpLanguage.Instance.LanguageService().CodeFormatter;
                 codeFormatter.Format(containingBlock);
 
                 new LayoutRules().CurlyBracketsForMultiLineStatementsMustNotShareLine(containingBlock);
             }
             else
             {
-                var fieldDeclarationNode = element.GetContainingNode<IFieldDeclaration>(true);
+                IFieldDeclaration fieldDeclarationNode = element.GetContainingNode<IFieldDeclaration>(true);
                 if (fieldDeclarationNode != null)
                 {
                     //// CSharpFormatterHelper.FormatterInstance.Format(fieldDeclarationNode);
-                    var codeFormatter = (ICSharpCodeFormatter)CSharpLanguage.Instance.LanguageService().CodeFormatter;
+                    ICSharpCodeFormatter codeFormatter = (ICSharpCodeFormatter)CSharpLanguage.Instance.LanguageService().CodeFormatter;
                     codeFormatter.Format(fieldDeclarationNode);
 
                     new LayoutRules().CurlyBracketsForMultiLineStatementsMustNotShareLine(fieldDeclarationNode);

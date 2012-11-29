@@ -1,5 +1,5 @@
-//--------------------------------------------------------------------------
-// <copyright file="LinkedItemList.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="LinkedItemList.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,22 +11,33 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   A doubly-linked list.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
-    using System.Text;
 
     /// <summary>
     /// A doubly-linked list.
     /// </summary>
-    /// <typeparam name="T">The type of item stored in the list.</typeparam>
-    internal partial class LinkedItemList<T> : ICollection<T> where T : class
+    /// <typeparam name="T">
+    /// The type of item stored in the list.
+    /// </typeparam>
+    internal class LinkedItemList<T> : ICollection<T>
+        where T : class
     {
-        #region Private Fields
+        #region Fields
+
+        /// <summary>
+        /// The number of items in the list.
+        /// </summary>
+        private int count;
 
         /// <summary>
         /// The first node in the list.
@@ -38,16 +49,12 @@ namespace StyleCop
         /// </summary>
         private Node<T> tail;
 
-        /// <summary>
-        /// The number of items in the list.
-        /// </summary>
-        private int count;
+        #endregion
 
-        #endregion Private Fields
-
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="LinkedItemList{T}"/> class. 
         /// Initializes a new instance of the LinkedItemList class.
         /// </summary>
         internal LinkedItemList()
@@ -55,9 +62,12 @@ namespace StyleCop
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="LinkedItemList{T}"/> class. 
         /// Initializes a new instance of the LinkedItemList class.
         /// </summary>
-        /// <param name="items">The initial items for the list.</param>
+        /// <param name="items">
+        /// The initial items for the list.
+        /// </param>
         [SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors", Justification = "This is safe")]
         internal LinkedItemList(ICollection<T> items)
         {
@@ -70,9 +80,12 @@ namespace StyleCop
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="LinkedItemList{T}"/> class. 
         /// Initializes a new instance of the LinkedItemList class.
         /// </summary>
-        /// <param name="nodes">The initial nodes for the list.</param>
+        /// <param name="nodes">
+        /// The initial nodes for the list.
+        /// </param>
         [SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors", Justification = "This is safe")]
         internal LinkedItemList(ICollection<Node<T>> nodes)
         {
@@ -84,7 +97,7 @@ namespace StyleCop
             }
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Events
 
@@ -93,18 +106,18 @@ namespace StyleCop
         /// </summary>
         public event EventHandler NodeIndexesReset;
 
-        #endregion Public Events
+        #endregion
 
         #region Public Properties
 
         /// <summary>
-        /// Gets a value indicating whether the collection is read-only.
+        /// Gets the number of items in the collection.
         /// </summary>
-        public bool IsReadOnly
+        public int Count
         {
             get
             {
-                return false;
+                return this.count;
             }
         }
 
@@ -120,6 +133,17 @@ namespace StyleCop
         }
 
         /// <summary>
+        /// Gets a value indicating whether the collection is read-only.
+        /// </summary>
+        public bool IsReadOnly
+        {
+            get
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
         /// Gets the last item in the list.
         /// </summary>
         public Node<T> Last
@@ -130,75 +154,16 @@ namespace StyleCop
             }
         }
 
-        /// <summary>
-        /// Gets the number of items in the collection.
-        /// </summary>
-        public int Count
-        {
-            get
-            {
-                return this.count;
-            }
-        }
+        #endregion
 
-        #endregion Public Properties
-
-        #region Public Methods
-
-        /// <summary>
-        /// Inserts a item into the list after the given item.
-        /// </summary>
-        /// <param name="item">The item to insert.</param>
-        /// <param name="nodeToInsertAfter">The node to insert the item after.</param>
-        /// <returns>Returns the new node.</returns>
-        public Node<T> InsertAfter(T item, Node<T> nodeToInsertAfter)
-        {
-            Param.AssertNotNull(item, "item");
-            Param.Ignore(nodeToInsertAfter);
-
-            return this.InsertAfter(new Node<T>(item), nodeToInsertAfter);
-        }
-
-        /// <summary>
-        /// Inserts a node into the list before the given item.
-        /// </summary>
-        /// <param name="item">The item to insert.</param>
-        /// <param name="nodeToInsertBefore">The node to insert the item before.</param>
-        /// <returns>Returns the new node.</returns>
-        public Node<T> InsertBefore(T item, Node<T> nodeToInsertBefore)
-        {
-            Param.AssertNotNull(item, "item");
-            Param.Ignore(nodeToInsertBefore);
-
-            return this.InsertBefore(new Node<T>(item), nodeToInsertBefore);
-        }
-
-        /// <summary>
-        /// Inserts the specified item at the beginning of the list.
-        /// </summary>
-        /// <param name="item">The item to insert.</param>
-        /// <returns>Returns the new node.</returns>
-        public Node<T> InsertFirst(T item)
-        {
-            Param.AssertNotNull(item, "item");
-            return this.InsertBefore(item, this.head);
-        }
-
-        /// <summary>
-        /// Inserts the specified item at the end of the list.
-        /// </summary>
-        /// <param name="item">The item to insert.</param>
-        /// <returns>Returns the new node.</returns>
-        public Node<T> InsertLast(T item)
-        {
-            Param.AssertNotNull(item, "item");
-            return this.InsertAfter(item, this.tail);
-        }
+        #region Public Methods and Operators
 
         /// <summary>
         /// Adds an item to the collection.
         /// </summary>
-        /// <param name="item">The item to add to the collection.</param>
+        /// <param name="item">
+        /// The item to add to the collection.
+        /// </param>
         public void Add(T item)
         {
             Param.AssertNotNull(item, "item");
@@ -208,7 +173,9 @@ namespace StyleCop
         /// <summary>
         /// Adds an item to the collection.
         /// </summary>
-        /// <param name="node">The node to add to the collection.</param>
+        /// <param name="node">
+        /// The node to add to the collection.
+        /// </param>
         public void Add(Node<T> node)
         {
             Param.AssertNotNull(node, "node");
@@ -218,8 +185,12 @@ namespace StyleCop
         /// <summary>
         /// Adds the range of items to the collection.
         /// </summary>
-        /// <param name="items">The range of items to add.</param>
-        /// <returns>Returns the added nodes.</returns>
+        /// <param name="items">
+        /// The range of items to add.
+        /// </param>
+        /// <returns>
+        /// Returns the added nodes.
+        /// </returns>
         public ICollection<Node<T>> AddRange(IEnumerable<T> items)
         {
             Param.Ignore(items);
@@ -246,7 +217,9 @@ namespace StyleCop
         /// <summary>
         /// Adds the range of items to the collection.
         /// </summary>
-        /// <param name="nodes">The range of nodes to add.</param>
+        /// <param name="nodes">
+        /// The range of nodes to add.
+        /// </param>
         public void AddRange(IEnumerable<Node<T>> nodes)
         {
             Param.Ignore(nodes);
@@ -305,11 +278,234 @@ namespace StyleCop
         }
 
         /// <summary>
+        /// Clears the contents of the list.
+        /// </summary>
+        public void Clear()
+        {
+            for (Node<T> node = this.head; node != null; node = node.Next)
+            {
+                node.ContainingList = null;
+                if (node == this.tail)
+                {
+                    break;
+                }
+            }
+
+            this.head = null;
+            this.tail = null;
+            this.count = 0;
+        }
+
+        /// <summary>
+        /// Determines whether the given item is contained within the list.
+        /// </summary>
+        /// <param name="item">
+        /// The item to search for.
+        /// </param>
+        /// <returns>
+        /// Returns true if the item is contained within the list.
+        /// </returns>
+        public bool Contains(T item)
+        {
+            Param.Ignore(item);
+
+            for (Node<T> listNode = this.head; listNode != null; listNode = listNode.Next)
+            {
+                if (listNode.Value == item)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Determines whether the given item is contained within the list.
+        /// </summary>
+        /// <param name="node">
+        /// The node to search for.
+        /// </param>
+        /// <returns>
+        /// Returns true if the node is contained within the list.
+        /// </returns>
+        public bool Contains(Node<T> node)
+        {
+            Param.Ignore(node);
+
+            for (Node<T> listNode = this.head; listNode != null; listNode = listNode.Next)
+            {
+                if (listNode == node)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Copies the entire collection to the given array, starting at the specified index of the target array.
+        /// </summary>
+        /// <param name="array">
+        /// The array that is the destination of the nodes copied from the collection.
+        /// </param>
+        /// <param name="arrayIndex">
+        /// The zero-based index in array at which copying begins.
+        /// </param>
+        public void CopyTo(T[] array, int arrayIndex)
+        {
+            Param.AssertNotNull(array, "array");
+            Param.AssertGreaterThanOrEqualToZero(arrayIndex, "arrayIndex");
+
+            int i = arrayIndex;
+            for (Node<T> listNode = this.head; listNode != null; listNode = listNode.Next)
+            {
+                array[i++] = listNode.Value;
+            }
+        }
+
+        /// <summary>
+        /// Gets an iterator for enumerating forward through the items in the list.
+        /// </summary>
+        /// <returns>Returns the enumerable object.</returns>
+        public IEnumerable<T> ForwardIterator()
+        {
+            return this.ForwardIterator(this.head);
+        }
+
+        /// <summary>
+        /// Gets an iterator for enumerating forward through the items in the list.
+        /// </summary>
+        /// <param name="start">
+        /// The start position of the iterator.
+        /// </param>
+        /// <returns>
+        /// Returns the enumerable object.
+        /// </returns>
+        public IEnumerable<T> ForwardIterator(Node<T> start)
+        {
+            Param.Ignore(start);
+
+            return new LinkedItemListEnumerators<T>.ForwardValueEnumerable(start, this.tail);
+        }
+
+        /// <summary>
+        /// Gets an iterator for enumerating forward through the nodes in the list.
+        /// </summary>
+        /// <returns>Returns the enumerable object.</returns>
+        public IEnumerable<Node<T>> ForwardNodeIterator()
+        {
+            return this.ForwardNodeIterator(this.head);
+        }
+
+        /// <summary>
+        /// Gets an iterator for enumerating forward through the nodes in the list.
+        /// </summary>
+        /// <param name="start">
+        /// The start position of the iterator.
+        /// </param>
+        /// <returns>
+        /// Returns the enumerable object.
+        /// </returns>
+        public IEnumerable<Node<T>> ForwardNodeIterator(Node<T> start)
+        {
+            Param.Ignore(start);
+
+            return new LinkedItemListEnumerators<T>.ForwardNodeEnumerable(start, this.tail);
+        }
+
+        /// <summary>
+        /// Gets an enumerator that iterates through the nodes in the collection.
+        /// </summary>
+        /// <returns>Returns an enumerator that iterates through the nodes in the collection.</returns>
+        public IEnumerator<T> GetEnumerator()
+        {
+            return new LinkedItemListEnumerators<T>.ForwardValueEnumerator(this.head, this.tail);
+        }
+
+        /// <summary>
+        /// Inserts a item into the list after the given item.
+        /// </summary>
+        /// <param name="item">
+        /// The item to insert.
+        /// </param>
+        /// <param name="nodeToInsertAfter">
+        /// The node to insert the item after.
+        /// </param>
+        /// <returns>
+        /// Returns the new node.
+        /// </returns>
+        public Node<T> InsertAfter(T item, Node<T> nodeToInsertAfter)
+        {
+            Param.AssertNotNull(item, "item");
+            Param.Ignore(nodeToInsertAfter);
+
+            return this.InsertAfter(new Node<T>(item), nodeToInsertAfter);
+        }
+
+        /// <summary>
+        /// Inserts a node into the list before the given item.
+        /// </summary>
+        /// <param name="item">
+        /// The item to insert.
+        /// </param>
+        /// <param name="nodeToInsertBefore">
+        /// The node to insert the item before.
+        /// </param>
+        /// <returns>
+        /// Returns the new node.
+        /// </returns>
+        public Node<T> InsertBefore(T item, Node<T> nodeToInsertBefore)
+        {
+            Param.AssertNotNull(item, "item");
+            Param.Ignore(nodeToInsertBefore);
+
+            return this.InsertBefore(new Node<T>(item), nodeToInsertBefore);
+        }
+
+        /// <summary>
+        /// Inserts the specified item at the beginning of the list.
+        /// </summary>
+        /// <param name="item">
+        /// The item to insert.
+        /// </param>
+        /// <returns>
+        /// Returns the new node.
+        /// </returns>
+        public Node<T> InsertFirst(T item)
+        {
+            Param.AssertNotNull(item, "item");
+            return this.InsertBefore(item, this.head);
+        }
+
+        /// <summary>
+        /// Inserts the specified item at the end of the list.
+        /// </summary>
+        /// <param name="item">
+        /// The item to insert.
+        /// </param>
+        /// <returns>
+        /// Returns the new node.
+        /// </returns>
+        public Node<T> InsertLast(T item)
+        {
+            Param.AssertNotNull(item, "item");
+            return this.InsertAfter(item, this.tail);
+        }
+
+        /// <summary>
         /// Removes the given item from the list.
         /// </summary>
-        /// <param name="item">The item to remove from the list.</param>
-        /// <returns>Return true if the item was removed from the list.</returns>
-        /// <remarks>This method is inefficient as it must iterate the list to find the node to remove.</remarks>
+        /// <param name="item">
+        /// The item to remove from the list.
+        /// </param>
+        /// <returns>
+        /// Return true if the item was removed from the list.
+        /// </returns>
+        /// <remarks>
+        /// This method is inefficient as it must iterate the list to find the node to remove.
+        /// </remarks>
         public bool Remove(T item)
         {
             Param.AssertNotNull(item, "item");
@@ -328,8 +524,12 @@ namespace StyleCop
         /// <summary>
         /// Removes the given node from the list.
         /// </summary>
-        /// <param name="node">The node to remove from the list.</param>
-        /// <returns>Return true if the node was removed from the list.</returns>
+        /// <param name="node">
+        /// The node to remove from the list.
+        /// </param>
+        /// <returns>
+        /// Return true if the node was removed from the list.
+        /// </returns>
         public bool Remove(Node<T> node)
         {
             Param.AssertNotNull(node, "node");
@@ -396,11 +596,17 @@ namespace StyleCop
         /// <summary>
         /// Removes the given range of nodes from the list.
         /// </summary>
-        /// <param name="start">The first node to remove.</param>
-        /// <param name="end">The last node to remove.</param>
-        /// <remarks>This method assumes that both the start node and the end node are nodes in this list,
+        /// <param name="start">
+        /// The first node to remove.
+        /// </param>
+        /// <param name="end">
+        /// The last node to remove.
+        /// </param>
+        /// <remarks>
+        /// This method assumes that both the start node and the end node are nodes in this list,
         /// and that the start node appears before the end node in the list. These assumptions are not
-        /// verified, so use this method with care.</remarks>
+        /// verified, so use this method with care.
+        /// </remarks>
         public void RemoveRange(Node<T> start, Node<T> end)
         {
             Param.AssertNotNull(start, "start");
@@ -447,9 +653,15 @@ namespace StyleCop
         /// <summary>
         /// Removes the given node from the list and replaces it with a different node.
         /// </summary>
-        /// <param name="node">The node to remove.</param>
-        /// <param name="newItem">The replacement item.</param>
-        /// <returns> Returns the new node for the replacement item.</returns>
+        /// <param name="node">
+        /// The node to remove.
+        /// </param>
+        /// <param name="newItem">
+        /// The replacement item.
+        /// </param>
+        /// <returns>
+        /// Returns the new node for the replacement item.
+        /// </returns>
         public Node<T> Replace(Node<T> node, T newItem)
         {
             Param.AssertNotNull(node, "node");
@@ -464,8 +676,12 @@ namespace StyleCop
         /// <summary>
         /// Removes the given node from the list and replaces it with a different node.
         /// </summary>
-        /// <param name="node">The node to remove.</param>
-        /// <param name="newNode">The replacement node.</param>
+        /// <param name="node">
+        /// The node to remove.
+        /// </param>
+        /// <param name="newNode">
+        /// The replacement node.
+        /// </param>
         public void Replace(Node<T> node, Node<T> newNode)
         {
             Param.AssertNotNull(node, "node");
@@ -500,121 +716,6 @@ namespace StyleCop
         }
 
         /// <summary>
-        /// Clears the contents of the list.
-        /// </summary>
-        public void Clear()
-        {
-            for (Node<T> node = this.head; node != null; node = node.Next)
-            {
-                node.ContainingList = null;
-                if (node == this.tail)
-                {
-                    break;
-                }
-            }
-
-            this.head = null;
-            this.tail = null;
-            this.count = 0;
-        }
-
-        /// <summary>
-        /// Gets an enumerator that iterates through the nodes in the collection.
-        /// </summary>
-        /// <returns>Returns an enumerator that iterates through the nodes in the collection.</returns>
-        public IEnumerator<T> GetEnumerator()
-        {
-            return new LinkedItemListEnumerators<T>.ForwardValueEnumerator(this.head, this.tail);
-        }
-
-        /// <summary>
-        /// Gets an enumerator that iterates through the nodes in the collection.
-        /// </summary>
-        /// <returns>Returns an enumerator that iterates through the nodes in the collection.</returns>
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-        {
-            return this.GetEnumerator();
-        }
-
-        /// <summary>
-        /// Determines whether the given item is contained within the list.
-        /// </summary>
-        /// <param name="item">The item to search for.</param>
-        /// <returns>Returns true if the item is contained within the list.</returns>
-        public bool Contains(T item)
-        {
-            Param.Ignore(item);
-
-            for (Node<T> listNode = this.head; listNode != null; listNode = listNode.Next)
-            {
-                if (listNode.Value == item)
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        /// <summary>
-        /// Determines whether the given item is contained within the list.
-        /// </summary>
-        /// <param name="node">The node to search for.</param>
-        /// <returns>Returns true if the node is contained within the list.</returns>
-        public bool Contains(Node<T> node)
-        {
-            Param.Ignore(node);
-
-            for (Node<T> listNode = this.head; listNode != null; listNode = listNode.Next)
-            {
-                if (listNode == node)
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        /// <summary>
-        /// Copies the entire collection to the given array, starting at the specified index of the target array.
-        /// </summary>
-        /// <param name="array">The array that is the destination of the nodes copied from the collection.</param>
-        /// <param name="arrayIndex">The zero-based index in array at which copying begins.</param>
-        public void CopyTo(T[] array, int arrayIndex)
-        {
-            Param.AssertNotNull(array, "array");
-            Param.AssertGreaterThanOrEqualToZero(arrayIndex, "arrayIndex");
-
-            int i = arrayIndex;
-            for (Node<T> listNode = this.head; listNode != null; listNode = listNode.Next)
-            {
-                array[i++] = listNode.Value;
-            }
-        }
-
-        /// <summary>
-        /// Gets an iterator for enumerating forward through the items in the list.
-        /// </summary>
-        /// <returns>Returns the enumerable object.</returns>
-        public IEnumerable<T> ForwardIterator()
-        {
-            return this.ForwardIterator(this.head);
-        }
-
-        /// <summary>
-        /// Gets an iterator for enumerating forward through the items in the list.
-        /// </summary>
-        /// <param name="start">The start position of the iterator.</param>
-        /// <returns>Returns the enumerable object.</returns>
-        public IEnumerable<T> ForwardIterator(Node<T> start)
-        {
-            Param.Ignore(start);
-
-            return new LinkedItemListEnumerators<T>.ForwardValueEnumerable(start, this.tail);
-        }
-
-        /// <summary>
         /// Gets an iterator for enumerating backwards through the items in the list.
         /// </summary>
         /// <returns>Returns the enumerable object.</returns>
@@ -626,34 +727,17 @@ namespace StyleCop
         /// <summary>
         /// Gets an iterator for enumerating backwards through the items in the list.
         /// </summary>
-        /// <param name="start">The start position of the iterator.</param>
-        /// <returns>Returns the enumerable object.</returns>
+        /// <param name="start">
+        /// The start position of the iterator.
+        /// </param>
+        /// <returns>
+        /// Returns the enumerable object.
+        /// </returns>
         public IEnumerable<T> ReverseIterator(Node<T> start)
         {
             Param.Ignore(start);
 
             return new LinkedItemListEnumerators<T>.BackwardValueEnumerable(start, this.head);
-        }
-
-        /// <summary>
-        /// Gets an iterator for enumerating forward through the nodes in the list.
-        /// </summary>
-        /// <returns>Returns the enumerable object.</returns>
-        public IEnumerable<Node<T>> ForwardNodeIterator()
-        {
-            return this.ForwardNodeIterator(this.head);
-        }
-
-        /// <summary>
-        /// Gets an iterator for enumerating forward through the nodes in the list.
-        /// </summary>
-        /// <param name="start">The start position of the iterator.</param>
-        /// <returns>Returns the enumerable object.</returns>
-        public IEnumerable<Node<T>> ForwardNodeIterator(Node<T> start)
-        {
-            Param.Ignore(start);
-
-            return new LinkedItemListEnumerators<T>.ForwardNodeEnumerable(start, this.tail);
         }
 
         /// <summary>
@@ -668,8 +752,12 @@ namespace StyleCop
         /// <summary>
         /// Gets an iterator for enumerating backwards through the nodes in the list.
         /// </summary>
-        /// <param name="start">The start position of the iterator.</param>
-        /// <returns>Returns the enumerable object.</returns>
+        /// <param name="start">
+        /// The start position of the iterator.
+        /// </param>
+        /// <returns>
+        /// Returns the enumerable object.
+        /// </returns>
         public IEnumerable<Node<T>> ReverseNodeIterator(Node<T> start)
         {
             Param.Ignore(start);
@@ -677,18 +765,33 @@ namespace StyleCop
             return new LinkedItemListEnumerators<T>.BackwardNodeEnumerable(start, this.head);
         }
 
-        #endregion Public Methods
+        #endregion
 
-        #region Protected Virtual Methods
+        #region Explicit Interface Methods
+
+        /// <summary>
+        /// Gets an enumerator that iterates through the nodes in the collection.
+        /// </summary>
+        /// <returns>Returns an enumerator that iterates through the nodes in the collection.</returns>
+        IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
+        }
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Called when the node indexes are reset.
         /// </summary>
-        /// <param name="e">The event arguments.</param>
+        /// <param name="e">
+        /// The event arguments.
+        /// </param>
         protected virtual void OnNodeIndexesReset(EventArgs e)
         {
             Param.RequireNotNull(e, "e");
-            
+
             // Make sure we cache the delegate locally to avoid other threads unsubscribing before we call them.
             // See http://piers7.blogspot.com/2010/03/3-races-with-net-events.html for info.
             EventHandler handlers = this.NodeIndexesReset;
@@ -699,25 +802,24 @@ namespace StyleCop
             }
         }
 
-        #endregion Protected Virtual Methods
-
-        #region Private Methods
-
         /// <summary>
         /// Inserts a item into the list after the given item.
         /// </summary>
-        /// <param name="node">The node to insert.</param>
-        /// <param name="nodeToInsertAfter">The node to insert the item after.</param>
-        /// <returns>Returns the new node.</returns>
+        /// <param name="node">
+        /// The node to insert.
+        /// </param>
+        /// <param name="nodeToInsertAfter">
+        /// The node to insert the item after.
+        /// </param>
+        /// <returns>
+        /// Returns the new node.
+        /// </returns>
         private Node<T> InsertAfter(Node<T> node, Node<T> nodeToInsertAfter)
         {
             Param.AssertNotNull(node, "node");
             Param.Ignore(nodeToInsertAfter);
 
-            Debug.Assert(
-                nodeToInsertAfter != null || this.head == null,
-                "nodeToInsertAfter",
-                "nodeToInsertAfter may only be null if the list is empty");
+            Debug.Assert(nodeToInsertAfter != null || this.head == null, "nodeToInsertAfter", "nodeToInsertAfter may only be null if the list is empty");
 
             // Check and set the containing list.
             if (node.ContainingList != null)
@@ -777,18 +879,21 @@ namespace StyleCop
         /// <summary>
         /// Inserts a node into the list before the given item.
         /// </summary>
-        /// <param name="node">The node to insert.</param>
-        /// <param name="nodeToInsertBefore">The node to insert the item before.</param>
-        /// <returns>Returns the new node.</returns>
+        /// <param name="node">
+        /// The node to insert.
+        /// </param>
+        /// <param name="nodeToInsertBefore">
+        /// The node to insert the item before.
+        /// </param>
+        /// <returns>
+        /// Returns the new node.
+        /// </returns>
         private Node<T> InsertBefore(Node<T> node, Node<T> nodeToInsertBefore)
         {
             Param.AssertNotNull(node, "node");
             Param.Ignore(nodeToInsertBefore);
 
-            Debug.Assert(
-                nodeToInsertBefore != null || this.head == null,
-                "nodeToInsertBefore",
-                "nodeToInsertBefore may only be null if the list is empty");
+            Debug.Assert(nodeToInsertBefore != null || this.head == null, "nodeToInsertBefore", "nodeToInsertBefore may only be null if the list is empty");
 
             // Check and set the containing list.
             if (node.ContainingList != null)
@@ -887,6 +992,6 @@ namespace StyleCop
             this.OnNodeIndexesReset(new EventArgs());
         }
 
-        #endregion Private Methods
+        #endregion
     }
 }

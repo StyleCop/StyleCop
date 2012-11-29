@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="Rule.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Rule.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,93 +11,100 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Describes one analysis rule exposed by a StyleCop analyzer or parser.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop
 {
     using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    
+
     /// <summary>
     /// Describes one analysis rule exposed by a StyleCop analyzer or parser.
     /// </summary>
     public class Rule
     {
-        #region Private Fields
-
-        /// <summary>
-        /// The name of this rule.
-        /// </summary>
-        private string name;
-
-        /// <summary>
-        /// The namespace that the rule is contained within.
-        /// </summary>
-        private string @namespace;
-
-        /// <summary>
-        /// The context message for the rule.
-        /// </summary>
-        private string context;
-
-        /// <summary>
-        /// The rule description.
-        /// </summary>
-        private string description;
-
-        /// <summary>
-        /// The rule group that contains this rule.
-        /// </summary>
-        private string ruleGroup;
-
-        /// <summary>
-        /// Indicates whether the rule is a warning.
-        /// </summary>
-        private bool warning;
-
-        /// <summary>
-        /// Indicates whether the rule is enabled by default.
-        /// </summary>
-        private bool enabledByDefault = true;
+        #region Fields
 
         /// <summary>
         /// Indicates whether the rule can be disabled.
         /// </summary>
-        private bool canDisable;
+        private readonly bool canDisable;
 
         /// <summary>
         /// The short ID of the rule.
         /// </summary>
-        private string checkId;
+        private readonly string checkId;
+
+        /// <summary>
+        /// The context message for the rule.
+        /// </summary>
+        private readonly string context;
+
+        /// <summary>
+        /// The rule description.
+        /// </summary>
+        private readonly string description;
+
+        /// <summary>
+        /// Indicates whether the rule is enabled by default.
+        /// </summary>
+        private readonly bool enabledByDefault = true;
+
+        /// <summary>
+        /// The name of this rule.
+        /// </summary>
+        private readonly string name;
+
+        /// <summary>
+        /// The namespace that the rule is contained within.
+        /// </summary>
+        private readonly string @namespace;
 
         /// <summary>
         /// The unique hash ID for the rule namespace.
         /// </summary>
-        private int namespaceID;
+        private readonly int namespaceID;
+
+        /// <summary>
+        /// The rule group that contains this rule.
+        /// </summary>
+        private readonly string ruleGroup;
 
         /// <summary>
         /// The unique hash ID for the rule.
         /// </summary>
-        private int uniqueID;
+        private readonly int uniqueID;
 
-        #endregion Private Fields
+        /// <summary>
+        /// Indicates whether the rule is a warning.
+        /// </summary>
+        private readonly bool warning;
 
-        #region Internal Constructors
+        #endregion
+
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the Rule class.
         /// </summary>
-        /// <param name="name">The name of this rule.</param>
-        /// <param name="namespace">The namespace that the rule is contained within.</param>
-        /// <param name="checkId">The short ID of the rule.</param>
-        /// <param name="context">The context message for the rule.</param>
-        /// <param name="warning">Indicates whether the rule is a warning.</param>
-        internal Rule(
-            string name,
-            string @namespace,
-            string checkId,
-            string context,
-            bool warning) : this(name, @namespace, checkId, context, warning, string.Empty, null, true, false)
+        /// <param name="name">
+        /// The name of this rule.
+        /// </param>
+        /// <param name="namespace">
+        /// The namespace that the rule is contained within.
+        /// </param>
+        /// <param name="checkId">
+        /// The short ID of the rule.
+        /// </param>
+        /// <param name="context">
+        /// The context message for the rule.
+        /// </param>
+        /// <param name="warning">
+        /// Indicates whether the rule is a warning.
+        /// </param>
+        internal Rule(string name, string @namespace, string checkId, string context, bool warning)
+            : this(name, @namespace, checkId, context, warning, string.Empty, null, true, false)
         {
             Param.Ignore(name, @namespace, checkId, context, warning);
         }
@@ -105,25 +112,35 @@ namespace StyleCop
         /// <summary>
         /// Initializes a new instance of the Rule class.
         /// </summary>
-        /// <param name="name">The name of this rule.</param>
-        /// <param name="namespace">The namespace that the rule is contained within.</param>
-        /// <param name="checkId">The short ID of the rule.</param>
-        /// <param name="context">The context message for the rule.</param>
-        /// <param name="warning">Indicates whether the rule is a warning.</param>
-        /// <param name="description">The description of the rule.</param>
-        /// <param name="ruleGroup">The rule group that contains this rule.</param>
-        /// <param name="enabledByDefault">Indicates whether the rule is enabled by default.</param>
-        /// <param name="canDisable">Indicates whether the rule can be disabled.</param>
+        /// <param name="name">
+        /// The name of this rule.
+        /// </param>
+        /// <param name="namespace">
+        /// The namespace that the rule is contained within.
+        /// </param>
+        /// <param name="checkId">
+        /// The short ID of the rule.
+        /// </param>
+        /// <param name="context">
+        /// The context message for the rule.
+        /// </param>
+        /// <param name="warning">
+        /// Indicates whether the rule is a warning.
+        /// </param>
+        /// <param name="description">
+        /// The description of the rule.
+        /// </param>
+        /// <param name="ruleGroup">
+        /// The rule group that contains this rule.
+        /// </param>
+        /// <param name="enabledByDefault">
+        /// Indicates whether the rule is enabled by default.
+        /// </param>
+        /// <param name="canDisable">
+        /// Indicates whether the rule can be disabled.
+        /// </param>
         internal Rule(
-            string name, 
-            string @namespace, 
-            string checkId,
-            string context,
-            bool warning,
-            string description, 
-            string ruleGroup, 
-            bool enabledByDefault,
-            bool canDisable)
+            string name, string @namespace, string checkId, string context, bool warning, string description, string ruleGroup, bool enabledByDefault, bool canDisable)
         {
             Param.AssertValidString(name, "name");
             Param.AssertValidString(@namespace, "namespace");
@@ -159,15 +176,8 @@ namespace StyleCop
 
             // Perform further validate to ensure that the check ID is six characters long, begins with two upper-case letters and ends with
             // four digits.
-            if (checkId.Length != 6 ||
-                !char.IsLetter(checkId[0]) ||
-                !char.IsUpper(checkId[0]) ||
-                !char.IsLetter(checkId[1]) ||
-                !char.IsUpper(checkId[1]) ||
-                !char.IsDigit(checkId[2]) ||
-                !char.IsDigit(checkId[3]) ||
-                !char.IsDigit(checkId[4]) ||
-                !char.IsDigit(checkId[5]))
+            if (checkId.Length != 6 || !char.IsLetter(checkId[0]) || !char.IsUpper(checkId[0]) || !char.IsLetter(checkId[1]) || !char.IsUpper(checkId[1])
+                || !char.IsDigit(checkId[2]) || !char.IsDigit(checkId[3]) || !char.IsDigit(checkId[4]) || !char.IsDigit(checkId[5]))
             {
                 throw new ArgumentException(Strings.RuleCheckIdInvalid, checkId);
             }
@@ -186,29 +196,18 @@ namespace StyleCop
             this.uniqueID = GenerateUniqueRuleID(this.@namespace, this.checkId, this.name);
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
 
         /// <summary>
-        /// Gets the name of this rule.
+        /// Gets a value indicating whether the rule can be disabled.
         /// </summary>
-        public string Name
+        public bool CanDisable
         {
             get
             {
-                return this.name;
-            }
-        }
-
-        /// <summary>
-        /// Gets the namespace that contains the rule.
-        /// </summary>
-        public string Namespace
-        {
-            get
-            {
-                return this.@namespace;
+                return this.canDisable;
             }
         }
 
@@ -246,28 +245,6 @@ namespace StyleCop
         }
 
         /// <summary>
-        /// Gets the rule group that contains this rule, if any.
-        /// </summary>
-        public string RuleGroup
-        {
-            get
-            {
-                return this.ruleGroup;
-            }
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether the rule is a warning.
-        /// </summary>
-        public bool Warning
-        {
-            get
-            {
-                return this.warning;
-            }
-        }
-
-        /// <summary>
         /// Gets a value indicating whether the rule is enabled by default.
         /// </summary>
         public bool EnabledByDefault
@@ -279,13 +256,35 @@ namespace StyleCop
         }
 
         /// <summary>
-        /// Gets a value indicating whether the rule can be disabled.
+        /// Gets the name of this rule.
         /// </summary>
-        public bool CanDisable
+        public string Name
         {
             get
             {
-                return this.canDisable;
+                return this.name;
+            }
+        }
+
+        /// <summary>
+        /// Gets the namespace that contains the rule.
+        /// </summary>
+        public string Namespace
+        {
+            get
+            {
+                return this.@namespace;
+            }
+        }
+
+        /// <summary>
+        /// Gets the rule group that contains this rule, if any.
+        /// </summary>
+        public string RuleGroup
+        {
+            get
+            {
+                return this.ruleGroup;
             }
         }
 
@@ -311,17 +310,36 @@ namespace StyleCop
             }
         }
 
-        #endregion Internal Properties
+        /// <summary>
+        /// Gets a value indicating whether the rule is a warning.
+        /// </summary>
+        public bool Warning
+        {
+            get
+            {
+                return this.warning;
+            }
+        }
 
-        #region Public Static Methods
+        #endregion
+
+        #region Public Methods and Operators
 
         /// <summary>
         /// Gets a unique ID for identifying a rule.
         /// </summary>
-        /// <param name="namespace">The namespace containing the rule.</param>
-        /// <param name="checkId">The CheckID code for the rule, or * to match against all rules in the namespace.</param>
-        /// <param name="name">The rule name, or null if CheckID is *.</param>
-        /// <returns>Returns the unique ID.</returns>
+        /// <param name="namespace">
+        /// The namespace containing the rule.
+        /// </param>
+        /// <param name="checkId">
+        /// The CheckID code for the rule, or * to match against all rules in the namespace.
+        /// </param>
+        /// <param name="name">
+        /// The rule name, or null if CheckID is *.
+        /// </param>
+        /// <returns>
+        /// Returns the unique ID.
+        /// </returns>
         public static int GenerateUniqueId(string @namespace, string checkId, string name)
         {
             Param.RequireValidString(@namespace, "namespace");
@@ -338,10 +356,6 @@ namespace StyleCop
             }
         }
 
-        #endregion Public Static Methods
-
-        #region Public Override Methods
-
         /// <summary>
         /// Gets a unique hash code for identifying the rule.
         /// </summary>
@@ -351,17 +365,25 @@ namespace StyleCop
             return this.uniqueID;
         }
 
-        #endregion Public Override Methods
+        #endregion
 
-        #region Private Static Methods
+        #region Methods
 
         /// <summary>
         /// Generates a unique ID for a specific rule, which can be used as a hash for identifying the rule.
         /// </summary>
-        /// <param name="namespace">The rule's namespace.</param>
-        /// <param name="checkID">The rule's checkID.</param>
-        /// <param name="name">The rule's name.</param>
-        /// <returns>Returns the unique ID.</returns>
+        /// <param name="namespace">
+        /// The rule's namespace.
+        /// </param>
+        /// <param name="checkID">
+        /// The rule's checkID.
+        /// </param>
+        /// <param name="name">
+        /// The rule's name.
+        /// </param>
+        /// <returns>
+        /// Returns the unique ID.
+        /// </returns>
         private static int GenerateUniqueRuleID(string @namespace, string checkID, string name)
         {
             Param.AssertValidString(@namespace, "namespace");
@@ -374,14 +396,18 @@ namespace StyleCop
         /// <summary>
         /// Generates a unique ID for the rule's namespace, which can be used as a hash for identifying the namespace.
         /// </summary>
-        /// <param name="namespace">The rule's namespace.</param>
-        /// <returns>Returns the unique ID.</returns>
+        /// <param name="namespace">
+        /// The rule's namespace.
+        /// </param>
+        /// <returns>
+        /// Returns the unique ID.
+        /// </returns>
         private static int GenerateUniqueRuleNamespaceID(string @namespace)
         {
             Param.AssertValidString(@namespace, "namespace");
             return @namespace.GetHashCode();
         }
 
-        #endregion Private Static Properties
+        #endregion
     }
 }

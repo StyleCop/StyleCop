@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="IPropertyContainer.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="IPropertyContainer.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,24 +11,24 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Contains a collection of properties.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-
     /// <summary>
     /// Contains a collection of properties.
     /// </summary>
     public interface IPropertyContainer
     {
+        #region Public Properties
+
         /// <summary>
         /// Gets the collection of property descriptors.
         /// </summary>
-        PropertyDescriptorCollection PropertyDescriptors
-        {
-            get;
-        }
+        PropertyDescriptorCollection PropertyDescriptors { get; }
+
+        #endregion
     }
 }

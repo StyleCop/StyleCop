@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="ITokenContainer.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ITokenContainer.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,10 +11,12 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Interface implemented by objects containing a list of child tokens.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
     using System.Collections.Generic;
 
     /// <summary>
@@ -23,16 +25,13 @@ namespace StyleCop.CSharp
     /// <subcategory>interface</subcategory>
     public interface ITokenContainer
     {
-        #region Properties
+        #region Public Properties
 
         /// <summary>
         /// Gets the list of tokens in the container.
         /// </summary>
-        ICollection<CsToken> Tokens
-        {
-            get;
-        }
+        ICollection<CsToken> Tokens { get; }
 
-        #endregion Properties
+        #endregion
     }
 }

@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="LabelStatement.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="LabelStatement.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,33 +11,38 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   A label within the code.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
-
     /// <summary>
     /// A label within the code.
     /// </summary>
     /// <subcategory>statement</subcategory>
     public sealed class LabelStatement : Statement
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// The label identifier.
         /// </summary>
-        private LiteralExpression identifier;
+        private readonly LiteralExpression identifier;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the LabelStatement class.
         /// </summary>
-        /// <param name="tokens">The list of tokens that form the statement.</param>
-        /// <param name="identifier">The label identifier.</param>
+        /// <param name="tokens">
+        /// The list of tokens that form the statement.
+        /// </param>
+        /// <param name="identifier">
+        /// The label identifier.
+        /// </param>
         internal LabelStatement(CsTokenList tokens, LiteralExpression identifier)
             : base(StatementType.Label, tokens)
         {
@@ -48,7 +53,7 @@ namespace StyleCop.CSharp
             this.AddExpression(identifier);
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
 
@@ -63,6 +68,6 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Properties
+        #endregion
     }
 }

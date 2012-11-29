@@ -11,8 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
+// <summary>
+//   Defines the core constants.
+// </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop
 {
     /// <summary>
@@ -20,22 +22,12 @@ namespace StyleCop
     /// </summary>
     public static class Constants
     {
-        #region Constants and Fields
-        
+        #region Constants
+
         /// <summary>
         /// Name of the Product i.e. StyleCop.
         /// </summary>
         public const string ProductName = "StyleCop";
-
-        /// <summary>
-        /// The Major.Minor version number of the product a.b.
-        /// </summary>
-        public const string ProductVersionMajorMinor = "4.7";
-
-        /// <summary>
-        /// The full version number of the product a.b.c.d.
-        /// </summary>
-        public const string ProductVersionFull = "4.7.43.0";
 
         /// <summary>
         /// Name of the Product with the version i.e. StyleCop (4.7.x.y).
@@ -43,14 +35,29 @@ namespace StyleCop
         public const string ProductNameWithVersion = ProductName + " (" + ProductVersionFull + ")";
 
         /// <summary>
+        /// The full version number of the product a.b.c.d.
+        /// </summary>
+        public const string ProductVersionFull = "4.7.43.0";
+
+        /// <summary>
+        /// The Major.Minor version number of the product a.b.
+        /// </summary>
+        public const string ProductVersionMajorMinor = "4.7";
+
+        /// <summary>
         /// The name of the StyleCop assembly.
         /// </summary>
         public const string StyleCopAssemblyName = ProductName + ".dll";
-        
+
         /// <summary>
         /// Name of the Vendor i.e. http://stylecop.codeplex.com/ .
         /// </summary>
         public const string Vendor = "http://stylecop.codeplex.com";
+
+        /// <summary>
+        /// The Plugin description.
+        /// </summary>
+        public const string Description = "R# plugin for StyleCop. This plugin allows StyleCop to be run as you type, generating real-time syntax highlighting of violations. It also provides a series of Quick-Fixes and Code Clean Up Modules to help automatically fix violations. See http://stylecop.codeplex.com for more info.";
 
         #endregion
     }

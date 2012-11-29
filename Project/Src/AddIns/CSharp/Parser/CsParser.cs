@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="CsParser.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="CsParser.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Parses a C# code file.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
     using System;
@@ -19,9 +22,8 @@ namespace StyleCop.CSharp
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
     using System.IO;
-    using System.Text.RegularExpressions;
     using System.Threading;
-    using StyleCop;
+
     using StyleCop.Diagnostics;
 
     /// <summary>
@@ -30,9 +32,9 @@ namespace StyleCop.CSharp
     /// <exclude />
     [SourceParser]
     [SuppressMessage("Microsoft.Naming", "CA1706:ShortAcronymsShouldBeUppercase", Justification = "Camel case better serves in this case.")]
-    public partial class CsParser : SourceParser
+    public class CsParser : SourceParser
     {
-        #region Internal Constants
+        #region Constants
 
         /// <summary>
         /// The name of the settings property indicating whether to analyze designer files.
@@ -49,21 +51,18 @@ namespace StyleCop.CSharp
         /// </summary>
         internal const string GeneratedFileFiltersProperty = "GeneratedFileFilters";
 
-        #endregion Internal Constants
+        #endregion
 
-        #region Private Static Readonly Fields
+        #region Static Fields
 
         /// <summary>
         /// The default collection of generated file filters.
         /// </summary>
-        private static readonly string[] DefaultGeneratedFileFilters = new[] 
-        {
-            @"\.g\.cs$", @"\.generated\.cs$", @"\.g\.i\.cs$"
-        };
+        private static readonly string[] DefaultGeneratedFileFilters = new[] { @"\.g\.cs$", @"\.generated\.cs$", @"\.g\.i\.cs$" };
 
-        #endregion Private Static Readonly Fields
+        #endregion
 
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// Lock object for suppressions dictionary
@@ -78,22 +77,11 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Stores collection of suppressions for individual elements.
         /// </summary>
-        private Dictionary<SuppressedRule, List<CsElement>> suppressions; 
-       
-        #endregion Private Fields
-        
-        #region Public Constructors
+        private Dictionary<SuppressedRule, List<CsElement>> suppressions;
 
-        /// <summary>
-        /// Initializes a new instance of the CsParser class.
-        /// </summary>
-        public CsParser()
-        {
-        }
+        #endregion
 
-        #endregion Public Constructors
-
-        #region Internal Properties
+        #region Properties
 
         /// <summary>
         /// Gets the list of partial elements found within the document.
@@ -108,21 +96,78 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Internal Properties
+        #endregion
 
-        #region Public Override Methods
+        #region Public Methods and Operators
+
+        /// <summary>
+        /// Determines whether the given rule is suppressed for the given element.
+        /// </summary>
+        /// <param name="element">
+        /// The element to check.
+        /// </param>
+        /// <param name="ruleCheckId">
+        /// The Id of the rule to check.
+        /// </param>
+        /// <param name="ruleName">
+        /// The Name of the rule to check.
+        /// </param>
+        /// <param name="ruleNamespace">
+        /// The Namespace of the rule to check.
+        /// </param>
+        /// <returns>
+        /// Returns true is the rule is suppressed; otherwise false.
+        /// </returns>
+        public override bool IsRuleSuppressed(ICodeElement element, string ruleCheckId, string ruleName, string ruleNamespace)
+        {
+            if (element != null && !string.IsNullOrEmpty(ruleCheckId) && ruleName != string.Empty && !string.IsNullOrEmpty(ruleNamespace))
+            {
+                SuppressedRule suppressedRule = new SuppressedRule { RuleId = ruleCheckId, RuleName = ruleName, RuleNamespace = ruleNamespace };
+
+                this.suppressionsLock.AcquireReaderLock(Timeout.Infinite);
+                try
+                {
+                    if (ruleCheckId != "*")
+                    {
+                        // See if this namespace is suppressed completely.
+                        if (this.IsRuleSuppressed(element, "*", null, ruleNamespace))
+                        {
+                            return true;
+                        }
+                    }
+
+                    List<CsElement> list = null;
+                    if ((this.suppressions.Count != 0) && this.suppressions.TryGetValue(suppressedRule, out list))
+                    {
+                        return MatchElementWithPossibleElementsTraversingParents((CsElement)element, list);
+                    }
+                }
+                finally
+                {
+                    this.suppressionsLock.ReleaseReaderLock();
+                }
+            }
+
+            return false;
+        }
 
         /// <summary>
         /// Parses the given file.
         /// </summary>
-        /// <param name="sourceCode">The source code to parse.</param>
-        /// <param name="passNumber">The current pass number.</param>
-        /// <param name="document">The parsed representation of the file.</param>
-        /// <returns>Returns false if no further analysis should be done on this file, or
-        /// true if the file should be parsed again during the next pass.</returns>
-        [SuppressMessage(
-            "Microsoft.Reliability", 
-            "CA2000:Dispose objects before losing scope", 
+        /// <param name="sourceCode">
+        /// The source code to parse.
+        /// </param>
+        /// <param name="passNumber">
+        /// The current pass number.
+        /// </param>
+        /// <param name="document">
+        /// The parsed representation of the file.
+        /// </param>
+        /// <returns>
+        /// Returns false if no further analysis should be done on this file, or
+        /// true if the file should be parsed again during the next pass.
+        /// </returns>
+        [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", 
             Justification = "Documents are returned to the caller and ultimately disposed of by the caller.")]
         public override bool ParseFile(SourceCode sourceCode, int passNumber, ref CodeDocument document)
         {
@@ -170,15 +215,6 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Called each time before a new analysis run is initiated.
-        /// </summary>
-        public override void PreParse()
-        {
-            this.partialElements = new Dictionary<string, List<CsElement>>();
-            this.suppressions = new Dictionary<SuppressedRule, List<CsElement>>();
-        }
-
-        /// <summary>
         /// Called each time after an analysis run is complete.
         /// </summary>
         public override void PostParse()
@@ -188,22 +224,35 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
+        /// Called each time before a new analysis run is initiated.
+        /// </summary>
+        public override void PreParse()
+        {
+            this.partialElements = new Dictionary<string, List<CsElement>>();
+            this.suppressions = new Dictionary<SuppressedRule, List<CsElement>>();
+        }
+
+        /// <summary>
         /// Indicates whether to skip analysis on the given document.
         /// </summary>
-        /// <param name="document">The document.</param>
-        /// <returns>Returns true to skip analysis on the document.</returns>
+        /// <param name="document">
+        /// The document.
+        /// </param>
+        /// <returns>
+        /// Returns true to skip analysis on the document.
+        /// </returns>
         public override bool SkipAnalysisForDocument(CodeDocument document)
         {
             Param.RequireNotNull(document, "document");
 
-            if (document == null || document.SourceCode == null || document.SourceCode.Name == null || !FileTypes.Contains(Path.GetExtension(document.SourceCode.Name).Trim('.').ToUpperInvariant()))
+            if (document == null || document.SourceCode == null || document.SourceCode.Name == null
+                || !this.FileTypes.Contains(Path.GetExtension(document.SourceCode.Name).Trim('.').ToUpperInvariant()))
             {
                 return true;
             }
 
             // Get the property indicating whether to analyze designer files.
-            BooleanProperty analyzeDesignerFilesProperty = this.GetSetting(
-                document.Settings, CsParser.AnalyzeDesignerFilesProperty) as BooleanProperty;
+            BooleanProperty analyzeDesignerFilesProperty = this.GetSetting(document.Settings, CsParser.AnalyzeDesignerFilesProperty) as BooleanProperty;
 
             // Default the setting to true if it does not exist.
             bool analyzeDesignerFiles = true;
@@ -215,8 +264,7 @@ namespace StyleCop.CSharp
             if (analyzeDesignerFiles || !document.SourceCode.Name.EndsWith(".Designer.cs", StringComparison.OrdinalIgnoreCase))
             {
                 // Get the property indicating whether to analyze generated files.
-                BooleanProperty analyzerGeneratedFilesProperty = this.GetSetting(
-                    document.Settings, CsParser.AnalyzeGeneratedFilesProperty) as BooleanProperty;
+                BooleanProperty analyzerGeneratedFilesProperty = this.GetSetting(document.Settings, CsParser.AnalyzeGeneratedFilesProperty) as BooleanProperty;
 
                 // Default the setting to false if it does not exist.
                 bool analyzeGeneratedFiles = false;
@@ -235,8 +283,7 @@ namespace StyleCop.CSharp
                 IEnumerable<string> filters = DefaultGeneratedFileFilters;
 
                 // Get the file filter list for generated files.
-                CollectionProperty generatedFileFilterSettings = this.GetSetting(
-                    document.Settings, CsParser.GeneratedFileFiltersProperty) as CollectionProperty;
+                CollectionProperty generatedFileFilterSettings = this.GetSetting(document.Settings, CsParser.GeneratedFileFiltersProperty) as CollectionProperty;
 
                 if (generatedFileFilterSettings != null)
                 {
@@ -249,57 +296,22 @@ namespace StyleCop.CSharp
             return true;
         }
 
-        /// <summary>
-        /// Determines whether the given rule is suppressed for the given element.
-        /// </summary>
-        /// <param name="element">The element to check.</param>
-        /// <param name="ruleCheckId">The Id of the rule to check.</param>
-        /// <param name="ruleName">The Name of the rule to check.</param>
-        /// <param name="ruleNamespace">The Namespace of the rule to check.</param>
-        /// <returns>Returns true is the rule is suppressed; otherwise false.</returns>
-        public override bool IsRuleSuppressed(ICodeElement element, string ruleCheckId, string ruleName, string ruleNamespace)
-        {
-            if (element != null && !string.IsNullOrEmpty(ruleCheckId) && ruleName != string.Empty && !string.IsNullOrEmpty(ruleNamespace))
-            {
-                SuppressedRule suppressedRule = new SuppressedRule { RuleId = ruleCheckId, RuleName = ruleName, RuleNamespace = ruleNamespace };
+        #endregion
 
-                this.suppressionsLock.AcquireReaderLock(Timeout.Infinite);
-                try
-                {
-                    if (ruleCheckId != "*")
-                    {
-                        // See if this namespace is suppressed completely.
-                        if (this.IsRuleSuppressed(element, "*", null, ruleNamespace))
-                        {
-                            return true;
-                        }
-                    }
-
-                    List<CsElement> list = null;
-                    if ((this.suppressions.Count != 0) && this.suppressions.TryGetValue(suppressedRule, out list))
-                    {
-                        return MatchElementWithPossibleElementsTraversingParents((CsElement)element, list);
-                    }
-                }
-                finally
-                {
-                    this.suppressionsLock.ReleaseReaderLock();
-                }
-            }
-
-            return false;
-        }
-
-        #endregion Public Override Methods
-
-        #region Internal Static Methods
+        #region Methods
 
         /// <summary>
         /// Gets the type of the given preprocessor symbol.
         /// </summary>
-        /// <param name="preprocessor">The preprocessor symbol.</param>
-        /// <param name="bodyIndex">Returns the start index of the body of the preprocessor.</param>
-        /// <returns>Returns the type or null if the type cannot be determined.</returns>
+        /// <param name="preprocessor">
+        /// The preprocessor symbol.
+        /// </param>
+        /// <param name="bodyIndex">
+        /// Returns the start index of the body of the preprocessor.
+        /// </param>
+        /// <returns>
+        /// Returns the type or null if the type cannot be determined.
+        /// </returns>
         internal static string GetPreprocessorDirectiveType(Symbol preprocessor, out int bodyIndex)
         {
             Param.AssertNotNull(preprocessor, "preprocessor");
@@ -347,17 +359,21 @@ namespace StyleCop.CSharp
             return preprocessor.Text.Substring(startIndex, endIndex - startIndex + 1);
         }
 
-        #endregion Internal Static Methods
-
-        #region Internal Methods
-
         /// <summary>
         /// Adds a rule suppression for the given element.
         /// </summary>
-        /// <param name="element">The element.</param>
-        /// <param name="ruleId">The ID of the rule to suppress.</param>
-        /// <param name="ruleName">The name of the rule.</param>
-        /// <param name="ruleNamespace">The namespace in which the rule is contained.</param>
+        /// <param name="element">
+        /// The element.
+        /// </param>
+        /// <param name="ruleId">
+        /// The ID of the rule to suppress.
+        /// </param>
+        /// <param name="ruleName">
+        /// The name of the rule.
+        /// </param>
+        /// <param name="ruleNamespace">
+        /// The namespace in which the rule is contained.
+        /// </param>
         internal void AddRuleSuppression(CsElement element, string ruleId, string ruleName, string ruleNamespace)
         {
             Param.AssertNotNull(element, "element");
@@ -383,8 +399,7 @@ namespace StyleCop.CSharp
                 }
 
                 Debug.Assert(
-                    !foundElementList || elementsContainingSuppressedRule != null,
-                    "The returned list of elements containing the suppressed rule should never be null.");
+                    !foundElementList || elementsContainingSuppressedRule != null, "The returned list of elements containing the suppressed rule should never be null.");
 
                 if (!foundElementList)
                 {
@@ -401,16 +416,18 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Internal Methods
-
-        #region Private Static Methods
-
         /// <summary>
         /// Attempts to locate the given element within the collection of possible elements, and the parents and ancestors of those elements.
         /// </summary>
-        /// <param name="element">The element to match.</param>
-        /// <param name="possibleElements">The collection of possible elements to match against.</param>
-        /// <returns>Returns true if a match is found; otherwise false.</returns>
+        /// <param name="element">
+        /// The element to match.
+        /// </param>
+        /// <param name="possibleElements">
+        /// The collection of possible elements to match against.
+        /// </param>
+        /// <returns>
+        /// Returns true if a match is found; otherwise false.
+        /// </returns>
         private static bool MatchElementWithPossibleElementsTraversingParents(CsElement element, IList<CsElement> possibleElements)
         {
             Param.AssertNotNull(element, "element");
@@ -438,13 +455,15 @@ namespace StyleCop.CSharp
             return false;
         }
 
-        #endregion Private Static Methods
+        #endregion
 
         /// <summary>
         /// This is used to keep track of which rules have been suppressed.
         /// </summary>
         private struct SuppressedRule
         {
+            #region Fields
+
             /// <summary>
             /// The rule id.
             /// </summary>
@@ -460,6 +479,10 @@ namespace StyleCop.CSharp
             /// </summary>
             public string RuleNamespace;
 
+            #endregion
+
+            #region Public Methods and Operators
+
             /// <summary>
             /// Generates a unique hash code for this struct.
             /// </summary>
@@ -468,6 +491,8 @@ namespace StyleCop.CSharp
             {
                 return (this.RuleId + ":" + this.RuleNamespace + "." + this.RuleName).GetHashCode();
             }
+
+            #endregion
         }
     }
 }

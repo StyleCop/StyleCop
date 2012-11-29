@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="OperatorSymbol.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="OperatorSymbol.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,50 +11,56 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Describes an operator symbol.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
-    using System.Text;
-
     /// <summary>
     /// Describes an operator symbol.
     /// </summary>
     /// <subcategory>token</subcategory>
     public class OperatorSymbol : CsToken
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// The category of the operator.
         /// </summary>
-        private OperatorCategory category;
+        private readonly OperatorCategory category;
 
         /// <summary>
         /// The specific symbol type.
         /// </summary>
-        private OperatorType symbolType;
+        private readonly OperatorType symbolType;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the OperatorSymbol class.
         /// </summary>
-        /// <param name="text">The text of the operator symbol.</param>
-        /// <param name="category">The category of the operator.</param>
-        /// <param name="symbolType">The specific symbol type.</param>
-        /// <param name="location">The location of the operator symbol in the code document.</param>
-        /// <param name="parent">Reference to the parent code part.</param>
-        /// <param name="generated">Indicates whether the operator lies within a block of generated code.</param>
-        internal OperatorSymbol(
-            string text, 
-            OperatorCategory category, 
-            OperatorType symbolType, 
-            CodeLocation location, 
-            Reference<ICodePart> parent,
-            bool generated)
+        /// <param name="text">
+        /// The text of the operator symbol.
+        /// </param>
+        /// <param name="category">
+        /// The category of the operator.
+        /// </param>
+        /// <param name="symbolType">
+        /// The specific symbol type.
+        /// </param>
+        /// <param name="location">
+        /// The location of the operator symbol in the code document.
+        /// </param>
+        /// <param name="parent">
+        /// Reference to the parent code part.
+        /// </param>
+        /// <param name="generated">
+        /// Indicates whether the operator lies within a block of generated code.
+        /// </param>
+        internal OperatorSymbol(string text, OperatorCategory category, OperatorType symbolType, CodeLocation location, Reference<ICodePart> parent, bool generated)
             : base(text, CsTokenType.OperatorSymbol, CsTokenClass.OperatorSymbol, location, parent, generated)
         {
             Param.AssertValidString(text, "text");
@@ -68,7 +74,7 @@ namespace StyleCop.CSharp
             this.symbolType = symbolType;
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
 
@@ -94,6 +100,6 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Properties
+        #endregion
     }
 }

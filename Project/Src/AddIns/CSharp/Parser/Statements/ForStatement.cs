@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="ForStatement.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ForStatement.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,10 +11,12 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   A for-statement.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
 
@@ -24,52 +26,56 @@ namespace StyleCop.CSharp
     /// <subcategory>statement</subcategory>
     public sealed class ForStatement : Statement
     {
-        #region Private Fields
-
-        /// <summary>
-        /// The variables initialized in the for-statement.
-        /// </summary>
-        private ICollection<Expression> initializers;
+        #region Fields
 
         /// <summary>
         /// The condition checked before each loop through the for-statement.
         /// </summary>
-        private Expression condition;
+        private readonly Expression condition;
+
+        /// <summary>
+        /// The variables initialized in the for-statement.
+        /// </summary>
+        private readonly ICollection<Expression> initializers;
 
         /// <summary>
         /// The statements called at the end of each loop through the for-statement,
         /// used to advance the enumerator.
         /// </summary>
-        private ICollection<Expression> iterators;
+        private readonly ICollection<Expression> iterators;
 
         /// <summary>
         /// The statement that is embedded within this for-statement.
         /// </summary>
         private Statement embeddedStatement;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the ForStatement class.
         /// </summary>
-        /// <param name="tokens">The list of tokens that form the statement.</param>
-        /// <param name="initializers">The variables declared in the for-statement declaration.</param>
-        /// <param name="condition">The condition expression.</param>
-        /// <param name="iterators">The iterator expressions.</param>
-        internal ForStatement(
-            CsTokenList tokens, 
-            ICollection<Expression> initializers,
-            Expression condition,
-            ICollection<Expression> iterators)
+        /// <param name="tokens">
+        /// The list of tokens that form the statement.
+        /// </param>
+        /// <param name="initializers">
+        /// The variables declared in the for-statement declaration.
+        /// </param>
+        /// <param name="condition">
+        /// The condition expression.
+        /// </param>
+        /// <param name="iterators">
+        /// The iterator expressions.
+        /// </param>
+        internal ForStatement(CsTokenList tokens, ICollection<Expression> initializers, Expression condition, ICollection<Expression> iterators)
             : base(StatementType.For, tokens)
         {
             Param.AssertNotNull(tokens, "tokens");
             Param.AssertNotNull(initializers, "initializers");
             Param.Ignore(condition);
             Param.AssertNotNull(iterators, "iterators");
-            
+
             this.initializers = initializers;
             this.condition = condition;
             this.iterators = iterators;
@@ -87,20 +93,9 @@ namespace StyleCop.CSharp
             this.AddExpressions(iterators);
         }
 
-        #endregion Internal Constructors
-    
-        #region Public Properties
+        #endregion
 
-        /// <summary>
-        /// Gets the variables declared in the for-statement declaration.
-        /// </summary>
-        public ICollection<Expression> Initializers
-        {
-            get
-            {
-                return this.initializers;
-            }
-        }
+        #region Public Properties
 
         /// <summary>
         /// Gets the condition checked before each loop through the for-statement.
@@ -110,18 +105,6 @@ namespace StyleCop.CSharp
             get
             {
                 return this.condition;
-            }
-        }
-
-        /// <summary>
-        /// Gets the expressions called at the end of each loop through the for-statement,
-        /// used to advance the enumerator.
-        /// </summary>
-        public ICollection<Expression> Iterators
-        {
-            get
-            {
-                return this.iterators;
             }
         }
 
@@ -143,6 +126,29 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Properties
+        /// <summary>
+        /// Gets the variables declared in the for-statement declaration.
+        /// </summary>
+        public ICollection<Expression> Initializers
+        {
+            get
+            {
+                return this.initializers;
+            }
+        }
+
+        /// <summary>
+        /// Gets the expressions called at the end of each loop through the for-statement,
+        /// used to advance the enumerator.
+        /// </summary>
+        public ICollection<Expression> Iterators
+        {
+            get
+            {
+                return this.iterators;
+            }
+        }
+
+        #endregion
     }
 }

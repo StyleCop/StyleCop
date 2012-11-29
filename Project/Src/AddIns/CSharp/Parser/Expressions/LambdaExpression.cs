@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="LambdaExpression.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="LambdaExpression.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   A lambda expression.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
     /// <summary>
@@ -19,7 +22,7 @@ namespace StyleCop.CSharp
     /// </summary>
     public sealed class LambdaExpression : ExpressionWithParameters
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// The body of the lambda expression.
@@ -31,37 +34,21 @@ namespace StyleCop.CSharp
         /// </summary>
         private bool asyncExpression;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the LambdaExpression class.
         /// </summary>
-        internal LambdaExpression() : base(ExpressionType.Lambda)
+        internal LambdaExpression()
+            : base(ExpressionType.Lambda)
         {
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
-
-        /// <summary>
-        /// Gets a value indicating whether this Lambda expression is async or sync.
-        /// </summary>
-        public bool Async
-        {
-            get
-            {
-                return this.asyncExpression;
-            }
-
-            internal set
-            {
-                Param.AssertNotNull(value, "Async");
-                this.asyncExpression = value;
-            }
-        }
 
         /// <summary>
         /// Gets the body of the lambda expression, either an expression or a statement.
@@ -92,6 +79,23 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Properties
+        /// <summary>
+        /// Gets a value indicating whether this Lambda expression is async or sync.
+        /// </summary>
+        public bool Async
+        {
+            get
+            {
+                return this.asyncExpression;
+            }
+
+            internal set
+            {
+                Param.AssertNotNull(value, "Async");
+                this.asyncExpression = value;
+            }
+        }
+
+        #endregion
     }
 }

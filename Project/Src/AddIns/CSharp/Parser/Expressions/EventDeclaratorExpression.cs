@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="EventDeclaratorExpression.cs">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="EventDeclaratorExpression.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,48 +11,47 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   A single event declarator within an event.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
-
     /// <summary>
     /// A single event declarator within an event.
     /// </summary>
     /// <subcategory>expression</subcategory>
     public sealed class EventDeclaratorExpression : Expression
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// The identifier of the event.
         /// </summary>
-        private LiteralExpression identifier;
+        private readonly LiteralExpression identifier;
 
         /// <summary>
         /// The initialization expression for the event.
         /// </summary>
-        private Expression initializer;
+        private readonly Expression initializer;
 
-        /// <summary>
-        /// The parent event.
-        /// </summary>
-        private Event parent;
+        #endregion
 
-        #endregion Private Fields
-
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the EventDeclaratorExpression class.
         /// </summary>
-        /// <param name="tokens">The list of tokens that form the statement.</param>
-        /// <param name="identifier">The identifier name of the event.</param>
-        /// <param name="initializer">The initialization expression for the event.</param>
-        internal EventDeclaratorExpression(
-            CsTokenList tokens,
-            LiteralExpression identifier,
-            Expression initializer)
+        /// <param name="tokens">
+        /// The list of tokens that form the statement.
+        /// </param>
+        /// <param name="identifier">
+        /// The identifier name of the event.
+        /// </param>
+        /// <param name="initializer">
+        /// The initialization expression for the event.
+        /// </param>
+        internal EventDeclaratorExpression(CsTokenList tokens, LiteralExpression identifier, Expression initializer)
             : base(ExpressionType.EventDeclarator, tokens)
         {
             Param.AssertNotNull(tokens, "tokens");
@@ -70,7 +69,7 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
 
@@ -99,19 +98,8 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Gets the parent event.
         /// </summary>
-        public Event ParentEvent
-        {
-            get
-            {
-                return this.parent;
-            }
+        public Event ParentEvent { get; internal set; }
 
-            internal set
-            {
-                this.parent = value;
-            }
-        }
-
-        #endregion Public Properties
+        #endregion
     }
 }

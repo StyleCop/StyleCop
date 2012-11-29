@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="OperatorCategory.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="OperatorCategory.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   The various categories of operators.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
     /// <summary>
@@ -23,47 +26,47 @@ namespace StyleCop.CSharp
         /// <summary>
         /// A relational symbol: '==', '!=', etc.
         /// </summary>
-        Relational,
+        Relational, 
 
         /// <summary>
         /// A logical symbol: '||', '|', etc.
         /// </summary>
-        Logical,
+        Logical, 
 
         /// <summary>
         /// Assignment symbols: '=', '+=', etc. 
         /// </summary>
-        Assignment,
+        Assignment, 
 
         /// <summary>
         /// Arithmetic symbol: '+', '-', '*', '/', etc.
         /// </summary>
-        Arithmetic,
+        Arithmetic, 
 
         /// <summary>
         /// Shift operators.
         /// </summary>
-        Shift,
+        Shift, 
 
         /// <summary>
         /// A conditional colon or question mark.
         /// </summary>
-        Conditional,
+        Conditional, 
 
         /// <summary>
         /// An increment or decrement symbol.
         /// </summary>
-        IncrementDecrement,
+        IncrementDecrement, 
 
         /// <summary>
         /// A unary operation: '!', '~', '+', '-'.
         /// </summary>
-        Unary,
+        Unary, 
 
         /// <summary>
         /// A pointer, address-of, or dereference symbol.
         /// </summary>
-        Reference,
+        Reference, 
 
         /// <summary>
         /// A lambda operator.

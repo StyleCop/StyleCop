@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="Configuration.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Configuration.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,13 +11,14 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Describes one compilation configuration style for a code document.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
-    using System.Text;
 
     /// <summary>
     /// Describes one compilation configuration style for a code document.
@@ -25,22 +26,24 @@ namespace StyleCop
     [SuppressMessage("Microsoft.Naming", "CA1724:TypeNamesShouldNotMatchNamespaces", Justification = "Configuration is an appropriate name for the class.")]
     public class Configuration
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// The list of conditional compilation flags for this configuration.
         /// </summary>
-        private Dictionary<string, string> conditionalCompilationDefinitions;
+        private readonly Dictionary<string, string> conditionalCompilationDefinitions;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Public Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the Configuration class.
         /// </summary>
-        /// <param name="conditionalCompilationDefinitions">The list of conditional compilation flags for 
-        /// this configuration.</param>
+        /// <param name="conditionalCompilationDefinitions">
+        /// The list of conditional compilation flags for 
+        /// this configuration.
+        /// </param>
         public Configuration(string[] conditionalCompilationDefinitions)
         {
             Param.Ignore(conditionalCompilationDefinitions);
@@ -58,18 +61,15 @@ namespace StyleCop
             }
         }
 
-        #endregion Public Constructors
+        #endregion
 
         #region Public Properties
 
         /// <summary>
         /// Gets the list of flags defined in the configuration.
         /// </summary>
-        [SuppressMessage(
-            "Microsoft.Naming", 
-            "CA1726:UsePreferredTerms", 
-            MessageId = "Flags",
-            Justification = "API has already been published and should not be changed.")]
+        [SuppressMessage("Microsoft.Naming", "CA1726:UsePreferredTerms", MessageId = "Flags", Justification = "API has already been published and should not be changed.")
+        ]
         public ICollection<string> Flags
         {
             get
@@ -83,15 +83,19 @@ namespace StyleCop
             }
         }
 
-        #endregion Public Properties
+        #endregion
 
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Determines whether the given flag is contained in the configuration.
         /// </summary>
-        /// <param name="definition">The flag to search for.</param>
-        /// <returns>Returns true if the flag is contained in the configuration.</returns>
+        /// <param name="definition">
+        /// The flag to search for.
+        /// </param>
+        /// <returns>
+        /// Returns true if the flag is contained in the configuration.
+        /// </returns>
         public bool Contains(string definition)
         {
             Param.RequireNotNull(definition, "definition");
@@ -107,8 +111,12 @@ namespace StyleCop
         /// <summary>
         /// Gets the value of the given flag.
         /// </summary>
-        /// <param name="definition">The defined flag to retrieve.</param>
-        /// <returns>Returns the value of the flag.</returns>
+        /// <param name="definition">
+        /// The defined flag to retrieve.
+        /// </param>
+        /// <returns>
+        /// Returns the value of the flag.
+        /// </returns>
         public string GetValue(string definition)
         {
             Param.RequireNotNull(definition, "definition");
@@ -121,6 +129,6 @@ namespace StyleCop
             return null;
         }
 
-        #endregion Public Methods
+        #endregion
     }
 }

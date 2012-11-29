@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="LegacyEnumeratorAdapter.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="LegacyEnumeratorAdapter.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,42 +11,48 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Adapts an enumerable collection from one format to another.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop
 {
-    using System;
     using System.Collections;
     using System.Collections.Generic;
-    using System.Text;
 
     /// <summary>
     /// Adapts an enumerable collection from one format to another.
     /// </summary>
-    /// <typeparam name="T">The type of the elements enumerated over.</typeparam>
-    public sealed partial class LegacyEnumeratorAdapter<T> : IEnumerator<T>
+    /// <typeparam name="T">
+    /// The type of the elements enumerated over.
+    /// </typeparam>
+    public sealed class LegacyEnumeratorAdapter<T> : IEnumerator<T>
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// The enumerable collection that is wrapped by this class.
         /// </summary>
-        private IEnumerator innerEnumerator;
+        private readonly IEnumerator innerEnumerator;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Public Constructors
+        #region Constructors and Destructors
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="LegacyEnumeratorAdapter{T}"/> class. 
         /// Initializes a new instance of the LegacyEnumeratorAdapter class.
         /// </summary>
-        /// <param name="enumerator">The enumerator to wrap.</param>
+        /// <param name="enumerator">
+        /// The enumerator to wrap.
+        /// </param>
         public LegacyEnumeratorAdapter(IEnumerator enumerator)
         {
             Param.Ignore(enumerator);
             this.innerEnumerator = enumerator;
         }
 
-        #endregion Public Constructors
+        #endregion
 
         #region Public Properties
 
@@ -60,6 +66,10 @@ namespace StyleCop
                 return this.innerEnumerator;
             }
         }
+
+        #endregion
+
+        #region Explicit Interface Properties
 
         /// <summary>
         /// Gets the current item.
@@ -80,7 +90,7 @@ namespace StyleCop
         /// <summary>
         /// Gets the current item.
         /// </summary>
-        T System.Collections.Generic.IEnumerator<T>.Current 
+        T System.Collections.Generic.IEnumerator<T>.Current
         {
             get
             {
@@ -93,9 +103,9 @@ namespace StyleCop
             }
         }
 
-        #endregion Public Properties
+        #endregion
 
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Disposes the contents of the class.
@@ -103,6 +113,10 @@ namespace StyleCop
         public void Dispose()
         {
         }
+
+        #endregion
+
+        #region Explicit Interface Methods
 
         /// <summary>
         /// Moves to the next item.
@@ -129,6 +143,6 @@ namespace StyleCop
             }
         }
 
-        #endregion Public Methods
+        #endregion
     }
 }

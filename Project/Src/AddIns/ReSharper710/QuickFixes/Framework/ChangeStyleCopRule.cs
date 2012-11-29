@@ -15,7 +15,6 @@
 //   DisableHighlightingActionProvider for StyleCop rules.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 extern alias JB;
 
 namespace StyleCop.ReSharper710.QuickFixes.Framework
@@ -46,6 +45,8 @@ namespace StyleCop.ReSharper710.QuickFixes.Framework
     [CustomHighlightingActionProvider(typeof(CSharpProjectFileType))]
     public class ChangeStyleCopRule : ICustomHighlightingActionProvider
     {
+        #region Fields
+
         /// <summary>
         /// The common icons component.
         /// </summary>
@@ -61,48 +62,80 @@ namespace StyleCop.ReSharper710.QuickFixes.Framework
         /// </summary>
         private readonly ISettingsStore settingsStore;
 
+        #endregion
+
+        #region Constructors and Destructors
+
         /// <summary>
         /// Initializes a new instance of the ChangeStyleCopRule class.
         /// </summary>
-        /// <param name="highlightingSettingsManager">The settings manager to use.</param>
-        /// <param name="settingsStore">The settings store.</param>
-        /// <param name="application">The UI application.</param>
-        /// <param name="commonIconsComponent">The icon to use.</param>
-        public ChangeStyleCopRule(HighlightingSettingsManager highlightingSettingsManager, ISettingsStore settingsStore, UIApplication application, IThemedIconManager commonIconsComponent)
+        /// <param name="highlightingSettingsManager">
+        /// The settings manager to use.
+        /// </param>
+        /// <param name="settingsStore">
+        /// The settings store.
+        /// </param>
+        /// <param name="application">
+        /// The UI application.
+        /// </param>
+        /// <param name="commonIconsComponent">
+        /// The icon to use.
+        /// </param>
+        public ChangeStyleCopRule(
+            HighlightingSettingsManager highlightingSettingsManager, ISettingsStore settingsStore, UIApplication application, IThemedIconManager commonIconsComponent)
         {
             this.highlightingSettingsManager = highlightingSettingsManager;
             this.settingsStore = settingsStore;
             this.commonIconsComponent = commonIconsComponent;
         }
 
+        #endregion
+
         #region Public Methods and Operators
 
         /// <summary>
-        ///   Gets the actions for changing the highlight options for StyleCop rules.
+        /// Gets the actions for changing the highlight options for StyleCop rules.
         /// </summary>
-        /// <param name="highlighting"> The current highlighting. </param>
-        /// <param name="solution"> The solution. </param>
-        /// <param name="highlightingRange"> The current highlighting range. </param>
-        /// <param name="sourceFile"> The file. </param>
-        /// <returns> The available actions. </returns>
-        public IEnumerable<JB::JetBrains.Util.Pair<IBulbAction, BulbMenuItemViewDescription>> GetActions(IHighlighting highlighting, ISolution solution, DocumentRange highlightingRange, IPsiSourceFile sourceFile)
+        /// <param name="highlighting">
+        /// The current highlighting. 
+        /// </param>
+        /// <param name="solution">
+        /// The solution. 
+        /// </param>
+        /// <param name="highlightingRange">
+        /// The current highlighting range. 
+        /// </param>
+        /// <param name="sourceFile">
+        /// The file. 
+        /// </param>
+        /// <returns>
+        /// The available actions. 
+        /// </returns>
+        public IEnumerable<JB::JetBrains.Util.Pair<IBulbAction, BulbMenuItemViewDescription>> GetActions(
+            IHighlighting highlighting, ISolution solution, DocumentRange highlightingRange, IPsiSourceFile sourceFile)
         {
-            var violation = highlighting as StyleCopHighlightingBase;
+            StyleCopHighlightingBase violation = highlighting as StyleCopHighlightingBase;
 
             if (violation == null)
             {
                 yield break;
             }
 
-            var ruleId = violation.CheckId;
-            var highlightId = HighlightingRegistering.GetHighlightID(ruleId);
+            string ruleId = violation.CheckId;
+            string highlightId = HighlightingRegistering.GetHighlightID(ruleId);
 
-            var changeStyleCopRuleAction = new ChangeStyleCopRuleAction(this.highlightingSettingsManager, this.settingsStore, highlightId, this.commonIconsComponent)
-                            { Text = "Inspection Options for \"" + violation.ToolTip + "\"" };
+            ChangeStyleCopRuleAction changeStyleCopRuleAction = new ChangeStyleCopRuleAction(
+                this.highlightingSettingsManager, this.settingsStore, highlightId, this.commonIconsComponent)
+                                                                    {
+                                                                        Text =
+                                                                            "Inspection Options for \"" + violation.ToolTip
+                                                                            + "\""
+                                                                    };
 
             yield return
                 JB::JetBrains.Util.Pair.Of<IBulbAction, BulbMenuItemViewDescription>(
-                    changeStyleCopRuleAction, new BulbMenuItemViewDescription(AnchorsForConfigureHighlightingSubmenu.ConfigureItem, BulbThemedIcons.DisableBulb.Id, changeStyleCopRuleAction.Text));
+                    changeStyleCopRuleAction, 
+                    new BulbMenuItemViewDescription(AnchorsForConfigureHighlightingSubmenu.ConfigureItem, BulbThemedIcons.DisableBulb.Id, changeStyleCopRuleAction.Text));
         }
 
         #endregion

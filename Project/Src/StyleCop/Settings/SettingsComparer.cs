@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="SettingsComparer.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SettingsComparer.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Compares two settings files.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop
 {
     using System;
@@ -22,27 +25,31 @@ namespace StyleCop
     /// </summary>
     public class SettingsComparer
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// The local settings.
         /// </summary>
-        private Settings localSettings;
+        private readonly Settings localSettings;
 
         /// <summary>
         /// The parent settings to merge with the local settings.
         /// </summary>
-        private Settings parentSettings;
+        private readonly Settings parentSettings;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Public Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the SettingsComparer class.
         /// </summary>
-        /// <param name="localSettings">The local settings.</param>
-        /// <param name="parentSettings">The parent setting to merge with the local settings, or null.</param>
+        /// <param name="localSettings">
+        /// The local settings.
+        /// </param>
+        /// <param name="parentSettings">
+        /// The parent setting to merge with the local settings, or null.
+        /// </param>
         public SettingsComparer(Settings localSettings, Settings parentSettings)
         {
             Param.RequireNotNull(localSettings, "localSettings");
@@ -52,7 +59,7 @@ namespace StyleCop
             this.parentSettings = parentSettings;
         }
 
-        #endregion Public Constructors
+        #endregion
 
         #region Public Properties
 
@@ -78,16 +85,22 @@ namespace StyleCop
             }
         }
 
-        #endregion Public Properties
+        #endregion
 
-        #region Public Static Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Determines whether the local property overrides the parent property.
         /// </summary>
-        /// <param name="localProperty">The local property.</param>
-        /// <param name="parentProperty">The parent property.</param>
-        /// <returns>Returns true if the local property overrides the parent property.</returns>
+        /// <param name="localProperty">
+        /// The local property.
+        /// </param>
+        /// <param name="parentProperty">
+        /// The parent property.
+        /// </param>
+        /// <returns>
+        /// Returns true if the local property overrides the parent property.
+        /// </returns>
         public static bool IsSettingOverwritten(PropertyValue localProperty, PropertyValue parentProperty)
         {
             Param.Ignore(localProperty, parentProperty);
@@ -107,70 +120,22 @@ namespace StyleCop
             return localProperty.OverridesProperty(parentProperty);
         }
 
-        #endregion Public Static Methods
-
-        #region Public Methods
-
-        /// <summary>
-        /// Determines whether the given global setting overrides the parent setting.
-        /// </summary>
-        /// <param name="propertyName">The name of the property.</param>
-        /// <param name="localProperty">The local value of the property.</param>
-        /// <returns>Returns true if the given global setting overrides the parent setting.</returns>
-        public bool IsGlobalSettingOverwritten(string propertyName, PropertyValue localProperty)
-        {
-            Param.RequireValidString(propertyName, "propertyName");
-            Param.Ignore(localProperty);
-
-            if (this.parentSettings == null)
-            {
-                return false;
-            }
-
-            // Try to find this property in the parent settings file.
-            PropertyValue parentProperty = this.parentSettings.GlobalSettings[propertyName];
-            if (parentProperty == null)
-            {
-                return false;
-            }
-
-            return IsSettingOverwritten(localProperty, parentProperty);
-        }
-
-        /// <summary>
-        /// Determines whether a local global setting overrides the parent setting.
-        /// </summary>
-        /// <param name="propertyName">The name of the property.</param>
-        /// <returns>Returns true if the local global setting overrides the parent setting.</returns>
-        public bool IsGlobalSettingOverwritten(string propertyName)
-        {
-            Param.RequireValidString(propertyName, "propertyName");
-
-            if (this.localSettings == null)
-            {
-                return false;
-            }
-
-            PropertyValue localProperty = this.localSettings.GlobalSettings[propertyName];
-            if (localProperty == null)
-            {
-                return false;
-            }
-
-            return this.IsGlobalSettingOverwritten(propertyName, localProperty);
-        }
-
         /// <summary>
         /// Determines whether the given add-in setting overrides the parent setting.
         /// </summary>
-        /// <param name="addIn">The add-in.</param>
-        /// <param name="propertyName">The name of the property.</param>
-        /// <param name="localProperty">The local value of the property.</param>
-        /// <returns>Returns true if the given add-in setting overrides the parent setting.</returns>
-        [SuppressMessage(
-            "Microsoft.Naming",
-            "CA1702:CompoundWordsShouldBeCasedCorrectly",
-            MessageId = "InSetting",
+        /// <param name="addIn">
+        /// The add-in.
+        /// </param>
+        /// <param name="propertyName">
+        /// The name of the property.
+        /// </param>
+        /// <param name="localProperty">
+        /// The local value of the property.
+        /// </param>
+        /// <returns>
+        /// Returns true if the given add-in setting overrides the parent setting.
+        /// </returns>
+        [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "InSetting", 
             Justification = "InSetting is two words in this context.")]
         public bool IsAddInSettingOverwritten(StyleCopAddIn addIn, string propertyName, PropertyValue localProperty)
         {
@@ -202,11 +167,76 @@ namespace StyleCop
         }
 
         /// <summary>
+        /// Determines whether the given global setting overrides the parent setting.
+        /// </summary>
+        /// <param name="propertyName">
+        /// The name of the property.
+        /// </param>
+        /// <param name="localProperty">
+        /// The local value of the property.
+        /// </param>
+        /// <returns>
+        /// Returns true if the given global setting overrides the parent setting.
+        /// </returns>
+        public bool IsGlobalSettingOverwritten(string propertyName, PropertyValue localProperty)
+        {
+            Param.RequireValidString(propertyName, "propertyName");
+            Param.Ignore(localProperty);
+
+            if (this.parentSettings == null)
+            {
+                return false;
+            }
+
+            // Try to find this property in the parent settings file.
+            PropertyValue parentProperty = this.parentSettings.GlobalSettings[propertyName];
+            if (parentProperty == null)
+            {
+                return false;
+            }
+
+            return IsSettingOverwritten(localProperty, parentProperty);
+        }
+
+        /// <summary>
+        /// Determines whether a local global setting overrides the parent setting.
+        /// </summary>
+        /// <param name="propertyName">
+        /// The name of the property.
+        /// </param>
+        /// <returns>
+        /// Returns true if the local global setting overrides the parent setting.
+        /// </returns>
+        public bool IsGlobalSettingOverwritten(string propertyName)
+        {
+            Param.RequireValidString(propertyName, "propertyName");
+
+            if (this.localSettings == null)
+            {
+                return false;
+            }
+
+            PropertyValue localProperty = this.localSettings.GlobalSettings[propertyName];
+            if (localProperty == null)
+            {
+                return false;
+            }
+
+            return this.IsGlobalSettingOverwritten(propertyName, localProperty);
+        }
+
+        /// <summary>
         /// Determines whether a local add-in setting overrides the parent setting.
         /// </summary>
-        /// <param name="addIn">The add-in.</param>
-        /// <param name="propertyName">The name of the property.</param>
-        /// <returns>Returns true if the local add-in setting overrides the parent setting.</returns>
+        /// <param name="addIn">
+        /// The add-in.
+        /// </param>
+        /// <param name="propertyName">
+        /// The name of the property.
+        /// </param>
+        /// <returns>
+        /// Returns true if the local add-in setting overrides the parent setting.
+        /// </returns>
         public bool IsParserSettingOverwritten(StyleCopAddIn addIn, string propertyName)
         {
             Param.RequireNotNull(addIn, "addIn");
@@ -232,6 +262,6 @@ namespace StyleCop
             return this.IsAddInSettingOverwritten(addIn, propertyName, localProperty);
         }
 
-        #endregion Public Methods
+        #endregion
     }
 }

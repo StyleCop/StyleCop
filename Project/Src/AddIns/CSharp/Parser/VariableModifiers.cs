@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="VariableModifiers.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="VariableModifiers.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   The various types of modifiers on a variable.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
     using System;
@@ -27,20 +30,17 @@ namespace StyleCop.CSharp
         /// <summary>
         /// No modifiers specified.
         /// </summary>
-        None = 0x00,
+        None = 0x00, 
 
         /// <summary>
         /// The <see langword="const"/> modifier.
         /// </summary>
-        Const = 0x01,
+        Const = 0x01, 
 
         /// <summary>
         /// The 'readonly' modifier.
         /// </summary>
-        [SuppressMessage(
-            "Microsoft.Naming", 
-            "CA1702:CompoundWordsShouldBeCasedCorrectly", 
-            MessageId = "Readonly",
+        [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "Readonly", 
             Justification = "API has already been published and should not be changed.")]
         Readonly = 0x02
     }

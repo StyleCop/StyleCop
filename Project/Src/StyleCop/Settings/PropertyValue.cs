@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="PropertyValue.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="PropertyValue.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,40 +11,37 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   A single property.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop
 {
     using System;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
-    using System.Text;
 
     /// <summary>
     /// A single property.
     /// </summary>
     public abstract class PropertyValue
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// The property descriptor.
         /// </summary>
-        private PropertyDescriptor propertyDescriptor;
+        private readonly PropertyDescriptor propertyDescriptor;
 
-        /// <summary>
-        /// Indicates whether the property is read-only.
-        /// </summary>
-        private bool readOnly;
+        #endregion
 
-        #endregion Private Fields
-
-        #region Protected Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the PropertyValue class.
         /// </summary>
-        /// <param name="propertyDescriptor">The property descriptor that this value represents.</param>
+        /// <param name="propertyDescriptor">
+        /// The property descriptor that this value represents.
+        /// </param>
         protected PropertyValue(PropertyDescriptor propertyDescriptor)
         {
             Param.RequireNotNull(propertyDescriptor, "propertyDescriptor");
@@ -54,8 +51,12 @@ namespace StyleCop
         /// <summary>
         /// Initializes a new instance of the PropertyValue class.
         /// </summary>
-        /// <param name="propertyContainer">The container of this property.</param>
-        /// <param name="propertyName">The name of the property.</param>
+        /// <param name="propertyContainer">
+        /// The container of this property.
+        /// </param>
+        /// <param name="propertyName">
+        /// The name of the property.
+        /// </param>
         protected PropertyValue(IPropertyContainer propertyContainer, string propertyName)
         {
             Param.RequireNotNull(propertyContainer, "propertyContainer");
@@ -70,71 +71,9 @@ namespace StyleCop
             this.propertyDescriptor = descriptor;
         }
 
-        #endregion Protected Constructors
-
-        #region Public Abstract Properties
-
-        /// <summary>
-        /// Gets a value indicating whether the property is currently set to the default value for the property.
-        /// </summary>
-        public abstract bool IsDefault
-        {
-            get;
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether the property has a default value.
-        /// </summary>
-        public abstract bool HasDefaultValue
-        {
-            get;
-        }
-
-        #endregion Public Abstract Properties
-
-        #region Public Virtual Properties
-
-        /// <summary>
-        /// Gets a value indicating whether the property is read-only.
-        /// </summary>
-        public virtual bool IsReadOnly
-        {
-            get
-            {
-                return this.readOnly;
-            }
-
-            internal set
-            {
-                this.readOnly = value;
-            }
-        }
-
-        #endregion Public Virtual Properties
+        #endregion
 
         #region Public Properties
-
-        /// <summary>
-        /// Gets the name of the property.
-        /// </summary>
-        public string PropertyName
-        {
-            get
-            {
-                return this.propertyDescriptor.PropertyName;
-            }
-        }
-
-        /// <summary>
-        /// Gets the type of the property.
-        /// </summary>
-        public PropertyType PropertyType
-        {
-            get
-            {
-                return this.propertyDescriptor.PropertyType;
-            }
-        }
 
         /// <summary>
         /// Gets the description of the property.
@@ -159,6 +98,21 @@ namespace StyleCop
         }
 
         /// <summary>
+        /// Gets a value indicating whether the property has a default value.
+        /// </summary>
+        public abstract bool HasDefaultValue { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether the property is currently set to the default value for the property.
+        /// </summary>
+        public abstract bool IsDefault { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether the property is read-only.
+        /// </summary>
+        public virtual bool IsReadOnly { get; internal set; }
+
+        /// <summary>
         /// Gets the property descriptor that this value represents.
         /// </summary>
         public PropertyDescriptor PropertyDescriptor
@@ -169,16 +123,31 @@ namespace StyleCop
             }
         }
 
-        #endregion Public Properties
-
-        #region Public Abstract Methods
+        /// <summary>
+        /// Gets the name of the property.
+        /// </summary>
+        public string PropertyName
+        {
+            get
+            {
+                return this.propertyDescriptor.PropertyName;
+            }
+        }
 
         /// <summary>
-        /// Determines whether this property overrides the given property.
+        /// Gets the type of the property.
         /// </summary>
-        /// <param name="parentProperty">The parent property to compare with.</param>
-        /// <returns>Returns true if this property overrides the given property.</returns>
-        public abstract bool OverridesProperty(PropertyValue parentProperty);
+        public PropertyType PropertyType
+        {
+            get
+            {
+                return this.propertyDescriptor.PropertyType;
+            }
+        }
+
+        #endregion
+
+        #region Public Methods and Operators
 
         /// <summary>
         /// Clones the contents of the property.
@@ -186,6 +155,17 @@ namespace StyleCop
         /// <returns>Returns the cloned property.</returns>
         public abstract PropertyValue Clone();
 
-        #endregion Public Abstract Methods
+        /// <summary>
+        /// Determines whether this property overrides the given property.
+        /// </summary>
+        /// <param name="parentProperty">
+        /// The parent property to compare with.
+        /// </param>
+        /// <returns>
+        /// Returns true if this property overrides the given property.
+        /// </returns>
+        public abstract bool OverridesProperty(PropertyValue parentProperty);
+
+        #endregion
     }
 }

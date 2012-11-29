@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="SourceParserAttribute.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SourceParserAttribute.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Attribute class for marking StyleCop parser classes.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop
 {
     using System;
@@ -24,7 +27,7 @@ namespace StyleCop
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
     public sealed class SourceParserAttribute : StyleCopAddInAttribute
     {
-        #region Public Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the SourceParserAttribute class.
@@ -36,12 +39,15 @@ namespace StyleCop
         /// <summary>
         /// Initializes a new instance of the SourceParserAttribute class.
         /// </summary>
-        /// <param name="parserXmlId">The ID of the parser xml file within the parser resource.</param>
-        public SourceParserAttribute(string parserXmlId) : base(parserXmlId)
+        /// <param name="parserXmlId">
+        /// The ID of the parser xml file within the parser resource.
+        /// </param>
+        public SourceParserAttribute(string parserXmlId)
+            : base(parserXmlId)
         {
             Param.Ignore(parserXmlId);
         }
 
-        #endregion Public Constructors
+        #endregion
     }
 }

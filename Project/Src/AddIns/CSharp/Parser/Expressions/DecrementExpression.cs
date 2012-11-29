@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="DecrementExpression.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="DecrementExpression.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   An expression representing a decrement operation.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
     using System.Diagnostics.CodeAnalysis;
@@ -22,28 +25,34 @@ namespace StyleCop.CSharp
     /// <subcategory>expression</subcategory>
     public sealed class DecrementExpression : Expression
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// The type of decrement being performed.
         /// </summary>
-        private DecrementType decrementType;
+        private readonly DecrementType decrementType;
 
         /// <summary>
         /// The value being decremented.
         /// </summary>
-        private Expression value;
+        private readonly Expression value;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the DecrementExpression class.
         /// </summary>
-        /// <param name="tokens">The list of tokens that form the expression.</param>
-        /// <param name="value">The value being decremented.</param>
-        /// <param name="decrementType">The type of decrement being performed.</param>
+        /// <param name="tokens">
+        /// The list of tokens that form the expression.
+        /// </param>
+        /// <param name="value">
+        /// The value being decremented.
+        /// </param>
+        /// <param name="decrementType">
+        /// The type of decrement being performed.
+        /// </param>
         internal DecrementExpression(CsTokenList tokens, Expression value, DecrementType decrementType)
             : base(ExpressionType.Decrement, tokens)
         {
@@ -57,24 +66,21 @@ namespace StyleCop.CSharp
             this.AddExpression(value);
         }
 
-        #endregion Internal Constructors
+        #endregion
 
-        #region Public Enums
+        #region Enums
 
         /// <summary>
         /// The various types of decrement operations.
         /// </summary>
         /// <subcategory>expression</subcategory>
-        [SuppressMessage(
-            "Microsoft.Design",
-            "CA1034:NestedTypesShouldNotBeVisible",
-            Justification = "API has already been published and should not be changed.")]
+        [SuppressMessage("Microsoft.Design", "CA1034:NestedTypesShouldNotBeVisible", Justification = "API has already been published and should not be changed.")]
         public enum DecrementType
         {
             /// <summary>
             /// A prefix decrement: --x.
             /// </summary>
-            Prefix,
+            Prefix, 
 
             /// <summary>
             /// A postfix decrement: x--.
@@ -82,17 +88,14 @@ namespace StyleCop.CSharp
             Postfix
         }
 
-        #endregion Public Enums
+        #endregion
 
         #region Public Properties
 
         /// <summary>
         /// Gets the type of decrement being performed.
         /// </summary>
-        [SuppressMessage(
-            "Microsoft.Naming", 
-            "CA1721:PropertyNamesShouldNotMatchGetMethods",
-            Justification = "API has already been published and should not be changed.")]
+        [SuppressMessage("Microsoft.Naming", "CA1721:PropertyNamesShouldNotMatchGetMethods", Justification = "API has already been published and should not be changed.")]
         public DecrementType Type
         {
             get
@@ -112,6 +115,6 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Properties
+        #endregion
     }
 }

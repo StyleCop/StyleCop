@@ -15,14 +15,13 @@
 //   QuickFix - SA1633: FileMustHaveHeader.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper710.QuickFixes.Documentation
 {
     #region Using Directives
 
     using System.Collections.Generic;
 
-        using JetBrains.ReSharper.Feature.Services.Bulbs;
+    using JetBrains.ReSharper.Feature.Services.Bulbs;
     using JetBrains.ReSharper.Intentions.Extensibility;
 
     using StyleCop.ReSharper710.BulbItems.Documentation;
@@ -111,15 +110,15 @@ namespace StyleCop.ReSharper710.QuickFixes.Documentation
         protected override void InitialiseBulbItems()
         {
             this.BulbItems = new List<IBulbAction>
-                {
-                    new SA1633FileMustHaveHeaderBulbItem
-                        {
-                            FileName = this.Highlighting.FileName,
-                            LineNumber = this.Highlighting.LineNumber,
-                            DocumentRange = this.Highlighting.DocumentRange,
-                            Description = "Insert/replace header : " + this.Highlighting.ToolTip
-                        }
-                };
+                                 {
+                                     new SA1633FileMustHaveHeaderBulbItem
+                                         {
+                                             FileName = this.Highlighting.FileName, 
+                                             LineNumber = this.Highlighting.LineNumber, 
+                                             DocumentRange = this.Highlighting.DocumentRange, 
+                                             Description = "Insert/replace header : " + this.Highlighting.ToolTip
+                                         }
+                                 };
         }
 
         #endregion

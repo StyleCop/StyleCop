@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="RegistryUtils.WindowLocation.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="RegistryUtils.WindowLocation.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   The registry utils.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop
 {
     using System;
@@ -20,6 +23,9 @@ namespace StyleCop
     using System.Text;
     using System.Windows.Forms;
 
+    /// <summary>
+    /// The registry utils.
+    /// </summary>
     /// <content>
     /// Performs operations in the registry.
     /// </content>
@@ -30,7 +36,7 @@ namespace StyleCop
         /// </summary>
         private class WindowLocation
         {
-            #region Private Fields
+            #region Fields
 
             /// <summary>
             /// The current location of the form.
@@ -47,9 +53,9 @@ namespace StyleCop
             /// </summary>
             private FormWindowState state;
 
-            #endregion Private Fields
+            #endregion
 
-            #region Public Constructors
+            #region Constructors and Destructors
 
             /// <summary>
             /// Initializes a new instance of the WindowLocation class.
@@ -61,11 +67,13 @@ namespace StyleCop
             /// <summary>
             /// Initializes a new instance of the WindowLocation class.
             /// </summary>
-            /// <param name="input">The input string.</param>
+            /// <param name="input">
+            /// The input string.
+            /// </param>
             public WindowLocation(string input)
             {
                 Param.AssertValidString(input, "input");
-                
+
                 string[] sections = input.Split(',');
                 if (sections.Length < 5)
                 {
@@ -92,7 +100,7 @@ namespace StyleCop
                 }
             }
 
-            #endregion Public Constructors
+            #endregion
 
             #region Public Properties
 
@@ -101,15 +109,15 @@ namespace StyleCop
             /// </summary>
             public Point Location
             {
-                get 
-                { 
-                    return this.location; 
+                get
+                {
+                    return this.location;
                 }
 
-                set 
-                { 
+                set
+                {
                     Param.Ignore(value);
-                    this.location = value; 
+                    this.location = value;
                 }
             }
 
@@ -118,15 +126,15 @@ namespace StyleCop
             /// </summary>
             public Size Size
             {
-                get 
-                { 
-                    return this.size; 
+                get
+                {
+                    return this.size;
                 }
 
-                set 
-                { 
+                set
+                {
                     Param.Ignore(value);
-                    this.size = value; 
+                    this.size = value;
                 }
             }
 
@@ -135,21 +143,21 @@ namespace StyleCop
             /// </summary>
             public FormWindowState State
             {
-                get 
-                { 
-                    return this.state; 
+                get
+                {
+                    return this.state;
                 }
 
-                set 
-                { 
+                set
+                {
                     Param.Ignore(value);
-                    this.state = value; 
+                    this.state = value;
                 }
             }
 
-            #endregion Public Properties
+            #endregion
 
-            #region Public Override Methods
+            #region Public Methods and Operators
 
             /// <summary>
             /// Converts the values to a string.
@@ -158,13 +166,7 @@ namespace StyleCop
             public override string ToString()
             {
                 StringBuilder output = new StringBuilder();
-                output.AppendFormat(
-                    CultureInfo.CurrentUICulture, 
-                    "{0},{1},{2},{3},", 
-                    this.location.X, 
-                    this.location.Y, 
-                    this.size.Height, 
-                    this.size.Width);
+                output.AppendFormat(CultureInfo.CurrentUICulture, "{0},{1},{2},{3},", this.location.X, this.location.Y, this.size.Height, this.size.Width);
 
                 if (this.state == FormWindowState.Maximized)
                 {
@@ -178,7 +180,7 @@ namespace StyleCop
                 return output.ToString();
             }
 
-            #endregion Public Override Methods
+            #endregion
         }
     }
 }

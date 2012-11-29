@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="XmlHeader.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="XmlHeader.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,12 +11,14 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Represents an Xml element header.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
     using System.Text;
 
@@ -26,46 +28,49 @@ namespace StyleCop.CSharp
     /// <subcategory>token</subcategory>
     public sealed class XmlHeader : CsToken, ITokenContainer
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// The list of tokens in the header.
         /// </summary>
-        private MasterList<CsToken> childTokens;
-
-        /// <summary>
-        /// The element that this header is attached to.
-        /// </summary>
-        private CsElement element;
+        private readonly MasterList<CsToken> childTokens;
 
         /// <summary>
         /// The text string with formatting still in place.
         /// </summary>
         private string rawText;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the XmlHeader class.
         /// </summary>
-        /// <param name="childTokens">The list of tokens in the header.</param>
-        /// <param name="location">The location of the header within the code.</param>
-        /// <param name="parent">The parent of the header.</param>
-        /// <param name="generated">Indicates whether the header resides within generated code.</param>
-        internal XmlHeader(MasterList<CsToken> childTokens, CodeLocation location, Reference<ICodePart> parent, bool generated) 
+        /// <param name="childTokens">
+        /// The list of tokens in the header.
+        /// </param>
+        /// <param name="location">
+        /// The location of the header within the code.
+        /// </param>
+        /// <param name="parent">
+        /// The parent of the header.
+        /// </param>
+        /// <param name="generated">
+        /// Indicates whether the header resides within generated code.
+        /// </param>
+        internal XmlHeader(MasterList<CsToken> childTokens, CodeLocation location, Reference<ICodePart> parent, bool generated)
             : base(CsTokenType.XmlHeader, CsTokenClass.XmlHeader, location, parent, generated)
         {
             Param.AssertNotNull(childTokens, "childDokens");
             Param.AssertNotNull(location, "location");
             Param.AssertNotNull(parent, "parent");
             Param.Ignore(generated);
-            
+
             this.childTokens = childTokens;
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
 
@@ -83,18 +88,7 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Gets the element that this header is attached to, if any.
         /// </summary>
-        public CsElement Element
-        {
-            get
-            {
-                return this.element;
-            }
-
-            internal set
-            {
-                this.element = value;
-            }
-        }
+        public CsElement Element { get; internal set; }
 
         /// <summary>
         /// Gets the contents of the header with whitespace, newlines, and formatting left in place.
@@ -112,9 +106,9 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Properties
+        #endregion
 
-        #region ITokenContainer Interface Properties
+        #region Explicit Interface Properties
 
         /// <summary>
         /// Gets the list of child tokens contained within this object.
@@ -128,9 +122,9 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion ITokenContainer Interface Properties
+        #endregion
 
-        #region Protected Override Methods
+        #region Methods
 
         /// <summary>
         /// Creates a text string from the contents of the header.
@@ -139,7 +133,7 @@ namespace StyleCop.CSharp
         {
             // Create a StringBuilder for putting together the parts of the header text.
             StringBuilder text = new StringBuilder();
-            
+
             // Loop through all the tokens in the header.
             foreach (CsToken token in this.childTokens)
             {
@@ -154,21 +148,18 @@ namespace StyleCop.CSharp
             this.Text = text.ToString();
         }
 
-        #endregion Protected Override Methods
-
-        #region Private Static Methods
-
         /// <summary>
         /// Extracts the header text from the header line.
         /// </summary>
-        /// <param name="originalText">The original header line text.</param>
-        /// <returns>Returns the extracted text.</returns>
+        /// <param name="originalText">
+        /// The original header line text.
+        /// </param>
+        /// <returns>
+        /// Returns the extracted text.
+        /// </returns>
         private static string ExtractTextFromHeaderLine(string originalText)
         {
-            Param.Assert(
-                originalText != null && originalText.StartsWith("///", StringComparison.Ordinal),
-                "originalText",
-                "Expected the text to start with ///");
+            Param.Assert(originalText != null && originalText.StartsWith("///", StringComparison.Ordinal), "originalText", "Expected the text to start with ///");
 
             // Typically, the header line will begin with a single space after the three slashes. We should not
             // consider this space to be part of the documentation, so skip past it.
@@ -180,10 +171,6 @@ namespace StyleCop.CSharp
 
             return originalText.Substring(startIndex, originalText.Length - startIndex);
         }
-
-        #endregion Private Static Methods
-
-        #region Private Methods
 
         /// <summary>
         /// Creates a raw text string with whitespace and newlines left in place.
@@ -211,6 +198,6 @@ namespace StyleCop.CSharp
             this.rawText = text.ToString();
         }
 
-        #endregion Private Methods
+        #endregion
     }
 }

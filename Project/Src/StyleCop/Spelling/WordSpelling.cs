@@ -11,8 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
+// <summary>
+//   The result of the spelling check.
+// </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.Spelling
 {
     /// <summary>
@@ -23,12 +25,12 @@ namespace StyleCop.Spelling
         /// <summary>
         /// The word was spelled correctly.
         /// </summary>
-        SpelledCorrectly,
+        SpelledCorrectly, 
 
         /// <summary>
         /// The word was unrecognized.
         /// </summary>
-        Unrecognized,
+        Unrecognized, 
 
         /// <summary>
         /// The word was cased incorrectly.

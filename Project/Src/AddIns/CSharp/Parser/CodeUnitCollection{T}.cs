@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="CodeUnitCollection{T}.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="CodeUnitCollection{T}.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,59 +11,57 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   A read-only collection of items.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// A read-only collection of items.
     /// </summary>
-    /// <typeparam name="T">The type of code unit stored in the collection.</typeparam>
-    internal class CodeUnitCollection<T> : ICollection<T> where T : IWriteableCodeUnit
+    /// <typeparam name="T">
+    /// The type of code unit stored in the collection.
+    /// </typeparam>
+    internal class CodeUnitCollection<T> : ICollection<T>
+        where T : IWriteableCodeUnit
     {
-        #region Private Fields
+        #region Fields
+
+        /// <summary>
+        /// The parent of all items in the collection.
+        /// </summary>
+        private readonly ICodePart parent;
 
         /// <summary>
         /// The internal collection of items.
         /// </summary>
         private List<T> items;
 
-        /// <summary>
-        /// The parent of all items in the collection.
-        /// </summary>
-        private ICodePart parent;
+        #endregion
 
-        #endregion Private Fields
-
-        #region Public Constructors
+        #region Constructors and Destructors
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="CodeUnitCollection{T}"/> class. 
         /// Initializes a new instance of the CodeUnitCollection class.
         /// </summary>
-        /// <param name="parent">The parent of all items in the collection.</param>
+        /// <param name="parent">
+        /// The parent of all items in the collection.
+        /// </param>
         public CodeUnitCollection(ICodePart parent)
         {
             Param.Ignore(parent);
             this.parent = parent;
         }
 
-        #endregion Public Constructors
+        #endregion
 
         #region Public Properties
-
-        /// <summary>
-        /// Gets the parent of all items in the collection.
-        /// </summary>
-        public ICodePart Parent
-        {
-            get
-            {
-                return this.parent;
-            }
-        }
 
         /// <summary>
         /// Gets the number of items in the list.
@@ -92,15 +90,30 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Properties
+        /// <summary>
+        /// Gets the parent of all items in the collection.
+        /// </summary>
+        public ICodePart Parent
+        {
+            get
+            {
+                return this.parent;
+            }
+        }
 
-        #region Public Methods
+        #endregion
+
+        #region Public Methods and Operators
 
         /// <summary>
         /// Determines whether the given item is contained within the collection.
         /// </summary>
-        /// <param name="item">The item to find.</param>
-        /// <returns>Returns true if the item is contained within the collection.</returns>
+        /// <param name="item">
+        /// The item to find.
+        /// </param>
+        /// <returns>
+        /// Returns true if the item is contained within the collection.
+        /// </returns>
         public bool Contains(T item)
         {
             Param.Ignore(item);
@@ -110,8 +123,12 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Copies the collection to the given array.
         /// </summary>
-        /// <param name="array">The array to copy into.</param>
-        /// <param name="arrayIndex">The index in the array at which to begin copying.</param>
+        /// <param name="array">
+        /// The array to copy into.
+        /// </param>
+        /// <param name="arrayIndex">
+        /// The index in the array at which to begin copying.
+        /// </param>
         public void CopyTo(T[] array, int arrayIndex)
         {
             Param.Ignore(array, arrayIndex);
@@ -127,26 +144,17 @@ namespace StyleCop.CSharp
             return this.items.GetEnumerator();
         }
 
-        #endregion Public Methods
+        #endregion
 
-        #region ICollection Interface Methods
+        #region Explicit Interface Methods
 
         /// <summary>
         /// Adds an item to the collection.
         /// </summary>
-        /// <param name="item">The item to add.</param>
+        /// <param name="item">
+        /// The item to add.
+        /// </param>
         void ICollection<T>.Add(T item)
-        {
-            Param.Ignore(item);
-            throw new NotSupportedException();
-        }
-
-        /// <summary>
-        /// Removes an item from the collection.
-        /// </summary>
-        /// <param name="item">The item to remove.</param>
-        /// <returns>Returns true if the item was removed.</returns>
-        bool ICollection<T>.Remove(T item)
         {
             Param.Ignore(item);
             throw new NotSupportedException();
@@ -164,19 +172,36 @@ namespace StyleCop.CSharp
         /// Gets an enumerator for iterating through the collection.
         /// </summary>
         /// <returns>Returns the enumerator.</returns>
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
             return this.items.GetEnumerator();
         }
 
-        #endregion ICollection Interface Methods
+        /// <summary>
+        /// Removes an item from the collection.
+        /// </summary>
+        /// <param name="item">
+        /// The item to remove.
+        /// </param>
+        /// <returns>
+        /// Returns true if the item was removed.
+        /// </returns>
+        bool ICollection<T>.Remove(T item)
+        {
+            Param.Ignore(item);
+            throw new NotSupportedException();
+        }
 
-        #region Internal Methods
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Adds an item to the collection.
         /// </summary>
-        /// <param name="item">The item to add to the collection.</param>
+        /// <param name="item">
+        /// The item to add to the collection.
+        /// </param>
         internal void Add(T item)
         {
             Param.AssertNotNull(item, "item");
@@ -194,7 +219,9 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Adds a range of items to the collection.
         /// </summary>
-        /// <param name="codeUnits">The range of items to add.</param>
+        /// <param name="codeUnits">
+        /// The range of items to add.
+        /// </param>
         internal void AddRange(IEnumerable<T> codeUnits)
         {
             Param.Ignore(codeUnits);
@@ -216,28 +243,6 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Removes the given item from the list.
-        /// </summary>
-        /// <param name="item">The item to remove from the list.</param>
-        /// <returns>Return true if the item was removed from the list.</returns>
-        internal bool Remove(T item)
-        {
-            Param.Ignore(item);
-
-            if (item != null)
-            {
-                this.UninitializeItem(item);
-            }
-
-            if (this.items != null)
-            {
-                return this.items.Remove(item);
-            }
-
-            return false;
-        }
-
-        /// <summary>
         /// Clears the contents of the list.
         /// </summary>
         internal void Clear()
@@ -256,14 +261,38 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Override Methods
+        /// <summary>
+        /// Removes the given item from the list.
+        /// </summary>
+        /// <param name="item">
+        /// The item to remove from the list.
+        /// </param>
+        /// <returns>
+        /// Return true if the item was removed from the list.
+        /// </returns>
+        internal bool Remove(T item)
+        {
+            Param.Ignore(item);
 
-        #region Protected Virtual Methods
+            if (item != null)
+            {
+                this.UninitializeItem(item);
+            }
+
+            if (this.items != null)
+            {
+                return this.items.Remove(item);
+            }
+
+            return false;
+        }
 
         /// <summary>
         /// Initializes an item when it is added to the list.
         /// </summary>
-        /// <param name="item">The item to initialize.</param>
+        /// <param name="item">
+        /// The item to initialize.
+        /// </param>
         protected virtual void InitializeItem(T item)
         {
             Param.Ignore(item);
@@ -277,10 +306,12 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Uninitializes an item when it is removed from the list.
         /// </summary>
-        /// <param name="item">The item to uninitialize.</param>
+        /// <param name="item">
+        /// The item to uninitialize.
+        /// </param>
         protected virtual void UninitializeItem(T item)
         {
-            Param.Ignore(item); 
+            Param.Ignore(item);
 
             if (item != null)
             {
@@ -288,6 +319,6 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Protected Virtual Methods
+        #endregion
     }
 }

@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="VariableDeclarationExpression.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="VariableDeclarationExpression.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,10 +11,12 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   An expression declaring a new variable.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
@@ -25,32 +27,35 @@ namespace StyleCop.CSharp
     /// <subcategory>expression</subcategory>
     public sealed class VariableDeclarationExpression : Expression
     {
-        #region Private Fields
-
-        /// <summary>
-        /// The type of the variable being declared.
-        /// </summary>
-        private TypeToken type;
+        #region Fields
 
         /// <summary>
         /// The list of declarators.
         /// </summary>
-        private ICollection<VariableDeclaratorExpression> declarators;
+        private readonly ICollection<VariableDeclaratorExpression> declarators;
 
-        #endregion Private Fields
+        /// <summary>
+        /// The type of the variable being declared.
+        /// </summary>
+        private readonly TypeToken type;
 
-        #region Internal Constructors
+        #endregion
+
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the VariableDeclarationExpression class.
         /// </summary>
-        /// <param name="tokens">The list of tokens that form the statement.</param>
-        /// <param name="type">The type of the variable or variables being declared.</param>
-        /// <param name="declarators">The list of declarators in the expression.</param>
-        internal VariableDeclarationExpression(
-            CsTokenList tokens, 
-            LiteralExpression type, 
-            ICollection<VariableDeclaratorExpression> declarators)
+        /// <param name="tokens">
+        /// The list of tokens that form the statement.
+        /// </param>
+        /// <param name="type">
+        /// The type of the variable or variables being declared.
+        /// </param>
+        /// <param name="declarators">
+        /// The list of declarators in the expression.
+        /// </param>
+        internal VariableDeclarationExpression(CsTokenList tokens, LiteralExpression type, ICollection<VariableDeclaratorExpression> declarators)
             : base(ExpressionType.VariableDeclaration, tokens)
         {
             Param.AssertNotNull(tokens, "tokens");
@@ -71,24 +76,9 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
-
-        /// <summary>
-        /// Gets the type of the variable.
-        /// </summary>
-        [SuppressMessage(
-            "Microsoft.Naming", 
-            "CA1721:PropertyNamesShouldNotMatchGetMethods",
-            Justification = "API has already been published and should not be changed.")]
-        public TypeToken Type
-        {
-            get
-            {
-                return this.type;
-            }
-        }
 
         /// <summary>
         /// Gets the list of declarators for the expression.
@@ -101,6 +91,18 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Properties
+        /// <summary>
+        /// Gets the type of the variable.
+        /// </summary>
+        [SuppressMessage("Microsoft.Naming", "CA1721:PropertyNamesShouldNotMatchGetMethods", Justification = "API has already been published and should not be changed.")]
+        public TypeToken Type
+        {
+            get
+            {
+                return this.type;
+            }
+        }
+
+        #endregion
     }
 }

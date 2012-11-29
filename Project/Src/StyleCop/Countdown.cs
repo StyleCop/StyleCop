@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="Countdown.cs">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Countdown.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,8 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
-
+// <summary>
+//   Defines the Countdown type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop
 {
     using System;
@@ -41,13 +43,13 @@ namespace StyleCop
         #region Constructors and Destructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Countdown" /> class with the specified count.
+        /// Initializes a new instance of the <see cref="Countdown"/> class with the specified count.
         /// </summary>
         /// <param name="initialCount">
-        /// The number of signals initially required to set the <see cref="Countdown" />.
+        /// The number of signals initially required to set the <see cref="Countdown"/>.
         /// </param>
         /// <exception cref="T:System.ArgumentOutOfRangeException">
-        ///   <paramref name="initialCount" /> is less than 0.
+        /// <paramref name="initialCount"/> is less than 0.
         /// </exception>
         public Countdown(int initialCount)
         {
@@ -83,9 +85,11 @@ namespace StyleCop
         #region Public Methods and Operators
 
         /// <summary>
-        ///   Increments the Countdown's current count by a specified value.
+        /// Increments the Countdown's current count by a specified value.
         /// </summary>
-        /// <param name="signalCount"> The value by which to increase <see cref="Countdown.CurrentCount" /> . </param>
+        /// <param name="signalCount">
+        /// The value by which to increase <see cref="Countdown.CurrentCount"/> . 
+        /// </param>
         public void AddCount(int signalCount)
         {
             lock (LockObject)
@@ -107,12 +111,13 @@ namespace StyleCop
         }
 
         /// <summary>
-        /// Registers multiple signals with the <see cref="Countdown" /> , decrementing the value of <see
-        /// cref="Countdown.CurrentCount" /> by the specified amount.
+        /// Registers multiple signals with the <see cref="Countdown"/> , decrementing the value of <see cref="Countdown.CurrentCount"/> by the specified amount.
         /// </summary>
-        /// <param name="signalCount"> The number of signals to register. </param>
+        /// <param name="signalCount">
+        /// The number of signals to register. 
+        /// </param>
         /// <exception cref="T:System.ArgumentOutOfRangeException">
-        /// <paramref name="signalCount" /> is less than 1.
+        /// <paramref name="signalCount"/> is less than 1.
         /// </exception>
         public void Signal(int signalCount)
         {

@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="StyleCopRunner.cs">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="StyleCopRunner.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Object model for hosting StyleCop in a simplified manner.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop
 {
     using System;
@@ -26,9 +29,14 @@ namespace StyleCop
     [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "StyleCop", Justification = "This is the correct casing.")]
     public abstract class StyleCopRunner
     {
-        #region Private Fields
+        #region Fields
 
         private bool captureViolations;
+
+        /// <summary>
+        /// The StyleCop core instance.
+        /// </summary>
+        private StyleCopCore core;
 
         /// <summary>
         /// The violation count.
@@ -40,14 +48,9 @@ namespace StyleCop
         /// </summary>
         private XmlDocument violations = new XmlDocument();
 
-        /// <summary>
-        /// The StyleCop core instance.
-        /// </summary>
-        private StyleCopCore core;
+        #endregion
 
-        #endregion Private Fields
-
-        #region Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the StyleCopRunner class.
@@ -57,7 +60,7 @@ namespace StyleCop
             this.Reset();
         }
 
-        #endregion Constructors
+        #endregion
 
         #region Public Events
 
@@ -71,7 +74,7 @@ namespace StyleCop
         /// </summary>
         public event EventHandler<ViolationEventArgs> ViolationEncountered;
 
-        #endregion Public Events
+        #endregion
 
         #region Public Properties
 
@@ -95,20 +98,9 @@ namespace StyleCop
             }
         }
 
-        #endregion Public Properties
+        #endregion
 
-        #region Protected Properties
-
-        /// <summary>
-        /// Gets the violation count.
-        /// </summary>
-        protected int ViolationCount
-        {
-            get
-            {
-                return this.violationCount;
-            }
-        }
+        #region Properties
 
         /// <summary>
         /// Gets or sets a value indicating whether we should capture the violations.
@@ -138,6 +130,17 @@ namespace StyleCop
         }
 
         /// <summary>
+        /// Gets the violation count.
+        /// </summary>
+        protected int ViolationCount
+        {
+            get
+            {
+                return this.violationCount;
+            }
+        }
+
+        /// <summary>
         /// Gets the violations document.
         /// </summary>
         protected XmlDocument Violations
@@ -148,9 +151,49 @@ namespace StyleCop
             }
         }
 
-        #endregion Protected Properties
-        
-        #region Protected Virtual Methods
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Called when output is generated during an analysis. This can be called simultaneously from several threads and so any code must be thread safe.
+        /// </summary>
+        /// <param name="e">
+        /// The event arguments.
+        /// </param>
+        protected void OnOutputGenerated(OutputEventArgs e)
+        {
+            Param.RequireNotNull(e, "e");
+
+            // Make sure we cache the delegate locally to avoid other threads unsubscribing before we call them.
+            // See http://piers7.blogspot.com/2010/03/3-races-with-net-events.html for info.
+            EventHandler<OutputEventArgs> handlers = this.OutputGenerated;
+
+            if (handlers != null)
+            {
+                handlers(this, e);
+            }
+        }
+
+        /// <summary>
+        /// Called when a violation is encountered during an analysis. This can be called simultaneously from several threads and so any code must be thread safe.
+        /// </summary>
+        /// <param name="e">
+        /// The event arguments.
+        /// </param>
+        protected void OnViolationEncountered(ViolationEventArgs e)
+        {
+            Param.RequireNotNull(e, "e");
+
+            // Make sure we cache the delegate locally to avoid other threads unsubscribing before we call them.
+            // See http://piers7.blogspot.com/2010/03/3-races-with-net-events.html for info.
+            EventHandler<ViolationEventArgs> handlers = this.ViolationEncountered;
+
+            if (handlers != null)
+            {
+                handlers(this, e);
+            }
+        }
 
         /// <summary>
         /// Resets the violation count.
@@ -162,55 +205,15 @@ namespace StyleCop
             this.violationCount = 0;
         }
 
-        #endregion Protected Virtual Methods
-
-        #region Protected Methods
-
-        /// <summary>
-        /// Called when output is generated during an analysis. This can be called simultaneously from several threads and so any code must be thread safe.
-        /// </summary>
-        /// <param name="e">The event arguments.</param>
-        protected void OnOutputGenerated(OutputEventArgs e)
-        {
-            Param.RequireNotNull(e, "e");
-
-            // Make sure we cache the delegate locally to avoid other threads unsubscribing before we call them.
-            // See http://piers7.blogspot.com/2010/03/3-races-with-net-events.html for info.
-            EventHandler<OutputEventArgs> handlers = this.OutputGenerated;
-            
-            if (handlers != null)
-            {
-                handlers(this, e);
-            }
-        }
-
-        /// <summary>
-        /// Called when a violation is encountered during an analysis. This can be called simultaneously from several threads and so any code must be thread safe.
-        /// </summary>
-        /// <param name="e">The event arguments.</param>
-        protected void OnViolationEncountered(ViolationEventArgs e)
-        {
-            Param.RequireNotNull(e, "e");
-            
-            // Make sure we cache the delegate locally to avoid other threads unsubscribing before we call them.
-            // See http://piers7.blogspot.com/2010/03/3-races-with-net-events.html for info.
-            EventHandler<ViolationEventArgs> handlers = this.ViolationEncountered;
-
-            if (handlers != null)
-            {
-                handlers(this, e);
-            }
-        }
-
-        #endregion Protected Methods
-
-        #region Private Static Methods
-
         /// <summary>
         /// Creates a safe version of the element name that can be outputted to Xml.
         /// </summary>
-        /// <param name="originalName">The original name.</param>
-        /// <returns>Returns the safe name.</returns>
+        /// <param name="originalName">
+        /// The original name.
+        /// </param>
+        /// <returns>
+        /// Returns the safe name.
+        /// </returns>
         private static string CreateSafeSectionName(string originalName)
         {
             Param.Ignore(originalName);
@@ -263,15 +266,15 @@ namespace StyleCop
             return builder.ToString();
         }
 
-        #endregion Private Static Methods
-
-        #region Private Methods
-
         /// <summary>
         /// Called when output should be added to the Output pane.
         /// </summary>
-        /// <param name="sender">The event sender.</param>
-        /// <param name="e">The event arguments.</param>
+        /// <param name="sender">
+        /// The event sender.
+        /// </param>
+        /// <param name="e">
+        /// The event arguments.
+        /// </param>
         private void CoreOutputGenerated(object sender, OutputEventArgs e)
         {
             Param.Ignore(sender, e);
@@ -284,9 +287,13 @@ namespace StyleCop
 
         /// <summary>
         /// Called when a violation is found.
-        /// </summary> 
-        /// <param name="sender">The event sender.</param>
-        /// <param name="e">The event arguments.</param>
+        /// </summary>
+        /// <param name="sender">
+        /// The event sender.
+        /// </param>
+        /// <param name="e">
+        /// The event arguments.
+        /// </param>
         private void CoreViolationEncountered(object sender, ViolationEventArgs e)
         {
             Param.Ignore(sender, e);
@@ -365,11 +372,11 @@ namespace StyleCop
                 this.violations.DocumentElement.AppendChild(violation);
                 this.violationCount++;
             }
-                
+
             // Forward event
             this.OnViolationEncountered(new ViolationEventArgs(e.Violation));
         }
 
-        #endregion Private Methods
+        #endregion
     }
 }

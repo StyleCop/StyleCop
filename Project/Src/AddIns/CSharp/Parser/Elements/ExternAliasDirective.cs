@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="ExternAliasDirective.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ExternAliasDirective.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,57 +11,51 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Describes the contents of an extern alias directive.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-
     /// <summary>
     /// Describes the contents of an extern alias directive.
     /// </summary>
     /// <subcategory>element</subcategory>
     public sealed class ExternAliasDirective : CsElement
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// The identifier name of the alias.
         /// </summary>
         private string identifier = string.Empty;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the ExternAliasDirective class.
         /// </summary>
-        /// <param name="document">The document that contains the element.</param>
-        /// <param name="parent">The parent of the element.</param>
-        /// <param name="declaration">The declaration code for this element.</param>
-        /// <param name="generated">Indicates whether the code element was generated or written by hand.</param>
-        internal ExternAliasDirective(
-            CsDocument document,
-            CsElement parent,
-            Declaration declaration,
-            bool generated)
-            : base(
-            document,
-            parent,
-            ElementType.ExternAliasDirective,
-            "extern alias " + declaration.Name,
-            null,
-            null,
-            declaration,
-            false,
-            generated)
+        /// <param name="document">
+        /// The document that contains the element.
+        /// </param>
+        /// <param name="parent">
+        /// The parent of the element.
+        /// </param>
+        /// <param name="declaration">
+        /// The declaration code for this element.
+        /// </param>
+        /// <param name="generated">
+        /// Indicates whether the code element was generated or written by hand.
+        /// </param>
+        internal ExternAliasDirective(CsDocument document, CsElement parent, Declaration declaration, bool generated)
+            : base(document, parent, ElementType.ExternAliasDirective, "extern alias " + declaration.Name, null, null, declaration, false, generated)
         {
             Param.Ignore(document, parent, declaration, generated);
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
 
@@ -76,9 +70,9 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Properties
+        #endregion
 
-        #region Internal Override Methods
+        #region Methods
 
         /// <summary>
         /// Initializes the element.
@@ -110,13 +104,12 @@ namespace StyleCop.CSharp
                     if (CodeParser.MoveToNextCodeToken(this.Tokens, ref aliasTokenNode))
                     {
                         // This word is the identifier
-                        this.identifier = CodeParser.TrimType(CodeParser.GetFullName(
-                            (CsDocument)this.Document, this.Tokens, aliasTokenNode, out aliasTokenNode));
+                        this.identifier = CodeParser.TrimType(CodeParser.GetFullName((CsDocument)this.Document, this.Tokens, aliasTokenNode, out aliasTokenNode));
                     }
                 }
             }
         }
 
-        #endregion Internal Override Methods
+        #endregion
     }
 }

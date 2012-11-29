@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="Event.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Event.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,12 +11,13 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Describes an event element.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
@@ -26,12 +27,17 @@ namespace StyleCop.CSharp
     [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", Justification = "The class describes a C# event")]
     public sealed class Event : CsElement
     {
-        #region Private Fields
+        #region Fields
+
+        /// <summary>
+        /// Optional declarators for the event.
+        /// </summary>
+        private readonly ICollection<EventDeclaratorExpression> eventDeclarators;
 
         /// <summary>
         /// The event handler type.
         /// </summary>
-        private TypeToken eventHandlerType;
+        private readonly TypeToken eventHandlerType;
 
         /// <summary>
         /// The add accessor for the event.
@@ -43,47 +49,51 @@ namespace StyleCop.CSharp
         /// </summary>
         private Accessor remove;
 
-        /// <summary>
-        /// Optional declarators for the event.
-        /// </summary>
-        private ICollection<EventDeclaratorExpression> eventDeclarators;
+        #endregion
 
-        #endregion Private Fields
-
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the Event class.
         /// </summary>
-        /// <param name="document">The document that contains this element.</param>
-        /// <param name="parent">The parent of the element.</param>
-        /// <param name="header">The Xml header for this element.</param>
-        /// <param name="attributes">The list of attributes attached to this element.</param>
-        /// <param name="declaration">The declaration code for this element.</param>
-        /// <param name="eventHandlerType">The type of the event handler.</param>
-        /// <param name="eventDeclarators">Declarators for the event.</param>
-        /// <param name="unsafeCode">Indicates whether the element resides within a block of unsafe code.</param>
-        /// <param name="generated">Indicates whether the code element was generated or written by hand.</param>
+        /// <param name="document">
+        /// The document that contains this element.
+        /// </param>
+        /// <param name="parent">
+        /// The parent of the element.
+        /// </param>
+        /// <param name="header">
+        /// The Xml header for this element.
+        /// </param>
+        /// <param name="attributes">
+        /// The list of attributes attached to this element.
+        /// </param>
+        /// <param name="declaration">
+        /// The declaration code for this element.
+        /// </param>
+        /// <param name="eventHandlerType">
+        /// The type of the event handler.
+        /// </param>
+        /// <param name="eventDeclarators">
+        /// Declarators for the event.
+        /// </param>
+        /// <param name="unsafeCode">
+        /// Indicates whether the element resides within a block of unsafe code.
+        /// </param>
+        /// <param name="generated">
+        /// Indicates whether the code element was generated or written by hand.
+        /// </param>
         internal Event(
-            CsDocument document,
+            CsDocument document, 
             CsElement parent, 
-            XmlHeader header,
-            ICollection<Attribute> attributes,
-            Declaration declaration,
-            TypeToken eventHandlerType,
-            ICollection<EventDeclaratorExpression> eventDeclarators,
-            bool unsafeCode,
+            XmlHeader header, 
+            ICollection<Attribute> attributes, 
+            Declaration declaration, 
+            TypeToken eventHandlerType, 
+            ICollection<EventDeclaratorExpression> eventDeclarators, 
+            bool unsafeCode, 
             bool generated)
-            : base(
-            document,
-            parent,
-            ElementType.Event, 
-            "event " + declaration.Name, 
-            header, 
-            attributes,
-            declaration,
-            unsafeCode,
-            generated)
+            : base(document, parent, ElementType.Event, "event " + declaration.Name, header, attributes, declaration, unsafeCode, generated)
         {
             Param.AssertNotNull(document, "document");
             Param.AssertNotNull(parent, "parent");
@@ -105,20 +115,9 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
-
-        /// <summary>
-        /// Gets the event handler's return type.
-        /// </summary>
-        public TypeToken EventHandlerType
-        {
-            get
-            {
-                return this.eventHandlerType;
-            }
-        }
 
         /// <summary>
         /// Gets the add accessor for the event, if there is one.
@@ -128,17 +127,6 @@ namespace StyleCop.CSharp
             get
             {
                 return this.add;
-            }
-        }
-
-        /// <summary>
-        /// Gets the remove accessor for the event, if there is one.
-        /// </summary>
-        public Accessor RemoveAccessor
-        {
-            get
-            {
-                return this.remove;
             }
         }
 
@@ -156,9 +144,7 @@ namespace StyleCop.CSharp
             ////{
             ////    Param.AssertNotNull(value, "Declarators");
             ////    Debug.Assert(this.eventDeclarators == null, "Declarators has already been set.");
-
             ////    this.eventDeclarators = value;
-
             ////    foreach (Expression expression in this.eventDeclarators)
             ////    {
             ////        this.AddExpression(expression);
@@ -166,9 +152,31 @@ namespace StyleCop.CSharp
             ////}
         }
 
-        #endregion Public Properties
+        /// <summary>
+        /// Gets the event handler's return type.
+        /// </summary>
+        public TypeToken EventHandlerType
+        {
+            get
+            {
+                return this.eventHandlerType;
+            }
+        }
 
-        #region Internal Override Methods
+        /// <summary>
+        /// Gets the remove accessor for the event, if there is one.
+        /// </summary>
+        public Accessor RemoveAccessor
+        {
+            get
+            {
+                return this.remove;
+            }
+        }
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Initializes the contents of the event.
@@ -211,6 +219,6 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Internal Override Methods
+        #endregion
     }
 }

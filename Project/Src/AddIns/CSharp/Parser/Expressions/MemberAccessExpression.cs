@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="MemberAccessExpression.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="MemberAccessExpression.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,13 +11,13 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   An expression representing a member access operation.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
-    using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
-    using System.Text;
 
     /// <summary>
     /// An expression representing a member access operation.
@@ -25,39 +25,43 @@ namespace StyleCop.CSharp
     /// <subcategory>expression</subcategory>
     public sealed class MemberAccessExpression : Expression
     {
-        #region Private Fields
-
-        /// <summary>
-        /// The type of operation being performed.
-        /// </summary>
-        private Operator operatorType;
+        #region Fields
 
         /// <summary>
         /// The expression on the left-hand side of the operator.
         /// </summary>
-        private Expression leftHandSide;
+        private readonly Expression leftHandSide;
+
+        /// <summary>
+        /// The type of operation being performed.
+        /// </summary>
+        private readonly Operator operatorType;
 
         /// <summary>
         /// The member expression on the right hand side of the operator.
         /// </summary>
-        private LiteralExpression rightHandSide;
+        private readonly LiteralExpression rightHandSide;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the MemberAccessExpression class.
         /// </summary>
-        /// <param name="tokens">The list of tokens that form the expression.</param>
-        /// <param name="operatorType">The type of operation being performed.</param>
-        /// <param name="leftHandSide">The left side of the operation.</param>
-        /// <param name="rightHandSide">The member being accessed.</param>
-        internal MemberAccessExpression(
-            CsTokenList tokens,
-            Operator operatorType,
-            Expression leftHandSide, 
-            LiteralExpression rightHandSide)
+        /// <param name="tokens">
+        /// The list of tokens that form the expression.
+        /// </param>
+        /// <param name="operatorType">
+        /// The type of operation being performed.
+        /// </param>
+        /// <param name="leftHandSide">
+        /// The left side of the operation.
+        /// </param>
+        /// <param name="rightHandSide">
+        /// The member being accessed.
+        /// </param>
+        internal MemberAccessExpression(CsTokenList tokens, Operator operatorType, Expression leftHandSide, LiteralExpression rightHandSide)
             : base(ExpressionType.MemberAccess, tokens)
         {
             Param.AssertNotNull(tokens, "tokens");
@@ -73,9 +77,9 @@ namespace StyleCop.CSharp
             this.AddExpression(rightHandSide);
         }
 
-        #endregion Internal Constructors
+        #endregion
 
-        #region Public Enums
+        #region Enums
 
         /// <summary>
         /// The various member access operation types.
@@ -88,12 +92,12 @@ namespace StyleCop.CSharp
             /// <summary>
             /// The -> operator.
             /// </summary>
-            Pointer,
+            Pointer, 
 
             /// <summary>
             /// The . operator.
             /// </summary>
-            Dot,
+            Dot, 
 
             /// <summary>
             /// The :: operator.
@@ -101,20 +105,9 @@ namespace StyleCop.CSharp
             QualifiedAlias
         }
 
-        #endregion Public Enums
+        #endregion
 
         #region Public Properties
-
-        /// <summary>
-        /// Gets the type of operation being performed.
-        /// </summary>
-        public Operator OperatorType
-        {
-            get
-            {
-                return this.operatorType;
-            }
-        }
 
         /// <summary>
         /// Gets the expression on the left-hand side of the operator.
@@ -124,6 +117,17 @@ namespace StyleCop.CSharp
             get
             {
                 return this.leftHandSide;
+            }
+        }
+
+        /// <summary>
+        /// Gets the type of operation being performed.
+        /// </summary>
+        public Operator OperatorType
+        {
+            get
+            {
+                return this.operatorType;
             }
         }
 
@@ -138,6 +142,6 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Properties
+        #endregion
     }
 }

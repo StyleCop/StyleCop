@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="Enum.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Enum.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,10 +11,12 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Describes the contents of an  element.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
@@ -27,7 +29,7 @@ namespace StyleCop.CSharp
     [SuppressMessage("Microsoft.Naming", "CA1711:IdentifiersShouldNotHaveIncorrectSuffix", Justification = "The class name does not need any suffix.")]
     public sealed class Enum : CsElement
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// The derived base type.
@@ -39,43 +41,42 @@ namespace StyleCop.CSharp
         /// </summary>
         private ICollection<EnumItem> items;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Enum"/> class.
         /// </summary>
-        /// <param name="document">The document that contains the element.</param>
-        /// <param name="parent">The parent of the element.</param>
-        /// <param name="header">The Xml header for this element.</param>
-        /// <param name="attributes">The list of attributes attached to this element.</param>
-        /// <param name="declaration">The declaration code for this element.</param>
-        /// <param name="unsafeCode">Indicates whether the element resides within a block of unsafe code.</param>
-        /// <param name="generated">Indicates whether the code element was generated or written by hand.</param>
+        /// <param name="document">
+        /// The document that contains the element.
+        /// </param>
+        /// <param name="parent">
+        /// The parent of the element.
+        /// </param>
+        /// <param name="header">
+        /// The Xml header for this element.
+        /// </param>
+        /// <param name="attributes">
+        /// The list of attributes attached to this element.
+        /// </param>
+        /// <param name="declaration">
+        /// The declaration code for this element.
+        /// </param>
+        /// <param name="unsafeCode">
+        /// Indicates whether the element resides within a block of unsafe code.
+        /// </param>
+        /// <param name="generated">
+        /// Indicates whether the code element was generated or written by hand.
+        /// </param>
         internal Enum(
-            CsDocument document,
-            CsElement parent,
-            XmlHeader header,
-            ICollection<Attribute> attributes,
-            Declaration declaration,
-            bool unsafeCode,
-            bool generated)
-            : base(
-            document,
-            parent,
-            ElementType.Enum, 
-            "enum " + declaration.Name, 
-            header, 
-            attributes,
-            declaration,
-            unsafeCode,
-            generated)
+            CsDocument document, CsElement parent, XmlHeader header, ICollection<Attribute> attributes, Declaration declaration, bool unsafeCode, bool generated)
+            : base(document, parent, ElementType.Enum, "enum " + declaration.Name, header, attributes, declaration, unsafeCode, generated)
         {
             Param.Ignore(document, parent, header, attributes, declaration, unsafeCode, generated);
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
 
@@ -89,7 +90,7 @@ namespace StyleCop.CSharp
                 return this.baseType;
             }
         }
-        
+
         /// <summary>
         /// Gets the collection of items in the <see cref="Enum"/>.
         /// </summary>
@@ -109,9 +110,9 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Properties
+        #endregion
 
-        #region Internal Override Methods
+        #region Methods
 
         /// <summary>
         /// Gets the base type, if there is one.
@@ -121,10 +122,6 @@ namespace StyleCop.CSharp
             // Get the base type, if any.
             this.baseType = this.GetBaseType();
         }
-
-        #endregion Internal Override Methods
-
-        #region Private Methods
 
         /// <summary>
         /// Gets the base type of the item.
@@ -138,11 +135,8 @@ namespace StyleCop.CSharp
             {
                 if (foundColon)
                 {
-                    if (token.CsTokenType != CsTokenType.WhiteSpace &&
-                        token.CsTokenType != CsTokenType.EndOfLine &&
-                        token.CsTokenType != CsTokenType.SingleLineComment &&
-                        token.CsTokenType != CsTokenType.MultiLineComment &&
-                        token.CsTokenType != CsTokenType.PreprocessorDirective)
+                    if (token.CsTokenType != CsTokenType.WhiteSpace && token.CsTokenType != CsTokenType.EndOfLine && token.CsTokenType != CsTokenType.SingleLineComment
+                        && token.CsTokenType != CsTokenType.MultiLineComment && token.CsTokenType != CsTokenType.PreprocessorDirective)
                     {
                         return token.Text;
                     }
@@ -156,6 +150,6 @@ namespace StyleCop.CSharp
             return null;
         }
 
-        #endregion Private Methods
+        #endregion
     }
 }

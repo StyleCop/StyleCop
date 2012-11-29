@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="SwitchCaseStatement.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SwitchCaseStatement.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,33 +11,36 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   A case-statement within a switch-statement.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
-
     /// <summary>
     /// A case-statement within a switch-statement.
     /// </summary>
     /// <subcategory>statement</subcategory>
     public sealed class SwitchCaseStatement : Statement
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// The case label identifier.
         /// </summary>
-        private Expression identifier;
+        private readonly Expression identifier;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the SwitchCaseStatement class.
         /// </summary>
-        /// <param name="identifier">The case label identifier.</param>
-        internal SwitchCaseStatement(Expression identifier) 
+        /// <param name="identifier">
+        /// The case label identifier.
+        /// </param>
+        internal SwitchCaseStatement(Expression identifier)
             : base(StatementType.SwitchCase)
         {
             Param.AssertNotNull(identifier, "identifier");
@@ -45,7 +48,7 @@ namespace StyleCop.CSharp
             this.AddExpression(identifier);
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
 
@@ -60,6 +63,6 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Properties
+        #endregion
     }
 }

@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="ReturnStatement.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ReturnStatement.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,33 +11,38 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   A return-statement.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
-
     /// <summary>
     /// A return-statement.
     /// </summary>
     /// <subcategory>statement</subcategory>
     public sealed class ReturnStatement : Statement
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// The return value expression, if there is one.
         /// </summary>
-        private Expression returnValue;
+        private readonly Expression returnValue;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the ReturnStatement class.
         /// </summary>
-        /// <param name="tokens">The list of tokens that form the statement.</param>
-        /// <param name="returnValue">The return value expression, if there is one.</param>
+        /// <param name="tokens">
+        /// The list of tokens that form the statement.
+        /// </param>
+        /// <param name="returnValue">
+        /// The return value expression, if there is one.
+        /// </param>
         internal ReturnStatement(CsTokenList tokens, Expression returnValue)
             : base(StatementType.Return, tokens)
         {
@@ -52,7 +57,7 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
 
@@ -67,6 +72,6 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Properties
+        #endregion
     }
 }

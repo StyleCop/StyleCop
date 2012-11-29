@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="StringExtensions.cs">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="StringExtensions.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,8 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
-
+// <summary>
+//   Extension methods for the <see cref="string" /> class.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace System
 {
     #region Using Directives
@@ -29,7 +31,7 @@ namespace System
     /// </summary>
     public static class StringExtensions
     {
-        #region Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Capitalizes the first character of the specified string.
@@ -47,7 +49,7 @@ namespace System
                 return string.Empty;
             }
 
-            var chars = s.ToCharArray();
+            char[] chars = s.ToCharArray();
             chars[0] = char.ToUpperInvariant(chars[0]);
             return new string(chars);
         }
@@ -154,7 +156,8 @@ namespace System
         /// <param name="regex">
         /// The regular expression pattern to match.
         /// </param>
-        /// <param name="options">The regular expression options.
+        /// <param name="options">
+        /// The regular expression options.
         /// A bitwise OR combination of <see cref="RegexOptions"/> enumeration values.
         /// </param>
         /// <returns>
@@ -181,7 +184,7 @@ namespace System
         {
             return string.Join(separator, source.ToArray());
         }
-        
+
         /// <summary>
         /// Retrieves a substring after the first instance of a character.
         /// </summary>
@@ -196,7 +199,7 @@ namespace System
         /// </returns>
         public static string SubstringAfter(this string s, char c)
         {
-            var index = s.IndexOf(c);
+            int index = s.IndexOf(c);
             if (index == -1)
             {
                 return s;
@@ -222,7 +225,7 @@ namespace System
         /// </returns>
         public static string SubstringAfter(this string s, string value, StringComparison comparisonType)
         {
-            var index = s.IndexOf(value, comparisonType);
+            int index = s.IndexOf(value, comparisonType);
             if (index == -1)
             {
                 return s;
@@ -245,7 +248,7 @@ namespace System
         /// </returns>
         public static string SubstringAfterLast(this string s, char c)
         {
-            var index = s.LastIndexOf(c);
+            int index = s.LastIndexOf(c);
             if (index == -1)
             {
                 return s;
@@ -268,7 +271,7 @@ namespace System
         /// </returns>
         public static string SubstringBefore(this string s, char c)
         {
-            var index = s.IndexOf(c);
+            int index = s.IndexOf(c);
             return index != -1 ? s.Substring(0, index) : s;
         }
 
@@ -289,7 +292,7 @@ namespace System
         /// </returns>
         public static string SubstringBefore(this string s, string value, StringComparison comparisonType)
         {
-            var index = s.IndexOf(value, comparisonType);
+            int index = s.IndexOf(value, comparisonType);
             return index != -1 ? s.Substring(0, index) : s;
         }
 
@@ -307,7 +310,7 @@ namespace System
         /// </returns>
         public static string SubstringBeforeLast(this string s, char c)
         {
-            var index = s.LastIndexOf(c);
+            int index = s.LastIndexOf(c);
             return index != -1 ? s.Substring(0, index) : s;
         }
 
@@ -328,7 +331,7 @@ namespace System
         /// </returns>
         public static string SubstringBeforeLast(this string s, string value, StringComparison comparisonType)
         {
-            var index = s.LastIndexOf(value, comparisonType);
+            int index = s.LastIndexOf(value, comparisonType);
             return index != -1 ? s.Substring(0, index) : s;
         }
 

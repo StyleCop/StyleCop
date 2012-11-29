@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="CodeDocument.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="CodeDocument.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,71 +11,56 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Contains the parsed object model for a source code document.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop
 {
     using System;
     using System.Collections.Generic;
-    using System.Text;
-    using System.Xml;
 
     /// <summary>
     /// Contains the parsed object model for a source code document.
     /// </summary>
     public abstract class CodeDocument : IDisposable
     {
-        #region Private Fields
-
-        /// <summary>
-        /// The original source code document.
-        /// </summary>
-        private SourceCode sourceCode;
+        #region Fields
 
         /// <summary>
         /// Storage space for analyzer data.
         /// </summary>
         private Dictionary<string, object> analyzerData = new Dictionary<string, object>();
 
-        #endregion Private Fields
+        /// <summary>
+        /// The original source code document.
+        /// </summary>
+        private SourceCode sourceCode;
 
-        #region Protected Constructors
+        #endregion
+
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the CodeDocument class.
         /// </summary>
-        /// <param name="sourceCode">The source code document this instance represents.</param>
+        /// <param name="sourceCode">
+        /// The source code document this instance represents.
+        /// </param>
         protected CodeDocument(SourceCode sourceCode)
         {
             Param.RequireNotNull(sourceCode, "sourceCode");
             this.sourceCode = sourceCode;
         }
 
-        #endregion Protected Constructors
-
-        #region Public Abstract Properties
-
-        /// <summary>
-        /// Gets the parsed contents of the document.
-        /// </summary>
-        public abstract ICodeElement DocumentContents
-        {
-            get;
-        }
-
-        #endregion Public Abstract Properties
+        #endregion
 
         #region Public Properties
 
         /// <summary>
-        /// Gets the original source code document.
+        /// Gets the parsed contents of the document.
         /// </summary>
-        public SourceCode SourceCode
-        {
-            get
-            {
-                return this.sourceCode;
-            }
-        }
+        public abstract ICodeElement DocumentContents { get; }
 
         /// <summary>
         /// Gets the settings for the the project that contains the document.
@@ -93,9 +78,20 @@ namespace StyleCop
             }
         }
 
-        #endregion Public Properties
+        /// <summary>
+        /// Gets the original source code document.
+        /// </summary>
+        public SourceCode SourceCode
+        {
+            get
+            {
+                return this.sourceCode;
+            }
+        }
 
-        #region Internal Properties
+        #endregion
+
+        #region Properties
 
         /// <summary>
         /// Gets the analyzer data dictionary for the document.
@@ -108,9 +104,9 @@ namespace StyleCop
             }
         }
 
-        #endregion Internal Properties
+        #endregion
 
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Disposes the contents of the class.
@@ -121,14 +117,16 @@ namespace StyleCop
             GC.SuppressFinalize(this);
         }
 
-        #endregion Public Methods
+        #endregion
 
-        #region Protected Virtual Methods
+        #region Methods
 
         /// <summary>
         /// Disposes the contents of the class.
         /// </summary>
-        /// <param name="disposing">Indicates whether to dispose unmanaged resources.</param>
+        /// <param name="disposing">
+        /// Indicates whether to dispose unmanaged resources.
+        /// </param>
         protected virtual void Dispose(bool disposing)
         {
             Param.Ignore(disposing);
@@ -140,6 +138,6 @@ namespace StyleCop
             }
         }
 
-        #endregion Protected Virtual Methods
+        #endregion
     }
 }

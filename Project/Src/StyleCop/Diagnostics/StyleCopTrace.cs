@@ -15,7 +15,6 @@
 //   The central manager class for application tracing, through which all application tracing should be done.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.Diagnostics
 {
     #region Using Directives
@@ -41,13 +40,13 @@ namespace StyleCop.Diagnostics
         /// </summary>
         static StyleCopTrace()
         {
-            var defaultLevel = 0;
+            int defaultLevel = 0;
 #if DEBUG
             defaultLevel = 15;
 #endif
-            var levelString = ConfigurationManager.AppSettings["StyleCopTraceLevel"];
-            var level = levelString != null ? int.Parse(levelString, CultureInfo.InvariantCulture) : defaultLevel;
-            
+            string levelString = ConfigurationManager.AppSettings["StyleCopTraceLevel"];
+            int level = levelString != null ? int.Parse(levelString, CultureInfo.InvariantCulture) : defaultLevel;
+
             // <!-- ================================================================================-->
             // <!-- Trace level is a bit mask of the following values:                              -->
             // <!-- 0 = Off                                                                         -->
@@ -63,24 +62,26 @@ namespace StyleCop.Diagnostics
             // <!-- NOTE: This has a significant impact on performance                              -->
             // <!-- =============================================================================== -->
 #if DEBUG
+
             // Add the Default Listener back as ReSharper removes it
             Trace.Listeners.Add(new DefaultTraceListener());
 #endif
-            var logPath = ConfigurationManager.AppSettings["StyleCopTraceLogPath"];
-            
+            string logPath = ConfigurationManager.AppSettings["StyleCopTraceLogPath"];
+
             if (level > 0 && !string.IsNullOrEmpty(logPath))
             {
                 Directory.CreateDirectory(logPath);
-                var fullPath = Path.Combine(logPath, string.Format("StyleCop Trace [{0}].log", DateTime.UtcNow.ToString("yyyy-MM-dd HH-mm-ss-fff", CultureInfo.InvariantCulture)));
+                string fullPath = Path.Combine(
+                    logPath, string.Format("StyleCop Trace [{0}].log", DateTime.UtcNow.ToString("yyyy-MM-dd HH-mm-ss-fff", CultureInfo.InvariantCulture)));
                 Trace.Listeners.Add(new TextWriterTraceListener(fullPath));
             }
-            
+
             Switch = new StyleCopSwitch("StyleCop", "Provides tracing for StyleCop", level);
         }
 
         #endregion
 
-        #region Properties
+        #region Public Properties
 
         /// <summary>
         /// Gets the <see cref="StyleCopSwitch"/> that this class uses to decide whether to produce tracing messages.
@@ -89,7 +90,7 @@ namespace StyleCop.Diagnostics
 
         #endregion
 
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Write an error message containing the passed text.
@@ -180,7 +181,7 @@ namespace StyleCop.Diagnostics
                 new StyleCopTraceFormatter().WriteTraceMessage("Info", format, args);
             }
         }
-        
+
         /// <summary>
         /// To be called when leaving a method. This overload is recommended for functions that have only input
         /// parameters and which do not have a return value.
@@ -311,6 +312,10 @@ namespace StyleCop.Diagnostics
                 new StyleCopTraceFormatter().WriteTraceMessage("Warn", format, args);
             }
         }
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Returns the current processes private bytes.

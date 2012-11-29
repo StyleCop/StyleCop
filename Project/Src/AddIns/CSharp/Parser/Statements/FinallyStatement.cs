@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="FinallyStatement.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="FinallyStatement.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,39 +11,46 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   A finally-statement.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
-
     /// <summary>
     /// A finally-statement.
     /// </summary>
     /// <subcategory>statement</subcategory>
     public sealed class FinallyStatement : Statement
     {
-        #region Private Fields
-
-        /// <summary>
-        /// The try-statement that this finally-statement is attached to.
-        /// </summary>
-        private TryStatement tryStatement;
+        #region Fields
 
         /// <summary>
         /// The statement embedded within the catch-statement.
         /// </summary>
-        private BlockStatement embeddedStatement;
+        private readonly BlockStatement embeddedStatement;
 
-        #endregion Private Fields
+        /// <summary>
+        /// The try-statement that this finally-statement is attached to.
+        /// </summary>
+        private readonly TryStatement tryStatement;
 
-        #region Internal Constructors
+        #endregion
+
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the FinallyStatement class.
         /// </summary>
-        /// <param name="tokens">The list of tokens that form the statement.</param>
-        /// <param name="tryStatement">The try-statement that this finally-statement is embedded to.</param>
-        /// <param name="embeddedStatement">The statement embedded within the finally-statement.</param>
+        /// <param name="tokens">
+        /// The list of tokens that form the statement.
+        /// </param>
+        /// <param name="tryStatement">
+        /// The try-statement that this finally-statement is embedded to.
+        /// </param>
+        /// <param name="embeddedStatement">
+        /// The statement embedded within the finally-statement.
+        /// </param>
         internal FinallyStatement(CsTokenList tokens, TryStatement tryStatement, BlockStatement embeddedStatement)
             : base(StatementType.Finally, tokens)
         {
@@ -57,20 +64,9 @@ namespace StyleCop.CSharp
             this.AddStatement(embeddedStatement);
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
-
-        /// <summary>
-        /// Gets the try-statement that this finally-statement is attached to.
-        /// </summary>
-        public TryStatement TryStatement
-        {
-            get
-            {
-                return this.tryStatement;
-            }
-        }
 
         /// <summary>
         /// Gets the statement embedded within the finally-statement.
@@ -83,6 +79,17 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Properties
+        /// <summary>
+        /// Gets the try-statement that this finally-statement is attached to.
+        /// </summary>
+        public TryStatement TryStatement
+        {
+            get
+            {
+                return this.tryStatement;
+            }
+        }
+
+        #endregion
     }
 }

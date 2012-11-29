@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="ICodePartExtensions.cs">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ICodePartExtensions.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Extension methods for the ICodePart class.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
     /// <summary>
@@ -19,11 +22,17 @@ namespace StyleCop.CSharp
     /// </summary>
     public static class ICodePartExtensions
     {
+        #region Public Methods and Operators
+
         /// <summary>
         /// Gets the element that contains this code unit, if there is one.
         /// </summary>
-        /// <param name="part">The code part.</param>
-        /// <returns>Returns the element or null if there is no parent expression.</returns>
+        /// <param name="part">
+        /// The code part.
+        /// </param>
+        /// <returns>
+        /// Returns the element or null if there is no parent expression.
+        /// </returns>
         public static CsElement FindParentElement(this ICodePart part)
         {
             Param.RequireNotNull(part, "part");
@@ -43,10 +52,47 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
+        /// Gets the expression that contains this code part, if there is one.
+        /// </summary>
+        /// <param name="part">
+        /// The code part.
+        /// </param>
+        /// <returns>
+        /// Returns the expression or null if there is no parent expression.
+        /// </returns>
+        public static Expression FindParentExpression(this ICodePart part)
+        {
+            Param.RequireNotNull(part, "part");
+
+            ICodePart parentCodeUnit = part.Parent;
+            while (parentCodeUnit != null)
+            {
+                if (parentCodeUnit.CodePartType == CodePartType.Expression)
+                {
+                    return (Expression)parentCodeUnit;
+                }
+
+                // If we hit an element, then there is no parent statement.
+                if (parentCodeUnit.CodePartType == CodePartType.Element)
+                {
+                    return null;
+                }
+
+                parentCodeUnit = parentCodeUnit.Parent;
+            }
+
+            return null;
+        }
+
+        /// <summary>
         /// Gets the statement that contains this code unit, if there is one.
         /// </summary>
-        /// <param name="part">The code part.</param>
-        /// <returns>Returns the statement or null if there is no parent expression.</returns>
+        /// <param name="part">
+        /// The code part.
+        /// </param>
+        /// <returns>
+        /// Returns the statement or null if there is no parent expression.
+        /// </returns>
         public static Statement FindParentStatement(this ICodePart part)
         {
             Param.RequireNotNull(part, "part");
@@ -71,33 +117,6 @@ namespace StyleCop.CSharp
             return null;
         }
 
-        /// <summary>
-        /// Gets the expression that contains this code part, if there is one.
-        /// </summary>
-        /// <param name="part">The code part.</param>
-        /// <returns>Returns the expression or null if there is no parent expression.</returns>
-        public static Expression FindParentExpression(this ICodePart part)
-        {
-            Param.RequireNotNull(part, "part");
-
-            ICodePart parentCodeUnit = part.Parent;
-            while (parentCodeUnit != null)
-            {
-                if (parentCodeUnit.CodePartType == CodePartType.Expression)
-                {
-                    return (Expression)parentCodeUnit;
-                }
-
-                // If we hit an element, then there is no parent statement.
-                if (parentCodeUnit.CodePartType == CodePartType.Element)
-                {
-                    return null;
-                }
-
-                parentCodeUnit = parentCodeUnit.Parent;
-            }
-
-            return null;
-        }
+        #endregion
     }
 }

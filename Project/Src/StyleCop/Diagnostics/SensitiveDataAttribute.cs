@@ -16,7 +16,6 @@
 //   in trace output.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.Diagnostics
 {
     #region Using Directives

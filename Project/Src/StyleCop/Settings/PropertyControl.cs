@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="PropertyControl.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="PropertyControl.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Hosts property pages.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop
 {
     using System;
@@ -19,13 +22,23 @@ namespace StyleCop
     using System.Drawing;
     using System.Globalization;
     using System.Windows.Forms;
-    
+
     /// <summary>
     /// Hosts property pages.
     /// </summary>
     public class PropertyControl : TabControl
     {
-        #region Private Fields
+        #region Fields
+
+        /// <summary>
+        /// The context for the property pages.
+        /// </summary>
+        private object[] context;
+
+        /// <summary>
+        /// The StyleCop core instance.
+        /// </summary>
+        private StyleCopCore core;
 
         /// <summary>
         /// Indicates whether any of the pages are dirty.
@@ -33,29 +46,9 @@ namespace StyleCop
         private bool dirty;
 
         /// <summary>
-        /// The pages to display.
-        /// </summary>
-        private UserControl[] pages;
-
-        /// <summary>
-        /// The pages to display.
-        /// </summary>
-        private TabPage[] tabPages;
-
-        /// <summary>
-        /// The pages to display.
-        /// </summary>
-        private IList<IPropertyControlPage> pageInterfaces;
-        
-        /// <summary>
         /// The property page host.
         /// </summary>
         private IPropertyControlHost host;
-
-        /// <summary>
-        /// The StyleCop core instance.
-        /// </summary>
-        private StyleCopCore core;
 
         /// <summary>
         /// The settings file to read from and write to.
@@ -68,6 +61,16 @@ namespace StyleCop
         private Settings mergedSettings;
 
         /// <summary>
+        /// The pages to display.
+        /// </summary>
+        private IList<IPropertyControlPage> pageInterfaces;
+
+        /// <summary>
+        /// The pages to display.
+        /// </summary>
+        private UserControl[] pages;
+
+        /// <summary>
         /// The settings one level up from the local settings file.
         /// </summary>
         private Settings parentSettings;
@@ -78,13 +81,13 @@ namespace StyleCop
         private SettingsComparer settingsComparer;
 
         /// <summary>
-        /// The context for the property pages.
+        /// The pages to display.
         /// </summary>
-        private object[] context;
+        private TabPage[] tabPages;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Public Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the PropertyControl class.
@@ -94,45 +97,34 @@ namespace StyleCop
             this.InitializeComponent();
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
-
-        /// <summary>
-        /// Gets a value indicating whether any of the pages are dirty.
-        /// </summary>
-        public bool IsDirty
-        {
-            get 
-            { 
-                return this.dirty; 
-            }
-        }
-        
-        /// <summary>
-        /// Gets the list of pages that are currently loaded on the property control.
-        /// </summary>
-        public IList<IPropertyControlPage> Pages
-        {
-            get 
-            { 
-                return this.pageInterfaces; 
-            }
-        }
 
         /// <summary>
         /// Gets the currently active page.
         /// </summary>
         public IPropertyControlPage ActivePage
         {
-            get 
-            { 
+            get
+            {
                 if (this.host != null)
                 {
                     return this.pageInterfaces[this.SelectedIndex];
                 }
 
                 return null;
+            }
+        }
+
+        /// <summary>
+        /// Gets the list of context objects passed to this property control.
+        /// </summary>
+        public IList<object> Context
+        {
+            get
+            {
+                return this.context;
             }
         }
 
@@ -144,6 +136,17 @@ namespace StyleCop
             get
             {
                 return this.core;
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether any of the pages are dirty.
+        /// </summary>
+        public bool IsDirty
+        {
+            get
+            {
+                return this.dirty;
             }
         }
 
@@ -170,6 +173,17 @@ namespace StyleCop
         }
 
         /// <summary>
+        /// Gets the list of pages that are currently loaded on the property control.
+        /// </summary>
+        public IList<IPropertyControlPage> Pages
+        {
+            get
+            {
+                return this.pageInterfaces;
+            }
+        }
+
+        /// <summary>
         /// Gets the settings which the local settings are merged with at runtime, or null if there are
         /// no settings to merge.
         /// </summary>
@@ -192,20 +206,17 @@ namespace StyleCop
             }
         }
 
+        #endregion
+
+        #region Public Methods and Operators
+
         /// <summary>
-        /// Gets the list of context objects passed to this property control.
+        /// Called when the property control should be cancelled.
         /// </summary>
-        public IList<object> Context
+        public void Cancel()
         {
-            get
-            {
-                return this.context;
-            }
+            this.host.Cancel();
         }
-
-        #endregion Public Properties
-
-        #region Public Methods
 
         /// <summary>
         /// Sets the dirty flag and notifies the host that the dirty status has changed.
@@ -222,20 +233,12 @@ namespace StyleCop
                     break;
                 }
             }
-            
+
             if (pageDirty != this.dirty)
             {
                 this.dirty = pageDirty;
                 this.host.Dirty(pageDirty);
             }
-        }
-
-        /// <summary>
-        /// Called when the property control should be cancelled.
-        /// </summary>
-        public void Cancel()
-        {
-            this.host.Cancel();
         }
 
         /// <summary>
@@ -260,98 +263,20 @@ namespace StyleCop
             }
         }
 
-        #endregion Public Methods
+        #endregion
 
-        #region Internal Methods
-
-        /// <summary>
-        /// The control must be initialized by calling this method during the host's OnLoad event.
-        /// </summary>
-        /// <param name="hostInstance">Interface implemented by the host object.</param>
-        /// <param name="propertyPages">The array of pages to display on the tab control.</param>
-        /// <param name="settings">The settings to read from and write to.</param>
-        /// <param name="coreInstance">The StyleCop core instance.</param>
-        /// <param name="contextItem">The context for the property control.</param>
-        internal void Initialize(
-            IPropertyControlHost hostInstance, 
-            IList<IPropertyControlPage> propertyPages,
-            WritableSettings settings,
-            StyleCopCore coreInstance, 
-            params object[] contextItem)
-        {
-            Param.AssertNotNull(hostInstance, "hostInstance");
-            Param.Assert(propertyPages != null && propertyPages.Count > 0, "propertyPages", "Cannot be null or empty");
-            Param.AssertNotNull(settings, "settings");
-            Param.AssertNotNull(coreInstance, "coreInstance");
-            Param.Ignore(contextItem);
-
-            // Make sure we haven't already been intialized.
-            if (this.host != null)
-            {
-                throw new StyleCopException(Strings.PropertyControlAlreadyInitialized);
-            }
-            
-            this.host = hostInstance;
-            this.pageInterfaces = propertyPages;
-            this.localSettings = settings;
-            this.core = coreInstance;
-            this.context = contextItem;
-
-            // Set the contents of the parent settings file.
-            SettingsMerger merger = new SettingsMerger(this.localSettings, this.core.Environment);
-            this.parentSettings = merger.ParentMergedSettings;
-            this.mergedSettings = merger.MergedSettings;
-
-            // Set up the settings comparer.
-            this.settingsComparer = new SettingsComparer(this.localSettings, this.parentSettings);
-
-            // Make sure the context is non-null.
-            if (this.context == null)
-            {
-                this.context = new object[] { };
-            }
-
-            this.tabPages = new TabPage[propertyPages.Count];
-            this.pages = new UserControl[propertyPages.Count];
-
-            // Add each of the property pages.
-            int pageCount = 0;
-
-            // Initialize the settings pages.
-            for (int i = 0; i < propertyPages.Count; ++i)
-            {
-                this.pages[pageCount] = (UserControl)this.pageInterfaces[i];
-                TabPage tabPage = new TabPage(this.pageInterfaces[i].TabName);
-                
-                this.tabPages[pageCount] = tabPage;
-                tabPage.Controls.Add(this.pages[i]);
-                this.Controls.Add(tabPage);
-
-                this.pages[i].Dock = DockStyle.Fill;
-                this.SizePage(i);
-
-                // The first page has already been initialized.
-                this.pageInterfaces[i].Initialize(this);
-
-                ++pageCount;
-            }
-
-            // Activate the first page.
-            if (this.TabPages[0] != null)
-            {
-                this.SelectedTab = this.tabPages[0];
-                this.pageInterfaces[0].Activate(true);
-            }
-
-            this.SizeChanged += new System.EventHandler(this.OnSizeChanged);
-        }
+        #region Methods
 
         /// <summary>
         /// Applies the data on the property pages.
         /// </summary>
-        /// <param name="dirtyPages">Returns true if any pages were dirty.</param>
-        /// <returns>Returns false if any page returned false from it's apply call, in which case
-        /// the apply failed.</returns>
+        /// <param name="dirtyPages">
+        /// Returns true if any pages were dirty.
+        /// </param>
+        /// <returns>
+        /// Returns false if any page returned false from it's apply call, in which case
+        /// the apply failed.
+        /// </returns>
         internal PropertyControlSaveResult Apply(out bool dirtyPages)
         {
             dirtyPages = false;
@@ -412,11 +337,11 @@ namespace StyleCop
                     if (!this.core.Environment.SaveSettings(this.localSettings, out exception))
                     {
                         AlertDialog.Show(
-                            this.core,
-                            this,
-                            string.Format(CultureInfo.CurrentUICulture, Strings.CouldNotSaveSettingsFile, exception.Message),
-                            Strings.Title,
-                            MessageBoxButtons.OK,
+                            this.core, 
+                            this, 
+                            string.Format(CultureInfo.CurrentUICulture, Strings.CouldNotSaveSettingsFile, exception.Message), 
+                            Strings.Title, 
+                            MessageBoxButtons.OK, 
                             MessageBoxIcon.Error);
 
                         result = PropertyControlSaveResult.SaveError;
@@ -441,11 +366,98 @@ namespace StyleCop
             return result;
         }
 
-        #endregion Internal Methods
+        /// <summary>
+        /// The control must be initialized by calling this method during the host's OnLoad event.
+        /// </summary>
+        /// <param name="hostInstance">
+        /// Interface implemented by the host object.
+        /// </param>
+        /// <param name="propertyPages">
+        /// The array of pages to display on the tab control.
+        /// </param>
+        /// <param name="settings">
+        /// The settings to read from and write to.
+        /// </param>
+        /// <param name="coreInstance">
+        /// The StyleCop core instance.
+        /// </param>
+        /// <param name="contextItem">
+        /// The context for the property control.
+        /// </param>
+        internal void Initialize(
+            IPropertyControlHost hostInstance, 
+            IList<IPropertyControlPage> propertyPages, 
+            WritableSettings settings, 
+            StyleCopCore coreInstance, 
+            params object[] contextItem)
+        {
+            Param.AssertNotNull(hostInstance, "hostInstance");
+            Param.Assert(propertyPages != null && propertyPages.Count > 0, "propertyPages", "Cannot be null or empty");
+            Param.AssertNotNull(settings, "settings");
+            Param.AssertNotNull(coreInstance, "coreInstance");
+            Param.Ignore(contextItem);
 
-        #region Private Methods
+            // Make sure we haven't already been intialized.
+            if (this.host != null)
+            {
+                throw new StyleCopException(Strings.PropertyControlAlreadyInitialized);
+            }
 
-        #region Component Designer generated code
+            this.host = hostInstance;
+            this.pageInterfaces = propertyPages;
+            this.localSettings = settings;
+            this.core = coreInstance;
+            this.context = contextItem;
+
+            // Set the contents of the parent settings file.
+            SettingsMerger merger = new SettingsMerger(this.localSettings, this.core.Environment);
+            this.parentSettings = merger.ParentMergedSettings;
+            this.mergedSettings = merger.MergedSettings;
+
+            // Set up the settings comparer.
+            this.settingsComparer = new SettingsComparer(this.localSettings, this.parentSettings);
+
+            // Make sure the context is non-null.
+            if (this.context == null)
+            {
+                this.context = new object[] { };
+            }
+
+            this.tabPages = new TabPage[propertyPages.Count];
+            this.pages = new UserControl[propertyPages.Count];
+
+            // Add each of the property pages.
+            int pageCount = 0;
+
+            // Initialize the settings pages.
+            for (int i = 0; i < propertyPages.Count; ++i)
+            {
+                this.pages[pageCount] = (UserControl)this.pageInterfaces[i];
+                TabPage tabPage = new TabPage(this.pageInterfaces[i].TabName);
+
+                this.tabPages[pageCount] = tabPage;
+                tabPage.Controls.Add(this.pages[i]);
+                this.Controls.Add(tabPage);
+
+                this.pages[i].Dock = DockStyle.Fill;
+                this.SizePage(i);
+
+                // The first page has already been initialized.
+                this.pageInterfaces[i].Initialize(this);
+
+                ++pageCount;
+            }
+
+            // Activate the first page.
+            if (this.TabPages[0] != null)
+            {
+                this.SelectedTab = this.tabPages[0];
+                this.pageInterfaces[0].Activate(true);
+            }
+
+            this.SizeChanged += this.OnSizeChanged;
+        }
+
         /// <summary> 
         /// Required method for Designer support - do not modify 
         /// the contents of this method with the code editor.
@@ -453,23 +465,24 @@ namespace StyleCop
         private void InitializeComponent()
         {
             this.SuspendLayout();
-            // 
+
             // PropertyControl
-            // 
-            this.Controls.AddRange(new System.Windows.Forms.Control[] {
-                                                                          });
+            this.Controls.AddRange(new Control[] { });
             this.Name = "PropertyControl";
             this.Size = new System.Drawing.Size(248, 216);
             this.ResumeLayout(false);
         }
-        #endregion
 
         /// <summary>
         /// Called when the size of the dialog changes.
         /// </summary>
-        /// <param name="sender">The event sender..</param>
-        /// <param name="e">The event arguments.</param>
-        private void OnSizeChanged(object sender, System.EventArgs e)
+        /// <param name="sender">
+        /// The event sender..
+        /// </param>
+        /// <param name="e">
+        /// The event arguments.
+        /// </param>
+        private void OnSizeChanged(object sender, EventArgs e)
         {
             Param.Ignore(sender, e);
 
@@ -482,7 +495,9 @@ namespace StyleCop
         /// <summary>
         /// Sets the size of a tab page to fill the sheet area.
         /// </summary>
-        /// <param name="index">The index of the tab to size.</param>
+        /// <param name="index">
+        /// The index of the tab to size.
+        /// </param>
         private void SizePage(int index)
         {
             Param.AssertValueBetween(index, 0, this.tabPages.Length - 1, "index");
@@ -493,6 +508,6 @@ namespace StyleCop
             this.tabPages[index].Width = rect.Width;
         }
 
-        #endregion Private Methods
+        #endregion
     }
 }

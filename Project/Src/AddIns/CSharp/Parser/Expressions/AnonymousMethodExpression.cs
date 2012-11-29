@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="AnonymousMethodExpression.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="AnonymousMethodExpression.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   An expression representing an anonymous method.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
     /// <summary>
@@ -20,12 +23,16 @@ namespace StyleCop.CSharp
     /// <subcategory>expression</subcategory>
     public sealed class AnonymousMethodExpression : ExpressionWithParameters
     {
+        #region Fields
+
         /// <summary>
         /// Is this expression sync or async.
         /// </summary>
         private bool asyncExpression;
 
-        #region Internal Constructors
+        #endregion
+
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the AnonymousMethodExpression class.
@@ -35,7 +42,9 @@ namespace StyleCop.CSharp
         {
         }
 
-        #endregion Internal Constructors
+        #endregion
+
+        #region Public Properties
 
         /// <summary>
         /// Gets a value indicating whether this anonymous expression is async or sync.
@@ -53,5 +62,7 @@ namespace StyleCop.CSharp
                 this.asyncExpression = value;
             }
         }
+
+        #endregion
     }
 }

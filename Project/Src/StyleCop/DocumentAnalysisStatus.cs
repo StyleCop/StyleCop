@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="DocumentAnalysisStatus.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="DocumentAnalysisStatus.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,18 +11,23 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Keeps track of the analysis status for a single code document.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop
 {
-    using System;
-    using System.Collections.Generic;
-
     /// <summary>
     /// Keeps track of the analysis status for a single code document.
     /// </summary>
     internal class DocumentAnalysisStatus
     {
-        #region Private Fields
+        #region Fields
+
+        /// <summary>
+        /// Indicates whether the analysis is complete.
+        /// </summary>
+        private bool complete;
 
         /// <summary>
         /// The document being parsed.
@@ -34,40 +39,24 @@ namespace StyleCop
         /// </summary>
         private bool initialized;
 
-        /// <summary>
-        /// Indicates whether the analysis is complete.
-        /// </summary>
-        private bool complete;
-
-        #endregion Private Fields
-
-        #region Public Constructors
-
-        /// <summary>
-        /// Initializes a new instance of the DocumentAnalysisStatus class.
-        /// </summary>
-        public DocumentAnalysisStatus()
-        {
-        }
-
-        #endregion Public Constructors
+        #endregion
 
         #region Public Properties
 
         /// <summary>
-        /// Gets or sets a value indicating whether the contents of the class have been initialized.
+        /// Gets or sets a value indicating whether the analysis for this file is complete.
         /// </summary>
-        public bool Initialized
+        public bool Complete
         {
             get
             {
-                return this.initialized;
+                return this.complete;
             }
 
             set
             {
                 Param.Ignore(value);
-                this.initialized = value;
+                this.complete = value;
             }
         }
 
@@ -89,22 +78,22 @@ namespace StyleCop
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the analysis for this file is complete.
+        /// Gets or sets a value indicating whether the contents of the class have been initialized.
         /// </summary>
-        public bool Complete
+        public bool Initialized
         {
             get
             {
-                return this.complete;
+                return this.initialized;
             }
 
             set
             {
                 Param.Ignore(value);
-                this.complete = value;
+                this.initialized = value;
             }
         }
 
-        #endregion Public Properties
+        #endregion
     }
 }

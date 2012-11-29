@@ -15,14 +15,13 @@
 //   QuickFix - SA1634: FileHeaderMustContainFileName.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper710.QuickFixes.Documentation
 {
     #region Using Directives
 
     using System.Collections.Generic;
 
-        using JetBrains.ReSharper.Feature.Services.Bulbs;
+    using JetBrains.ReSharper.Feature.Services.Bulbs;
     using JetBrains.ReSharper.Intentions.Extensibility;
 
     using StyleCop.ReSharper710.BulbItems.Documentation;
@@ -110,7 +109,14 @@ namespace StyleCop.ReSharper710.QuickFixes.Documentation
         /// </summary>
         protected override void InitialiseBulbItems()
         {
-            this.BulbItems = new List<IBulbAction> { new SA1634FileHeaderMustShowCopyrightBulbItem { Description = "Add copyright to header : " + this.Highlighting.ToolTip } };
+            this.BulbItems = new List<IBulbAction>
+                                 {
+                                     new SA1634FileHeaderMustShowCopyrightBulbItem
+                                         {
+                                             Description =
+                                                 "Add copyright to header : " + this.Highlighting.ToolTip
+                                         }
+                                 };
         }
 
         #endregion

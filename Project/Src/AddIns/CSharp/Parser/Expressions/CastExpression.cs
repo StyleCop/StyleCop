@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="CastExpression.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="CastExpression.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   An expression representing a cast operation.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
     using System.Diagnostics.CodeAnalysis;
@@ -22,28 +25,34 @@ namespace StyleCop.CSharp
     /// <subcategory>expression</subcategory>
     public sealed class CastExpression : Expression
     {
-        #region Private Fields
-
-        /// <summary>
-        /// The cast type.
-        /// </summary>
-        private TypeToken type;
+        #region Fields
 
         /// <summary>
         /// The expression being casted.
         /// </summary>
-        private Expression castedExpression;
+        private readonly Expression castedExpression;
 
-        #endregion Private Fields
+        /// <summary>
+        /// The cast type.
+        /// </summary>
+        private readonly TypeToken type;
 
-        #region Internal Constructors
+        #endregion
+
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the CastExpression class.
         /// </summary>
-        /// <param name="tokens">The list of tokens that form the expression.</param>
-        /// <param name="type">The cast type.</param>
-        /// <param name="castedExpression">The expression being casted.</param>
+        /// <param name="tokens">
+        /// The list of tokens that form the expression.
+        /// </param>
+        /// <param name="type">
+        /// The cast type.
+        /// </param>
+        /// <param name="castedExpression">
+        /// The expression being casted.
+        /// </param>
         internal CastExpression(CsTokenList tokens, LiteralExpression type, Expression castedExpression)
             : base(ExpressionType.Cast, tokens)
         {
@@ -58,24 +67,9 @@ namespace StyleCop.CSharp
             this.AddExpression(castedExpression);
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
-
-        /// <summary>
-        /// Gets the cast type.
-        /// </summary>
-        [SuppressMessage(
-            "Microsoft.Naming", 
-            "CA1721:PropertyNamesShouldNotMatchGetMethods",
-            Justification = "API has already been published and should not be changed.")]
-        public TypeToken Type
-        {
-            get
-            {
-                return this.type;
-            }
-        }
 
         /// <summary>
         /// Gets the expression being casted.
@@ -88,6 +82,18 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Properties
+        /// <summary>
+        /// Gets the cast type.
+        /// </summary>
+        [SuppressMessage("Microsoft.Naming", "CA1721:PropertyNamesShouldNotMatchGetMethods", Justification = "API has already been published and should not be changed.")]
+        public TypeToken Type
+        {
+            get
+            {
+                return this.type;
+            }
+        }
+
+        #endregion
     }
 }

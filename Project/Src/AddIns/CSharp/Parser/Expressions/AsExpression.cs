@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="AsExpression.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="AsExpression.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   An expression representing an as-operation.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
     using System.Diagnostics.CodeAnalysis;
@@ -22,28 +25,34 @@ namespace StyleCop.CSharp
     /// <subcategory>expression</subcategory>
     public sealed class AsExpression : Expression
     {
-        #region Private Properties
-
-        /// <summary>
-        /// The value to convert.
-        /// </summary>
-        private Expression value;
+        #region Fields
 
         /// <summary>
         /// The type of the conversion.
         /// </summary>
-        private TypeToken type;
+        private readonly TypeToken type;
 
-        #endregion Private Properties
+        /// <summary>
+        /// The value to convert.
+        /// </summary>
+        private readonly Expression value;
 
-        #region Internal Constructors
+        #endregion
+
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the AsExpression class.
         /// </summary>
-        /// <param name="tokens">The list of tokens that form the expression.</param>
-        /// <param name="value">The value to convert.</param>
-        /// <param name="type">The type of the conversion.</param>
+        /// <param name="tokens">
+        /// The list of tokens that form the expression.
+        /// </param>
+        /// <param name="value">
+        /// The value to convert.
+        /// </param>
+        /// <param name="type">
+        /// The type of the conversion.
+        /// </param>
         internal AsExpression(CsTokenList tokens, Expression value, LiteralExpression type)
             : base(ExpressionType.As, tokens)
         {
@@ -58,9 +67,21 @@ namespace StyleCop.CSharp
             this.AddExpression(type);
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
+
+        /// <summary>
+        /// Gets the type of the conversion.
+        /// </summary>
+        [SuppressMessage("Microsoft.Naming", "CA1721:PropertyNamesShouldNotMatchGetMethods", Justification = "API has already been published and should not be changed.")]
+        public TypeToken Type
+        {
+            get
+            {
+                return this.type;
+            }
+        }
 
         /// <summary>
         /// Gets the value to convert.
@@ -73,21 +94,6 @@ namespace StyleCop.CSharp
             }
         }
 
-        /// <summary>
-        /// Gets the type of the conversion.
-        /// </summary>
-        [SuppressMessage(
-            "Microsoft.Naming", 
-            "CA1721:PropertyNamesShouldNotMatchGetMethods", 
-            Justification = "API has already been published and should not be changed.")]
-        public TypeToken Type
-        {
-            get
-            {
-                return this.type;
-            }
-        }
-
-        #endregion Public Properties
+        #endregion
     }
 }

@@ -15,14 +15,13 @@
 //   QuickFix for StyleCop Rule SA1401.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper710.QuickFixes.Maintainability
 {
     #region Using Directives
 
     using System.Collections.Generic;
 
-        using JetBrains.ReSharper.Feature.Services.Bulbs;
+    using JetBrains.ReSharper.Feature.Services.Bulbs;
     using JetBrains.ReSharper.Intentions.Extensibility;
 
     using StyleCop.ReSharper710.BulbItems.Maintainability;

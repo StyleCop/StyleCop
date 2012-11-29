@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="Symbol.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Symbol.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,44 +11,50 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   One token, word, symbol, or line read from a C# code file.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
-    using System.Diagnostics;
-
     /// <summary>
     /// One token, word, symbol, or line read from a C# code file.
     /// </summary>
     internal class Symbol
     {
-        #region Private Fields
-
-        /// <summary>
-        /// The item text.
-        /// </summary>
-        private string text = string.Empty;
+        #region Fields
 
         /// <summary>
         /// The location of this token in the code document.
         /// </summary>
-        private CodeLocation location;
+        private readonly CodeLocation location;
+
+        /// <summary>
+        /// The item text.
+        /// </summary>
+        private readonly string text = string.Empty;
 
         /// <summary>
         /// The type of this symbol.
         /// </summary>
         private SymbolType symbolType;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the Symbol class.
         /// </summary>
-        /// <param name="text">The item text.</param>
-        /// <param name="symbolType">The symbol type.</param>
-        /// <param name="location">The location of the token within the code document.</param>
+        /// <param name="text">
+        /// The item text.
+        /// </param>
+        /// <param name="symbolType">
+        /// The symbol type.
+        /// </param>
+        /// <param name="location">
+        /// The location of the token within the code document.
+        /// </param>
         internal Symbol(string text, SymbolType symbolType, CodeLocation location)
         {
             Param.AssertValidString(text, "text");
@@ -60,18 +66,29 @@ namespace StyleCop.CSharp
             this.location = location;
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
 
         /// <summary>
-        /// Gets the symbol string.
+        /// Gets the line number that this symbol appears on in the document.
         /// </summary>
-        public string Text
+        public int LineNumber
         {
             get
             {
-                return this.text;
+                return this.location.LineNumber;
+            }
+        }
+
+        /// <summary>
+        /// Gets the location of this symbol in the code document.
+        /// </summary>
+        public CodeLocation Location
+        {
+            get
+            {
+                return this.location;
             }
         }
 
@@ -93,30 +110,19 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Gets the location of this symbol in the code document.
+        /// Gets the symbol string.
         /// </summary>
-        public CodeLocation Location
+        public string Text
         {
             get
             {
-                return this.location;
+                return this.text;
             }
         }
 
-        /// <summary>
-        /// Gets the line number that this symbol appears on in the document.
-        /// </summary>
-        public int LineNumber
-        {
-            get
-            {
-                return this.location.LineNumber;
-            }
-        }
+        #endregion
 
-        #endregion Public Properties
-
-        #region Public Override Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Returns the contents of the symbol as s string.
@@ -127,6 +133,6 @@ namespace StyleCop.CSharp
             return this.text;
         }
 
-        #endregion Public Override Methods
+        #endregion
     }
 }

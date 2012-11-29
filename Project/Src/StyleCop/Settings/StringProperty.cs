@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="StringProperty.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="StringProperty.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,26 +11,28 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   A string property.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Text;
-
     /// <summary>
     /// A string property.
     /// </summary>
     public class StringProperty : PropertyValue<string>
     {
-        #region Public Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the StringProperty class.
         /// </summary>
-        /// <param name="propertyDescriptor">The property descriptor that this value represents.</param>
-        /// <param name="value">The value of the property.</param>
+        /// <param name="propertyDescriptor">
+        /// The property descriptor that this value represents.
+        /// </param>
+        /// <param name="value">
+        /// The value of the property.
+        /// </param>
         public StringProperty(PropertyDescriptor<string> propertyDescriptor, string value)
             : base(propertyDescriptor, value)
         {
@@ -41,9 +43,15 @@ namespace StyleCop
         /// <summary>
         /// Initializes a new instance of the StringProperty class.
         /// </summary>
-        /// <param name="propertyContainer">The container of this property.</param>
-        /// <param name="propertyName">The name of the property.</param>
-        /// <param name="value">The value of the property.</param>
+        /// <param name="propertyContainer">
+        /// The container of this property.
+        /// </param>
+        /// <param name="propertyName">
+        /// The name of the property.
+        /// </param>
+        /// <param name="value">
+        /// The value of the property.
+        /// </param>
         public StringProperty(IPropertyContainer propertyContainer, string propertyName, string value)
             : base(propertyContainer, propertyName, value)
         {
@@ -52,9 +60,9 @@ namespace StyleCop
             Param.Ignore(value);
         }
 
-        #endregion Public Constructors
+        #endregion
 
-        #region Public Override Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Clones the contents of the property.
@@ -65,6 +73,6 @@ namespace StyleCop
             return new StringProperty((PropertyDescriptor<string>)this.PropertyDescriptor, this.Value);
         }
 
-        #endregion Public Override Methods
+        #endregion
     }
 }

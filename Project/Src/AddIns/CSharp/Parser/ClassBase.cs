@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="ClassBase.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ClassBase.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,10 +11,12 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   The base class for classes, structs and interfaces.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
 
@@ -24,7 +26,12 @@ namespace StyleCop.CSharp
     /// <subcategory>element</subcategory>
     public abstract class ClassBase : CsElement, ITypeConstraintContainer
     {
-        #region Private Fields
+        #region Fields
+
+        /// <summary>
+        /// The list of type constraints on the item, if any.
+        /// </summary>
+        private readonly ICollection<TypeParameterConstraintClause> typeConstraints;
 
         /// <summary>
         /// The name of the base class that this item inherits from.
@@ -36,38 +43,53 @@ namespace StyleCop.CSharp
         /// </summary>
         private string[] implementedInterfaces = new string[] { };
 
-        /// <summary>
-        /// The list of type constraints on the item, if any.
-        /// </summary>
-        private ICollection<TypeParameterConstraintClause> typeConstraints;
+        #endregion
 
-        #endregion Private Fields
-
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the ClassBase class.
         /// </summary>
-        /// <param name="document">The document that contains the element.</param>
-        /// <param name="parent">The parent of the element.</param>
-        /// <param name="type">The element type.</param>
-        /// <param name="name">The name of this element.</param>
-        /// <param name="header">The Xml header for this element.</param>
-        /// <param name="attributes">The list of attributes attached to this element.</param>
-        /// <param name="declaration">The declaration code for this element.</param>
-        /// <param name="typeConstraints">The list of type constraints on the element.</param>
-        /// <param name="unsafeCode">Indicates whether the element resides within a block of unsafe code.</param>
-        /// <param name="generated">Indicates whether the code element was generated or written by hand.</param>
+        /// <param name="document">
+        /// The document that contains the element.
+        /// </param>
+        /// <param name="parent">
+        /// The parent of the element.
+        /// </param>
+        /// <param name="type">
+        /// The element type.
+        /// </param>
+        /// <param name="name">
+        /// The name of this element.
+        /// </param>
+        /// <param name="header">
+        /// The Xml header for this element.
+        /// </param>
+        /// <param name="attributes">
+        /// The list of attributes attached to this element.
+        /// </param>
+        /// <param name="declaration">
+        /// The declaration code for this element.
+        /// </param>
+        /// <param name="typeConstraints">
+        /// The list of type constraints on the element.
+        /// </param>
+        /// <param name="unsafeCode">
+        /// Indicates whether the element resides within a block of unsafe code.
+        /// </param>
+        /// <param name="generated">
+        /// Indicates whether the code element was generated or written by hand.
+        /// </param>
         internal ClassBase(
-            CsDocument document,
-            CsElement parent,
-            ElementType type,
-            string name,
-            XmlHeader header,
-            ICollection<Attribute> attributes,
-            Declaration declaration,
-            ICollection<TypeParameterConstraintClause> typeConstraints,
-            bool unsafeCode,
+            CsDocument document, 
+            CsElement parent, 
+            ElementType type, 
+            string name, 
+            XmlHeader header, 
+            ICollection<Attribute> attributes, 
+            Declaration declaration, 
+            ICollection<TypeParameterConstraintClause> typeConstraints, 
+            bool unsafeCode, 
             bool generated)
             : base(document, parent, type, name, header, attributes, declaration, unsafeCode, generated)
         {
@@ -87,20 +109,9 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
-
-        /// <summary>
-        /// Gets the list of interfaces that this element implements.
-        /// </summary>
-        public ICollection<string> ImplementedInterfaces
-        {
-            get
-            {
-                return this.implementedInterfaces;
-            }
-        }
 
         /// <summary>
         /// Gets the name of the base element that this element inherits from.
@@ -110,6 +121,17 @@ namespace StyleCop.CSharp
             get
             {
                 return this.baseClass;
+            }
+        }
+
+        /// <summary>
+        /// Gets the list of interfaces that this element implements.
+        /// </summary>
+        public ICollection<string> ImplementedInterfaces
+        {
+            get
+            {
+                return this.implementedInterfaces;
             }
         }
 
@@ -149,14 +171,16 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Properties
+        #endregion
 
-        #region Protected Methods
+        #region Methods
 
         /// <summary>
         /// Sets the inherited items of the class.
         /// </summary>
-        /// <param name="declaration">The class declaration.</param>
+        /// <param name="declaration">
+        /// The class declaration.
+        /// </param>
         protected void SetInheritedItems(Declaration declaration)
         {
             Param.RequireNotNull(declaration, "declaration");
@@ -171,15 +195,10 @@ namespace StyleCop.CSharp
             {
                 if (colon)
                 {
-                    if (token.CsTokenType != CsTokenType.WhiteSpace &&
-                        token.CsTokenType != CsTokenType.EndOfLine &&
-                        token.CsTokenType != CsTokenType.SingleLineComment &&
-                        token.CsTokenType != CsTokenType.MultiLineComment &&
-                        token.CsTokenType != CsTokenType.PreprocessorDirective)
+                    if (token.CsTokenType != CsTokenType.WhiteSpace && token.CsTokenType != CsTokenType.EndOfLine && token.CsTokenType != CsTokenType.SingleLineComment
+                        && token.CsTokenType != CsTokenType.MultiLineComment && token.CsTokenType != CsTokenType.PreprocessorDirective)
                     {
-                        if (token.Text.Length >= 2 &&
-                            token.Text[0] == 'I' &&
-                            char.IsUpper(token.Text[1]))
+                        if (token.Text.Length >= 2 && token.Text[0] == 'I' && char.IsUpper(token.Text[1]))
                         {
                             interfaces.Add(CodeParser.TrimType(token.Text));
                         }
@@ -193,11 +212,8 @@ namespace StyleCop.CSharp
                 }
                 else if (comma)
                 {
-                    if (token.CsTokenType != CsTokenType.WhiteSpace &&
-                        token.CsTokenType != CsTokenType.EndOfLine &&
-                        token.CsTokenType != CsTokenType.SingleLineComment &&
-                        token.CsTokenType != CsTokenType.MultiLineComment &&
-                        token.CsTokenType != CsTokenType.PreprocessorDirective)
+                    if (token.CsTokenType != CsTokenType.WhiteSpace && token.CsTokenType != CsTokenType.EndOfLine && token.CsTokenType != CsTokenType.SingleLineComment
+                        && token.CsTokenType != CsTokenType.MultiLineComment && token.CsTokenType != CsTokenType.PreprocessorDirective)
                     {
                         interfaces.Add(CodeParser.TrimType(token.Text));
                         comma = false;
@@ -233,6 +249,6 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Protected Methods
+        #endregion
     }
 }

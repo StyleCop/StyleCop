@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="CodeParser.Symbols.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="CodeParser.Symbols.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,64 +11,76 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   The code parser.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
     using System;
-    using System.Collections;
-    using System.Collections.Generic;
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
-    using System.IO;
-    using System.Text;
-    using System.Threading;
-    using System.Xml;
-    using StyleCop;
 
+    /// <summary>
+    /// The code parser.
+    /// </summary>
     /// <content>
     /// Contains code for parsing symbols within a C# code file.
     /// </content>
     internal partial class CodeParser
     {
-        #region Private Static Methods
+        #region Methods
 
         /// <summary>
-        /// Converts a symbol type to a token type.
+        /// Creates an operator token from the given symbol.
         /// </summary>
-        /// <param name="symbolType">The symbol type to convert.</param>
-        /// <returns>Returns the token type.</returns>
-        /// <remarks>This method should only be used for converting whitespace and comment symbol types.</remarks>
-        private static CsTokenType TokenTypeFromSymbolType(SymbolType symbolType)
+        /// <param name="symbol">
+        /// The symbol to convert.
+        /// </param>
+        /// <param name="parentReference">
+        /// The parent code part.
+        /// </param>
+        /// <param name="generated">
+        /// Indicates whether the symbol lies within a generated code block.
+        /// </param>
+        /// <returns>
+        /// Returns the operator symbol.
+        /// </returns>
+        private static OperatorSymbol CreateOperatorToken(Symbol symbol, Reference<ICodePart> parentReference, bool generated)
         {
-            Param.Ignore(symbolType);
+            Param.AssertNotNull(symbol, "symbol");
+            Param.AssertNotNull(parentReference, "parentReference");
+            Param.Ignore(generated);
 
-            switch (symbolType)
+            // Get the type of the operator.
+            OperatorType type;
+            OperatorCategory category;
+            if (!GetOperatorType(symbol, out type, out category))
             {
-                case SymbolType.WhiteSpace:
-                    return CsTokenType.WhiteSpace;
-                case SymbolType.EndOfLine:
-                    return CsTokenType.EndOfLine;
-                case SymbolType.SingleLineComment:
-                    return CsTokenType.SingleLineComment;
-                case SymbolType.MultiLineComment:
-                    return CsTokenType.MultiLineComment;
-                case SymbolType.PreprocessorDirective:
-                    return CsTokenType.PreprocessorDirective;
-                case SymbolType.XmlHeaderLine:
-                    return CsTokenType.XmlHeaderLine;
-                default:
-                    Debug.Fail("This method should only be used for whitespace, comments, xml header lines, and preprocessors");
-                    throw new StyleCopException();
+                // This should never happen unless there is a bug in the code.
+                Debug.Fail("Unexpected operator type");
+                throw new InvalidOperationException();
             }
+
+            // Create and return the operator.
+            return new OperatorSymbol(symbol.Text, category, type, symbol.Location, parentReference, generated);
         }
 
         /// <summary>
         /// Gets the type of the given operator symbol.
         /// </summary>
-        /// <param name="symbol">The symbol to check.</param>
-        /// <param name="type">Returns the operator type.</param>
-        /// <param name="category">Returns the operator category.</param>
-        /// <returns>Returns true if the symbol is an operator.</returns>
+        /// <param name="symbol">
+        /// The symbol to check.
+        /// </param>
+        /// <param name="type">
+        /// Returns the operator type.
+        /// </param>
+        /// <param name="category">
+        /// Returns the operator category.
+        /// </param>
+        /// <returns>
+        /// Returns true if the symbol is an operator.
+        /// </returns>
         [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification = "The method is not complex.")]
         private static bool GetOperatorType(Symbol symbol, out OperatorType type, out OperatorCategory category)
         {
@@ -239,6 +251,7 @@ namespace StyleCop.CSharp
                     category = OperatorCategory.Lambda;
                     break;
                 default:
+
                     // Assign random values.
                     type = OperatorType.AddressOf;
                     category = OperatorCategory.Arithmetic;
@@ -254,8 +267,12 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Gets the symbol type corresponding to the given operator type.
         /// </summary>
-        /// <param name="operatorType">The operator type to convert.</param>
-        /// <returns>Returns the symbol type.</returns>
+        /// <param name="operatorType">
+        /// The operator type to convert.
+        /// </param>
+        /// <returns>
+        /// Returns the symbol type.
+        /// </returns>
         [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification = "The method is not complex.")]
         private static SymbolType SymbolTypeFromOperatorType(OperatorType operatorType)
         {
@@ -358,45 +375,52 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Creates an operator token from the given symbol.
+        /// Converts a symbol type to a token type.
         /// </summary>
-        /// <param name="symbol">The symbol to convert.</param>
-        /// <param name="parentReference">The parent code part.</param>
-        /// <param name="generated">Indicates whether the symbol lies within a generated code block.</param>
-        /// <returns>Returns the operator symbol.</returns>
-        private static OperatorSymbol CreateOperatorToken(Symbol symbol, Reference<ICodePart> parentReference, bool generated)
+        /// <param name="symbolType">
+        /// The symbol type to convert.
+        /// </param>
+        /// <returns>
+        /// Returns the token type.
+        /// </returns>
+        /// <remarks>
+        /// This method should only be used for converting whitespace and comment symbol types.
+        /// </remarks>
+        private static CsTokenType TokenTypeFromSymbolType(SymbolType symbolType)
         {
-            Param.AssertNotNull(symbol, "symbol");
-            Param.AssertNotNull(parentReference, "parentReference");
-            Param.Ignore(generated);
+            Param.Ignore(symbolType);
 
-            // Get the type of the operator.
-            OperatorType type;
-            OperatorCategory category;
-            if (!GetOperatorType(symbol, out type, out category))
+            switch (symbolType)
             {
-                // This should never happen unless there is a bug in the code.
-                Debug.Fail("Unexpected operator type");
-                throw new InvalidOperationException();
+                case SymbolType.WhiteSpace:
+                    return CsTokenType.WhiteSpace;
+                case SymbolType.EndOfLine:
+                    return CsTokenType.EndOfLine;
+                case SymbolType.SingleLineComment:
+                    return CsTokenType.SingleLineComment;
+                case SymbolType.MultiLineComment:
+                    return CsTokenType.MultiLineComment;
+                case SymbolType.PreprocessorDirective:
+                    return CsTokenType.PreprocessorDirective;
+                case SymbolType.XmlHeaderLine:
+                    return CsTokenType.XmlHeaderLine;
+                default:
+                    Debug.Fail("This method should only be used for whitespace, comments, xml header lines, and preprocessors");
+                    throw new StyleCopException();
             }
-
-            // Create and return the operator.
-            return new OperatorSymbol(symbol.Text, category, type, symbol.Location, parentReference, generated);
         }
-
-        #endregion Private Static Methods
-        
-        #region Private Methods
 
         /// <summary>
         /// Converts an operator overload symbol.
         /// </summary>
-        /// <param name="parentReference">The parent code part.</param>
-        /// <returns>Returns the corresponding token.</returns>
-        [SuppressMessage(
-            "Microsoft.Globalization", 
-            "CA1303:DoNotPassLiteralsAsLocalizedParameters",
-            MessageId = "StyleCop.CSharp.SymbolManager.Combine(System.Int32,System.Int32,System.String,StyleCop.CSharp.SymbolType)",
+        /// <param name="parentReference">
+        /// The parent code part.
+        /// </param>
+        /// <returns>
+        /// Returns the corresponding token.
+        /// </returns>
+        [SuppressMessage("Microsoft.Globalization", "CA1303:DoNotPassLiteralsAsLocalizedParameters", 
+            MessageId = "StyleCop.CSharp.SymbolManager.Combine(System.Int32,System.Int32,System.String,StyleCop.CSharp.SymbolType)", 
             Justification = "The literal represents a C# operator and is not localizable.")]
         private CsToken ConvertOperatorOverloadSymbol(Reference<ICodePart> parentReference)
         {
@@ -441,12 +465,137 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
+        /// Converts a symbol to the given token type.
+        /// </summary>
+        /// <param name="symbol">
+        /// The symbol to convert.
+        /// </param>
+        /// <param name="tokenType">
+        /// The type of the token to retrieve.
+        /// </param>
+        /// <param name="parentReference">
+        /// The parent code part.
+        /// </param>
+        /// <returns>
+        /// Returns the token.
+        /// </returns>
+        private CsToken ConvertSymbol(Symbol symbol, CsTokenType tokenType, Reference<ICodePart> parentReference)
+        {
+            Param.AssertNotNull(symbol, "symbol");
+            Param.Ignore(tokenType);
+            Param.AssertNotNull(parentReference, "parentReference");
+
+            // Create the appropriate token based on the type of the symbol.
+            if (symbol.SymbolType == SymbolType.WhiteSpace)
+            {
+                Debug.Assert(tokenType == CsTokenType.WhiteSpace, "The token type is wrong.");
+                return new Whitespace(symbol.Text, symbol.Location, parentReference, this.symbols.Generated);
+            }
+            else if (symbol.SymbolType == SymbolType.Number)
+            {
+                Debug.Assert(tokenType == CsTokenType.Number, "The token type is wrong.");
+                return new Number(symbol.Text, symbol.Location, parentReference, this.symbols.Generated);
+            }
+            else if (symbol.SymbolType == SymbolType.PreprocessorDirective)
+            {
+                Debug.Assert(tokenType == CsTokenType.PreprocessorDirective, "The token type is wrong.");
+                return this.GetPreprocessorDirectiveToken(symbol, parentReference, this.symbols.Generated);
+            }
+            else
+            {
+                // Brackets are created using the GetBracketToken method.
+                Debug.Assert(symbol.SymbolType != SymbolType.OpenParenthesis, "Do not use this method for converting brackets.");
+                Debug.Assert(symbol.SymbolType != SymbolType.CloseParenthesis, "Do not use this method for converting brackets.");
+                Debug.Assert(symbol.SymbolType != SymbolType.OpenSquareBracket, "Do not use this method for converting brackets.");
+                Debug.Assert(symbol.SymbolType != SymbolType.CloseSquareBracket, "Do not use this method for converting brackets.");
+                Debug.Assert(symbol.SymbolType != SymbolType.OpenCurlyBracket, "Do not use this method for converting brackets.");
+                Debug.Assert(symbol.SymbolType != SymbolType.CloseCurlyBracket, "Do not use this method for converting brackets.");
+                Debug.Assert(symbol.SymbolType != SymbolType.Attribute, "Do not use this method for converting attributes.");
+
+                return new CsToken(symbol.Text, tokenType, CsTokenClass.Token, symbol.Location, parentReference, this.symbols.Generated);
+            }
+        }
+
+        /// <summary>
+        /// Gets a bracket token of a specific type.
+        /// </summary>
+        /// <param name="tokenType">
+        /// The type of the token to retrieve.
+        /// </param>
+        /// <param name="symbolType">
+        /// The type of the symbol.
+        /// </param>
+        /// <param name="parentReference">
+        /// The parent code unit.
+        /// </param>
+        /// <returns>
+        /// Returns the token.
+        /// </returns>
+        private Bracket GetBracketToken(CsTokenType tokenType, SymbolType symbolType, Reference<ICodePart> parentReference)
+        {
+            Param.Ignore(tokenType);
+            Param.Ignore(symbolType);
+            Param.AssertNotNull(parentReference, "parentReference");
+
+            Debug.Assert(
+                tokenType == CsTokenType.OpenParenthesis || tokenType == CsTokenType.CloseParenthesis || tokenType == CsTokenType.OpenSquareBracket
+                || tokenType == CsTokenType.CloseSquareBracket || tokenType == CsTokenType.OpenCurlyBracket || tokenType == CsTokenType.CloseCurlyBracket
+                || tokenType == CsTokenType.OpenAttributeBracket || tokenType == CsTokenType.CloseAttributeBracket || tokenType == CsTokenType.OpenGenericBracket
+                || tokenType == CsTokenType.CloseGenericBracket, 
+                "The token type is not a bracket.");
+
+            Symbol symbol = this.GetNextSymbol(symbolType, parentReference);
+            this.symbols.Advance();
+
+            return new Bracket(symbol.Text, tokenType, symbol.Location, parentReference, this.symbols.Generated);
+        }
+
+        /// <summary>
+        /// Gets an operator token of a specific type.
+        /// </summary>
+        /// <param name="operatorType">
+        /// The type of the operator token to retrieve.
+        /// </param>
+        /// <param name="parentReference">
+        /// The parent code part.
+        /// </param>
+        /// <returns>
+        /// Returns the token.
+        /// </returns>
+        private OperatorSymbol GetOperatorToken(OperatorType operatorType, Reference<ICodePart> parentReference)
+        {
+            Param.Ignore(operatorType);
+            Param.AssertNotNull(parentReference, "parentReference");
+
+            SymbolType symbolType = SymbolTypeFromOperatorType(operatorType);
+            Symbol symbol = this.GetNextSymbol(symbolType, parentReference);
+
+            OperatorSymbol token = CreateOperatorToken(symbol, parentReference, this.symbols.Generated);
+            if (token == null || token.SymbolType != operatorType)
+            {
+                throw this.CreateSyntaxException();
+            }
+
+            this.symbols.Advance();
+
+            return token;
+        }
+
+        /// <summary>
         /// Gets a token of a specific type.
         /// </summary>
-        /// <param name="tokenType">The type of the token to retrieve.</param>
-        /// <param name="symbolType">The type of the expected symbol.</param>
-        /// <param name="parentReference">Reference to the parent code part.</param>
-        /// <returns>Returns the token.</returns>
+        /// <param name="tokenType">
+        /// The type of the token to retrieve.
+        /// </param>
+        /// <param name="symbolType">
+        /// The type of the expected symbol.
+        /// </param>
+        /// <param name="parentReference">
+        /// Reference to the parent code part.
+        /// </param>
+        /// <returns>
+        /// Returns the token.
+        /// </returns>
         private CsToken GetToken(CsTokenType tokenType, SymbolType symbolType, Reference<ICodePart> parentReference)
         {
             Param.Ignore(tokenType);
@@ -459,11 +608,21 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Gets a token of a specific type.
         /// </summary>
-        /// <param name="tokenType">The type of the token to retrieve.</param>
-        /// <param name="symbolType">The type of the expected symbol.</param>
-        /// <param name="parentReference">Reference to the parent code part.</param>
-        /// <param name="tokenParentReference">Reference to the parent of the new token.</param>
-        /// <returns>Returns the token.</returns>
+        /// <param name="tokenType">
+        /// The type of the token to retrieve.
+        /// </param>
+        /// <param name="symbolType">
+        /// The type of the expected symbol.
+        /// </param>
+        /// <param name="parentReference">
+        /// Reference to the parent code part.
+        /// </param>
+        /// <param name="tokenParentReference">
+        /// Reference to the parent of the new token.
+        /// </param>
+        /// <returns>
+        /// Returns the token.
+        /// </returns>
         private CsToken GetToken(CsTokenType tokenType, SymbolType symbolType, Reference<ICodePart> parentReference, Reference<ICodePart> tokenParentReference)
         {
             Param.Ignore(tokenType);
@@ -508,113 +667,20 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Converts a symbol to the given token type.
-        /// </summary>
-        /// <param name="symbol">The symbol to convert.</param>
-        /// <param name="tokenType">The type of the token to retrieve.</param>
-        /// <param name="parentReference">The parent code part.</param>
-        /// <returns>Returns the token.</returns>
-        private CsToken ConvertSymbol(Symbol symbol, CsTokenType tokenType, Reference<ICodePart> parentReference)
-        {
-            Param.AssertNotNull(symbol, "symbol");
-            Param.Ignore(tokenType);
-            Param.AssertNotNull(parentReference, "parentReference");
-
-            // Create the appropriate token based on the type of the symbol.
-            if (symbol.SymbolType == SymbolType.WhiteSpace)
-            {
-                Debug.Assert(tokenType == CsTokenType.WhiteSpace, "The token type is wrong.");
-                return new Whitespace(symbol.Text, symbol.Location, parentReference, this.symbols.Generated);
-            }
-            else if (symbol.SymbolType == SymbolType.Number)
-            {
-                Debug.Assert(tokenType == CsTokenType.Number, "The token type is wrong.");
-                return new Number(symbol.Text, symbol.Location, parentReference, this.symbols.Generated);
-            }
-            else if (symbol.SymbolType == SymbolType.PreprocessorDirective)
-            {
-                Debug.Assert(tokenType == CsTokenType.PreprocessorDirective, "The token type is wrong.");
-                return this.GetPreprocessorDirectiveToken(symbol, parentReference, this.symbols.Generated);
-            }
-            else
-            {
-                // Brackets are created using the GetBracketToken method.
-                Debug.Assert(symbol.SymbolType != SymbolType.OpenParenthesis, "Do not use this method for converting brackets.");
-                Debug.Assert(symbol.SymbolType != SymbolType.CloseParenthesis, "Do not use this method for converting brackets.");
-                Debug.Assert(symbol.SymbolType != SymbolType.OpenSquareBracket, "Do not use this method for converting brackets.");
-                Debug.Assert(symbol.SymbolType != SymbolType.CloseSquareBracket, "Do not use this method for converting brackets.");
-                Debug.Assert(symbol.SymbolType != SymbolType.OpenCurlyBracket, "Do not use this method for converting brackets.");
-                Debug.Assert(symbol.SymbolType != SymbolType.CloseCurlyBracket, "Do not use this method for converting brackets.");
-                Debug.Assert(symbol.SymbolType != SymbolType.Attribute, "Do not use this method for converting attributes.");
-
-                return new CsToken(symbol.Text, tokenType, CsTokenClass.Token, symbol.Location, parentReference, this.symbols.Generated);
-            }
-        }
-
-        /// <summary>
-        /// Gets a bracket token of a specific type.
-        /// </summary>
-        /// <param name="tokenType">The type of the token to retrieve.</param>
-        /// <param name="symbolType">The type of the symbol.</param>
-        /// <param name="parentReference">The parent code unit.</param>
-        /// <returns>Returns the token.</returns>
-        private Bracket GetBracketToken(CsTokenType tokenType, SymbolType symbolType, Reference<ICodePart> parentReference)
-        {
-            Param.Ignore(tokenType);
-            Param.Ignore(symbolType);
-            Param.AssertNotNull(parentReference, "parentReference");
-
-            Debug.Assert(
-                tokenType == CsTokenType.OpenParenthesis ||
-                tokenType == CsTokenType.CloseParenthesis ||
-                tokenType == CsTokenType.OpenSquareBracket ||
-                tokenType == CsTokenType.CloseSquareBracket ||
-                tokenType == CsTokenType.OpenCurlyBracket ||
-                tokenType == CsTokenType.CloseCurlyBracket ||
-                tokenType == CsTokenType.OpenAttributeBracket ||
-                tokenType == CsTokenType.CloseAttributeBracket ||
-                tokenType == CsTokenType.OpenGenericBracket ||
-                tokenType == CsTokenType.CloseGenericBracket,
-                "The token type is not a bracket.");
-
-            Symbol symbol = this.GetNextSymbol(symbolType, parentReference);
-            this.symbols.Advance();
-
-            return new Bracket(symbol.Text, tokenType, symbol.Location, parentReference, this.symbols.Generated);
-        }
-
-        /// <summary>
-        /// Gets an operator token of a specific type.
-        /// </summary>
-        /// <param name="operatorType">The type of the operator token to retrieve.</param>
-        /// <param name="parentReference">The parent code part.</param>
-        /// <returns>Returns the token.</returns>
-        private OperatorSymbol GetOperatorToken(OperatorType operatorType, Reference<ICodePart> parentReference)
-        {
-            Param.Ignore(operatorType);
-            Param.AssertNotNull(parentReference, "parentReference");
-
-            SymbolType symbolType = SymbolTypeFromOperatorType(operatorType);
-            Symbol symbol = this.GetNextSymbol(symbolType, parentReference);
-
-            OperatorSymbol token = CreateOperatorToken(symbol, parentReference, this.symbols.Generated);
-            if (token == null || token.SymbolType != operatorType)
-            {
-                throw this.CreateSyntaxException();
-            }
-
-            this.symbols.Advance();
-
-            return token;
-        }
-
-        /// <summary>
         /// Gets a token representing a type identifier.
         /// </summary>
-        /// <param name="parentReference">The parent code unit.</param>
-        /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
-        /// <param name="includeArrayBrackets">Indicates whether to include array brackets in the type token.</param>
-        /// <returns>Returns the token.</returns>
+        /// <param name="parentReference">
+        /// The parent code unit.
+        /// </param>
+        /// <param name="unsafeCode">
+        /// Indicates whether the code being parsed resides in an unsafe code block.
+        /// </param>
+        /// <param name="includeArrayBrackets">
+        /// Indicates whether to include array brackets in the type token.
+        /// </param>
+        /// <returns>
+        /// Returns the token.
+        /// </returns>
         private TypeToken GetTypeToken(Reference<ICodePart> parentReference, bool unsafeCode, bool includeArrayBrackets)
         {
             Param.AssertNotNull(parentReference, "parentReference");
@@ -627,11 +693,21 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Gets a token representing a type identifier.
         /// </summary>
-        /// <param name="parentReference">The parent code unit.</param>
-        /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
-        /// <param name="includeArrayBrackets">Indicates whether to include array brackets in the type token.</param>
-        /// <param name="isExpression">Indicates whether this type token comes at the end of an 'is' expression.</param>
-        /// <returns>Returns the token.</returns>
+        /// <param name="parentReference">
+        /// The parent code unit.
+        /// </param>
+        /// <param name="unsafeCode">
+        /// Indicates whether the code being parsed resides in an unsafe code block.
+        /// </param>
+        /// <param name="includeArrayBrackets">
+        /// Indicates whether to include array brackets in the type token.
+        /// </param>
+        /// <param name="isExpression">
+        /// Indicates whether this type token comes at the end of an 'is' expression.
+        /// </param>
+        /// <returns>
+        /// Returns the token.
+        /// </returns>
         private TypeToken GetTypeToken(Reference<ICodePart> parentReference, bool unsafeCode, bool includeArrayBrackets, bool isExpression)
         {
             Param.AssertNotNull(parentReference, "parentReference");
@@ -642,12 +718,11 @@ namespace StyleCop.CSharp
             // Collect all tokens up to the first code token and make sure that this is of type Other.
             this.GetNextSymbol(SymbolType.Other, parentReference);
 
-            var typeTokenReference = new Reference<ICodePart>();
+            Reference<ICodePart> typeTokenReference = new Reference<ICodePart>();
 
             // Get the type token.
             int endIndex;
-            TypeToken token = this.GetTypeTokenAux(
-                typeTokenReference, parentReference, unsafeCode, includeArrayBrackets, isExpression, 1, out endIndex);
+            TypeToken token = this.GetTypeTokenAux(typeTokenReference, parentReference, unsafeCode, includeArrayBrackets, isExpression, 1, out endIndex);
             if (token != null)
             {
                 this.symbols.CurrentIndex += endIndex;
@@ -657,16 +732,146 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
+        /// Gets array brackets symbol for a type token, if they exist.
+        /// </summary>
+        /// <param name="typeTokenReference">
+        /// A reference to the type token.
+        /// </param>
+        /// <param name="typeTokens">
+        /// The tokens within the type token.
+        /// </param>
+        /// <param name="startIndex">
+        /// The start index within the symbols.
+        /// </param>
+        private void GetTypeTokenArrayBrackets(Reference<ICodePart> typeTokenReference, MasterList<CsToken> typeTokens, ref int startIndex)
+        {
+            Param.AssertNotNull(typeTokenReference, "typeTokenReference");
+            Param.AssertNotNull(typeTokens, "typeTokens");
+            Param.AssertGreaterThanOrEqualToZero(startIndex, "startIndex");
+
+            int index = this.GetNextCodeSymbolIndex(startIndex);
+            if (index != -1)
+            {
+                Symbol symbol = this.symbols.Peek(index);
+                if (symbol.SymbolType == SymbolType.OpenSquareBracket)
+                {
+                    // Add the tokens up to this point.
+                    for (int i = startIndex; i <= index - 1; ++i)
+                    {
+                        Symbol symbolToConvert = this.symbols.Peek(startIndex);
+                        typeTokens.Add(this.ConvertSymbol(symbolToConvert, TokenTypeFromSymbolType(symbolToConvert.SymbolType), typeTokenReference));
+
+                        ++startIndex;
+                    }
+
+                    // Now collect the brackets.
+                    Node<CsToken> openingBracketNode = null;
+                    while (true)
+                    {
+                        symbol = this.symbols.Peek(startIndex);
+                        if (symbol.SymbolType == SymbolType.WhiteSpace || symbol.SymbolType == SymbolType.EndOfLine || symbol.SymbolType == SymbolType.SingleLineComment
+                            || symbol.SymbolType == SymbolType.MultiLineComment || symbol.SymbolType == SymbolType.PreprocessorDirective)
+                        {
+                            typeTokens.Add(this.ConvertSymbol(symbol, TokenTypeFromSymbolType(symbol.SymbolType), typeTokenReference));
+                            ++startIndex;
+                        }
+                        else if (symbol.SymbolType == SymbolType.Number)
+                        {
+                            typeTokens.Add(this.ConvertSymbol(symbol, CsTokenType.Number, typeTokenReference));
+                            ++startIndex;
+                        }
+                        else if (symbol.SymbolType == SymbolType.Other)
+                        {
+                            // Could be a constant or a reference to a constant.
+                            typeTokens.Add(this.ConvertSymbol(symbol, CsTokenType.Other, typeTokenReference));
+                            ++startIndex;
+                        }
+                        else if (symbol.SymbolType == SymbolType.Dot)
+                        {
+                            // Could be a dot in here like: int a[Constants.DefaultSize];
+                            typeTokens.Add(this.ConvertSymbol(symbol, CsTokenType.Other, typeTokenReference));
+                            ++startIndex;
+                        }
+                        else if (symbol.SymbolType == SymbolType.Comma)
+                        {
+                            typeTokens.Add(this.ConvertSymbol(symbol, CsTokenType.Comma, typeTokenReference));
+                            ++startIndex;
+                        }
+                        else if (symbol.SymbolType == SymbolType.OpenSquareBracket)
+                        {
+                            if (openingBracketNode != null)
+                            {
+                                throw new SyntaxException(this.document.SourceCode, symbol.LineNumber);
+                            }
+
+                            Bracket openingBracket = new Bracket(symbol.Text, CsTokenType.OpenSquareBracket, symbol.Location, typeTokenReference, this.symbols.Generated);
+                            openingBracketNode = typeTokens.InsertLast(openingBracket);
+                            ++startIndex;
+                        }
+                        else if (symbol.SymbolType == SymbolType.CloseSquareBracket)
+                        {
+                            if (openingBracketNode == null)
+                            {
+                                throw new SyntaxException(this.document.SourceCode, symbol.LineNumber);
+                            }
+
+                            Bracket closingBracket = new Bracket(symbol.Text, CsTokenType.CloseSquareBracket, symbol.Location, typeTokenReference, this.symbols.Generated);
+                            Node<CsToken> closingBracketNode = typeTokens.InsertLast(closingBracket);
+                            ++startIndex;
+
+                            ((Bracket)openingBracketNode.Value).MatchingBracketNode = closingBracketNode;
+                            closingBracket.MatchingBracketNode = openingBracketNode;
+
+                            openingBracketNode = null;
+
+                            // Check whether the next character is another opening bracket.
+                            int temp = this.GetNextCodeSymbolIndex(startIndex);
+                            if (temp != -1 && this.symbols.Peek(temp).SymbolType != SymbolType.OpenSquareBracket)
+                            {
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            if (openingBracketNode != null)
+                            {
+                                throw new SyntaxException(this.document.SourceCode, symbol.LineNumber);
+                            }
+
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         /// Gets a token representing a type identifier.
         /// </summary>
-        /// <param name="typeTokenReference">A reference to the type token.</param>
-        /// <param name="parentReference">The parent code unit.</param>
-        /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
-        /// <param name="includeArrayBrackets">Indicates whether to include array brackets in the type token.</param>
-        /// <param name="isExpression">Indicates whether this type token comes at the end of an 'is' expression.</param>
-        /// <param name="startIndex">The start position in the symbol list of the first symbol in the type token.</param>
-        /// <param name="endIndex">Returns the index of the last symbol in the type token.</param>
-        /// <returns>Returns the token.</returns>
+        /// <param name="typeTokenReference">
+        /// A reference to the type token.
+        /// </param>
+        /// <param name="parentReference">
+        /// The parent code unit.
+        /// </param>
+        /// <param name="unsafeCode">
+        /// Indicates whether the code being parsed resides in an unsafe code block.
+        /// </param>
+        /// <param name="includeArrayBrackets">
+        /// Indicates whether to include array brackets in the type token.
+        /// </param>
+        /// <param name="isExpression">
+        /// Indicates whether this type token comes at the end of an 'is' expression.
+        /// </param>
+        /// <param name="startIndex">
+        /// The start position in the symbol list of the first symbol in the type token.
+        /// </param>
+        /// <param name="endIndex">
+        /// Returns the index of the last symbol in the type token.
+        /// </param>
+        /// <returns>
+        /// Returns the token.
+        /// </returns>
         private TypeToken GetTypeTokenAux(
             Reference<ICodePart> typeTokenReference, 
             Reference<ICodePart> parentReference, 
@@ -737,7 +942,7 @@ namespace StyleCop.CSharp
             // The type is either not generic, or else it is composed of a more complex type which includes a generic 
             // (for example, an array of a generic type). Return the more complex type.
             CodeLocation location = CsToken.JoinLocations(typeTokens.First, typeTokens.Last);
-            var typeToken = new TypeToken(typeTokens, location, parentReference, this.symbols.Generated);
+            TypeToken typeToken = new TypeToken(typeTokens, location, parentReference, this.symbols.Generated);
             typeTokenReference.Target = typeToken;
 
             return typeToken;
@@ -746,17 +951,23 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Gets the base name and generic symbols for a type token.
         /// </summary>
-        /// <param name="typeTokenReference">A reference to the type token.</param>
-        /// <param name="typeTokens">The list of tokens in the type.</param>
-        /// <param name="startIndex">The start index within the symbol list.</param>
-        /// <param name="generic">Returns a value indicating whether the type is generic.</param>
-        /// <param name="unsafeCode">Indicates whether the type is within a block of unsafe code.</param>
+        /// <param name="typeTokenReference">
+        /// A reference to the type token.
+        /// </param>
+        /// <param name="typeTokens">
+        /// The list of tokens in the type.
+        /// </param>
+        /// <param name="startIndex">
+        /// The start index within the symbol list.
+        /// </param>
+        /// <param name="generic">
+        /// Returns a value indicating whether the type is generic.
+        /// </param>
+        /// <param name="unsafeCode">
+        /// Indicates whether the type is within a block of unsafe code.
+        /// </param>
         private void GetTypeTokenBaseName(
-            Reference<ICodePart> typeTokenReference, 
-            ref MasterList<CsToken> typeTokens, 
-            ref int startIndex, 
-            out GenericType generic, 
-            bool unsafeCode)
+            Reference<ICodePart> typeTokenReference, ref MasterList<CsToken> typeTokens, ref int startIndex, out GenericType generic, bool unsafeCode)
         {
             Param.AssertNotNull(typeTokenReference, "typeTokenReference");
             Param.AssertNotNull(typeTokens, "typeTokens");
@@ -771,12 +982,9 @@ namespace StyleCop.CSharp
             while (true)
             {
                 // Add any whitespace.
-                while (symbol != null &&
-                    (symbol.SymbolType == SymbolType.WhiteSpace ||
-                     symbol.SymbolType == SymbolType.EndOfLine ||
-                     symbol.SymbolType == SymbolType.SingleLineComment ||
-                     symbol.SymbolType == SymbolType.MultiLineComment ||
-                     symbol.SymbolType == SymbolType.PreprocessorDirective))
+                while (symbol != null
+                       && (symbol.SymbolType == SymbolType.WhiteSpace || symbol.SymbolType == SymbolType.EndOfLine || symbol.SymbolType == SymbolType.SingleLineComment
+                           || symbol.SymbolType == SymbolType.MultiLineComment || symbol.SymbolType == SymbolType.PreprocessorDirective))
                 {
                     typeTokens.Add(this.ConvertSymbol(symbol, TokenTypeFromSymbolType(symbol.SymbolType), typeTokenReference));
                     symbol = this.symbols.Peek(++startIndex);
@@ -809,8 +1017,7 @@ namespace StyleCop.CSharp
                 if (symbol.SymbolType == SymbolType.LessThan)
                 {
                     int end;
-                    MasterList<CsToken> genericTypeTokens = this.GetGenericArgumentList(
-                        typeTokenReference, unsafeCode, null, startIndex, out end);
+                    MasterList<CsToken> genericTypeTokens = this.GetGenericArgumentList(typeTokenReference, unsafeCode, null, startIndex, out end);
 
                     if (genericTypeTokens != null)
                     {
@@ -852,12 +1059,9 @@ namespace StyleCop.CSharp
 
                 // Add any whitspace.
                 symbol = this.symbols.Peek(startIndex);
-                while (symbol != null &&
-                    (symbol.SymbolType == SymbolType.WhiteSpace ||
-                     symbol.SymbolType == SymbolType.EndOfLine ||
-                     symbol.SymbolType == SymbolType.SingleLineComment ||
-                     symbol.SymbolType == SymbolType.MultiLineComment ||
-                     symbol.SymbolType == SymbolType.PreprocessorDirective))
+                while (symbol != null
+                       && (symbol.SymbolType == SymbolType.WhiteSpace || symbol.SymbolType == SymbolType.EndOfLine || symbol.SymbolType == SymbolType.SingleLineComment
+                           || symbol.SymbolType == SymbolType.MultiLineComment || symbol.SymbolType == SymbolType.PreprocessorDirective))
                 {
                     typeTokens.Add(this.ConvertSymbol(symbol, TokenTypeFromSymbolType(symbol.SymbolType), typeTokenReference));
                     symbol = this.symbols.Peek(++startIndex);
@@ -866,25 +1070,17 @@ namespace StyleCop.CSharp
                 // Add the dot or qualified alias.
                 if (symbol.SymbolType == SymbolType.Dot)
                 {
-                    typeTokens.Add(new OperatorSymbol(
-                        symbol.Text,
-                        OperatorCategory.Reference,
-                        OperatorType.MemberAccess,
-                        symbol.Location,
-                        typeTokenReference,
-                        this.symbols.Generated));
+                    typeTokens.Add(
+                        new OperatorSymbol(
+                            symbol.Text, OperatorCategory.Reference, OperatorType.MemberAccess, symbol.Location, typeTokenReference, this.symbols.Generated));
                 }
                 else
                 {
                     Debug.Assert(symbol.SymbolType == SymbolType.QualifiedAlias, "Expected a qualified alias keyword");
 
-                    typeTokens.Add(new OperatorSymbol(
-                        symbol.Text,
-                        OperatorCategory.Reference,
-                        OperatorType.QualifiedAlias,
-                        symbol.Location,
-                        typeTokenReference,
-                        this.symbols.Generated));
+                    typeTokens.Add(
+                        new OperatorSymbol(
+                            symbol.Text, OperatorCategory.Reference, OperatorType.QualifiedAlias, symbol.Location, typeTokenReference, this.symbols.Generated));
                 }
 
                 // Get the next symbol.
@@ -893,176 +1089,20 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Gets array brackets symbol for a type token, if they exist.
-        /// </summary>
-        /// <param name="typeTokenReference">A reference to the type token.</param>
-        /// <param name="typeTokens">The tokens within the type token.</param>
-        /// <param name="startIndex">The start index within the symbols.</param>
-        private void GetTypeTokenArrayBrackets(Reference<ICodePart> typeTokenReference, MasterList<CsToken> typeTokens, ref int startIndex)
-        {
-            Param.AssertNotNull(typeTokenReference, "typeTokenReference");
-            Param.AssertNotNull(typeTokens, "typeTokens");
-            Param.AssertGreaterThanOrEqualToZero(startIndex, "startIndex");
-
-            int index = this.GetNextCodeSymbolIndex(startIndex);
-            if (index != -1)
-            {
-                Symbol symbol = this.symbols.Peek(index);
-                if (symbol.SymbolType == SymbolType.OpenSquareBracket)
-                {
-                    // Add the tokens up to this point.
-                    for (int i = startIndex; i <= index - 1; ++i)
-                    {
-                        Symbol symbolToConvert = this.symbols.Peek(startIndex);
-                        typeTokens.Add(this.ConvertSymbol(symbolToConvert, TokenTypeFromSymbolType(symbolToConvert.SymbolType), typeTokenReference));
-
-                        ++startIndex;
-                    }
-
-                    // Now collect the brackets.
-                    Node<CsToken> openingBracketNode = null;
-                    while (true)
-                    {
-                        symbol = this.symbols.Peek(startIndex);
-                        if (symbol.SymbolType == SymbolType.WhiteSpace ||
-                            symbol.SymbolType == SymbolType.EndOfLine ||
-                            symbol.SymbolType == SymbolType.SingleLineComment ||
-                            symbol.SymbolType == SymbolType.MultiLineComment ||
-                            symbol.SymbolType == SymbolType.PreprocessorDirective)
-                        {
-                            typeTokens.Add(this.ConvertSymbol(symbol, TokenTypeFromSymbolType(symbol.SymbolType), typeTokenReference));
-                            ++startIndex;
-                        }
-                        else if (symbol.SymbolType == SymbolType.Number)
-                        {
-                            typeTokens.Add(this.ConvertSymbol(symbol, CsTokenType.Number, typeTokenReference));
-                            ++startIndex;
-                        }
-                        else if (symbol.SymbolType == SymbolType.Other)
-                        {
-                            // Could be a constant or a reference to a constant.
-                            typeTokens.Add(this.ConvertSymbol(symbol, CsTokenType.Other, typeTokenReference));
-                            ++startIndex;
-                        }
-                        else if (symbol.SymbolType == SymbolType.Dot)
-                        {
-                            // Could be a dot in here like: int a[Constants.DefaultSize];
-                            typeTokens.Add(this.ConvertSymbol(symbol, CsTokenType.Other, typeTokenReference));
-                            ++startIndex;
-                        }
-                        else if (symbol.SymbolType == SymbolType.Comma)
-                        {
-                            typeTokens.Add(this.ConvertSymbol(symbol, CsTokenType.Comma, typeTokenReference));
-                            ++startIndex;
-                        }
-                        else if (symbol.SymbolType == SymbolType.OpenSquareBracket)
-                        {
-                            if (openingBracketNode != null)
-                            {
-                                throw new SyntaxException(this.document.SourceCode, symbol.LineNumber);
-                            }
-
-                            Bracket openingBracket = new Bracket(
-                                symbol.Text, CsTokenType.OpenSquareBracket, symbol.Location, typeTokenReference, this.symbols.Generated);
-                            openingBracketNode = typeTokens.InsertLast(openingBracket);
-                            ++startIndex;
-                        }
-                        else if (symbol.SymbolType == SymbolType.CloseSquareBracket)
-                        {
-                            if (openingBracketNode == null)
-                            {
-                                throw new SyntaxException(this.document.SourceCode, symbol.LineNumber);
-                            }
-
-                            Bracket closingBracket = new Bracket(
-                                symbol.Text, CsTokenType.CloseSquareBracket, symbol.Location, typeTokenReference, this.symbols.Generated);
-                            Node<CsToken> closingBracketNode = typeTokens.InsertLast(closingBracket);
-                            ++startIndex;
-
-                            ((Bracket)openingBracketNode.Value).MatchingBracketNode = closingBracketNode;
-                            closingBracket.MatchingBracketNode = openingBracketNode;
-
-                            openingBracketNode = null;
-
-                            // Check whether the next character is another opening bracket.
-                            int temp = this.GetNextCodeSymbolIndex(startIndex);
-                            if (temp != -1 && this.symbols.Peek(temp).SymbolType != SymbolType.OpenSquareBracket)
-                            {
-                                break;
-                            }
-                        }
-                        else
-                        {
-                            if (openingBracketNode != null)
-                            {
-                                throw new SyntaxException(this.document.SourceCode, symbol.LineNumber);
-                            }
-
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Gets a <see cref="Nullable"/> type symbol for a type token, if one exists.
-        /// </summary>
-        /// <param name="typeTokenReference">A reference to the type token.</param>
-        /// <param name="typeTokens">The tokens within the type token.</param>
-        /// <param name="isExpression">Indicates whether this is in an is expression.</param>
-        /// <param name="startIndex">The start index within the symbols.</param>
-        private void GetTypeTokenNullableTypeSymbol(
-            Reference<ICodePart> typeTokenReference, MasterList<CsToken> typeTokens, bool isExpression, ref int startIndex)
-        {
-            Param.AssertNotNull(typeTokenReference, "typeTokenReference");
-            Param.AssertNotNull(typeTokens, "typeTokens");
-            Param.Ignore(isExpression);
-            Param.AssertGreaterThanOrEqualToZero(startIndex, "startIndex");
-
-            // Look at the type of the next non-whitespace character and see if it is a nullable type symbol.
-            int index = this.GetNextCodeSymbolIndex(startIndex);
-            if (index == -1)
-            {
-                throw this.CreateSyntaxException();
-            }
-
-            Symbol symbol = this.symbols.Peek(index);
-            if (symbol.SymbolType == SymbolType.QuestionMark)
-            {
-                // If this type token resides within an 'is' expression, check to make sure
-                // that this is actually a nullable type symbol. In some cases, this can be a
-                // conditional question mark, not a nullable type symbol.
-                if (!isExpression || this.IsNullableTypeSymbolFromIsExpression(index))
-                {
-                    // Add any whitspace.
-                    symbol = this.symbols.Peek(startIndex);
-                    while (symbol != null &&
-                        (symbol.SymbolType == SymbolType.WhiteSpace ||
-                        symbol.SymbolType == SymbolType.EndOfLine ||
-                        symbol.SymbolType == SymbolType.SingleLineComment ||
-                        symbol.SymbolType == SymbolType.MultiLineComment ||
-                        symbol.SymbolType == SymbolType.PreprocessorDirective))
-                    {
-                        typeTokens.Add(this.ConvertSymbol(symbol, TokenTypeFromSymbolType(symbol.SymbolType), typeTokenReference));
-                        symbol = this.symbols.Peek(++startIndex);
-                    }
-
-                    // Add the nullable type symbol.
-                    typeTokens.Add(new CsToken(
-                        symbol.Text, CsTokenType.NullableTypeSymbol, symbol.Location, typeTokenReference, this.symbols.Generated));
-                    ++startIndex;
-                }
-            }
-        }
-
-        /// <summary>
         /// Gets the dereference symbols from a type token.
         /// </summary>
-        /// <param name="typeTokenReference">A reference to the type token.</param>
-        /// <param name="typeTokens">The type tokens list.</param>
-        /// <param name="startIndex">The start index within the symbols list.</param>
-        /// <returns>Returns true if there were one or more dereference symbols.</returns>
+        /// <param name="typeTokenReference">
+        /// A reference to the type token.
+        /// </param>
+        /// <param name="typeTokens">
+        /// The type tokens list.
+        /// </param>
+        /// <param name="startIndex">
+        /// The start index within the symbols list.
+        /// </param>
+        /// <returns>
+        /// Returns true if there were one or more dereference symbols.
+        /// </returns>
         private bool GetTypeTokenDereferenceSymbols(Reference<ICodePart> typeTokenReference, MasterList<CsToken> typeTokens, ref int startIndex)
         {
             Param.AssertNotNull(typeTokenReference, "typeTokenReference");
@@ -1089,20 +1129,17 @@ namespace StyleCop.CSharp
 
                 // Add any whitspace.
                 symbol = this.symbols.Peek(startIndex);
-                while (symbol != null &&
-                    (symbol.SymbolType == SymbolType.WhiteSpace ||
-                    symbol.SymbolType == SymbolType.EndOfLine ||
-                    symbol.SymbolType == SymbolType.SingleLineComment ||
-                    symbol.SymbolType == SymbolType.MultiLineComment ||
-                    symbol.SymbolType == SymbolType.PreprocessorDirective))
+                while (symbol != null
+                       && (symbol.SymbolType == SymbolType.WhiteSpace || symbol.SymbolType == SymbolType.EndOfLine || symbol.SymbolType == SymbolType.SingleLineComment
+                           || symbol.SymbolType == SymbolType.MultiLineComment || symbol.SymbolType == SymbolType.PreprocessorDirective))
                 {
                     typeTokens.Add(this.ConvertSymbol(symbol, TokenTypeFromSymbolType(symbol.SymbolType), typeTokenReference));
                     symbol = this.symbols.Peek(++startIndex);
                 }
 
                 // Add the dereference symbol.
-                typeTokens.Add(new OperatorSymbol(
-                    symbol.Text, OperatorCategory.Reference, OperatorType.Dereference, symbol.Location, typeTokenReference, this.symbols.Generated));
+                typeTokens.Add(
+                    new OperatorSymbol(symbol.Text, OperatorCategory.Reference, OperatorType.Dereference, symbol.Location, typeTokenReference, this.symbols.Generated));
                 ++startIndex;
 
                 // Nullable types are not allowed with dereferences.
@@ -1115,10 +1152,18 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Gets a token representing a type identifier.
         /// </summary>
-        /// <param name="parentReference">The parent code unit.</param>
-        /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
-        /// <param name="includeArrayBrackets">Indicates whether to include array brackets in the type token.</param>
-        /// <returns>Returns the token.</returns>
+        /// <param name="parentReference">
+        /// The parent code unit.
+        /// </param>
+        /// <param name="unsafeCode">
+        /// Indicates whether the code being parsed resides in an unsafe code block.
+        /// </param>
+        /// <param name="includeArrayBrackets">
+        /// Indicates whether to include array brackets in the type token.
+        /// </param>
+        /// <returns>
+        /// Returns the token.
+        /// </returns>
         private LiteralExpression GetTypeTokenExpression(Reference<ICodePart> parentReference, bool unsafeCode, bool includeArrayBrackets)
         {
             Param.AssertNotNull(parentReference, "parentReference");
@@ -1131,11 +1176,21 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Gets a token representing a type identifier.
         /// </summary>
-        /// <param name="parentReference">The parent code unit.</param>
-        /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
-        /// <param name="includeArrayBrackets">Indicates whether to include array brackets in the type token.</param>
-        /// <param name="isExpression">Indicates whether this type token comes at the end of an 'is' expression.</param>
-        /// <returns>Returns the token.</returns>
+        /// <param name="parentReference">
+        /// The parent code unit.
+        /// </param>
+        /// <param name="unsafeCode">
+        /// Indicates whether the code being parsed resides in an unsafe code block.
+        /// </param>
+        /// <param name="includeArrayBrackets">
+        /// Indicates whether to include array brackets in the type token.
+        /// </param>
+        /// <param name="isExpression">
+        /// Indicates whether this type token comes at the end of an 'is' expression.
+        /// </param>
+        /// <returns>
+        /// Returns the token.
+        /// </returns>
         private LiteralExpression GetTypeTokenExpression(Reference<ICodePart> parentReference, bool unsafeCode, bool includeArrayBrackets, bool isExpression)
         {
             Param.AssertNotNull(parentReference, "parentReference");
@@ -1154,11 +1209,70 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
+        /// Gets a <see cref="Nullable"/> type symbol for a type token, if one exists.
+        /// </summary>
+        /// <param name="typeTokenReference">
+        /// A reference to the type token.
+        /// </param>
+        /// <param name="typeTokens">
+        /// The tokens within the type token.
+        /// </param>
+        /// <param name="isExpression">
+        /// Indicates whether this is in an is expression.
+        /// </param>
+        /// <param name="startIndex">
+        /// The start index within the symbols.
+        /// </param>
+        private void GetTypeTokenNullableTypeSymbol(Reference<ICodePart> typeTokenReference, MasterList<CsToken> typeTokens, bool isExpression, ref int startIndex)
+        {
+            Param.AssertNotNull(typeTokenReference, "typeTokenReference");
+            Param.AssertNotNull(typeTokens, "typeTokens");
+            Param.Ignore(isExpression);
+            Param.AssertGreaterThanOrEqualToZero(startIndex, "startIndex");
+
+            // Look at the type of the next non-whitespace character and see if it is a nullable type symbol.
+            int index = this.GetNextCodeSymbolIndex(startIndex);
+            if (index == -1)
+            {
+                throw this.CreateSyntaxException();
+            }
+
+            Symbol symbol = this.symbols.Peek(index);
+            if (symbol.SymbolType == SymbolType.QuestionMark)
+            {
+                // If this type token resides within an 'is' expression, check to make sure
+                // that this is actually a nullable type symbol. In some cases, this can be a
+                // conditional question mark, not a nullable type symbol.
+                if (!isExpression || this.IsNullableTypeSymbolFromIsExpression(index))
+                {
+                    // Add any whitspace.
+                    symbol = this.symbols.Peek(startIndex);
+                    while (symbol != null
+                           && (symbol.SymbolType == SymbolType.WhiteSpace || symbol.SymbolType == SymbolType.EndOfLine
+                               || symbol.SymbolType == SymbolType.SingleLineComment || symbol.SymbolType == SymbolType.MultiLineComment
+                               || symbol.SymbolType == SymbolType.PreprocessorDirective))
+                    {
+                        typeTokens.Add(this.ConvertSymbol(symbol, TokenTypeFromSymbolType(symbol.SymbolType), typeTokenReference));
+                        symbol = this.symbols.Peek(++startIndex);
+                    }
+
+                    // Add the nullable type symbol.
+                    typeTokens.Add(new CsToken(symbol.Text, CsTokenType.NullableTypeSymbol, symbol.Location, typeTokenReference, this.symbols.Generated));
+                    ++startIndex;
+                }
+            }
+        }
+
+        /// <summary>
         /// Determines whether a question mark following the type from an 'is' or an 'as' statement is
         /// actually a <see cref="Nullable"/> type question mark rather than a conditional question mark.
         /// </summary>
-        /// <param name="index">The peek index of the question mark within the symbol manager.</param>
-        /// <returns>Returns true if the question mark is a <see cref="Nullable"/> type question mark.</returns>
+        /// <param name="index">
+        /// The peek index of the question mark within the symbol manager.
+        /// </param>
+        /// <returns>
+        /// Returns true if the question mark is a <see cref="Nullable"/> type question mark.
+        /// </returns>
         private bool IsNullableTypeSymbolFromIsExpression(int index)
         {
             Param.AssertGreaterThanZero(index, "index");
@@ -1172,30 +1286,22 @@ namespace StyleCop.CSharp
                 // in the document is a closing symbol (semicolon, comma, or closing bracket),
                 // or an operator symbol (logical AND, logical OR, etc.), or an opening array bracket.
                 SymbolType type = nextSymbol.SymbolType;
-                if (type == SymbolType.CloseCurlyBracket ||
-                    type == SymbolType.CloseParenthesis ||
-                    type == SymbolType.CloseSquareBracket ||
-                    type == SymbolType.Comma ||
-                    type == SymbolType.Semicolon ||
-                    type == SymbolType.ConditionalAnd ||
-                    type == SymbolType.ConditionalOr ||
-                    type == SymbolType.ConditionalEquals ||
-                    type == SymbolType.NotEquals ||
-                    type == SymbolType.QuestionMark ||
-                    type == SymbolType.OpenSquareBracket)
+                if (type == SymbolType.CloseCurlyBracket || type == SymbolType.CloseParenthesis || type == SymbolType.CloseSquareBracket || type == SymbolType.Comma
+                    || type == SymbolType.Semicolon || type == SymbolType.ConditionalAnd || type == SymbolType.ConditionalOr || type == SymbolType.ConditionalEquals
+                    || type == SymbolType.NotEquals || type == SymbolType.QuestionMark || type == SymbolType.OpenSquareBracket)
                 {
                     return true;
                 }
                 else
                 {
                     return false;
-                }   
+                }
             }
 
             // There is no next symbol. A syntax error will soon ensue.
             return true;
         }
 
-        #endregion Private Methods
+        #endregion
     }
 }

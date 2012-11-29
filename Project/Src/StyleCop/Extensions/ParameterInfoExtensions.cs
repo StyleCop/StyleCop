@@ -12,10 +12,9 @@
 //   notice, or any other, from this software.
 // </license>
 // <summary>
-//   Extension methods for the <see cref="ParameterInfo" /> type.
+//   Extension methods for the  type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace System.Reflection
 {
     #region Using Directives
@@ -29,7 +28,7 @@ namespace System.Reflection
     /// </summary>
     public static class ParameterInfoExtensions
     {
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Determines whether a <see cref="ParameterInfo"/> has a particular <see cref="ParameterInfo"/> of custom <see cref="Attribute"/> defined.

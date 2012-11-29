@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="ArrayInitializerExpression.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ArrayInitializerExpression.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,10 +11,12 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   An expression initializing a new array initialization.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
 
@@ -24,23 +26,27 @@ namespace StyleCop.CSharp
     /// <subcategory>expression</subcategory>
     public sealed class ArrayInitializerExpression : Expression
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// The list of variable initializers within the array initializer expression.
         /// </summary>
-        private ICollection<Expression> initializers;
+        private readonly ICollection<Expression> initializers;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the ArrayInitializerExpression class.
         /// </summary>
-        /// <param name="tokens">The list of tokens that form the expression.</param>
-        /// <param name="initializers">The list of variable initializers within the 
-        /// array initializer expression.</param>
+        /// <param name="tokens">
+        /// The list of tokens that form the expression.
+        /// </param>
+        /// <param name="initializers">
+        /// The list of variable initializers within the 
+        /// array initializer expression.
+        /// </param>
         internal ArrayInitializerExpression(CsTokenList tokens, ICollection<Expression> initializers)
             : base(ExpressionType.ArrayInitializer, tokens)
         {
@@ -53,7 +59,7 @@ namespace StyleCop.CSharp
             this.AddExpressions(initializers);
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
 
@@ -68,6 +74,6 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Properties
+        #endregion
     }
 }

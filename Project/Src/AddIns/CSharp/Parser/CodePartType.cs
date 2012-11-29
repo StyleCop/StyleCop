@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="CodePartType.cs">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="CodePartType.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   The various types of code units.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
     /// <summary>
@@ -22,52 +25,52 @@ namespace StyleCop.CSharp
         /// <summary>
         /// A simple token.
         /// </summary>
-        Token,
+        Token, 
 
         /// <summary>
         /// An element.
         /// </summary>
-        Element,
+        Element, 
 
         /// <summary>
         /// A statement.
         /// </summary>
-        Statement,
+        Statement, 
 
         /// <summary>
         /// An expression.
         /// </summary>
-        Expression,
+        Expression, 
 
         /// <summary>
         /// A query clause.
         /// </summary>
-        QueryClause,
+        QueryClause, 
 
         /// <summary>
         /// A type constraint clause.
         /// </summary>
-        ConstraintClause,
+        ConstraintClause, 
 
         /// <summary>
         /// A method call argument.
         /// </summary>
-        Argument,
+        Argument, 
 
         /// <summary>
         /// A method parameter.
         /// </summary>
-        Parameter,
+        Parameter, 
 
         /// <summary>
         /// A variable declaration.
         /// </summary>
-        Variable,
+        Variable, 
 
         /// <summary>
         /// A file header.
         /// </summary>
-        FileHeader,
+        FileHeader, 
 
         /// <summary>
         /// A code document.

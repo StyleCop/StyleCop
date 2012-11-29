@@ -11,8 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
+// <summary>
+//   Contains static methods for access to win32 libraries.
+// </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop
 {
     using System.Runtime.InteropServices;
@@ -25,24 +27,54 @@ namespace StyleCop
     {
         internal enum EXTENDED_NAME_FORMAT
         {
-            NameCanonical = 7,
+            /// <summary>
+            /// The canonical name.
+            /// </summary>
+            NameCanonical = 7, 
 
-            NameCanonicalEx = 9,
+            /// <summary>
+            /// The canonical extended name.
+            /// </summary>
+            NameCanonicalEx = 9, 
 
-            NameDisplay = 3,
+            /// <summary>
+            /// The display name.
+            /// </summary>
+            NameDisplay = 3, 
 
-            NameDnsDomain = 12,
+            /// <summary>
+            /// The domain name service domain name.
+            /// </summary>
+            NameDnsDomain = 12, 
 
-            NameFullyQualifiedDN = 1,
+            /// <summary>
+            /// The fully qualified name.
+            /// </summary>
+            NameFullyQualifiedDN = 1, 
 
-            NameSamCompatible = 2,
+            /// <summary>
+            /// The sam compatible name.
+            /// </summary>
+            NameSamCompatible = 2, 
 
-            NameServicePrincipal = 10,
+            /// <summary>
+            /// The service principal name.
+            /// </summary>
+            NameServicePrincipal = 10, 
 
-            NameUniqueId = 6,
+            /// <summary>
+            /// The unique identifier.
+            /// </summary>
+            NameUniqueId = 6, 
 
-            NameUnknown = 0,
+            /// <summary>
+            /// The unknown name.
+            /// </summary>
+            NameUnknown = 0, 
 
+            /// <summary>
+            /// The user principal name.
+            /// </summary>
             NameUserPrincipal = 8
         }
 

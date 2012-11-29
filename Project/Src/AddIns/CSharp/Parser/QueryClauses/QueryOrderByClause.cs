@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="QueryOrderByClause.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="QueryOrderByClause.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,34 +11,39 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Describes a order-by clause in a query expression.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    
+
     /// <summary>
     /// Describes a order-by clause in a query expression.
     /// </summary>
     public sealed class QueryOrderByClause : QueryClause
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// The list of orderings.
         /// </summary>
-        private QueryOrderByOrdering[] orderings;
+        private readonly QueryOrderByOrdering[] orderings;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the QueryOrderByClause class.
         /// </summary>
-        /// <param name="tokens">The list of tokens that form the clause.</param>
-        /// <param name="orderings">The collection of orderings in the clause.</param>
+        /// <param name="tokens">
+        /// The list of tokens that form the clause.
+        /// </param>
+        /// <param name="orderings">
+        /// The collection of orderings in the clause.
+        /// </param>
         internal QueryOrderByClause(CsTokenList tokens, ICollection<QueryOrderByOrdering> orderings)
             : base(QueryClauseType.OrderBy, tokens)
         {
@@ -55,7 +60,7 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
 
@@ -70,6 +75,6 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Properties
+        #endregion
     }
 }

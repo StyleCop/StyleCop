@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="ExpressionWithParameters.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ExpressionWithParameters.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,20 +11,20 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   An expression which defines a parameter list.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Text;
 
     /// <summary>
     /// An expression which defines a parameter list.
     /// </summary>
     public class ExpressionWithParameters : Expression, IParameterContainer
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// The parameters defines in the expression.
@@ -36,21 +36,23 @@ namespace StyleCop.CSharp
         /// </summary>
         private IList<Parameter> readOnlyParameters;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the ExpressionWithParameters class.
         /// </summary>
-        /// <param name="type">The type of the expression.</param>
+        /// <param name="type">
+        /// The type of the expression.
+        /// </param>
         internal ExpressionWithParameters(ExpressionType type)
             : base(type)
         {
             Param.Ignore(type);
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
 
@@ -75,14 +77,16 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Properties
+        #endregion
 
-        #region Internal Methods
+        #region Methods
 
         /// <summary>
         /// Adds a parameter to the expression.
         /// </summary>
-        /// <param name="parameter">The parameter to add.</param>
+        /// <param name="parameter">
+        /// The parameter to add.
+        /// </param>
         internal void AddParameter(Parameter parameter)
         {
             Param.AssertNotNull(parameter, "parameter");
@@ -98,7 +102,9 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Adds a range of parameters to the expression.
         /// </summary>
-        /// <param name="items">The parameters to add.</param>
+        /// <param name="items">
+        /// The parameters to add.
+        /// </param>
         internal void AddParameters(IEnumerable<Parameter> items)
         {
             Param.AssertNotNull(items, "items");
@@ -111,6 +117,6 @@ namespace StyleCop.CSharp
             this.parameters.AddRange(items);
         }
 
-        #endregion Internal Methods
+        #endregion
     }
 }

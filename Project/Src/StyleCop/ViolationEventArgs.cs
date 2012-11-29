@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="ViolationEventArgs.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ViolationEventArgs.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Contains event information for violation events.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop
 {
     using System;
@@ -21,39 +24,52 @@ namespace StyleCop
     /// </summary>
     public class ViolationEventArgs : EventArgs
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// The violation.
         /// </summary>
         private readonly Violation violation;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the ViolationEventArgs class.
         /// </summary>
-        /// <param name="violation">The violation.</param>
+        /// <param name="violation">
+        /// The violation.
+        /// </param>
         internal ViolationEventArgs(Violation violation)
         {
             Param.AssertNotNull(violation, "violation");
             this.violation = violation;
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
+
+        /// <summary>
+        /// Gets the element of code that the violation appears in.
+        /// </summary>
+        public ICodeElement Element
+        {
+            get
+            {
+                return this.violation.Element;
+            }
+        }
 
         /// <summary>
         /// Gets the line number in the code where the violation appears. 1 based.
         /// </summary>
         public int LineNumber
         {
-            get 
-            { 
-                return this.violation.Line; 
+            get
+            {
+                return this.violation.Line;
             }
         }
 
@@ -67,26 +83,15 @@ namespace StyleCop
                 return this.violation.Location;
             }
         }
-        
+
         /// <summary>
         /// Gets the context message string for the violation.
         /// </summary>
         public string Message
         {
-            get 
-            { 
-                return this.violation.Message; 
-            }
-        }
-        
-        /// <summary>
-        /// Gets the element of code that the violation appears in.
-        /// </summary>
-        public ICodeElement Element
-        {
-            get 
-            { 
-                return this.violation.Element; 
+            get
+            {
+                return this.violation.Message;
             }
         }
 
@@ -102,27 +107,27 @@ namespace StyleCop
         }
 
         /// <summary>
-        /// Gets a value indicating whether this violation is only a warning.
-        /// </summary>
-        public bool Warning
-        {
-            get 
-            { 
-                return this.violation.Rule.Warning; 
-            }
-        }
-
-        /// <summary>
         /// Gets the violation.
         /// </summary>
         public Violation Violation
         {
-            get 
-            { 
-                return this.violation; 
+            get
+            {
+                return this.violation;
             }
-        }   
+        }
 
-        #endregion Public Properties
+        /// <summary>
+        /// Gets a value indicating whether this violation is only a warning.
+        /// </summary>
+        public bool Warning
+        {
+            get
+            {
+                return this.violation.Rule.Warning;
+            }
+        }
+
+        #endregion
     }
 }

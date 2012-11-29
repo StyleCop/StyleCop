@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="CollectionPropertyDescriptor.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="CollectionPropertyDescriptor.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,40 +11,47 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   A property descriptor for a collection property.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Text;
-
     /// <summary>
     /// A property descriptor for a collection property.
     /// </summary> 
     public class CollectionPropertyDescriptor : PropertyDescriptor
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// Indicates whether the collection is an aggregate collection.
         /// </summary>
-        private bool aggregate;
+        private readonly bool aggregate;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the CollectionPropertyDescriptor class.
         /// </summary>
-        /// <param name="propertyName">The name of the property.</param>
-        /// <param name="friendlyName">The friendly name of the property.</param>
-        /// <param name="description">The property description.</param>
-        /// <param name="merge">Indicates whether to merge the property with parent properties.</param>
-        /// <param name="aggregate">Indicates whether the collection is an aggregate collection.</param>
-        internal CollectionPropertyDescriptor(
-            string propertyName, string friendlyName, string description, bool merge, bool aggregate)
+        /// <param name="propertyName">
+        /// The name of the property.
+        /// </param>
+        /// <param name="friendlyName">
+        /// The friendly name of the property.
+        /// </param>
+        /// <param name="description">
+        /// The property description.
+        /// </param>
+        /// <param name="merge">
+        /// Indicates whether to merge the property with parent properties.
+        /// </param>
+        /// <param name="aggregate">
+        /// Indicates whether the collection is an aggregate collection.
+        /// </param>
+        internal CollectionPropertyDescriptor(string propertyName, string friendlyName, string description, bool merge, bool aggregate)
             : base(propertyName, PropertyType.Collection, friendlyName, description, merge, false)
         {
             Param.Ignore(propertyName);
@@ -56,7 +63,7 @@ namespace StyleCop
             this.aggregate = aggregate;
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
 
@@ -71,6 +78,6 @@ namespace StyleCop
             }
         }
 
-        #endregion Public Properties
+        #endregion
     }
 }

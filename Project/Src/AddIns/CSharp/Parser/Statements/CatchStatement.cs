@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="CatchStatement.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="CatchStatement.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,61 +11,65 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   A catch-statement.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
-    using System.Diagnostics;
-
     /// <summary>
     /// A catch-statement.
     /// </summary>
     /// <subcategory>statement</subcategory>
     public sealed class CatchStatement : Statement
     {
-        #region Private Fields
-
-        /// <summary>
-        /// The try-statement that this catch-statement is attached to.
-        /// </summary>
-        private TryStatement tryStatement;
+        #region Fields
 
         /// <summary>
         /// The inner expression.
         /// </summary>
-        private Expression catchExpression;
-
-        /// <summary>
-        /// The exception variable identifier.
-        /// </summary>
-        private LiteralExpression identifier;
+        private readonly Expression catchExpression;
 
         /// <summary>
         /// The class type of the exception being caught.
         /// </summary>
-        private TypeToken classType;
+        private readonly TypeToken classType;
 
         /// <summary>
         /// The statement embedded within the catch-statement.
         /// </summary>
-        private BlockStatement embeddedStatement;
+        private readonly BlockStatement embeddedStatement;
 
-        #endregion Private Fields
+        /// <summary>
+        /// The exception variable identifier.
+        /// </summary>
+        private readonly LiteralExpression identifier;
 
-        #region Internal Constructors
+        /// <summary>
+        /// The try-statement that this catch-statement is attached to.
+        /// </summary>
+        private readonly TryStatement tryStatement;
+
+        #endregion
+
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the CatchStatement class.
         /// </summary>
-        /// <param name="tokens">The list of tokens that form the statement.</param>
-        /// <param name="tryStatement">The try-statement that this catch-statement is attached to.</param>
-        /// <param name="classExpression">The inner expression.</param>
-        /// <param name="embeddedStatement">The statement embedded within the catch-statement.</param>
-        internal CatchStatement(
-            CsTokenList tokens, 
-            TryStatement tryStatement,
-            Expression classExpression,
-            BlockStatement embeddedStatement)
+        /// <param name="tokens">
+        /// The list of tokens that form the statement.
+        /// </param>
+        /// <param name="tryStatement">
+        /// The try-statement that this catch-statement is attached to.
+        /// </param>
+        /// <param name="classExpression">
+        /// The inner expression.
+        /// </param>
+        /// <param name="embeddedStatement">
+        /// The statement embedded within the catch-statement.
+        /// </param>
+        internal CatchStatement(CsTokenList tokens, TryStatement tryStatement, Expression classExpression, BlockStatement embeddedStatement)
             : base(StatementType.Catch, tokens)
         {
             Param.AssertNotNull(tokens, "tokens");
@@ -105,18 +109,18 @@ namespace StyleCop.CSharp
             this.AddStatement(embeddedStatement);
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
 
         /// <summary>
-        /// Gets the try-statement that this catch-statement is attached to.
+        /// Gets the expression within the catch statement.
         /// </summary>
-        public TryStatement TryStatement
+        public Expression CatchExpression
         {
             get
             {
-                return this.tryStatement;
+                return this.catchExpression;
             }
         }
 
@@ -132,6 +136,17 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
+        /// Gets the statement embedded within the catch-statement.
+        /// </summary>
+        public BlockStatement EmbeddedStatement
+        {
+            get
+            {
+                return this.embeddedStatement;
+            }
+        }
+
+        /// <summary>
         /// Gets the exception variable identifier.
         /// </summary>
         public CsToken Identifier
@@ -143,27 +158,16 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Gets the expression within the catch statement.
+        /// Gets the try-statement that this catch-statement is attached to.
         /// </summary>
-        public Expression CatchExpression
+        public TryStatement TryStatement
         {
             get
             {
-                return this.catchExpression;
+                return this.tryStatement;
             }
         }
 
-        /// <summary>
-        /// Gets the statement embedded within the catch-statement.
-        /// </summary>
-        public BlockStatement EmbeddedStatement
-        {
-            get
-            {
-                return this.embeddedStatement;
-            }
-        }
-
-        #endregion Public Properties
+        #endregion
     }
 }

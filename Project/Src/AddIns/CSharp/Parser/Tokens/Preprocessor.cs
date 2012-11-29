@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="Preprocessor.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Preprocessor.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,38 +11,47 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Describes a preprocessor directive.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-
     /// <summary>
     /// Describes a preprocessor directive.
     /// </summary>
     /// <subcategory>token</subcategory>
     public class Preprocessor : CsToken
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// The type of the preprocessor statement.
         /// </summary>
-        private string preprocessorType = string.Empty;
+        private readonly string preprocessorType = string.Empty;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the Preprocessor class.
         /// </summary>
-        /// <param name="text">The line text.</param>
-        /// <param name="tokenClass">The class of the token.</param>
-        /// <param name="location">The location of the preprocessor in the code.</param>
-        /// <param name="parent">The parent code part.</param>
-        /// <param name="generated">Indicates whether the preprocessor lies within a block of generated code.</param>
+        /// <param name="text">
+        /// The line text.
+        /// </param>
+        /// <param name="tokenClass">
+        /// The class of the token.
+        /// </param>
+        /// <param name="location">
+        /// The location of the preprocessor in the code.
+        /// </param>
+        /// <param name="parent">
+        /// The parent code part.
+        /// </param>
+        /// <param name="generated">
+        /// Indicates whether the preprocessor lies within a block of generated code.
+        /// </param>
         internal Preprocessor(string text, CsTokenClass tokenClass, CodeLocation location, Reference<ICodePart> parent, bool generated)
             : base(text, CsTokenType.PreprocessorDirective, tokenClass, location, parent, generated)
         {
@@ -88,17 +97,25 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Initializes a new instance of the Preprocessor class.
         /// </summary>
-        /// <param name="text">The line text.</param>
-        /// <param name="location">The location of the preprocessor in the code.</param>
-        /// <param name="parent">The parent code part.</param>
-        /// <param name="generated">Indicates whether the preprocessor lies within a block of generated code.</param>
+        /// <param name="text">
+        /// The line text.
+        /// </param>
+        /// <param name="location">
+        /// The location of the preprocessor in the code.
+        /// </param>
+        /// <param name="parent">
+        /// The parent code part.
+        /// </param>
+        /// <param name="generated">
+        /// Indicates whether the preprocessor lies within a block of generated code.
+        /// </param>
         internal Preprocessor(string text, CodeLocation location, Reference<ICodePart> parent, bool generated)
             : this(text, CsTokenClass.PreprocessorDirective, location, parent, generated)
         {
             Param.Ignore(text, location, parent, generated);
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
 
@@ -113,6 +130,6 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Properties
+        #endregion
     }
 }

@@ -15,14 +15,13 @@
 //   QuickFix.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper710.QuickFixes.Readability
 {
     #region Using Directives
 
     using System.Collections.Generic;
 
-        using JetBrains.ReSharper.Feature.Services.Bulbs;
+    using JetBrains.ReSharper.Feature.Services.Bulbs;
     using JetBrains.ReSharper.Intentions.Extensibility;
 
     using StyleCop.ReSharper710.BulbItems.Readability;
@@ -110,7 +109,15 @@ namespace StyleCop.ReSharper710.QuickFixes.Readability
         /// </summary>
         protected override void InitialiseBulbItems()
         {
-            this.BulbItems = new List<IBulbAction> { new SA1108BlockStatementsMustNotContainEmbeddedCommentsBulbItem { Description = "Move comment inside code block : " + this.Highlighting.ToolTip } };
+            this.BulbItems = new List<IBulbAction>
+                                 {
+                                     new SA1108BlockStatementsMustNotContainEmbeddedCommentsBulbItem
+                                         {
+                                             Description =
+                                                 "Move comment inside code block : "
+                                                 + this.Highlighting.ToolTip
+                                         }
+                                 };
         }
 
         #endregion

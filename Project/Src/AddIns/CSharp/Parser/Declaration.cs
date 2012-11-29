@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="Declaration.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Declaration.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Describes an element declaration.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
     using System.Collections.Generic;
@@ -22,50 +25,54 @@ namespace StyleCop.CSharp
     /// <subcategory>element</subcategory>
     public sealed class Declaration
     {
-        #region Private Fields
-
-        /// <summary>
-        /// The item name.
-        /// </summary>
-        private string name;
-
-        /// <summary>
-        /// The list of tokens that make up the declaration.
-        /// </summary>
-        private CsTokenList tokens;
+        #region Fields
 
         /// <summary>
         /// The item's element type.
         /// </summary>
-        private ElementType elementType;
+        private readonly ElementType elementType;
+
+        /// <summary>
+        /// The list of modifiers in the declaration.
+        /// </summary>
+        private readonly Dictionary<CsTokenType, CsToken> modifiers;
+
+        /// <summary>
+        /// The item name.
+        /// </summary>
+        private readonly string name;
+
+        /// <summary>
+        /// The list of tokens that make up the declaration.
+        /// </summary>
+        private readonly CsTokenList tokens;
 
         /// <summary>
         /// The item's access type.
         /// </summary>
         private AccessModifierType accessModifierType = AccessModifierType.Private;
 
-        /// <summary>
-        /// The list of modifiers in the declaration.
-        /// </summary>
-        private Dictionary<CsTokenType, CsToken> modifiers;
+        #endregion
 
-        #endregion Private Fields
-
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the Declaration class.
         /// </summary>
-        /// <param name="tokens">The array of tokens that make up the declaration.</param>
-        /// <param name="name">The name of the element.</param>
-        /// <param name="elementType">The type of the element.</param>
-        /// <param name="accessModifierType">The access type of the element.</param>
-        internal Declaration(
-            CsTokenList tokens,
-            string name,
-            ElementType elementType,
-            AccessModifierType accessModifierType) : 
-            this(tokens, name, elementType, accessModifierType, new Dictionary<CsTokenType, CsToken>(0))
+        /// <param name="tokens">
+        /// The array of tokens that make up the declaration.
+        /// </param>
+        /// <param name="name">
+        /// The name of the element.
+        /// </param>
+        /// <param name="elementType">
+        /// The type of the element.
+        /// </param>
+        /// <param name="accessModifierType">
+        /// The access type of the element.
+        /// </param>
+        internal Declaration(CsTokenList tokens, string name, ElementType elementType, AccessModifierType accessModifierType)
+            : this(tokens, name, elementType, accessModifierType, new Dictionary<CsTokenType, CsToken>(0))
         {
             Param.Ignore(tokens, name, elementType, accessModifierType);
         }
@@ -73,17 +80,22 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Initializes a new instance of the Declaration class.
         /// </summary>
-        /// <param name="tokens">The array of tokens that make up the declaration.</param>
-        /// <param name="name">The name of the element.</param>
-        /// <param name="elementType">The type of the element.</param>
-        /// <param name="accessModifierType">The access type of the element.</param>
-        /// <param name="modifiers">The list of modifier keywords in the declaration.</param>
-        internal Declaration(
-            CsTokenList tokens,
-            string name,
-            ElementType elementType,
-            AccessModifierType accessModifierType,
-            Dictionary<CsTokenType, CsToken> modifiers)
+        /// <param name="tokens">
+        /// The array of tokens that make up the declaration.
+        /// </param>
+        /// <param name="name">
+        /// The name of the element.
+        /// </param>
+        /// <param name="elementType">
+        /// The type of the element.
+        /// </param>
+        /// <param name="accessModifierType">
+        /// The access type of the element.
+        /// </param>
+        /// <param name="modifiers">
+        /// The list of modifier keywords in the declaration.
+        /// </param>
+        internal Declaration(CsTokenList tokens, string name, ElementType elementType, AccessModifierType accessModifierType, Dictionary<CsTokenType, CsToken> modifiers)
         {
             Param.AssertNotNull(tokens, "tokens");
             Param.AssertNotNull(name, "name");
@@ -100,7 +112,7 @@ namespace StyleCop.CSharp
             this.tokens.Trim();
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
 
@@ -109,20 +121,9 @@ namespace StyleCop.CSharp
         /// </summary>
         public bool AccessModifier
         {
-            get 
+            get
             {
                 return this.ContainsModifier(CsTokenType.Public, CsTokenType.Private, CsTokenType.Protected, CsTokenType.Internal);
-            }
-        }
-
-        /// <summary>
-        /// Gets the name of the element.
-        /// </summary>
-        public string Name
-        {
-            get 
-            { 
-                return this.name; 
             }
         }
 
@@ -131,9 +132,9 @@ namespace StyleCop.CSharp
         /// </summary>
         public AccessModifierType AccessModifierType
         {
-            get 
-            { 
-                return this.accessModifierType; 
+            get
+            {
+                return this.accessModifierType;
             }
 
             internal set
@@ -147,9 +148,20 @@ namespace StyleCop.CSharp
         /// </summary>
         public ElementType ElementType
         {
-            get 
-            { 
-                return this.elementType; 
+            get
+            {
+                return this.elementType;
+            }
+        }
+
+        /// <summary>
+        /// Gets the name of the element.
+        /// </summary>
+        public string Name
+        {
+            get
+            {
+                return this.name;
             }
         }
 
@@ -158,22 +170,26 @@ namespace StyleCop.CSharp
         /// </summary>
         public CsTokenList Tokens
         {
-            get 
+            get
             {
-                return this.tokens; 
+                return this.tokens;
             }
         }
 
-        #endregion Public Properties
+        #endregion
 
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Indicates whether the declaration contains one of the given modifiers.
         /// </summary>
-        /// <param name="types">The modifier types to check for.</param>
-        /// <returns>Returns true if the declaration contains at least one
-        /// of the given modifiers.</returns>
+        /// <param name="types">
+        /// The modifier types to check for.
+        /// </param>
+        /// <returns>
+        /// Returns true if the declaration contains at least one
+        /// of the given modifiers.
+        /// </returns>
         public bool ContainsModifier(params CsTokenType[] types)
         {
             Param.RequireNotNull(types, "types");
@@ -189,6 +205,6 @@ namespace StyleCop.CSharp
             return false;
         }
 
-        #endregion Public Methods
+        #endregion
     }
 }

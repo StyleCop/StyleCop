@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="SymbolType.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SymbolType.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   The various symbol types from a C# document.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
     /// <summary>
@@ -22,592 +25,592 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Open parenthesis: '('.
         /// </summary>
-        OpenParenthesis,
+        OpenParenthesis, 
 
         /// <summary>
         /// Close parenthesis: ')'.
         /// </summary>
-        CloseParenthesis,
+        CloseParenthesis, 
 
         /// <summary>
         /// Open Curly bracket: '{'.
         /// </summary>
-        OpenCurlyBracket,
+        OpenCurlyBracket, 
 
         /// <summary>
         /// Close Curly bracket: '}'.
         /// </summary>
-        CloseCurlyBracket,
+        CloseCurlyBracket, 
 
         /// <summary>
         /// Open square bracket: '['.
         /// </summary>
-        OpenSquareBracket,
+        OpenSquareBracket, 
 
         /// <summary>
         /// Close square bracket: ']'.
         /// </summary>
-        CloseSquareBracket,
+        CloseSquareBracket, 
 
         /// <summary>
         /// An equals sign: '='.
         /// </summary>
-        Equals,
+        Equals, 
 
         /// <summary>
         /// A conditional equals symbol: '=='.
         /// </summary>
-        ConditionalEquals,
+        ConditionalEquals, 
 
         /// <summary>
         /// A plus sign: '+'.
         /// </summary>
-        Plus,
+        Plus, 
 
         /// <summary>
         /// A plus equals symbol: '+='.
         /// </summary>
-        PlusEquals,
+        PlusEquals, 
 
         /// <summary>
         /// A minus sign: '-'.
         /// </summary>
-        Minus,
+        Minus, 
 
         /// <summary>
         /// A minus equals symbol: '-='.
         /// </summary>
-        MinusEquals,
+        MinusEquals, 
 
         /// <summary>
         /// A multiplication sign: '*'.
         /// </summary>
-        Multiplication,
+        Multiplication, 
 
         /// <summary>
         /// A times equals symbol: '*='.
         /// </summary>
-        MultiplicationEquals,
+        MultiplicationEquals, 
 
         /// <summary>
         /// A division sign: '/'.
         /// </summary>
-        Division,
+        Division, 
 
         /// <summary>
         /// A divide equals symbol: '/='.
         /// </summary>
-        DivisionEquals,
+        DivisionEquals, 
 
         /// <summary>
         /// A less-than sign.
         /// </summary>
-        LessThan,
+        LessThan, 
 
         /// <summary>
         /// A less than or equals sign.
         /// </summary>
-        LessThanOrEquals,
+        LessThanOrEquals, 
 
         /// <summary>
         /// A left-shift symbol.
         /// </summary>
-        LeftShift,
+        LeftShift, 
 
         /// <summary>
         /// A left-shift equals sign.
         /// </summary>
-        LeftShiftEquals,
+        LeftShiftEquals, 
 
         /// <summary>
         /// A greater-than sign.
         /// </summary>
-        GreaterThan,
+        GreaterThan, 
 
         /// <summary>
         /// A greater than or equals sign.
         /// </summary>
-        GreaterThanOrEquals,
+        GreaterThanOrEquals, 
 
         /// <summary>
         /// A right-shift symbol.
         /// </summary>
-        RightShift,
+        RightShift, 
 
         /// <summary>
         /// A right-shift equals sign.
         /// </summary>
-        RightShiftEquals,
+        RightShiftEquals, 
 
         /// <summary>
         /// An increment symbol: '++'.
         /// </summary>
-        Increment,
+        Increment, 
 
         /// <summary>
         /// A decrement symbol: '--'.
         /// </summary>
-        Decrement,
+        Decrement, 
 
         /// <summary>
         /// A logical AND symbol.
         /// </summary>
-        LogicalAnd,
+        LogicalAnd, 
 
         /// <summary>
         /// An AND equals symbol.
         /// </summary>
-        AndEquals,
+        AndEquals, 
 
         /// <summary>
         /// A conditional AND symbol.
         /// </summary>
-        ConditionalAnd,
+        ConditionalAnd, 
 
         /// <summary>
         /// A logical OR symbol: '|'.
         /// </summary>
-        LogicalOr,
+        LogicalOr, 
 
         /// <summary>
         /// An OR equals symbol: '|='.
         /// </summary>
-        OrEquals,
+        OrEquals, 
 
         /// <summary>
         /// A conditional OR symbol: '||'.
         /// </summary>
-        ConditionalOr,
+        ConditionalOr, 
 
         /// <summary>
         /// A logical XOR symbol: '^'.
         /// </summary>
-        LogicalXor,
+        LogicalXor, 
 
         /// <summary>
         /// An XOR equals symbol: '^='.
         /// </summary>
-        XorEquals,
+        XorEquals, 
 
         /// <summary>
         /// A NOT symbol: '!'.
         /// </summary>
-        Not,
+        Not, 
 
         /// <summary>
         /// A NOT equals symbol: '!='.
         /// </summary>
-        NotEquals,
+        NotEquals, 
 
         /// <summary>
         /// A MOD symbol: '%'.
         /// </summary>
-        Mod,
+        Mod, 
 
         /// <summary>
         /// A MOD equals symbol: '%='.
         /// </summary>
-        ModEquals,
+        ModEquals, 
 
         /// <summary>
         /// A dot: '.'.
         /// </summary>
-        Dot,
+        Dot, 
 
         /// <summary>
         /// A pointer symbol: '->'.
         /// </summary>
-        Pointer,
+        Pointer, 
 
         /// <summary>
         /// A colon: ':'.
         /// </summary>
-        Colon,
+        Colon, 
 
         /// <summary>
         /// A qualified alias symbol: '::'.
         /// </summary>
-        QualifiedAlias,
+        QualifiedAlias, 
 
         /// <summary>
         /// A question mark: '?'.
         /// </summary>
-        QuestionMark,
+        QuestionMark, 
 
         /// <summary>
         /// A null coalescing symbol: '??'.
         /// </summary>
-        NullCoalescingSymbol,
+        NullCoalescingSymbol, 
 
         /// <summary>
         /// A comma: ','.
         /// </summary>
-        Comma,
+        Comma, 
 
         /// <summary>
         /// A semicolon ending a line of code: ';'.
         /// </summary>
-        Semicolon,
+        Semicolon, 
 
         /// <summary>
         /// A tilde symbol: '~'.
         /// </summary>
-        Tilde,
+        Tilde, 
 
         /// <summary>
         /// A lambda expression symbol: =>
         /// </summary>
-        Lambda,
+        Lambda, 
 
         /// <summary>
         /// The keyword 'abstract'.
         /// </summary>
-        Abstract,
+        Abstract, 
 
         /// <summary>
         /// The keyword 'as'.
         /// </summary>
-        As,
+        As, 
 
         /// <summary>
         /// The keyword 'base'.
         /// </summary>
-        Base,
+        Base, 
 
         /// <summary>
         /// The keyword 'break'.
         /// </summary>
-        Break,
+        Break, 
 
         /// <summary>
         /// The keyword 'case'.
         /// </summary>
-        Case,
+        Case, 
 
         /// <summary>
         /// The keyword 'catch'.
         /// </summary>
-        Catch,
+        Catch, 
 
         /// <summary>
         /// The keyword 'checked'.
         /// </summary>
-        Checked,
+        Checked, 
 
         /// <summary>
         /// The keyword 'class'.
         /// </summary>
-        Class,
+        Class, 
 
         /// <summary>
         /// The keyword <see langword="const"/>.
         /// </summary>
-        Const,
+        Const, 
 
         /// <summary>
         /// The keyword 'continue'.
         /// </summary>
-        Continue,
+        Continue, 
 
         /// <summary>
         /// The keyword 'default'.
         /// </summary>
-        Default,
+        Default, 
 
         /// <summary>
         /// The keyword 'delegate'.
         /// </summary>
-        Delegate,
+        Delegate, 
 
         /// <summary>
         /// The keyword 'do'.
         /// </summary>
-        Do,
+        Do, 
 
         /// <summary>
         /// The keyword 'else'.
         /// </summary>
-        Else,
+        Else, 
 
         /// <summary>
         /// The keyword '<see cref="Enum"/>'.
         /// </summary>
-        Enum,
+        Enum, 
 
         /// <summary>
         /// The keyword 'event'.
         /// </summary>
-        Event,
+        Event, 
 
         /// <summary>
         /// The keyword 'explicit'.
         /// </summary>
-        Explicit,
+        Explicit, 
 
         /// <summary>
         /// The keyword 'extern'.
         /// </summary>
-        Extern,
+        Extern, 
 
         /// <summary>
         /// The keyword 'false'.
         /// </summary>
-        False,
+        False, 
 
         /// <summary>
         /// The keyword 'finally'.
         /// </summary>
-        Finally,
+        Finally, 
 
         /// <summary>
         /// The keyword 'fixed'.
         /// </summary>
-        Fixed,
+        Fixed, 
 
         /// <summary>
         /// The keyword 'for'.
         /// </summary>
-        For,
+        For, 
 
         /// <summary>
         /// The keyword 'foreach'.
         /// </summary>
-        Foreach,
+        Foreach, 
 
         /// <summary>
         /// The keyword 'goto'.
         /// </summary>
-        Goto,
+        Goto, 
 
         /// <summary>
         /// The keyword 'if'.
         /// </summary>
-        If,
+        If, 
 
         /// <summary>
         /// The keyword 'implicit'.
         /// </summary>
-        Implicit,
+        Implicit, 
 
         /// <summary>
         /// The keyword 'in'.
         /// </summary>
-        In,
+        In, 
 
         /// <summary>
         /// The keyword 'interface'.
         /// </summary>
-        Interface,
+        Interface, 
 
         /// <summary>
         /// The keyword 'internal'.
         /// </summary>
-        Internal,
+        Internal, 
 
         /// <summary>
         /// The keyword 'is'.
         /// </summary>
-        Is,
+        Is, 
 
         /// <summary>
         /// The keyword 'lock'.
         /// </summary>
-        Lock,
+        Lock, 
 
         /// <summary>
         /// The keyword 'namespace'.
         /// </summary>
-        Namespace,
+        Namespace, 
 
         /// <summary>
         /// The keyword 'new'.
         /// </summary>
-        New,
+        New, 
 
         /// <summary>
         /// The keyword 'null'.
         /// </summary>
-        Null,
+        Null, 
 
         /// <summary>
         /// The keyword 'operator'.
         /// </summary>
-        Operator,
+        Operator, 
 
         /// <summary>
         /// The keyword 'out'.
         /// </summary>
-        Out,
+        Out, 
 
         /// <summary>
         /// The keyword 'override'.
         /// </summary>
-        Override,
+        Override, 
 
         /// <summary>
         /// The keyword '<c>params</c>'.
         /// </summary>
-        Params,
+        Params, 
 
         /// <summary>
         /// The keyword 'private'.
         /// </summary>
-        Private,
+        Private, 
 
         /// <summary>
         /// The keyword 'protected'.
         /// </summary>
-        Protected,
+        Protected, 
 
         /// <summary>
         /// The keyword 'public'.
         /// </summary>
-        Public,
+        Public, 
 
         /// <summary>
         /// The keyword 'readonly'.
         /// </summary>
-        Readonly,
+        Readonly, 
 
         /// <summary>
         /// The keyword 'ref'.
         /// </summary>
-        Ref,
+        Ref, 
 
         /// <summary>
         /// The keyword 'return'.
         /// </summary>
-        Return,
+        Return, 
 
         /// <summary>
         /// The keyword 'sealed'.
         /// </summary>
-        Sealed,
+        Sealed, 
 
         /// <summary>
         /// The keyword 'sizeof'.
         /// </summary>
-        Sizeof,
+        Sizeof, 
 
         /// <summary>
         /// The keyword 'stackalloc'.
         /// </summary>
-        Stackalloc,
+        Stackalloc, 
 
         /// <summary>
         /// The keyword 'static'.
         /// </summary>
-        Static,
+        Static, 
 
         /// <summary>
         /// The keyword 'struct'.
         /// </summary>
-        Struct,
+        Struct, 
 
         /// <summary>
         /// The keyword 'switch'.
         /// </summary>
-        Switch,
+        Switch, 
 
         /// <summary>
         /// The keyword 'this'.
         /// </summary>
-        This,
+        This, 
 
         /// <summary>
         /// The keyword 'throw'.
         /// </summary>
-        Throw,
+        Throw, 
 
         /// <summary>
         /// The keyword 'true'.
         /// </summary>
-        True,
+        True, 
 
         /// <summary>
         /// The keyword 'try'.
         /// </summary>
-        Try,
+        Try, 
 
         /// <summary>
         /// The keyword 'typeof'.
         /// </summary>
-        Typeof,
+        Typeof, 
 
         /// <summary>
         /// The keyword 'unchecked'.
         /// </summary>
-        Unchecked,
+        Unchecked, 
 
         /// <summary>
         /// The keyword 'unsafe'.
         /// </summary>
-        Unsafe,
+        Unsafe, 
 
         /// <summary>
         /// The keyword 'using'.
         /// </summary>
-        Using,
+        Using, 
 
         /// <summary>
         /// The keyword 'virtual'.
         /// </summary>
-        Virtual,
+        Virtual, 
 
         /// <summary>
         /// The keyword 'volatile'.
         /// </summary>
-        Volatile,
+        Volatile, 
 
         /// <summary>
         /// The keyword 'while'.
         /// </summary>
-        While,
+        While, 
 
         /// <summary>
         /// An unknown token.
         /// </summary>
-        Other,
+        Other, 
 
         /// <summary>
         /// A group of whitespace.
         /// </summary>
-        WhiteSpace,
+        WhiteSpace, 
 
         /// <summary>
         /// An end-of-line character.
         /// </summary>
-        EndOfLine,
+        EndOfLine, 
 
         /// <summary>
         /// A string constant.
         /// </summary>
-        String,
+        String, 
 
         /// <summary>
         /// A number constant.
         /// </summary>
-        Number,
+        Number, 
 
         /// <summary>
         /// A single-line comment.
         /// </summary>
-        SingleLineComment,
+        SingleLineComment, 
 
         /// <summary>
         /// A multi-line comment.
         /// </summary>
-        MultiLineComment,
+        MultiLineComment, 
 
         /// <summary>
         /// A preprocessor line.
         /// </summary>
-        PreprocessorDirective,
+        PreprocessorDirective, 
 
         /// <summary>
         /// An element attribute.
         /// </summary>
-        Attribute,
+        Attribute, 
 
         /// <summary>
         /// A line within an Xml header.

@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="CodeUnit.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="CodeUnit.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   A basic code unit, either an expression or a statement.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
     using System.Collections.Generic;
@@ -23,51 +26,36 @@ namespace StyleCop.CSharp
     /// </summary>
     public class CodeUnit : IWriteableCodeUnit
     {
-        #region Private Static Fields
+        #region Static Fields
 
         /// <summary>
         /// An empty array of expressions.
         /// </summary>
-        private static Expression[] emptyExpressionArray = new Expression[0];
+        private static readonly Expression[] EmptyExpressionArray = new Expression[0];
 
         /// <summary>
         /// An empty array of statements.
         /// </summary>
-        private static Statement[] emptyStatementArray = new Statement[0];
+        private static readonly Statement[] EmptyStatementArray = new Statement[0];
 
         /// <summary>
         /// An empty master list of tokens.
         /// </summary>
         private static CsTokenList emptyTokenList;
 
-        #endregion Private Static Fields
+        #endregion
 
-        #region Private Fields
-
-        /// <summary>
-        /// The friendly name of the type.
-        /// </summary>
-        private string friendlyTypeName;
+        #region Fields
 
         /// <summary>
-        /// The friendly name of the type, in plural form.
+        /// The type of the code unit.
         /// </summary>
-        private string friendlyPluralTypeName;
-
-        /// <summary>
-        /// The token list for this code unit.
-        /// </summary>
-        private CsTokenList tokens;
-
-        /// <summary>
-        /// The location of this expression.
-        /// </summary>
-        private CodeLocation location;
+        private readonly CodePartType codeUnitType;
 
         /// <summary>
         /// The collection of variables defined by this code unit.
         /// </summary>
-        private VariableCollection variables = new VariableCollection();
+        private readonly VariableCollection variables = new VariableCollection();
 
         /// <summary>
         /// The collection of expressions beneath this code unit.
@@ -75,9 +63,19 @@ namespace StyleCop.CSharp
         private CodeUnitCollection<Expression> expressions;
 
         /// <summary>
-        /// The collection of statements beneath this code unit.
+        /// The friendly name of the type, in plural form.
         /// </summary>
-        private CodeUnitCollection<Statement> statements;
+        private string friendlyPluralTypeName;
+
+        /// <summary>
+        /// The friendly name of the type.
+        /// </summary>
+        private string friendlyTypeName;
+
+        /// <summary>
+        /// The location of this expression.
+        /// </summary>
+        private CodeLocation location;
 
         /// <summary>
         /// The parent of this code unit.
@@ -85,23 +83,30 @@ namespace StyleCop.CSharp
         private ICodePart parent;
 
         /// <summary>
-        /// The type of the code unit.
+        /// The collection of statements beneath this code unit.
         /// </summary>
-        private CodePartType codeUnitType;
+        private CodeUnitCollection<Statement> statements;
+
+        /// <summary>
+        /// The token list for this code unit.
+        /// </summary>
+        private CsTokenList tokens;
 
         /// <summary>
         /// Indicates whether to automatically trim down the token list whenever it is set.
         /// </summary>
         private bool trimTokens = true;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the CodeUnit class.
         /// </summary>
-        /// <param name="codeUnitType">The type of the code unit.</param>
+        /// <param name="codeUnitType">
+        /// The type of the code unit.
+        /// </param>
         internal CodeUnit(CodePartType codeUnitType)
         {
             Param.Ignore(codeUnitType);
@@ -111,9 +116,14 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Initializes a new instance of the CodeUnit class.
         /// </summary>
-        /// <param name="codeUnitType">The type of the code unit.</param>
-        /// <param name="tokens">The list of tokens that form the code unit.</param>
-        internal CodeUnit(CodePartType codeUnitType, CsTokenList tokens) : this(codeUnitType)
+        /// <param name="codeUnitType">
+        /// The type of the code unit.
+        /// </param>
+        /// <param name="tokens">
+        /// The list of tokens that form the code unit.
+        /// </param>
+        internal CodeUnit(CodePartType codeUnitType, CsTokenList tokens)
+            : this(codeUnitType)
         {
             Param.Ignore(codeUnitType);
             Param.AssertNotNull(tokens, "tokens");
@@ -124,9 +134,136 @@ namespace StyleCop.CSharp
             Debug.Assert(this.tokens.First != null, "The tokens should not be empty");
         }
 
-        #endregion Internal Constructors
+        #endregion
 
-        #region Public Virtual Properties
+        #region Public Properties
+
+        /// <summary>
+        /// Gets the collection of expressions beneath this code unit.
+        /// </summary>
+        public ICollection<Expression> ChildExpressions
+        {
+            get
+            {
+                if (this.expressions == null)
+                {
+                    return EmptyExpressionArray;
+                }
+
+                return this.expressions;
+            }
+        }
+
+        /// <summary>
+        /// Gets the collection of statements beneath this code unit.
+        /// </summary>
+        public ICollection<Statement> ChildStatements
+        {
+            get
+            {
+                if (this.statements == null)
+                {
+                    return EmptyStatementArray;
+                }
+
+                return this.statements;
+            }
+        }
+
+        /// <summary>
+        /// Gets the type of the code unit.
+        /// </summary>
+        public CodePartType CodePartType
+        {
+            get
+            {
+                return this.codeUnitType;
+            }
+        }
+
+        /// <summary>
+        /// Gets the friendly name of the code unit type as a plural noun, which can be used in user output.
+        /// </summary>
+        public string FriendlyPluralTypeText
+        {
+            get
+            {
+                string text = this.GetFriendlyPluralTypeText(null);
+                if (text != null)
+                {
+                    return text;
+                }
+
+                text = this.GetFriendlyPluralTypeText(this.GetType().Name);
+                Debug.Assert(!string.IsNullOrEmpty(text), "The text should not be empty");
+
+                return text;
+            }
+        }
+
+        /// <summary>
+        /// Gets the friendly name of the code unit type, which can be used in user output.
+        /// </summary>
+        public string FriendlyTypeText
+        {
+            get
+            {
+                string text = this.GetFriendlyTypeText(null);
+                if (text != null)
+                {
+                    return text;
+                }
+
+                text = this.GetFriendlyTypeText(this.GetType().Name);
+                Debug.Assert(!string.IsNullOrEmpty(text), "The text should not be empty");
+
+                return text;
+            }
+        }
+
+        /// <summary>
+        /// Gets the line number that this code unit appears on in the document.
+        /// </summary>
+        public virtual int LineNumber
+        {
+            get
+            {
+                return this.Location.LineNumber;
+            }
+        }
+
+        /// <summary>
+        /// Gets the location of this code unit within the document.
+        /// </summary>
+        public virtual CodeLocation Location
+        {
+            get
+            {
+                if (this.location == null)
+                {
+                    Debug.Assert(this.tokens.First != null, "The token list should not be empty");
+                    this.location = CsToken.JoinLocations(this.tokens.First, this.tokens.Last);
+                }
+
+                return this.location;
+            }
+
+            internal set
+            {
+                this.location = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets the parent of this code unit.
+        /// </summary>
+        public ICodePart Parent
+        {
+            get
+            {
+                return this.parent;
+            }
+        }
 
         /// <summary>
         /// Gets the list of tokens within this code unit.
@@ -162,94 +299,6 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Gets the location of this code unit within the document.
-        /// </summary>
-        public virtual CodeLocation Location
-        {
-            get
-            {
-                if (this.location == null)
-                {
-                    Debug.Assert(this.tokens.First != null, "The token list should not be empty");
-                    this.location = CsToken.JoinLocations(this.tokens.First, this.tokens.Last);
-                }
-
-                return this.location;
-            }
-
-            internal set
-            {
-                this.location = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets the line number that this code unit appears on in the document.
-        /// </summary>
-        public virtual int LineNumber
-        {
-            get
-            {
-                return this.Location.LineNumber;
-            }
-        }
-
-        #endregion Public Virtual Properties
-
-        #region Public Properties
-
-        /// <summary>
-        /// Gets the friendly name of the code unit type, which can be used in user output.
-        /// </summary>
-        public string FriendlyTypeText
-        {
-            get
-            {
-                string text = this.GetFriendlyTypeText(null);
-                if (text != null)
-                {
-                    return text;
-                }
-
-                text = this.GetFriendlyTypeText(this.GetType().Name);
-                Debug.Assert(!string.IsNullOrEmpty(text), "The text should not be empty");
-
-                return text;
-            }
-        }
-
-        /// <summary>
-        /// Gets the friendly name of the code unit type as a plural noun, which can be used in user output.
-        /// </summary>
-        public string FriendlyPluralTypeText
-        {
-            get
-            {
-                string text = this.GetFriendlyPluralTypeText(null);
-                if (text != null)
-                {
-                    return text;
-                }
-
-                text = this.GetFriendlyPluralTypeText(this.GetType().Name);
-                Debug.Assert(!string.IsNullOrEmpty(text), "The text should not be empty");
-
-                return text;
-            }
-        }
-
-        /// <summary>
-        /// Gets the type of the code unit.
-        /// </summary>
-        public CodePartType CodePartType
-        {
-            get
-            {
-                return this.codeUnitType;
-            }
-        }
-
-        /// <summary>
         /// Gets the list of variables and constants defined by this code unit.
         /// </summary>
         public VariableCollection Variables
@@ -260,52 +309,9 @@ namespace StyleCop.CSharp
             }
         }
 
-        /// <summary>
-        /// Gets the collection of expressions beneath this code unit.
-        /// </summary>
-        public ICollection<Expression> ChildExpressions
-        {
-            get
-            {
-                if (this.expressions == null)
-                {
-                    return emptyExpressionArray;
-                }
+        #endregion
 
-                return this.expressions;
-            }
-        }
-
-        /// <summary>
-        /// Gets the collection of statements beneath this code unit.
-        /// </summary>
-        public ICollection<Statement> ChildStatements
-        {
-            get
-            {
-                if (this.statements == null)
-                {
-                    return emptyStatementArray;
-                }
-
-                return this.statements;
-            }
-        }
-
-        /// <summary>
-        /// Gets the parent of this code unit.
-        /// </summary>
-        public ICodePart Parent
-        {
-            get
-            {
-                return this.parent;
-            }
-        }
-
-        #endregion Public Properties
-
-        #region Internal Properties
+        #region Properties
 
         /// <summary>
         /// Gets or sets a value indicating whether to automatically trim down the 
@@ -326,14 +332,16 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Internal Properties
+        #endregion
 
-        #region IWriteableCodeUnit Methods
+        #region Explicit Interface Methods
 
         /// <summary>
         /// Adds a child expression.
         /// </summary>
-        /// <param name="expression">The expression to add.</param>
+        /// <param name="expression">
+        /// The expression to add.
+        /// </param>
         void IWriteableCodeUnit.AddExpression(Expression expression)
         {
             Param.Ignore(expression);
@@ -343,7 +351,9 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Adds a range of child expressions.
         /// </summary>
-        /// <param name="items">The expressions to add.</param>
+        /// <param name="items">
+        /// The expressions to add.
+        /// </param>
         void IWriteableCodeUnit.AddExpressions(IEnumerable<Expression> items)
         {
             Param.Ignore(items);
@@ -353,7 +363,9 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Adds a child statement.
         /// </summary>
-        /// <param name="statement">The statement to add.</param>
+        /// <param name="statement">
+        /// The statement to add.
+        /// </param>
         void IWriteableCodeUnit.AddStatement(Statement statement)
         {
             Param.Ignore(statement);
@@ -363,7 +375,9 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Adds a range of child statements.
         /// </summary>
-        /// <param name="items">The statements to add.</param>
+        /// <param name="items">
+        /// The statements to add.
+        /// </param>
         void IWriteableCodeUnit.AddStatements(IEnumerable<Statement> items)
         {
             Param.Ignore(items);
@@ -373,21 +387,25 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Sets the parent of this code unit.
         /// </summary>
-        /// <param name="parentCodeUnit">The parent.</param>
+        /// <param name="parentCodeUnit">
+        /// The parent.
+        /// </param>
         void IWriteableCodeUnit.SetParent(ICodePart parentCodeUnit)
         {
             Param.Ignore(parentCodeUnit);
             this.parent = parentCodeUnit;
         }
 
-        #endregion IWriteableCodeUnit Methods
+        #endregion
 
-        #region Internal Methods
+        #region Methods
 
         /// <summary>
         /// Adds a child expression.
         /// </summary>
-        /// <param name="expression">The expression to add.</param>
+        /// <param name="expression">
+        /// The expression to add.
+        /// </param>
         internal void AddExpression(Expression expression)
         {
             Param.AssertNotNull(expression, "expression");
@@ -403,7 +421,9 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Adds a range of child expressions.
         /// </summary>
-        /// <param name="items">The expressions to add.</param>
+        /// <param name="items">
+        /// The expressions to add.
+        /// </param>
         internal void AddExpressions(IEnumerable<Expression> items)
         {
             Param.AssertNotNull(items, "items");
@@ -419,7 +439,9 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Adds a child statement.
         /// </summary>
-        /// <param name="statement">The statement to add.</param>
+        /// <param name="statement">
+        /// The statement to add.
+        /// </param>
         internal void AddStatement(Statement statement)
         {
             Param.AssertNotNull(statement, "statement");
@@ -435,7 +457,9 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Adds a range of child statements.
         /// </summary>
-        /// <param name="items">The statements to add.</param>
+        /// <param name="items">
+        /// The statements to add.
+        /// </param>
         internal void AddStatements(IEnumerable<Statement> items)
         {
             Param.AssertNotNull(items, "items");
@@ -449,27 +473,14 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Gets the friendly name of the code unit type, which can be used in user output.
-        /// </summary>
-        /// <param name="typeName">The name of the type.</param>
-        /// <returns>Returns the friendly name text.</returns>
-        internal string GetFriendlyTypeText(string typeName)
-        {
-            Param.Ignore(typeName);
-
-            if (this.friendlyTypeName == null && typeName != null)
-            {
-                this.friendlyTypeName = TypeNames.ResourceManager.GetString(typeName, TypeNames.Culture);
-            }
-
-            return this.friendlyTypeName;
-        }
-
-        /// <summary>
         /// Gets the friendly name of the code unit type as a plural noun, which can be used in user output.
         /// </summary>
-        /// <param name="typeName">The name of the type.</param>
-        /// <returns>Returns the plural friendly name text.</returns>
+        /// <param name="typeName">
+        /// The name of the type.
+        /// </param>
+        /// <returns>
+        /// Returns the plural friendly name text.
+        /// </returns>
         internal string GetFriendlyPluralTypeText(string typeName)
         {
             Param.Ignore(typeName);
@@ -482,6 +493,27 @@ namespace StyleCop.CSharp
             return this.friendlyPluralTypeName;
         }
 
-        #endregion Internal Methods
+        /// <summary>
+        /// Gets the friendly name of the code unit type, which can be used in user output.
+        /// </summary>
+        /// <param name="typeName">
+        /// The name of the type.
+        /// </param>
+        /// <returns>
+        /// Returns the friendly name text.
+        /// </returns>
+        internal string GetFriendlyTypeText(string typeName)
+        {
+            Param.Ignore(typeName);
+
+            if (this.friendlyTypeName == null && typeName != null)
+            {
+                this.friendlyTypeName = TypeNames.ResourceManager.GetString(typeName, TypeNames.Culture);
+            }
+
+            return this.friendlyTypeName;
+        }
+
+        #endregion
     }
 }

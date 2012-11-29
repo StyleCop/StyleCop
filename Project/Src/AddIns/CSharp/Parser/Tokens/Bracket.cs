@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="Bracket.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Bracket.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,10 +11,13 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Describes one curly bracket, square bracket, parenthesis,
+//   attribute bracket, or generic bracket.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
     using System.Diagnostics;
 
     /// <summary>
@@ -24,50 +27,49 @@ namespace StyleCop.CSharp
     /// <subcategory>token</subcategory>
     public sealed class Bracket : CsToken
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// The matching bracket.
         /// </summary>
         private Node<CsToken> matchingBracketNode;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the Bracket class.
         /// </summary>
-        /// <param name="text">The token string.</param>
-        /// <param name="tokenType">The token type.</param>
-        /// <param name="location">The location of the token within the code document.</param>
-        /// <param name="parent">The parent code part.</param>
-        /// <param name="generated">True if the token is inside of a block of generated code.</param>
-        internal Bracket(
-            string text,
-            CsTokenType tokenType,
-            CodeLocation location,
-            Reference<ICodePart> parent,
-            bool generated)
+        /// <param name="text">
+        /// The token string.
+        /// </param>
+        /// <param name="tokenType">
+        /// The token type.
+        /// </param>
+        /// <param name="location">
+        /// The location of the token within the code document.
+        /// </param>
+        /// <param name="parent">
+        /// The parent code part.
+        /// </param>
+        /// <param name="generated">
+        /// True if the token is inside of a block of generated code.
+        /// </param>
+        internal Bracket(string text, CsTokenType tokenType, CodeLocation location, Reference<ICodePart> parent, bool generated)
             : base(text, tokenType, CsTokenClass.Bracket, location, parent, generated)
         {
             Param.Ignore(text, tokenType, location, parent, generated);
 
             Debug.Assert(
-                tokenType == CsTokenType.OpenCurlyBracket ||
-                tokenType == CsTokenType.CloseCurlyBracket ||
-                tokenType == CsTokenType.OpenSquareBracket ||
-                tokenType == CsTokenType.CloseSquareBracket ||
-                tokenType == CsTokenType.OpenParenthesis ||
-                tokenType == CsTokenType.CloseParenthesis ||
-                tokenType == CsTokenType.OpenGenericBracket ||
-                tokenType == CsTokenType.CloseGenericBracket ||
-                tokenType == CsTokenType.OpenAttributeBracket ||
-                tokenType == CsTokenType.CloseAttributeBracket,
+                tokenType == CsTokenType.OpenCurlyBracket || tokenType == CsTokenType.CloseCurlyBracket || tokenType == CsTokenType.OpenSquareBracket
+                || tokenType == CsTokenType.CloseSquareBracket || tokenType == CsTokenType.OpenParenthesis || tokenType == CsTokenType.CloseParenthesis
+                || tokenType == CsTokenType.OpenGenericBracket || tokenType == CsTokenType.CloseGenericBracket || tokenType == CsTokenType.OpenAttributeBracket
+                || tokenType == CsTokenType.CloseAttributeBracket, 
                 "The symbol is not a bracket type.");
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
 
@@ -103,6 +105,6 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Properties
+        #endregion
     }
 }

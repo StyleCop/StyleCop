@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="RegistryUtils.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="RegistryUtils.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Performs operations in the registry.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop
 {
     using System;
@@ -20,34 +23,40 @@ namespace StyleCop
     using System.IO;
     using System.Security;
     using System.Windows.Forms;
+
     using Microsoft.Win32;
 
     /// <summary>
     /// Performs operations in the registry.
     /// </summary>
-    [SuppressMessage(
-        "Microsoft.Naming", 
-        "CA1704:IdentifiersShouldBeSpelledCorrectly", 
-        MessageId = "Utils",
+    [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Utils", 
         Justification = "API has already been published and should not be changed.")]
     public partial class RegistryUtils
     {
+        #region Constants
+
         /// <summary>
         /// The StyleCop sub key.
         /// </summary>
         private const string StyleCopSubKey = @"Software\CodePlex\StyleCop";
-        
-        /// <summary>
-        /// The local machine registry key for StyleCop.
-        /// </summary>
-        private RegistryKey localMachineRoot;
+
+        #endregion
+
+        #region Fields
 
         /// <summary>
         /// The current user registry key for StyleCop.
         /// </summary>
         private RegistryKey currentUserRoot;
-    
-        #region Destructors
+
+        /// <summary>
+        /// The local machine registry key for StyleCop.
+        /// </summary>
+        private RegistryKey localMachineRoot;
+
+        #endregion
+
+        #region Constructors and Destructors
 
         /// <summary>
         /// Finalizes an instance of the RegistryUtils class.
@@ -65,7 +74,7 @@ namespace StyleCop
             }
         }
 
-        #endregion Destructors
+        #endregion
 
         #region Public Properties
 
@@ -107,47 +116,19 @@ namespace StyleCop
             }
         }
 
-        #endregion Public Properties
+        #endregion
 
-        /// <summary>
-        /// Sets a RegistryKey value in the registry for the current user.
-        /// </summary>
-        /// <param name="key">
-        /// The sub key to create.
-        /// </param>
-        /// <param name="value">
-        /// The value to use.
-        /// </param>
-        /// <param name="valueKind">
-        /// The type of RegistryKey value to set.
-        /// </param>
-        public static void SetRegistry(string key, object value, RegistryValueKind valueKind)
-        {   
-            var registryKey = Registry.CurrentUser.CreateSubKey(StyleCopSubKey);
-            if (registryKey != null)
-            {
-                registryKey.SetValue(key, value, valueKind);
-            }
-        }
-
-        /// <summary>
-        /// Gets a RegistryKey value for the specified <paramref name="keyName"/> and <paramref name="valueName"/> from the local machine hive.
-        /// </summary>
-        /// <param name="keyName">The key to retrieve from the registry.</param>
-        /// <param name="valueName">The value to retrieve from the key provided.</param>
-        /// <returns>
-        /// Returns the RegistryKey value or null if not found.
-        /// </returns>
-        public static string LocalMachineGetValue(string keyName, string valueName)
-        {
-            return Registry.GetValue(@"HKEY_LOCAL_MACHINE\" + keyName, valueName, null) as string;
-        }
+        #region Public Methods and Operators
 
         /// <summary>
         /// Gets a RegistryKey value for the specified <paramref name="keyName"/> and <paramref name="valueName"/> for the Current User.
         /// </summary>
-        /// <param name="keyName">The key to retrieve from the registry.</param>
-        /// <param name="valueName">The value to retrieve from the key provided.</param>
+        /// <param name="keyName">
+        /// The key to retrieve from the registry.
+        /// </param>
+        /// <param name="valueName">
+        /// The value to retrieve from the key provided.
+        /// </param>
         /// <returns>
         /// Returns the RegistryKey value or null if not found.
         /// </returns>
@@ -159,7 +140,9 @@ namespace StyleCop
         /// <summary>
         /// Gets the count of the number of keys under the <paramref name="keyName"/> provided.
         /// </summary>
-        /// <param name="keyName">The key to retrieve from the registry.</param>
+        /// <param name="keyName">
+        /// The key to retrieve from the registry.
+        /// </param>
         /// <returns>
         /// Returns the count of the keys under the key provided or 1.
         /// </returns>
@@ -179,71 +162,54 @@ namespace StyleCop
 
             return count;
         }
-        
-        #region Public Methods
 
         /// <summary>
-        /// Adds or overwrites a value under the StyleCop HKCU key.
+        /// Gets a RegistryKey value for the specified <paramref name="keyName"/> and <paramref name="valueName"/> from the local machine hive.
         /// </summary>
-        /// <param name="name">The path to the value.</param>
-        /// <param name="value">The object to write.</param>
-        /// <returns>Returns true if the value was written, false if not.</returns>
-        public bool CUSetValue(string name, object value)
+        /// <param name="keyName">
+        /// The key to retrieve from the registry.
+        /// </param>
+        /// <param name="valueName">
+        /// The value to retrieve from the key provided.
+        /// </param>
+        /// <returns>
+        /// Returns the RegistryKey value or null if not found.
+        /// </returns>
+        public static string LocalMachineGetValue(string keyName, string valueName)
         {
-            Param.RequireValidString(name, "name");
-            Param.RequireNotNull(value, "value");
-
-            return SetValue(this.CurrentUserRoot, name, value);
+            return Registry.GetValue(@"HKEY_LOCAL_MACHINE\" + keyName, valueName, null) as string;
         }
 
         /// <summary>
-        /// Gets a value under the StyleCop HKCU key.
+        /// Sets a RegistryKey value in the registry for the current user.
         /// </summary>
-        /// <param name="name">The path to the value.</param>
-        /// <returns>Returns the object retrieved.</returns>
-        public object CUGetValue(string name)
+        /// <param name="key">
+        /// The sub key to create.
+        /// </param>
+        /// <param name="value">
+        /// The value to use.
+        /// </param>
+        /// <param name="valueKind">
+        /// The type of RegistryKey value to set.
+        /// </param>
+        public static void SetRegistry(string key, object value, RegistryValueKind valueKind)
         {
-            Param.RequireValidString(name, "name");
-            return GetValue(this.CurrentUserRoot, name);
+            RegistryKey registryKey = Registry.CurrentUser.CreateSubKey(StyleCopSubKey);
+            if (registryKey != null)
+            {
+                registryKey.SetValue(key, value, valueKind);
+            }
         }
 
-        /// <summary>
-        /// Gets a value under the StyleCop HKLM key.
-        /// </summary>
-        /// <param name="name">The path to the value.</param>
-        /// <returns>Returns the object retrieved.</returns>
-        public object LMGetValue(string name)
-        {
-            Param.RequireValidString(name, "name");
-            return this.LocalMachineRoot == null ? null : GetValue(this.LocalMachineRoot, name);
-        }
-
-        /// <summary>
-        /// Deletes a value under the StyleCop HKCU key.
-        /// </summary>
-        /// <param name="name">The path to the value.</param>
-        public void CUDeleteValue(string name)
-        {
-            Param.RequireValidString(name, "name");
-            DeleteValue(this.CurrentUserRoot, name);
-        }
-
-        /// <summary>
-        /// Opens an existing subkey under the StyleCop HKCU key.
-        /// </summary>
-        /// <param name="name">The path to the subkey to open.</param>
-        /// <returns>Returns the key or null if the key does not exist.</returns>
-        public RegistryKey CUOpenKey(string name)
-        {
-            Param.RequireValidString(name, "name");
-            return OpenKey(this.CurrentUserRoot, name);
-        }
-        
         /// <summary>
         /// Adds a subkey under the StyleCop HKCU key.
         /// </summary>
-        /// <param name="name">The path to the subkey to add.</param>
-        /// <returns>Returns the new key object.</returns>
+        /// <param name="name">
+        /// The path to the subkey to add.
+        /// </param>
+        /// <returns>
+        /// Returns the new key object.
+        /// </returns>
         public RegistryKey CUAddKey(string name)
         {
             Param.RequireValidString(name, "name");
@@ -253,7 +219,9 @@ namespace StyleCop
         /// <summary>
         /// Deletes a key under the StyleCop HKCU key.
         /// </summary>
-        /// <param name="name">The path to the key to delete.</param>
+        /// <param name="name">
+        /// The path to the key to delete.
+        /// </param>
         public void CUDeleteKey(string name)
         {
             Param.RequireValidString(name, "name");
@@ -261,56 +229,95 @@ namespace StyleCop
         }
 
         /// <summary>
-        /// Saves the current position of the given form in the registry.
+        /// Deletes a value under the StyleCop HKCU key.
         /// </summary>
-        /// <param name="name">A unique name for this form.</param>
-        /// <param name="form">The form to save.</param>
-        /// <returns>Returns false if the position could not be saved.</returns>
-        public bool SaveWindowPositionByForm(string name, Form form)
+        /// <param name="name">
+        /// The path to the value.
+        /// </param>
+        public void CUDeleteValue(string name)
         {
             Param.RequireValidString(name, "name");
-            Param.RequireNotNull(form, "form");
-
-            if (form.WindowState == FormWindowState.Normal)
-            {
-                return this.SaveWindowPosition(name, form.Location, form.Size, form.WindowState);
-            }
-            else
-            {
-                return true;
-            }
+            DeleteValue(this.CurrentUserRoot, name);
         }
 
         /// <summary>
-        /// Saves the current position of a form in the registry, given the position values.
+        /// Gets a value under the StyleCop HKCU key.
         /// </summary>
-        /// <param name="name">A unique name for the form.</param>
-        /// <param name="location">The location of the form.</param>
-        /// <param name="size">The size of the form.</param>
-        /// <param name="state">The window state of the form.</param>
-        /// <returns>Return false if the position could not be saved.</returns>
-        public bool SaveWindowPosition(string name, Point location, Size size, FormWindowState state)
+        /// <param name="name">
+        /// The path to the value.
+        /// </param>
+        /// <returns>
+        /// Returns the object retrieved.
+        /// </returns>
+        public object CUGetValue(string name)
         {
             Param.RequireValidString(name, "name");
-            Param.Ignore(location);
-            Param.Ignore(size);
-            Param.Ignore(state);
+            return GetValue(this.CurrentUserRoot, name);
+        }
 
-            WindowLocation windowLocation = new WindowLocation();
-            windowLocation.Location = location;
-            windowLocation.Size = size;
-            windowLocation.State = state;
+        /// <summary>
+        /// Opens an existing subkey under the StyleCop HKCU key.
+        /// </summary>
+        /// <param name="name">
+        /// The path to the subkey to open.
+        /// </param>
+        /// <returns>
+        /// Returns the key or null if the key does not exist.
+        /// </returns>
+        public RegistryKey CUOpenKey(string name)
+        {
+            Param.RequireValidString(name, "name");
+            return OpenKey(this.CurrentUserRoot, name);
+        }
 
-            return this.CUSetValue("WindowLocation\\" + name, windowLocation);
+        /// <summary>
+        /// Adds or overwrites a value under the StyleCop HKCU key.
+        /// </summary>
+        /// <param name="name">
+        /// The path to the value.
+        /// </param>
+        /// <param name="value">
+        /// The object to write.
+        /// </param>
+        /// <returns>
+        /// Returns true if the value was written, false if not.
+        /// </returns>
+        public bool CUSetValue(string name, object value)
+        {
+            Param.RequireValidString(name, "name");
+            Param.RequireNotNull(value, "value");
+
+            return SetValue(this.CurrentUserRoot, name, value);
+        }
+
+        /// <summary>
+        /// Gets a value under the StyleCop HKLM key.
+        /// </summary>
+        /// <param name="name">
+        /// The path to the value.
+        /// </param>
+        /// <returns>
+        /// Returns the object retrieved.
+        /// </returns>
+        public object LMGetValue(string name)
+        {
+            Param.RequireValidString(name, "name");
+            return this.LocalMachineRoot == null ? null : GetValue(this.LocalMachineRoot, name);
         }
 
         /// <summary>
         /// Restores the position of a form.
         /// </summary>
-        /// <param name="name">The unique name of the form.</param>
-        /// <param name="form">The form to restore.</param>
-        /// <returns>Returns false if there is no registry information for this form, or if 
-        /// the position of the form could not be restored.</returns>
+        /// <param name="name">
+        /// The unique name of the form.
+        /// </param>
+        /// <param name="form">
+        /// The form to restore.
+        /// </param>
+        /// <returns>
+        /// Returns false if there is no registry information for this form, or if 
+        /// the position of the form could not be restored.
+        /// </returns>
         public bool RestoreWindowPosition(string name, Form form)
         {
             Param.RequireValidString(name, "name");
@@ -321,12 +328,22 @@ namespace StyleCop
         /// <summary>
         /// Restores the position of a form.
         /// </summary>
-        /// <param name="name">The unique name of the form.</param>
-        /// <param name="form">The form to restore.</param>
-        /// <param name="location">Form's default location (optional).</param>
-        /// <param name="size">Form's default size (optional).</param>
-        /// <returns>Returns false if there is no registry information for this form, or if 
-        /// the position of the form could not be restored.</returns>
+        /// <param name="name">
+        /// The unique name of the form.
+        /// </param>
+        /// <param name="form">
+        /// The form to restore.
+        /// </param>
+        /// <param name="location">
+        /// Form's default location (optional).
+        /// </param>
+        /// <param name="size">
+        /// Form's default size (optional).
+        /// </param>
+        /// <returns>
+        /// Returns false if there is no registry information for this form, or if 
+        /// the position of the form could not be restored.
+        /// </returns>
         public bool RestoreWindowPosition(string name, Form form, object location, object size)
         {
             Param.RequireValidString(name, "name");
@@ -360,7 +377,7 @@ namespace StyleCop
 
                 ret = true;
             }
-            
+
             // Determine if the Location and Size is within the Screen's boundaries.
             if (form.WindowState == FormWindowState.Normal)
             {
@@ -400,56 +417,86 @@ namespace StyleCop
 
                 form.Location = new Point(posX, posY);
             }
-            
+
             return ret;
-        }       
-
-        #endregion Public Methods
-
-        #region Private Static Methods
+        }
 
         /// <summary>
-        /// Opens a key under the given root node.
+        /// Saves the current position of a form in the registry, given the position values.
         /// </summary>
-        /// <param name="root">The root node under which the key should be opened.</param>
-        /// <param name="name">The path to the key to open.</param>
-        /// <returns>Returns the key if it was opened, or null if it could not be opened.</returns>
-        private static RegistryKey OpenKey(RegistryKey root, string name)
+        /// <param name="name">
+        /// A unique name for the form.
+        /// </param>
+        /// <param name="location">
+        /// The location of the form.
+        /// </param>
+        /// <param name="size">
+        /// The size of the form.
+        /// </param>
+        /// <param name="state">
+        /// The window state of the form.
+        /// </param>
+        /// <returns>
+        /// Return false if the position could not be saved.
+        /// </returns>
+        public bool SaveWindowPosition(string name, Point location, Size size, FormWindowState state)
         {
-            Param.AssertNotNull(root, "root");
-            Param.AssertValidString(name, "name");
+            Param.RequireValidString(name, "name");
+            Param.Ignore(location);
+            Param.Ignore(size);
+            Param.Ignore(state);
 
-            try
-            {
-                PathInfo pathinfo = CreatePath(root, name);
-                if (pathinfo.Key == null)
-                {
-                    return null;
-                }
-                else
-                {
-                    return pathinfo.Key.OpenSubKey(pathinfo.Stub);
-                }
-            }
-            catch (ArgumentException)
-            {
-            }
-            catch (IOException)
-            {
-            }
-            catch (SecurityException)
-            {
-            }
+            WindowLocation windowLocation = new WindowLocation();
+            windowLocation.Location = location;
+            windowLocation.Size = size;
+            windowLocation.State = state;
 
-            return null;
+            return this.CUSetValue("WindowLocation\\" + name, windowLocation);
         }
+
+        /// <summary>
+        /// Saves the current position of the given form in the registry.
+        /// </summary>
+        /// <param name="name">
+        /// A unique name for this form.
+        /// </param>
+        /// <param name="form">
+        /// The form to save.
+        /// </param>
+        /// <returns>
+        /// Returns false if the position could not be saved.
+        /// </returns>
+        public bool SaveWindowPositionByForm(string name, Form form)
+        {
+            Param.RequireValidString(name, "name");
+            Param.RequireNotNull(form, "form");
+
+            if (form.WindowState == FormWindowState.Normal)
+            {
+                return this.SaveWindowPosition(name, form.Location, form.Size, form.WindowState);
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Adds one key to the registry under the given root node.
         /// </summary>
-        /// <param name="root">The root node that the key should be added under.</param>
-        /// <param name="name">The path to the key to add.</param>
-        /// <returns>Returns the new key if it was added, or null if it could not be added.</returns>
+        /// <param name="root">
+        /// The root node that the key should be added under.
+        /// </param>
+        /// <param name="name">
+        /// The path to the key to add.
+        /// </param>
+        /// <returns>
+        /// Returns the new key if it was added, or null if it could not be added.
+        /// </returns>
         private static RegistryKey AddKey(RegistryKey root, string name)
         {
             Param.AssertNotNull(root, "root");
@@ -486,9 +533,15 @@ namespace StyleCop
         /// <summary>
         /// Creates a path of keys in the registry.
         /// </summary>
-        /// <param name="root">The root node to create the keys under.</param>
-        /// <param name="name">The path the create under the root node.</param>
-        /// <returns>Returns the key to the lowest branch created, or null if the path could not be created.</returns>
+        /// <param name="root">
+        /// The root node to create the keys under.
+        /// </param>
+        /// <param name="name">
+        /// The path the create under the root node.
+        /// </param>
+        /// <returns>
+        /// Returns the key to the lowest branch created, or null if the path could not be created.
+        /// </returns>
         private static PathInfo CreatePath(RegistryKey root, string name)
         {
             Param.AssertNotNull(root, "root");
@@ -537,11 +590,93 @@ namespace StyleCop
         }
 
         /// <summary>
+        /// Deletes one key from the registry.
+        /// </summary>
+        /// <param name="root">
+        /// The root node to delete the key under.
+        /// </param>
+        /// <param name="name">
+        /// The path to the key to delete under the root node.
+        /// </param>
+        private static void DeleteKey(RegistryKey root, string name)
+        {
+            Param.AssertNotNull(root, "root");
+            Param.AssertValidString(name, "name");
+
+            try
+            {
+                int index = name.LastIndexOf("\\", StringComparison.Ordinal);
+                if (-1 == index)
+                {
+                    root.DeleteSubKeyTree(name);
+                }
+                else
+                {
+                    string delete = name.Substring(index + 1, name.Length - index - 1);
+                    PathInfo pathinfo = GetPath(root, name);
+                    if (pathinfo.Key != null)
+                    {
+                        pathinfo.Key.DeleteSubKeyTree(delete);
+                    }
+                }
+            }
+            catch (ArgumentException)
+            {
+                // This happens when the key does not exist. Just ignore it.
+            }
+            catch (SecurityException)
+            {
+            }
+        }
+
+        /// <summary>
+        /// Deletes under value from the registry.
+        /// </summary>
+        /// <param name="root">
+        /// The root note that the value is under.
+        /// </param>
+        /// <param name="name">
+        /// The path to the value under the root node.
+        /// </param>
+        private static void DeleteValue(RegistryKey root, string name)
+        {
+            Param.AssertNotNull(root, "root");
+            Param.AssertValidString(name, "name");
+
+            try
+            {
+                PathInfo pathinfo = GetPath(root, name);
+                if (pathinfo.Key != null)
+                {
+                    pathinfo.Key.DeleteValue(pathinfo.Stub);
+                }
+            }
+            catch (ArgumentException)
+            {
+            }
+            catch (SecurityException)
+            {
+            }
+            catch (IOException)
+            {
+            }
+            catch (UnauthorizedAccessException)
+            {
+            }
+        }
+
+        /// <summary>
         /// Traverses a path in the registry and returns the lowest key.
         /// </summary>
-        /// <param name="root">The root that the path is under.</param>
-        /// <param name="name">The path to traverse.</param>
-        /// <returns>Returns the key if it was found and loaded, or null otherwise.</returns>
+        /// <param name="root">
+        /// The root that the path is under.
+        /// </param>
+        /// <param name="name">
+        /// The path to traverse.
+        /// </param>
+        /// <returns>
+        /// Returns the key if it was found and loaded, or null otherwise.
+        /// </returns>
         private static PathInfo GetPath(RegistryKey root, string name)
         {
             Param.AssertNotNull(root, "root");
@@ -587,12 +722,104 @@ namespace StyleCop
         }
 
         /// <summary>
+        /// Gets one value from the registry.
+        /// </summary>
+        /// <param name="root">
+        /// The root key to get the value under.
+        /// </param>
+        /// <param name="name">
+        /// The path to the value under the root key.
+        /// </param>
+        /// <returns>
+        /// Return the object or null if it could not be found or retrieved.
+        /// </returns>
+        private static object GetValue(RegistryKey root, string name)
+        {
+            Param.AssertNotNull(root, "root");
+            Param.AssertValidString(name, "name");
+
+            try
+            {
+                PathInfo pathinfo = GetPath(root, name);
+                if (pathinfo.Key == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    return pathinfo.Key.GetValue(pathinfo.Stub);
+                }
+            }
+            catch (SecurityException)
+            {
+            }
+            catch (IOException)
+            {
+            }
+            catch (ArgumentException)
+            {
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Opens a key under the given root node.
+        /// </summary>
+        /// <param name="root">
+        /// The root node under which the key should be opened.
+        /// </param>
+        /// <param name="name">
+        /// The path to the key to open.
+        /// </param>
+        /// <returns>
+        /// Returns the key if it was opened, or null if it could not be opened.
+        /// </returns>
+        private static RegistryKey OpenKey(RegistryKey root, string name)
+        {
+            Param.AssertNotNull(root, "root");
+            Param.AssertValidString(name, "name");
+
+            try
+            {
+                PathInfo pathinfo = CreatePath(root, name);
+                if (pathinfo.Key == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    return pathinfo.Key.OpenSubKey(pathinfo.Stub);
+                }
+            }
+            catch (ArgumentException)
+            {
+            }
+            catch (IOException)
+            {
+            }
+            catch (SecurityException)
+            {
+            }
+
+            return null;
+        }
+
+        /// <summary>
         /// Sets one value in the registry.
         /// </summary>
-        /// <param name="root">The root key to set the value under.</param>
-        /// <param name="name">The path to the value to set.</param>
-        /// <param name="value">The value to set.</param>
-        /// <returns>Returns true if the value is set, false otherwise.</returns>
+        /// <param name="root">
+        /// The root key to set the value under.
+        /// </param>
+        /// <param name="name">
+        /// The path to the value to set.
+        /// </param>
+        /// <param name="value">
+        /// The value to set.
+        /// </param>
+        /// <returns>
+        /// Returns true if the value is set, false otherwise.
+        /// </returns>
         private static bool SetValue(RegistryKey root, string name, object value)
         {
             Param.AssertNotNull(root, "root");
@@ -629,121 +856,15 @@ namespace StyleCop
             return false;
         }
 
-        /// <summary>
-        /// Gets one value from the registry.
-        /// </summary>
-        /// <param name="root">The root key to get the value under.</param>
-        /// <param name="name">The path to the value under the root key.</param>
-        /// <returns>Return the object or null if it could not be found or retrieved.</returns>
-        private static object GetValue(RegistryKey root, string name)
-        {
-            Param.AssertNotNull(root, "root");
-            Param.AssertValidString(name, "name");
-
-            try
-            {
-                PathInfo pathinfo = GetPath(root, name);
-                if (pathinfo.Key == null)
-                {
-                    return null;
-                }
-                else
-                {
-                    return pathinfo.Key.GetValue(pathinfo.Stub);
-                }
-            }
-            catch (SecurityException)
-            {
-            }
-            catch (IOException)
-            {
-            }
-            catch (ArgumentException)
-            {
-            }
-
-            return null;
-        }
-
-        /// <summary>
-        /// Deletes under value from the registry.
-        /// </summary>
-        /// <param name="root">The root note that the value is under.</param>
-        /// <param name="name">The path to the value under the root node.</param>
-        private static void DeleteValue(RegistryKey root, string name)
-        {
-            Param.AssertNotNull(root, "root");
-            Param.AssertValidString(name, "name");
-
-            try
-            {
-                PathInfo pathinfo = GetPath(root, name);
-                if (pathinfo.Key != null)
-                {
-                    pathinfo.Key.DeleteValue(pathinfo.Stub);
-                }
-            }
-            catch (ArgumentException)
-            {
-            }
-            catch (SecurityException)
-            {
-            }
-            catch (IOException)
-            {
-            }
-            catch (UnauthorizedAccessException)
-            {
-            }
-        }
-
-        /// <summary>
-        /// Deletes one key from the registry.
-        /// </summary>
-        /// <param name="root">The root node to delete the key under.</param>
-        /// <param name="name">The path to the key to delete under the root node.</param>
-        private static void DeleteKey(RegistryKey root, string name)
-        {
-            Param.AssertNotNull(root, "root");
-            Param.AssertValidString(name, "name");
-
-            try
-            {
-                int index = name.LastIndexOf("\\", StringComparison.Ordinal);
-                if (-1 == index)
-                {
-                    root.DeleteSubKeyTree(name);
-                }
-                else
-                {
-                    string delete = name.Substring(index + 1, name.Length - index - 1);
-                    PathInfo pathinfo = GetPath(root, name);
-                    if (pathinfo.Key != null)
-                    {
-                        pathinfo.Key.DeleteSubKeyTree(delete);
-                    }
-                }
-            }
-            catch (ArgumentException)
-            {
-                // This happens when the key does not exist. Just ignore it.
-            }
-            catch (SecurityException)
-            {
-            }
-        }
-
-        #endregion Private Static Methods
-        
-        #region Private Structs
-
-        #region Struct PathInfo
+        #endregion
 
         /// <summary>
         /// Used by the GetPath and CreatePath functions.
         /// </summary>
         private struct PathInfo
         {
+            #region Fields
+
             /// <summary>
             /// The path key.
             /// </summary>
@@ -753,10 +874,8 @@ namespace StyleCop
             /// The path stub.
             /// </summary>
             public string Stub;
+
+            #endregion
         }
-
-        #endregion Struct PathInfo
-
-        #endregion Private Structs
     }
 }

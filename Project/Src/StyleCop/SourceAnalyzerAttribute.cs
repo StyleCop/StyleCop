@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="SourceAnalyzerAttribute.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SourceAnalyzerAttribute.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Attribute class for marking StyleCop analyzer classes.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop
 {
     using System;
@@ -24,21 +27,23 @@ namespace StyleCop
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
     public sealed class SourceAnalyzerAttribute : StyleCopAddInAttribute
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// The type of the parser that this analyzer is associated with.
         /// </summary>
-        private Type parserType;
+        private readonly Type parserType;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Public Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the SourceAnalyzerAttribute class.
         /// </summary>
-        /// <param name="parserType">The type of the parser that this analyzer is associated with.</param>
+        /// <param name="parserType">
+        /// The type of the parser that this analyzer is associated with.
+        /// </param>
         public SourceAnalyzerAttribute(Type parserType)
         {
             Param.RequireNotNull(parserType, "parserType");
@@ -48,9 +53,14 @@ namespace StyleCop
         /// <summary>
         /// Initializes a new instance of the SourceAnalyzerAttribute class.
         /// </summary>
-        /// <param name="parserType">The type of the parser that this analyzer is associated with.</param>
-        /// <param name="analyzerXmlId">The ID of the analyzer xml file within the analyzer resource.</param>
-        public SourceAnalyzerAttribute(Type parserType, string analyzerXmlId) : base(analyzerXmlId)
+        /// <param name="parserType">
+        /// The type of the parser that this analyzer is associated with.
+        /// </param>
+        /// <param name="analyzerXmlId">
+        /// The ID of the analyzer xml file within the analyzer resource.
+        /// </param>
+        public SourceAnalyzerAttribute(Type parserType, string analyzerXmlId)
+            : base(analyzerXmlId)
         {
             Param.RequireNotNull(parserType, "parserType");
             Param.RequireValidString(analyzerXmlId, "analyzerXmlId");
@@ -58,7 +68,7 @@ namespace StyleCop
             this.parserType = parserType;
         }
 
-        #endregion Public Constructors
+        #endregion
 
         #region Public Properties
 
@@ -73,6 +83,6 @@ namespace StyleCop
             }
         }
 
-        #endregion Public Properties
+        #endregion
     }
 }

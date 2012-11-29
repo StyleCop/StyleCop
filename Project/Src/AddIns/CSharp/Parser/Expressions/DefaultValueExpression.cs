@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="DefaultValueExpression.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="DefaultValueExpression.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   An expression representing a default value operation.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
     using System.Diagnostics.CodeAnalysis;
@@ -22,28 +25,34 @@ namespace StyleCop.CSharp
     /// <subcategory>expression</subcategory>
     public sealed class DefaultValueExpression : Expression, ICodePart
     {
+        #region Fields
+
         /// <summary>
         /// The parent of the parameter.
         /// </summary>
         private readonly Reference<ICodePart> parent;
 
-        #region Private Fields
-
         /// <summary>
         /// The type to obtain the default value of.
         /// </summary>
-        private TypeToken type;
-        
-        #endregion Private Fields
+        private readonly TypeToken type;
 
-        #region Internal Constructors
+        #endregion
+
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the DefaultValueExpression class.
         /// </summary>
-        /// <param name="tokens">The list of tokens that form the expression.</param>
-        /// <param name="type">The type to obtain the default value of.</param>
-        /// <param name="parent">The parent reference of this expression.</param>
+        /// <param name="tokens">
+        /// The list of tokens that form the expression.
+        /// </param>
+        /// <param name="type">
+        /// The type to obtain the default value of.
+        /// </param>
+        /// <param name="parent">
+        /// The parent reference of this expression.
+        /// </param>
         internal DefaultValueExpression(CsTokenList tokens, LiteralExpression type, Reference<ICodePart> parent)
             : base(ExpressionType.DefaultValue, tokens)
         {
@@ -55,7 +64,27 @@ namespace StyleCop.CSharp
 
             this.parent = parent;
         }
-        
+
+        #endregion
+
+        #region Public Properties
+
+        /// <summary>
+        /// Gets the type to obtain the default value of.
+        /// </summary>
+        [SuppressMessage("Microsoft.Naming", "CA1721:PropertyNamesShouldNotMatchGetMethods", Justification = "API has already been published and should not be changed.")]
+        public TypeToken Type
+        {
+            get
+            {
+                return this.type;
+            }
+        }
+
+        #endregion
+
+        #region Explicit Interface Properties
+
         /// <summary>
         /// Gets the actual parent ICodePart of this expression. Normally a Parameter.
         /// </summary>
@@ -66,26 +95,7 @@ namespace StyleCop.CSharp
                 return this.parent.Target;
             }
         }
-   
-        #endregion Internal Constructors
 
-        #region Public Properties
-
-        /// <summary>
-        /// Gets the type to obtain the default value of.
-        /// </summary>
-        [SuppressMessage(
-            "Microsoft.Naming", 
-            "CA1721:PropertyNamesShouldNotMatchGetMethods",
-            Justification = "API has already been published and should not be changed.")]
-        public TypeToken Type
-        {
-            get
-            {
-                return this.type;
-            }
-        }
-        
-        #endregion Public Properties
+        #endregion
     }
 }

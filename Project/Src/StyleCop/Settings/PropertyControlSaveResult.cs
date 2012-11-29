@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="PropertyControlSaveResult.cs">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="PropertyControlSaveResult.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   The possible results of saving the settings.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop
 {
     /// <summary>
@@ -22,12 +25,12 @@ namespace StyleCop
         /// <summary>
         /// The save succeeded.
         /// </summary>
-        Success,
+        Success, 
 
         /// <summary>
         /// One of the pages aborted the save operation.
         /// </summary>
-        PageAbort,
+        PageAbort, 
 
         /// <summary>
         /// An error occurred while saving the file.

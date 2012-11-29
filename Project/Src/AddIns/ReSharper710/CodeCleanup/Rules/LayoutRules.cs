@@ -15,6 +15,7 @@
 //   Layout rules.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+extern alias JB;
 
 namespace StyleCop.ReSharper710.CodeCleanup.Rules
 {
@@ -22,6 +23,7 @@ namespace StyleCop.ReSharper710.CodeCleanup.Rules
 
     using System.Collections.Generic;
 
+    using JetBrains.DocumentModel;
     using JetBrains.ReSharper.Psi;
     using JetBrains.ReSharper.Psi.CodeStyle;
     using JetBrains.ReSharper.Psi.CSharp;
@@ -45,7 +47,7 @@ namespace StyleCop.ReSharper710.CodeCleanup.Rules
     /// </summary>
     internal class LayoutRules
     {
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Closing curly bracket must be followed by blank line.
@@ -63,53 +65,60 @@ namespace StyleCop.ReSharper710.CodeCleanup.Rules
             // rbrace
             // dowhile
             // preprocessor directives
-            var tokensThatFollowClosingCurlyBracketWithoutNewLine = new List<TokenNodeType> { CSharpTokenType.RBRACE, CSharpTokenType.DO_KEYWORD, CSharpTokenType.ELSE_KEYWORD, CSharpTokenType.CATCH_KEYWORD, CSharpTokenType.FINALLY_KEYWORD };
+            List<TokenNodeType> tokensThatFollowClosingCurlyBracketWithoutNewLine = new List<TokenNodeType>
+                                                                                        {
+                                                                                            CSharpTokenType.RBRACE, 
+                                                                                            CSharpTokenType.DO_KEYWORD, 
+                                                                                            CSharpTokenType.ELSE_KEYWORD, 
+                                                                                            CSharpTokenType.CATCH_KEYWORD, 
+                                                                                            CSharpTokenType.FINALLY_KEYWORD
+                                                                                        };
 
-            var objectInitializerFollowers = new List<TokenNodeType>
-                {
-                    CSharpTokenType.AS_KEYWORD,
-                    CSharpTokenType.IS_KEYWORD,
-                    CSharpTokenType.COMMA,
-                    CSharpTokenType.SEMICOLON,
-                    CSharpTokenType.DOT,
-                    CSharpTokenType.QUEST,
-                    CSharpTokenType.COLON,
-                    CSharpTokenType.RPARENTH,
-                    CSharpTokenType.EQEQ,
-                    CSharpTokenType.GE,
-                    CSharpTokenType.GT,
-                    CSharpTokenType.LE,
-                    CSharpTokenType.LT,
-                    CSharpTokenType.NE,
-                    CSharpTokenType.MINUS,
-                    CSharpTokenType.PLUS,
-                    CSharpTokenType.DIV,
-                    CSharpTokenType.ASTERISK,
-                    CSharpTokenType.PERC,
-                    CSharpTokenType.MINUSMINUS,
-                    CSharpTokenType.PLUSPLUS
-                };
+            List<TokenNodeType> objectInitializerFollowers = new List<TokenNodeType>
+                                                                 {
+                                                                     CSharpTokenType.AS_KEYWORD, 
+                                                                     CSharpTokenType.IS_KEYWORD, 
+                                                                     CSharpTokenType.COMMA, 
+                                                                     CSharpTokenType.SEMICOLON, 
+                                                                     CSharpTokenType.DOT, 
+                                                                     CSharpTokenType.QUEST, 
+                                                                     CSharpTokenType.COLON, 
+                                                                     CSharpTokenType.RPARENTH, 
+                                                                     CSharpTokenType.EQEQ, 
+                                                                     CSharpTokenType.GE, 
+                                                                     CSharpTokenType.GT, 
+                                                                     CSharpTokenType.LE, 
+                                                                     CSharpTokenType.LT, 
+                                                                     CSharpTokenType.NE, 
+                                                                     CSharpTokenType.MINUS, 
+                                                                     CSharpTokenType.PLUS, 
+                                                                     CSharpTokenType.DIV, 
+                                                                     CSharpTokenType.ASTERISK, 
+                                                                     CSharpTokenType.PERC, 
+                                                                     CSharpTokenType.MINUSMINUS, 
+                                                                     CSharpTokenType.PLUSPLUS
+                                                                 };
 
-            for (var currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
+            for (ITreeNode currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
             {
                 if (currentNode is ITokenNode)
                 {
-                    var tokenNode = currentNode as ITokenNode;
+                    ITokenNode tokenNode = currentNode as ITokenNode;
 
                     if (tokenNode.GetTokenType() == CSharpTokenType.RBRACE)
                     {
-                        var blockNode = tokenNode.Parent as IBlock;
+                        IBlock blockNode = tokenNode.Parent as IBlock;
 
                         if (blockNode != null)
                         {
-                            var lineNumberForLBrace = Utils.GetLineNumberForElement(blockNode.LBrace);
-                            var lineNumberForRBrace = Utils.GetLineNumberForElement(blockNode.RBrace);
+                            JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> lineNumberForLBrace = Utils.GetLineNumberForElement(blockNode.LBrace);
+                            JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> lineNumberForRBrace = Utils.GetLineNumberForElement(blockNode.RBrace);
 
                             if (lineNumberForLBrace != lineNumberForRBrace)
                             {
-                                var currentToken = tokenNode.GetNextToken();
+                                ITokenNode currentToken = tokenNode.GetNextToken();
 
-                                var newLineCount = 0;
+                                int newLineCount = 0;
                                 while (currentToken != null)
                                 {
                                     if (currentToken.IsWhitespace())
@@ -126,9 +135,9 @@ namespace StyleCop.ReSharper710.CodeCleanup.Rules
                                     }
                                     else
                                     {
-                                        if ((!tokensThatFollowClosingCurlyBracketWithoutNewLine.Contains(currentToken.GetTokenType()) &&
-                                             !objectInitializerFollowers.Contains(currentToken.GetTokenType())) ||
-                                            (objectInitializerFollowers.Contains(currentToken.GetTokenType()) && newLineCount == 1))
+                                        if ((!tokensThatFollowClosingCurlyBracketWithoutNewLine.Contains(currentToken.GetTokenType())
+                                             && !objectInitializerFollowers.Contains(currentToken.GetTokenType()))
+                                            || (objectInitializerFollowers.Contains(currentToken.GetTokenType()) && newLineCount == 1))
                                         {
                                             tokenNode.GetNextToken().InsertNewLineBefore();
                                         }
@@ -158,28 +167,28 @@ namespace StyleCop.ReSharper710.CodeCleanup.Rules
         /// </param>
         public void CurlyBracketsForMultiLineStatementsMustNotShareLine(ITreeNode node)
         {
-            var offsetColumn = 0;
-            for (var currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
+            int offsetColumn = 0;
+            for (ITreeNode currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
             {
                 if (currentNode is ITokenNode)
                 {
-                    var tokenNode = currentNode as ITokenNode;
+                    ITokenNode tokenNode = currentNode as ITokenNode;
                     if (tokenNode.GetTokenType() == CSharpTokenType.LBRACE)
                     {
                         // check to see if this LBRACE { is on a line with another non whitespace token
                         if (tokenNode.Parent is ICreationExpressionInitializer)
                         {
-                            var creationExpressionInitializerNode = tokenNode.Parent as ICreationExpressionInitializer;
+                            ICreationExpressionInitializer creationExpressionInitializerNode = tokenNode.Parent as ICreationExpressionInitializer;
                             if (creationExpressionInitializerNode != null)
                             {
-                                var leftBrace = creationExpressionInitializerNode.LBrace;
-                                var rightBrace = creationExpressionInitializerNode.RBrace;
-                                var creationExpressionNode = tokenNode.GetContainingNode<ICreationExpression>(true);
+                                ITokenNode leftBrace = creationExpressionInitializerNode.LBrace;
+                                ITokenNode rightBrace = creationExpressionInitializerNode.RBrace;
+                                ICreationExpression creationExpressionNode = tokenNode.GetContainingNode<ICreationExpression>(true);
 
                                 if (creationExpressionNode != null)
                                 {
-                                    var first = creationExpressionNode.FirstChild;
-                                    var last = creationExpressionNode.LastChild;
+                                    ITreeNode first = creationExpressionNode.FirstChild;
+                                    ITreeNode last = creationExpressionNode.LastChild;
 
                                     if (Utils.HasLineBreakBetween(first, last))
                                     {
@@ -187,7 +196,7 @@ namespace StyleCop.ReSharper710.CodeCleanup.Rules
                                         {
                                             // We'll be 4-1 honest.
                                             offsetColumn = Utils.GetOffsetToStartOfLine(leftBrace);
-                                            var newLine = leftBrace.InsertNewLineAfter();
+                                            ITreeNode newLine = leftBrace.InsertNewLineAfter();
 
                                             Utils.InsertWhitespaceAfter(newLine, offsetColumn + 3);
                                         }
@@ -197,7 +206,7 @@ namespace StyleCop.ReSharper710.CodeCleanup.Rules
                                             // check to see if this RBRACE { is on a line with another non whitespace token
                                             if (Utils.TokenHasNonWhitespaceTokenToLeftOnSameLine(rightBrace))
                                             {
-                                                var newLine = rightBrace.InsertNewLineBefore();
+                                                ITreeNode newLine = rightBrace.InsertNewLineBefore();
                                                 Utils.InsertWhitespaceAfter(newLine, offsetColumn);
                                             }
                                         }
@@ -231,14 +240,14 @@ namespace StyleCop.ReSharper710.CodeCleanup.Rules
             Param.RequireNotNull(options, "options");
             Param.RequireNotNull(file, "file");
 
-            var curlyBracketsForMultiLineStatementsMustNotShareLine = options.SA1500CurlyBracketsForMultiLineStatementsMustNotShareLine;
-            var openingCurlyBracketsMustNotBePrecededByBlankLine = options.SA1509OpeningCurlyBracketsMustNotBePrecededByBlankLine;
-            var chainedStatementBlocksMustNotBePrecededByBlankLine = options.SA1510ChainedStatementBlocksMustNotBePrecededByBlankLine;
-            var whileDoFooterMustNotBePrecededByBlankLine = options.SA1511WhileDoFooterMustNotBePrecededByBlankLine;
-            var singleLineCommentsMustNotBeFollowedByBlankLine = options.SA1512SingleLineCommentsMustNotBeFollowedByBlankLine;
-            var closingCurlyBracketMustBeFollowedByBlankLine = options.SA1513ClosingCurlyBracketMustBeFollowedByBlankLine;
-            var elementDocumentationHeadersMustBePrecededByBlankLine = options.SA1514ElementDocumentationHeaderMustBePrecededByBlankLine;
-            var singleLineCommentsMustBeProceededByBlankLine = options.SA1515SingleLineCommentMustBeProceededByBlankLine;
+            bool curlyBracketsForMultiLineStatementsMustNotShareLine = options.SA1500CurlyBracketsForMultiLineStatementsMustNotShareLine;
+            bool openingCurlyBracketsMustNotBePrecededByBlankLine = options.SA1509OpeningCurlyBracketsMustNotBePrecededByBlankLine;
+            bool chainedStatementBlocksMustNotBePrecededByBlankLine = options.SA1510ChainedStatementBlocksMustNotBePrecededByBlankLine;
+            bool whileDoFooterMustNotBePrecededByBlankLine = options.SA1511WhileDoFooterMustNotBePrecededByBlankLine;
+            bool singleLineCommentsMustNotBeFollowedByBlankLine = options.SA1512SingleLineCommentsMustNotBeFollowedByBlankLine;
+            bool closingCurlyBracketMustBeFollowedByBlankLine = options.SA1513ClosingCurlyBracketMustBeFollowedByBlankLine;
+            bool elementDocumentationHeadersMustBePrecededByBlankLine = options.SA1514ElementDocumentationHeaderMustBePrecededByBlankLine;
+            bool singleLineCommentsMustBeProceededByBlankLine = options.SA1515SingleLineCommentMustBeProceededByBlankLine;
 
             if (singleLineCommentsMustBeProceededByBlankLine)
             {
@@ -296,12 +305,12 @@ namespace StyleCop.ReSharper710.CodeCleanup.Rules
         private static void RemoveLineIfPreviousTokensAreNewLines(ITokenNode tokenNode)
         {
             // first prev token will be whitespace padding out the line
-            var prevToken1 = tokenNode.GetPrevToken();
-            var prevToken2 = prevToken1.GetPrevToken();
-            var prevToken3 = prevToken2.GetPrevToken();
+            ITokenNode prevToken1 = tokenNode.GetPrevToken();
+            ITokenNode prevToken2 = prevToken1.GetPrevToken();
+            ITokenNode prevToken3 = prevToken2.GetPrevToken();
 
-            var prevToken2WhiteSpaceNode = prevToken2 as IWhitespaceNode;
-            var prevToken3WhiteSpaceNode = prevToken3 as IWhitespaceNode;
+            IWhitespaceNode prevToken2WhiteSpaceNode = prevToken2 as IWhitespaceNode;
+            IWhitespaceNode prevToken3WhiteSpaceNode = prevToken3 as IWhitespaceNode;
 
             if (prevToken2WhiteSpaceNode != null && prevToken2WhiteSpaceNode.IsNewLine && prevToken3WhiteSpaceNode != null && prevToken3WhiteSpaceNode.IsNewLine)
             {
@@ -321,13 +330,13 @@ namespace StyleCop.ReSharper710.CodeCleanup.Rules
             // try catch finally
             // if else
             // so we'll be looking for catch finally and else
-            var searchTokens = new List<TokenNodeType> { CSharpTokenType.CATCH_KEYWORD, CSharpTokenType.FINALLY_KEYWORD, CSharpTokenType.ELSE_KEYWORD };
+            List<TokenNodeType> searchTokens = new List<TokenNodeType> { CSharpTokenType.CATCH_KEYWORD, CSharpTokenType.FINALLY_KEYWORD, CSharpTokenType.ELSE_KEYWORD };
 
-            for (var currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
+            for (ITreeNode currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
             {
                 if (currentNode is ITokenNode)
                 {
-                    var tokenNode = currentNode as ITokenNode;
+                    ITokenNode tokenNode = currentNode as ITokenNode;
 
                     if (searchTokens.Contains(tokenNode.GetTokenType()))
                     {
@@ -354,7 +363,7 @@ namespace StyleCop.ReSharper710.CodeCleanup.Rules
             ITreeNode siblingMinus1;
             ITreeNode siblingMinus3;
 
-            for (var currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
+            for (ITreeNode currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
             {
                 if (currentNode is ICommentNode && !(currentNode is IDocCommentNode))
                 {
@@ -370,11 +379,11 @@ namespace StyleCop.ReSharper710.CodeCleanup.Rules
                             {
                                 siblingMinus3 = siblingMinus2.PrevSibling;
 
-                                var siblingMinus3Token = siblingMinus3 as ITokenNode;
-                                var siblingMinus2WhitespaceNode = siblingMinus2 as IWhitespaceNode;
-                                var siblingMinus3WhitespaceNode = siblingMinus3 as IWhitespaceNode;
+                                ITokenNode siblingMinus3Token = siblingMinus3 as ITokenNode;
+                                IWhitespaceNode siblingMinus2WhitespaceNode = siblingMinus2 as IWhitespaceNode;
+                                IWhitespaceNode siblingMinus3WhitespaceNode = siblingMinus3 as IWhitespaceNode;
 
-                                var siblingMinus3CommentNode = siblingMinus3 as ICommentNode;
+                                ICommentNode siblingMinus3CommentNode = siblingMinus3 as ICommentNode;
                                 if (siblingMinus3CommentNode != null)
                                 {
                                     // if the previous sibling is a comment then it doesn't need a new line.
@@ -387,12 +396,13 @@ namespace StyleCop.ReSharper710.CodeCleanup.Rules
                                     continue;
                                 }
 
-                                if (siblingMinus2WhitespaceNode == null || siblingMinus3WhitespaceNode == null || !siblingMinus2WhitespaceNode.IsNewLine || !siblingMinus3WhitespaceNode.IsNewLine)
+                                if (siblingMinus2WhitespaceNode == null || siblingMinus3WhitespaceNode == null || !siblingMinus2WhitespaceNode.IsNewLine
+                                    || !siblingMinus3WhitespaceNode.IsNewLine)
                                 {
                                     currentNode.InsertNewLineBefore();
 
                                     ////CSharpFormatterHelper.FormatterInstance.Format(currentNode.Parent);
-                                    var codeFormatter = (ICSharpCodeFormatter)CSharpLanguage.Instance.LanguageService().CodeFormatter;
+                                    ICSharpCodeFormatter codeFormatter = (ICSharpCodeFormatter)CSharpLanguage.Instance.LanguageService().CodeFormatter;
                                     codeFormatter.Format(currentNode.Parent);
                                 }
                             }
@@ -415,27 +425,27 @@ namespace StyleCop.ReSharper710.CodeCleanup.Rules
         /// </param>
         private void CommentsMustNotBeFollowedByBlankLine(ITreeNode node)
         {
-            for (var currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
+            for (ITreeNode currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
             {
                 if (currentNode is ICommentNode && !(currentNode is IDocCommentNode))
                 {
                     if (Utils.IsFirstNodeOnLine(currentNode))
                     {
-                        var tokenNode = currentNode as ICommentNode;
+                        ICommentNode tokenNode = currentNode as ICommentNode;
 
-                        var nextToken = tokenNode.GetNextToken();
+                        ITokenNode nextToken = tokenNode.GetNextToken();
 
                         if (nextToken != null && nextToken.IsNewLine())
                         {
-                            var nextNextToken = nextToken.GetNextToken();
+                            ITokenNode nextNextToken = nextToken.GetNextToken();
 
                             if (nextNextToken != null)
                             {
-                                var nextNextNextToken = Utils.GetFirstNonWhitespaceTokenToRight(nextNextToken);
+                                ITokenNode nextNextNextToken = Utils.GetFirstNonWhitespaceTokenToRight(nextNextToken);
 
                                 if (nextNextToken.IsNewLine() && !(nextNextNextToken is ICommentNode))
                                 {
-                                    var rightNode = currentNode.FindFormattingRangeToRight();
+                                    ITreeNode rightNode = currentNode.FindFormattingRangeToRight();
                                     Utils.RemoveNewLineBefore(rightNode);
                                 }
                             }
@@ -460,18 +470,19 @@ namespace StyleCop.ReSharper710.CodeCleanup.Rules
         {
             // go back to first new line to the left
             // thisnew line must be immeidately preceded by a new line and if not insert one
-            for (var currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
+            for (ITreeNode currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
             {
                 if (currentNode is IDocCommentNode)
                 {
-                    var token = currentNode as ITokenNode;
-                    var firstNewLineToLeft = Utils.GetFirstNewLineTokenToLeft(token);
+                    ITokenNode token = currentNode as ITokenNode;
+                    ITokenNode firstNewLineToLeft = Utils.GetFirstNewLineTokenToLeft(token);
                     if (firstNewLineToLeft != null)
                     {
-                        var tokenBeforeNewLine = firstNewLineToLeft.GetPrevToken();
+                        ITokenNode tokenBeforeNewLine = firstNewLineToLeft.GetPrevToken();
 
                         // if we're the start of a code block then don't insert a new line.
-                        if (!tokenBeforeNewLine.IsNewLine() && tokenBeforeNewLine.GetTokenType() != CSharpTokenType.LBRACE && tokenBeforeNewLine.GetTokenType() != CSharpTokenType.END_OF_LINE_COMMENT)
+                        if (!tokenBeforeNewLine.IsNewLine() && tokenBeforeNewLine.GetTokenType() != CSharpTokenType.LBRACE
+                            && tokenBeforeNewLine.GetTokenType() != CSharpTokenType.END_OF_LINE_COMMENT)
                         {
                             firstNewLineToLeft.GetNextToken().InsertNewLineBefore();
                         }
@@ -493,11 +504,11 @@ namespace StyleCop.ReSharper710.CodeCleanup.Rules
         /// </param>
         private void OpeningCurlyBracketsMustNotBePrecededByBlankLine(ITreeNode node)
         {
-            for (var currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
+            for (ITreeNode currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
             {
                 if (currentNode is ITokenNode)
                 {
-                    var tokenNode = currentNode as ITokenNode;
+                    ITokenNode tokenNode = currentNode as ITokenNode;
 
                     if (tokenNode.GetTokenType() == CSharpTokenType.LBRACE)
                     {
@@ -520,11 +531,11 @@ namespace StyleCop.ReSharper710.CodeCleanup.Rules
         /// </param>
         private void WhileDoFooterMustNotBePrecededByBlankLine(ITreeNode node)
         {
-            for (var currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
+            for (ITreeNode currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
             {
                 if (currentNode is ITokenNode)
                 {
-                    var tokenNode = currentNode as ITokenNode;
+                    ITokenNode tokenNode = currentNode as ITokenNode;
 
                     if (tokenNode.GetTokenType() == CSharpTokenType.WHILE_KEYWORD)
                     {

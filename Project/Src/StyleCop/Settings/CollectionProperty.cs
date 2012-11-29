@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="CollectionProperty.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="CollectionProperty.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,39 +11,42 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Contains a collection of strings.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
-    using System.Text;
 
     /// <summary>
     /// Contains a collection of strings.
     /// </summary>
-    [SuppressMessage(
-        "Microsoft.Naming", 
-        "CA1710:IdentifiersShouldHaveCorrectSuffix", 
+    [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", 
         Justification = "The name should not end in Collection as it will resuilt in a very confusing name.")]
     public class CollectionProperty : PropertyValue, ICollection<string>
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// The inner property collection.
         /// </summary>
-        private List<string> collection;
+        private readonly List<string> collection;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Public Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the CollectionProperty class.
         /// </summary>
-        /// <param name="propertyDescriptor">The property descriptor that this value represents.</param>
-        public CollectionProperty(CollectionPropertyDescriptor propertyDescriptor) 
+        /// <param name="propertyDescriptor">
+        /// The property descriptor that this value represents.
+        /// </param>
+        public CollectionProperty(CollectionPropertyDescriptor propertyDescriptor)
             : this(propertyDescriptor, null)
         {
             Param.Ignore(propertyDescriptor);
@@ -52,8 +55,12 @@ namespace StyleCop
         /// <summary>
         /// Initializes a new instance of the CollectionProperty class.
         /// </summary>
-        /// <param name="propertyDescriptor">The property descriptor that this value represents.</param>
-        /// <param name="innerCollection">The inner collection.</param>
+        /// <param name="propertyDescriptor">
+        /// The property descriptor that this value represents.
+        /// </param>
+        /// <param name="innerCollection">
+        /// The inner collection.
+        /// </param>
         public CollectionProperty(CollectionPropertyDescriptor propertyDescriptor, IEnumerable<string> innerCollection)
             : base(propertyDescriptor)
         {
@@ -73,8 +80,12 @@ namespace StyleCop
         /// <summary>
         /// Initializes a new instance of the CollectionProperty class.
         /// </summary>
-        /// <param name="propertyContainer">The container of this property.</param>
-        /// <param name="propertyName">The name of the property.</param>
+        /// <param name="propertyContainer">
+        /// The container of this property.
+        /// </param>
+        /// <param name="propertyName">
+        /// The name of the property.
+        /// </param>
         public CollectionProperty(IPropertyContainer propertyContainer, string propertyName)
             : this(propertyContainer, propertyName, null)
         {
@@ -85,9 +96,15 @@ namespace StyleCop
         /// <summary>
         /// Initializes a new instance of the CollectionProperty class.
         /// </summary>
-        /// <param name="propertyContainer">The container of this property.</param>
-        /// <param name="propertyName">The name of the property.</param>
-        /// <param name="innerCollection">The inner collection.</param>
+        /// <param name="propertyContainer">
+        /// The container of this property.
+        /// </param>
+        /// <param name="propertyName">
+        /// The name of the property.
+        /// </param>
+        /// <param name="innerCollection">
+        /// The inner collection.
+        /// </param>
         public CollectionProperty(IPropertyContainer propertyContainer, string propertyName, IEnumerable<string> innerCollection)
             : base(propertyContainer, propertyName)
         {
@@ -105,45 +122,18 @@ namespace StyleCop
             }
         }
 
-        #endregion Public Constructors
-
-        #region Public Override Properties
-
-        /// <summary>
-        /// Gets a value indicating whether the property is currently set to the default value for the property.
-        /// </summary>
-        public override bool IsDefault
-        {
-            get
-            {
-                // Collection properties do not have defaults.
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether the property has a default value.
-        /// </summary>
-        public override bool HasDefaultValue
-        {
-            get
-            {
-                return false;
-            }
-        }
-
-        #endregion Public Override Properties
+        #endregion
 
         #region Public Properties
 
         /// <summary>
-        /// Gets the collection of property values.
+        /// Gets a value indicating whether to aggregate the collection when merged.
         /// </summary>
-        public ICollection<string> Values
+        public bool Aggregate
         {
             get
             {
-                return this.collection;
+                return ((CollectionPropertyDescriptor)this.PropertyDescriptor).Aggregate;
             }
         }
 
@@ -159,55 +149,49 @@ namespace StyleCop
         }
 
         /// <summary>
-        /// Gets a value indicating whether to aggregate the collection when merged.
+        /// Gets a value indicating whether the property has a default value.
         /// </summary>
-        public bool Aggregate
+        public override bool HasDefaultValue
         {
             get
             {
-                return ((CollectionPropertyDescriptor)this.PropertyDescriptor).Aggregate;
+                return false;
             }
         }
 
-        #endregion Public Properties
-
-        #region Public Override Methods
-
         /// <summary>
-        /// Determines whether this property overrides the given property.
+        /// Gets a value indicating whether the property is currently set to the default value for the property.
         /// </summary>
-        /// <param name="parentProperty">The parent property to compare with.</param>
-        /// <returns>Returns true if this property overrides the given property.</returns>
-        public override bool OverridesProperty(PropertyValue parentProperty)
+        public override bool IsDefault
         {
-            Param.RequireNotNull(parentProperty, "parentProperty");
-
-            CollectionProperty parentCollectionProperty = parentProperty as CollectionProperty;
-            if (parentCollectionProperty == null || this.Aggregate != parentCollectionProperty.Aggregate)
+            get
             {
-                throw new ArgumentException(Strings.ComparingDifferentPropertyTypes, "parentProperty");
+                // Collection properties do not have defaults.
+                return false;
             }
-
-            return OverridesPropertyCollection(this.collection, parentCollectionProperty.Values, this.Aggregate);
         }
 
         /// <summary>
-        /// Clones the contents of the collection.
+        /// Gets the collection of property values.
         /// </summary>
-        /// <returns>Returns the cloned collection.</returns>
-        public override PropertyValue Clone()
+        public ICollection<string> Values
         {
-            return new CollectionProperty((CollectionPropertyDescriptor)this.PropertyDescriptor, this.collection);
+            get
+            {
+                return this.collection;
+            }
         }
 
-        #endregion Public Override Methods
+        #endregion
 
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Adds a value to the property list.
         /// </summary>
-        /// <param name="item">The item to add.</param>
+        /// <param name="item">
+        /// The item to add.
+        /// </param>
         public void Add(string item)
         {
             Param.RequireNotNull(item, "item");
@@ -218,24 +202,6 @@ namespace StyleCop
             }
 
             this.collection.Add(item);
-        }
-
-        /// <summary>
-        /// Removes the given value from the property list.
-        /// </summary>
-        /// <param name="item">The value to remove.</param>
-        /// <returns>Returns true if the value was removed from the property collection, or
-        /// false if it did not exist in the collection.</returns>
-        public bool Remove(string item)
-        {
-            Param.RequireNotNull(item, "item");
-
-            if (this.IsReadOnly)
-            {
-                throw new StyleCopException(Strings.ReadOnlyProperty);
-            }
-
-            return this.collection.Remove(item);
         }
 
         /// <summary>
@@ -252,10 +218,23 @@ namespace StyleCop
         }
 
         /// <summary>
+        /// Clones the contents of the collection.
+        /// </summary>
+        /// <returns>Returns the cloned collection.</returns>
+        public override PropertyValue Clone()
+        {
+            return new CollectionProperty((CollectionPropertyDescriptor)this.PropertyDescriptor, this.collection);
+        }
+
+        /// <summary>
         /// Determines whether the given value is contained in the property value list.
         /// </summary>
-        /// <param name="item">The item to search for.</param>
-        /// <returns>Returns true if the item is contained within the list.</returns>
+        /// <param name="item">
+        /// The item to search for.
+        /// </param>
+        /// <returns>
+        /// Returns true if the item is contained within the list.
+        /// </returns>
         public bool Contains(string item)
         {
             Param.RequireNotNull(item, "item");
@@ -266,8 +245,12 @@ namespace StyleCop
         /// <summary>
         /// Copies values from the list to the given array.
         /// </summary>
-        /// <param name="array">The array to copy the items into.</param>
-        /// <param name="arrayIndex">The index within the array to begin copying.</param>
+        /// <param name="array">
+        /// The array to copy the items into.
+        /// </param>
+        /// <param name="arrayIndex">
+        /// The index within the array to begin copying.
+        /// </param>
         public void CopyTo(string[] array, int arrayIndex)
         {
             Param.Ignore(array, arrayIndex);
@@ -283,32 +266,83 @@ namespace StyleCop
             return this.collection.GetEnumerator();
         }
 
-        #endregion Public Methods
+        /// <summary>
+        /// Determines whether this property overrides the given property.
+        /// </summary>
+        /// <param name="parentProperty">
+        /// The parent property to compare with.
+        /// </param>
+        /// <returns>
+        /// Returns true if this property overrides the given property.
+        /// </returns>
+        public override bool OverridesProperty(PropertyValue parentProperty)
+        {
+            Param.RequireNotNull(parentProperty, "parentProperty");
 
-        #region System.Collections.Enumerator Interface Methods
+            CollectionProperty parentCollectionProperty = parentProperty as CollectionProperty;
+            if (parentCollectionProperty == null || this.Aggregate != parentCollectionProperty.Aggregate)
+            {
+                throw new ArgumentException(Strings.ComparingDifferentPropertyTypes, "parentProperty");
+            }
+
+            return OverridesPropertyCollection(this.collection, parentCollectionProperty.Values, this.Aggregate);
+        }
+
+        /// <summary>
+        /// Removes the given value from the property list.
+        /// </summary>
+        /// <param name="item">
+        /// The value to remove.
+        /// </param>
+        /// <returns>
+        /// Returns true if the value was removed from the property collection, or
+        /// false if it did not exist in the collection.
+        /// </returns>
+        public bool Remove(string item)
+        {
+            Param.RequireNotNull(item, "item");
+
+            if (this.IsReadOnly)
+            {
+                throw new StyleCopException(Strings.ReadOnlyProperty);
+            }
+
+            return this.collection.Remove(item);
+        }
+
+        #endregion
+
+        #region Explicit Interface Methods
 
         /// <summary>
         /// Gets an enumerator for iterating through the values in the property collection.
         /// </summary>
         /// <returns>Returns the enumerator.</returns>
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
             return this.GetEnumerator();
         }
 
-        #endregion System.Collections.Enumerator Interface Methods
+        #endregion
 
-        #region Private Static Methods
+        #region Methods
 
         /// <summary>
         /// Determines whether the local values overrides the parent values.
         /// </summary>
-        /// <param name="localValues">The local values.</param>
-        /// <param name="parentValues">The parent values.</param>
-        /// <param name="aggregate">Indicates whether the collection is an aggregate collection.</param>
-        /// <returns>Returns true if the local values overrides the parent values.</returns>
-        private static bool OverridesPropertyCollection(
-            ICollection<string> localValues, ICollection<string> parentValues, bool aggregate)
+        /// <param name="localValues">
+        /// The local values.
+        /// </param>
+        /// <param name="parentValues">
+        /// The parent values.
+        /// </param>
+        /// <param name="aggregate">
+        /// Indicates whether the collection is an aggregate collection.
+        /// </param>
+        /// <returns>
+        /// Returns true if the local values overrides the parent values.
+        /// </returns>
+        private static bool OverridesPropertyCollection(ICollection<string> localValues, ICollection<string> parentValues, bool aggregate)
         {
             Param.Ignore(localValues);
             Param.Ignore(parentValues);
@@ -353,6 +387,6 @@ namespace StyleCop
             return false;
         }
 
-        #endregion Private Static Methods
+        #endregion
     }
 }

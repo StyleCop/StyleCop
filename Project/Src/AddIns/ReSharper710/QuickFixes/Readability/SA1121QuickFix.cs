@@ -15,14 +15,13 @@
 //   QuickFix - SA1121.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper710.QuickFixes.Readability
 {
     #region Using Directives
 
     using System.Collections.Generic;
 
-        using JetBrains.ReSharper.Feature.Services.Bulbs;
+    using JetBrains.ReSharper.Feature.Services.Bulbs;
     using JetBrains.ReSharper.Intentions.Extensibility;
 
     using StyleCop.ReSharper710.BulbItems.Readability;
@@ -111,12 +110,14 @@ namespace StyleCop.ReSharper710.QuickFixes.Readability
         protected override void InitialiseBulbItems()
         {
             this.BulbItems = new List<IBulbAction>
-                {
-                    new SA1121UseBuiltInTypeAliasBulbItem
-                        {
-                            Description = "Convert to built in type: " + this.Highlighting.ToolTip, DocumentRange = this.Highlighting.DocumentRange, LineNumber = this.Highlighting.LineNumber,
-                        }
-                };
+                                 {
+                                     new SA1121UseBuiltInTypeAliasBulbItem
+                                         {
+                                             Description = "Convert to built in type: " + this.Highlighting.ToolTip, 
+                                             DocumentRange = this.Highlighting.DocumentRange, 
+                                             LineNumber = this.Highlighting.LineNumber, 
+                                         }
+                                 };
         }
 
         #endregion

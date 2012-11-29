@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="StyleCopAddInAttribute.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="StyleCopAddInAttribute.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Attribute class for marking StyleCop add-in classes.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop
 {
     using System;
@@ -25,16 +28,16 @@ namespace StyleCop
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
     public class StyleCopAddInAttribute : Attribute
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// The id of the add-in xml file within the assembly resources.
         /// </summary>
-        private string addInXmlId;
+        private readonly string addInXmlId;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Public Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the StyleCopAddInAttribute class.
@@ -46,14 +49,16 @@ namespace StyleCop
         /// <summary>
         /// Initializes a new instance of the StyleCopAddInAttribute class.
         /// </summary>
-        /// <param name="addInXmlId">The ID of the add-in xml file within the analyzer resource.</param>
+        /// <param name="addInXmlId">
+        /// The ID of the add-in xml file within the analyzer resource.
+        /// </param>
         public StyleCopAddInAttribute(string addInXmlId)
         {
             Param.RequireValidString(addInXmlId, "addInXmlId");
             this.addInXmlId = addInXmlId;
         }
 
-        #endregion Public Constructors
+        #endregion
 
         #region Public Properties
 
@@ -68,6 +73,6 @@ namespace StyleCop
             }
         }
 
-        #endregion Public Properties
+        #endregion
     }
 }

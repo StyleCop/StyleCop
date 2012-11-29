@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="ConditionalExpression.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ConditionalExpression.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,49 +11,55 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   An expression representing a conditional operation.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-
     /// <summary>
     /// An expression representing a conditional operation.
     /// </summary>
     /// <subcategory>expression</subcategory>
     public sealed class ConditionalExpression : Expression
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// The condition being evaluated.
         /// </summary>
-        private Expression condition;
-
-        /// <summary>
-        /// The expression that is evaluated if the condition is true.
-        /// </summary>
-        private Expression trueValue;
+        private readonly Expression condition;
 
         /// <summary>
         /// The expression that is evaluated if the condition is false.
         /// </summary>
-        private Expression falseValue;
+        private readonly Expression falseValue;
 
-        #endregion Private Fields
+        /// <summary>
+        /// The expression that is evaluated if the condition is true.
+        /// </summary>
+        private readonly Expression trueValue;
 
-        #region Internal Constructors
+        #endregion
+
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the ConditionalExpression class.
         /// </summary>
-        /// <param name="tokens">The list of tokens that form the expression.</param>
-        /// <param name="condition">The condition being evaluated.</param>
-        /// <param name="trueValue">The expression that is evaluated if the condition is true.</param>
-        /// <param name="falseValue">The expression that is evaluated if the condition is false.</param>
-        internal ConditionalExpression(
-            CsTokenList tokens, Expression condition, Expression trueValue, Expression falseValue)
+        /// <param name="tokens">
+        /// The list of tokens that form the expression.
+        /// </param>
+        /// <param name="condition">
+        /// The condition being evaluated.
+        /// </param>
+        /// <param name="trueValue">
+        /// The expression that is evaluated if the condition is true.
+        /// </param>
+        /// <param name="falseValue">
+        /// The expression that is evaluated if the condition is false.
+        /// </param>
+        internal ConditionalExpression(CsTokenList tokens, Expression condition, Expression trueValue, Expression falseValue)
             : base(ExpressionType.Conditional, tokens)
         {
             Param.AssertNotNull(tokens, "tokens");
@@ -70,7 +76,7 @@ namespace StyleCop.CSharp
             this.AddExpression(falseValue);
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
 
@@ -86,17 +92,6 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Gets the expression that is evaluated if the condition is true.
-        /// </summary>
-        public Expression TrueExpression
-        {
-            get
-            {
-                return this.trueValue;
-            }
-        }
-
-        /// <summary>
         /// Gets the expression that is evaluated if the condition is false.
         /// </summary>
         public Expression FalseExpression
@@ -107,6 +102,17 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Properties
+        /// <summary>
+        /// Gets the expression that is evaluated if the condition is true.
+        /// </summary>
+        public Expression TrueExpression
+        {
+            get
+            {
+                return this.trueValue;
+            }
+        }
+
+        #endregion
     }
 }

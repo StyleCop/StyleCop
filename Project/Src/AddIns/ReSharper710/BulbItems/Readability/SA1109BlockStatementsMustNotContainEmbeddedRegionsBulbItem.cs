@@ -15,13 +15,13 @@
 //   The s a 1109 block statements must not contain embedded regions bulb item.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper710.BulbItems.Readability
 {
     #region Using Directives
 
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
+    using JetBrains.ReSharper.Psi.Tree;
     using JetBrains.TextControl;
 
     using StyleCop.ReSharper710.BulbItems.Framework;
@@ -35,7 +35,7 @@ namespace StyleCop.ReSharper710.BulbItems.Readability
     /// </summary>
     public class SA1109BlockStatementsMustNotContainEmbeddedRegionsBulbItem : V5BulbItemImpl
     {
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// The execute transaction inner.
@@ -48,8 +48,8 @@ namespace StyleCop.ReSharper710.BulbItems.Readability
         /// </param>
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
-            var element = Utils.GetElementAtCaret(solution, textControl);
-            var startRegionNode = element.GetContainingNode<IStartRegion>(true);
+            ITreeNode element = Utils.GetElementAtCaret(solution, textControl);
+            IStartRegion startRegionNode = element.GetContainingNode<IStartRegion>(true);
             if (startRegionNode != null)
             {
                 ReadabilityRules.MoveRegionInsideNextOpenCurlyBracket(startRegionNode);

@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="ICodeUnit.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ICodeUnit.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   An interface implemented by types that describe a unit of code.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
     using System.Collections.Generic;
@@ -21,52 +24,38 @@ namespace StyleCop.CSharp
     /// </summary>
     public interface ICodeUnit : ICodePart
     {
-        /// <summary>
-        /// Gets the list of tokens within this code unit.
-        /// </summary>
-        CsTokenList Tokens
-        {
-            get;
-        }
-
-        /// <summary>
-        /// Gets the friendly name of the code unit type, which can be used in user output.
-        /// </summary>
-        string FriendlyTypeText
-        {
-            get;
-        }
-
-        /// <summary>
-        /// Gets the friendly name of the code unit type as a plural noun, which can be used in user output.
-        /// </summary>
-        string FriendlyPluralTypeText
-        {
-            get;
-        }
-
-        /// <summary>
-        /// Gets the list of variables and constants defined by this code unit.
-        /// </summary>
-        VariableCollection Variables
-        {
-            get;
-        }
+        #region Public Properties
 
         /// <summary>
         /// Gets the collection of expressions beneath this code unit.
         /// </summary>
-        ICollection<Expression> ChildExpressions
-        {
-            get;
-        }
+        ICollection<Expression> ChildExpressions { get; }
 
         /// <summary>
         /// Gets the collection of statements beneath this code unit.
         /// </summary>
-        ICollection<Statement> ChildStatements
-        {
-            get;
-        }
+        ICollection<Statement> ChildStatements { get; }
+
+        /// <summary>
+        /// Gets the friendly name of the code unit type as a plural noun, which can be used in user output.
+        /// </summary>
+        string FriendlyPluralTypeText { get; }
+
+        /// <summary>
+        /// Gets the friendly name of the code unit type, which can be used in user output.
+        /// </summary>
+        string FriendlyTypeText { get; }
+
+        /// <summary>
+        /// Gets the list of tokens within this code unit.
+        /// </summary>
+        CsTokenList Tokens { get; }
+
+        /// <summary>
+        /// Gets the list of variables and constants defined by this code unit.
+        /// </summary>
+        VariableCollection Variables { get; }
+
+        #endregion
     }
 }

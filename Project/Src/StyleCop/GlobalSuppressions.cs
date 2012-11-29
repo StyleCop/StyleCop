@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="GlobalSuppressions.cs">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="GlobalSuppressions.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,10 +11,20 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   GlobalSuppressions.cs
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 using System.Diagnostics.CodeAnalysis;
 
 [assembly: SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "StyleCop", Justification = "Reviewed. This is OK.")]
-[assembly: SuppressMessage("Microsoft.Naming", "CA1701:ResourceStringCompoundWordsShouldBeCasedCorrectly", MessageId = "StyleCop", Scope = "resource", Target = "StyleCop.Strings.resources", Justification = "Reviewed. This is OK.")]
-[assembly: SuppressMessage("Microsoft.Naming", "CA1701:ResourceStringCompoundWordsShouldBeCasedCorrectly", MessageId = "StyleCop", Scope = "resource", Target = "StyleCop.CacheOptions.resources", Justification = "Reviewed. This is OK.")]
-[assembly: SuppressMessage("Microsoft.Naming", "CA1701:ResourceStringCompoundWordsShouldBeCasedCorrectly", MessageId = "StyleCop", Scope = "resource", Target = "StyleCop.LogStrings.resources", Justification = "Reviewed. This is OK.")]
+[assembly:
+    SuppressMessage("Microsoft.Naming", "CA1701:ResourceStringCompoundWordsShouldBeCasedCorrectly", MessageId = "StyleCop", Scope = "resource", 
+        Target = "StyleCop.Strings.resources", Justification = "Reviewed. This is OK.")]
+[assembly:
+    SuppressMessage("Microsoft.Naming", "CA1701:ResourceStringCompoundWordsShouldBeCasedCorrectly", MessageId = "StyleCop", Scope = "resource", 
+        Target = "StyleCop.CacheOptions.resources", Justification = "Reviewed. This is OK.")]
+[assembly:
+    SuppressMessage("Microsoft.Naming", "CA1701:ResourceStringCompoundWordsShouldBeCasedCorrectly", MessageId = "StyleCop", Scope = "resource", 
+        Target = "StyleCop.LogStrings.resources", Justification = "Reviewed. This is OK.")]

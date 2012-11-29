@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="TypeParameterConstraintClause.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="TypeParameterConstraintClause.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Describes a type constraint clause within a C# file.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
     using System.Collections.Generic;
@@ -24,51 +27,54 @@ namespace StyleCop.CSharp
     /// <subcategory>other</subcategory>
     public class TypeParameterConstraintClause : ICodePart
     {
-        #region Private Fields
-
-        /// <summary>
-        /// The parent element that contains this constraint.
-        /// </summary>
-        private CsElement parentElement;
-
-        /// <summary>
-        /// The token list for the constraint.
-        /// </summary>
-        private CsTokenList tokens;
-
-        /// <summary>
-        /// The type being constrained.
-        /// </summary>
-        private CsToken type;
+        #region Fields
 
         /// <summary>
         /// The list of constraints on the type.
         /// </summary>
-        private ICollection<CsToken> constraints;
+        private readonly ICollection<CsToken> constraints;
 
         /// <summary>
         /// The parent of the constraint clause.
         /// </summary>
-        private Reference<ICodePart> parent;
+        private readonly Reference<ICodePart> parent;
 
-        #endregion Private Fields
+        /// <summary>
+        /// The token list for the constraint.
+        /// </summary>
+        private readonly CsTokenList tokens;
 
-        #region Internal Contructors
+        /// <summary>
+        /// The type being constrained.
+        /// </summary>
+        private readonly CsToken type;
+
+        #endregion
+
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the TypeParameterConstraintClause class.
         /// </summary>
-        /// <param name="tokens">The list of tokens that form the constraint.</param>
-        /// <param name="type">The type being constrained.</param>
-        /// <param name="constraints">The list of constraints on the type, if any.</param>
-        /// <param name="parent">The parent of the constraint clause.</param>
+        /// <param name="tokens">
+        /// The list of tokens that form the constraint.
+        /// </param>
+        /// <param name="type">
+        /// The type being constrained.
+        /// </param>
+        /// <param name="constraints">
+        /// The list of constraints on the type, if any.
+        /// </param>
+        /// <param name="parent">
+        /// The parent of the constraint clause.
+        /// </param>
         internal TypeParameterConstraintClause(CsTokenList tokens, CsToken type, ICollection<CsToken> constraints, Reference<ICodePart> parent)
         {
             Param.AssertNotNull(tokens, "tokens");
             Param.AssertNotNull(type, "type");
             Param.Ignore(constraints);
             Param.AssertNotNull(parent, "parent");
-            
+
             this.tokens = tokens;
             this.type = type;
             this.constraints = constraints;
@@ -80,20 +86,9 @@ namespace StyleCop.CSharp
             Debug.Assert(this.tokens.First != null, "The type parameter constraint claus should not be empty.");
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
-
-        /// <summary>
-        /// Gets the list of tokens that form the constraint.
-        /// </summary>
-        public CsTokenList Tokens
-        {
-            get
-            {
-                return this.tokens;
-            }
-        }
 
         /// <summary>
         /// Gets the type of this code part.
@@ -107,21 +102,6 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Gets the type being constrained.
-        /// </summary>
-        [SuppressMessage(
-            "Microsoft.Naming", 
-            "CA1721:PropertyNamesShouldNotMatchGetMethods",
-            Justification = "API has already been published and should not be changed.")]
-        public CsToken Type
-        {
-            get
-            {
-                return this.type;
-            }
-        }
-
-        /// <summary>
         /// Gets the list of constraints on the type, if any.
         /// </summary>
         public ICollection<CsToken> Constraints
@@ -129,33 +109,6 @@ namespace StyleCop.CSharp
             get
             {
                 return this.constraints;
-            }
-        }
-
-        /// <summary>
-        /// Gets the parent element that contains this type constraint.
-        /// </summary>
-        public CsElement ParentElement
-        {
-            get
-            {
-                return this.parentElement;
-            }
-
-            internal set
-            {
-                this.parentElement = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets the parent of the constraint clause.
-        /// </summary>
-        public ICodePart Parent
-        {
-            get
-            {
-                return this.parent.Target;
             }
         }
 
@@ -186,6 +139,45 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Properties
+        /// <summary>
+        /// Gets the parent of the constraint clause.
+        /// </summary>
+        public ICodePart Parent
+        {
+            get
+            {
+                return this.parent.Target;
+            }
+        }
+
+        /// <summary>
+        /// Gets the parent element that contains this type constraint.
+        /// </summary>
+        public CsElement ParentElement { get; internal set; }
+
+        /// <summary>
+        /// Gets the list of tokens that form the constraint.
+        /// </summary>
+        public CsTokenList Tokens
+        {
+            get
+            {
+                return this.tokens;
+            }
+        }
+
+        /// <summary>
+        /// Gets the type being constrained.
+        /// </summary>
+        [SuppressMessage("Microsoft.Naming", "CA1721:PropertyNamesShouldNotMatchGetMethods", Justification = "API has already been published and should not be changed.")]
+        public CsToken Type
+        {
+            get
+            {
+                return this.type;
+            }
+        }
+
+        #endregion
     }
 }

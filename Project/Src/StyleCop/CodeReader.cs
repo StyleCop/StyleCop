@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="CodeReader.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="CodeReader.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,35 +11,41 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Reads code from a text reader.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop
 {
-    using System;
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
     using System.IO;
-    using System.Text;
 
     /// <summary>
     /// Reads code from a text reader.
     /// </summary>
     public class CodeReader
     {
-        #region Private Constants
+        #region Constants
 
         /// <summary>
         /// The number of characters to read at a time from the text reader.
         /// </summary>
         private const int CharacterBlockSize = 80;
 
-        #endregion Private Constants
+        #endregion
 
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// Contains the code to read.
         /// </summary>
         private readonly TextReader code;
+
+        /// <summary>
+        /// The number of characters in the buffer.
+        /// </summary>
+        private int bufferLength;
 
         /// <summary>
         /// Cached characters read from the text reader.
@@ -51,28 +57,25 @@ namespace StyleCop
         /// </summary>
         private int position;
 
-        /// <summary>
-        /// The number of characters in the buffer.
-        /// </summary>
-        private int bufferLength;
+        #endregion
 
-        #endregion Private Fields
-
-        #region Public Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the CodeReader class.
         /// </summary>
-        /// <param name="code">Contains the code to read.</param>
+        /// <param name="code">
+        /// Contains the code to read.
+        /// </param>
         public CodeReader(TextReader code)
         {
             Param.RequireNotNull(code, "code");
             this.code = code;
         }
 
-        #endregion Public Constructors
+        #endregion
 
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Gets the next character from the code without advancing the internal pointer.
@@ -91,8 +94,12 @@ namespace StyleCop
         /// <summary>
         /// Gets the next character from the code without advancing the internal pointer.
         /// </summary>
-        /// <param name="index">The index of the character to retrieve, advanced from the current index.</param>
-        /// <returns>Returns the next character from the code or char.MinValue if there are no more characters to read.</returns>
+        /// <param name="index">
+        /// The index of the character to retrieve, advanced from the current index.
+        /// </param>
+        /// <returns>
+        /// Returns the next character from the code or char.MinValue if there are no more characters to read.
+        /// </returns>
         [SuppressMessage("Microsoft.Usage", "CA2233:OperationsShouldNotOverflow", Justification = "There is no danger of overflow.")]
         public char Peek(int index)
         {
@@ -123,8 +130,12 @@ namespace StyleCop
         /// <summary>
         /// Reads the given number of characters from the code and advances the internal index.
         /// </summary>
-        /// <param name="count">The number of characters to read.</param>
-        /// <returns>Returns the characters or null if all of the characters could not be read.</returns>
+        /// <param name="count">
+        /// The number of characters to read.
+        /// </param>
+        /// <returns>
+        /// Returns the characters or null if all of the characters could not be read.
+        /// </returns>
         public char[] ReadNext(int count)
         {
             Param.RequireGreaterThanOrEqualToZero(count, "count");
@@ -146,8 +157,12 @@ namespace StyleCop
         /// <summary>
         /// Reads the given number of characters from the code as a string and advances the internal index.
         /// </summary>
-        /// <param name="count">The number of characters to read.</param>
-        /// <returns>Returns the string or null if all of the characters could not be read.</returns>
+        /// <param name="count">
+        /// The number of characters to read.
+        /// </param>
+        /// <returns>
+        /// Returns the string or null if all of the characters could not be read.
+        /// </returns>
         public string ReadString(int count)
         {
             Param.RequireGreaterThanOrEqualToZero(count, "count");
@@ -161,16 +176,20 @@ namespace StyleCop
             return new string(characters);
         }
 
-        #endregion Public Methods
+        #endregion
 
-        #region Private Methods
+        #region Methods
 
         /// <summary>
         /// Loads the internal character buffer with the requested number of characters.
         /// </summary>
-        /// <param name="count">The number of characters to load.</param>
-        /// <returns>Returns true if the characters were loaded, or false if the end 
-        /// of the character source was reached before all the characters were loaded.</returns>
+        /// <param name="count">
+        /// The number of characters to load.
+        /// </param>
+        /// <returns>
+        /// Returns true if the characters were loaded, or false if the end 
+        /// of the character source was reached before all the characters were loaded.
+        /// </returns>
         private bool LoadBuffer(int count)
         {
             Param.AssertGreaterThanOrEqualToZero(count, "count");
@@ -207,7 +226,7 @@ namespace StyleCop
                     newBuffer[i] = this.charBuffer[this.position + i];
                 }
             }
-            
+
             // Read the new set of characters from the code buffer.
             int numberOfCharactersRead = this.code.ReadBlock(newBuffer, leftOverCharacterCount, CharacterBlockSize);
 
@@ -222,6 +241,6 @@ namespace StyleCop
             return this.bufferLength >= count;
         }
 
-        #endregion Private Methods
+        #endregion
     }
 }

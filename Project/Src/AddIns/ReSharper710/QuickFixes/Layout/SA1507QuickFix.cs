@@ -15,14 +15,13 @@
 //   QuickFix - SA1507.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper710.QuickFixes.Layout
 {
     #region Using Directives
 
     using System.Collections.Generic;
 
-        using JetBrains.ReSharper.Feature.Services.Bulbs;
+    using JetBrains.ReSharper.Feature.Services.Bulbs;
     using JetBrains.ReSharper.Intentions.Extensibility;
 
     using StyleCop.ReSharper710.BulbItems.Layout;
@@ -110,7 +109,14 @@ namespace StyleCop.ReSharper710.QuickFixes.Layout
         /// </summary>
         protected override void InitialiseBulbItems()
         {
-            this.BulbItems = new List<IBulbAction> { new SA1507CodeMustNotContainMultipleBlankLinesInARowBulbItem { Description = "Remove line : " + this.Highlighting.ToolTip } };
+            this.BulbItems = new List<IBulbAction>
+                                 {
+                                     new SA1507CodeMustNotContainMultipleBlankLinesInARowBulbItem
+                                         {
+                                             Description =
+                                                 "Remove line : " + this.Highlighting.ToolTip
+                                         }
+                                 };
         }
 
         #endregion

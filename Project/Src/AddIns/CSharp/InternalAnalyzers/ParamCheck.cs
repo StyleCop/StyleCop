@@ -1,46 +1,37 @@
-//-----------------------------------------------------------------------
-// <copyright file="ParamCheck.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ParamCheck.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <author>Jason Allor</author>
-//-----------------------------------------------------------------------
+// <summary>
+//   Checks the usage of the <see cref="Param" /> class to verify method parameters.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.Internal
 {
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
-    using StyleCop;
+
     using StyleCop.CSharp;
 
     /// <summary>
     /// Checks the usage of the <see cref="Param"/> class to verify method parameters.
     /// </summary>
-    [SuppressMessage(
-        "Microsoft.Naming", 
-        "CA1704:IdentifiersShouldBeSpelledCorrectly", 
-        MessageId = "Param",
+    [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Param", 
         Justification = "The naming is consistent with the name of the Param class.")]
     [SourceAnalyzer(typeof(CsParser))]
     public class ParamCheck : SourceAnalyzer
     {
-        #region Public Constructors
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ParamCheck"/> class.
-        /// </summary>
-        public ParamCheck()
-        {
-        }
-
-        #endregion Public Constructors
-
-        #region Public Override Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Checks the methods within the given document.
         /// </summary>
-        /// <param name="document">The document to check.</param>
+        /// <param name="document">
+        /// The document to check.
+        /// </param>
         public override void AnalyzeDocument(CodeDocument document)
         {
             Param.RequireNotNull(document, "document");
@@ -68,15 +59,19 @@ namespace StyleCop.Internal
             }
         }
 
-        #endregion Public Override Methods
+        #endregion
 
-        #region Private Static Methods
+        #region Methods
 
         /// <summary>
         /// Gets the list of all tokens within <c>Param</c> statements found in the given element.
         /// </summary>
-        /// <param name="element">The element to get the <c>param</c> tokens from.</param>
-        /// <returns>Returns the list of <c>param</c> check tokens.</returns>
+        /// <param name="element">
+        /// The element to get the <c>param</c> tokens from.
+        /// </param>
+        /// <returns>
+        /// Returns the list of <c>param</c> check tokens.
+        /// </returns>
         private static List<ParamTokens> GetParamCheckTokens(CsElement element)
         {
             Param.AssertNotNull(element, "element");
@@ -151,16 +146,216 @@ namespace StyleCop.Internal
             return paramCheckTokens;
         }
 
-        #endregion Private Static Methods
+        /// <summary>
+        /// Checks that all method parameters are verified.
+        /// </summary>
+        /// <param name="element">
+        /// The method to check.
+        /// </param>
+        private void CheckMethodParameterVerification(CsElement element)
+        {
+            Param.AssertNotNull(element, "element");
 
-        #region Private Methods
+            IParameterContainer parameterContainer = element as IParameterContainer;
+            Debug.Assert(parameterContainer != null, "The element does not contain parameters.");
+
+            // If there are no parameters, don't do anything.
+            if (parameterContainer.Parameters.Count > 0)
+            {
+                // Get the list of param check tokens.
+                List<ParamTokens> paramCheckTokens = GetParamCheckTokens(element);
+
+                // Find each parameter.
+                foreach (Parameter parameter in parameterContainer.Parameters)
+                {
+                    Node<CsToken> paramTokenNode = null;
+                    foreach (ParamTokens paramTokens in paramCheckTokens)
+                    {
+                        bool found = false;
+
+                        foreach (Node<CsToken> tokenNode in paramTokens.TokenNodes)
+                        {
+                            if (parameter.Name == tokenNode.Value.Text)
+                            {
+                                paramTokenNode = paramTokens.ParamTokenNode;
+                                found = true;
+                                break;
+                            }
+                        }
+
+                        if (found)
+                        {
+                            break;
+                        }
+                    }
+
+                    if (paramTokenNode == null)
+                    {
+                        CsElement parent = element.FindParentElement();
+
+                        if ((parameter.Modifiers & ParameterModifiers.Out) == 0
+                            && (element.Declaration.Name != "Ignore" || (parent != null && parent.Declaration.Name != "Param")))
+                        {
+                            this.AddViolation(element, Rules.ParametersMustBeVerified, parameter.Name);
+                        }
+                    }
+                    else
+                    {
+                        if ((parameter.Modifiers & ParameterModifiers.Out) != 0)
+                        {
+                            this.AddViolation(element, paramTokenNode.Value.LineNumber, Rules.OutParametersMustNotBeVerified, parameter.Name);
+                        }
+                        else
+                        {
+                            // Get the param statement type.
+                            if (paramTokenNode != null && paramTokenNode.Next != null)
+                            {
+                                Node<CsToken> paramCheckTypeNode = paramTokenNode.Next.Next;
+                                if (paramCheckTypeNode != null && paramCheckTypeNode.Value.CsTokenType == CsTokenType.Other)
+                                {
+                                    if (element.ActualAccess == AccessModifierType.Private || element.ActualAccess == AccessModifierType.Internal
+                                        || element.ActualAccess == AccessModifierType.ProtectedInternal)
+                                    {
+                                        if (paramCheckTypeNode.Value.Text.StartsWith("Require", StringComparison.Ordinal))
+                                        {
+                                            Rules type = Rules.PrivateMethodsMustUseAsserts;
+
+                                            /*if (this.autoUpdate)
+                                            {
+                                                if (this.ChangeStatement(document, paramToken, true))
+                                                {
+                                                    type = ViolationID.ParamCheckPrivateRequireWarning;
+                                                }
+                                            }*/
+                                            this.AddViolation(element, paramTokenNode.Value.LineNumber, type);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (paramCheckTypeNode.Value.Text.StartsWith("Assert", StringComparison.Ordinal))
+                                        {
+                                            Rules type = Rules.PublicMethodsMustUseRequires;
+
+                                            /*if (this.autoUpdate)
+                                            {
+                                                if (this.ChangeStatement(document, paramToken, false))
+                                                {
+                                                    type = ViolationID.ParamCheckPublicAssertWarning;
+                                                }
+                                            }*/
+                                            this.AddViolation(element, paramTokenNode.Value.LineNumber, type);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Checks that set properties verify the input value.
+        /// </summary>
+        /// <param name="element">
+        /// The property to check.
+        /// </param>
+        private void CheckPropertyParameterVerification(CsElement element)
+        {
+            Param.AssertNotNull(element, "element");
+
+            // Determine whether the accessor has a body. If this is an automatic property,
+            // there will be no body.
+            bool hasBody = false;
+            foreach (CsToken token in element.Tokens)
+            {
+                if (token.CsTokenType == CsTokenType.OpenCurlyBracket)
+                {
+                    hasBody = true;
+                    break;
+                }
+            }
+
+            if (hasBody)
+            {
+                // Get the list of param check words.
+                List<ParamTokens> paramCheckTokens = GetParamCheckTokens(element);
+
+                // Make sure the list contains "value".
+                Node<CsToken> paramTokenNode = null;
+                foreach (ParamTokens paramTokens in paramCheckTokens)
+                {
+                    foreach (Node<CsToken> tokenNode in paramTokens.TokenNodes)
+                    {
+                        if (tokenNode.Value.Text == "value")
+                        {
+                            paramTokenNode = paramTokens.ParamTokenNode;
+                            break;
+                        }
+                    }
+                }
+
+                CsElement parent = element.FindParentElement();
+
+                if (paramTokenNode == null)
+                {
+                    if (element.Declaration.Name != "Ignore" || (parent != null && parent.Declaration.Name != "Param"))
+                    {
+                        this.AddViolation(element, Rules.ParametersMustBeVerified, "value");
+                    }
+                }
+                else
+                {
+                    if (parent != null
+                        && (parent.ActualAccess == AccessModifierType.Private || parent.ActualAccess == AccessModifierType.Internal
+                            || parent.ActualAccess == AccessModifierType.ProtectedInternal))
+                    {
+                        if (paramTokenNode.Value.Text.StartsWith("Param.Require", StringComparison.Ordinal))
+                        {
+                            Rules type = Rules.PrivateMethodsMustUseAsserts;
+
+                            /*if (this.autoUpdate)
+                            {
+                                if (this.ChangeStatement(document, paramToken, true))
+                                {
+                                    type = ViolationID.ParamCheckPrivateRequireWarning;
+                                }
+                            }*/
+                            this.AddViolation(element, paramTokenNode.Value.LineNumber, type);
+                        }
+                    }
+                    else
+                    {
+                        if (paramTokenNode.Value.Text.StartsWith("Param.Assert", StringComparison.Ordinal))
+                        {
+                            Rules type = Rules.PublicMethodsMustUseRequires;
+
+                            /*if (this.autoUpdate)
+                            {
+                                if (this.ChangeStatement(document, paramToken, false))
+                                {
+                                    type = ViolationID.ParamCheckPublicAssert;
+                                }
+                            }*/
+                            this.AddViolation(element, paramTokenNode.Value.LineNumber, type);
+                        }
+                    }
+                }
+            }
+        }
 
         /// <summary>
         /// Checks one element and its children.
         /// </summary>
-        /// <param name="document">The document object representing the code file.</param>
-        /// <param name="element">The element to check.</param>
-        /// <returns>Returns false if the analyzer should quit.</returns>
+        /// <param name="document">
+        /// The document object representing the code file.
+        /// </param>
+        /// <param name="element">
+        /// The element to check.
+        /// </param>
+        /// <returns>
+        /// Returns false if the analyzer should quit.
+        /// </returns>
         private bool ProcessElement(CsDocument document, CsElement element)
         {
             Param.AssertNotNull(document, "document");
@@ -221,202 +416,7 @@ namespace StyleCop.Internal
             return false;
         }
 
-        /// <summary>
-        /// Checks that all method parameters are verified.
-        /// </summary>
-        /// <param name="element">The method to check.</param>
-        private void CheckMethodParameterVerification(CsElement element)
-        {
-            Param.AssertNotNull(element, "element");
-
-            IParameterContainer parameterContainer = element as IParameterContainer;
-            Debug.Assert(parameterContainer != null, "The element does not contain parameters.");
-
-            // If there are no parameters, don't do anything.
-            if (parameterContainer.Parameters.Count > 0)
-            {
-                // Get the list of param check tokens.
-                List<ParamTokens> paramCheckTokens = GetParamCheckTokens(element);
-
-                // Find each parameter.
-                foreach (Parameter parameter in parameterContainer.Parameters)
-                {
-                    Node<CsToken> paramTokenNode = null;
-                    foreach (ParamTokens paramTokens in paramCheckTokens)
-                    {
-                        bool found = false;
-
-                        foreach (Node<CsToken> tokenNode in paramTokens.TokenNodes)
-                        {
-                            if (parameter.Name == tokenNode.Value.Text)
-                            {
-                                paramTokenNode = paramTokens.ParamTokenNode;
-                                found = true;
-                                break;
-                            }
-                        }
-
-                        if (found)
-                        {
-                            break;
-                        }
-                    }
-
-                    if (paramTokenNode == null)
-                    {
-                        CsElement parent = element.FindParentElement();
-
-                        if ((parameter.Modifiers & ParameterModifiers.Out) == 0 &&
-                            (element.Declaration.Name != "Ignore" || (parent != null && parent.Declaration.Name != "Param")))
-                        {
-                            this.AddViolation(element, Rules.ParametersMustBeVerified, parameter.Name);
-                        }
-                    }
-                    else
-                    {
-                        if ((parameter.Modifiers & ParameterModifiers.Out) != 0)
-                        {
-                            this.AddViolation(
-                                element, paramTokenNode.Value.LineNumber, Rules.OutParametersMustNotBeVerified, parameter.Name);
-                        }
-                        else
-                        {
-                            // Get the param statement type.
-                            if (paramTokenNode != null && paramTokenNode.Next != null)
-                            {
-                                Node<CsToken> paramCheckTypeNode = paramTokenNode.Next.Next;
-                                if (paramCheckTypeNode != null && paramCheckTypeNode.Value.CsTokenType == CsTokenType.Other)
-                                {
-                                    if (element.ActualAccess == AccessModifierType.Private ||
-                                        element.ActualAccess == AccessModifierType.Internal ||
-                                        element.ActualAccess == AccessModifierType.ProtectedInternal)
-                                    {
-                                        if (paramCheckTypeNode.Value.Text.StartsWith("Require", StringComparison.Ordinal))
-                                        {
-                                            Rules type = Rules.PrivateMethodsMustUseAsserts;
-                                            /*if (this.autoUpdate)
-                                            {
-                                                if (this.ChangeStatement(document, paramToken, true))
-                                                {
-                                                    type = ViolationID.ParamCheckPrivateRequireWarning;
-                                                }
-                                            }*/
-
-                                            this.AddViolation(element, paramTokenNode.Value.LineNumber, type);
-                                        }
-                                    }
-                                    else
-                                    {
-                                        if (paramCheckTypeNode.Value.Text.StartsWith("Assert", StringComparison.Ordinal))
-                                        {
-                                            Rules type = Rules.PublicMethodsMustUseRequires;
-                                            /*if (this.autoUpdate)
-                                            {
-                                                if (this.ChangeStatement(document, paramToken, false))
-                                                {
-                                                    type = ViolationID.ParamCheckPublicAssertWarning;
-                                                }
-                                            }*/
-
-                                            this.AddViolation(element, paramTokenNode.Value.LineNumber, type);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Checks that set properties verify the input value.
-        /// </summary>
-        /// <param name="element">The property to check.</param>
-        private void CheckPropertyParameterVerification(CsElement element)
-        {
-            Param.AssertNotNull(element, "element");
-
-            // Determine whether the accessor has a body. If this is an automatic property,
-            // there will be no body.
-            bool hasBody = false;
-            foreach (CsToken token in element.Tokens)
-            {
-                if (token.CsTokenType == CsTokenType.OpenCurlyBracket)
-                {
-                    hasBody = true;
-                    break;
-                }
-            }
-
-            if (hasBody)
-            {
-                // Get the list of param check words.
-                List<ParamTokens> paramCheckTokens = GetParamCheckTokens(element);
-
-                // Make sure the list contains "value".
-                Node<CsToken> paramTokenNode = null;
-                foreach (ParamTokens paramTokens in paramCheckTokens)
-                {
-                    foreach (Node<CsToken> tokenNode in paramTokens.TokenNodes)
-                    {
-                        if (tokenNode.Value.Text == "value")
-                        {
-                            paramTokenNode = paramTokens.ParamTokenNode;
-                            break;
-                        }
-                    }
-                }
-
-                CsElement parent = element.FindParentElement();
-
-                if (paramTokenNode == null)
-                {
-                    if (element.Declaration.Name != "Ignore" || (parent != null && parent.Declaration.Name != "Param"))
-                    {
-                        this.AddViolation(element, Rules.ParametersMustBeVerified, "value");
-                    }
-                }
-                else
-                {
-                    if (parent != null &&
-                        (parent.ActualAccess == AccessModifierType.Private ||
-                         parent.ActualAccess == AccessModifierType.Internal ||
-                         parent.ActualAccess == AccessModifierType.ProtectedInternal))
-                    {
-                        if (paramTokenNode.Value.Text.StartsWith("Param.Require", StringComparison.Ordinal))
-                        {
-                            Rules type = Rules.PrivateMethodsMustUseAsserts;
-                            /*if (this.autoUpdate)
-                            {
-                                if (this.ChangeStatement(document, paramToken, true))
-                                {
-                                    type = ViolationID.ParamCheckPrivateRequireWarning;
-                                }
-                            }*/
-
-                            this.AddViolation(element, paramTokenNode.Value.LineNumber, type);
-                        }
-                    }
-                    else
-                    {
-                        if (paramTokenNode.Value.Text.StartsWith("Param.Assert", StringComparison.Ordinal))
-                        {
-                            Rules type = Rules.PublicMethodsMustUseRequires;
-                            /*if (this.autoUpdate)
-                            {
-                                if (this.ChangeStatement(document, paramToken, false))
-                                {
-                                    type = ViolationID.ParamCheckPublicAssert;
-                                }
-                            }*/
-
-                            this.AddViolation(element, paramTokenNode.Value.LineNumber, type);
-                        }
-                    }
-                }
-            }
-        }
+        #endregion
 
         /*
         /// <summary>
@@ -454,7 +454,5 @@ namespace StyleCop.Internal
             return false;
         }
         */
-
-        #endregion Private Methods
     }
 }

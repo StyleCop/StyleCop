@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="TypeToken.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="TypeToken.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,10 +11,12 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Describes a type token in a code file.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Text;
@@ -25,24 +27,32 @@ namespace StyleCop.CSharp
     /// <subcategory>token</subcategory>
     public class TypeToken : CsToken, ITokenContainer
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// The list of child tokens within this token.
         /// </summary>
-        private MasterList<CsToken> childTokens;
+        private readonly MasterList<CsToken> childTokens;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the TypeToken class.
         /// </summary>
-        /// <param name="childTokens">The list of child tokens that form the token.</param>
-        /// <param name="location">The location of the token in the code.</param>
-        /// <param name="parent">The parent of the token.</param>
-        /// <param name="generated">True if the token is inside of a block of generated code.</param>
+        /// <param name="childTokens">
+        /// The list of child tokens that form the token.
+        /// </param>
+        /// <param name="location">
+        /// The location of the token in the code.
+        /// </param>
+        /// <param name="parent">
+        /// The parent of the token.
+        /// </param>
+        /// <param name="generated">
+        /// True if the token is inside of a block of generated code.
+        /// </param>
         internal TypeToken(MasterList<CsToken> childTokens, CodeLocation location, Reference<ICodePart> parent, bool generated)
             : base(CsTokenType.Other, CsTokenClass.Type, location, parent, generated)
         {
@@ -57,11 +67,21 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Initializes a new instance of the TypeToken class.
         /// </summary>
-        /// <param name="childTokens">The list of child tokens that form the token.</param>
-        /// <param name="location">The location of the token in the code.</param>
-        /// <param name="parent">The parent of the token.</param>
-        /// <param name="tokenClass">The token class.</param>
-        /// <param name="generated">True if the token is inside of a block of generated code.</param>
+        /// <param name="childTokens">
+        /// The list of child tokens that form the token.
+        /// </param>
+        /// <param name="location">
+        /// The location of the token in the code.
+        /// </param>
+        /// <param name="parent">
+        /// The parent of the token.
+        /// </param>
+        /// <param name="tokenClass">
+        /// The token class.
+        /// </param>
+        /// <param name="generated">
+        /// True if the token is inside of a block of generated code.
+        /// </param>
         internal TypeToken(MasterList<CsToken> childTokens, CodeLocation location, Reference<ICodePart> parent, CsTokenClass tokenClass, bool generated)
             : base(CsTokenType.Other, tokenClass, location, parent, generated)
         {
@@ -74,7 +94,7 @@ namespace StyleCop.CSharp
             this.childTokens = childTokens;
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
 
@@ -89,9 +109,9 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Properties
+        #endregion
 
-        #region ITokenContainer Interface Properties
+        #region Explicit Interface Properties
 
         /// <summary>
         /// Gets the list of child tokens contained within this object.
@@ -105,9 +125,9 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion ITokenContainer Interface Properties
+        #endregion
 
-        #region Protected Override Methods
+        #region Methods
 
         /// <summary>
         /// Creates a text string based on the child tokens in the token.
@@ -118,11 +138,8 @@ namespace StyleCop.CSharp
             foreach (CsToken token in this.childTokens)
             {
                 // Strip out comments and whitespace.
-                if (token.CsTokenType != CsTokenType.WhiteSpace &&
-                    token.CsTokenType != CsTokenType.EndOfLine &&
-                    token.CsTokenType != CsTokenType.SingleLineComment &&
-                    token.CsTokenType != CsTokenType.MultiLineComment &&
-                    token.CsTokenType != CsTokenType.PreprocessorDirective)
+                if (token.CsTokenType != CsTokenType.WhiteSpace && token.CsTokenType != CsTokenType.EndOfLine && token.CsTokenType != CsTokenType.SingleLineComment
+                    && token.CsTokenType != CsTokenType.MultiLineComment && token.CsTokenType != CsTokenType.PreprocessorDirective)
                 {
                     text.Append(token.Text);
                 }
@@ -131,6 +148,6 @@ namespace StyleCop.CSharp
             this.Text = text.ToString();
         }
 
-        #endregion Protected Override Methods
+        #endregion
     }
 }

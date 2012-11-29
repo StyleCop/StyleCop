@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="ObjectBasedEnvironment.cs">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ObjectBasedEnvironment.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,14 +11,16 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Delegate which is used to retrieve the <see cref="SourceCode" /> object corresponding to the given path.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop
 {
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Reflection;
-    using System.Security;
     using System.Xml;
 
     /// <summary>
@@ -45,37 +47,41 @@ namespace StyleCop
     /// </summary>
     public class ObjectBasedEnvironment : StyleCopEnvironment
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// The list of parsers and their associations.
         /// </summary>
-        private Dictionary<string, List<SourceParser>> fileTypes = new Dictionary<string, List<SourceParser>>();
-
-        /// <summary>
-        /// Callback which is used to retrieve SourceCode objects on demand.
-        /// </summary>
-        private SourceCodeFactory sourceCodeFactory;
+        private readonly Dictionary<string, List<SourceParser>> fileTypes = new Dictionary<string, List<SourceParser>>();
 
         /// <summary>
         /// Callback which is used to retrieve Settings objects on demand.
         /// </summary>
-        private ProjectSettingsFactory settingsFactory;
+        private readonly ProjectSettingsFactory settingsFactory;
+
+        /// <summary>
+        /// Callback which is used to retrieve SourceCode objects on demand.
+        /// </summary>
+        private readonly SourceCodeFactory sourceCodeFactory;
 
         /// <summary>
         /// The path to the default settings file, if any.
         /// </summary>
         private string defaultSettingsFilePath;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Public Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the ObjectBasedEnvironment class.
         /// </summary>
-        /// <param name="sourceCodeFactory">Callback which is used to create <see cref="SourceCode" /> objects on demand.</param>
-        /// <param name="settingsFactory">Optional callback which is used to create <see cref="Settings" /> objects on demand.</param>
+        /// <param name="sourceCodeFactory">
+        /// Callback which is used to create <see cref="SourceCode"/> objects on demand.
+        /// </param>
+        /// <param name="settingsFactory">
+        /// Optional callback which is used to create <see cref="Settings"/> objects on demand.
+        /// </param>
         public ObjectBasedEnvironment(SourceCodeFactory sourceCodeFactory, ProjectSettingsFactory settingsFactory)
         {
             Param.RequireNotNull(sourceCodeFactory, "sourceCodeFactory");
@@ -85,9 +91,9 @@ namespace StyleCop
             this.settingsFactory = settingsFactory;
         }
 
-        #endregion Public Constructors
+        #endregion
 
-        #region Public Override Properties
+        #region Public Properties
 
         /// <summary>
         /// Gets a value indicating whether the environment supports settings documents
@@ -114,14 +120,16 @@ namespace StyleCop
             }
         }
 
-        #endregion Public Override Properties
+        #endregion
 
-        #region Public Override Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Invoked when a new parser is loaded.
         /// </summary>
-        /// <param name="parser">The new parser.</param>
+        /// <param name="parser">
+        /// The new parser.
+        /// </param>
         public override void AddParser(SourceParser parser)
         {
             Param.RequireNotNull(parser, "parser");
@@ -150,91 +158,109 @@ namespace StyleCop
         }
 
         /// <summary>
-        /// Gets the settings given the path to the local settings.
+        /// Adds a source code document to the given project.
         /// </summary>
-        /// <param name="settingsPath">The path to the settings to load.</param>
-        /// <param name="merge">Indicates whether to merge the settings with parent settings before returning them.</param>
-        /// <param name="exception">Returns an exception if one occurred while loading the settings.</param>
-        /// <returns>Returns the settings.</returns>
-        public override Settings GetSettings(string settingsPath, bool merge, out Exception exception)
-        {
-            Param.Ignore(settingsPath);
-            Param.Ignore(merge);
-            Param.Ignore(merge);
-
-            // Load the settings file.
-            Settings settings = this.LoadSettingsDocument(settingsPath, true, out exception);
-            if (merge)
-            {
-                // If there are no local settings, create an empty settings file pointing
-                // at the location where we expected the local settings to be. This
-                // will allow us to do a parent merge from this location.
-                if (settings == null)
-                {
-                    settings = new Settings(this.Core, settingsPath);
-                }
-
-                // Merge the file and return it.
-                SettingsMerger merger = new SettingsMerger(settings, this);
-                settings = merger.MergedSettings;
-            }
-
-            return settings;
-        }
-
-        /// <summary>
-        /// Gets the settings for the given project.
-        /// </summary>
-        /// <param name="project">The project containing the settings.</param>
-        /// <param name="merge">Indicates whether to merge the settings with parent settings before returning them.</param>
-        /// <param name="exception">Returns an exception if one occurred while loading the settings.</param>
-        /// <returns>Returns the settings.</returns>
-        public override Settings GetProjectSettings(CodeProject project, bool merge, out Exception exception)
+        /// <param name="project">
+        /// The project which should contain the source code instance.
+        /// </param>
+        /// <param name="path">
+        /// The path to the source code document to add.
+        /// </param>
+        /// <param name="context">
+        /// Optional context information.
+        /// </param>
+        /// <returns>
+        /// Returns true if any source code documents were added to the project.
+        /// </returns>
+        public override bool AddSourceCode(CodeProject project, string path, object context)
         {
             Param.RequireNotNull(project, "project");
-            Param.Ignore(merge);
-            Param.Ignore(merge);
+            Param.RequireValidString(path, "path");
+            Param.Ignore(context);
 
-            return this.GetSettings(project.Location, merge, out exception);
+            bool added = false;
+
+            // Get the parsers for this file based on its extension.
+            string extension = Path.GetExtension(path);
+            if (extension != null && extension.Length > 0)
+            {
+                // Remove the leading dot and convert the extension to lower-case.
+                extension = extension.Substring(1).ToUpperInvariant();
+
+                ICollection<SourceParser> parserList = this.GetParsersForFileType(extension);
+                if (parserList != null)
+                {
+                    // Create SourceCode objects representing this file, for each parser.
+                    foreach (SourceParser parser in parserList)
+                    {
+                        // Create and return a SourceCode for this file.
+                        SourceCode source = this.sourceCodeFactory(path, project, parser, context);
+                        if (source == null)
+                        {
+                            throw new InvalidOperationException(Strings.SourceCodeFactoryReturnsNull);
+                        }
+
+                        project.AddSourceCode(source);
+                        added = true;
+                    }
+                }
+            }
+
+            return added;
         }
 
         /// <summary>
-        /// Loads or creates the settings at the given path, and returns them in writable mode.
+        /// Gets the path to the default settings file for the currently running StyleCop installation.
         /// </summary>
-        /// <param name="settingsPath">The path to the settings.</param>
-        /// <param name="exception">Returns an exception if one occurred loading or creating the settings.</param>
-        /// <returns>Returns the settings.</returns>
-        public override WritableSettings GetWritableSettings(string settingsPath, out Exception exception)
+        /// <returns>Returns the path or an empty string if there is none.</returns>
+        public override string GetDefaultSettingsPath()
         {
-            Param.RequireValidString(settingsPath, "settingsPath");
-            return this.LoadSettingsDocument(settingsPath, false, out exception) as WritableSettings;
-        }
+            if (this.defaultSettingsFilePath == null)
+            {
+                this.defaultSettingsFilePath = string.Empty;
 
-        /// <summary>
-        /// Saves the settings file at the path specified within the settings document.
-        /// </summary>
-        /// <param name="settings">The settings to save.</param>
-        /// <param name="exception">If the document could not be saved, this returns the 
-        /// resulting exception information.</param>
-        /// <returns>Returns true if the file was successfully saved.</returns>
-        public override bool SaveSettings(WritableSettings settings, out Exception exception)
-        {
-            Param.Ignore(settings);
+                // Get the path to the currently executing assembly. The default settings file must be located within
+                // the same folder as this assembly.
+                string assemblyLocation = Assembly.GetExecutingAssembly().Location;
+                if (!string.IsNullOrEmpty(assemblyLocation))
+                {
+                    string assemblyPath = Path.GetDirectoryName(assemblyLocation);
+                    if (!string.IsNullOrEmpty(assemblyPath) && Directory.Exists(assemblyPath))
+                    {
+                        // Look for a settings file at this location.
+                        string settingsFilePath = Path.Combine(assemblyPath, Settings.DefaultFileName);
+                        if (File.Exists(settingsFilePath))
+                        {
+                            this.defaultSettingsFilePath = settingsFilePath;
+                        }
+                        else
+                        {
+                            settingsFilePath = Path.Combine(assemblyPath, Settings.AlternateFileName);
+                            if (File.Exists(settingsFilePath))
+                            {
+                                this.defaultSettingsFilePath = settingsFilePath;
+                            }
+                        }
+                    }
+                }
+            }
 
-            // The default object-based environment does not support the ability to save modified settings.
-            exception = new NotSupportedException();
-            return false;
+            return this.defaultSettingsFilePath;
         }
 
         /// <summary>
         /// Given the path to a settings document, determines the path to a parent settings file, if one exists.
         /// </summary>
-        /// <param name="settingsPath">The path to the local settings document.</param>
-        /// <returns>Returns the path to the parent settings document or null if none exists.</returns>
+        /// <param name="settingsPath">
+        /// The path to the local settings document.
+        /// </param>
+        /// <returns>
+        /// Returns the path to the parent settings document or null if none exists.
+        /// </returns>
         public override string GetParentSettingsPath(string settingsPath)
         {
             Param.Ignore(settingsPath);
-            
+
             if (string.IsNullOrEmpty(settingsPath))
             {
                 return null;
@@ -279,151 +305,14 @@ namespace StyleCop
         }
 
         /// <summary>
-        /// Gets the path to the default settings file for the currently running StyleCop installation.
-        /// </summary>
-        /// <returns>Returns the path or an empty string if there is none.</returns>
-        public override string GetDefaultSettingsPath()
-        {
-            if (this.defaultSettingsFilePath == null)
-            {
-                this.defaultSettingsFilePath = string.Empty;
-
-                // Get the path to the currently executing assembly. The default settings file must be located within
-                // the same folder as this assembly.
-                string assemblyLocation = Assembly.GetExecutingAssembly().Location;
-                if (!string.IsNullOrEmpty(assemblyLocation))
-                {
-                    string assemblyPath = Path.GetDirectoryName(assemblyLocation);
-                    if (!string.IsNullOrEmpty(assemblyPath) && Directory.Exists(assemblyPath))
-                    {
-                        // Look for a settings file at this location.
-                        string settingsFilePath = Path.Combine(assemblyPath, Settings.DefaultFileName);
-                        if (File.Exists(settingsFilePath))
-                        {
-                            this.defaultSettingsFilePath = settingsFilePath;
-                        }
-                        else
-                        {
-                            settingsFilePath = Path.Combine(assemblyPath, Settings.AlternateFileName);
-                            if (File.Exists(settingsFilePath))
-                            {
-                                this.defaultSettingsFilePath = settingsFilePath;
-                            }
-                        }
-                    }
-                }
-            }
-
-            return this.defaultSettingsFilePath;
-        }
-
-        /// <summary>
-        /// Loads the results cache at the given location.
-        /// </summary>
-        /// <param name="location">The location of the results cache to load.</param>
-        /// <returns>Returns the results cache or null if there is no results cache at that location.</returns>
-        public override XmlDocument LoadResultsCache(string location)
-        {
-            Param.Ignore(location);
-
-            // The default object-based environment does not support results caching.
-            return null;
-        }
-
-        /// <summary>
-        /// Saves the given results cache.
-        /// </summary>
-        /// <param name="location">The location to save the results cache under.</param>
-        /// <param name="resultsCache">The results cache to save.</param>
-        public override void SaveResultsCache(string location, XmlDocument resultsCache)
-        {
-            Param.Ignore(location, resultsCache);
-
-            // The default object-based environment does not support results caching. This method 
-            // should never be called as we are passing false to the SupportsResultsCache property.
-            throw new NotSupportedException();
-        }
-
-        /// <summary>
-        /// Saves the analysis results at the given location.
-        /// </summary>
-        /// <param name="location">The path to save the results under.</param>
-        /// <param name="analysisResults">The results to save.</param>
-        /// <param name="exception">Returns an exception if one occurs while saving the results.</param>
-        /// <returns>Returns true if the results were saved successfully.</returns>
-        public override bool SaveAnalysisResults(string location, XmlDocument analysisResults, out Exception exception)
-        {
-            Param.Ignore(location, analysisResults);
-
-            // The default object-based environment does not support the ability to save out an analysis results file.
-            exception = new NotSupportedException();
-            return false;
-        }
-
-        /// <summary>
-        /// Removes the analysis results at the given location.
-        /// </summary>
-        /// <param name="location">The location of the analysis results to remove.</param>
-        public override void RemoveAnalysisResults(string location)
-        {
-            Param.Ignore(location);
-
-            // The default object-based environment does not support analysis results files, so this is a no-op.
-        }
-
-        /// <summary>
-        /// Adds a source code document to the given project.
-        /// </summary>
-        /// <param name="project">The project which should contain the source code instance.</param>
-        /// <param name="path">The path to the source code document to add.</param>
-        /// <param name="context">Optional context information.</param>
-        /// <returns>Returns true if any source code documents were added to the project.</returns>
-        public override bool AddSourceCode(CodeProject project, string path, object context)
-        {
-            Param.RequireNotNull(project, "project");
-            Param.RequireValidString(path, "path");
-            Param.Ignore(context);
-
-            bool added = false;
-
-            // Get the parsers for this file based on its extension.
-            string extension = Path.GetExtension(path);
-            if (extension != null && extension.Length > 0)
-            {
-                // Remove the leading dot and convert the extension to lower-case.
-                extension = extension.Substring(1).ToUpperInvariant();
-
-                ICollection<SourceParser> parserList = this.GetParsersForFileType(extension);
-                if (parserList != null)
-                {
-                    // Create SourceCode objects representing this file, for each parser.
-                    foreach (SourceParser parser in parserList)
-                    {
-                        // Create and return a SourceCode for this file.
-                        SourceCode source = this.sourceCodeFactory(path, project, parser, context);
-                        if (source == null)
-                        {
-                            throw new InvalidOperationException(Strings.SourceCodeFactoryReturnsNull);
-                        }
-
-                        project.AddSourceCode(source);
-                        added = true;
-                    }
-                }
-            }
-
-            return added;
-        }
-
-        #endregion Public Override Methods
-
-        #region Public Methods
-
-        /// <summary>
         /// Gets the collection of parsers registered for the given file extension.
         /// </summary>
-        /// <param name="fileType">The file extension.</param>
-        /// <returns>Returns the parsers for the file extension.</returns>
+        /// <param name="fileType">
+        /// The file extension.
+        /// </param>
+        /// <returns>
+        /// Returns the parsers for the file extension.
+        /// </returns>
         public ICollection<SourceParser> GetParsersForFileType(string fileType)
         {
             Param.RequireValidString(fileType, "fileType");
@@ -437,18 +326,203 @@ namespace StyleCop
             return null;
         }
 
-        #endregion Public Methods
+        /// <summary>
+        /// Gets the settings for the given project.
+        /// </summary>
+        /// <param name="project">
+        /// The project containing the settings.
+        /// </param>
+        /// <param name="merge">
+        /// Indicates whether to merge the settings with parent settings before returning them.
+        /// </param>
+        /// <param name="exception">
+        /// Returns an exception if one occurred while loading the settings.
+        /// </param>
+        /// <returns>
+        /// Returns the settings.
+        /// </returns>
+        public override Settings GetProjectSettings(CodeProject project, bool merge, out Exception exception)
+        {
+            Param.RequireNotNull(project, "project");
+            Param.Ignore(merge);
+            Param.Ignore(merge);
 
-        #region Private Methods
+            return this.GetSettings(project.Location, merge, out exception);
+        }
+
+        /// <summary>
+        /// Gets the settings given the path to the local settings.
+        /// </summary>
+        /// <param name="settingsPath">
+        /// The path to the settings to load.
+        /// </param>
+        /// <param name="merge">
+        /// Indicates whether to merge the settings with parent settings before returning them.
+        /// </param>
+        /// <param name="exception">
+        /// Returns an exception if one occurred while loading the settings.
+        /// </param>
+        /// <returns>
+        /// Returns the settings.
+        /// </returns>
+        public override Settings GetSettings(string settingsPath, bool merge, out Exception exception)
+        {
+            Param.Ignore(settingsPath);
+            Param.Ignore(merge);
+            Param.Ignore(merge);
+
+            // Load the settings file.
+            Settings settings = this.LoadSettingsDocument(settingsPath, true, out exception);
+            if (merge)
+            {
+                // If there are no local settings, create an empty settings file pointing
+                // at the location where we expected the local settings to be. This
+                // will allow us to do a parent merge from this location.
+                if (settings == null)
+                {
+                    settings = new Settings(this.Core, settingsPath);
+                }
+
+                // Merge the file and return it.
+                SettingsMerger merger = new SettingsMerger(settings, this);
+                settings = merger.MergedSettings;
+            }
+
+            return settings;
+        }
+
+        /// <summary>
+        /// Loads or creates the settings at the given path, and returns them in writable mode.
+        /// </summary>
+        /// <param name="settingsPath">
+        /// The path to the settings.
+        /// </param>
+        /// <param name="exception">
+        /// Returns an exception if one occurred loading or creating the settings.
+        /// </param>
+        /// <returns>
+        /// Returns the settings.
+        /// </returns>
+        public override WritableSettings GetWritableSettings(string settingsPath, out Exception exception)
+        {
+            Param.RequireValidString(settingsPath, "settingsPath");
+            return this.LoadSettingsDocument(settingsPath, false, out exception) as WritableSettings;
+        }
+
+        /// <summary>
+        /// Loads the results cache at the given location.
+        /// </summary>
+        /// <param name="location">
+        /// The location of the results cache to load.
+        /// </param>
+        /// <returns>
+        /// Returns the results cache or null if there is no results cache at that location.
+        /// </returns>
+        public override XmlDocument LoadResultsCache(string location)
+        {
+            Param.Ignore(location);
+
+            // The default object-based environment does not support results caching.
+            return null;
+        }
+
+        /// <summary>
+        /// Removes the analysis results at the given location.
+        /// </summary>
+        /// <param name="location">
+        /// The location of the analysis results to remove.
+        /// </param>
+        public override void RemoveAnalysisResults(string location)
+        {
+            Param.Ignore(location);
+
+            // The default object-based environment does not support analysis results files, so this is a no-op.
+        }
+
+        /// <summary>
+        /// Saves the analysis results at the given location.
+        /// </summary>
+        /// <param name="location">
+        /// The path to save the results under.
+        /// </param>
+        /// <param name="analysisResults">
+        /// The results to save.
+        /// </param>
+        /// <param name="exception">
+        /// Returns an exception if one occurs while saving the results.
+        /// </param>
+        /// <returns>
+        /// Returns true if the results were saved successfully.
+        /// </returns>
+        public override bool SaveAnalysisResults(string location, XmlDocument analysisResults, out Exception exception)
+        {
+            Param.Ignore(location, analysisResults);
+
+            // The default object-based environment does not support the ability to save out an analysis results file.
+            exception = new NotSupportedException();
+            return false;
+        }
+
+        /// <summary>
+        /// Saves the given results cache.
+        /// </summary>
+        /// <param name="location">
+        /// The location to save the results cache under.
+        /// </param>
+        /// <param name="resultsCache">
+        /// The results cache to save.
+        /// </param>
+        public override void SaveResultsCache(string location, XmlDocument resultsCache)
+        {
+            Param.Ignore(location, resultsCache);
+
+            // The default object-based environment does not support results caching. This method 
+            // should never be called as we are passing false to the SupportsResultsCache property.
+            throw new NotSupportedException();
+        }
+
+        /// <summary>
+        /// Saves the settings file at the path specified within the settings document.
+        /// </summary>
+        /// <param name="settings">
+        /// The settings to save.
+        /// </param>
+        /// <param name="exception">
+        /// If the document could not be saved, this returns the 
+        /// resulting exception information.
+        /// </param>
+        /// <returns>
+        /// Returns true if the file was successfully saved.
+        /// </returns>
+        public override bool SaveSettings(WritableSettings settings, out Exception exception)
+        {
+            Param.Ignore(settings);
+
+            // The default object-based environment does not support the ability to save modified settings.
+            exception = new NotSupportedException();
+            return false;
+        }
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Loads the settings file at the given path.
         /// </summary>
-        /// <param name="settingsFilePath">The path to the settings file.</param>
-        /// <param name="readOnly">Indicates whether a read-only document should be returned.</param>
-        /// <param name="exception">If the document could not be loaded, this returns the 
-        /// resulting exception information.</param>
-        /// <returns>Returns the settings if they could be loaded.</returns>
+        /// <param name="settingsFilePath">
+        /// The path to the settings file.
+        /// </param>
+        /// <param name="readOnly">
+        /// Indicates whether a read-only document should be returned.
+        /// </param>
+        /// <param name="exception">
+        /// If the document could not be loaded, this returns the 
+        /// resulting exception information.
+        /// </param>
+        /// <returns>
+        /// Returns the settings if they could be loaded.
+        /// </returns>
         private Settings LoadSettingsDocument(string settingsFilePath, bool readOnly, out Exception exception)
         {
             Param.Ignore(settingsFilePath);
@@ -471,6 +545,6 @@ namespace StyleCop
             return null;
         }
 
-        #endregion Private Methods
+        #endregion
     }
 }

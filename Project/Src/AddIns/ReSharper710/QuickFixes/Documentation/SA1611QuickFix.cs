@@ -15,14 +15,13 @@
 //   QuickFix - SA1611: ElementParametersMustBeDocumented.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper710.QuickFixes.Documentation
 {
     #region Using Directives
 
     using System.Collections.Generic;
 
-        using JetBrains.ReSharper.Feature.Services.Bulbs;
+    using JetBrains.ReSharper.Feature.Services.Bulbs;
     using JetBrains.ReSharper.Intentions.Extensibility;
 
     using StyleCop.ReSharper710.BulbItems.Documentation;
@@ -110,7 +109,15 @@ namespace StyleCop.ReSharper710.QuickFixes.Documentation
         /// </summary>
         protected override void InitialiseBulbItems()
         {
-            this.BulbItems = new List<IBulbAction> { new SA1611ElementParametersMustBeDocumentedBulbItem { Description = "Insert <param> into header : " + this.Highlighting.ToolTip } };
+            this.BulbItems = new List<IBulbAction>
+                                 {
+                                     new SA1611ElementParametersMustBeDocumentedBulbItem
+                                         {
+                                             Description =
+                                                 "Insert <param> into header : "
+                                                 + this.Highlighting.ToolTip
+                                         }
+                                 };
         }
 
         #endregion

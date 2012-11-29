@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="AccessorType.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="AccessorType.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,11 +11,12 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   The various types of accessors for properties, indexers and events.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
-
     /// <summary>
     /// The various types of accessors for properties, indexers and events.
     /// </summary>
@@ -25,17 +26,17 @@ namespace StyleCop.CSharp
         /// <summary>
         /// A get accessor within a property or indexer.
         /// </summary>
-        Get,
+        Get, 
 
         /// <summary>
         /// A set accessor within a property or indexer.
         /// </summary>
-        Set,
+        Set, 
 
         /// <summary>
         /// An add accessor within an event.
         /// </summary>
-        Add,
+        Add, 
 
         /// <summary>
         /// A remove accessor within an event.

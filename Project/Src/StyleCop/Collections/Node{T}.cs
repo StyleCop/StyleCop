@@ -1,5 +1,5 @@
-//--------------------------------------------------------------------------
-// <copyright file="Node{T}.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Node{T}.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,31 +11,27 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Interface which is implemented by a node class to be used with the LinkedItemList class.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop
 {
     /// <summary>
     /// Interface which is implemented by a node class to be used with the LinkedItemList class.
     /// </summary>
-    /// <typeparam name="T">The type of node stored in the linked list.</typeparam>
-    public class Node<T> where T : class
+    /// <typeparam name="T">
+    /// The type of node stored in the linked list.
+    /// </typeparam>
+    public class Node<T>
+        where T : class
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// The current item.
         /// </summary>
-        private T item;
-
-        /// <summary>
-        /// The next node.
-        /// </summary>
-        private Node<T> next;
-
-        /// <summary>
-        /// The previous node.
-        /// </summary>
-        private Node<T> previous;
+        private readonly T item;
 
         /// <summary>
         /// The master list that contains this node.
@@ -47,32 +43,47 @@ namespace StyleCop
         /// </summary>
         private NodeIndex index;
 
-        #endregion Private Fields
-
-        #region Internal Constructors
+        /// <summary>
+        /// The next node.
+        /// </summary>
+        private Node<T> next;
 
         /// <summary>
+        /// The previous node.
+        /// </summary>
+        private Node<T> previous;
+
+        #endregion
+
+        #region Constructors and Destructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Node{T}"/> class. 
         /// Initializes a new instance of the Node class.
         /// </summary>
-        /// <param name="item">The node item.</param>
+        /// <param name="item">
+        /// The node item.
+        /// </param>
         internal Node(T item)
         {
             Param.AssertNotNull(item, "item");
             this.item = item;
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
 
         /// <summary>
-        /// Gets the node.
+        /// Gets the index of the node within the master list that contains it.
         /// </summary>
-        public T Value
+        /// <remarks>The index is not guaranteed to be immutable. Subscribe to the <see cref="MasterList{T}.NodeIndexesReset"/> event
+        /// to receive a notification when the indexes of nodes within the list are reset.</remarks>
+        public NodeIndex Index
         {
             get
             {
-                return this.item;
+                return this.index;
             }
         }
 
@@ -109,21 +120,19 @@ namespace StyleCop
         }
 
         /// <summary>
-        /// Gets the index of the node within the master list that contains it.
+        /// Gets the node.
         /// </summary>
-        /// <remarks>The index is not guaranteed to be immutable. Subscribe to the <see cref="MasterList{T}.NodeIndexesReset"/> event
-        /// to receive a notification when the indexes of nodes within the list are reset.</remarks>
-        public NodeIndex Index
+        public T Value
         {
             get
             {
-                return this.index;
+                return this.item;
             }
         }
 
-        #endregion Public Properties
+        #endregion
 
-        #region Internal Properties
+        #region Properties
 
         /// <summary>
         /// Gets or sets the master list that contains this node.
@@ -142,15 +151,19 @@ namespace StyleCop
             }
         }
 
-        #endregion Internal Properties
+        #endregion
 
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Determines whether the given node is in the same list as this node.
         /// </summary>
-        /// <param name="node">The other node.</param>
-        /// <returns>true if the nodes are in the same list; false otherwise.</returns>
+        /// <param name="node">
+        /// The other node.
+        /// </param>
+        /// <returns>
+        /// true if the nodes are in the same list; false otherwise.
+        /// </returns>
         public bool NodesInSameList(Node<T> node)
         {
             Param.Ignore(node);
@@ -163,9 +176,9 @@ namespace StyleCop
             return node.ContainingList == this.ContainingList;
         }
 
-        #endregion Public Methods
+        #endregion
 
-        #region Internal Methods
+        #region Methods
 
         /// <summary>
         /// Creates the index for the node.
@@ -204,6 +217,6 @@ namespace StyleCop
             return success;
         }
 
-        #endregion Internal Methods
+        #endregion
     }
 }

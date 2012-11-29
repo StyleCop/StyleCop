@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="CommentVerifier.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="CommentVerifier.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,8 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
-
+// <summary>
+//   Contains helper methods for verifying the validity and style of comments.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
     using System.Collections.Generic;
@@ -45,9 +47,15 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Extracts text from a comment Xml, including special values in attributes.
         /// </summary>
-        /// <param name="commentXml">The comment Xml.</param>
-        /// <param name="textWithAttributesRemoved">The text from the XmlNode with all attributes values and code elements removed.</param>
-        /// <param name="textWithAttributesPreserved">The text with all attribute and code elements inserted into text.</param>
+        /// <param name="commentXml">
+        /// The comment Xml.
+        /// </param>
+        /// <param name="textWithAttributesRemoved">
+        /// The text from the XmlNode with all attributes values and code elements removed.
+        /// </param>
+        /// <param name="textWithAttributesPreserved">
+        /// The text with all attribute and code elements inserted into text.
+        /// </param>
         public static void ExtractTextFromCommentXml(XmlNode commentXml, out string textWithAttributesRemoved, out string textWithAttributesPreserved)
         {
             Param.AssertNotNull(commentXml, "commentXml");
@@ -111,7 +119,7 @@ namespace StyleCop.CSharp
                     string textWithAttRemoved;
                     string textWithAttPreserved;
                     ExtractTextFromCommentXml(childNode, out textWithAttRemoved, out textWithAttPreserved);
-                    
+
                     commentWithAttributesRemovedBuilder.Append(" ");
                     commentWithAttributesPreservedBuilder.Append(" ");
 
@@ -132,11 +140,21 @@ namespace StyleCop.CSharp
         /// Checks the contents of the given comment string to determine whether the comment appears
         /// to be a valid English-language sentence, or whether it appears to be garbage.
         /// </summary>
-        /// <param name="commentWithAttributesRemoved">The comment to check (which has had its attributes removed).</param>
-        /// <param name="commentWithAttributesPreserved">The comment to check with attribute values inserted into the text.</param>
-        /// <param name="element">The element containing the text we're checking.</param>
-        /// <param name="spellingError">Returns the first word encountered as a spelling error.</param>
-        /// <returns>Returns the type of the comment.</returns>
+        /// <param name="commentWithAttributesRemoved">
+        /// The comment to check (which has had its attributes removed).
+        /// </param>
+        /// <param name="commentWithAttributesPreserved">
+        /// The comment to check with attribute values inserted into the text.
+        /// </param>
+        /// <param name="element">
+        /// The element containing the text we're checking.
+        /// </param>
+        /// <param name="spellingError">
+        /// Returns the first word encountered as a spelling error.
+        /// </param>
+        /// <returns>
+        /// Returns the type of the comment.
+        /// </returns>
         public static InvalidCommentType IsGarbageComment(
             string commentWithAttributesRemoved, string commentWithAttributesPreserved, CsElement element, out string spellingError)
         {
@@ -226,10 +244,18 @@ namespace StyleCop.CSharp
         /// Checks the contents of the given comment string to determine whether the comment appears
         /// to be a valid English-language sentence, or whether it appears to be garbage.
         /// </summary>
-        /// <param name="commentXml">The comment to check.</param>
-        /// <param name="element">The element containing the text we're checking.</param>
-        /// <param name="spellingError">Returns the first word encountered as a spelling error.</param>
-        /// <returns>Returns the type of the comment.</returns>
+        /// <param name="commentXml">
+        /// The comment to check.
+        /// </param>
+        /// <param name="element">
+        /// The element containing the text we're checking.
+        /// </param>
+        /// <param name="spellingError">
+        /// Returns the first word encountered as a spelling error.
+        /// </param>
+        /// <returns>
+        /// Returns the type of the comment.
+        /// </returns>
         public static InvalidCommentType IsGarbageComment(XmlNode commentXml, CsElement element, out string spellingError)
         {
             Param.AssertNotNull(commentXml, "commentXml");
@@ -264,9 +290,15 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Returns true if the word is spelled correctly.
         /// </summary>
-        /// <param name="namingService">The naming service to use.</param>
-        /// <param name="word">The word to check.</param>
-        /// <returns>True if spelled correct.</returns>
+        /// <param name="namingService">
+        /// The naming service to use.
+        /// </param>
+        /// <param name="word">
+        /// The word to check.
+        /// </param>
+        /// <returns>
+        /// True if spelled correct.
+        /// </returns>
         private static bool IsSpelledCorrectly(NamingService namingService, string word)
         {
             return (namingService.GetPreferredAlternateForDeprecatedWord(word) == null) && (namingService.GetCompoundAlternateForDiscreteWord(word) == null)
@@ -276,10 +308,18 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Returns True if the text has incorrect spelling.
         /// </summary>
-        /// <param name="element">The element containing the text we're checking.</param>
-        /// <param name="text">The text to check.</param>
-        /// <param name="spellingError">Returns a comma separated list of words encountered as spelling errors.</param>
-        /// <returns>True if the text contains an incorrect spelling.</returns>
+        /// <param name="element">
+        /// The element containing the text we're checking.
+        /// </param>
+        /// <param name="text">
+        /// The text to check.
+        /// </param>
+        /// <param name="spellingError">
+        /// Returns a comma separated list of words encountered as spelling errors.
+        /// </param>
+        /// <returns>
+        /// True if the text contains an incorrect spelling.
+        /// </returns>
         private static bool TextContainsIncorectSpelling(CsElement element, string text, out string spellingError)
         {
             NamingService namingService = NamingService.GetNamingService(element.Document.SourceCode.Project.Culture);

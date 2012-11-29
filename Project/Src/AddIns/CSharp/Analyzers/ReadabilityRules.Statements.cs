@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="ReadabilityRules.Statements.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ReadabilityRules.Statements.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,73 +11,36 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   The readability rules.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
-    using StyleCop;
 
+    /// <summary>
+    /// The readability rules.
+    /// </summary>
     /// <content>
     /// Checks rules related to formatting of statements.
     /// </content>
     public partial class ReadabilityRules
     {
-        #region Private Static Methods
-
-        /// <summary>
-        /// Gets the non-whitespace token that appears before the given token.
-        /// </summary>
-        /// <param name="tokenNode">The token node.</param>
-        /// <param name="tokenList">The list that contains the token.</param>
-        /// <returns>Returns the previous token.</returns>
-        private static CsToken GetPreviousToken(Node<CsToken> tokenNode, MasterList<CsToken> tokenList)
-        {
-            Param.AssertNotNull(tokenNode, "tokenNode");
-            Param.AssertNotNull(tokenList, "tokenList");
-
-            foreach (CsToken temp in tokenList.ReverseIterator(tokenNode))
-            {
-                if (temp.CsTokenType != CsTokenType.EndOfLine &&
-                    temp.CsTokenType != CsTokenType.WhiteSpace)
-                {
-                    return temp;
-                }
-            }
-
-            return null;
-        }
-
-        /// <summary>
-        /// Gets the non-whitespace token that appears after the given token.
-        /// </summary>
-        /// <param name="tokenNode">The token node.</param>
-        /// <param name="tokenList">The list that contains the token.</param>
-        /// <returns>Returns the next token.</returns>
-        private static CsToken GetNextToken(Node<CsToken> tokenNode, MasterList<CsToken> tokenList)
-        {
-            Param.AssertNotNull(tokenNode, "tokenNode");
-            Param.AssertNotNull(tokenList, "tokenList");
-
-            foreach (CsToken temp in tokenList.ForwardIterator(tokenNode))
-            {
-                if (temp.CsTokenType != CsTokenType.EndOfLine &&
-                    temp.CsTokenType != CsTokenType.WhiteSpace)
-                {
-                    return temp;
-                }
-            }
-
-            return null;
-        }
+        #region Methods
 
         /// <summary>
         /// Gets the child block statement from the given statement. If the statement itself is a block statement,
         /// it will be returned instead.
         /// </summary>
-        /// <param name="statement">The statement.</param>
-        /// <returns>Returns the block statement or null if there is none.</returns>
+        /// <param name="statement">
+        /// The statement.
+        /// </param>
+        /// <returns>
+        /// Returns the block statement or null if there is none.
+        /// </returns>
         private static BlockStatement GetChildBlockStatement(Statement statement)
         {
             Param.AssertNotNull(statement, "statement");
@@ -104,10 +67,70 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
+        /// Gets the closing curly bracket from the block statement.
+        /// </summary>
+        /// <param name="statement">
+        /// The block statement.
+        /// </param>
+        /// <returns>
+        /// Returns the closing curly bracket or null if there is none.
+        /// </returns>
+        private static Node<CsToken> GetClosingBracketFromStatement(Statement statement)
+        {
+            Param.AssertNotNull(statement, "statement");
+
+            BlockStatement blockStatement = GetChildBlockStatement(statement);
+            if (blockStatement != null)
+            {
+                for (Node<CsToken> tokenNode = blockStatement.Tokens.Last; tokenNode != null; tokenNode = tokenNode.Previous)
+                {
+                    if (tokenNode.Value.CsTokenType == CsTokenType.CloseCurlyBracket)
+                    {
+                        return tokenNode;
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Gets the non-whitespace token that appears after the given token.
+        /// </summary>
+        /// <param name="tokenNode">
+        /// The token node.
+        /// </param>
+        /// <param name="tokenList">
+        /// The list that contains the token.
+        /// </param>
+        /// <returns>
+        /// Returns the next token.
+        /// </returns>
+        private static CsToken GetNextToken(Node<CsToken> tokenNode, MasterList<CsToken> tokenList)
+        {
+            Param.AssertNotNull(tokenNode, "tokenNode");
+            Param.AssertNotNull(tokenList, "tokenList");
+
+            foreach (CsToken temp in tokenList.ForwardIterator(tokenNode))
+            {
+                if (temp.CsTokenType != CsTokenType.EndOfLine && temp.CsTokenType != CsTokenType.WhiteSpace)
+                {
+                    return temp;
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
         /// Gets the opening curly bracket from the block statement.
         /// </summary>
-        /// <param name="statement">The block statement.</param>
-        /// <returns>Returns the opening curly bracket or null if there is none.</returns>
+        /// <param name="statement">
+        /// The block statement.
+        /// </param>
+        /// <returns>
+        /// Returns the opening curly bracket or null if there is none.
+        /// </returns>
         private static Node<CsToken> GetOpeningCurlyBracketFromStatement(Statement statement)
         {
             Param.AssertNotNull(statement, "statement");
@@ -141,156 +164,87 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Gets the closing curly bracket from the block statement.
+        /// Gets the non-whitespace token that appears before the given token.
         /// </summary>
-        /// <param name="statement">The block statement.</param>
-        /// <returns>Returns the closing curly bracket or null if there is none.</returns>
-        private static Node<CsToken> GetClosingBracketFromStatement(Statement statement)
+        /// <param name="tokenNode">
+        /// The token node.
+        /// </param>
+        /// <param name="tokenList">
+        /// The list that contains the token.
+        /// </param>
+        /// <returns>
+        /// Returns the previous token.
+        /// </returns>
+        private static CsToken GetPreviousToken(Node<CsToken> tokenNode, MasterList<CsToken> tokenList)
         {
-            Param.AssertNotNull(statement, "statement");
+            Param.AssertNotNull(tokenNode, "tokenNode");
+            Param.AssertNotNull(tokenList, "tokenList");
 
-            BlockStatement blockStatement = GetChildBlockStatement(statement);
-            if (blockStatement != null)
+            foreach (CsToken temp in tokenList.ReverseIterator(tokenNode))
             {
-                for (Node<CsToken> tokenNode = blockStatement.Tokens.Last; tokenNode != null; tokenNode = tokenNode.Previous)
+                if (temp.CsTokenType != CsTokenType.EndOfLine && temp.CsTokenType != CsTokenType.WhiteSpace)
                 {
-                    if (tokenNode.Value.CsTokenType == CsTokenType.CloseCurlyBracket)
-                    {
-                        return tokenNode;
-                    }
+                    return temp;
                 }
             }
 
             return null;
         }
 
-        #endregion Private Static Methods
-
-        #region Private Methods
-
         /// <summary>
-        /// Checks the placement of statements within the given element.
+        /// Checks the curly bracket placement on a block statement.
         /// </summary>
-        /// <param name="element">The element to check.</param>
-        private void CheckStatementFormattingRulesForElement(CsElement element)
-        {
-            Param.AssertNotNull(element, "element");
-
-            if (!element.Generated)
-            {
-                if (element.ElementType == ElementType.EmptyElement)
-                {
-                    this.AddViolation(element, element.LineNumber, Rules.CodeMustNotContainEmptyStatements);
-                }
-                else
-                {
-                    this.CheckStatementFormattingRulesForStatements(element, element.ChildStatements);
-
-                    foreach (CsElement child in element.ChildElements)
-                    {
-                        this.CheckStatementFormattingRulesForElement(child);
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Checks the given list of statements.
-        /// </summary>
-        /// <param name="element">The element containing the statements.</param>
-        /// <param name="statements">The list of statements.</param>
-        private void CheckStatementFormattingRulesForStatements(CsElement element, ICollection<Statement> statements)
-        {
-            Param.AssertNotNull(element, "element");
-            Param.AssertNotNull(statements, "statements");
-
-            Statement previousStatement = null;
-
-            // Check each statement in the list.
-            foreach (Statement statement in statements)
-            {
-                this.CheckStatementFormattingRulesForStatement(element, statement, previousStatement);
-                previousStatement = statement;
-            }
-        }
-
-        /// <summary>
-        /// Checks the placement of the given statement.
-        /// </summary>
-        /// <param name="element">The element containing the statement.</param>
-        /// <param name="statement">The statement to check.</param>
-        /// <param name="previousStatement">The statement just before this statement.</param>
-        private void CheckStatementFormattingRulesForStatement(CsElement element, Statement statement, Statement previousStatement)
+        /// <param name="element">
+        /// The element containing the statement.
+        /// </param>
+        /// <param name="statement">
+        /// The statement to check.
+        /// </param>
+        private void CheckBlockStatementsCurlyBracketPlacement(CsElement element, Statement statement)
         {
             Param.AssertNotNull(element, "element");
             Param.AssertNotNull(statement, "statement");
-            Param.Ignore(previousStatement);
 
-            // Check if the statement is empty.
-            if (statement.StatementType == StatementType.Empty)
+            // Find the opening curly bracket.
+            Node<CsToken> curlyBracket = GetOpeningCurlyBracketFromStatement(statement);
+            if (curlyBracket != null)
             {
-                Debug.Assert(statement.Tokens.First != null, "The statement has no tokens.");
-
-                // There is a special case where an empty statement is allowed. In some cases, a label statement must be used to mark the end of a 
-                // scope. C# requires that labels have at least one statement after them. In the developer wants to use a label to mark the end of the
-                // scope, he does not want to put a statement after the label. The best course of action is to insert a single semicolon here. For example:\
-                ////    {
-                ////       if (true)
-                ////        {
-                ////            goto end;
-                ////        }
-                ////        end:;
-                ////    }
-                if (previousStatement == null || previousStatement.StatementType != StatementType.Label)
+                // Find the previous token before this opening curly bracket.
+                CsToken previousToken = GetPreviousToken(curlyBracket.Previous, statement.Tokens.MasterList);
+                if (previousToken != null)
                 {
-                    this.AddViolation(element, statement.LineNumber, Rules.CodeMustNotContainEmptyStatements);
+                    this.CheckTokenPrecedingOrFollowingCurlyBracket(element, previousToken);
                 }
             }
-            else if (previousStatement != null)
-            {
-                // Make sure this statement is not on the same line as the previous statement.
-                Node<CsToken> statementFirstTokenNode = statement.Tokens.First;
-                Node<CsToken> previousStatementLastTokenNode = previousStatement.Tokens.Last;
-
-                if (statementFirstTokenNode.Value.Location.StartPoint.LineNumber ==
-                    previousStatementLastTokenNode.Value.Location.EndPoint.LineNumber)
-                {
-                    this.AddViolation(element, statementFirstTokenNode.Value.LineNumber, Rules.CodeMustNotContainMultipleStatementsOnOneLine);
-                }
-            }
-
-            // Check the curly bracket spacing in this statement.
-            this.CheckStatementCurlyBracketPlacement(element, statement);
-
-            // Check the child statements under this statement.
-            this.CheckStatementFormattingRulesForStatements(element, statement.ChildStatements);
-
-            // Check the expressions under this statement.
-            this.CheckStatementFormattingRulesForExpressions(element, statement.ChildExpressions);
         }
 
         /// <summary>
-        /// Checks the given list of expressions.
+        /// Checks the curly bracket placement on a statement which is chained from another statement.
         /// </summary>
-        /// <param name="element">The element containing the expressions.</param>
-        /// <param name="expressions">The list of expressions.</param>
-        private void CheckStatementFormattingRulesForExpressions(CsElement element, ICollection<Expression> expressions)
+        /// <param name="element">
+        /// The element containing the statement.
+        /// </param>
+        /// <param name="statement">
+        /// The statement to check.
+        /// </param>
+        private void CheckChainedStatementCurlyBracketPlacement(CsElement element, Statement statement)
         {
             Param.AssertNotNull(element, "element");
-            Param.AssertNotNull(expressions, "expressions");
+            Param.AssertNotNull(statement, "statement");
 
-            foreach (Expression expression in expressions)
+            // Get the previous token before the start of this statement.
+            if (statement.Tokens.First != null)
             {
-                if (expression.ExpressionType == ExpressionType.AnonymousMethod)
+                // Find the opening curly bracket.
+                Node<CsToken> curlyBracket = GetOpeningCurlyBracketFromStatement(statement);
+                if (curlyBracket != null)
                 {
-                    // Check the statements within this anonymous method expression.
-                    AnonymousMethodExpression anonymousMethod = expression as AnonymousMethodExpression;
-                    this.CheckStatementFormattingRulesForStatements(element, anonymousMethod.ChildStatements);
-                }
-                else
-                {
-                    // Check the child expressions under this expression.
-                    this.CheckStatementFormattingRulesForExpressions(element, expression.ChildExpressions);
+                    // Find the previous token before this opening curly bracket.
+                    CsToken previousToken = GetPreviousToken(curlyBracket.Previous, statement.Tokens.MasterList);
+                    if (previousToken != null)
+                    {
+                        this.CheckTokenPrecedingOrFollowingCurlyBracket(element, previousToken);
+                    }
                 }
             }
         }
@@ -298,8 +252,12 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Checks the curly bracket placement on a statement.
         /// </summary>
-        /// <param name="element">The element containing the statement.</param>
-        /// <param name="statement">The statement to check.</param>
+        /// <param name="element">
+        /// The element containing the statement.
+        /// </param>
+        /// <param name="statement">
+        /// The statement to check.
+        /// </param>
         [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification = "Minimizing refactoring before release.")]
         private void CheckStatementCurlyBracketPlacement(CsElement element, Statement statement)
         {
@@ -309,6 +267,7 @@ namespace StyleCop.CSharp
             switch (statement.StatementType)
             {
                 case StatementType.Else:
+
                     // Check that there is nothing between the starting else keyword and the opening bracket.
                     this.CheckChainedStatementCurlyBracketPlacement(element, statement);
                     this.CheckBlockStatementsCurlyBracketPlacement(element, statement);
@@ -324,6 +283,7 @@ namespace StyleCop.CSharp
 
                 case StatementType.Catch:
                 case StatementType.Finally:
+
                     // Check that there is nothing between the starting catch or finally keyword and the opening bracket.
                     this.CheckChainedStatementCurlyBracketPlacement(element, statement);
                     this.CheckBlockStatementsCurlyBracketPlacement(element, statement);
@@ -342,6 +302,7 @@ namespace StyleCop.CSharp
                     break;
 
                 case StatementType.Try:
+
                     // Check that there is nothing between the starting try keyword and the opening bracket.
                     this.CheckBlockStatementsCurlyBracketPlacement(element, statement);
 
@@ -382,6 +343,7 @@ namespace StyleCop.CSharp
                 case StatementType.Unsafe:
                 case StatementType.Using:
                 case StatementType.While:
+
                     // Check that there is nothing between the starting keyword and the opening bracket.
                     this.CheckBlockStatementsCurlyBracketPlacement(element, statement);
                     break;
@@ -397,60 +359,185 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Checks the curly bracket placement on a block statement.
+        /// Checks the placement of statements within the given element.
         /// </summary>
-        /// <param name="element">The element containing the statement.</param>
-        /// <param name="statement">The statement to check.</param>
-        private void CheckBlockStatementsCurlyBracketPlacement(CsElement element, Statement statement)
+        /// <param name="element">
+        /// The element to check.
+        /// </param>
+        private void CheckStatementFormattingRulesForElement(CsElement element)
         {
             Param.AssertNotNull(element, "element");
-            Param.AssertNotNull(statement, "statement");
 
-            // Find the opening curly bracket.
-            Node<CsToken> curlyBracket = GetOpeningCurlyBracketFromStatement(statement);
-            if (curlyBracket != null)
+            if (!element.Generated)
             {
-                // Find the previous token before this opening curly bracket.
-                CsToken previousToken = GetPreviousToken(curlyBracket.Previous, statement.Tokens.MasterList);
-                if (previousToken != null)
+                if (element.ElementType == ElementType.EmptyElement)
                 {
-                    this.CheckTokenPrecedingOrFollowingCurlyBracket(element, previousToken);
+                    this.AddViolation(element, element.LineNumber, Rules.CodeMustNotContainEmptyStatements);
                 }
-            }
-        }
-
-        /// <summary>
-        /// Checks the curly bracket placement on a statement which is chained from another statement.
-        /// </summary>
-        /// <param name="element">The element containing the statement.</param>
-        /// <param name="statement">The statement to check.</param>
-        private void CheckChainedStatementCurlyBracketPlacement(CsElement element, Statement statement)
-        {
-            Param.AssertNotNull(element, "element");
-            Param.AssertNotNull(statement, "statement");
-
-            // Get the previous token before the start of this statement.
-            if (statement.Tokens.First != null)
-            {
-                // Find the opening curly bracket.
-                Node<CsToken> curlyBracket = GetOpeningCurlyBracketFromStatement(statement);
-                if (curlyBracket != null)
+                else
                 {
-                    // Find the previous token before this opening curly bracket.
-                    CsToken previousToken = GetPreviousToken(curlyBracket.Previous, statement.Tokens.MasterList);
-                    if (previousToken != null)
+                    this.CheckStatementFormattingRulesForStatements(element, element.ChildStatements);
+
+                    foreach (CsElement child in element.ChildElements)
                     {
-                        this.CheckTokenPrecedingOrFollowingCurlyBracket(element, previousToken);
+                        this.CheckStatementFormattingRulesForElement(child);
                     }
                 }
             }
         }
 
         /// <summary>
+        /// Checks the given list of expressions.
+        /// </summary>
+        /// <param name="element">
+        /// The element containing the expressions.
+        /// </param>
+        /// <param name="expressions">
+        /// The list of expressions.
+        /// </param>
+        private void CheckStatementFormattingRulesForExpressions(CsElement element, ICollection<Expression> expressions)
+        {
+            Param.AssertNotNull(element, "element");
+            Param.AssertNotNull(expressions, "expressions");
+
+            foreach (Expression expression in expressions)
+            {
+                if (expression.ExpressionType == ExpressionType.AnonymousMethod)
+                {
+                    // Check the statements within this anonymous method expression.
+                    AnonymousMethodExpression anonymousMethod = expression as AnonymousMethodExpression;
+                    this.CheckStatementFormattingRulesForStatements(element, anonymousMethod.ChildStatements);
+                }
+                else
+                {
+                    // Check the child expressions under this expression.
+                    this.CheckStatementFormattingRulesForExpressions(element, expression.ChildExpressions);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Checks the placement of the given statement.
+        /// </summary>
+        /// <param name="element">
+        /// The element containing the statement.
+        /// </param>
+        /// <param name="statement">
+        /// The statement to check.
+        /// </param>
+        /// <param name="previousStatement">
+        /// The statement just before this statement.
+        /// </param>
+        private void CheckStatementFormattingRulesForStatement(CsElement element, Statement statement, Statement previousStatement)
+        {
+            Param.AssertNotNull(element, "element");
+            Param.AssertNotNull(statement, "statement");
+            Param.Ignore(previousStatement);
+
+            // Check if the statement is empty.
+            if (statement.StatementType == StatementType.Empty)
+            {
+                Debug.Assert(statement.Tokens.First != null, "The statement has no tokens.");
+
+                // There is a special case where an empty statement is allowed. In some cases, a label statement must be used to mark the end of a 
+                // scope. C# requires that labels have at least one statement after them. In the developer wants to use a label to mark the end of the
+                // scope, he does not want to put a statement after the label. The best course of action is to insert a single semicolon here. For example:\
+                ////    {
+                ////       if (true)
+                ////        {
+                ////            goto end;
+                ////        }
+                ////        end:;
+                ////    }
+                if (previousStatement == null || previousStatement.StatementType != StatementType.Label)
+                {
+                    this.AddViolation(element, statement.LineNumber, Rules.CodeMustNotContainEmptyStatements);
+                }
+            }
+            else if (previousStatement != null)
+            {
+                // Make sure this statement is not on the same line as the previous statement.
+                Node<CsToken> statementFirstTokenNode = statement.Tokens.First;
+                Node<CsToken> previousStatementLastTokenNode = previousStatement.Tokens.Last;
+
+                if (statementFirstTokenNode.Value.Location.StartPoint.LineNumber == previousStatementLastTokenNode.Value.Location.EndPoint.LineNumber)
+                {
+                    this.AddViolation(element, statementFirstTokenNode.Value.LineNumber, Rules.CodeMustNotContainMultipleStatementsOnOneLine);
+                }
+            }
+
+            // Check the curly bracket spacing in this statement.
+            this.CheckStatementCurlyBracketPlacement(element, statement);
+
+            // Check the child statements under this statement.
+            this.CheckStatementFormattingRulesForStatements(element, statement.ChildStatements);
+
+            // Check the expressions under this statement.
+            this.CheckStatementFormattingRulesForExpressions(element, statement.ChildExpressions);
+        }
+
+        /// <summary>
+        /// Checks the given list of statements.
+        /// </summary>
+        /// <param name="element">
+        /// The element containing the statements.
+        /// </param>
+        /// <param name="statements">
+        /// The list of statements.
+        /// </param>
+        private void CheckStatementFormattingRulesForStatements(CsElement element, ICollection<Statement> statements)
+        {
+            Param.AssertNotNull(element, "element");
+            Param.AssertNotNull(statements, "statements");
+
+            Statement previousStatement = null;
+
+            // Check each statement in the list.
+            foreach (Statement statement in statements)
+            {
+                this.CheckStatementFormattingRulesForStatement(element, statement, previousStatement);
+                previousStatement = statement;
+            }
+        }
+
+        /// <summary>
+        /// Checks the token that follows or precedes a curly bracket in a blocked statement to verify
+        /// that there is no comment or region embedded within the statement.
+        /// </summary>
+        /// <param name="element">
+        /// The element containing the statement.
+        /// </param>
+        /// <param name="previousOrNextToken">
+        /// The previous or next token.
+        /// </param>
+        private void CheckTokenPrecedingOrFollowingCurlyBracket(CsElement element, CsToken previousOrNextToken)
+        {
+            Param.AssertNotNull(element, "element");
+            Param.AssertNotNull(previousOrNextToken, "previousOrNextToken");
+
+            if (previousOrNextToken.CsTokenType == CsTokenType.MultiLineComment || previousOrNextToken.CsTokenType == CsTokenType.SingleLineComment
+                || previousOrNextToken.CsTokenType == CsTokenType.XmlHeader || previousOrNextToken.CsTokenType == CsTokenType.XmlHeaderLine)
+            {
+                if (!Utils.IsAReSharperComment(previousOrNextToken))
+                {
+                    this.AddViolation(element, previousOrNextToken.LineNumber, Rules.BlockStatementsMustNotContainEmbeddedComments);
+                }
+            }
+            else if (previousOrNextToken.CsTokenType == CsTokenType.PreprocessorDirective && previousOrNextToken is Region)
+            {
+                this.AddViolation(element, previousOrNextToken.LineNumber, Rules.BlockStatementsMustNotContainEmbeddedRegions);
+            }
+        }
+
+        /// <summary>
         /// Checks the curly at the end of a statement which trails the rest of the statement.
         /// </summary>
-        /// <param name="element">The element containing the statement.</param>
-        /// <param name="statement">The statement to check.</param>
+        /// <param name="element">
+        /// The element containing the statement.
+        /// </param>
+        /// <param name="statement">
+        /// The statement to check.
+        /// </param>
         private void CheckTrailingStatementCurlyBracketPlacement(CsElement element, Statement statement)
         {
             Param.AssertNotNull(element, "element");
@@ -467,34 +554,7 @@ namespace StyleCop.CSharp
                 }
             }
         }
-        
-        /// <summary>
-        /// Checks the token that follows or precedes a curly bracket in a blocked statement to verify
-        /// that there is no comment or region embedded within the statement.
-        /// </summary>
-        /// <param name="element">The element containing the statement.</param>
-        /// <param name="previousOrNextToken">The previous or next token.</param>
-        private void CheckTokenPrecedingOrFollowingCurlyBracket(CsElement element, CsToken previousOrNextToken)
-        {
-            Param.AssertNotNull(element, "element");
-            Param.AssertNotNull(previousOrNextToken, "previousOrNextToken");
 
-            if (previousOrNextToken.CsTokenType == CsTokenType.MultiLineComment ||
-                previousOrNextToken.CsTokenType == CsTokenType.SingleLineComment ||
-                previousOrNextToken.CsTokenType == CsTokenType.XmlHeader ||
-                previousOrNextToken.CsTokenType == CsTokenType.XmlHeaderLine)
-            {
-                if (!Utils.IsAReSharperComment(previousOrNextToken))
-                {
-                    this.AddViolation(element, previousOrNextToken.LineNumber, Rules.BlockStatementsMustNotContainEmbeddedComments);
-                }
-            }
-            else if (previousOrNextToken.CsTokenType == CsTokenType.PreprocessorDirective && previousOrNextToken is Region)
-            {
-                this.AddViolation(element, previousOrNextToken.LineNumber, Rules.BlockStatementsMustNotContainEmbeddedRegions);
-            }
-        }
-
-        #endregion Private Methods
+        #endregion
     }
 }

@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="CollectionInitializerExpression.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="CollectionInitializerExpression.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,10 +11,12 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   An expression representing a collection initializer.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
     using System.Collections.Generic;
 
     /// <summary>
@@ -23,14 +25,18 @@ namespace StyleCop.CSharp
     /// <subcategory>expression</subcategory>
     public sealed class CollectionInitializerExpression : Expression
     {
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the CollectionInitializerExpression class.
         /// </summary>
-        /// <param name="tokens">The list of tokens that form the expression.</param>
-        /// <param name="initializers">The list of variable initializers within the 
-        /// array initializer expression.</param>
+        /// <param name="tokens">
+        /// The list of tokens that form the expression.
+        /// </param>
+        /// <param name="initializers">
+        /// The list of variable initializers within the 
+        /// array initializer expression.
+        /// </param>
         internal CollectionInitializerExpression(CsTokenList tokens, IEnumerable<Expression> initializers)
             : base(ExpressionType.CollectionInitializer, tokens)
         {
@@ -40,7 +46,7 @@ namespace StyleCop.CSharp
             this.AddExpressions(initializers);
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
 
@@ -55,6 +61,6 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Properties
+        #endregion
     }
 }

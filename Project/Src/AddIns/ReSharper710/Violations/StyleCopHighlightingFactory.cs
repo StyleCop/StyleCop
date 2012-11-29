@@ -15,7 +15,6 @@
 //   Factory class for getting HighLights for StyleCop violations.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper710.Violations
 {
     #region Using Directives
@@ -23,7 +22,6 @@ namespace StyleCop.ReSharper710.Violations
     using JetBrains.Application;
     using JetBrains.Application.Settings;
     using JetBrains.DocumentModel;
-    using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Daemon;
     using JetBrains.ReSharper.Psi;
     using JetBrains.VsIntegration.ProjectModel;
@@ -37,7 +35,7 @@ namespace StyleCop.ReSharper710.Violations
     /// </summary>
     public static class StyleCopHighlightingFactory
     {
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Gets the highlight for the specified StyleCop Violation.
@@ -59,15 +57,15 @@ namespace StyleCop.ReSharper710.Violations
         /// </returns>
         public static IHighlighting GetHighlight(ViolationEventArgs violation, DocumentRange documentRange, string fileName, int lineNumber)
         {
-            var ruleID = violation.Violation.Rule.CheckId;
-            var highlightID = HighlightingRegistering.GetHighlightID(ruleID);
+            string ruleID = violation.Violation.Rule.CheckId;
+            string highlightID = HighlightingRegistering.GetHighlightID(ruleID);
 
-            var solutionManager = Shell.Instance.GetComponent<VSSolutionManager>();
-           
-            var settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, solutionManager.CurrentSolution);
+            VSSolutionManager solutionManager = Shell.Instance.GetComponent<VSSolutionManager>();
 
-            var severity = HighlightingSettingsManager.Instance.GetConfigurableSeverity(highlightID, settingsStore);
-            
+            IContextBoundSettingsStore settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, solutionManager.CurrentSolution);
+
+            Severity severity = HighlightingSettingsManager.Instance.GetConfigurableSeverity(highlightID, settingsStore);
+
             switch (severity)
             {
                 case Severity.ERROR:

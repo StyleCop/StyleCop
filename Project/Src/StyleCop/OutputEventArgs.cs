@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="OutputEventArgs.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="OutputEventArgs.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,10 +11,14 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Event argument for output generated event.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop
 {
     using System;
+
     using Microsoft.Build.Framework;
 
     /// <summary>
@@ -22,13 +26,16 @@ namespace StyleCop
     /// </summary>
     public class OutputEventArgs : EventArgs
     {
-        #region Public Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the OutputEventArgs class.
         /// </summary>
-        /// <param name="text">The output text.</param>
-        public OutputEventArgs(string text) : this(text, MessageImportance.Normal)
+        /// <param name="text">
+        /// The output text.
+        /// </param>
+        public OutputEventArgs(string text)
+            : this(text, MessageImportance.Normal)
         {
             Param.RequireNotNull(text, "text");
         }
@@ -36,8 +43,12 @@ namespace StyleCop
         /// <summary>
         /// Initializes a new instance of the OutputEventArgs class.
         /// </summary>
-        /// <param name="text">The output text.</param>
-        /// <param name="importance">The level of importance for this output event.</param>
+        /// <param name="text">
+        /// The output text.
+        /// </param>
+        /// <param name="importance">
+        /// The level of importance for this output event.
+        /// </param>
         public OutputEventArgs(string text, MessageImportance importance)
         {
             Param.RequireNotNull(text, "text");
@@ -47,20 +58,20 @@ namespace StyleCop
             this.Importance = importance;
         }
 
-        #endregion Public Constructors
+        #endregion
 
         #region Public Properties
-
-        /// <summary>
-        /// Gets the output text.
-        /// </summary>
-        public string Output { get; private set; }
 
         /// <summary>
         /// Gets the importance of the message.
         /// </summary>
         public MessageImportance Importance { get; private set; }
 
-        #endregion Public Properties
+        /// <summary>
+        /// Gets the output text.
+        /// </summary>
+        public string Output { get; private set; }
+
+        #endregion
     }
 }

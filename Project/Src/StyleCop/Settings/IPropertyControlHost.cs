@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="IPropertyControlHost.cs">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="IPropertyControlHost.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Interface which must be implemented by a host of the <see cref="PropertyControl" />.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop
 {
     /// <summary>
@@ -19,19 +22,21 @@ namespace StyleCop
     /// </summary>
     internal interface IPropertyControlHost
     {
-        #region Methods
-
-        /// <summary>
-        /// Called when the combined dirty status of the pages changes.
-        /// </summary>
-        /// <param name="isDirty">True if any of the pages are dirty, false if not.</param>
-        void Dirty(bool isDirty);
+        #region Public Methods and Operators
 
         /// <summary>
         /// Called to cancel the host.
         /// </summary>
         void Cancel();
 
-        #endregion Methods
+        /// <summary>
+        /// Called when the combined dirty status of the pages changes.
+        /// </summary>
+        /// <param name="isDirty">
+        /// True if any of the pages are dirty, false if not.
+        /// </param>
+        void Dirty(bool isDirty);
+
+        #endregion
     }
 }

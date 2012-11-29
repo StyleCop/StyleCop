@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="ParamTokens.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ParamTokens.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,11 +11,14 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Contains tokens inside of a <c>Param</c> statement.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.Internal
 {
-    using System;
     using System.Collections.Generic;
+
     using StyleCop.CSharp;
 
     /// <summary>
@@ -23,27 +26,31 @@ namespace StyleCop.Internal
     /// </summary>
     internal class ParamTokens
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// The parameter check token.
         /// </summary>
-        private Node<CsToken> paramTokenNode;
+        private readonly Node<CsToken> paramTokenNode;
 
         /// <summary>
         /// The tokens that make up the parameter.
         /// </summary>
-        private ICollection<Node<CsToken>> tokenNodes;
+        private readonly ICollection<Node<CsToken>> tokenNodes;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Public Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ParamTokens"/> class.
         /// </summary>
-        /// <param name="paramTokenNode">The check token node.</param>
-        /// <param name="tokenNodes">The token node collection.</param>
+        /// <param name="paramTokenNode">
+        /// The check token node.
+        /// </param>
+        /// <param name="tokenNodes">
+        /// The token node collection.
+        /// </param>
         public ParamTokens(Node<CsToken> paramTokenNode, ICollection<Node<CsToken>> tokenNodes)
         {
             Param.AssertNotNull(paramTokenNode, "paramToken");
@@ -53,7 +60,7 @@ namespace StyleCop.Internal
             this.tokenNodes = tokenNodes;
         }
 
-        #endregion Public Constructors
+        #endregion
 
         #region Public Properties
 
@@ -62,23 +69,23 @@ namespace StyleCop.Internal
         /// </summary>
         public Node<CsToken> ParamTokenNode
         {
-            get 
-            { 
-                return this.paramTokenNode; 
+            get
+            {
+                return this.paramTokenNode;
             }
         }
-        
+
         /// <summary>
         /// Gets the token nodes collection.
         /// </summary>
         public ICollection<Node<CsToken>> TokenNodes
         {
-            get 
-            { 
-                return this.tokenNodes; 
+            get
+            {
+                return this.tokenNodes;
             }
         }
 
-        #endregion Public Properties
+        #endregion
     }
 }

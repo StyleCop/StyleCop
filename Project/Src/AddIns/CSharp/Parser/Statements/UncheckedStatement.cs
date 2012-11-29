@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="UncheckedStatement.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="UncheckedStatement.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,33 +11,38 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   A unchecked-statement.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
-
     /// <summary>
     /// A unchecked-statement.
     /// </summary>
     /// <subcategory>statement</subcategory>
     public sealed class UncheckedStatement : Statement
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// The statement embedded within this unchecked statement, if any.
         /// </summary>
-        private BlockStatement embeddedStatement;
+        private readonly BlockStatement embeddedStatement;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the UncheckedStatement class.
         /// </summary>
-        /// <param name="tokens">The list of tokens that form the statement.</param>
-        /// <param name="embeddedStatement">The block statement embedded within this unchecked statement, if any.</param>
+        /// <param name="tokens">
+        /// The list of tokens that form the statement.
+        /// </param>
+        /// <param name="embeddedStatement">
+        /// The block statement embedded within this unchecked statement, if any.
+        /// </param>
         internal UncheckedStatement(CsTokenList tokens, BlockStatement embeddedStatement)
             : base(StatementType.Unchecked, tokens)
         {
@@ -48,7 +53,7 @@ namespace StyleCop.CSharp
             this.AddStatement(embeddedStatement);
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
 
@@ -63,6 +68,6 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Properties
+        #endregion
     }
 }

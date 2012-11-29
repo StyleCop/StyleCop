@@ -11,8 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
+// <summary>
+//   The naming service.
+// </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.Spelling
 {
     using System;
@@ -52,11 +54,11 @@ namespace StyleCop.Spelling
 
         private int customDictionaryHashCode;
 
+        private ICollection<string> dictionaryFolders;
+
         private IDictionary<string, string> discreteWordExceptions;
 
         private SpellChecker spellChecker;
-
-        private ICollection<string> dictionaryFolders;
 
         #endregion
 
@@ -70,7 +72,7 @@ namespace StyleCop.Spelling
             {
                 this.spellChecker = SpellChecker.FromCulture(culture);
             }
-            
+
             this.InitCustomDictionaries();
         }
 
@@ -90,17 +92,6 @@ namespace StyleCop.Spelling
         }
 
         /// <summary>
-        /// Gets an array of the dictionary folders which have been scanned for dictionaries.
-        /// </summary>
-        public ICollection<string> DictionaryFolders
-        {
-            get
-            {
-                return this.dictionaryFolders.ToArray();
-            }
-        }
-
-        /// <summary>
         /// Gets the culture.
         /// </summary>
         public CultureInfo Culture
@@ -108,6 +99,17 @@ namespace StyleCop.Spelling
             get
             {
                 return this.culture;
+            }
+        }
+
+        /// <summary>
+        /// Gets an array of the dictionary folders which have been scanned for dictionaries.
+        /// </summary>
+        public ICollection<string> DictionaryFolders
+        {
+            get
+            {
+                return this.dictionaryFolders.ToArray();
             }
         }
 
@@ -182,6 +184,49 @@ namespace StyleCop.Spelling
                 }
 
                 return service;
+            }
+        }
+
+        /// <summary>
+        /// Adds the deprecated words dictionary and their preferred alternatives to the list of current deprecated words.
+        /// </summary>
+        /// <param name="deprecatedWords">
+        /// The dictionary of words to add.
+        /// </param>
+        public void AddDeprecatedWords(IDictionary<string, string> deprecatedWords)
+        {
+            if (deprecatedWords != null)
+            {
+                foreach (KeyValuePair<string, string> deprecatedWord in deprecatedWords)
+                {
+                    if (!this.alternatesForDeprecatedWords.ContainsKey(deprecatedWord.Key))
+                    {
+                        this.alternatesForDeprecatedWords.Add(deprecatedWord);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Adds a folder to the list of folders scanned for CustomDictionary.xml files.
+        /// </summary>
+        /// <param name="path">
+        /// The path to add.
+        /// </param>
+        public void AddDictionaryFolder(string path)
+        {
+            if (!string.IsNullOrEmpty(path))
+            {
+                string fullPath = Path.GetFullPath(Environment.ExpandEnvironmentVariables(path));
+
+                if (Directory.Exists(fullPath))
+                {
+                    if (!this.dictionaryFolders.Contains(fullPath, StringComparer.InvariantCultureIgnoreCase))
+                    {
+                        this.dictionaryFolders.Add(fullPath);
+                        this.ScanAndLoadDictionaries(fullPath);
+                    }
+                }
             }
         }
 
@@ -329,24 +374,6 @@ namespace StyleCop.Spelling
         }
 
         /// <summary>
-        /// Adds the deprecated words dictionary and their preferred alternatives to the list of current deprecated words.
-        /// </summary>
-        /// <param name="deprecatedWords">The dictionary of words to add.</param>
-        public void AddDeprecatedWords(IDictionary<string, string> deprecatedWords)
-        {
-            if (deprecatedWords != null)
-            {
-                foreach (KeyValuePair<string, string> deprecatedWord in deprecatedWords)
-                {
-                    if (!this.alternatesForDeprecatedWords.ContainsKey(deprecatedWord.Key))
-                    {
-                        this.alternatesForDeprecatedWords.Add(deprecatedWord);
-                    }
-                }
-            }
-        }
-
-        /// <summary>
         /// The is casing exception.
         /// </summary>
         /// <param name="word">
@@ -368,27 +395,6 @@ namespace StyleCop.Spelling
         #endregion
 
         #region Methods
-
-        /// <summary>
-        /// Adds a folder to the list of folders scanned for CustomDictionary.xml files.
-        /// </summary>
-        /// <param name="path">The path to add.</param>
-        public void AddDictionaryFolder(string path)
-        {
-            if (!string.IsNullOrEmpty(path))
-            {
-                var fullPath = Path.GetFullPath(Environment.ExpandEnvironmentVariables(path));
-
-                if (Directory.Exists(fullPath))
-                {
-                    if (!this.dictionaryFolders.Contains(fullPath, StringComparer.InvariantCultureIgnoreCase))
-                    {
-                        this.dictionaryFolders.Add(fullPath);
-                        this.ScanAndLoadDictionaries(fullPath);
-                    }
-                }
-            }
-        }
 
         internal static CultureInfo TryParseCulture(string cultureName)
         {
@@ -445,8 +451,12 @@ namespace StyleCop.Spelling
         /// <summary>
         /// Called when the file changes.
         /// </summary>
-        /// <param name="source">The source of the event.</param>
-        /// <param name="e">The FileSystemEventArgs for the changing file.</param>
+        /// <param name="source">
+        /// The source of the event.
+        /// </param>
+        /// <param name="e">
+        /// The FileSystemEventArgs for the changing file.
+        /// </param>
         private static void FileChanged(object source, FileSystemEventArgs e)
         {
             ClearCachedServices();
@@ -511,8 +521,12 @@ namespace StyleCop.Spelling
         /// <summary>
         /// Called when the file renames.
         /// </summary>
-        /// <param name="source">The source of the event.</param>
-        /// <param name="e">The RenamedEventArgs for the changing file.</param>
+        /// <param name="source">
+        /// The source of the event.
+        /// </param>
+        /// <param name="e">
+        /// The RenamedEventArgs for the changing file.
+        /// </param>
         private static void OnRenamed(object source, RenamedEventArgs e)
         {
             ClearCachedServices();
@@ -521,7 +535,9 @@ namespace StyleCop.Spelling
         /// <summary>
         /// Creates a FileWatcher.
         /// </summary>
-        /// <param name="path">The file to watch.</param>
+        /// <param name="path">
+        /// The file to watch.
+        /// </param>
         private void AddFileWatcher(string path)
         {
             if (string.IsNullOrEmpty(path) || !File.Exists(path))
@@ -593,43 +609,6 @@ namespace StyleCop.Spelling
             this.ScanAndLoadDictionaries(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
         }
 
-        private void ScanAndLoadDictionaries(string directory)
-        {
-            if (!string.IsNullOrEmpty(directory))
-            {
-                foreach (string str in Directory.GetFiles(directory, "CustomDictionary.xml", SearchOption.AllDirectories))
-                {
-                    this.LoadCustomDictionaryXml(str);
-                }
-
-                foreach (string str in Directory.GetFiles(directory, string.Format("CustomDictionary.{0}.xml", this.culture.Name), SearchOption.AllDirectories))
-                {
-                    this.LoadCustomDictionaryXml(str);
-                }
-
-                foreach (
-                    string str in Directory.GetFiles(directory, string.Format("CustomDictionary.{0}.xml", this.culture.Parent.Name), SearchOption.AllDirectories))
-                {
-                    this.LoadCustomDictionaryXml(str);
-                }
-
-                foreach (string str2 in Directory.GetFiles(directory, "custom.dic", SearchOption.AllDirectories))
-                {
-                    this.LoadCustomDic(str2);
-                }
-
-                foreach (string str2 in Directory.GetFiles(directory, string.Format("custom.{0}.dic", this.culture.Name), SearchOption.AllDirectories))
-                {
-                    this.LoadCustomDic(str2);
-                }
-
-                foreach (string str2 in Directory.GetFiles(directory, string.Format("custom.{0}.dic", this.culture.Parent.Name), SearchOption.AllDirectories))
-                {
-                    this.LoadCustomDic(str2);
-                }
-            }
-        }
-
         private void LoadCustomDic(string fileName)
         {
             IDictionary<string, string> ignoredWords = this.CreateCaseInsensitiveDictionary();
@@ -676,6 +655,42 @@ namespace StyleCop.Spelling
             LoadWordsFromXml(this.casingExceptions, document, "/Dictionary/Acronyms/CasingExceptions/Acronym", null);
             LoadWordsFromXml(this.alternatesForDeprecatedWords, document, "/Dictionary/Words/Deprecated/Term", "PreferredAlternate");
             this.AddWordsToSpellChecker(list, dictionary2);
+        }
+
+        private void ScanAndLoadDictionaries(string directory)
+        {
+            if (!string.IsNullOrEmpty(directory))
+            {
+                foreach (string str in Directory.GetFiles(directory, "CustomDictionary.xml", SearchOption.AllDirectories))
+                {
+                    this.LoadCustomDictionaryXml(str);
+                }
+
+                foreach (string str in Directory.GetFiles(directory, string.Format("CustomDictionary.{0}.xml", this.culture.Name), SearchOption.AllDirectories))
+                {
+                    this.LoadCustomDictionaryXml(str);
+                }
+
+                foreach (string str in Directory.GetFiles(directory, string.Format("CustomDictionary.{0}.xml", this.culture.Parent.Name), SearchOption.AllDirectories))
+                {
+                    this.LoadCustomDictionaryXml(str);
+                }
+
+                foreach (string str2 in Directory.GetFiles(directory, "custom.dic", SearchOption.AllDirectories))
+                {
+                    this.LoadCustomDic(str2);
+                }
+
+                foreach (string str2 in Directory.GetFiles(directory, string.Format("custom.{0}.dic", this.culture.Name), SearchOption.AllDirectories))
+                {
+                    this.LoadCustomDic(str2);
+                }
+
+                foreach (string str2 in Directory.GetFiles(directory, string.Format("custom.{0}.dic", this.culture.Parent.Name), SearchOption.AllDirectories))
+                {
+                    this.LoadCustomDic(str2);
+                }
+            }
         }
 
         #endregion

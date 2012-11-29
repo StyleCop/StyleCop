@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="QueryOrderByOrdering.cs">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="QueryOrderByOrdering.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   An individual ordering statement.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
     /// <summary>
@@ -19,6 +22,8 @@ namespace StyleCop.CSharp
     /// </summary>
     public struct QueryOrderByOrdering
     {
+        #region Fields
+
         /// <summary>
         /// The ordering direction.
         /// </summary>
@@ -28,6 +33,10 @@ namespace StyleCop.CSharp
         /// The ordering expression.
         /// </summary>
         private Expression expression;
+
+        #endregion
+
+        #region Public Properties
 
         /// <summary>
         /// Gets or sets the ordering direction.
@@ -63,6 +72,10 @@ namespace StyleCop.CSharp
             }
         }
 
+        #endregion
+
+        #region Public Methods and Operators
+
         /// <summary>
         /// Determines whether the two items are equal.
         /// </summary>
@@ -90,8 +103,12 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Determines whether this value is equal to the given object.
         /// </summary>
-        /// <param name="obj">The object to compare against.</param>
-        /// <returns>Returns true if the objects are equal.</returns>
+        /// <param name="obj">
+        /// The object to compare against.
+        /// </param>
+        /// <returns>
+        /// Returns true if the objects are equal.
+        /// </returns>
         public override bool Equals(object obj)
         {
             Param.Ignore(obj);
@@ -113,5 +130,7 @@ namespace StyleCop.CSharp
         {
             return this.expression.GetHashCode() ^ this.direction.GetHashCode();
         }
+
+        #endregion
     }
 }

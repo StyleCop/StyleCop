@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="AttributeExpression.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="AttributeExpression.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,39 +11,46 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   An expression representing an element or assembly attribute.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
-
     /// <summary>
     /// An expression representing an element or assembly attribute.
     /// </summary>
     /// <subcategory>expression</subcategory>
     public sealed class AttributeExpression : Expression
     {
-        #region Private Fields
-
-        /// <summary>
-        /// The attribute target, if any.
-        /// </summary>
-        private LiteralExpression target;
+        #region Fields
 
         /// <summary>
         /// The attribute initialization call.
         /// </summary>
-        private Expression initialization; 
+        private readonly Expression initialization;
 
-        #endregion Private Fields
+        /// <summary>
+        /// The attribute target, if any.
+        /// </summary>
+        private readonly LiteralExpression target;
 
-        #region Internal Constructors
+        #endregion
+
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the AttributeExpression class.
         /// </summary>
-        /// <param name="tokens">The list of tokens that form the expression.</param>
-        /// <param name="target">The attribute target, if any.</param>
-        /// <param name="initialization">The attribute initialization call.</param>
+        /// <param name="tokens">
+        /// The list of tokens that form the expression.
+        /// </param>
+        /// <param name="target">
+        /// The attribute target, if any.
+        /// </param>
+        /// <param name="initialization">
+        /// The attribute initialization call.
+        /// </param>
         internal AttributeExpression(CsTokenList tokens, LiteralExpression target, Expression initialization)
             : base(ExpressionType.Attribute, tokens)
         {
@@ -63,20 +70,9 @@ namespace StyleCop.CSharp
             this.AddExpression(initialization);
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
-
-        /// <summary>
-        /// Gets the attribute target.
-        /// </summary>
-        public LiteralExpression Target
-        {
-            get
-            {
-                return this.target;
-            }
-        }
 
         /// <summary>
         /// Gets the attribute initialization call expression.
@@ -106,11 +102,9 @@ namespace StyleCop.CSharp
                             assembly = true;
                         }
                     }
-                    else if (token.CsTokenType != CsTokenType.WhiteSpace &&
-                        token.CsTokenType != CsTokenType.EndOfLine &&
-                        token.CsTokenType != CsTokenType.SingleLineComment &&
-                        token.CsTokenType != CsTokenType.MultiLineComment &&
-                        token.CsTokenType != CsTokenType.PreprocessorDirective)
+                    else if (token.CsTokenType != CsTokenType.WhiteSpace && token.CsTokenType != CsTokenType.EndOfLine
+                             && token.CsTokenType != CsTokenType.SingleLineComment && token.CsTokenType != CsTokenType.MultiLineComment
+                             && token.CsTokenType != CsTokenType.PreprocessorDirective)
                     {
                         if (token.Text == ":")
                         {
@@ -123,6 +117,17 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Properties
+        /// <summary>
+        /// Gets the attribute target.
+        /// </summary>
+        public LiteralExpression Target
+        {
+            get
+            {
+                return this.target;
+            }
+        }
+
+        #endregion
     }
 }

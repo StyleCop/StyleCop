@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="ExpressionStatement.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ExpressionStatement.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,33 +11,38 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   A statement containing a single expression.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
-
     /// <summary>
     /// A statement containing a single expression.
     /// </summary>
     /// <subcategory>statement</subcategory>
     public sealed class ExpressionStatement : Statement
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// The expression within this statement.
         /// </summary>
-        private Expression expression;
+        private readonly Expression expression;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the ExpressionStatement class.
         /// </summary>
-        /// <param name="tokens">The list of tokens that form the statement.</param>
-        /// <param name="expression">The expression within this statement.</param>
+        /// <param name="tokens">
+        /// The list of tokens that form the statement.
+        /// </param>
+        /// <param name="expression">
+        /// The expression within this statement.
+        /// </param>
         internal ExpressionStatement(CsTokenList tokens, Expression expression)
             : base(StatementType.Expression, tokens)
         {
@@ -49,7 +54,7 @@ namespace StyleCop.CSharp
             this.AddExpression(expression);
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
 
@@ -64,6 +69,6 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Properties
+        #endregion
     }
 }

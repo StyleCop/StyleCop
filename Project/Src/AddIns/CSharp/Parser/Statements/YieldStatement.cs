@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="YieldStatement.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="YieldStatement.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   A yield-statement.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
     using System.Diagnostics.CodeAnalysis;
@@ -22,28 +25,34 @@ namespace StyleCop.CSharp
     /// <subcategory>statement</subcategory>
     public sealed class YieldStatement : Statement
     {
-        #region Private Fields
-
-        /// <summary>
-        /// The type of the yield statement.
-        /// </summary>
-        private Type type;
+        #region Fields
 
         /// <summary>
         /// The expression being returned, if any.
         /// </summary>
-        private Expression returnValue;
+        private readonly Expression returnValue;
 
-        #endregion Private Fields
+        /// <summary>
+        /// The type of the yield statement.
+        /// </summary>
+        private readonly Type type;
 
-        #region Internal Constructors
+        #endregion
+
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the YieldStatement class.
         /// </summary>
-        /// <param name="tokens">The list of tokens that form the statement.</param>
-        /// <param name="type">The type of the yield statement.</param>
-        /// <param name="returnValue">The yield return value expression.</param>
+        /// <param name="tokens">
+        /// The list of tokens that form the statement.
+        /// </param>
+        /// <param name="type">
+        /// The type of the yield statement.
+        /// </param>
+        /// <param name="returnValue">
+        /// The yield return value expression.
+        /// </param>
         internal YieldStatement(CsTokenList tokens, Type type, Expression returnValue)
             : base(StatementType.Yield, tokens)
         {
@@ -60,24 +69,21 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Internal Constructors
+        #endregion
 
-        #region Public Enums
+        #region Enums
 
         /// <summary>
         /// The yield statement type.
         /// </summary>
         /// <subcategory>statement</subcategory>
-        [SuppressMessage(
-            "Microsoft.Design",
-            "CA1034:NestedTypesShouldNotBeVisible",
-            Justification = "API has already been published and should not be changed.")]
+        [SuppressMessage("Microsoft.Design", "CA1034:NestedTypesShouldNotBeVisible", Justification = "API has already been published and should not be changed.")]
         public enum Type
         {
             /// <summary>
             /// A yield break statement.
             /// </summary>
-            Break,
+            Break, 
 
             /// <summary>
             /// A yield return statement.
@@ -85,20 +91,9 @@ namespace StyleCop.CSharp
             Return
         }
 
-        #endregion Public Enums
+        #endregion
 
         #region Public Properties
-
-        /// <summary>
-        /// Gets the type of the yield statement.
-        /// </summary>
-        public Type YieldType
-        {
-            get
-            {
-                return this.type;
-            }
-        }
 
         /// <summary>
         /// Gets the yield return value expression, if there is one.
@@ -111,6 +106,17 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Properties
+        /// <summary>
+        /// Gets the type of the yield statement.
+        /// </summary>
+        public Type YieldType
+        {
+            get
+            {
+                return this.type;
+            }
+        }
+
+        #endregion
     }
 }

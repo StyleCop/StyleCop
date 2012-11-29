@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="QueryExpression.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="QueryExpression.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   An expression representing a query.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
     using System.Collections.Generic;
@@ -23,22 +26,26 @@ namespace StyleCop.CSharp
     /// <subcategory>expression</subcategory>
     public sealed class QueryExpression : Expression
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// The list of clauses in the expression.
         /// </summary>
-        private CodeUnitCollection<QueryClause> clauses;
+        private readonly CodeUnitCollection<QueryClause> clauses;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the QueryExpression class.
         /// </summary>
-        /// <param name="tokens">The list of tokens that form the expression.</param>
-        /// <param name="clauses">The collection of clauses in the expression.</param>
+        /// <param name="tokens">
+        /// The list of tokens that form the expression.
+        /// </param>
+        /// <param name="clauses">
+        /// The collection of clauses in the expression.
+        /// </param>
         internal QueryExpression(CsTokenList tokens, ICollection<QueryClause> clauses)
             : base(ExpressionType.Query, tokens)
         {
@@ -52,7 +59,7 @@ namespace StyleCop.CSharp
             Debug.Assert(clauses.IsReadOnly, "The collection of query clauses should be read-only.");
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
 
@@ -67,14 +74,16 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Properties
+        #endregion
 
-        #region Private Methods
+        #region Methods
 
         /// <summary>
         /// Initializes the expression from the list of clauses.
         /// </summary>
-        /// <param name="items">The list of clauses in the expression.</param>
+        /// <param name="items">
+        /// The list of clauses in the expression.
+        /// </param>
         private void InitializeFromClauses(IEnumerable<QueryClause> items)
         {
             Param.AssertNotNull(items, "items");
@@ -94,6 +103,6 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Private Methods
+        #endregion
     }
 }

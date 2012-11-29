@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="QuerySelectClause.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="QuerySelectClause.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,23 +11,28 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Describes a select clause in a query expression.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
-
     /// <summary>
     /// Describes a select clause in a query expression.
     /// </summary>
     public sealed class QuerySelectClause : QueryClauseWithExpression
     {
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the QuerySelectClause class.
         /// </summary>
-        /// <param name="tokens">The list of tokens that form the clause.</param>
-        /// <param name="expression">The expression.</param>
+        /// <param name="tokens">
+        /// The list of tokens that form the clause.
+        /// </param>
+        /// <param name="expression">
+        /// The expression.
+        /// </param>
         internal QuerySelectClause(CsTokenList tokens, Expression expression)
             : base(QueryClauseType.Select, tokens, expression)
         {
@@ -35,6 +40,6 @@ namespace StyleCop.CSharp
             Param.AssertNotNull(expression, "expression");
         }
 
-        #endregion Internal Constructors
+        #endregion
     }
 }

@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="CompanyInformation.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="CompanyInformation.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Allows setting the company and copyright requirements.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
     using System;
@@ -23,12 +26,12 @@ namespace StyleCop.CSharp
     /// </summary>
     public partial class CompanyInformation : UserControl, IPropertyControlPage
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
-        /// The tab control which hosts this page.
+        /// The analyzer that this settings page is attached to.
         /// </summary>
-        private PropertyControl tabControl;
+        private readonly SourceAnalyzer analyzer;
 
         /// <summary>
         /// True if the page is dirty.
@@ -36,13 +39,13 @@ namespace StyleCop.CSharp
         private bool dirty;
 
         /// <summary>
-        /// The analyzer that this settings page is attached to.
+        /// The tab control which hosts this page.
         /// </summary>
-        private SourceAnalyzer analyzer;
+        private PropertyControl tabControl;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Public Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the CompanyInformation class.
@@ -55,27 +58,19 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Initializes a new instance of the CompanyInformation class.
         /// </summary>
-        /// <param name="analyzer">The analyzer that this settings page is attached to.</param>
-        public CompanyInformation(DocumentationRules analyzer) : this()
+        /// <param name="analyzer">
+        /// The analyzer that this settings page is attached to.
+        /// </param>
+        public CompanyInformation(DocumentationRules analyzer)
+            : this()
         {
             Param.RequireNotNull(analyzer, "analyzer");
             this.analyzer = analyzer;
         }
 
-        #endregion Public Constructors
+        #endregion
 
         #region Public Properties
-
-        /// <summary>
-        /// Gets the name of the the tab.
-        /// </summary>
-        public string TabName
-        {
-            get
-            {
-                return Strings.CompanyInformationTab;
-            }
-        }
 
         /// <summary>
         /// Gets or sets a value indicating whether any data on the page is dirty.
@@ -89,8 +84,8 @@ namespace StyleCop.CSharp
 
             set
             {
-                Param.Ignore(value); 
-                
+                Param.Ignore(value);
+
                 if (this.dirty != value)
                 {
                     this.dirty = value;
@@ -99,43 +94,30 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Properties
-
-        #region Public Methods
-
         /// <summary>
-        /// Initializes the page.
+        /// Gets the name of the the tab.
         /// </summary>
-        /// <param name="propertyControl">The tab control object.</param>
-        public void Initialize(PropertyControl propertyControl)
+        public string TabName
         {
-            Param.RequireNotNull(propertyControl, "propertyControl");
-
-            this.tabControl = propertyControl;
-
-            this.InitializeSettings();
-            this.DetectBoldState();
-
-            this.dirty = false;
-            this.tabControl.DirtyChanged();
+            get
+            {
+                return Strings.CompanyInformationTab;
+            }
         }
 
-        /// <summary>
-        /// Called before all pages are applied.
-        /// </summary>
-        /// <returns>Returns false if no pages should be applied.</returns>
-        public bool PreApply()
-        {
-            return true;
-        }
+        #endregion
+
+        #region Public Methods and Operators
 
         /// <summary>
-        /// Called after all pages have been applied.
+        /// Called when the page is activated.
         /// </summary>
-        /// <param name="wasDirty">The dirty state of the page before it was applied.</param>
-        public void PostApply(bool wasDirty)
+        /// <param name="activated">
+        /// Indicates whether the page is being activated or deactivated.
+        /// </param>
+        public void Activate(bool activated)
         {
-            Param.Ignore(wasDirty);
+            Param.Ignore(activated);
         }
 
         /// <summary>
@@ -155,25 +137,17 @@ namespace StyleCop.CSharp
                 {
                     if (this.companyName.Text.Length == 0 || this.copyright.Text.Length == 0)
                     {
-                        AlertDialog.Show(
-                            this.tabControl.Core, 
-                            this, 
-                            Strings.MissingCompanyOrCopyright, 
-                            Strings.Title, 
-                            MessageBoxButtons.OK, 
-                            MessageBoxIcon.Error);
-                        
+                        AlertDialog.Show(this.tabControl.Core, this, Strings.MissingCompanyOrCopyright, Strings.Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
                         return false;
                     }
                     else
                     {
                         this.analyzer.SetSetting(
-                            this.tabControl.LocalSettings,
-                            new StringProperty(this.analyzer, DocumentationRules.CompanyNameProperty, this.companyName.Text));
+                            this.tabControl.LocalSettings, new StringProperty(this.analyzer, DocumentationRules.CompanyNameProperty, this.companyName.Text));
 
                         this.analyzer.SetSetting(
-                            this.tabControl.LocalSettings,
-                            new StringProperty(this.analyzer, DocumentationRules.CopyrightProperty, this.copyright.Text));
+                            this.tabControl.LocalSettings, new StringProperty(this.analyzer, DocumentationRules.CopyrightProperty, this.copyright.Text));
                     }
                 }
             }
@@ -185,12 +159,42 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Called when the page is activated.
+        /// Initializes the page.
         /// </summary>
-        /// <param name="activated">Indicates whether the page is being activated or deactivated.</param>
-        public void Activate(bool activated)
+        /// <param name="propertyControl">
+        /// The tab control object.
+        /// </param>
+        public void Initialize(PropertyControl propertyControl)
         {
-            Param.Ignore(activated);
+            Param.RequireNotNull(propertyControl, "propertyControl");
+
+            this.tabControl = propertyControl;
+
+            this.InitializeSettings();
+            this.DetectBoldState();
+
+            this.dirty = false;
+            this.tabControl.DirtyChanged();
+        }
+
+        /// <summary>
+        /// Called after all pages have been applied.
+        /// </summary>
+        /// <param name="wasDirty">
+        /// The dirty state of the page before it was applied.
+        /// </param>
+        public void PostApply(bool wasDirty)
+        {
+            Param.Ignore(wasDirty);
+        }
+
+        /// <summary>
+        /// Called before all pages are applied.
+        /// </summary>
+        /// <returns>Returns false if no pages should be applied.</returns>
+        public bool PreApply()
+        {
+            return true;
         }
 
         /// <summary>
@@ -206,9 +210,67 @@ namespace StyleCop.CSharp
             this.DetectBoldState();
         }
 
-        #endregion Public Methods
+        #endregion
 
-        #region Private Methods
+        #region Methods
+
+        /// <summary>
+        /// Called when the checkbox is checked or unchecked.
+        /// </summary>
+        /// <param name="sender">
+        /// The event sender.
+        /// </param>
+        /// <param name="e">
+        /// The event arguments.
+        /// </param>
+        private void CheckBoxCheckedChanged(object sender, EventArgs e)
+        {
+            Param.Ignore(sender, e);
+
+            this.dirty = true;
+            this.tabControl.DirtyChanged();
+
+            this.companyName.Enabled = this.checkBox.Checked;
+            this.copyright.Enabled = this.checkBox.Checked;
+        }
+
+        /// <summary>
+        /// Called when the company name text is changed.
+        /// </summary>
+        /// <param name="sender">
+        /// The event sender.
+        /// </param>
+        /// <param name="e">
+        /// The event arguments.
+        /// </param>
+        private void CompanyNameTextChanged(object sender, EventArgs e)
+        {
+            Param.Ignore(sender, e);
+
+            this.DetectCompanyNameBoldState();
+
+            this.dirty = true;
+            this.tabControl.DirtyChanged();
+        }
+
+        /// <summary>
+        /// Called when the copyright text is changed.
+        /// </summary>
+        /// <param name="sender">
+        /// The event sender.
+        /// </param>
+        /// <param name="e">
+        /// The event arguments.
+        /// </param>
+        private void CopyrightTextChanged(object sender, EventArgs e)
+        {
+            Param.Ignore(sender, e);
+
+            this.DetectCopyrightBoldState();
+
+            this.dirty = true;
+            this.tabControl.DirtyChanged();
+        }
 
         /// <summary>
         /// Detects the bold state of the controls.
@@ -228,8 +290,7 @@ namespace StyleCop.CSharp
             {
                 StringProperty currentValue = new StringProperty(this.analyzer, DocumentationRules.CompanyNameProperty, this.companyName.Text);
                 this.SetBoldState(
-                    this.companyName,
-                    this.tabControl.SettingsComparer.IsAddInSettingOverwritten(this.analyzer, DocumentationRules.CompanyNameProperty, currentValue));
+                    this.companyName, this.tabControl.SettingsComparer.IsAddInSettingOverwritten(this.analyzer, DocumentationRules.CompanyNameProperty, currentValue));
             }
         }
 
@@ -240,8 +301,7 @@ namespace StyleCop.CSharp
         {
             StringProperty currentValue = new StringProperty(this.analyzer, DocumentationRules.CopyrightProperty, this.copyright.Text);
             this.SetBoldState(
-                this.copyright,
-                this.tabControl.SettingsComparer.IsAddInSettingOverwritten(this.analyzer, DocumentationRules.CopyrightProperty, currentValue));
+                this.copyright, this.tabControl.SettingsComparer.IsAddInSettingOverwritten(this.analyzer, DocumentationRules.CopyrightProperty, currentValue));
         }
 
         /// <summary>
@@ -252,16 +312,14 @@ namespace StyleCop.CSharp
             if (this.analyzer != null)
             {
                 // Get the properties.
-                StringProperty companyNameProperty = this.analyzer.GetSetting(
-                    this.tabControl.MergedSettings, DocumentationRules.CompanyNameProperty) as StringProperty;
+                StringProperty companyNameProperty = this.analyzer.GetSetting(this.tabControl.MergedSettings, DocumentationRules.CompanyNameProperty) as StringProperty;
 
                 if (companyNameProperty != null)
                 {
                     this.companyName.Text = companyNameProperty.Value;
                 }
 
-                StringProperty copyrightProperty = this.analyzer.GetSetting(
-                    this.tabControl.MergedSettings, DocumentationRules.CopyrightProperty) as StringProperty;
+                StringProperty copyrightProperty = this.analyzer.GetSetting(this.tabControl.MergedSettings, DocumentationRules.CopyrightProperty) as StringProperty;
 
                 if (copyrightProperty != null)
                 {
@@ -274,56 +332,14 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Called when the company name text is changed.
-        /// </summary>
-        /// <param name="sender">The event sender.</param>
-        /// <param name="e">The event arguments.</param>
-        private void CompanyNameTextChanged(object sender, System.EventArgs e)
-        {
-            Param.Ignore(sender, e);
-
-            this.DetectCompanyNameBoldState();
-
-            this.dirty = true;
-            this.tabControl.DirtyChanged();
-        }
-
-        /// <summary>
-        /// Called when the copyright text is changed.
-        /// </summary>
-        /// <param name="sender">The event sender.</param>
-        /// <param name="e">The event arguments.</param>
-        private void CopyrightTextChanged(object sender, System.EventArgs e)
-        {
-            Param.Ignore(sender, e);
-
-            this.DetectCopyrightBoldState();
-
-            this.dirty = true;
-            this.tabControl.DirtyChanged();
-        }
-
-        /// <summary>
-        /// Called when the checkbox is checked or unchecked.
-        /// </summary>
-        /// <param name="sender">The event sender.</param>
-        /// <param name="e">The event arguments.</param>
-        private void CheckBoxCheckedChanged(object sender, System.EventArgs e)
-        {
-            Param.Ignore(sender, e);
-
-            this.dirty = true;
-            this.tabControl.DirtyChanged();
-
-            this.companyName.Enabled = this.checkBox.Checked;
-            this.copyright.Enabled = this.checkBox.Checked;
-        }
-
-        /// <summary>
         /// Sets the bold state of the item.
         /// </summary>
-        /// <param name="item">The item to set.</param>
-        /// <param name="bold">The bold state.</param>
+        /// <param name="item">
+        /// The item to set.
+        /// </param>
+        /// <param name="bold">
+        /// The bold state.
+        /// </param>
         private void SetBoldState(TextBox item, bool bold)
         {
             Param.AssertNotNull(item, "item");
@@ -346,6 +362,6 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Private Methods
+        #endregion
     }
 }

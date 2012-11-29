@@ -15,7 +15,6 @@
 //   The s a 1108 block statements must not contain embedded comments bulb item.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper710.BulbItems.Readability
 {
     #region Using Directives
@@ -35,7 +34,7 @@ namespace StyleCop.ReSharper710.BulbItems.Readability
     /// </summary>
     public class SA1108BlockStatementsMustNotContainEmbeddedCommentsBulbItem : V5BulbItemImpl
     {
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// The execute transaction inner.
@@ -48,8 +47,8 @@ namespace StyleCop.ReSharper710.BulbItems.Readability
         /// </param>
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
-            var element = Utils.GetElementAtCaret(solution, textControl);
-            var commentNode = element.GetContainingNode<ICommentNode>(true);
+            ITreeNode element = Utils.GetElementAtCaret(solution, textControl);
+            ICommentNode commentNode = element.GetContainingNode<ICommentNode>(true);
             ReadabilityRules.MoveCommentInsideNextOpenCurlyBracket(commentNode);
         }
 

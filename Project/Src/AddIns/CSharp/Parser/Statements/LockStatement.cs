@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="LockStatement.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="LockStatement.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,38 +11,43 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   A lock-statement.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
-
     /// <summary>
     /// A lock-statement.
     /// </summary>
     /// <subcategory>statement</subcategory>
     public sealed class LockStatement : Statement
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// The object to lock.
         /// </summary>
-        private Expression lockedExpression;
+        private readonly Expression lockedExpression;
 
         /// <summary>
         /// The statement that is embedded within this lock-statement.
         /// </summary>
         private Statement embeddedStatement;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the LockStatement class.
         /// </summary>
-        /// <param name="tokens">The list of tokens that form the statement.</param>
-        /// <param name="lockedExpression">The item to lock.</param>
+        /// <param name="tokens">
+        /// The list of tokens that form the statement.
+        /// </param>
+        /// <param name="lockedExpression">
+        /// The item to lock.
+        /// </param>
         internal LockStatement(CsTokenList tokens, Expression lockedExpression)
             : base(StatementType.Lock, tokens)
         {
@@ -53,20 +58,9 @@ namespace StyleCop.CSharp
             this.AddExpression(lockedExpression);
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
-
-        /// <summary>
-        /// Gets the item to lock.
-        /// </summary>
-        public Expression LockedExpression
-        {
-            get
-            {
-                return this.lockedExpression;
-            }
-        }
 
         /// <summary>
         /// Gets the statement that is embedded within this lock-statement.
@@ -86,6 +80,17 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Properties
+        /// <summary>
+        /// Gets the item to lock.
+        /// </summary>
+        public Expression LockedExpression
+        {
+            get
+            {
+                return this.lockedExpression;
+            }
+        }
+
+        #endregion
     }
 }

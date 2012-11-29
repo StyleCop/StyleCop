@@ -15,7 +15,6 @@
 //   The s a 1510 chained statement blocks must not be preceded by blank line bulb item.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper710.BulbItems.Layout
 {
     #region Using Directives
@@ -34,7 +33,7 @@ namespace StyleCop.ReSharper710.BulbItems.Layout
     /// </summary>
     public class SA1510ChainedStatementBlocksMustNotBePrecededByBlankLineBulbItem : V5BulbItemImpl
     {
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// The execute transaction inner.
@@ -47,8 +46,8 @@ namespace StyleCop.ReSharper710.BulbItems.Layout
         /// </param>
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
-            var element = Utils.GetElementAtCaret(solution, textControl);
-            Utils.RemoveNewLineBefore((ITreeNode)element);
+            ITreeNode element = Utils.GetElementAtCaret(solution, textControl);
+            Utils.RemoveNewLineBefore(element);
         }
 
         #endregion

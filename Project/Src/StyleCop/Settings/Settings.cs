@@ -15,7 +15,6 @@
 //   Represents a single StyleCop settings file in read-only mode.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop
 {
     using System;
@@ -96,11 +95,6 @@ namespace StyleCop
         /// </summary>
         private Dictionary<StyleCopAddIn, Dictionary<string, Rule>> enabledRules;
 
-        /// <summary>
-        /// The time when the settings were last updated.
-        /// </summary>
-        private DateTime writeTime;
-
         #endregion
 
         #region Constructors and Destructors
@@ -145,7 +139,7 @@ namespace StyleCop
             this.core = core;
             this.location = location;
             this.contents = contents;
-            this.writeTime = writeTime;
+            this.WriteTime = writeTime;
 
             this.LoadSettingsDocument();
         }
@@ -273,7 +267,7 @@ namespace StyleCop
                 if (this.globalSettings != null)
                 {
                     BooleanProperty property = this.globalSettings["RulesEnabledByDefault"] as BooleanProperty;
-                    return property == null || property.Value != false;
+                    return property == null || property.Value;
                 }
 
                 return true;
@@ -294,18 +288,7 @@ namespace StyleCop
         /// <summary>
         /// Gets the time when the settings were last updated.
         /// </summary>
-        public DateTime WriteTime
-        {
-            get
-            {
-                return this.writeTime;
-            }
-
-            internal set
-            {
-                this.writeTime = value;
-            }
-        }
+        public DateTime WriteTime { get; internal set; }
 
         #endregion
 
@@ -608,7 +591,7 @@ namespace StyleCop
         {
             if (this.enabledRules == null)
             {
-                var cookie = this.enabledRulesLock.UpgradeToWriterLock(Timeout.Infinite);
+                LockCookie cookie = this.enabledRulesLock.UpgradeToWriterLock(Timeout.Infinite);
 
                 try
                 {

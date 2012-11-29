@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="RegistryUtils.Permissions.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="RegistryUtils.Permissions.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,11 +11,17 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   The registry utils.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop
 {
     using System.Security.Permissions;
 
+    /// <summary>
+    /// The registry utils.
+    /// </summary>
     /// <content>
     /// Performs operations in the registry.
     /// </content>
@@ -26,18 +32,20 @@ namespace StyleCop
         /// </summary>
         internal static class Permissions
         {
-            #region Public Static Methods
+            #region Public Methods and Operators
 
             /// <summary>
             /// Call this function before creating the RegistryUtils class in order to make sure that
             /// you (the caller) will have permissions to access the class.
             /// </summary>
-            /// <param name="subKey">The sub key to demand permissions for.</param>
+            /// <param name="subKey">
+            /// The sub key to demand permissions for.
+            /// </param>
             public static void DemandCurrentUserAccess(string subKey)
             {
                 // Create permission objects for the registry keys we're about to use.
                 RegistryPermission fullPermissions = new RegistryPermission(RegistryPermissionAccess.AllAccess, @"HKEY_CURRENT_USER\" + subKey);
-            
+
                 // Now force this function to throw a SecurityException if we don't already have these permissions.
                 fullPermissions.Demand();
             }
@@ -46,7 +54,9 @@ namespace StyleCop
             /// Call this function before creating the RegistryUtils class in order to make sure that
             /// you (the caller) will have permissions to access the class.
             /// </summary>
-            /// <param name="subKey">The sub key to demand permissions for.</param>
+            /// <param name="subKey">
+            /// The sub key to demand permissions for.
+            /// </param>
             public static void DemandLocalMachineAccess(string subKey)
             {
                 // Create permission objects for the registry keys we're about to use.
@@ -56,7 +66,7 @@ namespace StyleCop
                 readPermissions.Demand();
             }
 
-            #endregion Public Static Methods
+            #endregion
         }
     }
 }

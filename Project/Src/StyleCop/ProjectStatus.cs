@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="ProjectStatus.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ProjectStatus.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,36 +11,25 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Keeps track of the analysis status for a single code project.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop
 {
-    using System;
-    using System.Collections.Generic;
-
     /// <summary>
     /// Keeps track of the analysis status for a single code project.
     /// </summary>
     internal class ProjectStatus
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// Indicates whether to ignore the cached results for all files in this project.
         /// </summary>
         private bool ignoreResultsCache;
 
-        #endregion Private Fields
-
-        #region Public Constructors
-
-        /// <summary>
-        /// Initializes a new instance of the ProjectStatus class.
-        /// </summary>
-        public ProjectStatus()
-        {
-        }
-
-        #endregion Public Constructors
+        #endregion
 
         #region Public Properties
 
@@ -62,6 +51,6 @@ namespace StyleCop
             }
         }
 
-        #endregion Public Properties
+        #endregion
     }
 }

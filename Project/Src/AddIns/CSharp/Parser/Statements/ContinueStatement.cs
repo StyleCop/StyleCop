@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="ContinueStatement.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ContinueStatement.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,29 +11,32 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   A continue-statement.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
-
     /// <summary>
     /// A continue-statement.
     /// </summary>
     /// <subcategory>statement</subcategory>
     public sealed class ContinueStatement : Statement
     {
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the ContinueStatement class.
         /// </summary>
-        /// <param name="tokens">The list of tokens that form the statement.</param>
+        /// <param name="tokens">
+        /// The list of tokens that form the statement.
+        /// </param>
         internal ContinueStatement(CsTokenList tokens)
             : base(StatementType.Continue, tokens)
         {
             Param.Ignore(tokens);
         }
 
-        #endregion Internal Constructors
+        #endregion
     }
 }

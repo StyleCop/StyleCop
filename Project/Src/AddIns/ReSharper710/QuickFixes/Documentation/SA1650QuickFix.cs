@@ -11,8 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
+// <summary>
+//   QuickFix for SA1650 : ElementDocumentationMustBeSpelledCorrectly.
+// </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper710.QuickFixes.Documentation
 {
     #region Using Directives
@@ -112,31 +114,31 @@ namespace StyleCop.ReSharper710.QuickFixes.Documentation
             CultureInfo culture = this.Highlighting.Violation.SourceCode.Project.Culture;
 
             NamingService namingService = NamingService.GetNamingService(culture);
-            
+
             if (!namingService.SupportsSpelling)
             {
                 return;
             }
 
-            var words = this.Highlighting.ToolTip.SubstringAfter(':').SubstringBeforeLast('[').Split(',');
+            string[] words = this.Highlighting.ToolTip.SubstringAfter(':').SubstringBeforeLast('[').Split(',');
 
             if (words.Length > 0)
             {
                 this.BulbItems = new List<IBulbAction>();
-                foreach (var word in words)
+                foreach (string word in words)
                 {
-                    var trimmedWord = word.Trim();
-                    var preferredAlternateForDeprecatedWord = namingService.GetPreferredAlternateForDeprecatedWord(trimmedWord);
+                    string trimmedWord = word.Trim();
+                    string preferredAlternateForDeprecatedWord = namingService.GetPreferredAlternateForDeprecatedWord(trimmedWord);
 
                     if (!string.IsNullOrEmpty(preferredAlternateForDeprecatedWord))
                     {
-                        var description = string.Format(
+                        string description = string.Format(
                             "Change spelling of '{0}' to '{1}' [StyleCop Rule: {2}]", trimmedWord, preferredAlternateForDeprecatedWord, this.Highlighting.CheckId);
                         this.BulbItems.Add(
                             new SA1650ElementDocumentationMustBeSpelledCorrectlyBulbItem
                                 {
-                                    Description = description,
-                                    DeprecatedWord = trimmedWord,
+                                    Description = description, 
+                                    DeprecatedWord = trimmedWord, 
                                     AlternateWord = preferredAlternateForDeprecatedWord
                                 });
                     }

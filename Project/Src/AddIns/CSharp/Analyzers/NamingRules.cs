@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="NamingRules.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="NamingRules.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,14 +11,15 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Checks the names of code elements.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
-    using System.Globalization;
-    using StyleCop;
 
     /// <summary>
     /// Checks the names of code elements.
@@ -26,27 +27,16 @@ namespace StyleCop.CSharp
     [SourceAnalyzer(typeof(CsParser))]
     public class NamingRules : SourceAnalyzer
     {
-        #region Internal Constants
+        #region Constants
 
         /// <summary>
         /// The name of the property containing the list of allowable prefixes.
         /// </summary>
         internal const string AllowedPrefixesProperty = "Hungarian";
 
-        #endregion Internal Constants
+        #endregion
 
-        #region Public Constructors
-
-        /// <summary>
-        /// Initializes a new instance of the NamingRules class.
-        /// </summary>
-        public NamingRules()
-        {
-        }
-
-        #endregion Public Constructors
-
-        #region Public Override Properties
+        #region Public Properties
 
         /// <summary>
         /// Gets the property pages to expose on the StyleCop settings dialog for this analyzer.
@@ -60,14 +50,16 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Override Properties
+        #endregion
 
-        #region Public Override Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Checks the case of element names within the given document.
         /// </summary>
-        /// <param name="document">The document to check.</param>
+        /// <param name="document">
+        /// The document to check.
+        /// </param>
         public override void AnalyzeDocument(CodeDocument document)
         {
             Param.RequireNotNull(document, "document");
@@ -91,29 +83,30 @@ namespace StyleCop.CSharp
             return csdocument.FileHeader == null || !csdocument.FileHeader.UnStyled;
         }
 
-        #endregion Public Override Methods
+        #endregion
 
-        #region Private Static Methods
+        #region Methods
 
         /// <summary>
         /// Determines whether the given variable name begins with a standard prefix notation.
         /// </summary>
-        /// <param name="name">The variable name.</param>
-        /// <returns>Returns the first index in the name string that lies just past the prefix,
-        /// or zero if there is no prefix.</returns>
+        /// <param name="name">
+        /// The variable name.
+        /// </param>
+        /// <returns>
+        /// Returns the first index in the name string that lies just past the prefix,
+        /// or zero if there is no prefix.
+        /// </returns>
         private static int MovePastPrefix(string name)
         {
             Param.AssertValidString(name, "name");
 
             // If the variable name contains a prefix, skip past it.
-            if (name.StartsWith("s_", StringComparison.Ordinal) ||
-                name.StartsWith("m_", StringComparison.Ordinal) ||
-                name.StartsWith("__", StringComparison.Ordinal))
+            if (name.StartsWith("s_", StringComparison.Ordinal) || name.StartsWith("m_", StringComparison.Ordinal) || name.StartsWith("__", StringComparison.Ordinal))
             {
                 return 2;
             }
-            else if (name.StartsWith("_", StringComparison.Ordinal) ||
-                name.StartsWith("@", StringComparison.Ordinal))
+            else if (name.StartsWith("_", StringComparison.Ordinal) || name.StartsWith("@", StringComparison.Ordinal))
             {
                 return 1;
             }
@@ -121,136 +114,65 @@ namespace StyleCop.CSharp
             return 0;
         }
 
-        #endregion Private Static Methods
-
-        #region Private Methods
-
         /// <summary>
-        /// Gets the list of valid prefixes for the given project.
+        /// Checks the case of the first character in the given word.
         /// </summary>
-        /// <param name="settings">The settings for the document being parsed.</param>
-        /// <returns>Returns the list of prefixes.</returns>
-        private Dictionary<string, string> GetPrefixes(Settings settings)
+        /// <param name="element">
+        /// The element that the word appears in.
+        /// </param>
+        /// <param name="name">
+        /// The word to check.
+        /// </param>
+        /// <param name="line">
+        /// The line that the word appears on.
+        /// </param>
+        /// <param name="upper">
+        /// True if the character should be upper, false if it should be lower.
+        /// </param>
+        private void CheckCase(CsElement element, string name, int line, bool upper)
         {
-            Param.Ignore(settings);
-
-            Dictionary<string, string> validPrefixes = new Dictionary<string, string>();
-
-            if (settings != null)
-            {
-                // Get the allowed hungarian prefixes from the local settings file.
-                CollectionProperty list = this.GetSetting(settings, NamingRules.AllowedPrefixesProperty) as CollectionProperty;
-                if (list != null && list.Count > 0)
-                {
-                    foreach (string value in list)
-                    {
-                        if (!string.IsNullOrEmpty(value) && !validPrefixes.ContainsKey(value))
-                        {
-                            validPrefixes.Add(value, value);
-                        }
-                    }
-                }
-            }
-
-            return validPrefixes;
-        }
-
-        /// <summary>
-        /// Checks a variable for hungarian notation.
-        /// </summary>
-        /// <param name="name">The variable name.</param>
-        /// <param name="startIndex">The index in the name where the actual name begins.</param>
-        /// <param name="line">The number number that this variable appears on, or if 0, uses the line number
-        /// from the element object.</param>
-        /// <param name="element">The element that the variable appears in.</param>
-        /// <param name="validPrefixes">A list of valid prefixes that should not be considered hungarian.</param>
-        private void CheckHungarian(
-            string name, int startIndex, int line, CsElement element, Dictionary<string, string> validPrefixes)
-        {
+            Param.AssertNotNull(element, "element");
             Param.AssertValidString(name, "name");
-            Param.AssertGreaterThanOrEqualToZero(startIndex, "startIndex");
             Param.AssertGreaterThanZero(line, "line");
-            Param.AssertNotNull(element, "element");
-            Param.Ignore(validPrefixes);
+            Param.Ignore(upper);
 
-            if (name.Length - startIndex > 3)
+            if (name.Length >= 1)
             {
-                string prefix = null;
-                for (int i = startIndex + 1; i < 3 + startIndex; ++i)
-                {
-                    if (char.IsUpper(name, i))
-                    {
-                        prefix = name.Substring(startIndex, i - startIndex);
-                        break;
-                    }
-                }
+                char firstLetter = name[0];
 
-                if (prefix != null)
+                // If the first character is not a letter, then it does not make any sense to check
+                // for upper or lower case.
+                if (char.IsLetter(firstLetter))
                 {
-                    bool found = false;
-                    if (validPrefixes != null)
+                    if (upper)
                     {
-                        if (validPrefixes.ContainsKey(prefix))
+                        if (char.IsLower(firstLetter))
                         {
-                            found = true;
+                            // We check for IsLower and not for !isUpper. This is for cultures that don't have Upper or Lower case
+                            // letters like Chinese.
+                            this.AddViolation(element, line, Rules.ElementMustBeginWithUpperCaseLetter, element.FriendlyTypeText, name);
                         }
                     }
-
-                    if (!found)
+                    else
                     {
-                        this.AddViolation(element, line, Rules.FieldNamesMustNotUseHungarianNotation, name);
+                        if (char.IsUpper(firstLetter))
+                        {
+                            this.AddViolation(element, line, Rules.ElementMustBeginWithLowerCaseLetter, element.FriendlyTypeText, name);
+                        }
                     }
                 }
-            }
-        }
-
-        /// <summary>
-        /// Checks variables to look for underscores.
-        /// </summary>
-        /// <param name="element">The parent element.</param>
-        /// <param name="variables">The variables to check.</param>
-        private void CheckUnderscores(CsElement element, VariableCollection variables)
-        {
-            Param.AssertNotNull(element, "element");
-            Param.AssertNotNull(variables, "variables");
-
-            foreach (Variable variable in variables)
-            {
-                if (variable.Name.StartsWith("_", StringComparison.Ordinal) && variable.Name != "__arglist")
-                {
-                    this.AddViolation(element, variable.Location.LineNumber, Rules.FieldNamesMustNotBeginWithUnderscore);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Checks the field name to look for underscores.
-        /// </summary>
-        /// <param name="field">The field to check.</param>
-        private void CheckFieldUnderscores(CsElement field)
-        {
-            Param.AssertNotNull(field, "field");
-
-            if (field.Declaration.Name.StartsWith("s_", StringComparison.Ordinal) ||
-                field.Declaration.Name.StartsWith("m_", StringComparison.Ordinal))
-            {
-                this.AddViolation(field, Rules.VariableNamesMustNotBePrefixed);
-            }
-            else if (field.Declaration.Name.StartsWith("_", StringComparison.Ordinal))
-            {
-                this.AddViolation(field, Rules.FieldNamesMustNotBeginWithUnderscore);
-            }
-            else if (field.Declaration.Name.IndexOf("_", StringComparison.Ordinal) > -1)
-            {
-                this.AddViolation(field, Rules.FieldNamesMustNotContainUnderscore);
             }
         }
 
         /// <summary>
         /// Checks a field for compliance with naming prefix rules.
         /// </summary>
-        /// <param name="field">The field element.</param>
-        /// <param name="validPrefixes">A list of valid prefixes that should not be considered hungarian.</param>
+        /// <param name="field">
+        /// The field element.
+        /// </param>
+        /// <param name="validPrefixes">
+        /// A list of valid prefixes that should not be considered hungarian.
+        /// </param>
         private void CheckFieldPrefix(Field field, Dictionary<string, string> validPrefixes)
         {
             Param.AssertNotNull(field, "field");
@@ -269,42 +191,25 @@ namespace StyleCop.CSharp
                 if (field.Const)
                 {
                     // Const fields must start with an upper-case letter.
-                    this.AddViolation(
-                        field,
-                        field.LineNumber,
-                        Rules.ConstFieldNamesMustBeginWithUpperCaseLetter,
-                        field.Declaration.Name);
+                    this.AddViolation(field, field.LineNumber, Rules.ConstFieldNamesMustBeginWithUpperCaseLetter, field.Declaration.Name);
                 }
-                else if (field.AccessModifier == AccessModifierType.Public ||
-                    field.AccessModifier == AccessModifierType.Internal ||
-                    field.AccessModifier == AccessModifierType.ProtectedInternal)
+                else if (field.AccessModifier == AccessModifierType.Public || field.AccessModifier == AccessModifierType.Internal
+                         || field.AccessModifier == AccessModifierType.ProtectedInternal)
                 {
                     // Public or internal fields must start with an upper-case letter.
-                    this.AddViolation(
-                        field,
-                        field.LineNumber,
-                        Rules.AccessibleFieldsMustBeginWithUpperCaseLetter,
-                        field.Declaration.Name);
+                    this.AddViolation(field, field.LineNumber, Rules.AccessibleFieldsMustBeginWithUpperCaseLetter, field.Declaration.Name);
                 }
 
                 // Readonly fields non-private must start with an upper-case letter.
                 if (field.Readonly && field.AccessModifier != AccessModifierType.Private)
                 {
-                    this.AddViolation(
-                        field,
-                        field.LineNumber,
-                        Rules.NonPrivateReadonlyFieldsMustBeginWithUpperCaseLetter,
-                        field.Declaration.Name);
+                    this.AddViolation(field, field.LineNumber, Rules.NonPrivateReadonlyFieldsMustBeginWithUpperCaseLetter, field.Declaration.Name);
                 }
 
                 // Readonly static fields must start with an upper-case letter.
                 if (field.Readonly && field.Static)
                 {
-                    this.AddViolation(
-                        field,
-                        field.LineNumber,
-                        Rules.StaticReadonlyFieldsMustBeginWithUpperCaseLetter,
-                        field.Declaration.Name);
+                    this.AddViolation(field, field.LineNumber, Rules.StaticReadonlyFieldsMustBeginWithUpperCaseLetter, field.Declaration.Name);
                 }
             }
             else if (char.IsUpper(field.Declaration.Name, index))
@@ -349,13 +254,100 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
+        /// Checks the field name to look for underscores.
+        /// </summary>
+        /// <param name="field">
+        /// The field to check.
+        /// </param>
+        private void CheckFieldUnderscores(CsElement field)
+        {
+            Param.AssertNotNull(field, "field");
+
+            if (field.Declaration.Name.StartsWith("s_", StringComparison.Ordinal) || field.Declaration.Name.StartsWith("m_", StringComparison.Ordinal))
+            {
+                this.AddViolation(field, Rules.VariableNamesMustNotBePrefixed);
+            }
+            else if (field.Declaration.Name.StartsWith("_", StringComparison.Ordinal))
+            {
+                this.AddViolation(field, Rules.FieldNamesMustNotBeginWithUnderscore);
+            }
+            else if (field.Declaration.Name.IndexOf("_", StringComparison.Ordinal) > -1)
+            {
+                this.AddViolation(field, Rules.FieldNamesMustNotContainUnderscore);
+            }
+        }
+
+        /// <summary>
+        /// Checks a variable for hungarian notation.
+        /// </summary>
+        /// <param name="name">
+        /// The variable name.
+        /// </param>
+        /// <param name="startIndex">
+        /// The index in the name where the actual name begins.
+        /// </param>
+        /// <param name="line">
+        /// The number number that this variable appears on, or if 0, uses the line number
+        /// from the element object.
+        /// </param>
+        /// <param name="element">
+        /// The element that the variable appears in.
+        /// </param>
+        /// <param name="validPrefixes">
+        /// A list of valid prefixes that should not be considered hungarian.
+        /// </param>
+        private void CheckHungarian(string name, int startIndex, int line, CsElement element, Dictionary<string, string> validPrefixes)
+        {
+            Param.AssertValidString(name, "name");
+            Param.AssertGreaterThanOrEqualToZero(startIndex, "startIndex");
+            Param.AssertGreaterThanZero(line, "line");
+            Param.AssertNotNull(element, "element");
+            Param.Ignore(validPrefixes);
+
+            if (name.Length - startIndex > 3)
+            {
+                string prefix = null;
+                for (int i = startIndex + 1; i < 3 + startIndex; ++i)
+                {
+                    if (char.IsUpper(name, i))
+                    {
+                        prefix = name.Substring(startIndex, i - startIndex);
+                        break;
+                    }
+                }
+
+                if (prefix != null)
+                {
+                    bool found = false;
+                    if (validPrefixes != null)
+                    {
+                        if (validPrefixes.ContainsKey(prefix))
+                        {
+                            found = true;
+                        }
+                    }
+
+                    if (!found)
+                    {
+                        this.AddViolation(element, line, Rules.FieldNamesMustNotUseHungarianNotation, name);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         /// Checks the prefix for a variable defined within a method or property.
         /// </summary>
-        /// <param name="variable">The variable to check.</param>
-        /// <param name="element">The element that contains the variable.</param>
-        /// <param name="validPrefixes">A list of valid prefixes that should not be considered hungarian.</param>
-        private void CheckMethodVariablePrefix(
-            Variable variable, CsElement element, Dictionary<string, string> validPrefixes)
+        /// <param name="variable">
+        /// The variable to check.
+        /// </param>
+        /// <param name="element">
+        /// The element that contains the variable.
+        /// </param>
+        /// <param name="validPrefixes">
+        /// A list of valid prefixes that should not be considered hungarian.
+        /// </param>
+        private void CheckMethodVariablePrefix(Variable variable, CsElement element, Dictionary<string, string> validPrefixes)
         {
             Param.AssertNotNull(variable, "variable");
             Param.AssertNotNull(element, "element");
@@ -386,12 +378,77 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
+        /// Checks variables to look for underscores.
+        /// </summary>
+        /// <param name="element">
+        /// The parent element.
+        /// </param>
+        /// <param name="variables">
+        /// The variables to check.
+        /// </param>
+        private void CheckUnderscores(CsElement element, VariableCollection variables)
+        {
+            Param.AssertNotNull(element, "element");
+            Param.AssertNotNull(variables, "variables");
+
+            foreach (Variable variable in variables)
+            {
+                if (variable.Name.StartsWith("_", StringComparison.Ordinal) && variable.Name != "__arglist")
+                {
+                    this.AddViolation(element, variable.Location.LineNumber, Rules.FieldNamesMustNotBeginWithUnderscore);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets the list of valid prefixes for the given project.
+        /// </summary>
+        /// <param name="settings">
+        /// The settings for the document being parsed.
+        /// </param>
+        /// <returns>
+        /// Returns the list of prefixes.
+        /// </returns>
+        private Dictionary<string, string> GetPrefixes(Settings settings)
+        {
+            Param.Ignore(settings);
+
+            Dictionary<string, string> validPrefixes = new Dictionary<string, string>();
+
+            if (settings != null)
+            {
+                // Get the allowed hungarian prefixes from the local settings file.
+                CollectionProperty list = this.GetSetting(settings, NamingRules.AllowedPrefixesProperty) as CollectionProperty;
+                if (list != null && list.Count > 0)
+                {
+                    foreach (string value in list)
+                    {
+                        if (!string.IsNullOrEmpty(value) && !validPrefixes.ContainsKey(value))
+                        {
+                            validPrefixes.Add(value, value);
+                        }
+                    }
+                }
+            }
+
+            return validPrefixes;
+        }
+
+        /// <summary>
         /// Processes one element and its children.
         /// </summary>
-        /// <param name="element">The element to process.</param>
-        /// <param name="validPrefixes">The list of valid prefixes for this element.</param>
-        /// <param name="nativeMethods">Indicates whether the element is within a NativeMethods class.</param>
-        /// <returns>Returns false if the analyzer should quit.</returns>
+        /// <param name="element">
+        /// The element to process.
+        /// </param>
+        /// <param name="validPrefixes">
+        /// The list of valid prefixes for this element.
+        /// </param>
+        /// <param name="nativeMethods">
+        /// Indicates whether the element is within a NativeMethods class.
+        /// </param>
+        /// <returns>
+        /// Returns false if the analyzer should quit.
+        /// </returns>
         [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification = "Minimizing refactoring before release.")]
         private bool ProcessElement(CsElement element, Dictionary<string, string> validPrefixes, bool nativeMethods)
         {
@@ -444,9 +501,7 @@ namespace StyleCop.CSharp
                         break;
 
                     case ElementType.Method:
-                        if (!nativeMethods &&
-                            !element.Declaration.Name.StartsWith("operator", StringComparison.Ordinal) && 
-                            element.Declaration.Name != "foreach")
+                        if (!nativeMethods && !element.Declaration.Name.StartsWith("operator", StringComparison.Ordinal) && element.Declaration.Name != "foreach")
                         {
                             this.CheckCase(element, element.Declaration.Name, element.LineNumber, true);
                         }
@@ -475,9 +530,8 @@ namespace StyleCop.CSharp
                 }
             }
 
-            if (!nativeMethods &&
-                (element.ElementType == ElementType.Class || element.ElementType == ElementType.Struct) &&
-                element.Declaration.Name.EndsWith("NativeMethods", StringComparison.Ordinal))
+            if (!nativeMethods && (element.ElementType == ElementType.Class || element.ElementType == ElementType.Struct)
+                && element.Declaration.Name.EndsWith("NativeMethods", StringComparison.Ordinal))
             {
                 nativeMethods = true;
             }
@@ -508,76 +562,17 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Processes the given statement container.
-        /// </summary>
-        /// <param name="element">The statement container element to process.</param>
-        /// <param name="validPrefixes">The list of acceptable Hungarian-type prefixes.</param>
-        private void ProcessStatementContainer(CsElement element, Dictionary<string, string> validPrefixes)
-        {
-            Param.AssertNotNull(element, "element");
-            Param.AssertNotNull(validPrefixes, "validPrefixes");
-
-            // Check the statement container's variables.
-            if (element.Variables != null)
-            {
-                foreach (Variable variable in element.Variables)
-                {
-                    if (!variable.Generated)
-                    {
-                        this.CheckMethodVariablePrefix(variable, element, validPrefixes);
-                        this.CheckUnderscores(element, element.Variables);
-                    }
-                }
-            }
-
-            // Check each of the statements under this container.
-            foreach (Statement statement in element.ChildStatements)
-            {
-                this.ProcessStatement(statement, element, validPrefixes);
-            }
-        }
-
-        /// <summary>
-        /// Processes the given statement.
-        /// </summary>
-        /// <param name="statement">The statement to process.</param>
-        /// <param name="element">The parent element.</param>
-        /// <param name="validPrefixes">The list of acceptable Hungarian-type prefixes.</param>
-        private void ProcessStatement(Statement statement, CsElement element, Dictionary<string, string> validPrefixes)
-        {
-            Param.AssertNotNull(statement, "statement");
-            Param.AssertNotNull(element, "element");
-            Param.AssertNotNull(validPrefixes, "validPrefixes");
-
-            // Check the statement's variables.
-            if (statement.Variables != null)
-            {
-                foreach (Variable variable in statement.Variables)
-                {
-                    this.CheckMethodVariablePrefix(variable, element, validPrefixes);
-                    this.CheckUnderscores(element, statement.Variables);
-                }
-            }
-
-            // Check the expressions under this statement.
-            foreach (Expression expression in statement.ChildExpressions)
-            {
-                this.ProcessExpression(expression, element, validPrefixes);
-            }
-
-            // Check each of the statements under this statement.
-            foreach (Statement childStatement in statement.ChildStatements)
-            {
-                this.ProcessStatement(childStatement, element, validPrefixes);
-            }
-        }
-
-        /// <summary>
         /// Processes the given expression.
         /// </summary>
-        /// <param name="expression">The expression to process.</param>
-        /// <param name="element">The parent element.</param>
-        /// <param name="validPrefixes">The list of acceptable Hungarian-type prefixes.</param>
+        /// <param name="expression">
+        /// The expression to process.
+        /// </param>
+        /// <param name="element">
+        /// The parent element.
+        /// </param>
+        /// <param name="validPrefixes">
+        /// The list of acceptable Hungarian-type prefixes.
+        /// </param>
         private void ProcessExpression(Expression expression, CsElement element, Dictionary<string, string> validPrefixes)
         {
             Param.AssertNotNull(expression, "expression");
@@ -613,47 +608,80 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Checks the case of the first character in the given word.
+        /// Processes the given statement.
         /// </summary>
-        /// <param name="element">The element that the word appears in.</param>
-        /// <param name="name">The word to check.</param>
-        /// <param name="line">The line that the word appears on.</param>
-        /// <param name="upper">True if the character should be upper, false if it should be lower.</param>
-        private void CheckCase(CsElement element, string name, int line, bool upper)
+        /// <param name="statement">
+        /// The statement to process.
+        /// </param>
+        /// <param name="element">
+        /// The parent element.
+        /// </param>
+        /// <param name="validPrefixes">
+        /// The list of acceptable Hungarian-type prefixes.
+        /// </param>
+        private void ProcessStatement(Statement statement, CsElement element, Dictionary<string, string> validPrefixes)
         {
+            Param.AssertNotNull(statement, "statement");
             Param.AssertNotNull(element, "element");
-            Param.AssertValidString(name, "name");
-            Param.AssertGreaterThanZero(line, "line");
-            Param.Ignore(upper);
-            
-            if (name.Length >= 1)
-            {
-                char firstLetter = name[0];
+            Param.AssertNotNull(validPrefixes, "validPrefixes");
 
-                // If the first character is not a letter, then it does not make any sense to check
-                // for upper or lower case.
-                if (char.IsLetter(firstLetter))
+            // Check the statement's variables.
+            if (statement.Variables != null)
+            {
+                foreach (Variable variable in statement.Variables)
                 {
-                    if (upper)
-                    {
-                        if (char.IsLower(firstLetter))
-                        {
-                            // We check for IsLower and not for !isUpper. This is for cultures that don't have Upper or Lower case
-                            // letters like Chinese.
-                            this.AddViolation(element, line, Rules.ElementMustBeginWithUpperCaseLetter, element.FriendlyTypeText, name);
-                        }
-                    }
-                    else
-                    {
-                        if (char.IsUpper(firstLetter))
-                        {
-                            this.AddViolation(element, line, Rules.ElementMustBeginWithLowerCaseLetter, element.FriendlyTypeText, name);
-                        }
-                    }
+                    this.CheckMethodVariablePrefix(variable, element, validPrefixes);
+                    this.CheckUnderscores(element, statement.Variables);
                 }
+            }
+
+            // Check the expressions under this statement.
+            foreach (Expression expression in statement.ChildExpressions)
+            {
+                this.ProcessExpression(expression, element, validPrefixes);
+            }
+
+            // Check each of the statements under this statement.
+            foreach (Statement childStatement in statement.ChildStatements)
+            {
+                this.ProcessStatement(childStatement, element, validPrefixes);
             }
         }
 
-        #endregion Private Methods
+        /// <summary>
+        /// Processes the given statement container.
+        /// </summary>
+        /// <param name="element">
+        /// The statement container element to process.
+        /// </param>
+        /// <param name="validPrefixes">
+        /// The list of acceptable Hungarian-type prefixes.
+        /// </param>
+        private void ProcessStatementContainer(CsElement element, Dictionary<string, string> validPrefixes)
+        {
+            Param.AssertNotNull(element, "element");
+            Param.AssertNotNull(validPrefixes, "validPrefixes");
+
+            // Check the statement container's variables.
+            if (element.Variables != null)
+            {
+                foreach (Variable variable in element.Variables)
+                {
+                    if (!variable.Generated)
+                    {
+                        this.CheckMethodVariablePrefix(variable, element, validPrefixes);
+                        this.CheckUnderscores(element, element.Variables);
+                    }
+                }
+            }
+
+            // Check each of the statements under this container.
+            foreach (Statement statement in element.ChildStatements)
+            {
+                this.ProcessStatement(statement, element, validPrefixes);
+            }
+        }
+
+        #endregion
     }
 }

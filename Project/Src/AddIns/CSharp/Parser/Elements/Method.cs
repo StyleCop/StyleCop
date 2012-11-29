@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="Method.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Method.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Describes a method element.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
     using System;
@@ -24,66 +27,77 @@ namespace StyleCop.CSharp
     /// <subcategory>element</subcategory>
     public sealed class Method : CsElement, IParameterContainer, ITypeConstraintContainer
     {
-        #region Private Fields
-
-        /// <summary>
-        /// The method's return type.
-        /// </summary>
-        private TypeToken returnType;
-
-        /// <summary>
-        /// The method's input parameters.
-        /// </summary>
-        private IList<Parameter> parameters;
-
-        /// <summary>
-        /// The list if type constraints on the item, if any.
-        /// </summary>
-        private ICollection<TypeParameterConstraintClause> typeConstraints;
+        #region Fields
 
         /// <summary>
         /// Indicates whether this is an extension method. 
         /// </summary>
-        private bool extensionMethod;
+        private readonly bool extensionMethod;
 
-        #endregion Private Fields
+        /// <summary>
+        /// The method's input parameters.
+        /// </summary>
+        private readonly IList<Parameter> parameters;
 
-        #region Internal Constructors
+        /// <summary>
+        /// The method's return type.
+        /// </summary>
+        private readonly TypeToken returnType;
+
+        /// <summary>
+        /// The list if type constraints on the item, if any.
+        /// </summary>
+        private readonly ICollection<TypeParameterConstraintClause> typeConstraints;
+
+        #endregion
+
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the Method class.
         /// </summary>
-        /// <param name="document">The document that contains the element.</param>
-        /// <param name="parent">The parent of the element.</param>
-        /// <param name="header">The Xml header for this element.</param>
-        /// <param name="attributes">The list of attributes attached to this element.</param>
-        /// <param name="declaration">The declaration code for this element.</param>
-        /// <param name="returnType">The method's return type.</param>
-        /// <param name="parameters">The parameters to the method.</param>
-        /// <param name="typeConstraints">The list of type constraints on the element.</param>
-        /// <param name="unsafeCode">Indicates whether the element resides within a block of unsafe code.</param>
-        /// <param name="generated">Indicates whether the code element was generated or written by hand.</param>
+        /// <param name="document">
+        /// The document that contains the element.
+        /// </param>
+        /// <param name="parent">
+        /// The parent of the element.
+        /// </param>
+        /// <param name="header">
+        /// The Xml header for this element.
+        /// </param>
+        /// <param name="attributes">
+        /// The list of attributes attached to this element.
+        /// </param>
+        /// <param name="declaration">
+        /// The declaration code for this element.
+        /// </param>
+        /// <param name="returnType">
+        /// The method's return type.
+        /// </param>
+        /// <param name="parameters">
+        /// The parameters to the method.
+        /// </param>
+        /// <param name="typeConstraints">
+        /// The list of type constraints on the element.
+        /// </param>
+        /// <param name="unsafeCode">
+        /// Indicates whether the element resides within a block of unsafe code.
+        /// </param>
+        /// <param name="generated">
+        /// Indicates whether the code element was generated or written by hand.
+        /// </param>
         internal Method(
-            CsDocument document,
-            CsElement parent,
-            XmlHeader header,
-            ICollection<Attribute> attributes,
-            Declaration declaration,
-            TypeToken returnType,
-            IList<Parameter> parameters,
-            ICollection<TypeParameterConstraintClause> typeConstraints,
-            bool unsafeCode,
+            CsDocument document, 
+            CsElement parent, 
+            XmlHeader header, 
+            ICollection<Attribute> attributes, 
+            Declaration declaration, 
+            TypeToken returnType, 
+            IList<Parameter> parameters, 
+            ICollection<TypeParameterConstraintClause> typeConstraints, 
+            bool unsafeCode, 
             bool generated)
-            : base(
-            document, 
-            parent, 
-            ElementType.Method, 
-            "method " + declaration.Name, 
-            header, 
-            attributes,
-            declaration, 
-            unsafeCode,
-            generated)
+            : base(document, parent, ElementType.Method, "method " + declaration.Name, header, attributes, declaration, unsafeCode, generated)
         {
             Param.AssertNotNull(document, "document");
             Param.AssertNotNull(parent, "parent");
@@ -97,7 +111,7 @@ namespace StyleCop.CSharp
             Param.Ignore(generated);
 
             Debug.Assert(
-                returnType != null || declaration.ContainsModifier(CsTokenType.Explicit, CsTokenType.Implicit),
+                returnType != null || declaration.ContainsModifier(CsTokenType.Explicit, CsTokenType.Implicit), 
                 "A method's return type can only be null in an explicit or implicit operator overload method.");
 
             this.returnType = returnType;
@@ -127,8 +141,7 @@ namespace StyleCop.CSharp
 
             // If this is an explicit interface member implementation and our access modifier
             // is currently set to private because we don't have one, then it should be public instead.
-            if (this.Declaration.Name.IndexOf(".", StringComparison.Ordinal) > -1 &&
-                !this.Declaration.Name.StartsWith("this.", StringComparison.Ordinal))
+            if (this.Declaration.Name.IndexOf(".", StringComparison.Ordinal) > -1 && !this.Declaration.Name.StartsWith("this.", StringComparison.Ordinal))
             {
                 this.Declaration.AccessModifierType = AccessModifierType.Public;
             }
@@ -143,18 +156,18 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
 
         /// <summary>
-        /// Gets the method's return type.
+        /// Gets a value indicating whether this is an extension method. 
         /// </summary>
-        public TypeToken ReturnType
+        public bool IsExtensionMethod
         {
             get
             {
-                return this.returnType;
+                return this.extensionMethod;
             }
         }
 
@@ -170,6 +183,17 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
+        /// Gets the method's return type.
+        /// </summary>
+        public TypeToken ReturnType
+        {
+            get
+            {
+                return this.returnType;
+            }
+        }
+
+        /// <summary>
         /// Gets the list of type constraints on the method, if any.
         /// </summary>
         public ICollection<TypeParameterConstraintClause> TypeConstraints
@@ -180,20 +204,9 @@ namespace StyleCop.CSharp
             }
         }
 
-        /// <summary>
-        /// Gets a value indicating whether this is an extension method. 
-        /// </summary>
-        public bool IsExtensionMethod
-        {
-            get
-            {
-                return this.extensionMethod;
-            }
-        }
+        #endregion
 
-        #endregion Public Properties
-
-        #region Internal Override Methods
+        #region Methods
 
         /// <summary>
         /// Initializes the method.
@@ -204,24 +217,18 @@ namespace StyleCop.CSharp
 
             if (this.parameters != null)
             {
-                var methodReference = new Reference<ICodePart>(this);
+                Reference<ICodePart> methodReference = new Reference<ICodePart>(this);
 
                 // Create a variable for each of the parameters.
                 foreach (Parameter parameter in this.parameters)
                 {
-                    Variable variable = new Variable(
-                        parameter.Type, 
-                        parameter.Name, 
-                        VariableModifiers.None, 
-                        parameter.Location, 
-                        methodReference,
-                        parameter.Generated);
+                    Variable variable = new Variable(parameter.Type, parameter.Name, VariableModifiers.None, parameter.Location, methodReference, parameter.Generated);
 
                     this.Variables.Add(variable);
                 }
             }
         }
 
-        #endregion Internal Override Methods
+        #endregion
     }
 }

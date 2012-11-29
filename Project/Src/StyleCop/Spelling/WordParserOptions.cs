@@ -11,8 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
+// <summary>
+//   The options for the word parser.
+// </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.Spelling
 {
     using System;
@@ -26,12 +28,12 @@ namespace StyleCop.Spelling
         /// <summary>
         /// No parser options.
         /// </summary>
-        None,
+        None, 
 
         /// <summary>
         /// If set mnemonics will be ignored.
         /// </summary>
-        IgnoreMnemonicsIndicators,
+        IgnoreMnemonicsIndicators, 
 
         /// <summary>
         /// If set it will split compound words.

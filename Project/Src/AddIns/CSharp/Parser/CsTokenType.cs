@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="CsTokenType.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="CsTokenType.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   The various <see cref="CsToken" /> types from a C# document.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
     using System.Diagnostics.CodeAnalysis;
@@ -26,597 +29,588 @@ namespace StyleCop.CSharp
         /// <summary>
         /// An open parenthesis: '('.
         /// </summary>
-        OpenParenthesis,
+        OpenParenthesis, 
 
         /// <summary>
         /// A close parenthesis: ')'.
         /// </summary>
-        CloseParenthesis,
+        CloseParenthesis, 
 
         /// <summary>
         /// An opening curly bracket: '{'.
         /// </summary>
-        OpenCurlyBracket,
+        OpenCurlyBracket, 
 
         /// <summary>
         /// A closing curly bracket: '}'.
         /// </summary>
-        CloseCurlyBracket,
+        CloseCurlyBracket, 
 
         /// <summary>
         /// An open square bracket: '['.
         /// </summary>
-        OpenSquareBracket,
+        OpenSquareBracket, 
 
         /// <summary>
         /// A close square bracket: ']'.
         /// </summary>
-        CloseSquareBracket,
+        CloseSquareBracket, 
 
         /// <summary>
         /// The opening bracket in a generic statement (a less-than sign).
         /// </summary>
-        OpenGenericBracket,
+        OpenGenericBracket, 
 
         /// <summary>
         /// The closing bracket in a generic statement (a greater-than sign).
         /// </summary>
-        CloseGenericBracket,
+        CloseGenericBracket, 
 
         /// <summary>
         /// An operator symbol.
         /// </summary>
-        OperatorSymbol,
+        OperatorSymbol, 
 
         /// <summary>
         /// A colon preceding a base class initialization.
         /// </summary>
-        BaseColon,
+        BaseColon, 
 
         /// <summary>
         /// A colon in a 'where' statement.
         /// </summary>
-        WhereColon,
+        WhereColon, 
 
         /// <summary>
         /// A colon in an attribute.
         /// </summary>
-        AttributeColon,
+        AttributeColon, 
 
         /// <summary>
         /// A colon after a label, case, or default keyword.
         /// </summary>
-        LabelColon,
+        LabelColon, 
 
         /// <summary>
         /// A comma: ','.
         /// </summary>
-        Comma,
+        Comma, 
 
         /// <summary>
         /// A semicolon ending a line of code: ';'.
         /// </summary>
-        Semicolon,
+        Semicolon, 
 
         /// <summary>
         /// A <c>nullable-type</c> symbol: '?'.
         /// </summary>
-        NullableTypeSymbol,
+        NullableTypeSymbol, 
 
         /// <summary>
         /// The keyword 'abstract'.
         /// </summary>
-        Abstract,
+        Abstract, 
 
         /// <summary>
         /// The keyword 'add'.
         /// </summary>
-        Add,
+        Add, 
 
         /// <summary>
         /// The keyword 'alias'.
         /// </summary>
-        Alias,
+        Alias, 
 
         /// <summary>
         /// The keyword 'as'.
         /// </summary>
-        As,
+        As, 
 
         /// <summary>
         /// The keyword 'ascending'.
         /// </summary>
-        Ascending,
+        Ascending, 
 
         /// <summary>
         /// The keyword 'base'.
         /// </summary>
-        Base,
+        Base, 
 
         /// <summary>
         /// The keyword 'break'.
         /// </summary>
-        Break,
+        Break, 
 
         /// <summary>
         /// The keyword 'by'.
         /// </summary>
-        By,
+        By, 
 
         /// <summary>
         /// The keyword 'case'.
         /// </summary>
-        Case,
+        Case, 
 
         /// <summary>
         /// The keyword 'catch'.
         /// </summary>
-        Catch,
+        Catch, 
 
         /// <summary>
         /// The keyword 'checked'.
         /// </summary>
-        Checked,
+        Checked, 
 
         /// <summary>
         /// The keyword 'class'.
         /// </summary>
-        Class,
+        Class, 
 
         /// <summary>
         /// The keyword <see langword="const"/>.
         /// </summary>
-        Const,
+        Const, 
 
         /// <summary>
         /// The keyword 'continue'.
         /// </summary>
-        Continue,
+        Continue, 
 
         /// <summary>
         /// The keyword 'default', as used in a switch statement.
         /// </summary>
-        Default,
+        Default, 
 
         /// <summary>
         /// The keyword 'default', as used in a default-value expression.
         /// </summary>
-        DefaultValue,
+        DefaultValue, 
 
         /// <summary>
         /// The keyword 'delegate'.
         /// </summary>
-        Delegate,
+        Delegate, 
 
         /// <summary>
         /// The keyword 'descending'.
         /// </summary>
-        Descending,
+        Descending, 
 
         /// <summary>
         /// The keyword 'do'.
         /// </summary>
-        Do,
+        Do, 
 
         /// <summary>
         /// The keyword 'else'.
         /// </summary>
-        Else,
+        Else, 
 
         /// <summary>
         /// The keyword '<see cref="Enum"/>'.
         /// </summary>
-        Enum,
+        Enum, 
 
         /// <summary>
         /// The keyword 'equals'.
         /// </summary>
-        Equals,
+        Equals, 
 
         /// <summary>
         /// The keyword 'event'.
         /// </summary>
-        Event,
+        Event, 
 
         /// <summary>
         /// The keyword 'explicit'.
         /// </summary>
-        Explicit,
+        Explicit, 
 
         /// <summary>
         /// The keyword 'extern' in a method declaration.
         /// </summary>
-        Extern,
+        Extern, 
 
         /// <summary>
         /// The keyword 'extern' in an extern alias directive.
         /// </summary>
-        ExternDirective,
+        ExternDirective, 
 
         /// <summary>
         /// The keyword 'false'.
         /// </summary>
-        False,
+        False, 
 
         /// <summary>
         /// The keyword 'finally'.
         /// </summary>
-        Finally,
+        Finally, 
 
         /// <summary>
         /// The keyword 'fixed'.
         /// </summary>
-        Fixed,
+        Fixed, 
 
         /// <summary>
         /// The keyword 'for'.
         /// </summary>
-        For,
+        For, 
 
         /// <summary>
         /// The keyword 'foreach'.
         /// </summary>
-        Foreach,
+        Foreach, 
 
         /// <summary>
         /// The keyword 'from'.
         /// </summary>
-        From,
+        From, 
 
         /// <summary>
         /// The keyword 'get'.
         /// </summary>
-        Get,
+        Get, 
 
         /// <summary>
         /// The keyword 'goto'.
         /// </summary>
-        Goto,
+        Goto, 
 
         /// <summary>
         /// The keyword 'group'.
         /// </summary>
-        Group,
+        Group, 
 
         /// <summary>
         /// The keyword 'if'.
         /// </summary>
-        If,
+        If, 
 
         /// <summary>
         /// The keyword 'implicit'.
         /// </summary>
-        Implicit,
+        Implicit, 
 
         /// <summary>
         /// The keyword 'in'.
         /// </summary>
-        In,
+        In, 
 
         /// <summary>
         /// The keyword 'interface'.
         /// </summary>
-        Interface,
+        Interface, 
 
         /// <summary>
         /// The keyword 'internal'.
         /// </summary>
-        Internal,
+        Internal, 
 
         /// <summary>
         /// The keyword 'into'.
         /// </summary>
-        Into,
+        Into, 
 
         /// <summary>
         /// The keyword 'is'.
         /// </summary>
-        Is,
+        Is, 
 
         /// <summary>
         /// The keyword 'join'.
         /// </summary>
-        Join,
+        Join, 
 
         /// <summary>
         /// The keyword 'let'.
         /// </summary>
-        Let,
+        Let, 
 
         /// <summary>
         /// The keyword 'lock'.
         /// </summary>
-        Lock,
+        Lock, 
 
         /// <summary>
         /// The keyword 'namespace'.
         /// </summary>
-        Namespace,
+        Namespace, 
 
         /// <summary>
         /// The keyword 'new'.
         /// </summary>
-        New,
+        New, 
 
         /// <summary>
         /// The keyword 'Null'.
         /// </summary>
-        Null,
+        Null, 
 
         /// <summary>
         /// The keyword 'On'.
         /// </summary>
-        On,
+        On, 
 
         /// <summary>
         /// The keyword 'Operator'.
         /// </summary>
-        Operator,
+        Operator, 
 
         /// <summary>
         /// The keyword 'OrderBy'.
         /// </summary>
-        OrderBy,
+        OrderBy, 
 
         /// <summary>
         /// The keyword 'Out'.
         /// </summary>
-        Out,
+        Out, 
 
         /// <summary>
         /// The keyword 'override'.
         /// </summary>
-        Override,
+        Override, 
 
         /// <summary>
         /// The keyword '<c>params</c>'.
         /// </summary>
-        Params,
+        Params, 
 
         /// <summary>
         /// The keyword 'partial'.
         /// </summary>
-        Partial,
+        Partial, 
 
         /// <summary>
         /// The keyword 'private'.
         /// </summary>
-        Private,
+        Private, 
 
         /// <summary>
         /// The keyword 'protected'.
         /// </summary>
-        Protected,
+        Protected, 
 
         /// <summary>
         /// The keyword 'public'.
         /// </summary>
-        Public,
+        Public, 
 
         /// <summary>
         /// The keyword 'readonly'.
         /// </summary>
-        [SuppressMessage(
-            "Microsoft.Naming", 
-            "CA1702:CompoundWordsShouldBeCasedCorrectly", 
-            MessageId = "Readonly",
+        [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "Readonly", 
             Justification = "API has already been published and should not be changed.")]
-        Readonly,
+        Readonly, 
 
         /// <summary>
         /// The keyword 'ref'.
         /// </summary>
-        Ref,
+        Ref, 
 
         /// <summary>
         /// The keyword 'remove'.
         /// </summary>
-        Remove,
+        Remove, 
 
         /// <summary>
         /// The keyword 'return'.
         /// </summary>
-        Return,
+        Return, 
 
         /// <summary>
         /// The keyword 'sealed'.
         /// </summary>
-        Sealed,
+        Sealed, 
 
         /// <summary>
         /// The keyword 'select'.
         /// </summary>
-        Select,
+        Select, 
 
         /// <summary>
         /// The keyword 'set'.
         /// </summary>
-        Set,
+        Set, 
 
         /// <summary>
         /// The keyword 'sizeof'.
         /// </summary>
-        Sizeof,
+        Sizeof, 
 
         /// <summary>
         /// The keyword 'stackalloc'.
         /// </summary>
-        Stackalloc,
+        Stackalloc, 
 
         /// <summary>
         /// The keyword 'static'.
         /// </summary>
-        Static,
+        Static, 
 
         /// <summary>
         /// The keyword 'struct'.
         /// </summary>
-        Struct,
+        Struct, 
 
         /// <summary>
         /// The keyword 'switch'.
         /// </summary>
-        Switch,
+        Switch, 
 
         /// <summary>
         /// The keyword 'this'.
         /// </summary>
-        This,
+        This, 
 
         /// <summary>
         /// The keyword 'throw'.
         /// </summary>
-        Throw,
+        Throw, 
 
         /// <summary>
         /// The keyword 'true'.
         /// </summary>
-        True,
+        True, 
 
         /// <summary>
         /// The keyword 'try'.
         /// </summary>
-        Try,
+        Try, 
 
         /// <summary>
         /// The keyword 'typeof'.
         /// </summary>
-        Typeof,
+        Typeof, 
 
         /// <summary>
         /// The keyword 'unchecked'.
         /// </summary>
-        Unchecked,
+        Unchecked, 
 
         /// <summary>
         /// The keyword 'unsafe'.
         /// </summary>
-        Unsafe,
+        Unsafe, 
 
         /// <summary>
         /// The keyword 'using' in a using-statement.
         /// </summary>
-        Using,
+        Using, 
 
         /// <summary>
         /// The keyword 'using' in a using-directive.
         /// </summary>
-        UsingDirective,
+        UsingDirective, 
 
         /// <summary>
         /// The keyword 'virtual'.
         /// </summary>
-        Virtual,
+        Virtual, 
 
         /// <summary>
         /// The keyword 'volatile'.
         /// </summary>
-        Volatile,
+        Volatile, 
 
         /// <summary>
         /// The keyword 'where'.
         /// </summary>
-        Where,
+        Where, 
 
         /// <summary>
         /// The keyword 'while'.
         /// </summary>
-        While,
+        While, 
 
         /// <summary>
         /// The keyword 'while' at the end of a do/while statement.
         /// </summary>
-        WhileDo,
+        WhileDo, 
 
         /// <summary>
         /// The keyword 'yield'.
         /// </summary>
-        Yield,
+        Yield, 
 
         /// <summary>
         /// An unknown token.
         /// </summary>
-        Other,
+        Other, 
 
         /// <summary>
         /// A group of whitespace.
         /// </summary>
-        WhiteSpace,
+        WhiteSpace, 
 
         /// <summary>
         /// An end-of-line character.
         /// </summary>
-        EndOfLine,
+        EndOfLine, 
 
         /// <summary>
         /// A string constant.
         /// </summary>
-        String,
+        String, 
 
         /// <summary>
         /// A number constant.
         /// </summary>
-        Number,
+        Number, 
 
         /// <summary>
         /// A single-line comment.
         /// </summary>
-        SingleLineComment,
+        SingleLineComment, 
 
         /// <summary>
         /// A multi-line comment.
         /// </summary>
-        [SuppressMessage(
-            "Microsoft.Naming", 
-            "CA1704:IdentifiersShouldBeSpelledCorrectly", 
-            MessageId = "Multi",
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Multi", 
             Justification = "Named to be consistent with casing of SingleLineComment.")]
-        [SuppressMessage(
-            "Microsoft.Naming", 
-            "CA1702:CompoundWordsShouldBeCasedCorrectly", 
-            MessageId = "MultiLine",
+        [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "MultiLine", 
             Justification = "Named to be consistent with casing of SingleLineComment.")]
-        MultiLineComment,
+        MultiLineComment, 
 
         /// <summary>
         /// A preprocessor directive.
         /// </summary>
-        PreprocessorDirective,
+        PreprocessorDirective, 
 
         /// <summary>
         /// An element or assembly attribute.
         /// </summary>
-        Attribute,
+        Attribute, 
 
         /// <summary>
         /// A square bracket opening an attribute.
         /// </summary>
-        OpenAttributeBracket,
+        OpenAttributeBracket, 
 
         /// <summary>
         /// A square bracket closing an attribute.
         /// </summary>
-        CloseAttributeBracket,
+        CloseAttributeBracket, 
 
         /// <summary>
         /// An Xml header.
         /// </summary>
-        XmlHeader,
+        XmlHeader, 
 
         /// <summary>
         /// A line within an Xml header.
         /// </summary>
-        XmlHeaderLine,
+        XmlHeaderLine, 
 
         /// <summary>
         /// The tilde before the name of a destructor.
         /// </summary>
-        DestructorTilde,
+        DestructorTilde, 
 
         /// <summary>
         /// The async keyword.
         /// </summary>
-        Async,
+        Async, 
 
         /// <summary>
         /// The await keyword.

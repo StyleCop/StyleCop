@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="SwitchStatement.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SwitchStatement.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,10 +11,12 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   A switch-statement.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
 
@@ -24,39 +26,43 @@ namespace StyleCop.CSharp
     /// <subcategory>statement</subcategory>
     public sealed class SwitchStatement : Statement
     {
-        #region Private Fields
-
-        /// <summary>
-        /// The expression to switch off of.
-        /// </summary>
-        private Expression switchItem;
+        #region Fields
 
         /// <summary>
         /// The list of case statements under the switch statements.
         /// </summary>
-        private ICollection<SwitchCaseStatement> caseStatements;
+        private readonly ICollection<SwitchCaseStatement> caseStatements;
 
         /// <summary>
         /// The default statement under the switch statement, if there is one.
         /// </summary>
-        private SwitchDefaultStatement defaultStatement;
+        private readonly SwitchDefaultStatement defaultStatement;
 
-        #endregion Private Fields
+        /// <summary>
+        /// The expression to switch off of.
+        /// </summary>
+        private readonly Expression switchItem;
 
-        #region Internal Constructors
+        #endregion
+
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the SwitchStatement class.
         /// </summary>
-        /// <param name="tokens">The list of tokens that form the statement.</param>
-        /// <param name="switchItem">The expression to switch off of.</param>
-        /// <param name="caseStatements">The list of case statements under the switch statement.</param>
-        /// <param name="defaultStatement">The default statement under the switch statement.</param>
-        internal SwitchStatement(
-            CsTokenList tokens, 
-            Expression switchItem, 
-            ICollection<SwitchCaseStatement> caseStatements, 
-            SwitchDefaultStatement defaultStatement)
+        /// <param name="tokens">
+        /// The list of tokens that form the statement.
+        /// </param>
+        /// <param name="switchItem">
+        /// The expression to switch off of.
+        /// </param>
+        /// <param name="caseStatements">
+        /// The list of case statements under the switch statement.
+        /// </param>
+        /// <param name="defaultStatement">
+        /// The default statement under the switch statement.
+        /// </param>
+        internal SwitchStatement(CsTokenList tokens, Expression switchItem, ICollection<SwitchCaseStatement> caseStatements, SwitchDefaultStatement defaultStatement)
             : base(StatementType.Switch, tokens)
         {
             Param.AssertNotNull(tokens, "tokens");
@@ -83,20 +89,9 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Internal Constructors
-    
-        #region Public Properties
+        #endregion
 
-        /// <summary>
-        /// Gets the expression to switch off of.
-        /// </summary>
-        public Expression SwitchItem
-        {
-            get
-            {
-                return this.switchItem;
-            }
-        }
+        #region Public Properties
 
         /// <summary>
         /// Gets the list of case statements under the switch statement.
@@ -120,6 +115,17 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Properties
+        /// <summary>
+        /// Gets the expression to switch off of.
+        /// </summary>
+        public Expression SwitchItem
+        {
+            get
+            {
+                return this.switchItem;
+            }
+        }
+
+        #endregion
     }
 }

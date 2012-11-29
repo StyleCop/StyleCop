@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="UnsafeAccessExpression.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="UnsafeAccessExpression.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,13 +11,13 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   An expression representing a dereference or address-of operation.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
-    using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
-    using System.Text;
 
     /// <summary>
     /// An expression representing a dereference or address-of operation.
@@ -25,28 +25,34 @@ namespace StyleCop.CSharp
     /// <subcategory>expression</subcategory>
     public sealed class UnsafeAccessExpression : Expression
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// The type of operation being performed.
         /// </summary>
-        private Operator operatorType;
+        private readonly Operator operatorType;
 
         /// <summary>
         /// The expression the operator is being applied to.
         /// </summary>
-        private Expression value;
+        private readonly Expression value;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the UnsafeAccessExpression class.
         /// </summary>
-        /// <param name="tokens">The list of tokens that form the expression.</param>
-        /// <param name="operatorType">The type of operation being performed.</param>
-        /// <param name="value">The value the operator is being applied to.</param>
+        /// <param name="tokens">
+        /// The list of tokens that form the expression.
+        /// </param>
+        /// <param name="operatorType">
+        /// The type of operation being performed.
+        /// </param>
+        /// <param name="value">
+        /// The value the operator is being applied to.
+        /// </param>
         internal UnsafeAccessExpression(CsTokenList tokens, Operator operatorType, Expression value)
             : base(ExpressionType.UnsafeAccess, tokens)
         {
@@ -60,9 +66,9 @@ namespace StyleCop.CSharp
             this.AddExpression(value);
         }
 
-        #endregion Internal Constructors
+        #endregion
 
-        #region Public Enums
+        #region Enums
 
         /// <summary>
         /// The various unsafe access operator types.
@@ -75,7 +81,7 @@ namespace StyleCop.CSharp
             /// <summary>
             /// The * operator.
             /// </summary>
-            Dereference,
+            Dereference, 
 
             /// <summary>
             /// The ampersand address-of operator.
@@ -83,7 +89,7 @@ namespace StyleCop.CSharp
             AddressOf
         }
 
-        #endregion Public Enums
+        #endregion
 
         #region Public Properties
 
@@ -109,6 +115,6 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Properties
+        #endregion
     }
 }

@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="Expression.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Expression.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   A single expression within a <see cref="Statement" />.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
     using System.Diagnostics;
@@ -25,27 +28,30 @@ namespace StyleCop.CSharp
     [DebuggerDisplay("{Text}")]
     public class Expression : CodeUnit
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// The type of the expression.
         /// </summary>
-        private ExpressionType type;
+        private readonly ExpressionType type;
 
         /// <summary>
         /// Stores a text representation of the expression. This is created on demand.
         /// </summary>
         private string text;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the Expression class.
         /// </summary>
-        /// <param name="type">The type of the expression.</param>
-        internal Expression(ExpressionType type) : base(CodePartType.Expression)
+        /// <param name="type">
+        /// The type of the expression.
+        /// </param>
+        internal Expression(ExpressionType type)
+            : base(CodePartType.Expression)
         {
             Param.Ignore(type);
 
@@ -55,11 +61,13 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Initializes a new instance of the Expression class.
         /// </summary>
-        /// <param name="type">The type of the expression.</param>
-        /// <param name="tokens">The list of tokens that form the expression.</param>
-        [SuppressMessage(
-            "Microsoft.Usage", 
-            "CA2214:DoNotCallOverridableMethodsInConstructors", 
+        /// <param name="type">
+        /// The type of the expression.
+        /// </param>
+        /// <param name="tokens">
+        /// The list of tokens that form the expression.
+        /// </param>
+        [SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors", 
             Justification = "The tokens property is virtual but it this is safe as expressions are sealed.")]
         internal Expression(ExpressionType type, CsTokenList tokens)
             : base(CodePartType.Expression, tokens)
@@ -75,7 +83,7 @@ namespace StyleCop.CSharp
             Debug.Assert(this.Tokens.First != null, "The tokens list should not be empty");
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
 
@@ -106,22 +114,32 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Properties
+        #endregion
 
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Walks through the code units in the expression.
         /// </summary>
-        /// <param name="statementCallback">Callback executed when a statement is visited.</param>
-        /// <param name="expressionCallback">Callback executed when an expression is visited.</param>
-        /// <param name="queryClauseCallback">Callback executed when a query clause is visited.</param>
-        /// <param name="context">The optional visitor context data.</param>
-        /// <typeparam name="T">The type of the context item.</typeparam>
+        /// <param name="statementCallback">
+        /// Callback executed when a statement is visited.
+        /// </param>
+        /// <param name="expressionCallback">
+        /// Callback executed when an expression is visited.
+        /// </param>
+        /// <param name="queryClauseCallback">
+        /// Callback executed when a query clause is visited.
+        /// </param>
+        /// <param name="context">
+        /// The optional visitor context data.
+        /// </param>
+        /// <typeparam name="T">
+        /// The type of the context item.
+        /// </typeparam>
         public void WalkExpression<T>(
-            CodeWalkerStatementVisitor<T> statementCallback,
-            CodeWalkerExpressionVisitor<T> expressionCallback,
-            CodeWalkerQueryClauseVisitor<T> queryClauseCallback,
+            CodeWalkerStatementVisitor<T> statementCallback, 
+            CodeWalkerExpressionVisitor<T> expressionCallback, 
+            CodeWalkerQueryClauseVisitor<T> queryClauseCallback, 
             T context)
         {
             Param.Ignore(statementCallback, expressionCallback, queryClauseCallback, context);
@@ -131,14 +149,19 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Walks through the code units in the expression.
         /// </summary>
-        /// <param name="statementCallback">Callback executed when a statement is visited.</param>
-        /// <param name="expressionCallback">Callback executed when an expression is visited.</param>
-        /// <param name="context">The optional visitor context data.</param>
-        /// <typeparam name="T">The type of the context item.</typeparam>
-        public void WalkExpression<T>(
-            CodeWalkerStatementVisitor<T> statementCallback,
-            CodeWalkerExpressionVisitor<T> expressionCallback,
-            T context)
+        /// <param name="statementCallback">
+        /// Callback executed when a statement is visited.
+        /// </param>
+        /// <param name="expressionCallback">
+        /// Callback executed when an expression is visited.
+        /// </param>
+        /// <param name="context">
+        /// The optional visitor context data.
+        /// </param>
+        /// <typeparam name="T">
+        /// The type of the context item.
+        /// </typeparam>
+        public void WalkExpression<T>(CodeWalkerStatementVisitor<T> statementCallback, CodeWalkerExpressionVisitor<T> expressionCallback, T context)
         {
             Param.Ignore(statementCallback, expressionCallback, context);
             this.WalkExpression(statementCallback, expressionCallback, null, context);
@@ -147,12 +170,16 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Walks through the code units in the expression.
         /// </summary>
-        /// <param name="statementCallback">Callback executed when a statement is visited.</param>
-        /// <param name="context">The optional visitor context data.</param>
-        /// <typeparam name="T">The type of the context item.</typeparam>
-        public void WalkExpression<T>(
-            CodeWalkerStatementVisitor<T> statementCallback,
-            T context)
+        /// <param name="statementCallback">
+        /// Callback executed when a statement is visited.
+        /// </param>
+        /// <param name="context">
+        /// The optional visitor context data.
+        /// </param>
+        /// <typeparam name="T">
+        /// The type of the context item.
+        /// </typeparam>
+        public void WalkExpression<T>(CodeWalkerStatementVisitor<T> statementCallback, T context)
         {
             Param.Ignore(statementCallback, context);
             this.WalkExpression(statementCallback, null, null, context);
@@ -161,12 +188,18 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Walks through the code units in the expression.
         /// </summary>
-        /// <param name="statementCallback">Callback executed when a statement is visited.</param>
-        /// <param name="expressionCallback">Callback executed when an expression is visited.</param>
-        /// <param name="queryClauseCallback">Callback executed when a query clause is visited.</param>
+        /// <param name="statementCallback">
+        /// Callback executed when a statement is visited.
+        /// </param>
+        /// <param name="expressionCallback">
+        /// Callback executed when an expression is visited.
+        /// </param>
+        /// <param name="queryClauseCallback">
+        /// Callback executed when a query clause is visited.
+        /// </param>
         public void WalkExpression(
-            CodeWalkerStatementVisitor<object> statementCallback,
-            CodeWalkerExpressionVisitor<object> expressionCallback,
+            CodeWalkerStatementVisitor<object> statementCallback, 
+            CodeWalkerExpressionVisitor<object> expressionCallback, 
             CodeWalkerQueryClauseVisitor<object> queryClauseCallback)
         {
             Param.Ignore(statementCallback, expressionCallback, queryClauseCallback);
@@ -176,11 +209,13 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Walks through the code units in the expression.
         /// </summary>
-        /// <param name="statementCallback">Callback executed when a statement is visited.</param>
-        /// <param name="expressionCallback">Callback executed when an expression is visited.</param>
-        public void WalkExpression(
-            CodeWalkerStatementVisitor<object> statementCallback,
-            CodeWalkerExpressionVisitor<object> expressionCallback)
+        /// <param name="statementCallback">
+        /// Callback executed when a statement is visited.
+        /// </param>
+        /// <param name="expressionCallback">
+        /// Callback executed when an expression is visited.
+        /// </param>
+        public void WalkExpression(CodeWalkerStatementVisitor<object> statementCallback, CodeWalkerExpressionVisitor<object> expressionCallback)
         {
             Param.Ignore(statementCallback, expressionCallback);
             this.WalkExpression(statementCallback, expressionCallback, null, null);
@@ -189,16 +224,18 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Walks through the code units in the expression.
         /// </summary>
-        /// <param name="statementCallback">Callback executed when a statement is visited.</param>
+        /// <param name="statementCallback">
+        /// Callback executed when a statement is visited.
+        /// </param>
         public void WalkExpression(CodeWalkerStatementVisitor<object> statementCallback)
         {
             Param.Ignore(statementCallback);
             this.WalkExpression(statementCallback, null, null, null);
         }
 
-        #endregion Public Methods
+        #endregion
 
-        #region Private Methods
+        #region Methods
 
         /// <summary>
         /// Creates a text string based on the child tokens in the attribute.
@@ -209,9 +246,8 @@ namespace StyleCop.CSharp
             foreach (CsToken token in this.Tokens)
             {
                 // Strip out comments and preprocessor directives.
-                if (token.CsTokenType != CsTokenType.SingleLineComment &&
-                    token.CsTokenType != CsTokenType.MultiLineComment &&
-                    token.CsTokenType != CsTokenType.PreprocessorDirective)
+                if (token.CsTokenType != CsTokenType.SingleLineComment && token.CsTokenType != CsTokenType.MultiLineComment
+                    && token.CsTokenType != CsTokenType.PreprocessorDirective)
                 {
                     string decodedText = CodeLexer.DecodeEscapedText(token.Text, true);
                     tokenText.Append(decodedText);
@@ -221,6 +257,6 @@ namespace StyleCop.CSharp
             this.text = tokenText.ToString();
         }
 
-        #endregion Private Methods
+        #endregion
     }
 }

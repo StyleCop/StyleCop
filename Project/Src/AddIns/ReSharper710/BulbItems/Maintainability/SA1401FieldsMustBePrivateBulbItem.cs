@@ -15,7 +15,6 @@
 //   The s a 1401 fields must be private bulb item.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper710.BulbItems.Maintainability
 {
     #region Using Directives
@@ -37,7 +36,7 @@ namespace StyleCop.ReSharper710.BulbItems.Maintainability
     /// </summary>
     internal class SA1401FieldsMustBePrivateBulbItem : V5BulbItemImpl
     {
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// The execute transaction inner.
@@ -50,10 +49,11 @@ namespace StyleCop.ReSharper710.BulbItems.Maintainability
         /// </param>
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
-            var element = Utils.GetElementAtCaret(solution, textControl);
-            
-            var containingElement = element.GetContainingNode<IFieldDeclaration>(true) ?? element.GetContainingNode<IMultipleDeclaration>(true) ?? element.PrevSibling;
-            
+            ITreeNode element = Utils.GetElementAtCaret(solution, textControl);
+
+            ITreeNode containingElement = element.GetContainingNode<IFieldDeclaration>(true)
+                                          ?? element.GetContainingNode<IMultipleDeclaration>(true) ?? element.PrevSibling;
+
             ModifiersUtil.SetAccessRights(containingElement, AccessRights.PRIVATE);
         }
 

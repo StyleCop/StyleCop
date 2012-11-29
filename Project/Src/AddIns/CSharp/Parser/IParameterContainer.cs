@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="IParameterContainer.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="IParameterContainer.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,10 +11,12 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Interface that must be implemented by statements containing a list of parameters.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
     using System.Collections.Generic;
 
     /// <summary>
@@ -23,16 +25,13 @@ namespace StyleCop.CSharp
     /// <subcategory>interface</subcategory>
     public interface IParameterContainer
     {
-        #region Properties
+        #region Public Properties
 
         /// <summary>
         /// Gets the list of parameters in the container.
         /// </summary>
-        IList<Parameter> Parameters
-        {
-            get;
-        }
+        IList<Parameter> Parameters { get; }
 
-        #endregion Properties
+        #endregion
     }
 }

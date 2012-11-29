@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="EmptyStatement.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="EmptyStatement.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,29 +11,32 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   A statement consisting only of a single semicolon.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
-
     /// <summary>
     /// A statement consisting only of a single semicolon.
     /// </summary>
     /// <subcategory>statement</subcategory>
     public sealed class EmptyStatement : Statement
     {
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the EmptyStatement class.
         /// </summary>
-        /// <param name="tokens">The list of tokens that form the statement.</param>
+        /// <param name="tokens">
+        /// The list of tokens that form the statement.
+        /// </param>
         internal EmptyStatement(CsTokenList tokens)
             : base(StatementType.Empty, tokens)
         {
             Param.Ignore(tokens);
         }
 
-        #endregion Internal Constructors
+        #endregion
     }
 }

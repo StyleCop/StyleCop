@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="QueryOrderByDirection.cs">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="QueryOrderByDirection.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   The various direction types for an order-by query.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
     /// <summary>
@@ -22,12 +25,12 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Undefined order.
         /// </summary>
-        Undefined,
+        Undefined, 
 
         /// <summary>
         /// Ascending order.
         /// </summary>
-        Ascending,
+        Ascending, 
 
         /// <summary>
         /// Descending order.

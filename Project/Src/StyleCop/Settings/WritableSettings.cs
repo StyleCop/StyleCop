@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="WritableSettings.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="WritableSettings.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Represents a single StyleCop settings file in read-write mode.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop
 {
     using System;
@@ -25,38 +28,47 @@ namespace StyleCop
     /// </summary>
     public sealed class WritableSettings : Settings
     {
+        #region Constants
+
         /// <summary>
         /// This is the StyleCop.Settings file version number written into files.
         /// </summary>
         private const string CurrentSettingsVersion = "105";
 
-        #region Public Constructors
+        #endregion
+
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the WritableSettings class.
         /// </summary>
-        /// <param name="core">The StyleCop core instance.</param>
-        /// <param name="location">The location of the settings document.</param>
-        /// <param name="contents">The initial contents of the settings document.</param>
-        /// <param name="writeTime">The time when the settings were last updated.</param>
+        /// <param name="core">
+        /// The StyleCop core instance.
+        /// </param>
+        /// <param name="location">
+        /// The location of the settings document.
+        /// </param>
+        /// <param name="contents">
+        /// The initial contents of the settings document.
+        /// </param>
+        /// <param name="writeTime">
+        /// The time when the settings were last updated.
+        /// </param>
         public WritableSettings(StyleCopCore core, string location, XmlDocument contents, DateTime writeTime)
             : base(core, location, contents, writeTime)
         {
             Param.Ignore(core, location, contents, writeTime);
         }
 
-        #endregion Public Constructors
+        #endregion
 
-        #region Public Static Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Creates a new settings document.
         /// </summary>
         /// <returns>Returns the new document.</returns>
-        [SuppressMessage(
-            "Microsoft.Design", 
-            "CA1059:MembersShouldNotExposeCertainConcreteTypes", 
-            MessageId = "System.Xml.XmlNode",
+        [SuppressMessage("Microsoft.Design", "CA1059:MembersShouldNotExposeCertainConcreteTypes", MessageId = "System.Xml.XmlNode", 
             Justification = "Compliance would break the well-defined public API.")]
         public static XmlDocument NewDocument()
         {
@@ -73,37 +85,16 @@ namespace StyleCop
             return document;
         }
 
-        #endregion Public Static Methods
-
-        #region Public Methods
-
-        /// <summary>
-        /// Sets a setting for the given add-in.
-        /// </summary>
-        /// <param name="addIn">The add-in.</param>
-        /// <param name="property">The setting property to set.</param>
-        [SuppressMessage(
-            "Microsoft.Naming",
-            "CA1702:CompoundWordsShouldBeCasedCorrectly",
-            MessageId = "InSetting",
-            Justification = "InSetting is two words in this context.")]
-        public void SetAddInSetting(StyleCopAddIn addIn, PropertyValue property)
-        {
-            Param.RequireNotNull(addIn, "addIn");
-            Param.RequireNotNull(property, "property");
-
-            this.SetAddInSettingInternal(addIn, property);
-        }
-
         /// <summary>
         /// Clears a setting for the given add-in.
         /// </summary>
-        /// <param name="addIn">The add-in.</param>
-        /// <param name="propertyName">The name of the property to clear.</param>
-        [SuppressMessage(
-            "Microsoft.Naming",
-            "CA1702:CompoundWordsShouldBeCasedCorrectly",
-            MessageId = "InSetting",
+        /// <param name="addIn">
+        /// The add-in.
+        /// </param>
+        /// <param name="propertyName">
+        /// The name of the property to clear.
+        /// </param>
+        [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "InSetting", 
             Justification = "InSetting is two words in this context.")]
         public void ClearAddInSetting(StyleCopAddIn addIn, string propertyName)
         {
@@ -114,14 +105,34 @@ namespace StyleCop
         }
 
         /// <summary>
+        /// Sets a setting for the given add-in.
+        /// </summary>
+        /// <param name="addIn">
+        /// The add-in.
+        /// </param>
+        /// <param name="property">
+        /// The setting property to set.
+        /// </param>
+        [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "InSetting", 
+            Justification = "InSetting is two words in this context.")]
+        public void SetAddInSetting(StyleCopAddIn addIn, PropertyValue property)
+        {
+            Param.RequireNotNull(addIn, "addIn");
+            Param.RequireNotNull(property, "property");
+
+            this.SetAddInSettingInternal(addIn, property);
+        }
+
+        /// <summary>
         /// Writes the settings into the given document.
         /// </summary>
-        /// <param name="environment">The environment that StyleCop is running under, if any.</param>
-        /// <returns>Returns the new settings document.</returns>
-        [SuppressMessage(
-            "Microsoft.Design",
-            "CA1059:MembersShouldNotExposeCertainConcreteTypes",
-            MessageId = "System.Xml.XmlNode",
+        /// <param name="environment">
+        /// The environment that StyleCop is running under, if any.
+        /// </param>
+        /// <returns>
+        /// Returns the new settings document.
+        /// </returns>
+        [SuppressMessage("Microsoft.Design", "CA1059:MembersShouldNotExposeCertainConcreteTypes", MessageId = "System.Xml.XmlNode", 
             Justification = "Compliance would break the well-defined public API.")]
         public XmlDocument WriteSettingsToDocument(StyleCopEnvironment environment)
         {
@@ -134,28 +145,153 @@ namespace StyleCop
 
             return document;
         }
-        
-        #endregion Public Methods
 
-        #region Private Static Methods
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Saves the given boolean property into the given node.
+        /// </summary>
+        /// <param name="rootNode">
+        /// The node under which to store the new property node.
+        /// </param>
+        /// <param name="property">
+        /// The property to save.
+        /// </param>
+        /// <param name="propertyName">
+        /// The name of the property.
+        /// </param>
+        /// <returns>
+        /// Returns true if the property was written.
+        /// </returns>
+        private static bool SaveBooleanProperty(XmlNode rootNode, BooleanProperty property, string propertyName)
+        {
+            Param.AssertNotNull(rootNode, "rootNode");
+            Param.AssertNotNull(property, "property");
+            Param.AssertValidString(propertyName, "propertyName");
+
+            // Create and append the root node for this property.
+            XmlNode propertyNode = rootNode.OwnerDocument.CreateElement("BooleanProperty");
+            rootNode.AppendChild(propertyNode);
+
+            XmlAttribute propertyNameAttribute = rootNode.OwnerDocument.CreateAttribute("Name");
+            propertyNameAttribute.Value = propertyName;
+            propertyNode.Attributes.Append(propertyNameAttribute);
+
+            // Add the value.
+            propertyNode.InnerText = property.Value.ToString();
+
+            return true;
+        }
+
+        /// <summary>
+        /// Saves the given collection property into the given node.
+        /// </summary>
+        /// <param name="rootNode">
+        /// The node under which to store the new property node.
+        /// </param>
+        /// <param name="property">
+        /// The property to save.
+        /// </param>
+        /// <param name="propertyName">
+        /// The name of the property.
+        /// </param>
+        /// <returns>
+        /// Returns true if the property was written.
+        /// </returns>
+        private static bool SaveCollectionProperty(XmlNode rootNode, CollectionProperty property, string propertyName)
+        {
+            Param.AssertNotNull(rootNode, "rootNode");
+            Param.AssertNotNull(property, "property");
+            Param.AssertValidString(propertyName, "propertyName");
+
+            if (property.Values.Count > 0)
+            {
+                // Create and append the root node for this property.
+                XmlNode propertyNode = rootNode.OwnerDocument.CreateElement("CollectionProperty");
+                rootNode.AppendChild(propertyNode);
+
+                XmlAttribute propertyNameAttribute = rootNode.OwnerDocument.CreateAttribute("Name");
+                propertyNameAttribute.Value = propertyName;
+                propertyNode.Attributes.Append(propertyNameAttribute);
+
+                // Add sub-nodes for each property value.
+                foreach (string value in property.Values)
+                {
+                    XmlNode valueNode = rootNode.OwnerDocument.CreateElement("Value");
+                    valueNode.InnerText = value;
+                    propertyNode.AppendChild(valueNode);
+                }
+
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Saves the given <see cref="int"/> property into the given node.
+        /// </summary>
+        /// <param name="rootNode">
+        /// The node under which to store the new property node.
+        /// </param>
+        /// <param name="property">
+        /// The property to save.
+        /// </param>
+        /// <param name="propertyName">
+        /// The name of the property.
+        /// </param>
+        /// <returns>
+        /// Returns true if the property was written.
+        /// </returns>
+        private static bool SaveIntProperty(XmlNode rootNode, IntProperty property, string propertyName)
+        {
+            Param.AssertNotNull(rootNode, "rootNode");
+            Param.AssertNotNull(property, "property");
+            Param.AssertValidString(propertyName, "propertyName");
+
+            // Create and append the root node for this property.
+            XmlNode propertyNode = rootNode.OwnerDocument.CreateElement("IntegerProperty");
+            rootNode.AppendChild(propertyNode);
+
+            XmlAttribute propertyNameAttribute = rootNode.OwnerDocument.CreateAttribute("Name");
+            propertyNameAttribute.Value = propertyName;
+            propertyNode.Attributes.Append(propertyNameAttribute);
+
+            // Add the value.
+            int propertyValue = property.Value;
+            propertyNode.InnerText = propertyValue.ToString(CultureInfo.InvariantCulture);
+
+            return true;
+        }
 
         /// <summary>
         /// Saves the given property collection.
         /// </summary>
-        /// <param name="rootNode">The node to store the property collection beneath.</param>
-        /// <param name="nodeName">The name of the new property collection node.</param>
-        /// <param name="properties">The property collection to store.</param>
-        /// <param name="parentProperties">The corresponding property collection from the parent settings, if any.</param>
-        /// <param name="aggregate">Indicates whether the collection is aggregated with the parent collection.</param>
-        /// <param name="nodeNameAttribute">An optional name attribute value for the new property node.</param>
-        /// <returns>Returns true if at least one property was saved.</returns>
+        /// <param name="rootNode">
+        /// The node to store the property collection beneath.
+        /// </param>
+        /// <param name="nodeName">
+        /// The name of the new property collection node.
+        /// </param>
+        /// <param name="properties">
+        /// The property collection to store.
+        /// </param>
+        /// <param name="parentProperties">
+        /// The corresponding property collection from the parent settings, if any.
+        /// </param>
+        /// <param name="aggregate">
+        /// Indicates whether the collection is aggregated with the parent collection.
+        /// </param>
+        /// <param name="nodeNameAttribute">
+        /// An optional name attribute value for the new property node.
+        /// </param>
+        /// <returns>
+        /// Returns true if at least one property was saved.
+        /// </returns>
         private static bool SavePropertyCollection(
-            XmlNode rootNode, 
-            string nodeName, 
-            PropertyCollection properties, 
-            PropertyCollection parentProperties,
-            bool aggregate,
-            string nodeNameAttribute)
+            XmlNode rootNode, string nodeName, PropertyCollection properties, PropertyCollection parentProperties, bool aggregate, string nodeNameAttribute)
         {
             Param.AssertNotNull(rootNode, "rootNode");
             Param.AssertValidString(nodeName, "nodeName");
@@ -211,7 +347,7 @@ namespace StyleCop
                 {
                     skip = true;
                 }
-                
+
                 if (!skip)
                 {
                     // If the property is a rule setting, then add it under the rules section.
@@ -219,9 +355,9 @@ namespace StyleCop
                     if (index > 0)
                     {
                         propertyWritten |= SaveRuleProperty(
-                            rootNode,
-                            property,
-                            property.PropertyName.Substring(0, index),
+                            rootNode, 
+                            property, 
+                            property.PropertyName.Substring(0, index), 
                             property.PropertyName.Substring(index + 1, property.PropertyName.Length - index - 1));
                     }
                     else
@@ -245,10 +381,18 @@ namespace StyleCop
         /// <summary>
         /// Saves a single property value.
         /// </summary>
-        /// <param name="rootCollectionNode">The collection node containing the property.</param>
-        /// <param name="property">The property to save.</param>
-        /// <param name="propertyName">The name of the property.</param>
-        /// <returns>Returns true if the property was saved; otherwise false.</returns>
+        /// <param name="rootCollectionNode">
+        /// The collection node containing the property.
+        /// </param>
+        /// <param name="property">
+        /// The property to save.
+        /// </param>
+        /// <param name="propertyName">
+        /// The name of the property.
+        /// </param>
+        /// <returns>
+        /// Returns true if the property was saved; otherwise false.
+        /// </returns>
         private static bool SavePropertyValue(XmlNode rootCollectionNode, PropertyValue property, string propertyName)
         {
             Param.AssertNotNull(rootCollectionNode, "rootCollectionNode");
@@ -286,11 +430,21 @@ namespace StyleCop
         /// <summary>
         /// Saves a rule property.
         /// </summary>
-        /// <param name="rootNode">The node to store the property collection beneath.</param>
-        /// <param name="property">The property to save.</param>
-        /// <param name="ruleName">The name of the rule.</param>
-        /// <param name="propertyName">The name of the property.</param>
-        /// <returns>Returns true if the property was saved; otherwise false.</returns>
+        /// <param name="rootNode">
+        /// The node to store the property collection beneath.
+        /// </param>
+        /// <param name="property">
+        /// The property to save.
+        /// </param>
+        /// <param name="ruleName">
+        /// The name of the rule.
+        /// </param>
+        /// <param name="propertyName">
+        /// The name of the property.
+        /// </param>
+        /// <returns>
+        /// Returns true if the property was saved; otherwise false.
+        /// </returns>
         private static bool SaveRuleProperty(XmlNode rootNode, PropertyValue property, string ruleName, string propertyName)
         {
             Param.AssertNotNull(rootNode, "rootNode");
@@ -331,70 +485,21 @@ namespace StyleCop
         }
 
         /// <summary>
-        /// Saves the given boolean property into the given node.
-        /// </summary>
-        /// <param name="rootNode">The node under which to store the new property node.</param>
-        /// <param name="property">The property to save.</param>
-        /// <param name="propertyName">The name of the property.</param>
-        /// <returns>Returns true if the property was written.</returns>
-        private static bool SaveBooleanProperty(
-            XmlNode rootNode, BooleanProperty property, string propertyName)
-        {
-            Param.AssertNotNull(rootNode, "rootNode");
-            Param.AssertNotNull(property, "property");
-            Param.AssertValidString(propertyName, "propertyName");
-
-            // Create and append the root node for this property.
-            XmlNode propertyNode = rootNode.OwnerDocument.CreateElement("BooleanProperty");
-            rootNode.AppendChild(propertyNode);
-
-            XmlAttribute propertyNameAttribute = rootNode.OwnerDocument.CreateAttribute("Name");
-            propertyNameAttribute.Value = propertyName;
-            propertyNode.Attributes.Append(propertyNameAttribute);
-
-            // Add the value.
-            propertyNode.InnerText = property.Value.ToString();
-
-            return true;
-        }
-
-        /// <summary>
-        /// Saves the given <see cref="int"/> property into the given node.
-        /// </summary>
-        /// <param name="rootNode">The node under which to store the new property node.</param>
-        /// <param name="property">The property to save.</param>
-        /// <param name="propertyName">The name of the property.</param>
-        /// <returns>Returns true if the property was written.</returns>
-        private static bool SaveIntProperty(XmlNode rootNode, IntProperty property, string propertyName)
-        {
-            Param.AssertNotNull(rootNode, "rootNode");
-            Param.AssertNotNull(property, "property");
-            Param.AssertValidString(propertyName, "propertyName");
-
-            // Create and append the root node for this property.
-            XmlNode propertyNode = rootNode.OwnerDocument.CreateElement("IntegerProperty");
-            rootNode.AppendChild(propertyNode);
-
-            XmlAttribute propertyNameAttribute = rootNode.OwnerDocument.CreateAttribute("Name");
-            propertyNameAttribute.Value = propertyName;
-            propertyNode.Attributes.Append(propertyNameAttribute);
-
-            // Add the value.
-            int propertyValue = property.Value;
-            propertyNode.InnerText = propertyValue.ToString(CultureInfo.InvariantCulture);
-
-            return true;
-        }
-
-        /// <summary>
         /// Saves the given string property into the given node.
         /// </summary>
-        /// <param name="rootNode">The node under which to store the new property node.</param>
-        /// <param name="property">The property to save.</param>
-        /// <param name="propertyName">The name of the property.</param>
-        /// <returns>Returns true if the property was written.</returns>
-        private static bool SaveStringProperty(
-            XmlNode rootNode, StringProperty property, string propertyName)
+        /// <param name="rootNode">
+        /// The node under which to store the new property node.
+        /// </param>
+        /// <param name="property">
+        /// The property to save.
+        /// </param>
+        /// <param name="propertyName">
+        /// The name of the property.
+        /// </param>
+        /// <returns>
+        /// Returns true if the property was written.
+        /// </returns>
+        private static bool SaveStringProperty(XmlNode rootNode, StringProperty property, string propertyName)
         {
             Param.AssertNotNull(rootNode, "rootNode");
             Param.AssertNotNull(property, "property");
@@ -415,51 +520,20 @@ namespace StyleCop
         }
 
         /// <summary>
-        /// Saves the given collection property into the given node.
-        /// </summary>
-        /// <param name="rootNode">The node under which to store the new property node.</param>
-        /// <param name="property">The property to save.</param>
-        /// <param name="propertyName">The name of the property.</param>
-        /// <returns>Returns true if the property was written.</returns>
-        private static bool SaveCollectionProperty(XmlNode rootNode, CollectionProperty property, string propertyName)
-        {
-            Param.AssertNotNull(rootNode, "rootNode");
-            Param.AssertNotNull(property, "property");
-            Param.AssertValidString(propertyName, "propertyName");
-
-            if (property.Values.Count > 0)
-            {
-                // Create and append the root node for this property.
-                XmlNode propertyNode = rootNode.OwnerDocument.CreateElement("CollectionProperty");
-                rootNode.AppendChild(propertyNode);
-
-                XmlAttribute propertyNameAttribute = rootNode.OwnerDocument.CreateAttribute("Name");
-                propertyNameAttribute.Value = propertyName;
-                propertyNode.Attributes.Append(propertyNameAttribute);
-
-                // Add sub-nodes for each property value.
-                foreach (string value in property.Values)
-                {
-                    XmlNode valueNode = rootNode.OwnerDocument.CreateElement("Value");
-                    valueNode.InnerText = value;
-                    propertyNode.AppendChild(valueNode);
-                }
-
-                return true;
-            }
-
-            return false;
-        }
-
-        #endregion Private Static Methods
-
-        /// <summary>
         /// Saves the Settings provided into the XmlDocument.
         /// </summary>
-        /// <param name="document">The root document.</param>
-        /// <param name="environment">The environment that StyleCop is running under, if any.</param>
-        /// <param name="rootElement">The element to save our settings to.</param>
-        /// <param name="settingsToSave">The settings to save.</param>
+        /// <param name="document">
+        /// The root document.
+        /// </param>
+        /// <param name="environment">
+        /// The environment that StyleCop is running under, if any.
+        /// </param>
+        /// <param name="rootElement">
+        /// The element to save our settings to.
+        /// </param>
+        /// <param name="settingsToSave">
+        /// The settings to save.
+        /// </param>
         private void SaveSettingsIntoXmlDocument(XmlDocument document, StyleCopEnvironment environment, XmlElement rootElement, Settings settingsToSave)
         {
             // Get the parent settings if there are any.
@@ -562,7 +636,7 @@ namespace StyleCop
                 {
                     XmlElement sourceFileListNode = document.CreateElement("SourceFileList");
 
-                    foreach (var sourceFileListSetting in sourceFileListSettings.SourceFiles)
+                    foreach (string sourceFileListSetting in sourceFileListSettings.SourceFiles)
                     {
                         XmlElement sourceFileNode = document.CreateElement("SourceFile");
                         sourceFileNode.InnerText = sourceFileListSetting;
@@ -578,5 +652,7 @@ namespace StyleCop
                 }
             }
         }
+
+        #endregion
     }
 }

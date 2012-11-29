@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="VariableDeclarationStatement.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="VariableDeclarationStatement.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,10 +11,12 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   A statement declaring a new variable.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
 
@@ -24,30 +26,35 @@ namespace StyleCop.CSharp
     /// <subcategory>statement</subcategory>
     public sealed class VariableDeclarationStatement : Statement
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// Indicates whether the item is constant.
         /// </summary>
-        private bool constant;
+        private readonly bool constant;
 
         /// <summary>
         /// The inner expression.
         /// </summary>
-        private VariableDeclarationExpression expression;
+        private readonly VariableDeclarationExpression expression;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the VariableDeclarationStatement class.
         /// </summary>
-        /// <param name="tokens">The list of tokens that form the statement.</param>
-        /// <param name="constant">Indicates whether the item is constant.</param>
-        /// <param name="expression">The inner expression.</param>
-        internal VariableDeclarationStatement(
-            CsTokenList tokens, bool constant, VariableDeclarationExpression expression)
+        /// <param name="tokens">
+        /// The list of tokens that form the statement.
+        /// </param>
+        /// <param name="constant">
+        /// Indicates whether the item is constant.
+        /// </param>
+        /// <param name="expression">
+        /// The inner expression.
+        /// </param>
+        internal VariableDeclarationStatement(CsTokenList tokens, bool constant, VariableDeclarationExpression expression)
             : base(StatementType.VariableDeclaration, tokens)
         {
             Param.AssertNotNull(tokens, "tokens");
@@ -60,7 +67,7 @@ namespace StyleCop.CSharp
             this.AddExpression(expression);
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
 
@@ -72,6 +79,17 @@ namespace StyleCop.CSharp
             get
             {
                 return this.constant;
+            }
+        }
+
+        /// <summary>
+        /// Gets the list of declarators for the expression.
+        /// </summary>
+        public ICollection<VariableDeclaratorExpression> Declarators
+        {
+            get
+            {
+                return this.expression.Declarators;
             }
         }
 
@@ -89,10 +107,7 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Gets the type of the variable.
         /// </summary>
-        [SuppressMessage(
-            "Microsoft.Naming", 
-            "CA1721:PropertyNamesShouldNotMatchGetMethods",
-            Justification = "API has already been published and should not be changed.")]
+        [SuppressMessage("Microsoft.Naming", "CA1721:PropertyNamesShouldNotMatchGetMethods", Justification = "API has already been published and should not be changed.")]
         public TypeToken Type
         {
             get
@@ -101,17 +116,6 @@ namespace StyleCop.CSharp
             }
         }
 
-        /// <summary>
-        /// Gets the list of declarators for the expression.
-        /// </summary>
-        public ICollection<VariableDeclaratorExpression> Declarators
-        {
-            get
-            {
-                return this.expression.Declarators;
-            }
-        }
-
-        #endregion Public Properties
+        #endregion
     }
 }

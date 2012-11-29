@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="ParenthesizedExpression.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ParenthesizedExpression.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,35 +11,38 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   An expression wrapped within parenthesis.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-
     /// <summary>
     /// An expression wrapped within parenthesis.
     /// </summary>
     /// <subcategory>expression</subcategory>
     public sealed class ParenthesizedExpression : Expression
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// The expression within the parenthesis.
         /// </summary>
-        private Expression innerExpression;
+        private readonly Expression innerExpression;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the ParenthesizedExpression class.
         /// </summary>
-        /// <param name="tokens">The list of tokens that form the expression.</param>
-        /// <param name="innerExpression">The expression within the parenthesis.</param>
+        /// <param name="tokens">
+        /// The list of tokens that form the expression.
+        /// </param>
+        /// <param name="innerExpression">
+        /// The expression within the parenthesis.
+        /// </param>
         internal ParenthesizedExpression(CsTokenList tokens, Expression innerExpression)
             : base(ExpressionType.Parenthesized, tokens)
         {
@@ -50,7 +53,7 @@ namespace StyleCop.CSharp
             this.AddExpression(innerExpression);
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
 
@@ -65,6 +68,6 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Properties
+        #endregion
     }
 }

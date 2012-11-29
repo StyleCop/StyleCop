@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="ForeachStatement.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ForeachStatement.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,44 +11,51 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   A foreach statement.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
-
     /// <summary>
     /// A foreach statement.
     /// </summary>
     /// <subcategory>statement</subcategory>
     public sealed class ForeachStatement : Statement
     {
-        #region Private Fields
-
-        /// <summary>
-        /// The variable declared in the foreach statement declaration.
-        /// </summary>
-        private VariableDeclarationExpression variable;
+        #region Fields
 
         /// <summary>
         /// The item being iterated over.
         /// </summary>
-        private Expression item;
+        private readonly Expression item;
+
+        /// <summary>
+        /// The variable declared in the foreach statement declaration.
+        /// </summary>
+        private readonly VariableDeclarationExpression variable;
 
         /// <summary>
         /// The statement that is embedded within this foreach statement.
         /// </summary>
         private Statement embeddedStatement;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the ForeachStatement class.
         /// </summary>
-        /// <param name="tokens">The list of tokens that form the statement.</param>
-        /// <param name="variable">The variable declared in for each statement declaration.</param>
-        /// <param name="item">The item being iterated over.</param>
+        /// <param name="tokens">
+        /// The list of tokens that form the statement.
+        /// </param>
+        /// <param name="variable">
+        /// The variable declared in for each statement declaration.
+        /// </param>
+        /// <param name="item">
+        /// The item being iterated over.
+        /// </param>
         internal ForeachStatement(CsTokenList tokens, VariableDeclarationExpression variable, Expression item)
             : base(StatementType.Foreach, tokens)
         {
@@ -63,31 +70,9 @@ namespace StyleCop.CSharp
             this.AddExpression(item);
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
-
-        /// <summary>
-        /// Gets the variable declared in the foreach statement declaration.
-        /// </summary>
-        public VariableDeclarationExpression Variable
-        {
-            get
-            {
-                return this.variable;
-            }
-        }
-
-        /// <summary>
-        /// Gets the item being iterated over.
-        /// </summary>
-        public Expression Item
-        {
-            get
-            {
-                return this.item;
-            }
-        }
 
         /// <summary>
         /// Gets the statement that is embedded within this foreach statement.
@@ -107,6 +92,28 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Properties
+        /// <summary>
+        /// Gets the item being iterated over.
+        /// </summary>
+        public Expression Item
+        {
+            get
+            {
+                return this.item;
+            }
+        }
+
+        /// <summary>
+        /// Gets the variable declared in the foreach statement declaration.
+        /// </summary>
+        public VariableDeclarationExpression Variable
+        {
+            get
+            {
+                return this.variable;
+            }
+        }
+
+        #endregion
     }
 }

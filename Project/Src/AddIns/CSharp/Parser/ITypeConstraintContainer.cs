@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="ITypeConstraintContainer.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ITypeConstraintContainer.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,10 +11,12 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Implemented by elements containing a list of type constraints.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
     using System.Collections.Generic;
 
     /// <summary>
@@ -23,16 +25,13 @@ namespace StyleCop.CSharp
     /// <subcategory>interface</subcategory>
     public interface ITypeConstraintContainer
     {
-        #region Properties
+        #region Public Properties
 
         /// <summary>
         /// Gets the list of type constraints in the container.
         /// </summary>
-        ICollection<TypeParameterConstraintClause> TypeConstraints
-        {
-            get;
-        }
+        ICollection<TypeParameterConstraintClause> TypeConstraints { get; }
 
-        #endregion Properties
+        #endregion
     }
 }

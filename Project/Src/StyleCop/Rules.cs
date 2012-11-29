@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="Rules.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Rules.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,11 +11,12 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   The list of rules that can be triggered by this analyzer module.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop
 {
-    using System;
-
     /// <summary>
     /// The list of rules that can be triggered by this analyzer module.
     /// </summary>

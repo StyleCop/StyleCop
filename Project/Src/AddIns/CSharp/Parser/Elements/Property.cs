@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="Property.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Property.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Describes a property element.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
     using System;
@@ -25,12 +28,12 @@ namespace StyleCop.CSharp
     [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", Justification = "The class describes a C# property.")]
     public sealed class Property : CsElement
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// The return type for the property.
         /// </summary>
-        private TypeToken returnType;
+        private readonly TypeToken returnType;
 
         /// <summary>
         /// The get accessor for the property.
@@ -42,40 +45,47 @@ namespace StyleCop.CSharp
         /// </summary>
         private Accessor set;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the Property class.
         /// </summary>
-        /// <param name="document">The document that contains the element.</param>
-        /// <param name="parent">The parent of the element.</param>
-        /// <param name="header">The Xml header for this element.</param>
-        /// <param name="attributes">The list of attributes attached to this element.</param>
-        /// <param name="declaration">The declaration code for this element.</param>
-        /// <param name="returnType">The property return type.</param>
-        /// <param name="unsafeCode">Indicates whether the element resides within a block of unsafe code.</param>
-        /// <param name="generated">Indicates whether the code element was generated or written by hand.</param>
+        /// <param name="document">
+        /// The document that contains the element.
+        /// </param>
+        /// <param name="parent">
+        /// The parent of the element.
+        /// </param>
+        /// <param name="header">
+        /// The Xml header for this element.
+        /// </param>
+        /// <param name="attributes">
+        /// The list of attributes attached to this element.
+        /// </param>
+        /// <param name="declaration">
+        /// The declaration code for this element.
+        /// </param>
+        /// <param name="returnType">
+        /// The property return type.
+        /// </param>
+        /// <param name="unsafeCode">
+        /// Indicates whether the element resides within a block of unsafe code.
+        /// </param>
+        /// <param name="generated">
+        /// Indicates whether the code element was generated or written by hand.
+        /// </param>
         internal Property(
-            CsDocument document,
-            CsElement parent,
-            XmlHeader header,
-            ICollection<Attribute> attributes,
-            Declaration declaration,
-            TypeToken returnType,
-            bool unsafeCode,
+            CsDocument document, 
+            CsElement parent, 
+            XmlHeader header, 
+            ICollection<Attribute> attributes, 
+            Declaration declaration, 
+            TypeToken returnType, 
+            bool unsafeCode, 
             bool generated)
-            : base(
-            document, 
-            parent, 
-            ElementType.Property, 
-            "property " + declaration.Name, 
-            header, 
-            attributes,
-            declaration, 
-            unsafeCode,
-            generated)
+            : base(document, parent, ElementType.Property, "property " + declaration.Name, header, attributes, declaration, unsafeCode, generated)
         {
             Param.AssertNotNull(document, "document");
             Param.AssertNotNull(parent, "parent");
@@ -90,27 +100,15 @@ namespace StyleCop.CSharp
 
             // If this is an explicit interface member implementation and our access modifier
             // is currently set to private because we don't have one, then it should be public instead.
-            if (this.Declaration.Name.IndexOf(".", StringComparison.Ordinal) > -1 &&
-                !this.Declaration.Name.StartsWith("this.", StringComparison.Ordinal))
+            if (this.Declaration.Name.IndexOf(".", StringComparison.Ordinal) > -1 && !this.Declaration.Name.StartsWith("this.", StringComparison.Ordinal))
             {
                 this.Declaration.AccessModifierType = AccessModifierType.Public;
             }
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
-
-        /// <summary>
-        /// Gets the return type for the property.
-        /// </summary>
-        public TypeToken ReturnType
-        {
-            get
-            {
-                return this.returnType;
-            }
-        }
 
         /// <summary>
         /// Gets the get accessor for the property, if there is one.
@@ -120,6 +118,17 @@ namespace StyleCop.CSharp
             get
             {
                 return this.get;
+            }
+        }
+
+        /// <summary>
+        /// Gets the return type for the property.
+        /// </summary>
+        public TypeToken ReturnType
+        {
+            get
+            {
+                return this.returnType;
             }
         }
 
@@ -134,9 +143,9 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Properties
+        #endregion
 
-        #region Internal Override Methods
+        #region Methods
 
         /// <summary>
         /// Initializes the contents of the property.
@@ -179,6 +188,6 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Internal Override Methods
+        #endregion
     }
 }

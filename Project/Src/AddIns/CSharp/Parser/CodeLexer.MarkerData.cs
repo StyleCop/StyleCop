@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="CodeLexer.MarkerData.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="CodeLexer.MarkerData.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,11 +11,15 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   The code lexer.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
-
+    /// <summary>
+    /// The code lexer.
+    /// </summary>
     /// <content>
     /// Contains the MarkerData sub-class.
     /// </content>
@@ -26,7 +30,7 @@ namespace StyleCop.CSharp
         /// </summary>
         internal class MarkerData
         {
-            #region Private Fields
+            #region Fields
 
             /// <summary>
             /// The index of the marker in the code.
@@ -43,18 +47,7 @@ namespace StyleCop.CSharp
             /// </summary>
             private int lineNumber = 1;
 
-            #endregion Private Fields
-
-            #region Public Constructors
-
-            /// <summary>
-            /// Initializes a new instance of the MarkerData class.
-            /// </summary>
-            public MarkerData()
-            {
-            }
-
-            #endregion Public Constructors
+            #endregion
 
             #region Public Properties
 
@@ -109,7 +102,7 @@ namespace StyleCop.CSharp
                 }
             }
 
-            #endregion Public Properties
+            #endregion
         }
     }
 }

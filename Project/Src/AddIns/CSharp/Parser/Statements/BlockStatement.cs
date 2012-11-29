@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="BlockStatement.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="BlockStatement.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,26 +11,28 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   A statement representing a new scope block.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
-
     /// <summary>
     /// A statement representing a new scope block.
     /// </summary>
     /// <subcategory>statement</subcategory>
     public sealed class BlockStatement : Statement
     {
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the BlockStatement class.
         /// </summary>
-        internal BlockStatement() : base(StatementType.Block)
+        internal BlockStatement()
+            : base(StatementType.Block)
         {
         }
 
-        #endregion Internal Constructors
+        #endregion
     }
 }

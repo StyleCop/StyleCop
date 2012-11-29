@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="CsToken.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="CsToken.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,11 +11,12 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Describes a single token within a C# document.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
-    using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
@@ -25,27 +26,27 @@ namespace StyleCop.CSharp
     [SuppressMessage("Microsoft.Naming", "CA1706:ShortAcronymsShouldBeUppercase", Justification = "Camel case better serves in this case.")]
     public class CsToken : ICodePart
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
-        /// The type of this token.
+        /// True if the token is part of a generated code block.
         /// </summary>
-        private CsTokenType tokenType;
-
-        /// <summary>
-        /// THe class of the token.
-        /// </summary>
-        private CsTokenClass tokenClass;
-
-        /// <summary>
-        /// The token text.
-        /// </summary>
-        private string text;
+        private readonly bool generated;
 
         /// <summary>
         /// The location of this token in the code document.
         /// </summary>
-        private CodeLocation location;
+        private readonly CodeLocation location;
+
+        /// <summary>
+        /// THe class of the token.
+        /// </summary>
+        private readonly CsTokenClass tokenClass;
+
+        /// <summary>
+        /// The type of this token.
+        /// </summary>
+        private readonly CsTokenType tokenType;
 
         /// <summary>
         /// The parent of the token.
@@ -53,28 +54,33 @@ namespace StyleCop.CSharp
         private Reference<ICodePart> parent;
 
         /// <summary>
-        /// True if the token is part of a generated code block.
+        /// The token text.
         /// </summary>
-        private bool generated;
+        private string text;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the CsToken class.
         /// </summary>
-        /// <param name="text">The token string.</param>
-        /// <param name="tokenType">The token type.</param>
-        /// <param name="location">The location of the token within the code document.</param>
-        /// <param name="parent">References the parent code part.</param>
-        /// <param name="generated">True if the token is inside of a block of generated code.</param>
-        internal CsToken(
-            string text,
-            CsTokenType tokenType,
-            CodeLocation location,
-            Reference<ICodePart> parent,
-            bool generated)
+        /// <param name="text">
+        /// The token string.
+        /// </param>
+        /// <param name="tokenType">
+        /// The token type.
+        /// </param>
+        /// <param name="location">
+        /// The location of the token within the code document.
+        /// </param>
+        /// <param name="parent">
+        /// References the parent code part.
+        /// </param>
+        /// <param name="generated">
+        /// True if the token is inside of a block of generated code.
+        /// </param>
+        internal CsToken(string text, CsTokenType tokenType, CodeLocation location, Reference<ICodePart> parent, bool generated)
             : this(text, tokenType, CsTokenClass.Token, location, parent, generated)
         {
             Param.Ignore(text, tokenType, location, parent, generated);
@@ -83,17 +89,22 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Initializes a new instance of the CsToken class.
         /// </summary>
-        /// <param name="tokenType">The token type.</param>
-        /// <param name="tokenClass">The token class.</param>
-        /// <param name="location">The location of the token within the code document.</param>
-        /// <param name="parent">References the parent code part.</param>
-        /// <param name="generated">True if the token is inside of a block of generated code.</param>
-        internal CsToken(
-            CsTokenType tokenType, 
-            CsTokenClass tokenClass, 
-            CodeLocation location,
-            Reference<ICodePart> parent, 
-            bool generated)
+        /// <param name="tokenType">
+        /// The token type.
+        /// </param>
+        /// <param name="tokenClass">
+        /// The token class.
+        /// </param>
+        /// <param name="location">
+        /// The location of the token within the code document.
+        /// </param>
+        /// <param name="parent">
+        /// References the parent code part.
+        /// </param>
+        /// <param name="generated">
+        /// True if the token is inside of a block of generated code.
+        /// </param>
+        internal CsToken(CsTokenType tokenType, CsTokenClass tokenClass, CodeLocation location, Reference<ICodePart> parent, bool generated)
         {
             Param.Ignore(tokenType);
             Param.Ignore(tokenClass);
@@ -111,19 +122,25 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Initializes a new instance of the CsToken class.
         /// </summary>
-        /// <param name="text">The token string.</param>
-        /// <param name="tokenType">The token type.</param>
-        /// <param name="tokenClass">The token class.</param>
-        /// <param name="location">The location of the token within the code document.</param>
-        /// <param name="parent">References the parent code part.</param>
-        /// <param name="generated">True if the token is inside of a block of generated code.</param>
-        internal CsToken(
-            string text,
-            CsTokenType tokenType,
-            CsTokenClass tokenClass,
-            CodeLocation location,
-            Reference<ICodePart> parent,
-            bool generated)
+        /// <param name="text">
+        /// The token string.
+        /// </param>
+        /// <param name="tokenType">
+        /// The token type.
+        /// </param>
+        /// <param name="tokenClass">
+        /// The token class.
+        /// </param>
+        /// <param name="location">
+        /// The location of the token within the code document.
+        /// </param>
+        /// <param name="parent">
+        /// References the parent code part.
+        /// </param>
+        /// <param name="generated">
+        /// True if the token is inside of a block of generated code.
+        /// </param>
+        internal CsToken(string text, CsTokenType tokenType, CsTokenClass tokenClass, CodeLocation location, Reference<ICodePart> parent, bool generated)
         {
             Param.AssertNotNull(text, "text");
             Param.Ignore(tokenType);
@@ -140,71 +157,18 @@ namespace StyleCop.CSharp
             this.generated = generated;
         }
 
-        #endregion Internal Constructors
-
-        #region Public Virtual Properties
-
-        /// <summary>
-        /// Gets or sets the token string.
-        /// </summary>
-        public virtual string Text
-        {
-            get 
-            {
-                if (this.text == null)
-                {
-                    this.CreateTextString();
-
-                    if (this.text == null)
-                    {
-                        this.text = string.Empty;
-                    }
-                }
-
-                return this.text; 
-            }
-
-            protected set
-            {
-                this.text = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets the location of the token in the code document.
-        /// </summary>
-        public virtual CodeLocation Location
-        {
-            get
-            {
-                return this.location;
-            }
-        }
-
-        /// <summary>
-        /// Gets the line number that the token appears on in the document.
-        /// </summary>
-        public virtual int LineNumber
-        {
-            get
-            {
-                return this.location.LineNumber;
-            }
-        }
-        
-        #endregion Public Virtual Properties
+        #endregion
 
         #region Public Properties
 
         /// <summary>
-        /// Gets the token type.
+        /// Gets the type of this code part.
         /// </summary>
-        [SuppressMessage("Microsoft.Naming", "CA1706:ShortAcronymsShouldBeUppercase", MessageId = "Member", Justification = "Camel case better serves in this case.")]
-        public CsTokenType CsTokenType
+        public CodePartType CodePartType
         {
             get
             {
-                return this.tokenType;
+                return CodePartType.Token;
             }
         }
 
@@ -221,13 +185,47 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Gets the type of this code part.
+        /// Gets the token type.
         /// </summary>
-        public CodePartType CodePartType
+        [SuppressMessage("Microsoft.Naming", "CA1706:ShortAcronymsShouldBeUppercase", MessageId = "Member", Justification = "Camel case better serves in this case.")]
+        public CsTokenType CsTokenType
         {
             get
             {
-                return CodePartType.Token;
+                return this.tokenType;
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the token is within a block of generated code.
+        /// </summary>
+        public bool Generated
+        {
+            get
+            {
+                return this.generated;
+            }
+        }
+
+        /// <summary>
+        /// Gets the line number that the token appears on in the document.
+        /// </summary>
+        public virtual int LineNumber
+        {
+            get
+            {
+                return this.location.LineNumber;
+            }
+        }
+
+        /// <summary>
+        /// Gets the location of the token in the code document.
+        /// </summary>
+        public virtual CodeLocation Location
+        {
+            get
+            {
+                return this.location;
             }
         }
 
@@ -243,19 +241,34 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Gets a value indicating whether the token is within a block of generated code.
+        /// Gets or sets the token string.
         /// </summary>
-        public bool Generated
+        public virtual string Text
         {
             get
             {
-                return this.generated;
+                if (this.text == null)
+                {
+                    this.CreateTextString();
+
+                    if (this.text == null)
+                    {
+                        this.text = string.Empty;
+                    }
+                }
+
+                return this.text;
+            }
+
+            protected set
+            {
+                this.text = value;
             }
         }
 
-        #endregion Public Properties
+        #endregion
 
-        #region Internal Properties
+        #region Properties
 
         /// <summary>
         /// Gets or sets the parent reference.
@@ -275,9 +288,9 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Internal Properties
+        #endregion
 
-        #region Public Override Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Returns the contents of the token as a string.
@@ -288,16 +301,22 @@ namespace StyleCop.CSharp
             return this.Text;
         }
 
-        #endregion Public Override Methods
+        #endregion
 
-        #region Internal Static Methods
+        #region Methods
 
         /// <summary>
         /// Joins the locations of the two tokens.
         /// </summary>
-        /// <param name="location1">The first location.</param>
-        /// <param name="token2">The second token.</param>
-        /// <returns>Returns the joined locations.</returns>
+        /// <param name="location1">
+        /// The first location.
+        /// </param>
+        /// <param name="token2">
+        /// The second token.
+        /// </param>
+        /// <returns>
+        /// Returns the joined locations.
+        /// </returns>
         internal static CodeLocation JoinLocations(CodeLocation location1, CsToken token2)
         {
             Param.Ignore(location1, token2);
@@ -319,9 +338,15 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Joins the locations of the two tokens.
         /// </summary>
-        /// <param name="location1">The first location.</param>
-        /// <param name="token2">The second token.</param>
-        /// <returns>Returns the joined locations.</returns>
+        /// <param name="location1">
+        /// The first location.
+        /// </param>
+        /// <param name="token2">
+        /// The second token.
+        /// </param>
+        /// <returns>
+        /// Returns the joined locations.
+        /// </returns>
         internal static CodeLocation JoinLocations(CodeLocation location1, Node<CsToken> token2)
         {
             Param.Ignore(location1, token2);
@@ -343,9 +368,15 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Joins the locations of the two tokens.
         /// </summary>
-        /// <param name="token1">The first token.</param>
-        /// <param name="token2">The second token.</param>
-        /// <returns>Returns the joined locations.</returns>
+        /// <param name="token1">
+        /// The first token.
+        /// </param>
+        /// <param name="token2">
+        /// The second token.
+        /// </param>
+        /// <returns>
+        /// Returns the joined locations.
+        /// </returns>
         internal static CodeLocation JoinLocations(CsToken token1, CsToken token2)
         {
             Param.Ignore(token1, token2);
@@ -379,18 +410,20 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Joins the locations of the two tokens.
         /// </summary>
-        /// <param name="token1">The first token.</param>
-        /// <param name="token2">The second token.</param>
-        /// <returns>Returns the joined locations.</returns>
+        /// <param name="token1">
+        /// The first token.
+        /// </param>
+        /// <param name="token2">
+        /// The second token.
+        /// </param>
+        /// <returns>
+        /// Returns the joined locations.
+        /// </returns>
         internal static CodeLocation JoinLocations(Node<CsToken> token1, Node<CsToken> token2)
         {
             Param.Ignore(token1, token2);
             return CsToken.JoinLocations(token1 == null ? null : token1.Value, token2 == null ? null : token2.Value);
         }
-
-        #endregion Internal Static Methods
-
-        #region Protected Virtual Methods
 
         /// <summary>
         /// Creates the text string for the token.
@@ -399,6 +432,6 @@ namespace StyleCop.CSharp
         {
         }
 
-        #endregion Protected Virtual Methods
+        #endregion
     }
 }

@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="V104Settings.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="v104Settings.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Loads settings from a version 4.3 settings document.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop
 {
     using System;
@@ -24,7 +27,7 @@ namespace StyleCop
     /// </summary>
     internal static class V104Settings
     {
-        #region Private Enums
+        #region Enums
 
         /// <summary>
         /// The types of settings properties.
@@ -34,22 +37,22 @@ namespace StyleCop
             /// <summary>
             /// A property containing a boolean value.
             /// </summary>
-            Boolean,
+            Boolean, 
 
             /// <summary>
             /// A property containing an integer value.
             /// </summary>
-            Integer,
+            Integer, 
 
             /// <summary>
             /// A property containing a string value.
             /// </summary>
-            String,
+            String, 
 
             /// <summary>
             /// A property containing a collection of properties.
             /// </summary>
-            Collection,
+            Collection, 
 
             /// <summary>
             /// Not a valid property.
@@ -57,15 +60,19 @@ namespace StyleCop
             None
         }
 
-        #endregion Private Enums
+        #endregion
 
-        #region Public Static Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Loads the settings from the document.
         /// </summary>
-        /// <param name="document">The settings document.</param>
-        /// <param name="settings">Stores the settings.</param>
+        /// <param name="document">
+        /// The settings document.
+        /// </param>
+        /// <param name="settings">
+        /// Stores the settings.
+        /// </param>
         public static void Load(XmlDocument document, Settings settings)
         {
             Param.AssertNotNull(document, "document");
@@ -74,15 +81,15 @@ namespace StyleCop
             Load(document.DocumentElement, settings);
         }
 
-        #endregion Public Static Methods
-
-        #region Private Static Methods
-
         /// <summary>
         /// Loads the settings from the document.
         /// </summary>
-        /// <param name="documentRoot">The root node of the settings document.</param>
-        /// <param name="settings">Stores the settings.</param>
+        /// <param name="documentRoot">
+        /// The root node of the settings document.
+        /// </param>
+        /// <param name="settings">
+        /// Stores the settings.
+        /// </param>
         public static void Load(XmlNode documentRoot, Settings settings)
         {
             Param.AssertNotNull(documentRoot, "documentRoot");
@@ -92,8 +99,7 @@ namespace StyleCop
             XmlNode globalSettingsNode = documentRoot["GlobalSettings"];
             if (globalSettingsNode != null)
             {
-                LoadPropertyCollection(
-                    globalSettingsNode, settings.GlobalSettings, settings.Core.PropertyDescriptors, null);
+                LoadPropertyCollection(globalSettingsNode, settings.GlobalSettings, settings.Core.PropertyDescriptors, null);
             }
 
             // Load the parser settings.
@@ -106,59 +112,82 @@ namespace StyleCop
             LoadFileLists(documentRoot, settings);
         }
 
+        #endregion
+
+        #region Methods
+
         /// <summary>
-        /// Loads parser settings from the document.
+        /// Converts a legacy "Microsoft.SourceAnalysis" or "Microsoft.StyleCop" AddIn name to the new name.
         /// </summary>
-        /// <param name="documentRoot">The root node of the settings document.</param>
-        /// <param name="settings">Stores the settings.</param>
-        private static void LoadParserSettings(XmlNode documentRoot, Settings settings)
+        /// <param name="addInName">
+        /// The original name.
+        /// </param>
+        /// <returns>
+        /// Returns the converted name.
+        /// </returns>
+        private static string ConvertLegacyAddInName(string addInName)
         {
-            Param.AssertNotNull(documentRoot, "documentRoot");
-            Param.AssertNotNull(settings, "settings");
+            Param.AssertNotNull(addInName, "addInName");
 
-            XmlNodeList parsersNodes = documentRoot.SelectNodes("Parsers/Parser");
-            if (parsersNodes != null && parsersNodes.Count > 0)
+            string[] legacyPrefixes = new[] { "Microsoft.SourceAnalysis", "Microsoft.StyleCop" };
+
+            foreach (string legacyPrefix in legacyPrefixes)
             {
-                foreach (XmlNode parserNode in parsersNodes)
+                if (addInName.StartsWith(legacyPrefix, StringComparison.Ordinal))
                 {
-                    XmlAttribute parserId = parserNode.Attributes["ParserId"];
-                    if (parserId != null && !string.IsNullOrEmpty(parserId.Value))
-                    {
-                        string parserName = ConvertLegacyAddInName(parserId.Value);
-
-                        // Get the parser instance.
-                        SourceParser parserInstance = settings.Core.GetParser(parserName);
-                        if (parserInstance != null)
-                        {
-                            // Get the parser settings object for this parser or create a new one.
-                            AddInPropertyCollection settingsForParser = settings.GetAddInSettings(parserInstance);
-
-                            if (settingsForParser == null)
-                            {
-                                settingsForParser = new AddInPropertyCollection(parserInstance);
-                                settings.SetAddInSettings(settingsForParser);
-                            }
-
-                            // Load the settings for this parser.
-                            XmlNode parserSettingsNode = parserNode["ParserSettings"];
-                            if (parserSettingsNode != null)
-                            {
-                                LoadPropertyCollection(parserSettingsNode, settingsForParser, parserInstance.PropertyDescriptors, null);
-                            }
-
-                            // Load any rule settings for the parser.
-                            LoadRulesSettings(parserNode, settingsForParser, parserInstance.PropertyDescriptors);
-                        }
-                    }
+                    return "StyleCop" + addInName.Substring(legacyPrefix.Length, addInName.Length - legacyPrefix.Length);
                 }
+            }
+
+            return addInName;
+        }
+
+        /// <summary>
+        /// Determines the type of property represented by the property type name.
+        /// </summary>
+        /// <param name="propertyType">
+        /// The property type name.
+        /// </param>
+        /// <returns>
+        /// Returns the well-known property type.
+        /// </returns>
+        private static PropertyType DeterminePropertyNodeType(string propertyType)
+        {
+            Param.Ignore(propertyType);
+
+            if (string.IsNullOrEmpty(propertyType))
+            {
+                return PropertyType.None;
+            }
+
+            switch (propertyType)
+            {
+                case "BooleanProperty":
+                    return PropertyType.Boolean;
+
+                case "IntegerProperty":
+                    return PropertyType.Integer;
+
+                case "StringProperty":
+                    return PropertyType.String;
+
+                case "CollectionProperty":
+                    return PropertyType.Collection;
+
+                default:
+                    return PropertyType.None;
             }
         }
 
         /// <summary>
         /// Loads analyzer settings from the document.
         /// </summary>
-        /// <param name="documentRoot">The root node of the settings document.</param>
-        /// <param name="settings">Stores the settings.</param>
+        /// <param name="documentRoot">
+        /// The root node of the settings document.
+        /// </param>
+        /// <param name="settings">
+        /// Stores the settings.
+        /// </param>
         private static void LoadAnalyzerSettings(XmlNode documentRoot, Settings settings)
         {
             Param.AssertNotNull(documentRoot, "documentRoot");
@@ -203,35 +232,225 @@ namespace StyleCop
         }
 
         /// <summary>
-        /// Loads settings for rules.
+        /// Loads and stores a boolean property.
         /// </summary>
-        /// <param name="addInNode">The add-in containing the rules.</param>
-        /// <param name="properties">The collection of properties to add the rules settings into.</param>
-        /// <param name="propertyDescriptors">The collection of property descriptors for the add-in.</param>
-        private static void LoadRulesSettings(
-            XmlNode addInNode, PropertyCollection properties, PropertyDescriptorCollection propertyDescriptors)
+        /// <param name="propertyName">
+        /// The name of the property to load.
+        /// </param>
+        /// <param name="propertyNode">
+        /// The node containing the property.
+        /// </param>
+        /// <param name="properties">
+        /// The collection in which to store the property.
+        /// </param>
+        /// <param name="propertyDescriptors">
+        /// The collection of property descriptors.
+        /// </param>
+        private static void LoadBooleanProperty(
+            string propertyName, XmlNode propertyNode, PropertyCollection properties, PropertyDescriptorCollection propertyDescriptors)
         {
-            Param.AssertNotNull(addInNode, "addInNode");
+            Param.AssertValidString(propertyName, "propertyName");
+            Param.AssertNotNull(propertyNode, "propertyNode");
             Param.AssertNotNull(properties, "properties");
             Param.AssertNotNull(propertyDescriptors, "propertyDescriptors");
 
-            XmlNode rulesNode = addInNode["Rules"];
-            if (rulesNode != null)
+            // Skip corrupted properties.
+            bool value;
+            if (bool.TryParse(propertyNode.InnerText, out value))
             {
-                foreach (XmlNode child in rulesNode.ChildNodes)
-                {
-                    if (string.Equals(child.Name, "Rule", StringComparison.Ordinal))
-                    {
-                        XmlAttribute name = child.Attributes["Name"];
-                        if (name != null && !string.IsNullOrEmpty(name.Value))
-                        {
-                            string ruleName = name.Value;
+                // Get the property descriptor.
+                PropertyDescriptor<bool> descriptor = propertyDescriptors[propertyName] as PropertyDescriptor<bool>;
 
-                            XmlNode ruleSettings = child["RuleSettings"];
-                            if (ruleSettings != null)
+                if (descriptor != null)
+                {
+                    // Create and add the property.
+                    properties.Add(new BooleanProperty(descriptor, value));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Loads and stores a collection property.
+        /// </summary>
+        /// <param name="propertyName">
+        /// The name of the property to load.
+        /// </param>
+        /// <param name="propertyNode">
+        /// The node containing the property.
+        /// </param>
+        /// <param name="properties">
+        /// The collection in which to store the property.
+        /// </param>
+        /// <param name="propertyDescriptors">
+        /// The collection of property descriptors.
+        /// </param>
+        private static void LoadCollectionProperty(
+            string propertyName, XmlNode propertyNode, PropertyCollection properties, PropertyDescriptorCollection propertyDescriptors)
+        {
+            Param.AssertValidString(propertyName, "propertyName");
+            Param.AssertNotNull(propertyNode, "propertyNode");
+            Param.AssertNotNull(properties, "properties");
+            Param.AssertNotNull(propertyDescriptors, "propertyDescriptors");
+
+            // Create and load the inner property collection.
+            List<string> innerCollection = new List<string>();
+
+            // Load the value list.
+            XmlNodeList valueNodes = propertyNode.SelectNodes("Value");
+            if (valueNodes != null && valueNodes.Count > 0)
+            {
+                foreach (XmlNode valueNode in valueNodes)
+                {
+                    if (!string.IsNullOrEmpty(valueNode.InnerText))
+                    {
+                        innerCollection.Add(valueNode.InnerText);
+                    }
+                }
+            }
+
+            // If at least one value was loaded, save the proeprty.
+            if (innerCollection.Count > 0)
+            {
+                // Get the property descriptor.
+                CollectionPropertyDescriptor descriptor = propertyDescriptors[propertyName] as CollectionPropertyDescriptor;
+
+                if (descriptor != null)
+                {
+                    // Create the collection node and pass in the inner collection.
+                    CollectionProperty collectionProperty = new CollectionProperty(descriptor, innerCollection);
+
+                    // Add this property to the parent collection.
+                    properties.Add(collectionProperty);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Loads files specified in file lists.
+        /// </summary>
+        /// <param name="documentRoot">
+        /// The root node of the settings document.
+        /// </param>
+        /// <param name="settings">
+        /// Stores the settings.
+        /// </param>
+        private static void LoadFileLists(XmlNode documentRoot, Settings settings)
+        {
+            Param.AssertNotNull(documentRoot, "documentRoot");
+            Param.AssertNotNull(settings, "settings");
+
+            XmlNodeList fileListNodes = documentRoot.SelectNodes("SourceFileList");
+            foreach (XmlNode fileListNode in fileListNodes)
+            {
+                XmlNodeList fileNodes = fileListNode.SelectNodes("SourceFile");
+                if (fileNodes.Count > 0)
+                {
+                    Settings settingsForFileList = new Settings(settings.Core);
+
+                    XmlNode settingsNode = fileListNode.SelectSingleNode("Settings");
+                    if (settingsNode != null)
+                    {
+                        V104Settings.Load(settingsNode, settingsForFileList);
+                    }
+
+                    SourceFileListSettings sourceFileListSettings = new SourceFileListSettings(settingsForFileList);
+
+                    foreach (XmlNode fileNode in fileNodes)
+                    {
+                        if (!string.IsNullOrEmpty(fileNode.InnerText))
+                        {
+                            sourceFileListSettings.AddFile(fileNode.InnerText);
+                        }
+                    }
+
+                    settings.AddSourceFileList(sourceFileListSettings);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Loads and stores an integer property.
+        /// </summary>
+        /// <param name="propertyName">
+        /// The name of the property to load.
+        /// </param>
+        /// <param name="propertyNode">
+        /// The node containing the property.
+        /// </param>
+        /// <param name="properties">
+        /// The collection in which to store the property.
+        /// </param>
+        /// <param name="propertyDescriptors">
+        /// The collection of property descriptors.
+        /// </param>
+        private static void LoadIntProperty(string propertyName, XmlNode propertyNode, PropertyCollection properties, PropertyDescriptorCollection propertyDescriptors)
+        {
+            Param.AssertValidString(propertyName, "propertyName");
+            Param.AssertNotNull(propertyNode, "propertyNode");
+            Param.AssertNotNull(properties, "properties");
+            Param.AssertNotNull(propertyDescriptors, "propertyDescriptors");
+
+            // Skip corrupted properties.
+            int value;
+            if (int.TryParse(propertyNode.InnerText, NumberStyles.Any, CultureInfo.InvariantCulture, out value))
+            {
+                // Get the property descriptor.
+                PropertyDescriptor<int> descriptor = propertyDescriptors[propertyName] as PropertyDescriptor<int>;
+
+                if (descriptor != null)
+                {
+                    // Create and add the property.
+                    properties.Add(new IntProperty(descriptor, value));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Loads parser settings from the document.
+        /// </summary>
+        /// <param name="documentRoot">
+        /// The root node of the settings document.
+        /// </param>
+        /// <param name="settings">
+        /// Stores the settings.
+        /// </param>
+        private static void LoadParserSettings(XmlNode documentRoot, Settings settings)
+        {
+            Param.AssertNotNull(documentRoot, "documentRoot");
+            Param.AssertNotNull(settings, "settings");
+
+            XmlNodeList parsersNodes = documentRoot.SelectNodes("Parsers/Parser");
+            if (parsersNodes != null && parsersNodes.Count > 0)
+            {
+                foreach (XmlNode parserNode in parsersNodes)
+                {
+                    XmlAttribute parserId = parserNode.Attributes["ParserId"];
+                    if (parserId != null && !string.IsNullOrEmpty(parserId.Value))
+                    {
+                        string parserName = ConvertLegacyAddInName(parserId.Value);
+
+                        // Get the parser instance.
+                        SourceParser parserInstance = settings.Core.GetParser(parserName);
+                        if (parserInstance != null)
+                        {
+                            // Get the parser settings object for this parser or create a new one.
+                            AddInPropertyCollection settingsForParser = settings.GetAddInSettings(parserInstance);
+
+                            if (settingsForParser == null)
                             {
-                                LoadPropertyCollection(ruleSettings, properties, propertyDescriptors, ruleName);
+                                settingsForParser = new AddInPropertyCollection(parserInstance);
+                                settings.SetAddInSettings(settingsForParser);
                             }
+
+                            // Load the settings for this parser.
+                            XmlNode parserSettingsNode = parserNode["ParserSettings"];
+                            if (parserSettingsNode != null)
+                            {
+                                LoadPropertyCollection(parserSettingsNode, settingsForParser, parserInstance.PropertyDescriptors, null);
+                            }
+
+                            // Load any rule settings for the parser.
+                            LoadRulesSettings(parserNode, settingsForParser, parserInstance.PropertyDescriptors);
                         }
                     }
                 }
@@ -241,15 +460,20 @@ namespace StyleCop
         /// <summary>
         /// Loads a property collection from the settings file.
         /// </summary>
-        /// <param name="propertyCollectionNode">The node containing the property collection.</param>
-        /// <param name="properties">The property collection storage object.</param>
-        /// <param name="propertyDescriptors">The collection of property descriptors.</param>
-        /// <param name="ruleName">An optional rule name to prepend the each property name.</param>
+        /// <param name="propertyCollectionNode">
+        /// The node containing the property collection.
+        /// </param>
+        /// <param name="properties">
+        /// The property collection storage object.
+        /// </param>
+        /// <param name="propertyDescriptors">
+        /// The collection of property descriptors.
+        /// </param>
+        /// <param name="ruleName">
+        /// An optional rule name to prepend the each property name.
+        /// </param>
         private static void LoadPropertyCollection(
-            XmlNode propertyCollectionNode, 
-            PropertyCollection properties, 
-            PropertyDescriptorCollection propertyDescriptors,
-            string ruleName)
+            XmlNode propertyCollectionNode, PropertyCollection properties, PropertyDescriptorCollection propertyDescriptors, string ruleName)
         {
             Param.AssertNotNull(propertyCollectionNode, "settingsNode");
             Param.AssertNotNull(properties, "properties");
@@ -293,6 +517,7 @@ namespace StyleCop
                                 break;
 
                             default:
+
                                 // Ignore any unexpected settings.
                                 break;
                         }
@@ -302,100 +527,42 @@ namespace StyleCop
         }
 
         /// <summary>
-        /// Determines the type of property represented by the property type name.
+        /// Loads settings for rules.
         /// </summary>
-        /// <param name="propertyType">The property type name.</param>
-        /// <returns>Returns the well-known property type.</returns>
-        private static PropertyType DeterminePropertyNodeType(string propertyType)
+        /// <param name="addInNode">
+        /// The add-in containing the rules.
+        /// </param>
+        /// <param name="properties">
+        /// The collection of properties to add the rules settings into.
+        /// </param>
+        /// <param name="propertyDescriptors">
+        /// The collection of property descriptors for the add-in.
+        /// </param>
+        private static void LoadRulesSettings(XmlNode addInNode, PropertyCollection properties, PropertyDescriptorCollection propertyDescriptors)
         {
-            Param.Ignore(propertyType);
-
-            if (string.IsNullOrEmpty(propertyType))
-            {
-                return PropertyType.None;
-            }
-
-            switch (propertyType)
-            {
-                case "BooleanProperty":
-                    return PropertyType.Boolean;
-
-                case "IntegerProperty":
-                    return PropertyType.Integer;
-
-                case "StringProperty":
-                    return PropertyType.String;
-
-                case "CollectionProperty":
-                    return PropertyType.Collection;
-
-                default:
-                    return PropertyType.None;
-            }
-        }
-
-        /// <summary>
-        /// Loads and stores a boolean property.
-        /// </summary>
-        /// <param name="propertyName">The name of the property to load.</param>
-        /// <param name="propertyNode">The node containing the property.</param>
-        /// <param name="properties">The collection in which to store the property.</param>
-        /// <param name="propertyDescriptors">The collection of property descriptors.</param>
-        private static void LoadBooleanProperty(
-            string propertyName,
-            XmlNode propertyNode, 
-            PropertyCollection properties, 
-            PropertyDescriptorCollection propertyDescriptors)
-        {
-            Param.AssertValidString(propertyName, "propertyName");
-            Param.AssertNotNull(propertyNode, "propertyNode");
+            Param.AssertNotNull(addInNode, "addInNode");
             Param.AssertNotNull(properties, "properties");
             Param.AssertNotNull(propertyDescriptors, "propertyDescriptors");
 
-            // Skip corrupted properties.
-            bool value;
-            if (bool.TryParse(propertyNode.InnerText, out value))
-            {            
-                // Get the property descriptor.
-                PropertyDescriptor<bool> descriptor = propertyDescriptors[propertyName] as PropertyDescriptor<bool>;
-
-                if (descriptor != null)
-                {
-                    // Create and add the property.
-                    properties.Add(new BooleanProperty(descriptor, value));
-                }
-            }
-        }
-
-        /// <summary>
-        /// Loads and stores an integer property.
-        /// </summary>
-        /// <param name="propertyName">The name of the property to load.</param>
-        /// <param name="propertyNode">The node containing the property.</param>
-        /// <param name="properties">The collection in which to store the property.</param>
-        /// <param name="propertyDescriptors">The collection of property descriptors.</param>
-        private static void LoadIntProperty(
-            string propertyName,
-            XmlNode propertyNode, 
-            PropertyCollection properties, 
-            PropertyDescriptorCollection propertyDescriptors)
-        {
-            Param.AssertValidString(propertyName, "propertyName");
-            Param.AssertNotNull(propertyNode, "propertyNode");
-            Param.AssertNotNull(properties, "properties");
-            Param.AssertNotNull(propertyDescriptors, "propertyDescriptors");
-
-            // Skip corrupted properties.
-            int value;
-            if (int.TryParse(propertyNode.InnerText, NumberStyles.Any, CultureInfo.InvariantCulture, out value))
+            XmlNode rulesNode = addInNode["Rules"];
+            if (rulesNode != null)
             {
-                // Get the property descriptor.
-                PropertyDescriptor<int> descriptor = propertyDescriptors[propertyName] as PropertyDescriptor<int>;
-
-                if (descriptor != null)
+                foreach (XmlNode child in rulesNode.ChildNodes)
                 {
-                    // Create and add the property.
-                    properties.Add(new IntProperty(descriptor, value));
+                    if (string.Equals(child.Name, "Rule", StringComparison.Ordinal))
+                    {
+                        XmlAttribute name = child.Attributes["Name"];
+                        if (name != null && !string.IsNullOrEmpty(name.Value))
+                        {
+                            string ruleName = name.Value;
+
+                            XmlNode ruleSettings = child["RuleSettings"];
+                            if (ruleSettings != null)
+                            {
+                                LoadPropertyCollection(ruleSettings, properties, propertyDescriptors, ruleName);
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -403,15 +570,19 @@ namespace StyleCop
         /// <summary>
         /// Loads and stores a string property.
         /// </summary>
-        /// <param name="propertyName">The name of the property to load.</param>
-        /// <param name="propertyNode">The node containing the property.</param>
-        /// <param name="properties">The collection in which to store the property.</param>
-        /// <param name="propertyDescriptors">The collection of property descriptors.</param>
-        private static void LoadStringProperty(
-            string propertyName,
-            XmlNode propertyNode, 
-            PropertyCollection properties, 
-            PropertyDescriptorCollection propertyDescriptors)
+        /// <param name="propertyName">
+        /// The name of the property to load.
+        /// </param>
+        /// <param name="propertyNode">
+        /// The node containing the property.
+        /// </param>
+        /// <param name="properties">
+        /// The collection in which to store the property.
+        /// </param>
+        /// <param name="propertyDescriptors">
+        /// The collection of property descriptors.
+        /// </param>
+        private static void LoadStringProperty(string propertyName, XmlNode propertyNode, PropertyCollection properties, PropertyDescriptorCollection propertyDescriptors)
         {
             Param.AssertValidString(propertyName, "propertyName");
             Param.AssertNotNull(propertyNode, "propertyNode");
@@ -428,118 +599,6 @@ namespace StyleCop
             }
         }
 
-        /// <summary>
-        /// Loads and stores a collection property.
-        /// </summary>
-        /// <param name="propertyName">The name of the property to load.</param>
-        /// <param name="propertyNode">The node containing the property.</param>
-        /// <param name="properties">The collection in which to store the property.</param>
-        /// <param name="propertyDescriptors">The collection of property descriptors.</param>
-        private static void LoadCollectionProperty(
-            string propertyName,
-            XmlNode propertyNode, 
-            PropertyCollection properties, 
-            PropertyDescriptorCollection propertyDescriptors)
-        {
-            Param.AssertValidString(propertyName, "propertyName");
-            Param.AssertNotNull(propertyNode, "propertyNode");
-            Param.AssertNotNull(properties, "properties");
-            Param.AssertNotNull(propertyDescriptors, "propertyDescriptors");
-
-            // Create and load the inner property collection.
-            List<string> innerCollection = new List<string>();
-
-            // Load the value list.
-            XmlNodeList valueNodes = propertyNode.SelectNodes("Value");
-            if (valueNodes != null && valueNodes.Count > 0)
-            {
-                foreach (XmlNode valueNode in valueNodes)
-                {
-                    if (!string.IsNullOrEmpty(valueNode.InnerText))
-                    {
-                        innerCollection.Add(valueNode.InnerText);
-                    }
-                }
-            }
-
-            // If at least one value was loaded, save the proeprty.
-            if (innerCollection.Count > 0)
-            {
-                // Get the property descriptor.
-                CollectionPropertyDescriptor descriptor = propertyDescriptors[propertyName] as CollectionPropertyDescriptor;
-
-                if (descriptor != null)
-                {
-                    // Create the collection node and pass in the inner collection.
-                    CollectionProperty collectionProperty = new CollectionProperty(descriptor, innerCollection);
-
-                    // Add this property to the parent collection.
-                    properties.Add(collectionProperty);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Loads files specified in file lists.
-        /// </summary>
-        /// <param name="documentRoot">The root node of the settings document.</param>
-        /// <param name="settings">Stores the settings.</param>
-        private static void LoadFileLists(XmlNode documentRoot, Settings settings)
-        {
-            Param.AssertNotNull(documentRoot, "documentRoot");
-            Param.AssertNotNull(settings, "settings");
-
-            XmlNodeList fileListNodes = documentRoot.SelectNodes("SourceFileList");
-            foreach (XmlNode fileListNode in fileListNodes)
-            {
-                XmlNodeList fileNodes = fileListNode.SelectNodes("SourceFile");
-                if (fileNodes.Count > 0)
-                {
-                    Settings settingsForFileList = new Settings(settings.Core);
-
-                    XmlNode settingsNode = fileListNode.SelectSingleNode("Settings");
-                    if (settingsNode != null)
-                    {
-                        V104Settings.Load(settingsNode, settingsForFileList);
-                    }
-
-                    SourceFileListSettings sourceFileListSettings = new SourceFileListSettings(settingsForFileList);
-
-                    foreach (XmlNode fileNode in fileNodes)
-                    {
-                        if (!string.IsNullOrEmpty(fileNode.InnerText))
-                        {
-                            sourceFileListSettings.AddFile(fileNode.InnerText);
-                        }
-                    }
-
-                    settings.AddSourceFileList(sourceFileListSettings);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Converts a legacy "Microsoft.SourceAnalysis" or "Microsoft.StyleCop" AddIn name to the new name.
-        /// </summary>
-        /// <param name="addInName">The original name.</param>
-        /// <returns>Returns the converted name.</returns>
-        private static string ConvertLegacyAddInName(string addInName)
-        {
-            Param.AssertNotNull(addInName, "addInName");
-
-            string[] legacyPrefixes = new[] { "Microsoft.SourceAnalysis", "Microsoft.StyleCop" };
-
-            foreach (var legacyPrefix in legacyPrefixes)
-            {
-                if (addInName.StartsWith(legacyPrefix, StringComparison.Ordinal))
-                {
-                    return "StyleCop" + addInName.Substring(legacyPrefix.Length, addInName.Length - legacyPrefix.Length);
-                }
-            }
-
-            return addInName;
-        }
-
-        #endregion Private Static Methods
+        #endregion
     }
 }

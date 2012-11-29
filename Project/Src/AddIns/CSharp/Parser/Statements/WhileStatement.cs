@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="WhileStatement.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="WhileStatement.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,38 +11,43 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   A while-statement.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
-
     /// <summary>
     /// A while-statement.
     /// </summary>
     /// <subcategory>statement</subcategory>
     public sealed class WhileStatement : Statement
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// The expression within the while-statement.
         /// </summary>
-        private Expression conditionExpression;
+        private readonly Expression conditionExpression;
 
         /// <summary>
         /// The statement that is embedded within this while-statement.
         /// </summary>
         private Statement embeddedStatement;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the WhileStatement class.
         /// </summary>
-        /// <param name="tokens">The list of tokens that form the statement.</param>
-        /// <param name="conditionExpression">The expression within the while-statement.</param>
+        /// <param name="tokens">
+        /// The list of tokens that form the statement.
+        /// </param>
+        /// <param name="conditionExpression">
+        /// The expression within the while-statement.
+        /// </param>
         internal WhileStatement(CsTokenList tokens, Expression conditionExpression)
             : base(StatementType.While, tokens)
         {
@@ -53,7 +58,7 @@ namespace StyleCop.CSharp
             this.AddExpression(conditionExpression);
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
 
@@ -86,6 +91,6 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Properties
+        #endregion
     }
 }

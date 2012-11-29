@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="AddInPropertyCollection.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="AddInPropertyCollection.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,40 +11,41 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   A set of properties for a StyleCop add-in.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-
     /// <summary>
     /// A set of properties for a StyleCop add-in.
     /// </summary>
     public class AddInPropertyCollection : PropertyCollection
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// The analyzer or parser add-in.
         /// </summary>
-        private StyleCopAddIn addIn;
+        private readonly StyleCopAddIn addIn;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the AddInPropertyCollection class.
         /// </summary>
-        /// <param name="addIn">An analyzer or parser add-in.</param>
+        /// <param name="addIn">
+        /// An analyzer or parser add-in.
+        /// </param>
         internal AddInPropertyCollection(StyleCopAddIn addIn)
         {
             Param.AssertNotNull(addIn, "addIn");
             this.addIn = addIn;
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
 
@@ -59,9 +60,9 @@ namespace StyleCop
             }
         }
 
-        #endregion Public Properties
+        #endregion
 
-        #region Public Override Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Clones the contents of the collection.
@@ -78,6 +79,6 @@ namespace StyleCop
             return clone;
         }
 
-        #endregion Public Override Methods
+        #endregion
     }
 }

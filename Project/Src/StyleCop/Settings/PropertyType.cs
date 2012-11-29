@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="PropertyType.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="PropertyType.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   The possible property types.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop
 {
     /// <summary>
@@ -22,17 +25,17 @@ namespace StyleCop
         /// <summary>
         /// A string value.
         /// </summary>
-        String,
+        String, 
 
         /// <summary>
         /// A boolean value.
         /// </summary>
-        Boolean,
+        Boolean, 
 
         /// <summary>
         /// An integer value.
         /// </summary>
-        Int,
+        Int, 
 
         /// <summary>
         /// A collection of values.

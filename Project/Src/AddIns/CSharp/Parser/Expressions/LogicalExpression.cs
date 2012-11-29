@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="LogicalExpression.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="LogicalExpression.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,13 +11,13 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   An expression representing a logical operation.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
-    using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
-    using System.Text;
 
     /// <summary>
     /// An expression representing a logical operation.
@@ -25,39 +25,43 @@ namespace StyleCop.CSharp
     /// <subcategory>expression</subcategory>
     public sealed class LogicalExpression : Expression
     {
-        #region Private Fields
-
-        /// <summary>
-        /// The type of operation being performed.
-        /// </summary>
-        private Operator operatorType;
+        #region Fields
 
         /// <summary>
         /// The left hand size of the expression.
         /// </summary>
-        private Expression leftHandSide;
+        private readonly Expression leftHandSide;
+
+        /// <summary>
+        /// The type of operation being performed.
+        /// </summary>
+        private readonly Operator operatorType;
 
         /// <summary>
         /// The right hand size of the expression.
         /// </summary>
-        private Expression rightHandSide;
+        private readonly Expression rightHandSide;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the LogicalExpression class.
         /// </summary>
-        /// <param name="tokens">The list of tokens that form the expression.</param>
-        /// <param name="operatorType">The type of operation being performed.</param>
-        /// <param name="leftHandSide">The left hand side of the expression.</param>
-        /// <param name="rightHandSide">The right hand side of the expression.</param>
-        internal LogicalExpression(
-            CsTokenList tokens,
-            Operator operatorType,
-            Expression leftHandSide,
-            Expression rightHandSide)
+        /// <param name="tokens">
+        /// The list of tokens that form the expression.
+        /// </param>
+        /// <param name="operatorType">
+        /// The type of operation being performed.
+        /// </param>
+        /// <param name="leftHandSide">
+        /// The left hand side of the expression.
+        /// </param>
+        /// <param name="rightHandSide">
+        /// The right hand side of the expression.
+        /// </param>
+        internal LogicalExpression(CsTokenList tokens, Operator operatorType, Expression leftHandSide, Expression rightHandSide)
             : base(ExpressionType.Logical, tokens)
         {
             Param.AssertNotNull(tokens, "tokens");
@@ -73,9 +77,9 @@ namespace StyleCop.CSharp
             this.AddExpression(rightHandSide);
         }
 
-        #endregion Internal Constructors
+        #endregion
 
-        #region Public Enums
+        #region Enums
 
         /// <summary>
         /// The various logical operator types.
@@ -88,12 +92,12 @@ namespace StyleCop.CSharp
             /// <summary>
             /// The % operator.
             /// </summary>
-            And,
+            And, 
 
             /// <summary>
             /// The | operator.
             /// </summary>
-            Or,
+            Or, 
 
             /// <summary>
             /// The ^ operator.
@@ -101,20 +105,9 @@ namespace StyleCop.CSharp
             Xor
         }
 
-        #endregion Public Enums
+        #endregion
 
         #region Public Properties
-
-        /// <summary>
-        /// Gets the type of operation being performed.
-        /// </summary>
-        public Operator OperatorType
-        {
-            get
-            {
-                return this.operatorType;
-            }
-        }
 
         /// <summary>
         /// Gets the left hand side of the expression.
@@ -124,6 +117,17 @@ namespace StyleCop.CSharp
             get
             {
                 return this.leftHandSide;
+            }
+        }
+
+        /// <summary>
+        /// Gets the type of operation being performed.
+        /// </summary>
+        public Operator OperatorType
+        {
+            get
+            {
+                return this.operatorType;
             }
         }
 
@@ -138,6 +142,6 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Properties
+        #endregion
     }
 }

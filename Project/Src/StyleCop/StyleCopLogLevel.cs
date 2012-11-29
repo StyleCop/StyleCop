@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="StyleCopLogLevel.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="StyleCopLogLevel.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,10 +11,12 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Available log levels for controlling log output.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop
 {
-    using System;
     using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
@@ -26,18 +28,18 @@ namespace StyleCop
         /// <summary>
         /// No logging.
         /// </summary>
-        None,
+        None, 
 
         /// <summary>
         /// Low log output. Only the most basic log strings use this level.
         /// </summary>
-        Low,
+        Low, 
 
         /// <summary>
         /// Medium log output. Data that is interesting, but not necessarily essential,
         /// should use this level.
         /// </summary>
-        Medium,
+        Medium, 
 
         /// <summary>
         /// The highest log output. Highly detailed log output should use this level.

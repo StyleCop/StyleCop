@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="SizeofExpression.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SizeofExpression.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   An expression representing a sizeof operation.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
     using System.Diagnostics.CodeAnalysis;
@@ -22,22 +25,26 @@ namespace StyleCop.CSharp
     /// <subcategory>expression</subcategory>
     public sealed class SizeofExpression : Expression
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// The type to get the size of.
         /// </summary>
-        private Expression type;
+        private readonly Expression type;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the SizeofExpression class.
         /// </summary>
-        /// <param name="tokens">The list of tokens that form the expression.</param>
-        /// <param name="type">The type to get the size of.</param>
+        /// <param name="tokens">
+        /// The list of tokens that form the expression.
+        /// </param>
+        /// <param name="type">
+        /// The type to get the size of.
+        /// </param>
         internal SizeofExpression(CsTokenList tokens, Expression type)
             : base(ExpressionType.Sizeof, tokens)
         {
@@ -48,17 +55,14 @@ namespace StyleCop.CSharp
             this.AddExpression(type);
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
 
         /// <summary>
         /// Gets the type to get the size of.
         /// </summary>
-        [SuppressMessage(
-            "Microsoft.Naming", 
-            "CA1721:PropertyNamesShouldNotMatchGetMethods",
-            Justification = "API has already been published and should not be changed.")]
+        [SuppressMessage("Microsoft.Naming", "CA1721:PropertyNamesShouldNotMatchGetMethods", Justification = "API has already been published and should not be changed.")]
         public Expression Type
         {
             get
@@ -67,6 +71,6 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Properties
+        #endregion
     }
 }

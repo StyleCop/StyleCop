@@ -15,7 +15,6 @@
 //   The s a 1513 closing curly bracket must be followed by blank line bulb item.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper710.BulbItems.Layout
 {
     #region Using Directives
@@ -35,7 +34,7 @@ namespace StyleCop.ReSharper710.BulbItems.Layout
     /// </summary>
     public class SA1513ClosingCurlyBracketMustBeFollowedByBlankLineBulbItem : V5BulbItemImpl
     {
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// The execute transaction inner.
@@ -48,9 +47,9 @@ namespace StyleCop.ReSharper710.BulbItems.Layout
         /// </param>
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
-            var element = Utils.GetElementAtCaret(solution, textControl);
+            ITreeNode element = Utils.GetElementAtCaret(solution, textControl);
 
-            var currentNode = (ITreeNode)element;
+            ITreeNode currentNode = element;
 
             currentNode.InsertNewLineAfter();
         }

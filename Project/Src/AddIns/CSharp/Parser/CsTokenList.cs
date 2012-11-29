@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="CsTokenList.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="CsTokenList.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,13 +11,14 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   A list of tokens.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
     using System;
-    using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
-    using System.Text;
 
     /// <summary>
     /// A list of tokens.
@@ -26,12 +27,14 @@ namespace StyleCop.CSharp
     [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "The class represents a linked-list.")]
     public class CsTokenList : ItemList<CsToken>
     {
-        #region Public Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the CsTokenList class.
         /// </summary>
-        /// <param name="masterList">The master list that this list points into.</param>
+        /// <param name="masterList">
+        /// The master list that this list points into.
+        /// </param>
         public CsTokenList(MasterList<CsToken> masterList)
             : base(masterList)
         {
@@ -41,26 +44,66 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Initializes a new instance of the CsTokenList class.
         /// </summary>
-        /// <param name="masterList">The master list that this list points into.</param>
-        /// <param name="firstItemNode">The first item in the master list.</param>
-        /// <param name="lastItemNode">The last item in the master list.</param>
+        /// <param name="masterList">
+        /// The master list that this list points into.
+        /// </param>
+        /// <param name="firstItemNode">
+        /// The first item in the master list.
+        /// </param>
+        /// <param name="lastItemNode">
+        /// The last item in the master list.
+        /// </param>
         public CsTokenList(MasterList<CsToken> masterList, Node<CsToken> firstItemNode, Node<CsToken> lastItemNode)
             : base(masterList, firstItemNode, lastItemNode)
         {
             Param.Ignore(masterList, firstItemNode, lastItemNode);
         }
 
-        #endregion Public Constructors
+        #endregion
 
-        #region Public Static Methods
+        #region Public Methods and Operators
+
+        /// <summary>
+        /// Gets the next non-whitespace, non-comment token.
+        /// </summary>
+        /// <param name="start">
+        /// The first token.
+        /// </param>
+        /// <returns>
+        /// Returns the next code token or null if there is none.
+        /// </returns>
+        public static Node<CsToken> GetNextCodeToken(Node<CsToken> start)
+        {
+            Param.RequireNotNull(start, "start");
+
+            Node<CsToken> next = start.Next;
+            while (next != null)
+            {
+                if (next.Value.CsTokenType != CsTokenType.WhiteSpace && next.Value.CsTokenType != CsTokenType.EndOfLine
+                    && next.Value.CsTokenType != CsTokenType.SingleLineComment && next.Value.CsTokenType != CsTokenType.MultiLineComment)
+                {
+                    return next;
+                }
+
+                next = next.Next;
+            }
+
+            return null;
+        }
 
         /// <summary>
         /// Determines whether the given token list contains the given strings, skipping whitespace tokens and
         /// comments.
         /// </summary>
-        /// <param name="start">Begins matching the given strings with this token.</param>
-        /// <param name="values">The collection of strings to match against.</param>
-        /// <returns>Returns true if the tokens match the collection of strings.</returns>
+        /// <param name="start">
+        /// Begins matching the given strings with this token.
+        /// </param>
+        /// <param name="values">
+        /// The collection of strings to match against.
+        /// </param>
+        /// <returns>
+        /// Returns true if the tokens match the collection of strings.
+        /// </returns>
         public static bool MatchTokens(Node<CsToken> start, params string[] values)
         {
             Param.RequireNotNull(start, "start");
@@ -73,10 +116,18 @@ namespace StyleCop.CSharp
         /// Determines whether the given token list contains the given strings, skipping whitespace tokens and
         /// comments.
         /// </summary>
-        /// <param name="comparisonType">The string comparison type to use.</param>
-        /// <param name="start">Begins matching the given strings with this token.</param>
-        /// <param name="values">The collection of strings to match against.</param>
-        /// <returns>Returns true if the tokens match the collection of strings.</returns>
+        /// <param name="comparisonType">
+        /// The string comparison type to use.
+        /// </param>
+        /// <param name="start">
+        /// Begins matching the given strings with this token.
+        /// </param>
+        /// <param name="values">
+        /// The collection of strings to match against.
+        /// </param>
+        /// <returns>
+        /// Returns true if the tokens match the collection of strings.
+        /// </returns>
         public static bool MatchTokens(StringComparison comparisonType, Node<CsToken> start, params string[] values)
         {
             Param.Ignore(comparisonType);
@@ -101,41 +152,15 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Gets the next non-whitespace, non-comment token.
-        /// </summary>
-        /// <param name="start">The first token.</param>
-        /// <returns>Returns the next code token or null if there is none.</returns>
-        public static Node<CsToken> GetNextCodeToken(Node<CsToken> start)
-        {
-            Param.RequireNotNull(start, "start");
-
-            Node<CsToken> next = start.Next;
-            while (next != null)
-            {
-                if (next.Value.CsTokenType != CsTokenType.WhiteSpace &&
-                    next.Value.CsTokenType != CsTokenType.EndOfLine &&
-                    next.Value.CsTokenType != CsTokenType.SingleLineComment &&
-                    next.Value.CsTokenType != CsTokenType.MultiLineComment)
-                {
-                    return next;
-                }
-
-                next = next.Next;
-            }
-
-            return null;
-        }
-
-        #endregion Public Static Methods
-
-        #region Public Methods
-
-        /// <summary>
         /// Determines whether the token list contains the given strings, skipping whitespace tokens and
         /// comments.
         /// </summary>
-        /// <param name="values">The collection of strings to match against.</param>
-        /// <returns>Returns true if the tokens match the collection of strings.</returns>
+        /// <param name="values">
+        /// The collection of strings to match against.
+        /// </param>
+        /// <returns>
+        /// Returns true if the tokens match the collection of strings.
+        /// </returns>
         public bool MatchTokens(params string[] values)
         {
             Param.RequireNotNull(values, "values");
@@ -147,9 +172,15 @@ namespace StyleCop.CSharp
         /// Determines whether the token list contains the given strings, skipping whitespace tokens and
         /// comments.
         /// </summary>
-        /// <param name="comparisonType">The string comparison type to use.</param>
-        /// <param name="values">The collection of strings to match against.</param>
-        /// <returns>Returns true if the tokens match the collection of strings.</returns>
+        /// <param name="comparisonType">
+        /// The string comparison type to use.
+        /// </param>
+        /// <param name="values">
+        /// The collection of strings to match against.
+        /// </param>
+        /// <returns>
+        /// Returns true if the tokens match the collection of strings.
+        /// </returns>
         public bool MatchTokens(StringComparison comparisonType, params string[] values)
         {
             Param.RequireNotNull(values, "values");
@@ -158,9 +189,9 @@ namespace StyleCop.CSharp
             return CsTokenList.MatchTokens(comparisonType, this.First, values);
         }
 
-        #endregion Public Methods
+        #endregion
 
-        #region Internal Methods
+        #region Methods
 
         /// <summary>
         /// Removes whitespace and comments from the beginning and end of the token list.
@@ -174,8 +205,12 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Removes whitespace and comments from the beginning and end of the token list.
         /// </summary>
-        /// <param name="types">The types to trim.</param>
-        /// <returns>Returns the number of tokens that were trimmed from the beginning of the list.</returns>
+        /// <param name="types">
+        /// The types to trim.
+        /// </param>
+        /// <returns>
+        /// Returns the number of tokens that were trimmed from the beginning of the list.
+        /// </returns>
         internal int Trim(params CsTokenType[] types)
         {
             Param.Ignore(types);
@@ -242,6 +277,6 @@ namespace StyleCop.CSharp
             return trimCount;
         }
 
-        #endregion Internal Methods
+        #endregion
     }
 }

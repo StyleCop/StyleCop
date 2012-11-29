@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="Statement.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Statement.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,10 +11,12 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   A single statement within a code file or element.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
@@ -25,31 +27,34 @@ namespace StyleCop.CSharp
     /// <subcategory>statement</subcategory>
     public abstract class Statement : CodeUnit
     {
-        #region Private Static Fields
+        #region Static Fields
 
         /// <summary>
         /// An empty array of statements.
         /// </summary>
-        private static Statement[] emptyStatementArray = new Statement[0];
+        private static readonly Statement[] EmptyStatementArray = new Statement[0];
 
-        #endregion Private Static Fields
+        #endregion
 
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// The type of the statement.
         /// </summary>
-        private StatementType type;
+        private readonly StatementType type;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the Statement class.
         /// </summary>
-        /// <param name="type">The type of the statement.</param>
-        internal Statement(StatementType type) : base(CodePartType.Statement)
+        /// <param name="type">
+        /// The type of the statement.
+        /// </param>
+        internal Statement(StatementType type)
+            : base(CodePartType.Statement)
         {
             Param.Ignore(type);
 
@@ -59,11 +64,13 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Initializes a new instance of the Statement class.
         /// </summary>
-        /// <param name="type">The type of the statement.</param>
-        /// <param name="tokens">The list of tokens that form the statement.</param>
-        [SuppressMessage(
-            "Microsoft.Usage",
-            "CA2214:DoNotCallOverridableMethodsInConstructors",
+        /// <param name="type">
+        /// The type of the statement.
+        /// </param>
+        /// <param name="tokens">
+        /// The list of tokens that form the statement.
+        /// </param>
+        [SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors", 
             Justification = "The tokens property is virtual but it this is safe as statements are sealed.")]
         internal Statement(StatementType type, CsTokenList tokens)
             : base(CodePartType.Statement, tokens)
@@ -79,9 +86,34 @@ namespace StyleCop.CSharp
             Debug.Assert(this.Tokens.First != null, "The tokens list should not be empty");
         }
 
-        #endregion Internal Constructors
+        #endregion
 
-        #region Public Override Properties
+        #region Public Properties
+
+        /// <summary>
+        /// Gets the collection of statements which are attached to
+        /// the end of this statement.
+        /// </summary>
+        /// <remarks>Examples of attached statements are the else-statements
+        /// attached to an if-statement, or the catch statements attached to a try-statement.</remarks>
+        public virtual IEnumerable<Statement> AttachedStatements
+        {
+            get
+            {
+                return EmptyStatementArray;
+            }
+        }
+
+        /// <summary>
+        /// Gets the type of the statement.
+        /// </summary>
+        public StatementType StatementType
+        {
+            get
+            {
+                return this.type;
+            }
+        }
 
         /// <summary>
         /// Gets the list of tokens that form the statement.
@@ -100,55 +132,32 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Override Properties
+        #endregion
 
-        #region Public Properties
-
-        /// <summary>
-        /// Gets the type of the statement.
-        /// </summary>
-        public StatementType StatementType
-        {
-            get
-            {
-                return this.type;
-            }
-        }
-
-        #endregion Public Properties
-
-        #region Public Virtual Properties
-
-        /// <summary>
-        /// Gets the collection of statements which are attached to
-        /// the end of this statement.
-        /// </summary>
-        /// <remarks>Examples of attached statements are the else-statements
-        /// attached to an if-statement, or the catch statements attached to a try-statement.</remarks>
-        public virtual IEnumerable<Statement> AttachedStatements
-        {
-            get
-            {
-                return emptyStatementArray;
-            }
-        }
-
-        #endregion Public Virtual Properties
-
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Walks through the code units in the statement.
         /// </summary>
-        /// <param name="statementCallback">Callback executed when a statement is visited.</param>
-        /// <param name="expressionCallback">Callback executed when an expression is visited.</param>
-        /// <param name="queryClauseCallback">Callback executed when a query clause is visited.</param>
-        /// <param name="context">The optional visitor context data.</param>
-        /// <typeparam name="T">The type of the context item.</typeparam>
+        /// <param name="statementCallback">
+        /// Callback executed when a statement is visited.
+        /// </param>
+        /// <param name="expressionCallback">
+        /// Callback executed when an expression is visited.
+        /// </param>
+        /// <param name="queryClauseCallback">
+        /// Callback executed when a query clause is visited.
+        /// </param>
+        /// <param name="context">
+        /// The optional visitor context data.
+        /// </param>
+        /// <typeparam name="T">
+        /// The type of the context item.
+        /// </typeparam>
         public void WalkStatement<T>(
-            CodeWalkerStatementVisitor<T> statementCallback,
-            CodeWalkerExpressionVisitor<T> expressionCallback,
-            CodeWalkerQueryClauseVisitor<T> queryClauseCallback,
+            CodeWalkerStatementVisitor<T> statementCallback, 
+            CodeWalkerExpressionVisitor<T> expressionCallback, 
+            CodeWalkerQueryClauseVisitor<T> queryClauseCallback, 
             T context)
         {
             Param.Ignore(statementCallback, expressionCallback, queryClauseCallback, context);
@@ -158,14 +167,19 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Walks through the code units in the statement.
         /// </summary>
-        /// <param name="statementCallback">Callback executed when a statement is visited.</param>
-        /// <param name="expressionCallback">Callback executed when an expression is visited.</param>
-        /// <param name="context">The optional visitor context data.</param>
-        /// <typeparam name="T">The type of the context item.</typeparam>
-        public void WalkStatement<T>(
-            CodeWalkerStatementVisitor<T> statementCallback,
-            CodeWalkerExpressionVisitor<T> expressionCallback,
-            T context)
+        /// <param name="statementCallback">
+        /// Callback executed when a statement is visited.
+        /// </param>
+        /// <param name="expressionCallback">
+        /// Callback executed when an expression is visited.
+        /// </param>
+        /// <param name="context">
+        /// The optional visitor context data.
+        /// </param>
+        /// <typeparam name="T">
+        /// The type of the context item.
+        /// </typeparam>
+        public void WalkStatement<T>(CodeWalkerStatementVisitor<T> statementCallback, CodeWalkerExpressionVisitor<T> expressionCallback, T context)
         {
             Param.Ignore(statementCallback, expressionCallback, context);
             this.WalkStatement(statementCallback, expressionCallback, null, context);
@@ -174,12 +188,16 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Walks through the code units in the statement.
         /// </summary>
-        /// <param name="statementCallback">Callback executed when a statement is visited.</param>
-        /// <param name="context">The optional visitor context data.</param>
-        /// <typeparam name="T">The type of the context item.</typeparam>
-        public void WalkStatement<T>(
-            CodeWalkerStatementVisitor<T> statementCallback,
-            T context)
+        /// <param name="statementCallback">
+        /// Callback executed when a statement is visited.
+        /// </param>
+        /// <param name="context">
+        /// The optional visitor context data.
+        /// </param>
+        /// <typeparam name="T">
+        /// The type of the context item.
+        /// </typeparam>
+        public void WalkStatement<T>(CodeWalkerStatementVisitor<T> statementCallback, T context)
         {
             Param.Ignore(statementCallback, context);
             this.WalkStatement(statementCallback, null, null, context);
@@ -188,12 +206,18 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Walks through the code units in the statement.
         /// </summary>
-        /// <param name="statementCallback">Callback executed when a statement is visited.</param>
-        /// <param name="expressionCallback">Callback executed when an expression is visited.</param>
-        /// <param name="queryClauseCallback">Callback executed when a query clause is visited.</param>
+        /// <param name="statementCallback">
+        /// Callback executed when a statement is visited.
+        /// </param>
+        /// <param name="expressionCallback">
+        /// Callback executed when an expression is visited.
+        /// </param>
+        /// <param name="queryClauseCallback">
+        /// Callback executed when a query clause is visited.
+        /// </param>
         public void WalkStatement(
-            CodeWalkerStatementVisitor<object> statementCallback,
-            CodeWalkerExpressionVisitor<object> expressionCallback,
+            CodeWalkerStatementVisitor<object> statementCallback, 
+            CodeWalkerExpressionVisitor<object> expressionCallback, 
             CodeWalkerQueryClauseVisitor<object> queryClauseCallback)
         {
             Param.Ignore(statementCallback, expressionCallback, queryClauseCallback);
@@ -203,11 +227,13 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Walks through the code units in the statement.
         /// </summary>
-        /// <param name="statementCallback">Callback executed when a statement is visited.</param>
-        /// <param name="expressionCallback">Callback executed when an expression is visited.</param>
-        public void WalkStatement(
-            CodeWalkerStatementVisitor<object> statementCallback,
-            CodeWalkerExpressionVisitor<object> expressionCallback)
+        /// <param name="statementCallback">
+        /// Callback executed when a statement is visited.
+        /// </param>
+        /// <param name="expressionCallback">
+        /// Callback executed when an expression is visited.
+        /// </param>
+        public void WalkStatement(CodeWalkerStatementVisitor<object> statementCallback, CodeWalkerExpressionVisitor<object> expressionCallback)
         {
             Param.Ignore(statementCallback, expressionCallback);
             this.WalkStatement(statementCallback, expressionCallback, null, null);
@@ -216,13 +242,15 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Walks through the code units in the statement.
         /// </summary>
-        /// <param name="statementCallback">Callback executed when a statement is visited.</param>
+        /// <param name="statementCallback">
+        /// Callback executed when a statement is visited.
+        /// </param>
         public void WalkStatement(CodeWalkerStatementVisitor<object> statementCallback)
         {
             Param.Ignore(statementCallback);
             this.WalkStatement(statementCallback, null, null, null);
         }
 
-        #endregion Public Methods
+        #endregion
     }
 }

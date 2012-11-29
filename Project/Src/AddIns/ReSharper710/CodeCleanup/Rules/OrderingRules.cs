@@ -15,7 +15,6 @@
 //   Fixes SA1208, SA1209, SA1210, and SA1211.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper710.CodeCleanup.Rules
 {
     #region Using Directives
@@ -39,7 +38,7 @@ namespace StyleCop.ReSharper710.CodeCleanup.Rules
     /// </summary>
     public class OrderingRules
     {
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Ensures if the declaration has more than 1 accessor that they are in the correct order.
@@ -49,7 +48,7 @@ namespace StyleCop.ReSharper710.CodeCleanup.Rules
         /// </param>
         public static void CheckAccessorOrder(IAccessorOwnerDeclaration declarationNode)
         {
-            var accessorDeclarations = declarationNode.AccessorDeclarations;
+            TreeNodeCollection<IAccessorDeclaration> accessorDeclarations = declarationNode.AccessorDeclarations;
 
             if (accessorDeclarations.Count < 2)
             {
@@ -58,15 +57,15 @@ namespace StyleCop.ReSharper710.CodeCleanup.Rules
             }
 
             // we now know we have 2 accessors
-            var firstAccessor = accessorDeclarations[0];
-            var secondAccessor = accessorDeclarations[1];
+            IAccessorDeclaration firstAccessor = accessorDeclarations[0];
+            IAccessorDeclaration secondAccessor = accessorDeclarations[1];
 
             if (firstAccessor.Kind == AccessorKind.GETTER || firstAccessor.Kind == AccessorKind.ADDER)
             {
                 return;
             }
 
-            var newAccessor = firstAccessor.CopyWithResolve();
+            IAccessorDeclaration newAccessor = firstAccessor.CopyWithResolve();
 
             declarationNode.AddAccessorDeclarationAfter(newAccessor, secondAccessor);
             declarationNode.RemoveAccessorDeclaration(firstAccessor);
@@ -85,8 +84,8 @@ namespace StyleCop.ReSharper710.CodeCleanup.Rules
         /// </param>
         public static void OrderUsings(OrderingOptions options, ICSharpFile file)
         {
-            var organiseUsingsFormatOption = options.AlphabeticalUsingDirectives;
-            var expandUsingsFormatOption = options.ExpandUsingDirectives;
+            AlphabeticalUsingsStyle organiseUsingsFormatOption = options.AlphabeticalUsingDirectives;
+            ExpandUsingsStyle expandUsingsFormatOption = options.ExpandUsingDirectives;
 
             // Exit if both options are to ignore
             if (organiseUsingsFormatOption == AlphabeticalUsingsStyle.Ignore && expandUsingsFormatOption == ExpandUsingsStyle.Ignore)
@@ -94,7 +93,7 @@ namespace StyleCop.ReSharper710.CodeCleanup.Rules
                 return;
             }
 
-            foreach (var namespaceDeclaration in file.NamespaceDeclarations)
+            foreach (ICSharpNamespaceDeclaration namespaceDeclaration in file.NamespaceDeclarations)
             {
                 ProcessImports(namespaceDeclaration.Imports, organiseUsingsFormatOption, expandUsingsFormatOption, namespaceDeclaration);
             }
@@ -126,14 +125,17 @@ namespace StyleCop.ReSharper710.CodeCleanup.Rules
         #region Methods
 
         private static void ProcessImports(
-            IList<IUsingDirective> newImportsList, AlphabeticalUsingsStyle organiseUsingsFormatOption, ExpandUsingsStyle expandUsingsFormatOption, ICSharpTypeAndNamespaceHolderDeclaration declaration)
+            IList<IUsingDirective> newImportsList, 
+            AlphabeticalUsingsStyle organiseUsingsFormatOption, 
+            ExpandUsingsStyle expandUsingsFormatOption, 
+            ICSharpTypeAndNamespaceHolderDeclaration declaration)
         {
             if (newImportsList == null || newImportsList.Count == 0)
             {
                 return;
             }
 
-            var arrayList = new List<IUsingDirective>();
+            List<IUsingDirective> arrayList = new List<IUsingDirective>();
             arrayList.AddRange(newImportsList);
 
             if (organiseUsingsFormatOption == AlphabeticalUsingsStyle.Alphabetical)
@@ -141,7 +143,7 @@ namespace StyleCop.ReSharper710.CodeCleanup.Rules
                 arrayList.Sort(new UsingStatementSorter());
             }
 
-            foreach (var directive in arrayList)
+            foreach (IUsingDirective directive in arrayList)
             {
                 IUsingDirective newUsingDirective;
 
@@ -149,10 +151,12 @@ namespace StyleCop.ReSharper710.CodeCleanup.Rules
                 {
                     if (directive is IUsingAliasDirective)
                     {
-                        var aliasDirective = directive as IUsingAliasDirective;
-                        newUsingDirective = CSharpElementFactory.GetInstance(declaration.GetPsiModule()).CreateUsingDirective(aliasDirective.AliasName + " = " + directive.GetFullyQualifiedNamespace());
+                        IUsingAliasDirective aliasDirective = directive as IUsingAliasDirective;
+                        newUsingDirective =
+                            CSharpElementFactory.GetInstance(declaration.GetPsiModule())
+                                                .CreateUsingDirective(aliasDirective.AliasName + " = " + directive.GetFullyQualifiedNamespace());
 
-                        var n = newUsingDirective as IUsingAliasDirective;
+                        IUsingAliasDirective n = newUsingDirective as IUsingAliasDirective;
                         n.SetImportedSymbolName(aliasDirective.ImportedSymbolName);
                     }
                     else
@@ -162,7 +166,7 @@ namespace StyleCop.ReSharper710.CodeCleanup.Rules
                 }
                 else
                 {
-                    newUsingDirective = (IUsingDirective)directive.CopyWithResolve();
+                    newUsingDirective = directive.CopyWithResolve();
                 }
 
                 declaration.RemoveImport(directive);
@@ -172,8 +176,8 @@ namespace StyleCop.ReSharper710.CodeCleanup.Rules
 
         private static void ProcessMemberDeclarations(IDeclaration declaration, OrderingOptions options)
         {
-            var propertyAccessorsMustFollowOrder = options.SA1212PropertyAccessorsMustFollowOrder;
-            var eventAccessorsMustFollowOrder = options.SA1213EventAccessorsMustFollowOrder;
+            bool propertyAccessorsMustFollowOrder = options.SA1212PropertyAccessorsMustFollowOrder;
+            bool eventAccessorsMustFollowOrder = options.SA1213EventAccessorsMustFollowOrder;
 
             if (declaration is IIndexerDeclaration && propertyAccessorsMustFollowOrder)
             {
@@ -191,7 +195,7 @@ namespace StyleCop.ReSharper710.CodeCleanup.Rules
 
         private void OrderPropertyIndexerAndEventDeclarations(OrderingOptions options, ICSharpFile file)
         {
-            foreach (var namespaceDeclaration in file.NamespaceDeclarations)
+            foreach (ICSharpNamespaceDeclaration namespaceDeclaration in file.NamespaceDeclarations)
             {
                 this.ProcessTypeDeclarations(options, namespaceDeclaration.TypeDeclarations);
             }
@@ -201,9 +205,9 @@ namespace StyleCop.ReSharper710.CodeCleanup.Rules
 
         private void ProcessNestedTypeDeclarations(OrderingOptions options, IEnumerable<ITypeDeclaration> typeDeclarations)
         {
-            foreach (var typeDeclaration in typeDeclarations)
+            foreach (ITypeDeclaration typeDeclaration in typeDeclarations)
             {
-                foreach (var memberDeclaration in typeDeclaration.MemberDeclarations)
+                foreach (ITypeMemberDeclaration memberDeclaration in typeDeclaration.MemberDeclarations)
                 {
                     ProcessMemberDeclarations(memberDeclaration, options);
                 }
@@ -214,9 +218,9 @@ namespace StyleCop.ReSharper710.CodeCleanup.Rules
 
         private void ProcessTypeDeclarations(OrderingOptions options, IEnumerable<ICSharpTypeDeclaration> typeDeclarations)
         {
-            foreach (var typeDeclaration in typeDeclarations)
+            foreach (ICSharpTypeDeclaration typeDeclaration in typeDeclarations)
             {
-                foreach (var memberDeclaration in typeDeclaration.MemberDeclarations)
+                foreach (ICSharpTypeMemberDeclaration memberDeclaration in typeDeclaration.MemberDeclarations)
                 {
                     ProcessMemberDeclarations(memberDeclaration, options);
                 }
@@ -232,9 +236,7 @@ namespace StyleCop.ReSharper710.CodeCleanup.Rules
         /// </summary>
         internal class UsingStatementSorter : IComparer<IUsingDirective>
         {
-            #region Implemented Interfaces
-
-            #region IComparer<IUsingDirective>
+            #region Public Methods and Operators
 
             /// <summary>
             /// Compares the IUsingDirectives provided.
@@ -250,8 +252,8 @@ namespace StyleCop.ReSharper710.CodeCleanup.Rules
             /// </returns>
             public int Compare(IUsingDirective usingDirectiveA, IUsingDirective usingDirectiveB)
             {
-                var usingDirectiveAIsAlias = usingDirectiveA is IUsingAliasDirective;
-                var usingDirectiveBIsAlias = usingDirectiveB is IUsingAliasDirective;
+                bool usingDirectiveAIsAlias = usingDirectiveA is IUsingAliasDirective;
+                bool usingDirectiveBIsAlias = usingDirectiveB is IUsingAliasDirective;
 
                 if (usingDirectiveAIsAlias && !usingDirectiveBIsAlias)
                 {
@@ -265,8 +267,8 @@ namespace StyleCop.ReSharper710.CodeCleanup.Rules
 
                 if (usingDirectiveAIsAlias)
                 {
-                    var usingAliasDirectiveA = usingDirectiveA as IUsingAliasDirective;
-                    var usingAliasDirectiveB = usingDirectiveB as IUsingAliasDirective;
+                    IUsingAliasDirective usingAliasDirectiveA = usingDirectiveA as IUsingAliasDirective;
+                    IUsingAliasDirective usingAliasDirectiveB = usingDirectiveB as IUsingAliasDirective;
 
                     if (usingAliasDirectiveA != null)
                     {
@@ -277,11 +279,11 @@ namespace StyleCop.ReSharper710.CodeCleanup.Rules
                     }
                 }
 
-                var usingNamespaceDirectiveAQualifiedNamespace = usingDirectiveA.GetFullyQualifiedNamespace();
-                var usingNamespaceDirectiveBQualifiedNamespace = usingDirectiveB.GetFullyQualifiedNamespace();
+                string usingNamespaceDirectiveAQualifiedNamespace = usingDirectiveA.GetFullyQualifiedNamespace();
+                string usingNamespaceDirectiveBQualifiedNamespace = usingDirectiveB.GetFullyQualifiedNamespace();
 
-                var usingNamespaceDirectiveATextStartsWithSystem = usingNamespaceDirectiveAQualifiedNamespace.StartsWith("System");
-                var usingNamespaceDirectiveBTextStartsWithSystem = usingNamespaceDirectiveBQualifiedNamespace.StartsWith("System");
+                bool usingNamespaceDirectiveATextStartsWithSystem = usingNamespaceDirectiveAQualifiedNamespace.StartsWith("System");
+                bool usingNamespaceDirectiveBTextStartsWithSystem = usingNamespaceDirectiveBQualifiedNamespace.StartsWith("System");
 
                 if (usingNamespaceDirectiveATextStartsWithSystem && !usingNamespaceDirectiveBTextStartsWithSystem)
                 {
@@ -294,10 +296,10 @@ namespace StyleCop.ReSharper710.CodeCleanup.Rules
                 }
 
                 return string.Compare(
-                    usingNamespaceDirectiveAQualifiedNamespace.SubstringBefore(';'), usingNamespaceDirectiveBQualifiedNamespace.SubstringBefore(';'), StringComparison.OrdinalIgnoreCase);
+                    usingNamespaceDirectiveAQualifiedNamespace.SubstringBefore(';'), 
+                    usingNamespaceDirectiveBQualifiedNamespace.SubstringBefore(';'), 
+                    StringComparison.OrdinalIgnoreCase);
             }
-
-            #endregion
 
             #endregion
         }

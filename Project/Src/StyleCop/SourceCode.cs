@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="SourceCode.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SourceCode.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Describes source code to parse and analyze.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop
 {
     using System;
@@ -28,22 +31,7 @@ namespace StyleCop
     /// a second time for analysis.</remarks>
     public abstract class SourceCode
     {
-        #region Private Fields
-
-        /// <summary>
-        /// The project that contains the source code document.
-        /// </summary>
-        private readonly CodeProject project;
-
-        /// <summary>
-        /// The parser that handles this source code document.
-        /// </summary>
-        private readonly SourceParser parser;
-
-        /// <summary>
-        /// The list of violations in this document.
-        /// </summary>
-        private readonly Dictionary<int, Violation> violations = new Dictionary<int, Violation>();
+        #region Fields
 
         /// <summary>
         /// The list of configurations for the document.
@@ -51,19 +39,38 @@ namespace StyleCop
         private readonly IEnumerable<Configuration> configurations;
 
         /// <summary>
+        /// The parser that handles this source code document.
+        /// </summary>
+        private readonly SourceParser parser;
+
+        /// <summary>
+        /// The project that contains the source code document.
+        /// </summary>
+        private readonly CodeProject project;
+
+        /// <summary>
+        /// The list of violations in this document.
+        /// </summary>
+        private readonly Dictionary<int, Violation> violations = new Dictionary<int, Violation>();
+
+        /// <summary>
         /// The settings for the project.
         /// </summary>
         private Settings settings;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Protected Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the SourceCode class.
         /// </summary>
-        /// <param name="project">The project that contains this document.</param>
-        /// <param name="parser">The parser that created this document.</param>
+        /// <param name="project">
+        /// The project that contains this document.
+        /// </param>
+        /// <param name="parser">
+        /// The parser that created this document.
+        /// </param>
         protected SourceCode(CodeProject project, SourceParser parser)
         {
             Param.RequireNotNull(project, "project");
@@ -76,9 +83,15 @@ namespace StyleCop
         /// <summary>
         /// Initializes a new instance of the SourceCode class.
         /// </summary>
-        /// <param name="project">The project that contains this document.</param>
-        /// <param name="parser">The parser that created this document.</param>
-        /// <param name="configurations">The list of configurations for the document.</param>
+        /// <param name="project">
+        /// The project that contains this document.
+        /// </param>
+        /// <param name="parser">
+        /// The parser that created this document.
+        /// </param>
+        /// <param name="configurations">
+        /// The list of configurations for the document.
+        /// </param>
         protected SourceCode(CodeProject project, SourceParser parser, IEnumerable<Configuration> configurations)
             : this(project, parser)
         {
@@ -86,73 +99,30 @@ namespace StyleCop
             this.configurations = configurations;
         }
 
-        #endregion Protected Constructors
+        #endregion
 
-        #region Public Abstract Properties
-
-        /// <summary>
-        /// Gets the name of the source code document.
-        /// </summary>
-        public abstract string Name
-        {
-            get;
-        }
+        #region Public Properties
 
         /// <summary>
-        /// Gets the full path to the source code document.
+        /// Gets the list of configurations for the file.
         /// </summary>
-        public abstract string Path
+        public IEnumerable<Configuration> Configurations
         {
-            get;
-        }
-
-        /// <summary>
-        /// Gets the type of code that the document contains.
-        /// </summary>
-        [SuppressMessage(
-            "Microsoft.Naming", 
-            "CA1721:PropertyNamesShouldNotMatchGetMethods",
-            Justification = "API has already been published and should not be changed.")]
-        public abstract string Type
-        {
-            get;
+            get
+            {
+                return this.configurations;
+            }
         }
 
         /// <summary>
         /// Gets a value indicating whether the source code document currently exists and is accessible.
         /// </summary>
-        public abstract bool Exists
-        {
-            get;
-        }
+        public abstract bool Exists { get; }
 
         /// <summary>
-        /// Gets the time that the source code was last edited or updated.
+        /// Gets the name of the source code document.
         /// </summary>
-        [SuppressMessage(
-            "Microsoft.Naming", 
-            "CA1702:CompoundWordsShouldBeCasedCorrectly", 
-            MessageId = "TimeStamp",
-            Justification = "API has already been published and should not be changed.")]
-        public abstract DateTime TimeStamp
-        {
-            get;
-        }
-
-        #endregion Public Abstract Properties
-
-        #region Public Properties
-
-        /// <summary>
-        /// Gets the project that contains the document.
-        /// </summary>
-        public CodeProject Project
-        {
-            get
-            {
-                return this.project;
-            }
-        }
+        public abstract string Name { get; }
 
         /// <summary>
         /// Gets the parser that created this document.
@@ -166,24 +136,18 @@ namespace StyleCop
         }
 
         /// <summary>
-        /// Gets the violations found within this document.
+        /// Gets the full path to the source code document.
         /// </summary>
-        public ICollection<Violation> Violations
-        {
-            get
-            {
-                return this.violations.Values;
-            }
-        }
+        public abstract string Path { get; }
 
         /// <summary>
-        /// Gets the list of configurations for the file.
+        /// Gets the project that contains the document.
         /// </summary>
-        public IEnumerable<Configuration> Configurations
+        public CodeProject Project
         {
             get
             {
-                return this.configurations;
+                return this.project;
             }
         }
 
@@ -214,9 +178,33 @@ namespace StyleCop
             }
         }
 
-        #endregion Public Properties
+        /// <summary>
+        /// Gets the time that the source code was last edited or updated.
+        /// </summary>
+        [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "TimeStamp", 
+            Justification = "API has already been published and should not be changed.")]
+        public abstract DateTime TimeStamp { get; }
 
-        #region Public Abstract Methods
+        /// <summary>
+        /// Gets the type of code that the document contains.
+        /// </summary>
+        [SuppressMessage("Microsoft.Naming", "CA1721:PropertyNamesShouldNotMatchGetMethods", Justification = "API has already been published and should not be changed.")]
+        public abstract string Type { get; }
+
+        /// <summary>
+        /// Gets the violations found within this document.
+        /// </summary>
+        public ICollection<Violation> Violations
+        {
+            get
+            {
+                return this.violations.Values;
+            }
+        }
+
+        #endregion
+
+        #region Public Methods and Operators
 
         /// <summary>
         /// Reads the contents of the source code into a TextReader.
@@ -224,15 +212,19 @@ namespace StyleCop
         /// <returns>Returns the TextReader containing the source code.</returns>
         public abstract TextReader Read();
 
-        #endregion Public Abstract Methods
+        #endregion
 
-        #region Internal Methods
+        #region Methods
 
         /// <summary>
         /// Adds one violation to this element.
         /// </summary>
-        /// <param name="violation">The violation to add.</param>
-        /// <returns>Returns false if there is already an identical violation in the element.</returns>
+        /// <param name="violation">
+        /// The violation to add.
+        /// </param>
+        /// <returns>
+        /// Returns false if there is already an identical violation in the element.
+        /// </returns>
         internal bool AddViolation(Violation violation)
         {
             Param.AssertNotNull(violation, "violation");
@@ -247,6 +239,6 @@ namespace StyleCop
             return false;
         }
 
-        #endregion Internal Methods
+        #endregion
     }
 }

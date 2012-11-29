@@ -13,7 +13,7 @@
 // </license>
 // <summary>
 //   Daemon stage for StyleCop. This class is automatically loaded by ReSharper daemon
-//   because it's marked with the <see cref="DaemonStageAttribute" /> attribute.
+//   because it's marked with the  attribute.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 extern alias JB;
@@ -25,7 +25,6 @@ namespace StyleCop.ReSharper710.Core
     using System;
     using System.Linq;
 
-    using JetBrains.Application.Progress;
     using JetBrains.Application.Settings;
     using JetBrains.ReSharper.Daemon;
     using JetBrains.ReSharper.Daemon.CSharp.Stages;
@@ -43,9 +42,9 @@ namespace StyleCop.ReSharper710.Core
     /// because it's marked with the <see cref="DaemonStageAttribute"/> attribute.
     /// </summary>
     [DaemonStage]
-    public class StyleCopStage : CSharpDaemonStageBase  
+    public class StyleCopStage : CSharpDaemonStageBase
     {
-        #region Properties
+        #region Public Properties
 
         /// <summary>
         /// Gets a value indicating whether this stage should be run for documents that aren't shown.
@@ -88,6 +87,8 @@ namespace StyleCop.ReSharper710.Core
 
         #endregion
 
+        #region Public Methods and Operators
+
         /// <summary>
         /// We want to add markers to the right-side stripe as well as contribute to document errors.
         /// </summary>
@@ -105,6 +106,10 @@ namespace StyleCop.ReSharper710.Core
             return ErrorStripeRequest.STRIPE_AND_ERRORS;
         }
 
+        #endregion
+
+        #region Methods
+
         /// <summary>
         /// This method provides a <see cref="IDaemonStageProcess"/> instance which is assigned to highlighting a single document.
         /// </summary>
@@ -117,13 +122,15 @@ namespace StyleCop.ReSharper710.Core
         /// <param name="processKind">
         /// The process kind.
         /// </param>
-        /// /// <param name="file">
+        /// <param name="file">
         /// The file to analyze.
         /// </param>
+        /// /// 
         /// <returns>
         /// The current <see cref="IDaemonStageProcess"/>.
         /// </returns>
-        protected override IDaemonStageProcess CreateProcess(IDaemonProcess process, IContextBoundSettingsStore settingsStore, DaemonProcessKind processKind, ICSharpFile file)
+        protected override IDaemonStageProcess CreateProcess(
+            IDaemonProcess process, IContextBoundSettingsStore settingsStore, DaemonProcessKind processKind, ICSharpFile file)
         {
             StyleCopTrace.In(process, settingsStore, processKind, file);
 
@@ -179,12 +186,16 @@ namespace StyleCop.ReSharper710.Core
                 return null;
             }
         }
-        
+
         /// <summary>
         /// Checks the given file is valid to check.
         /// </summary>
-        /// <param name="sourceFile">THe file to check.</param>
-        /// <returns>True if its valid.</returns>
+        /// <param name="sourceFile">
+        /// THe file to check.
+        /// </param>
+        /// <returns>
+        /// True if its valid.
+        /// </returns>
         private bool FileIsValid(ICSharpFile sourceFile)
         {
             if (sourceFile == null)
@@ -192,9 +203,11 @@ namespace StyleCop.ReSharper710.Core
                 return false;
             }
 
-            var hasErrorElements = new RecursiveElementCollector<IErrorElement>(null).ProcessElement(sourceFile).GetResults().Any();
-            
+            bool hasErrorElements = new RecursiveElementCollector<IErrorElement>(null).ProcessElement(sourceFile).GetResults().Any();
+
             return !hasErrorElements;
         }
+
+        #endregion
     }
 }

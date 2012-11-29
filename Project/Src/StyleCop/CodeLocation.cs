@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="CodeLocation.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="CodeLocation.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Describes a location within a code document.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop
 {
     using System;
@@ -24,7 +27,7 @@ namespace StyleCop
     /// <subcategory>other</subcategory>
     public sealed class CodeLocation
     {
-        #region Public Static Readonly Fields
+        #region Static Fields
 
         /// <summary>
         /// An empty code location.
@@ -32,23 +35,23 @@ namespace StyleCop
         [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "A static value.")]
         public static readonly CodeLocation Empty = new CodeLocation();
 
-        #endregion Public Static Readonly Fields
+        #endregion
 
-        #region Private Fields
-
-        /// <summary>
-        /// The starting position within the code.
-        /// </summary>
-        private CodePoint startPoint;
+        #region Fields
 
         /// <summary>
         /// The ending position within the code.
         /// </summary>
-        private CodePoint endPoint;
+        private readonly CodePoint endPoint;
 
-        #endregion Private Fields
+        /// <summary>
+        /// The starting position within the code.
+        /// </summary>
+        private readonly CodePoint startPoint;
 
-        #region Public Constructors
+        #endregion
+
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the CodeLocation class.
@@ -62,19 +65,27 @@ namespace StyleCop
         /// <summary>
         /// Initializes a new instance of the CodeLocation class.
         /// </summary>
-        /// <param name="index">The index of the first character of the item within the file.</param>
-        /// <param name="endIndex">The index of the last character of the item within the file.</param>
-        /// <param name="indexOnLine">The index of the first character of the item within the line
-        /// that it appears on.</param>
-        /// <param name="endIndexOnLine">The index of the last character of the item within the line
-        /// that it appears on.</param>
-        /// <param name="lineNumber">The line number that this item begins on.</param>
-        /// <param name="endLineNumber">The line number that this item ends on.</param>
-        [SuppressMessage(
-            "Microsoft.Naming", 
-            "CA1702:CompoundWordsShouldBeCasedCorrectly", 
-            MessageId = "OnLine", 
-            Justification = "On Line is two words in this context.")]
+        /// <param name="index">
+        /// The index of the first character of the item within the file.
+        /// </param>
+        /// <param name="endIndex">
+        /// The index of the last character of the item within the file.
+        /// </param>
+        /// <param name="indexOnLine">
+        /// The index of the first character of the item within the line
+        /// that it appears on.
+        /// </param>
+        /// <param name="endIndexOnLine">
+        /// The index of the last character of the item within the line
+        /// that it appears on.
+        /// </param>
+        /// <param name="lineNumber">
+        /// The line number that this item begins on.
+        /// </param>
+        /// <param name="endLineNumber">
+        /// The line number that this item ends on.
+        /// </param>
+        [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "OnLine", Justification = "On Line is two words in this context.")]
         public CodeLocation(int index, int endIndex, int indexOnLine, int endIndexOnLine, int lineNumber, int endLineNumber)
         {
             Param.RequireGreaterThanOrEqualToZero(index, "index");
@@ -84,42 +95,28 @@ namespace StyleCop
             Param.RequireGreaterThanZero(lineNumber, "lineNumber");
             Param.RequireGreaterThanOrEqualTo(endLineNumber, lineNumber, "endLineNumber");
 
-            #if DEBUG
+#if DEBUG
+
             // If the entire segment is on the same line, make sure the end index is greater or equal to the start index.
             if (lineNumber == endLineNumber)
             {
-                Debug.Assert(
-                    endIndexOnLine >= indexOnLine, 
-                    "The end index must be greater than the start index, since they are both on the same line.");
+                Debug.Assert(endIndexOnLine >= indexOnLine, "The end index must be greater than the start index, since they are both on the same line.");
             }
-            #endif
+
+#endif
 
             this.startPoint = new CodePoint(index, indexOnLine, lineNumber);
             this.endPoint = new CodePoint(endIndex, endIndexOnLine, endLineNumber);
         }
 
-        #endregion Public Constructors
+        #endregion
 
         #region Public Properties
 
         /// <summary>
-        /// Gets the starting point within the code.
-        /// </summary>
-        public CodePoint StartPoint
-        {
-            get
-            {
-                return this.startPoint;
-            }
-        }
-
-        /// <summary>
         /// Gets the ending point within the code.
         /// </summary>
-        [SuppressMessage(
-            "Microsoft.Naming", 
-            "CA1702:CompoundWordsShouldBeCasedCorrectly", 
-            MessageId = "EndPoint",
+        [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "EndPoint", 
             Justification = "EndPoint is two words in this context, to be consistent with StartPoint")]
         public CodePoint EndPoint
         {
@@ -157,16 +154,33 @@ namespace StyleCop
             }
         }
 
-        #endregion Public Properties
+        /// <summary>
+        /// Gets the starting point within the code.
+        /// </summary>
+        public CodePoint StartPoint
+        {
+            get
+            {
+                return this.startPoint;
+            }
+        }
 
-        #region Public Static Methods
+        #endregion
+
+        #region Public Methods and Operators
 
         /// <summary>
         /// Joins the two given locations.
         /// </summary>
-        /// <param name="location1">The first location to join.</param>
-        /// <param name="location2">The second location to join.</param>
-        /// <returns>Returns the joined <see cref="CodeLocation"/>.</returns>
+        /// <param name="location1">
+        /// The first location to join.
+        /// </param>
+        /// <param name="location2">
+        /// The second location to join.
+        /// </param>
+        /// <returns>
+        /// Returns the joined <see cref="CodeLocation"/>.
+        /// </returns>
         public static CodeLocation Join(CodeLocation location1, CodeLocation location2)
         {
             Param.Ignore(location1, location2);
@@ -201,15 +215,15 @@ namespace StyleCop
                 }
 
                 return new CodeLocation(
-                    Math.Min(location1.StartPoint.Index, location2.StartPoint.Index),
-                    Math.Max(location1.EndPoint.Index, location2.EndPoint.Index),
-                    indexOnLine,
-                    endIndexOnLine,
-                    Math.Min(location1.StartPoint.LineNumber, location2.StartPoint.LineNumber),
+                    Math.Min(location1.StartPoint.Index, location2.StartPoint.Index), 
+                    Math.Max(location1.EndPoint.Index, location2.EndPoint.Index), 
+                    indexOnLine, 
+                    endIndexOnLine, 
+                    Math.Min(location1.StartPoint.LineNumber, location2.StartPoint.LineNumber), 
                     Math.Max(location2.EndPoint.LineNumber, location2.EndPoint.LineNumber));
             }
         }
 
-        #endregion Public Static Methods
+        #endregion
     }
 }

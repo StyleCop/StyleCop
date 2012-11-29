@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="SourceParser.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SourceParser.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Base class for StyleCop code parser modules.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop
 {
     using System;
@@ -25,30 +28,19 @@ namespace StyleCop
     /// </summary>
     public abstract class SourceParser : StyleCopAddIn
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// The list of analyzers loaded into this parser.
         /// </summary>
-        private List<SourceAnalyzer> analyzers = new List<SourceAnalyzer>();
+        private readonly List<SourceAnalyzer> analyzers = new List<SourceAnalyzer>();
 
         /// <summary>
         /// The list of file types supported by this parser.
         /// </summary>
-        private List<string> fileTypes = new List<string>(1);
+        private readonly List<string> fileTypes = new List<string>(1);
 
-        #endregion Private Fields
-
-        #region Protected Constructors
-
-        /// <summary>
-        /// Initializes a new instance of the SourceParser class.
-        /// </summary>
-        protected SourceParser()
-        {
-        }
-
-        #endregion Protected Constructors
+        #endregion
 
         #region Public Properties
 
@@ -74,109 +66,22 @@ namespace StyleCop
             }
         }
 
-        #endregion Public Properties
+        #endregion
 
-        #region Public Abstract Methods
-
-        /// <summary>
-        /// Parses a source code document.
-        /// </summary>
-        /// <param name="sourceCode">The source code to parse.</param>
-        /// <param name="passNumber">The current pass number.</param>
-        /// <param name="document">The parsed representation of the file.</param>
-        /// <returns>Returns false if no further analysis should be done on this file.</returns>
-        /// <remarks>If this method returns false, StyleCop will call the method again on the next pass
-        /// and send in the same file, list of analyzers, and document. This allows the parser to perform 
-        /// to parse its files in stages, if necessary.</remarks>
-        [SuppressMessage(
-            "Microsoft.Design", 
-            "CA1045:DoNotPassTypesByReference", 
-            MessageId = "2#",
-            Justification = "The design of the method is consistent with other .Net Framework methods such as int.TryParse, etc.")]
-        [SuppressMessage(
-            "Microsoft.Maintainability", 
-            "CA1500:VariableNamesShouldNotMatchFieldNames", 
-            Justification = "The method is abstract")]
-        public abstract bool ParseFile(SourceCode sourceCode, int passNumber, ref CodeDocument document);
-
-        #endregion Public Abstract Methods
-
-        #region Public Virtual Methods
-
-        /// <summary>
-        /// Called before a new analysis run is initiated.
-        /// </summary>
-        public virtual void PreParse()
-        {
-        }
-
-        /// <summary>
-        /// Called after an analysis run is completed.
-        /// </summary>
-        public virtual void PostParse()
-        {
-        }
-
-        /// <summary>
-        /// Indicates whether to skip analysis on the given document.
-        /// </summary>
-        /// <param name="document">The document.</param>
-        /// <returns>Returns true to skip analysis on the document.</returns>
-        public virtual bool SkipAnalysisForDocument(CodeDocument document)
-        {
-            Param.Ignore(document);
-
-            return false;
-        }
-
-        #endregion Public Virtual Methods
-
-        #region Public Methods
-
-        /// <summary>
-        /// Adds one violation to the given source code document.
-        /// </summary>
-        /// <param name="sourceCode">The source code document that the violation appears in.</param>
-        /// <param name="line">The line in the code where the violation occurs.</param>
-        /// <param name="ruleName">The name of the rule that triggered the violation.</param>
-        /// <param name="values">String parameters to insert into the violation string.</param>
-        public void AddViolation(SourceCode sourceCode, int line, string ruleName, params object[] values)
-        {
-            Param.Ignore(sourceCode, line, ruleName, values);
-
-            Rule rule = this.GetRule(ruleName);
-            if (rule == null)
-            {
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Strings.RuleDoesNotExist, ruleName), "ruleName");
-            }
-
-            // Look up this violation type.
-            this.Core.AddViolation(sourceCode, rule, line, values);
-        }
-
-        /// <summary>
-        /// Adds one violation to the given source code document.
-        /// </summary>
-        /// <param name="sourceCode">The source code document that the violation appears in.</param>
-        /// <param name="line">The line in the code where the violation occurs.</param>
-        /// <param name="ruleName">The name of the rule that triggered the violation.</param>
-        /// <param name="values">String parameters to insert into the violation string.</param>
-        public void AddViolation(SourceCode sourceCode, int line, Enum ruleName, params object[] values)
-        {
-            Param.Ignore(sourceCode);
-            Param.Ignore(line);
-            Param.RequireNotNull(ruleName, "ruleName");
-            Param.Ignore(values);
-
-            this.AddViolation(sourceCode, line, ruleName.ToString(), values);
-        }
+        #region Public Methods and Operators
 
         /// <summary>
         /// Adds a global violation.
         /// </summary>
-        /// <param name="line">The line in the code where the violation occurs.</param>
-        /// <param name="ruleName">The name of the rule that triggered the violation.</param>
-        /// <param name="values">String values to add to the violation string.</param>
+        /// <param name="line">
+        /// The line in the code where the violation occurs.
+        /// </param>
+        /// <param name="ruleName">
+        /// The name of the rule that triggered the violation.
+        /// </param>
+        /// <param name="values">
+        /// String values to add to the violation string.
+        /// </param>
         public void AddGlobalViolation(int line, string ruleName, params object[] values)
         {
             Param.Ignore(line, ruleName, values);
@@ -194,9 +99,15 @@ namespace StyleCop
         /// <summary>
         /// Adds a global violation.
         /// </summary>
-        /// <param name="line">The line in the code where the violation occurs.</param>
-        /// <param name="ruleName">The name of the rule that triggered the violation.</param>
-        /// <param name="values">String values to add to the violation string.</param>
+        /// <param name="line">
+        /// The line in the code where the violation occurs.
+        /// </param>
+        /// <param name="ruleName">
+        /// The name of the rule that triggered the violation.
+        /// </param>
+        /// <param name="values">
+        /// String values to add to the violation string.
+        /// </param>
         public void AddGlobalViolation(int line, Enum ruleName, params object[] values)
         {
             Param.Ignore(line);
@@ -207,9 +118,65 @@ namespace StyleCop
         }
 
         /// <summary>
+        /// Adds one violation to the given source code document.
+        /// </summary>
+        /// <param name="sourceCode">
+        /// The source code document that the violation appears in.
+        /// </param>
+        /// <param name="line">
+        /// The line in the code where the violation occurs.
+        /// </param>
+        /// <param name="ruleName">
+        /// The name of the rule that triggered the violation.
+        /// </param>
+        /// <param name="values">
+        /// String parameters to insert into the violation string.
+        /// </param>
+        public void AddViolation(SourceCode sourceCode, int line, string ruleName, params object[] values)
+        {
+            Param.Ignore(sourceCode, line, ruleName, values);
+
+            Rule rule = this.GetRule(ruleName);
+            if (rule == null)
+            {
+                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Strings.RuleDoesNotExist, ruleName), "ruleName");
+            }
+
+            // Look up this violation type.
+            this.Core.AddViolation(sourceCode, rule, line, values);
+        }
+
+        /// <summary>
+        /// Adds one violation to the given source code document.
+        /// </summary>
+        /// <param name="sourceCode">
+        /// The source code document that the violation appears in.
+        /// </param>
+        /// <param name="line">
+        /// The line in the code where the violation occurs.
+        /// </param>
+        /// <param name="ruleName">
+        /// The name of the rule that triggered the violation.
+        /// </param>
+        /// <param name="values">
+        /// String parameters to insert into the violation string.
+        /// </param>
+        public void AddViolation(SourceCode sourceCode, int line, Enum ruleName, params object[] values)
+        {
+            Param.Ignore(sourceCode);
+            Param.Ignore(line);
+            Param.RequireNotNull(ruleName, "ruleName");
+            Param.Ignore(values);
+
+            this.AddViolation(sourceCode, line, ruleName.ToString(), values);
+        }
+
+        /// <summary>
         /// Adds the given violation.
         /// </summary>
-        /// <param name="violation">The violation to add.</param>
+        /// <param name="violation">
+        /// The violation to add.
+        /// </param>
         public void AddViolation(Violation violation)
         {
             Param.RequireNotNull(violation, "violation");
@@ -228,16 +195,105 @@ namespace StyleCop
             }
         }
 
-        #endregion Public Methods
+        /// <summary>
+        /// Parses a source code document.
+        /// </summary>
+        /// <param name="sourceCode">
+        /// The source code to parse.
+        /// </param>
+        /// <param name="passNumber">
+        /// The current pass number.
+        /// </param>
+        /// <param name="document">
+        /// The parsed representation of the file.
+        /// </param>
+        /// <returns>
+        /// Returns false if no further analysis should be done on this file.
+        /// </returns>
+        /// <remarks>
+        /// If this method returns false, StyleCop will call the method again on the next pass
+        /// and send in the same file, list of analyzers, and document. This allows the parser to perform 
+        /// to parse its files in stages, if necessary.
+        /// </remarks>
+        [SuppressMessage("Microsoft.Design", "CA1045:DoNotPassTypesByReference", MessageId = "2#", 
+            Justification = "The design of the method is consistent with other .Net Framework methods such as int.TryParse, etc.")]
+        [SuppressMessage("Microsoft.Maintainability", "CA1500:VariableNamesShouldNotMatchFieldNames", Justification = "The method is abstract")]
+        public abstract bool ParseFile(SourceCode sourceCode, int passNumber, ref CodeDocument document);
 
-        #region Internal Static Methods
+        /// <summary>
+        /// Called after an analysis run is completed.
+        /// </summary>
+        public virtual void PostParse()
+        {
+        }
+
+        /// <summary>
+        /// Called before a new analysis run is initiated.
+        /// </summary>
+        public virtual void PreParse()
+        {
+        }
+
+        /// <summary>
+        /// Indicates whether to skip analysis on the given document.
+        /// </summary>
+        /// <param name="document">
+        /// The document.
+        /// </param>
+        /// <returns>
+        /// Returns true to skip analysis on the document.
+        /// </returns>
+        public virtual bool SkipAnalysisForDocument(CodeDocument document)
+        {
+            Param.Ignore(document);
+
+            return false;
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Clears the analyzer tags for the given document and all of its children.
+        /// </summary>
+        /// <param name="document">
+        /// The document to clear.
+        /// </param>
+        /// <remarks>
+        /// <para>
+        /// During each analysis run, analyzers can store data within each analyzed document for
+        /// later use. Analyzers store and retrieve this data using the <see cref="SourceAnalyzer.GetDocumentData"/>
+        /// and <see cref="SourceAnalyzer.SetDocumentData"/> methods.
+        /// </para>
+        /// <para>
+        /// After all analysis has been completed, this analyzer data should be cleared so that
+        /// it will not conflict with the next analysis. This method can be called to clear all
+        /// analyzer data which was stored during the previous analysis.
+        /// </para>
+        /// </remarks>
+        internal static void ClearAnalyzerTags(CodeDocument document)
+        {
+            Param.AssertNotNull(document, "document");
+
+            if (document != null && document.DocumentContents != null)
+            {
+                document.DocumentContents.ClearAnalyzerTags();
+            }
+        }
 
         /// <summary>
         /// Exports the violations found within this document into the given xml node.
         /// </summary>
-        /// <param name="document">The document containing the violations.</param>
-        /// <param name="violationsDocument">The xml document in which to store the violation information.</param>
-        /// <param name="parentNode">The parent node within this xml document under which to store the violation information.</param>
+        /// <param name="document">
+        /// The document containing the violations.
+        /// </param>
+        /// <param name="violationsDocument">
+        /// The xml document in which to store the violation information.
+        /// </param>
+        /// <param name="parentNode">
+        /// The parent node within this xml document under which to store the violation information.
+        /// </param>
         internal static void ExportViolations(CodeDocument document, XmlDocument violationsDocument, XmlNode parentNode)
         {
             Param.AssertNotNull(document, "document");
@@ -260,37 +316,17 @@ namespace StyleCop
         }
 
         /// <summary>
-        /// Clears the analyzer tags for the given document and all of its children.
-        /// </summary>
-        /// <param name="document">The document to clear.</param>
-        /// <remarks>
-        /// <para>During each analysis run, analyzers can store data within each analyzed document for
-        /// later use. Analyzers store and retrieve this data using the <see cref="SourceAnalyzer.GetDocumentData"/>
-        /// and <see cref="SourceAnalyzer.SetDocumentData"/> methods.</para>
-        /// <para>After all analysis has been completed, this analyzer data should be cleared so that
-        /// it will not conflict with the next analysis. This method can be called to clear all
-        /// analyzer data which was stored during the previous analysis.</para>
-        /// </remarks>
-        internal static void ClearAnalyzerTags(CodeDocument document)
-        {
-            Param.AssertNotNull(document, "document");
-
-            if (document != null && document.DocumentContents != null)
-            {
-                document.DocumentContents.ClearAnalyzerTags();
-            }
-        }
-
-        #endregion Internal Static Methods
-
-        #region Internal Methods
-
-        /// <summary>
         /// Imports the cached violations under the given node.
         /// </summary>
-        /// <param name="sourceCode">The source code containing the violations.</param>
-        /// <param name="parentNode">The parent xml node containing the list of violations.</param>
-        /// <returns>Returns true if all the data was loaded successfully from the file.</returns>
+        /// <param name="sourceCode">
+        /// The source code containing the violations.
+        /// </param>
+        /// <param name="parentNode">
+        /// The parent xml node containing the list of violations.
+        /// </param>
+        /// <returns>
+        /// Returns true if all the data was loaded successfully from the file.
+        /// </returns>
         internal bool ImportViolations(SourceCode sourceCode, XmlNode parentNode)
         {
             Param.AssertNotNull(sourceCode, "sourceCode");
@@ -322,24 +358,22 @@ namespace StyleCop
 
                         // Create a Rule object representing this data.
                         Rule rule = new Rule(
-                            ruleName.InnerText,
-                            nameSpace.InnerText,
-                            ruleCheckId.InnerText,
-                            context.InnerText,
+                            ruleName.InnerText, 
+                            nameSpace.InnerText, 
+                            ruleCheckId.InnerText, 
+                            context.InnerText, 
                             Convert.ToBoolean(warning.InnerText, CultureInfo.InvariantCulture));
 
                         Violation violation;
 
-                        if (startLine != null &&
-                            startColumn != null &&
-                            endLine != null && endColumn != null)
+                        if (startLine != null && startColumn != null && endLine != null && endColumn != null)
                         {
                             CodeLocation location = new CodeLocation(
-                                Convert.ToInt32(index.InnerText, null),
-                                Convert.ToInt32(endIndex.InnerText, null),
-                                Convert.ToInt32(startColumn.InnerText, null),
-                                Convert.ToInt32(endColumn.InnerText, null),
-                                Convert.ToInt32(startLine.InnerText, null),
+                                Convert.ToInt32(index.InnerText, null), 
+                                Convert.ToInt32(endIndex.InnerText, null), 
+                                Convert.ToInt32(startColumn.InnerText, null), 
+                                Convert.ToInt32(endColumn.InnerText, null), 
+                                Convert.ToInt32(startLine.InnerText, null), 
                                 Convert.ToInt32(endLine.InnerText, null));
 
                             // Create a Violation object representing this data.
@@ -375,17 +409,19 @@ namespace StyleCop
             return success;
         }
 
-        #endregion Internal Methods
-
-        #region Protected Override Methods
-
         /// <summary>
         /// Parses the given Xml document and loads the rules.
         /// </summary>
-        /// <param name="document">The xml document to load.</param>
-        /// <param name="topmostType">Indicates whether the xml document comes from the top-most type in the 
-        /// add-in's type hierarchy.</param>
-        /// <param name="isKnownAssembly">Indicates whether the add-in comes from a known assembly.</param>
+        /// <param name="document">
+        /// The xml document to load.
+        /// </param>
+        /// <param name="topmostType">
+        /// Indicates whether the xml document comes from the top-most type in the 
+        /// add-in's type hierarchy.
+        /// </param>
+        /// <param name="isKnownAssembly">
+        /// Indicates whether the add-in comes from a known assembly.
+        /// </param>
         protected override void ImportInitializationXml(XmlDocument document, bool topmostType, bool isKnownAssembly)
         {
             Param.RequireNotNull(document, "document");
@@ -429,15 +465,15 @@ namespace StyleCop
             }
         }
 
-        #endregion Protected Override Methods
-
-        #region Protected Methods
-
         /// <summary>
         /// Writes the given output to the StyleCop log file.
         /// </summary>
-        /// <param name="level">The output level.</param>
-        /// <param name="output">The output text to write.</param>
+        /// <param name="level">
+        /// The output level.
+        /// </param>
+        /// <param name="output">
+        /// The output text to write.
+        /// </param>
         [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "output", Justification = "The method is not yet implemented.")]
         [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "level", Justification = "The method is not yet implemented.")]
         [SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "The method is not yet implemented.")]
@@ -446,16 +482,18 @@ namespace StyleCop
             Param.Ignore(level, output);
         }
 
-        #endregion Protected Methods
-
-        #region Private Static Methods
-
         /// <summary>
         /// Exports the violations found within this document into the given xml node.
         /// </summary>
-        /// <param name="element">The element containing the violations to export.</param>
-        /// <param name="violationsDocument">The xml document in which to store the violation information.</param>
-        /// <param name="parentNode">The parent node within this xml document under which to store the violation information.</param>
+        /// <param name="element">
+        /// The element containing the violations to export.
+        /// </param>
+        /// <param name="violationsDocument">
+        /// The xml document in which to store the violation information.
+        /// </param>
+        /// <param name="parentNode">
+        /// The parent node within this xml document under which to store the violation information.
+        /// </param>
         private static void ExportElementViolations(ICodeElement element, XmlDocument violationsDocument, XmlNode parentNode)
         {
             Param.AssertNotNull(element, "element");
@@ -482,9 +520,15 @@ namespace StyleCop
         /// <summary>
         /// Exports the contents of the given violation into the given xml node.
         /// </summary>
-        /// <param name="violation">The violation to save.</param>
-        /// <param name="violationsDocument">The xml document in which to store the violation information.</param>
-        /// <param name="parentNode">The parent node within this xml document under which to store the violation information.</param>
+        /// <param name="violation">
+        /// The violation to save.
+        /// </param>
+        /// <param name="violationsDocument">
+        /// The xml document in which to store the violation information.
+        /// </param>
+        /// <param name="parentNode">
+        /// The parent node within this xml document under which to store the violation information.
+        /// </param>
         private static void ExportViolation(Violation violation, XmlDocument violationsDocument, XmlNode parentNode)
         {
             Param.AssertNotNull(violation, "violation");
@@ -553,6 +597,6 @@ namespace StyleCop
             item.AppendChild(warning);
         }
 
-        #endregion Private Static Methods
+        #endregion
     }
 }

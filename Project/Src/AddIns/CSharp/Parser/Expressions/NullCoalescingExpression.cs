@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="NullCoalescingExpression.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="NullCoalescingExpression.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,41 +11,46 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   An expression representing a null coalescing operation.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-
     /// <summary>
     /// An expression representing a null coalescing operation.
     /// </summary>
     /// <subcategory>expression</subcategory>
     public sealed class NullCoalescingExpression : Expression
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// The left hand side of the expression.
         /// </summary>
-        private Expression leftHandSide;
+        private readonly Expression leftHandSide;
 
         /// <summary>
         /// The right hand side of the expression.
         /// </summary>
-        private Expression rightHandSide;
+        private readonly Expression rightHandSide;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the NullCoalescingExpression class.
         /// </summary>
-        /// <param name="tokens">The list of tokens that form the expression.</param>
-        /// <param name="leftHandSide">The left hand side of the expression.</param>
-        /// <param name="rightHandSide">The right hand side of the expression.</param>
+        /// <param name="tokens">
+        /// The list of tokens that form the expression.
+        /// </param>
+        /// <param name="leftHandSide">
+        /// The left hand side of the expression.
+        /// </param>
+        /// <param name="rightHandSide">
+        /// The right hand side of the expression.
+        /// </param>
         internal NullCoalescingExpression(CsTokenList tokens, Expression leftHandSide, Expression rightHandSide)
             : base(ExpressionType.NullCoalescing, tokens)
         {
@@ -60,7 +65,7 @@ namespace StyleCop.CSharp
             this.AddExpression(rightHandSide);
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
 
@@ -86,6 +91,6 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Properties
+        #endregion
     }
 }

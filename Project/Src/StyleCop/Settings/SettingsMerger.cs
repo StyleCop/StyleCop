@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="SettingsMerger.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SettingsMerger.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,27 +11,22 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Merges a settings file with other settings files.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop
 {
     using System;
-    using System.Collections.Generic;
     using System.Diagnostics;
-    using System.Diagnostics.CodeAnalysis;
     using System.IO;
-    using System.Text;
 
     /// <summary>
     /// Merges a settings file with other settings files.
     /// </summary>
     public class SettingsMerger
     {
-        #region Internal Constants
-
-        /// <summary>
-        /// The name of the merge settings property.
-        /// </summary>
-        internal const string MergeSettingsFilesProperty = "MergeSettingsFiles";
+        #region Constants
 
         /// <summary>
         /// The name of the linked settings property.
@@ -39,9 +34,9 @@ namespace StyleCop
         internal const string LinkedSettingsProperty = "LinkedSettingsFile";
 
         /// <summary>
-        /// Merge with a parent settings file.
+        /// The name of the merge settings property.
         /// </summary>
-        internal const string MergeStyleParent = "Parent";
+        internal const string MergeSettingsFilesProperty = "MergeSettingsFiles";
 
         /// <summary>
         /// Merge with a linked settings file.
@@ -53,29 +48,38 @@ namespace StyleCop
         /// </summary>
         internal const string MergeStyleNone = "NoMerge";
 
-        #endregion Internal Constants
-
-        #region Private Fields
-
         /// <summary>
-        /// The settings which should be merged.
+        /// Merge with a parent settings file.
         /// </summary>
-        private Settings localSettings;
+        internal const string MergeStyleParent = "Parent";
+
+        #endregion
+
+        #region Fields
 
         /// <summary>
         /// The environment in which StyleCop is running.
         /// </summary>
-        private StyleCopEnvironment environment;
+        private readonly StyleCopEnvironment environment;
 
-        #endregion Private Fields
+        /// <summary>
+        /// The settings which should be merged.
+        /// </summary>
+        private readonly Settings localSettings;
 
-        #region Public Constructors
+        #endregion
+
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the SettingsMerger class.
         /// </summary>
-        /// <param name="localSettings">The settings which should be merged.</param>
-        /// <param name="environment">The environment in which StyleCop is running.</param>
+        /// <param name="localSettings">
+        /// The settings which should be merged.
+        /// </param>
+        /// <param name="environment">
+        /// The environment in which StyleCop is running.
+        /// </param>
         public SettingsMerger(Settings localSettings, StyleCopEnvironment environment)
         {
             Param.RequireNotNull(localSettings, "localSettings");
@@ -85,7 +89,7 @@ namespace StyleCop
             this.environment = environment;
         }
 
-        #endregion Public Constructors
+        #endregion
 
         #region Public Properties
 
@@ -160,8 +164,7 @@ namespace StyleCop
                 }
 
                 // If the merge style is set to link but the current environment doesn't support linking, change it to parent.
-                if (!this.environment.SupportsLinkedSettings &&
-                    string.CompareOrdinal(mergeType, SettingsMerger.MergeStyleLinked) == 0)
+                if (!this.environment.SupportsLinkedSettings && string.CompareOrdinal(mergeType, SettingsMerger.MergeStyleLinked) == 0)
                 {
                     mergeType = SettingsMerger.MergeStyleParent;
                 }
@@ -179,20 +182,24 @@ namespace StyleCop
             }
         }
 
-        #endregion Public Properties
+        #endregion
 
-        #region Internal Static Methods
+        #region Methods
 
         /// <summary>
         /// Merged two sets of property collections together.
         /// </summary>
-        /// <param name="originalPropertyCollection">The original property collection.</param>
-        /// <param name="overridingPropertyCollection">The overriding property collection.</param>
-        /// <param name="mergedPropertyCollection">The merged property collection.</param>
+        /// <param name="originalPropertyCollection">
+        /// The original property collection.
+        /// </param>
+        /// <param name="overridingPropertyCollection">
+        /// The overriding property collection.
+        /// </param>
+        /// <param name="mergedPropertyCollection">
+        /// The merged property collection.
+        /// </param>
         internal static void MergePropertyCollections(
-            PropertyCollection originalPropertyCollection,
-            PropertyCollection overridingPropertyCollection,
-            PropertyCollection mergedPropertyCollection)
+            PropertyCollection originalPropertyCollection, PropertyCollection overridingPropertyCollection, PropertyCollection mergedPropertyCollection)
         {
             Param.Ignore(originalPropertyCollection);
             Param.Ignore(overridingPropertyCollection);
@@ -274,16 +281,100 @@ namespace StyleCop
         }
 
         /// <summary>
+        /// Determines the type of merge to perform, based on the local settings file.
+        /// </summary>
+        /// <param name="settings">
+        /// The settings file
+        /// </param>
+        /// <param name="environment">
+        /// The environment.
+        /// </param>
+        /// <returns>
+        /// Returns the merge type.
+        /// </returns>
+        private static string DetermineMergeType(Settings settings, StyleCopEnvironment environment)
+        {
+            Param.AssertNotNull(settings, "settings");
+            Param.Ignore(environment);
+
+            StringProperty mergeTypeProperty = settings.GlobalSettings.GetProperty(SettingsMerger.MergeSettingsFilesProperty) as StringProperty;
+
+            string mergeType = SettingsMerger.MergeStyleParent;
+            if (mergeTypeProperty != null)
+            {
+                mergeType = mergeTypeProperty.Value;
+            }
+
+            // If the merge style is set to link but the current environment doesn't support linking, change it to parent.
+            if ((environment == null || !environment.SupportsLinkedSettings) && string.CompareOrdinal(mergeType, SettingsMerger.MergeStyleLinked) == 0)
+            {
+                mergeType = SettingsMerger.MergeStyleParent;
+            }
+
+            return mergeType;
+        }
+
+        /// <summary>
+        /// Merges two collection properties together.
+        /// </summary>
+        /// <param name="mergedPropertyCollection">
+        /// The merged property collection.
+        /// </param>
+        /// <param name="originalProperty">
+        /// The original property to merge.
+        /// </param>
+        /// <param name="overridingProperty">
+        /// The overriding property to merge.
+        /// </param>
+        private static void MergeCollectionProperties(PropertyCollection mergedPropertyCollection, PropertyValue originalProperty, PropertyValue overridingProperty)
+        {
+            Param.AssertNotNull(mergedPropertyCollection, "mergedPropertyCollection");
+            Param.AssertNotNull(originalProperty, "originalProperty");
+            Param.AssertNotNull(overridingProperty, "overridingProperty");
+
+            CollectionProperty originalCollectionProperty = (CollectionProperty)originalProperty;
+            CollectionProperty overridingCollectionProperty = (CollectionProperty)overridingProperty;
+
+            // Create a new merged collection property.
+            CollectionProperty mergedCollectionProperty = new CollectionProperty((CollectionPropertyDescriptor)originalCollectionProperty.PropertyDescriptor);
+            mergedPropertyCollection.Add(mergedCollectionProperty);
+
+            // Add each of the strings from the overriding collection.
+            foreach (string value in overridingCollectionProperty.Values)
+            {
+                mergedCollectionProperty.Add(value);
+            }
+
+            // If necessary, also add the strings from the original collection.
+            if (originalCollectionProperty.Aggregate)
+            {
+                foreach (string value in originalCollectionProperty.Values)
+                {
+                    if (!mergedCollectionProperty.Contains(value))
+                    {
+                        mergedCollectionProperty.Add(value);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         /// Merges two settings files together.
         /// </summary>
-        /// <param name="originalSettings">The original settings.</param>
-        /// <param name="overridingSettings">The settings which are overriding the original settings.</param>
-        /// <returns>Returns the merged settings.</returns>
+        /// <param name="originalSettings">
+        /// The original settings.
+        /// </param>
+        /// <param name="overridingSettings">
+        /// The settings which are overriding the original settings.
+        /// </param>
+        /// <returns>
+        /// Returns the merged settings.
+        /// </returns>
         private static Settings MergeSettings(Settings originalSettings, Settings overridingSettings)
         {
             Param.AssertNotNull(originalSettings, "originalSettings");
             Param.AssertNotNull(overridingSettings, "overridingSettings");
-            
+
             //// TODO Not sure why this has to be true
             //// TODO Also where are we getting a different core from?
             Debug.Assert(originalSettings.Core == overridingSettings.Core, "The settings must come from the same core instance.");
@@ -361,88 +452,66 @@ namespace StyleCop
         }
 
         /// <summary>
-        /// Determines the type of merge to perform, based on the local settings file.
+        /// Finds a linked settings document and merges it with the given settings.
         /// </summary>
-        /// <param name="settings">The settings file</param>
-        /// <param name="environment">The environment.</param>
-        /// <returns>Returns the merge type.</returns>
-        private static string DetermineMergeType(Settings settings, StyleCopEnvironment environment)
+        /// <param name="originalSettings">
+        /// The original settings.
+        /// </param>
+        /// <param name="mergeOriginal">
+        /// Indicates whether the merge the original settings with the linked settings.
+        /// </param>
+        /// <returns>
+        /// Returns the merged settings.
+        /// </returns>
+        /// <remarks>
+        /// This method is designed to work only in file-based environments.
+        /// </remarks>
+        private Settings FindMergedSettingsThroughLinkedSettings(Settings originalSettings, bool mergeOriginal)
         {
-            Param.AssertNotNull(settings, "settings");
-            Param.Ignore(environment);
+            Param.AssertNotNull(originalSettings, "originalSettings");
+            Param.Ignore(mergeOriginal);
 
-            StringProperty mergeTypeProperty = settings.GlobalSettings.GetProperty(SettingsMerger.MergeSettingsFilesProperty) as StringProperty;
-
-            string mergeType = SettingsMerger.MergeStyleParent;
-            if (mergeTypeProperty != null)
+            StringProperty linkedSettingsProperty = originalSettings.GlobalSettings.GetProperty(SettingsMerger.LinkedSettingsProperty) as StringProperty;
+            if (linkedSettingsProperty != null && !string.IsNullOrEmpty(linkedSettingsProperty.Value))
             {
-                mergeType = mergeTypeProperty.Value;
-            }
+                string linkedSettingsFile = Environment.ExpandEnvironmentVariables(linkedSettingsProperty.Value);
 
-            // If the merge style is set to link but the current environment doesn't support linking, change it to parent.
-            if ((environment == null || !environment.SupportsLinkedSettings) &&
-                string.CompareOrdinal(mergeType, SettingsMerger.MergeStyleLinked) == 0)
-            {
-                mergeType = SettingsMerger.MergeStyleParent;
-            }
-
-            return mergeType;
-        }
-
-        #endregion Internal Static Methods
-
-        #region Private Static Methods
-
-        /// <summary>
-        /// Merges two collection properties together.
-        /// </summary>
-        /// <param name="mergedPropertyCollection">The merged property collection.</param>
-        /// <param name="originalProperty">The original property to merge.</param>
-        /// <param name="overridingProperty">The overriding property to merge.</param>
-        private static void MergeCollectionProperties(
-            PropertyCollection mergedPropertyCollection, PropertyValue originalProperty, PropertyValue overridingProperty)
-        {
-            Param.AssertNotNull(mergedPropertyCollection, "mergedPropertyCollection");
-            Param.AssertNotNull(originalProperty, "originalProperty");
-            Param.AssertNotNull(overridingProperty, "overridingProperty");
-
-            CollectionProperty originalCollectionProperty = (CollectionProperty)originalProperty;
-            CollectionProperty overridingCollectionProperty = (CollectionProperty)overridingProperty;
-
-            // Create a new merged collection property.
-            CollectionProperty mergedCollectionProperty = new CollectionProperty(
-                (CollectionPropertyDescriptor)originalCollectionProperty.PropertyDescriptor);
-            mergedPropertyCollection.Add(mergedCollectionProperty);
-
-            // Add each of the strings from the overriding collection.
-            foreach (string value in overridingCollectionProperty.Values)
-            {
-                mergedCollectionProperty.Add(value);
-            }
-
-            // If necessary, also add the strings from the original collection.
-            if (originalCollectionProperty.Aggregate)
-            {
-                foreach (string value in originalCollectionProperty.Values)
+                if (linkedSettingsFile.StartsWith(".", StringComparison.Ordinal) || !linkedSettingsFile.Contains("\\"))
                 {
-                    if (!mergedCollectionProperty.Contains(value))
+                    linkedSettingsFile = Utils.MakeAbsolutePath(Path.GetDirectoryName(originalSettings.Location), linkedSettingsFile);
+                }
+
+                if (File.Exists(linkedSettingsFile))
+                {
+                    Settings mergedLinkedSettings = this.environment.GetSettings(linkedSettingsFile, true);
+                    if (mergedLinkedSettings != null)
                     {
-                        mergedCollectionProperty.Add(value);
+                        if (mergeOriginal)
+                        {
+                            return MergeSettings(mergedLinkedSettings, originalSettings);
+                        }
+
+                        return mergedLinkedSettings;
                     }
                 }
             }
+
+            // The linked settings do not exist. Just return the original settings.
+            return originalSettings;
         }
-
-        #endregion Private Static Methods
-
-        #region Private Methods
 
         /// <summary>
         /// Scans all parent paths above the path containing the given settings file, and merges all settings together.
         /// </summary>
-        /// <param name="originalSettings">The original settings to merge.</param>
-        /// <param name="mergeOriginal">Indicates whether the merge the original settings with the parent settings files.</param>
-        /// <returns>Returns the merged settings.</returns>
+        /// <param name="originalSettings">
+        /// The original settings to merge.
+        /// </param>
+        /// <param name="mergeOriginal">
+        /// Indicates whether the merge the original settings with the parent settings files.
+        /// </param>
+        /// <returns>
+        /// Returns the merged settings.
+        /// </returns>
         private Settings FindMergedSettingsThroughParentPaths(Settings originalSettings, bool mergeOriginal)
         {
             Param.AssertNotNull(originalSettings, "originalSettings");
@@ -482,47 +551,6 @@ namespace StyleCop
             return mergeOriginal ? originalSettings : null;
         }
 
-        /// <summary>
-        /// Finds a linked settings document and merges it with the given settings.
-        /// </summary>
-        /// <param name="originalSettings">The original settings.</param>
-        /// <param name="mergeOriginal">Indicates whether the merge the original settings with the linked settings.</param>
-        /// <returns>Returns the merged settings.</returns>
-        /// <remarks>This method is designed to work only in file-based environments.</remarks>
-        private Settings FindMergedSettingsThroughLinkedSettings(Settings originalSettings, bool mergeOriginal)
-        {
-            Param.AssertNotNull(originalSettings, "originalSettings");
-            Param.Ignore(mergeOriginal);
-
-            StringProperty linkedSettingsProperty = originalSettings.GlobalSettings.GetProperty(SettingsMerger.LinkedSettingsProperty) as StringProperty;
-            if (linkedSettingsProperty != null && !string.IsNullOrEmpty(linkedSettingsProperty.Value))
-            {
-                string linkedSettingsFile = Environment.ExpandEnvironmentVariables(linkedSettingsProperty.Value);
-
-                if (linkedSettingsFile.StartsWith(".", StringComparison.Ordinal) || !linkedSettingsFile.Contains("\\"))
-                {
-                    linkedSettingsFile = Utils.MakeAbsolutePath(Path.GetDirectoryName(originalSettings.Location), linkedSettingsFile);
-                }
-
-                if (File.Exists(linkedSettingsFile))
-                {
-                    Settings mergedLinkedSettings = this.environment.GetSettings(linkedSettingsFile, true);
-                    if (mergedLinkedSettings != null)
-                    {
-                        if (mergeOriginal)
-                        {
-                            return MergeSettings(mergedLinkedSettings, originalSettings);
-                        }
-
-                        return mergedLinkedSettings;
-                    }
-                }
-            }
-
-            // The linked settings do not exist. Just return the original settings.
-            return originalSettings;
-        }
-
-        #endregion Private Methods
+        #endregion
     }
 }

@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="ConstructorInitializerStatement.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ConstructorInitializerStatement.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,33 +11,38 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   A constructor initialization statement.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
-
     /// <summary>
     /// A constructor initialization statement.
     /// </summary>
     /// <subcategory>statement</subcategory>
     public sealed class ConstructorInitializerStatement : Statement
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// The expression within this statement.
         /// </summary>
-        private MethodInvocationExpression expression;
+        private readonly MethodInvocationExpression expression;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the ConstructorInitializerStatement class.
         /// </summary>
-        /// <param name="tokens">The list of tokens that form the statement.</param>
-        /// <param name="expression">The expression within this statement.</param>
+        /// <param name="tokens">
+        /// The list of tokens that form the statement.
+        /// </param>
+        /// <param name="expression">
+        /// The expression within this statement.
+        /// </param>
         internal ConstructorInitializerStatement(CsTokenList tokens, MethodInvocationExpression expression)
             : base(StatementType.ConstructorInitializer, tokens)
         {
@@ -48,7 +53,7 @@ namespace StyleCop.CSharp
             this.AddExpression(expression);
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
 
@@ -63,6 +68,6 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Properties
+        #endregion
     }
 }

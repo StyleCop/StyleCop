@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="V103Settings.cs" company="">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="v103Settings.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,16 +11,12 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Loads settings from a version 4.2 settings document.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Globalization;
-    using System.IO;
-    using System.Security;
     using System.Xml;
 
     /// <summary>
@@ -28,13 +24,17 @@ namespace StyleCop
     /// </summary>
     internal static class V103Settings
     {
-        #region Public Static Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Loads the settings from the document.
         /// </summary>
-        /// <param name="document">The settings document.</param>
-        /// <param name="settings">Stores the settings.</param>
+        /// <param name="document">
+        /// The settings document.
+        /// </param>
+        /// <param name="settings">
+        /// Stores the settings.
+        /// </param>
         public static void Load(XmlDocument document, Settings settings)
         {
             Param.AssertNotNull(document, "document");
@@ -43,17 +43,13 @@ namespace StyleCop
             // Move the StatementMustNotUseUnnecessaryParenthesis rule from the ReadabilityRules analyzer to the MaintainabilityRules analyzer
             // if it exists.
             MoveRuleToNewAnalyzer(
-                document,
-                "Microsoft.SourceAnalysis.CSharp.ReadabilityRules",
-                "Microsoft.SourceAnalysis.CSharp.MaintainabilityRules",
+                document, 
+                "Microsoft.SourceAnalysis.CSharp.ReadabilityRules", 
+                "Microsoft.SourceAnalysis.CSharp.MaintainabilityRules", 
                 "StatementMustNotUseUnnecessaryParenthesis");
 
             // If the PublicAndProtectedOnly property exists on the DocumentationRules analyzer, rename it to IgnorePrivates.
-            V102Settings.ChangeAnalyzerSettingName(
-                document,
-                "Microsoft.SourceAnalysis.CSharp.DocumentationRules",
-                "PublicAndProtectedOnly",
-                "IgnorePrivates");
+            V102Settings.ChangeAnalyzerSettingName(document, "Microsoft.SourceAnalysis.CSharp.DocumentationRules", "PublicAndProtectedOnly", "IgnorePrivates");
 
             // Forward this call to the V4.3 rule class for parsing.
             V104Settings.Load(document, settings);
@@ -62,10 +58,18 @@ namespace StyleCop
         /// <summary>
         /// Moves a rule from one analyzer node to a different analyzer node.
         /// </summary>
-        /// <param name="document">The settings document.</param>
-        /// <param name="legacyAnalyzerName">The legacy analyzer name.</param>
-        /// <param name="newAnalyzerName">The new analyzer name.</param>
-        /// <param name="ruleName">The name of the rule to move.</param>
+        /// <param name="document">
+        /// The settings document.
+        /// </param>
+        /// <param name="legacyAnalyzerName">
+        /// The legacy analyzer name.
+        /// </param>
+        /// <param name="newAnalyzerName">
+        /// The new analyzer name.
+        /// </param>
+        /// <param name="ruleName">
+        /// The name of the rule to move.
+        /// </param>
         public static void MoveRuleToNewAnalyzer(XmlDocument document, string legacyAnalyzerName, string newAnalyzerName, string ruleName)
         {
             Param.AssertNotNull(document, "document");
@@ -76,23 +80,20 @@ namespace StyleCop
             XmlNode analyzersNode = document.DocumentElement.SelectSingleNode("Analyzers");
             if (analyzersNode != null)
             {
-                XmlNode legacyAnalyzerNode = analyzersNode.SelectSingleNode(
-                    "Analyzer[@AnalyzerId=\"" + legacyAnalyzerName + "\"]");
+                XmlNode legacyAnalyzerNode = analyzersNode.SelectSingleNode("Analyzer[@AnalyzerId=\"" + legacyAnalyzerName + "\"]");
 
                 if (legacyAnalyzerNode != null)
                 {
                     XmlNode legacyAnalyzerRulesNode = legacyAnalyzerNode.SelectSingleNode("Rules");
                     if (legacyAnalyzerRulesNode != null)
                     {
-                        XmlNode legacyRuleNode = legacyAnalyzerRulesNode.SelectSingleNode(
-                            "Rule[@Name=\"" + ruleName + "\"]");
+                        XmlNode legacyRuleNode = legacyAnalyzerRulesNode.SelectSingleNode("Rule[@Name=\"" + ruleName + "\"]");
 
                         if (legacyRuleNode != null)
                         {
                             // This rule node must be moved under the new analyzer section.
                             // Check whether this section already exists.
-                            XmlNode newRulesNode = analyzersNode.SelectSingleNode(
-                                "Analyzer[@AnalyzerId=\"" + newAnalyzerName + "\"]");
+                            XmlNode newRulesNode = analyzersNode.SelectSingleNode("Analyzer[@AnalyzerId=\"" + newAnalyzerName + "\"]");
 
                             if (newRulesNode == null)
                             {
@@ -121,6 +122,6 @@ namespace StyleCop
             }
         }
 
-        #endregion Public Static Methods
+        #endregion
     }
 }

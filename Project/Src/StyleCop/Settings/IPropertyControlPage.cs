@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="IPropertyControlPage.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="IPropertyControlPage.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,45 +11,41 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Interface which must be implemented by a page that appears on the <see cref="PropertyControl" />.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop
 {
-    using System;
-
     /// <summary>
     /// Interface which must be implemented by a page that appears on the <see cref="PropertyControl"/>.
     /// </summary>
     public interface IPropertyControlPage
     {
-        #region Properties
+        #region Public Properties
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the page is dirty.
+        /// </summary>
+        bool Dirty { get; set; }
 
         /// <summary>
         /// Gets the text displayed on the page tab.
         /// </summary>
-        string TabName 
-        { 
-            get; 
-        }
-        
-        /// <summary>
-        /// Gets or sets a value indicating whether the page is dirty.
-        /// </summary>
-        bool Dirty
-        {
-            get;
-            set;
-        }
+        string TabName { get; }
 
-        #endregion Properties
+        #endregion
 
-        #region Methods
+        #region Public Methods and Operators
 
         /// <summary>
-        /// Initializes the page object.
+        /// Called whenever the page is being shown or hidden.
         /// </summary>
-        /// <param name="propertyControl">The property control that hosts the page.</param>
-        void Initialize(PropertyControl propertyControl);
-        
+        /// <param name="activated">
+        /// True if the page is being show, false if it is being hidden.
+        /// </param>
+        void Activate(bool activated);
+
         /// <summary>
         /// Saves the data on the page and resets any internal dirty flags.
         /// </summary>
@@ -57,28 +53,32 @@ namespace StyleCop
         bool Apply();
 
         /// <summary>
+        /// Initializes the page object.
+        /// </summary>
+        /// <param name="propertyControl">
+        /// The property control that hosts the page.
+        /// </param>
+        void Initialize(PropertyControl propertyControl);
+
+        /// <summary>
+        /// Allows the property page to perform an action after the settings for all pages have been applied.
+        /// </summary>
+        /// <param name="wasDirty">
+        /// Indicates whether the page was dirty before it was applied.
+        /// </param>
+        void PostApply(bool wasDirty);
+
+        /// <summary>
         /// Allows the property page to perform an action before any of the settings pages have been applied.
         /// </summary>
         /// <returns>Returns false if no pages should be applied.</returns>
         bool PreApply();
-        
-        /// <summary>
-        /// Allows the property page to perform an action after the settings for all pages have been applied.
-        /// </summary>
-        /// <param name="wasDirty">Indicates whether the page was dirty before it was applied.</param>
-        void PostApply(bool wasDirty);
-
-        /// <summary>
-        /// Called whenever the page is being shown or hidden.
-        /// </summary>
-        /// <param name="activated">True if the page is being show, false if it is being hidden.</param>
-        void Activate(bool activated);
 
         /// <summary>
         /// Called when the merged settings have changed.
         /// </summary>
         void RefreshSettingsOverrideState();
 
-        #endregion Methods
+        #endregion
     }
 }

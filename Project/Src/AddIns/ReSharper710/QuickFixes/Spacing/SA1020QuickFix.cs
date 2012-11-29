@@ -24,7 +24,7 @@ namespace StyleCop.ReSharper710.QuickFixes.Spacing
     using System.Collections.Generic;
 
     using JetBrains.DocumentModel;
-        using JetBrains.ReSharper.Feature.Services.Bulbs;
+    using JetBrains.ReSharper.Feature.Services.Bulbs;
     using JetBrains.ReSharper.Intentions.Extensibility;
 
     using StyleCop.ReSharper710.BulbItems.Readability;
@@ -112,18 +112,22 @@ namespace StyleCop.ReSharper710.QuickFixes.Spacing
         /// </summary>
         protected override void InitialiseBulbItems()
         {
-            var line = (JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine>)this.Highlighting.LineNumber;
+            JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> line =
+                (JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine>)this.Highlighting.LineNumber;
 
-            var target = this.Highlighting.DocumentRange.Document.GetLineText(line.Minus1());
+            string target = this.Highlighting.DocumentRange.Document.GetLineText(line.Minus1());
             target = target.Contains("++") ? "++" : "--";
 
             this.BulbItems = new List<IBulbAction>
-                {
-                    new FormatLineBulbItem
-                        {
-                            DocumentRange = this.Highlighting.DocumentRange, Description = "Fix Spacing : " + this.Highlighting.ToolTip, LineNumber = this.Highlighting.LineNumber, Target = target
-                        }
-                };
+                                 {
+                                     new FormatLineBulbItem
+                                         {
+                                             DocumentRange = this.Highlighting.DocumentRange, 
+                                             Description = "Fix Spacing : " + this.Highlighting.ToolTip, 
+                                             LineNumber = this.Highlighting.LineNumber, 
+                                             Target = target
+                                         }
+                                 };
         }
 
         #endregion

@@ -15,14 +15,13 @@
 //   QuickFix - SA1122: UseStringEmptyForEmptyStrings.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper710.QuickFixes.Readability
 {
     #region Using Directives
 
     using System.Collections.Generic;
 
-        using JetBrains.ReSharper.Feature.Services.Bulbs;
+    using JetBrains.ReSharper.Feature.Services.Bulbs;
     using JetBrains.ReSharper.Intentions.Extensibility;
 
     using StyleCop.ReSharper710.BulbItems.Readability;
@@ -111,15 +110,15 @@ namespace StyleCop.ReSharper710.QuickFixes.Readability
         protected override void InitialiseBulbItems()
         {
             this.BulbItems = new List<IBulbAction>
-                {
-                    new UseStringEmptyForEmptyStrings
-                        {
-                            FileName = this.Highlighting.FileName,
-                            LineNumber = this.Highlighting.LineNumber,
-                            DocumentRange = this.Highlighting.DocumentRange,
-                            Description = "Convert to string.Empty : " + this.Highlighting.ToolTip
-                        }
-                };
+                                 {
+                                     new UseStringEmptyForEmptyStrings
+                                         {
+                                             FileName = this.Highlighting.FileName, 
+                                             LineNumber = this.Highlighting.LineNumber, 
+                                             DocumentRange = this.Highlighting.DocumentRange, 
+                                             Description = "Convert to string.Empty : " + this.Highlighting.ToolTip
+                                         }
+                                 };
         }
 
         #endregion

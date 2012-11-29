@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="OrderingRules.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="OrderingRules.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Check code ordering rules.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
     using System;
@@ -20,45 +23,34 @@ namespace StyleCop.CSharp
     using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
 
-    using StyleCop;
-
     /// <summary>
     /// Check code ordering rules.
     /// </summary>
     [SourceAnalyzer(typeof(CsParser))]
     public class OrderingRules : SourceAnalyzer
     {
-        #region Internal Constants
-
-        /// <summary>
-        /// The name of the generated code order property. 
-        /// </summary>
-        internal const string GeneratedCodeElementOrderProperty = "GeneratedCodeElementOrder";
+        #region Constants
 
         /// <summary>
         /// The default value of the generated code order property.
         /// </summary>
         internal const bool GeneratedCodeElementOrderDefaultValueProperty = true;
 
-        #endregion Internal Constants
-
-        #region Public Constructors
-
         /// <summary>
-        /// Initializes a new instance of the OrderingRules class.
+        /// The name of the generated code order property. 
         /// </summary>
-        public OrderingRules()
-        {
-        }
+        internal const string GeneratedCodeElementOrderProperty = "GeneratedCodeElementOrder";
 
-        #endregion Public Constructors
+        #endregion
 
-        #region Public Override Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Checks the order of the elements within the given document.
         /// </summary>
-        /// <param name="document">The document to check.</param>
+        /// <param name="document">
+        /// The document to check.
+        /// </param>
         public override void AnalyzeDocument(CodeDocument document)
         {
             Param.RequireNotNull(document, "document");
@@ -96,15 +88,19 @@ namespace StyleCop.CSharp
             return csdocument.FileHeader == null || !csdocument.FileHeader.UnStyled;
         }
 
-        #endregion Public Override Methods
+        #endregion
 
-        #region Private Static Methods
+        #region Methods
 
         /// <summary>
         /// Converts an access modifier type to a human readable string.
         /// </summary>
-        /// <param name="type">The type to convert.</param>
-        /// <returns>Returns the human readable string.</returns>
+        /// <param name="type">
+        /// The type to convert.
+        /// </param>
+        /// <returns>
+        /// Returns the human readable string.
+        /// </returns>
         private static string AccessModifierTypeString(AccessModifierType type)
         {
             Param.Ignore(type);
@@ -130,13 +126,17 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Determines whether the two namespaces are ordered correctly.
         /// </summary>
-        /// <param name="namespace1">The first namespace.</param>
-        /// <param name="namespace2">The second namespace.</param>
-        /// <returns>Returns true if the namespaces are ordered correctly, false otherwise.</returns>
-        [SuppressMessage(
-            "Microsoft.Globalization", 
-            "CA1309:UseOrdinalStringComparison", 
-            MessageId = "System.String.Compare(System.String,System.String,System.StringComparison)",
+        /// <param name="namespace1">
+        /// The first namespace.
+        /// </param>
+        /// <param name="namespace2">
+        /// The second namespace.
+        /// </param>
+        /// <returns>
+        /// Returns true if the namespaces are ordered correctly, false otherwise.
+        /// </returns>
+        [SuppressMessage("Microsoft.Globalization", "CA1309:UseOrdinalStringComparison", 
+            MessageId = "System.String.Compare(System.String,System.String,System.StringComparison)", 
             Justification = "InvariantCulture comparison is necessary for correct namespace comparison.")]
         private static bool CheckNamespaceOrdering(string namespace1, string namespace2)
         {
@@ -150,7 +150,7 @@ namespace StyleCop.CSharp
 
             namespace1Parts[0] = namespace1Parts[0].SubstringAfter("global::", StringComparison.CurrentCulture);
             namespace2Parts[0] = namespace2Parts[0].SubstringAfter("global::", StringComparison.CurrentCulture);
-            
+
             // Figure out which namespace has fewer parts.
             int partCount = Math.Min(namespace1Parts.Length, namespace2Parts.Length);
 
@@ -207,8 +207,12 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Returns an order number for the passed in element.
         /// </summary>
-        /// <param name="element">The element to calculate the order of.</param>
-        /// <returns>The calculated order of the element.</returns>
+        /// <param name="element">
+        /// The element to calculate the order of.
+        /// </param>
+        /// <returns>
+        /// The calculated order of the element.
+        /// </returns>
         private static int GetElementOrder(CsElement element)
         {
             Param.AssertNotNull(element, "first");
@@ -239,72 +243,16 @@ namespace StyleCop.CSharp
             return 4;
         }
 
-        #endregion Private Static Methods
-
-        #region Private Methods
-
-        /// <summary>
-        /// Checks the given code element.
-        /// </summary>
-        /// <param name="element">The code element to check.</param>
-        /// <param name="checkGeneratedCode">True to check the element order of generated code blocks.</param>
-        /// <returns>Returns false if the analyzer should quit.</returns>
-        private bool ProcessElements(CsElement element, bool checkGeneratedCode)
-        {
-            Param.AssertNotNull(element, "element");
-            Param.Ignore(checkGeneratedCode);
-
-            if (this.Cancel)
-            {
-                return false;
-            }
-
-            this.CheckElementOrder(element, checkGeneratedCode);
-
-            return true;
-        }
-
-        /// <summary>
-        /// Checks the order of elements that appear within the given element.
-        /// </summary>
-        /// <param name="element">The element to check.</param>
-        /// <param name="checkGeneratedCode">True to check the element order of generated code blocks.</param>
-        private void CheckElementOrder(CsElement element, bool checkGeneratedCode)
-        {
-            Param.AssertNotNull(element, "element");
-            Param.Ignore(checkGeneratedCode);
-
-            // Check the ordering of the keywords in the element's declaration.
-            if (!element.Generated &&
-                (element.ElementType == ElementType.Class ||
-                 element.ElementType == ElementType.Field ||
-                 element.ElementType == ElementType.Enum ||
-                 element.ElementType == ElementType.Struct ||
-                 element.ElementType == ElementType.Interface ||
-                 element.ElementType == ElementType.Delegate ||
-                 element.ElementType == ElementType.Event ||
-                 element.ElementType == ElementType.Property ||
-                 element.ElementType == ElementType.Indexer ||
-                 element.ElementType == ElementType.Method ||
-                 element.ElementType == ElementType.Constructor ||
-                 element.ElementType == ElementType.Accessor))
-            {
-                this.CheckDeclarationKeywordOrder(element);
-            }
-          
-            // Make sure that using directives are inside of namespace elements. 
-            this.CheckUsingDirectivePlacement(element);
-
-            // Checks the order of the children of this element.
-            this.CheckChildElementOrdering(element, checkGeneratedCode);
-        }
-
         /// <summary>
         /// Checks the order of child elements of the given element.
         /// </summary>
-        /// <param name="element">The element to check.</param>
-        /// <param name="checkGeneratedCode">Indicates whether to check the order of elements
-        /// within generated blocks of code.</param>
+        /// <param name="element">
+        /// The element to check.
+        /// </param>
+        /// <param name="checkGeneratedCode">
+        /// Indicates whether to check the order of elements
+        /// within generated blocks of code.
+        /// </param>
         private void CheckChildElementOrdering(CsElement element, bool checkGeneratedCode)
         {
             Param.AssertNotNull(element, "element");
@@ -334,8 +282,7 @@ namespace StyleCop.CSharp
                                 // then only perform this check if at least one of the two elements is not 
                                 // generated code. Otherwise, only perform this check if both of the two 
                                 // elements is not generated code.
-                                if ((checkGeneratedCode && (!first.Generated || !second.Generated)) || 
-                                    (!checkGeneratedCode && !first.Generated && !second.Generated))
+                                if ((checkGeneratedCode && (!first.Generated || !second.Generated)) || (!checkGeneratedCode && !first.Generated && !second.Generated))
                                 {
                                     // Determine whether first is actually supposed to come before second
                                     if (!this.CompareItems(first, second, !firstValid))
@@ -388,9 +335,234 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
+        /// Checks the order of the declarations in a keyword. Access modifier should come first,
+        /// followed by the 'static' keyword if the element is static, followed by all other keywords.
+        /// </summary>
+        /// <param name="element">
+        /// The element of code to check.
+        /// </param>
+        [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification = "Minimizing refactoring before release.")]
+        private void CheckDeclarationKeywordOrder(CsElement element)
+        {
+            Param.AssertNotNull(element, "element");
+
+            int accessModifierIndex = -1;
+            int staticIndex = -1;
+            int otherWordIndex = -1;
+
+            int index = 0;
+
+            foreach (CsToken token in element.Declaration.Tokens)
+            {
+                CsTokenType type = token.CsTokenType;
+                if (type == CsTokenType.Private || type == CsTokenType.Public || type == CsTokenType.Protected || type == CsTokenType.Internal)
+                {
+                    if (accessModifierIndex == -1)
+                    {
+                        accessModifierIndex = index++;
+                    }
+                }
+                else if (type == CsTokenType.Static)
+                {
+                    if (staticIndex == -1)
+                    {
+                        staticIndex = index++;
+                    }
+                }
+                else if (type != CsTokenType.WhiteSpace && type != CsTokenType.EndOfLine && type != CsTokenType.SingleLineComment && type != CsTokenType.MultiLineComment)
+                {
+                    if (otherWordIndex == -1)
+                    {
+                        otherWordIndex = index++;
+                    }
+                }
+            }
+
+            if (accessModifierIndex != -1)
+            {
+                if (staticIndex > -1 && staticIndex < accessModifierIndex)
+                {
+                    this.AddViolation(
+                        element, Rules.DeclarationKeywordsMustFollowOrder, Strings.AccessModifier, string.Format(CultureInfo.InvariantCulture, "'{0}'", Strings.Static));
+                }
+
+                if (otherWordIndex > -1 && otherWordIndex < accessModifierIndex)
+                {
+                    this.AddViolation(
+                        element, Rules.DeclarationKeywordsMustFollowOrder, Strings.AccessModifier, string.Format(CultureInfo.InvariantCulture, "'{0}'", Strings.Other));
+                }
+            }
+
+            if (staticIndex > -1)
+            {
+                if (otherWordIndex > -1 && otherWordIndex < staticIndex)
+                {
+                    this.AddViolation(
+                        element, 
+                        Rules.DeclarationKeywordsMustFollowOrder, 
+                        string.Format(CultureInfo.InvariantCulture, "'{0}'", Strings.Static), 
+                        string.Format(CultureInfo.InvariantCulture, "'{0}'", Strings.Other));
+                }
+            }
+
+            // Check to make sure that 'protected' comes just before 'internal'.
+            if (element.Declaration.AccessModifierType == AccessModifierType.ProtectedInternal)
+            {
+                bool foundProtected = false;
+                foreach (CsToken token in element.Declaration.Tokens)
+                {
+                    if (foundProtected)
+                    {
+                        if (token.CsTokenType == CsTokenType.Internal)
+                        {
+                            break;
+                        }
+                        else if (token.CsTokenType != CsTokenType.WhiteSpace)
+                        {
+                            this.AddViolation(element, Rules.ProtectedMustComeBeforeInternal);
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        if (token.CsTokenType == CsTokenType.Protected)
+                        {
+                            foundProtected = true;
+                        }
+                        else if (token.CsTokenType == CsTokenType.Internal)
+                        {
+                            this.AddViolation(element, Rules.ProtectedMustComeBeforeInternal);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Checks the order of elements that appear within the given element.
+        /// </summary>
+        /// <param name="element">
+        /// The element to check.
+        /// </param>
+        /// <param name="checkGeneratedCode">
+        /// True to check the element order of generated code blocks.
+        /// </param>
+        private void CheckElementOrder(CsElement element, bool checkGeneratedCode)
+        {
+            Param.AssertNotNull(element, "element");
+            Param.Ignore(checkGeneratedCode);
+
+            // Check the ordering of the keywords in the element's declaration.
+            if (!element.Generated
+                && (element.ElementType == ElementType.Class || element.ElementType == ElementType.Field || element.ElementType == ElementType.Enum
+                    || element.ElementType == ElementType.Struct || element.ElementType == ElementType.Interface || element.ElementType == ElementType.Delegate
+                    || element.ElementType == ElementType.Event || element.ElementType == ElementType.Property || element.ElementType == ElementType.Indexer
+                    || element.ElementType == ElementType.Method || element.ElementType == ElementType.Constructor || element.ElementType == ElementType.Accessor))
+            {
+                this.CheckDeclarationKeywordOrder(element);
+            }
+
+            // Make sure that using directives are inside of namespace elements. 
+            this.CheckUsingDirectivePlacement(element);
+
+            // Checks the order of the children of this element.
+            this.CheckChildElementOrdering(element, checkGeneratedCode);
+        }
+
+        /// <summary>
+        /// Checks the order of the using directives in the given list.
+        /// </summary>
+        /// <param name="usings">
+        /// The list of using directives.
+        /// </param>
+        private void CheckOrderOfUsingDirectivesInList(List<UsingDirective> usings)
+        {
+            Param.AssertNotNull(usings, "usings");
+
+            for (int i = 0; i < usings.Count; ++i)
+            {
+                UsingDirective firstUsing = usings[i];
+
+                for (int j = i + 1; j < usings.Count; ++j)
+                {
+                    UsingDirective secondUsing = usings[j];
+
+                    if (!this.CompareOrderOfUsingDirectives(firstUsing, secondUsing))
+                    {
+                        break;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Checks the order of any using directives found under this element.
+        /// </summary>
+        /// <param name="element">
+        /// The element containing the using directives.
+        /// </param>
+        private void CheckOrderOfUsingDirectivesUnderElement(CsElement element)
+        {
+            Param.AssertNotNull(element, "element");
+
+            // Add each of the using directives to an array.
+            List<UsingDirective> usings = null;
+
+            foreach (CsElement childElement in element.ChildElements)
+            {
+                if (childElement.ElementType == ElementType.UsingDirective)
+                {
+                    if (usings == null)
+                    {
+                        usings = new List<UsingDirective>();
+                    }
+
+                    usings.Add((UsingDirective)childElement);
+                }
+                else if (childElement.ElementType != ElementType.ExternAliasDirective)
+                {
+                    break;
+                }
+            }
+
+            if (usings != null)
+            {
+                this.CheckOrderOfUsingDirectivesInList(usings);
+            }
+        }
+
+        /// <summary>
+        /// Checks the order of using directives within the document.
+        /// </summary>
+        /// <param name="rootElement">
+        /// The root element containing the using directives.
+        /// </param>
+        private void CheckUsingDirectiveOrder(CsElement rootElement)
+        {
+            Param.AssertNotNull(rootElement, "rootElement");
+
+            if (!rootElement.Generated)
+            {
+                this.CheckOrderOfUsingDirectivesUnderElement(rootElement);
+
+                // Find any namespace elements within this element.
+                foreach (CsElement childElement in rootElement.ChildElements)
+                {
+                    if (childElement.ElementType == ElementType.Namespace)
+                    {
+                        this.CheckUsingDirectiveOrder(childElement);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         /// Checks that using-directives are placed within the namespace element.
         /// </summary>
-        /// <param name="element">The element to check.</param>
+        /// <param name="element">
+        /// The element to check.
+        /// </param>
         private void CheckUsingDirectivePlacement(CsElement element)
         {
             Param.AssertNotNull(element, "element");
@@ -440,11 +612,19 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Compares two items to determine if they are in the correct order.
         /// </summary>
-        /// <param name="first">The first item to compare.</param>
-        /// <param name="second">The second item to compare.</param>
-        /// <param name="foundFirst">Determines whether we've found the first item
-        /// in the code that is in the correct order.</param>
-        /// <returns>Returns true if the first item should come before the second item, or false if vice-versa.</returns>
+        /// <param name="first">
+        /// The first item to compare.
+        /// </param>
+        /// <param name="second">
+        /// The second item to compare.
+        /// </param>
+        /// <param name="foundFirst">
+        /// Determines whether we've found the first item
+        /// in the code that is in the correct order.
+        /// </param>
+        /// <returns>
+        /// Returns true if the first item should come before the second item, or false if vice-versa.
+        /// </returns>
         [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification = "Minimizing refactoring before release.")]
         private bool CompareItems(CsElement first, CsElement second, bool foundFirst)
         {
@@ -488,9 +668,8 @@ namespace StyleCop.CSharp
                                 // private by default.
                                 if ((!first.Declaration.AccessModifier && first.ElementType != ElementType.Method
                                      && first.Declaration.ContainsModifier(CsTokenType.Partial))
-                                    ||
-                                    (!second.Declaration.AccessModifier && second.ElementType != ElementType.Method
-                                     && second.Declaration.ContainsModifier(CsTokenType.Partial)))
+                                    || (!second.Declaration.AccessModifier && second.ElementType != ElementType.Method
+                                        && second.Declaration.ContainsModifier(CsTokenType.Partial)))
                                 {
                                     // Make sure to use the line number of the partial element which does not contain
                                     // an access modifier.
@@ -501,20 +680,20 @@ namespace StyleCop.CSharp
                                     }
 
                                     this.AddViolation(
-                                        elementWithoutAccessModifier,
-                                        Rules.PartialElementsMustDeclareAccess,
-                                        elementWithoutAccessModifier.FriendlyTypeText,
+                                        elementWithoutAccessModifier, 
+                                        Rules.PartialElementsMustDeclareAccess, 
+                                        elementWithoutAccessModifier.FriendlyTypeText, 
                                         elementWithoutAccessModifier.FriendlyPluralTypeText);
                                 }
                                 else
                                 {
                                     this.AddViolation(
-                                        first,
-                                        invalidElement.LineNumber,
-                                        Rules.ElementsMustBeOrderedByAccess,
-                                        OrderingRules.AccessModifierTypeString(first.Declaration.AccessModifierType),
-                                        first.FriendlyPluralTypeText,
-                                        OrderingRules.AccessModifierTypeString(second.Declaration.AccessModifierType),
+                                        first, 
+                                        invalidElement.LineNumber, 
+                                        Rules.ElementsMustBeOrderedByAccess, 
+                                        OrderingRules.AccessModifierTypeString(first.Declaration.AccessModifierType), 
+                                        first.FriendlyPluralTypeText, 
+                                        OrderingRules.AccessModifierTypeString(second.Declaration.AccessModifierType), 
                                         second.FriendlyPluralTypeText);
                                 }
 
@@ -543,12 +722,12 @@ namespace StyleCop.CSharp
                             if (secondOrder == 1 && firstOrder == 2)
                             {
                                 this.AddViolation(
-                                    first,
-                                    invalidElement.LineNumber,
-                                    Rules.StaticReadonlyElementsMustAppearBeforeStaticNonReadonlyElements,
-                                    OrderingRules.AccessModifierTypeString(first.Declaration.AccessModifierType),
-                                    first.FriendlyPluralTypeText,
-                                    OrderingRules.AccessModifierTypeString(second.Declaration.AccessModifierType),
+                                    first, 
+                                    invalidElement.LineNumber, 
+                                    Rules.StaticReadonlyElementsMustAppearBeforeStaticNonReadonlyElements, 
+                                    OrderingRules.AccessModifierTypeString(first.Declaration.AccessModifierType), 
+                                    first.FriendlyPluralTypeText, 
+                                    OrderingRules.AccessModifierTypeString(second.Declaration.AccessModifierType), 
                                     second.FriendlyPluralTypeText);
 
                                 return false;
@@ -557,12 +736,12 @@ namespace StyleCop.CSharp
                             if (secondOrder == 1 && firstOrder > 2)
                             {
                                 this.AddViolation(
-                                    first,
-                                    invalidElement.LineNumber,
-                                    Rules.StaticElementsMustAppearBeforeInstanceElements,
-                                    OrderingRules.AccessModifierTypeString(first.Declaration.AccessModifierType),
-                                    first.FriendlyPluralTypeText,
-                                    OrderingRules.AccessModifierTypeString(second.Declaration.AccessModifierType),
+                                    first, 
+                                    invalidElement.LineNumber, 
+                                    Rules.StaticElementsMustAppearBeforeInstanceElements, 
+                                    OrderingRules.AccessModifierTypeString(first.Declaration.AccessModifierType), 
+                                    first.FriendlyPluralTypeText, 
+                                    OrderingRules.AccessModifierTypeString(second.Declaration.AccessModifierType), 
                                     second.FriendlyPluralTypeText);
 
                                 return false;
@@ -572,12 +751,12 @@ namespace StyleCop.CSharp
                             if (secondOrder == 2 && firstOrder > 2)
                             {
                                 this.AddViolation(
-                                    first,
-                                    invalidElement.LineNumber,
-                                    Rules.StaticElementsMustAppearBeforeInstanceElements,
-                                    OrderingRules.AccessModifierTypeString(first.Declaration.AccessModifierType),
-                                    first.FriendlyPluralTypeText,
-                                    OrderingRules.AccessModifierTypeString(second.Declaration.AccessModifierType),
+                                    first, 
+                                    invalidElement.LineNumber, 
+                                    Rules.StaticElementsMustAppearBeforeInstanceElements, 
+                                    OrderingRules.AccessModifierTypeString(first.Declaration.AccessModifierType), 
+                                    first.FriendlyPluralTypeText, 
+                                    OrderingRules.AccessModifierTypeString(second.Declaration.AccessModifierType), 
                                     second.FriendlyPluralTypeText);
 
                                 return false;
@@ -587,12 +766,12 @@ namespace StyleCop.CSharp
                             if (secondOrder == 3 && firstOrder > 3)
                             {
                                 this.AddViolation(
-                                    first,
-                                    invalidElement.LineNumber,
-                                    Rules.InstanceReadonlyElementsMustAppearBeforeInstanceNonReadonlyElements,
-                                    OrderingRules.AccessModifierTypeString(first.Declaration.AccessModifierType),
-                                    first.FriendlyPluralTypeText,
-                                    OrderingRules.AccessModifierTypeString(second.Declaration.AccessModifierType),
+                                    first, 
+                                    invalidElement.LineNumber, 
+                                    Rules.InstanceReadonlyElementsMustAppearBeforeInstanceNonReadonlyElements, 
+                                    OrderingRules.AccessModifierTypeString(first.Declaration.AccessModifierType), 
+                                    first.FriendlyPluralTypeText, 
+                                    OrderingRules.AccessModifierTypeString(second.Declaration.AccessModifierType), 
                                     second.FriendlyPluralTypeText);
 
                                 return false;
@@ -604,12 +783,12 @@ namespace StyleCop.CSharp
                             // If we have 2 constructors and the second one is static then they're in the wrong order, since static 
                             // constructors must always come in front of all instance constructors.
                             this.AddViolation(
-                                first,
-                                invalidElement.LineNumber,
-                                Rules.StaticElementsMustAppearBeforeInstanceElements,
-                                OrderingRules.AccessModifierTypeString(first.Declaration.AccessModifierType),
-                                first.FriendlyPluralTypeText,
-                                OrderingRules.AccessModifierTypeString(second.Declaration.AccessModifierType),
+                                first, 
+                                invalidElement.LineNumber, 
+                                Rules.StaticElementsMustAppearBeforeInstanceElements, 
+                                OrderingRules.AccessModifierTypeString(first.Declaration.AccessModifierType), 
+                                first.FriendlyPluralTypeText, 
+                                OrderingRules.AccessModifierTypeString(second.Declaration.AccessModifierType), 
                                 second.FriendlyPluralTypeText);
 
                             return false;
@@ -622,207 +801,17 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Checks the order of the declarations in a keyword. Access modifier should come first,
-        /// followed by the 'static' keyword if the element is static, followed by all other keywords.
-        /// </summary>
-        /// <param name="element">The element of code to check.</param>
-        [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification = "Minimizing refactoring before release.")]
-        private void CheckDeclarationKeywordOrder(CsElement element)
-        {
-            Param.AssertNotNull(element, "element");
-
-            int accessModifierIndex = -1;
-            int staticIndex = -1;
-            int otherWordIndex = -1;
-
-            int index = 0;
-
-            foreach (CsToken token in element.Declaration.Tokens)
-            {
-                CsTokenType type = token.CsTokenType;
-                if (type == CsTokenType.Private ||
-                    type == CsTokenType.Public ||
-                    type == CsTokenType.Protected ||
-                    type == CsTokenType.Internal)
-                {
-                    if (accessModifierIndex == -1)
-                    {
-                        accessModifierIndex = index++;
-                    }
-                }
-                else if (type == CsTokenType.Static)
-                {
-                    if (staticIndex == -1)
-                    {
-                        staticIndex = index++;
-                    }
-                }
-                else if (type != CsTokenType.WhiteSpace &&
-                   type != CsTokenType.EndOfLine &&
-                   type != CsTokenType.SingleLineComment &&
-                   type != CsTokenType.MultiLineComment)
-                {
-                    if (otherWordIndex == -1)
-                    {
-                        otherWordIndex = index++;
-                    }
-                }
-            }
-
-            if (accessModifierIndex != -1)
-            {
-                if (staticIndex > -1 && staticIndex < accessModifierIndex)
-                {
-                    this.AddViolation(
-                        element,
-                        Rules.DeclarationKeywordsMustFollowOrder,
-                        Strings.AccessModifier,
-                        string.Format(CultureInfo.InvariantCulture, "'{0}'", Strings.Static));
-                }
-
-                if (otherWordIndex > -1 && otherWordIndex < accessModifierIndex)
-                {
-                    this.AddViolation(
-                        element,
-                        Rules.DeclarationKeywordsMustFollowOrder,
-                        Strings.AccessModifier,
-                        string.Format(CultureInfo.InvariantCulture, "'{0}'", Strings.Other));
-                }
-            }
-
-            if (staticIndex > -1)
-            {
-                if (otherWordIndex > -1 && otherWordIndex < staticIndex)
-                {
-                    this.AddViolation(
-                        element,
-                        Rules.DeclarationKeywordsMustFollowOrder,
-                        string.Format(CultureInfo.InvariantCulture, "'{0}'", Strings.Static),
-                        string.Format(CultureInfo.InvariantCulture, "'{0}'", Strings.Other));
-                }
-            }
-
-            // Check to make sure that 'protected' comes just before 'internal'.
-            if (element.Declaration.AccessModifierType == AccessModifierType.ProtectedInternal)
-            {
-                bool foundProtected = false;
-                foreach (CsToken token in element.Declaration.Tokens)
-                {
-                    if (foundProtected)
-                    {
-                        if (token.CsTokenType == CsTokenType.Internal)
-                        {
-                            break;
-                        }
-                        else if (token.CsTokenType != CsTokenType.WhiteSpace)
-                        {
-                            this.AddViolation(element, Rules.ProtectedMustComeBeforeInternal);
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        if (token.CsTokenType == CsTokenType.Protected)
-                        {
-                            foundProtected = true;
-                        }
-                        else if (token.CsTokenType == CsTokenType.Internal)
-                        {
-                            this.AddViolation(element, Rules.ProtectedMustComeBeforeInternal);
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Checks the order of using directives within the document.
-        /// </summary>
-        /// <param name="rootElement">The root element containing the using directives.</param>
-        private void CheckUsingDirectiveOrder(CsElement rootElement)
-        {
-            Param.AssertNotNull(rootElement, "rootElement");
-
-            if (!rootElement.Generated)
-            {
-                this.CheckOrderOfUsingDirectivesUnderElement(rootElement);
-
-                // Find any namespace elements within this element.
-                foreach (CsElement childElement in rootElement.ChildElements)
-                {
-                    if (childElement.ElementType == ElementType.Namespace)
-                    {
-                        this.CheckUsingDirectiveOrder(childElement);
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Checks the order of any using directives found under this element.
-        /// </summary>
-        /// <param name="element">The element containing the using directives.</param>
-        private void CheckOrderOfUsingDirectivesUnderElement(CsElement element)
-        {
-            Param.AssertNotNull(element, "element");
-
-            // Add each of the using directives to an array.
-            List<UsingDirective> usings = null;
-
-            foreach (CsElement childElement in element.ChildElements)
-            {
-                if (childElement.ElementType == ElementType.UsingDirective)
-                {
-                    if (usings == null)
-                    {
-                        usings = new List<UsingDirective>();
-                    }
-
-                    usings.Add((UsingDirective)childElement);
-                }
-                else if (childElement.ElementType != ElementType.ExternAliasDirective)
-                {
-                    break;
-                }
-            }
-
-            if (usings != null)
-            {
-                this.CheckOrderOfUsingDirectivesInList(usings);
-            }
-        }
-
-        /// <summary>
-        /// Checks the order of the using directives in the given list.
-        /// </summary>
-        /// <param name="usings">The list of using directives.</param>
-        private void CheckOrderOfUsingDirectivesInList(List<UsingDirective> usings)
-        {
-            Param.AssertNotNull(usings, "usings");
-
-            for (int i = 0; i < usings.Count; ++i)
-            {
-                UsingDirective firstUsing = usings[i];
-
-                for (int j = i + 1; j < usings.Count; ++j)
-                {
-                    UsingDirective secondUsing = usings[j];
-
-                    if (!this.CompareOrderOfUsingDirectives(firstUsing, secondUsing))
-                    {
-                        break;
-                    }
-                }
-            }
-        }
-
-        /// <summary>
         /// Compares the order of two using directives.
         /// </summary>
-        /// <param name="firstUsing">The first using directive.</param>
-        /// <param name="secondUsing">The second using directive.</param>
-        /// <returns>Returns false if the elements are out of order.</returns>
+        /// <param name="firstUsing">
+        /// The first using directive.
+        /// </param>
+        /// <param name="secondUsing">
+        /// The second using directive.
+        /// </param>
+        /// <returns>
+        /// Returns false if the elements are out of order.
+        /// </returns>
         private bool CompareOrderOfUsingDirectives(UsingDirective firstUsing, UsingDirective secondUsing)
         {
             Param.AssertNotNull(firstUsing, "firstUsing");
@@ -832,8 +821,10 @@ namespace StyleCop.CSharp
             {
                 if (string.IsNullOrEmpty(secondUsing.Alias))
                 {
-                    bool isFirstSystem = firstUsing.NamespaceType.StartsWith("System", StringComparison.Ordinal) || firstUsing.NamespaceType.StartsWith("global::System", StringComparison.Ordinal);
-                    bool isSecondSystem = secondUsing.NamespaceType.StartsWith("System", StringComparison.Ordinal) || secondUsing.NamespaceType.StartsWith("global::System", StringComparison.Ordinal);
+                    bool isFirstSystem = firstUsing.NamespaceType.StartsWith("System", StringComparison.Ordinal)
+                                         || firstUsing.NamespaceType.StartsWith("global::System", StringComparison.Ordinal);
+                    bool isSecondSystem = secondUsing.NamespaceType.StartsWith("System", StringComparison.Ordinal)
+                                          || secondUsing.NamespaceType.StartsWith("global::System", StringComparison.Ordinal);
 
                     // Neither of the usings is an alias. First, ensure that System namespaces are placed above all
                     // non-System namespaces.
@@ -876,6 +867,33 @@ namespace StyleCop.CSharp
             return true;
         }
 
-        #endregion Private Methods
+        /// <summary>
+        /// Checks the given code element.
+        /// </summary>
+        /// <param name="element">
+        /// The code element to check.
+        /// </param>
+        /// <param name="checkGeneratedCode">
+        /// True to check the element order of generated code blocks.
+        /// </param>
+        /// <returns>
+        /// Returns false if the analyzer should quit.
+        /// </returns>
+        private bool ProcessElements(CsElement element, bool checkGeneratedCode)
+        {
+            Param.AssertNotNull(element, "element");
+            Param.Ignore(checkGeneratedCode);
+
+            if (this.Cancel)
+            {
+                return false;
+            }
+
+            this.CheckElementOrder(element, checkGeneratedCode);
+
+            return true;
+        }
+
+        #endregion
     }
 }

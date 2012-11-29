@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="QueryClauseType.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="QueryClauseType.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   The various <see cref="QueryClause" /> types in a C# document.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
     /// <summary>
@@ -22,37 +25,37 @@ namespace StyleCop.CSharp
         /// <summary>
         /// A query continuation clause.
         /// </summary>
-        Continuation,
+        Continuation, 
 
         /// <summary>
         /// A from clause.
         /// </summary>
-        From,
+        From, 
 
         /// <summary>
         /// A group clause.
         /// </summary>
-        Group,
+        Group, 
 
         /// <summary>
         /// A join clause.
         /// </summary>
-        Join,
+        Join, 
 
         /// <summary>
         /// A let clause.
         /// </summary>
-        Let,
+        Let, 
 
         /// <summary>
         /// An order-by clause.
         /// </summary>
-        OrderBy,
+        OrderBy, 
 
         /// <summary>
         /// A select clause.
         /// </summary>
-        Select,
+        Select, 
 
         /// <summary>
         /// A where clause.

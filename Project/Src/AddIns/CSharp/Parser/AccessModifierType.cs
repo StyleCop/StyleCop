@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="AccessModifierType.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="AccessModifierType.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   The various access modifier types for code elements.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
     // These are listed in the order that they should appear in the code.
@@ -25,27 +28,27 @@ namespace StyleCop.CSharp
         /// <summary>
         /// A publicly exposed element.
         /// </summary>
-        Public = 0,
+        Public = 0, 
 
         /// <summary>
         /// An internally exposed element.
         /// </summary>
-        Internal = 1,
+        Internal = 1, 
 
         /// <summary>
         /// A protected and internally exposed element.
         /// </summary>
-        ProtectedInternal = 2,
+        ProtectedInternal = 2, 
 
         /// <summary>
         /// A protected element, exposed only to deriving classes.
         /// </summary>
-        Protected = 3,
+        Protected = 3, 
 
         /// <summary>
         /// A private, unexposed element.
         /// </summary>
-        Private = 4,
+        Private = 4, 
 
         /// <summary>
         /// A protected element that is inside of an internal element.

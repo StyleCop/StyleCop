@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="QueryWhereClause.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="QueryWhereClause.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,23 +11,28 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Describes a where clause in a query expression.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
-
     /// <summary>
     /// Describes a where clause in a query expression.
     /// </summary>
     public sealed class QueryWhereClause : QueryClauseWithExpression
     {
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the QueryWhereClause class.
         /// </summary>
-        /// <param name="tokens">The list of tokens that form the clause.</param>
-        /// <param name="expression">The expression.</param>
+        /// <param name="tokens">
+        /// The list of tokens that form the clause.
+        /// </param>
+        /// <param name="expression">
+        /// The expression.
+        /// </param>
         internal QueryWhereClause(CsTokenList tokens, Expression expression)
             : base(QueryClauseType.Where, tokens, expression)
         {
@@ -35,6 +40,6 @@ namespace StyleCop.CSharp
             Param.AssertNotNull(expression, "expression");
         }
 
-        #endregion Internal Constructors
+        #endregion
     }
 }

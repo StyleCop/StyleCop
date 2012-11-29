@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="Attribute.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Attribute.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,10 +11,12 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Describes an attribute declared on an element.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Text;
@@ -26,41 +28,42 @@ namespace StyleCop.CSharp
     [SuppressMessage("Microsoft.Naming", "CA1711:IdentifiersShouldNotHaveIncorrectSuffix", Justification = "The class describes a C# attribute.")]
     public sealed class Attribute : CsToken, ITokenContainer
     {
-        #region Private Fields
-
-        /// <summary>
-        /// The list of child tokens within this attribute.
-        /// </summary>
-        private MasterList<CsToken> childTokens;
-
-        /// <summary>
-        /// The element that this attribute is attached to.
-        /// </summary>
-        private CsElement element;
+        #region Fields
 
         /// <summary>
         /// Gets the list of attribute expressions within this attribute.
         /// </summary>
-        private CodeUnitCollection<AttributeExpression> attributeExpressions;
+        private readonly CodeUnitCollection<AttributeExpression> attributeExpressions;
 
-        #endregion Private Fields
+        /// <summary>
+        /// The list of child tokens within this attribute.
+        /// </summary>
+        private readonly MasterList<CsToken> childTokens;
 
-        #region Internal Constructors
+        #endregion
+
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the Attribute class.
         /// </summary>
-        /// <param name="childTokens">The list of child tokens for the attribute.</param>
-        /// <param name="location">The location of the attribute.</param>
-        /// <param name="parent">The parent of the attribute.</param>
-        /// <param name="attributeExpressions">The list of attribute expressions within this attribute.</param>
-        /// <param name="generated">Indicates whether the attribute resides within a block of generated code.</param>
+        /// <param name="childTokens">
+        /// The list of child tokens for the attribute.
+        /// </param>
+        /// <param name="location">
+        /// The location of the attribute.
+        /// </param>
+        /// <param name="parent">
+        /// The parent of the attribute.
+        /// </param>
+        /// <param name="attributeExpressions">
+        /// The list of attribute expressions within this attribute.
+        /// </param>
+        /// <param name="generated">
+        /// Indicates whether the attribute resides within a block of generated code.
+        /// </param>
         internal Attribute(
-            MasterList<CsToken> childTokens, 
-            CodeLocation location, 
-            Reference<ICodePart> parent,
-            IEnumerable<AttributeExpression> attributeExpressions, 
-            bool generated)
+            MasterList<CsToken> childTokens, CodeLocation location, Reference<ICodePart> parent, IEnumerable<AttributeExpression> attributeExpressions, bool generated)
             : base(CsTokenType.Attribute, CsTokenClass.Attribute, location, parent, generated)
         {
             Param.AssertNotNull(childTokens, "childTokens");
@@ -76,20 +79,9 @@ namespace StyleCop.CSharp
             this.attributeExpressions.AddRange(attributeExpressions);
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
-
-        /// <summary>
-        /// Gets the list of child tokens within this attribute.
-        /// </summary>
-        public MasterList<CsToken> ChildTokens
-        {
-            get
-            {
-                return this.childTokens.AsReadOnly;
-            }
-        }
 
         /// <summary>
         /// Gets the list of attribute expressions within this attribute.
@@ -103,24 +95,24 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Gets the element that this attribute is attached to, if any.
+        /// Gets the list of child tokens within this attribute.
         /// </summary>
-        public CsElement Element
+        public MasterList<CsToken> ChildTokens
         {
             get
             {
-                return this.element;
-            }
-
-            internal set
-            {
-                this.element = value;
+                return this.childTokens.AsReadOnly;
             }
         }
 
-        #endregion Public Properties
+        /// <summary>
+        /// Gets the element that this attribute is attached to, if any.
+        /// </summary>
+        public CsElement Element { get; internal set; }
 
-        #region ITokenContainer Interface Properties
+        #endregion
+
+        #region Explicit Interface Properties
 
         /// <summary>
         /// Gets the list of child tokens contained within this object.
@@ -133,9 +125,9 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion ITokenContainer Interface Properties
+        #endregion
 
-        #region Protected Override Methods
+        #region Methods
 
         /// <summary>
         /// Creates a text string based on the child tokens in the attribute.
@@ -145,9 +137,8 @@ namespace StyleCop.CSharp
             StringBuilder text = new StringBuilder();
             foreach (CsToken token in this.childTokens)
             {
-                if (token.CsTokenType != CsTokenType.SingleLineComment &&
-                    token.CsTokenType != CsTokenType.MultiLineComment &&
-                    token.CsTokenType != CsTokenType.PreprocessorDirective)
+                if (token.CsTokenType != CsTokenType.SingleLineComment && token.CsTokenType != CsTokenType.MultiLineComment
+                    && token.CsTokenType != CsTokenType.PreprocessorDirective)
                 {
                     text.Append(token.Text);
                 }
@@ -156,6 +147,6 @@ namespace StyleCop.CSharp
             this.Text = text.ToString();
         }
 
-        #endregion Protected Override Methods
+        #endregion
     }
 }

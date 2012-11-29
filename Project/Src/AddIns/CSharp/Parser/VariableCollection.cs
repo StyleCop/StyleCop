@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="VariableCollection.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="VariableCollection.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,42 +11,45 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   A collection of variables for an element or code scope.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
-    using System.Text;
 
     /// <summary>
     /// A collection of variables for an element or code scope.
     /// </summary>
     public sealed class VariableCollection : ICollection<Variable>
     {
-        #region Private Static Fields
+        #region Static Fields
 
         /// <summary>
         /// An empty array of variables.
         /// </summary>
-        private static Variable[] emptyVariableArray = new Variable[0];
+        private static readonly Variable[] EmptyVariableArray = new Variable[0];
 
         /// <summary>
         /// Adapts the enumerator for the empty variable array to a generic type enumerator.
         /// </summary>
         private static LegacyEnumeratorAdapter<Variable> emptyVariableArrayEnumerator;
 
-        #endregion Private Static Fields
+        #endregion
 
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// The variable collection.
         /// </summary>
         private Dictionary<string, Variable> variables;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the VariableCollection class.
@@ -55,7 +58,7 @@ namespace StyleCop.CSharp
         {
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
 
@@ -86,15 +89,19 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Properties
+        #endregion
 
         #region Public Indexers
 
         /// <summary>
         /// Gets the variable with the given name.
         /// </summary>
-        /// <param name="name">The name of the variable to get.</param>
-        /// <returns>Returns the variable.</returns>
+        /// <param name="name">
+        /// The name of the variable to get.
+        /// </param>
+        /// <returns>
+        /// Returns the variable.
+        /// </returns>
         public Variable this[string name]
         {
             get
@@ -103,15 +110,19 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Indexers
+        #endregion
 
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Determines whether a variable with the given name is contained within the collection.
         /// </summary>
-        /// <param name="name">The name of the variable.</param>
-        /// <returns>Returns true if the item is contained within the collection.</returns>
+        /// <param name="name">
+        /// The name of the variable.
+        /// </param>
+        /// <returns>
+        /// Returns true if the item is contained within the collection.
+        /// </returns>
         public bool Contains(string name)
         {
             Param.RequireNotNull(name, "name");
@@ -127,8 +138,12 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Copies the variable to the given array.
         /// </summary>
-        /// <param name="array">The array to copy the variables into.</param>
-        /// <param name="arrayIndex">The index in the array at which to begin copying.</param>
+        /// <param name="array">
+        /// The array to copy the variables into.
+        /// </param>
+        /// <param name="arrayIndex">
+        /// The index in the array at which to begin copying.
+        /// </param>
         public void CopyTo(Variable[] array, int arrayIndex)
         {
             Param.RequireNotNull(array, "array");
@@ -154,8 +169,7 @@ namespace StyleCop.CSharp
             {
                 if (emptyVariableArrayEnumerator == null)
                 {
-                    emptyVariableArrayEnumerator = new LegacyEnumeratorAdapter<Variable>(
-                        emptyVariableArray.GetEnumerator());
+                    emptyVariableArrayEnumerator = new LegacyEnumeratorAdapter<Variable>(EmptyVariableArray.GetEnumerator());
                 }
 
                 return emptyVariableArrayEnumerator;
@@ -167,8 +181,12 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Gets the variable with the given name.
         /// </summary>
-        /// <param name="name">The name of the variable to get.</param>
-        /// <returns>Returns the variable.</returns>
+        /// <param name="name">
+        /// The name of the variable to get.
+        /// </param>
+        /// <returns>
+        /// Returns the variable.
+        /// </returns>
         public Variable GetVariable(string name)
         {
             Param.RequireValidString(name, "name");
@@ -185,28 +203,20 @@ namespace StyleCop.CSharp
             return null;
         }
 
-        #endregion Public Methods
+        #endregion
 
-        #region ICollection Interface Members
+        #region Explicit Interface Methods
 
         /// <summary>
         /// Adds the given variable.
         /// </summary>
-        /// <param name="variable">The variable to add.</param>
-        /// <remarks>This method is not supported.</remarks>
+        /// <param name="variable">
+        /// The variable to add.
+        /// </param>
+        /// <remarks>
+        /// This method is not supported.
+        /// </remarks>
         void ICollection<Variable>.Add(Variable variable)
-        {
-            Param.Ignore(variable);
-            throw new NotSupportedException();
-        }
-
-        /// <summary>
-        /// Removes the given variable.
-        /// </summary>
-        /// <param name="variable">The variable to remove.</param>
-        /// <returns>Returns true if the item was removed from the collection.</returns>
-        /// <remarks>This method is not supported.</remarks>
-        bool ICollection<Variable>.Remove(Variable variable)
         {
             Param.Ignore(variable);
             throw new NotSupportedException();
@@ -224,9 +234,15 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Determines whether the given variable is contained within the collection.
         /// </summary>
-        /// <param name="variable">The variable.</param>
-        /// <returns>Returns true if the item is contained within the collection.</returns>
-        /// <remarks>This method is not supported.</remarks>
+        /// <param name="variable">
+        /// The variable.
+        /// </param>
+        /// <returns>
+        /// Returns true if the item is contained within the collection.
+        /// </returns>
+        /// <remarks>
+        /// This method is not supported.
+        /// </remarks>
         bool ICollection<Variable>.Contains(Variable variable)
         {
             Param.Ignore(variable);
@@ -237,24 +253,44 @@ namespace StyleCop.CSharp
         /// Gets an enumerator for iterating through the variables in the collection.
         /// </summary>
         /// <returns>Gets the enumerator.</returns>
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
             if (this.variables == null)
             {
-                return emptyVariableArray.GetEnumerator();
+                return EmptyVariableArray.GetEnumerator();
             }
 
             return this.variables.Values.GetEnumerator();
         }
 
-        #endregion ICollection Interface Members
+        /// <summary>
+        /// Removes the given variable.
+        /// </summary>
+        /// <param name="variable">
+        /// The variable to remove.
+        /// </param>
+        /// <returns>
+        /// Returns true if the item was removed from the collection.
+        /// </returns>
+        /// <remarks>
+        /// This method is not supported.
+        /// </remarks>
+        bool ICollection<Variable>.Remove(Variable variable)
+        {
+            Param.Ignore(variable);
+            throw new NotSupportedException();
+        }
 
-        #region Internal Methods
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Adds a variable to the collection.
         /// </summary>
-        /// <param name="variable">The variable to add.</param>
+        /// <param name="variable">
+        /// The variable to add.
+        /// </param>
         internal void Add(Variable variable)
         {
             Param.AssertNotNull(variable, "variable");
@@ -273,7 +309,9 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Adds a range of variables to the collection.
         /// </summary>
-        /// <param name="items">The variables to add.</param>
+        /// <param name="items">
+        /// The variables to add.
+        /// </param>
         internal void AddRange(IEnumerable<Variable> items)
         {
             Param.AssertNotNull(items, "items");
@@ -284,6 +322,6 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Internal Methods
+        #endregion
     }
 }

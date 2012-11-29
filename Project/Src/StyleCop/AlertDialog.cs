@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="AlertDialog.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="AlertDialog.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Wraps the MessageBox class.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop
 {
     using System;
@@ -26,20 +29,33 @@ namespace StyleCop
     /// will redirect the MessageBox output to the running log file.</remarks>
     public static class AlertDialog
     {
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Shows the alert dialog.
         /// </summary>
-        /// <param name="core">The StyleCop core instance.</param>
-        /// <param name="parent">The parent control.</param>
-        /// <param name="message">The message to display on the dialog.</param>
-        /// <param name="title">The title of the dialog.</param>
-        /// <param name="buttons">The dialog buttons.</param>
-        /// <param name="icon">The dialog icon.</param>
-        /// <returns>Returns the dialog result.</returns>
-        public static DialogResult Show(
-            StyleCopCore core, Control parent, string message, string title, MessageBoxButtons buttons, MessageBoxIcon icon)
+        /// <param name="core">
+        /// The StyleCop core instance.
+        /// </param>
+        /// <param name="parent">
+        /// The parent control.
+        /// </param>
+        /// <param name="message">
+        /// The message to display on the dialog.
+        /// </param>
+        /// <param name="title">
+        /// The title of the dialog.
+        /// </param>
+        /// <param name="buttons">
+        /// The dialog buttons.
+        /// </param>
+        /// <param name="icon">
+        /// The dialog icon.
+        /// </param>
+        /// <returns>
+        /// Returns the dialog result.
+        /// </returns>
+        public static DialogResult Show(StyleCopCore core, Control parent, string message, string title, MessageBoxButtons buttons, MessageBoxIcon icon)
         {
             Param.RequireNotNull(core, "core");
             Param.Ignore(parent);
@@ -66,22 +82,33 @@ namespace StyleCop
             }
         }
 
-        #endregion Public Methods
+        #endregion
 
-        #region Private Methods
+        #region Methods
 
         /// <summary>
         /// Shows a MessageBox.
         /// </summary>
-        /// <param name="parent">The parent control.</param>
-        /// <param name="message">The message to display on the dialog.</param>
-        /// <param name="title">The title of the dialog.</param>
-        /// <param name="buttons">The dialog buttons.</param>
-        /// <param name="icon">The dialog icon.</param>
-        /// <returns>Returns the dialog result.</returns>
+        /// <param name="parent">
+        /// The parent control.
+        /// </param>
+        /// <param name="message">
+        /// The message to display on the dialog.
+        /// </param>
+        /// <param name="title">
+        /// The title of the dialog.
+        /// </param>
+        /// <param name="buttons">
+        /// The dialog buttons.
+        /// </param>
+        /// <param name="icon">
+        /// The dialog icon.
+        /// </param>
+        /// <returns>
+        /// Returns the dialog result.
+        /// </returns>
         [SuppressMessage("Microsoft.Globalization", "CA1300:SpecifyMessageBoxOptions", Justification = "The default MessageBoxOptions are acceptable.")]
-        private static DialogResult DisplayMessageBox(
-            Control parent, string message, string title, MessageBoxButtons buttons, MessageBoxIcon icon)
+        private static DialogResult DisplayMessageBox(Control parent, string message, string title, MessageBoxButtons buttons, MessageBoxIcon icon)
         {
             Param.Ignore(parent);
             Param.AssertValidString(message, "message");
@@ -101,13 +128,7 @@ namespace StyleCop
                 {
                     // Show the dialog in right-to-left mode.
                     return MessageBox.Show(
-                        rightToLeftParent,
-                        message,
-                        title,
-                        buttons,
-                        icon,
-                        MessageBoxDefaultButton.Button1,
-                        MessageBoxOptions.RtlReading | MessageBoxOptions.RightAlign);
+                        rightToLeftParent, message, title, buttons, icon, MessageBoxDefaultButton.Button1, MessageBoxOptions.RtlReading | MessageBoxOptions.RightAlign);
                 }
                 else
                 {
@@ -123,9 +144,15 @@ namespace StyleCop
         /// <summary>
         /// Writes a message to do the output log.
         /// </summary>
-        /// <param name="core">The StyleCop core instance.</param>
-        /// <param name="message">The message to display on the dialog.</param>
-        /// <param name="icon">The dialog icon.</param>
+        /// <param name="core">
+        /// The StyleCop core instance.
+        /// </param>
+        /// <param name="message">
+        /// The message to display on the dialog.
+        /// </param>
+        /// <param name="icon">
+        /// The dialog icon.
+        /// </param>
         private static void SendToOutput(StyleCopCore core, string message, MessageBoxIcon icon)
         {
             Param.Ignore(core);
@@ -147,6 +174,6 @@ namespace StyleCop
             core.SignalOutput(string.Format(CultureInfo.CurrentCulture, tag, message));
         }
 
-        #endregion Private Methods
+        #endregion
     }
 }

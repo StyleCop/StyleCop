@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="TryStatement.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="TryStatement.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,13 +11,14 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   A try-statement.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
-    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// A try-statement.
@@ -25,31 +26,33 @@ namespace StyleCop.CSharp
     /// <subcategory>statement</subcategory>
     public sealed class TryStatement : Statement
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// The statement embedded within the try-statement.
         /// </summary>
-        private BlockStatement embeddedStatement;
-
-        /// <summary>
-        /// The finally-statement attached to this try-statement, if there is one.
-        /// </summary>
-        private FinallyStatement finallyStatement;
+        private readonly BlockStatement embeddedStatement;
 
         /// <summary>
         /// The list of catch-statements attached to this try-statement.
         /// </summary>
         private ICollection<CatchStatement> catchStatements;
 
-        #endregion Private Fields
+        /// <summary>
+        /// The finally-statement attached to this try-statement, if there is one.
+        /// </summary>
+        private FinallyStatement finallyStatement;
 
-        #region Internal Constructors
+        #endregion
+
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the TryStatement class.
         /// </summary>
-        /// <param name="embeddedStatement">The statement embedded within this try-statement.</param>
+        /// <param name="embeddedStatement">
+        /// The statement embedded within this try-statement.
+        /// </param>
         internal TryStatement(BlockStatement embeddedStatement)
             : base(StatementType.Try)
         {
@@ -59,9 +62,52 @@ namespace StyleCop.CSharp
             this.AddStatement(embeddedStatement);
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
+
+        /// <summary>
+        /// Gets the collection of statements attached to this try-statement.
+        /// </summary>
+        public override IEnumerable<Statement> AttachedStatements
+        {
+            get
+            {
+                if (this.catchStatements.Count > 0)
+                {
+                    foreach (CatchStatement catchStatement in this.catchStatements)
+                    {
+                        yield return catchStatement;
+                    }
+                }
+
+                if (this.finallyStatement != null)
+                {
+                    yield return this.finallyStatement;
+                }
+
+                yield break;
+            }
+        }
+
+        /// <summary>
+        /// Gets the list of catch-statements attached to this try-statement.
+        /// </summary>
+        public ICollection<CatchStatement> CatchStatements
+        {
+            get
+            {
+                return this.catchStatements;
+            }
+
+            internal set
+            {
+                Param.Ignore(value);
+                this.catchStatements = value;
+
+                Debug.Assert(this.catchStatements == null || this.catchStatements.IsReadOnly, "The collection of catch statements should be read-only.");
+            }
+        }
 
         /// <summary>
         /// Gets the block embedded within this try-statement.
@@ -90,55 +136,6 @@ namespace StyleCop.CSharp
             }
         }
 
-        /// <summary>
-        /// Gets the list of catch-statements attached to this try-statement.
-        /// </summary>
-        public ICollection<CatchStatement> CatchStatements
-        {
-            get
-            {
-                return this.catchStatements;
-            }
-
-            internal set
-            {
-                Param.Ignore(value);
-                this.catchStatements = value;
-
-                Debug.Assert(
-                    this.catchStatements == null || this.catchStatements.IsReadOnly,
-                    "The collection of catch statements should be read-only.");
-            }
-        }
-
-        #endregion Public Properties
-
-        #region Public Override Properties
-
-        /// <summary>
-        /// Gets the collection of statements attached to this try-statement.
-        /// </summary>
-        public override IEnumerable<Statement> AttachedStatements
-        {
-            get
-            {
-                if (this.catchStatements.Count > 0)
-                {
-                    foreach (CatchStatement catchStatement in this.catchStatements)
-                    {
-                        yield return catchStatement;
-                    }
-                }
-
-                if (this.finallyStatement != null)
-                {
-                    yield return this.finallyStatement;
-                }
-
-                yield break;
-            }
-        }
-
-        #endregion Public Override Properties
+        #endregion
     }
 }

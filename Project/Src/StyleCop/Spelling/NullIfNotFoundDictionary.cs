@@ -11,8 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
+// <summary>
+//   Defines the NullIfNotFoundDictionary type.
+// </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.Spelling
 {
     using System;

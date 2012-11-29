@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="NewArrayExpression.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="NewArrayExpression.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   An expression representing a new array allocation operation.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
     using System.Diagnostics.CodeAnalysis;
@@ -22,30 +25,35 @@ namespace StyleCop.CSharp
     /// <subcategory>expression</subcategory>
     public sealed class NewArrayExpression : Expression
     {
-        #region Private Fields
-
-        /// <summary>
-        /// The type of the array.
-        /// </summary>
-        private ArrayAccessExpression type;
+        #region Fields
 
         /// <summary>
         /// The type creation expression.
         /// </summary>
-        private ArrayInitializerExpression initializer;
+        private readonly ArrayInitializerExpression initializer;
 
-        #endregion Private Fields
+        /// <summary>
+        /// The type of the array.
+        /// </summary>
+        private readonly ArrayAccessExpression type;
 
-        #region Internal Constructors
+        #endregion
+
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the NewArrayExpression class.
         /// </summary>
-        /// <param name="tokens">The list of tokens that form the expression.</param>
-        /// <param name="type">The array type.</param>
-        /// <param name="initializer">The array initializer expression.</param>
-        internal NewArrayExpression(
-            CsTokenList tokens, ArrayAccessExpression type, ArrayInitializerExpression initializer)
+        /// <param name="tokens">
+        /// The list of tokens that form the expression.
+        /// </param>
+        /// <param name="type">
+        /// The array type.
+        /// </param>
+        /// <param name="initializer">
+        /// The array initializer expression.
+        /// </param>
+        internal NewArrayExpression(CsTokenList tokens, ArrayAccessExpression type, ArrayInitializerExpression initializer)
             : base(ExpressionType.NewArray, tokens)
         {
             Param.AssertNotNull(tokens, "tokens");
@@ -66,25 +74,9 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
-
-        /// <summary>
-        /// Gets the array type.
-        /// </summary>
-        /// <remarks>The type will be null if this instance represents the creation of an implicitly typed array.</remarks>
-        [SuppressMessage(
-            "Microsoft.Naming", 
-            "CA1721:PropertyNamesShouldNotMatchGetMethods",
-            Justification = "API has already been published and should not be changed.")]
-        public ArrayAccessExpression Type
-        {
-            get
-            {
-                return this.type;
-            }
-        }
 
         /// <summary>
         /// Gets the array initializer expression, if there is one.
@@ -97,6 +89,19 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Properties
+        /// <summary>
+        /// Gets the array type.
+        /// </summary>
+        /// <remarks>The type will be null if this instance represents the creation of an implicitly typed array.</remarks>
+        [SuppressMessage("Microsoft.Naming", "CA1721:PropertyNamesShouldNotMatchGetMethods", Justification = "API has already been published and should not be changed.")]
+        public ArrayAccessExpression Type
+        {
+            get
+            {
+                return this.type;
+            }
+        }
+
+        #endregion
     }
 }

@@ -16,7 +16,6 @@
 //   specified file.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 extern alias JB;
 
 namespace StyleCop.ReSharper710.Core
@@ -24,6 +23,7 @@ namespace StyleCop.ReSharper710.Core
     #region Using Directives
 
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
 
@@ -69,7 +69,7 @@ namespace StyleCop.ReSharper710.Core
         /// <summary>
         /// Gets set to true after our first run.
         /// </summary>
-        private static bool runOnce = false;
+        private static bool runOnce;
 
         #endregion
 
@@ -80,12 +80,12 @@ namespace StyleCop.ReSharper710.Core
         /// </summary>
         private readonly IDaemonProcess daemonProcess;
 
+        private readonly ICSharpFile file;
+
         /// <summary>
         /// THe settings store we were constructed with.
         /// </summary>
         private readonly IContextBoundSettingsStore settingsStore;
-
-        private ICSharpFile file;
 
         #endregion
 
@@ -100,9 +100,10 @@ namespace StyleCop.ReSharper710.Core
         /// <param name="settingsStore">
         /// Our settings. 
         /// </param>
-        /// /// <param name="file">
+        /// <param name="file">
         /// The file to analyze.
         /// </param>
+        /// ///
         public StyleCopStageProcess(IDaemonProcess daemonProcess, IContextBoundSettingsStore settingsStore, ICSharpFile file)
         {
             StyleCopTrace.In(daemonProcess, settingsStore, file);
@@ -120,17 +121,6 @@ namespace StyleCop.ReSharper710.Core
         #region Public Properties
 
         /// <summary>
-        /// Gets the file being processed.
-        /// </summary>
-        public ICSharpFile File
-        {
-            get
-            {
-                return this.file;
-            }
-        }
-
-        /// <summary>
         /// Gets the Daemon Process.
         /// </summary>
         public IDaemonProcess DaemonProcess
@@ -138,6 +128,17 @@ namespace StyleCop.ReSharper710.Core
             get
             {
                 return this.daemonProcess;
+            }
+        }
+
+        /// <summary>
+        /// Gets the file being processed.
+        /// </summary>
+        public ICSharpFile File
+        {
+            get
+            {
+                return this.file;
             }
         }
 
@@ -170,7 +171,7 @@ namespace StyleCop.ReSharper710.Core
                 // whereas "less resources" actually evaluates to a higher number. If Performance is set to max, then execute as normal.
                 int parsingPerformance = this.settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.ParsingPerformance);
 
-                var alwaysExecute = parsingPerformance == StyleCopStageProcess.MaxPerformanceValue;
+                bool alwaysExecute = parsingPerformance == StyleCopStageProcess.MaxPerformanceValue;
 
                 bool enoughTimeGoneByToExecuteNow = false;
 
@@ -190,7 +191,7 @@ namespace StyleCop.ReSharper710.Core
 
                 StyleCopRunnerInternal.Execute(this.daemonProcess.SourceFile.ToProjectFile(), this.daemonProcess.Document, this.File);
 
-                var violations =
+                List<HighlightingInfo> violations =
                     (from info in StyleCopRunnerInternal.ViolationHighlights
                      let range = info.Range
                      let highlighting = info.Highlighting

@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="QueryClause.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="QueryClause.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,34 +11,39 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   The base class for all query clauses.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
-    using System.Diagnostics;
-
     /// <summary>
     /// The base class for all query clauses.
     /// </summary>
     public abstract class QueryClause : CodeUnit
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// The type of the query clause.
         /// </summary>
-        private QueryClauseType type;
+        private readonly QueryClauseType type;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the QueryClause class.
         /// </summary>
-        /// <param name="type">The type of the clause.</param>
-        /// <param name="tokens">The list of tokens that form the clause.</param>
-        internal QueryClause(QueryClauseType type, CsTokenList tokens) : base(CodePartType.QueryClause, tokens)
+        /// <param name="type">
+        /// The type of the clause.
+        /// </param>
+        /// <param name="tokens">
+        /// The list of tokens that form the clause.
+        /// </param>
+        internal QueryClause(QueryClauseType type, CsTokenList tokens)
+            : base(CodePartType.QueryClause, tokens)
         {
             Param.Ignore(type);
             Param.AssertNotNull(tokens, "tokens");
@@ -46,20 +51,9 @@ namespace StyleCop.CSharp
             this.type = type;
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
-
-        /// <summary>
-        /// Gets the type of the query clause.
-        /// </summary>
-        public QueryClauseType QueryClauseType
-        {
-            get
-            {
-                return this.type;
-            }
-        }
 
         /// <summary>
         /// Gets the query clause that contains this clause, if there is one.
@@ -72,22 +66,43 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Properties
+        /// <summary>
+        /// Gets the type of the query clause.
+        /// </summary>
+        public QueryClauseType QueryClauseType
+        {
+            get
+            {
+                return this.type;
+            }
+        }
 
-        #region Public Methods
+        #endregion
+
+        #region Public Methods and Operators
 
         /// <summary>
         /// Walks through the code units in the query clause.
         /// </summary>
-        /// <param name="statementCallback">Callback executed when a statement is visited.</param>
-        /// <param name="expressionCallback">Callback executed when an expression is visited.</param>
-        /// <param name="queryClauseCallback">Callback executed when a query clause is visited.</param>
-        /// <param name="context">The optional visitor context data.</param>
-        /// <typeparam name="T">The type of the context item.</typeparam>
+        /// <param name="statementCallback">
+        /// Callback executed when a statement is visited.
+        /// </param>
+        /// <param name="expressionCallback">
+        /// Callback executed when an expression is visited.
+        /// </param>
+        /// <param name="queryClauseCallback">
+        /// Callback executed when a query clause is visited.
+        /// </param>
+        /// <param name="context">
+        /// The optional visitor context data.
+        /// </param>
+        /// <typeparam name="T">
+        /// The type of the context item.
+        /// </typeparam>
         public void WalkQueryClause<T>(
-            CodeWalkerStatementVisitor<T> statementCallback,
-            CodeWalkerExpressionVisitor<T> expressionCallback,
-            CodeWalkerQueryClauseVisitor<T> queryClauseCallback,
+            CodeWalkerStatementVisitor<T> statementCallback, 
+            CodeWalkerExpressionVisitor<T> expressionCallback, 
+            CodeWalkerQueryClauseVisitor<T> queryClauseCallback, 
             T context)
         {
             Param.Ignore(statementCallback, expressionCallback, queryClauseCallback, context);
@@ -97,14 +112,19 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Walks through the code units in the query clause.
         /// </summary>
-        /// <param name="statementCallback">Callback executed when a statement is visited.</param>
-        /// <param name="expressionCallback">Callback executed when an expression is visited.</param>
-        /// <param name="context">The optional visitor context data.</param>
-        /// <typeparam name="T">The type of the context item.</typeparam>
-        public void WalkQueryClause<T>(
-            CodeWalkerStatementVisitor<T> statementCallback,
-            CodeWalkerExpressionVisitor<T> expressionCallback,
-            T context)
+        /// <param name="statementCallback">
+        /// Callback executed when a statement is visited.
+        /// </param>
+        /// <param name="expressionCallback">
+        /// Callback executed when an expression is visited.
+        /// </param>
+        /// <param name="context">
+        /// The optional visitor context data.
+        /// </param>
+        /// <typeparam name="T">
+        /// The type of the context item.
+        /// </typeparam>
+        public void WalkQueryClause<T>(CodeWalkerStatementVisitor<T> statementCallback, CodeWalkerExpressionVisitor<T> expressionCallback, T context)
         {
             Param.Ignore(statementCallback, expressionCallback, context);
             this.WalkQueryClause(statementCallback, expressionCallback, null, context);
@@ -113,12 +133,16 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Walks through the code units in the query clause.
         /// </summary>
-        /// <param name="statementCallback">Callback executed when a statement is visited.</param>
-        /// <param name="context">The optional visitor context data.</param>
-        /// <typeparam name="T">The type of the context item.</typeparam>
-        public void WalkQueryClause<T>(
-            CodeWalkerStatementVisitor<T> statementCallback,
-            T context)
+        /// <param name="statementCallback">
+        /// Callback executed when a statement is visited.
+        /// </param>
+        /// <param name="context">
+        /// The optional visitor context data.
+        /// </param>
+        /// <typeparam name="T">
+        /// The type of the context item.
+        /// </typeparam>
+        public void WalkQueryClause<T>(CodeWalkerStatementVisitor<T> statementCallback, T context)
         {
             Param.Ignore(statementCallback, context);
             this.WalkQueryClause(statementCallback, null, null, context);
@@ -127,12 +151,18 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Walks through the code units in the query clause.
         /// </summary>
-        /// <param name="statementCallback">Callback executed when a statement is visited.</param>
-        /// <param name="expressionCallback">Callback executed when an expression is visited.</param>
-        /// <param name="queryClauseCallback">Callback executed when a query clause is visited.</param>
+        /// <param name="statementCallback">
+        /// Callback executed when a statement is visited.
+        /// </param>
+        /// <param name="expressionCallback">
+        /// Callback executed when an expression is visited.
+        /// </param>
+        /// <param name="queryClauseCallback">
+        /// Callback executed when a query clause is visited.
+        /// </param>
         public void WalkQueryClause(
-            CodeWalkerStatementVisitor<object> statementCallback,
-            CodeWalkerExpressionVisitor<object> expressionCallback,
+            CodeWalkerStatementVisitor<object> statementCallback, 
+            CodeWalkerExpressionVisitor<object> expressionCallback, 
             CodeWalkerQueryClauseVisitor<object> queryClauseCallback)
         {
             Param.Ignore(statementCallback, expressionCallback, queryClauseCallback);
@@ -142,11 +172,13 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Walks through the code units in the query clause.
         /// </summary>
-        /// <param name="statementCallback">Callback executed when a statement is visited.</param>
-        /// <param name="expressionCallback">Callback executed when an expression is visited.</param>
-        public void WalkQueryClause(
-            CodeWalkerStatementVisitor<object> statementCallback,
-            CodeWalkerExpressionVisitor<object> expressionCallback)
+        /// <param name="statementCallback">
+        /// Callback executed when a statement is visited.
+        /// </param>
+        /// <param name="expressionCallback">
+        /// Callback executed when an expression is visited.
+        /// </param>
+        public void WalkQueryClause(CodeWalkerStatementVisitor<object> statementCallback, CodeWalkerExpressionVisitor<object> expressionCallback)
         {
             Param.Ignore(statementCallback, expressionCallback);
             this.WalkQueryClause(statementCallback, expressionCallback, null, null);
@@ -155,14 +187,15 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Walks through the code units in the query clause.
         /// </summary>
-        /// <param name="statementCallback">Callback executed when a statement is visited.</param>
-        public void WalkQueryClause(
-            CodeWalkerStatementVisitor<object> statementCallback)
+        /// <param name="statementCallback">
+        /// Callback executed when a statement is visited.
+        /// </param>
+        public void WalkQueryClause(CodeWalkerStatementVisitor<object> statementCallback)
         {
             Param.Ignore(statementCallback);
             this.WalkQueryClause(statementCallback, null, null, null);
         }
 
-        #endregion Public Methods
+        #endregion
     }
 }

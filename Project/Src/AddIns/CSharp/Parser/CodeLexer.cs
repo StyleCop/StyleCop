@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="CodeLexer.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="CodeLexer.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Breaks the components of a C# code file down into individual symbols.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
     using System;
@@ -26,32 +29,37 @@ namespace StyleCop.CSharp
     /// </summary>
     internal partial class CodeLexer
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// Used for reading the source code.
         /// </summary>
-        private CodeReader codeReader;
-
-        /// <summary>
-        /// The current marker in the code string.
-        /// </summary>
-        private MarkerData marker = new MarkerData();
-
-        /// <summary>
-        /// The source to read.
-        /// </summary>
-        private SourceCode source;
+        private readonly CodeReader codeReader;
 
         /// <summary>
         /// Keeps track of conditional directives found in the code.
         /// </summary>
-        private Stack<bool> conditionalDirectives = new Stack<bool>();
-        
+        private readonly Stack<bool> conditionalDirectives = new Stack<bool>();
+
         /// <summary>
         /// Keeps track of whether we're evaluating symbols as we enter nested #if statements
         /// </summary>
-        private Stack<bool> evaluatingSymbolsStatus = new Stack<bool>();
+        private readonly Stack<bool> evaluatingSymbolsStatus = new Stack<bool>();
+
+        /// <summary>
+        /// The current marker in the code string.
+        /// </summary>
+        private readonly MarkerData marker = new MarkerData();
+
+        /// <summary>
+        /// The C# parser.
+        /// </summary>
+        private readonly CsParser parser;
+
+        /// <summary>
+        /// The source to read.
+        /// </summary>
+        private readonly SourceCode source;
 
         /// <summary>
         /// The list of defines in the file.
@@ -59,30 +67,31 @@ namespace StyleCop.CSharp
         private Dictionary<string, string> defines;
 
         /// <summary>
-        /// The list of undefines in the file.
-        /// </summary>
-        private Dictionary<string, string> undefines;
-
-        /// <summary>
-        /// The C# parser.
-        /// </summary>
-        private CsParser parser;
-
-        /// <summary>
         /// Tracks if we are currently evaluating Symbols as we parse.
         /// </summary>
         private bool evaluatingSymbols = true;
 
-        #endregion Private Fields
+        /// <summary>
+        /// The list of undefines in the file.
+        /// </summary>
+        private Dictionary<string, string> undefines;
 
-        #region Internal Constructors
+        #endregion
+
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the CodeLexer class.
         /// </summary>
-        /// <param name="parser">The C# parser.</param>
-        /// <param name="source">The source to read.</param>
-        /// <param name="codeReader">Used for reading the source code.</param>
+        /// <param name="parser">
+        /// The C# parser.
+        /// </param>
+        /// <param name="source">
+        /// The source to read.
+        /// </param>
+        /// <param name="codeReader">
+        /// Used for reading the source code.
+        /// </param>
         internal CodeLexer(CsParser parser, SourceCode source, CodeReader codeReader)
         {
             Param.AssertNotNull(parser, "parser");
@@ -94,9 +103,9 @@ namespace StyleCop.CSharp
             this.codeReader = codeReader;
         }
 
-        #endregion Internal Constructors
+        #endregion
 
-        #region Internal Properties
+        #region Properties
 
         /// <summary>
         /// Gets the source code.
@@ -109,16 +118,22 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Internal Properties
+        #endregion
 
-        #region Internal Static Methods
+        #region Methods
 
         /// <summary>
         /// Decodes escaping characters in specified text.
         /// </summary>
-        /// <param name="text">The text containing encoded characters.</param>
-        /// <param name="allowRemoveAt">True if the at sign can be removed.</param>
-        /// <returns>Returns decoded text.</returns>
+        /// <param name="text">
+        /// The text containing encoded characters.
+        /// </param>
+        /// <param name="allowRemoveAt">
+        /// True if the at sign can be removed.
+        /// </param>
+        /// <returns>
+        /// Returns decoded text.
+        /// </returns>
         internal static string DecodeEscapedText(string text, bool allowRemoveAt)
         {
             Param.AssertNotNull(text, "text");
@@ -146,15 +161,7 @@ namespace StyleCop.CSharp
 
                 if (i < text.Length - 5)
                 {
-                    char[] sequence = new char[]
-                    {
-                        c,
-                        text[i + 1],
-                        text[i + 2],
-                        text[i + 3],
-                        text[i + 4],
-                        text[i + 5],
-                    };
+                    char[] sequence = new[] { c, text[i + 1], text[i + 2], text[i + 3], text[i + 4], text[i + 5], };
 
                     char value;
                     if (IsLetterEncoded(sequence, out value))
@@ -164,7 +171,7 @@ namespace StyleCop.CSharp
                         continue;
                     }
                 }
-                
+
                 if (c == '.')
                 {
                     canRemoveAt = true;
@@ -183,57 +190,23 @@ namespace StyleCop.CSharp
             return sb.ToString();
         }
 
-        #endregion Internal Static Methods
-
-        #region Internal Methods
-
-        /// <summary>
-        /// Gets the list of symbols from the code file.
-        /// </summary>
-        /// <param name="sourceCode">The source code containing the symbols.</param>
-        /// <param name="configuration">The active configuration.</param>
-        /// <returns>Returns the list of symbols in the code file.</returns>
-        internal List<Symbol> GetSymbols(SourceCode sourceCode, Configuration configuration)
-        {
-            Param.AssertNotNull(sourceCode, "sourceCode");
-            Param.Ignore(configuration);
-
-            // Create the symbol list.
-            List<Symbol> symbols = new List<Symbol>();
-
-            // Loop until all the symbols have been read.
-            while (true)
-            {
-                Symbol symbol = this.GetSymbol(symbols, sourceCode, configuration);
-                if (symbol == null)
-                {
-                    break;
-                }
-                
-                if (this.evaluatingSymbols || symbol.SymbolType == SymbolType.PreprocessorDirective)
-                {
-                    symbols.Add(symbol);
-                }
-            }
-
-            // Return the list of symbols.
-            return symbols;
-        }
-
         /// <summary>
         /// Gets the next symbol in the code, starting at the current marker.
         /// </summary>
-        /// <param name="symbols">The List of symbols we've processed.</param>
-        /// <param name="sourceCode">The source code containing the symbol.</param>
-        /// <param name="configuration">The active configuration.</param>
-        /// <returns>Returns the next symbol in the document.</returns>
-        [SuppressMessage(
-            "Microsoft.Maintainability",
-            "CA1502:AvoidExcessiveComplexity",
-            Justification = "The method is not overly complex.")]
-        [SuppressMessage(
-            "Microsoft.Globalization",
-            "CA1303:DoNotPassLiteralsAsLocalizedParameters",
+        /// <param name="symbols">
+        /// The List of symbols we've processed.
+        /// </param>
+        /// <param name="sourceCode">
+        /// The source code containing the symbol.
+        /// </param>
+        /// <param name="configuration">
+        /// The active configuration.
+        /// </param>
+        /// <returns>
+        /// Returns the next symbol in the document.
+        /// </returns>
+        [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification = "The method is not overly complex.")]
+        [SuppressMessage("Microsoft.Globalization", "CA1303:DoNotPassLiteralsAsLocalizedParameters", 
             Justification = "The literals represent non-localizable C# operators.")]
         internal Symbol GetSymbol(List<Symbol> symbols, SourceCode sourceCode, Configuration configuration)
         {
@@ -263,6 +236,7 @@ namespace StyleCop.CSharp
                         break;
 
                     case '/':
+
                         // Try to get this as a comment. If it is not a comment, it is an operator symbol.
                         symbol = this.GetComment() ?? this.GetOperatorSymbol('/');
 
@@ -331,6 +305,7 @@ namespace StyleCop.CSharp
                         break;
 
                     default:
+
                         // Skip any unknown formatting characters, and skip any unassigned characters.
                         UnicodeCategory category = char.GetUnicodeCategory(firstCharacter);
                         if (category != UnicodeCategory.Format && category != UnicodeCategory.Control && category != UnicodeCategory.OtherNotAssigned)
@@ -352,15 +327,70 @@ namespace StyleCop.CSharp
             return symbol;
         }
 
-        #endregion Internal Methods
+        /// <summary>
+        /// Gets the list of symbols from the code file.
+        /// </summary>
+        /// <param name="sourceCode">
+        /// The source code containing the symbols.
+        /// </param>
+        /// <param name="configuration">
+        /// The active configuration.
+        /// </param>
+        /// <returns>
+        /// Returns the list of symbols in the code file.
+        /// </returns>
+        internal List<Symbol> GetSymbols(SourceCode sourceCode, Configuration configuration)
+        {
+            Param.AssertNotNull(sourceCode, "sourceCode");
+            Param.Ignore(configuration);
 
-        #region Private Static Methods
+            // Create the symbol list.
+            List<Symbol> symbols = new List<Symbol>();
+
+            // Loop until all the symbols have been read.
+            while (true)
+            {
+                Symbol symbol = this.GetSymbol(symbols, sourceCode, configuration);
+                if (symbol == null)
+                {
+                    break;
+                }
+
+                if (this.evaluatingSymbols || symbol.SymbolType == SymbolType.PreprocessorDirective)
+                {
+                    symbols.Add(symbol);
+                }
+            }
+
+            // Return the list of symbols.
+            return symbols;
+        }
+
+        /// <summary>
+        /// Creates a CodeLocation from the given marker.
+        /// </summary>
+        /// <param name="marker">
+        /// The marker.
+        /// </param>
+        /// <returns>
+        /// Returns the CodeLocation.
+        /// </returns>
+        private static CodeLocation CodeLocationFromMarker(MarkerData marker)
+        {
+            Param.AssertNotNull(marker, "marker");
+
+            return new CodeLocation(marker.Index, marker.Index, marker.IndexOnLine, marker.IndexOnLine, marker.LineNumber, marker.LineNumber);
+        }
 
         /// <summary>
         /// Gets the type of the given symbol.
         /// </summary>
-        /// <param name="text">The symbol to look up.</param>
-        /// <returns>Returns the type of the symbol.</returns>
+        /// <param name="text">
+        /// The symbol to look up.
+        /// </param>
+        /// <returns>
+        /// Returns the type of the symbol.
+        /// </returns>
         [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification = "The method consists of a simple switch statement.")]
         private static SymbolType GetOtherSymbolType(string text)
         {
@@ -557,88 +587,14 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Creates a CodeLocation from the given marker.
-        /// </summary>
-        /// <param name="marker">The marker.</param>
-        /// <returns>Returns the CodeLocation.</returns>
-        private static CodeLocation CodeLocationFromMarker(MarkerData marker)
-        {
-            Param.AssertNotNull(marker, "marker");
-
-            return new CodeLocation(
-                marker.Index,
-                marker.Index,
-                marker.IndexOnLine,
-                marker.IndexOnLine,
-                marker.LineNumber,
-                marker.LineNumber);
-        }
-
-        /// <summary>
-        /// Indicates whether the character is considered a letter for the purposes of keywords and type names.
-        /// </summary>
-        /// <param name="character">The character.</param>
-        /// <returns>Returns true if the character looks like a letter.</returns>
-        private static bool IsLetterExtended(char character)
-        {
-            Param.Ignore(character);
-
-            if (character == '_')
-            {
-                return true;
-            }
-
-            UnicodeCategory category = char.GetUnicodeCategory(character);
-            if (category == UnicodeCategory.LowercaseLetter ||
-                category == UnicodeCategory.UppercaseLetter ||
-                category == UnicodeCategory.OtherSymbol ||
-                category == UnicodeCategory.OtherLetter ||
-                category == UnicodeCategory.ModifierLetter ||
-                category == UnicodeCategory.NonSpacingMark ||
-                category == UnicodeCategory.SpacingCombiningMark ||
-                category == UnicodeCategory.EnclosingMark)
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-        /// <summary>
-        /// Indicates whether specified character sequence represents encoded character value.
-        /// </summary>
-        /// <param name="sequence">Specified character sequence.</param>
-        /// <param name="character">Reference parameter holding character value.</param>
-        /// <returns>Returns true if code reader contains encoded letter.</returns>
-        private static bool IsLetterEncoded(char[] sequence, out char character)
-        {
-            Param.AssertNotNull(sequence, "sequence");
-
-            character = char.MinValue;
-
-            if (sequence.Length == 6 &&
-                sequence[0] == '\\' &&
-                sequence[1] == 'u' &&
-                IsHexadecimalChar(sequence[2]) &&
-                IsHexadecimalChar(sequence[3]) &&
-                IsHexadecimalChar(sequence[4]) &&
-                IsHexadecimalChar(sequence[5]))
-            {
-                character = (char)Convert.ToInt32(
-                    new string(new char[] { sequence[2], sequence[3], sequence[4], sequence[5] }),
-                    16);
-
-                return true;
-            }
-
-            return false;
-        }
-
-        /// <summary>
         /// Indicates whether specified character can be used as hexadecimal digit.
         /// </summary>
-        /// <param name="character">The character.</param>
-        /// <returns>Returns true if the character looks like hexadecimal digit.</returns>
+        /// <param name="character">
+        /// The character.
+        /// </param>
+        /// <returns>
+        /// Returns true if the character looks like hexadecimal digit.
+        /// </returns>
         private static bool IsHexadecimalChar(char character)
         {
             Param.Ignore(character);
@@ -651,16 +607,147 @@ namespace StyleCop.CSharp
             return false;
         }
 
-        #endregion Private Static Methods
+        /// <summary>
+        /// Indicates whether specified character sequence represents encoded character value.
+        /// </summary>
+        /// <param name="sequence">
+        /// Specified character sequence.
+        /// </param>
+        /// <param name="character">
+        /// Reference parameter holding character value.
+        /// </param>
+        /// <returns>
+        /// Returns true if code reader contains encoded letter.
+        /// </returns>
+        private static bool IsLetterEncoded(char[] sequence, out char character)
+        {
+            Param.AssertNotNull(sequence, "sequence");
 
-        #region Private Methods
+            character = char.MinValue;
+
+            if (sequence.Length == 6 && sequence[0] == '\\' && sequence[1] == 'u' && IsHexadecimalChar(sequence[2]) && IsHexadecimalChar(sequence[3])
+                && IsHexadecimalChar(sequence[4]) && IsHexadecimalChar(sequence[5]))
+            {
+                character = (char)Convert.ToInt32(new string(new[] { sequence[2], sequence[3], sequence[4], sequence[5] }), 16);
+
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Indicates whether the character is considered a letter for the purposes of keywords and type names.
+        /// </summary>
+        /// <param name="character">
+        /// The character.
+        /// </param>
+        /// <returns>
+        /// Returns true if the character looks like a letter.
+        /// </returns>
+        private static bool IsLetterExtended(char character)
+        {
+            Param.Ignore(character);
+
+            if (character == '_')
+            {
+                return true;
+            }
+
+            UnicodeCategory category = char.GetUnicodeCategory(character);
+            if (category == UnicodeCategory.LowercaseLetter || category == UnicodeCategory.UppercaseLetter || category == UnicodeCategory.OtherSymbol
+                || category == UnicodeCategory.OtherLetter || category == UnicodeCategory.ModifierLetter || category == UnicodeCategory.NonSpacingMark
+                || category == UnicodeCategory.SpacingCombiningMark || category == UnicodeCategory.EnclosingMark)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Advances to the next end of line character and adds all characters to the given text buffer.
+        /// </summary>
+        /// <param name="text">
+        /// The text buffer in which to store the rest of the line.
+        /// </param>
+        private void AdvanceToEndOfLine(StringBuilder text)
+        {
+            Param.AssertNotNull(text, "text");
+
+            int offsetIndex = this.FindNextEndOfLine();
+            if (offsetIndex != -1)
+            {
+                text.Append(this.codeReader.ReadString(offsetIndex));
+            }
+        }
+
+        /// <summary>
+        /// Checks the given preprocessor symbol to determine whether it is a conditional preprocessor directive.
+        /// If so, determines whether we should skip past code which is out of scope.
+        /// </summary>
+        /// <param name="symbols">
+        /// The List of symbols we've processed.
+        /// </param>
+        /// <param name="sourceCode">
+        /// The source code file containing this directive.
+        /// </param>
+        /// <param name="preprocessorSymbol">
+        /// The symbol to check.
+        /// </param>
+        /// <param name="configuration">
+        /// The active configuration.
+        /// </param>
+        private void CheckForConditionalCompilationDirective(List<Symbol> symbols, SourceCode sourceCode, Symbol preprocessorSymbol, Configuration configuration)
+        {
+            Param.AssertNotNull(symbols, "symbols");
+            Param.AssertNotNull(sourceCode, "sourceCode");
+            Param.AssertNotNull(preprocessorSymbol, "preprocessorSymbol");
+            Param.Ignore(configuration);
+
+            // Get the type of this preprocessor directive.
+            int bodyIndex;
+            string type = CsParser.GetPreprocessorDirectiveType(preprocessorSymbol, out bodyIndex);
+            switch (type)
+            {
+                case "define":
+                    this.GetDefinePreprocessorDirective(sourceCode, preprocessorSymbol, bodyIndex);
+                    break;
+
+                case "undef":
+                    this.GetUndefinePreprocessorDirective(sourceCode, preprocessorSymbol, bodyIndex);
+                    break;
+
+                case "endif":
+                    if (this.conditionalDirectives.Count == 0)
+                    {
+                        throw new SyntaxException(sourceCode, preprocessorSymbol.LineNumber);
+                    }
+
+                    this.conditionalDirectives.Pop();
+                    this.evaluatingSymbols = this.conditionalDirectives.Count == 0 || this.evaluatingSymbolsStatus.Pop();
+                    break;
+
+                case "else":
+                case "elif":
+                case "if":
+                    this.SetEvaluatingSymbolsForIfElifElse(sourceCode, preprocessorSymbol, configuration, bodyIndex, type);
+                    break;
+            }
+        }
 
         /// <summary>
         /// Reads, creates, and moves past a symbol.
         /// </summary>
-        /// <param name="text">The symbol text.</param>
-        /// <param name="type">The type of the symbol.</param>
-        /// <returns>Returns the symbol.</returns>
+        /// <param name="text">
+        /// The symbol text.
+        /// </param>
+        /// <param name="type">
+        /// The type of the symbol.
+        /// </param>
+        /// <returns>
+        /// Returns the symbol.
+        /// </returns>
         private Symbol CreateAndMovePastSymbol(string text, SymbolType type)
         {
             Param.AssertValidString(text, "text");
@@ -675,91 +762,331 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Gets the next number.
+        /// Evaluates an expression from within a conditional compilation directive to determine
+        /// whether it resolves to true or false.
         /// </summary>
-        /// <returns>Returns the number.</returns>
-        private Symbol GetNumber()
+        /// <param name="sourceCode">
+        /// The source code containing the expression.
+        /// </param>
+        /// <param name="expression">
+        /// The expression to evaluate.
+        /// </param>
+        /// <param name="configuration">
+        /// The active configuration.
+        /// </param>
+        /// <returns>
+        /// Returns true if the expression evaluates to true, otherwise returns false.
+        /// </returns>
+        private bool EvaluateConditionalDirectiveExpression(SourceCode sourceCode, Expression expression, Configuration configuration)
         {
-            // The last index of the number.
-            int endIndex = -1;
+            Param.AssertNotNull(sourceCode, "sourceCode");
+            Param.AssertNotNull(expression, "expression");
+            Param.Ignore(configuration);
 
-            // The first few characters in the number tell us the type of the number.
-            char character = this.codeReader.Peek();
-            if (character == '-' || character == '+')
+            bool value = false;
+
+            // Switch on the possible expression type.
+            switch (expression.ExpressionType)
             {
-                // This could be a number starting with a negative or positive sign.
-                // If that's true, the next character must be a digit between 0 and 9.
-                character = this.codeReader.Peek(1);
-                if (character >= '0' && character <= '9')
-                {
-                    endIndex = this.GetPositiveNumber(this.marker.Index + 1);
-                }
+                case ExpressionType.Literal:
+
+                    // Check the value of the literal.
+                    LiteralExpression literal = expression as LiteralExpression;
+                    if (literal.Text == "false")
+                    {
+                        // This is the 'false' keyword.
+                        value = false;
+                    }
+                    else if (literal.Text == "true")
+                    {
+                        // This is the 'true' keyword.
+                        value = true;
+                    }
+                    else
+                    {
+                        // Check whether this flag is defined in the document. If so, this resolves to true.
+                        // Otherwise, this resolves to false.
+                        if (this.undefines != null && this.undefines.ContainsKey(literal.Text))
+                        {
+                            value = false;
+                        }
+                        else if (this.defines != null && this.defines.ContainsKey(literal.Text))
+                        {
+                            value = true;
+                        }
+                        else
+                        {
+                            value = configuration != null && configuration.Contains(literal.Text);
+                        }
+                    }
+
+                    break;
+
+                case ExpressionType.ConditionalLogical:
+                    ConditionalLogicalExpression conditionalLogicalExpression = expression as ConditionalLogicalExpression;
+
+                    // Evaluate the left side of the expression.
+                    bool leftSide = this.EvaluateConditionalDirectiveExpression(sourceCode, conditionalLogicalExpression.LeftHandSide, configuration);
+
+                    // Evaluate the right side of the expression.
+                    bool rightSide = this.EvaluateConditionalDirectiveExpression(sourceCode, conditionalLogicalExpression.RightHandSide, configuration);
+
+                    // Check whether this is a conditional OR or a conditional AND expression.
+                    if (conditionalLogicalExpression.OperatorType == ConditionalLogicalExpression.Operator.And)
+                    {
+                        value = leftSide && rightSide;
+                    }
+                    else
+                    {
+                        value = leftSide || rightSide;
+                    }
+
+                    break;
+
+                case ExpressionType.Relational:
+                    RelationalExpression relationalExpression = expression as RelationalExpression;
+
+                    // Evaluate the left side of the expression.
+                    leftSide = this.EvaluateConditionalDirectiveExpression(sourceCode, relationalExpression.LeftHandSide, configuration);
+
+                    // Evaluate the right side of the expression.
+                    rightSide = this.EvaluateConditionalDirectiveExpression(sourceCode, relationalExpression.RightHandSide, configuration);
+
+                    // Check whether this is an equality or an inequality expression.
+                    if (relationalExpression.OperatorType == RelationalExpression.Operator.EqualTo)
+                    {
+                        value = leftSide == rightSide;
+                    }
+                    else if (relationalExpression.OperatorType == RelationalExpression.Operator.NotEqualTo)
+                    {
+                        value = leftSide != rightSide;
+                    }
+                    else
+                    {
+                        // Any other type of relational operator is not allowed in a conditional compilation directive.
+                        throw new SyntaxException(sourceCode, expression.Tokens.First.Value.LineNumber);
+                    }
+
+                    break;
+
+                case ExpressionType.Unary:
+                    UnaryExpression unaryExpression = expression as UnaryExpression;
+                    if (unaryExpression.OperatorType == UnaryExpression.Operator.Not)
+                    {
+                        // Evaluate the right side of the expression.
+                        value = !this.EvaluateConditionalDirectiveExpression(sourceCode, unaryExpression.Value, configuration);
+                    }
+                    else
+                    {
+                        // Any other type of unary operator is not allowed in a conditional compilation directive.
+                        throw new SyntaxException(sourceCode, expression.Tokens.First.Value.LineNumber);
+                    }
+
+                    break;
+
+                case ExpressionType.Parenthesized:
+
+                    // Evaluate the inner expression.
+                    ParenthesizedExpression parenthesizedExpression = expression as ParenthesizedExpression;
+                    value = this.EvaluateConditionalDirectiveExpression(sourceCode, parenthesizedExpression.InnerExpression, configuration);
+                    break;
+
+                default:
+
+                    // Any other type of expression is not allowed within a conditional compilation directive.
+                    throw new SyntaxException(sourceCode, expression.Tokens.First.Value.LineNumber);
             }
-            else
-            {
-                // Get the body of the number.
-                endIndex = this.GetPositiveNumber(this.marker.Index);
-            }
 
-            // Create the NumberSymbol now.
-            Symbol number = null;
-
-            // Make sure a number was found.
-            if (endIndex >= this.marker.Index)
-            {
-                // Get the text string for this number.
-                int length = endIndex - this.marker.Index + 1;
-                string numberText = this.codeReader.ReadString(length);
-                Debug.Assert(!string.IsNullOrEmpty(numberText), "The text should not be empty");
-
-                // Create the location object.
-                CodeLocation location = new CodeLocation(
-                    this.marker.Index,
-                    this.marker.Index + length - 1,
-                    this.marker.IndexOnLine,
-                    this.marker.IndexOnLine + length - 1,
-                    this.marker.LineNumber,
-                    this.marker.LineNumber);
-
-                number = new Symbol(numberText, SymbolType.Number, location);
-
-                // Update the marker.
-                this.marker.Index += length;
-                this.marker.IndexOnLine += length;
-            }
-
-            return number;
+            return value;
         }
 
         /// <summary>
-        /// Extracts the body of a positive number from the code.
+        /// Finds the offset index of the next end-of-line character.
         /// </summary>
-        /// <param name="index">The first index of the number.</param>
-        /// <returns>Returns the last index of the number.</returns>
-        private int GetPositiveNumber(int index)
+        /// <returns>Returns the offset index of the next end-of-line character. If there are no more end-of-line
+        /// characters, returns the index of the character past the end of the file.</returns>
+        private int FindNextEndOfLine()
         {
-            Param.AssertGreaterThanOrEqualToZero(index, "index");
+            int endOfLine = -1;
+            int carriageReturn = -1;
 
-            // First, check if this is a hexidecimal number.
-            char character = this.codeReader.Peek();
-            if (character == '0')
+            int index = 0;
+            while (true)
             {
-                character = this.codeReader.Peek(1);
-                if (character == 'x' || character == 'X')
+                char character = this.codeReader.Peek(index);
+                if (character == char.MinValue)
                 {
-                    return this.GetHexidecimalIntegerLiteral(index + 2);
+                    break;
+                }
+                else if (character == '\r')
+                {
+                    if (carriageReturn == -1)
+                    {
+                        carriageReturn = index;
+
+                        if (endOfLine != -1)
+                        {
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                else if (character == '\n')
+                {
+                    if (endOfLine == -1)
+                    {
+                        endOfLine = index;
+
+                        if (carriageReturn != -1)
+                        {
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
+                ++index;
+            }
+
+            if (endOfLine != -1 && carriageReturn != -1)
+            {
+                return Math.Min(endOfLine, carriageReturn);
+            }
+            else if (carriageReturn != -1)
+            {
+                return carriageReturn;
+            }
+            else if (endOfLine != -1)
+            {
+                return endOfLine;
+            }
+
+            // No end of line character was found. This means that we read all the way to the end of the
+            // file. In this case the index is sitting at one past the end of the file, so return the
+            // offset index of the last character in the file.
+            return index;
+        }
+
+        /// <summary>
+        /// Gets the next comment.
+        /// </summary>
+        /// <returns>Returns the comment.</returns>
+        private Symbol GetComment()
+        {
+            Symbol symbol = null;
+
+            // The current character must be a forward slash.
+            Debug.Assert(this.codeReader.Peek() == '/', "Expected a forward slash character");
+
+            StringBuilder text = new StringBuilder();
+
+            // Peek at the type of the next character.
+            char character = this.codeReader.Peek(1);
+
+            if (character != char.MinValue)
+            {
+                if (character == '*')
+                {
+                    // This looks like a comment. Move past the first slash.
+                    text.Append(this.codeReader.ReadNext());
+
+                    // Get the rest of the comment.
+                    symbol = this.GetMultiLineComment(text);
+                }
+                else if (character == '/')
+                {
+                    // This looks like a comment. Move past the first slash.
+                    text.Append(this.codeReader.ReadNext());
+
+                    // Add this second slash as well.
+                    text.Append(this.codeReader.ReadNext());
+
+                    // Peek at the type of the next character.
+                    character = this.codeReader.Peek();
+                    if (character == '/')
+                    {
+                        // Add this character and move past it.
+                        text.Append(this.codeReader.ReadNext());
+
+                        // Peek at the type of the next character.
+                        character = this.codeReader.Peek();
+                        if (character != '/')
+                        {
+                            // The line starts with three slashes in a row.
+                            symbol = this.GetXmlHeaderLine(text);
+                        }
+                        else
+                        {
+                            // The line starts with four slashes in a row.
+                            symbol = this.GetSingleLineComment(text);
+                        }
+                    }
+                    else
+                    {
+                        symbol = this.GetSingleLineComment(text);
+                    }
                 }
             }
 
-            // Treat this like a decimal literal.
-            return this.GetDecimalLiteral(index);
+            return symbol;
+        }
+
+        /// <summary>
+        /// Gets the decimal digits that appear after a decimal point in a real literal.
+        /// </summary>
+        /// <param name="index">
+        /// The start index of the remainder numbers.
+        /// </param>
+        /// <returns>
+        /// Returns the last index of the remainder numbers.
+        /// </returns>
+        private int GetDecimalFraction(int index)
+        {
+            Param.AssertGreaterThanOrEqualToZero(index, "index");
+
+            // Get the decimal digits that appear after a decimal point.
+            int startIndex = index;
+
+            while (true)
+            {
+                char character = this.codeReader.Peek(index - this.marker.Index);
+
+                // Break if this is not a valid decimal digit.
+                if (character < '0' || character > '9')
+                {
+                    break;
+                }
+
+                ++index;
+            }
+
+            // The last index of the number is one less than the current index.
+            --index;
+
+            // If there is not at least one decimal digit, return -1.
+            if (index < startIndex)
+            {
+                index = -1;
+            }
+
+            return index;
         }
 
         /// <summary>
         /// Extracts a decimal integer literal from the code.
         /// </summary>
-        /// <param name="index">The first index of the decimal integer literal.</param>
-        /// <returns>Returns the last index of the decimal integer literal.</returns>
+        /// <param name="index">
+        /// The first index of the decimal integer literal.
+        /// </param>
+        /// <returns>
+        /// Returns the last index of the decimal integer literal.
+        /// </returns>
         private int GetDecimalLiteral(int index)
         {
             Param.AssertGreaterThanOrEqualToZero(index, "index");
@@ -823,156 +1150,58 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Gets the characters trailing behind a real literal number, if there are any.
+        /// Gets a define preprocessor directive from the code.
         /// </summary>
-        /// <param name="index">The start index of the trailing characters.</param>
-        /// <param name="requiresDecimalPoint">Indicates whether the number is required to start with a decimal point.</param>
-        /// <returns>Returns the last index of the trailing characters.</returns>
-        private int GetRealLiteralTrailingCharacters(int index, bool requiresDecimalPoint)
+        /// <param name="sourceCode">
+        /// The source code being parsed.
+        /// </param>
+        /// <param name="preprocessorSymbol">
+        /// The preprocessor symbol being parsed.
+        /// </param>
+        /// <param name="startIndex">
+        /// The start index within the symbols.
+        /// </param>
+        private void GetDefinePreprocessorDirective(SourceCode sourceCode, Symbol preprocessorSymbol, int startIndex)
         {
-            Param.Ignore(index);
-            Param.Ignore(requiresDecimalPoint);
+            Param.AssertNotNull(sourceCode, "sourceCode");
+            Param.AssertNotNull(preprocessorSymbol, "preprocessorSymbol");
+            Param.AssertGreaterThanOrEqualToZero(startIndex, "startIndex");
 
-            bool hasTrailingCharacters = false;
-            bool hasDecimal = false;
-
-            char character = this.codeReader.Peek(index - this.marker.Index + 1);
-
-            // First, check if the next character is a decimal point.
-            if (character == '.')
+            // Get the body of the define directive.
+            LiteralExpression body = CodeParser.GetConditionalPreprocessorBodyExpression(this.parser, sourceCode, preprocessorSymbol, startIndex) as LiteralExpression;
+            if (body == null)
             {
-                int endIndex = this.GetDecimalFraction(index + 2);
-                if (endIndex != -1)
-                {
-                    index = endIndex;
-                    hasDecimal = true;
-                    hasTrailingCharacters = true;
-                }
+                throw new SyntaxException(sourceCode, preprocessorSymbol.LineNumber);
             }
 
-            if (!requiresDecimalPoint || hasDecimal)
+            // Create the defines list if necessary.
+            if (this.defines == null)
             {
-                // Now check whether the number contains an exponent part.
-                character = this.codeReader.Peek(index - this.marker.Index + 1);
-                if (character == 'e' || character == 'E')
-                {
-                    int endIndex = this.GetRealLiteralExponent(index + 1);
-                    if (endIndex != -1)
-                    {
-                        index = endIndex;
-                        hasTrailingCharacters = true;
-                    }
-                }
-
-                // Now check whether the number ends in a real type suffix.
-                character = this.codeReader.Peek(index - this.marker.Index + 1);
-                if (character == 'm' ||
-                    character == 'M' ||
-                    character == 'd' ||
-                    character == 'D' ||
-                    character == 'f' ||
-                    character == 'F')
-                {
-                    ++index;
-                    hasTrailingCharacters = true;
-                }
+                this.defines = new Dictionary<string, string>();
             }
 
-            if (!hasTrailingCharacters)
+            // Add the item to the list.
+            if (!this.defines.ContainsKey(body.Text))
             {
-                index = -1;
+                this.defines.Add(body.Text, body.Text);
             }
 
-            return index;
-        }
-
-        /// <summary>
-        /// Gets the decimal digits that appear after a decimal point in a real literal.
-        /// </summary>
-        /// <param name="index">The start index of the remainder numbers.</param>
-        /// <returns>Returns the last index of the remainder numbers.</returns>
-        private int GetDecimalFraction(int index)
-        {
-            Param.AssertGreaterThanOrEqualToZero(index, "index");
-
-            // Get the decimal digits that appear after a decimal point.
-            int startIndex = index;
-
-            while (true)
+            // Remove the item from the undefines list if it exists.
+            if (this.undefines != null)
             {
-                char character = this.codeReader.Peek(index - this.marker.Index);
-
-                // Break if this is not a valid decimal digit.
-                if (character < '0' || character > '9')
-                {
-                    break;
-                }
-
-                ++index;
+                this.undefines.Remove(body.Text);
             }
-
-            // The last index of the number is one less than the current index.
-            --index;
-
-            // If there is not at least one decimal digit, return -1.
-            if (index < startIndex)
-            {
-                index = -1;
-            }
-
-            return index;
-        }
-
-        /// <summary>
-        /// Gets an exponent at the end of a real literal number.
-        /// </summary>
-        /// <param name="index">The start index of the exponent.</param>
-        /// <returns>Returns the last index of the exponent.</returns>
-        private int GetRealLiteralExponent(int index)
-        {
-            Param.AssertGreaterThanOrEqualToZero(index, "index");
-
-            int endIndex = -1;
-
-            // The exponent must start with e or E.
-            char character = this.codeReader.Peek(index - this.marker.Index);
-            if (character == 'e' || character == 'E')
-            {
-                ++index;
-
-                // The exponent can optionally contain a positive or negative sign.
-                character = this.codeReader.Peek(index - this.marker.Index);
-                {
-                    if (character == '-' || character == '+')
-                    {
-                        ++index;
-                    }
-                }
-
-                // The rest of the numbers must be decimal digits.
-                while (true)
-                {
-                    character = this.codeReader.Peek(index - this.marker.Index);
-                    if (character >= '0' && character <= '9')
-                    {
-                        endIndex = index;
-                        ++index;
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-            }
-
-            return endIndex;
         }
 
         /// <summary>
         /// Extracts a hexidecimal integer literal from the code.
         /// </summary>
-        /// <param name="index">The first index of the hexidecimal integer literal.</param>
-        /// <returns>Returns the last index of the hexidecimal integer literal.</returns>
+        /// <param name="index">
+        /// The first index of the hexidecimal integer literal.
+        /// </param>
+        /// <returns>
+        /// Returns the last index of the hexidecimal integer literal.
+        /// </returns>
         private int GetHexidecimalIntegerLiteral(int index)
         {
             Param.AssertGreaterThanOrEqualToZero(index, "index");
@@ -984,9 +1213,7 @@ namespace StyleCop.CSharp
                 char character = this.codeReader.Peek(index - this.marker.Index);
 
                 // Break if this is not a valid hexidecimal digit.
-                if (!(character >= '0' && character <= '9') &&
-                    !(character >= 'a' && character <= 'f') &&
-                    !(character >= 'A' && character <= 'F'))
+                if (!(character >= '0' && character <= '9') && !(character >= 'a' && character <= 'f') && !(character >= 'A' && character <= 'F'))
                 {
                     break;
                 }
@@ -1019,8 +1246,12 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Gets the type suffix tacked onto the end of an integer literal.
         /// </summary>
-        /// <param name="index">The start index of the literal.</param>
-        /// <returns>Returns the index of the integer type suffix, if there is one.</returns>
+        /// <param name="index">
+        /// The start index of the literal.
+        /// </param>
+        /// <returns>
+        /// Returns the index of the integer type suffix, if there is one.
+        /// </returns>
         private int GetIntegerTypeSuffix(int index)
         {
             Param.AssertGreaterThanOrEqualToZero(index, "index");
@@ -1061,301 +1292,6 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Gets an unknown symbol type.
-        /// </summary>
-        /// <param name="sourceCode">The source code containing the symbols.</param>
-        /// <returns>Returns the item.</returns>
-        private Symbol GetOtherSymbol(SourceCode sourceCode)
-        {
-            Param.AssertNotNull(sourceCode, "sourceCode");
-
-            StringBuilder text = new StringBuilder();
-            this.ReadToEndOfOtherSymbol(text);
-            if (text.Length == 0)
-            {
-                throw new SyntaxException(sourceCode, this.marker.LineNumber);
-            }
-
-            string symbolText = text.ToString();
-
-            // Get the token location.
-            CodeLocation location = new CodeLocation(
-                this.marker.Index,
-                this.marker.Index + text.Length - 1,
-                this.marker.IndexOnLine,
-                this.marker.IndexOnLine + text.Length - 1,
-                this.marker.LineNumber,
-                this.marker.LineNumber);
-
-            // Create the symbol.
-            Symbol symbol = new Symbol(
-                symbolText,
-                CodeLexer.GetOtherSymbolType(symbolText),
-                location);
-
-            // Reset the marker index.
-            this.marker.Index += text.Length;
-            this.marker.IndexOnLine += text.Length;
-
-            // Return the symbol.
-            return symbol;
-        }
-
-        /// <summary>
-        /// Gathers all the characters up to the last index of an unknown word.
-        /// </summary>
-        /// <param name="text">The text buffer to add the symbol text to.</param>
-        private void ReadToEndOfOtherSymbol(StringBuilder text)
-        {
-            Param.AssertNotNull(text, "text");
-
-            bool seenLetter = false;
-
-            // Loop until we find the end of the word.
-            while (true)
-            {
-                // Check whether there is no more code.
-                if (this.codeReader.Peek() == char.MinValue)
-                {
-                    break;
-                }
-
-                char characterValue = char.MinValue;
-                char[] characterSequence = null;
-
-                // Read character sequence as well as character value from code reader.
-                // If usual character is being read then sequence array will contain the same character as value.
-                // If Unicode character escape sequence is being read then sequence array will contain
-                // exact characters from the reader and value character will contain character represented by the sequence.
-                if (IsLetterEncoded(ref characterSequence, ref characterValue))
-                {
-                    // All required data has been already stored into variables.
-                }
-                else
-                {
-                    characterValue = this.codeReader.Peek();
-                    characterSequence = new char[] { characterValue };
-                }
-
-                // Decide whether we should stop continuing the current word.
-                if (IsLetterExtended(characterValue))
-                {
-                    // Mark that we've seen a letter in this word, and continue.
-                    seenLetter = true;
-                }
-                else if (seenLetter && char.IsNumber(characterValue))
-                {
-                    // Numbers are ok as long as we've previously seen at least one
-                    // letter in this word.
-                }
-                else
-                {
-                    // This is an invalid character, so break out of the loop.
-                    break;
-                }
-
-                // Add the character(s) to the text buffer and advance the reader past it.
-                foreach (char c in characterSequence)
-                {
-                    text.Append(c);
-                    this.codeReader.ReadNext();
-                }
-            }
-        }
-
-        /// <summary>
-        /// Checks whether code reader contains encoded letter at the current position.
-        /// </summary>
-        /// <param name="sequence">Reference parameter holding character sequence.</param>
-        /// <param name="character">Reference parameter holding character value.</param>
-        /// <returns>Returns true if code reader contains encoded letter.</returns>
-        private bool IsLetterEncoded(ref char[] sequence, ref char character)
-        {
-            Param.Ignore(sequence, character);
-
-            sequence = new char[]
-            {
-                this.codeReader.Peek(0),
-                this.codeReader.Peek(1),
-                this.codeReader.Peek(2),
-                this.codeReader.Peek(3),
-                this.codeReader.Peek(4),
-                this.codeReader.Peek(5)
-            };
-
-            return IsLetterEncoded(sequence, out character);
-        }
-
-        /// <summary>
-        /// Gets the next newline character from the document.
-        /// </summary>
-        /// <returns>Returns the newline.</returns>
-        [SuppressMessage(
-            "Microsoft.Globalization",
-            "CA1303:DoNotPassLiteralsAsLocalizedParameters",
-            MessageId = "StyleCop.CSharp.Symbol.#ctor(System.String,StyleCop.CSharp.SymbolType,StyleCop.CodeLocation)",
-            Justification = "The literal is a non-localizable newline character")]
-        private Symbol GetNewLine()
-        {
-            Symbol symbol = null;
-
-            char character = this.codeReader.Peek();
-            if (character != char.MinValue)
-            {
-                // Get the character
-                this.codeReader.ReadNext();
-
-                // Save the original start and end indexes of the newline character.
-                int startIndex = this.marker.Index;
-                int endIndex = this.marker.Index;
-
-                // Check if this is an \r\n sequence in which case we need to adjust the end index.
-                if (character == '\r')
-                {
-                    character = this.codeReader.Peek();
-                    if (character == '\n')
-                    {
-                        this.codeReader.ReadNext();
-                        ++this.marker.Index;
-                        ++endIndex;
-                    }
-                }
-
-                // Create the code location.
-                CodeLocation location = new CodeLocation(
-                    startIndex,
-                    endIndex,
-                    this.marker.IndexOnLine,
-                    this.marker.IndexOnLine + (endIndex - startIndex),
-                    this.marker.LineNumber,
-                    this.marker.LineNumber);
-
-                // Create the symbol.
-                symbol = new Symbol("\n", SymbolType.EndOfLine, location);
-
-                // Update the marker.
-                ++this.marker.Index;
-                ++this.marker.LineNumber;
-                this.marker.IndexOnLine = 0;
-            }
-
-            return symbol;
-        }
-
-        /// <summary>
-        /// Gets the next whitespace stream.
-        /// </summary>
-        /// <returns>Returns the whitespace.</returns>
-        private Symbol GetWhitespace()
-        {
-            StringBuilder text = new StringBuilder();
-
-            // Get all of the characters in the whitespace.
-            while (true)
-            {
-                char character = this.codeReader.Peek();
-                UnicodeCategory category = char.GetUnicodeCategory(character);
-
-                if (character == char.MinValue || (category != UnicodeCategory.SpaceSeparator && character != '\t'))
-                {
-                    break;
-                }
-
-                text.Append(character);
-
-                // Advance past this character.
-                this.codeReader.ReadNext();
-            }
-
-            // Create the whitespace location object.
-            CodeLocation location = new CodeLocation(
-                this.marker.Index,
-                this.marker.Index + text.Length - 1,
-                this.marker.IndexOnLine,
-                this.marker.IndexOnLine + text.Length - 1,
-                this.marker.LineNumber,
-                this.marker.LineNumber);
-
-            // Create the whitespace object.
-            Symbol whitespace = new Symbol(text.ToString(), SymbolType.WhiteSpace, location);
-
-            // Update the marker.
-            this.marker.Index += text.Length;
-            this.marker.IndexOnLine += text.Length;
-
-            // Return the whitespace object.
-            return whitespace;
-        }
-
-        /// <summary>
-        /// Gets the next string from the code.
-        /// </summary>
-        /// <returns>Returns the string.</returns>
-        private Symbol GetString()
-        {
-            StringBuilder text = new StringBuilder();
-
-            // Read the opening quote character and add it to the string.
-            char quoteType = this.codeReader.ReadNext();
-            Debug.Assert(quoteType == '\'' || quoteType == '\"', "Expected a quote character");
-            text.Append(quoteType);
-
-            bool slash = false;
-
-            // Read through to the end of the string.
-            while (true)
-            {
-                char character = this.codeReader.Peek();
-                if (character == char.MinValue || (character == quoteType && !slash))
-                {
-                    // This is the end of the string. Add the character and quit.
-                    text.Append(character);
-                    this.codeReader.ReadNext();
-                    break;
-                }
-
-                if (character == '\\')
-                {
-                    slash = !slash;
-                }
-                else
-                {
-                    slash = false;
-
-                    if (character == '\r' || character == '\n')
-                    {
-                        // We've hit the end of the line. Just exit.
-                        break;
-                    }
-                }
-
-                text.Append(character);
-
-                // Advance past this character.
-                this.codeReader.ReadNext();
-            }
-
-            // Create the code location.
-            CodeLocation location = new CodeLocation(
-                this.marker.Index,
-                this.marker.Index + text.Length - 1,
-                this.marker.IndexOnLine,
-                this.marker.IndexOnLine + text.Length - 1,
-                this.marker.LineNumber,
-                this.marker.LineNumber);
-
-            // Create the symbol.
-            Symbol symbol = new Symbol(text.ToString(), SymbolType.String, location);
-
-            // Update the marker.
-            this.marker.Index += text.Length;
-            this.marker.IndexOnLine += text.Length;
-
-            // Return the symbol.
-            return symbol;
-        }
-
-        /// <summary>
         /// Gets the next literal from the code.
         /// </summary>
         /// <returns>Returns the literal.</returns>
@@ -1392,10 +1328,56 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
+        /// Gets the next literal keyword token from the code.
+        /// </summary>
+        /// <param name="text">
+        /// The text buffer to add the string text to.
+        /// </param>
+        /// <returns>
+        /// Returns the literal keyword token.
+        /// </returns>
+        private Symbol GetLiteralKeyword(StringBuilder text)
+        {
+            Param.AssertNotNull(text, "text");
+            Debug.Assert(text.Length > 0 && text[0] == '@', "Expected an @ character");
+
+            // Advance to the end of the token.
+            this.ReadToEndOfOtherSymbol(text);
+            if (text.Length == 1)
+            {
+                // Nothing was read.
+                throw new SyntaxException(this.source, this.marker.LineNumber);
+            }
+
+            // Get the token location.
+            CodeLocation location = new CodeLocation(
+                this.marker.Index, 
+                this.marker.Index + text.Length - 1, 
+                this.marker.IndexOnLine, 
+                this.marker.IndexOnLine + text.Length - 1, 
+                this.marker.LineNumber, 
+                this.marker.LineNumber);
+
+            // Create the symbol.
+            Symbol symbol = new Symbol(text.ToString(), SymbolType.Other, location);
+
+            // Reset the marker index.
+            this.marker.Index += text.Length;
+            this.marker.IndexOnLine += text.Length;
+
+            // Return the symbol.
+            return symbol;
+        }
+
+        /// <summary>
         /// Gets the next literal string from the code.
         /// </summary>
-        /// <param name="text">The text buffer to add the string text to.</param>
-        /// <returns>Returns the literal string.</returns>
+        /// <param name="text">
+        /// The text buffer to add the string text to.
+        /// </param>
+        /// <returns>
+        /// Returns the literal string.
+        /// </returns>
         private Symbol GetLiteralString(StringBuilder text)
         {
             Param.AssertNotNull(text, "text");
@@ -1490,8 +1472,7 @@ namespace StyleCop.CSharp
             }
 
             // Create the location object.
-            CodeLocation location = new CodeLocation(
-                startIndex, endIndex, startIndexOnLine, endIndexOnLine, lineNumber, endLineNumber);
+            CodeLocation location = new CodeLocation(startIndex, endIndex, startIndexOnLine, endIndexOnLine, lineNumber, endLineNumber);
 
             // Create the symbol.
             Symbol token = new Symbol(text.ToString(), SymbolType.String, location);
@@ -1506,112 +1487,14 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Gets the next literal keyword token from the code.
-        /// </summary>
-        /// <param name="text">The text buffer to add the string text to.</param>
-        /// <returns>Returns the literal keyword token.</returns>
-        private Symbol GetLiteralKeyword(StringBuilder text)
-        {
-            Param.AssertNotNull(text, "text");
-            Debug.Assert(text.Length > 0 && text[0] == '@', "Expected an @ character");
-
-            // Advance to the end of the token.
-            this.ReadToEndOfOtherSymbol(text);
-            if (text.Length == 1)
-            {
-                // Nothing was read.
-                throw new SyntaxException(this.source, this.marker.LineNumber);
-            }
-
-            // Get the token location.
-            CodeLocation location = new CodeLocation(
-                this.marker.Index,
-                this.marker.Index + text.Length - 1,
-                this.marker.IndexOnLine,
-                this.marker.IndexOnLine + text.Length - 1,
-                this.marker.LineNumber,
-                this.marker.LineNumber);
-
-            // Create the symbol.
-            Symbol symbol = new Symbol(text.ToString(), SymbolType.Other, location);
-
-            // Reset the marker index.
-            this.marker.Index += text.Length;
-            this.marker.IndexOnLine += text.Length;
-
-            // Return the symbol.
-            return symbol;
-        }
-
-        /// <summary>
-        /// Gets the next comment.
-        /// </summary>
-        /// <returns>Returns the comment.</returns>
-        private Symbol GetComment()
-        {
-            Symbol symbol = null;
-
-            // The current character must be a forward slash.
-            Debug.Assert(this.codeReader.Peek() == '/', "Expected a forward slash character");
-
-            StringBuilder text = new StringBuilder();
-
-            // Peek at the type of the next character.
-            char character = this.codeReader.Peek(1);
-
-            if (character != char.MinValue)
-            {
-                if (character == '*')
-                {
-                    // This looks like a comment. Move past the first slash.
-                    text.Append(this.codeReader.ReadNext());
-
-                    // Get the rest of the comment.
-                    symbol = this.GetMultiLineComment(text);
-                }
-                else if (character == '/')
-                {
-                    // This looks like a comment. Move past the first slash.
-                    text.Append(this.codeReader.ReadNext());
-
-                    // Add this second slash as well.
-                    text.Append(this.codeReader.ReadNext());
-
-                    // Peek at the type of the next character.
-                    character = this.codeReader.Peek();
-                    if (character == '/')
-                    {
-                        // Add this character and move past it.
-                        text.Append(this.codeReader.ReadNext());
-
-                        // Peek at the type of the next character.
-                        character = this.codeReader.Peek();
-                        if (character != '/')
-                        {
-                            // The line starts with three slashes in a row.
-                            symbol = this.GetXmlHeaderLine(text);
-                        }
-                        else
-                        {
-                            // The line starts with four slashes in a row.
-                            symbol = this.GetSingleLineComment(text);
-                        }
-                    }
-                    else
-                    {
-                        symbol = this.GetSingleLineComment(text);
-                    }
-                }
-            }
-
-            return symbol;
-        }
-
-        /// <summary>
         /// Gets the next multi-line comment.
         /// </summary>
-        /// <param name="text">The buffer to add the text to.</param>
-        /// <returns>Returns the comment.</returns>
+        /// <param name="text">
+        /// The buffer to add the text to.
+        /// </param>
+        /// <returns>
+        /// Returns the comment.
+        /// </returns>
         private Symbol GetMultiLineComment(StringBuilder text)
         {
             Param.AssertNotNull(text, "text");
@@ -1689,8 +1572,7 @@ namespace StyleCop.CSharp
             }
 
             // Create the location object.
-            CodeLocation location = new CodeLocation(
-                startIndex, endIndex, startIndexOnLine, endIndexOnLine, lineNumber, endLineNumber);
+            CodeLocation location = new CodeLocation(startIndex, endIndex, startIndexOnLine, endIndexOnLine, lineNumber, endLineNumber);
 
             // Create the symbol object.
             Symbol symbol = new Symbol(text.ToString(), SymbolType.MultiLineComment, location);
@@ -1705,467 +1587,120 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Gets the next single line comment from the code.
+        /// Gets the next newline character from the document.
         /// </summary>
-        /// <param name="text">The buffer in which to store the text.</param>
-        /// <returns>Returns the single line comment.</returns>
-        private Symbol GetSingleLineComment(StringBuilder text)
+        /// <returns>Returns the newline.</returns>
+        [SuppressMessage("Microsoft.Globalization", "CA1303:DoNotPassLiteralsAsLocalizedParameters", 
+            MessageId = "StyleCop.CSharp.Symbol.#ctor(System.String,StyleCop.CSharp.SymbolType,StyleCop.CodeLocation)", 
+            Justification = "The literal is a non-localizable newline character")]
+        private Symbol GetNewLine()
         {
-            Param.AssertNotNull(text, "text");
+            Symbol symbol = null;
 
-            // Find the end of the current line.
-            this.AdvanceToEndOfLine(text);
+            char character = this.codeReader.Peek();
+            if (character != char.MinValue)
+            {
+                // Get the character
+                this.codeReader.ReadNext();
 
-            // Create the code location.
-            CodeLocation location = new CodeLocation(
-                this.marker.Index,
-                this.marker.Index + text.Length - 1,
-                this.marker.IndexOnLine,
-                this.marker.IndexOnLine + text.Length - 1,
-                this.marker.LineNumber,
-                this.marker.LineNumber);
+                // Save the original start and end indexes of the newline character.
+                int startIndex = this.marker.Index;
+                int endIndex = this.marker.Index;
 
-            // Create the symbol.
-            Symbol symbol = new Symbol(text.ToString(), SymbolType.SingleLineComment, location);
+                // Check if this is an \r\n sequence in which case we need to adjust the end index.
+                if (character == '\r')
+                {
+                    character = this.codeReader.Peek();
+                    if (character == '\n')
+                    {
+                        this.codeReader.ReadNext();
+                        ++this.marker.Index;
+                        ++endIndex;
+                    }
+                }
 
-            // Update the marker.
-            this.marker.Index += text.Length;
-            this.marker.IndexOnLine += text.Length;
+                // Create the code location.
+                CodeLocation location = new CodeLocation(
+                    startIndex, endIndex, this.marker.IndexOnLine, this.marker.IndexOnLine + (endIndex - startIndex), this.marker.LineNumber, this.marker.LineNumber);
 
-            // Return the symbol.
+                // Create the symbol.
+                symbol = new Symbol("\n", SymbolType.EndOfLine, location);
+
+                // Update the marker.
+                ++this.marker.Index;
+                ++this.marker.LineNumber;
+                this.marker.IndexOnLine = 0;
+            }
+
             return symbol;
         }
 
         /// <summary>
-        /// Gets the next Xml header line from the code.
+        /// Gets the next number.
         /// </summary>
-        /// <param name="text">The buffer in which to store the text.</param>
-        /// <returns>Returns the Xml header line.</returns>
-        private Symbol GetXmlHeaderLine(StringBuilder text)
+        /// <returns>Returns the number.</returns>
+        private Symbol GetNumber()
         {
-            Param.AssertNotNull(text, "text");
+            // The last index of the number.
+            int endIndex = -1;
 
-            // Find the end of the current line.
-            this.AdvanceToEndOfLine(text);
-
-            // Create the code location.
-            CodeLocation location = new CodeLocation(
-                this.marker.Index,
-                this.marker.Index + text.Length - 1,
-                this.marker.IndexOnLine,
-                this.marker.IndexOnLine + text.Length - 1,
-                this.marker.LineNumber,
-                this.marker.LineNumber);
-
-            // Create the symbol.
-            Symbol symbol = new Symbol(text.ToString(), SymbolType.XmlHeaderLine, location);
-
-            // Update the marker.
-            this.marker.Index += text.Length;
-            this.marker.IndexOnLine += text.Length;
-
-            // Return the symbol.
-            return symbol;
-        }
-
-        /// <summary>
-        /// Gets the next preprocessor directive keyword.
-        /// </summary>
-        /// <param name="symbols">The List of symbols we've processed.</param>
-        /// <param name="sourceCode">The source code.</param>
-        /// <param name="configuration">The active configuration.</param>
-        /// <returns>Returns the next preprocessor directive keyword.</returns>
-        private Symbol GetPreprocessorDirectiveSymbol(List<Symbol> symbols, SourceCode sourceCode, Configuration configuration)
-        {
-            Param.AssertNotNull(symbols, "symbols");
-            Param.AssertNotNull(sourceCode, "sourceCode");
-            Param.Ignore(configuration);
-
-            // Find the end of the current line.
-            StringBuilder text = new StringBuilder();
-            this.AdvanceToEndOfLine(text);
-            if (text.Length == 1)
+            // The first few characters in the number tell us the type of the number.
+            char character = this.codeReader.Peek();
+            if (character == '-' || character == '+')
             {
-                throw new SyntaxException(sourceCode, 1, Strings.UnexpectedEndOfFile);
+                // This could be a number starting with a negative or positive sign.
+                // If that's true, the next character must be a digit between 0 and 9.
+                character = this.codeReader.Peek(1);
+                if (character >= '0' && character <= '9')
+                {
+                    endIndex = this.GetPositiveNumber(this.marker.Index + 1);
+                }
+            }
+            else
+            {
+                // Get the body of the number.
+                endIndex = this.GetPositiveNumber(this.marker.Index);
             }
 
-            // Create the code location.
-            CodeLocation location = new CodeLocation(this.marker.Index, this.marker.Index + text.Length - 1, this.marker.IndexOnLine, this.marker.IndexOnLine + text.Length - 1, this.marker.LineNumber, this.marker.LineNumber);
+            // Create the NumberSymbol now.
+            Symbol number = null;
 
-            // Create the symbol.
-            Symbol symbol = new Symbol(text.ToString(), SymbolType.PreprocessorDirective, location);
-
-            // Update the marker.
-            this.marker.Index += text.Length;
-            this.marker.IndexOnLine += text.Length;
-
-            // If this is a conditional preprocessor symbol which resolves to false,
-            // then we need to figure out which code is not in scope.
-            this.CheckForConditionalCompilationDirective(symbols, sourceCode, symbol, configuration);
-
-            // Return the symbol.
-            return symbol;
-        }
-
-        /// <summary>
-        /// Checks the given preprocessor symbol to determine whether it is a conditional preprocessor directive.
-        /// If so, determines whether we should skip past code which is out of scope.
-        /// </summary>
-        /// <param name="symbols">The List of symbols we've processed.</param>
-        /// <param name="sourceCode">The source code file containing this directive.</param>
-        /// <param name="preprocessorSymbol">The symbol to check.</param>
-        /// <param name="configuration">The active configuration.</param>
-        private void CheckForConditionalCompilationDirective(List<Symbol> symbols, SourceCode sourceCode, Symbol preprocessorSymbol, Configuration configuration)
-        {
-            Param.AssertNotNull(symbols, "symbols");
-            Param.AssertNotNull(sourceCode, "sourceCode");
-            Param.AssertNotNull(preprocessorSymbol, "preprocessorSymbol");
-            Param.Ignore(configuration);
-
-            // Get the type of this preprocessor directive.
-            int bodyIndex;
-            string type = CsParser.GetPreprocessorDirectiveType(preprocessorSymbol, out bodyIndex);
-            switch (type)
+            // Make sure a number was found.
+            if (endIndex >= this.marker.Index)
             {
-                case "define":
-                    this.GetDefinePreprocessorDirective(sourceCode, preprocessorSymbol, bodyIndex);
-                    break;
+                // Get the text string for this number.
+                int length = endIndex - this.marker.Index + 1;
+                string numberText = this.codeReader.ReadString(length);
+                Debug.Assert(!string.IsNullOrEmpty(numberText), "The text should not be empty");
 
-                case "undef":
-                    this.GetUndefinePreprocessorDirective(sourceCode, preprocessorSymbol, bodyIndex);
-                    break;
+                // Create the location object.
+                CodeLocation location = new CodeLocation(
+                    this.marker.Index, 
+                    this.marker.Index + length - 1, 
+                    this.marker.IndexOnLine, 
+                    this.marker.IndexOnLine + length - 1, 
+                    this.marker.LineNumber, 
+                    this.marker.LineNumber);
 
-                case "endif":
-                    if (this.conditionalDirectives.Count == 0)
-                    {
-                        throw new SyntaxException(sourceCode, preprocessorSymbol.LineNumber);
-                    }
+                number = new Symbol(numberText, SymbolType.Number, location);
 
-                    this.conditionalDirectives.Pop();
-                    this.evaluatingSymbols = this.conditionalDirectives.Count == 0 || this.evaluatingSymbolsStatus.Pop();
-                    break;
-
-                case "else":
-                case "elif":
-                case "if":
-                    this.SetEvaluatingSymbolsForIfElifElse(sourceCode, preprocessorSymbol, configuration, bodyIndex, type);
-                    break;
-            }
-        }
-
-        /// <summary>
-        /// Extracts an if, endif, or else directive.
-        /// </summary>
-        /// <param name="sourceCode">The source code being parsed.</param>
-        /// <param name="preprocessorSymbol">The preprocessor symbol being parsed.</param>
-        /// <param name="configuration">The current code configuration.</param>
-        /// <param name="startIndex">The start index of the item within the symbols.</param>
-        /// <param name="type">The type of the preprocessor symbol.</param>
-        private void SetEvaluatingSymbolsForIfElifElse(SourceCode sourceCode, Symbol preprocessorSymbol, Configuration configuration, int startIndex, string type)
-        {
-            Param.AssertNotNull(sourceCode, "sourceCode");
-            Param.AssertNotNull(preprocessorSymbol, "preprocessorSymbol");
-            Param.AssertNotNull(configuration, "configuration");
-            Param.AssertGreaterThanOrEqualToZero(startIndex, "startIndex");
-            Param.AssertValidString(type, "type");
-
-            switch (type)
-            {
-                case "if":
-                    this.evaluatingSymbolsStatus.Push(this.evaluatingSymbols);
-                    if (this.evaluatingSymbols)
-                    {
-                        // Extract the body of the directive.
-                        Expression body = CodeParser.GetConditionalPreprocessorBodyExpression(this.parser, sourceCode, preprocessorSymbol, startIndex);
-                        if (body == null)
-                        {
-                            throw new SyntaxException(sourceCode, preprocessorSymbol.LineNumber);
-                        }
-
-                        // Determine whether the code under this directive needs to be skipped.
-                        this.evaluatingSymbols = this.EvaluateConditionalDirectiveExpression(sourceCode, body, configuration);
-                    }
-
-                    this.conditionalDirectives.Push(this.evaluatingSymbols);
-                    break;
-
-                case "elif":
-                    {
-                        if (this.conditionalDirectives.Count == 0)
-                        {
-                            throw new SyntaxException(sourceCode, preprocessorSymbol.LineNumber);
-                        }
-
-                        bool conditionalValue = this.conditionalDirectives.Peek();
-                
-                        // If the #if we are part of was 'true' then we stop evaluating.
-                        if (conditionalValue)
-                        {
-                            this.evaluatingSymbols = false;
-                        }
-                        else
-                        {
-                            // If we were evaluatingSymbols before this #if started then check again now.
-                            if (this.evaluatingSymbolsStatus.Peek())
-                            {
-                                // Extract the body of the directive.
-                                Expression body = CodeParser.GetConditionalPreprocessorBodyExpression(this.parser, sourceCode, preprocessorSymbol, startIndex);
-                                if (body == null)
-                                {
-                                    throw new SyntaxException(sourceCode, preprocessorSymbol.LineNumber);
-                                }
-
-                                // Determine whether the code under this directive needs to be skipped.
-                                this.evaluatingSymbols = this.EvaluateConditionalDirectiveExpression(sourceCode, body, configuration);
-
-                                if (this.evaluatingSymbols)
-                                {
-                                    this.conditionalDirectives.Pop();
-                                    this.conditionalDirectives.Push(true);
-                                }
-                            }
-                        }
-                    }
-
-                    break;
-
-                case "else":
-                    if (this.conditionalDirectives.Count == 0)
-                    {
-                        throw new SyntaxException(sourceCode, preprocessorSymbol.LineNumber);
-                    }
-
-                    // If we were evaluatingSymbols before this #if started then check again now.
-                    if (this.evaluatingSymbolsStatus.Peek())
-                    {
-                        bool conditionalValue = this.conditionalDirectives.Peek();
-
-                        // If the #if we are part of was 'true' then we stop evaluating.
-                        this.evaluatingSymbols = !conditionalValue;
-                    }
-
-                    break;
-            }
-        }
-
-        /// <summary>
-        /// Gets a define preprocessor directive from the code.
-        /// </summary>
-        /// <param name="sourceCode">The source code being parsed.</param>
-        /// <param name="preprocessorSymbol">The preprocessor symbol being parsed.</param>
-        /// <param name="startIndex">The start index within the symbols.</param>
-        private void GetDefinePreprocessorDirective(SourceCode sourceCode, Symbol preprocessorSymbol, int startIndex)
-        {
-            Param.AssertNotNull(sourceCode, "sourceCode");
-            Param.AssertNotNull(preprocessorSymbol, "preprocessorSymbol");
-            Param.AssertGreaterThanOrEqualToZero(startIndex, "startIndex");
-
-            // Get the body of the define directive.
-            LiteralExpression body = CodeParser.GetConditionalPreprocessorBodyExpression(
-                this.parser, sourceCode, preprocessorSymbol, startIndex) as LiteralExpression;
-            if (body == null)
-            {
-                throw new SyntaxException(sourceCode, preprocessorSymbol.LineNumber);
+                // Update the marker.
+                this.marker.Index += length;
+                this.marker.IndexOnLine += length;
             }
 
-            // Create the defines list if necessary.
-            if (this.defines == null)
-            {
-                this.defines = new Dictionary<string, string>();
-            }
-
-            // Add the item to the list.
-            if (!this.defines.ContainsKey(body.Text))
-            {
-                this.defines.Add(body.Text, body.Text);
-            }
-
-            // Remove the item from the undefines list if it exists.
-            if (this.undefines != null)
-            {
-                this.undefines.Remove(body.Text);
-            }
-        }
-
-        /// <summary>
-        /// Gets an undefine preprocessor directive from the code.
-        /// </summary>
-        /// <param name="sourceCode">The source code being parsed.</param>
-        /// <param name="preprocessorSymbol">The preprocessor symbol being parsed.</param>
-        /// <param name="startIndex">The start index within the symbols.</param>
-        private void GetUndefinePreprocessorDirective(SourceCode sourceCode, Symbol preprocessorSymbol, int startIndex)
-        {
-            Param.AssertNotNull(sourceCode, "sourceCode");
-            Param.AssertNotNull(preprocessorSymbol, "preprocessorSymbol");
-            Param.AssertGreaterThanOrEqualToZero(startIndex, "startIndex");
-
-            // Get the body of the undefine directive.
-            LiteralExpression body = CodeParser.GetConditionalPreprocessorBodyExpression(
-                this.parser, sourceCode, preprocessorSymbol, startIndex) as LiteralExpression;
-            if (body == null)
-            {
-                throw new SyntaxException(sourceCode, preprocessorSymbol.LineNumber);
-            }
-
-            // Create the undefines list if necessary.
-            if (this.undefines == null)
-            {
-                this.undefines = new Dictionary<string, string>();
-            }
-
-            // Add the item to the list.
-            if (!this.undefines.ContainsKey(body.Text))
-            {
-                this.undefines.Add(body.Text, body.Text);
-            }
-
-            // Remove the item from the defines list if it exists.
-            if (this.defines != null)
-            {
-                this.defines.Remove(body.Text);
-            }
-        }
-
-        /// <summary>
-        /// Evaluates an expression from within a conditional compilation directive to determine
-        /// whether it resolves to true or false.
-        /// </summary>
-        /// <param name="sourceCode">The source code containing the expression.</param>
-        /// <param name="expression">The expression to evaluate.</param>
-        /// <param name="configuration">The active configuration.</param>
-        /// <returns>Returns true if the expression evaluates to true, otherwise returns false.</returns>
-        private bool EvaluateConditionalDirectiveExpression(
-            SourceCode sourceCode, Expression expression, Configuration configuration)
-        {
-            Param.AssertNotNull(sourceCode, "sourceCode");
-            Param.AssertNotNull(expression, "expression");
-            Param.Ignore(configuration);
-
-            bool value = false;
-
-            // Switch on the possible expression type.
-            switch (expression.ExpressionType)
-            {
-                case ExpressionType.Literal:
-                    // Check the value of the literal.
-                    LiteralExpression literal = expression as LiteralExpression;
-                    if (literal.Text == "false")
-                    {
-                        // This is the 'false' keyword.
-                        value = false;
-                    }
-                    else if (literal.Text == "true")
-                    {
-                        // This is the 'true' keyword.
-                        value = true;
-                    }
-                    else
-                    {
-                        // Check whether this flag is defined in the document. If so, this resolves to true.
-                        // Otherwise, this resolves to false.
-                        if (this.undefines != null && this.undefines.ContainsKey(literal.Text))
-                        {
-                            value = false;
-                        }
-                        else if (this.defines != null && this.defines.ContainsKey(literal.Text))
-                        {
-                            value = true;
-                        }
-                        else
-                        {
-                            value = (configuration != null && configuration.Contains(literal.Text));
-                        }
-                    }
-
-                    break;
-
-                case ExpressionType.ConditionalLogical:
-                    ConditionalLogicalExpression conditionalLogicalExpression = expression as ConditionalLogicalExpression;
-
-                    // Evaluate the left side of the expression.
-                    bool leftSide = this.EvaluateConditionalDirectiveExpression(
-                        sourceCode, conditionalLogicalExpression.LeftHandSide, configuration);
-
-                    // Evaluate the right side of the expression.
-                    bool rightSide = this.EvaluateConditionalDirectiveExpression(
-                        sourceCode, conditionalLogicalExpression.RightHandSide, configuration);
-
-                    // Check whether this is a conditional OR or a conditional AND expression.
-                    if (conditionalLogicalExpression.OperatorType == ConditionalLogicalExpression.Operator.And)
-                    {
-                        value = leftSide && rightSide;
-                    }
-                    else
-                    {
-                        value = leftSide || rightSide;
-                    }
-
-                    break;
-
-                case ExpressionType.Relational:
-                    RelationalExpression relationalExpression = expression as RelationalExpression;
-
-                    // Evaluate the left side of the expression.
-                    leftSide = this.EvaluateConditionalDirectiveExpression(
-                        sourceCode, relationalExpression.LeftHandSide, configuration);
-
-                    // Evaluate the right side of the expression.
-                    rightSide = this.EvaluateConditionalDirectiveExpression(
-                        sourceCode, relationalExpression.RightHandSide, configuration);
-
-                    // Check whether this is an equality or an inequality expression.
-                    if (relationalExpression.OperatorType == RelationalExpression.Operator.EqualTo)
-                    {
-                        value = leftSide == rightSide;
-                    }
-                    else if (relationalExpression.OperatorType == RelationalExpression.Operator.NotEqualTo)
-                    {
-                        value = leftSide != rightSide;
-                    }
-                    else
-                    {
-                        // Any other type of relational operator is not allowed in a conditional compilation directive.
-                        throw new SyntaxException(sourceCode, expression.Tokens.First.Value.LineNumber);
-                    }
-
-                    break;
-
-                case ExpressionType.Unary:
-                    UnaryExpression unaryExpression = expression as UnaryExpression;
-                    if (unaryExpression.OperatorType == UnaryExpression.Operator.Not)
-                    {
-                        // Evaluate the right side of the expression.
-                        value = !this.EvaluateConditionalDirectiveExpression(
-                            sourceCode, unaryExpression.Value, configuration);
-                    }
-                    else
-                    {
-                        // Any other type of unary operator is not allowed in a conditional compilation directive.
-                        throw new SyntaxException(sourceCode, expression.Tokens.First.Value.LineNumber);
-                    }
-
-                    break;
-
-                case ExpressionType.Parenthesized:
-                    // Evaluate the inner expression.
-                    ParenthesizedExpression parenthesizedExpression = expression as ParenthesizedExpression;
-                    value = this.EvaluateConditionalDirectiveExpression(
-                        sourceCode, parenthesizedExpression.InnerExpression, configuration);
-                    break;
-
-                default:
-                    // Any other type of expression is not allowed within a conditional compilation directive.
-                    throw new SyntaxException(sourceCode, expression.Tokens.First.Value.LineNumber);
-            }
-
-            return value;
+            return number;
         }
 
         /// <summary>
         /// Gets the next operator symbol.
         /// </summary>
-        /// <param name="character">The first character of the symbol.</param>
-        /// <returns>Returns the next operator symbol.</returns>
+        /// <param name="character">
+        /// The first character of the symbol.
+        /// </param>
+        /// <returns>
+        /// Returns the next operator symbol.
+        /// </returns>
         [SuppressMessage("Microsoft.Maintainability", "CA1505:AvoidUnmaintainableCode", Justification = "The method long, but simple.")]
         [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification = "The method long, but simple.")]
         private Symbol GetOperatorSymbol(char character)
@@ -2450,11 +1985,11 @@ namespace StyleCop.CSharp
 
             // Create the code location.
             CodeLocation location = new CodeLocation(
-                this.marker.Index,
-                this.marker.Index + text.Length - 1,
-                this.marker.IndexOnLine,
-                this.marker.IndexOnLine + text.Length - 1,
-                this.marker.LineNumber,
+                this.marker.Index, 
+                this.marker.Index + text.Length - 1, 
+                this.marker.IndexOnLine, 
+                this.marker.IndexOnLine + text.Length - 1, 
+                this.marker.LineNumber, 
                 this.marker.LineNumber);
 
             // Create the token.
@@ -2469,93 +2004,665 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Advances to the next end of line character and adds all characters to the given text buffer.
+        /// Gets an unknown symbol type.
         /// </summary>
-        /// <param name="text">The text buffer in which to store the rest of the line.</param>
-        private void AdvanceToEndOfLine(StringBuilder text)
+        /// <param name="sourceCode">
+        /// The source code containing the symbols.
+        /// </param>
+        /// <returns>
+        /// Returns the item.
+        /// </returns>
+        private Symbol GetOtherSymbol(SourceCode sourceCode)
+        {
+            Param.AssertNotNull(sourceCode, "sourceCode");
+
+            StringBuilder text = new StringBuilder();
+            this.ReadToEndOfOtherSymbol(text);
+            if (text.Length == 0)
+            {
+                throw new SyntaxException(sourceCode, this.marker.LineNumber);
+            }
+
+            string symbolText = text.ToString();
+
+            // Get the token location.
+            CodeLocation location = new CodeLocation(
+                this.marker.Index, 
+                this.marker.Index + text.Length - 1, 
+                this.marker.IndexOnLine, 
+                this.marker.IndexOnLine + text.Length - 1, 
+                this.marker.LineNumber, 
+                this.marker.LineNumber);
+
+            // Create the symbol.
+            Symbol symbol = new Symbol(symbolText, CodeLexer.GetOtherSymbolType(symbolText), location);
+
+            // Reset the marker index.
+            this.marker.Index += text.Length;
+            this.marker.IndexOnLine += text.Length;
+
+            // Return the symbol.
+            return symbol;
+        }
+
+        /// <summary>
+        /// Extracts the body of a positive number from the code.
+        /// </summary>
+        /// <param name="index">
+        /// The first index of the number.
+        /// </param>
+        /// <returns>
+        /// Returns the last index of the number.
+        /// </returns>
+        private int GetPositiveNumber(int index)
+        {
+            Param.AssertGreaterThanOrEqualToZero(index, "index");
+
+            // First, check if this is a hexidecimal number.
+            char character = this.codeReader.Peek();
+            if (character == '0')
+            {
+                character = this.codeReader.Peek(1);
+                if (character == 'x' || character == 'X')
+                {
+                    return this.GetHexidecimalIntegerLiteral(index + 2);
+                }
+            }
+
+            // Treat this like a decimal literal.
+            return this.GetDecimalLiteral(index);
+        }
+
+        /// <summary>
+        /// Gets the next preprocessor directive keyword.
+        /// </summary>
+        /// <param name="symbols">
+        /// The List of symbols we've processed.
+        /// </param>
+        /// <param name="sourceCode">
+        /// The source code.
+        /// </param>
+        /// <param name="configuration">
+        /// The active configuration.
+        /// </param>
+        /// <returns>
+        /// Returns the next preprocessor directive keyword.
+        /// </returns>
+        private Symbol GetPreprocessorDirectiveSymbol(List<Symbol> symbols, SourceCode sourceCode, Configuration configuration)
+        {
+            Param.AssertNotNull(symbols, "symbols");
+            Param.AssertNotNull(sourceCode, "sourceCode");
+            Param.Ignore(configuration);
+
+            // Find the end of the current line.
+            StringBuilder text = new StringBuilder();
+            this.AdvanceToEndOfLine(text);
+            if (text.Length == 1)
+            {
+                throw new SyntaxException(sourceCode, 1, Strings.UnexpectedEndOfFile);
+            }
+
+            // Create the code location.
+            CodeLocation location = new CodeLocation(
+                this.marker.Index, 
+                this.marker.Index + text.Length - 1, 
+                this.marker.IndexOnLine, 
+                this.marker.IndexOnLine + text.Length - 1, 
+                this.marker.LineNumber, 
+                this.marker.LineNumber);
+
+            // Create the symbol.
+            Symbol symbol = new Symbol(text.ToString(), SymbolType.PreprocessorDirective, location);
+
+            // Update the marker.
+            this.marker.Index += text.Length;
+            this.marker.IndexOnLine += text.Length;
+
+            // If this is a conditional preprocessor symbol which resolves to false,
+            // then we need to figure out which code is not in scope.
+            this.CheckForConditionalCompilationDirective(symbols, sourceCode, symbol, configuration);
+
+            // Return the symbol.
+            return symbol;
+        }
+
+        /// <summary>
+        /// Gets an exponent at the end of a real literal number.
+        /// </summary>
+        /// <param name="index">
+        /// The start index of the exponent.
+        /// </param>
+        /// <returns>
+        /// Returns the last index of the exponent.
+        /// </returns>
+        private int GetRealLiteralExponent(int index)
+        {
+            Param.AssertGreaterThanOrEqualToZero(index, "index");
+
+            int endIndex = -1;
+
+            // The exponent must start with e or E.
+            char character = this.codeReader.Peek(index - this.marker.Index);
+            if (character == 'e' || character == 'E')
+            {
+                ++index;
+
+                // The exponent can optionally contain a positive or negative sign.
+                character = this.codeReader.Peek(index - this.marker.Index);
+                {
+                    if (character == '-' || character == '+')
+                    {
+                        ++index;
+                    }
+                }
+
+                // The rest of the numbers must be decimal digits.
+                while (true)
+                {
+                    character = this.codeReader.Peek(index - this.marker.Index);
+                    if (character >= '0' && character <= '9')
+                    {
+                        endIndex = index;
+                        ++index;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+
+            return endIndex;
+        }
+
+        /// <summary>
+        /// Gets the characters trailing behind a real literal number, if there are any.
+        /// </summary>
+        /// <param name="index">
+        /// The start index of the trailing characters.
+        /// </param>
+        /// <param name="requiresDecimalPoint">
+        /// Indicates whether the number is required to start with a decimal point.
+        /// </param>
+        /// <returns>
+        /// Returns the last index of the trailing characters.
+        /// </returns>
+        private int GetRealLiteralTrailingCharacters(int index, bool requiresDecimalPoint)
+        {
+            Param.Ignore(index);
+            Param.Ignore(requiresDecimalPoint);
+
+            bool hasTrailingCharacters = false;
+            bool hasDecimal = false;
+
+            char character = this.codeReader.Peek(index - this.marker.Index + 1);
+
+            // First, check if the next character is a decimal point.
+            if (character == '.')
+            {
+                int endIndex = this.GetDecimalFraction(index + 2);
+                if (endIndex != -1)
+                {
+                    index = endIndex;
+                    hasDecimal = true;
+                    hasTrailingCharacters = true;
+                }
+            }
+
+            if (!requiresDecimalPoint || hasDecimal)
+            {
+                // Now check whether the number contains an exponent part.
+                character = this.codeReader.Peek(index - this.marker.Index + 1);
+                if (character == 'e' || character == 'E')
+                {
+                    int endIndex = this.GetRealLiteralExponent(index + 1);
+                    if (endIndex != -1)
+                    {
+                        index = endIndex;
+                        hasTrailingCharacters = true;
+                    }
+                }
+
+                // Now check whether the number ends in a real type suffix.
+                character = this.codeReader.Peek(index - this.marker.Index + 1);
+                if (character == 'm' || character == 'M' || character == 'd' || character == 'D' || character == 'f' || character == 'F')
+                {
+                    ++index;
+                    hasTrailingCharacters = true;
+                }
+            }
+
+            if (!hasTrailingCharacters)
+            {
+                index = -1;
+            }
+
+            return index;
+        }
+
+        /// <summary>
+        /// Gets the next single line comment from the code.
+        /// </summary>
+        /// <param name="text">
+        /// The buffer in which to store the text.
+        /// </param>
+        /// <returns>
+        /// Returns the single line comment.
+        /// </returns>
+        private Symbol GetSingleLineComment(StringBuilder text)
         {
             Param.AssertNotNull(text, "text");
 
-            int offsetIndex = this.FindNextEndOfLine();
-            if (offsetIndex != -1)
+            // Find the end of the current line.
+            this.AdvanceToEndOfLine(text);
+
+            // Create the code location.
+            CodeLocation location = new CodeLocation(
+                this.marker.Index, 
+                this.marker.Index + text.Length - 1, 
+                this.marker.IndexOnLine, 
+                this.marker.IndexOnLine + text.Length - 1, 
+                this.marker.LineNumber, 
+                this.marker.LineNumber);
+
+            // Create the symbol.
+            Symbol symbol = new Symbol(text.ToString(), SymbolType.SingleLineComment, location);
+
+            // Update the marker.
+            this.marker.Index += text.Length;
+            this.marker.IndexOnLine += text.Length;
+
+            // Return the symbol.
+            return symbol;
+        }
+
+        /// <summary>
+        /// Gets the next string from the code.
+        /// </summary>
+        /// <returns>Returns the string.</returns>
+        private Symbol GetString()
+        {
+            StringBuilder text = new StringBuilder();
+
+            // Read the opening quote character and add it to the string.
+            char quoteType = this.codeReader.ReadNext();
+            Debug.Assert(quoteType == '\'' || quoteType == '\"', "Expected a quote character");
+            text.Append(quoteType);
+
+            bool slash = false;
+
+            // Read through to the end of the string.
+            while (true)
             {
-                text.Append(this.codeReader.ReadString(offsetIndex));
+                char character = this.codeReader.Peek();
+                if (character == char.MinValue || (character == quoteType && !slash))
+                {
+                    // This is the end of the string. Add the character and quit.
+                    text.Append(character);
+                    this.codeReader.ReadNext();
+                    break;
+                }
+
+                if (character == '\\')
+                {
+                    slash = !slash;
+                }
+                else
+                {
+                    slash = false;
+
+                    if (character == '\r' || character == '\n')
+                    {
+                        // We've hit the end of the line. Just exit.
+                        break;
+                    }
+                }
+
+                text.Append(character);
+
+                // Advance past this character.
+                this.codeReader.ReadNext();
+            }
+
+            // Create the code location.
+            CodeLocation location = new CodeLocation(
+                this.marker.Index, 
+                this.marker.Index + text.Length - 1, 
+                this.marker.IndexOnLine, 
+                this.marker.IndexOnLine + text.Length - 1, 
+                this.marker.LineNumber, 
+                this.marker.LineNumber);
+
+            // Create the symbol.
+            Symbol symbol = new Symbol(text.ToString(), SymbolType.String, location);
+
+            // Update the marker.
+            this.marker.Index += text.Length;
+            this.marker.IndexOnLine += text.Length;
+
+            // Return the symbol.
+            return symbol;
+        }
+
+        /// <summary>
+        /// Gets an undefine preprocessor directive from the code.
+        /// </summary>
+        /// <param name="sourceCode">
+        /// The source code being parsed.
+        /// </param>
+        /// <param name="preprocessorSymbol">
+        /// The preprocessor symbol being parsed.
+        /// </param>
+        /// <param name="startIndex">
+        /// The start index within the symbols.
+        /// </param>
+        private void GetUndefinePreprocessorDirective(SourceCode sourceCode, Symbol preprocessorSymbol, int startIndex)
+        {
+            Param.AssertNotNull(sourceCode, "sourceCode");
+            Param.AssertNotNull(preprocessorSymbol, "preprocessorSymbol");
+            Param.AssertGreaterThanOrEqualToZero(startIndex, "startIndex");
+
+            // Get the body of the undefine directive.
+            LiteralExpression body = CodeParser.GetConditionalPreprocessorBodyExpression(this.parser, sourceCode, preprocessorSymbol, startIndex) as LiteralExpression;
+            if (body == null)
+            {
+                throw new SyntaxException(sourceCode, preprocessorSymbol.LineNumber);
+            }
+
+            // Create the undefines list if necessary.
+            if (this.undefines == null)
+            {
+                this.undefines = new Dictionary<string, string>();
+            }
+
+            // Add the item to the list.
+            if (!this.undefines.ContainsKey(body.Text))
+            {
+                this.undefines.Add(body.Text, body.Text);
+            }
+
+            // Remove the item from the defines list if it exists.
+            if (this.defines != null)
+            {
+                this.defines.Remove(body.Text);
             }
         }
 
         /// <summary>
-        /// Finds the offset index of the next end-of-line character.
+        /// Gets the next whitespace stream.
         /// </summary>
-        /// <returns>Returns the offset index of the next end-of-line character. If there are no more end-of-line
-        /// characters, returns the index of the character past the end of the file.</returns>
-        private int FindNextEndOfLine()
+        /// <returns>Returns the whitespace.</returns>
+        private Symbol GetWhitespace()
         {
-            int endOfLine = -1;
-            int carriageReturn = -1;
+            StringBuilder text = new StringBuilder();
 
-            int index = 0;
+            // Get all of the characters in the whitespace.
             while (true)
             {
-                char character = this.codeReader.Peek(index);
-                if (character == char.MinValue)
+                char character = this.codeReader.Peek();
+                UnicodeCategory category = char.GetUnicodeCategory(character);
+
+                if (character == char.MinValue || (category != UnicodeCategory.SpaceSeparator && character != '\t'))
                 {
                     break;
                 }
-                else if (character == '\r')
-                {
-                    if (carriageReturn == -1)
-                    {
-                        carriageReturn = index;
 
-                        if (endOfLine != -1)
-                        {
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-                else if (character == '\n')
-                {
-                    if (endOfLine == -1)
-                    {
-                        endOfLine = index;
+                text.Append(character);
 
-                        if (carriageReturn != -1)
-                        {
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-
-                ++index;
+                // Advance past this character.
+                this.codeReader.ReadNext();
             }
 
-            if (endOfLine != -1 && carriageReturn != -1)
-            {
-                return Math.Min(endOfLine, carriageReturn);
-            }
-            else if (carriageReturn != -1)
-            {
-                return carriageReturn;
-            }
-            else if (endOfLine != -1)
-            {
-                return endOfLine;
-            }
+            // Create the whitespace location object.
+            CodeLocation location = new CodeLocation(
+                this.marker.Index, 
+                this.marker.Index + text.Length - 1, 
+                this.marker.IndexOnLine, 
+                this.marker.IndexOnLine + text.Length - 1, 
+                this.marker.LineNumber, 
+                this.marker.LineNumber);
 
-            // No end of line character was found. This means that we read all the way to the end of the
-            // file. In this case the index is sitting at one past the end of the file, so return the
-            // offset index of the last character in the file.
-            return index;
+            // Create the whitespace object.
+            Symbol whitespace = new Symbol(text.ToString(), SymbolType.WhiteSpace, location);
+
+            // Update the marker.
+            this.marker.Index += text.Length;
+            this.marker.IndexOnLine += text.Length;
+
+            // Return the whitespace object.
+            return whitespace;
         }
 
-        #endregion Private Methods
+        /// <summary>
+        /// Gets the next Xml header line from the code.
+        /// </summary>
+        /// <param name="text">
+        /// The buffer in which to store the text.
+        /// </param>
+        /// <returns>
+        /// Returns the Xml header line.
+        /// </returns>
+        private Symbol GetXmlHeaderLine(StringBuilder text)
+        {
+            Param.AssertNotNull(text, "text");
+
+            // Find the end of the current line.
+            this.AdvanceToEndOfLine(text);
+
+            // Create the code location.
+            CodeLocation location = new CodeLocation(
+                this.marker.Index, 
+                this.marker.Index + text.Length - 1, 
+                this.marker.IndexOnLine, 
+                this.marker.IndexOnLine + text.Length - 1, 
+                this.marker.LineNumber, 
+                this.marker.LineNumber);
+
+            // Create the symbol.
+            Symbol symbol = new Symbol(text.ToString(), SymbolType.XmlHeaderLine, location);
+
+            // Update the marker.
+            this.marker.Index += text.Length;
+            this.marker.IndexOnLine += text.Length;
+
+            // Return the symbol.
+            return symbol;
+        }
+
+        /// <summary>
+        /// Checks whether code reader contains encoded letter at the current position.
+        /// </summary>
+        /// <param name="sequence">
+        /// Reference parameter holding character sequence.
+        /// </param>
+        /// <param name="character">
+        /// Reference parameter holding character value.
+        /// </param>
+        /// <returns>
+        /// Returns true if code reader contains encoded letter.
+        /// </returns>
+        private bool IsLetterEncoded(ref char[] sequence, ref char character)
+        {
+            Param.Ignore(sequence, character);
+
+            sequence = new[]
+                           {
+                               this.codeReader.Peek(0), this.codeReader.Peek(1), this.codeReader.Peek(2), this.codeReader.Peek(3), this.codeReader.Peek(4), 
+                               this.codeReader.Peek(5)
+                           };
+
+            return IsLetterEncoded(sequence, out character);
+        }
+
+        /// <summary>
+        /// Gathers all the characters up to the last index of an unknown word.
+        /// </summary>
+        /// <param name="text">
+        /// The text buffer to add the symbol text to.
+        /// </param>
+        private void ReadToEndOfOtherSymbol(StringBuilder text)
+        {
+            Param.AssertNotNull(text, "text");
+
+            bool seenLetter = false;
+
+            // Loop until we find the end of the word.
+            while (true)
+            {
+                // Check whether there is no more code.
+                if (this.codeReader.Peek() == char.MinValue)
+                {
+                    break;
+                }
+
+                char characterValue = char.MinValue;
+                char[] characterSequence = null;
+
+                // Read character sequence as well as character value from code reader.
+                // If usual character is being read then sequence array will contain the same character as value.
+                // If Unicode character escape sequence is being read then sequence array will contain
+                // exact characters from the reader and value character will contain character represented by the sequence.
+                if (this.IsLetterEncoded(ref characterSequence, ref characterValue))
+                {
+                    // All required data has been already stored into variables.
+                }
+                else
+                {
+                    characterValue = this.codeReader.Peek();
+                    characterSequence = new[] { characterValue };
+                }
+
+                // Decide whether we should stop continuing the current word.
+                if (IsLetterExtended(characterValue))
+                {
+                    // Mark that we've seen a letter in this word, and continue.
+                    seenLetter = true;
+                }
+                else if (seenLetter && char.IsNumber(characterValue))
+                {
+                    // Numbers are ok as long as we've previously seen at least one
+                    // letter in this word.
+                }
+                else
+                {
+                    // This is an invalid character, so break out of the loop.
+                    break;
+                }
+
+                // Add the character(s) to the text buffer and advance the reader past it.
+                foreach (char c in characterSequence)
+                {
+                    text.Append(c);
+                    this.codeReader.ReadNext();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Extracts an if, endif, or else directive.
+        /// </summary>
+        /// <param name="sourceCode">
+        /// The source code being parsed.
+        /// </param>
+        /// <param name="preprocessorSymbol">
+        /// The preprocessor symbol being parsed.
+        /// </param>
+        /// <param name="configuration">
+        /// The current code configuration.
+        /// </param>
+        /// <param name="startIndex">
+        /// The start index of the item within the symbols.
+        /// </param>
+        /// <param name="type">
+        /// The type of the preprocessor symbol.
+        /// </param>
+        private void SetEvaluatingSymbolsForIfElifElse(SourceCode sourceCode, Symbol preprocessorSymbol, Configuration configuration, int startIndex, string type)
+        {
+            Param.AssertNotNull(sourceCode, "sourceCode");
+            Param.AssertNotNull(preprocessorSymbol, "preprocessorSymbol");
+            Param.AssertNotNull(configuration, "configuration");
+            Param.AssertGreaterThanOrEqualToZero(startIndex, "startIndex");
+            Param.AssertValidString(type, "type");
+
+            switch (type)
+            {
+                case "if":
+                    this.evaluatingSymbolsStatus.Push(this.evaluatingSymbols);
+                    if (this.evaluatingSymbols)
+                    {
+                        // Extract the body of the directive.
+                        Expression body = CodeParser.GetConditionalPreprocessorBodyExpression(this.parser, sourceCode, preprocessorSymbol, startIndex);
+                        if (body == null)
+                        {
+                            throw new SyntaxException(sourceCode, preprocessorSymbol.LineNumber);
+                        }
+
+                        // Determine whether the code under this directive needs to be skipped.
+                        this.evaluatingSymbols = this.EvaluateConditionalDirectiveExpression(sourceCode, body, configuration);
+                    }
+
+                    this.conditionalDirectives.Push(this.evaluatingSymbols);
+                    break;
+
+                case "elif":
+                    {
+                        if (this.conditionalDirectives.Count == 0)
+                        {
+                            throw new SyntaxException(sourceCode, preprocessorSymbol.LineNumber);
+                        }
+
+                        bool conditionalValue = this.conditionalDirectives.Peek();
+
+                        // If the #if we are part of was 'true' then we stop evaluating.
+                        if (conditionalValue)
+                        {
+                            this.evaluatingSymbols = false;
+                        }
+                        else
+                        {
+                            // If we were evaluatingSymbols before this #if started then check again now.
+                            if (this.evaluatingSymbolsStatus.Peek())
+                            {
+                                // Extract the body of the directive.
+                                Expression body = CodeParser.GetConditionalPreprocessorBodyExpression(this.parser, sourceCode, preprocessorSymbol, startIndex);
+                                if (body == null)
+                                {
+                                    throw new SyntaxException(sourceCode, preprocessorSymbol.LineNumber);
+                                }
+
+                                // Determine whether the code under this directive needs to be skipped.
+                                this.evaluatingSymbols = this.EvaluateConditionalDirectiveExpression(sourceCode, body, configuration);
+
+                                if (this.evaluatingSymbols)
+                                {
+                                    this.conditionalDirectives.Pop();
+                                    this.conditionalDirectives.Push(true);
+                                }
+                            }
+                        }
+                    }
+
+                    break;
+
+                case "else":
+                    if (this.conditionalDirectives.Count == 0)
+                    {
+                        throw new SyntaxException(sourceCode, preprocessorSymbol.LineNumber);
+                    }
+
+                    // If we were evaluatingSymbols before this #if started then check again now.
+                    if (this.evaluatingSymbolsStatus.Peek())
+                    {
+                        bool conditionalValue = this.conditionalDirectives.Peek();
+
+                        // If the #if we are part of was 'true' then we stop evaluating.
+                        this.evaluatingSymbols = !conditionalValue;
+                    }
+
+                    break;
+            }
+        }
+
+        #endregion
     }
 }

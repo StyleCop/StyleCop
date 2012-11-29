@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="StyleCopAddIn.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="StyleCopAddIn.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,18 +11,19 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   An add-in to the StyleCop engine.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.IO;
     using System.Reflection;
     using System.Security;
-    using System.Text;
     using System.Xml;
 
     /// <summary>
@@ -32,20 +33,29 @@ namespace StyleCop
     [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "StyleCop", Justification = "This is the correct casing.")]
     public abstract class StyleCopAddIn : IPropertyContainer
     {
-        #region Private Constants
+        #region Constants
 
         /// <summary>
         /// The default CheckId prefix for rules.
         /// </summary>
         private const string DefaultCheckIdPrefix = "SA";
 
-        #endregion Private Constants
+        #endregion
 
-        #region Private Fields
+        #region Static Fields
 
         private static DateTime lastWriteTime;
 
         private static bool lastWriteTimeInitialized;
+
+        #endregion
+
+        #region Fields
+
+        /// <summary>
+        /// The unique ID of the add-in.
+        /// </summary>
+        private readonly string id;
 
         /// <summary>
         /// The property descriptors for the add-in.
@@ -58,28 +68,23 @@ namespace StyleCop
         private readonly Dictionary<string, Rule> rules = new Dictionary<string, Rule>();
 
         /// <summary>
-        /// The unique ID of the add-in.
+        /// The StyleCop core instance.
         /// </summary>
-        private readonly string id;
+        private StyleCopCore core;
+
+        /// <summary>
+        /// The user-friendly description of the add-in.
+        /// </summary>
+        private string description;
 
         /// <summary>
         /// The user-friendly name of the add-in.
         /// </summary>
         private string name;
 
-        /// <summary>
-        /// The user-friendly description of the add-in.
-        /// </summary>
-        private string description;
-        
-        /// <summary>
-        /// The StyleCop core instance.
-        /// </summary>
-        private StyleCopCore core;
+        #endregion
 
-        #endregion Private Fields
-
-        #region Protected Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the StyleCopAddIn class.
@@ -89,35 +94,31 @@ namespace StyleCop
             this.id = GetIdFromAddInType(this.GetType());
         }
 
-        #endregion Protected Constructors
-
-        #region Public Virtual Properties
-
-        /// <summary>
-        /// Gets the collection of property descriptors exposed by the add-in.
-        /// </summary>
-        public virtual PropertyDescriptorCollection PropertyDescriptors
-        {
-            get
-            {
-                return this.propertyDescriptors;
-            }
-        }
-
-        /// <summary>
-        /// Gets the property pages to expose on the StyleCop settings dialog for this add-in.
-        /// </summary>
-        public virtual ICollection<IPropertyControlPage> SettingsPages
-        {
-            get
-            {
-                return null;
-            }
-        }
-
-        #endregion Public Virtual Properties
+        #endregion
 
         #region Public Properties
+
+        /// <summary>
+        /// Gets the StyleCop core instance.
+        /// </summary>
+        public StyleCopCore Core
+        {
+            get
+            {
+                return this.core;
+            }
+        }
+
+        /// <summary>
+        /// Gets the description of the add-in.
+        /// </summary>
+        public string Description
+        {
+            get
+            {
+                return this.description;
+            }
+        }
 
         /// <summary>
         /// Gets the unique ID of the add-in.
@@ -142,24 +143,24 @@ namespace StyleCop
         }
 
         /// <summary>
-        /// Gets the description of the add-in.
+        /// Gets the collection of property descriptors exposed by the add-in.
         /// </summary>
-        public string Description
+        public virtual PropertyDescriptorCollection PropertyDescriptors
         {
             get
             {
-                return this.description;
+                return this.propertyDescriptors;
             }
         }
 
         /// <summary>
-        /// Gets the StyleCop core instance.
+        /// Gets the property pages to expose on the StyleCop settings dialog for this add-in.
         /// </summary>
-        public StyleCopCore Core
+        public virtual ICollection<IPropertyControlPage> SettingsPages
         {
             get
             {
-                return this.core;
+                return null;
             }
         }
 
@@ -192,9 +193,9 @@ namespace StyleCop
             }
         }
 
-        #endregion Public Properties
+        #endregion
 
-        #region Internal Properties
+        #region Properties
 
         /// <summary>
         /// Gets the collection of rules exposed by this analyzer.
@@ -207,133 +208,22 @@ namespace StyleCop
             }
         }
 
-        #endregion Internal Properties
+        #endregion
 
-        #region Public Virtual Methods
-
-        /// <summary>
-        /// Called when the user opens a new solution.
-        /// </summary>
-        public virtual void SolutionOpened()
-        {
-        }
-
-        /// <summary>
-        /// Called when the user closes the solution.
-        /// </summary>
-        public virtual void SolutionClosing()
-        {
-        }
-
-        /// <summary>
-        /// Allows the add-in to initialize itself, after all initialization documents have been processed.
-        /// </summary>
-        public virtual void InitializeAddIn()
-        {
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether the given rule is enabled for the given document.
-        /// </summary>
-        /// <param name="document">The document.</param>
-        /// <param name="ruleName">The rule to check.</param>
-        /// <returns>Returns true if the rule is enabled; otherwise false.</returns>
-        public virtual bool IsRuleEnabled(CodeDocument document, string ruleName)
-        {
-            Param.Ignore(document, ruleName);
-            return true;
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether the given rule is suppressed for the given element.
-        /// </summary>
-        /// <param name="element">The element to check.</param>
-        /// <param name="ruleCheckId">The Id of the rule to check.</param>
-        /// <param name="ruleName">The Name of the rule to check.</param>
-        /// <param name="ruleNamespace">The Namespace of the rule to check.</param>
-        /// <returns>Returns true if the rule is suppressed; otherwise false.</returns>
-        public virtual bool IsRuleSuppressed(ICodeElement element, string ruleCheckId, string ruleName, string ruleNamespace)
-        {
-            Param.Ignore(element, ruleCheckId, ruleName, ruleNamespace);
-            return false;
-        }
-
-        #endregion Public Virtual Methods
-
-        #region Public Methods
-
-        /// <summary>
-        /// Gets a setting for the add-in.
-        /// </summary>
-        /// <param name="settings">The settings.</param>
-        /// <param name="propertyName">The name of the setting property.</param>
-        /// <returns>Returns the setting or null if it does not exist.</returns>
-        public PropertyValue GetSetting(Settings settings, string propertyName)
-        {
-            Param.Ignore(settings);
-            Param.RequireValidString(propertyName, "propertyName");
-
-            if (settings == null)
-            {
-                return null;
-            }
-
-            return settings.GetAddInSetting(this, propertyName);
-        }
-
-        /// <summary>
-        /// Gets a setting for a rule exposed by the add-in.
-        /// </summary>
-        /// <param name="settings">The settings.</param>
-        /// <param name="ruleName">The name of the rule.</param>
-        /// <param name="propertyName">The name of the setting property.</param>
-        /// <returns>Returns the setting or null if it does not exist.</returns>
-        public PropertyValue GetRuleSetting(Settings settings, string ruleName, string propertyName)
-        {
-            Param.Ignore(settings);
-            Param.RequireValidString(ruleName, "ruleName");
-            Param.RequireValidString(propertyName, "propertyName");
-
-            if (settings == null)
-            {
-                return null;
-            }
-
-            return settings.GetAddInSetting(this, ruleName + "#" + propertyName);
-        }
-
-        /// <summary>
-        /// Sets the given property on the add-in.
-        /// </summary>
-        /// <param name="settings">The settings.</param>
-        /// <param name="property">The property to set.</param>
-        public void SetSetting(WritableSettings settings, PropertyValue property)
-        {
-            Param.RequireNotNull(settings, "settings");
-            Param.RequireNotNull(property, "property");
-
-            settings.SetAddInSetting(this, property);
-        }
-
-        /// <summary>
-        /// Clears the given property for the add-in.
-        /// </summary>
-        /// <param name="settings">The settings.</param>
-        /// <param name="propertyName">The name of the property to clear.</param>
-        public void ClearSetting(WritableSettings settings, string propertyName)
-        {
-            Param.RequireNotNull(settings, "settings");
-            Param.RequireValidString(propertyName, "propertyName");
-
-            settings.ClearAddInSetting(this, propertyName);
-        }
+        #region Public Methods and Operators
 
         /// <summary>
         /// Adds one violation to the given code element.
         /// </summary>
-        /// <param name="element">The element that the violation appears in.</param>
-        /// <param name="ruleName">The name of the rule that triggered the violation.</param>
-        /// <param name="values">String parameters to insert into the violation context string.</param>
+        /// <param name="element">
+        /// The element that the violation appears in.
+        /// </param>
+        /// <param name="ruleName">
+        /// The name of the rule that triggered the violation.
+        /// </param>
+        /// <param name="values">
+        /// String parameters to insert into the violation context string.
+        /// </param>
         public void AddViolation(ICodeElement element, string ruleName, params object[] values)
         {
             Param.Ignore(element, ruleName, values);
@@ -350,9 +240,15 @@ namespace StyleCop
         /// <summary>
         /// Adds one violation to the given code element.
         /// </summary>
-        /// <param name="element">The element that the violation appears in.</param>
-        /// <param name="ruleName">The name of the rule that triggered the violation.</param>
-        /// <param name="values">String parameters to insert into the violation context string.</param>
+        /// <param name="element">
+        /// The element that the violation appears in.
+        /// </param>
+        /// <param name="ruleName">
+        /// The name of the rule that triggered the violation.
+        /// </param>
+        /// <param name="values">
+        /// String parameters to insert into the violation context string.
+        /// </param>
         public void AddViolation(ICodeElement element, Enum ruleName, params object[] values)
         {
             Param.Ignore(element);
@@ -365,10 +261,18 @@ namespace StyleCop
         /// <summary>
         /// Adds one violation to the given code element.
         /// </summary>
-        /// <param name="element">The element that the violation appears in.</param>
-        /// <param name="location">The location in the code where the violation occurs.</param>
-        /// <param name="ruleName">The name of the rule that triggered the violation.</param>
-        /// <param name="values">String parameters to insert into the violation string.</param>
+        /// <param name="element">
+        /// The element that the violation appears in.
+        /// </param>
+        /// <param name="location">
+        /// The location in the code where the violation occurs.
+        /// </param>
+        /// <param name="ruleName">
+        /// The name of the rule that triggered the violation.
+        /// </param>
+        /// <param name="values">
+        /// String parameters to insert into the violation string.
+        /// </param>
         public void AddViolation(ICodeElement element, CodeLocation location, string ruleName, params object[] values)
         {
             Param.RequireNotNull(element, "element");
@@ -396,10 +300,18 @@ namespace StyleCop
         /// <summary>
         /// Adds one violation to the given code element.
         /// </summary>
-        /// <param name="element">The element that the violation appears in.</param>
-        /// <param name="line">The line in the code where the violation occurs.</param>
-        /// <param name="ruleName">The name of the rule that triggered the violation.</param>
-        /// <param name="values">String parameters to insert into the violation string.</param>
+        /// <param name="element">
+        /// The element that the violation appears in.
+        /// </param>
+        /// <param name="line">
+        /// The line in the code where the violation occurs.
+        /// </param>
+        /// <param name="ruleName">
+        /// The name of the rule that triggered the violation.
+        /// </param>
+        /// <param name="values">
+        /// String parameters to insert into the violation string.
+        /// </param>
         public void AddViolation(ICodeElement element, int line, string ruleName, params object[] values)
         {
             Param.RequireNotNull(element, "element");
@@ -427,10 +339,18 @@ namespace StyleCop
         /// <summary>
         /// Adds one violation to the given code element.
         /// </summary>
-        /// <param name="element">The element that the violation appears in.</param>
-        /// <param name="location">The location in the code where the violation occurs.</param>
-        /// <param name="ruleName">The name of the rule that triggered the violation.</param>
-        /// <param name="values">String parameters to insert into the violation string.</param>
+        /// <param name="element">
+        /// The element that the violation appears in.
+        /// </param>
+        /// <param name="location">
+        /// The location in the code where the violation occurs.
+        /// </param>
+        /// <param name="ruleName">
+        /// The name of the rule that triggered the violation.
+        /// </param>
+        /// <param name="values">
+        /// String parameters to insert into the violation string.
+        /// </param>
         public void AddViolation(ICodeElement element, CodeLocation location, Enum ruleName, params object[] values)
         {
             Param.Ignore(element);
@@ -444,10 +364,18 @@ namespace StyleCop
         /// <summary>
         /// Adds one violation to the given code element.
         /// </summary>
-        /// <param name="element">The element that the violation appears in.</param>
-        /// <param name="line">The line in the code where the violation occurs.</param>
-        /// <param name="ruleName">The name of the rule that triggered the violation.</param>
-        /// <param name="values">String parameters to insert into the violation string.</param>
+        /// <param name="element">
+        /// The element that the violation appears in.
+        /// </param>
+        /// <param name="line">
+        /// The line in the code where the violation occurs.
+        /// </param>
+        /// <param name="ruleName">
+        /// The name of the rule that triggered the violation.
+        /// </param>
+        /// <param name="values">
+        /// String parameters to insert into the violation string.
+        /// </param>
         public void AddViolation(ICodeElement element, int line, Enum ruleName, params object[] values)
         {
             Param.Ignore(element);
@@ -459,10 +387,31 @@ namespace StyleCop
         }
 
         /// <summary>
+        /// Clears the given property for the add-in.
+        /// </summary>
+        /// <param name="settings">
+        /// The settings.
+        /// </param>
+        /// <param name="propertyName">
+        /// The name of the property to clear.
+        /// </param>
+        public void ClearSetting(WritableSettings settings, string propertyName)
+        {
+            Param.RequireNotNull(settings, "settings");
+            Param.RequireValidString(propertyName, "propertyName");
+
+            settings.ClearAddInSetting(this, propertyName);
+        }
+
+        /// <summary>
         /// Gets the rule with the given name.
         /// </summary>
-        /// <param name="ruleName">The name of the rule to retrieve.</param>
-        /// <returns>Returns the rule or null if there is no rule with the given name.</returns>
+        /// <param name="ruleName">
+        /// The name of the rule to retrieve.
+        /// </param>
+        /// <returns>
+        /// Returns the rule or null if there is no rule with the given name.
+        /// </returns>
         public Rule GetRule(string ruleName)
         {
             Param.RequireValidString(ruleName, "ruleName");
@@ -476,35 +425,176 @@ namespace StyleCop
             return null;
         }
 
-        #endregion Public Methods
+        /// <summary>
+        /// Gets a setting for a rule exposed by the add-in.
+        /// </summary>
+        /// <param name="settings">
+        /// The settings.
+        /// </param>
+        /// <param name="ruleName">
+        /// The name of the rule.
+        /// </param>
+        /// <param name="propertyName">
+        /// The name of the setting property.
+        /// </param>
+        /// <returns>
+        /// Returns the setting or null if it does not exist.
+        /// </returns>
+        public PropertyValue GetRuleSetting(Settings settings, string ruleName, string propertyName)
+        {
+            Param.Ignore(settings);
+            Param.RequireValidString(ruleName, "ruleName");
+            Param.RequireValidString(propertyName, "propertyName");
 
-        #region Internal Static Methods
+            if (settings == null)
+            {
+                return null;
+            }
+
+            return settings.GetAddInSetting(this, ruleName + "#" + propertyName);
+        }
+
+        /// <summary>
+        /// Gets a setting for the add-in.
+        /// </summary>
+        /// <param name="settings">
+        /// The settings.
+        /// </param>
+        /// <param name="propertyName">
+        /// The name of the setting property.
+        /// </param>
+        /// <returns>
+        /// Returns the setting or null if it does not exist.
+        /// </returns>
+        public PropertyValue GetSetting(Settings settings, string propertyName)
+        {
+            Param.Ignore(settings);
+            Param.RequireValidString(propertyName, "propertyName");
+
+            if (settings == null)
+            {
+                return null;
+            }
+
+            return settings.GetAddInSetting(this, propertyName);
+        }
+
+        /// <summary>
+        /// Allows the add-in to initialize itself, after all initialization documents have been processed.
+        /// </summary>
+        public virtual void InitializeAddIn()
+        {
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the given rule is enabled for the given document.
+        /// </summary>
+        /// <param name="document">
+        /// The document.
+        /// </param>
+        /// <param name="ruleName">
+        /// The rule to check.
+        /// </param>
+        /// <returns>
+        /// Returns true if the rule is enabled; otherwise false.
+        /// </returns>
+        public virtual bool IsRuleEnabled(CodeDocument document, string ruleName)
+        {
+            Param.Ignore(document, ruleName);
+            return true;
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the given rule is suppressed for the given element.
+        /// </summary>
+        /// <param name="element">
+        /// The element to check.
+        /// </param>
+        /// <param name="ruleCheckId">
+        /// The Id of the rule to check.
+        /// </param>
+        /// <param name="ruleName">
+        /// The Name of the rule to check.
+        /// </param>
+        /// <param name="ruleNamespace">
+        /// The Namespace of the rule to check.
+        /// </param>
+        /// <returns>
+        /// Returns true if the rule is suppressed; otherwise false.
+        /// </returns>
+        public virtual bool IsRuleSuppressed(ICodeElement element, string ruleCheckId, string ruleName, string ruleNamespace)
+        {
+            Param.Ignore(element, ruleCheckId, ruleName, ruleNamespace);
+            return false;
+        }
+
+        /// <summary>
+        /// Sets the given property on the add-in.
+        /// </summary>
+        /// <param name="settings">
+        /// The settings.
+        /// </param>
+        /// <param name="property">
+        /// The property to set.
+        /// </param>
+        public void SetSetting(WritableSettings settings, PropertyValue property)
+        {
+            Param.RequireNotNull(settings, "settings");
+            Param.RequireNotNull(property, "property");
+
+            settings.SetAddInSetting(this, property);
+        }
+
+        /// <summary>
+        /// Called when the user closes the solution.
+        /// </summary>
+        public virtual void SolutionClosing()
+        {
+        }
+
+        /// <summary>
+        /// Called when the user opens a new solution.
+        /// </summary>
+        public virtual void SolutionOpened()
+        {
+        }
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Gets the ID of an add-in given the type of that add-in.
         /// </summary>
-        /// <param name="addInType">The type of the add-in.</param>
-        /// <returns>Returns the ID of the add-in.</returns>
+        /// <param name="addInType">
+        /// The type of the add-in.
+        /// </param>
+        /// <returns>
+        /// Returns the ID of the add-in.
+        /// </returns>
         internal static string GetIdFromAddInType(Type addInType)
         {
             Param.AssertNotNull(addInType, "addInType");
             return addInType.FullName;
         }
 
-        #endregion Internal Static Methods
-
-        #region Internal Methods
-
         /// <summary>
         /// Initializes the add-in.
         /// </summary>
-        /// <param name="styleCopCore">The StyleCop core instance.</param>
-        /// <param name="initializationXml">The add-in's XML initialization document.</param>
-        /// <param name="topMostType">Indicates whether the xml document comes from the top-most type in the 
-        /// add-in's type hierarchy.</param>
-        /// <param name="isKnownAssembly">Indicates whether the add-in comes from a known assembly.</param>
-        internal void Initialize(
-            StyleCopCore styleCopCore, XmlDocument initializationXml, bool topMostType, bool isKnownAssembly)
+        /// <param name="styleCopCore">
+        /// The StyleCop core instance.
+        /// </param>
+        /// <param name="initializationXml">
+        /// The add-in's XML initialization document.
+        /// </param>
+        /// <param name="topMostType">
+        /// Indicates whether the xml document comes from the top-most type in the 
+        /// add-in's type hierarchy.
+        /// </param>
+        /// <param name="isKnownAssembly">
+        /// Indicates whether the add-in comes from a known assembly.
+        /// </param>
+        internal void Initialize(StyleCopCore styleCopCore, XmlDocument initializationXml, bool topMostType, bool isKnownAssembly)
         {
             Param.AssertNotNull(styleCopCore, "styleCopCore");
             Param.AssertNotNull(initializationXml, "parserXml");
@@ -518,21 +608,20 @@ namespace StyleCop
             this.ImportInitializationXml(initializationXml, topMostType, isKnownAssembly);
         }
 
-        #endregion Internal Methods
-
-        #region Protected Virtual Methods
-
         /// <summary>
         /// Parses the Xml document which initializes the add-in.
         /// </summary>
-        /// <param name="document">The xml document to load.</param>
-        /// <param name="topmostType">Indicates whether the xml document comes from the top-most type in the 
-        /// add-in's type hierarchy.</param>
-        /// <param name="isKnownAssembly">Indicates whether the add-in comes from a known assembly.</param>
-        [SuppressMessage(
-            "Microsoft.Design", 
-            "CA1059:MembersShouldNotExposeCertainConcreteTypes", 
-            MessageId = "System.Xml.XmlNode", 
+        /// <param name="document">
+        /// The xml document to load.
+        /// </param>
+        /// <param name="topmostType">
+        /// Indicates whether the xml document comes from the top-most type in the 
+        /// add-in's type hierarchy.
+        /// </param>
+        /// <param name="isKnownAssembly">
+        /// Indicates whether the add-in comes from a known assembly.
+        /// </param>
+        [SuppressMessage("Microsoft.Design", "CA1059:MembersShouldNotExposeCertainConcreteTypes", MessageId = "System.Xml.XmlNode", 
             Justification = "Compliance would break well-defined public API.")]
         protected virtual void ImportInitializationXml(XmlDocument document, bool topmostType, bool isKnownAssembly)
         {
@@ -582,15 +671,15 @@ namespace StyleCop
             }
         }
 
-        #endregion Protected Virtual Methods
-
-        #region Private Static Methods
-
         /// <summary>
         /// Trims extra whitespace and newlines out of Xml text data.
         /// </summary>
-        /// <param name="content">The original Xml content.</param>
-        /// <returns>Returns the trimmed content.</returns>
+        /// <param name="content">
+        /// The original Xml content.
+        /// </param>
+        /// <returns>
+        /// Returns the trimmed content.
+        /// </returns>
         private static string TrimXmlContent(string content)
         {
             Param.Ignore(content);
@@ -641,16 +730,18 @@ namespace StyleCop
             return new string(chars, 0, index);
         }
 
-        #endregion Private Static Methods
-
-        #region Private Methods
-
         /// <summary>
         /// Parses the given Xml document and loads the rules.
         /// </summary>
-        /// <param name="rulesNode">The rules node.</param>
-        /// <param name="ruleGroup">The optional rule group name.</param>
-        /// <param name="isKnownAssembly">Indicates whether the add-in comes from a known assembly.</param>
+        /// <param name="rulesNode">
+        /// The rules node.
+        /// </param>
+        /// <param name="ruleGroup">
+        /// The optional rule group name.
+        /// </param>
+        /// <param name="isKnownAssembly">
+        /// Indicates whether the add-in comes from a known assembly.
+        /// </param>
         private void AddRulesFromXml(XmlNode rulesNode, string ruleGroup, bool isKnownAssembly)
         {
             Param.AssertNotNull(rulesNode, "rulesNode");
@@ -684,29 +775,25 @@ namespace StyleCop
                     XmlNode ruleCheckId = rule.Attributes["CheckId"];
                     if (ruleCheckId == null || ruleCheckId.Value.Length == 0)
                     {
-                        throw new ArgumentException(string.Format(
-                            CultureInfo.CurrentCulture, Strings.RuleHasNoCheckIdAttribute, ruleName.Value));
+                        throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Strings.RuleHasNoCheckIdAttribute, ruleName.Value));
                     }
 
                     // Validate the check-id to determine whether it uses the default prefix code.
                     if (ruleCheckId.Value.StartsWith(DefaultCheckIdPrefix, StringComparison.Ordinal) && !isKnownAssembly)
                     {
-                        throw new ArgumentException(
-                            string.Format(CultureInfo.CurrentCulture, Strings.UnknownAssemblyUsingDefaultCheckIdPrefix, ruleCheckId.Value));
+                        throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Strings.UnknownAssemblyUsingDefaultCheckIdPrefix, ruleCheckId.Value));
                     }
 
                     XmlNode ruleContext = rule["Context"];
                     if (ruleContext == null || ruleContext.InnerText.Length == 0)
                     {
-                        throw new ArgumentException(
-                            string.Format(CultureInfo.CurrentCulture, Strings.RuleHasNoContextElement, ruleName.Value));
+                        throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Strings.RuleHasNoContextElement, ruleName.Value));
                     }
 
                     string context = TrimXmlContent(ruleContext.InnerText);
                     if (string.IsNullOrEmpty(context))
                     {
-                        throw new ArgumentException(string.Format(
-                            CultureInfo.CurrentCulture, Strings.RuleHasNoContextElement, ruleName.Value));
+                        throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Strings.RuleHasNoContextElement, ruleName.Value));
                     }
 
                     // Get the optional description node.
@@ -737,14 +824,14 @@ namespace StyleCop
                     }
 
                     Rule type = new Rule(
-                        ruleName.Value,
-                        this.id,
-                        ruleCheckId.Value,
-                        context,
-                        warningValue,
-                        ruleDescription == null ? string.Empty : TrimXmlContent(ruleDescription.InnerText),
-                        ruleGroup,
-                        !disabledByDefaultValue,
+                        ruleName.Value, 
+                        this.id, 
+                        ruleCheckId.Value, 
+                        context, 
+                        warningValue, 
+                        ruleDescription == null ? string.Empty : TrimXmlContent(ruleDescription.InnerText), 
+                        ruleGroup, 
+                        !disabledByDefaultValue, 
                         canDisableValue);
 
                     this.rules.Add(ruleName.Value, type);
@@ -752,6 +839,6 @@ namespace StyleCop
             }
         }
 
-        #endregion Private Methods
+        #endregion
     }
 }

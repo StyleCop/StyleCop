@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="UsingStatement.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="UsingStatement.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,38 +11,43 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   A using-statement.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
-
     /// <summary>
     /// A using-statement.
     /// </summary>
     /// <subcategory>statement</subcategory>
     public sealed class UsingStatement : Statement
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// The expression declared in the using-statement.
         /// </summary>
-        private Expression resource;
+        private readonly Expression resource;
 
         /// <summary>
         /// The statement that is embedded within this using-statement.
         /// </summary>
         private Statement embeddedStatement;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the UsingStatement class.
         /// </summary>
-        /// <param name="tokens">The list of tokens that form the statement.</param>
-        /// <param name="resource">The resource acquisition expression declared in the using statement.</param>
+        /// <param name="tokens">
+        /// The list of tokens that form the statement.
+        /// </param>
+        /// <param name="resource">
+        /// The resource acquisition expression declared in the using statement.
+        /// </param>
         internal UsingStatement(CsTokenList tokens, Expression resource)
             : base(StatementType.Using, tokens)
         {
@@ -53,20 +58,9 @@ namespace StyleCop.CSharp
             this.AddExpression(resource);
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
-
-        /// <summary>
-        /// Gets the resource acquisition expression assigned to the obtained resource.
-        /// </summary>
-        public Expression Resource
-        {
-            get
-            {
-                return this.resource;
-            }
-        }
 
         /// <summary>
         /// Gets the statement that is embedded within this while-statement.
@@ -86,6 +80,17 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Properties
+        /// <summary>
+        /// Gets the resource acquisition expression assigned to the obtained resource.
+        /// </summary>
+        public Expression Resource
+        {
+            get
+            {
+                return this.resource;
+            }
+        }
+
+        #endregion
     }
 }

@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="ConditionalCompilationDirective.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ConditionalCompilationDirective.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,49 +11,57 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Describes a conditional compilation directive token.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
-
     /// <summary>
     /// Describes a conditional compilation directive token.
     /// </summary>
     /// <subcategory>token</subcategory>
     public sealed class ConditionalCompilationDirective : Preprocessor
     {
-        #region Private Fields
-
-        /// <summary>
-        /// The type of the directive.
-        /// </summary>
-        private ConditionalCompilationDirectiveType type;
+        #region Fields
 
         /// <summary>
         /// The expression that makes up the body of the directive.
         /// </summary>
-        private Expression body;
+        private readonly Expression body;
 
-        #endregion Private Fields
+        /// <summary>
+        /// The type of the directive.
+        /// </summary>
+        private readonly ConditionalCompilationDirectiveType type;
 
-        #region Internal Constructors
+        #endregion
+
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the ConditionalCompilationDirective class.
         /// </summary>
-        /// <param name="text">The line text.</param>
-        /// <param name="type">The type of the directive.</param>
-        /// <param name="body">The expression that makes up the body of the directive.</param>
-        /// <param name="location">The location of the preprocessor in the code.</param>
-        /// <param name="parent">The parent code part.</param>
-        /// <param name="generated">Indicates whether the directive lies within a block of generated code.</param>
+        /// <param name="text">
+        /// The line text.
+        /// </param>
+        /// <param name="type">
+        /// The type of the directive.
+        /// </param>
+        /// <param name="body">
+        /// The expression that makes up the body of the directive.
+        /// </param>
+        /// <param name="location">
+        /// The location of the preprocessor in the code.
+        /// </param>
+        /// <param name="parent">
+        /// The parent code part.
+        /// </param>
+        /// <param name="generated">
+        /// Indicates whether the directive lies within a block of generated code.
+        /// </param>
         internal ConditionalCompilationDirective(
-            string text, 
-            ConditionalCompilationDirectiveType type, 
-            Expression body, 
-            CodeLocation location, 
-            Reference<ICodePart> parent,
-            bool generated)
+            string text, ConditionalCompilationDirectiveType type, Expression body, CodeLocation location, Reference<ICodePart> parent, bool generated)
             : base(text, CsTokenClass.ConditionalCompilationDirective, location, parent, generated)
         {
             Param.AssertValidString(text, "text");
@@ -67,20 +75,9 @@ namespace StyleCop.CSharp
             this.body = body;
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
-
-        /// <summary>
-        /// Gets the type of the conditional compilation directive.
-        /// </summary>
-        public ConditionalCompilationDirectiveType ConditionalCompilationDirectiveType
-        {
-            get
-            {
-                return this.type;
-            }
-        }
 
         /// <summary>
         /// Gets the expression that makes up the body of the directive.
@@ -93,6 +90,17 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Properties
+        /// <summary>
+        /// Gets the type of the conditional compilation directive.
+        /// </summary>
+        public ConditionalCompilationDirectiveType ConditionalCompilationDirectiveType
+        {
+            get
+            {
+                return this.type;
+            }
+        }
+
+        #endregion
     }
 }

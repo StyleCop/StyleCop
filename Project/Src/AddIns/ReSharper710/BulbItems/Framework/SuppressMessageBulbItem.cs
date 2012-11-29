@@ -15,7 +15,6 @@
 //   BulbItem - SuppressMessageBulbItem.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 extern alias JB;
 
 namespace StyleCop.ReSharper710.BulbItems.Framework
@@ -25,11 +24,8 @@ namespace StyleCop.ReSharper710.BulbItems.Framework
     using JetBrains.Application.Settings;
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Psi;
-    using JetBrains.ReSharper.Psi.CodeStyle;
     using JetBrains.ReSharper.Psi.CSharp;
-    using JetBrains.ReSharper.Psi.CSharp.CodeStyle;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
-    using JetBrains.ReSharper.Psi.Tree;
     using JetBrains.TextControl;
 
     using StyleCop.ReSharper710.Core;
@@ -42,7 +38,7 @@ namespace StyleCop.ReSharper710.BulbItems.Framework
     /// </summary>
     internal class SuppressMessageBulbItem : V5BulbItemImpl
     {
-        #region Properties
+        #region Public Properties
 
         /// <summary>
         /// Gets or sets Rule.
@@ -51,7 +47,7 @@ namespace StyleCop.ReSharper710.BulbItems.Framework
 
         #endregion
 
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// The execute inner.
@@ -64,29 +60,29 @@ namespace StyleCop.ReSharper710.BulbItems.Framework
         /// </param>
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
-            var declaration = Utils.GetTypeClosestToTextControl<ICSharpModifiersOwnerDeclaration>(solution, textControl);
+            ICSharpModifiersOwnerDeclaration declaration = Utils.GetTypeClosestToTextControl<ICSharpModifiersOwnerDeclaration>(solution, textControl);
 
             if (declaration != null)
             {
-                var rulesNamespace = this.Rule.Namespace;
+                string rulesNamespace = this.Rule.Namespace;
 
-                var ruleText = string.Format("{0}:{1}", this.Rule.CheckId, this.Rule.Name);
+                string ruleText = string.Format("{0}:{1}", this.Rule.CheckId, this.Rule.Name);
 
-                var settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, solution);
+                IContextBoundSettingsStore settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, solution);
 
-                var justificationText = settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.SuppressStyleCopAttributeJustificationText);
+                string justificationText = settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.SuppressStyleCopAttributeJustificationText);
 
-                var attributesOwnerDeclaration = declaration as IAttributesOwnerDeclaration;
+                IAttributesOwnerDeclaration attributesOwnerDeclaration = declaration as IAttributesOwnerDeclaration;
 
-                var factory = CSharpElementFactory.GetInstance(declaration.GetPsiModule());
+                CSharpElementFactory factory = CSharpElementFactory.GetInstance(declaration.GetPsiModule());
 
-                var typeElement = Utils.GetTypeElement(declaration, "System.Diagnostics.CodeAnalysis.SuppressMessageAttribute");
+                ITypeElement typeElement = Utils.GetTypeElement(declaration, "System.Diagnostics.CodeAnalysis.SuppressMessageAttribute");
 
-                var attribute = factory.CreateAttribute(typeElement);
+                IAttribute attribute = factory.CreateAttribute(typeElement);
 
-                var newArg1 = attribute.AddArgumentAfter(Utils.CreateConstructorArgumentValueExpression(declaration.GetPsiModule(), rulesNamespace), null);
+                ICSharpArgument newArg1 = attribute.AddArgumentAfter(Utils.CreateConstructorArgumentValueExpression(declaration.GetPsiModule(), rulesNamespace), null);
 
-                var newArg2 = attribute.AddArgumentAfter(Utils.CreateConstructorArgumentValueExpression(declaration.GetPsiModule(), ruleText), newArg1);
+                ICSharpArgument newArg2 = attribute.AddArgumentAfter(Utils.CreateConstructorArgumentValueExpression(declaration.GetPsiModule(), ruleText), newArg1);
 
                 attribute.AddArgumentAfter(Utils.CreateArgumentValueExpression(declaration.GetPsiModule(), "Justification = \"" + justificationText + "\""), newArg2);
 

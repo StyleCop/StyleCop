@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="ConditionalCompilationDirectiveType.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ConditionalCompilationDirectiveType.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   The various types of conditional compilation directives.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
     /// <summary>
@@ -23,17 +26,17 @@ namespace StyleCop.CSharp
         /// <summary>
         /// An if directive.
         /// </summary>
-        If,
+        If, 
 
         /// <summary>
         /// An elif directive.
         /// </summary>
-        Elif,
+        Elif, 
 
         /// <summary>
         /// An else directive.
         /// </summary>
-        Else,
+        Else, 
 
         /// <summary>
         /// An endif directive.

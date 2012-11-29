@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="SourceFileListSettings.cs">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SourceFileListSettings.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,10 +11,12 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Represents a collection of named source files which has specific settings applied to them.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop
 {
-    using System;
     using System.Collections.Generic;
 
     /// <summary>
@@ -22,41 +24,37 @@ namespace StyleCop
     /// </summary>
     public class SourceFileListSettings
     {
-        /// <summary>
-        /// The custom settings for this file list.
-        /// </summary>
-        private Settings settings;
+        #region Fields
 
         /// <summary>
         /// The collection of files in the file list.
         /// </summary>
-        private Dictionary<string, string> files = new Dictionary<string, string>();
+        private readonly Dictionary<string, string> files = new Dictionary<string, string>();
+
+        #endregion
+
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the SourceFileListSettings class.
         /// </summary>
-        /// <param name="settings">The settings for this file list.</param>
+        /// <param name="settings">
+        /// The settings for this file list.
+        /// </param>
         internal SourceFileListSettings(Settings settings)
         {
             Param.Ignore(settings);
-            this.settings = settings;
+            this.Settings = settings;
         }
+
+        #endregion
+
+        #region Public Properties
 
         /// <summary>
         /// Gets the custom settings for this file list.
         /// </summary>
-        public Settings Settings
-        {
-            get
-            {
-                return this.settings;
-            }
-
-            internal set
-            {
-                this.settings = value;
-            }
-        }
+        public Settings Settings { get; internal set; }
 
         /// <summary>
         /// Gets the collection of files in the file list.
@@ -69,11 +67,19 @@ namespace StyleCop
             }
         }
 
+        #endregion
+
+        #region Public Methods and Operators
+
         /// <summary>
         /// Determines whether the given file exists within the file list.
         /// </summary>
-        /// <param name="fileName">The name of the file.</param>
-        /// <returns>true if the file exists; false otherwise.</returns>
+        /// <param name="fileName">
+        /// The name of the file.
+        /// </param>
+        /// <returns>
+        /// true if the file exists; false otherwise.
+        /// </returns>
         public bool ContainsFile(string fileName)
         {
             Param.Ignore(fileName);
@@ -86,10 +92,16 @@ namespace StyleCop
             return this.files.ContainsKey(fileName.ToUpperInvariant());
         }
 
+        #endregion
+
+        #region Methods
+
         /// <summary>
         /// Adds a file to the file list.
         /// </summary>
-        /// <param name="fileName">The name of the file to add.</param>
+        /// <param name="fileName">
+        /// The name of the file to add.
+        /// </param>
         internal void AddFile(string fileName)
         {
             Param.AssertValidString(fileName, "fileName");
@@ -100,5 +112,7 @@ namespace StyleCop
                 this.files.Add(fileNameToUpper, fileName);
             }
         }
+
+        #endregion
     }
 }

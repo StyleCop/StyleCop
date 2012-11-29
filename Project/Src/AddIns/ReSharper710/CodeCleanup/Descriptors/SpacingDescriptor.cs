@@ -52,7 +52,7 @@ namespace StyleCop.ReSharper710.CodeCleanup.Descriptors
 
         #endregion
 
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Loads the specified profile.
@@ -65,16 +65,21 @@ namespace StyleCop.ReSharper710.CodeCleanup.Descriptors
         /// </returns>
         public override SpacingOptions Load(XmlElement element)
         {
-            var options = new SpacingOptions();
+            SpacingOptions options = new SpacingOptions();
 
             try
             {
                 options.SA1001CommasMustBeSpacedCorrectly = bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(element, "SA1001CommasMustBeSpacedCorrectly"));
-                options.SA1005SingleLineCommentsMustBeginWithSingleSpace = bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(element, "SA1005SingleLineCommentsMustBeginWithSingleSpace"));
-                options.SA1006PreprocessorKeywordsMustNotBePrecededBySpace = bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(element, "SA1006PreprocessorKeywordsMustNotBePrecededBySpace"));
-                options.SA1021NegativeSignsMustBeSpacedCorrectly = bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(element, "SA1021NegativeSignsMustBeSpacedCorrectly"));
-                options.SA1022PositiveSignsMustBeSpacedCorrectly = bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(element, "SA1022PositiveSignsMustBeSpacedCorrectly"));
-                options.SA1025CodeMustNotContainMultipleWhitespaceInARow = bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(element, "SA1025CodeMustNotContainMultipleWhitespaceInARow"));
+                options.SA1005SingleLineCommentsMustBeginWithSingleSpace =
+                    bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(element, "SA1005SingleLineCommentsMustBeginWithSingleSpace"));
+                options.SA1006PreprocessorKeywordsMustNotBePrecededBySpace =
+                    bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(element, "SA1006PreprocessorKeywordsMustNotBePrecededBySpace"));
+                options.SA1021NegativeSignsMustBeSpacedCorrectly =
+                    bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(element, "SA1021NegativeSignsMustBeSpacedCorrectly"));
+                options.SA1022PositiveSignsMustBeSpacedCorrectly =
+                    bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(element, "SA1022PositiveSignsMustBeSpacedCorrectly"));
+                options.SA1025CodeMustNotContainMultipleWhitespaceInARow =
+                    bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(element, "SA1025CodeMustNotContainMultipleWhitespaceInARow"));
             }
             catch (ArgumentNullException)
             {
@@ -111,14 +116,24 @@ namespace StyleCop.ReSharper710.CodeCleanup.Descriptors
         /// </param>
         public override void Save(XmlElement element, SpacingOptions options)
         {
-            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(element, "SA1001CommasMustBeSpacedCorrectly", options.SA1001CommasMustBeSpacedCorrectly.ToString(CultureInfo.InvariantCulture));
             JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(
-                element, "SA1005SingleLineCommentsMustBeginWithSingleSpace", options.SA1005SingleLineCommentsMustBeginWithSingleSpace.ToString(CultureInfo.InvariantCulture));
+                element, "SA1001CommasMustBeSpacedCorrectly", options.SA1001CommasMustBeSpacedCorrectly.ToString(CultureInfo.InvariantCulture));
             JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(
-                element, "SA1006PreprocessorKeywordsMustNotBePrecededBySpace", options.SA1006PreprocessorKeywordsMustNotBePrecededBySpace.ToString(CultureInfo.InvariantCulture));
-            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(element, "SA1021NegativeSignsMustBeSpacedCorrectly", options.SA1021NegativeSignsMustBeSpacedCorrectly.ToString(CultureInfo.InvariantCulture));
-            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(element, "SA1022PositiveSignsMustBeSpacedCorrectly", options.SA1022PositiveSignsMustBeSpacedCorrectly.ToString(CultureInfo.InvariantCulture));
-            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(element, "SA1025CodeMustNotContainMultipleWhitespaceInARow", options.SA1025CodeMustNotContainMultipleWhitespaceInARow.ToString(CultureInfo.InvariantCulture));
+                element, 
+                "SA1005SingleLineCommentsMustBeginWithSingleSpace", 
+                options.SA1005SingleLineCommentsMustBeginWithSingleSpace.ToString(CultureInfo.InvariantCulture));
+            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(
+                element, 
+                "SA1006PreprocessorKeywordsMustNotBePrecededBySpace", 
+                options.SA1006PreprocessorKeywordsMustNotBePrecededBySpace.ToString(CultureInfo.InvariantCulture));
+            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(
+                element, "SA1021NegativeSignsMustBeSpacedCorrectly", options.SA1021NegativeSignsMustBeSpacedCorrectly.ToString(CultureInfo.InvariantCulture));
+            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(
+                element, "SA1022PositiveSignsMustBeSpacedCorrectly", options.SA1022PositiveSignsMustBeSpacedCorrectly.ToString(CultureInfo.InvariantCulture));
+            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(
+                element, 
+                "SA1025CodeMustNotContainMultipleWhitespaceInARow", 
+                options.SA1025CodeMustNotContainMultipleWhitespaceInARow.ToString(CultureInfo.InvariantCulture));
         }
 
         #endregion

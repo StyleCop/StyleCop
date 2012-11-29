@@ -15,14 +15,13 @@
 //   QuickFix - SA1025: CodeMustNotContainMultipleWhitespaceInARow.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper710.QuickFixes.Spacing
 {
     #region Using Directives
 
     using System.Collections.Generic;
 
-        using JetBrains.ReSharper.Feature.Services.Bulbs;
+    using JetBrains.ReSharper.Feature.Services.Bulbs;
     using JetBrains.ReSharper.Intentions.Extensibility;
 
     using StyleCop.ReSharper710.BulbItems.Spacing;
@@ -111,12 +110,15 @@ namespace StyleCop.ReSharper710.QuickFixes.Spacing
         protected override void InitialiseBulbItems()
         {
             this.BulbItems = new List<IBulbAction>
-                {
-                    new SA1025CodeMustNotContainMultipleWhitespaceInARowBulbItem
-                        {
-                            DocumentRange = this.Highlighting.DocumentRange, Description = "Fix Spacing : " + this.Highlighting.ToolTip, LineNumber = this.Highlighting.LineNumber
-                        }
-                };
+                                 {
+                                     new SA1025CodeMustNotContainMultipleWhitespaceInARowBulbItem
+                                         {
+                                             DocumentRange = this.Highlighting.DocumentRange, 
+                                             Description =
+                                                 "Fix Spacing : " + this.Highlighting.ToolTip, 
+                                             LineNumber = this.Highlighting.LineNumber
+                                         }
+                                 };
         }
 
         #endregion

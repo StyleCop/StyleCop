@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="CodePoint.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="CodePoint.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Describes a point within a code file.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop
 {
     using System;
@@ -23,7 +26,7 @@ namespace StyleCop
     /// <subcategory>other</subcategory>
     public sealed class CodePoint
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// The index of the first character of the item within the document.
@@ -41,9 +44,9 @@ namespace StyleCop
         /// </summary>
         private readonly int lineNumber = 1;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Public Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the CodePoint class.
@@ -55,15 +58,17 @@ namespace StyleCop
         /// <summary>
         /// Initializes a new instance of the CodePoint class.
         /// </summary>
-        /// <param name="index">The index of the first character of the item within the document.</param>
-        /// <param name="indexOnLine">The index of the last character of the item within the line
-        /// that it appears on.</param>
-        /// <param name="lineNumber">The line number that the item appears on.</param>
-        [SuppressMessage(
-            "Microsoft.Naming", 
-            "CA1702:CompoundWordsShouldBeCasedCorrectly", 
-            MessageId = "OnLine",
-            Justification = "On Line is two words in this context.")]
+        /// <param name="index">
+        /// The index of the first character of the item within the document.
+        /// </param>
+        /// <param name="indexOnLine">
+        /// The index of the last character of the item within the line
+        /// that it appears on.
+        /// </param>
+        /// <param name="lineNumber">
+        /// The line number that the item appears on.
+        /// </param>
+        [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "OnLine", Justification = "On Line is two words in this context.")]
         public CodePoint(int index, int indexOnLine, int lineNumber)
         {
             Param.RequireGreaterThanOrEqualToZero(index, "index");
@@ -75,7 +80,7 @@ namespace StyleCop
             this.lineNumber = lineNumber;
         }
 
-        #endregion Public Constructors
+        #endregion
 
         #region Public Properties
 
@@ -94,11 +99,7 @@ namespace StyleCop
         /// Gets the index of the first character of the item within the line
         /// that it appears on.
         /// </summary>
-        [SuppressMessage(
-            "Microsoft.Naming", 
-            "CA1702:CompoundWordsShouldBeCasedCorrectly", 
-            MessageId = "OnLine",
-            Justification = "On Line is two words in this context.")]
+        [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "OnLine", Justification = "On Line is two words in this context.")]
         public int IndexOnLine
         {
             get
@@ -118,16 +119,22 @@ namespace StyleCop
             }
         }
 
-        #endregion Public Properties
+        #endregion
 
-        #region Public Static Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Joins the two given points.
         /// </summary>
-        /// <param name="point1">The first point to join.</param>
-        /// <param name="point2">The second point to join.</param>
-        /// <returns>Returns the joined <see cref="CodePoint"/>.</returns>
+        /// <param name="point1">
+        /// The first point to join.
+        /// </param>
+        /// <param name="point2">
+        /// The second point to join.
+        /// </param>
+        /// <returns>
+        /// Returns the joined <see cref="CodePoint"/>.
+        /// </returns>
         public static CodePoint Join(CodePoint point1, CodePoint point2)
         {
             Param.RequireNotNull(point1, "point1");
@@ -158,13 +165,10 @@ namespace StyleCop
                     indexOnLine = point2.IndexOnLine;
                 }
 
-                return new CodePoint(
-                    Math.Min(point1.Index, point2.Index),
-                    indexOnLine,
-                    Math.Min(point1.LineNumber, point2.LineNumber));
+                return new CodePoint(Math.Min(point1.Index, point2.Index), indexOnLine, Math.Min(point1.LineNumber, point2.LineNumber));
             }
         }
 
-        #endregion Public Static Methods
+        #endregion
     }
 }

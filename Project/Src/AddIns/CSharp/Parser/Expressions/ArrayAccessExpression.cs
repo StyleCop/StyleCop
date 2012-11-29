@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="ArrayAccessExpression.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ArrayAccessExpression.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   An expression representing an array access operation.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
     using System.Collections.Generic;
@@ -23,28 +26,34 @@ namespace StyleCop.CSharp
     /// <subcategory>expression</subcategory>
     public sealed class ArrayAccessExpression : Expression
     {
-        #region Private Fields
+        #region Fields
+
+        /// <summary>
+        /// The arguments passed to the method.
+        /// </summary>
+        private readonly IList<Argument> arguments;
 
         /// <summary>
         /// Represents the item being indexed.
         /// </summary>
-        private Expression array;
-        
-        /// <summary>
-        /// The arguments passed to the method.
-        /// </summary>
-        private IList<Argument> arguments;
+        private readonly Expression array;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the ArrayAccessExpression class.
         /// </summary>
-        /// <param name="tokens">The list of tokens that form the expression.</param>
-        /// <param name="array">Represents the item being indexed.</param>
-        /// <param name="arguments">The array access arguments.</param>
+        /// <param name="tokens">
+        /// The list of tokens that form the expression.
+        /// </param>
+        /// <param name="array">
+        /// Represents the item being indexed.
+        /// </param>
+        /// <param name="arguments">
+        /// The array access arguments.
+        /// </param>
         internal ArrayAccessExpression(CsTokenList tokens, Expression array, IList<Argument> arguments)
             : base(ExpressionType.ArrayAccess, tokens)
         {
@@ -64,20 +73,9 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
-
-        /// <summary>
-        /// Gets the item being indexed.
-        /// </summary>
-        public Expression Array
-        {
-            get
-            {
-                return this.array;
-            }
-        }
 
         /// <summary>
         /// Gets the array access arguments.
@@ -90,6 +88,17 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Properties
+        /// <summary>
+        /// Gets the item being indexed.
+        /// </summary>
+        public Expression Array
+        {
+            get
+            {
+                return this.array;
+            }
+        }
+
+        #endregion
     }
 }

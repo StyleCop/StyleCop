@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="PropertyDescriptor.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="PropertyDescriptor.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,66 +11,75 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   A property descriptor.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Text;
-
     /// <summary>
     /// A property descriptor.
     /// </summary> 
     public abstract class PropertyDescriptor
     {
-        #region Private Fields
-
-        /// <summary>
-        /// The name of the property.
-        /// </summary>
-        private string propertyName;
-
-        /// <summary>
-        /// The type of the property.
-        /// </summary>
-        private PropertyType propertyType;
-
-        /// <summary>
-        /// The friendly name of the property.
-        /// </summary>
-        private string friendlyName;
+        #region Fields
 
         /// <summary>
         /// The description of the property.
         /// </summary>
-        private string description;
-
-        /// <summary>
-        /// Indicates whether to merge the property with parent properties.
-        /// </summary>
-        private bool merge;
+        private readonly string description;
 
         /// <summary>
         /// Indicates whether to display the property on the settings dialog by default.
         /// </summary>
-        private bool displaySettings;
+        private readonly bool displaySettings;
 
-        #endregion Private Fields
+        /// <summary>
+        /// The friendly name of the property.
+        /// </summary>
+        private readonly string friendlyName;
 
-        #region Protected Constructors
+        /// <summary>
+        /// Indicates whether to merge the property with parent properties.
+        /// </summary>
+        private readonly bool merge;
+
+        /// <summary>
+        /// The name of the property.
+        /// </summary>
+        private readonly string propertyName;
+
+        /// <summary>
+        /// The type of the property.
+        /// </summary>
+        private readonly PropertyType propertyType;
+
+        #endregion
+
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the PropertyDescriptor class.
         /// </summary>
-        /// <param name="propertyName">The name of the property.</param>
-        /// <param name="propertyType">The type of the property.</param>
-        /// <param name="friendlyName">The friendly name of the property.</param>
-        /// <param name="description">The property description.</param>
-        /// <param name="merge">Indicates whether to merge the property with parent properties.</param>
-        /// <param name="displaySettings">Indicates whether to display the property on the settings dialog.</param>
-        protected PropertyDescriptor(
-            string propertyName, PropertyType propertyType, string friendlyName, string description, bool merge, bool displaySettings)
+        /// <param name="propertyName">
+        /// The name of the property.
+        /// </param>
+        /// <param name="propertyType">
+        /// The type of the property.
+        /// </param>
+        /// <param name="friendlyName">
+        /// The friendly name of the property.
+        /// </param>
+        /// <param name="description">
+        /// The property description.
+        /// </param>
+        /// <param name="merge">
+        /// Indicates whether to merge the property with parent properties.
+        /// </param>
+        /// <param name="displaySettings">
+        /// Indicates whether to display the property on the settings dialog.
+        /// </param>
+        protected PropertyDescriptor(string propertyName, PropertyType propertyType, string friendlyName, string description, bool merge, bool displaySettings)
         {
             Param.RequireValidString(propertyName, "propertyName");
             Param.Ignore(propertyType);
@@ -87,31 +96,9 @@ namespace StyleCop
             this.displaySettings = displaySettings;
         }
 
-        #endregion Protected Constructors
+        #endregion
 
         #region Public Properties
-
-        /// <summary>
-        /// Gets the name of the property.
-        /// </summary>
-        public string PropertyName
-        {
-            get
-            {
-                return this.propertyName;
-            }
-        }
-
-        /// <summary>
-        /// Gets the type of the property.
-        /// </summary>
-        public PropertyType PropertyType
-        {
-            get
-            {
-                return this.propertyType;
-            }
-        }
 
         /// <summary>
         /// Gets the description of the property.
@@ -121,6 +108,17 @@ namespace StyleCop
             get
             {
                 return this.description;
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether to display the property on the settings dialog by default.
+        /// </summary>
+        public bool DisplaySettings
+        {
+            get
+            {
+                return this.displaySettings;
             }
         }
 
@@ -147,16 +145,27 @@ namespace StyleCop
         }
 
         /// <summary>
-        /// Gets a value indicating whether to display the property on the settings dialog by default.
+        /// Gets the name of the property.
         /// </summary>
-        public bool DisplaySettings
+        public string PropertyName
         {
             get
             {
-                return this.displaySettings;
+                return this.propertyName;
             }
         }
 
-        #endregion Public Properties
+        /// <summary>
+        /// Gets the type of the property.
+        /// </summary>
+        public PropertyType PropertyType
+        {
+            get
+            {
+                return this.propertyType;
+            }
+        }
+
+        #endregion
     }
 }

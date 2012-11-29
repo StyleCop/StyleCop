@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="CodeFile.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="CodeFile.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,8 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
-
+// <summary>
+//   Describes a source code file on disk.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop
 {
     using System;
@@ -26,38 +28,44 @@ namespace StyleCop
     /// </summary>
     public class CodeFile : SourceCode
     {
-        #region Constants and Fields
+        #region Fields
 
         /// <summary>
         ///   The file type extension of this file.
         /// </summary>
-        private string fileType;
+        private readonly string fileType;
 
         /// <summary>
         ///   The folder that the file appears in.
         /// </summary>
-        private string folder;
+        private readonly string folder;
 
         /// <summary>
         ///   The name of the file.
         /// </summary>
-        private string name;
+        private readonly string name;
 
         /// <summary>
         ///   The path to the file.
         /// </summary>
-        private string path;
+        private readonly string path;
 
         #endregion
 
         #region Constructors and Destructors
 
         /// <summary>
-        ///   Initializes a new instance of the CodeFile class.
+        /// Initializes a new instance of the CodeFile class.
         /// </summary>
-        /// <param name="path"> The path to the code file. </param>
-        /// <param name="project"> The project that contains this file. </param>
-        /// <param name="parser"> The parser that created this file object. </param>
+        /// <param name="path">
+        /// The path to the code file. 
+        /// </param>
+        /// <param name="project">
+        /// The project that contains this file. 
+        /// </param>
+        /// <param name="parser">
+        /// The parser that created this file object. 
+        /// </param>
         public CodeFile(string path, CodeProject project, SourceParser parser)
             : this(path, project, parser, null)
         {
@@ -65,12 +73,20 @@ namespace StyleCop
         }
 
         /// <summary>
-        ///   Initializes a new instance of the CodeFile class.
+        /// Initializes a new instance of the CodeFile class.
         /// </summary>
-        /// <param name="path"> The path to the code file. </param>
-        /// <param name="project"> The project that contains this file. </param>
-        /// <param name="parser"> The parser that created this file object. </param>
-        /// <param name="configurations"> The list of configurations for the file. </param>
+        /// <param name="path">
+        /// The path to the code file. 
+        /// </param>
+        /// <param name="project">
+        /// The project that contains this file. 
+        /// </param>
+        /// <param name="parser">
+        /// The parser that created this file object. 
+        /// </param>
+        /// <param name="configurations">
+        /// The list of configurations for the file. 
+        /// </param>
         public CodeFile(string path, CodeProject project, SourceParser parser, IEnumerable<Configuration> configurations)
             : base(project, parser, configurations)
         {

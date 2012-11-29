@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="Whitespace.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Whitespace.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Describes a chunk of whitespace.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
     using System.Diagnostics.CodeAnalysis;
@@ -21,47 +24,43 @@ namespace StyleCop.CSharp
     /// Describes a chunk of whitespace.
     /// </summary>
     /// <subcategory>token</subcategory>
-    [SuppressMessage(
-        "Microsoft.Naming", 
-        "CA1702:CompoundWordsShouldBeCasedCorrectly", 
-        MessageId = "Whitespace",
+    [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "Whitespace", 
         Justification = "API has already been published and should not be changed.")]
     public sealed class Whitespace : CsToken
     {
-        #region Private Fields
-
-        /// <summary>
-        /// The number of tabs in this whitespace.
-        /// </summary>
-        private int tabCount;
+        #region Fields
 
         /// <summary>
         /// The number of spaces in this whitespace.
         /// </summary>
-        private int spaceCount;
+        private readonly int spaceCount;
 
-        #endregion Private Fields
+        /// <summary>
+        /// The number of tabs in this whitespace.
+        /// </summary>
+        private readonly int tabCount;
 
-        #region Internal Constructors
+        #endregion
+
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the Whitespace class.
         /// </summary>
-        /// <param name="text">The whitespace text.</param>
-        /// <param name="location">The location of the whitespace in the code.</param>
-        /// <param name="parent">The parent code unit.</param>
-        /// <param name="generated">True if the token is inside of a block of generated code.</param>
-        internal Whitespace(
-            string text,
-            CodeLocation location,
-            Reference<ICodePart> parent,
-            bool generated) : base(
-            text,
-            CsTokenType.WhiteSpace,
-            CsTokenClass.Whitespace,
-            location,
-            parent,
-            generated)
+        /// <param name="text">
+        /// The whitespace text.
+        /// </param>
+        /// <param name="location">
+        /// The location of the whitespace in the code.
+        /// </param>
+        /// <param name="parent">
+        /// The parent code unit.
+        /// </param>
+        /// <param name="generated">
+        /// True if the token is inside of a block of generated code.
+        /// </param>
+        internal Whitespace(string text, CodeLocation location, Reference<ICodePart> parent, bool generated)
+            : base(text, CsTokenType.WhiteSpace, CsTokenClass.Whitespace, location, parent, generated)
         {
             Param.AssertValidString(text, "text");
             Param.AssertNotNull(location, "location");
@@ -81,35 +80,35 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
-
-        /// <summary>
-        /// Gets the number of tabs in the whitespace.
-        /// </summary>
-        public int TabCount
-        {
-            get 
-            { 
-                return this.tabCount; 
-            }
-        }
 
         /// <summary>
         /// Gets the number of spaces in the whitespace.
         /// </summary>
         public int SpaceCount
         {
-            get 
-            { 
-                return this.spaceCount; 
+            get
+            {
+                return this.spaceCount;
             }
         }
 
-        #endregion Public Properties
+        /// <summary>
+        /// Gets the number of tabs in the whitespace.
+        /// </summary>
+        public int TabCount
+        {
+            get
+            {
+                return this.tabCount;
+            }
+        }
 
-        #region Public Override Methods
+        #endregion
+
+        #region Public Methods and Operators
 
         /// <summary>
         /// Gets the whitespace interpreted as a string.
@@ -118,7 +117,7 @@ namespace StyleCop.CSharp
         public override string ToString()
         {
             StringBuilder output = new StringBuilder();
-            
+
             if (this.tabCount >= 1)
             {
                 output.Append("\t");
@@ -136,6 +135,6 @@ namespace StyleCop.CSharp
             return output.ToString();
         }
 
-        #endregion Public Override Methods
+        #endregion
     }
 }

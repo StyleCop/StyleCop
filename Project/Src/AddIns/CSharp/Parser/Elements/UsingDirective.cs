@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="UsingDirective.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="UsingDirective.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,61 +11,57 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Describes the contents of a using directive.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-
     /// <summary>
     /// Describes the contents of a using directive.
     /// </summary>
     /// <subcategory>element</subcategory>
     public sealed class UsingDirective : CsElement
     {
-        #region Private Fields
-
-        /// <summary>
-        /// The namespace type declared by the using element.
-        /// </summary>
-        private string namespaceType = string.Empty;
+        #region Fields
 
         /// <summary>
         /// The alias mapped to the namespace type, if any.
         /// </summary>
         private string alias = string.Empty;
 
-        #endregion Private Fields
+        /// <summary>
+        /// The namespace type declared by the using element.
+        /// </summary>
+        private string namespaceType = string.Empty;
 
-        #region Internal Constructors
+        #endregion
+
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the UsingDirective class.
         /// </summary>
-        /// <param name="document">The document that contains the element.</param>
-        /// <param name="parent">The parent of the element.</param>
-        /// <param name="declaration">The declaration code for this element.</param>
-        /// <param name="generated">Indicates whether the code element was generated or written by hand.</param>
-        /// <param name="namespace">The namespace being used.</param>
-        /// <param name="alias">Optional alias for the namespace, if any.</param>
-        internal UsingDirective(
-            CsDocument document,
-            CsElement parent,
-            Declaration declaration,
-            bool generated,
-            string @namespace,
-            string alias) 
-            : base(
-            document,
-            parent,
-            ElementType.UsingDirective,
-            "using " + declaration.Name,
-            null,
-            null,
-            declaration,
-            false,
-            generated)
+        /// <param name="document">
+        /// The document that contains the element.
+        /// </param>
+        /// <param name="parent">
+        /// The parent of the element.
+        /// </param>
+        /// <param name="declaration">
+        /// The declaration code for this element.
+        /// </param>
+        /// <param name="generated">
+        /// Indicates whether the code element was generated or written by hand.
+        /// </param>
+        /// <param name="namespace">
+        /// The namespace being used.
+        /// </param>
+        /// <param name="alias">
+        /// Optional alias for the namespace, if any.
+        /// </param>
+        internal UsingDirective(CsDocument document, CsElement parent, Declaration declaration, bool generated, string @namespace, string alias)
+            : base(document, parent, ElementType.UsingDirective, "using " + declaration.Name, null, null, declaration, false, generated)
         {
             Param.Ignore(document);
             Param.Ignore(parent);
@@ -82,7 +78,7 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
 
@@ -108,9 +104,9 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Properties
+        #endregion
 
-        #region Internal Override Methods
+        #region Methods
 
         /// <summary>
         /// Initializes the element.
@@ -144,8 +140,7 @@ namespace StyleCop.CSharp
                 if (CodeParser.MoveToNextCodeToken(this.Tokens, ref indexNode))
                 {
                     // This word is usually the namespace type, unless an alias is defined.
-                    this.namespaceType = CodeParser.TrimType(
-                        CodeParser.GetFullName((CsDocument)this.Document, this.Tokens, indexNode, out indexNode));
+                    this.namespaceType = CodeParser.TrimType(CodeParser.GetFullName((CsDocument)this.Document, this.Tokens, indexNode, out indexNode));
 
                     // Now see if the next word is an equals sign.
                     indexNode = indexNode.Next;
@@ -177,6 +172,6 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Internal Override Methods
+        #endregion
     }
 }

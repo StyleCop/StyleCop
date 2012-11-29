@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="FixedStatement.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="FixedStatement.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,40 +11,44 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   A fixed-statement.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
-
     /// <summary>
     /// A fixed-statement.
     /// </summary>
     /// <subcategory>statement</subcategory>
     public sealed class FixedStatement : Statement
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// The fixed variable.
         /// </summary>
-        private VariableDeclarationExpression fixedVariable;
+        private readonly VariableDeclarationExpression fixedVariable;
 
         /// <summary>
         /// The statement that is embedded within this fixed-statement.
         /// </summary>
         private Statement embeddedStatement;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the FixedStatement class.
         /// </summary>
-        /// <param name="tokens">The list of tokens that form the statement.</param>
-        /// <param name="fixedVariable">The fixed variable.</param>
-        internal FixedStatement(
-            CsTokenList tokens, VariableDeclarationExpression fixedVariable)
+        /// <param name="tokens">
+        /// The list of tokens that form the statement.
+        /// </param>
+        /// <param name="fixedVariable">
+        /// The fixed variable.
+        /// </param>
+        internal FixedStatement(CsTokenList tokens, VariableDeclarationExpression fixedVariable)
             : base(StatementType.Fixed, tokens)
         {
             Param.AssertNotNull(tokens, "tokens");
@@ -54,20 +58,9 @@ namespace StyleCop.CSharp
             this.AddExpression(fixedVariable);
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
-
-        /// <summary>
-        /// Gets the fixed variable.
-        /// </summary>
-        public VariableDeclarationExpression FixedVariable
-        {
-            get
-            {
-                return this.fixedVariable;
-            }
-        }
 
         /// <summary>
         /// Gets the statement that is embedded within this fixed-statement.
@@ -87,6 +80,17 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Properties
+        /// <summary>
+        /// Gets the fixed variable.
+        /// </summary>
+        public VariableDeclarationExpression FixedVariable
+        {
+            get
+            {
+                return this.fixedVariable;
+            }
+        }
+
+        #endregion
     }
 }

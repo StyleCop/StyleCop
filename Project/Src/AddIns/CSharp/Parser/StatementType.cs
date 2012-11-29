@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="StatementType.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="StatementType.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   The various <see cref="Statement" /> types in a C# document.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
     /// <summary>
@@ -23,152 +26,152 @@ namespace StyleCop.CSharp
         /// <summary>
         /// An await statement.
         /// </summary>
-        Await,
+        Await, 
 
         /// <summary>
         /// A block statement.
         /// </summary>
-        Block,
+        Block, 
 
         /// <summary>
         /// A break statement.
         /// </summary>
-        Break,
+        Break, 
 
         /// <summary>
         /// A catch statement.
         /// </summary>
-        Catch,
+        Catch, 
 
         /// <summary>
         /// A checked statement.
         /// </summary>
-        Checked,
+        Checked, 
 
         /// <summary>
         /// A constructor initialization statement.
         /// </summary>
-        ConstructorInitializer,
+        ConstructorInitializer, 
 
         /// <summary>
         /// A continue statement.
         /// </summary>
-        Continue,
+        Continue, 
 
         /// <summary>
         /// A do-while statement.
         /// </summary>
-        DoWhile,
+        DoWhile, 
 
         /// <summary>
         /// An else statement.
         /// </summary>
-        Else,
+        Else, 
 
         /// <summary>
         /// An empty statement.
         /// </summary>
-        Empty,
+        Empty, 
 
         /// <summary>
         /// An expression statement.
         /// </summary>
-        Expression,
+        Expression, 
 
         /// <summary>
         /// A finally statement.
         /// </summary>
-        Finally,
+        Finally, 
 
         /// <summary>
         /// A fixed statement.
         /// </summary>
-        Fixed,
+        Fixed, 
 
         /// <summary>
         /// A foreach statement.
         /// </summary>
-        Foreach,
+        Foreach, 
 
         /// <summary>
         /// A for statement.
         /// </summary>
-        For,
+        For, 
 
         /// <summary>
         /// A goto statement.
         /// </summary>
-        Goto,
+        Goto, 
 
         /// <summary>
         /// An if statement.
         /// </summary>
-        If,
+        If, 
 
         /// <summary>
         /// A label statement.
         /// </summary>
-        Label,
+        Label, 
 
         /// <summary>
         /// A lock statement.
         /// </summary>
-        Lock,
+        Lock, 
 
         /// <summary>
         /// A return statement.
         /// </summary>
-        Return,
+        Return, 
 
         /// <summary>
         /// A switch case statement.
         /// </summary>
-        SwitchCase,
+        SwitchCase, 
 
         /// <summary>
         /// A switch default statement.
         /// </summary>
-        SwitchDefault,
+        SwitchDefault, 
 
         /// <summary>
         /// A switch statement.
         /// </summary>
-        Switch,
+        Switch, 
 
         /// <summary>
         /// A throw statement.
         /// </summary>
-        Throw,
+        Throw, 
 
         /// <summary>
         /// A try statement.
         /// </summary>
-        Try,
+        Try, 
 
         /// <summary>
         /// An unchecked statement.
         /// </summary>
-        Unchecked,
+        Unchecked, 
 
         /// <summary>
         /// An unsafe statement.
         /// </summary>
-        Unsafe,
+        Unsafe, 
 
         /// <summary>
         /// A using statement.
         /// </summary>
-        Using,
+        Using, 
 
         /// <summary>
         /// A variable declaration statement.
         /// </summary>
-        VariableDeclaration,
+        VariableDeclaration, 
 
         /// <summary>
         /// A while statement.
         /// </summary>
-        While,
+        While, 
 
         /// <summary>
         /// A yield statement.

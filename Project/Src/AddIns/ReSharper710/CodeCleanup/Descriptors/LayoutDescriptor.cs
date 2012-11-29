@@ -52,7 +52,7 @@ namespace StyleCop.ReSharper710.CodeCleanup.Descriptors
 
         #endregion
 
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Loads the specified profile.
@@ -65,7 +65,7 @@ namespace StyleCop.ReSharper710.CodeCleanup.Descriptors
         /// </returns>
         public override LayoutOptions Load(XmlElement element)
         {
-            var options = new LayoutOptions();
+            LayoutOptions options = new LayoutOptions();
 
             try
             {
@@ -75,7 +75,8 @@ namespace StyleCop.ReSharper710.CodeCleanup.Descriptors
                     bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(element, "SA1509OpeningCurlyBracketsMustNotBePrecededByBlankLine"));
                 options.SA1510ChainedStatementBlocksMustNotBePrecededByBlankLine =
                     bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(element, "SA1510ChainedStatementBlocksMustNotBePrecededByBlankLine"));
-                options.SA1511WhileDoFooterMustNotBePrecededByBlankLine = bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(element, "SA1511WhileDoFooterMustNotBePrecededByBlankLine"));
+                options.SA1511WhileDoFooterMustNotBePrecededByBlankLine =
+                    bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(element, "SA1511WhileDoFooterMustNotBePrecededByBlankLine"));
                 options.SA1512SingleLineCommentsMustNotBeFollowedByBlankLine =
                     bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(element, "SA1512SingleLineCommentsMustNotBeFollowedByBlankLine"));
                 options.SA1513ClosingCurlyBracketMustBeFollowedByBlankLine =
@@ -121,20 +122,35 @@ namespace StyleCop.ReSharper710.CodeCleanup.Descriptors
         public override void Save(XmlElement element, LayoutOptions options)
         {
             JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(
-                element, "SA1500CurlyBracketsForMultiLineStatementsMustNotShareLine", options.SA1500CurlyBracketsForMultiLineStatementsMustNotShareLine.ToString(CultureInfo.InvariantCulture));
+                element, 
+                "SA1500CurlyBracketsForMultiLineStatementsMustNotShareLine", 
+                options.SA1500CurlyBracketsForMultiLineStatementsMustNotShareLine.ToString(CultureInfo.InvariantCulture));
             JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(
-                element, "SA1509OpeningCurlyBracketsMustNotBePrecededByBlankLine", options.SA1509OpeningCurlyBracketsMustNotBePrecededByBlankLine.ToString(CultureInfo.InvariantCulture));
+                element, 
+                "SA1509OpeningCurlyBracketsMustNotBePrecededByBlankLine", 
+                options.SA1509OpeningCurlyBracketsMustNotBePrecededByBlankLine.ToString(CultureInfo.InvariantCulture));
             JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(
-                element, "SA1510ChainedStatementBlocksMustNotBePrecededByBlankLine", options.SA1510ChainedStatementBlocksMustNotBePrecededByBlankLine.ToString(CultureInfo.InvariantCulture));
-            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(element, "SA1511WhileDoFooterMustNotBePrecededByBlankLine", options.SA1511WhileDoFooterMustNotBePrecededByBlankLine.ToString(CultureInfo.InvariantCulture));
+                element, 
+                "SA1510ChainedStatementBlocksMustNotBePrecededByBlankLine", 
+                options.SA1510ChainedStatementBlocksMustNotBePrecededByBlankLine.ToString(CultureInfo.InvariantCulture));
             JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(
-                element, "SA1512SingleLineCommentsMustNotBeFollowedByBlankLine", options.SA1512SingleLineCommentsMustNotBeFollowedByBlankLine.ToString(CultureInfo.InvariantCulture));
+                element, "SA1511WhileDoFooterMustNotBePrecededByBlankLine", options.SA1511WhileDoFooterMustNotBePrecededByBlankLine.ToString(CultureInfo.InvariantCulture));
             JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(
-                element, "SA1513ClosingCurlyBracketMustBeFollowedByBlankLine", options.SA1513ClosingCurlyBracketMustBeFollowedByBlankLine.ToString(CultureInfo.InvariantCulture));
+                element, 
+                "SA1512SingleLineCommentsMustNotBeFollowedByBlankLine", 
+                options.SA1512SingleLineCommentsMustNotBeFollowedByBlankLine.ToString(CultureInfo.InvariantCulture));
             JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(
-                element, "SA1514ElementDocumentationHeaderMustBePrecededByBlankLine", options.SA1514ElementDocumentationHeaderMustBePrecededByBlankLine.ToString(CultureInfo.InvariantCulture));
+                element, 
+                "SA1513ClosingCurlyBracketMustBeFollowedByBlankLine", 
+                options.SA1513ClosingCurlyBracketMustBeFollowedByBlankLine.ToString(CultureInfo.InvariantCulture));
             JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(
-                element, "SA1515SingleLineCommentMustBeProceededByBlankLine", options.SA1515SingleLineCommentMustBeProceededByBlankLine.ToString(CultureInfo.InvariantCulture));
+                element, 
+                "SA1514ElementDocumentationHeaderMustBePrecededByBlankLine", 
+                options.SA1514ElementDocumentationHeaderMustBePrecededByBlankLine.ToString(CultureInfo.InvariantCulture));
+            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(
+                element, 
+                "SA1515SingleLineCommentMustBeProceededByBlankLine", 
+                options.SA1515SingleLineCommentMustBeProceededByBlankLine.ToString(CultureInfo.InvariantCulture));
         }
 
         #endregion

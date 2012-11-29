@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="QueryClauseWithExpression.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="QueryClauseWithExpression.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,34 +11,41 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   A base class for a query clause which contains an embedded expression.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
-
     /// <summary>
     /// A base class for a query clause which contains an embedded expression.
     /// </summary>
     public abstract class QueryClauseWithExpression : QueryClause
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// The range expression.
         /// </summary>
-        private Expression expression;
+        private readonly Expression expression;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the QueryClauseWithExpression class.
         /// </summary>
-        /// <param name="type">The type of the query clause.</param>
-        /// <param name="tokens">The list of tokens that form the clause.</param>
-        /// <param name="expression">The range expression.</param>
-        internal QueryClauseWithExpression(QueryClauseType type, CsTokenList tokens, Expression expression) 
+        /// <param name="type">
+        /// The type of the query clause.
+        /// </param>
+        /// <param name="tokens">
+        /// The list of tokens that form the clause.
+        /// </param>
+        /// <param name="expression">
+        /// The range expression.
+        /// </param>
+        internal QueryClauseWithExpression(QueryClauseType type, CsTokenList tokens, Expression expression)
             : base(type, tokens)
         {
             Param.Ignore(type);
@@ -50,7 +57,7 @@ namespace StyleCop.CSharp
             this.AddExpression(expression);
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
 
@@ -65,6 +72,6 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Properties
+        #endregion
     }
 }

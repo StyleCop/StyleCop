@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="AutoUpdater.cs">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="AutoUpdater.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,8 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
-
+// <summary>
+//   Provides auto-update feature.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop
 {
     #region Using Directives
@@ -20,7 +22,6 @@ namespace StyleCop
     using System;
     using System.Diagnostics;
     using System.IO;
-    using System.Net;
     using System.Reflection;
     using System.Windows.Forms;
     using System.Xml;
@@ -34,14 +35,16 @@ namespace StyleCop
     public class AutoUpdater
     {
 #if DEBUG
+
         /// <summary>
         /// This is the URL of the xml file that contains the latest version number.
         /// </summary>
         private const string VersionUrl = "http://www.stylecop.com/updates/4.7/version.dev.xml";
 #else
-        /// <summary>
-        /// This is the URL of the xml file that contains the latest version number.
-        /// </summary>        
+    
+    // <summary>
+    /// This is the URL of the xml file that contains the latest version number.
+    /// </summary>        
         private const string VersionUrl = "http://www.stylecop.com/updates/4.7/version.xml";
 #endif
 
@@ -53,7 +56,9 @@ namespace StyleCop
         /// <summary>
         /// Initializes a new instance of the AutoUpdater class.
         /// </summary>
-        /// <param name="core">The StyleCop core instance.</param>
+        /// <param name="core">
+        /// The StyleCop core instance.
+        /// </param>
         internal AutoUpdater(StyleCopCore core)
         {
             Param.RequireNotNull(core, "core");
@@ -68,7 +73,7 @@ namespace StyleCop
         {
             // Request the version number update info and take a maximum of 5 seconds before giving up.
             // It used to be async but sometimes this took even longer to return.
-            var client = new StyleCopWebClient { Timeout = 5000 };
+            StyleCopWebClient client = new StyleCopWebClient { Timeout = 5000 };
 
             try
             {
@@ -79,7 +84,7 @@ namespace StyleCop
                 return;
             }
         }
-        
+
         /// <summary>
         /// Prompt user for download.
         /// </summary>
@@ -110,11 +115,11 @@ namespace StyleCop
             {
                 // display dialog asking whether to perform auto-update
                 DialogResult result = AlertDialog.Show(
-                    this.core,
-                    null,
-                    string.Format(Strings.AutoUpdateQuestion, messageText, newVersionNumber, currentVersionNumber),
-                    Strings.Title,
-                    MessageBoxButtons.YesNo,
+                    this.core, 
+                    null, 
+                    string.Format(Strings.AutoUpdateQuestion, messageText, newVersionNumber, currentVersionNumber), 
+                    Strings.Title, 
+                    MessageBoxButtons.YesNo, 
                     MessageBoxIcon.Question);
 
                 return result == DialogResult.Yes;
@@ -122,20 +127,22 @@ namespace StyleCop
 
             // send notification to the output for non-UI environment
             AlertDialog.Show(
-                this.core,
-                null,
-                string.Format(Strings.AutoUpdateInformation, messageText, newVersionNumber, currentVersionNumber),
-                Strings.Title,
-                MessageBoxButtons.OK,
+                this.core, 
+                null, 
+                string.Format(Strings.AutoUpdateInformation, messageText, newVersionNumber, currentVersionNumber), 
+                Strings.Title, 
+                MessageBoxButtons.OK, 
                 MessageBoxIcon.Information);
 
             return false;
         }
-        
+
         /// <summary>
         /// Processes the response from the version number checker.
         /// </summary>
-        /// <param name="response">The string of the response.</param>
+        /// <param name="response">
+        /// The string of the response.
+        /// </param>
         private void ProcessResponse(string response)
         {
             if (string.IsNullOrEmpty(response))
@@ -143,13 +150,13 @@ namespace StyleCop
                 return;
             }
 
-            var autoUpdate = Serialization.CreateInstance<AutoUpdate>(response);
-            
-            var currentVersionNumberAttribute = Utils.GetAssemblyAttribute<AssemblyFileVersionAttribute>(this.GetType().Assembly);
-            var currentVersionNumber = new Version(currentVersionNumberAttribute.Version);
+            AutoUpdate autoUpdate = Serialization.CreateInstance<AutoUpdate>(response);
 
-            var newVersionNumber = autoUpdate.Version.AsSystemVersion();
-            var newerPlugInAvailable = newVersionNumber.CompareTo(currentVersionNumber) > 0;
+            AssemblyFileVersionAttribute currentVersionNumberAttribute = Utils.GetAssemblyAttribute<AssemblyFileVersionAttribute>(this.GetType().Assembly);
+            Version currentVersionNumber = new Version(currentVersionNumberAttribute.Version);
+
+            Version newVersionNumber = autoUpdate.Version.AsSystemVersion();
+            bool newerPlugInAvailable = newVersionNumber.CompareTo(currentVersionNumber) > 0;
 
             if (newerPlugInAvailable && this.PromptUserForDownload(currentVersionNumber.ToString(), newVersionNumber.ToString(), autoUpdate.Message))
             {
@@ -164,7 +171,7 @@ namespace StyleCop
         [XmlRoot("version")]
         public class AutoUpdateVersion
         {
-            #region Properties
+            #region Public Properties
 
             /// <summary>
             /// Gets or sets the build number.
@@ -192,7 +199,7 @@ namespace StyleCop
 
             #endregion
 
-            #region Public Methods
+            #region Public Methods and Operators
 
             /// <summary>
             /// Converts the document to an assembly version type.
@@ -214,7 +221,7 @@ namespace StyleCop
         [XmlRoot("autoupdate")]
         public class AutoUpdate
         {
-            #region Properties
+            #region Public Properties
 
             /// <summary>
             /// Gets or sets the Url to download an update.
@@ -242,7 +249,7 @@ namespace StyleCop
         /// </summary>
         internal static class Serialization
         {
-            #region Public Methods
+            #region Public Methods and Operators
 
             /// <summary>
             /// Deserializes a Type.
@@ -258,11 +265,11 @@ namespace StyleCop
             /// </returns>
             public static T CreateInstance<T>(string serializedType) where T : new()
             {
-                var serializer = new XmlSerializer(typeof(T));
-                var stream = new StringReader(serializedType);
+                XmlSerializer serializer = new XmlSerializer(typeof(T));
+                StringReader stream = new StringReader(serializedType);
                 XmlReader xmlReader = new XmlTextReader(stream);
 
-                var customType = (T)serializer.Deserialize(xmlReader);
+                T customType = (T)serializer.Deserialize(xmlReader);
 
                 return customType;
             }

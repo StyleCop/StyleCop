@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="GenericTypeParameter.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="GenericTypeParameter.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,37 +11,42 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Describes parameter within a generic type token.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
-
     /// <summary>
     /// Describes parameter within a generic type token.
     /// </summary>
     public sealed class GenericTypeParameter
     {
-        #region Private Fields
-
-        /// <summary>
-        /// The generic type parameter.
-        /// </summary>
-        private TypeToken type;
+        #region Fields
 
         /// <summary>
         /// Optional modifiers on the parameter;
         /// </summary>
-        private ParameterModifiers modifiers = ParameterModifiers.None;
+        private readonly ParameterModifiers modifiers = ParameterModifiers.None;
 
-        #endregion Private Fields
+        /// <summary>
+        /// The generic type parameter.
+        /// </summary>
+        private readonly TypeToken type;
 
-        #region Internal Constructors
+        #endregion
+
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the GenericTypeParameter class.
         /// </summary>
-        /// <param name="type">The generic type parameter.</param>
-        /// <param name="modifiers">Optional modifiers.</param>
+        /// <param name="type">
+        /// The generic type parameter.
+        /// </param>
+        /// <param name="modifiers">
+        /// Optional modifiers.
+        /// </param>
         internal GenericTypeParameter(TypeToken type, ParameterModifiers modifiers)
         {
             Param.AssertNotNull(type, "type");
@@ -51,9 +56,20 @@ namespace StyleCop.CSharp
             this.modifiers = modifiers;
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
+
+        /// <summary>
+        /// Gets the optional modifiers on the parameter;
+        /// </summary>
+        public ParameterModifiers Modifiers
+        {
+            get
+            {
+                return this.modifiers;
+            }
+        }
 
         /// <summary>
         /// Gets the generic type parameter.
@@ -66,17 +82,6 @@ namespace StyleCop.CSharp
             }
         }
 
-        /// <summary>
-        /// Gets the optional modifiers on the parameter;
-        /// </summary>
-        public ParameterModifiers Modifiers
-        {
-            get
-            {
-                return this.modifiers;
-            }
-        }
-        
-        #endregion Public Properties
+        #endregion
     }
 }

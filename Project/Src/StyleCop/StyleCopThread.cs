@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="StyleCopThread.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="StyleCopThread.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,18 +11,21 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   StyleCop analyze thread.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.Linq;
     using System.Text;
     using System.Threading;
+
     using Microsoft.Build.Framework;
 
     using StyleCop.Diagnostics;
@@ -32,33 +35,35 @@ namespace StyleCop
     /// </summary>
     internal partial class StyleCopThread
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// The data for this worker thread.
         /// </summary>
-        private Data data;
+        private readonly Data data;
 
         /// <summary>
         /// Indicates whether the analysis of all files is complete.
         /// </summary>
         private bool complete;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Public Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the StyleCopThread class.
         /// </summary>
-        /// <param name="data">The thread data.</param>
+        /// <param name="data">
+        /// The thread data.
+        /// </param>
         public StyleCopThread(Data data)
         {
             Param.AssertNotNull(data, "data");
             this.data = data;
         }
 
-        #endregion Public Constructors
+        #endregion
 
         #region Public Events
 
@@ -67,7 +72,7 @@ namespace StyleCop
         /// </summary>
         public event EventHandler<EventArgs> ThreadCompleted;
 
-        #endregion Public Events
+        #endregion
 
         #region Public Properties
 
@@ -82,14 +87,16 @@ namespace StyleCop
             }
         }
 
-        #endregion Public Properties
+        #endregion
 
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Runs the thread operation.
         /// </summary>
-        /// <param name="sender">The event sender.</param>
+        /// <param name="sender">
+        /// The event sender.
+        /// </param>
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Cannot allow exception from plug-in to kill VS or build")]
         public void DoWork(object sender)
         {
@@ -176,45 +183,19 @@ namespace StyleCop
             StyleCopTrace.Out();
         }
 
-        #endregion Public Methods
+        #endregion
 
-        #region Private Static Methods
-
-        /// <summary>
-        /// Returns the leafname of the source code path.
-        /// </summary>
-        /// <param name="sourceCode">The SourceCode object to use.</param>
-        /// <returns>The leafname.</returns>
-        private static string GetRelativeFileName(SourceCode sourceCode)
-        {
-            var sourceCodePath = sourceCode.Path;
-            var sourceCodeProjectLocation = sourceCode.Project.Location;
-            var outputText = sourceCode.Name;
-
-            if (sourceCodePath != null && sourceCodeProjectLocation != null && sourceCodePath.StartsWith(sourceCodeProjectLocation, true, CultureInfo.InvariantCulture))
-            {
-                outputText = sourceCodePath.SubstringAfter(sourceCodeProjectLocation, StringComparison.InvariantCultureIgnoreCase);
-            }
-
-            return outputText;
-        }
-
-        /// <summary>
-        /// Returns the text to use in the signalled output.
-        /// </summary>
-        /// <param name="sourceCode">The SourceCode object to use.</param>
-        /// <returns>The text to signal.</returns>
-        private static string GetSignalOutputGetText(SourceCode sourceCode)
-        {
-            var relativeFileName = GetRelativeFileName(sourceCode);
-            return sourceCode.Project.Location == null ? relativeFileName : string.Format(CultureInfo.CurrentCulture, "{0} - {1}", sourceCode.Project.Location.SubstringAfterLast('\\'), relativeFileName);
-        }
+        #region Methods
 
         /// <summary>
         /// Formats the exception message and stack trace into a loggable string.
         /// </summary>
-        /// <param name="ex">The exception.</param>
-        /// <returns>Returns the formatted message.</returns>
+        /// <param name="ex">
+        /// The exception.
+        /// </param>
+        /// <returns>
+        /// Returns the formatted message.
+        /// </returns>
         private static string FormatExceptionMessage(Exception ex)
         {
             Param.Ignore(ex);
@@ -238,21 +219,96 @@ namespace StyleCop
             return s.ToString();
         }
 
-        #endregion Private Static Methods
+        /// <summary>
+        /// Returns the leafname of the source code path.
+        /// </summary>
+        /// <param name="sourceCode">
+        /// The SourceCode object to use.
+        /// </param>
+        /// <returns>
+        /// The leafname.
+        /// </returns>
+        private static string GetRelativeFileName(SourceCode sourceCode)
+        {
+            string sourceCodePath = sourceCode.Path;
+            string sourceCodeProjectLocation = sourceCode.Project.Location;
+            string outputText = sourceCode.Name;
 
-        #region Private Methods
+            if (sourceCodePath != null && sourceCodeProjectLocation != null && sourceCodePath.StartsWith(sourceCodeProjectLocation, true, CultureInfo.InvariantCulture))
+            {
+                outputText = sourceCodePath.SubstringAfter(sourceCodeProjectLocation, StringComparison.InvariantCultureIgnoreCase);
+            }
+
+            return outputText;
+        }
+
+        /// <summary>
+        /// Returns the text to use in the signalled output.
+        /// </summary>
+        /// <param name="sourceCode">
+        /// The SourceCode object to use.
+        /// </param>
+        /// <returns>
+        /// The text to signal.
+        /// </returns>
+        private static string GetSignalOutputGetText(SourceCode sourceCode)
+        {
+            string relativeFileName = GetRelativeFileName(sourceCode);
+            return sourceCode.Project.Location == null
+                       ? relativeFileName
+                       : string.Format(CultureInfo.CurrentCulture, "{0} - {1}", sourceCode.Project.Location.SubstringAfterLast('\\'), relativeFileName);
+        }
+
+        /// <summary>
+        /// Attempts to load results for the given document from the cache.
+        /// </summary>
+        /// <param name="sourceCode">
+        /// The source code document to load.
+        /// </param>
+        /// <returns>
+        /// Returns true if the results were loaded from the cache.
+        /// </returns>
+        private bool LoadSourceCodeFromResultsCache(SourceCode sourceCode)
+        {
+            Param.AssertNotNull(sourceCode, "sourceCode");
+
+            if (!this.data.IgnoreResultsCache && this.data.Core.Environment.SupportsResultsCache && this.data.ResultsCache != null)
+            {
+                // Check the project to see if the cache should be ignored.
+                ProjectStatus projectStatus = this.data.GetProjectStatus(sourceCode.Project);
+                Debug.Assert(projectStatus != null, "There is no status for the given project.");
+
+                if (!projectStatus.IgnoreResultsCache)
+                {
+                    // Get the last write time for this file.
+                    DateTime lastWriteTime = sourceCode.TimeStamp;
+
+                    // Attempt to load the file from the cache.
+                    if (this.data.ResultsCache.LoadResults(sourceCode, sourceCode.Parser, lastWriteTime, sourceCode.Project.Settings.WriteTime))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
 
         /// <summary>
         /// Parses and analyzes the given document.
         /// </summary>
-        /// <param name="sourceCode">The document to parse and analyze.</param>
-        /// <param name="documentStatus">The current status of the documents.</param>
+        /// <param name="sourceCode">
+        /// The document to parse and analyze.
+        /// </param>
+        /// <param name="documentStatus">
+        /// The current status of the documents.
+        /// </param>
         private void ParseAndAnalyzeDocument(SourceCode sourceCode, DocumentAnalysisStatus documentStatus)
         {
             Param.AssertNotNull(sourceCode, "sourceCode");
             Param.AssertNotNull(documentStatus, "documentStatus");
             StyleCopTrace.In(sourceCode, documentStatus);
-            
+
             // Signal the output for this document.
             this.data.Core.SignalOutput(
                 MessageImportance.Low, string.Format(CultureInfo.CurrentCulture, "Pass {0}:   {1}", this.data.PassNumber + 1, GetSignalOutputGetText(sourceCode)));
@@ -271,7 +327,8 @@ namespace StyleCop
             }
             catch (System.Exception)
             {
-                string details = string.Format(CultureInfo.CurrentCulture, "Exception thrown by parser '{0}' while processing '{1}'.", sourceCode.Parser.Name, sourceCode.Path);
+                string details = string.Format(
+                    CultureInfo.CurrentCulture, "Exception thrown by parser '{0}' while processing '{1}'.", sourceCode.Parser.Name, sourceCode.Path);
                 this.data.Core.SignalOutput(MessageImportance.High, details);
                 throw;
             }
@@ -315,52 +372,17 @@ namespace StyleCop
         }
 
         /// <summary>
-        /// Runs the analyzers against the given document.
-        /// </summary>
-        /// <param name="document">The document to analyze.</param>
-        /// <param name="parser">The parser that created the document.</param>
-        /// <param name="analyzers">The analyzers to run against the document.</param>
-        /// <param name="passNumber">The current pass number.</param>
-        /// <returns>Returns true if analysis was run, or false if analysis was delayed until the next pass.</returns>
-        private bool TestAndRunAnalyzers(
-            CodeDocument document, SourceParser parser, IEnumerable<SourceAnalyzer> analyzers, int passNumber)
-        {
-            Param.AssertNotNull(document, "document");
-            Param.AssertNotNull(parser, "parser");
-            Param.Ignore(analyzers);
-            Param.Ignore(passNumber);
-            StyleCopTrace.In(document, parser, analyzers, passNumber);
-
-            if (analyzers == null)
-            {
-                return StyleCopTrace.Out(true);
-            }
-
-            // Determine whether any of the analyzers wish to delay analysis until the next pass.
-            bool delay = false;
-            foreach (SourceAnalyzer analyzer in analyzers)
-            {
-                if (analyzer.DelayAnalysis(document, passNumber))
-                {
-                    delay = true;
-                    break;
-                }
-            }
-
-            if (!delay)
-            {
-                this.RunAnalyzers(document, parser, analyzers);
-            }
-
-            return StyleCopTrace.Out(!delay);
-        }
-
-        /// <summary>
         /// Runs the list of analyzers against the given document.
         /// </summary>
-        /// <param name="document">The document to analyze.</param>
-        /// <param name="parser">The parser that created the document.</param>
-        /// <param name="analyzers">The list of analyzers to run against the document.</param>
+        /// <param name="document">
+        /// The document to analyze.
+        /// </param>
+        /// <param name="parser">
+        /// The parser that created the document.
+        /// </param>
+        /// <param name="analyzers">
+        /// The list of analyzers to run against the document.
+        /// </param>
         private void RunAnalyzers(CodeDocument document, SourceParser parser, IEnumerable<SourceAnalyzer> analyzers)
         {
             Param.AssertNotNull(document, "document");
@@ -372,9 +394,8 @@ namespace StyleCop
             {
                 if (parser.SkipAnalysisForDocument(document))
                 {
-                    this.data.Core.SignalOutput(
-                        MessageImportance.Normal,
-                        string.Format(CultureInfo.CurrentCulture, "Skipping: {0} - {1}", document.SourceCode.Project.Location.SubstringAfterLast('\\'), GetRelativeFileName(document.SourceCode)));
+                    string format = string.Format(CultureInfo.CurrentCulture, "Skipping: {0} - {1}", document.SourceCode.Project.Location.SubstringAfterLast('\\'), GetRelativeFileName(document.SourceCode));
+                    this.data.Core.SignalOutput(MessageImportance.Normal, format);
                 }
                 else
                 {
@@ -416,37 +437,55 @@ namespace StyleCop
         }
 
         /// <summary>
-        /// Attempts to load results for the given document from the cache.
+        /// Runs the analyzers against the given document.
         /// </summary>
-        /// <param name="sourceCode">The source code document to load.</param>
-        /// <returns>Returns true if the results were loaded from the cache.</returns>
-        private bool LoadSourceCodeFromResultsCache(SourceCode sourceCode)
+        /// <param name="document">
+        /// The document to analyze.
+        /// </param>
+        /// <param name="parser">
+        /// The parser that created the document.
+        /// </param>
+        /// <param name="analyzers">
+        /// The analyzers to run against the document.
+        /// </param>
+        /// <param name="passNumber">
+        /// The current pass number.
+        /// </param>
+        /// <returns>
+        /// Returns true if analysis was run, or false if analysis was delayed until the next pass.
+        /// </returns>
+        private bool TestAndRunAnalyzers(CodeDocument document, SourceParser parser, IEnumerable<SourceAnalyzer> analyzers, int passNumber)
         {
-            Param.AssertNotNull(sourceCode, "sourceCode");
+            Param.AssertNotNull(document, "document");
+            Param.AssertNotNull(parser, "parser");
+            Param.Ignore(analyzers);
+            Param.Ignore(passNumber);
+            StyleCopTrace.In(document, parser, analyzers, passNumber);
 
-            if (!this.data.IgnoreResultsCache && this.data.Core.Environment.SupportsResultsCache && this.data.ResultsCache != null)
+            if (analyzers == null)
             {
-                // Check the project to see if the cache should be ignored.
-                ProjectStatus projectStatus = this.data.GetProjectStatus(sourceCode.Project);
-                Debug.Assert(projectStatus != null, "There is no status for the given project.");
+                return StyleCopTrace.Out(true);
+            }
 
-                if (!projectStatus.IgnoreResultsCache)
+            // Determine whether any of the analyzers wish to delay analysis until the next pass.
+            bool delay = false;
+            foreach (SourceAnalyzer analyzer in analyzers)
+            {
+                if (analyzer.DelayAnalysis(document, passNumber))
                 {
-                    // Get the last write time for this file.
-                    DateTime lastWriteTime = sourceCode.TimeStamp;
-
-                    // Attempt to load the file from the cache.
-                    if (this.data.ResultsCache.LoadResults(
-                        sourceCode, sourceCode.Parser, lastWriteTime, sourceCode.Project.Settings.WriteTime))
-                    {
-                        return true;
-                    }
+                    delay = true;
+                    break;
                 }
             }
 
-            return false;
+            if (!delay)
+            {
+                this.RunAnalyzers(document, parser, analyzers);
+            }
+
+            return StyleCopTrace.Out(!delay);
         }
 
-        #endregion Private Methods
+        #endregion
     }
 }

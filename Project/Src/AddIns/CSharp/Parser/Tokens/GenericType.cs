@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="GenericType.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="GenericType.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Describes a generic type token.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
     using System.Collections.Generic;
@@ -23,24 +26,32 @@ namespace StyleCop.CSharp
     /// <subcategory>token</subcategory>
     public sealed class GenericType : TypeToken
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// The types within the generic type.
         /// </summary>
         private ICollection<GenericTypeParameter> typeParameters;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the GenericType class.
         /// </summary>
-        /// <param name="childTokens">The list of child tokens that form the generic token.</param>
-        /// <param name="location">The location of the generic in the code.</param>
-        /// <param name="parent">The parent of the token.</param>
-        /// <param name="generated">True if the token is inside of a block of generated code.</param>
+        /// <param name="childTokens">
+        /// The list of child tokens that form the generic token.
+        /// </param>
+        /// <param name="location">
+        /// The location of the generic in the code.
+        /// </param>
+        /// <param name="parent">
+        /// The parent of the token.
+        /// </param>
+        /// <param name="generated">
+        /// True if the token is inside of a block of generated code.
+        /// </param>
         internal GenericType(MasterList<CsToken> childTokens, CodeLocation location, Reference<ICodePart> parent, bool generated)
             : base(childTokens, location, parent, CsTokenClass.GenericType, generated)
         {
@@ -51,7 +62,7 @@ namespace StyleCop.CSharp
             Param.Ignore(generated);
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
 
@@ -71,9 +82,9 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Properties
+        #endregion
 
-        #region Protected Override Methods
+        #region Methods
 
         /// <summary>
         /// Creates a text string based on the child tokens in the token.
@@ -95,11 +106,8 @@ namespace StyleCop.CSharp
                 }
 
                 // Strip out comments and whitespace.
-                if (token.CsTokenType != CsTokenType.WhiteSpace &&
-                    token.CsTokenType != CsTokenType.EndOfLine &&
-                    token.CsTokenType != CsTokenType.SingleLineComment &&
-                    token.CsTokenType != CsTokenType.MultiLineComment &&
-                    token.CsTokenType != CsTokenType.PreprocessorDirective)
+                if (token.CsTokenType != CsTokenType.WhiteSpace && token.CsTokenType != CsTokenType.EndOfLine && token.CsTokenType != CsTokenType.SingleLineComment
+                    && token.CsTokenType != CsTokenType.MultiLineComment && token.CsTokenType != CsTokenType.PreprocessorDirective)
                 {
                     text.Append(token.Text);
                 }
@@ -113,10 +121,6 @@ namespace StyleCop.CSharp
 
             this.Text = text.ToString();
         }
-
-        #endregion Protected Override Methods
-        
-        #region Private Methods
 
         /// <summary>
         /// Extracts the generic types from the type list and saves them.
@@ -175,6 +179,6 @@ namespace StyleCop.CSharp
             this.typeParameters = genericTypes.ToArray();
         }
 
-        #endregion Private Methods
+        #endregion
     }
 }

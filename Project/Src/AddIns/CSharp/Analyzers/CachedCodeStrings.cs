@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="CachedCodeStrings.cs">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="CachedCodeStrings.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,10 +11,12 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Loaded and cached code strings used within the DocumentationRules analyzer.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
     using System.Globalization;
 
     /// <summary>
@@ -22,6 +24,35 @@ namespace StyleCop.CSharp
     /// </summary>
     public static class CachedCodeStrings
     {
+        #region Static Fields
+
+        /// <summary>
+        /// The text for "class".
+        /// </summary>
+        private static string classText;
+
+        private static CultureInfo culture;
+
+        /// <summary>
+        /// Example header text string "Finalizes an instance of the {0} class".
+        /// </summary>
+        private static string exampleHeaderSummaryForDestructor;
+
+        /// <summary>
+        /// Example header text string "Initializes a new instance of the {0} class".
+        /// </summary>
+        private static string exampleHeaderSummaryForInstanceConstructor;
+
+        /// <summary>
+        /// Example header text string "Prevents an instance of the class from being created".
+        /// </summary>
+        private static string exampleHeaderSummaryForPrivateInstanceConstructor;
+
+        /// <summary>
+        /// Example header text string "Initializes static data within the {0} class".
+        /// </summary>
+        private static string exampleHeaderSummaryForStaticConstructor;
+
         /// <summary>
         /// Header text string "Gets a value indicating whether".
         /// </summary>
@@ -38,6 +69,11 @@ namespace StyleCop.CSharp
         private static string headerSummaryForBooleanSetAccessor;
 
         /// <summary>
+        /// Header text string "Finalizes an instance of the {0} class".
+        /// </summary>
+        private static string headerSummaryForDestructor;
+
+        /// <summary>
         /// Header text string "Gets".
         /// </summary>
         private static string headerSummaryForGetAccessor;
@@ -46,6 +82,16 @@ namespace StyleCop.CSharp
         /// Header text string "Gets or sets".
         /// </summary>
         private static string headerSummaryForGetAndSetAccessor;
+
+        /// <summary>
+        /// Header text string "Initializes a new instance of the {0} class".
+        /// </summary>
+        private static string headerSummaryForInstanceConstructor;
+
+        /// <summary>
+        /// Header text string "Prevents an instance of the class from being created".
+        /// </summary>
+        private static string headerSummaryForPrivateInstanceConstructor;
 
         /// <summary>
         /// Header text string "Sets".
@@ -58,57 +104,125 @@ namespace StyleCop.CSharp
         private static string headerSummaryForStaticConstructor;
 
         /// <summary>
-        /// Example header text string "Initializes static data within the {0} class".
-        /// </summary>
-        private static string exampleHeaderSummaryForStaticConstructor;
-
-        /// <summary>
-        /// Header text string "Prevents an instance of the class from being created".
-        /// </summary>
-        private static string headerSummaryForPrivateInstanceConstructor;
-
-        /// <summary>
-        /// Example header text string "Prevents an instance of the class from being created".
-        /// </summary>
-        private static string exampleHeaderSummaryForPrivateInstanceConstructor;
-
-        /// <summary>
-        /// Header text string "Initializes a new instance of the {0} class".
-        /// </summary>
-        private static string headerSummaryForInstanceConstructor;
-
-        /// <summary>
-        /// Example header text string "Initializes a new instance of the {0} class".
-        /// </summary>
-        private static string exampleHeaderSummaryForInstanceConstructor;
-
-        /// <summary>
-        /// Header text string "Finalizes an instance of the {0} class".
-        /// </summary>
-        private static string headerSummaryForDestructor;
-
-        /// <summary>
-        /// Example header text string "Finalizes an instance of the {0} class".
-        /// </summary>
-        private static string exampleHeaderSummaryForDestructor;
-
-        /// <summary>
         /// Header text string "The parameter is not used".
         /// </summary>
         private static string parameterNotUsed;
-
-        /// <summary>
-        /// The text for "class".
-        /// </summary>
-        private static string classText;
 
         /// <summary>
         /// The text for "struct".
         /// </summary>
         private static string structText;
 
-        private static CultureInfo culture;
-        
+        #endregion
+
+        #region Public Properties
+
+        /// <summary>
+        /// Gets the text for "class".
+        /// </summary>
+        public static string ClassText
+        {
+            get
+            {
+                if (classText == null)
+                {
+                    classText = CodeStrings.Class;
+                }
+
+                return classText;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the CultureInfo we will analyze with.
+        /// </summary>
+        public static CultureInfo Culture
+        {
+            get
+            {
+                return culture;
+            }
+
+            set
+            {
+                if (value == null)
+                {
+                    value = new CultureInfo("en-US");
+                }
+
+                if (culture == null || culture.EnglishName != value.EnglishName)
+                {
+                    ClearCachedStrings();
+                    culture = value;
+                    CodeStrings.Culture = value;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets example header text string "Finalizes an instance of the {0} class".
+        /// </summary>
+        public static string ExampleHeaderSummaryForDestructor
+        {
+            get
+            {
+                if (exampleHeaderSummaryForDestructor == null)
+                {
+                    exampleHeaderSummaryForDestructor = CodeStrings.ExampleHeaderSummaryForDestructor;
+                }
+
+                return exampleHeaderSummaryForDestructor;
+            }
+        }
+
+        /// <summary>
+        /// Gets example header text string "Initializes a new instance of the {0} {1}".
+        /// </summary>
+        public static string ExampleHeaderSummaryForInstanceConstructor
+        {
+            get
+            {
+                if (exampleHeaderSummaryForInstanceConstructor == null)
+                {
+                    exampleHeaderSummaryForInstanceConstructor = CodeStrings.ExampleHeaderSummaryForInstanceConstructor;
+                }
+
+                return exampleHeaderSummaryForInstanceConstructor;
+            }
+        }
+
+        /// <summary>
+        /// Gets example header text string "Prevents a default instance of the {0} {1} from being created".
+        /// </summary>
+        public static string ExampleHeaderSummaryForPrivateInstanceConstructor
+        {
+            get
+            {
+                if (exampleHeaderSummaryForPrivateInstanceConstructor == null)
+                {
+                    exampleHeaderSummaryForPrivateInstanceConstructor = CodeStrings.ExampleHeaderSummaryForPrivateInstanceConstructor;
+                }
+
+                return exampleHeaderSummaryForPrivateInstanceConstructor;
+            }
+        }
+
+        /// <summary>
+        /// Gets example header text string "Initializes static data within the {0} class".
+        /// </summary>
+        public static string ExampleHeaderSummaryForStaticConstructor
+        {
+            get
+            {
+                if (exampleHeaderSummaryForStaticConstructor == null)
+                {
+                    exampleHeaderSummaryForStaticConstructor = CodeStrings.ExampleHeaderSummaryForStaticConstructor;
+                }
+
+                return exampleHeaderSummaryForStaticConstructor;
+            }
+        }
+
         /// <summary>
         /// Gets header text string "Gets a value indicating whether".
         /// </summary>
@@ -158,6 +272,22 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
+        /// Gets header text string "Finalizes an instance of the {0} class".
+        /// </summary>
+        public static string HeaderSummaryForDestructor
+        {
+            get
+            {
+                if (headerSummaryForDestructor == null)
+                {
+                    headerSummaryForDestructor = CodeStrings.HeaderSummaryForDestructor;
+                }
+
+                return headerSummaryForDestructor;
+            }
+        }
+
+        /// <summary>
         /// Gets header text string "Gets".
         /// </summary>
         public static string HeaderSummaryForGetAccessor
@@ -186,6 +316,38 @@ namespace StyleCop.CSharp
                 }
 
                 return headerSummaryForGetAndSetAccessor;
+            }
+        }
+
+        /// <summary>
+        /// Gets header text string "Initializes a new instance of the {0} {1}".
+        /// </summary>
+        public static string HeaderSummaryForInstanceConstructor
+        {
+            get
+            {
+                if (headerSummaryForInstanceConstructor == null)
+                {
+                    headerSummaryForInstanceConstructor = CodeStrings.HeaderSummaryForInstanceConstructor;
+                }
+
+                return headerSummaryForInstanceConstructor;
+            }
+        }
+
+        /// <summary>
+        /// Gets header text string "Prevents an instance of the class from being created".
+        /// </summary>
+        public static string HeaderSummaryForPrivateInstanceConstructor
+        {
+            get
+            {
+                if (headerSummaryForPrivateInstanceConstructor == null)
+                {
+                    headerSummaryForPrivateInstanceConstructor = CodeStrings.HeaderSummaryForPrivateInstanceConstructor;
+                }
+
+                return headerSummaryForPrivateInstanceConstructor;
             }
         }
 
@@ -222,118 +384,6 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Gets example header text string "Initializes static data within the {0} class".
-        /// </summary>
-        public static string ExampleHeaderSummaryForStaticConstructor
-        {
-            get
-            {
-                if (exampleHeaderSummaryForStaticConstructor == null)
-                {
-                    exampleHeaderSummaryForStaticConstructor = CodeStrings.ExampleHeaderSummaryForStaticConstructor;
-                }
-
-                return exampleHeaderSummaryForStaticConstructor;
-            }
-        }
-
-        /// <summary>
-        /// Gets header text string "Prevents an instance of the class from being created".
-        /// </summary>
-        public static string HeaderSummaryForPrivateInstanceConstructor
-        {
-            get
-            {
-                if (headerSummaryForPrivateInstanceConstructor == null)
-                {
-                    headerSummaryForPrivateInstanceConstructor = CodeStrings.HeaderSummaryForPrivateInstanceConstructor;
-                }
-
-                return headerSummaryForPrivateInstanceConstructor;
-            }
-        }
-
-        /// <summary>
-        /// Gets example header text string "Prevents a default instance of the {0} {1} from being created".
-        /// </summary>
-        public static string ExampleHeaderSummaryForPrivateInstanceConstructor
-        {
-            get
-            {
-                if (exampleHeaderSummaryForPrivateInstanceConstructor == null)
-                {
-                    exampleHeaderSummaryForPrivateInstanceConstructor = CodeStrings.ExampleHeaderSummaryForPrivateInstanceConstructor;
-                }
-
-                return exampleHeaderSummaryForPrivateInstanceConstructor;
-            }
-        }
-
-        /// <summary>
-        /// Gets header text string "Initializes a new instance of the {0} {1}".
-        /// </summary>
-        public static string HeaderSummaryForInstanceConstructor
-        {
-            get
-            {
-                if (headerSummaryForInstanceConstructor == null)
-                {
-                    headerSummaryForInstanceConstructor = CodeStrings.HeaderSummaryForInstanceConstructor;
-                }
-
-                return headerSummaryForInstanceConstructor;
-            }
-        }
-
-        /// <summary>
-        /// Gets example header text string "Initializes a new instance of the {0} {1}".
-        /// </summary>
-        public static string ExampleHeaderSummaryForInstanceConstructor
-        {
-            get
-            {
-                if (exampleHeaderSummaryForInstanceConstructor == null)
-                {
-                    exampleHeaderSummaryForInstanceConstructor = CodeStrings.ExampleHeaderSummaryForInstanceConstructor;
-                }
-
-                return exampleHeaderSummaryForInstanceConstructor;
-            }
-        }
-
-        /// <summary>
-        /// Gets header text string "Finalizes an instance of the {0} class".
-        /// </summary>
-        public static string HeaderSummaryForDestructor
-        {
-            get
-            {
-                if (headerSummaryForDestructor == null)
-                {
-                    headerSummaryForDestructor = CodeStrings.HeaderSummaryForDestructor;
-                }
-
-                return headerSummaryForDestructor;
-            }
-        }
-
-        /// <summary>
-        /// Gets example header text string "Finalizes an instance of the {0} class".
-        /// </summary>
-        public static string ExampleHeaderSummaryForDestructor
-        {
-            get
-            {
-                if (exampleHeaderSummaryForDestructor == null)
-                {
-                    exampleHeaderSummaryForDestructor = CodeStrings.ExampleHeaderSummaryForDestructor;
-                }
-
-                return exampleHeaderSummaryForDestructor;
-            }
-        }
-
-        /// <summary>
         /// Gets header text string "The parameter is not used".
         /// </summary>
         public static string ParameterNotUsed
@@ -346,22 +396,6 @@ namespace StyleCop.CSharp
                 }
 
                 return parameterNotUsed;
-            }
-        }
-
-        /// <summary>
-        /// Gets the text for "class".
-        /// </summary>
-        public static string ClassText
-        {
-            get
-            {
-                if (classText == null)
-                {
-                    classText = CodeStrings.Class;
-                }
-
-                return classText;
             }
         }
 
@@ -381,31 +415,9 @@ namespace StyleCop.CSharp
             }
         }
 
-        /// <summary>
-        /// Gets or sets the CultureInfo we will analyze with.
-        /// </summary>
-        public static CultureInfo Culture
-        {
-            get
-            {
-                return culture;
-            }
+        #endregion
 
-            set
-            {
-                if (value == null)
-                {
-                    value = new CultureInfo("en-US");
-                }
-
-                if (culture == null || culture.EnglishName != value.EnglishName)
-                {
-                    ClearCachedStrings();
-                    culture = value;
-                    CodeStrings.Culture = value;
-                }
-            }
-        }
+        #region Methods
 
         /// <summary>
         /// Reset the cached strings.
@@ -430,5 +442,7 @@ namespace StyleCop.CSharp
             classText = null;
             structText = null;
         }
+
+        #endregion
     }
 }

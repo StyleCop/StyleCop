@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="PropertyDescriptor{T}.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="PropertyDescriptor{T}.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,41 +11,47 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   A property descriptor for a simple property.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Text;
-
     /// <summary>
     /// A property descriptor for a simple property.
-    /// </summary> 
-    /// <typeparam name="T">The type of the property value described by the property descriptor.</typeparam>
+    /// </summary>
+    /// <typeparam name="T">
+    /// The type of the property value described by the property descriptor.
+    /// </typeparam>
     public class PropertyDescriptor<T> : PropertyDescriptor
     {
-        #region Private Fields
+        #region Constructors and Destructors
 
         /// <summary>
-        /// The default value of the property.
-        /// </summary>
-        private T defaultValue;
-
-        #endregion Private Fields
-
-        #region Internal Constructors
-
-        /// <summary>
+        /// Initializes a new instance of the <see cref="PropertyDescriptor{T}"/> class. 
         /// Initializes a new instance of the PropertyDescriptor class.
         /// </summary>
-        /// <param name="propertyName">The name of the property.</param>
-        /// <param name="propertyType">The type of the property.</param>
-        /// <param name="friendlyName">The friendly name of the property.</param>
-        /// <param name="description">The property description.</param>
-        /// <param name="merge">Indicates whether to merge the property with parent properties.</param>
-        /// <param name="displaySettings">Indicates whether to display the property on the settings dialog by default.</param>
-        /// <param name="defaultValue">The default value of the property.</param>
+        /// <param name="propertyName">
+        /// The name of the property.
+        /// </param>
+        /// <param name="propertyType">
+        /// The type of the property.
+        /// </param>
+        /// <param name="friendlyName">
+        /// The friendly name of the property.
+        /// </param>
+        /// <param name="description">
+        /// The property description.
+        /// </param>
+        /// <param name="merge">
+        /// Indicates whether to merge the property with parent properties.
+        /// </param>
+        /// <param name="displaySettings">
+        /// Indicates whether to display the property on the settings dialog by default.
+        /// </param>
+        /// <param name="defaultValue">
+        /// The default value of the property.
+        /// </param>
         internal PropertyDescriptor(
             string propertyName, PropertyType propertyType, string friendlyName, string description, bool merge, bool displaySettings, T defaultValue)
             : base(propertyName, propertyType, friendlyName, description, merge, displaySettings)
@@ -58,29 +64,18 @@ namespace StyleCop
             Param.Ignore(defaultValue);
             Param.Ignore(displaySettings);
 
-            this.defaultValue = defaultValue;
+            this.DefaultValue = defaultValue;
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
 
         /// <summary>
         /// Gets the default value of the property.
         /// </summary>
-        public T DefaultValue
-        {
-            get
-            {
-                return this.defaultValue;
-            }
+        public T DefaultValue { get; internal set; }
 
-            internal set
-            {
-                this.defaultValue = value;
-            }
-        }
-
-        #endregion Public Properties
+        #endregion
     }
 }

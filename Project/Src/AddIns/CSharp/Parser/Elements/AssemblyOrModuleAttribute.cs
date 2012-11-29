@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="AssemblyOrModuleAttribute.cs">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="AssemblyOrModuleAttribute.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Describes the contents of an assembly or module attribute.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
     using System.Collections.Generic;
@@ -22,36 +25,41 @@ namespace StyleCop.CSharp
     /// <subcategory>element</subcategory>
     public sealed class AssemblyOrModuleAttribute : CsElement
     {
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the AssemblyOrModuleAttribute class.
         /// </summary>
-        /// <param name="document">The document that contains the element.</param>
-        /// <param name="parent">The parent of the element.</param>
-        /// <param name="declaration">The declaration code for this element.</param>
-        /// <param name="generated">Indicates whether the code element was generated or written by hand.</param>
-        /// <param name="attributes">The actual attribute that this Assembly or Module level attribute contains.</param>
-        internal AssemblyOrModuleAttribute(
-            CsDocument document,
-            CsElement parent,
-            Declaration declaration,
-            bool generated,
-            ICollection<Attribute> attributes)
+        /// <param name="document">
+        /// The document that contains the element.
+        /// </param>
+        /// <param name="parent">
+        /// The parent of the element.
+        /// </param>
+        /// <param name="declaration">
+        /// The declaration code for this element.
+        /// </param>
+        /// <param name="generated">
+        /// Indicates whether the code element was generated or written by hand.
+        /// </param>
+        /// <param name="attributes">
+        /// The actual attribute that this Assembly or Module level attribute contains.
+        /// </param>
+        internal AssemblyOrModuleAttribute(CsDocument document, CsElement parent, Declaration declaration, bool generated, ICollection<Attribute> attributes)
             : base(
-            document,
-            parent,
-            ElementType.AssemblyOrModuleAttribute,
-            "assembly or module attribute " + declaration.Name,
-            null,
-            attributes,
-            declaration,
-            false,
-            generated)
+                document, 
+                parent, 
+                ElementType.AssemblyOrModuleAttribute, 
+                "assembly or module attribute " + declaration.Name, 
+                null, 
+                attributes, 
+                declaration, 
+                false, 
+                generated)
         {
             Param.Ignore(document, parent, declaration, generated);
         }
 
-        #endregion Internal Constructors
+        #endregion
     }
 }

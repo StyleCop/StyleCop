@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="BreakStatement.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="BreakStatement.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,29 +11,32 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   A break-statement.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
-
     /// <summary>
     /// A break-statement.
     /// </summary>
     /// <subcategory>statement</subcategory>
     public sealed class BreakStatement : Statement
     {
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the BreakStatement class.
         /// </summary>
-        /// <param name="tokens">The list of tokens that form the statement.</param>
+        /// <param name="tokens">
+        /// The list of tokens that form the statement.
+        /// </param>
         internal BreakStatement(CsTokenList tokens)
             : base(StatementType.Break, tokens)
         {
             Param.Ignore(tokens);
         }
 
-        #endregion Internal Constructors
+        #endregion
     }
 }

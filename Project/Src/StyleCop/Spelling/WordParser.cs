@@ -6,7 +6,6 @@
 //   The word parser.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.Spelling
 {
     using System;
@@ -30,9 +29,9 @@ namespace StyleCop.Spelling
 
         private readonly StringBuilder buffer;
 
-        private readonly WordParserOptions wordParserOptions;
-
         private readonly string text;
+
+        private readonly WordParserOptions wordParserOptions;
 
         private int index;
 
@@ -309,12 +308,21 @@ namespace StyleCop.Spelling
             while (IsHexDigit(this.Peek()));
         }
 
+        private void ParseInteger()
+        {
+            do
+            {
+                this.Read();
+            }
+            while (IsDigit(this.Peek()));
+        }
+
         private void ParseLatex()
         {
             bool doubleDollar = false;
 
             // reads the first '$'
-            this.Read(); 
+            this.Read();
 
             // second $ like $$thoptkhpoktphok$$
             if (this.Peek() == '$')
@@ -338,15 +346,6 @@ namespace StyleCop.Spelling
                     this.Read();
                 }
             }
-        }
-
-        private void ParseInteger()
-        {
-            do
-            {
-                this.Read();
-            }
-            while (IsDigit(this.Peek()));
         }
 
         private void ParseLowercase()

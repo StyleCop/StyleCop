@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="StyleCopConsole.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="StyleCopConsole.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   A lightweight host for StyleCop which loads source files and settings files from the file system.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop
 {
     using System;
@@ -20,7 +23,6 @@ namespace StyleCop
     using System.Globalization;
     using System.IO;
     using System.Security;
-    using System.Text;
     using System.Xml;
 
     using StyleCop.Diagnostics;
@@ -31,39 +33,44 @@ namespace StyleCop
     [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "StyleCop", Justification = "This is the correct casing.")]
     public sealed class StyleCopConsole : StyleCopRunner
     {
-        #region Private Fields
-
-        /// <summary>
-        /// The settings path.
-        /// </summary>
-        private string settingsPath;
+        #region Fields
 
         /// <summary>
         /// The output file path.
         /// </summary>
-        private string outputFile;
+        private readonly string outputFile;
 
-        #endregion Private Fields
+        /// <summary>
+        /// The settings path.
+        /// </summary>
+        private readonly string settingsPath;
 
-        #region Public Constructors
+        #endregion
+
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the StyleCopConsole class.
         /// </summary>
-        /// <param name="settings">The path to the settings to load or
-        /// null to use the default project settings files.</param>
-        /// <param name="writeResultsCache">Indicates whether to write results cache files.</param>
-        /// <param name="outputFile">Optional path to the results output file.</param>
-        /// <param name="addInPaths">The list of paths to search under for parser and analyzer addins.
-        /// Can be null if no addin paths are provided.</param>
-        /// <param name="loadFromDefaultPath">Indicates whether to load addins
-        /// from the default path, where the core binary is located.</param>
-        public StyleCopConsole(
-            string settings,
-            bool writeResultsCache,
-            string outputFile,
-            ICollection<string> addInPaths,
-            bool loadFromDefaultPath) 
+        /// <param name="settings">
+        /// The path to the settings to load or
+        /// null to use the default project settings files.
+        /// </param>
+        /// <param name="writeResultsCache">
+        /// Indicates whether to write results cache files.
+        /// </param>
+        /// <param name="outputFile">
+        /// Optional path to the results output file.
+        /// </param>
+        /// <param name="addInPaths">
+        /// The list of paths to search under for parser and analyzer addins.
+        /// Can be null if no addin paths are provided.
+        /// </param>
+        /// <param name="loadFromDefaultPath">
+        /// Indicates whether to load addins
+        /// from the default path, where the core binary is located.
+        /// </param>
+        public StyleCopConsole(string settings, bool writeResultsCache, string outputFile, ICollection<string> addInPaths, bool loadFromDefaultPath)
             : this(settings, writeResultsCache, outputFile, addInPaths, loadFromDefaultPath, null)
         {
             Param.Ignore(settings, writeResultsCache, outputFile, addInPaths, loadFromDefaultPath);
@@ -72,22 +79,28 @@ namespace StyleCop
         /// <summary>
         /// Initializes a new instance of the StyleCopConsole class.
         /// </summary>
-        /// <param name="settings">The path to the settings to load or
-        /// null to use the default project settings files.</param>
-        /// <param name="writeResultsCache">Indicates whether to write results cache files.</param>
-        /// <param name="outputFile">Optional path to the results output file.</param>
-        /// <param name="addInPaths">The list of paths to search under for parser and analyzer addins.
-        /// Can be null if no addin paths are provided.</param>
-        /// <param name="loadFromDefaultPath">Indicates whether to load addins
-        /// from the default application path.</param>
-        /// <param name="hostTag">An optional tag which can be set by the host.</param>
-        public StyleCopConsole(
-            string settings, 
-            bool writeResultsCache, 
-            string outputFile,
-            ICollection<string> addInPaths,
-            bool loadFromDefaultPath,
-            object hostTag)
+        /// <param name="settings">
+        /// The path to the settings to load or
+        /// null to use the default project settings files.
+        /// </param>
+        /// <param name="writeResultsCache">
+        /// Indicates whether to write results cache files.
+        /// </param>
+        /// <param name="outputFile">
+        /// Optional path to the results output file.
+        /// </param>
+        /// <param name="addInPaths">
+        /// The list of paths to search under for parser and analyzer addins.
+        /// Can be null if no addin paths are provided.
+        /// </param>
+        /// <param name="loadFromDefaultPath">
+        /// Indicates whether to load addins
+        /// from the default application path.
+        /// </param>
+        /// <param name="hostTag">
+        /// An optional tag which can be set by the host.
+        /// </param>
+        public StyleCopConsole(string settings, bool writeResultsCache, string outputFile, ICollection<string> addInPaths, bool loadFromDefaultPath, object hostTag)
         {
             Param.Ignore(settings);
             Param.Ignore(outputFile);
@@ -95,9 +108,9 @@ namespace StyleCop
             Param.Ignore(addInPaths);
             Param.Ignore(loadFromDefaultPath);
             Param.Ignore(hostTag);
-            
+
             this.settingsPath = settings;
-            
+
             if (outputFile == null)
             {
                 this.outputFile = "StyleCopViolations.xml";
@@ -113,17 +126,23 @@ namespace StyleCop
             this.Core.WriteResultsCache = writeResultsCache;
         }
 
-        #endregion Public Constructors
+        #endregion
 
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Starts analyzing the source code documents contained within the given projects.
         /// </summary>
-        /// <param name="projects">The projects to analyze.</param>
-        /// <param name="fullAnalyze">Determines whether to ignore cache files and reanalyze
-        /// every file from scratch.</param>
-        /// <returns>Returns false if an error occurs during analysis.</returns>
+        /// <param name="projects">
+        /// The projects to analyze.
+        /// </param>
+        /// <param name="fullAnalyze">
+        /// Determines whether to ignore cache files and reanalyze
+        /// every file from scratch.
+        /// </param>
+        /// <returns>
+        /// Returns false if an error occurs during analysis.
+        /// </returns>
         public bool Start(IList<CodeProject> projects, bool fullAnalyze)
         {
             Param.RequireNotNull(projects, "projects");
@@ -139,7 +158,7 @@ namespace StyleCop
 
                 // Reset the violation count.
                 this.Reset();
-                
+
                 // Delete the output file if it already exists.
                 if (!string.IsNullOrEmpty(this.outputFile))
                 {
@@ -153,7 +172,7 @@ namespace StyleCop
                 }
                 else
                 {
-                    this.Core.Analyze(projects);    
+                    this.Core.Analyze(projects);
                 }
 
                 if (this.ViolationCount > 0)
@@ -172,8 +191,8 @@ namespace StyleCop
                 if (!this.Core.Environment.SaveAnalysisResults(this.outputFile, this.Violations, out exception))
                 {
                     string message = (exception == null)
-                        ? Strings.CouldNotSaveViolationsFile
-                        : string.Format(CultureInfo.CurrentCulture, Strings.CouldNotSaveViolationsFileWithException, exception.Message);
+                                         ? Strings.CouldNotSaveViolationsFile
+                                         : string.Format(CultureInfo.CurrentCulture, Strings.CouldNotSaveViolationsFileWithException, exception.Message);
 
                     this.OnOutputGenerated(new OutputEventArgs(message));
                     error = true;
@@ -204,15 +223,17 @@ namespace StyleCop
 
             return !error;
         }
-        
-        #endregion Public Methods
 
-        #region Private Methods
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Loads the settings files to use for the analysis.
         /// </summary>
-        /// <param name="projects">The list of projects to use.</param>
+        /// <param name="projects">
+        /// The list of projects to use.
+        /// </param>
         private void LoadSettingsFiles(IList<CodeProject> projects)
         {
             Param.AssertNotNull(projects, "projects");
@@ -248,6 +269,6 @@ namespace StyleCop
             }
         }
 
-        #endregion Private Methods
+        #endregion
     }
 }

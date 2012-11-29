@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="StyleCopTask.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="StyleCopTask.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,13 +11,15 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   MSBuild task that exposes StyleCop to MSBuild-based projects.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop
 {
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
-    using System.Globalization;
     using System.Linq;
 
     using Microsoft.Build.Framework;
@@ -31,7 +33,12 @@ namespace StyleCop
     [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "StyleCop", Justification = "This is the correct casing.")]
     public sealed class StyleCopTask : Task
     {
-        #region Private Constants
+        #region Constants
+
+        /// <summary>
+        /// Allow 10000 violations by default.
+        /// </summary>
+        private const int DefaultViolationLimit = 10000;
 
         /// <summary>
         /// Error code used when logging errors/warnings to MSBuild.
@@ -43,24 +50,9 @@ namespace StyleCop
         /// </summary>
         private const string MSBuildSubCategory = null;
 
-        /// <summary>
-        /// Allow 10000 violations by default.
-        /// </summary>
-        private const int DefaultViolationLimit = 10000;
+        #endregion
 
-        #endregion Private Constants
-
-        #region Private Fields
-
-        /// <summary>
-        /// MSBuild input - see corresponding public property for details.
-        /// </summary>
-        private ITaskItem[] inputSourceFiles = new ITaskItem[0];
-
-        /// <summary>
-        /// MSBuild input - see corresponding public property for details.
-        /// </summary>
-        private ITaskItem inputProjectFullPath;
+        #region Fields
 
         /// <summary>
         /// MSBuild input - see corresponding public property for details.
@@ -70,7 +62,7 @@ namespace StyleCop
         /// <summary>
         /// MSBuild input - see corresponding public property for details.
         /// </summary>
-        private bool inputForceFullAnalysis;
+        private bool inputCacheResults;
 
         /// <summary>
         /// MSBuild input - see corresponding public property for details.
@@ -80,12 +72,7 @@ namespace StyleCop
         /// <summary>
         /// MSBuild input - see corresponding public property for details.
         /// </summary>
-        private bool inputTreatErrorsAsWarnings;
-
-        /// <summary>
-        /// MSBuild input - see corresponding public property for details.
-        /// </summary>
-        private bool inputCacheResults;
+        private bool inputForceFullAnalysis;
 
         /// <summary>
         /// MSBuild input - see corresponding public property for details.
@@ -95,12 +82,27 @@ namespace StyleCop
         /// <summary>
         /// MSBuild input - see corresponding public property for details.
         /// </summary>
-        private ITaskItem outputFile;
+        private ITaskItem inputProjectFullPath;
+
+        /// <summary>
+        /// MSBuild input - see corresponding public property for details.
+        /// </summary>
+        private ITaskItem[] inputSourceFiles = new ITaskItem[0];
+
+        /// <summary>
+        /// MSBuild input - see corresponding public property for details.
+        /// </summary>
+        private bool inputTreatErrorsAsWarnings;
 
         /// <summary>
         /// MSBuild input - see corresponding public property for details.
         /// </summary>
         private ITaskItem maxViolationCount;
+
+        /// <summary>
+        /// MSBuild input - see corresponding public property for details.
+        /// </summary>
+        private ITaskItem outputFile;
 
         /// <summary>
         /// Keeps track of whether we encountered any errors (not warnings).
@@ -117,54 +119,15 @@ namespace StyleCop
         /// </summary>
         private int violationLimit;
 
-        #endregion Private Fields
+        #endregion
 
         #region Public Properties
-
-        /// <summary>
-        /// Gets or sets the files to analyze.
-        /// </summary>
-        /// <remarks>This value is set by MSBuild.</remarks>
-        public ITaskItem[] SourceFiles
-        {
-            get
-            {
-                return this.inputSourceFiles;
-            }
-
-            set
-            {
-                Param.RequireNotNull(value, "SourceFiles");
-                this.inputSourceFiles = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the complete path to the project file.
-        /// </summary>
-        /// <remarks>This value is set by MSBuild.</remarks>
-        public ITaskItem ProjectFullPath
-        {
-            get
-            {
-                return this.inputProjectFullPath;
-            }
-
-            set
-            {
-                Param.RequireNotNull(value, "ProjectFullPath");
-                this.inputProjectFullPath = value;
-            }
-        }
 
         /// <summary>
         /// Gets or sets the array of folders to search for addin modules.
         /// </summary>
         /// <remarks>This value is set by MSBuild.</remarks>
-        [SuppressMessage(
-            "Microsoft.Naming",
-            "CA1704:IdentifiersShouldBeSpelledCorrectly",
-            MessageId = "Addin",
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Addin", 
             Justification = "API has already been published and should not be changed.")]
         public ITaskItem[] AdditionalAddinPaths
         {
@@ -177,61 +140,6 @@ namespace StyleCop
             {
                 Param.Ignore(value);
                 this.inputAdditionalAddinPaths = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether StyleCop should ignore cached results and 
-        /// perform a clean analysis.
-        /// </summary>
-        /// <remarks>This value is set by MSBuild.</remarks>
-        public bool ForceFullAnalysis
-        {
-            get
-            {
-                return this.inputForceFullAnalysis;
-            }
-
-            set
-            {
-                Param.Ignore(value);
-                this.inputForceFullAnalysis = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the constants defined in the project.
-        /// </summary>
-        /// <remarks>This value is set by MSBuild.</remarks>
-        public string[] DefineConstants
-        {
-            get
-            {
-                return this.inputDefineConstants;
-            }
-
-            set
-            {
-                Param.Ignore(value);
-                this.inputDefineConstants = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether StyleCop should log all violations as build warnings.
-        /// </summary>
-        /// <remarks>This value is set by MSBuild.</remarks>
-        public bool TreatErrorsAsWarnings
-        {
-            get
-            {
-                return this.inputTreatErrorsAsWarnings;
-            }
-
-            set
-            {
-                Param.Ignore(value);
-                this.inputTreatErrorsAsWarnings = value;
             }
         }
 
@@ -255,38 +163,39 @@ namespace StyleCop
         }
 
         /// <summary>
-        /// Gets or sets a file containing the settings that are specific to this project. Settings that are present in
-        /// the OverrideSettingsFile will override settings that are present in the SharedSettingsFile.
+        /// Gets or sets the constants defined in the project.
         /// </summary>
-        /// <remarks>This value is set by MSBuild. This file will be ignored if it is null or cannot be opened.</remarks>
-        public ITaskItem OverrideSettingsFile
+        /// <remarks>This value is set by MSBuild.</remarks>
+        public string[] DefineConstants
         {
             get
             {
-                return this.inputOverrideSettingsFile;
+                return this.inputDefineConstants;
             }
 
             set
             {
                 Param.Ignore(value);
-                this.inputOverrideSettingsFile = value;
+                this.inputDefineConstants = value;
             }
         }
 
         /// <summary>
-        /// Gets or sets a value specifying the name of the file for outputting the violations.
+        /// Gets or sets a value indicating whether StyleCop should ignore cached results and 
+        /// perform a clean analysis.
         /// </summary>
-        public ITaskItem OutputFile
+        /// <remarks>This value is set by MSBuild.</remarks>
+        public bool ForceFullAnalysis
         {
             get
             {
-                return this.outputFile;
+                return this.inputForceFullAnalysis;
             }
 
             set
             {
-                Param.RequireNotNull(value, "OutputFile");
-                this.outputFile = value;
+                Param.Ignore(value);
+                this.inputForceFullAnalysis = value;
             }
         }
 
@@ -308,6 +217,96 @@ namespace StyleCop
         }
 
         /// <summary>
+        /// Gets or sets a value specifying the name of the file for outputting the violations.
+        /// </summary>
+        public ITaskItem OutputFile
+        {
+            get
+            {
+                return this.outputFile;
+            }
+
+            set
+            {
+                Param.RequireNotNull(value, "OutputFile");
+                this.outputFile = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a file containing the settings that are specific to this project. Settings that are present in
+        /// the OverrideSettingsFile will override settings that are present in the SharedSettingsFile.
+        /// </summary>
+        /// <remarks>This value is set by MSBuild. This file will be ignored if it is null or cannot be opened.</remarks>
+        public ITaskItem OverrideSettingsFile
+        {
+            get
+            {
+                return this.inputOverrideSettingsFile;
+            }
+
+            set
+            {
+                Param.Ignore(value);
+                this.inputOverrideSettingsFile = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the complete path to the project file.
+        /// </summary>
+        /// <remarks>This value is set by MSBuild.</remarks>
+        public ITaskItem ProjectFullPath
+        {
+            get
+            {
+                return this.inputProjectFullPath;
+            }
+
+            set
+            {
+                Param.RequireNotNull(value, "ProjectFullPath");
+                this.inputProjectFullPath = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the files to analyze.
+        /// </summary>
+        /// <remarks>This value is set by MSBuild.</remarks>
+        public ITaskItem[] SourceFiles
+        {
+            get
+            {
+                return this.inputSourceFiles;
+            }
+
+            set
+            {
+                Param.RequireNotNull(value, "SourceFiles");
+                this.inputSourceFiles = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether StyleCop should log all violations as build warnings.
+        /// </summary>
+        /// <remarks>This value is set by MSBuild.</remarks>
+        public bool TreatErrorsAsWarnings
+        {
+            get
+            {
+                return this.inputTreatErrorsAsWarnings;
+            }
+
+            set
+            {
+                Param.Ignore(value);
+                this.inputTreatErrorsAsWarnings = value;
+            }
+        }
+
+        /// <summary>
         /// Gets the number of violations seen.
         /// </summary>
         [Output]
@@ -319,10 +318,10 @@ namespace StyleCop
             }
         }
 
-        #endregion Public Properties
+        #endregion
 
-        #region Public Override Methods
-        
+        #region Public Methods and Operators
+
         /// <summary>
         /// Executes this MSBuild task, based on the input values passed in by the MSBuild engine.
         /// </summary>
@@ -356,15 +355,16 @@ namespace StyleCop
             }
 
             // Get addin paths.
-            var addinPaths = new List<string>();
+            List<string> addinPaths = new List<string>();
             if (this.inputAdditionalAddinPaths != null)
             {
                 addinPaths.AddRange(this.inputAdditionalAddinPaths.Select(addinPath => addinPath.GetMetadata("FullPath")));
             }
 
             // Create the StyleCop console.
-            StyleCopConsole console = new StyleCopConsole(overrideSettingsFileName, this.inputCacheResults, this.outputFile == null ? null : this.outputFile.ItemSpec, addinPaths, true);
-            
+            StyleCopConsole console = new StyleCopConsole(
+                overrideSettingsFileName, this.inputCacheResults, this.outputFile == null ? null : this.outputFile.ItemSpec, addinPaths, true);
+
             // Create the configuration.
             Configuration configuration = new Configuration(this.inputDefineConstants);
 
@@ -406,15 +406,39 @@ namespace StyleCop
             return StyleCopTrace.Out(this.succeeded);
         }
 
-        #endregion Public Override Methods
+        #endregion
 
-        #region Protected Virtual Methods
+        #region Methods
+
+        /// <summary>
+        /// Called when StyleCop outputs messages.
+        /// </summary>
+        /// <param name="sender">
+        /// The event sender.
+        /// </param>
+        /// <param name="e">
+        /// The event arguments.
+        /// </param>
+        private void OnOutputGenerated(object sender, OutputEventArgs e)
+        {
+            Param.Ignore(sender);
+            Param.AssertNotNull(e, "e");
+
+            lock (this)
+            {
+                this.Log.LogMessage(e.Importance, e.Output.Trim());
+            }
+        }
 
         /// <summary>
         /// Called when StyleCop encounters a violation.
         /// </summary>
-        /// <param name="sender">The event sender.</param>
-        /// <param name="e">The event arguments.</param>
+        /// <param name="sender">
+        /// The event sender.
+        /// </param>
+        /// <param name="e">
+        /// The event arguments.
+        /// </param>
         private void OnViolationEncountered(object sender, ViolationEventArgs e)
         {
             Param.Ignore(sender);
@@ -435,20 +459,17 @@ namespace StyleCop
                 {
                     path = e.SourceCode.Path;
                 }
-                else if (e.Element != null &&
-                    e.Element.Document != null &&
-                    e.Element.Document.SourceCode != null &&
-                    e.Element.Document.SourceCode.Path != null)
+                else if (e.Element != null && e.Element.Document != null && e.Element.Document.SourceCode != null && e.Element.Document.SourceCode.Path != null)
                 {
                     path = e.Element.Document.SourceCode.Path;
                 }
 
                 lock (this)
                 {
-                    var trimmedNamespace = e.Violation.Rule.Namespace.SubstringAfter(StyleCop.Constants.ProductName + ".", StringComparison.Ordinal);
+                    string trimmedNamespace = e.Violation.Rule.Namespace.SubstringAfter(StyleCop.Constants.ProductName + ".", StringComparison.Ordinal);
                     trimmedNamespace = trimmedNamespace.SubstringBeforeLast("Rules", StringComparison.Ordinal);
                     string description = string.Concat(e.Violation.Rule.CheckId, " : ", trimmedNamespace, " : ", e.Message);
-                    
+
                     if (e.Warning || this.inputTreatErrorsAsWarnings)
                     {
                         if (e.Location == null)
@@ -457,7 +478,16 @@ namespace StyleCop
                         }
                         else
                         {
-                            this.Log.LogWarning(MSBuildSubCategory, MSBuildErrorCode, null, path, e.Location.StartPoint.LineNumber, e.Location.StartPoint.IndexOnLine, e.Location.EndPoint.LineNumber, e.Location.EndPoint.IndexOnLine, description);
+                            this.Log.LogWarning(
+                                MSBuildSubCategory, 
+                                MSBuildErrorCode, 
+                                null, 
+                                path, 
+                                e.Location.StartPoint.LineNumber, 
+                                e.Location.StartPoint.IndexOnLine, 
+                                e.Location.EndPoint.LineNumber, 
+                                e.Location.EndPoint.IndexOnLine, 
+                                description);
                         }
                     }
                     else
@@ -468,29 +498,22 @@ namespace StyleCop
                         }
                         else
                         {
-                            this.Log.LogError(MSBuildSubCategory, MSBuildErrorCode, null, path, e.Location.StartPoint.LineNumber, e.Location.StartPoint.IndexOnLine, e.Location.EndPoint.LineNumber, e.Location.EndPoint.IndexOnLine, description);
+                            this.Log.LogError(
+                                MSBuildSubCategory, 
+                                MSBuildErrorCode, 
+                                null, 
+                                path, 
+                                e.Location.StartPoint.LineNumber, 
+                                e.Location.StartPoint.IndexOnLine, 
+                                e.Location.EndPoint.LineNumber, 
+                                e.Location.EndPoint.IndexOnLine, 
+                                description);
                         }
                     }
                 }
             }
         }
 
-        /// <summary>
-        /// Called when StyleCop outputs messages.
-        /// </summary>
-        /// <param name="sender">The event sender.</param>
-        /// <param name="e">The event arguments.</param>
-        private void OnOutputGenerated(object sender, OutputEventArgs e)
-        {
-            Param.Ignore(sender);
-            Param.AssertNotNull(e, "e");
-
-            lock (this)
-            {
-                this.Log.LogMessage(e.Importance, e.Output.Trim());
-            }
-        }
-
-        #endregion Event Handler: StyleCopCore.OnOutputGenerated
+        #endregion
     }
 }

@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="AddSettingsPagesEventArgs.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="AddSettingsPagesEventArgs.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Event arguments for the <see cref="StyleCopCore.AddSettingsPages" /> event.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop
 {
     using System;
@@ -22,25 +25,37 @@ namespace StyleCop
     /// </summary>
     public class AddSettingsPagesEventArgs : EventArgs
     {
-        /// <summary>
-        /// The path to the settings file.
-        /// </summary>
-        private string settingsPath;
+        #region Fields
 
         /// <summary>
         /// The pages that have been added.
         /// </summary>
-        private List<IPropertyControlPage> pages = new List<IPropertyControlPage>();
+        private readonly List<IPropertyControlPage> pages = new List<IPropertyControlPage>();
+
+        /// <summary>
+        /// The path to the settings file.
+        /// </summary>
+        private readonly string settingsPath;
+
+        #endregion
+
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AddSettingsPagesEventArgs"/> class.
         /// </summary>
-        /// <param name="settingsPath">The path to the settings file.</param>
+        /// <param name="settingsPath">
+        /// The path to the settings file.
+        /// </param>
         internal AddSettingsPagesEventArgs(string settingsPath)
         {
             Param.AssertValidString(settingsPath, "settingsPath");
             this.settingsPath = settingsPath;
         }
+
+        #endregion
+
+        #region Public Properties
 
         /// <summary>
         /// Gets the pages that were added to the StyleCop settings dialog.
@@ -64,10 +79,16 @@ namespace StyleCop
             }
         }
 
+        #endregion
+
+        #region Public Methods and Operators
+
         /// <summary>
         /// Adds a page to be displayed on the StyleCop project settings dialog.
         /// </summary>
-        /// <param name="page">The page to add.</param>
+        /// <param name="page">
+        /// The page to add.
+        /// </param>
         public void Add(IPropertyControlPage page)
         {
             Param.RequireNotNull(page, "page");
@@ -77,5 +98,7 @@ namespace StyleCop
                 this.pages.Add(page);
             }
         }
+
+        #endregion
     }
 }

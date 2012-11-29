@@ -15,14 +15,13 @@
 //   QuickFix for StyleCop Rule SA1400.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper710.QuickFixes.Maintainability
 {
     #region Using Directives
 
     using System.Collections.Generic;
 
-        using JetBrains.ReSharper.Feature.Services.Bulbs;
+    using JetBrains.ReSharper.Feature.Services.Bulbs;
     using JetBrains.ReSharper.Intentions.Extensibility;
 
     using StyleCop.ReSharper710.BulbItems.Maintainability;
@@ -111,12 +110,32 @@ namespace StyleCop.ReSharper710.QuickFixes.Maintainability
         protected override void InitialiseBulbItems()
         {
             this.BulbItems = new List<IBulbAction>
-                {
-                    new SA1400AccessModifierMustBeDeclaredBulbItem { Modifier = "public", DocumentRange = this.Highlighting.DocumentRange, Description = "Make Public : " + this.Highlighting.ToolTip },
-                    new SA1400AccessModifierMustBeDeclaredBulbItem { Modifier = "private", DocumentRange = this.Highlighting.DocumentRange, Description = "Make Private : " + this.Highlighting.ToolTip },
-                    new SA1400AccessModifierMustBeDeclaredBulbItem { Modifier = "protected", DocumentRange = this.Highlighting.DocumentRange, Description = "Make Protected : " + this.Highlighting.ToolTip },
-                    new SA1400AccessModifierMustBeDeclaredBulbItem { Modifier = "internal", DocumentRange = this.Highlighting.DocumentRange, Description = "Make Internal : " + this.Highlighting.ToolTip },
-                };
+                                 {
+                                     new SA1400AccessModifierMustBeDeclaredBulbItem
+                                         {
+                                             Modifier = "public", 
+                                             DocumentRange = this.Highlighting.DocumentRange, 
+                                             Description = "Make Public : " + this.Highlighting.ToolTip
+                                         }, 
+                                     new SA1400AccessModifierMustBeDeclaredBulbItem
+                                         {
+                                             Modifier = "private", 
+                                             DocumentRange = this.Highlighting.DocumentRange, 
+                                             Description = "Make Private : " + this.Highlighting.ToolTip
+                                         }, 
+                                     new SA1400AccessModifierMustBeDeclaredBulbItem
+                                         {
+                                             Modifier = "protected", 
+                                             DocumentRange = this.Highlighting.DocumentRange, 
+                                             Description = "Make Protected : " + this.Highlighting.ToolTip
+                                         }, 
+                                     new SA1400AccessModifierMustBeDeclaredBulbItem
+                                         {
+                                             Modifier = "internal", 
+                                             DocumentRange = this.Highlighting.DocumentRange, 
+                                             Description = "Make Internal : " + this.Highlighting.ToolTip
+                                         }, 
+                                 };
         }
 
         #endregion

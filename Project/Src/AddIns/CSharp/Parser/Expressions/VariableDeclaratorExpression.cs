@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="VariableDeclaratorExpression.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="VariableDeclaratorExpression.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,48 +11,47 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   A single variable declarator within a variable declaration expression.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
-
     /// <summary>
     /// A single variable declarator within a variable declaration expression.
     /// </summary>
     /// <subcategory>expression</subcategory>
     public sealed class VariableDeclaratorExpression : Expression
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// The identifier of the variable.
         /// </summary>
-        private LiteralExpression identifier;
+        private readonly LiteralExpression identifier;
 
         /// <summary>
         /// The initialization expression for the variable.
         /// </summary>
-        private Expression initializer;
+        private readonly Expression initializer;
 
-        /// <summary>
-        /// The parent expression.
-        /// </summary>
-        private VariableDeclarationExpression parent;
+        #endregion
 
-        #endregion Private Fields
-
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the VariableDeclaratorExpression class.
         /// </summary>
-        /// <param name="tokens">The list of tokens that form the statement.</param>
-        /// <param name="identifier">The identifier name of the variable.</param>
-        /// <param name="initializer">The initialization expression for the variable.</param>
-        internal VariableDeclaratorExpression(
-            CsTokenList tokens, 
-            LiteralExpression identifier, 
-            Expression initializer)
+        /// <param name="tokens">
+        /// The list of tokens that form the statement.
+        /// </param>
+        /// <param name="identifier">
+        /// The identifier name of the variable.
+        /// </param>
+        /// <param name="initializer">
+        /// The initialization expression for the variable.
+        /// </param>
+        internal VariableDeclaratorExpression(CsTokenList tokens, LiteralExpression identifier, Expression initializer)
             : base(ExpressionType.VariableDeclarator, tokens)
         {
             Param.AssertNotNull(tokens, "tokens");
@@ -70,7 +69,7 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
 
@@ -99,19 +98,8 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Gets the parent expression.
         /// </summary>
-        public VariableDeclarationExpression ParentVariable
-        {
-            get
-            {
-                return this.parent;
-            }
+        public VariableDeclarationExpression ParentVariable { get; internal set; }
 
-            internal set
-            {
-                this.parent = value;
-            }
-        }
-
-        #endregion Public Properties
+        #endregion
     }
 }

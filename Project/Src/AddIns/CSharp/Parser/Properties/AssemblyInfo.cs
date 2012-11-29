@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="AssemblyInfo.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="AssemblyInfo.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,11 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   AssemblyInfo.cs
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
@@ -29,10 +33,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCopyright("MS-PL")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-
 [assembly: ComVisible(false)]
 [assembly: CLSCompliant(true)]
-[assembly: NeutralResourcesLanguageAttribute("en-US")]
+[assembly: NeutralResourcesLanguage("en-US")]
 
 // Suppress message about assembly not having a strong name. This is known since assemblies are delay-signed.
 [assembly: SuppressMessage("Microsoft.Design", "CA2210:AssembliesShouldHaveValidStrongNames", Justification = "Reviewed. This is OK.")]

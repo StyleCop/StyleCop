@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="StackallocExpression.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="StackallocExpression.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   An expression representing a stackalloc operation.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
     using System.Diagnostics.CodeAnalysis;
@@ -22,22 +25,26 @@ namespace StyleCop.CSharp
     /// <subcategory>expression</subcategory>
     public sealed class StackallocExpression : Expression
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// The type of the array.
         /// </summary>
-        private ArrayAccessExpression type;
+        private readonly ArrayAccessExpression type;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the StackallocExpression class.
         /// </summary>
-        /// <param name="tokens">The list of tokens that form the expression.</param>
-        /// <param name="type">The array type.</param>
+        /// <param name="tokens">
+        /// The list of tokens that form the expression.
+        /// </param>
+        /// <param name="type">
+        /// The array type.
+        /// </param>
         internal StackallocExpression(CsTokenList tokens, ArrayAccessExpression type)
             : base(ExpressionType.Stackalloc, tokens)
         {
@@ -48,17 +55,14 @@ namespace StyleCop.CSharp
             this.AddExpression(type);
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
 
         /// <summary>
         /// Gets the array type.
         /// </summary>
-        [SuppressMessage(
-            "Microsoft.Naming", 
-            "CA1721:PropertyNamesShouldNotMatchGetMethods",
-            Justification = "API has already been published and should not be changed.")]
+        [SuppressMessage("Microsoft.Naming", "CA1721:PropertyNamesShouldNotMatchGetMethods", Justification = "API has already been published and should not be changed.")]
         public ArrayAccessExpression Type
         {
             get
@@ -67,6 +71,6 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Properties
+        #endregion
     }
 }

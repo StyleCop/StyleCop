@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="Rules.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Rules.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,11 +11,12 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   The list of rules that can be triggered by this parser module.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
-
     /// <summary>
     /// The list of rules that can be triggered by this parser module.
     /// </summary>
@@ -24,12 +25,12 @@ namespace StyleCop.CSharp
         /// <summary>
         /// The file could not be read.
         /// </summary>
-        FileMustBeReadable,
+        FileMustBeReadable, 
 
         /// <summary>
         /// An exception occurred while parsing the file.
         /// </summary>
-        ExceptionOccurred,
+        ExceptionOccurred, 
 
         /// <summary>
         /// A syntax error was found in the code.

@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="Region.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Region.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,13 +11,13 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Describes a region directive.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
     using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.Text;
 
     /// <summary>
     /// Describes a region directive.
@@ -25,30 +25,35 @@ namespace StyleCop.CSharp
     /// <subcategory>token</subcategory>
     public sealed class Region : Preprocessor
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// Indicates whether this is a beginning region.
         /// </summary>
-        private bool beginning;
+        private readonly bool beginning;
 
-        /// <summary>
-        /// The partner of this region tag.
-        /// </summary>
-        private Region partner;
+        #endregion
 
-        #endregion Private Fields
-
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the Region class.
         /// </summary>
-        /// <param name="text">The line text.</param>
-        /// <param name="location">The location of the preprocessor in the code.</param>
-        /// <param name="parent">The parent of the region.</param>
-        /// <param name="beginning">Indicates whether this is a beginning region.</param>
-        /// <param name="generated">Indicates whether the preprocessor lies within a block of generated code.</param>
+        /// <param name="text">
+        /// The line text.
+        /// </param>
+        /// <param name="location">
+        /// The location of the preprocessor in the code.
+        /// </param>
+        /// <param name="parent">
+        /// The parent of the region.
+        /// </param>
+        /// <param name="beginning">
+        /// Indicates whether this is a beginning region.
+        /// </param>
+        /// <param name="generated">
+        /// Indicates whether the preprocessor lies within a block of generated code.
+        /// </param>
         internal Region(string text, CodeLocation location, Reference<ICodePart> parent, bool beginning, bool generated)
             : base(text, CsTokenClass.RegionDirective, location, parent, generated)
         {
@@ -61,7 +66,7 @@ namespace StyleCop.CSharp
             this.beginning = beginning;
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
 
@@ -78,22 +83,6 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Gets the partner of this region tag.
-        /// </summary>
-        public Region Partner
-        {
-            get
-            {
-                return this.partner;
-            }
-
-            internal set
-            {
-                this.partner = value;
-            }
-        }
-
-        /// <summary>
         /// Gets a value indicating whether this is the start of a generated code block.
         /// </summary>
         public bool IsGeneratedCodeRegion
@@ -104,6 +93,11 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Properties
+        /// <summary>
+        /// Gets the partner of this region tag.
+        /// </summary>
+        public Region Partner { get; internal set; }
+
+        #endregion
     }
 }

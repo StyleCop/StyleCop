@@ -12,10 +12,9 @@
 //   notice, or any other, from this software.
 // </license>
 // <summary>
-//   Extension methods for the <see cref="Type" /> class.
+//   Extension methods for the  class.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace System
 {
     #region Using Directives
@@ -31,7 +30,7 @@ namespace System
     /// </summary>
     public static class TypeExtensions
     {
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Gets all the types that a <see cref="Type"/> is assignable to, including itself, base types, and implemented interfaces.
@@ -47,12 +46,12 @@ namespace System
         /// </exception>
         public static IEnumerable<Type> GetAssignableToTypes(this Type type)
         {
-            for (var baseType = type; baseType != null && baseType != typeof(object); baseType = baseType.BaseType)
+            for (Type baseType = type; baseType != null && baseType != typeof(object); baseType = baseType.BaseType)
             {
                 yield return baseType;
             }
 
-            foreach (var interfaceType in type.GetInterfaces())
+            foreach (Type interfaceType in type.GetInterfaces())
             {
                 yield return interfaceType;
             }
@@ -222,12 +221,13 @@ namespace System
                 return false;
             }
 
-            if ((parameterType.GenericParameterAttributes & GenericParameterAttributes.DefaultConstructorConstraint) != 0 && !type.IsValueType && type.GetConstructor(Type.EmptyTypes) == null)
+            if ((parameterType.GenericParameterAttributes & GenericParameterAttributes.DefaultConstructorConstraint) != 0 && !type.IsValueType
+                && type.GetConstructor(Type.EmptyTypes) == null)
             {
                 return false;
             }
 
-            foreach (var constraintType in parameterType.GetGenericParameterConstraints())
+            foreach (Type constraintType in parameterType.GetGenericParameterConstraints())
             {
                 if (!type.MeetsGenericParameterConstraint(constraintType))
                 {
@@ -276,7 +276,7 @@ namespace System
         /// </exception>
         private static bool MeetsGenericParameterConstraint(this Type type, Type constraintType)
         {
-            var result = false;
+            bool result = false;
             if (constraintType.IsAssignableFrom(type))
             {
                 // if the value is assignable then return it directly
@@ -288,8 +288,8 @@ namespace System
                 // for example "where T : IComparable<T>" so we need to check whether the type meets the generic constraints of 
                 // the generic type definition (i.e. that it is suitable to be the T in the generic type definition) and if so 
                 // whether the constructed generic type is assignable from the value
-                var constraintTypeDefinition = constraintType.GetGenericTypeDefinition();
-                var constraintTypeDefinitionArgs = constraintTypeDefinition.GetGenericArguments();
+                Type constraintTypeDefinition = constraintType.GetGenericTypeDefinition();
+                Type[] constraintTypeDefinitionArgs = constraintTypeDefinition.GetGenericArguments();
                 if (constraintTypeDefinitionArgs.Length == 1 && type.MeetsGenericParameterConstraints(constraintTypeDefinitionArgs[0]))
                 {
                     result = constraintTypeDefinition.MakeGenericType(type).IsAssignableFrom(type);

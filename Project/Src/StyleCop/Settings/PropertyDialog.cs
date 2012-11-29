@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="PropertyDialog.cs">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="PropertyDialog.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Hosts a <see cref="PropertyControl" /> and provides standard property page buttons.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop
 {
     using System;
@@ -28,46 +31,46 @@ namespace StyleCop
     /// </summary>
     internal partial class PropertyDialog : Form, IPropertyControlHost
     {
-        #region Private Fields
-
-        /// <summary>
-        /// The StyleCop core instance.
-        /// </summary>
-        private StyleCopCore core;
+        #region Fields
 
         /// <summary>
         /// The context for the property control.
         /// </summary>
-        private object[] context;
+        private readonly object[] context;
+
+        /// <summary>
+        /// The StyleCop core instance.
+        /// </summary>
+        private readonly StyleCopCore core;
+
+        /// <summary>
+        /// The callback method for help.
+        /// </summary>
+        private readonly Help helpCallback;
+
+        /// <summary>
+        /// The page set ID.
+        /// </summary>
+        private readonly string id;
+
+        /// <summary>
+        /// The property pages to display.
+        /// </summary>
+        private readonly IList<IPropertyControlPage> pages;
+
+        /// <summary>
+        /// The settings file being edited.
+        /// </summary>
+        private readonly WritableSettings settingsFile;
 
         /// <summary>
         /// Indicates whether settings have been changed on any page.
         /// </summary>
         private bool settingsChanged;
 
-        /// <summary>
-        /// The page set ID.
-        /// </summary>
-        private string id;
+        #endregion
 
-        /// <summary>
-        /// The settings file being edited.
-        /// </summary>
-        private WritableSettings settingsFile;
-
-        /// <summary>
-        /// The callback method for help.
-        /// </summary>
-        private Help helpCallback;
-
-        /// <summary>
-        /// The property pages to display.
-        /// </summary>
-        private IList<IPropertyControlPage> pages;
-
-        #endregion Private Fields
-
-        #region Public Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the PropertyDialog class.
@@ -80,19 +83,25 @@ namespace StyleCop
         /// <summary>
         /// Initializes a new instance of the PropertyDialog class.
         /// </summary>
-        /// <param name="pages">The array of pages to display on the property control.</param>
-        /// <param name="settingsFile">The file that contains the settings being edited.</param>
-        /// <param name="id">A unique ID that describes this set of property pages.</param>
-        /// <param name="core">The StyleCop core instance.</param>
-        /// <param name="helpCallback">Callback method for help, or null for no help.</param>
-        /// <param name="context">The context to the send to the property page control.</param>
-        public PropertyDialog(
-            IList<IPropertyControlPage> pages,
-            WritableSettings settingsFile,
-            string id,
-            StyleCopCore core,
-            Help helpCallback,
-            params object[] context)
+        /// <param name="pages">
+        /// The array of pages to display on the property control.
+        /// </param>
+        /// <param name="settingsFile">
+        /// The file that contains the settings being edited.
+        /// </param>
+        /// <param name="id">
+        /// A unique ID that describes this set of property pages.
+        /// </param>
+        /// <param name="core">
+        /// The StyleCop core instance.
+        /// </param>
+        /// <param name="helpCallback">
+        /// Callback method for help, or null for no help.
+        /// </param>
+        /// <param name="context">
+        /// The context to the send to the property page control.
+        /// </param>
+        public PropertyDialog(IList<IPropertyControlPage> pages, WritableSettings settingsFile, string id, StyleCopCore core, Help helpCallback, params object[] context)
         {
             Param.Assert(pages != null && pages.Count > 0, "pages", "Cannot be null or empty");
             Param.Assert(settingsFile != null && settingsFile.Loaded, "settingsFile", "The settings file must be loaded.");
@@ -113,9 +122,9 @@ namespace StyleCop
             this.core.Registry.RestoreWindowPosition(this.id, this, this.Location, this.Size);
         }
 
-        #endregion Public Constructors
+        #endregion
 
-        #region Public Delegates
+        #region Delegates
 
         /// <summary>
         /// Delegate that is called when the user hits the Help button.
@@ -123,7 +132,7 @@ namespace StyleCop
         /// <param name="activePage">The currently active page on the control.</param>
         public delegate void Help(IPropertyControlPage activePage);
 
-        #endregion Public Delegates
+        #endregion
 
         #region Public Properties
 
@@ -132,27 +141,15 @@ namespace StyleCop
         /// </summary>
         public bool SettingsChanged
         {
-            get 
-            { 
-                return this.settingsChanged; 
+            get
+            {
+                return this.settingsChanged;
             }
         }
 
-        #endregion Public Properties
+        #endregion
 
-        #region Public Methods
-
-        /// <summary>
-        /// IPropertyControlHost.Dirty implementation. Enables or disables the Apply button
-        /// based upon whether any data on the pages is dirty.
-        /// </summary>
-        /// <param name="isDirty">True if the dialog is dirty.</param>
-        public void Dirty(bool isDirty)
-        {
-            Param.Ignore(isDirty);
-
-            this.apply.Enabled = isDirty;
-        }
+        #region Public Methods and Operators
 
         /// <summary>
         /// Cancels the dialog.
@@ -163,14 +160,44 @@ namespace StyleCop
             this.Close();
         }
 
-        #endregion Public Methods
+        /// <summary>
+        /// IPropertyControlHost.Dirty implementation. Enables or disables the Apply button
+        /// based upon whether any data on the pages is dirty.
+        /// </summary>
+        /// <param name="isDirty">
+        /// True if the dialog is dirty.
+        /// </param>
+        public void Dirty(bool isDirty)
+        {
+            Param.Ignore(isDirty);
 
-        #region Protected Override Methods
+            this.apply.Enabled = isDirty;
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// The form's OnClosing event. Saves the window position.
+        /// </summary>
+        /// <param name="e">
+        /// The event arguments.
+        /// </param>
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            Param.Ignore(e);
+            base.OnClosing(e);
+
+            this.core.Registry.SaveWindowPositionByForm(this.id, this);
+        }
 
         /// <summary>
         /// The form's OnLoad event. Initializes the PropertyControl object.
         /// </summary>
-        /// <param name="e">The event arguments.</param>
+        /// <param name="e">
+        /// The event arguments.
+        /// </param>
         protected override void OnLoad(EventArgs e)
         {
             Param.Ignore(e);
@@ -193,11 +220,11 @@ namespace StyleCop
             catch (IOException ioex)
             {
                 AlertDialog.Show(
-                    this.core,
-                    this,
-                    string.Format(CultureInfo.CurrentUICulture, Strings.LocalSettingsNotOpenedOrCreated, ioex.Message),
-                    Strings.Title,
-                    MessageBoxButtons.OK,
+                    this.core, 
+                    this, 
+                    string.Format(CultureInfo.CurrentUICulture, Strings.LocalSettingsNotOpenedOrCreated, ioex.Message), 
+                    Strings.Title, 
+                    MessageBoxButtons.OK, 
                     MessageBoxIcon.Error);
 
                 this.Close();
@@ -205,11 +232,11 @@ namespace StyleCop
             catch (SecurityException secex)
             {
                 AlertDialog.Show(
-                    this.core,
-                    this,
-                    string.Format(CultureInfo.CurrentUICulture, Strings.LocalSettingsNotOpenedOrCreated, secex.Message),
-                    Strings.Title,
-                    MessageBoxButtons.OK,
+                    this.core, 
+                    this, 
+                    string.Format(CultureInfo.CurrentUICulture, Strings.LocalSettingsNotOpenedOrCreated, secex.Message), 
+                    Strings.Title, 
+                    MessageBoxButtons.OK, 
                     MessageBoxIcon.Error);
 
                 this.Close();
@@ -217,11 +244,11 @@ namespace StyleCop
             catch (UnauthorizedAccessException unauthex)
             {
                 AlertDialog.Show(
-                    this.core,
-                    this,
-                    string.Format(CultureInfo.CurrentUICulture, Strings.LocalSettingsNotOpenedOrCreated, unauthex.Message),
-                    Strings.Title,
-                    MessageBoxButtons.OK,
+                    this.core, 
+                    this, 
+                    string.Format(CultureInfo.CurrentUICulture, Strings.LocalSettingsNotOpenedOrCreated, unauthex.Message), 
+                    Strings.Title, 
+                    MessageBoxButtons.OK, 
                     MessageBoxIcon.Error);
 
                 this.Close();
@@ -229,11 +256,11 @@ namespace StyleCop
             catch (XmlException xmlex)
             {
                 AlertDialog.Show(
-                    this.core,
-                    this,
-                    string.Format(CultureInfo.CurrentUICulture, Strings.LocalSettingsNotOpenedOrCreated, xmlex.Message),
-                    Strings.Title,
-                    MessageBoxButtons.OK,
+                    this.core, 
+                    this, 
+                    string.Format(CultureInfo.CurrentUICulture, Strings.LocalSettingsNotOpenedOrCreated, xmlex.Message), 
+                    Strings.Title, 
+                    MessageBoxButtons.OK, 
                     MessageBoxIcon.Error);
 
                 this.Close();
@@ -241,26 +268,14 @@ namespace StyleCop
         }
 
         /// <summary>
-        /// The form's OnClosing event. Saves the window position.
-        /// </summary>
-        /// <param name="e">The event arguments.</param>
-        protected override void OnClosing(CancelEventArgs e)
-        {
-            Param.Ignore(e);
-            base.OnClosing(e);
-
-            this.core.Registry.SaveWindowPositionByForm(this.id, this);
-        }
-
-        #endregion Protected Override Methods
-
-        #region Private Static Methods
-
-        /// <summary>
         /// Moves the first button into the same position as the second button.
         /// </summary>
-        /// <param name="source">The button to move.</param>
-        /// <param name="dest">The button to move the first button on top of.</param>
+        /// <param name="source">
+        /// The button to move.
+        /// </param>
+        /// <param name="dest">
+        /// The button to move the first button on top of.
+        /// </param>
         private static void MoveButton(Button source, Button dest)
         {
             Param.AssertNotNull(source, "source");
@@ -270,55 +285,15 @@ namespace StyleCop
             source.Left = dest.Left;
         }
 
-        #endregion Private Static Methods
-
-        #region Private Methods
-
-        /// <summary>
-        /// Called when the user clicks the OK button.
-        /// </summary>
-        /// <param name="sender">The event sender.</param>
-        /// <param name="e">The event arguments.</param>
-        private void OkClick(object sender, EventArgs e)
-        {
-            Param.Ignore(sender, e);
-
-            bool changed;
-            PropertyControlSaveResult result = this.properties.Apply(out changed);
-
-            if (changed)
-            {
-                this.settingsChanged = true;
-            }
-
-            // The dialog is closed whenever the settings were successfully saved,
-            // or when an error occurred while saving the settings. This can result
-            // in an undesirable user experience, since the settings changes may 
-            // be lost when a save error occurs, however, this is the best solution
-            // for now until the property pages can recover from a save error and 
-            // save themselves properly a second or third time.
-            if (result == PropertyControlSaveResult.Success)
-            {
-                this.Close();
-            }
-        }
-
-        /// <summary>
-        /// Called when the user clicks the Cancel button.
-        /// </summary>
-        /// <param name="sender">The event sender.</param>
-        /// <param name="e">The event arguments.</param>
-        private void CancelClick(object sender, EventArgs e)
-        {
-            Param.Ignore(sender, e);
-            this.Close();
-        }
-
         /// <summary>
         /// Called when the user clicks the Apply button.
         /// </summary>
-        /// <param name="sender">The event sender.</param>
-        /// <param name="e">The event arguments.</param>
+        /// <param name="sender">
+        /// The event sender.
+        /// </param>
+        /// <param name="e">
+        /// The event arguments.
+        /// </param>
         private void ApplyClick(object sender, EventArgs e)
         {
             Param.Ignore(sender, e);
@@ -343,10 +318,29 @@ namespace StyleCop
         }
 
         /// <summary>
+        /// Called when the user clicks the Cancel button.
+        /// </summary>
+        /// <param name="sender">
+        /// The event sender.
+        /// </param>
+        /// <param name="e">
+        /// The event arguments.
+        /// </param>
+        private void CancelClick(object sender, EventArgs e)
+        {
+            Param.Ignore(sender, e);
+            this.Close();
+        }
+
+        /// <summary>
         /// Called when the user clicks the Help button.
         /// </summary>
-        /// <param name="sender">The event sender.</param>
-        /// <param name="e">The event arguments.</param>
+        /// <param name="sender">
+        /// The event sender.
+        /// </param>
+        /// <param name="e">
+        /// The event arguments.
+        /// </param>
         private void HelpClick(object sender, EventArgs e)
         {
             Param.Ignore(sender, e);
@@ -357,6 +351,39 @@ namespace StyleCop
             }
         }
 
-        #endregion Private Methods
+        /// <summary>
+        /// Called when the user clicks the OK button.
+        /// </summary>
+        /// <param name="sender">
+        /// The event sender.
+        /// </param>
+        /// <param name="e">
+        /// The event arguments.
+        /// </param>
+        private void OkClick(object sender, EventArgs e)
+        {
+            Param.Ignore(sender, e);
+
+            bool changed;
+            PropertyControlSaveResult result = this.properties.Apply(out changed);
+
+            if (changed)
+            {
+                this.settingsChanged = true;
+            }
+
+            // The dialog is closed whenever the settings were successfully saved,
+            // or when an error occurred while saving the settings. This can result
+            // in an undesirable user experience, since the settings changes may 
+            // be lost when a save error occurs, however, this is the best solution
+            // for now until the property pages can recover from a save error and 
+            // save themselves properly a second or third time.
+            if (result == PropertyControlSaveResult.Success)
+            {
+                this.Close();
+            }
+        }
+
+        #endregion
     }
 }

@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="ReadabilityRules.ClassMembers.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ReadabilityRules.ClassMembers.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,25 +11,36 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
-
+// <summary>
+//   The readability rules.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
 
+    /// <summary>
+    /// The readability rules.
+    /// </summary>
     /// <content>Checks rules related to class member calls.</content>
     public partial class ReadabilityRules
     {
         #region Public Methods and Operators
 
         /// <summary>
-        ///   Returns a value indicating whether to delay analysis of this document until the next pass.
+        /// Returns a value indicating whether to delay analysis of this document until the next pass.
         /// </summary>
-        /// <param name="document"> The document to analyze. </param>
-        /// <param name="passNumber"> The current pass number. </param>
-        /// <returns> Returns true if analysis should be delayed. </returns>
+        /// <param name="document">
+        /// The document to analyze. 
+        /// </param>
+        /// <param name="passNumber">
+        /// The current pass number. 
+        /// </param>
+        /// <returns>
+        /// Returns true if analysis should be delayed. 
+        /// </returns>
         public override bool DelayAnalysis(CodeDocument document, int passNumber)
         {
             Param.RequireNotNull(document, "document");
@@ -59,12 +70,20 @@ namespace StyleCop.CSharp
         #region Methods
 
         /// <summary>
-        ///   Determines whether a matching local variable is contained in the given variable list.
+        /// Determines whether a matching local variable is contained in the given variable list.
         /// </summary>
-        /// <param name="variables"> The variable list. </param>
-        /// <param name="word"> The variable name to check. </param>
-        /// <param name="item"> The token containing the variable name. </param>
-        /// <returns> Returns true if there is a matching local variable. </returns>
+        /// <param name="variables">
+        /// The variable list. 
+        /// </param>
+        /// <param name="word">
+        /// The variable name to check. 
+        /// </param>
+        /// <param name="item">
+        /// The token containing the variable name. 
+        /// </param>
+        /// <returns>
+        /// Returns true if there is a matching local variable. 
+        /// </returns>
         private static bool ContainsVariable(VariableCollection variables, string word, CsToken item)
         {
             Param.AssertNotNull(variables, "variables");
@@ -93,11 +112,17 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        ///   Determines whether the given token is preceded by a member access symbol.
+        /// Determines whether the given token is preceded by a member access symbol.
         /// </summary>
-        /// <param name="literalTokenNode"> The token to check. </param>
-        /// <param name="masterList"> The list containing the token. </param>
-        /// <returns> Returns true if the token is preceded by a member access symbol. </returns>
+        /// <param name="literalTokenNode">
+        /// The token to check. 
+        /// </param>
+        /// <param name="masterList">
+        /// The list containing the token. 
+        /// </param>
+        /// <returns>
+        /// Returns true if the token is preceded by a member access symbol. 
+        /// </returns>
         private static bool IsLiteralTokenPrecededByMemberAccessSymbol(Node<CsToken> literalTokenNode, MasterList<CsToken> masterList)
         {
             Param.AssertNotNull(literalTokenNode, "literalTokenNode");
@@ -123,12 +148,20 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        ///   Determines whether the given word is the name of a local variable.
+        /// Determines whether the given word is the name of a local variable.
         /// </summary>
-        /// <param name="word"> The name to check. </param>
-        /// <param name="item"> The token containing the word. </param>
-        /// <param name="parent"> The code unit that the word appears in. </param>
-        /// <returns> True if the word is the name of a local variable, false if not. </returns>
+        /// <param name="word">
+        /// The name to check. 
+        /// </param>
+        /// <param name="item">
+        /// The token containing the word. 
+        /// </param>
+        /// <param name="parent">
+        /// The code unit that the word appears in. 
+        /// </param>
+        /// <returns>
+        /// True if the word is the name of a local variable, false if not. 
+        /// </returns>
         private static bool IsLocalMember(string word, CsToken item, ICodeUnit parent)
         {
             Param.AssertValidString(word, "word");
@@ -157,14 +190,18 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        ///   Determines whether the given expression is the left-hand-side literal in any of the assignment expressions within an object initialize expression.
+        /// Determines whether the given expression is the left-hand-side literal in any of the assignment expressions within an object initialize expression.
         /// </summary>
-        /// <param name="expression"> The expression to check. </param>
-        /// <returns> Returns true if the expression is the left-hand-side literal in any of the assignment expressions within an object initializer expression. </returns>
+        /// <param name="expression">
+        /// The expression to check. 
+        /// </param>
+        /// <returns>
+        /// Returns true if the expression is the left-hand-side literal in any of the assignment expressions within an object initializer expression. 
+        /// </returns>
         /// <remarks>
-        ///   This method checks for the following situation:
+        /// This method checks for the following situation:
         /// <code>
-        ///   class MyClass { public bool Member { get { return true; } } public void SomeMethod() { MyObjectType someObject = new MyObjectType { Member = this.Member }; } } 
+        /// class MyClass { public bool Member { get { return true; } } public void SomeMethod() { MyObjectType someObject = new MyObjectType { Member = this.Member }; } } 
         /// </code>
         /// In this case, StyleCop will raise a violation since it looks like the Member token should be prefixed by 'this.', however, it is actually referring to a property on the MyObjectType type.
         /// </remarks>
@@ -196,15 +233,28 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        ///   Checks a token to see if it should be prefixed (with this. or maybe another prefix).
+        /// Checks a token to see if it should be prefixed (with this. or maybe another prefix).
         /// </summary>
-        /// <param name="expression">The expression the word appears within.</param>
-        /// <param name="parentClass">The parent class that this element belongs to.</param>
-        /// <param name="matchesForPassedMethod">Matches for the passed-in version of the member name.</param>
-        /// <param name="matchesForGenericMethod">The matches for the generic version of the member name.</param>
-        /// <param name="memberName">The name of the member to check.</param>
-        /// <returns> True if the prefix is required otherwise false.</returns>
-        private static bool IsThisRequiredFromMemberList(Expression expression, ClassBase parentClass, IEnumerable<CsElement> matchesForPassedMethod, IEnumerable<CsElement> matchesForGenericMethod, string memberName)
+        /// <param name="expression">
+        /// The expression the word appears within.
+        /// </param>
+        /// <param name="parentClass">
+        /// The parent class that this element belongs to.
+        /// </param>
+        /// <param name="matchesForPassedMethod">
+        /// Matches for the passed-in version of the member name.
+        /// </param>
+        /// <param name="matchesForGenericMethod">
+        /// The matches for the generic version of the member name.
+        /// </param>
+        /// <param name="memberName">
+        /// The name of the member to check.
+        /// </param>
+        /// <returns>
+        /// True if the prefix is required otherwise false.
+        /// </returns>
+        private static bool IsThisRequiredFromMemberList(
+            Expression expression, ClassBase parentClass, IEnumerable<CsElement> matchesForPassedMethod, IEnumerable<CsElement> matchesForGenericMethod, string memberName)
         {
             if (matchesForPassedMethod != null)
             {
@@ -219,23 +269,21 @@ namespace StyleCop.CSharp
             if (parentClass.BaseClass != string.Empty)
             {
                 if (Utils.IsExpressionInsideContainer(
-                    expression,
-                    typeof(TypeofExpression),
-                    typeof(IsExpression),
-                    typeof(CastExpression),
-                    typeof(AsExpression),
-                    typeof(NewExpression),
-                    typeof(NewArrayExpression),
-                    typeof(MemberAccessExpression),
-                    typeof(DefaultValueExpression),
+                    expression, 
+                    typeof(TypeofExpression), 
+                    typeof(IsExpression), 
+                    typeof(CastExpression), 
+                    typeof(AsExpression), 
+                    typeof(NewExpression), 
+                    typeof(NewArrayExpression), 
+                    typeof(MemberAccessExpression), 
+                    typeof(DefaultValueExpression), 
                     typeof(VariableDeclarationExpression)))
                 {
                     return false;
                 }
 
-                if (expression.Parent is CatchStatement ||
-                    expression.Parent is LabelStatement ||
-                    expression.Parent is GotoStatement)
+                if (expression.Parent is CatchStatement || expression.Parent is LabelStatement || expression.Parent is GotoStatement)
                 {
                     return false;
                 }
@@ -254,11 +302,15 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Checks a token to see if it should be prefixed (with this. or maybe another prefix).
         /// </summary>
-        /// <param name="matchesForPassedMethod">Matches for the passed-in version of the member name.</param>
-        /// <returns> True if the prefix is required otherwise false.</returns>
+        /// <param name="matchesForPassedMethod">
+        /// Matches for the passed-in version of the member name.
+        /// </param>
+        /// <returns>
+        /// True if the prefix is required otherwise false.
+        /// </returns>
         private static bool IsThisRequiredFromMemberList(IEnumerable<CsElement> matchesForPassedMethod)
         {
-            foreach (var classMember in matchesForPassedMethod)
+            foreach (CsElement classMember in matchesForPassedMethod)
             {
                 if (classMember.Declaration.ContainsModifier(CsTokenType.Static) || (classMember.ElementType == ElementType.Field && ((Field)classMember).Const))
                 {
@@ -267,8 +319,9 @@ namespace StyleCop.CSharp
                     return false;
                 }
 
-                if (classMember.ElementType == ElementType.Interface || classMember.ElementType == ElementType.Class || classMember.ElementType == ElementType.Struct || classMember.ElementType == ElementType.Delegate
-                    || classMember.ElementType == ElementType.Enum || classMember.ElementType == ElementType.Constructor)
+                if (classMember.ElementType == ElementType.Interface || classMember.ElementType == ElementType.Class || classMember.ElementType == ElementType.Struct
+                    || classMember.ElementType == ElementType.Delegate || classMember.ElementType == ElementType.Enum
+                    || classMember.ElementType == ElementType.Constructor)
                 {
                     return false;
                 }
@@ -287,14 +340,22 @@ namespace StyleCop.CSharp
 
             return true;
         }
-        
+
         /// <summary>
-        ///   Checks the items within the given element.
+        /// Checks the items within the given element.
         /// </summary>
-        /// <param name="element"> The element to check. </param>
-        /// <param name="parentClass"> The class that the element belongs to. </param>
-        /// <param name="members"> The collection of members of the parent class. </param>
-        /// <returns> Returns false if the analyzer should quit. </returns>
+        /// <param name="element">
+        /// The element to check. 
+        /// </param>
+        /// <param name="parentClass">
+        /// The class that the element belongs to. 
+        /// </param>
+        /// <param name="members">
+        /// The collection of members of the parent class. 
+        /// </param>
+        /// <returns>
+        /// Returns false if the analyzer should quit. 
+        /// </returns>
         private bool CheckClassMemberRulesForElements(CsElement element, ClassBase parentClass, Dictionary<string, List<CsElement>> members)
         {
             Param.AssertNotNull(element, "element");
@@ -349,13 +410,23 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        ///   Parses the given expression.
+        /// Parses the given expression.
         /// </summary>
-        /// <param name="expression"> The expression. </param>
-        /// <param name="parentExpression"> The parent expression, if there is one. </param>
-        /// <param name="parentElement"> The element that contains the expressions. </param>
-        /// <param name="parentClass"> The class that the element belongs to. </param>
-        /// <param name="members"> The collection of members of the parent class. </param>
+        /// <param name="expression">
+        /// The expression. 
+        /// </param>
+        /// <param name="parentExpression">
+        /// The parent expression, if there is one. 
+        /// </param>
+        /// <param name="parentElement">
+        /// The element that contains the expressions. 
+        /// </param>
+        /// <param name="parentClass">
+        /// The class that the element belongs to. 
+        /// </param>
+        /// <param name="members">
+        /// The collection of members of the parent class. 
+        /// </param>
         private void CheckClassMemberRulesForExpression(
             Expression expression, Expression parentExpression, CsElement parentElement, ClassBase parentClass, Dictionary<string, List<CsElement>> members)
         {
@@ -425,13 +496,23 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        ///   Parses the list of expressions.
+        /// Parses the list of expressions.
         /// </summary>
-        /// <param name="expressions"> The list of expressions. </param>
-        /// <param name="parentExpression"> The parent expression, if there is one. </param>
-        /// <param name="parentElement"> The element that contains the expressions. </param>
-        /// <param name="parentClass"> The class that the element belongs to. </param>
-        /// <param name="members"> The collection of members of the parent class. </param>
+        /// <param name="expressions">
+        /// The list of expressions. 
+        /// </param>
+        /// <param name="parentExpression">
+        /// The parent expression, if there is one. 
+        /// </param>
+        /// <param name="parentElement">
+        /// The element that contains the expressions. 
+        /// </param>
+        /// <param name="parentClass">
+        /// The class that the element belongs to. 
+        /// </param>
+        /// <param name="members">
+        /// The collection of members of the parent class. 
+        /// </param>
         private void CheckClassMemberRulesForExpressions(
             IEnumerable<Expression> expressions, Expression parentExpression, CsElement parentElement, ClassBase parentClass, Dictionary<string, List<CsElement>> members)
         {
@@ -461,20 +542,32 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        ///   Parses the given literal token.
+        /// Parses the given literal token.
         /// </summary>
-        /// <param name="tokenNode"> The literal token node. </param>
-        /// <param name="expression"> The expression that contains the token. </param>
-        /// <param name="parentExpression"> The parent of the expression that contains the token. </param>
-        /// <param name="parentElement"> The element that contains the expression. </param>
-        /// <param name="parentClass"> The class that the element belongs to. </param>
-        /// <param name="members"> The collection of members of the parent class. </param>
+        /// <param name="tokenNode">
+        /// The literal token node. 
+        /// </param>
+        /// <param name="expression">
+        /// The expression that contains the token. 
+        /// </param>
+        /// <param name="parentExpression">
+        /// The parent of the expression that contains the token. 
+        /// </param>
+        /// <param name="parentElement">
+        /// The element that contains the expression. 
+        /// </param>
+        /// <param name="parentClass">
+        /// The class that the element belongs to. 
+        /// </param>
+        /// <param name="members">
+        /// The collection of members of the parent class. 
+        /// </param>
         private void CheckClassMemberRulesForLiteralToken(
-            Node<CsToken> tokenNode,
-            Expression expression,
-            Expression parentExpression,
-            CsElement parentElement,
-            ClassBase parentClass,
+            Node<CsToken> tokenNode, 
+            Expression expression, 
+            Expression parentExpression, 
+            CsElement parentElement, 
+            ClassBase parentClass, 
             Dictionary<string, List<CsElement>> members)
         {
             Param.AssertNotNull(tokenNode, "token");
@@ -527,12 +620,20 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        ///   Parses the given statement list.
+        /// Parses the given statement list.
         /// </summary>
-        /// <param name="statements"> The list of statements to parse. </param>
-        /// <param name="parentElement"> The element that contains the statements. </param>
-        /// <param name="parentClass"> The class that the element belongs to. </param>
-        /// <param name="members"> The collection of members of the parent class. </param>
+        /// <param name="statements">
+        /// The list of statements to parse. 
+        /// </param>
+        /// <param name="parentElement">
+        /// The element that contains the statements. 
+        /// </param>
+        /// <param name="parentClass">
+        /// The class that the element belongs to. 
+        /// </param>
+        /// <param name="members">
+        /// The collection of members of the parent class. 
+        /// </param>
         private void CheckClassMemberRulesForStatements(
             ICollection<Statement> statements, CsElement parentElement, ClassBase parentClass, Dictionary<string, List<CsElement>> members)
         {
@@ -556,12 +657,20 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        ///   Calculates whether the base prefix is required.
+        /// Calculates whether the base prefix is required.
         /// </summary>
-        /// <param name="memberName"> The text of the method call to check. </param>
-        /// <param name="parentClass"> The class this this member belongs to. </param>
-        /// <param name="members"> All the members of this class. </param>
-        /// <returns> True if base is required otherwise false. </returns>
+        /// <param name="memberName">
+        /// The text of the method call to check. 
+        /// </param>
+        /// <param name="parentClass">
+        /// The class this this member belongs to. 
+        /// </param>
+        /// <param name="members">
+        /// All the members of this class. 
+        /// </param>
+        /// <returns>
+        /// True if base is required otherwise false. 
+        /// </returns>
         private bool IsBaseRequired(string memberName, ClassBase parentClass, Dictionary<string, List<CsElement>> members)
         {
             // An item is only allowed to start with base if there is an implementation of the
@@ -582,7 +691,7 @@ namespace StyleCop.CSharp
 
             if (memberNameHasGeneric)
             {
-                var trimmedName = memberName.Substring(0, memberName.IndexOf('<'));
+                string trimmedName = memberName.Substring(0, memberName.IndexOf('<'));
 
                 matchesForTrimmedMethod = Utils.FindClassMember(trimmedName, parentClass, members, true);
 
@@ -653,22 +762,33 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        ///   Checks a token to see if it should be prefixed (with this. or maybe another prefix).
+        /// Checks a token to see if it should be prefixed (with this. or maybe another prefix).
         /// </summary>
-        /// <param name="tokenNode"> The TokenNode to check. </param>
-        /// <param name="expression"> The expression the word appears within. </param>
-        /// <param name="parentClass"> The parent class that this element belongs to. </param>
-        /// <param name="members"> The collection of members of the parent class. </param>
-        /// <returns> True if the prefix is required otherwise false. </returns>
+        /// <param name="tokenNode">
+        /// The TokenNode to check. 
+        /// </param>
+        /// <param name="expression">
+        /// The expression the word appears within. 
+        /// </param>
+        /// <param name="parentClass">
+        /// The parent class that this element belongs to. 
+        /// </param>
+        /// <param name="members">
+        /// The collection of members of the parent class. 
+        /// </param>
+        /// <returns>
+        /// True if the prefix is required otherwise false. 
+        /// </returns>
         private bool IsThisRequired(Node<CsToken> tokenNode, Expression expression, ClassBase parentClass, Dictionary<string, List<CsElement>> members)
         {
             string memberName = tokenNode.Value.Text;
 
-            if (IsLocalMember(memberName, tokenNode.Value, expression) || IsObjectInitializerLeftHandSideExpression(expression) || memberName == "object" || tokenNode.Value.CsTokenType != CsTokenType.Other)
+            if (IsLocalMember(memberName, tokenNode.Value, expression) || IsObjectInitializerLeftHandSideExpression(expression) || memberName == "object"
+                || tokenNode.Value.CsTokenType != CsTokenType.Other)
             {
                 return false;
             }
-            
+
             ICollection<CsElement> matchesForGenericMethod;
             ICollection<CsElement> matchesForPassedMethod = Utils.FindClassMember(memberName, parentClass, members, true);
 
@@ -684,7 +804,7 @@ namespace StyleCop.CSharp
 
             return IsThisRequiredFromMemberList(expression, parentClass, matchesForPassedMethod, matchesForGenericMethod, memberName);
         }
-        
+
         #endregion
     }
 }

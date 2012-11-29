@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="ReadabilityRules.Comments.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ReadabilityRules.Comments.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,24 +11,31 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   The readability rules.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
-    using StyleCop;
 
+    /// <summary>
+    /// The readability rules.
+    /// </summary>
     /// <content>
     /// Checks rules related to comments.
     /// </content>
     public partial class ReadabilityRules
     {
-        #region Private Methods
+        #region Methods
 
         /// <summary>
         /// Looks for empty comments.
         /// </summary>
-        /// <param name="element">The element to process.</param>
+        /// <param name="element">
+        /// The element to process.
+        /// </param>
         [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification = "Minimizing refactoring before release.")]
         private void CheckForEmptyComments(DocumentRoot element)
         {
@@ -62,10 +69,7 @@ namespace StyleCop.CSharp
                             {
                                 // Check whether there's anything here other than whitespace.
                                 // If so, then this comment is ok.
-                                if (token.Text[character] != ' ' &&
-                                    token.Text[character] != '\t' &&
-                                    token.Text[character] != '\r' &&
-                                    token.Text[character] != '\n')
+                                if (token.Text[character] != ' ' && token.Text[character] != '\t' && token.Text[character] != '\r' && token.Text[character] != '\n')
                                 {
                                     found = true;
                                     break;
@@ -157,10 +161,7 @@ namespace StyleCop.CSharp
                                 bool found = false;
                                 for (int character = start + 2; character < end; ++character)
                                 {
-                                    if (token.Text[character] != ' ' &&
-                                        token.Text[character] != '\t' &&
-                                        token.Text[character] != '\r' &&
-                                        token.Text[character] != '\n')
+                                    if (token.Text[character] != ' ' && token.Text[character] != '\t' && token.Text[character] != '\r' && token.Text[character] != '\n')
                                     {
                                         found = true;
                                         break;
@@ -180,6 +181,6 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Private Methods
+        #endregion
     }
 }

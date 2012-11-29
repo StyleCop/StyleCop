@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="SyntaxException.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SyntaxException.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,14 +11,18 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Exception which is thrown when a syntax error is found in the code
+//   which prevents StyleCop from analyzing the code.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop
 {
     using System;
     using System.Globalization;
     using System.Runtime.Serialization;
     using System.Security.Permissions;
-    
+
     /// <summary>
     /// Exception which is thrown when a syntax error is found in the code
     /// which prevents StyleCop from analyzing the code.
@@ -26,21 +30,21 @@ namespace StyleCop
     [Serializable]
     public sealed class SyntaxException : Exception
     {
-        #region Private Fields
-
-        /// <summary>
-        /// The source code document that contains the syntax error.
-        /// </summary>
-        private SourceCode sourceCode;
+        #region Fields
 
         /// <summary>
         /// The line number that the error appears on.
         /// </summary>
-        private int lineNumber = 1;
+        private readonly int lineNumber = 1;
 
-        #endregion Private Fields
+        /// <summary>
+        /// The source code document that contains the syntax error.
+        /// </summary>
+        private readonly SourceCode sourceCode;
 
-        #region Public Constructors
+        #endregion
+
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the SyntaxException class.
@@ -52,8 +56,12 @@ namespace StyleCop
         /// <summary>
         /// Initializes a new instance of the SyntaxException class.
         /// </summary>
-        /// <param name="sourceCode">The source code document containing the exception.</param>
-        /// <param name="lineNumber">The line number of the exception.</param>
+        /// <param name="sourceCode">
+        /// The source code document containing the exception.
+        /// </param>
+        /// <param name="lineNumber">
+        /// The line number of the exception.
+        /// </param>
         public SyntaxException(SourceCode sourceCode, int lineNumber)
             : base(string.Format(CultureInfo.CurrentCulture, Strings.SyntaxErrorInFile, sourceCode.Path, lineNumber))
         {
@@ -67,9 +75,15 @@ namespace StyleCop
         /// <summary>
         /// Initializes a new instance of the SyntaxException class.
         /// </summary>
-        /// <param name="sourceCode">The source code document containing the exception.</param>
-        /// <param name="lineNumber">The line number of the exception.</param>
-        /// <param name="message">The exception message.</param>
+        /// <param name="sourceCode">
+        /// The source code document containing the exception.
+        /// </param>
+        /// <param name="lineNumber">
+        /// The line number of the exception.
+        /// </param>
+        /// <param name="message">
+        /// The exception message.
+        /// </param>
         public SyntaxException(SourceCode sourceCode, int lineNumber, string message)
             : base(string.Format(CultureInfo.CurrentCulture, Strings.SyntaxErrorInFileWithMessage, sourceCode.Path, lineNumber, message))
         {
@@ -84,9 +98,15 @@ namespace StyleCop
         /// <summary>
         /// Initializes a new instance of the SyntaxException class.
         /// </summary>
-        /// <param name="sourceCode">The source code document containing the exception.</param>
-        /// <param name="lineNumber">The line number of the exception.</param>
-        /// <param name="innerException">The exception within this exception.</param>
+        /// <param name="sourceCode">
+        /// The source code document containing the exception.
+        /// </param>
+        /// <param name="lineNumber">
+        /// The line number of the exception.
+        /// </param>
+        /// <param name="innerException">
+        /// The exception within this exception.
+        /// </param>
         public SyntaxException(SourceCode sourceCode, int lineNumber, Exception innerException)
             : base(string.Format(CultureInfo.CurrentCulture, Strings.SyntaxErrorInFile, sourceCode.Path, lineNumber), innerException)
         {
@@ -101,10 +121,18 @@ namespace StyleCop
         /// <summary>
         /// Initializes a new instance of the SyntaxException class.
         /// </summary>
-        /// <param name="sourceCode">The source code document containing the exception.</param>
-        /// <param name="lineNumber">The line number of the exception.</param>
-        /// <param name="message">The exception message.</param>
-        /// <param name="innerException">The exception within this exception.</param>
+        /// <param name="sourceCode">
+        /// The source code document containing the exception.
+        /// </param>
+        /// <param name="lineNumber">
+        /// The line number of the exception.
+        /// </param>
+        /// <param name="message">
+        /// The exception message.
+        /// </param>
+        /// <param name="innerException">
+        /// The exception within this exception.
+        /// </param>
         public SyntaxException(SourceCode sourceCode, int lineNumber, string message, Exception innerException)
             : base(string.Format(CultureInfo.CurrentCulture, Strings.SyntaxErrorInFileWithMessage, sourceCode.Path, lineNumber, message), innerException)
         {
@@ -120,28 +148,21 @@ namespace StyleCop
         /// <summary>
         /// Initializes a new instance of the SyntaxException class.
         /// </summary>
-        /// <param name="serializationInfo">Holds the serialization info about the exception.</param>
-        /// <param name="streamingContext">Holds contextual information.</param>
+        /// <param name="serializationInfo">
+        /// Holds the serialization info about the exception.
+        /// </param>
+        /// <param name="streamingContext">
+        /// Holds contextual information.
+        /// </param>
         private SyntaxException(SerializationInfo serializationInfo, StreamingContext streamingContext)
             : base(serializationInfo, streamingContext)
         {
             Param.Ignore(serializationInfo, streamingContext);
         }
 
-        #endregion Public Constructors
+        #endregion
 
         #region Public Properties
-
-        /// <summary>
-        /// Gets the source code document that contains the syntax error.
-        /// </summary>
-        public SourceCode SourceCode
-        {
-            get
-            {
-                return this.sourceCode;
-            }
-        }
 
         /// <summary>
         /// Gets the line number that the syntax error appears on.
@@ -154,15 +175,30 @@ namespace StyleCop
             }
         }
 
-        #endregion Public Properties
+        /// <summary>
+        /// Gets the source code document that contains the syntax error.
+        /// </summary>
+        public SourceCode SourceCode
+        {
+            get
+            {
+                return this.sourceCode;
+            }
+        }
 
-        #region Public Methods
+        #endregion
+
+        #region Public Methods and Operators
 
         /// <summary>
         /// Populates a SerializationInfo with the data needed to serialize the target object.
         /// </summary>
-        /// <param name="info">The SerializationInfo to populate with data.</param>
-        /// <param name="context">The destination context for this serialization.</param>
+        /// <param name="info">
+        /// The SerializationInfo to populate with data.
+        /// </param>
+        /// <param name="context">
+        /// The destination context for this serialization.
+        /// </param>
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.SerializationFormatter)]
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
@@ -170,6 +206,6 @@ namespace StyleCop
             base.GetObjectData(info, context);
         }
 
-        #endregion Public Methods
+        #endregion
     }
 }

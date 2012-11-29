@@ -1,5 +1,5 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="ICodePart.cs">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ICodePart.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   An interface implemented by types that describe a code part.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
     /// <summary>
@@ -19,36 +22,28 @@ namespace StyleCop.CSharp
     /// </summary>
     public interface ICodePart
     {
+        #region Public Properties
+
         /// <summary>
         /// Gets the type of the code part.
         /// </summary>
-        CodePartType CodePartType
-        {
-            get;
-        }
-
-        /// <summary>
-        /// Gets the location of this code unit within the document.
-        /// </summary>
-        CodeLocation Location
-        {
-            get;
-        }
+        CodePartType CodePartType { get; }
 
         /// <summary>
         /// Gets the line number that this code unit appears on in the document.
         /// </summary>
-        int LineNumber
-        {
-            get;
-        }
+        int LineNumber { get; }
+
+        /// <summary>
+        /// Gets the location of this code unit within the document.
+        /// </summary>
+        CodeLocation Location { get; }
 
         /// <summary>
         /// Gets the parent of this code part.
         /// </summary>
-        ICodePart Parent
-        {
-            get;
-        }
+        ICodePart Parent { get; }
+
+        #endregion
     }
 }

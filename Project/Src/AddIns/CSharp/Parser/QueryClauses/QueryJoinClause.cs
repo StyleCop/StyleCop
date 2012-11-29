@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="QueryJoinClause.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="QueryJoinClause.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,63 +11,71 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   Describes a join clause in a query expression.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
-
     /// <summary>
     /// Describes a join clause in a query expression.
     /// </summary>
     public sealed class QueryJoinClause : QueryClause
     {
-        #region Private Fields
-
-        /// <summary>
-        /// The variable that ranges over the values in the query result.
-        /// </summary>
-        private Variable rangeVariable;
-
-        /// <summary>
-        /// The optional variable that the result is placed into.
-        /// </summary>
-        private Variable intoVariable;
-
-        /// <summary>
-        /// The expression after the 'in' keyword.
-        /// </summary>
-        private Expression inExpression;
-
-        /// <summary>
-        /// The expression after the 'on' keyword.
-        /// </summary>
-        private Expression onKeyExpression;
+        #region Fields
 
         /// <summary>
         /// The expression after the 'equals' keyword.
         /// </summary>
-        private Expression equalsKeyExpression;
+        private readonly Expression equalsKeyExpression;
 
-        #endregion Private Fields
+        /// <summary>
+        /// The expression after the 'in' keyword.
+        /// </summary>
+        private readonly Expression inExpression;
 
-        #region Internal Constructors
+        /// <summary>
+        /// The optional variable that the result is placed into.
+        /// </summary>
+        private readonly Variable intoVariable;
+
+        /// <summary>
+        /// The expression after the 'on' keyword.
+        /// </summary>
+        private readonly Expression onKeyExpression;
+
+        /// <summary>
+        /// The variable that ranges over the values in the query result.
+        /// </summary>
+        private readonly Variable rangeVariable;
+
+        #endregion
+
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the QueryJoinClause class.
         /// </summary>
-        /// <param name="tokens">The list of tokens that form the clause.</param>
-        /// <param name="rangeVariable">The variable that ranges over the values in the query result.</param>
-        /// <param name="inExpression">The expression after the 'in' keyword.</param>
-        /// <param name="onKeyExpression">The expression after the 'on' keyword.</param>
-        /// <param name="equalsKeyExpression">The expression after the 'equals' keyword.</param>
-        /// <param name="intoVariable">The optional variable that the result is placed into.</param>
+        /// <param name="tokens">
+        /// The list of tokens that form the clause.
+        /// </param>
+        /// <param name="rangeVariable">
+        /// The variable that ranges over the values in the query result.
+        /// </param>
+        /// <param name="inExpression">
+        /// The expression after the 'in' keyword.
+        /// </param>
+        /// <param name="onKeyExpression">
+        /// The expression after the 'on' keyword.
+        /// </param>
+        /// <param name="equalsKeyExpression">
+        /// The expression after the 'equals' keyword.
+        /// </param>
+        /// <param name="intoVariable">
+        /// The optional variable that the result is placed into.
+        /// </param>
         internal QueryJoinClause(
-            CsTokenList tokens, 
-            Variable rangeVariable, 
-            Expression inExpression, 
-            Expression onKeyExpression,
-            Expression equalsKeyExpression,
-            Variable intoVariable)
+            CsTokenList tokens, Variable rangeVariable, Expression inExpression, Expression onKeyExpression, Expression equalsKeyExpression, Variable intoVariable)
             : base(QueryClauseType.Join, tokens)
         {
             Param.AssertNotNull(tokens, "tokens");
@@ -88,18 +96,18 @@ namespace StyleCop.CSharp
             this.AddExpression(this.equalsKeyExpression);
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
 
         /// <summary>
-        /// Gets the variable that ranges over the values in the query result.
+        /// Gets the expression after the 'equals' keyword.
         /// </summary>
-        public Variable RangeVariable
+        public Expression EqualsKeyExpression
         {
             get
             {
-                return this.rangeVariable;
+                return this.equalsKeyExpression;
             }
         }
 
@@ -115,6 +123,17 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
+        /// Gets the optional variable that the result is placed into.
+        /// </summary>
+        public Variable IntoVariable
+        {
+            get
+            {
+                return this.intoVariable;
+            }
+        }
+
+        /// <summary>
         /// Gets the expression after the 'on' keyword.
         /// </summary>
         public Expression OnKeyExpression
@@ -126,27 +145,16 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Gets the expression after the 'equals' keyword.
+        /// Gets the variable that ranges over the values in the query result.
         /// </summary>
-        public Expression EqualsKeyExpression
+        public Variable RangeVariable
         {
             get
             {
-                return this.equalsKeyExpression;
+                return this.rangeVariable;
             }
         }
 
-        /// <summary>
-        /// Gets the optional variable that the result is placed into.
-        /// </summary>
-        public Variable IntoVariable
-        {
-            get
-            {
-                return this.intoVariable;
-            }
-        }
-
-        #endregion Public Properties
+        #endregion
     }
 }

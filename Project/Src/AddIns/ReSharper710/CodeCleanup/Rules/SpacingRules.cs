@@ -42,7 +42,7 @@ namespace StyleCop.ReSharper710.CodeCleanup.Rules
     /// </summary>
     internal class SpacingRules
     {
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// The code must not contain multiple whitespace in a row.
@@ -52,12 +52,12 @@ namespace StyleCop.ReSharper710.CodeCleanup.Rules
         /// </param>
         public void CodeMustNotContainMultipleWhitespaceInARow(ITreeNode node)
         {
-            for (var currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
+            for (ITreeNode currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
             {
                 if (currentNode is ITokenNode)
                 {
-                    var currentToken = currentNode as ITokenNode;
-                    var previousToken = currentToken.GetPrevToken();
+                    ITokenNode currentToken = currentNode as ITokenNode;
+                    ITokenNode previousToken = currentToken.GetPrevToken();
 
                     if (previousToken != null)
                     {
@@ -86,26 +86,34 @@ namespace StyleCop.ReSharper710.CodeCleanup.Rules
         /// </param>
         public void CommasMustBeSpacedCorrectly(ITreeNode node)
         {
-            var tokensThatCanBeRightSideOfComma = new List<TokenNodeType> { CSharpTokenType.WHITE_SPACE, CSharpTokenType.RBRACKET, CSharpTokenType.GT, CSharpTokenType.COMMA, CSharpTokenType.RPARENTH };
+            List<TokenNodeType> tokensThatCanBeRightSideOfComma = new List<TokenNodeType>
+                                                                      {
+                                                                          CSharpTokenType.WHITE_SPACE, 
+                                                                          CSharpTokenType.RBRACKET, 
+                                                                          CSharpTokenType.GT, 
+                                                                          CSharpTokenType.COMMA, 
+                                                                          CSharpTokenType.RPARENTH
+                                                                      };
 
             const string WhiteSpace = " ";
 
-            for (var currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
+            for (ITreeNode currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
             {
                 if (currentNode is ITokenNode)
                 {
-                    var tokenNode = currentNode as ITokenNode;
+                    ITokenNode tokenNode = currentNode as ITokenNode;
 
                     if (tokenNode.GetTokenType() == CSharpTokenType.COMMA)
                     {
-                        var nextToken = tokenNode.GetNextToken();
+                        ITokenNode nextToken = tokenNode.GetNextToken();
 
                         if (!tokensThatCanBeRightSideOfComma.Contains(nextToken.GetTokenType()))
                         {
                             using (WriteLockCookie.Create(true))
                             {
                                 // insert a space
-                                var leafElement = TreeElementFactory.CreateLeafElement(CSharpTokenType.WHITE_SPACE, new JB::JetBrains.Text.StringBuffer(WhiteSpace), 0, WhiteSpace.Length);
+                                LeafElementBase leafElement = TreeElementFactory.CreateLeafElement(
+                                    CSharpTokenType.WHITE_SPACE, new JB::JetBrains.Text.StringBuffer(WhiteSpace), 0, WhiteSpace.Length);
                                 LowLevelModificationUtil.AddChildBefore(nextToken, new ITreeNode[] { leafElement });
                             }
                         }
@@ -127,28 +135,35 @@ namespace StyleCop.ReSharper710.CodeCleanup.Rules
         /// </param>
         public void EqualsMustBeSpacedCorrectly(ITreeNode node)
         {
-            var tokensThatCanBeLeftSideOfEquals = new List<TokenNodeType> { CSharpTokenType.WHITE_SPACE, CSharpTokenType.NE, CSharpTokenType.LT, CSharpTokenType.GT };
+            List<TokenNodeType> tokensThatCanBeLeftSideOfEquals = new List<TokenNodeType>
+                                                                      {
+                                                                          CSharpTokenType.WHITE_SPACE, 
+                                                                          CSharpTokenType.NE, 
+                                                                          CSharpTokenType.LT, 
+                                                                          CSharpTokenType.GT
+                                                                      };
 
             const string WhiteSpace = " ";
 
-            for (var currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
+            for (ITreeNode currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
             {
                 if (currentNode is ITokenNode)
                 {
-                    var tokenNode = currentNode as ITokenNode;
+                    ITokenNode tokenNode = currentNode as ITokenNode;
 
                     if (tokenNode.GetTokenType() == CSharpTokenType.EQ)
                     {
-                        var nextToken = tokenNode.GetNextToken();
+                        ITokenNode nextToken = tokenNode.GetNextToken();
 
-                        var previousToken = tokenNode.GetPrevToken();
+                        ITokenNode previousToken = tokenNode.GetPrevToken();
 
                         if (!nextToken.IsWhitespace())
                         {
                             using (WriteLockCookie.Create(true))
                             {
                                 // insert a space
-                                var leafElement = TreeElementFactory.CreateLeafElement(CSharpTokenType.WHITE_SPACE, new JB::JetBrains.Text.StringBuffer(WhiteSpace), 0, WhiteSpace.Length);
+                                LeafElementBase leafElement = TreeElementFactory.CreateLeafElement(
+                                    CSharpTokenType.WHITE_SPACE, new JB::JetBrains.Text.StringBuffer(WhiteSpace), 0, WhiteSpace.Length);
                                 LowLevelModificationUtil.AddChildBefore(nextToken, new ITreeNode[] { leafElement });
                             }
                         }
@@ -158,7 +173,8 @@ namespace StyleCop.ReSharper710.CodeCleanup.Rules
                             using (WriteLockCookie.Create(true))
                             {
                                 // insert a space
-                                var leafElement = TreeElementFactory.CreateLeafElement(CSharpTokenType.WHITE_SPACE, new JB::JetBrains.Text.StringBuffer(WhiteSpace), 0, WhiteSpace.Length);
+                                LeafElementBase leafElement = TreeElementFactory.CreateLeafElement(
+                                    CSharpTokenType.WHITE_SPACE, new JB::JetBrains.Text.StringBuffer(WhiteSpace), 0, WhiteSpace.Length);
                                 LowLevelModificationUtil.AddChildBefore(tokenNode, new ITreeNode[] { leafElement });
                             }
                         }
@@ -188,13 +204,13 @@ namespace StyleCop.ReSharper710.CodeCleanup.Rules
             Param.RequireNotNull(options, "options");
             Param.RequireNotNull(file, "file");
 
-            var commasMustBeSpacedCorrectly = options.SA1001CommasMustBeSpacedCorrectly;
-            var singleLineCommentsMustBeginWithSingleSpace = options.SA1005SingleLineCommentsMustBeginWithSingleSpace;
-            var preprocessorKeywordsMustNotBePrecededBySpace = options.SA1006PreprocessorKeywordsMustNotBePrecededBySpace;
-            var negativeSignsMustBeSpacedCorrectly = options.SA1021NegativeSignsMustBeSpacedCorrectly;
-            var positiveSignsMustBeSpacedCorrectly = options.SA1022PositiveSignsMustBeSpacedCorrectly;
-            var codeMustNotContainMultipleWhitespaceInARow = options.SA1025CodeMustNotContainMultipleWhitespaceInARow;
-            
+            bool commasMustBeSpacedCorrectly = options.SA1001CommasMustBeSpacedCorrectly;
+            bool singleLineCommentsMustBeginWithSingleSpace = options.SA1005SingleLineCommentsMustBeginWithSingleSpace;
+            bool preprocessorKeywordsMustNotBePrecededBySpace = options.SA1006PreprocessorKeywordsMustNotBePrecededBySpace;
+            bool negativeSignsMustBeSpacedCorrectly = options.SA1021NegativeSignsMustBeSpacedCorrectly;
+            bool positiveSignsMustBeSpacedCorrectly = options.SA1022PositiveSignsMustBeSpacedCorrectly;
+            bool codeMustNotContainMultipleWhitespaceInARow = options.SA1025CodeMustNotContainMultipleWhitespaceInARow;
+
             if (codeMustNotContainMultipleWhitespaceInARow)
             {
                 this.CodeMustNotContainMultipleWhitespaceInARow(file.FirstChild);
@@ -239,17 +255,17 @@ namespace StyleCop.ReSharper710.CodeCleanup.Rules
         /// </param>
         public void NegativeAndPositiveSignsMustBeSpacedCorrectly(ITreeNode node, TokenNodeType tokenToCheck)
         {
-            for (var currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
+            for (ITreeNode currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
             {
                 if (currentNode is ITokenNode)
                 {
-                    var tokenNode = currentNode as ITokenNode;
+                    ITokenNode tokenNode = currentNode as ITokenNode;
 
                     if (tokenNode.GetTokenType() == tokenToCheck)
                     {
                         if (tokenNode.Parent is IOperatorExpression && !(tokenNode.Parent is IAdditiveExpression))
                         {
-                            var nextToken = tokenNode.GetNextToken();
+                            ITokenNode nextToken = tokenNode.GetNextToken();
 
                             if (nextToken.IsWhitespace())
                             {
@@ -278,22 +294,22 @@ namespace StyleCop.ReSharper710.CodeCleanup.Rules
         /// </param>
         public void PreprocessorKeywordsMustNotBePrecededBySpace(ITreeNode node)
         {
-            for (var currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
+            for (ITreeNode currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
             {
                 if (currentNode is IPreprocessorDirective)
                 {
-                    var preprocessorDirectiveNode = currentNode as IPreprocessorDirective;
+                    IPreprocessorDirective preprocessorDirectiveNode = currentNode as IPreprocessorDirective;
 
-                    var directiveTokenNodeOffset = preprocessorDirectiveNode.Directive.GetTreeStartOffset();
+                    TreeOffset directiveTokenNodeOffset = preprocessorDirectiveNode.Directive.GetTreeStartOffset();
 
-                    var numberSignTokenNodeOffset = preprocessorDirectiveNode.NumberSign.GetTreeStartOffset();
+                    TreeOffset numberSignTokenNodeOffset = preprocessorDirectiveNode.NumberSign.GetTreeStartOffset();
 
                     if (directiveTokenNodeOffset - 1 != numberSignTokenNodeOffset)
                     {
                         // There is a gap between them
-                        var tokenNode = preprocessorDirectiveNode.NumberSign;
+                        ITokenNode tokenNode = preprocessorDirectiveNode.NumberSign;
 
-                        var nextToken = tokenNode.GetNextToken();
+                        ITokenNode nextToken = tokenNode.GetNextToken();
 
                         using (WriteLockCookie.Create(true))
                         {
@@ -318,31 +334,33 @@ namespace StyleCop.ReSharper710.CodeCleanup.Rules
         /// </param>
         public void SingleLineCommentsMustBeginWithSingleSpace(ITreeNode node)
         {
-            for (var currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
+            for (ITreeNode currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
             {
                 if (currentNode is ICommentNode && !(currentNode is IDocCommentNode))
                 {
-                    var commentNode = currentNode as ICommentNode;
+                    ICommentNode commentNode = currentNode as ICommentNode;
 
                     if (commentNode.GetTokenType() == CSharpTokenType.END_OF_LINE_COMMENT && !(commentNode.Parent is ICSharpFile))
                     {
-                        var originalCommentText = commentNode.CommentText;
+                        string originalCommentText = commentNode.CommentText;
 
                         // This check is to exclude comments starting with ////
                         if (!originalCommentText.StartsWith("//"))
                         {
-                            var originalCommentTextLength = originalCommentText.Length;
+                            int originalCommentTextLength = originalCommentText.Length;
 
-                            var trimmedCommentText = originalCommentText.TrimStart(' ');
-                            var trimmedCommentTextLength = trimmedCommentText.Length;
+                            string trimmedCommentText = originalCommentText.TrimStart(' ');
+                            int trimmedCommentTextLength = trimmedCommentText.Length;
 
                             if (trimmedCommentTextLength != originalCommentTextLength - 1)
                             {
                                 using (WriteLockCookie.Create(true))
                                 {
-                                    var newText = string.Format("// {0}", trimmedCommentText);
-                                    var newCommentNode =
-                                        (ICommentNode)CSharpTokenType.END_OF_LINE_COMMENT.Create(new JB::JetBrains.Text.StringBuffer(newText), new TreeOffset(0), new TreeOffset(newText.Length));
+                                    string newText = string.Format("// {0}", trimmedCommentText);
+                                    ICommentNode newCommentNode =
+                                        (ICommentNode)
+                                        CSharpTokenType.END_OF_LINE_COMMENT.Create(
+                                            new JB::JetBrains.Text.StringBuffer(newText), new TreeOffset(0), new TreeOffset(newText.Length));
                                     LowLevelModificationUtil.ReplaceChildRange(currentNode, currentNode, new ITreeNode[] { newCommentNode });
 
                                     currentNode = newCommentNode;

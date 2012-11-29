@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="StyleCopThread.Data.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="StyleCopThread.Data.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,14 +11,17 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   The style cop thread.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop
 {
-    using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Threading;
 
+    /// <summary>
+    /// The style cop thread.
+    /// </summary>
     /// <content>
     /// StyleCop thread.
     /// </content>
@@ -29,37 +32,7 @@ namespace StyleCop
         /// </summary>
         public class Data
         {
-            #region Private Fields
-
-            /// <summary>
-            /// The current analysis status of each source code document.
-            /// </summary>
-            private readonly Dictionary<SourceCode, DocumentAnalysisStatus> sourceCodeInstanceStatus = new Dictionary<SourceCode, DocumentAnalysisStatus>();
-
-            /// <summary>
-            /// The current analysis status of each project.
-            /// </summary>
-            private readonly Dictionary<CodeProject, ProjectStatus> projectStatus = new Dictionary<CodeProject, ProjectStatus>();
-
-            /// <summary>
-            /// True if the results cache should be ignored.
-            /// </summary>
-            private readonly bool ignoreResultsCache;
-
-            /// <summary>
-            /// The path to the settings to use during analysis.
-            /// </summary>
-            private readonly string settingsPath;
-
-            /// <summary>
-            /// The list of projects to analyze.
-            /// </summary>
-            private readonly IList<CodeProject> projects;
-
-            /// <summary>
-            /// The StyleCop core instance.
-            /// </summary>
-            private readonly StyleCopCore core;
+            #region Fields
 
             /// <summary>
             /// The results cache manager.
@@ -67,43 +40,78 @@ namespace StyleCop
             private readonly ResultsCache cache;
 
             /// <summary>
-            /// The index of the current project.
+            /// The StyleCop core instance.
             /// </summary>
-            private int projectIndex;
+            private readonly StyleCopCore core;
 
             /// <summary>
-            /// The index of the current source code index within the current project.
+            /// True if the results cache should be ignored.
             /// </summary>
-            private int sourceCodeInstanceIndex = -1;
-          
+            private readonly bool ignoreResultsCache;
+
+            /// <summary>
+            /// The current analysis status of each project.
+            /// </summary>
+            private readonly Dictionary<CodeProject, ProjectStatus> projectStatus = new Dictionary<CodeProject, ProjectStatus>();
+
+            /// <summary>
+            /// The list of projects to analyze.
+            /// </summary>
+            private readonly IList<CodeProject> projects;
+
+            /// <summary>
+            /// The path to the settings to use during analysis.
+            /// </summary>
+            private readonly string settingsPath;
+
+            /// <summary>
+            /// The current analysis status of each source code document.
+            /// </summary>
+            private readonly Dictionary<SourceCode, DocumentAnalysisStatus> sourceCodeInstanceStatus = new Dictionary<SourceCode, DocumentAnalysisStatus>();
+
             /// <summary>
             /// The pass number.
             /// </summary>
             private int passNumber;
 
             /// <summary>
+            /// The index of the current project.
+            /// </summary>
+            private int projectIndex;
+
+            /// <summary>
             /// Stores the settings for each project.
             /// </summary>
             private Dictionary<int, Settings> settings;
 
-            #endregion Private Fields
+            /// <summary>
+            /// The index of the current source code index within the current project.
+            /// </summary>
+            private int sourceCodeInstanceIndex = -1;
 
-            #region Public Constructors
+            #endregion
+
+            #region Constructors and Destructors
 
             /// <summary>
             /// Initializes a new instance of the Data class.
             /// </summary>
-            /// <param name="core">The StyleCop core instance.</param>
-            /// <param name="codeProjects">The list of code projects to analyze.</param>
-            /// <param name="resultsCache">The results cache.</param>
-            /// <param name="ignoreResultsCache">True to ignore the results cache.</param>
-            /// <param name="settingsPath">The path to the settings to use during analysis.</param>
-            public Data(
-                StyleCopCore core, 
-                IList<CodeProject> codeProjects,
-                ResultsCache resultsCache, 
-                bool ignoreResultsCache, 
-                string settingsPath)
+            /// <param name="core">
+            /// The StyleCop core instance.
+            /// </param>
+            /// <param name="codeProjects">
+            /// The list of code projects to analyze.
+            /// </param>
+            /// <param name="resultsCache">
+            /// The results cache.
+            /// </param>
+            /// <param name="ignoreResultsCache">
+            /// True to ignore the results cache.
+            /// </param>
+            /// <param name="settingsPath">
+            /// The path to the settings to use during analysis.
+            /// </param>
+            public Data(StyleCopCore core, IList<CodeProject> codeProjects, ResultsCache resultsCache, bool ignoreResultsCache, string settingsPath)
             {
                 Param.AssertNotNull(core, "core");
                 Param.AssertNotNull(codeProjects, "codeProjects");
@@ -117,7 +125,8 @@ namespace StyleCop
                 this.ignoreResultsCache = ignoreResultsCache;
                 this.settingsPath = settingsPath;
             }
-            #endregion Public Constructors
+
+            #endregion
 
             #region Public Properties
 
@@ -126,20 +135,9 @@ namespace StyleCop
             /// </summary>
             public StyleCopCore Core
             {
-                get 
-                { 
-                    return this.core; 
-                }
-            }
-
-            /// <summary>
-            /// Gets the results cache handler.
-            /// </summary>
-            public ResultsCache ResultsCache
-            {
-                get 
-                { 
-                    return this.cache; 
+                get
+                {
+                    return this.core;
                 }
             }
 
@@ -148,9 +146,9 @@ namespace StyleCop
             /// </summary>
             public bool IgnoreResultsCache
             {
-                get 
-                { 
-                    return this.ignoreResultsCache; 
+                get
+                {
+                    return this.ignoreResultsCache;
                 }
             }
 
@@ -171,9 +169,44 @@ namespace StyleCop
                 }
             }
 
-            #endregion Public Properties
+            /// <summary>
+            /// Gets the results cache handler.
+            /// </summary>
+            public ResultsCache ResultsCache
+            {
+                get
+                {
+                    return this.cache;
+                }
+            }
 
-            #region Public Methods
+            #endregion
+
+            #region Public Methods and Operators
+
+            /// <summary>
+            /// Gets the analysis status for the given source code document.
+            /// </summary>
+            /// <param name="sourceCode">
+            /// The source code to retrieve status for.
+            /// </param>
+            /// <returns>
+            /// Returns the analysis status for the source code.
+            /// </returns>
+            public DocumentAnalysisStatus GetDocumentStatus(SourceCode sourceCode)
+            {
+                Param.AssertNotNull(sourceCode, "sourceCode");
+
+                DocumentAnalysisStatus status;
+                if (!this.sourceCodeInstanceStatus.TryGetValue(sourceCode, out status))
+                {
+                    // Create a new status object and add add it to the dictionary.
+                    status = new DocumentAnalysisStatus();
+                    this.sourceCodeInstanceStatus.Add(sourceCode, status);
+                }
+
+                return status;
+            }
 
             /// <summary>
             /// Gets the next source code document to analyze.
@@ -197,21 +230,42 @@ namespace StyleCop
             }
 
             /// <summary>
-            /// Resets the source code document index.
+            /// Gets the analysis status for the given project.
             /// </summary>
-            public void ResetEmumerator()
+            /// <param name="project">
+            /// The project.
+            /// </param>
+            /// <returns>
+            /// Returns the analysis status for the project.
+            /// </returns>
+            public ProjectStatus GetProjectStatus(CodeProject project)
             {
-                this.sourceCodeInstanceIndex = -1;
-                this.projectIndex = 0;
+                Param.AssertNotNull(project, "project");
+
+                ProjectStatus status;
+                if (!this.projectStatus.TryGetValue(project, out status))
+                {
+                    // Create a new status object and add add it to the dictionary.
+                    status = new ProjectStatus();
+                    this.projectStatus.Add(project, status);
+                }
+
+                return status;
             }
 
             /// <summary>
             /// Gets the settings for the given project.
             /// </summary>
-            /// <param name="project">The project containing the settings.</param>
-            /// <returns>Returns the settings or null if the settings could not be loaded.</returns>
-            /// <remarks>If a settings path has been provided by the host, the project is ignored and
-            /// the alternate settings provided by the host are loaded instead.</remarks>
+            /// <param name="project">
+            /// The project containing the settings.
+            /// </param>
+            /// <returns>
+            /// Returns the settings or null if the settings could not be loaded.
+            /// </returns>
+            /// <remarks>
+            /// If a settings path has been provided by the host, the project is ignored and
+            /// the alternate settings provided by the host are loaded instead.
+            /// </remarks>
             public Settings GetSettings(CodeProject project)
             {
                 Param.AssertNotNull(project, "project");
@@ -262,48 +316,17 @@ namespace StyleCop
             }
 
             /// <summary>
-            /// Gets the analysis status for the given source code document.
+            /// Resets the source code document index.
             /// </summary>
-            /// <param name="sourceCode">The source code to retrieve status for.</param>
-            /// <returns>Returns the analysis status for the source code.</returns>
-            public DocumentAnalysisStatus GetDocumentStatus(SourceCode sourceCode)
+            public void ResetEmumerator()
             {
-                Param.AssertNotNull(sourceCode, "sourceCode");
-
-                DocumentAnalysisStatus status;
-                if (!this.sourceCodeInstanceStatus.TryGetValue(sourceCode, out status))
-                {
-                    // Create a new status object and add add it to the dictionary.
-                    status = new DocumentAnalysisStatus();
-                    this.sourceCodeInstanceStatus.Add(sourceCode, status);
-                }
-
-                return status;
+                this.sourceCodeInstanceIndex = -1;
+                this.projectIndex = 0;
             }
 
-            /// <summary>
-            /// Gets the analysis status for the given project.
-            /// </summary>
-            /// <param name="project">The project.</param>
-            /// <returns>Returns the analysis status for the project.</returns>
-            public ProjectStatus GetProjectStatus(CodeProject project)
-            {
-                Param.AssertNotNull(project, "project");
+            #endregion
 
-                ProjectStatus status;
-                if (!this.projectStatus.TryGetValue(project, out status))
-                {
-                    // Create a new status object and add add it to the dictionary.
-                    status = new ProjectStatus();
-                    this.projectStatus.Add(project, status);
-                }
-
-                return status;
-            }
-
-            #endregion Public Methods
-
-            #region Private Methods
+            #region Methods
 
             /// <summary>
             /// Pulls out the next source code document.
@@ -332,7 +355,7 @@ namespace StyleCop
                 return sourceCode;
             }
 
-            #endregion Private Methods
+            #endregion
         }
     }
 }

@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="ReadabilityRules.QueryExpressions.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ReadabilityRules.QueryExpressions.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,29 +11,33 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   The readability rules.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
-    using System.Collections;
     using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.IO;
-    using System.Xml;
-    using StyleCop;
 
+    /// <summary>
+    /// The readability rules.
+    /// </summary>
     /// <content>
     /// Checks rules related to formatting of query expressions.
     /// </content>
     public partial class ReadabilityRules
     {
-        #region Private Methods
+        #region Methods
 
         /// <summary>
         /// Processes the given query expression.
         /// </summary>
-        /// <param name="element">The element that contains the expression.</param>
-        /// <param name="queryExpression">The query expression.</param>
+        /// <param name="element">
+        /// The element that contains the expression.
+        /// </param>
+        /// <param name="queryExpression">
+        /// The query expression.
+        /// </param>
         private void CheckQueryExpression(CsElement element, QueryExpression queryExpression)
         {
             Param.AssertNotNull(element, "element");
@@ -44,33 +48,41 @@ namespace StyleCop.CSharp
             bool clauseOnSameLine = false;
             bool clauseOnSeparateLine = false;
 
-            this.ProcessQueryClauses(
-                element,
-                queryExpression,
-                queryExpression.ChildClauses,
-                ref previousClause,
-                ref clauseOnSameLine,
-                ref clauseOnSeparateLine);
+            this.ProcessQueryClauses(element, queryExpression, queryExpression.ChildClauses, ref previousClause, ref clauseOnSameLine, ref clauseOnSeparateLine);
         }
 
         /// <summary>
         /// Analyzes the given query clauses.
         /// </summary>
-        /// <param name="element">The element containing the clauses.</param>
-        /// <param name="expression">The expression containing the clauses.</param>
-        /// <param name="clauses">The list of clauses to analyze.</param>
-        /// <param name="previousClause">The previous clause in the expression, if any.</param>
-        /// <param name="clauseOnSameLine">Indicates whether any clause has been seen previously which
-        /// starts on the same line as the clause before it.</param>
-        /// <param name="clauseOnSeparateLine">Indicates whether any clause has been seen previously which
-        /// starts on the line after the clause before it.</param>
-        /// <returns>Returns true to continue checking the query clause, or false to quit.</returns>
+        /// <param name="element">
+        /// The element containing the clauses.
+        /// </param>
+        /// <param name="expression">
+        /// The expression containing the clauses.
+        /// </param>
+        /// <param name="clauses">
+        /// The list of clauses to analyze.
+        /// </param>
+        /// <param name="previousClause">
+        /// The previous clause in the expression, if any.
+        /// </param>
+        /// <param name="clauseOnSameLine">
+        /// Indicates whether any clause has been seen previously which
+        /// starts on the same line as the clause before it.
+        /// </param>
+        /// <param name="clauseOnSeparateLine">
+        /// Indicates whether any clause has been seen previously which
+        /// starts on the line after the clause before it.
+        /// </param>
+        /// <returns>
+        /// Returns true to continue checking the query clause, or false to quit.
+        /// </returns>
         private bool ProcessQueryClauses(
-            CsElement element,
-            QueryExpression expression,
-            ICollection<QueryClause> clauses,
-            ref QueryClause previousClause,
-            ref bool clauseOnSameLine,
+            CsElement element, 
+            QueryExpression expression, 
+            ICollection<QueryClause> clauses, 
+            ref QueryClause previousClause, 
+            ref bool clauseOnSameLine, 
             ref bool clauseOnSeparateLine)
         {
             Param.AssertNotNull(element, "element");
@@ -160,13 +172,9 @@ namespace StyleCop.CSharp
                 if (clause.QueryClauseType == QueryClauseType.Continuation)
                 {
                     QueryContinuationClause continuationClause = (QueryContinuationClause)clause;
-                    if (!this.ProcessQueryClauses(
-                        element,
-                        expression,
-                        continuationClause.ChildClauses,
-                        ref previousClause,
-                        ref clauseOnSameLine,
-                        ref clauseOnSeparateLine))
+                    if (
+                        !this.ProcessQueryClauses(
+                            element, expression, continuationClause.ChildClauses, ref previousClause, ref clauseOnSameLine, ref clauseOnSeparateLine))
                     {
                         return false;
                     }
@@ -176,6 +184,6 @@ namespace StyleCop.CSharp
             return true;
         }
 
-        #endregion Private Methods
+        #endregion
     }
 }

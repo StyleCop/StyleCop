@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="LiteralExpression.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="LiteralExpression.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,35 +11,38 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   An expression representing a literal.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-
     /// <summary>
     /// An expression representing a literal.
     /// </summary>
     /// <subcategory>expression</subcategory>
     public sealed class LiteralExpression : Expression
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// The literal token node.
         /// </summary>
-        private Node<CsToken> tokenNode;
+        private readonly Node<CsToken> tokenNode;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Internal Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the LiteralExpression class.
         /// </summary>
-        /// <param name="tokens">The list of tokens that form the expression.</param>
-        /// <param name="tokenNode">The literal token node.</param>
+        /// <param name="tokens">
+        /// The list of tokens that form the expression.
+        /// </param>
+        /// <param name="tokenNode">
+        /// The literal token node.
+        /// </param>
         internal LiteralExpression(CsTokenList tokens, Node<CsToken> tokenNode)
             : base(ExpressionType.Literal, tokens)
         {
@@ -52,8 +55,12 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Initializes a new instance of the LiteralExpression class.
         /// </summary>
-        /// <param name="masterList">The master token list for the document containing the expression.</param>
-        /// <param name="tokenNode">The literal token represented by the expression.</param>
+        /// <param name="masterList">
+        /// The master token list for the document containing the expression.
+        /// </param>
+        /// <param name="tokenNode">
+        /// The literal token represented by the expression.
+        /// </param>
         internal LiteralExpression(MasterList<CsToken> masterList, Node<CsToken> tokenNode)
             : this(new CsTokenList(masterList, tokenNode, tokenNode), tokenNode)
         {
@@ -61,7 +68,7 @@ namespace StyleCop.CSharp
             Param.AssertNotNull(tokenNode, "tokenNode");
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
 
@@ -87,9 +94,9 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Properties
+        #endregion
 
-        #region Public Override Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Gets the contents of the expression as a string.
@@ -100,6 +107,6 @@ namespace StyleCop.CSharp
             return CodeLexer.DecodeEscapedText(this.tokenNode.Value.Text, false);
         }
 
-        #endregion Public Override Methods
+        #endregion
     }
 }

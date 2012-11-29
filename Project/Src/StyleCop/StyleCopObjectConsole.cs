@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="StyleCopObjectConsole.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="StyleCopObjectConsole.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,7 +11,11 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   A lightweight StyleCop host which does not depend on the file system for loading source and settings files. Source files and settings
+//   files can be loaded from any arbitrary source (in memory, database, etc.).
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop
 {
     using System;
@@ -20,7 +24,6 @@ namespace StyleCop
     using System.Globalization;
     using System.IO;
     using System.Security;
-    using System.Text;
     using System.Xml;
 
     /// <summary>
@@ -30,31 +33,35 @@ namespace StyleCop
     [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "StyleCop", Justification = "This is the correct casing.")]
     public class StyleCopObjectConsole : StyleCopRunner
     {
-        #region Private Fields
+        #region Fields
 
         /// <summary>
         /// The default settings document.
         /// </summary>
-        private Settings defaultSettings;
+        private readonly Settings defaultSettings;
 
-        #endregion Private Fields
+        #endregion
 
-        #region Public Constructors
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the StyleCopObjectConsole class.
         /// </summary>
-        /// <param name="environment">The environment.</param>
-        /// <param name="defaultSettings">The default settings to use, or null to allow each project to specify its own settings.</param>
-        /// <param name="addInPaths">The list of paths to search under for parser and analyzer addins.
-        /// Can be null if no addin paths are provided.</param>
-        /// <param name="loadFromDefaultPath">Indicates whether to load addins
-        /// from the default application path.</param>
-        public StyleCopObjectConsole(
-            ObjectBasedEnvironment environment,
-            Settings defaultSettings,
-            ICollection<string> addInPaths,
-            bool loadFromDefaultPath)
+        /// <param name="environment">
+        /// The environment.
+        /// </param>
+        /// <param name="defaultSettings">
+        /// The default settings to use, or null to allow each project to specify its own settings.
+        /// </param>
+        /// <param name="addInPaths">
+        /// The list of paths to search under for parser and analyzer addins.
+        /// Can be null if no addin paths are provided.
+        /// </param>
+        /// <param name="loadFromDefaultPath">
+        /// Indicates whether to load addins
+        /// from the default application path.
+        /// </param>
+        public StyleCopObjectConsole(ObjectBasedEnvironment environment, Settings defaultSettings, ICollection<string> addInPaths, bool loadFromDefaultPath)
             : this(environment, defaultSettings, addInPaths, loadFromDefaultPath, null)
         {
             Param.Ignore(environment);
@@ -66,19 +73,25 @@ namespace StyleCop
         /// <summary>
         /// Initializes a new instance of the StyleCopObjectConsole class.
         /// </summary>
-        /// <param name="environment">The environment.</param>
-        /// <param name="defaultSettings">The default settings to use, or null to allow each project to specify its own settings.</param>
-        /// <param name="addInPaths">The list of paths to search under for parser and analyzer addins.
-        /// Can be null if no addin paths are provided.</param>
-        /// <param name="loadFromDefaultPath">Indicates whether to load addins
-        /// from the default application path.</param>
-        /// <param name="hostTag">An optional tag which can be set by the host.</param>
+        /// <param name="environment">
+        /// The environment.
+        /// </param>
+        /// <param name="defaultSettings">
+        /// The default settings to use, or null to allow each project to specify its own settings.
+        /// </param>
+        /// <param name="addInPaths">
+        /// The list of paths to search under for parser and analyzer addins.
+        /// Can be null if no addin paths are provided.
+        /// </param>
+        /// <param name="loadFromDefaultPath">
+        /// Indicates whether to load addins
+        /// from the default application path.
+        /// </param>
+        /// <param name="hostTag">
+        /// An optional tag which can be set by the host.
+        /// </param>
         public StyleCopObjectConsole(
-            ObjectBasedEnvironment environment,
-            Settings defaultSettings,
-            ICollection<string> addInPaths,
-            bool loadFromDefaultPath,
-            object hostTag)
+            ObjectBasedEnvironment environment, Settings defaultSettings, ICollection<string> addInPaths, bool loadFromDefaultPath, object hostTag)
         {
             Param.RequireNotNull(environment, "environment");
             Param.Ignore(defaultSettings);
@@ -94,15 +107,19 @@ namespace StyleCop
             this.defaultSettings = defaultSettings;
         }
 
-        #endregion Public Constructors
+        #endregion
 
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Starts analyzing the source code documents contained within the given projects.
         /// </summary>
-        /// <param name="projects">The projects to analyze.</param>
-        /// <returns>Returns false if an error occurs during analysis.</returns>
+        /// <param name="projects">
+        /// The projects to analyze.
+        /// </param>
+        /// <returns>
+        /// Returns false if an error occurs during analysis.
+        /// </returns>
         public bool Start(IList<CodeProject> projects)
         {
             Param.RequireNotNull(projects, "projects");
@@ -159,29 +176,31 @@ namespace StyleCop
             return !error;
         }
 
-        #endregion Public Methods
+        #endregion
 
-        #region Protected Methods
+        #region Methods
 
         /// <summary>
         /// Gets the settings for the given project.
         /// </summary>
-        /// <param name="project">The project.</param>
-        /// <returns>Returns the settings, or null if there </returns>
+        /// <param name="project">
+        /// The project.
+        /// </param>
+        /// <returns>
+        /// Returns the settings, or null if there 
+        /// </returns>
         protected virtual Settings GetSettingsForProject(CodeProject project)
         {
             Param.Ignore(project);
             return null;
         }
 
-        #endregion Protected Methods
-
-        #region Private Methods
-
         /// <summary>
         /// Loads the settings files to use for the analysis.
         /// </summary>
-        /// <param name="projects">The list of projects to use.</param>
+        /// <param name="projects">
+        /// The list of projects to use.
+        /// </param>
         private void LoadSettings(IList<CodeProject> projects)
         {
             Param.AssertNotNull(projects, "projects");
@@ -202,6 +221,6 @@ namespace StyleCop
             }
         }
 
-        #endregion Private Methods
+        #endregion
     }
 }

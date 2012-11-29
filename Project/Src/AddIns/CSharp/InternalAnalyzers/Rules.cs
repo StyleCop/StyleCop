@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="Rules.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Rules.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,11 +11,12 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   The list of rules exported by the analyzers.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.Internal
 {
-    using System;
-
     /// <summary>
     /// The list of rules exported by the analyzers.
     /// </summary>
@@ -24,17 +25,17 @@ namespace StyleCop.Internal
         /// <summary>
         /// All parameters must be verified.
         /// </summary>
-        ParametersMustBeVerified,
+        ParametersMustBeVerified, 
 
         /// <summary>
         /// Out parameters do not need to be verified.
         /// </summary>
-        OutParametersMustNotBeVerified,
+        OutParametersMustNotBeVerified, 
 
         /// <summary>
         /// Private methods must use asserts.
         /// </summary>
-        PrivateMethodsMustUseAsserts,
+        PrivateMethodsMustUseAsserts, 
 
         /// <summary>
         /// Public methods must use requires.

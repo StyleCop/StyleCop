@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="DoWhileStatement.cs">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="DoWhileStatement.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -11,39 +11,46 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-//-----------------------------------------------------------------------
+// <summary>
+//   A do-while-statement.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.CSharp
 {
-    using System;
-
     /// <summary>
     /// A do-while-statement.
     /// </summary>
     /// <subcategory>statement</subcategory>
     public sealed class DoWhileStatement : Statement
     {
-        #region Private Fields
-
-        /// <summary>
-        /// The statement that is embedded within this do-while-statement.
-        /// </summary>
-        private Statement embeddedStatement;
+        #region Fields
 
         /// <summary>
         /// The expression within the while statement.
         /// </summary>
-        private Expression conditionExpression;
+        private readonly Expression conditionExpression;
 
-        #endregion Private Fields
+        /// <summary>
+        /// The statement that is embedded within this do-while-statement.
+        /// </summary>
+        private readonly Statement embeddedStatement;
 
-        #region Internal Constructors
+        #endregion
+
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the DoWhileStatement class.
         /// </summary>
-        /// <param name="tokens">The list of tokens that form the statement.</param>
-        /// <param name="conditionExpression">The expression within the while statement.</param>
-        /// <param name="embeddedStatement">The statement that is embedded within this do-while-statement.</param>
+        /// <param name="tokens">
+        /// The list of tokens that form the statement.
+        /// </param>
+        /// <param name="conditionExpression">
+        /// The expression within the while statement.
+        /// </param>
+        /// <param name="embeddedStatement">
+        /// The statement that is embedded within this do-while-statement.
+        /// </param>
         internal DoWhileStatement(CsTokenList tokens, Expression conditionExpression, Statement embeddedStatement)
             : base(StatementType.DoWhile, tokens)
         {
@@ -58,7 +65,7 @@ namespace StyleCop.CSharp
             this.AddStatement(embeddedStatement);
         }
 
-        #endregion Internal Constructors
+        #endregion
 
         #region Public Properties
 
@@ -84,6 +91,6 @@ namespace StyleCop.CSharp
             }
         }
 
-        #endregion Public Properties
+        #endregion
     }
 }
